@@ -263,34 +263,34 @@ class CharGroup {
         if (printmode) {
             when (modifier) {
                 CharGroupModifier.MAYBE -> {
-                    println(" ".repeat(indention) + charsToRanges() + "?")
+                    println("    ".repeat(indention) + charsToRanges() + "?")
                 }
                 CharGroupModifier.ONE -> {
-                    println(" ".repeat(indention) + charsToRanges() + "")
+                    println("    ".repeat(indention) + charsToRanges() + "")
                 }
                 CharGroupModifier.ANY -> {
-                    println(" ".repeat(indention) + charsToRanges() + "*")
+                    println("    ".repeat(indention) + charsToRanges() + "*")
                 }
                 CharGroupModifier.AT_LEAST_ONE -> {
-                    println(" ".repeat(indention) + charsToRanges() + "+")
+                    println("    ".repeat(indention) + charsToRanges() + "+")
                 }
                 CharGroupModifier.ACTION -> {
                     if (submodifier == null) {
-                        println(" ".repeat(indention) + "onAction(" + name + ")")
+                        println("    ".repeat(indention) + "onAction(" + name + ")")
                     } else {
                         if (submodifierFlag) {
                             if (identicalIdsMap[submodifierId] != null) {
-                                println(" ".repeat(indention) + submodifier + " start(${identicalIdsMap[submodifierId]!!.first()})")
+                                println("    ".repeat(indention) + submodifier + " start(${identicalIdsMap[submodifierId]!!.first()})")
                                 submodifierTail!!.myPrint(indention + 4, printmode)
                                 startEndMap[identicalIdsMap[submodifierId]!!.first()] = "$submodifier"
                             } else {
-                                println(" ".repeat(indention) + " start(null $submodifier)")
+                                println("    ".repeat(indention) + " start(null $submodifier)")
                             }
                         } else {
                             if (identicalIdsMap[submodifierId] != null) {
-                                println(" ".repeat(indention) + " end(${identicalIdsMap[submodifierId]!!.first()})")
+                                println("    ".repeat(indention) + " end(${identicalIdsMap[submodifierId]!!.first()})")
                             } else {
-                                println(" ".repeat(indention) + " end(null $submodifier)")
+                                println("    ".repeat(indention) + " end(null $submodifier)")
                                 submodifierTail!!.myPrint(indention + 2, printmode)
                             }
                         }
@@ -304,14 +304,14 @@ class CharGroup {
             if (modifier == CharGroupModifier.ACTION && submodifier != null) {
                 if (!submodifierFlag) {
                     if (!skipheader) {
-                        println(" ".repeat(indention) + rangesPreparedString!! + "->{") // xxx - a4
-                        println(" ".repeat(indention + 1) + "context.append()")
+                        println("    ".repeat(indention) + rangesPreparedString!! + " -> {") // xxx - a4
+                        println("    ".repeat(indention + 1) + "context.append()")
                     }
                     for (ll in startEndMapElseBranch[identicalIdsMap[submodifierId]!!.first()]!!.split(";")) {
-                        println(" ".repeat(indention + 1) + ll)
+                        println("    ".repeat(indention + 1) + ll)
                     }
                     if (!skipheader) {
-                        println(" ".repeat(indention) + "}")
+                        println("    ".repeat(indention) + "}")
                     }
                 } else {
                     if (childs.size > 0) {
@@ -324,17 +324,17 @@ class CharGroup {
                     }
                 }
             } else if (modifier == CharGroupModifier.ACTION && submodifier == null) {
-                println(" ".repeat(indention) + "on$name()")
-                println(" ".repeat(indention) + "return")
+                println("    ".repeat(indention) + "on$name()")
+                println("    ".repeat(indention) + "return")
             } else if (childs.size > 1 || (childs.size == 1 && (childs[0].modifier == CharGroupModifier.ONE || (childs[0].modifier == CharGroupModifier.ACTION && childs[0].submodifier == null)))) {
                 if (!skipheader) {
-                    println(" ".repeat(indention) + rangesPreparedString!! + "->{") // xxx - a5
-                    println(" ".repeat(indention + 1) + "context.append()")
+                    println("    ".repeat(indention) + rangesPreparedString!! + " -> {") // xxx - a5
+                    println("    ".repeat(indention + 1) + "context.append()")
                 }
                 if (childs.size == 1 && childs[0].modifier == CharGroupModifier.ACTION) {
                     if (childs[0].submodifier == null) {
-                        println(" ".repeat(indention + 1) + "on${childs[0].name}()")
-                        println(" ".repeat(indention + 1) + "return")
+                        println("    ".repeat(indention + 1) + "on${childs[0].name}()")
+                        println("    ".repeat(indention + 1) + "return")
                     } else {
                         throw Exception("unreachable??")
                     }
@@ -390,7 +390,7 @@ class CharGroup {
                             }
                             var arr = theKeys.toTypedArray()
                             if (arr.size == 1 && arr[0].first == arr[0].second) {
-                                helperFunctionContent.appendLine(" if(c==0x${arr[0].first.toString(16)}){")
+                                helperFunctionContent.appendLine(" if (c==0x${arr[0].first.toString(16)}) {")
                                 helperFunctionContent.appendLine("  return 0")
                                 helperFunctionContent.appendLine(" } else {")
                                 helperFunctionContent.appendLine("  return 1")
@@ -399,23 +399,23 @@ class CharGroup {
                                 arr.sort()
                                 var lastValue = 0
                                 if (arr[0].first > lastValue) {
-                                    helperFunctionContent.appendLine(" if(c<0x${arr[0].first.toString(16)}){")
+                                    helperFunctionContent.appendLine(" if (c<0x${arr[0].first.toString(16)}) {")
                                     helperFunctionContent.appendLine("  return ${localChilds.size}")
-                                    helperFunctionContent.appendLine(" } else if(c<=0x${arr[0].second.toString(16)}){")
+                                    helperFunctionContent.appendLine(" } else if (c<=0x${arr[0].second.toString(16)}) {")
                                     helperFunctionContent.appendLine("  return ${theMap[arr[0]]!!}")
                                 } else {
-                                    helperFunctionContent.appendLine(" if(c<=0x${arr[0].second.toString(16)}){")
+                                    helperFunctionContent.appendLine(" if (c<=0x${arr[0].second.toString(16)}) {")
                                     helperFunctionContent.appendLine("  return ${theMap[arr[0]]!!}")
                                 }
                                 lastValue = arr[0].second
                                 for (i in 1 until arr.size) {
                                     if (arr[i].first > lastValue) {
-                                        helperFunctionContent.appendLine(" } else if(c<0x${arr[i].first.toString(16)}){")
+                                        helperFunctionContent.appendLine(" } else if (c<0x${arr[i].first.toString(16)}) {")
                                         helperFunctionContent.appendLine("  return ${localChilds.size}")
-                                        helperFunctionContent.appendLine(" } else if(c<=0x${arr[i].second.toString(16)}){")
+                                        helperFunctionContent.appendLine(" } else if (c<=0x${arr[i].second.toString(16)}) {")
                                         helperFunctionContent.appendLine("  return ${theMap[arr[i]]!!}")
                                     } else {
-                                        helperFunctionContent.appendLine(" } else if(c<=0x${arr[i].second.toString(16)}){")
+                                        helperFunctionContent.appendLine(" } else if (c<=0x${arr[i].second.toString(16)}) {")
                                         helperFunctionContent.appendLine("  return ${theMap[arr[i]]!!}")
                                     }
                                     lastValue = arr[i].second
@@ -427,7 +427,7 @@ class CharGroup {
                                 helperFunctionContent.appendLine(" return ${localChilds.size}")
                             }
                         } else {
-                            helperFunctionContent.appendLine(" when(c){")
+                            helperFunctionContent.appendLine(" when (c) {")
                             var checkMarks = MutableList(256) { it }
                             for (cIdx in 0 until localChilds.size) {
                                 val c = localChilds[cIdx]
@@ -456,8 +456,8 @@ class CharGroup {
                             if (r2.length > 0) {
                                 helperFunctionContent.appendLine("  ${r2.substring(1)}->return ${localChilds.size}")
                             }
-                            helperFunctionContent.appendLine("  else->{")
-                            helperFunctionContent.appendLine("   when(c){")
+                            helperFunctionContent.appendLine("  else -> {")
+                            helperFunctionContent.appendLine("   when (c) {")
                             for (cIdx in 0 until localChilds.size) {
                                 val c = localChilds[cIdx]
                                 var r2 = ""
@@ -486,103 +486,103 @@ class CharGroup {
                             helperfunctions[helperFunctionContentStr] = helperFunctionName
                         }
 // helperfunctions <-
-                        println(" ".repeat(indention + 1) + "val $whenVariable=$helperFunctionName(context.c)")
+                        println("    ".repeat(indention + 1) + "val $whenVariable = $helperFunctionName(context.c)")
                     }
-                    println(" ".repeat(indention + 1) + "when($whenVariable){") // xxx - aaa
+                    println("    ".repeat(indention + 1) + "when ($whenVariable) {") // xxx - aaa
                     for (c in localChilds) {
                         c.myPrint(indention + 2, printmode)
                     }
-                    println(" ".repeat(indention + 2) + "else->{") // xxx - a6
+                    println("    ".repeat(indention + 2) + "else -> {") // xxx - a6
                     for (ll in elseBranch.split(";")) {
-                        println(" ".repeat(indention + 3) + ll)
+                        println("    ".repeat(indention + 3) + ll)
                     }
-                    println(" ".repeat(indention + 2) + "}")
-                    println(" ".repeat(indention + 1) + "}")
+                    println("    ".repeat(indention + 2) + "}")
+                    println("    ".repeat(indention + 1) + "}")
                 }
                 if (!skipheader) {
-                    println(" ".repeat(indention) + "}")
+                    println("    ".repeat(indention) + "}")
                 }
             } else if (childs.size == 0) {
                 if (modifier == CharGroupModifier.ONE && ranges.size == 0) {
-                    println(" ".repeat(indention + 1) + "break@error")
+                    println("    ".repeat(indention + 1) + "break@error")
                 } else {
-                    SanityCheck.checkUnreachable()
+                    throw Exception("unreachable")
                 }
             } else if (childs.size == 1) {
                 var c = childs[0]
                 when (c.modifier) {
                     CharGroupModifier.ANY -> {
                         if (!skipheader) {
-                            println(" ".repeat(indention) + rangesPreparedString!! + "->{") // xxx - a7
-                            println(" ".repeat(indention + 1) + "context.append()")
+                            println("    ".repeat(indention) + rangesPreparedString!! + " -> {") // xxx - a7
+                            println("    ".repeat(indention + 1) + "context.append()")
                         }
-                        println(" ".repeat(indention + 1) + "loop$indention@while(true){")
-                        println(" ".repeat(indention + 2) + "when(context.c){")
-                        println(" ".repeat(indention + 3) + c.charsToRanges() + "->{")
-                        println(" ".repeat(indention + 4) + "context.append()")
-                        println(" ".repeat(indention + 3) + "}")
-                        println(" ".repeat(indention + 3) + "else->{")
-                        println(" ".repeat(indention + 4) + "break@loop$indention")
-                        println(" ".repeat(indention + 3) + "}")
-                        println(" ".repeat(indention + 2) + "}")
-                        println(" ".repeat(indention + 1) + "}")
+                        println("    ".repeat(indention + 1) + "loop$indention@ while(true) {")
+                        println("    ".repeat(indention + 2) + "when (context.c) {")
+                        println("    ".repeat(indention + 3) + c.charsToRanges() + " -> {")
+                        println("    ".repeat(indention + 4) + "context.append()")
+                        println("    ".repeat(indention + 3) + "}")
+                        println("    ".repeat(indention + 3) + "else -> {")
+                        println("    ".repeat(indention + 4) + "break@loop$indention")
+                        println("    ".repeat(indention + 3) + "}")
+                        println("    ".repeat(indention + 2) + "}")
+                        println("    ".repeat(indention + 1) + "}")
                         c.myPrint(indention, printmode, true, { onElseBranch() })
                         if (!skipheader) {
-                            println(" ".repeat(indention) + "}")
+                            println("    ".repeat(indention) + "}")
                         }
                     }
                     CharGroupModifier.ACTION -> {
                         if (!c.submodifierFlag) {
                             if (!skipheader) {
-                                println(" ".repeat(indention) + rangesPreparedString!! + "->{") // xxx - a1
-                                println(" ".repeat(indention + 1) + "context.append()")
+                                println("    ".repeat(indention) + rangesPreparedString!! + " -> {") // xxx - a1
+                                println("    ".repeat(indention + 1) + "context.append()")
                             }
                             for (ll in startEndMapElseBranch[identicalIdsMap[c.submodifierId]!!.first()]!!.split(";")) {
-                                println(" ".repeat(indention + 1) + ll)
+                                println("    ".repeat(indention + 1) + ll)
                             }
                             if (!skipheader) {
-                                println(" ".repeat(indention) + "}")
+                                println("    ".repeat(indention) + "}")
                             }
                         } else {
                             when (c.submodifier) {
                                 CharGroupModifier.ANY -> {
                                     if (!skipheader) {
-                                        println(" ".repeat(indention) + rangesPreparedString!! + "->{") // xxx - a2
-                                        println(" ".repeat(indention + 1) + "context.append()")
+                                        println("    ".repeat(indention) + rangesPreparedString!! + " -> {") // xxx - a2
+                                        println("    ".repeat(indention + 1) + "context.append()")
                                     }
                                     startEndMapElseBranch[identicalIdsMap[c.submodifierId]!!.first()] = "continue@loop$indention"
-                                    println(" ".repeat(indention + 1) + "loop$indention@while(true){")
+                                    println("    ".repeat(indention + 1) + "loop$indention@ while(true) {")
                                     val tmp = c.deepCopy()
                                     tmp.modifier = CharGroupModifier.ONE
                                     tmp.myPrint(indention + 1, printmode, true, { "break@loop$indention" })
-                                    println(" ".repeat(indention + 1) + "}")
+                                    println("    ".repeat(indention + 1) + "}")
                                     var cc = c.submodifierTail!!
                                     cc.myPrint(indention, printmode, true)
                                     if (!skipheader) {
-                                        println(" ".repeat(indention) + "}")
+                                        println("    ".repeat(indention) + "}")
                                     }
                                 }
                                 CharGroupModifier.AT_LEAST_ONE -> {
                                     if (!skipheader) {
-                                        println(" ".repeat(indention) + rangesPreparedString!! + "->{") // xxx - a3
-                                        println(" ".repeat(indention + 1) + "context.append()")
+                                        println("    ".repeat(indention) + rangesPreparedString!! + " -> {") // xxx - a3
+                                        println("    ".repeat(indention + 1) + "context.append()")
                                     }
                                     startEndMapElseBranch[identicalIdsMap[c.submodifierId]!!.first()] = "flag$indention=true;continue@loop$indention"
-                                    println(" ".repeat(indention + 1) + "var flag$indention=false")
-                                    println(" ".repeat(indention + 1) + "loop$indention@while(true){")
+                                    println("    ".repeat(indention + 1) + "var flag$indention=false")
+                                    println("    ".repeat(indention + 1) + "loop$indention@ while(true) {")
                                     val tmp = c.deepCopy()
                                     tmp.modifier = CharGroupModifier.ONE
                                     tmp.myPrint(indention + 1, printmode, true, { "break@loop$indention" })
-                                    println(" ".repeat(indention + 2) + "flag$indention=false")
-                                    println(" ".repeat(indention + 1) + "}")
+                                    println("    ".repeat(indention + 2) + "flag$indention=false")
+                                    println("    ".repeat(indention + 1) + "}")
                                     var cc = c.submodifierTail!!
-                                    println(" ".repeat(indention + 1) + "if (flag$indention) {")
+                                    println("    ".repeat(indention + 1) + "if (flag$indention) {")
                                     cc.myPrint(indention + 2, printmode, true)
-                                    println(" ".repeat(indention + 1) + "} else {")
-                                    println(" ".repeat(indention + 2) + "break@error")
-                                    println(" ".repeat(indention + 1) + "}")
+                                    println("    ".repeat(indention + 1) + "} else {")
+                                    println("    ".repeat(indention + 2) + "break@error")
+                                    println("    ".repeat(indention + 1) + "}")
                                     if (!skipheader) {
-                                        println(" ".repeat(indention) + "}")
+                                        println("    ".repeat(indention) + "}")
                                     }
                                 }
                                 else -> {
@@ -717,7 +717,7 @@ class CharGroup {
                                 map[k] = c
                             }
                         } else {
-                            SanityCheck.checkUnreachable()
+                            throw Exception("unreachable")
                         }
                     }
                 }
@@ -872,7 +872,7 @@ class CharGroup {
                                     if (c.childs.size == 1) {
                                         res.append(CharGroup().addChars(c.childs[0].ranges).append(c.deepCopy().setModifier(CharGroupModifier.ACTION, CharGroupModifier.ANY)))
                                     } else {
-                                        SanityCheck.checkUnreachable()
+                                        throw Exception("unreachable")
                                     }
                                 }
                                 else -> {
@@ -1259,149 +1259,158 @@ var allTokens = mapOf(
 var root = CharGroup()
 
 if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
-    println("internal class ParserContext(@JvmField val input:IMyInputStream){")
-    println(" internal companion object{")
-    println("  const val EOF=0x7fffffff.toInt()")
-    println(" }")
-    println(" @JvmField var c:Int=0")
-    println(" @JvmField var line=1")
-    println(" @JvmField var column=0")
-    println(" @JvmField val outBuffer=StringBuilder()")
-    println(" @JvmField val inBuf=ByteArray(8192)")
-    println(" @JvmField var inBufPosition=0")
-    println(" @JvmField var inBufSize=0")
-    println(" @JvmField var flagR_N=false")
-    println(" inline fun clear(){")
-    println("  outBuffer.clear()")
-    println(" }")
-    println(" inline fun getValue():String{")
-    println("  return outBuffer.toString()")
-    println(" }")
-    println(" fun append(){")
-    println("  if(c<=0xd7ff ||(c>=0xe000 && c<=0xffff)){")
-    println("   outBuffer.append(c.toChar())")
-    println("   next()")
-    println("  } else {")
-    println("   c-=0x100000")
-    println("   outBuffer.append((0xd800+((c shr 10)and 0x03ff)).toChar())")
-    println("   outBuffer.append((0xdc00+(c and 0x03ff)).toChar())")
-    println("   next()")
-    println("  }")
-    println(" }")
-    println(" fun next(){")
-    println("  if(inBufPosition>=inBufSize){")
-    println("   if(c==EOF){")
-    println("    throw ParserExceptionEOF()")
-    println("   } else {")
-    println("    inBufSize=input.read(inBuf)")
-    println("    inBufPosition=0")
-    println("    if(inBufSize<=0){")
-    println("     c=EOF")
-    println("     return")
+    println("internal class ParserContext(@JvmField internal val input: IMyInputStream) {")
+    println("    internal companion object {")
+    println("        const val EOF = 0x7fffffff")
     println("    }")
-    println("   }")
-    println("  }")
-    println("  val t:Int=inBuf[inBufPosition++].toInt() and 0xff")
-    println("  if((t and 0x80)==0){")
-    println("   //1byte")
-    println("   c=t")
-    println("   if((c=='\\r'.toInt()) || (c=='\\n'.toInt())){")
-    println("    if(!flagR_N){")
-    println("     flagR_N=true")
-    println("     line++")
-    println("     column=1")
+    println("    @JvmField")
+    println("    internal var c: Int = 0")
+    println("    @JvmField")
+    println("    internal var line = 1")
+    println("    @JvmField")
+    println("    internal var column = 0")
+    println("    @JvmField")
+    println("    internal val outBuffer = StringBuilder()")
+    println("    @JvmField")
+    println("    internal val inBuf = ByteArray(8192)")
+    println("    @JvmField")
+    println("    internal var inBufPosition = 0")
+    println("    @JvmField")
+    println("    internal var inBufSize = 0")
+    println("    @JvmField")
+    println("    internal var flagrN = false")
+    println("    @Suppress(\"NOTHING_TO_INLINE\") internal inline fun clear() {")
+    println("        outBuffer.clear()")
     println("    }")
-    println("   } else {")
-    println("    column++")
-    println("    flagR_N=false")
-    println("   }")
-    println("  } else if((t and 0x20)==0){")
-    println("   //2byte")
-    println("   flagR_N=false")
-    println("   c=(t and 0x1f) shl 6")
-    println("   if(inBufPosition>=inBufSize){")
-    println("    inBufSize=input.read(inBuf)")
-    println("    inBufPosition=0")
-    println("    if(inBufSize<=0){")
-    println("     c=EOF")
-    println("     return")
+    println("    @Suppress(\"NOTHING_TO_INLINE\") internal inline fun getValue(): String {")
+    println("        return outBuffer.toString()")
     println("    }")
-    println("   }")
-    println("   c=c or (inBuf[inBufPosition++].toInt() and 0x3f)")
-    println("   column++")
-    println("  } else if((t and 0x10)==0){")
-    println("   //3byte")
-    println("   flagR_N=false")
-    println("   c=(t and 0x0f) shl 12")
-    println("   if(inBufPosition>=inBufSize){")
-    println("    inBufSize=input.read(inBuf)")
-    println("    inBufPosition=0")
-    println("    if(inBufSize<=0){")
-    println("     c=EOF")
-    println("     return")
+    println("    fun append() {")
+    println("        if (c <= 0xd7ff || (c in 0xe000..0xffff)) {")
+    println("            outBuffer.append(c.toChar())")
+    println("            next()")
+    println("        } else {")
+    println("            c -= 0x100000")
+    println("            outBuffer.append((0xd800 + ((c shr 10) and 0x03ff)).toChar())")
+    println("            outBuffer.append((0xdc00 + (c and 0x03ff)).toChar())")
+    println("            next()")
+    println("        }")
     println("    }")
-    println("   }")
-    println("   c=c or ((inBuf[inBufPosition++].toInt() and 0x3f) shl 6)")
-    println("   if(inBufPosition>=inBufSize){")
-    println("    inBufSize=input.read(inBuf)")
-    println("    inBufPosition=0")
-    println("    if(inBufSize<=0){")
-    println("     c=EOF")
-    println("     return")
+    println("    fun next() {")
+    println("        if (inBufPosition >= inBufSize) {")
+    println("            if (c == EOF) {")
+    println("                throw ParserExceptionEOF()")
+    println("            } else {")
+    println("                inBufSize = input.read(inBuf)")
+    println("                inBufPosition = 0")
+    println("                if (inBufSize <= 0) {")
+    println("                    c = EOF")
+    println("                    return")
+    println("                }")
+    println("            }")
+    println("        }")
+    println("        val t: Int = inBuf[inBufPosition++].toInt() and 0xff")
+    println("        if ((t and 0x80) == 0) {")
+    println("            // 1byte")
+    println("            c = t")
+    println("            if ((c == '\\r'.toInt()) || (c == '\\n'.toInt())) {")
+    println("                if (!flagrN) {")
+    println("                    flagrN = true")
+    println("                    line++")
+    println("                    column = 1")
+    println("                }")
+    println("            } else {")
+    println("                column++")
+    println("                flagrN = false")
+    println("            }")
+    println("        } else if ((t and 0x20) == 0) {")
+    println("            // 2byte")
+    println("            flagrN = false")
+    println("            c = (t and 0x1f) shl 6")
+    println("            if (inBufPosition >= inBufSize) {")
+    println("                inBufSize = input.read(inBuf)")
+    println("                inBufPosition = 0")
+    println("                if (inBufSize <= 0) {")
+    println("                    c = EOF")
+    println("                    return")
+    println("                }")
+    println("            }")
+    println("            c = c or (inBuf[inBufPosition++].toInt() and 0x3f)")
+    println("            column++")
+    println("        } else if ((t and 0x10) == 0) {")
+    println("            // 3byte")
+    println("            flagrN = false")
+    println("            c = (t and 0x0f) shl 12")
+    println("            if (inBufPosition >= inBufSize) {")
+    println("                inBufSize = input.read(inBuf)")
+    println("                inBufPosition = 0")
+    println("                if (inBufSize <= 0) {")
+    println("                    c = EOF")
+    println("                    return")
+    println("                }")
+    println("            }")
+    println("            c = c or ((inBuf[inBufPosition++].toInt() and 0x3f) shl 6)")
+    println("            if (inBufPosition >= inBufSize) {")
+    println("                inBufSize = input.read(inBuf)")
+    println("                inBufPosition = 0")
+    println("                if (inBufSize <= 0) {")
+    println("                    c = EOF")
+    println("                    return")
+    println("                }")
+    println("            }")
+    println("            c = c or (inBuf[inBufPosition++].toInt() and 0x3f)")
+    println("            column++")
+    println("        } else {")
+    println("            // 4byte")
+    println("            flagrN = false")
+    println("            c = (t and 0x07) shl 18")
+    println("            if (inBufPosition >= inBufSize) {")
+    println("                inBufSize = input.read(inBuf)")
+    println("                inBufPosition = 0")
+    println("                if (inBufSize <= 0) {")
+    println("                    c = EOF")
+    println("                    return")
+    println("                }")
+    println("            }")
+    println("            c = c or ((inBuf[inBufPosition++].toInt() and 0x3f) shl 12)")
+    println("            if (inBufPosition >= inBufSize) {")
+    println("                inBufSize = input.read(inBuf)")
+    println("                inBufPosition = 0")
+    println("                if (inBufSize <= 0) {")
+    println("                    c = EOF")
+    println("                    return")
+    println("                }")
+    println("            }")
+    println("            c = c or ((inBuf[inBufPosition++].toInt() and 0x3f) shl 6)")
+    println("            if (inBufPosition >= inBufSize) {")
+    println("                inBufSize = input.read(inBuf)")
+    println("                inBufPosition = 0")
+    println("                if (inBufSize <= 0) {")
+    println("                    c = EOF")
+    println("                    return")
+    println("                }")
+    println("            }")
+    println("            c = c or (inBuf[inBufPosition++].toInt() and 0x3f)")
+    println("            column++")
+    println("        }")
     println("    }")
-    println("   }")
-    println("   c=c or (inBuf[inBufPosition++].toInt() and 0x3f)")
-    println("   column++")
-    println("  } else {")
-    println("   //4byte")
-    println("   flagR_N=false")
-    println("   c=(t and 0x07) shl 18")
-    println("   if(inBufPosition>=inBufSize){")
-    println("    inBufSize=input.read(inBuf)")
-    println("    inBufPosition=0")
-    println("    if(inBufSize<=0){")
-    println("     c=EOF")
-    println("     return")
+    println("    init {")
+    println("        next()")
     println("    }")
-    println("   }")
-    println("   c=c or ((inBuf[inBufPosition++].toInt() and 0x3f) shl 12)")
-    println("   if(inBufPosition>=inBufSize){")
-    println("    inBufSize=input.read(inBuf)")
-    println("    inBufPosition=0")
-    println("    if(inBufSize<=0){")
-    println("     c=EOF")
-    println("     return")
-    println("    }")
-    println("   }")
-    println("   c=c or ((inBuf[inBufPosition++].toInt() and 0x3f) shl 6)")
-    println("   if(inBufPosition>=inBufSize){")
-    println("    inBufSize=input.read(inBuf)")
-    println("    inBufPosition=0")
-    println("    if(inBufSize<=0){")
-    println("     c=EOF")
-    println("     return")
-    println("    }")
-    println("   }")
-    println("   c=c or (inBuf[inBufPosition++].toInt() and 0x3f)")
-    println("   column++")
-    println("  }")
-    println(" }")
-    println(" init{")
-    println("  next()")
-    println(" }")
     println("}")
 } else if (args.size > 1) {
     CharGroup.functionName = args[0]
-    println("internal inline fun ${CharGroup.functionName}(context:ParserContext,")
+    println("internal inline fun ${CharGroup.functionName}(")
+    println("    context: ParserContext,")
     for (idx in 1 until args.size - 1) {
-        println(" crossinline on${args[idx]}:()->Unit,")
+        println("    crossinline on${args[idx]}: () -> Unit,")
         root.append(parseRegex(allTokens[args[idx]]!!, CharGroup(args[idx], CharGroupModifier.ACTION)))
     }
-    println(" crossinline on${args[args.size - 1]}:()->Unit")
+    println("    crossinline on${args[args.size - 1]}: () -> Unit")
     root.append(parseRegex(allTokens[args[args.size - 1]]!!, CharGroup(args[args.size - 1], CharGroupModifier.ACTION)))
-    println("){")
-    println(" context.clear()")
-    println(" error@while(true){")
+    println(") {")
+    println("    context.clear()")
+    println("    error@ while(true) {")
     val comp = root.compile()
     try {
         comp.myPrintRoot(false)
@@ -1409,14 +1418,14 @@ if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
         e.printStackTrace()
         comp.myPrintRoot(true)
     }
-    println(" }")
-    println(" throw ParserExceptionUnexpectedChar(context)")
+    println("    }")
+    println("    throw ParserExceptionUnexpectedChar(context)")
     println("}")
     for ((k, v) in CharGroup.helperfunctions) {
         if (k.length < 300) {
-            println("internal inline fun $v(c:Int):Int{")
+            println("@Suppress(\"NOTHING_TO_INLINE\") private inline fun $v(c: Int): Int{")
         } else {
-            println("internal fun $v(c:Int):Int{")
+            println("private fun $v(c: Int): Int{")
         }
         print(k)
         println("}")

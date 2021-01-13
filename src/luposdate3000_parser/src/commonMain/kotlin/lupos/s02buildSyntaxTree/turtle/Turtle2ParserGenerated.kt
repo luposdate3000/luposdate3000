@@ -144,13 +144,14 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         next()
     }
 }
-@Suppress("NOTHING_TO_INLINE") internal inline fun parse_dot(
+internal inline fun parse_dot(
     context: ParserContext,
     crossinline onDOT: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
-        when (parse_dot_helper_0(context.c)) {
+        val localswitch1 = parse_dot_helper_0(context.c)
+        when (localswitch1) {
             0 -> {
                 context.append()
                 onDOT()
@@ -164,13 +165,13 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     throw ParserExceptionUnexpectedChar(context)
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_dot_helper_0(c: Int): Int {
-    return if (c == 0x2e) {
-        0
+    if (c == 0x2e) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") internal inline fun parse_ws(
+internal inline fun parse_ws(
     context: ParserContext,
     crossinline onSKIP_WS: () -> Unit
 ) {
@@ -189,14 +190,16 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         onSKIP_WS()
         return
     }
+    throw ParserExceptionUnexpectedChar(context)
 }
-@Suppress("NOTHING_TO_INLINE") internal inline fun parse_ws_forced(
+internal inline fun parse_ws_forced(
     context: ParserContext,
     crossinline onSKIP_WS_FORCED: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
-        when (parse_ws_forced_helper_0(context.c)) {
+        val localswitch1 = parse_ws_forced_helper_0(context.c)
+        when (localswitch1) {
             0 -> {
                 context.append()
                 loop3@ while (true) {
@@ -220,31 +223,23 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     throw ParserExceptionUnexpectedChar(context)
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_ws_forced_helper_0(c: Int): Int {
-    return when {
-        c < 0x9 -> {
-            1
-        }
-        c <= 0xa -> {
-            0
-        }
-        c < 0xd -> {
-            1
-        }
-        c <= 0xd -> {
-            0
-        }
-        c < 0x20 -> {
-            1
-        }
-        c <= 0x20 -> {
-            0
-        }
-        else -> {
-            1
-        }
+    if (c <0x9) {
+        return 1
+    } else if (c <= 0xa) {
+        return 0
+    } else if (c <0xd) {
+        return 1
+    } else if (c <= 0xd) {
+        return 0
+    } else if (c <0x20) {
+        return 1
+    } else if (c <= 0x20) {
+        return 0
+    } else {
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") internal inline fun parse_statement(
+internal inline fun parse_statement(
     context: ParserContext,
     crossinline onBASE: () -> Unit,
     crossinline onPREFIX: () -> Unit,
@@ -256,16 +251,20 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
 ) {
     context.clear()
     error@ while (true) {
-        when (parse_statement_helper_0(context.c)) {
+        val localswitch1 = parse_statement_helper_0(context.c)
+        when (localswitch1) {
             0 -> {
                 context.append()
-                when (parse_statement_helper_1(context.c)) {
+                val localswitch3 = parse_statement_helper_1(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
-                        when (parse_statement_helper_2(context.c)) {
+                        val localswitch5 = parse_statement_helper_2(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
-                                when (parse_statement_helper_3(context.c)) {
+                                val localswitch7 = parse_statement_helper_3(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
                                         onBASE()
@@ -288,19 +287,24 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             1 -> {
                 context.append()
-                when (parse_statement_helper_4(context.c)) {
+                val localswitch3 = parse_statement_helper_4(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
-                        when (parse_statement_helper_3(context.c)) {
+                        val localswitch5 = parse_statement_helper_3(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
-                                when (parse_statement_helper_5(context.c)) {
+                                val localswitch7 = parse_statement_helper_5(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
-                                        when (parse_statement_helper_6(context.c)) {
+                                        val localswitch9 = parse_statement_helper_6(context.c)
+                                        when (localswitch9) {
                                             0 -> {
                                                 context.append()
-                                                when (parse_statement_helper_7(context.c)) {
+                                                val localswitch11 = parse_statement_helper_7(context.c)
+                                                when (localswitch11) {
                                                     0 -> {
                                                         context.append()
                                                         onPREFIX()
@@ -333,16 +337,20 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             2 -> {
                 context.append()
-                when (parse_statement_helper_8(context.c)) {
+                val localswitch3 = parse_statement_helper_8(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
-                        when (parse_statement_helper_9(context.c)) {
+                        val localswitch5 = parse_statement_helper_9(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
-                                when (parse_statement_helper_10(context.c)) {
+                                val localswitch7 = parse_statement_helper_10(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
-                                        when (parse_statement_helper_11(context.c)) {
+                                        val localswitch9 = parse_statement_helper_11(context.c)
+                                        when (localswitch9) {
                                             0 -> {
                                                 context.append()
                                                 onBASE2()
@@ -365,19 +373,24 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                     }
                     1 -> {
                         context.append()
-                        when (parse_statement_helper_12(context.c)) {
+                        val localswitch5 = parse_statement_helper_12(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
-                                when (parse_statement_helper_11(context.c)) {
+                                val localswitch7 = parse_statement_helper_11(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
-                                        when (parse_statement_helper_13(context.c)) {
+                                        val localswitch9 = parse_statement_helper_13(context.c)
+                                        when (localswitch9) {
                                             0 -> {
                                                 context.append()
-                                                when (parse_statement_helper_14(context.c)) {
+                                                val localswitch11 = parse_statement_helper_14(context.c)
+                                                when (localswitch11) {
                                                     0 -> {
                                                         context.append()
-                                                        when (parse_statement_helper_15(context.c)) {
+                                                        val localswitch13 = parse_statement_helper_15(context.c)
+                                                        when (localswitch13) {
                                                             0 -> {
                                                                 context.append()
                                                                 onPREFIX2()
@@ -416,26 +429,32 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             3 -> {
                 context.append()
                 loop3@ while (true) {
-                    when (parse_statement_helper_16(context.c)) {
+                    val localswitch4 = parse_statement_helper_16(context.c)
+                    when (localswitch4) {
                         0 -> {
                             context.append()
                             continue@loop3
                         }
                         1 -> {
                             context.append()
-                            when (parse_statement_helper_17(context.c)) {
+                            val localswitch6 = parse_statement_helper_17(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
-                                    when (parse_statement_helper_18(context.c)) {
+                                    val localswitch8 = parse_statement_helper_18(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
-                                            when (parse_statement_helper_18(context.c)) {
+                                            val localswitch10 = parse_statement_helper_18(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_statement_helper_18(context.c)) {
+                                                    val localswitch12 = parse_statement_helper_18(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_statement_helper_18(context.c)) {
+                                                            val localswitch14 = parse_statement_helper_18(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
                                                                     continue@loop3
@@ -462,28 +481,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                 }
                                 1 -> {
                                     context.append()
-                                    when (parse_statement_helper_18(context.c)) {
+                                    val localswitch8 = parse_statement_helper_18(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
-                                            when (parse_statement_helper_18(context.c)) {
+                                            val localswitch10 = parse_statement_helper_18(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_statement_helper_18(context.c)) {
+                                                    val localswitch12 = parse_statement_helper_18(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_statement_helper_18(context.c)) {
+                                                            val localswitch14 = parse_statement_helper_18(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_statement_helper_18(context.c)) {
+                                                                    val localswitch16 = parse_statement_helper_18(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_statement_helper_18(context.c)) {
+                                                                            val localswitch18 = parse_statement_helper_18(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_statement_helper_18(context.c)) {
+                                                                                    val localswitch20 = parse_statement_helper_18(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_statement_helper_18(context.c)) {
+                                                                                            val localswitch22 = parse_statement_helper_18(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
                                                                                                     continue@loop3
@@ -538,7 +565,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                         }
                     }
                 }
-                when (parse_statement_helper_19(context.c)) {
+                val localswitch3 = parse_statement_helper_19(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         onIRIREF()
@@ -562,7 +590,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                             }
                         }
                     }
-                    when (parse_statement_helper_20(context.c)) {
+                    val localswitch4 = parse_statement_helper_20(context.c)
+                    when (localswitch4) {
                         0 -> {
                             context.append()
                             continue@loop3
@@ -572,7 +601,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                         }
                     }
                 }
-                when (parse_statement_helper_21(context.c)) {
+                val localswitch3 = parse_statement_helper_21(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         onPNAME_NS()
@@ -590,10 +620,12 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             6 -> {
                 context.append()
-                when (parse_statement_helper_21(context.c)) {
+                val localswitch3 = parse_statement_helper_21(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
-                        when (parse_statement_helper_22(context.c)) {
+                        val localswitch5 = parse_statement_helper_22(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
                                 loop7@ while (true) {
@@ -607,7 +639,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                             }
                                         }
                                     }
-                                    when (parse_statement_helper_20(context.c)) {
+                                    val localswitch8 = parse_statement_helper_20(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop7
@@ -637,423 +670,348 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_0(c: Int): Int {
-    when {
-        c < 0x3a -> {
-            return 7
-        }
-        c <= 0x3a -> {
-            return 5
-        }
-        c < 0x3c -> {
-            return 7
-        }
-        c <= 0x3c -> {
-            return 3
-        }
-        c < 0x40 -> {
-            return 7
-        }
-        c <= 0x40 -> {
-            return 2
-        }
-        c < 0x41 -> {
-            return 7
-        }
-        c <= 0x5a -> {
-            return 4
-        }
-        c <= 0x42 -> {
-            return 0
-        }
-        c < 0x50 -> {
-            return 7
-        }
-        c <= 0x50 -> {
-            return 1
-        }
-        c < 0x5f -> {
-            return 7
-        }
-        c <= 0x5f -> {
-            return 6
-        }
-        c < 0x61 -> {
-            return 7
-        }
-        c <= 0x7a -> {
-            return 4
-        }
-        c < 0xc0 -> {
-            return 7
-        }
-        c <= 0xd6 -> {
-            return 4
-        }
-        c < 0xd8 -> {
-            return 7
-        }
-        c <= 0xf6 -> {
-            return 4
-        }
-        c < 0xf8 -> {
-            return 7
-        }
-        c <= 0x2ff -> {
-            return 4
-        }
-        c < 0x370 -> {
-            return 7
-        }
-        c <= 0x37d -> {
-            return 4
-        }
-        c < 0x37f -> {
-            return 7
-        }
-        c <= 0x1fff -> {
-            return 4
-        }
-        c < 0x200c -> {
-            return 7
-        }
-        c <= 0x200d -> {
-            return 4
-        }
-        c < 0x2070 -> {
-            return 7
-        }
-        c <= 0x218f -> {
-            return 4
-        }
-        c < 0x2c00 -> {
-            return 7
-        }
-        c <= 0x2fef -> {
-            return 4
-        }
-        c < 0x3001 -> {
-            return 7
-        }
-        c <= 0xd7ff -> {
-            return 4
-        }
-        c < 0xf900 -> {
-            return 7
-        }
-        c <= 0xfdcf -> {
-            return 4
-        }
-        c < 0xfdf0 -> {
-            return 7
-        }
-        c <= 0xfffd -> {
-            return 4
-        }
-        c < 0x10000 -> {
-            return 7
-        }
-        c <= 0x1fffff -> {
-            return 4
-        }
-        else -> {
-            return 7
-        }
+private fun parse_statement_helper_0(c: Int): Int {
+    if (c <0x3a) {
+        return 7
+    } else if (c <= 0x3a) {
+        return 5
+    } else if (c <0x3c) {
+        return 7
+    } else if (c <= 0x3c) {
+        return 3
+    } else if (c <0x40) {
+        return 7
+    } else if (c <= 0x40) {
+        return 2
+    } else if (c <0x41) {
+        return 7
+    } else if (c <= 0x5a) {
+        return 4
+    } else if (c <= 0x42) {
+        return 0
+    } else if (c <0x50) {
+        return 7
+    } else if (c <= 0x50) {
+        return 1
+    } else if (c <0x5f) {
+        return 7
+    } else if (c <= 0x5f) {
+        return 6
+    } else if (c <0x61) {
+        return 7
+    } else if (c <= 0x7a) {
+        return 4
+    } else if (c <0xc0) {
+        return 7
+    } else if (c <= 0xd6) {
+        return 4
+    } else if (c <0xd8) {
+        return 7
+    } else if (c <= 0xf6) {
+        return 4
+    } else if (c <0xf8) {
+        return 7
+    } else if (c <= 0x2ff) {
+        return 4
+    } else if (c <0x370) {
+        return 7
+    } else if (c <= 0x37d) {
+        return 4
+    } else if (c <0x37f) {
+        return 7
+    } else if (c <= 0x1fff) {
+        return 4
+    } else if (c <0x200c) {
+        return 7
+    } else if (c <= 0x200d) {
+        return 4
+    } else if (c <0x2070) {
+        return 7
+    } else if (c <= 0x218f) {
+        return 4
+    } else if (c <0x2c00) {
+        return 7
+    } else if (c <= 0x2fef) {
+        return 4
+    } else if (c <0x3001) {
+        return 7
+    } else if (c <= 0xd7ff) {
+        return 4
+    } else if (c <0xf900) {
+        return 7
+    } else if (c <= 0xfdcf) {
+        return 4
+    } else if (c <0xfdf0) {
+        return 7
+    } else if (c <= 0xfffd) {
+        return 4
+    } else if (c <0x10000) {
+        return 7
+    } else if (c <= 0x1fffff) {
+        return 4
+    } else {
+        return 7
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_1(c: Int): Int {
-    return if (c == 0x41) {
-        0
+    if (c == 0x41) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_2(c: Int): Int {
-    return if (c == 0x53) {
-        0
+    if (c == 0x53) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_3(c: Int): Int {
-    return if (c == 0x45) {
-        0
+    if (c == 0x45) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_4(c: Int): Int {
-    return if (c == 0x52) {
-        0
+    if (c == 0x52) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_5(c: Int): Int {
-    return if (c == 0x46) {
-        0
+    if (c == 0x46) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_6(c: Int): Int {
-    return if (c == 0x49) {
-        0
+    if (c == 0x49) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_7(c: Int): Int {
-    return if (c == 0x58) {
-        0
+    if (c == 0x58) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_8(c: Int): Int {
-    return when {
-        c < 0x62 -> {
-            2
-        }
-        c <= 0x62 -> {
-            0
-        }
-        c < 0x70 -> {
-            2
-        }
-        c <= 0x70 -> {
-            1
-        }
-        else -> {
-            2
-        }
+    if (c <0x62) {
+        return 2
+    } else if (c <= 0x62) {
+        return 0
+    } else if (c <0x70) {
+        return 2
+    } else if (c <= 0x70) {
+        return 1
+    } else {
+        return 2
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_9(c: Int): Int {
-    return if (c == 0x61) {
-        0
+    if (c == 0x61) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_10(c: Int): Int {
-    return if (c == 0x73) {
-        0
+    if (c == 0x73) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_11(c: Int): Int {
-    return if (c == 0x65) {
-        0
+    if (c == 0x65) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_12(c: Int): Int {
-    return if (c == 0x72) {
-        0
+    if (c == 0x72) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_13(c: Int): Int {
-    return if (c == 0x66) {
-        0
+    if (c == 0x66) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_14(c: Int): Int {
-    return if (c == 0x69) {
-        0
+    if (c == 0x69) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_15(c: Int): Int {
-    return if (c == 0x78) {
-        0
+    if (c == 0x78) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_16(c: Int): Int {
-    when {
-        c < 0x21 -> {
-            return 2
-        }
-        c <= 0x21 -> {
-            return 0
-        }
-        c < 0x23 -> {
-            return 2
-        }
-        c <= 0x3b -> {
-            return 0
-        }
-        c < 0x3d -> {
-            return 2
-        }
-        c <= 0x3d -> {
-            return 0
-        }
-        c < 0x3f -> {
-            return 2
-        }
-        c <= 0x5b -> {
-            return 0
-        }
-        c < 0x5c -> {
-            return 2
-        }
-        c <= 0x5c -> {
-            return 1
-        }
-        c < 0x5d -> {
-            return 2
-        }
-        c <= 0x5d -> {
-            return 0
-        }
-        c < 0x5f -> {
-            return 2
-        }
-        c <= 0x5f -> {
-            return 0
-        }
-        c < 0x61 -> {
-            return 2
-        }
-        c <= 0x7a -> {
-            return 0
-        }
-        c < 0x7e -> {
-            return 2
-        }
-        c <= 0x1fffff -> {
-            return 0
-        }
-        else -> {
-            return 2
-        }
+private fun parse_statement_helper_16(c: Int): Int {
+    if (c <0x21) {
+        return 2
+    } else if (c <= 0x21) {
+        return 0
+    } else if (c <0x23) {
+        return 2
+    } else if (c <= 0x3b) {
+        return 0
+    } else if (c <0x3d) {
+        return 2
+    } else if (c <= 0x3d) {
+        return 0
+    } else if (c <0x3f) {
+        return 2
+    } else if (c <= 0x5b) {
+        return 0
+    } else if (c <0x5c) {
+        return 2
+    } else if (c <= 0x5c) {
+        return 1
+    } else if (c <0x5d) {
+        return 2
+    } else if (c <= 0x5d) {
+        return 0
+    } else if (c <0x5f) {
+        return 2
+    } else if (c <= 0x5f) {
+        return 0
+    } else if (c <0x61) {
+        return 2
+    } else if (c <= 0x7a) {
+        return 0
+    } else if (c <0x7e) {
+        return 2
+    } else if (c <= 0x1fffff) {
+        return 0
+    } else {
+        return 2
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_17(c: Int): Int {
-    return if (c < 0x55) {
-        2
+    if (c <0x55) {
+        return 2
     } else if (c <= 0x55) {
-        1
-    } else if (c < 0x75) {
-        2
+        return 1
+    } else if (c <0x75) {
+        return 2
     } else if (c <= 0x75) {
-        0
+        return 0
     } else {
-        2
+        return 2
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_18(c: Int): Int {
-    return when {
-        c < 0x30 -> {
-            1
-        }
-        c <= 0x39 -> {
-            0
-        }
-        c < 0x41 -> {
-            1
-        }
-        c <= 0x46 -> {
-            0
-        }
-        c < 0x61 -> {
-            1
-        }
-        c <= 0x66 -> {
-            0
-        }
-        else -> {
-            1
-        }
-    }
-}
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_19(c: Int): Int {
-    return if (c == 0x3e) {
-        0
-    } else {
-        1
-    }
-}
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_20(c: Int): Int {
-    if (c < 0x2d) {
-        return 1
-    } else if (c <= 0x2d) {
-        return 0
-    } else if (c < 0x30) {
+    if (c <0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
+        return 1
+    } else if (c <= 0x46) {
+        return 0
+    } else if (c <0x61) {
+        return 1
+    } else if (c <= 0x66) {
+        return 0
+    } else {
+        return 1
+    }
+}
+@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_19(c: Int): Int {
+    if (c == 0x3e) {
+        return 0
+    } else {
+        return 1
+    }
+}
+private fun parse_statement_helper_20(c: Int): Int {
+    if (c <0x2d) {
+        return 1
+    } else if (c <= 0x2d) {
+        return 0
+    } else if (c <0x30) {
+        return 1
+    } else if (c <= 0x39) {
+        return 0
+    } else if (c <0x41) {
         return 1
     } else if (c <= 0x5a) {
         return 0
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 1
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0xb7) {
+    } else if (c <0xb7) {
         return 1
     } else if (c <= 0xb7) {
         return 0
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 1
     } else if (c <= 0xd6) {
         return 0
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 1
     } else if (c <= 0xf6) {
         return 0
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 1
     } else if (c <= 0x37d) {
         return 0
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 1
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 1
     } else if (c <= 0x200d) {
         return 0
-    } else if (c < 0x203f) {
+    } else if (c <0x203f) {
         return 1
     } else if (c <= 0x2040) {
         return 0
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 1
     } else if (c <= 0x218f) {
         return 0
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 1
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 1
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 1
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 1
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 1
     } else if (c <= 0x1fffff) {
         return 0
@@ -1062,74 +1020,74 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_21(c: Int): Int {
-    return if (c == 0x3a) {
-        0
+    if (c == 0x3a) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_22(c: Int): Int {
-    if (c < 0x30) {
+private fun parse_statement_helper_22(c: Int): Int {
+    if (c <0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 1
     } else if (c <= 0x5a) {
         return 0
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 1
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 1
     } else if (c <= 0xd6) {
         return 0
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 1
     } else if (c <= 0xf6) {
         return 0
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 1
     } else if (c <= 0x2ff) {
         return 0
-    } else if (c < 0x370) {
+    } else if (c <0x370) {
         return 1
     } else if (c <= 0x37d) {
         return 0
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 1
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 1
     } else if (c <= 0x200d) {
         return 0
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 1
     } else if (c <= 0x218f) {
         return 0
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 1
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 1
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 1
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 1
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 1
     } else if (c <= 0x1fffff) {
         return 0
@@ -1137,36 +1095,43 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") internal inline fun parse_base(
+internal inline fun parse_base(
     context: ParserContext,
     crossinline onIRIREF: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
-        when (parse_base_helper_0(context.c)) {
+        val localswitch1 = parse_base_helper_0(context.c)
+        when (localswitch1) {
             0 -> {
                 context.append()
                 loop3@ while (true) {
-                    when (parse_base_helper_1(context.c)) {
+                    val localswitch4 = parse_base_helper_1(context.c)
+                    when (localswitch4) {
                         0 -> {
                             context.append()
                             continue@loop3
                         }
                         1 -> {
                             context.append()
-                            when (parse_base_helper_2(context.c)) {
+                            val localswitch6 = parse_base_helper_2(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
-                                    when (parse_base_helper_3(context.c)) {
+                                    val localswitch8 = parse_base_helper_3(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
-                                            when (parse_base_helper_3(context.c)) {
+                                            val localswitch10 = parse_base_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_base_helper_3(context.c)) {
+                                                    val localswitch12 = parse_base_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_base_helper_3(context.c)) {
+                                                            val localswitch14 = parse_base_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
                                                                     continue@loop3
@@ -1193,28 +1158,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                 }
                                 1 -> {
                                     context.append()
-                                    when (parse_base_helper_3(context.c)) {
+                                    val localswitch8 = parse_base_helper_3(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
-                                            when (parse_base_helper_3(context.c)) {
+                                            val localswitch10 = parse_base_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_base_helper_3(context.c)) {
+                                                    val localswitch12 = parse_base_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_base_helper_3(context.c)) {
+                                                            val localswitch14 = parse_base_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_base_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_base_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_base_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_base_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_base_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_base_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_base_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_base_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
                                                                                                     continue@loop3
@@ -1269,7 +1242,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                         }
                     }
                 }
-                when (parse_base_helper_4(context.c)) {
+                val localswitch3 = parse_base_helper_4(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         onIRIREF()
@@ -1288,46 +1262,46 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     throw ParserExceptionUnexpectedChar(context)
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_base_helper_0(c: Int): Int {
-    return if (c == 0x3c) {
-        0
+    if (c == 0x3c) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_base_helper_1(c: Int): Int {
-    if (c < 0x21) {
+private fun parse_base_helper_1(c: Int): Int {
+    if (c <0x21) {
         return 2
     } else if (c <= 0x21) {
         return 0
-    } else if (c < 0x23) {
+    } else if (c <0x23) {
         return 2
     } else if (c <= 0x3b) {
         return 0
-    } else if (c < 0x3d) {
+    } else if (c <0x3d) {
         return 2
     } else if (c <= 0x3d) {
         return 0
-    } else if (c < 0x3f) {
+    } else if (c <0x3f) {
         return 2
     } else if (c <= 0x5b) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 2
     } else if (c <= 0x5c) {
         return 1
-    } else if (c < 0x5d) {
+    } else if (c <0x5d) {
         return 2
     } else if (c <= 0x5d) {
         return 0
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 2
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 2
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0x7e) {
+    } else if (c <0x7e) {
         return 2
     } else if (c <= 0x1fffff) {
         return 0
@@ -1336,49 +1310,50 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_base_helper_2(c: Int): Int {
-    return if (c < 0x55) {
-        2
+    if (c <0x55) {
+        return 2
     } else if (c <= 0x55) {
-        1
-    } else if (c < 0x75) {
-        2
+        return 1
+    } else if (c <0x75) {
+        return 2
     } else if (c <= 0x75) {
-        0
+        return 0
     } else {
-        2
+        return 2
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_base_helper_3(c: Int): Int {
-    return if (c < 0x30) {
-        1
+    if (c <0x30) {
+        return 1
     } else if (c <= 0x39) {
-        0
-    } else if (c < 0x41) {
-        1
+        return 0
+    } else if (c <0x41) {
+        return 1
     } else if (c <= 0x46) {
-        0
-    } else if (c < 0x61) {
-        1
+        return 0
+    } else if (c <0x61) {
+        return 1
     } else if (c <= 0x66) {
-        0
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_base_helper_4(c: Int): Int {
-    return if (c == 0x3e) {
-        0
+    if (c == 0x3e) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") internal inline fun parse_prefix(
+internal inline fun parse_prefix(
     context: ParserContext,
     crossinline onPNAME_NS: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
-        when (parse_prefix_helper_0(context.c)) {
+        val localswitch1 = parse_prefix_helper_0(context.c)
+        when (localswitch1) {
             0 -> {
                 context.append()
                 loop3@ while (true) {
@@ -1392,7 +1367,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                             }
                         }
                     }
-                    when (parse_prefix_helper_1(context.c)) {
+                    val localswitch4 = parse_prefix_helper_1(context.c)
+                    when (localswitch4) {
                         0 -> {
                             context.append()
                             continue@loop3
@@ -1402,7 +1378,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                         }
                     }
                 }
-                when (parse_prefix_helper_2(context.c)) {
+                val localswitch3 = parse_prefix_helper_2(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         onPNAME_NS()
@@ -1425,64 +1402,64 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_prefix_helper_0(c: Int): Int {
-    if (c < 0x3a) {
+private fun parse_prefix_helper_0(c: Int): Int {
+    if (c <0x3a) {
         return 2
     } else if (c <= 0x3a) {
         return 1
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 2
     } else if (c <= 0x5a) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 2
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 2
     } else if (c <= 0xd6) {
         return 0
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 2
     } else if (c <= 0xf6) {
         return 0
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 2
     } else if (c <= 0x2ff) {
         return 0
-    } else if (c < 0x370) {
+    } else if (c <0x370) {
         return 2
     } else if (c <= 0x37d) {
         return 0
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 2
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 2
     } else if (c <= 0x200d) {
         return 0
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 2
     } else if (c <= 0x218f) {
         return 0
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 2
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 2
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 2
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 2
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 2
     } else if (c <= 0x1fffff) {
         return 0
@@ -1490,76 +1467,76 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_prefix_helper_1(c: Int): Int {
-    if (c < 0x2d) {
+private fun parse_prefix_helper_1(c: Int): Int {
+    if (c <0x2d) {
         return 1
     } else if (c <= 0x2d) {
         return 0
-    } else if (c < 0x30) {
+    } else if (c <0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 1
     } else if (c <= 0x5a) {
         return 0
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 1
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0xb7) {
+    } else if (c <0xb7) {
         return 1
     } else if (c <= 0xb7) {
         return 0
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 1
     } else if (c <= 0xd6) {
         return 0
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 1
     } else if (c <= 0xf6) {
         return 0
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 1
     } else if (c <= 0x37d) {
         return 0
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 1
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 1
     } else if (c <= 0x200d) {
         return 0
-    } else if (c < 0x203f) {
+    } else if (c <0x203f) {
         return 1
     } else if (c <= 0x2040) {
         return 0
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 1
     } else if (c <= 0x218f) {
         return 0
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 1
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 1
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 1
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 1
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 1
     } else if (c <= 0x1fffff) {
         return 0
@@ -1568,42 +1545,49 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_prefix_helper_2(c: Int): Int {
-    return if (c == 0x3a) {
-        0
+    if (c == 0x3a) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE")internal inline fun parse_prefix2(
+internal inline fun parse_prefix2(
     context: ParserContext,
     crossinline onIRIREF: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
-        when (parse_prefix2_helper_0(context.c)) {
+        val localswitch1 = parse_prefix2_helper_0(context.c)
+        when (localswitch1) {
             0 -> {
                 context.append()
                 loop3@ while (true) {
-                    when (parse_prefix2_helper_1(context.c)) {
+                    val localswitch4 = parse_prefix2_helper_1(context.c)
+                    when (localswitch4) {
                         0 -> {
                             context.append()
                             continue@loop3
                         }
                         1 -> {
                             context.append()
-                            when (parse_prefix2_helper_2(context.c)) {
+                            val localswitch6 = parse_prefix2_helper_2(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
-                                    when (parse_prefix2_helper_3(context.c)) {
+                                    val localswitch8 = parse_prefix2_helper_3(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
-                                            when (parse_prefix2_helper_3(context.c)) {
+                                            val localswitch10 = parse_prefix2_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_prefix2_helper_3(context.c)) {
+                                                    val localswitch12 = parse_prefix2_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_prefix2_helper_3(context.c)) {
+                                                            val localswitch14 = parse_prefix2_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
                                                                     continue@loop3
@@ -1630,28 +1614,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                 }
                                 1 -> {
                                     context.append()
-                                    when (parse_prefix2_helper_3(context.c)) {
+                                    val localswitch8 = parse_prefix2_helper_3(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
-                                            when (parse_prefix2_helper_3(context.c)) {
+                                            val localswitch10 = parse_prefix2_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_prefix2_helper_3(context.c)) {
+                                                    val localswitch12 = parse_prefix2_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_prefix2_helper_3(context.c)) {
+                                                            val localswitch14 = parse_prefix2_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_prefix2_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_prefix2_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_prefix2_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_prefix2_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_prefix2_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_prefix2_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_prefix2_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_prefix2_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
                                                                                                     continue@loop3
@@ -1706,7 +1698,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                         }
                     }
                 }
-                when (parse_prefix2_helper_4(context.c)) {
+                val localswitch3 = parse_prefix2_helper_4(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         onIRIREF()
@@ -1725,46 +1718,46 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     throw ParserExceptionUnexpectedChar(context)
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_prefix2_helper_0(c: Int): Int {
-    return if (c == 0x3c) {
-        0
+    if (c == 0x3c) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_prefix2_helper_1(c: Int): Int {
-    if (c < 0x21) {
+private fun parse_prefix2_helper_1(c: Int): Int {
+    if (c <0x21) {
         return 2
     } else if (c <= 0x21) {
         return 0
-    } else if (c < 0x23) {
+    } else if (c <0x23) {
         return 2
     } else if (c <= 0x3b) {
         return 0
-    } else if (c < 0x3d) {
+    } else if (c <0x3d) {
         return 2
     } else if (c <= 0x3d) {
         return 0
-    } else if (c < 0x3f) {
+    } else if (c <0x3f) {
         return 2
     } else if (c <= 0x5b) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 2
     } else if (c <= 0x5c) {
         return 1
-    } else if (c < 0x5d) {
+    } else if (c <0x5d) {
         return 2
     } else if (c <= 0x5d) {
         return 0
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 2
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 2
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0x7e) {
+    } else if (c <0x7e) {
         return 2
     } else if (c <= 0x1fffff) {
         return 0
@@ -1773,43 +1766,43 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_prefix2_helper_2(c: Int): Int {
-    return if (c < 0x55) {
-        2
+    if (c <0x55) {
+        return 2
     } else if (c <= 0x55) {
-        1
-    } else if (c < 0x75) {
-        2
+        return 1
+    } else if (c <0x75) {
+        return 2
     } else if (c <= 0x75) {
-        0
+        return 0
     } else {
-        2
+        return 2
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_prefix2_helper_3(c: Int): Int {
-    return if (c < 0x30) {
-        1
+    if (c <0x30) {
+        return 1
     } else if (c <= 0x39) {
-        0
-    } else if (c < 0x41) {
-        1
+        return 0
+    } else if (c <0x41) {
+        return 1
     } else if (c <= 0x46) {
-        0
-    } else if (c < 0x61) {
-        1
+        return 0
+    } else if (c <0x61) {
+        return 1
     } else if (c <= 0x66) {
-        0
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_prefix2_helper_4(c: Int): Int {
-    return if (c == 0x3e) {
-        0
+    if (c == 0x3e) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") internal inline fun parse_predicate(
+internal inline fun parse_predicate(
     context: ParserContext,
     crossinline onVERB1: () -> Unit,
     crossinline onIRIREF: () -> Unit,
@@ -1817,7 +1810,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
 ) {
     context.clear()
     error@ while (true) {
-        when (parse_predicate_helper_0(context.c)) {
+        val localswitch1 = parse_predicate_helper_0(context.c)
+        when (localswitch1) {
             0 -> {
                 context.append()
                 onVERB1()
@@ -1826,26 +1820,32 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             1 -> {
                 context.append()
                 loop3@ while (true) {
-                    when (parse_predicate_helper_1(context.c)) {
+                    val localswitch4 = parse_predicate_helper_1(context.c)
+                    when (localswitch4) {
                         0 -> {
                             context.append()
                             continue@loop3
                         }
                         1 -> {
                             context.append()
-                            when (parse_predicate_helper_2(context.c)) {
+                            val localswitch6 = parse_predicate_helper_2(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
-                                    when (parse_predicate_helper_3(context.c)) {
+                                    val localswitch8 = parse_predicate_helper_3(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
-                                            when (parse_predicate_helper_3(context.c)) {
+                                            val localswitch10 = parse_predicate_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_predicate_helper_3(context.c)) {
+                                                    val localswitch12 = parse_predicate_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_predicate_helper_3(context.c)) {
+                                                            val localswitch14 = parse_predicate_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
                                                                     continue@loop3
@@ -1872,28 +1872,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                 }
                                 1 -> {
                                     context.append()
-                                    when (parse_predicate_helper_3(context.c)) {
+                                    val localswitch8 = parse_predicate_helper_3(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
-                                            when (parse_predicate_helper_3(context.c)) {
+                                            val localswitch10 = parse_predicate_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_predicate_helper_3(context.c)) {
+                                                    val localswitch12 = parse_predicate_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_predicate_helper_3(context.c)) {
+                                                            val localswitch14 = parse_predicate_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_predicate_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_predicate_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_predicate_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_predicate_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_predicate_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_predicate_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_predicate_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_predicate_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
                                                                                                     continue@loop3
@@ -1948,7 +1956,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                         }
                     }
                 }
-                when (parse_predicate_helper_4(context.c)) {
+                val localswitch3 = parse_predicate_helper_4(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         onIRIREF()
@@ -1972,7 +1981,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                             }
                         }
                     }
-                    when (parse_predicate_helper_5(context.c)) {
+                    val localswitch4 = parse_predicate_helper_5(context.c)
+                    when (localswitch4) {
                         0 -> {
                             context.append()
                             continue@loop3
@@ -1982,7 +1992,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                         }
                     }
                 }
-                when (parse_predicate_helper_6(context.c)) {
+                val localswitch3 = parse_predicate_helper_6(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         onPNAME_NS()
@@ -2005,70 +2016,70 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_predicate_helper_0(c: Int): Int {
-    if (c < 0x3a) {
+private fun parse_predicate_helper_0(c: Int): Int {
+    if (c <0x3a) {
         return 4
     } else if (c <= 0x3a) {
         return 3
-    } else if (c < 0x3c) {
+    } else if (c <0x3c) {
         return 4
     } else if (c <= 0x3c) {
         return 1
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 4
     } else if (c <= 0x5a) {
         return 2
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 4
     } else if (c <= 0x61) {
         return 0
     } else if (c <= 0x7a) {
         return 2
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 4
     } else if (c <= 0xd6) {
         return 2
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 4
     } else if (c <= 0xf6) {
         return 2
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 4
     } else if (c <= 0x2ff) {
         return 2
-    } else if (c < 0x370) {
+    } else if (c <0x370) {
         return 4
     } else if (c <= 0x37d) {
         return 2
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 4
     } else if (c <= 0x1fff) {
         return 2
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 4
     } else if (c <= 0x200d) {
         return 2
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 4
     } else if (c <= 0x218f) {
         return 2
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 4
     } else if (c <= 0x2fef) {
         return 2
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 4
     } else if (c <= 0xd7ff) {
         return 2
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 4
     } else if (c <= 0xfdcf) {
         return 2
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 4
     } else if (c <= 0xfffd) {
         return 2
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 4
     } else if (c <= 0x1fffff) {
         return 2
@@ -2076,40 +2087,40 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 4
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_predicate_helper_1(c: Int): Int {
-    if (c < 0x21) {
+private fun parse_predicate_helper_1(c: Int): Int {
+    if (c <0x21) {
         return 2
     } else if (c <= 0x21) {
         return 0
-    } else if (c < 0x23) {
+    } else if (c <0x23) {
         return 2
     } else if (c <= 0x3b) {
         return 0
-    } else if (c < 0x3d) {
+    } else if (c <0x3d) {
         return 2
     } else if (c <= 0x3d) {
         return 0
-    } else if (c < 0x3f) {
+    } else if (c <0x3f) {
         return 2
     } else if (c <= 0x5b) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 2
     } else if (c <= 0x5c) {
         return 1
-    } else if (c < 0x5d) {
+    } else if (c <0x5d) {
         return 2
     } else if (c <= 0x5d) {
         return 0
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 2
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 2
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0x7e) {
+    } else if (c <0x7e) {
         return 2
     } else if (c <= 0x1fffff) {
         return 0
@@ -2118,112 +2129,112 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_predicate_helper_2(c: Int): Int {
-    return if (c < 0x55) {
-        2
+    if (c <0x55) {
+        return 2
     } else if (c <= 0x55) {
-        1
-    } else if (c < 0x75) {
-        2
+        return 1
+    } else if (c <0x75) {
+        return 2
     } else if (c <= 0x75) {
-        0
+        return 0
     } else {
-        2
+        return 2
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_predicate_helper_3(c: Int): Int {
-    return if (c < 0x30) {
-        1
+    if (c <0x30) {
+        return 1
     } else if (c <= 0x39) {
-        0
-    } else if (c < 0x41) {
-        1
+        return 0
+    } else if (c <0x41) {
+        return 1
     } else if (c <= 0x46) {
-        0
-    } else if (c < 0x61) {
-        1
+        return 0
+    } else if (c <0x61) {
+        return 1
     } else if (c <= 0x66) {
-        0
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_predicate_helper_4(c: Int): Int {
-    return if (c == 0x3e) {
-        0
+    if (c == 0x3e) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_predicate_helper_5(c: Int): Int {
-    if (c < 0x2d) {
+private fun parse_predicate_helper_5(c: Int): Int {
+    if (c <0x2d) {
         return 1
     } else if (c <= 0x2d) {
         return 0
-    } else if (c < 0x30) {
+    } else if (c <0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 1
     } else if (c <= 0x5a) {
         return 0
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 1
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0xb7) {
+    } else if (c <0xb7) {
         return 1
     } else if (c <= 0xb7) {
         return 0
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 1
     } else if (c <= 0xd6) {
         return 0
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 1
     } else if (c <= 0xf6) {
         return 0
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 1
     } else if (c <= 0x37d) {
         return 0
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 1
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 1
     } else if (c <= 0x200d) {
         return 0
-    } else if (c < 0x203f) {
+    } else if (c <0x203f) {
         return 1
     } else if (c <= 0x2040) {
         return 0
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 1
     } else if (c <= 0x218f) {
         return 0
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 1
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 1
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 1
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 1
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 1
     } else if (c <= 0x1fffff) {
         return 0
@@ -2232,13 +2243,13 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_predicate_helper_6(c: Int): Int {
-    return if (c == 0x3a) {
-        0
+    if (c == 0x3a) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") internal inline fun parse_obj(
+internal inline fun parse_obj(
     context: ParserContext,
     crossinline onIRIREF: () -> Unit,
     crossinline onPNAME_NS: () -> Unit,
@@ -2254,30 +2265,37 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
 ) {
     context.clear()
     error@ while (true) {
-        when (parse_obj_helper_0(context.c)) {
+        val localswitch1 = parse_obj_helper_0(context.c)
+        when (localswitch1) {
             0 -> {
                 context.append()
                 loop3@ while (true) {
-                    when (parse_obj_helper_1(context.c)) {
+                    val localswitch4 = parse_obj_helper_1(context.c)
+                    when (localswitch4) {
                         0 -> {
                             context.append()
                             continue@loop3
                         }
                         1 -> {
                             context.append()
-                            when (parse_obj_helper_2(context.c)) {
+                            val localswitch6 = parse_obj_helper_2(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
-                                    when (parse_obj_helper_3(context.c)) {
+                                    val localswitch8 = parse_obj_helper_3(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
-                                            when (parse_obj_helper_3(context.c)) {
+                                            val localswitch10 = parse_obj_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_3(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
                                                                     continue@loop3
@@ -2304,28 +2322,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                 }
                                 1 -> {
                                     context.append()
-                                    when (parse_obj_helper_3(context.c)) {
+                                    val localswitch8 = parse_obj_helper_3(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
-                                            when (parse_obj_helper_3(context.c)) {
+                                            val localswitch10 = parse_obj_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_3(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_obj_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
                                                                                                     continue@loop3
@@ -2380,7 +2406,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                         }
                     }
                 }
-                when (parse_obj_helper_4(context.c)) {
+                val localswitch3 = parse_obj_helper_4(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         onIRIREF()
@@ -2404,7 +2431,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                             }
                         }
                     }
-                    when (parse_obj_helper_5(context.c)) {
+                    val localswitch4 = parse_obj_helper_5(context.c)
+                    when (localswitch4) {
                         0 -> {
                             context.append()
                             continue@loop3
@@ -2414,7 +2442,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                         }
                     }
                 }
-                when (parse_obj_helper_6(context.c)) {
+                val localswitch3 = parse_obj_helper_6(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         onPNAME_NS()
@@ -2432,10 +2461,12 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             3 -> {
                 context.append()
-                when (parse_obj_helper_6(context.c)) {
+                val localswitch3 = parse_obj_helper_6(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
-                        when (parse_obj_helper_7(context.c)) {
+                        val localswitch5 = parse_obj_helper_7(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
                                 loop7@ while (true) {
@@ -2449,7 +2480,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                             }
                                         }
                                     }
-                                    when (parse_obj_helper_5(context.c)) {
+                                    val localswitch8 = parse_obj_helper_5(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop7
@@ -2474,34 +2506,41 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             4 -> {
                 context.append()
-                when (parse_obj_helper_8(context.c)) {
+                val localswitch3 = parse_obj_helper_8(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         loop5@ while (true) {
-                            when (parse_obj_helper_9(context.c)) {
+                            val localswitch6 = parse_obj_helper_9(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
                                     continue@loop5
                                 }
                                 1 -> {
                                     context.append()
-                                    when (parse_obj_helper_10(context.c)) {
+                                    val localswitch8 = parse_obj_helper_10(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop5
                                         }
                                         1 -> {
                                             context.append()
-                                            when (parse_obj_helper_3(context.c)) {
+                                            val localswitch10 = parse_obj_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_3(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
                                                                             continue@loop5
@@ -2528,28 +2567,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                         }
                                         2 -> {
                                             context.append()
-                                            when (parse_obj_helper_3(context.c)) {
+                                            val localswitch10 = parse_obj_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_3(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_obj_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
-                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                    val localswitch24 = parse_obj_helper_3(context.c)
+                                                                                                    when (localswitch24) {
                                                                                                         0 -> {
                                                                                                             context.append()
                                                                                                             continue@loop5
@@ -2604,7 +2651,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                 }
                             }
                         }
-                        when (parse_obj_helper_11(context.c)) {
+                        val localswitch5 = parse_obj_helper_11(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
                                 onSTRING_LITERAL_QUOTE()
@@ -2617,34 +2665,41 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                     }
                     1 -> {
                         context.append()
-                        when (parse_obj_helper_10(context.c)) {
+                        val localswitch5 = parse_obj_helper_10(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
                                 loop7@ while (true) {
-                                    when (parse_obj_helper_9(context.c)) {
+                                    val localswitch8 = parse_obj_helper_9(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop7
                                         }
                                         1 -> {
                                             context.append()
-                                            when (parse_obj_helper_10(context.c)) {
+                                            val localswitch10 = parse_obj_helper_10(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
                                                     continue@loop7
                                                 }
                                                 1 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_3(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
                                                                                     continue@loop7
@@ -2671,28 +2726,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                 }
                                                 2 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_3(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_obj_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
-                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                    val localswitch24 = parse_obj_helper_3(context.c)
+                                                                                                    when (localswitch24) {
                                                                                                         0 -> {
                                                                                                             context.append()
-                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                            val localswitch26 = parse_obj_helper_3(context.c)
+                                                                                                            when (localswitch26) {
                                                                                                                 0 -> {
                                                                                                                     context.append()
                                                                                                                     continue@loop7
@@ -2747,7 +2810,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                         }
                                     }
                                 }
-                                when (parse_obj_helper_11(context.c)) {
+                                val localswitch7 = parse_obj_helper_11(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
                                         onSTRING_LITERAL_QUOTE()
@@ -2760,43 +2824,53 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                             }
                             1 -> {
                                 context.append()
-                                when (parse_obj_helper_3(context.c)) {
+                                val localswitch7 = parse_obj_helper_3(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
-                                        when (parse_obj_helper_3(context.c)) {
+                                        val localswitch9 = parse_obj_helper_3(context.c)
+                                        when (localswitch9) {
                                             0 -> {
                                                 context.append()
-                                                when (parse_obj_helper_3(context.c)) {
+                                                val localswitch11 = parse_obj_helper_3(context.c)
+                                                when (localswitch11) {
                                                     0 -> {
                                                         context.append()
-                                                        when (parse_obj_helper_3(context.c)) {
+                                                        val localswitch13 = parse_obj_helper_3(context.c)
+                                                        when (localswitch13) {
                                                             0 -> {
                                                                 context.append()
                                                                 loop15@ while (true) {
-                                                                    when (parse_obj_helper_9(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_9(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
                                                                             continue@loop15
                                                                         }
                                                                         1 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_10(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_10(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
                                                                                     continue@loop15
                                                                                 }
                                                                                 1 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_obj_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
-                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                    val localswitch24 = parse_obj_helper_3(context.c)
+                                                                                                    when (localswitch24) {
                                                                                                         0 -> {
                                                                                                             context.append()
-                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                            val localswitch26 = parse_obj_helper_3(context.c)
+                                                                                                            when (localswitch26) {
                                                                                                                 0 -> {
                                                                                                                     context.append()
                                                                                                                     continue@loop15
@@ -2823,28 +2897,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                                                 }
                                                                                 2 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_obj_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
-                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                    val localswitch24 = parse_obj_helper_3(context.c)
+                                                                                                    when (localswitch24) {
                                                                                                         0 -> {
                                                                                                             context.append()
-                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                            val localswitch26 = parse_obj_helper_3(context.c)
+                                                                                                            when (localswitch26) {
                                                                                                                 0 -> {
                                                                                                                     context.append()
-                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                    val localswitch28 = parse_obj_helper_3(context.c)
+                                                                                                                    when (localswitch28) {
                                                                                                                         0 -> {
                                                                                                                             context.append()
-                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                            val localswitch30 = parse_obj_helper_3(context.c)
+                                                                                                                            when (localswitch30) {
                                                                                                                                 0 -> {
                                                                                                                                     context.append()
-                                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                                    val localswitch32 = parse_obj_helper_3(context.c)
+                                                                                                                                    when (localswitch32) {
                                                                                                                                         0 -> {
                                                                                                                                             context.append()
-                                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                                            val localswitch34 = parse_obj_helper_3(context.c)
+                                                                                                                                            when (localswitch34) {
                                                                                                                                                 0 -> {
                                                                                                                                                     context.append()
                                                                                                                                                     continue@loop15
@@ -2899,7 +2981,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                                         }
                                                                     }
                                                                 }
-                                                                when (parse_obj_helper_11(context.c)) {
+                                                                val localswitch15 = parse_obj_helper_11(context.c)
+                                                                when (localswitch15) {
                                                                     0 -> {
                                                                         context.append()
                                                                         onSTRING_LITERAL_QUOTE()
@@ -2932,55 +3015,69 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                             }
                             2 -> {
                                 context.append()
-                                when (parse_obj_helper_3(context.c)) {
+                                val localswitch7 = parse_obj_helper_3(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
-                                        when (parse_obj_helper_3(context.c)) {
+                                        val localswitch9 = parse_obj_helper_3(context.c)
+                                        when (localswitch9) {
                                             0 -> {
                                                 context.append()
-                                                when (parse_obj_helper_3(context.c)) {
+                                                val localswitch11 = parse_obj_helper_3(context.c)
+                                                when (localswitch11) {
                                                     0 -> {
                                                         context.append()
-                                                        when (parse_obj_helper_3(context.c)) {
+                                                        val localswitch13 = parse_obj_helper_3(context.c)
+                                                        when (localswitch13) {
                                                             0 -> {
                                                                 context.append()
-                                                                when (parse_obj_helper_3(context.c)) {
+                                                                val localswitch15 = parse_obj_helper_3(context.c)
+                                                                when (localswitch15) {
                                                                     0 -> {
                                                                         context.append()
-                                                                        when (parse_obj_helper_3(context.c)) {
+                                                                        val localswitch17 = parse_obj_helper_3(context.c)
+                                                                        when (localswitch17) {
                                                                             0 -> {
                                                                                 context.append()
-                                                                                when (parse_obj_helper_3(context.c)) {
+                                                                                val localswitch19 = parse_obj_helper_3(context.c)
+                                                                                when (localswitch19) {
                                                                                     0 -> {
                                                                                         context.append()
-                                                                                        when (parse_obj_helper_3(context.c)) {
+                                                                                        val localswitch21 = parse_obj_helper_3(context.c)
+                                                                                        when (localswitch21) {
                                                                                             0 -> {
                                                                                                 context.append()
                                                                                                 loop23@ while (true) {
-                                                                                                    when (parse_obj_helper_9(context.c)) {
+                                                                                                    val localswitch24 = parse_obj_helper_9(context.c)
+                                                                                                    when (localswitch24) {
                                                                                                         0 -> {
                                                                                                             context.append()
                                                                                                             continue@loop23
                                                                                                         }
                                                                                                         1 -> {
                                                                                                             context.append()
-                                                                                                            when (parse_obj_helper_10(context.c)) {
+                                                                                                            val localswitch26 = parse_obj_helper_10(context.c)
+                                                                                                            when (localswitch26) {
                                                                                                                 0 -> {
                                                                                                                     context.append()
                                                                                                                     continue@loop23
                                                                                                                 }
                                                                                                                 1 -> {
                                                                                                                     context.append()
-                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                    val localswitch28 = parse_obj_helper_3(context.c)
+                                                                                                                    when (localswitch28) {
                                                                                                                         0 -> {
                                                                                                                             context.append()
-                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                            val localswitch30 = parse_obj_helper_3(context.c)
+                                                                                                                            when (localswitch30) {
                                                                                                                                 0 -> {
                                                                                                                                     context.append()
-                                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                                    val localswitch32 = parse_obj_helper_3(context.c)
+                                                                                                                                    when (localswitch32) {
                                                                                                                                         0 -> {
                                                                                                                                             context.append()
-                                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                                            val localswitch34 = parse_obj_helper_3(context.c)
+                                                                                                                                            when (localswitch34) {
                                                                                                                                                 0 -> {
                                                                                                                                                     context.append()
                                                                                                                                                     continue@loop23
@@ -3007,28 +3104,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                                                                                 }
                                                                                                                 2 -> {
                                                                                                                     context.append()
-                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                    val localswitch28 = parse_obj_helper_3(context.c)
+                                                                                                                    when (localswitch28) {
                                                                                                                         0 -> {
                                                                                                                             context.append()
-                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                            val localswitch30 = parse_obj_helper_3(context.c)
+                                                                                                                            when (localswitch30) {
                                                                                                                                 0 -> {
                                                                                                                                     context.append()
-                                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                                    val localswitch32 = parse_obj_helper_3(context.c)
+                                                                                                                                    when (localswitch32) {
                                                                                                                                         0 -> {
                                                                                                                                             context.append()
-                                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                                            val localswitch34 = parse_obj_helper_3(context.c)
+                                                                                                                                            when (localswitch34) {
                                                                                                                                                 0 -> {
                                                                                                                                                     context.append()
-                                                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                                                    val localswitch36 = parse_obj_helper_3(context.c)
+                                                                                                                                                    when (localswitch36) {
                                                                                                                                                         0 -> {
                                                                                                                                                             context.append()
-                                                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                                                            val localswitch38 = parse_obj_helper_3(context.c)
+                                                                                                                                                            when (localswitch38) {
                                                                                                                                                                 0 -> {
                                                                                                                                                                     context.append()
-                                                                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                                                                    val localswitch40 = parse_obj_helper_3(context.c)
+                                                                                                                                                                    when (localswitch40) {
                                                                                                                                                                         0 -> {
                                                                                                                                                                             context.append()
-                                                                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                                                                            val localswitch42 = parse_obj_helper_3(context.c)
+                                                                                                                                                                            when (localswitch42) {
                                                                                                                                                                                 0 -> {
                                                                                                                                                                                     context.append()
                                                                                                                                                                                     continue@loop23
@@ -3083,7 +3188,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                                                                         }
                                                                                                     }
                                                                                                 }
-                                                                                                when (parse_obj_helper_11(context.c)) {
+                                                                                                val localswitch23 = parse_obj_helper_11(context.c)
+                                                                                                when (localswitch23) {
                                                                                                     0 -> {
                                                                                                         context.append()
                                                                                                         onSTRING_LITERAL_QUOTE()
@@ -3141,34 +3247,41 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                     }
                     2 -> {
                         context.append()
-                        when (parse_obj_helper_11(context.c)) {
+                        val localswitch5 = parse_obj_helper_11(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
                                 loop7@ while (true) {
-                                    when (parse_obj_helper_12(context.c)) {
+                                    val localswitch8 = parse_obj_helper_12(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop7
                                         }
                                         1 -> {
                                             context.append()
-                                            when (parse_obj_helper_10(context.c)) {
+                                            val localswitch10 = parse_obj_helper_10(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
                                                     continue@loop7
                                                 }
                                                 1 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_3(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
                                                                                     continue@loop7
@@ -3195,28 +3308,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                 }
                                                 2 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_3(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_obj_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
-                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                    val localswitch24 = parse_obj_helper_3(context.c)
+                                                                                                    when (localswitch24) {
                                                                                                         0 -> {
                                                                                                             context.append()
-                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                            val localswitch26 = parse_obj_helper_3(context.c)
+                                                                                                            when (localswitch26) {
                                                                                                                 0 -> {
                                                                                                                     context.append()
                                                                                                                     continue@loop7
@@ -3268,30 +3389,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                         }
                                         2 -> {
                                             context.append()
-                                            when (parse_obj_helper_12(context.c)) {
+                                            val localswitch10 = parse_obj_helper_12(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
                                                     continue@loop7
                                                 }
                                                 1 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_10(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_10(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
                                                             continue@loop7
                                                         }
                                                         1 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
                                                                                             continue@loop7
@@ -3318,28 +3445,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                         }
                                                         2 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_obj_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
-                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                    val localswitch24 = parse_obj_helper_3(context.c)
+                                                                                                    when (localswitch24) {
                                                                                                         0 -> {
                                                                                                             context.append()
-                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                            val localswitch26 = parse_obj_helper_3(context.c)
+                                                                                                            when (localswitch26) {
                                                                                                                 0 -> {
                                                                                                                     context.append()
-                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                    val localswitch28 = parse_obj_helper_3(context.c)
+                                                                                                                    when (localswitch28) {
                                                                                                                         0 -> {
                                                                                                                             context.append()
                                                                                                                             continue@loop7
@@ -3391,30 +3526,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                 }
                                                 2 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_12(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_12(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
                                                             continue@loop7
                                                         }
                                                         1 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_10(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_10(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
                                                                     continue@loop7
                                                                 }
                                                                 1 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_obj_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
                                                                                                     continue@loop7
@@ -3441,28 +3582,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                                 }
                                                                 2 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_obj_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
-                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                    val localswitch24 = parse_obj_helper_3(context.c)
+                                                                                                    when (localswitch24) {
                                                                                                         0 -> {
                                                                                                             context.append()
-                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                            val localswitch26 = parse_obj_helper_3(context.c)
+                                                                                                            when (localswitch26) {
                                                                                                                 0 -> {
                                                                                                                     context.append()
-                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                    val localswitch28 = parse_obj_helper_3(context.c)
+                                                                                                                    when (localswitch28) {
                                                                                                                         0 -> {
                                                                                                                             context.append()
-                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                            val localswitch30 = parse_obj_helper_3(context.c)
+                                                                                                                            when (localswitch30) {
                                                                                                                                 0 -> {
                                                                                                                                     context.append()
                                                                                                                                     continue@loop7
@@ -3547,34 +3696,41 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             5 -> {
                 context.append()
-                when (parse_obj_helper_13(context.c)) {
+                val localswitch3 = parse_obj_helper_13(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         loop5@ while (true) {
-                            when (parse_obj_helper_14(context.c)) {
+                            val localswitch6 = parse_obj_helper_14(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
                                     continue@loop5
                                 }
                                 1 -> {
                                     context.append()
-                                    when (parse_obj_helper_10(context.c)) {
+                                    val localswitch8 = parse_obj_helper_10(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop5
                                         }
                                         1 -> {
                                             context.append()
-                                            when (parse_obj_helper_3(context.c)) {
+                                            val localswitch10 = parse_obj_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_3(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
                                                                             continue@loop5
@@ -3601,28 +3757,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                         }
                                         2 -> {
                                             context.append()
-                                            when (parse_obj_helper_3(context.c)) {
+                                            val localswitch10 = parse_obj_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_3(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_obj_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
-                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                    val localswitch24 = parse_obj_helper_3(context.c)
+                                                                                                    when (localswitch24) {
                                                                                                         0 -> {
                                                                                                             context.append()
                                                                                                             continue@loop5
@@ -3677,7 +3841,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                 }
                             }
                         }
-                        when (parse_obj_helper_15(context.c)) {
+                        val localswitch5 = parse_obj_helper_15(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
                                 onSTRING_LITERAL_SINGLE_QUOTE()
@@ -3690,34 +3855,41 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                     }
                     1 -> {
                         context.append()
-                        when (parse_obj_helper_10(context.c)) {
+                        val localswitch5 = parse_obj_helper_10(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
                                 loop7@ while (true) {
-                                    when (parse_obj_helper_14(context.c)) {
+                                    val localswitch8 = parse_obj_helper_14(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop7
                                         }
                                         1 -> {
                                             context.append()
-                                            when (parse_obj_helper_10(context.c)) {
+                                            val localswitch10 = parse_obj_helper_10(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
                                                     continue@loop7
                                                 }
                                                 1 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_3(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
                                                                                     continue@loop7
@@ -3744,28 +3916,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                 }
                                                 2 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_3(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_obj_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
-                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                    val localswitch24 = parse_obj_helper_3(context.c)
+                                                                                                    when (localswitch24) {
                                                                                                         0 -> {
                                                                                                             context.append()
-                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                            val localswitch26 = parse_obj_helper_3(context.c)
+                                                                                                            when (localswitch26) {
                                                                                                                 0 -> {
                                                                                                                     context.append()
                                                                                                                     continue@loop7
@@ -3820,7 +4000,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                         }
                                     }
                                 }
-                                when (parse_obj_helper_15(context.c)) {
+                                val localswitch7 = parse_obj_helper_15(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
                                         onSTRING_LITERAL_SINGLE_QUOTE()
@@ -3833,43 +4014,53 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                             }
                             1 -> {
                                 context.append()
-                                when (parse_obj_helper_3(context.c)) {
+                                val localswitch7 = parse_obj_helper_3(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
-                                        when (parse_obj_helper_3(context.c)) {
+                                        val localswitch9 = parse_obj_helper_3(context.c)
+                                        when (localswitch9) {
                                             0 -> {
                                                 context.append()
-                                                when (parse_obj_helper_3(context.c)) {
+                                                val localswitch11 = parse_obj_helper_3(context.c)
+                                                when (localswitch11) {
                                                     0 -> {
                                                         context.append()
-                                                        when (parse_obj_helper_3(context.c)) {
+                                                        val localswitch13 = parse_obj_helper_3(context.c)
+                                                        when (localswitch13) {
                                                             0 -> {
                                                                 context.append()
                                                                 loop15@ while (true) {
-                                                                    when (parse_obj_helper_14(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_14(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
                                                                             continue@loop15
                                                                         }
                                                                         1 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_10(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_10(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
                                                                                     continue@loop15
                                                                                 }
                                                                                 1 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_obj_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
-                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                    val localswitch24 = parse_obj_helper_3(context.c)
+                                                                                                    when (localswitch24) {
                                                                                                         0 -> {
                                                                                                             context.append()
-                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                            val localswitch26 = parse_obj_helper_3(context.c)
+                                                                                                            when (localswitch26) {
                                                                                                                 0 -> {
                                                                                                                     context.append()
                                                                                                                     continue@loop15
@@ -3896,28 +4087,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                                                 }
                                                                                 2 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_obj_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
-                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                    val localswitch24 = parse_obj_helper_3(context.c)
+                                                                                                    when (localswitch24) {
                                                                                                         0 -> {
                                                                                                             context.append()
-                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                            val localswitch26 = parse_obj_helper_3(context.c)
+                                                                                                            when (localswitch26) {
                                                                                                                 0 -> {
                                                                                                                     context.append()
-                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                    val localswitch28 = parse_obj_helper_3(context.c)
+                                                                                                                    when (localswitch28) {
                                                                                                                         0 -> {
                                                                                                                             context.append()
-                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                            val localswitch30 = parse_obj_helper_3(context.c)
+                                                                                                                            when (localswitch30) {
                                                                                                                                 0 -> {
                                                                                                                                     context.append()
-                                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                                    val localswitch32 = parse_obj_helper_3(context.c)
+                                                                                                                                    when (localswitch32) {
                                                                                                                                         0 -> {
                                                                                                                                             context.append()
-                                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                                            val localswitch34 = parse_obj_helper_3(context.c)
+                                                                                                                                            when (localswitch34) {
                                                                                                                                                 0 -> {
                                                                                                                                                     context.append()
                                                                                                                                                     continue@loop15
@@ -3972,7 +4171,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                                         }
                                                                     }
                                                                 }
-                                                                when (parse_obj_helper_15(context.c)) {
+                                                                val localswitch15 = parse_obj_helper_15(context.c)
+                                                                when (localswitch15) {
                                                                     0 -> {
                                                                         context.append()
                                                                         onSTRING_LITERAL_SINGLE_QUOTE()
@@ -4005,55 +4205,69 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                             }
                             2 -> {
                                 context.append()
-                                when (parse_obj_helper_3(context.c)) {
+                                val localswitch7 = parse_obj_helper_3(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
-                                        when (parse_obj_helper_3(context.c)) {
+                                        val localswitch9 = parse_obj_helper_3(context.c)
+                                        when (localswitch9) {
                                             0 -> {
                                                 context.append()
-                                                when (parse_obj_helper_3(context.c)) {
+                                                val localswitch11 = parse_obj_helper_3(context.c)
+                                                when (localswitch11) {
                                                     0 -> {
                                                         context.append()
-                                                        when (parse_obj_helper_3(context.c)) {
+                                                        val localswitch13 = parse_obj_helper_3(context.c)
+                                                        when (localswitch13) {
                                                             0 -> {
                                                                 context.append()
-                                                                when (parse_obj_helper_3(context.c)) {
+                                                                val localswitch15 = parse_obj_helper_3(context.c)
+                                                                when (localswitch15) {
                                                                     0 -> {
                                                                         context.append()
-                                                                        when (parse_obj_helper_3(context.c)) {
+                                                                        val localswitch17 = parse_obj_helper_3(context.c)
+                                                                        when (localswitch17) {
                                                                             0 -> {
                                                                                 context.append()
-                                                                                when (parse_obj_helper_3(context.c)) {
+                                                                                val localswitch19 = parse_obj_helper_3(context.c)
+                                                                                when (localswitch19) {
                                                                                     0 -> {
                                                                                         context.append()
-                                                                                        when (parse_obj_helper_3(context.c)) {
+                                                                                        val localswitch21 = parse_obj_helper_3(context.c)
+                                                                                        when (localswitch21) {
                                                                                             0 -> {
                                                                                                 context.append()
                                                                                                 loop23@ while (true) {
-                                                                                                    when (parse_obj_helper_14(context.c)) {
+                                                                                                    val localswitch24 = parse_obj_helper_14(context.c)
+                                                                                                    when (localswitch24) {
                                                                                                         0 -> {
                                                                                                             context.append()
                                                                                                             continue@loop23
                                                                                                         }
                                                                                                         1 -> {
                                                                                                             context.append()
-                                                                                                            when (parse_obj_helper_10(context.c)) {
+                                                                                                            val localswitch26 = parse_obj_helper_10(context.c)
+                                                                                                            when (localswitch26) {
                                                                                                                 0 -> {
                                                                                                                     context.append()
                                                                                                                     continue@loop23
                                                                                                                 }
                                                                                                                 1 -> {
                                                                                                                     context.append()
-                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                    val localswitch28 = parse_obj_helper_3(context.c)
+                                                                                                                    when (localswitch28) {
                                                                                                                         0 -> {
                                                                                                                             context.append()
-                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                            val localswitch30 = parse_obj_helper_3(context.c)
+                                                                                                                            when (localswitch30) {
                                                                                                                                 0 -> {
                                                                                                                                     context.append()
-                                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                                    val localswitch32 = parse_obj_helper_3(context.c)
+                                                                                                                                    when (localswitch32) {
                                                                                                                                         0 -> {
                                                                                                                                             context.append()
-                                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                                            val localswitch34 = parse_obj_helper_3(context.c)
+                                                                                                                                            when (localswitch34) {
                                                                                                                                                 0 -> {
                                                                                                                                                     context.append()
                                                                                                                                                     continue@loop23
@@ -4080,28 +4294,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                                                                                 }
                                                                                                                 2 -> {
                                                                                                                     context.append()
-                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                    val localswitch28 = parse_obj_helper_3(context.c)
+                                                                                                                    when (localswitch28) {
                                                                                                                         0 -> {
                                                                                                                             context.append()
-                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                            val localswitch30 = parse_obj_helper_3(context.c)
+                                                                                                                            when (localswitch30) {
                                                                                                                                 0 -> {
                                                                                                                                     context.append()
-                                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                                    val localswitch32 = parse_obj_helper_3(context.c)
+                                                                                                                                    when (localswitch32) {
                                                                                                                                         0 -> {
                                                                                                                                             context.append()
-                                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                                            val localswitch34 = parse_obj_helper_3(context.c)
+                                                                                                                                            when (localswitch34) {
                                                                                                                                                 0 -> {
                                                                                                                                                     context.append()
-                                                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                                                    val localswitch36 = parse_obj_helper_3(context.c)
+                                                                                                                                                    when (localswitch36) {
                                                                                                                                                         0 -> {
                                                                                                                                                             context.append()
-                                                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                                                            val localswitch38 = parse_obj_helper_3(context.c)
+                                                                                                                                                            when (localswitch38) {
                                                                                                                                                                 0 -> {
                                                                                                                                                                     context.append()
-                                                                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                                                                    val localswitch40 = parse_obj_helper_3(context.c)
+                                                                                                                                                                    when (localswitch40) {
                                                                                                                                                                         0 -> {
                                                                                                                                                                             context.append()
-                                                                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                                                                            val localswitch42 = parse_obj_helper_3(context.c)
+                                                                                                                                                                            when (localswitch42) {
                                                                                                                                                                                 0 -> {
                                                                                                                                                                                     context.append()
                                                                                                                                                                                     continue@loop23
@@ -4156,7 +4378,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                                                                         }
                                                                                                     }
                                                                                                 }
-                                                                                                when (parse_obj_helper_15(context.c)) {
+                                                                                                val localswitch23 = parse_obj_helper_15(context.c)
+                                                                                                when (localswitch23) {
                                                                                                     0 -> {
                                                                                                         context.append()
                                                                                                         onSTRING_LITERAL_SINGLE_QUOTE()
@@ -4214,34 +4437,41 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                     }
                     2 -> {
                         context.append()
-                        when (parse_obj_helper_15(context.c)) {
+                        val localswitch5 = parse_obj_helper_15(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
                                 loop7@ while (true) {
-                                    when (parse_obj_helper_16(context.c)) {
+                                    val localswitch8 = parse_obj_helper_16(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop7
                                         }
                                         1 -> {
                                             context.append()
-                                            when (parse_obj_helper_10(context.c)) {
+                                            val localswitch10 = parse_obj_helper_10(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
                                                     continue@loop7
                                                 }
                                                 1 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_3(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
                                                                                     continue@loop7
@@ -4268,28 +4498,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                 }
                                                 2 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_3(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_obj_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
-                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                    val localswitch24 = parse_obj_helper_3(context.c)
+                                                                                                    when (localswitch24) {
                                                                                                         0 -> {
                                                                                                             context.append()
-                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                            val localswitch26 = parse_obj_helper_3(context.c)
+                                                                                                            when (localswitch26) {
                                                                                                                 0 -> {
                                                                                                                     context.append()
                                                                                                                     continue@loop7
@@ -4341,30 +4579,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                         }
                                         2 -> {
                                             context.append()
-                                            when (parse_obj_helper_16(context.c)) {
+                                            val localswitch10 = parse_obj_helper_16(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
                                                     continue@loop7
                                                 }
                                                 1 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_10(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_10(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
                                                             continue@loop7
                                                         }
                                                         1 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
                                                                                             continue@loop7
@@ -4391,28 +4635,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                         }
                                                         2 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_3(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_obj_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
-                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                    val localswitch24 = parse_obj_helper_3(context.c)
+                                                                                                    when (localswitch24) {
                                                                                                         0 -> {
                                                                                                             context.append()
-                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                            val localswitch26 = parse_obj_helper_3(context.c)
+                                                                                                            when (localswitch26) {
                                                                                                                 0 -> {
                                                                                                                     context.append()
-                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                    val localswitch28 = parse_obj_helper_3(context.c)
+                                                                                                                    when (localswitch28) {
                                                                                                                         0 -> {
                                                                                                                             context.append()
                                                                                                                             continue@loop7
@@ -4464,30 +4716,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                 }
                                                 2 -> {
                                                     context.append()
-                                                    when (parse_obj_helper_16(context.c)) {
+                                                    val localswitch12 = parse_obj_helper_16(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
                                                             continue@loop7
                                                         }
                                                         1 -> {
                                                             context.append()
-                                                            when (parse_obj_helper_10(context.c)) {
+                                                            val localswitch14 = parse_obj_helper_10(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
                                                                     continue@loop7
                                                                 }
                                                                 1 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_obj_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
                                                                                                     continue@loop7
@@ -4514,28 +4772,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                                 }
                                                                 2 -> {
                                                                     context.append()
-                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_obj_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_obj_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_obj_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_obj_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
-                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                    val localswitch24 = parse_obj_helper_3(context.c)
+                                                                                                    when (localswitch24) {
                                                                                                         0 -> {
                                                                                                             context.append()
-                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                            val localswitch26 = parse_obj_helper_3(context.c)
+                                                                                                            when (localswitch26) {
                                                                                                                 0 -> {
                                                                                                                     context.append()
-                                                                                                                    when (parse_obj_helper_3(context.c)) {
+                                                                                                                    val localswitch28 = parse_obj_helper_3(context.c)
+                                                                                                                    when (localswitch28) {
                                                                                                                         0 -> {
                                                                                                                             context.append()
-                                                                                                                            when (parse_obj_helper_3(context.c)) {
+                                                                                                                            val localswitch30 = parse_obj_helper_3(context.c)
+                                                                                                                            when (localswitch30) {
                                                                                                                                 0 -> {
                                                                                                                                     context.append()
                                                                                                                                     continue@loop7
@@ -4630,10 +4896,12 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                         }
                     }
                 }
-                when (parse_obj_helper_17(context.c)) {
+                val localswitch3 = parse_obj_helper_17(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
-                        when (parse_obj_helper_18(context.c)) {
+                        val localswitch5 = parse_obj_helper_18(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
                                 loop7@ while (true) {
@@ -4646,10 +4914,12 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                         }
                                     }
                                 }
-                                when (parse_obj_helper_19(context.c)) {
+                                val localswitch7 = parse_obj_helper_19(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
-                                        when (parse_obj_helper_20(context.c)) {
+                                        val localswitch9 = parse_obj_helper_20(context.c)
+                                        when (localswitch9) {
                                             0 -> {
                                                 context.append()
                                                 loop11@ while (true) {
@@ -4667,7 +4937,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                             }
                                             1 -> {
                                                 context.append()
-                                                when (parse_obj_helper_21(context.c)) {
+                                                val localswitch11 = parse_obj_helper_21(context.c)
+                                                when (localswitch11) {
                                                     0 -> {
                                                         context.append()
                                                         loop13@ while (true) {
@@ -4701,7 +4972,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                             }
                             1 -> {
                                 context.append()
-                                when (parse_obj_helper_20(context.c)) {
+                                val localswitch7 = parse_obj_helper_20(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
                                         loop9@ while (true) {
@@ -4719,7 +4991,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                     }
                                     1 -> {
                                         context.append()
-                                        when (parse_obj_helper_21(context.c)) {
+                                        val localswitch9 = parse_obj_helper_21(context.c)
+                                        when (localswitch9) {
                                             0 -> {
                                                 context.append()
                                                 loop11@ while (true) {
@@ -4752,7 +5025,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                     }
                     1 -> {
                         context.append()
-                        when (parse_obj_helper_20(context.c)) {
+                        val localswitch5 = parse_obj_helper_20(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
                                 loop7@ while (true) {
@@ -4770,7 +5044,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                             }
                             1 -> {
                                 context.append()
-                                when (parse_obj_helper_21(context.c)) {
+                                val localswitch7 = parse_obj_helper_21(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
                                         loop9@ while (true) {
@@ -4804,7 +5079,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             7 -> {
                 context.append()
-                when (parse_obj_helper_22(context.c)) {
+                val localswitch3 = parse_obj_helper_22(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         loop5@ while (true) {
@@ -4817,10 +5093,12 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                 }
                             }
                         }
-                        when (parse_obj_helper_17(context.c)) {
+                        val localswitch5 = parse_obj_helper_17(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
-                                when (parse_obj_helper_18(context.c)) {
+                                val localswitch7 = parse_obj_helper_18(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
                                         loop9@ while (true) {
@@ -4833,10 +5111,12 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                 }
                                             }
                                         }
-                                        when (parse_obj_helper_19(context.c)) {
+                                        val localswitch9 = parse_obj_helper_19(context.c)
+                                        when (localswitch9) {
                                             0 -> {
                                                 context.append()
-                                                when (parse_obj_helper_20(context.c)) {
+                                                val localswitch11 = parse_obj_helper_20(context.c)
+                                                when (localswitch11) {
                                                     0 -> {
                                                         context.append()
                                                         loop13@ while (true) {
@@ -4854,7 +5134,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                                     }
                                                     1 -> {
                                                         context.append()
-                                                        when (parse_obj_helper_21(context.c)) {
+                                                        val localswitch13 = parse_obj_helper_21(context.c)
+                                                        when (localswitch13) {
                                                             0 -> {
                                                                 context.append()
                                                                 loop15@ while (true) {
@@ -4888,7 +5169,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                     }
                                     1 -> {
                                         context.append()
-                                        when (parse_obj_helper_20(context.c)) {
+                                        val localswitch9 = parse_obj_helper_20(context.c)
+                                        when (localswitch9) {
                                             0 -> {
                                                 context.append()
                                                 loop11@ while (true) {
@@ -4906,7 +5188,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                             }
                                             1 -> {
                                                 context.append()
-                                                when (parse_obj_helper_21(context.c)) {
+                                                val localswitch11 = parse_obj_helper_21(context.c)
+                                                when (localswitch11) {
                                                     0 -> {
                                                         context.append()
                                                         loop13@ while (true) {
@@ -4939,7 +5222,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                             }
                             1 -> {
                                 context.append()
-                                when (parse_obj_helper_20(context.c)) {
+                                val localswitch7 = parse_obj_helper_20(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
                                         loop9@ while (true) {
@@ -4957,7 +5241,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                     }
                                     1 -> {
                                         context.append()
-                                        when (parse_obj_helper_21(context.c)) {
+                                        val localswitch9 = parse_obj_helper_21(context.c)
+                                        when (localswitch9) {
                                             0 -> {
                                                 context.append()
                                                 loop11@ while (true) {
@@ -4991,7 +5276,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                     }
                     1 -> {
                         context.append()
-                        when (parse_obj_helper_21(context.c)) {
+                        val localswitch5 = parse_obj_helper_21(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
                                 loop7@ while (true) {
@@ -5004,10 +5290,12 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                         }
                                     }
                                 }
-                                when (parse_obj_helper_19(context.c)) {
+                                val localswitch7 = parse_obj_helper_19(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
-                                        when (parse_obj_helper_20(context.c)) {
+                                        val localswitch9 = parse_obj_helper_20(context.c)
+                                        when (localswitch9) {
                                             0 -> {
                                                 context.append()
                                                 loop11@ while (true) {
@@ -5025,7 +5313,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                             }
                                             1 -> {
                                                 context.append()
-                                                when (parse_obj_helper_21(context.c)) {
+                                                val localswitch11 = parse_obj_helper_21(context.c)
+                                                when (localswitch11) {
                                                     0 -> {
                                                         context.append()
                                                         loop13@ while (true) {
@@ -5069,7 +5358,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             8 -> {
                 context.append()
-                when (parse_obj_helper_21(context.c)) {
+                val localswitch3 = parse_obj_helper_21(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         loop5@ while (true) {
@@ -5082,10 +5372,12 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                 }
                             }
                         }
-                        when (parse_obj_helper_19(context.c)) {
+                        val localswitch5 = parse_obj_helper_19(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
-                                when (parse_obj_helper_20(context.c)) {
+                                val localswitch7 = parse_obj_helper_20(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
                                         loop9@ while (true) {
@@ -5103,7 +5395,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                     }
                                     1 -> {
                                         context.append()
-                                        when (parse_obj_helper_21(context.c)) {
+                                        val localswitch9 = parse_obj_helper_21(context.c)
+                                        when (localswitch9) {
                                             0 -> {
                                                 context.append()
                                                 loop11@ while (true) {
@@ -5142,28 +5435,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             9 -> {
                 context.append()
-                when (parse_obj_helper_23(context.c)) {
+                val localswitch3 = parse_obj_helper_23(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
-                        when (parse_obj_helper_24(context.c)) {
+                        val localswitch5 = parse_obj_helper_24(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
-                                when (parse_obj_helper_25(context.c)) {
+                                val localswitch7 = parse_obj_helper_25(context.c)
+                                when (localswitch7) {
                                     0 -> {
                                         context.append()
-                                        when (parse_obj_helper_26(context.c)) {
+                                        val localswitch9 = parse_obj_helper_26(context.c)
+                                        when (localswitch9) {
                                             0 -> {
                                                 context.append()
-                                                when (parse_obj_helper_27(context.c)) {
+                                                val localswitch11 = parse_obj_helper_27(context.c)
+                                                when (localswitch11) {
                                                     0 -> {
                                                         context.append()
-                                                        when (parse_obj_helper_28(context.c)) {
+                                                        val localswitch13 = parse_obj_helper_28(context.c)
+                                                        when (localswitch13) {
                                                             0 -> {
                                                                 context.append()
-                                                                when (parse_obj_helper_29(context.c)) {
+                                                                val localswitch15 = parse_obj_helper_29(context.c)
+                                                                when (localswitch15) {
                                                                     0 -> {
                                                                         context.append()
-                                                                        when (parse_obj_helper_25(context.c)) {
+                                                                        val localswitch17 = parse_obj_helper_25(context.c)
+                                                                        when (localswitch17) {
                                                                             0 -> {
                                                                                 context.append()
                                                                                 onBOOLEAN()
@@ -5216,98 +5517,98 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_0(c: Int): Int {
-    if (c < 0x22) {
+private fun parse_obj_helper_0(c: Int): Int {
+    if (c <0x22) {
         return 10
     } else if (c <= 0x22) {
         return 4
-    } else if (c < 0x27) {
+    } else if (c <0x27) {
         return 10
     } else if (c <= 0x27) {
         return 5
-    } else if (c < 0x2b) {
+    } else if (c <0x2b) {
         return 10
     } else if (c <= 0x2b) {
         return 7
-    } else if (c < 0x2d) {
+    } else if (c <0x2d) {
         return 10
     } else if (c <= 0x2d) {
         return 7
-    } else if (c < 0x2e) {
+    } else if (c <0x2e) {
         return 10
     } else if (c <= 0x2e) {
         return 8
-    } else if (c < 0x30) {
+    } else if (c <0x30) {
         return 10
     } else if (c <= 0x39) {
         return 6
-    } else if (c < 0x3a) {
+    } else if (c <0x3a) {
         return 10
     } else if (c <= 0x3a) {
         return 2
-    } else if (c < 0x3c) {
+    } else if (c <0x3c) {
         return 10
     } else if (c <= 0x3c) {
         return 0
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 10
     } else if (c <= 0x5a) {
         return 1
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 10
     } else if (c <= 0x5f) {
         return 3
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 10
     } else if (c <= 0x7a) {
         return 1
     } else if (c <= 0x74) {
         return 9
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 10
     } else if (c <= 0xd6) {
         return 1
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 10
     } else if (c <= 0xf6) {
         return 1
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 10
     } else if (c <= 0x2ff) {
         return 1
-    } else if (c < 0x370) {
+    } else if (c <0x370) {
         return 10
     } else if (c <= 0x37d) {
         return 1
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 10
     } else if (c <= 0x1fff) {
         return 1
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 10
     } else if (c <= 0x200d) {
         return 1
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 10
     } else if (c <= 0x218f) {
         return 1
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 10
     } else if (c <= 0x2fef) {
         return 1
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 10
     } else if (c <= 0xd7ff) {
         return 1
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 10
     } else if (c <= 0xfdcf) {
         return 1
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 10
     } else if (c <= 0xfffd) {
         return 1
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 10
     } else if (c <= 0x1fffff) {
         return 1
@@ -5315,40 +5616,40 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 10
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_1(c: Int): Int {
-    if (c < 0x21) {
+private fun parse_obj_helper_1(c: Int): Int {
+    if (c <0x21) {
         return 2
     } else if (c <= 0x21) {
         return 0
-    } else if (c < 0x23) {
+    } else if (c <0x23) {
         return 2
     } else if (c <= 0x3b) {
         return 0
-    } else if (c < 0x3d) {
+    } else if (c <0x3d) {
         return 2
     } else if (c <= 0x3d) {
         return 0
-    } else if (c < 0x3f) {
+    } else if (c <0x3f) {
         return 2
     } else if (c <= 0x5b) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 2
     } else if (c <= 0x5c) {
         return 1
-    } else if (c < 0x5d) {
+    } else if (c <0x5d) {
         return 2
     } else if (c <= 0x5d) {
         return 0
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 2
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 2
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0x7e) {
+    } else if (c <0x7e) {
         return 2
     } else if (c <= 0x1fffff) {
         return 0
@@ -5357,112 +5658,112 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_2(c: Int): Int {
-    return if (c < 0x55) {
-        2
+    if (c <0x55) {
+        return 2
     } else if (c <= 0x55) {
-        1
-    } else if (c < 0x75) {
-        2
+        return 1
+    } else if (c <0x75) {
+        return 2
     } else if (c <= 0x75) {
-        0
+        return 0
     } else {
-        2
+        return 2
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_3(c: Int): Int {
-    return if (c < 0x30) {
-        1
+    if (c <0x30) {
+        return 1
     } else if (c <= 0x39) {
-        0
-    } else if (c < 0x41) {
-        1
+        return 0
+    } else if (c <0x41) {
+        return 1
     } else if (c <= 0x46) {
-        0
-    } else if (c < 0x61) {
-        1
+        return 0
+    } else if (c <0x61) {
+        return 1
     } else if (c <= 0x66) {
-        0
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_4(c: Int): Int {
-    return if (c == 0x3e) {
-        0
+    if (c == 0x3e) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_5(c: Int): Int {
-    if (c < 0x2d) {
+private fun parse_obj_helper_5(c: Int): Int {
+    if (c <0x2d) {
         return 1
     } else if (c <= 0x2d) {
         return 0
-    } else if (c < 0x30) {
+    } else if (c <0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 1
     } else if (c <= 0x5a) {
         return 0
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 1
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0xb7) {
+    } else if (c <0xb7) {
         return 1
     } else if (c <= 0xb7) {
         return 0
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 1
     } else if (c <= 0xd6) {
         return 0
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 1
     } else if (c <= 0xf6) {
         return 0
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 1
     } else if (c <= 0x37d) {
         return 0
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 1
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 1
     } else if (c <= 0x200d) {
         return 0
-    } else if (c < 0x203f) {
+    } else if (c <0x203f) {
         return 1
     } else if (c <= 0x2040) {
         return 0
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 1
     } else if (c <= 0x218f) {
         return 0
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 1
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 1
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 1
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 1
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 1
     } else if (c <= 0x1fffff) {
         return 0
@@ -5471,74 +5772,74 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_6(c: Int): Int {
-    return if (c == 0x3a) {
-        0
+    if (c == 0x3a) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_7(c: Int): Int {
-    if (c < 0x30) {
+private fun parse_obj_helper_7(c: Int): Int {
+    if (c <0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 1
     } else if (c <= 0x5a) {
         return 0
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 1
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 1
     } else if (c <= 0xd6) {
         return 0
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 1
     } else if (c <= 0xf6) {
         return 0
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 1
     } else if (c <= 0x2ff) {
         return 0
-    } else if (c < 0x370) {
+    } else if (c <0x370) {
         return 1
     } else if (c <= 0x37d) {
         return 0
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 1
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 1
     } else if (c <= 0x200d) {
         return 0
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 1
     } else if (c <= 0x218f) {
         return 0
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 1
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 1
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 1
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 1
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 1
     } else if (c <= 0x1fffff) {
         return 0
@@ -5546,30 +5847,30 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_8(c: Int): Int {
+private fun parse_obj_helper_8(c: Int): Int {
     if (c <= 0x9) {
         return 0
-    } else if (c < 0xb) {
+    } else if (c <0xb) {
         return 3
     } else if (c <= 0xc) {
         return 0
-    } else if (c < 0xe) {
+    } else if (c <0xe) {
         return 3
     } else if (c <= 0x21) {
         return 0
-    } else if (c < 0x22) {
+    } else if (c <0x22) {
         return 3
     } else if (c <= 0x22) {
         return 2
-    } else if (c < 0x23) {
+    } else if (c <0x23) {
         return 3
     } else if (c <= 0x5b) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 1
-    } else if (c < 0x5d) {
+    } else if (c <0x5d) {
         return 3
     } else if (c <= 0x1fffff) {
         return 0
@@ -5577,26 +5878,26 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 3
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_9(c: Int): Int {
+private fun parse_obj_helper_9(c: Int): Int {
     if (c <= 0x9) {
         return 0
-    } else if (c < 0xb) {
+    } else if (c <0xb) {
         return 2
     } else if (c <= 0xc) {
         return 0
-    } else if (c < 0xe) {
+    } else if (c <0xe) {
         return 2
     } else if (c <= 0x21) {
         return 0
-    } else if (c < 0x23) {
+    } else if (c <0x23) {
         return 2
     } else if (c <= 0x5b) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 2
     } else if (c <= 0x5c) {
         return 1
-    } else if (c < 0x5d) {
+    } else if (c <0x5d) {
         return 2
     } else if (c <= 0x1fffff) {
         return 0
@@ -5604,44 +5905,44 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_10(c: Int): Int {
-    if (c < 0x22) {
+private fun parse_obj_helper_10(c: Int): Int {
+    if (c <0x22) {
         return 3
     } else if (c <= 0x22) {
         return 0
-    } else if (c < 0x27) {
+    } else if (c <0x27) {
         return 3
     } else if (c <= 0x27) {
         return 0
-    } else if (c < 0x55) {
+    } else if (c <0x55) {
         return 3
     } else if (c <= 0x55) {
         return 2
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 0
-    } else if (c < 0x62) {
+    } else if (c <0x62) {
         return 3
     } else if (c <= 0x62) {
         return 0
-    } else if (c < 0x66) {
+    } else if (c <0x66) {
         return 3
     } else if (c <= 0x66) {
         return 0
-    } else if (c < 0x6e) {
+    } else if (c <0x6e) {
         return 3
     } else if (c <= 0x6e) {
         return 0
-    } else if (c < 0x72) {
+    } else if (c <0x72) {
         return 3
     } else if (c <= 0x72) {
         return 0
-    } else if (c < 0x74) {
+    } else if (c <0x74) {
         return 3
     } else if (c <= 0x74) {
         return 0
-    } else if (c < 0x75) {
+    } else if (c <0x75) {
         return 3
     } else if (c <= 0x75) {
         return 1
@@ -5650,28 +5951,28 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_11(c: Int): Int {
-    return if (c == 0x22) {
-        0
+    if (c == 0x22) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_12(c: Int): Int {
+private fun parse_obj_helper_12(c: Int): Int {
     if (c <= 0x21) {
         return 0
-    } else if (c < 0x22) {
+    } else if (c <0x22) {
         return 3
     } else if (c <= 0x22) {
         return 2
-    } else if (c < 0x23) {
+    } else if (c <0x23) {
         return 3
     } else if (c <= 0x5b) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 1
-    } else if (c < 0x5d) {
+    } else if (c <0x5d) {
         return 3
     } else if (c <= 0x1fffff) {
         return 0
@@ -5679,30 +5980,30 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 3
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_13(c: Int): Int {
+private fun parse_obj_helper_13(c: Int): Int {
     if (c <= 0x9) {
         return 0
-    } else if (c < 0xb) {
+    } else if (c <0xb) {
         return 3
     } else if (c <= 0xc) {
         return 0
-    } else if (c < 0xe) {
+    } else if (c <0xe) {
         return 3
     } else if (c <= 0x26) {
         return 0
-    } else if (c < 0x27) {
+    } else if (c <0x27) {
         return 3
     } else if (c <= 0x27) {
         return 2
-    } else if (c < 0x28) {
+    } else if (c <0x28) {
         return 3
     } else if (c <= 0x5b) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 1
-    } else if (c < 0x5d) {
+    } else if (c <0x5d) {
         return 3
     } else if (c <= 0x1fffff) {
         return 0
@@ -5710,26 +6011,26 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 3
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_14(c: Int): Int {
+private fun parse_obj_helper_14(c: Int): Int {
     if (c <= 0x9) {
         return 0
-    } else if (c < 0xb) {
+    } else if (c <0xb) {
         return 2
     } else if (c <= 0xc) {
         return 0
-    } else if (c < 0xe) {
+    } else if (c <0xe) {
         return 2
     } else if (c <= 0x26) {
         return 0
-    } else if (c < 0x28) {
+    } else if (c <0x28) {
         return 2
     } else if (c <= 0x5b) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 2
     } else if (c <= 0x5c) {
         return 1
-    } else if (c < 0x5d) {
+    } else if (c <0x5d) {
         return 2
     } else if (c <= 0x1fffff) {
         return 0
@@ -5738,28 +6039,28 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_15(c: Int): Int {
-    return if (c == 0x27) {
-        0
+    if (c == 0x27) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_16(c: Int): Int {
+private fun parse_obj_helper_16(c: Int): Int {
     if (c <= 0x26) {
         return 0
-    } else if (c < 0x27) {
+    } else if (c <0x27) {
         return 3
     } else if (c <= 0x27) {
         return 2
-    } else if (c < 0x28) {
+    } else if (c <0x28) {
         return 3
     } else if (c <= 0x5b) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 1
-    } else if (c < 0x5d) {
+    } else if (c <0x5d) {
         return 3
     } else if (c <= 0x1fffff) {
         return 0
@@ -5768,141 +6069,141 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_17(c: Int): Int {
-    return if (c < 0x2e) {
-        2
+    if (c <0x2e) {
+        return 2
     } else if (c <= 0x2e) {
-        0
-    } else if (c < 0x45) {
-        2
+        return 0
+    } else if (c <0x45) {
+        return 2
     } else if (c <= 0x45) {
-        1
-    } else if (c < 0x65) {
-        2
+        return 1
+    } else if (c <0x65) {
+        return 2
     } else if (c <= 0x65) {
-        1
+        return 1
     } else {
-        2
+        return 2
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_18(c: Int): Int {
-    return if (c < 0x30) {
-        2
+    if (c <0x30) {
+        return 2
     } else if (c <= 0x39) {
-        0
-    } else if (c < 0x45) {
-        2
+        return 0
+    } else if (c <0x45) {
+        return 2
     } else if (c <= 0x45) {
-        1
-    } else if (c < 0x65) {
-        2
+        return 1
+    } else if (c <0x65) {
+        return 2
     } else if (c <= 0x65) {
-        1
+        return 1
     } else {
-        2
+        return 2
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_19(c: Int): Int {
-    return if (c < 0x45) {
-        1
+    if (c <0x45) {
+        return 1
     } else if (c <= 0x45) {
-        0
-    } else if (c < 0x65) {
-        1
+        return 0
+    } else if (c <0x65) {
+        return 1
     } else if (c <= 0x65) {
-        0
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_20(c: Int): Int {
-    return if (c < 0x2b) {
-        2
+    if (c <0x2b) {
+        return 2
     } else if (c <= 0x2b) {
-        1
-    } else if (c < 0x2d) {
-        2
+        return 1
+    } else if (c <0x2d) {
+        return 2
     } else if (c <= 0x2d) {
-        1
-    } else if (c < 0x30) {
-        2
+        return 1
+    } else if (c <0x30) {
+        return 2
     } else if (c <= 0x39) {
-        0
+        return 0
     } else {
-        2
+        return 2
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_21(c: Int): Int {
-    return if (c < 0x30) {
-        1
+    if (c <0x30) {
+        return 1
     } else if (c <= 0x39) {
-        0
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_22(c: Int): Int {
-    return if (c < 0x2e) {
-        2
+    if (c <0x2e) {
+        return 2
     } else if (c <= 0x2e) {
-        1
-    } else if (c < 0x30) {
-        2
+        return 1
+    } else if (c <0x30) {
+        return 2
     } else if (c <= 0x39) {
-        0
+        return 0
     } else {
-        2
+        return 2
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_23(c: Int): Int {
-    return if (c == 0x72) {
-        0
+    if (c == 0x72) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_24(c: Int): Int {
-    return if (c == 0x75) {
-        0
+    if (c == 0x75) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_25(c: Int): Int {
-    return if (c == 0x65) {
-        0
+    if (c == 0x65) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_26(c: Int): Int {
-    return if (c == 0x66) {
-        0
+    if (c == 0x66) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_27(c: Int): Int {
-    return if (c == 0x61) {
-        0
+    if (c == 0x61) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_28(c: Int): Int {
-    return if (c == 0x6c) {
-        0
+    if (c == 0x6c) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_29(c: Int): Int {
-    return if (c == 0x73) {
-        0
+    if (c == 0x73) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end(
+internal inline fun parse_triple_end(
     context: ParserContext,
     crossinline onPREDICATE_LIST1: () -> Unit,
     crossinline onOBJECT_LIST1: () -> Unit,
@@ -5910,7 +6211,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
 ) {
     context.clear()
     error@ while (true) {
-        when (parse_triple_end_helper_0(context.c)) {
+        val localswitch1 = parse_triple_end_helper_0(context.c)
+        when (localswitch1) {
             0 -> {
                 context.append()
                 onPREDICATE_LIST1()
@@ -5934,23 +6236,23 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     throw ParserExceptionUnexpectedChar(context)
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_helper_0(c: Int): Int {
-    return if (c < 0x2c) {
-        3
+    if (c <0x2c) {
+        return 3
     } else if (c <= 0x2c) {
-        1
-    } else if (c < 0x2e) {
-        3
+        return 1
+    } else if (c <0x2e) {
+        return 3
     } else if (c <= 0x2e) {
-        2
-    } else if (c < 0x3b) {
-        3
+        return 2
+    } else if (c <0x3b) {
+        return 3
     } else if (c <= 0x3b) {
-        0
+        return 0
     } else {
-        3
+        return 3
     }
 }
-@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_iri(
+internal inline fun parse_triple_end_or_object_iri(
     context: ParserContext,
     crossinline onPN_LOCAL: () -> Unit,
     crossinline onPREDICATE_LIST1: () -> Unit,
@@ -5960,7 +6262,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
 ) {
     context.clear()
     error@ while (true) {
-        when (parse_triple_end_or_object_iri_helper_0(context.c)) {
+        val localswitch1 = parse_triple_end_or_object_iri_helper_0(context.c)
+        when (localswitch1) {
             0 -> {
                 context.append()
                 loop3@ while (true) {
@@ -5974,17 +6277,20 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                             }
                         }
                     }
-                    when (parse_triple_end_or_object_iri_helper_1(context.c)) {
+                    val localswitch4 = parse_triple_end_or_object_iri_helper_1(context.c)
+                    when (localswitch4) {
                         0 -> {
                             context.append()
                             continue@loop3
                         }
                         1 -> {
                             context.append()
-                            when (parse_triple_end_or_object_iri_helper_2(context.c)) {
+                            val localswitch6 = parse_triple_end_or_object_iri_helper_2(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
-                                    when (parse_triple_end_or_object_iri_helper_2(context.c)) {
+                                    val localswitch8 = parse_triple_end_or_object_iri_helper_2(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop3
@@ -6001,7 +6307,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                         }
                         2 -> {
                             context.append()
-                            when (parse_triple_end_or_object_iri_helper_3(context.c)) {
+                            val localswitch6 = parse_triple_end_or_object_iri_helper_3(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
                                     continue@loop3
@@ -6021,10 +6328,12 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             1 -> {
                 context.append()
-                when (parse_triple_end_or_object_iri_helper_2(context.c)) {
+                val localswitch3 = parse_triple_end_or_object_iri_helper_2(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
-                        when (parse_triple_end_or_object_iri_helper_2(context.c)) {
+                        val localswitch5 = parse_triple_end_or_object_iri_helper_2(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
                                 loop7@ while (true) {
@@ -6038,17 +6347,20 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                             }
                                         }
                                     }
-                                    when (parse_triple_end_or_object_iri_helper_1(context.c)) {
+                                    val localswitch8 = parse_triple_end_or_object_iri_helper_1(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop7
                                         }
                                         1 -> {
                                             context.append()
-                                            when (parse_triple_end_or_object_iri_helper_2(context.c)) {
+                                            val localswitch10 = parse_triple_end_or_object_iri_helper_2(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_triple_end_or_object_iri_helper_2(context.c)) {
+                                                    val localswitch12 = parse_triple_end_or_object_iri_helper_2(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
                                                             continue@loop7
@@ -6065,7 +6377,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                         }
                                         2 -> {
                                             context.append()
-                                            when (parse_triple_end_or_object_iri_helper_3(context.c)) {
+                                            val localswitch10 = parse_triple_end_or_object_iri_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
                                                     continue@loop7
@@ -6095,7 +6408,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             2 -> {
                 context.append()
-                when (parse_triple_end_or_object_iri_helper_3(context.c)) {
+                val localswitch3 = parse_triple_end_or_object_iri_helper_3(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         loop5@ while (true) {
@@ -6109,17 +6423,20 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                     }
                                 }
                             }
-                            when (parse_triple_end_or_object_iri_helper_1(context.c)) {
+                            val localswitch6 = parse_triple_end_or_object_iri_helper_1(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
                                     continue@loop5
                                 }
                                 1 -> {
                                     context.append()
-                                    when (parse_triple_end_or_object_iri_helper_2(context.c)) {
+                                    val localswitch8 = parse_triple_end_or_object_iri_helper_2(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
-                                            when (parse_triple_end_or_object_iri_helper_2(context.c)) {
+                                            val localswitch10 = parse_triple_end_or_object_iri_helper_2(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
                                                     continue@loop5
@@ -6136,7 +6453,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                 }
                                 2 -> {
                                     context.append()
-                                    when (parse_triple_end_or_object_iri_helper_3(context.c)) {
+                                    val localswitch8 = parse_triple_end_or_object_iri_helper_3(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop5
@@ -6196,100 +6514,100 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_iri_helper_0(c: Int): Int {
-    if (c < 0x9) {
+private fun parse_triple_end_or_object_iri_helper_0(c: Int): Int {
+    if (c <0x9) {
         return 7
     } else if (c <= 0xa) {
         return 6
-    } else if (c < 0xd) {
+    } else if (c <0xd) {
         return 7
     } else if (c <= 0xd) {
         return 6
-    } else if (c < 0x20) {
+    } else if (c <0x20) {
         return 7
     } else if (c <= 0x20) {
         return 6
-    } else if (c < 0x25) {
+    } else if (c <0x25) {
         return 7
     } else if (c <= 0x25) {
         return 1
-    } else if (c < 0x2c) {
+    } else if (c <0x2c) {
         return 7
     } else if (c <= 0x2c) {
         return 4
-    } else if (c < 0x2e) {
+    } else if (c <0x2e) {
         return 7
     } else if (c <= 0x2e) {
         return 5
-    } else if (c < 0x30) {
+    } else if (c <0x30) {
         return 7
     } else if (c <= 0x3a) {
         return 0
-    } else if (c < 0x3b) {
+    } else if (c <0x3b) {
         return 7
     } else if (c <= 0x3b) {
         return 3
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 7
     } else if (c <= 0x5a) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 7
     } else if (c <= 0x5c) {
         return 2
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 7
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 7
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 7
     } else if (c <= 0xd6) {
         return 0
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 7
     } else if (c <= 0xf6) {
         return 0
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 7
     } else if (c <= 0x2ff) {
         return 0
-    } else if (c < 0x370) {
+    } else if (c <0x370) {
         return 7
     } else if (c <= 0x37d) {
         return 0
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 7
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 7
     } else if (c <= 0x200d) {
         return 0
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 7
     } else if (c <= 0x218f) {
         return 0
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 7
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 7
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 7
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 7
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 7
     } else if (c <= 0x1fffff) {
         return 0
@@ -6297,84 +6615,84 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 7
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_iri_helper_1(c: Int): Int {
-    if (c < 0x25) {
+private fun parse_triple_end_or_object_iri_helper_1(c: Int): Int {
+    if (c <0x25) {
         return 3
     } else if (c <= 0x25) {
         return 1
-    } else if (c < 0x2d) {
+    } else if (c <0x2d) {
         return 3
     } else if (c <= 0x2d) {
         return 0
-    } else if (c < 0x30) {
+    } else if (c <0x30) {
         return 3
     } else if (c <= 0x3a) {
         return 0
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 3
     } else if (c <= 0x5a) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 2
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 3
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 3
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0xb7) {
+    } else if (c <0xb7) {
         return 3
     } else if (c <= 0xb7) {
         return 0
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 3
     } else if (c <= 0xd6) {
         return 0
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 3
     } else if (c <= 0xf6) {
         return 0
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 3
     } else if (c <= 0x37d) {
         return 0
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 3
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 3
     } else if (c <= 0x200d) {
         return 0
-    } else if (c < 0x203f) {
+    } else if (c <0x203f) {
         return 3
     } else if (c <= 0x2040) {
         return 0
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 3
     } else if (c <= 0x218f) {
         return 0
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 3
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 3
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 3
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 3
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 3
     } else if (c <= 0x1fffff) {
         return 0
@@ -6383,48 +6701,48 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_iri_helper_2(c: Int): Int {
-    return if (c < 0x30) {
-        1
+    if (c <0x30) {
+        return 1
     } else if (c <= 0x39) {
-        0
-    } else if (c < 0x41) {
-        1
+        return 0
+    } else if (c <0x41) {
+        return 1
     } else if (c <= 0x46) {
-        0
-    } else if (c < 0x61) {
-        1
+        return 0
+    } else if (c <0x61) {
+        return 1
     } else if (c <= 0x66) {
-        0
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_iri_helper_3(c: Int): Int {
-    if (c < 0x21) {
+private fun parse_triple_end_or_object_iri_helper_3(c: Int): Int {
+    if (c <0x21) {
         return 1
     } else if (c <= 0x21) {
         return 0
-    } else if (c < 0x23) {
+    } else if (c <0x23) {
         return 1
     } else if (c <= 0x2f) {
         return 0
-    } else if (c < 0x3b) {
+    } else if (c <0x3b) {
         return 1
     } else if (c <= 0x3b) {
         return 0
-    } else if (c < 0x3d) {
+    } else if (c <0x3d) {
         return 1
     } else if (c <= 0x3d) {
         return 0
-    } else if (c < 0x3f) {
+    } else if (c <0x3f) {
         return 1
     } else if (c <= 0x40) {
         return 0
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x7e) {
+    } else if (c <0x7e) {
         return 1
     } else if (c <= 0x7e) {
         return 0
@@ -6432,7 +6750,7 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_string(
+internal inline fun parse_triple_end_or_object_string(
     context: ParserContext,
     crossinline onLANGTAG: () -> Unit,
     crossinline onIRI1: () -> Unit,
@@ -6443,10 +6761,12 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
 ) {
     context.clear()
     error@ while (true) {
-        when (parse_triple_end_or_object_string_helper_0(context.c)) {
+        val localswitch1 = parse_triple_end_or_object_string_helper_0(context.c)
+        when (localswitch1) {
             0 -> {
                 context.append()
-                when (parse_triple_end_or_object_string_helper_1(context.c)) {
+                val localswitch3 = parse_triple_end_or_object_string_helper_1(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         loop5@ while (true) {
@@ -6460,10 +6780,12 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                             }
                         }
                         loop5@ while (true) {
-                            when (parse_triple_end_or_object_string_helper_2(context.c)) {
+                            val localswitch6 = parse_triple_end_or_object_string_helper_2(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
-                                    when (parse_triple_end_or_object_string_helper_3(context.c)) {
+                                    val localswitch8 = parse_triple_end_or_object_string_helper_3(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             loop10@ while (true) {
@@ -6498,7 +6820,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             1 -> {
                 context.append()
-                when (parse_triple_end_or_object_string_helper_4(context.c)) {
+                val localswitch3 = parse_triple_end_or_object_string_helper_4(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         onIRI1()
@@ -6546,36 +6869,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_helper_0(c: Int): Int {
-    if (c < 0x9) {
+private fun parse_triple_end_or_object_string_helper_0(c: Int): Int {
+    if (c <0x9) {
         return 6
     } else if (c <= 0xa) {
         return 5
-    } else if (c < 0xd) {
+    } else if (c <0xd) {
         return 6
     } else if (c <= 0xd) {
         return 5
-    } else if (c < 0x20) {
+    } else if (c <0x20) {
         return 6
     } else if (c <= 0x20) {
         return 5
-    } else if (c < 0x2c) {
+    } else if (c <0x2c) {
         return 6
     } else if (c <= 0x2c) {
         return 3
-    } else if (c < 0x2e) {
+    } else if (c <0x2e) {
         return 6
     } else if (c <= 0x2e) {
         return 4
-    } else if (c < 0x3b) {
+    } else if (c <0x3b) {
         return 6
     } else if (c <= 0x3b) {
         return 2
-    } else if (c < 0x40) {
+    } else if (c <0x40) {
         return 6
     } else if (c <= 0x40) {
         return 0
-    } else if (c < 0x5e) {
+    } else if (c <0x5e) {
         return 6
     } else if (c <= 0x5e) {
         return 1
@@ -6584,80 +6907,87 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_helper_1(c: Int): Int {
-    return if (c < 0x41) {
-        1
+    if (c <0x41) {
+        return 1
     } else if (c <= 0x5a) {
-        0
-    } else if (c < 0x61) {
-        1
+        return 0
+    } else if (c <0x61) {
+        return 1
     } else if (c <= 0x7a) {
-        0
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_helper_2(c: Int): Int {
-    return if (c == 0x2d) {
-        0
+    if (c == 0x2d) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_helper_3(c: Int): Int {
-    return if (c < 0x30) {
-        1
+    if (c <0x30) {
+        return 1
     } else if (c <= 0x39) {
-        0
-    } else if (c < 0x41) {
-        1
+        return 0
+    } else if (c <0x41) {
+        return 1
     } else if (c <= 0x5a) {
-        0
-    } else if (c < 0x61) {
-        1
+        return 0
+    } else if (c <0x61) {
+        return 1
     } else if (c <= 0x7a) {
-        0
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_helper_4(c: Int): Int {
-    return if (c == 0x5e) {
-        0
+    if (c == 0x5e) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_string_typed(
+internal inline fun parse_triple_end_or_object_string_typed(
     context: ParserContext,
     crossinline onIRIREF: () -> Unit,
     crossinline onPNAME_NS: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
-        when (parse_triple_end_or_object_string_typed_helper_0(context.c)) {
+        val localswitch1 = parse_triple_end_or_object_string_typed_helper_0(context.c)
+        when (localswitch1) {
             0 -> {
                 context.append()
                 loop3@ while (true) {
-                    when (parse_triple_end_or_object_string_typed_helper_1(context.c)) {
+                    val localswitch4 = parse_triple_end_or_object_string_typed_helper_1(context.c)
+                    when (localswitch4) {
                         0 -> {
                             context.append()
                             continue@loop3
                         }
                         1 -> {
                             context.append()
-                            when (parse_triple_end_or_object_string_typed_helper_2(context.c)) {
+                            val localswitch6 = parse_triple_end_or_object_string_typed_helper_2(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
-                                    when (parse_triple_end_or_object_string_typed_helper_3(context.c)) {
+                                    val localswitch8 = parse_triple_end_or_object_string_typed_helper_3(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
-                                            when (parse_triple_end_or_object_string_typed_helper_3(context.c)) {
+                                            val localswitch10 = parse_triple_end_or_object_string_typed_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_triple_end_or_object_string_typed_helper_3(context.c)) {
+                                                    val localswitch12 = parse_triple_end_or_object_string_typed_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_triple_end_or_object_string_typed_helper_3(context.c)) {
+                                                            val localswitch14 = parse_triple_end_or_object_string_typed_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
                                                                     continue@loop3
@@ -6684,28 +7014,36 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                 }
                                 1 -> {
                                     context.append()
-                                    when (parse_triple_end_or_object_string_typed_helper_3(context.c)) {
+                                    val localswitch8 = parse_triple_end_or_object_string_typed_helper_3(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
-                                            when (parse_triple_end_or_object_string_typed_helper_3(context.c)) {
+                                            val localswitch10 = parse_triple_end_or_object_string_typed_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_triple_end_or_object_string_typed_helper_3(context.c)) {
+                                                    val localswitch12 = parse_triple_end_or_object_string_typed_helper_3(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
-                                                            when (parse_triple_end_or_object_string_typed_helper_3(context.c)) {
+                                                            val localswitch14 = parse_triple_end_or_object_string_typed_helper_3(context.c)
+                                                            when (localswitch14) {
                                                                 0 -> {
                                                                     context.append()
-                                                                    when (parse_triple_end_or_object_string_typed_helper_3(context.c)) {
+                                                                    val localswitch16 = parse_triple_end_or_object_string_typed_helper_3(context.c)
+                                                                    when (localswitch16) {
                                                                         0 -> {
                                                                             context.append()
-                                                                            when (parse_triple_end_or_object_string_typed_helper_3(context.c)) {
+                                                                            val localswitch18 = parse_triple_end_or_object_string_typed_helper_3(context.c)
+                                                                            when (localswitch18) {
                                                                                 0 -> {
                                                                                     context.append()
-                                                                                    when (parse_triple_end_or_object_string_typed_helper_3(context.c)) {
+                                                                                    val localswitch20 = parse_triple_end_or_object_string_typed_helper_3(context.c)
+                                                                                    when (localswitch20) {
                                                                                         0 -> {
                                                                                             context.append()
-                                                                                            when (parse_triple_end_or_object_string_typed_helper_3(context.c)) {
+                                                                                            val localswitch22 = parse_triple_end_or_object_string_typed_helper_3(context.c)
+                                                                                            when (localswitch22) {
                                                                                                 0 -> {
                                                                                                     context.append()
                                                                                                     continue@loop3
@@ -6760,7 +7098,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                         }
                     }
                 }
-                when (parse_triple_end_or_object_string_typed_helper_4(context.c)) {
+                val localswitch3 = parse_triple_end_or_object_string_typed_helper_4(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         onIRIREF()
@@ -6784,7 +7123,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                             }
                         }
                     }
-                    when (parse_triple_end_or_object_string_typed_helper_5(context.c)) {
+                    val localswitch4 = parse_triple_end_or_object_string_typed_helper_5(context.c)
+                    when (localswitch4) {
                         0 -> {
                             context.append()
                             continue@loop3
@@ -6794,7 +7134,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                         }
                     }
                 }
-                when (parse_triple_end_or_object_string_typed_helper_6(context.c)) {
+                val localswitch3 = parse_triple_end_or_object_string_typed_helper_6(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         onPNAME_NS()
@@ -6817,68 +7158,68 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_typed_helper_0(c: Int): Int {
-    if (c < 0x3a) {
+private fun parse_triple_end_or_object_string_typed_helper_0(c: Int): Int {
+    if (c <0x3a) {
         return 3
     } else if (c <= 0x3a) {
         return 2
-    } else if (c < 0x3c) {
+    } else if (c <0x3c) {
         return 3
     } else if (c <= 0x3c) {
         return 0
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 3
     } else if (c <= 0x5a) {
         return 1
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 3
     } else if (c <= 0x7a) {
         return 1
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 3
     } else if (c <= 0xd6) {
         return 1
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 3
     } else if (c <= 0xf6) {
         return 1
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 3
     } else if (c <= 0x2ff) {
         return 1
-    } else if (c < 0x370) {
+    } else if (c <0x370) {
         return 3
     } else if (c <= 0x37d) {
         return 1
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 3
     } else if (c <= 0x1fff) {
         return 1
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 3
     } else if (c <= 0x200d) {
         return 1
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 3
     } else if (c <= 0x218f) {
         return 1
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 3
     } else if (c <= 0x2fef) {
         return 1
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 3
     } else if (c <= 0xd7ff) {
         return 1
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 3
     } else if (c <= 0xfdcf) {
         return 1
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 3
     } else if (c <= 0xfffd) {
         return 1
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 3
     } else if (c <= 0x1fffff) {
         return 1
@@ -6886,40 +7227,40 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 3
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_typed_helper_1(c: Int): Int {
-    if (c < 0x21) {
+private fun parse_triple_end_or_object_string_typed_helper_1(c: Int): Int {
+    if (c <0x21) {
         return 2
     } else if (c <= 0x21) {
         return 0
-    } else if (c < 0x23) {
+    } else if (c <0x23) {
         return 2
     } else if (c <= 0x3b) {
         return 0
-    } else if (c < 0x3d) {
+    } else if (c <0x3d) {
         return 2
     } else if (c <= 0x3d) {
         return 0
-    } else if (c < 0x3f) {
+    } else if (c <0x3f) {
         return 2
     } else if (c <= 0x5b) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 2
     } else if (c <= 0x5c) {
         return 1
-    } else if (c < 0x5d) {
+    } else if (c <0x5d) {
         return 2
     } else if (c <= 0x5d) {
         return 0
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 2
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 2
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0x7e) {
+    } else if (c <0x7e) {
         return 2
     } else if (c <= 0x1fffff) {
         return 0
@@ -6928,112 +7269,112 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_typed_helper_2(c: Int): Int {
-    return if (c < 0x55) {
-        2
+    if (c <0x55) {
+        return 2
     } else if (c <= 0x55) {
-        1
-    } else if (c < 0x75) {
-        2
+        return 1
+    } else if (c <0x75) {
+        return 2
     } else if (c <= 0x75) {
-        0
+        return 0
     } else {
-        2
+        return 2
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_typed_helper_3(c: Int): Int {
-    return if (c < 0x30) {
-        1
+    if (c <0x30) {
+        return 1
     } else if (c <= 0x39) {
-        0
-    } else if (c < 0x41) {
-        1
+        return 0
+    } else if (c <0x41) {
+        return 1
     } else if (c <= 0x46) {
-        0
-    } else if (c < 0x61) {
-        1
+        return 0
+    } else if (c <0x61) {
+        return 1
     } else if (c <= 0x66) {
-        0
+        return 0
     } else {
-        1
+        return 1
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_typed_helper_4(c: Int): Int {
-    return if (c == 0x3e) {
-        0
+    if (c == 0x3e) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_typed_helper_5(c: Int): Int {
-    if (c < 0x2d) {
+private fun parse_triple_end_or_object_string_typed_helper_5(c: Int): Int {
+    if (c <0x2d) {
         return 1
     } else if (c <= 0x2d) {
         return 0
-    } else if (c < 0x30) {
+    } else if (c <0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 1
     } else if (c <= 0x5a) {
         return 0
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 1
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0xb7) {
+    } else if (c <0xb7) {
         return 1
     } else if (c <= 0xb7) {
         return 0
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 1
     } else if (c <= 0xd6) {
         return 0
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 1
     } else if (c <= 0xf6) {
         return 0
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 1
     } else if (c <= 0x37d) {
         return 0
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 1
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 1
     } else if (c <= 0x200d) {
         return 0
-    } else if (c < 0x203f) {
+    } else if (c <0x203f) {
         return 1
     } else if (c <= 0x2040) {
         return 0
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 1
     } else if (c <= 0x218f) {
         return 0
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 1
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 1
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 1
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 1
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 1
     } else if (c <= 0x1fffff) {
         return 0
@@ -7042,13 +7383,13 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_typed_helper_6(c: Int): Int {
-    return if (c == 0x3a) {
-        0
+    if (c == 0x3a) {
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") internal inline fun parse_triple_end_or_object_string_typed_iri(
+internal inline fun parse_triple_end_or_object_string_typed_iri(
     context: ParserContext,
     crossinline onPN_LOCAL: () -> Unit,
     crossinline onPREDICATE_LIST1: () -> Unit,
@@ -7058,7 +7399,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
 ) {
     context.clear()
     error@ while (true) {
-        when (parse_triple_end_or_object_string_typed_iri_helper_0(context.c)) {
+        val localswitch1 = parse_triple_end_or_object_string_typed_iri_helper_0(context.c)
+        when (localswitch1) {
             0 -> {
                 context.append()
                 loop3@ while (true) {
@@ -7072,17 +7414,20 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                             }
                         }
                     }
-                    when (parse_triple_end_or_object_string_typed_iri_helper_1(context.c)) {
+                    val localswitch4 = parse_triple_end_or_object_string_typed_iri_helper_1(context.c)
+                    when (localswitch4) {
                         0 -> {
                             context.append()
                             continue@loop3
                         }
                         1 -> {
                             context.append()
-                            when (parse_triple_end_or_object_string_typed_iri_helper_2(context.c)) {
+                            val localswitch6 = parse_triple_end_or_object_string_typed_iri_helper_2(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
-                                    when (parse_triple_end_or_object_string_typed_iri_helper_2(context.c)) {
+                                    val localswitch8 = parse_triple_end_or_object_string_typed_iri_helper_2(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop3
@@ -7099,7 +7444,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                         }
                         2 -> {
                             context.append()
-                            when (parse_triple_end_or_object_string_typed_iri_helper_3(context.c)) {
+                            val localswitch6 = parse_triple_end_or_object_string_typed_iri_helper_3(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
                                     continue@loop3
@@ -7119,10 +7465,12 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             1 -> {
                 context.append()
-                when (parse_triple_end_or_object_string_typed_iri_helper_2(context.c)) {
+                val localswitch3 = parse_triple_end_or_object_string_typed_iri_helper_2(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
-                        when (parse_triple_end_or_object_string_typed_iri_helper_2(context.c)) {
+                        val localswitch5 = parse_triple_end_or_object_string_typed_iri_helper_2(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
                                 loop7@ while (true) {
@@ -7136,17 +7484,20 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                             }
                                         }
                                     }
-                                    when (parse_triple_end_or_object_string_typed_iri_helper_1(context.c)) {
+                                    val localswitch8 = parse_triple_end_or_object_string_typed_iri_helper_1(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop7
                                         }
                                         1 -> {
                                             context.append()
-                                            when (parse_triple_end_or_object_string_typed_iri_helper_2(context.c)) {
+                                            val localswitch10 = parse_triple_end_or_object_string_typed_iri_helper_2(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_triple_end_or_object_string_typed_iri_helper_2(context.c)) {
+                                                    val localswitch12 = parse_triple_end_or_object_string_typed_iri_helper_2(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
                                                             continue@loop7
@@ -7163,7 +7514,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                         }
                                         2 -> {
                                             context.append()
-                                            when (parse_triple_end_or_object_string_typed_iri_helper_3(context.c)) {
+                                            val localswitch10 = parse_triple_end_or_object_string_typed_iri_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
                                                     continue@loop7
@@ -7193,7 +7545,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             2 -> {
                 context.append()
-                when (parse_triple_end_or_object_string_typed_iri_helper_3(context.c)) {
+                val localswitch3 = parse_triple_end_or_object_string_typed_iri_helper_3(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         loop5@ while (true) {
@@ -7207,17 +7560,20 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                     }
                                 }
                             }
-                            when (parse_triple_end_or_object_string_typed_iri_helper_1(context.c)) {
+                            val localswitch6 = parse_triple_end_or_object_string_typed_iri_helper_1(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
                                     continue@loop5
                                 }
                                 1 -> {
                                     context.append()
-                                    when (parse_triple_end_or_object_string_typed_iri_helper_2(context.c)) {
+                                    val localswitch8 = parse_triple_end_or_object_string_typed_iri_helper_2(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
-                                            when (parse_triple_end_or_object_string_typed_iri_helper_2(context.c)) {
+                                            val localswitch10 = parse_triple_end_or_object_string_typed_iri_helper_2(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
                                                     continue@loop5
@@ -7234,7 +7590,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                 }
                                 2 -> {
                                     context.append()
-                                    when (parse_triple_end_or_object_string_typed_iri_helper_3(context.c)) {
+                                    val localswitch8 = parse_triple_end_or_object_string_typed_iri_helper_3(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop5
@@ -7294,100 +7651,100 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_typed_iri_helper_0(c: Int): Int {
-    if (c < 0x9) {
+private fun parse_triple_end_or_object_string_typed_iri_helper_0(c: Int): Int {
+    if (c <0x9) {
         return 7
     } else if (c <= 0xa) {
         return 6
-    } else if (c < 0xd) {
+    } else if (c <0xd) {
         return 7
     } else if (c <= 0xd) {
         return 6
-    } else if (c < 0x20) {
+    } else if (c <0x20) {
         return 7
     } else if (c <= 0x20) {
         return 6
-    } else if (c < 0x25) {
+    } else if (c <0x25) {
         return 7
     } else if (c <= 0x25) {
         return 1
-    } else if (c < 0x2c) {
+    } else if (c <0x2c) {
         return 7
     } else if (c <= 0x2c) {
         return 4
-    } else if (c < 0x2e) {
+    } else if (c <0x2e) {
         return 7
     } else if (c <= 0x2e) {
         return 5
-    } else if (c < 0x30) {
+    } else if (c <0x30) {
         return 7
     } else if (c <= 0x3a) {
         return 0
-    } else if (c < 0x3b) {
+    } else if (c <0x3b) {
         return 7
     } else if (c <= 0x3b) {
         return 3
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 7
     } else if (c <= 0x5a) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 7
     } else if (c <= 0x5c) {
         return 2
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 7
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 7
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 7
     } else if (c <= 0xd6) {
         return 0
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 7
     } else if (c <= 0xf6) {
         return 0
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 7
     } else if (c <= 0x2ff) {
         return 0
-    } else if (c < 0x370) {
+    } else if (c <0x370) {
         return 7
     } else if (c <= 0x37d) {
         return 0
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 7
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 7
     } else if (c <= 0x200d) {
         return 0
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 7
     } else if (c <= 0x218f) {
         return 0
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 7
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 7
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 7
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 7
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 7
     } else if (c <= 0x1fffff) {
         return 0
@@ -7395,84 +7752,84 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 7
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_typed_iri_helper_1(c: Int): Int {
-    if (c < 0x25) {
+private fun parse_triple_end_or_object_string_typed_iri_helper_1(c: Int): Int {
+    if (c <0x25) {
         return 3
     } else if (c <= 0x25) {
         return 1
-    } else if (c < 0x2d) {
+    } else if (c <0x2d) {
         return 3
     } else if (c <= 0x2d) {
         return 0
-    } else if (c < 0x30) {
+    } else if (c <0x30) {
         return 3
     } else if (c <= 0x3a) {
         return 0
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 3
     } else if (c <= 0x5a) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 2
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 3
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 3
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0xb7) {
+    } else if (c <0xb7) {
         return 3
     } else if (c <= 0xb7) {
         return 0
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 3
     } else if (c <= 0xd6) {
         return 0
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 3
     } else if (c <= 0xf6) {
         return 0
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 3
     } else if (c <= 0x37d) {
         return 0
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 3
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 3
     } else if (c <= 0x200d) {
         return 0
-    } else if (c < 0x203f) {
+    } else if (c <0x203f) {
         return 3
     } else if (c <= 0x2040) {
         return 0
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 3
     } else if (c <= 0x218f) {
         return 0
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 3
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 3
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 3
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 3
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 3
     } else if (c <= 0x1fffff) {
         return 0
@@ -7481,48 +7838,48 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_typed_iri_helper_2(c: Int): Int {
-    return if (c < 0x30) {
-        1
+    if (c <0x30) {
+        return 1
     } else if (c <= 0x39) {
-        0
-    } else if (c < 0x41) {
-        1
+        return 0
+    } else if (c <0x41) {
+        return 1
     } else if (c <= 0x46) {
-        0
-    } else if (c < 0x61) {
-        1
+        return 0
+    } else if (c <0x61) {
+        return 1
     } else if (c <= 0x66) {
-        0
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_typed_iri_helper_3(c: Int): Int {
-    if (c < 0x21) {
+private fun parse_triple_end_or_object_string_typed_iri_helper_3(c: Int): Int {
+    if (c <0x21) {
         return 1
     } else if (c <= 0x21) {
         return 0
-    } else if (c < 0x23) {
+    } else if (c <0x23) {
         return 1
     } else if (c <= 0x2f) {
         return 0
-    } else if (c < 0x3b) {
+    } else if (c <0x3b) {
         return 1
     } else if (c <= 0x3b) {
         return 0
-    } else if (c < 0x3d) {
+    } else if (c <0x3d) {
         return 1
     } else if (c <= 0x3d) {
         return 0
-    } else if (c < 0x3f) {
+    } else if (c <0x3f) {
         return 1
     } else if (c <= 0x40) {
         return 0
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x7e) {
+    } else if (c <0x7e) {
         return 1
     } else if (c <= 0x7e) {
         return 0
@@ -7530,14 +7887,15 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") internal inline fun parse_subject_iri_or_ws(
+internal inline fun parse_subject_iri_or_ws(
     context: ParserContext,
     crossinline onPN_LOCAL: () -> Unit,
     crossinline onSKIP_WS_FORCED: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
-        when (parse_subject_iri_or_ws_helper_0(context.c)) {
+        val localswitch1 = parse_subject_iri_or_ws_helper_0(context.c)
+        when (localswitch1) {
             0 -> {
                 context.append()
                 loop3@ while (true) {
@@ -7551,17 +7909,20 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                             }
                         }
                     }
-                    when (parse_subject_iri_or_ws_helper_1(context.c)) {
+                    val localswitch4 = parse_subject_iri_or_ws_helper_1(context.c)
+                    when (localswitch4) {
                         0 -> {
                             context.append()
                             continue@loop3
                         }
                         1 -> {
                             context.append()
-                            when (parse_subject_iri_or_ws_helper_2(context.c)) {
+                            val localswitch6 = parse_subject_iri_or_ws_helper_2(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
-                                    when (parse_subject_iri_or_ws_helper_2(context.c)) {
+                                    val localswitch8 = parse_subject_iri_or_ws_helper_2(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop3
@@ -7578,7 +7939,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                         }
                         2 -> {
                             context.append()
-                            when (parse_subject_iri_or_ws_helper_3(context.c)) {
+                            val localswitch6 = parse_subject_iri_or_ws_helper_3(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
                                     continue@loop3
@@ -7598,10 +7960,12 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             1 -> {
                 context.append()
-                when (parse_subject_iri_or_ws_helper_2(context.c)) {
+                val localswitch3 = parse_subject_iri_or_ws_helper_2(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
-                        when (parse_subject_iri_or_ws_helper_2(context.c)) {
+                        val localswitch5 = parse_subject_iri_or_ws_helper_2(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
                                 loop7@ while (true) {
@@ -7615,17 +7979,20 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                             }
                                         }
                                     }
-                                    when (parse_subject_iri_or_ws_helper_1(context.c)) {
+                                    val localswitch8 = parse_subject_iri_or_ws_helper_1(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop7
                                         }
                                         1 -> {
                                             context.append()
-                                            when (parse_subject_iri_or_ws_helper_2(context.c)) {
+                                            val localswitch10 = parse_subject_iri_or_ws_helper_2(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_subject_iri_or_ws_helper_2(context.c)) {
+                                                    val localswitch12 = parse_subject_iri_or_ws_helper_2(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
                                                             continue@loop7
@@ -7642,7 +8009,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                         }
                                         2 -> {
                                             context.append()
-                                            when (parse_subject_iri_or_ws_helper_3(context.c)) {
+                                            val localswitch10 = parse_subject_iri_or_ws_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
                                                     continue@loop7
@@ -7672,7 +8040,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             2 -> {
                 context.append()
-                when (parse_subject_iri_or_ws_helper_3(context.c)) {
+                val localswitch3 = parse_subject_iri_or_ws_helper_3(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         loop5@ while (true) {
@@ -7686,17 +8055,20 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                     }
                                 }
                             }
-                            when (parse_subject_iri_or_ws_helper_1(context.c)) {
+                            val localswitch6 = parse_subject_iri_or_ws_helper_1(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
                                     continue@loop5
                                 }
                                 1 -> {
                                     context.append()
-                                    when (parse_subject_iri_or_ws_helper_2(context.c)) {
+                                    val localswitch8 = parse_subject_iri_or_ws_helper_2(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
-                                            when (parse_subject_iri_or_ws_helper_2(context.c)) {
+                                            val localswitch10 = parse_subject_iri_or_ws_helper_2(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
                                                     continue@loop5
@@ -7713,7 +8085,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                 }
                                 2 -> {
                                     context.append()
-                                    when (parse_subject_iri_or_ws_helper_3(context.c)) {
+                                    val localswitch8 = parse_subject_iri_or_ws_helper_3(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop5
@@ -7758,88 +8131,88 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_subject_iri_or_ws_helper_0(c: Int): Int {
-    if (c < 0x9) {
+private fun parse_subject_iri_or_ws_helper_0(c: Int): Int {
+    if (c <0x9) {
         return 4
     } else if (c <= 0xa) {
         return 3
-    } else if (c < 0xd) {
+    } else if (c <0xd) {
         return 4
     } else if (c <= 0xd) {
         return 3
-    } else if (c < 0x20) {
+    } else if (c <0x20) {
         return 4
     } else if (c <= 0x20) {
         return 3
-    } else if (c < 0x25) {
+    } else if (c <0x25) {
         return 4
     } else if (c <= 0x25) {
         return 1
-    } else if (c < 0x30) {
+    } else if (c <0x30) {
         return 4
     } else if (c <= 0x3a) {
         return 0
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 4
     } else if (c <= 0x5a) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 4
     } else if (c <= 0x5c) {
         return 2
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 4
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 4
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 4
     } else if (c <= 0xd6) {
         return 0
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 4
     } else if (c <= 0xf6) {
         return 0
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 4
     } else if (c <= 0x2ff) {
         return 0
-    } else if (c < 0x370) {
+    } else if (c <0x370) {
         return 4
     } else if (c <= 0x37d) {
         return 0
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 4
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 4
     } else if (c <= 0x200d) {
         return 0
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 4
     } else if (c <= 0x218f) {
         return 0
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 4
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 4
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 4
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 4
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 4
     } else if (c <= 0x1fffff) {
         return 0
@@ -7847,84 +8220,84 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 4
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_subject_iri_or_ws_helper_1(c: Int): Int {
-    if (c < 0x25) {
+private fun parse_subject_iri_or_ws_helper_1(c: Int): Int {
+    if (c <0x25) {
         return 3
     } else if (c <= 0x25) {
         return 1
-    } else if (c < 0x2d) {
+    } else if (c <0x2d) {
         return 3
     } else if (c <= 0x2d) {
         return 0
-    } else if (c < 0x30) {
+    } else if (c <0x30) {
         return 3
     } else if (c <= 0x3a) {
         return 0
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 3
     } else if (c <= 0x5a) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 2
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 3
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 3
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0xb7) {
+    } else if (c <0xb7) {
         return 3
     } else if (c <= 0xb7) {
         return 0
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 3
     } else if (c <= 0xd6) {
         return 0
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 3
     } else if (c <= 0xf6) {
         return 0
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 3
     } else if (c <= 0x37d) {
         return 0
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 3
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 3
     } else if (c <= 0x200d) {
         return 0
-    } else if (c < 0x203f) {
+    } else if (c <0x203f) {
         return 3
     } else if (c <= 0x2040) {
         return 0
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 3
     } else if (c <= 0x218f) {
         return 0
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 3
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 3
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 3
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 3
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 3
     } else if (c <= 0x1fffff) {
         return 0
@@ -7933,48 +8306,48 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_subject_iri_or_ws_helper_2(c: Int): Int {
-    return if (c < 0x30) {
-        1
+    if (c <0x30) {
+        return 1
     } else if (c <= 0x39) {
-        0
-    } else if (c < 0x41) {
-        1
+        return 0
+    } else if (c <0x41) {
+        return 1
     } else if (c <= 0x46) {
-        0
-    } else if (c < 0x61) {
-        1
+        return 0
+    } else if (c <0x61) {
+        return 1
     } else if (c <= 0x66) {
-        0
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_subject_iri_or_ws_helper_3(c: Int): Int {
-    if (c < 0x21) {
+private fun parse_subject_iri_or_ws_helper_3(c: Int): Int {
+    if (c <0x21) {
         return 1
     } else if (c <= 0x21) {
         return 0
-    } else if (c < 0x23) {
+    } else if (c <0x23) {
         return 1
     } else if (c <= 0x2f) {
         return 0
-    } else if (c < 0x3b) {
+    } else if (c <0x3b) {
         return 1
     } else if (c <= 0x3b) {
         return 0
-    } else if (c < 0x3d) {
+    } else if (c <0x3d) {
         return 1
     } else if (c <= 0x3d) {
         return 0
-    } else if (c < 0x3f) {
+    } else if (c <0x3f) {
         return 1
     } else if (c <= 0x40) {
         return 0
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x7e) {
+    } else if (c <0x7e) {
         return 1
     } else if (c <= 0x7e) {
         return 0
@@ -7982,14 +8355,15 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") internal inline fun parse_predicate_iri_or_ws(
+internal inline fun parse_predicate_iri_or_ws(
     context: ParserContext,
     crossinline onPN_LOCAL: () -> Unit,
     crossinline onSKIP_WS_FORCED: () -> Unit
 ) {
     context.clear()
     error@ while (true) {
-        when (parse_predicate_iri_or_ws_helper_0(context.c)) {
+        val localswitch1 = parse_predicate_iri_or_ws_helper_0(context.c)
+        when (localswitch1) {
             0 -> {
                 context.append()
                 loop3@ while (true) {
@@ -8003,17 +8377,20 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                             }
                         }
                     }
-                    when (parse_predicate_iri_or_ws_helper_1(context.c)) {
+                    val localswitch4 = parse_predicate_iri_or_ws_helper_1(context.c)
+                    when (localswitch4) {
                         0 -> {
                             context.append()
                             continue@loop3
                         }
                         1 -> {
                             context.append()
-                            when (parse_predicate_iri_or_ws_helper_2(context.c)) {
+                            val localswitch6 = parse_predicate_iri_or_ws_helper_2(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
-                                    when (parse_predicate_iri_or_ws_helper_2(context.c)) {
+                                    val localswitch8 = parse_predicate_iri_or_ws_helper_2(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop3
@@ -8030,7 +8407,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                         }
                         2 -> {
                             context.append()
-                            when (parse_predicate_iri_or_ws_helper_3(context.c)) {
+                            val localswitch6 = parse_predicate_iri_or_ws_helper_3(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
                                     continue@loop3
@@ -8050,10 +8428,12 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             1 -> {
                 context.append()
-                when (parse_predicate_iri_or_ws_helper_2(context.c)) {
+                val localswitch3 = parse_predicate_iri_or_ws_helper_2(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
-                        when (parse_predicate_iri_or_ws_helper_2(context.c)) {
+                        val localswitch5 = parse_predicate_iri_or_ws_helper_2(context.c)
+                        when (localswitch5) {
                             0 -> {
                                 context.append()
                                 loop7@ while (true) {
@@ -8067,17 +8447,20 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                             }
                                         }
                                     }
-                                    when (parse_predicate_iri_or_ws_helper_1(context.c)) {
+                                    val localswitch8 = parse_predicate_iri_or_ws_helper_1(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop7
                                         }
                                         1 -> {
                                             context.append()
-                                            when (parse_predicate_iri_or_ws_helper_2(context.c)) {
+                                            val localswitch10 = parse_predicate_iri_or_ws_helper_2(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
-                                                    when (parse_predicate_iri_or_ws_helper_2(context.c)) {
+                                                    val localswitch12 = parse_predicate_iri_or_ws_helper_2(context.c)
+                                                    when (localswitch12) {
                                                         0 -> {
                                                             context.append()
                                                             continue@loop7
@@ -8094,7 +8477,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                         }
                                         2 -> {
                                             context.append()
-                                            when (parse_predicate_iri_or_ws_helper_3(context.c)) {
+                                            val localswitch10 = parse_predicate_iri_or_ws_helper_3(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
                                                     continue@loop7
@@ -8124,7 +8508,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             }
             2 -> {
                 context.append()
-                when (parse_predicate_iri_or_ws_helper_3(context.c)) {
+                val localswitch3 = parse_predicate_iri_or_ws_helper_3(context.c)
+                when (localswitch3) {
                     0 -> {
                         context.append()
                         loop5@ while (true) {
@@ -8138,17 +8523,20 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                     }
                                 }
                             }
-                            when (parse_predicate_iri_or_ws_helper_1(context.c)) {
+                            val localswitch6 = parse_predicate_iri_or_ws_helper_1(context.c)
+                            when (localswitch6) {
                                 0 -> {
                                     context.append()
                                     continue@loop5
                                 }
                                 1 -> {
                                     context.append()
-                                    when (parse_predicate_iri_or_ws_helper_2(context.c)) {
+                                    val localswitch8 = parse_predicate_iri_or_ws_helper_2(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
-                                            when (parse_predicate_iri_or_ws_helper_2(context.c)) {
+                                            val localswitch10 = parse_predicate_iri_or_ws_helper_2(context.c)
+                                            when (localswitch10) {
                                                 0 -> {
                                                     context.append()
                                                     continue@loop5
@@ -8165,7 +8553,8 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
                                 }
                                 2 -> {
                                     context.append()
-                                    when (parse_predicate_iri_or_ws_helper_3(context.c)) {
+                                    val localswitch8 = parse_predicate_iri_or_ws_helper_3(context.c)
+                                    when (localswitch8) {
                                         0 -> {
                                             context.append()
                                             continue@loop5
@@ -8210,88 +8599,88 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_predicate_iri_or_ws_helper_0(c: Int): Int {
-    if (c < 0x9) {
+private fun parse_predicate_iri_or_ws_helper_0(c: Int): Int {
+    if (c <0x9) {
         return 4
     } else if (c <= 0xa) {
         return 3
-    } else if (c < 0xd) {
+    } else if (c <0xd) {
         return 4
     } else if (c <= 0xd) {
         return 3
-    } else if (c < 0x20) {
+    } else if (c <0x20) {
         return 4
     } else if (c <= 0x20) {
         return 3
-    } else if (c < 0x25) {
+    } else if (c <0x25) {
         return 4
     } else if (c <= 0x25) {
         return 1
-    } else if (c < 0x30) {
+    } else if (c <0x30) {
         return 4
     } else if (c <= 0x3a) {
         return 0
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 4
     } else if (c <= 0x5a) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 4
     } else if (c <= 0x5c) {
         return 2
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 4
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 4
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 4
     } else if (c <= 0xd6) {
         return 0
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 4
     } else if (c <= 0xf6) {
         return 0
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 4
     } else if (c <= 0x2ff) {
         return 0
-    } else if (c < 0x370) {
+    } else if (c <0x370) {
         return 4
     } else if (c <= 0x37d) {
         return 0
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 4
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 4
     } else if (c <= 0x200d) {
         return 0
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 4
     } else if (c <= 0x218f) {
         return 0
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 4
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 4
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 4
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 4
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 4
     } else if (c <= 0x1fffff) {
         return 0
@@ -8299,84 +8688,84 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
         return 4
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_predicate_iri_or_ws_helper_1(c: Int): Int {
-    if (c < 0x25) {
+private fun parse_predicate_iri_or_ws_helper_1(c: Int): Int {
+    if (c <0x25) {
         return 3
     } else if (c <= 0x25) {
         return 1
-    } else if (c < 0x2d) {
+    } else if (c <0x2d) {
         return 3
     } else if (c <= 0x2d) {
         return 0
-    } else if (c < 0x30) {
+    } else if (c <0x30) {
         return 3
     } else if (c <= 0x3a) {
         return 0
-    } else if (c < 0x41) {
+    } else if (c <0x41) {
         return 3
     } else if (c <= 0x5a) {
         return 0
-    } else if (c < 0x5c) {
+    } else if (c <0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 2
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 3
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x61) {
+    } else if (c <0x61) {
         return 3
     } else if (c <= 0x7a) {
         return 0
-    } else if (c < 0xb7) {
+    } else if (c <0xb7) {
         return 3
     } else if (c <= 0xb7) {
         return 0
-    } else if (c < 0xc0) {
+    } else if (c <0xc0) {
         return 3
     } else if (c <= 0xd6) {
         return 0
-    } else if (c < 0xd8) {
+    } else if (c <0xd8) {
         return 3
     } else if (c <= 0xf6) {
         return 0
-    } else if (c < 0xf8) {
+    } else if (c <0xf8) {
         return 3
     } else if (c <= 0x37d) {
         return 0
-    } else if (c < 0x37f) {
+    } else if (c <0x37f) {
         return 3
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c < 0x200c) {
+    } else if (c <0x200c) {
         return 3
     } else if (c <= 0x200d) {
         return 0
-    } else if (c < 0x203f) {
+    } else if (c <0x203f) {
         return 3
     } else if (c <= 0x2040) {
         return 0
-    } else if (c < 0x2070) {
+    } else if (c <0x2070) {
         return 3
     } else if (c <= 0x218f) {
         return 0
-    } else if (c < 0x2c00) {
+    } else if (c <0x2c00) {
         return 3
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c < 0x3001) {
+    } else if (c <0x3001) {
         return 3
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c < 0xf900) {
+    } else if (c <0xf900) {
         return 3
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c < 0xfdf0) {
+    } else if (c <0xfdf0) {
         return 3
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c < 0x10000) {
+    } else if (c <0x10000) {
         return 3
     } else if (c <= 0x1fffff) {
         return 0
@@ -8385,48 +8774,48 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     }
 }
 @Suppress("NOTHING_TO_INLINE") private inline fun parse_predicate_iri_or_ws_helper_2(c: Int): Int {
-    return if (c < 0x30) {
-        1
+    if (c <0x30) {
+        return 1
     } else if (c <= 0x39) {
-        0
-    } else if (c < 0x41) {
-        1
+        return 0
+    } else if (c <0x41) {
+        return 1
     } else if (c <= 0x46) {
-        0
-    } else if (c < 0x61) {
-        1
+        return 0
+    } else if (c <0x61) {
+        return 1
     } else if (c <= 0x66) {
-        0
+        return 0
     } else {
-        1
+        return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_predicate_iri_or_ws_helper_3(c: Int): Int {
-    if (c < 0x21) {
+private fun parse_predicate_iri_or_ws_helper_3(c: Int): Int {
+    if (c <0x21) {
         return 1
     } else if (c <= 0x21) {
         return 0
-    } else if (c < 0x23) {
+    } else if (c <0x23) {
         return 1
     } else if (c <= 0x2f) {
         return 0
-    } else if (c < 0x3b) {
+    } else if (c <0x3b) {
         return 1
     } else if (c <= 0x3b) {
         return 0
-    } else if (c < 0x3d) {
+    } else if (c <0x3d) {
         return 1
     } else if (c <= 0x3d) {
         return 0
-    } else if (c < 0x3f) {
+    } else if (c <0x3f) {
         return 1
     } else if (c <= 0x40) {
         return 0
-    } else if (c < 0x5f) {
+    } else if (c <0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c < 0x7e) {
+    } else if (c <0x7e) {
         return 1
     } else if (c <= 0x7e) {
         return 0
