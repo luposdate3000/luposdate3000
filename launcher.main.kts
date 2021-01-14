@@ -26,7 +26,7 @@ var fastMode = ""
 var intellijMode = ""
 var cleanedArgs = mutableListOf<String>()
 var skipArgs = false
-enum class ExecMode { LAUNCH, COMPILE, HELP, COMPILE_AND_LAUNCH, GENERATE_PARSER, GENERATE_ENUMS }
+enum class ExecMode { LAUNCH, COMPILE, HELP, COMPILE_AND_LAUNCH, GENERATE_PARSER, GENERATE_ENUMS ,SETUP_INTELLIJ_IDEA}
 var execMode = ExecMode.LAUNCH
 enum class ParamClassMode { VALUES, NO_VALUE }
 class ParamClass {
@@ -256,6 +256,19 @@ val defaultParams = mutableListOf(
             skipArgs = true
         }
     ),
+ParamClass(
+"--setupIntellijIdea",
+{
+execMode=ExecMode.SETUP_INTELLIJ_IDEA
+releaseMode="Disable"
+suspendMode="Disable"
+inlineMode="Disable"
+dryMode="Enable"
+fastMode="JVM"
+intellijMode="Enable"
+ skipArgs = true
+}
+),
 )
 fun enableParams(params: List<ParamClass>) {
     for (param in params) {
@@ -298,6 +311,7 @@ when (execMode) {
     ExecMode.LAUNCH -> onLaunch()
     ExecMode.GENERATE_PARSER -> onGenerateParser()
     ExecMode.GENERATE_ENUMS -> onGenerateEnums()
+ExecMode.SETUP_INTELLIJ_IDEA->onSetupIntellijIdea()
     ExecMode.COMPILE_AND_LAUNCH -> {
         onCompile()
         onLaunch()
@@ -344,6 +358,48 @@ fun onCompile() {
     createBuildFileForModule("Luposdate3000_Launch_Prepared_Statement", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
     createBuildFileForModule("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
     createBuildFileForModule("Luposdate3000_Launch_Generate_Binary_Test_Suite", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
+}
+fun onSetupIntellijIdea(){
+File(".idea").deleteRecursively()
+File("log").mkdirs()
+onCompile()
+var releaseMode2 = ReleaseMode.valueOf(releaseMode)
+    var suspendMode2 = SuspendMode.valueOf(suspendMode)
+    var inlineMode2 = InlineMode.valueOf(inlineMode)
+    var dryMode2 = DryMode.valueOf(dryMode)
+    var fastMode2 = FastMode.valueOf(fastMode)
+    var intellijMode2 = IntellijMode.valueOf(intellijMode)
+createBuildFileForModule("Luposdate3000_Shared_Inline",releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
+createBuildFileForModule("Luposdate3000_Scripting",releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
+File("build.gradle.kts").printWriter().use { outBuildGradle ->
+    outBuildGradle.println("dependencies {")
+    outBuildGradle.println("    project(\":src\")")
+    outBuildGradle.println("}")
+}
+File("settings.gradle").printWriter().use { outSettingsGradle ->
+    File("src${Platform.getPathSeparator()}build.gradle.kts").printWriter().use { outBuildGradle ->
+        outSettingsGradle.println("pluginManagement {")
+        outSettingsGradle.println("    repositories {")
+        outSettingsGradle.println("        mavenLocal()")
+        outSettingsGradle.println("        gradlePluginPortal()")
+        outSettingsGradle.println("    }")
+        outSettingsGradle.println("}")
+        outSettingsGradle.println("rootProject.name = \"Luposdate3000\"")
+        outSettingsGradle.println("include(\":src\")")
+        outBuildGradle.println("dependencies {")
+        Files.walk(Paths.get("src"), 1).forEach { it ->
+            val name = it.toString()
+            println(name)
+            if (name.startsWith("src/lupos") || name.startsWith("src\\lupos")) {
+                if (!name.contains("shared_inline")) {
+                    outSettingsGradle.println("include(\":src:${name.substring(4)}\")")
+                    outBuildGradle.println("    project(\":src:${name.substring(4)}\")")
+                }
+            }
+        }
+        outBuildGradle.println("}")
+    }
+}
 }
 fun onLaunch() {
     File("log").mkdirs()
