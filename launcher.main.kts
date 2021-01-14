@@ -116,7 +116,7 @@ val compileParams = mutableListOf<ParamClass>(
     ),
 )
 var enabledParams = mutableListOf<ParamClass>()
-enabledParams = mutableListOf(
+val defaultParams = mutableListOf(
     ParamClass(
         "--jenaWrapper",
         "Off",
@@ -199,18 +199,13 @@ enabledParams = mutableListOf(
     ParamClass(
         "--help",
         {
-            println("Usage ./exec-any.main.kts <options>")
-            println("where possible options include:")
-            for (param in enabledParams) {
-                param.help()
-            }
             execMode = ExecMode.HELP
         }
     ),
     ParamClass(
         "--compileAll",
         {
-            enabledParams.addAll(compileParams)
+enableParams(compileParams)
             execMode = ExecMode.COMPILE
         }
     ).setAdditionalHelp {
@@ -219,9 +214,13 @@ enabledParams = mutableListOf(
         }
     },
 )
-for (param in enabledParams) {
+fun enableParams(params:List<ParamClass>){
+for (param in params) {
     param.execDefault()
+enabledParams.add(param)
 }
+}
+enableParams(defaultParams)
 loop@for (arg in args) {
     for (param in enabledParams) {
         if (arg.startsWith(param.name)) {
@@ -248,6 +247,13 @@ if (releaseMode == "Enable") {
     appendix += "_Debug"
 }
 when (execMode) {
+    ExecMode.HELP -> {
+ println("Usage ./exec-any.main.kts <options>")
+            println("where possible options include:")
+            for (param in enabledParams) {
+                param.help()
+            }
+}
     ExecMode.COMPILE -> {
         var releaseMode2 = ReleaseMode.valueOf(releaseMode)
         var suspendMode2 = SuspendMode.valueOf(suspendMode)
