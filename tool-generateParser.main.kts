@@ -8,9 +8,7 @@
 import lupos.s00misc.Platform
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
-
 val outFile = File("src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}turtle${Platform.getPathSeparator()}Turtle2ParserGenerated.kt")
-
 outFile.printWriter().use { out ->
     out.println("package lupos.s02buildSyntaxTree.turtle")
     out.println("import lupos.s00misc.IMyInputStream")
@@ -20,9 +18,7 @@ outFile.printWriter().use { out ->
     out.println("internal class ParserExceptionEOF : ParserException(\"EOF\")")
     out.println("internal class ParserExceptionUnexpectedChar(context: ParserContext) : ParserException(\"unexpected char 0x\${context.c.toString(16)} at \${context.line}:\${context.column}\")")
 }
-
 val scriptFile = "src/luposdate3000_scripting/parsergenerator.main.kts"
-
 val generatingArgs = arrayOf(
     listOf(scriptFile, "PARSER_CONTEXT"),
     listOf(scriptFile, "parse_dot", "DOT"),

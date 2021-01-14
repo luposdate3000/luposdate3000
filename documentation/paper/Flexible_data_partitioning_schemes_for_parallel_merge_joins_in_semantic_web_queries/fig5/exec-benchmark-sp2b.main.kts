@@ -4,15 +4,12 @@
 @file:Import("../src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
 @file:Import("generate-data.kt")
 @file:CompilerOptions("-Xmulti-platform")
-
 import lupos.s00misc.Platform
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
 import kotlin.math.pow
-
 val triplesFiles = "${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4/intermediate.n3"
 val minimumTime = 10.0
-
 File("log").mkdirs()
 val jars = mutableListOf(
     "build-cache${Platform.getPathSeparator()}bin${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager_Inmemory-jvm.jar",
@@ -45,7 +42,6 @@ for (jar in jars) {
         classpath = "$classpath:$jar"
     }
 }
-
 for (output_count in listOf(512, 2048, 8192, 32768)) {
     for (join_count in listOf(1, 2, 4, 8, 16)) {
         for (join in listOf(2, 4, 8, 16, 32, 64)) {

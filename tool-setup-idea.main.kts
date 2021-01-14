@@ -9,22 +9,18 @@
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystemExt.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystem.kt")
 @file:CompilerOptions("-Xmulti-platform")
-
 import lupos.s00misc.Platform
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
-
 File(".idea").deleteRecursively()
 File("log").mkdirs()
-
 var releaseMode = ReleaseMode.Disable
 var suspendMode = SuspendMode.Disable
 var inlineMode = InlineMode.Disable
 var dryMode = DryMode.Disable
 var fastMode = FastMode.JVM
 var intellijMode = IntellijMode.Enable
-
 createBuildFileForModule("Luposdate3000_Shared", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
 createBuildFileForModule("Luposdate3000_Jena_Wrapper_On", "Luposdate3000_Jena_Wrapper", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
 createBuildFileForModule("Luposdate3000_Jena_Wrapper_Off", "Luposdate3000_Jena_Wrapper", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
@@ -56,11 +52,9 @@ createBuildFileForModule("Luposdate3000_Launch_Sparql_Test_Suite", "Luposdate300
 createBuildFileForModule("Luposdate3000_Launch_Prepared_Statement", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
 createBuildFileForModule("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
 createBuildFileForModule("Luposdate3000_Launch_Generate_Binary_Test_Suite", "Luposdate3000_Main", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
-
 // IDE only fake modules
 createBuildFileForModule("Luposdate3000_Shared_Inline", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
 createBuildFileForModule("Luposdate3000_Scripting", ReleaseMode.Disable, SuspendMode.Disable, InlineMode.Disable, DryMode.Disable, FastMode.JVM, IntellijMode.Enable)
-
 File("build.gradle.kts").printWriter().use { outBuildGradle ->
     outBuildGradle.println("dependencies {")
     outBuildGradle.println("    project(\":src\")")

@@ -13,7 +13,6 @@ import java.nio.file.Files
 import java.nio.file.Paths
 val targetBaseFolder = "${Platform.getBenchmarkHome()}${Platform.getPathSeparator()}luposdate-testdata${Platform.getPathSeparator()}bsbm"
 val sp2bGeneratorHome = "${Platform.getPathSeparator()}opt${Platform.getPathSeparator()}bsbmtools-0.2"
-
 var targetCount = 1
 while (targetCount <= 2097152) {
     val targetFolder = "$targetBaseFolder${Platform.getPathSeparator()}$targetCount"

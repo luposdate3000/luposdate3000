@@ -1,6 +1,5 @@
 #!/usr/bin/env kotlin
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/OperatorGraphToLatex.kt")
-
 val inputString = StringBuilder()
 while (true) {
     val line = readLine()

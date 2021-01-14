@@ -1,5 +1,4 @@
 #!/usr/bin/env kotlin
-
 enum class CharGroupModifier {
     MAYBE,
     ONE,
@@ -7,7 +6,6 @@ enum class CharGroupModifier {
     AT_LEAST_ONE,
     ACTION,
 }
-
 data class MyPair(var first: Int, var second: Int) : Comparable<MyPair> {
     override fun compareTo(other: MyPair): Int {
         var res = first.compareTo(other.first)
@@ -17,7 +15,6 @@ data class MyPair(var first: Int, var second: Int) : Comparable<MyPair> {
         return second.compareTo(other.second)
     }
 }
-
 class CharGroup {
     companion object {
         var functionName = "func"
@@ -27,7 +24,6 @@ class CharGroup {
         var startEndMapElseBranch = mutableMapOf<Int, String>()
         var identicalIdsMap = mutableMapOf<Int, MutableSet<Int>>()
     }
-
     var modifier: CharGroupModifier
     var submodifier: CharGroupModifier? = null
     var submodifierId = 0
@@ -41,13 +37,11 @@ class CharGroup {
         submodifierTail = _tail
         return this
     }
-
     fun setStartFlag(): CharGroup {
         submodifierId = uuid++
         submodifierFlag = true
         return this
     }
-
     fun setEndFlag(other: CharGroup): CharGroup {
         submodifierId = other.submodifierId
         submodifierFlag = false
@@ -55,45 +49,37 @@ class CharGroup {
         submodifier = other.submodifier
         return this
     }
-
     fun addChars(c: Int): CharGroup {
         ranges.add(MyPair(c, c))
         return this
     }
-
     fun addChars(c: Char): CharGroup {
         ranges.add(MyPair(c.toInt(), c.toInt()))
         return this
     }
-
     fun addChars(str: String): CharGroup {
         for (c in str) {
             ranges.add(MyPair(c.toInt(), c.toInt()))
         }
         return this
     }
-
     fun addChars(cFrom: Int, cTo: Int): CharGroup {
         ranges.add(MyPair(cFrom, cTo))
         return this
     }
-
     fun addChars(chars: List<MyPair>): CharGroup {
         ranges.addAll(chars)
         return this
     }
-
     fun setModifier(_modifier: CharGroupModifier, _submodifier: CharGroupModifier): CharGroup {
         modifier = _modifier
         submodifier = _submodifier
         return this
     }
-
     fun setModifier(_modifier: CharGroupModifier): CharGroup {
         modifier = _modifier
         return this
     }
-
     fun flatCopy(_modifier: CharGroupModifier = CharGroupModifier.ONE): CharGroup {
         var res: CharGroup
         if (modifier != CharGroupModifier.ACTION) {
@@ -109,13 +95,11 @@ class CharGroup {
         res.name = name
         return res
     }
-
     fun deepCopy(_modifier: CharGroupModifier = CharGroupModifier.ONE): CharGroup {
         var res = flatCopy(_modifier)
         res.childs.addAll(childs)
         return res
     }
-
     constructor(str: String, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
         modifier = _modifier
         if (modifier == CharGroupModifier.ACTION) {
@@ -124,44 +108,35 @@ class CharGroup {
             addChars(str)
         }
     }
-
     constructor(c: Int, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
         modifier = _modifier
         addChars(c)
     }
-
     constructor(c: Char, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
         modifier = _modifier
         addChars(c.toInt())
     }
-
     constructor(cFrom: Int, cTo: Int, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
         modifier = _modifier
         addChars(cFrom, cTo)
     }
-
     constructor(_modifier: CharGroupModifier) {
         modifier = _modifier
     }
-
     constructor() {
         modifier = CharGroupModifier.ONE
     }
-
     constructor(_childs: List<CharGroup>, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
         modifier = _modifier
         childs.addAll(_childs)
     }
-
     fun append(child: CharGroup): CharGroup {
         childs.add(child)
         return this
     }
-
     fun charToString(c: Int): String {
         return "0x${c.toInt().toString(16)}"
     }
-
     fun charsToRanges(): String {
         var arr: Array<MyPair> = ranges.toTypedArray()
         if (arr.size > 0) {
@@ -216,7 +191,6 @@ class CharGroup {
         }
         return ""
     }
-
     fun cleanupIdenticalIDs() {
         var change = true
         while (change) {
@@ -248,7 +222,6 @@ class CharGroup {
             v.add(min)
         }
     }
-
     fun myPrintRoot(printmode: Boolean) {
         startEndMap.clear()
         startEndMapElseBranch.clear()
@@ -258,7 +231,6 @@ class CharGroup {
         // println(startEndMapElseBranch)
         // println(identicalIdsMap)
     }
-
     fun myPrint(indention: Int, printmode: Boolean, skipheader: Boolean = false, onElseBranch: () -> String = { "break@error" }) {
         if (printmode) {
             when (modifier) {
@@ -598,7 +570,6 @@ class CharGroup {
             }
         }
     }
-
     fun unpack(): List<CharGroup> {
         var res = mutableListOf<CharGroup>()
         var unpackedChilds = mutableListOf<CharGroup>()
@@ -647,13 +618,11 @@ class CharGroup {
                 res.add(this)
             }
         }
-
         for (c in res) {
             if (c.modifier != CharGroupModifier.ONE) {
                 return res
             }
         }
-
         var res2 = mutableListOf<CharGroup>()
         for (c in res) {
             if (c.ranges.size == 0) {
@@ -666,10 +635,8 @@ class CharGroup {
                 }
             }
         }
-
         return res2
     }
-
     fun addSubmodifierIdenticalIds(a: Int, b: Int) {
         var tmp = identicalIdsMap[a]
         if (tmp == null) {
@@ -678,7 +645,6 @@ class CharGroup {
         }
         tmp.add(b)
     }
-
     fun collapseIdenticalHelper(map: MutableMap<String, CharGroup>, c: CharGroup) {
         val k = c.charsToRanges()
         val v = map[k]
@@ -746,7 +712,6 @@ class CharGroup {
             }
         }
     }
-
     fun childsEquals(other: CharGroup): Boolean {
         if (childs.size != other.childs.size) {
             return false
@@ -775,7 +740,6 @@ class CharGroup {
         }
         return true
     }
-
     fun removeEmptyGroups(): CharGroup {
         var res = flatCopy(modifier)
         for (c2 in childs) {
@@ -788,7 +752,6 @@ class CharGroup {
         }
         return res
     }
-
     fun collapseIdenticalChilds(): CharGroup {
         var i = 0
         var j = 1
@@ -821,7 +784,6 @@ class CharGroup {
         res.childs.addAll(childsCopy)
         return res
     }
-
     fun collapseIdentical(): CharGroup {
         val res = flatCopy(modifier)
         val map = mutableMapOf<String, CharGroup>()
@@ -833,7 +795,6 @@ class CharGroup {
         }
         return res
     }
-
     fun makeChildrenSameType(): CharGroup {
         if (childs.size <= 1) {
             return this
@@ -891,7 +852,6 @@ class CharGroup {
             }
         }
     }
-
     fun compile(): CharGroup {
         var res = this
         for (i in 0 until 5) {
@@ -905,7 +865,6 @@ class CharGroup {
         return res
     }
 }
-
 fun parseRegex(str: String, tail: CharGroup): CharGroup {
     var res = CharGroup()
     var idx = 0
@@ -1202,11 +1161,9 @@ fun parseRegex(str: String, tail: CharGroup): CharGroup {
     res.append(tail)
     return res.compile()
 }
-
 // addition to regex-grammar::
 // a '=' directly terminates a group
 // a '!' prevents a tail from beeing added only use this if there is a '=' somewhere before - otherwise this wont return a success
-
 var allTokens = mapOf(
     "EXPONENT" to "[eE] [+-]? [0-9]+",
     "DOUBLE" to "[+-]? ([0-9]+ '.' [0-9]* EXPONENT | '.' [0-9]+ EXPONENT | [0-9]+ EXPONENT)",
@@ -1255,9 +1212,7 @@ var allTokens = mapOf(
     "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
     "SKIP_WS" to "[#x20#x9#xD#xA]*",
 )
-
 var root = CharGroup()
-
 if (args.size == 1 && args[0] == "PARSER_CONTEXT") {
     println("internal class ParserContext(@JvmField internal val input: IMyInputStream) {")
     println("    internal companion object {")

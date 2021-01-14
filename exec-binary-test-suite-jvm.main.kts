@@ -15,9 +15,7 @@ var inlineMode = "Disable"
 var noPartitionsFlag = ""
 var persistentFlag = "_Inmemory"
 var proguardFlag = ""
-
 var cleanedArgs = mutableListOf<String>()
-
 for (arg in args) {
     if (arg.startsWith("--releaseMode=")) {
         releaseMode = arg.substring("--releaseMode=".length)

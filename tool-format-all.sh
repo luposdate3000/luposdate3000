@@ -1,11 +1,15 @@
 #!/bin/bash
-for f in $(find . -type f -name "*.kt" | grep -v "/build-cache/")
+find . -type f -name "*.kts" > tmp2
+find . -type f -name "*.kt" >> tmp2
+for f in $(cat tmp2 | grep -v ".git" | grep -v build-cache)
 do
-        cat $f | grep "^@file" > tmp2
-        cat $f | grep "^package " >> tmp2
-        cat $f | grep "^import " | sort | uniq >>tmp2
-        cat $f | grep -v "^@file" | grep -v "^package " | grep -v "^import " | egrep -v "^[[:space:]]*$|^#" >>tmp2
-        mv tmp2 $f
+        cat $f | grep "^#!" > tmp3
+        cat $f | grep "^@file" >> tmp3
+        cat $f | grep "^package " >> tmp3
+        cat $f | grep "^import " | sort | uniq >>tmp3
+        cat $f | grep -v "^#!" | grep -v "^@file" | grep -v "^package " | grep -v "^import " | egrep -v "^[[:space:]]*$|^#" >>tmp3
+        mv tmp3 $f
+        ktlint -F $f &
 done
-ktlint -F "*.kt"
-ktlint -F "*.kts"
+wait
+rm tmp2

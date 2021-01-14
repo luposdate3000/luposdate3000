@@ -15,7 +15,6 @@ var inlineMode = InlineMode.Disable
 var dryMode = DryMode.Disable
 var fastMode = FastMode.JVM
 var intellijMode = IntellijMode.Disable
-
 for (arg in args) {
     if (arg.startsWith("--releaseMode=")) {
         releaseMode = ReleaseMode.valueOf(arg.substring("--releaseMode=".length))
@@ -31,7 +30,6 @@ for (arg in args) {
         intellijMode = IntellijMode.valueOf(arg.substring("--intellijMode=".length))
     }
 }
-
 createBuildFileForModule("Luposdate3000_Shared", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
 createBuildFileForModule("Luposdate3000_Jena_Wrapper_On", "Luposdate3000_Jena_Wrapper", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)
 createBuildFileForModule("Luposdate3000_Jena_Wrapper_Off", "Luposdate3000_Jena_Wrapper", releaseMode, suspendMode, inlineMode, dryMode, fastMode, intellijMode)

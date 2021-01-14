@@ -1,8 +1,6 @@
 #!/usr/bin/env kotlin
 import java.io.File
-
 fun generate(enumName: String, packageName: String, modifier: String, fileName: String) {
-
     val mapping2 = mutableListOf<String>()
     var id = 0
     File(fileName + ".txt").forEachLine {
@@ -53,7 +51,6 @@ val generatingArgs = arrayOf(
     listOf("EOperatingSystem", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystem"),
     listOf("EIndexPattern", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EIndexPattern"),
 )
-
 for (args in generatingArgs) {
     generate(args[0], args[1], args[2], args[3])
 }

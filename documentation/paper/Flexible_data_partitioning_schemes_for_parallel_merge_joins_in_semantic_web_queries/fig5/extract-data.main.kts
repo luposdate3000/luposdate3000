@@ -2,7 +2,6 @@
 import java.io.File
 import java.text.DecimalFormat
 import kotlin.math.log2
-
 val data = mutableMapOf<Int/*trash or join*/, MutableMap<Int/*joincount*/, MutableMap<Int/*partitions*/, Double>>>()
 val data_trash_or_join = mutableSetOf<Int>(
     -64,
@@ -26,7 +25,6 @@ val data_trash_or_join = mutableSetOf<Int>(
 )
 val data_joincount = mutableSetOf<Int>()
 val data_partitions = mutableSetOf<Int>()
-
 File(args[0]).forEachLine {
     if (it.contains("NoOptimizer")) {
         val row = it.split(",")
@@ -56,7 +54,6 @@ File(args[0]).forEachLine {
         }
     }
 }
-
 var row = "\t\t\t&  "
 for (joincount in data_joincount) {
     row = "$row&${joincount.toString().padStart(4, ' ')}"
@@ -93,7 +90,6 @@ for (trash_or_join in data_trash_or_join.sorted()) { // y-axis
         row = "\t\t\t"
     }
 }
-
 println("-------------------")
 row = "\t\t\t  "
 for (joincount in data_joincount) {
@@ -192,11 +188,9 @@ File("plot.map").printWriter().use { outMap ->
         }
     }
 }
-
 inline fun doubleToString(d: Double): String {
     return DecimalFormat("#.##").format(d)
 }
-
 println("-------------------")
 i = 0
 for (trash_or_join in data_trash_or_join.sorted()) { // y-axis

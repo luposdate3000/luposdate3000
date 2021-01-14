@@ -43,7 +43,6 @@ val numberOfTriples = 1048576
 val triplesFiles = "${Platform.getBenchmarkHome()}/luposdate-testdata/sp2b/$numberOfTriples/complete.n3"
 val queryFiles = "resources/sp2b/q10.sparql;resources/sp2b/q1.sparql;resources/sp2b/q3a.sparql;resources/sp2b/q3b.sparql;resources/sp2b/q3c.sparql;resources/sp2b/q4.sparql;resources/sp2b/q5a.sparql;resources/sp2b/q6.sparql;resources/sp2b/q8.sparql"
 val minimumTime = 10.0
-
 File("log").mkdirs()
 val jars = mutableListOf(
     "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager_Inmemory-jvm.jar",
