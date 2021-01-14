@@ -248,7 +248,7 @@ val defaultParams = mutableListOf(
         }
     },
     ParamClass(
-        "--compileAndLaunch",
+        "--compileAndRun",
         {
             enableParams(compileParams)
             execMode = ExecMode.COMPILE_AND_RUN
