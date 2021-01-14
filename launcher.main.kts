@@ -31,7 +31,7 @@ var fastMode = ""
 var intellijMode = ""
 var cleanedArgs = mutableListOf<String>()
 var skipArgs = false
-enum class ExecMode { LAUNCH, COMPILE, HELP, COMPILE_AND_LAUNCH, GENERATE_PARSER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS }
+enum class ExecMode { LAUNCH, COMPILE, HELP, COMPILE_AND_LAUNCH, GENERATE_PARSER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, ALL_TEST }
 var execMode = ExecMode.LAUNCH
 enum class ParamClassMode { VALUES, NO_VALUE }
 class ParamClass {
@@ -210,6 +210,13 @@ val defaultParams = mutableListOf(
         }
     ),
     ParamClass(
+        "--allTest",
+        {
+            execMode = ExecMode.ALL_TEST
+            skipArgs = true
+        }
+    ),
+    ParamClass(
         "--generateParser",
         {
             execMode = ExecMode.GENERATE_PARSER
@@ -267,7 +274,6 @@ val defaultParams = mutableListOf(
             enableParams(compileParams)
             execMode = ExecMode.SETUP_JS
             fastMode = "JS"
-            skipArgs = true
         }
     ),
     ParamClass(
@@ -281,7 +287,6 @@ val defaultParams = mutableListOf(
             dryMode = "Enable"
             fastMode = "JVM"
             intellijMode = "Enable"
-            skipArgs = true
         }
     ),
 )
@@ -328,6 +333,7 @@ when (execMode) {
     ExecMode.GENERATE_ENUMS -> onGenerateEnums()
     ExecMode.SETUP_INTELLIJ_IDEA -> onSetupIntellijIdea()
     ExecMode.SETUP_JS -> onSetupJS()
+    ExecMode.ALL_TEST -> onAllTest()
     ExecMode.COMPILE_AND_LAUNCH -> {
         onCompile()
         onLaunch()
@@ -621,4 +627,49 @@ fun find(path: String, fName: String): File? {
         }
     }
     return null
+}
+fun onAllTest() {
+    for (r in listOf("Enable", "Disable")) {
+        for (i in listOf("Enable", "Disable")) {
+            for (s in listOf("Disable")) {
+                ProcessBuilder("./launcher.main.kts", "--compileAll", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--dryMode=Disable", "--fastMode=Disable", "--intellijMode=Disable")
+                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s.compile-log")))
+                    .redirectError(Redirect.INHERIT)
+                    .start()
+                    .waitFor()
+                ProcessBuilder("./launcher.main.kts", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=On", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-Partitions.test-log")))
+                    .redirectError(Redirect.INHERIT)
+                    .start()
+                    .waitFor()
+                File("/tmp/luposdate3000/").deleteRecursively()
+                ProcessBuilder("./launcher.main.kts", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions.test-log")))
+                    .redirectError(Redirect.INHERIT)
+                    .start()
+                    .waitFor()
+                ProcessBuilder("./launcher.main.kts", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=persistent", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent.test-log")))
+                    .redirectError(Redirect.INHERIT)
+                    .start()
+                    .waitFor()
+                ProcessBuilder("./launcher.main.kts", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=On", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-Partitions-Proguard.test-log")))
+                    .redirectError(Redirect.INHERIT)
+                    .start()
+                    .waitFor()
+                ProcessBuilder("./launcher.main.kts", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Proguard.test-log")))
+                    .redirectError(Redirect.INHERIT)
+                    .start()
+                    .waitFor()
+                File("/tmp/luposdate3000/").deleteRecursively()
+                ProcessBuilder("./launcher.main.kts", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=persistent", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent-Proguard.test-log")))
+                    .redirectError(Redirect.INHERIT)
+                    .start()
+                    .waitFor()
+            }
+        }
+    }
 }
