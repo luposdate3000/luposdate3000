@@ -11,7 +11,12 @@
 import lupos.s00misc.EOperatingSystemExt
 import lupos.s00misc.Platform
 import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 import java.lang.ProcessBuilder.Redirect
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.util.jar.JarFile
 var releaseMode = ""
 var suspendMode = ""
 var inlineMode = ""
@@ -26,7 +31,7 @@ var fastMode = ""
 var intellijMode = ""
 var cleanedArgs = mutableListOf<String>()
 var skipArgs = false
-enum class ExecMode { LAUNCH, COMPILE, HELP, COMPILE_AND_LAUNCH, GENERATE_PARSER, GENERATE_ENUMS ,SETUP_INTELLIJ_IDEA}
+enum class ExecMode { LAUNCH, COMPILE, HELP, COMPILE_AND_LAUNCH, GENERATE_PARSER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS }
 var execMode = ExecMode.LAUNCH
 enum class ParamClassMode { VALUES, NO_VALUE }
 class ParamClass {
@@ -256,19 +261,29 @@ val defaultParams = mutableListOf(
             skipArgs = true
         }
     ),
-ParamClass(
-"--setupIntellijIdea",
-{
-execMode=ExecMode.SETUP_INTELLIJ_IDEA
-releaseMode="Disable"
-suspendMode="Disable"
-inlineMode="Disable"
-dryMode="Enable"
-fastMode="JVM"
-intellijMode="Enable"
- skipArgs = true
-}
-),
+    ParamClass(
+        "--setupJS",
+        {
+            enableParams(compileParams)
+            execMode = ExecMode.SETUP_JS
+            fastMode = "JS"
+            skipArgs = true
+        }
+    ),
+    ParamClass(
+        "--setupIntellijIdea",
+        {
+            enableParams(compileParams)
+            execMode = ExecMode.SETUP_INTELLIJ_IDEA
+            releaseMode = "Disable"
+            suspendMode = "Disable"
+            inlineMode = "Disable"
+            dryMode = "Enable"
+            fastMode = "JVM"
+            intellijMode = "Enable"
+            skipArgs = true
+        }
+    ),
 )
 fun enableParams(params: List<ParamClass>) {
     for (param in params) {
@@ -311,7 +326,8 @@ when (execMode) {
     ExecMode.LAUNCH -> onLaunch()
     ExecMode.GENERATE_PARSER -> onGenerateParser()
     ExecMode.GENERATE_ENUMS -> onGenerateEnums()
-ExecMode.SETUP_INTELLIJ_IDEA->onSetupIntellijIdea()
+    ExecMode.SETUP_INTELLIJ_IDEA -> onSetupIntellijIdea()
+    ExecMode.SETUP_JS -> onSetupJS()
     ExecMode.COMPILE_AND_LAUNCH -> {
         onCompile()
         onLaunch()
@@ -359,47 +375,47 @@ fun onCompile() {
     createBuildFileForModule("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
     createBuildFileForModule("Luposdate3000_Launch_Generate_Binary_Test_Suite", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
 }
-fun onSetupIntellijIdea(){
-File(".idea").deleteRecursively()
-File("log").mkdirs()
-onCompile()
-var releaseMode2 = ReleaseMode.valueOf(releaseMode)
+fun onSetupIntellijIdea() {
+    File(".idea").deleteRecursively()
+    File("log").mkdirs()
+    onCompile()
+    var releaseMode2 = ReleaseMode.valueOf(releaseMode)
     var suspendMode2 = SuspendMode.valueOf(suspendMode)
     var inlineMode2 = InlineMode.valueOf(inlineMode)
     var dryMode2 = DryMode.valueOf(dryMode)
     var fastMode2 = FastMode.valueOf(fastMode)
     var intellijMode2 = IntellijMode.valueOf(intellijMode)
-createBuildFileForModule("Luposdate3000_Shared_Inline",releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-createBuildFileForModule("Luposdate3000_Scripting",releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-File("build.gradle.kts").printWriter().use { outBuildGradle ->
-    outBuildGradle.println("dependencies {")
-    outBuildGradle.println("    project(\":src\")")
-    outBuildGradle.println("}")
-}
-File("settings.gradle").printWriter().use { outSettingsGradle ->
-    File("src${Platform.getPathSeparator()}build.gradle.kts").printWriter().use { outBuildGradle ->
-        outSettingsGradle.println("pluginManagement {")
-        outSettingsGradle.println("    repositories {")
-        outSettingsGradle.println("        mavenLocal()")
-        outSettingsGradle.println("        gradlePluginPortal()")
-        outSettingsGradle.println("    }")
-        outSettingsGradle.println("}")
-        outSettingsGradle.println("rootProject.name = \"Luposdate3000\"")
-        outSettingsGradle.println("include(\":src\")")
+    createBuildFileForModule("Luposdate3000_Shared_Inline", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Scripting", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
+    File("build.gradle.kts").printWriter().use { outBuildGradle ->
         outBuildGradle.println("dependencies {")
-        Files.walk(Paths.get("src"), 1).forEach { it ->
-            val name = it.toString()
-            println(name)
-            if (name.startsWith("src/lupos") || name.startsWith("src\\lupos")) {
-                if (!name.contains("shared_inline")) {
-                    outSettingsGradle.println("include(\":src:${name.substring(4)}\")")
-                    outBuildGradle.println("    project(\":src:${name.substring(4)}\")")
-                }
-            }
-        }
+        outBuildGradle.println("    project(\":src\")")
         outBuildGradle.println("}")
     }
-}
+    File("settings.gradle").printWriter().use { outSettingsGradle ->
+        File("src${Platform.getPathSeparator()}build.gradle.kts").printWriter().use { outBuildGradle ->
+            outSettingsGradle.println("pluginManagement {")
+            outSettingsGradle.println("    repositories {")
+            outSettingsGradle.println("        mavenLocal()")
+            outSettingsGradle.println("        gradlePluginPortal()")
+            outSettingsGradle.println("    }")
+            outSettingsGradle.println("}")
+            outSettingsGradle.println("rootProject.name = \"Luposdate3000\"")
+            outSettingsGradle.println("include(\":src\")")
+            outBuildGradle.println("dependencies {")
+            Files.walk(Paths.get("src"), 1).forEach { it ->
+                val name = it.toString()
+                println(name)
+                if (name.startsWith("src/lupos") || name.startsWith("src\\lupos")) {
+                    if (!name.contains("shared_inline")) {
+                        outSettingsGradle.println("include(\":src:${name.substring(4)}\")")
+                        outBuildGradle.println("    project(\":src:${name.substring(4)}\")")
+                    }
+                }
+            }
+            outBuildGradle.println("}")
+        }
+    }
 }
 fun onLaunch() {
     File("log").mkdirs()
@@ -423,7 +439,7 @@ fun onLaunch() {
     for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}com.soywiz.korlibs.krypto${Platform.getPathSeparator()}krypto-jvm${Platform.getPathSeparator()}1.9.1${Platform.getPathSeparator()}", "krypto-jvm-1.9.1.jar")) {
         jars.add(f)
     }
-    for (f in Platform.findNamedFileInDirectory("${Platform.getMavenCache()}org${Platform.getPathSeparator()}jetbrains${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}kotlin-stdlib${Platform.getPathSeparator()}1.4.255-SNAPSHOT", "kotlin-stdlib-1.4.255-SNAPSHOT.jar")) {
+    for (f in Platform.findNamedFileInDirectory("${Platform.getMavenCache()}org${Platform.getPathSeparator()}jetbrains${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}kotlin-stdlib${Platform.getPathSeparator()}$compilerVersion", "kotlin-stdlib-$compilerVersion.jar")) {
         jars.add(f)
     }
     var classpath = ""
@@ -544,4 +560,18 @@ fun onGenerateEnums() {
     for (args in generatingArgs) {
         onGenerateEnumsHelper(args[0], args[1], args[2], args[3])
     }
+}
+fun copyFromJar(source: InputStream, dest: String) {
+    val out = FileOutputStream(dest)
+    while (source.available()> 0) {
+        out.write(source.read())
+    }
+    out.close()
+    source.close()
+}
+fun onSetupJS() {
+    onCompile()
+    val jsStdlib = JarFile(File("${Platform.getMavenCache()}/org/jetbrains/kotlin/kotlin-stdlib-js/$compilerVersion/kotlin-stdlib-js-$compilerVersion.jar"))
+    copyFromJar(jsStdlib.getInputStream(jsStdlib.getEntry("kotlin.js")), "build-cache/kotlin.js")
+    copyFromJar(jsStdlib.getInputStream(jsStdlib.getEntry("kotlin.js.map")), "build-cache/kotlin.js.map")
 }
