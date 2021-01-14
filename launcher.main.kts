@@ -16,20 +16,19 @@ var partitionMode = ""
 var memoryMode = ""
 var proguardMode = ""
 var mainClass = ""
-var jenaWrapper=""
-var endpointMode=""
+var jenaWrapper = ""
+var endpointMode = ""
 var cleanedArgs = mutableListOf<String>()
 class ParamClass(val name: String, val default: String, val values: Map<String, () -> Unit>)
-
 val allParams = arrayOf(
-ParamClass(
-"--jenaWrapper",
-"Off",
-mapOf(
-"On" to {jenaWrapper="On"},
-"Off" to{jenaWrapper="Off"},
-)
-),
+    ParamClass(
+        "--jenaWrapper",
+        "Off",
+        mapOf(
+            "On" to { jenaWrapper = "On" },
+            "Off" to { jenaWrapper = "Off" },
+        )
+    ),
     ParamClass(
         "--releaseMode",
         "Disable",
@@ -78,14 +77,14 @@ mapOf(
             "Off" to { proguardMode = "" },
         )
     ),
-ParamClass(
-"--endpointMode",
-"None",
-mapOf(
-"None" to {endpointMode="None"},
-"JavaSockets" to{endpointMode="JavaSockets"},
-)
-),
+    ParamClass(
+        "--endpointMode",
+        "None",
+        mapOf(
+            "None" to { endpointMode = "None" },
+            "JavaSockets" to { endpointMode = "JavaSockets" },
+        )
+    ),
     ParamClass(
         "--mainClass",
         "Endpoint",
@@ -106,21 +105,21 @@ for (param in allParams) {
     param.values[param.default]!!()
 }
 loop@for (arg in args) {
-if(args.contains("--help")){
-println("Usage ./exec-any.main.kts <options> <args>")
-println("where possible options include:")
-println("  --help")
-for(param in allParams){
-println("  ${param.name}=${param.values.keys.map{it}.toString().replace("[","<").replace("]",">").replace(", ","|")}  default=${param.default}")
-}
-System.exit(0)
-}
+    if (args.contains("--help")) {
+        println("Usage ./exec-any.main.kts <options> <args>")
+        println("where possible options include:")
+        println("  --help")
+        for (param in allParams) {
+            println("  ${param.name}=${param.values.keys.map{it}.toString().replace("[","<").replace("]",">").replace(", ","|")}  default=${param.default}")
+        }
+        System.exit(0)
+    }
     for (param in allParams) {
         if (arg.startsWith(param.name)) {
             val value = arg.substring(param.name.length)
-if(!param.values.contains(value)){
-throw Exception("'${param.name}' does not allow the value '$value'")
-}
+            if (!param.values.contains(value)) {
+                throw Exception("'${param.name}' does not allow the value '$value'")
+            }
             param.values[value]!!()
             continue@loop
         }
@@ -181,10 +180,8 @@ for (jar in jars) {
 }
 val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt")
 cmd.addAll(cleanedArgs)
-
 println(cmd)
 throw Exception("finish")
-
 val p = ProcessBuilder(cmd)
     .redirectOutput(Redirect.INHERIT)
     .redirectError(Redirect.INHERIT)

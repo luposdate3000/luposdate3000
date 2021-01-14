@@ -15,7 +15,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 File(".idea").deleteRecursively()
 File("log").mkdirs()
-val p = ProcessBuilder("./compile-module-all.main.kts","--releaseMode=Disable","--suspendMode=Disable","--inlineMode=Disable","--dryMode=Enable","--fastMode=JVM","--intellijMode=Enable")
+val p = ProcessBuilder("./compile-module-all.main.kts", "--releaseMode=Disable", "--suspendMode=Disable", "--inlineMode=Disable", "--dryMode=Enable", "--fastMode=JVM", "--intellijMode=Enable")
     .redirectOutput(Redirect.INHERIT)
     .redirectError(Redirect.INHERIT)
     .start()
