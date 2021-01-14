@@ -16,7 +16,7 @@ enum class FastMode {
 enum class IntellijMode {
     Enable, Disable
 }
-val compilerVersion="1.5.255-SNAPSHOT"
+val compilerVersion = "1.5.255-SNAPSHOT"
 val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
 private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, appendix: String, out: PrintWriter) {
     for (d in dependencies) {
@@ -237,7 +237,7 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                 out.println("rootProject.name = \"$moduleName\"") // maven-artifactID
             }
         }
-        val commonDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-common:${compilerVersion}")
+        val commonDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-common:$compilerVersion")
         if (!moduleName.startsWith("Luposdate3000_Shared")) {
             commonDependencies.add("luposdate3000:Luposdate3000_Shared:0.0.1")
         }
@@ -248,7 +248,7 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                 }
             }
         }
-        val jvmDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${compilerVersion}")
+        val jvmDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$compilerVersion")
         if (File("${moduleFolder}${pathSeparator}jvmDependencies").exists()) {
             File("${moduleFolder}${pathSeparator}jvmDependencies").forEachLine {
                 if (it.length > 0) {
@@ -256,7 +256,7 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                 }
             }
         }
-        val jsDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-js:${compilerVersion}")
+        val jsDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-js:$compilerVersion")
         if (File("${moduleFolder}${pathSeparator}jsDependencies").exists()) {
             File("${moduleFolder}${pathSeparator}jsDependencies").forEachLine {
                 if (it.length > 0) {
