@@ -7,9 +7,9 @@ do
         cat $f | grep "^@file" >> tmp3
         cat $f | grep "^package " >> tmp3
         cat $f | grep "^import " | sort | uniq >>tmp3
-        cat $f | grep -v "^#!" | grep -v "^@file" | grep -v "^package " | grep -v "^import " | egrep -v "^[[:space:]]*$|^#" >>tmp3
-        mv tmp3 $f
+        cat $f | grep -v "^#!" | grep -v "^@file" | grep -v "^package " | grep -v "^import " | egrep -v "^[[:space:]]*$|^#" >> tmp3
+        cat tmp3 > $f
         ktlint -F $f &
 done
 wait
-rm tmp2
+rm tmp2 tmp3
