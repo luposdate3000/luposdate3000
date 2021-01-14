@@ -90,5 +90,10 @@ dependencieshome=/opt
     ./getPlugins.sh
     ant build
 }
-
+#ktlint
+{
+    curl -sSLO https://github.com/pinterest/ktlint/releases/download/0.40.0/ktlint
+    chmod a+x ktlint
+    mv ktlint /usr/local/bin/
+}
 ```
