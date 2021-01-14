@@ -25,6 +25,7 @@ var dryMode = ""
 var fastMode = ""
 var intellijMode = ""
 var cleanedArgs = mutableListOf<String>()
+var skipArgs = false
 enum class ExecMode { LAUNCH, COMPILE, HELP }
 var execMode = ExecMode.LAUNCH
 enum class ParamClassMode { VALUES, NO_VALUE }
@@ -61,7 +62,7 @@ class ParamClass {
     fun exec(arg: String) {
         when (mode) {
             ParamClassMode.VALUES -> {
-                val value = arg.substring(name.length)
+                val value = arg.substring(name.length + 1)
                 if (!values.contains(value)) {
                     throw Exception("'$name' does not allow the value '$value'")
                 }
@@ -200,12 +201,13 @@ val defaultParams = mutableListOf(
         "--help",
         {
             execMode = ExecMode.HELP
+            skipArgs = true
         }
     ),
     ParamClass(
         "--compileAll",
         {
-enableParams(compileParams)
+            enableParams(compileParams)
             execMode = ExecMode.COMPILE
         }
     ).setAdditionalHelp {
@@ -213,18 +215,37 @@ enableParams(compileParams)
             param.help(it)
         }
     },
+    ParamClass(
+        "--clearCaches",
+        {
+            if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
+                File("${System.getenv("LOCALAPPDATA")}${Platform.getPathSeparator()}main.kts.compiled.cache").deleteRecursively()
+            } else {
+                File("${System.getProperty("user.home")}${Platform.getPathSeparator()}.cache${Platform.getPathSeparator()}main.kts.compiled.cache").deleteRecursively()
+            }
+            File(Platform.getGradleCache() + "${Platform.getPathSeparator()}modules-2").deleteRecursively()
+            File(Platform.getGradleCache() + "${Platform.getPathSeparator()}jars-8").deleteRecursively()
+            File(Platform.getGradleCache() + "${Platform.getPathSeparator()}jars-3").deleteRecursively()
+            File(Platform.getMavenCache() + "${Platform.getPathSeparator()}luposdate3000").deleteRecursively()
+            File("build-cache").deleteRecursively()
+            skipArgs = true
+        }
+    ),
 )
-fun enableParams(params:List<ParamClass>){
-for (param in params) {
-    param.execDefault()
-enabledParams.add(param)
-}
+fun enableParams(params: List<ParamClass>) {
+    for (param in params) {
+        param.execDefault()
+        enabledParams.add(param)
+    }
 }
 enableParams(defaultParams)
 loop@for (arg in args) {
     for (param in enabledParams) {
         if (arg.startsWith(param.name)) {
             param.exec(arg)
+            if (skipArgs) {
+                break@loop
+            }
             continue@loop
         }
     }
@@ -248,12 +269,12 @@ if (releaseMode == "Enable") {
 }
 when (execMode) {
     ExecMode.HELP -> {
- println("Usage ./exec-any.main.kts <options>")
-            println("where possible options include:")
-            for (param in enabledParams) {
-                param.help()
-            }
-}
+        println("Usage ./exec-any.main.kts <options>")
+        println("where possible options include:")
+        for (param in defaultParams) {
+            param.help()
+        }
+    }
     ExecMode.COMPILE -> {
         var releaseMode2 = ReleaseMode.valueOf(releaseMode)
         var suspendMode2 = SuspendMode.valueOf(suspendMode)
@@ -329,7 +350,6 @@ when (execMode) {
         val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt")
         cmd.addAll(cleanedArgs)
         println(cmd)
-        throw Exception("finish")
         val p = ProcessBuilder(cmd)
             .redirectOutput(Redirect.INHERIT)
             .redirectError(Redirect.INHERIT)
