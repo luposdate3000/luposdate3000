@@ -8,4 +8,3 @@
 @file:CompilerOptions("-Xmulti-platform")
 
 createBuildFileForModule("Luposdate3000_Endpoint", ReleaseMode.Enable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable, arrayOf("--QueryResultToStream=lupos.s11outputResult.QueryResultToEmptyStream"))
-createBuildFileForModule("Luposdate3000_Launch_Benchmark_4", "Luposdate3000_Main", ReleaseMode.Enable, SuspendMode.Disable, InlineMode.Enable, DryMode.Disable, FastMode.JVM, IntellijMode.Disable)

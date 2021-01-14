@@ -4,7 +4,6 @@
 @file:Import("../src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
 @file:CompilerOptions("-Xmulti-platform")
 
-import lupos.s00misc.Platform
 import java.io.BufferedOutputStream
 import java.io.DataOutputStream
 import java.io.File
@@ -22,9 +21,12 @@ enum class ETripleComponentType {
     STRING_TYPED,
     STRING_LANG,
 }
-generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_1", 20, 265, 256, 4)
+// generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4", 2097152, 16,1)
 
-fun generateTriples(folderName: String, count: Int, a: Int, b: Int, c: Int): Int {
+// 128 1 1 32768
+// generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4_a", 32768, 128,1,1)
+
+fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block: Int, join_count: Int): Int {
     val byteBuf = ByteArray(1)
     File(folderName).mkdirs()
     var outN3: PrintWriter = File(folderName + "/intermediate.n3").printWriter()
@@ -69,25 +71,25 @@ fun generateTriples(folderName: String, count: Int, a: Int, b: Int, c: Int): Int
     }
 
     for (i in 0 until count) {
-        appendTriple("_:${i}_a", "<a>", "_:${i}_b")
-        appendTriple("_:${i}_a", "<b>", "_:${i}_c")
-        appendTriple("_:${i}_c", "<c>", "_:${i}_d")
-        for (j in 0 until a) {
-            appendTriple("_:${i}_a_$j", "<a>", "_:${i}_b_$j")
+        for (c in 0 until join_count + 1) {
+            val cc = 'a' + c
+            for (j in 0 until join_block) {
+                appendTriple("_:$i", "<$cc>", "_:$j")
+            }
         }
-        for (k in 0 until b) {
-            appendTriple("_:${i}_a_$k", "<b>", "_:${i}_c_$k")
-        }
-        for (l in 0 until c) {
-            appendTriple("_:${i}_c_$l", "<c>", "_:${i}_d_$l")
+        for (c in 0 until join_count + 1) {
+            val cc = 'a' + c
+            for (j in 0 until trash_block) {
+                appendTriple("_:${cc}_${i}_$j", "<$cc>", "_:$j")
+            }
         }
     }
 
     outIntermediateTriples.close()
     File("$folderName/intermediate.n3.partitions").printWriter().use { out ->
-        for (i in listOf(2, 4, 8, 16, 32)) {
+        out.println("PSO,-1,1")
+        for (i in listOf(2, 4, 8, 16)) {
             out.println("PSO,1,$i")
-            out.println("PSO,2,$i")
         }
     }
 
