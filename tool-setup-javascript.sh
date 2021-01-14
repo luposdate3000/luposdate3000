@@ -1,10 +1,7 @@
 #!/bin/bash
 ./tool-clear-caches.sh
-mkdir -p build-cache
-sed "s/FastMode.Disable/FastMode.JS/g" -i compile-module-all.main.kts
-sed "s/FastMode.JVM/FastMode.JS/g" -i compile-module-all.main.kts
-sed "s/FastMode.Native/FastMode.JS/g" -i compile-module-all.main.kts
-./compile-module-all.main.kts
+./compile-module-all.main.kts --fastMode=JS
+
 unzip $(find ~/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-js/1.4.255-SNAPSHOT/ -name "kotlin-stdlib-js-1.4.255-SNAPSHOT.jar") kotlin.js
 mv kotlin.js build-cache/kotlin.js
 unzip $(find ~/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-js/1.4.255-SNAPSHOT/ -name "kotlin-stdlib-js-1.4.255-SNAPSHOT.jar") kotlin.js.map
@@ -15,7 +12,6 @@ mv krypto-root-krypto.js build-cache/krypto-root-krypto.js
 unzip $(find ~/.gradle/caches/modules-2/files-2.1/com.soywiz.korlibs.krypto/krypto-js/1.9.1 -name "krypto-js-1.9.1.jar") krypto-root-krypto.js.map
 mv krypto-root-krypto.js.map build-cache/krypto-root-krypto.js.map
 
-echo build-cache/index.html
 cat > build-cache/index.html << EOF
 <!DOCTYPE html>
 <html lang="en">
