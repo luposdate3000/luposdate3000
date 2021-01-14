@@ -40,7 +40,7 @@ Things you can change:
   use this:
   
   ```kotlin
-    SanityCheck{
+    SanityCheck {
        debug-code here
     }
   ```

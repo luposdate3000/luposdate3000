@@ -1,18 +1,17 @@
 ## Usage / Compile (advanced)
 
+Download and install intellij from [www.jetbrains.com](https://www.jetbrains.com/idea/download/)
+
 First close intellij, if it is already open.
 Prepare the project for intellij using:
 
-
 ```bash
-./tool-setup-idea.main.kts
+./launcher.main.kts --setupIntellijIdea
 ```
 
 This should be fast.
 
 If you pull again from the git, than execute this setup-script again.
-
-Download and install intellij from https://www.jetbrains.com/idea/download/
 
 Now, you can open intellij.
 Intellij on Windows warns you about not trusted git-ssl-certificates - you can accept these.

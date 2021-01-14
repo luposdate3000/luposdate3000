@@ -3,10 +3,10 @@
 To run all tests use the following:
 
 ```bash
-./exec-binary-test-suite-jvm.main.kts
+./launcher.main.kts --allTest
 ```
 
-or if you are using intellij, launch the main-function in the module Luposdate3000_Launch_Binary_Test_Suite .
+or if you are using intellij, launch the main-function in the File [src/luposdate3000_launch_binary_test_suite/src/jvmMain/kotlin/Main.kt](src/luposdate3000_launch_binary_test_suite/src/jvmMain/kotlin/Main.kt) .
 
 
 These tests are executed repeatedly and therefore these should be compileable and executable.
@@ -17,7 +17,7 @@ You can modify resources/binary/config to enable/disable specific tests.
 The found errors are summarized in the file log/error.
 
 The errors are NOT displayed in the console.
-In the console are only debugging-logs, which may help to find the origin of the error.
+In the console there are only debugging-logs, which may help to find the origin of the error.
 
 
 luposdate3000 allows for many configuration options where completely independent code is used.
@@ -34,5 +34,5 @@ targetdata=xyz/file.n3
 outputfoldername=xyz
 testname=xyz
 mode=SELECT_QUERY_RESULT  # or mode=MODIFY_RESULT
-./exec-binary-test-add.main.kts "$inputdata" "$sparql" "$targetdata" "$outputfoldername" "$testname" "$mode"
+./launcher --mainClass=Binary_Test_Suite --generate "$inputdata" "$sparql" "$targetdata" "$outputfoldername" "$testname" "$mode"
 ```
