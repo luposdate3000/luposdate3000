@@ -109,8 +109,9 @@ loop@for (arg in args) {
 if(args.contains("--help")){
 println("Usage ./exec-any.main.kts <options> <args>")
 println("where possible options include:")
+println("  --help")
 for(param in allParams){
-println("  ${param.name}=${param.values.keys.map{it}.toString().replace("[","<").replace("]",">").replace(", ","|")}")
+println("  ${param.name}=${param.values.keys.map{it}.toString().replace("[","<").replace("]",">").replace(", ","|")}  default=${param.default}")
 }
 System.exit(0)
 }
