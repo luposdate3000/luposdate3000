@@ -535,27 +535,27 @@ fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: Strin
 }
 fun onGenerateEnums() {
     val generatingArgs = arrayOf(
-        listOf("MyPrintWriterMode", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/MyPrintWriterMode"),
-        listOf("BuiltInFunctions", "lupos.s02buildSyntaxTree.sparql1_1", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s02buildSyntaxTree/sparql1_1/BuiltInFunctions"),
-        listOf("BinaryTestCaseOutputMode", "lupos.s00misc", "public", "src/luposdate3000_test/src/commonMain/kotlin/lupos/s00misc/BinaryTestCaseOutputMode"),
-        listOf("Aggregation", "lupos.s02buildSyntaxTree.sparql1_1", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s02buildSyntaxTree/sparql1_1/Aggregation"),
-        listOf("TripleStoreFeature", "lupos.s05tripleStore", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s05tripleStore/TripleStoreFeature"),
-        listOf("IteratorBundleMode", "lupos.s04logicalOperators.iterator", "internal", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s04logicalOperators/iterator/IteratorBundleMode"),
-        listOf("ESortPriority", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ESortPriority"),
-        listOf("ETripleIndexType", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleIndexType"),
-        listOf("EGraphRefType", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EGraphRefType"),
-        listOf("EOperatorID", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatorID"),
-        listOf("EModifyType", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EModifyType"),
-        listOf("ETripleComponentType", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleComponentType"),
-        listOf("EGraphOperationType", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EGraphOperationType"),
-        listOf("ESortType", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ESortType"),
-        listOf("EGroupMember", "", "lupos.s00misc", "public", "", "", "src/luposdate3000_optimizer/src/commonMain/kotlin/lupos/s00misc/EGroupMember"),
-        listOf("EQueryResultToStream", "lupos.s11outputResult", "public", "src/luposdate3000_result_format/src/commonMain/kotlin/lupos/s11outputResult/EQueryResultToStream"),
-        listOf("EPOPDebugMode", "lupos.s00misc", "public", "", "src/luposdate3000_operators/src/commonMain/kotlin/lupos/s00misc/EPOPDebugMode"),
-        listOf("Turtle2ParserState", "lupos.s02buildSyntaxTree.turtle", "internal", "src/luposdate3000_parser/src/commonMain/kotlin/lupos/s02buildSyntaxTree/turtle/Turtle2ParserState"),
-        listOf("EOptimizerID", "lupos.s00misc", "internal", "src/luposdate3000_optimizer/src/commonMain/kotlin/lupos/s00misc/EOptimizerID"),
-        listOf("EOperatingSystem", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystem"),
-        listOf("EIndexPattern", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EIndexPattern"),
+        listOf("MyPrintWriterMode", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}MyPrintWriterMode"),
+        listOf("BuiltInFunctions", "lupos.s02buildSyntaxTree.sparql1_1", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}sparql1_1${Platform.getPathSeparator()}BuiltInFunctions"),
+        listOf("BinaryTestCaseOutputMode", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_test${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}BinaryTestCaseOutputMode"),
+        listOf("Aggregation", "lupos.s02buildSyntaxTree.sparql1_1", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}sparql1_1${Platform.getPathSeparator()}Aggregation"),
+        listOf("TripleStoreFeature", "lupos.s05tripleStore", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s05tripleStore${Platform.getPathSeparator()}TripleStoreFeature"),
+        listOf("IteratorBundleMode", "lupos.s04logicalOperators.iterator", "internal", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s04logicalOperators${Platform.getPathSeparator()}iterator${Platform.getPathSeparator()}IteratorBundleMode"),
+        listOf("ESortPriority", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}ESortPriority"),
+        listOf("ETripleIndexType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}ETripleIndexType"),
+        listOf("EGraphRefType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EGraphRefType"),
+        listOf("EOperatorID", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EOperatorID"),
+        listOf("EModifyType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EModifyType"),
+        listOf("ETripleComponentType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}ETripleComponentType"),
+        listOf("EGraphOperationType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EGraphOperationType"),
+        listOf("ESortType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}ESortType"),
+        listOf("EGroupMember", "", "lupos.s00misc", "public", "", "", "src${Platform.getPathSeparator()}luposdate3000_optimizer${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EGroupMember"),
+        listOf("EQueryResultToStream", "lupos.s11outputResult", "public", "src${Platform.getPathSeparator()}luposdate3000_result_format${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s11outputResult${Platform.getPathSeparator()}EQueryResultToStream"),
+        listOf("EPOPDebugMode", "lupos.s00misc", "public", "", "src${Platform.getPathSeparator()}luposdate3000_operators${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EPOPDebugMode"),
+        listOf("Turtle2ParserState", "lupos.s02buildSyntaxTree.turtle", "internal", "src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}turtle${Platform.getPathSeparator()}Turtle2ParserState"),
+        listOf("EOptimizerID", "lupos.s00misc", "internal", "src${Platform.getPathSeparator()}luposdate3000_optimizer${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EOptimizerID"),
+        listOf("EOperatingSystem", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EOperatingSystem"),
+        listOf("EIndexPattern", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EIndexPattern"),
     )
     for (args in generatingArgs) {
         onGenerateEnumsHelper(args[0], args[1], args[2], args[3])
@@ -571,7 +571,54 @@ fun copyFromJar(source: InputStream, dest: String) {
 }
 fun onSetupJS() {
     onCompile()
-    val jsStdlib = JarFile(File("${Platform.getMavenCache()}/org/jetbrains/kotlin/kotlin-stdlib-js/$compilerVersion/kotlin-stdlib-js-$compilerVersion.jar"))
-    copyFromJar(jsStdlib.getInputStream(jsStdlib.getEntry("kotlin.js")), "build-cache/kotlin.js")
-    copyFromJar(jsStdlib.getInputStream(jsStdlib.getEntry("kotlin.js.map")), "build-cache/kotlin.js.map")
+    val jsStdlib = JarFile(File("${Platform.getMavenCache()}${Platform.getPathSeparator()}org${Platform.getPathSeparator()}jetbrains${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}kotlin-stdlib-js${Platform.getPathSeparator()}$compilerVersion${Platform.getPathSeparator()}kotlin-stdlib-js-$compilerVersion.jar"))
+    copyFromJar(jsStdlib.getInputStream(jsStdlib.getEntry("kotlin.js")), "build-cache${Platform.getPathSeparator()}kotlin.js")
+    copyFromJar(jsStdlib.getInputStream(jsStdlib.getEntry("kotlin.js.map")), "build-cache${Platform.getPathSeparator()}kotlin.js.map")
+    val kryptoLib = JarFile(find("${Platform.getGradleCache()}${Platform.getPathSeparator()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}com.soywiz.korlibs.krypto${Platform.getPathSeparator()}krypto-js", "krypto-js-1.9.1.jar")!!)
+    copyFromJar(kryptoLib.getInputStream(kryptoLib.getEntry("krypto-root-krypto.js")), "build-cache${Platform.getPathSeparator()}krypto-root-krypto.js")
+    copyFromJar(kryptoLib.getInputStream(kryptoLib.getEntry("krypto-root-krypto.js.map")), "build-cache${Platform.getPathSeparator()}krypto-root-krypto.js.map")
+    File("build-cache${Platform.getPathSeparator()}index.html").printWriter().use { out ->
+        out.println("<!DOCTYPE html>")
+        out.println("<html lang=\"en\">")
+        out.println("<head>")
+        out.println("    <meta charset=\"utf-8\">")
+        out.println("    <title>Luposdate3000</title>")
+        out.println("    <script src=\"kotlin.js\"></script>")
+        out.println("    <script src=\"krypto-root-krypto.js\"></script>")
+        out.println("    <script src=\"bin$appendix/Luposdate3000_Shared.js\"></script>")
+        out.println("    <script src=\"bin$appendix/Luposdate3000_Buffer_Manager_Inmemory/Luposdate3000_Buffer_Manager.js\"></script>")
+        out.println("    <script src=\"bin$appendix/Luposdate3000_Dictionary_Inmemory/Luposdate3000_Dictionary.js\"></script>")
+        out.println("    <script src=\"bin$appendix/Luposdate3000_Jena_Wrapper_Off/Luposdate3000_Jena_Wrapper.js\"></script>")
+        out.println("    <script src=\"bin$appendix/Luposdate3000_Operators.js\"></script>")
+        out.println("    <script src=\"bin$appendix/Luposdate3000_Parser.js\"></script>")
+        out.println("    <script src=\"bin$appendix/Luposdate3000_Result_Format.js\"></script>")
+        out.println("    <script src=\"bin$appendix/Luposdate3000_Triple_Store_Id_Triple.js\"></script>")
+        out.println("    <script src=\"bin$appendix/Luposdate3000_Triple_Store_All_NoPartitions/Luposdate3000_Triple_Store_All.js\"></script>")
+        out.println("    <script src=\"bin$appendix/Luposdate3000_Optimizer_NoPartitions/Luposdate3000_Optimizer.js\"></script>")
+        out.println("    <script src=\"bin$appendix/Luposdate3000_Endpoint.js\"></script>")
+        out.println("</head>")
+        out.println("<body>")
+        out.println("<script>")
+        out.println("Luposdate3000_Endpoint.lupos.s16network.LuposdateEndpoint.initialize()")
+        out.println("Luposdate3000_Endpoint.lupos.s16network.LuposdateEndpoint.evaluate_sparql_to_result_b(\"INSERT DATA { <s> <p> <o> } \")")
+        out.println("Luposdate3000_Endpoint.lupos.s16network.LuposdateEndpoint.evaluate_sparql_to_result_b(\"SELECT (5 as ?x) ?s {?s ?p ?o .}\")")
+        out.println("</script>")
+        out.println("</body>")
+        out.println("</html>")
+    }
+}
+fun find(path: String, fName: String): File? {
+    val f = File(path)
+    if (fName == f.getName()) {
+        return f
+    }
+    if (f.isDirectory()) {
+        for (aChild in f.list()) {
+            val ff = find(path + File.separator + aChild, fName)
+            if (ff != null) {
+                return ff
+            }
+        }
+    }
+    return null
 }
