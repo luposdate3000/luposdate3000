@@ -1,7 +1,6 @@
 import lupos.SparqlTestSuite
 import lupos.s00misc.BinaryTestCase
 import lupos.s00misc.BinaryTestCaseOutputModeExt
-import lupos.s00misc.BinaryTestCaseOutputMode
 import lupos.s00misc.SparqlTestSuiteConverter
 import lupos.s16network.LuposdateEndpoint
 @Suppress("NOTHING_TO_INLINE") internal inline fun mainFunc(args: Array<String>) {

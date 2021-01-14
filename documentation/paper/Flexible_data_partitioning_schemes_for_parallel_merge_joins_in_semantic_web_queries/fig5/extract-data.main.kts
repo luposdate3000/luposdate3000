@@ -145,12 +145,12 @@ File("plot.YLabels").printWriter().use { out ->
         if (trash_or_join < 0) {
             out.print("\"\$2^{${log2(-trash_or_join.toDouble()).toInt()}}\$\" $i")
         } else {
-val xx=log2(trash_or_join.toDouble()).toInt()
-if(xx % 2 == 1){
-            out.print("\"\$\\\\frac{1}{1+2^{${xx}}}\$\" $i")
-}else{
-out.print("\"\" $i")
-}
+            val xx = log2(trash_or_join.toDouble()).toInt()
+            if (xx % 2 == 1) {
+                out.print("\"\$\\\\frac{1}{1+2^{$xx}}\$\" $i")
+            } else {
+                out.print("\"\" $i")
+            }
         }
         i++
     }

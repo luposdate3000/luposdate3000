@@ -1,56 +1,59 @@
 #!/usr/bin/env kotlin
 import java.io.File
-// args[0] enum name
-// args[1] package name
-// args[2] modifier
-// args[3] file base name
 
-val mapping2 = mutableListOf<String>()
-var id = 0
-File(args[3] + ".txt").forEachLine {
-    mapping2.add(it)
-    id++
-}
-val mapping = mapping2.sorted()
-File(args[3] + ".kt").printWriter().use { out ->
-    out.println("package ${args[1]}")
-    out.println("${args[2]} typealias ${args[0]} = Int")
-}
-File(args[3] + "Ext.kt").printWriter().use { out ->
-    out.println("package ${args[1]}")
-    out.println("import kotlin.jvm.JvmField")
-    out.println("${args[2]} object ${args[0]}Ext {")
-    for (i in 0 until mapping.size) {
-        out.println("    ${args[2]} const val ${mapping[i]}: ${args[0]} = $i")
+fun generate(enumName: String, packageName: String, modifier: String, fileName: String) {
+
+    val mapping2 = mutableListOf<String>()
+    var id = 0
+    File(fileName + ".txt").forEachLine {
+        mapping2.add(it)
+        id++
     }
-    out.println("    ${args[2]} const val values_size: Int = ${mapping.size}")
-    out.println("    @JvmField ${args[2]} val names: Array<String> = arrayOf(")
-    for (i in 0 until mapping.size) {
-        out.println("        \"${mapping[i]}\",")
+    val mapping = mapping2.sorted()
+    File(fileName + ".kt").printWriter().use { out ->
+        out.println("package $packageName")
+        out.println("$modifier typealias $enumName = Int")
     }
-    out.println("    )")
-    out.println("}")
+    File(fileName + "Ext.kt").printWriter().use { out ->
+        out.println("package $packageName")
+        out.println("import kotlin.jvm.JvmField")
+        out.println("$modifier object ${enumName}Ext {")
+        for (i in 0 until mapping.size) {
+            out.println("    $modifier const val ${mapping[i]}: $enumName = $i")
+        }
+        out.println("    $modifier const val values_size: Int = ${mapping.size}")
+        out.println("    @JvmField $modifier val names: Array<String> = arrayOf(")
+        for (i in 0 until mapping.size) {
+            out.println("        \"${mapping[i]}\",")
+        }
+        out.println("    )")
+        out.println("}")
+    }
 }
-/*
-./tool-generateMyEnumClass.main.kts MyPrintWriterMode lupos.s00misc public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/MyPrintWriterMode
-./tool-generateMyEnumClass.main.kts BuiltInFunctions lupos.s02buildSyntaxTree.sparql1_1 public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s02buildSyntaxTree/sparql1_1/BuiltInFunctions
-./tool-generateMyEnumClass.main.kts BinaryTestCaseOutputMode lupos.s00misc public src/luposdate3000_test/src/commonMain/kotlin/lupos/s00misc/BinaryTestCaseOutputMode
-./tool-generateMyEnumClass.main.kts Aggregation lupos.s02buildSyntaxTree.sparql1_1 public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s02buildSyntaxTree/sparql1_1/Aggregation
-./tool-generateMyEnumClass.main.kts TripleStoreFeature lupos.s05tripleStore public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s05tripleStore/TripleStoreFeature
-./tool-generateMyEnumClass.main.kts IteratorBundleMode lupos.s04logicalOperators.iterator internal src/luposdate3000_shared/src/commonMain/kotlin/lupos/s04logicalOperators/iterator/IteratorBundleMode
-./tool-generateMyEnumClass.main.kts ESortPriority lupos.s00misc public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ESortPriority
-./tool-generateMyEnumClass.main.kts ETripleIndexType lupos.s00misc public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleIndexType
-./tool-generateMyEnumClass.main.kts EGraphRefType lupos.s00misc public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EGraphRefType
-./tool-generateMyEnumClass.main.kts EOperatorID lupos.s00misc public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatorID
-./tool-generateMyEnumClass.main.kts EModifyType lupos.s00misc public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EModifyType
-./tool-generateMyEnumClass.main.kts ETripleComponentType lupos.s00misc public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleComponentType
-./tool-generateMyEnumClass.main.kts EGraphOperationType lupos.s00misc public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EGraphOperationType
-./tool-generateMyEnumClass.main.kts ESortType lupos.s00misc public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ESortType
-./tool-generateMyEnumClass.main.kts EGroupMember  lupos.s00misc public   src/luposdate3000_optimizer/src/commonMain/kotlin/lupos/s00misc/EGroupMember
-./tool-generateMyEnumClass.main.kts EQueryResultToStream lupos.s11outputResult public src/luposdate3000_result_format/src/commonMain/kotlin/lupos/s11outputResult/EQueryResultToStream
-./tool-generateMyEnumClass.main.kts EPOPDebugMode lupos.s00misc public  src/luposdate3000_operators/src/commonMain/kotlin/lupos/s00misc/EPOPDebugMode
-./tool-generateMyEnumClass.main.kts Turtle2ParserState lupos.s02buildSyntaxTree.turtle internal src/luposdate3000_parser/src/commonMain/kotlin/lupos/s02buildSyntaxTree/turtle/Turtle2ParserState
-./tool-generateMyEnumClass.main.kts EOptimizerID lupos.s00misc internal src/luposdate3000_optimizer/src/commonMain/kotlin/lupos/s00misc/EOptimizerID
-./tool-generateMyEnumClass.main.kts EOperatingSystem lupos.s00misc public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystem
-./tool-generateMyEnumClass.main.kts EIndexPattern lupos.s00misc public src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EIndexPattern
-*/
+val generatingArgs = arrayOf(
+    listOf("MyPrintWriterMode", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/MyPrintWriterMode"),
+    listOf("BuiltInFunctions", "lupos.s02buildSyntaxTree.sparql1_1", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s02buildSyntaxTree/sparql1_1/BuiltInFunctions"),
+    listOf("BinaryTestCaseOutputMode", "lupos.s00misc", "public", "src/luposdate3000_test/src/commonMain/kotlin/lupos/s00misc/BinaryTestCaseOutputMode"),
+    listOf("Aggregation", "lupos.s02buildSyntaxTree.sparql1_1", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s02buildSyntaxTree/sparql1_1/Aggregation"),
+    listOf("TripleStoreFeature", "lupos.s05tripleStore", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s05tripleStore/TripleStoreFeature"),
+    listOf("IteratorBundleMode", "lupos.s04logicalOperators.iterator", "internal", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s04logicalOperators/iterator/IteratorBundleMode"),
+    listOf("ESortPriority", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ESortPriority"),
+    listOf("ETripleIndexType", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleIndexType"),
+    listOf("EGraphRefType", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EGraphRefType"),
+    listOf("EOperatorID", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatorID"),
+    listOf("EModifyType", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EModifyType"),
+    listOf("ETripleComponentType", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleComponentType"),
+    listOf("EGraphOperationType", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EGraphOperationType"),
+    listOf("ESortType", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ESortType"),
+    listOf("EGroupMember", "", "lupos.s00misc", "public", "", "", "src/luposdate3000_optimizer/src/commonMain/kotlin/lupos/s00misc/EGroupMember"),
+    listOf("EQueryResultToStream", "lupos.s11outputResult", "public", "src/luposdate3000_result_format/src/commonMain/kotlin/lupos/s11outputResult/EQueryResultToStream"),
+    listOf("EPOPDebugMode", "lupos.s00misc", "public", "", "src/luposdate3000_operators/src/commonMain/kotlin/lupos/s00misc/EPOPDebugMode"),
+    listOf("Turtle2ParserState", "lupos.s02buildSyntaxTree.turtle", "internal", "src/luposdate3000_parser/src/commonMain/kotlin/lupos/s02buildSyntaxTree/turtle/Turtle2ParserState"),
+    listOf("EOptimizerID", "lupos.s00misc", "internal", "src/luposdate3000_optimizer/src/commonMain/kotlin/lupos/s00misc/EOptimizerID"),
+    listOf("EOperatingSystem", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystem"),
+    listOf("EIndexPattern", "lupos.s00misc", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EIndexPattern"),
+)
+
+for (args in generatingArgs) {
+    generate(args[0], args[1], args[2], args[3])
+}

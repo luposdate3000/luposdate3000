@@ -1,7 +1,7 @@
 package lupos.s10physicalOptimisation
 import lupos.s00misc.DontCareWhichException
-import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EIndexPatternExt
+import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
