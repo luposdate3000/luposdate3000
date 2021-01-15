@@ -6,7 +6,7 @@ To run all tests use the following:
 ./launcher.main.kts --allTest
 ```
 
-or if you are using intellij, launch the main-function in the File [src/luposdate3000_launch_binary_test_suite/src/jvmMain/kotlin/Main.kt](src/luposdate3000_launch_binary_test_suite/src/jvmMain/kotlin/Main.kt) .
+or if you are using intellij, launch the main-function in the File [src/luposdate3000_launch_binary_test_suite/src/jvmMain/kotlin/Main.kt](../src/luposdate3000_launch_binary_test_suite/src/jvmMain/kotlin/Main.kt) .
 
 
 These tests are executed repeatedly and therefore these should be compileable and executable.

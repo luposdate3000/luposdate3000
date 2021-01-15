@@ -41,34 +41,6 @@ dependencieshome=/opt
     ln -s $dependencieshome/kotlin/dist/kotlinc/bin/kotlinc /bin/kotlinc
     ln -s $dependencieshome/kotlin/dist/kotlinc/bin/kotlin /bin/kotlin
 }
-#kscript
-{
-    # unused right now - intellij proposed their own scripting mechanism which seems to work right now.
-    # I keep this here, in case someone needs the additional options provided by kscript.
-    # Massive speed increase for each *.kts script, because the script only compiles once, and not on every use.
-#    cd $dependencieshome
-#    git clone https://github.com/holgerbrandl/kscript.git
-#    cd kscript/
-#    export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64/"
-#    ./gradlew assemble
-#    ln -s $dependencieshome/kscript/build/libs/kscript /bin/kscript
-}
-#proguard
-{
-    # Currently unused ... but planned to be used to shrink and optimize the library.
-#    cd $dependencieshome
-#    git clone https://github.com/Guardsquare/proguard.git
-#    cd proguard
-#    gradle assemble
-#    cd build/distributions
-#    tar -xzf proguard-7.0.0.tar.gz
-#    ln -s $dependencieshome/proguard/build/distributions/proguard-7.0.0/bin/proguard.sh /bin/proguard
-}
-#korio
-{
-    # Currently unused ... because of massive performance problems during communication.
-    ${luposdate3000home}/compile-module-korio.main.kts
-}
 #intellij
 {
     # Used to format the source code from the commandline - you may choose a more recent version.
