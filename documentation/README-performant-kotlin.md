@@ -27,7 +27,7 @@ Things you can change:
   Dont do this in performance-critical sections.
   The performant-kotlin way to to this is a function with a "when(xyz)" where each case contains the code you otherwise would have put into different function pointers.
 * coroutines<br/>
-  If you have blocking code for example when you need a Lock, than recursively put the "suspend" keyword in front of every required function - the whole way up until "main" if necessary.
+  If you have blocking code for example when you need a Lock, then recursively put the "suspend" keyword in front of every required function - the whole way up until "main" if necessary.
   Do the same for every function, which calles any of the functions you modify.
   Do NOT use "runBlocking" - because it does just that: blocking.
   Use "runBlocking" only if you are really forced to do so by an external library.
@@ -49,7 +49,7 @@ Things you can change:
 * "override" function modifier<br/>
   Every function with this modifier can NOT be inlined, and is therefore limited in performance.
   Use it only, when there are different implementations at Runtime.
-  If during runtime only one version is used, than use typealias, to select the effective class.
+  If during runtime only one version is used, then use typealias, to select the effective class.
 * "nullable" datatypes<br/>
   Introduce boxing if the datatype otherwise is a primitive such as Int.
   Especially in performance-critical code try to avoid it.
