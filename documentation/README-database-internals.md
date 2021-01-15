@@ -44,10 +44,10 @@ The usage can be seen in the (optimal) implementation of a merge-join (no option
 
 ### modules
 
-The module [module](../src/luposdate3000_shared) is linked as dependency in EVERY other module.
+The module [shared](../src/luposdate3000_shared) is linked as dependency in EVERY other module.
 Put all your interfaces here.
 
-The module [module](../src/luposdate3000_shared_inline) is at compile time copy pasted into every other module.
+The module [shared_inline](../src/luposdate3000_shared_inline) is at compile time copy pasted into every other module.
 This allows the compiler to inline every function, but on the other hand, this costs a lot of compile time.
 
 All other dependencies must be explicitly listed in the corresponding dependency file e.g. [commonDependencies](../src/luposdate3000_launch_binary_test_suite/commonDependencies)
