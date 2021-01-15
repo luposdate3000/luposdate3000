@@ -3,7 +3,6 @@
 To compile everything the first time you must perform a complete rebuild, which is done by using:
 
 ```bash
-#./compile-module-korio.main.kts - the korio module is currently unused, and seems to be not compileable on windows
 ./launcher.main.kts --compileAll
 ```
 
