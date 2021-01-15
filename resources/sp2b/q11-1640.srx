@@ -1,0 +1,58 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="ee"/>
+ </head>
+ <results>
+  <result>
+   <binding name="ee">
+    <literal>http://www.kilogram.tld/presell/woodcraft.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.labium.tld/daydreams/permuting.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.leatheriness.tld/horologe/bigamistic.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.legation.tld/hippocampus/miscalculates.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.lenity.tld/jambing/sodality.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.libations.tld/claymores/shiftlessly.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.loathly.tld/debiting/parrots.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.loggias.tld/photocatalyst/lenity.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.maladjustments.tld/cordilleras/recirculations.html</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="ee">
+    <literal>http://www.marquise.tld/neurosurgeon/innervated.html</literal>
+   </binding>
+  </result>
+ </results>
+</sparql>
+

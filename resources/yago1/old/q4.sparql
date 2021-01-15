@@ -1,0 +1,11 @@
+select distinct ?n1 ?n2 where { 
+	?a1 <hasGivenName> ?n1. 
+	?a1 <livesIn> ?c1. 
+	?a1 <actedIn> ?movie. 
+	?a2 <hasGivenName> ?n2. 
+	?a2 <livesIn> ?c2. 
+	?a2 <actedIn> ?movie. 
+	?c1 <locatedIn> <England>. 
+	?c2 <locatedIn> <England>. 
+	filter (?a1 != ?a2) 
+}

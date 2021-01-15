@@ -1,0 +1,2 @@
+TripleStoreLocal,typealias,TripleStoreLocalBase,lupos.s05tripleStore.TripleStoreLocalBPlusTreePartition
+USE_PARTITIONS2,const internal val,Boolean,true

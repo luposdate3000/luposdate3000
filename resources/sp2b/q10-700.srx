@@ -1,0 +1,249 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="subject"/>
+  <variable name="predicate"/>
+ </head>
+ <results>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article9</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article4</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article1</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article2</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article4</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article5</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article1</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article10</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article9</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article5</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article4</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article3</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article8</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article2</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article6</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article8</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article7</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article7</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article6</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article7</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article1</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article3</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article2</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article9</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article8</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article6</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article10</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article5</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article10</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="subject">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article3</uri>
+   </binding>
+   <binding name="predicate">
+    <uri>http://purl.org/dc/elements/1.1/creator</uri>
+   </binding>
+  </result>
+ </results>
+</sparql>
+

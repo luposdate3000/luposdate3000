@@ -1,0 +1,7 @@
+#Scalable Join Processing on Very Large RDF Graphs --- BTC 2008
+select ?lat ?long where {
+ ?a ?b "Eiffel Tower" .
+ ?a <http://www.geonames.org/ontology#inCountry> <http://www.geonames.org/countries/#FR> .
+ ?a <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat .
+ ?a <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long . 
+}

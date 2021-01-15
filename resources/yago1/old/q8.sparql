@@ -1,0 +1,11 @@
+select distinct ?n where { 
+	?p <hasGivenName> ?n. 
+	?p ?unused1 ?c1. 
+	?p ?unused2 ?c2. 
+	?village <http://www.w3.org/2000/01/rdf-schema#label> "village"
+	?c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?village. 
+	?c1 <http://www.w3.org/2000/01/rdf-schema#label> "London". 
+	?site <http://www.w3.org/2000/01/rdf-schema#label> "site".
+	?c2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?site. 
+	?c2 <http://www.w3.org/2000/01/rdf-schema#label> "Paris". 
+}

@@ -1,0 +1,4 @@
+SELECT ?x ?y ?z {
+  ?x ?y <o0> .
+  ?x <p0> ?z .
+}

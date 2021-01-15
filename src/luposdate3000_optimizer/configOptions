@@ -1,0 +1,2 @@
+REPLACE_STORE_WITH_VALUES,const internal val,Boolean,false
+USE_PARTITIONS,const internal val,Boolean,true

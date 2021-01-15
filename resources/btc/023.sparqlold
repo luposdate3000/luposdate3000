@@ -1,0 +1,7 @@
+#Parallelizing Join Computations of SPARQL Queries for Large Semantic Web Databases --- BTC 2009
+select distinct ?t where {
+ ?l <http://purl.org/dc/elements/1.1/title> ?t .
+ ?x <http://purl.org/dc/elements/1.1/title> "Wimbledon_College_of_Art" .
+ ?x <http://rdfs.org/sioc/ns#has_creator> ?c .
+ ?x <http://rdfs.org/sioc/ns#links_to> ?l .
+}

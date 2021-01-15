@@ -1,0 +1,18 @@
+select ?gn ?fn where { 
+	?p <hasGivenName> ?gn. 
+	?p <hasFamilyName> ?fn. 
+	?p <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> "scientist". 
+	{
+		?p <bornIn> ?city. 
+	}union{
+		?p <originatedFrom> ?city. 
+	}
+	?p <hasAcademicAdvisor> ?a. 
+	{
+		?a <bornIn> ?city2. 
+	}union{
+		?a <originatedFrom> ?city2. 
+	}
+	?city <locatedIn> <Switzerland>. 
+	?city2 <locatedIn> <Germany>. 
+}

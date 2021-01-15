@@ -1,0 +1,3 @@
+PREFIX : <http://example.org/test#>
+SELECT ?parent
+WHERE { ?parent :hasChild ?child }
