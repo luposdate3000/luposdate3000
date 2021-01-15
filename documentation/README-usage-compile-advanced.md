@@ -7,9 +7,9 @@ To compile everything the first time you must perform a complete rebuild, which 
 ```
 
 This takes a lot of time (depending on the settings: on my computer up to 15 Minutes using a 4GHz CPU with NVME-SSD and lots of available RAM).
-The final compiled jars, js and native-libs can be found in the subfolders of [build-cache](build-cache)
+The final compiled jars, js and native-libs can be found in the subfolders of [build-cache](../build-cache)
 
-Take a look into the function "onCompile" in the file [./launcher.main.kts](./launcher.main.kts)
+Take a look into the function "onCompile" in the file [./launcher.main.kts](../launcher.main.kts)
 If you change something, compile only the necessary module (and the ones depending on it) instead of everything.
 If you only need the jars you can use "--fastMode=JVM" - otherwise use "--fastMode=Disable".
 
