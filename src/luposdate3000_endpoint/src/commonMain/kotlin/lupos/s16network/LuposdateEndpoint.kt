@@ -168,6 +168,10 @@ public object LuposdateEndpoint {
         }
 /*Coverage Unreachable*/
     }
+    @JsName("import_turtle_string_a")
+    /*suspend*/ public fun importTurtleString_a(data: String): String {
+        return importTurtleString(data, mutableMapOf())
+    }
     @JsName("import_turtle_string")
     /*suspend*/ public fun importTurtleString(data: String, bnodeDict: MutableMap<String, Int>): String {
         try {

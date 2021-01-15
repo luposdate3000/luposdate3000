@@ -34,12 +34,12 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
     public abstract fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>)
     public fun turtleDoc() {
         var iter = 0
-        while (true) {
+        loop@while (true) {
             iter++
             when (state) {
                 // println("state :: $state at (${context.line}:${context.column})")
                 Turtle2ParserStateExt.EOF -> {
-                    break
+                    break@loop
                 }
                 Turtle2ParserStateExt.STATEMENT -> {
                     statement()
