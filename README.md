@@ -6,10 +6,10 @@ luposdate3000 is a Database which can process sparql-queries.
 
 This describes how to install the prerequisites for the database.
 
-If you chose Windows, the compiler is about 25% slower compared to the linux version - tested with the same database-code and the same compiler-version.
+If you chose Windows, the compiler is about 25% slower compared to the linux version - tested with the same database-code and the same compiler-version.  
 
-[readme linux](documentation/installation/README-linux.md)
-[readme windows](documentation/installation/README-windows.md)
+[readme linux](documentation/installation/README-linux.md)  
+[readme windows](documentation/installation/README-windows.md)  
 
 ## Usage and Compilation
 
@@ -28,9 +28,9 @@ This describes how to compile the database itself (during development).
 
 ## Benchmarks
 
-[readme - benchmark-data](documentation/README-real-world-benchmark-data.md)
-[readme - other databases](documentation/README-other-databases.md)
-[readme - will be updated soon](documentation/README-benchmarks.md)
+[readme - benchmark-data](documentation/README-real-world-benchmark-data.md)  
+[readme - other databases](documentation/README-other-databases.md)  
+[readme - will be updated soon](documentation/README-benchmarks.md)  
 
 ## Configuration
 

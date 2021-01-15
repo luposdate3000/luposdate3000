@@ -71,7 +71,7 @@ Current limitations of the kotlin compiler:
   Currently the native version of the database is not executable because of this memory model "freeze everything immediately" - which just dont work with a database.
   This should change with upcoming kotlin-releases.
 * Gradle has more kotlin related features than maven especially if not-java targets should be build.
-* If the program breaks and you dont think it should break, than clear the build folder and compile again.
+* If the program breaks and you dont think it should break, then clear the build folder and compile again.
   The incremental build sometimes just dont work - especially with enabled inlining.
   The current version of the scripts automatically wipe the build folder for every build - just to be sure.
   This "bug" happend too often for me.
