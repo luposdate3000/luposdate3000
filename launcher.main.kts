@@ -30,6 +30,7 @@ import lupos.s00misc.Platform
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
+import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.lang.ProcessBuilder.Redirect
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -44,7 +45,7 @@ var mainClass = ""
 var jenaWrapper = ""
 var endpointMode = ""
 var dryMode = ""
-var fastMode = ""
+var target = ""
 var intellijMode = ""
 var cleanedArgs = mutableListOf<String>()
 var skipArgs = false
@@ -127,19 +128,19 @@ val compileParams = mutableListOf<ParamClass>(
             "Disable" to { intellijMode = "Disable" },
         )
     ),
-    ParamClass(
-        "--fastMode",
-        "JVM",
-        mapOf(
-            "JVM" to { fastMode = "JVM" },
-            "JS" to { fastMode = "JS" },
-            "Native" to { fastMode = "Native" },
-            "Disable" to { fastMode = "Disable" },
-        )
-    ),
 )
 var enabledParams = mutableListOf<ParamClass>()
 val defaultParams = mutableListOf(
+    ParamClass(
+        "--target",
+        "JVM",
+        mapOf(
+            "JVM" to { target = "JVM" },
+            "JS" to { target = "JS" },
+            "Native" to { target = "Native" },
+            "All" to { target = "All" },
+        )
+    ),
     ParamClass(
         "--jenaWrapper",
         "Off",
@@ -176,7 +177,7 @@ val defaultParams = mutableListOf(
         "--partitionMode",
         "On",
         mapOf(
-            "On" to { partitionMode = "" },
+            "On" to { partitionMode = "_WithPartitions" },
             "Off" to { partitionMode = "_NoPartitions" },
         )
     ),
@@ -296,7 +297,7 @@ val defaultParams = mutableListOf(
         {
             enableParams(compileParams)
             execMode = ExecMode.SETUP_JS
-            fastMode = "JS"
+            target = "JS"
         }
     ),
     ParamClass(
@@ -308,7 +309,7 @@ val defaultParams = mutableListOf(
             suspendMode = "Disable"
             inlineMode = "Disable"
             dryMode = "Enable"
-            fastMode = "JVM"
+            target = "JVM"
             intellijMode = "Enable"
         }
     ),
@@ -351,7 +352,7 @@ if (releaseMode == "Enable") {
 when (execMode) {
     ExecMode.HELP -> onHelp()
     ExecMode.COMPILE -> onCompile()
-    ExecMode.RUN -> onLaunch()
+    ExecMode.RUN -> onRun()
     ExecMode.GENERATE_PARSER -> onGenerateParser()
     ExecMode.GENERATE_ENUMS -> onGenerateEnums()
     ExecMode.SETUP_INTELLIJ_IDEA -> onSetupIntellijIdea()
@@ -359,7 +360,7 @@ when (execMode) {
     ExecMode.ALL_TEST -> onAllTest()
     ExecMode.COMPILE_AND_RUN -> {
         onCompile()
-        onLaunch()
+        onRun()
     }
 }
 fun onHelp() {
@@ -374,35 +375,35 @@ fun onCompile() {
     var suspendMode2 = SuspendMode.valueOf(suspendMode)
     var inlineMode2 = InlineMode.valueOf(inlineMode)
     var dryMode2 = DryMode.valueOf(dryMode)
-    var fastMode2 = FastMode.valueOf(fastMode)
+    var target2 = TargetMode.valueOf(target)
     var intellijMode2 = IntellijMode.valueOf(intellijMode)
-    createBuildFileForModule("Luposdate3000_Shared", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Jena_Wrapper_On", "Luposdate3000_Jena_Wrapper", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Jena_Wrapper_Off", "Luposdate3000_Jena_Wrapper", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Parser", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Buffer_Manager_Inmemory", "Luposdate3000_Buffer_Manager", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Buffer_Manager_Persistent", "Luposdate3000_Buffer_Manager", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Dictionary_Inmemory", "Luposdate3000_Dictionary", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Operators", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Result_Format", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Triple_Store_Id_Triple", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Triple_Store_All", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Triple_Store_All_NoPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2, arrayOf("--USE_PARTITIONS2=false"))
-    createBuildFileForModule("Luposdate3000_Optimizer", "Luposdate3000_Optimizer", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Optimizer_NoPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2, arrayOf("--USE_PARTITIONS=false"))
-    createBuildFileForModule("Luposdate3000_Endpoint", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Test", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Endpoint_None", "Luposdate3000_Endpoint_Launcher", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Endpoint_Java_Sockets", "Luposdate3000_Endpoint_Launcher", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Launch_Benchmark", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Launch_Benchmark_fig5", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Launch_Binary_Test_Suite", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Launch_Endpoint", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Launch_Import", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Launch_Sparql_Test_Suite", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Launch_Prepared_Statement", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Launch_Generate_Binary_Test_Suite", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Shared", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Jena_Wrapper_On", "Luposdate3000_Jena_Wrapper", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Jena_Wrapper_Off", "Luposdate3000_Jena_Wrapper", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Parser", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Buffer_Manager_Inmemory", "Luposdate3000_Buffer_Manager", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Buffer_Manager_Persistent", "Luposdate3000_Buffer_Manager", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Dictionary_Inmemory", "Luposdate3000_Dictionary", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Operators", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Result_Format", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Triple_Store_Id_Triple", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Triple_Store_All_WithPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Triple_Store_All_NoPartitions"  , "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, arrayOf("--USE_PARTITIONS2=false"))
+    createBuildFileForModule("Luposdate3000_Optimizer_WithPartitions","Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Optimizer_NoPartitions",  "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, arrayOf("--USE_PARTITIONS=false"))
+    createBuildFileForModule("Luposdate3000_Endpoint", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Test", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Endpoint_None", "Luposdate3000_Endpoint_Launcher", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Endpoint_Java_Sockets", "Luposdate3000_Endpoint_Launcher", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Launch_Benchmark", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Launch_Benchmark_fig5", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Launch_Binary_Test_Suite", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Launch_Endpoint", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Launch_Import", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Launch_Sparql_Test_Suite", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Launch_Prepared_Statement", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Launch_Generate_Binary_Test_Suite", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
 }
 fun onSetupIntellijIdea() {
     File(".idea").deleteRecursively()
@@ -412,10 +413,10 @@ fun onSetupIntellijIdea() {
     var suspendMode2 = SuspendMode.valueOf(suspendMode)
     var inlineMode2 = InlineMode.valueOf(inlineMode)
     var dryMode2 = DryMode.valueOf(dryMode)
-    var fastMode2 = FastMode.valueOf(fastMode)
+    var target2 = TargetMode.valueOf(target)
     var intellijMode2 = IntellijMode.valueOf(intellijMode)
-    createBuildFileForModule("Luposdate3000_Shared_Inline", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Scripting", releaseMode2, suspendMode2, inlineMode2, dryMode2, fastMode2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Shared_Inline", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Scripting", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
     File("build.gradle.kts").printWriter().use { outBuildGradle ->
         outBuildGradle.println("dependencies {")
         outBuildGradle.println("    project(\":src\")")
@@ -446,53 +447,104 @@ fun onSetupIntellijIdea() {
         }
     }
 }
-fun onLaunch() {
+fun onRun() {
     File("log").mkdirs()
-    val jars = mutableListOf(
-        "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager$memoryMode-jvm$proguardMode.jar",
-        "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Dictionary_Inmemory-jvm$proguardMode.jar",
-        "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint-jvm$proguardMode.jar",
-        "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Operators-jvm$proguardMode.jar",
-        "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Parser-jvm$proguardMode.jar",
-        "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Result_Format-jvm$proguardMode.jar",
-        "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Shared-jvm$proguardMode.jar",
-        "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Test-jvm$proguardMode.jar",
-        "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_All$partitionMode-jvm$proguardMode.jar",
-        "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_Id_Triple-jvm$proguardMode.jar",
-        "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer$partitionMode-jvm$proguardMode.jar",
-        "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint_$endpointMode-jvm$proguardMode.jar",
-        "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_$jenaWrapper-jvm$proguardMode.jar",
-        "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Launch_$mainClass-jvm$proguardMode.jar",
-    )
-    val userHome = Platform.getUserHome()
-    for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}com.soywiz.korlibs.krypto${Platform.getPathSeparator()}krypto-jvm${Platform.getPathSeparator()}1.9.1${Platform.getPathSeparator()}", "krypto-jvm-1.9.1.jar")) {
-        jars.add(f)
-    }
-    for (f in Platform.findNamedFileInDirectory("${Platform.getMavenCache()}org${Platform.getPathSeparator()}jetbrains${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}kotlin-stdlib${Platform.getPathSeparator()}$compilerVersion", "kotlin-stdlib-$compilerVersion.jar")) {
-        jars.add(f)
-    }
-    var classpath = ""
-    for (jar in jars) {
-        if (classpath == "") {
-            classpath = jar
-        } else {
-            if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
-                classpath = "$classpath;$jar"
-            } else {
-                classpath = "$classpath:$jar"
+    when (target) {
+        "JVM", "All" -> {
+            val jars = mutableListOf(
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager$memoryMode-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Dictionary_Inmemory-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Operators-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Parser-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Result_Format-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Shared-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Test-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_All$partitionMode-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_Id_Triple-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer$partitionMode-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint_$endpointMode-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_$jenaWrapper-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Launch_$mainClass-jvm$proguardMode.jar",
+            )
+            val userHome = Platform.getUserHome()
+            for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}com.soywiz.korlibs.krypto${Platform.getPathSeparator()}krypto-jvm${Platform.getPathSeparator()}1.9.1${Platform.getPathSeparator()}", "krypto-jvm-1.9.1.jar")) {
+                jars.add(f)
+            }
+            for (f in Platform.findNamedFileInDirectory("${Platform.getMavenCache()}org${Platform.getPathSeparator()}jetbrains${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}kotlin-stdlib${Platform.getPathSeparator()}$compilerVersion", "kotlin-stdlib-$compilerVersion.jar")) {
+                jars.add(f)
+            }
+            var classpath = ""
+            for (jar in jars) {
+                if (classpath == "") {
+                    classpath = jar
+                } else {
+                    if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
+                        classpath = "$classpath;$jar"
+                    } else {
+                        classpath = "$classpath:$jar"
+                    }
+                }
+            }
+            val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt")
+            cmd.addAll(cleanedArgs)
+            println(cmd)
+            val p = ProcessBuilder(cmd)
+                .redirectOutput(Redirect.INHERIT)
+                .redirectError(Redirect.INHERIT)
+                .start()
+            p.waitFor()
+            if (p.exitValue() != 0) {
+                throw Exception("exit-code:: " + p.exitValue())
             }
         }
-    }
-    val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt")
-    cmd.addAll(cleanedArgs)
-    println(cmd)
-    val p = ProcessBuilder(cmd)
-        .redirectOutput(Redirect.INHERIT)
-        .redirectError(Redirect.INHERIT)
-        .start()
-    p.waitFor()
-    if (p.exitValue() != 0) {
-        throw Exception("exit-code:: " + p.exitValue())
+        "JS" -> {
+            if (memoryMode != "Inmemory") {
+                throw Exception("JS can only use 'Inmemory' as memoryMode")
+            }
+            if (jenaWrapper != "Off") {
+                throw Exception("JS can only use 'Off' as jenaWrapper")
+            }
+            if (partitionMode != "Off") {
+                throw Exception("JS can only use 'Off' as partitionMode")
+            }
+            File("build-cache${Platform.getPathSeparator()}node_modules").deleteRecursively()
+            File("build-cache${Platform.getPathSeparator()}node_modules").mkdirs()
+            class JSHelper(val path: String, val name: String)
+            var files = mutableListOf(
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}", "Luposdate3000_Endpoint.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}", "Luposdate3000_Operators.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}", "Luposdate3000_Parser.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}", "Luposdate3000_Result_Format.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}", "Luposdate3000_Shared.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}", "Luposdate3000_Test.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}", "Luposdate3000_Triple_Store_Id_Triple.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager$memoryMode${Platform.getPathSeparator()}", "Luposdate3000_Buffer_Manager.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Dictionary_Inmemory${Platform.getPathSeparator()}", "Luposdate3000_Dictionary.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint_$endpointMode","Luposdate3000_Endpoint_Launcher.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_$jenaWrapper","Luposdate3000_Jena_Wrapper.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Launch_$mainClass","Luposdate3000_Launch.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer$partitionMode${Platform.getPathSeparator()}", "Luposdate3000_Optimizer.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_All$partitionMode", "Luposdate3000_Triple_Store_All.js"),
+            )
+for(f in files){
+Files.copy(File(f.path+f.name), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${f.name}"),REPLACE_EXISTING)
+}
+copyJSLibsIntoFolder("build-cache${Platform.getPathSeparator()}node_modules")
+File("build-cache${Platform.getPathSeparator()}nodeJsMain.js").printWriter().use { out ->
+out.println ("var mainLauncher = require(\"Luposdate3000_Launch.js\")")
+out.println ("mainLauncher.main(process.argv.slice(2))")
+}
+val p = ProcessBuilder("node","nodeJsMain.js")
+                .redirectOutput(Redirect.INHERIT)
+                .redirectError(Redirect.INHERIT)
+.directory(File("build-cache"))
+                .start()
+            p.waitFor()
+if (p.exitValue() != 0) {
+                throw Exception("exit-code:: " + p.exitValue())
+            }
+        }
     }
 }
 fun onGenerateParser() {
@@ -598,14 +650,17 @@ fun copyFromJar(source: InputStream, dest: String) {
     out.close()
     source.close()
 }
+fun copyJSLibsIntoFolder(targetFolder:String){
+    val jsStdlib = JarFile(File("${Platform.getMavenCache()}${Platform.getPathSeparator()}org${Platform.getPathSeparator()}jetbrains${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}kotlin-stdlib-js${Platform.getPathSeparator()}$compilerVersion${Platform.getPathSeparator()}kotlin-stdlib-js-$compilerVersion.jar"))
+    copyFromJar(jsStdlib.getInputStream(jsStdlib.getEntry("kotlin.js")), "${targetFolder}${Platform.getPathSeparator()}kotlin.js")
+    copyFromJar(jsStdlib.getInputStream(jsStdlib.getEntry("kotlin.js.map")), "${targetFolder}${Platform.getPathSeparator()}kotlin.js.map")
+    val kryptoLib = JarFile(find("${Platform.getGradleCache()}${Platform.getPathSeparator()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}com.soywiz.korlibs.krypto${Platform.getPathSeparator()}krypto-js", "krypto-js-1.9.1.jar")!!)
+    copyFromJar(kryptoLib.getInputStream(kryptoLib.getEntry("krypto-root-krypto.js")), "${targetFolder}${Platform.getPathSeparator()}krypto-root-krypto.js")
+    copyFromJar(kryptoLib.getInputStream(kryptoLib.getEntry("krypto-root-krypto.js.map")), "${targetFolder}${Platform.getPathSeparator()}krypto-root-krypto.js.map")
+}
 fun onSetupJS() {
     onCompile()
-    val jsStdlib = JarFile(File("${Platform.getMavenCache()}${Platform.getPathSeparator()}org${Platform.getPathSeparator()}jetbrains${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}kotlin-stdlib-js${Platform.getPathSeparator()}$compilerVersion${Platform.getPathSeparator()}kotlin-stdlib-js-$compilerVersion.jar"))
-    copyFromJar(jsStdlib.getInputStream(jsStdlib.getEntry("kotlin.js")), "build-cache${Platform.getPathSeparator()}kotlin.js")
-    copyFromJar(jsStdlib.getInputStream(jsStdlib.getEntry("kotlin.js.map")), "build-cache${Platform.getPathSeparator()}kotlin.js.map")
-    val kryptoLib = JarFile(find("${Platform.getGradleCache()}${Platform.getPathSeparator()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}com.soywiz.korlibs.krypto${Platform.getPathSeparator()}krypto-js", "krypto-js-1.9.1.jar")!!)
-    copyFromJar(kryptoLib.getInputStream(kryptoLib.getEntry("krypto-root-krypto.js")), "build-cache${Platform.getPathSeparator()}krypto-root-krypto.js")
-    copyFromJar(kryptoLib.getInputStream(kryptoLib.getEntry("krypto-root-krypto.js.map")), "build-cache${Platform.getPathSeparator()}krypto-root-krypto.js.map")
+copyJSLibsIntoFolder("build-cache")
     File("build-cache${Platform.getPathSeparator()}index.html").printWriter().use { out ->
         out.println("<!DOCTYPE html>")
         out.println("<html lang=\"en\">")
@@ -655,13 +710,13 @@ fun onAllTest() {
     for (r in listOf("Enable", "Disable")) {
         for (i in listOf("Enable", "Disable")) {
             for (s in listOf("Disable")) {
-                ProcessBuilder("./launcher.main.kts", "--compileAll", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--dryMode=Disable", "--fastMode=Disable", "--intellijMode=Disable")
+                ProcessBuilder("./launcher.main.kts", "--compileAll", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--dryMode=Disable", "--target=Disable", "--intellijMode=Disable")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s.compile-log")))
                     .redirectError(Redirect.INHERIT)
                     .start()
                     .waitFor()
                 ProcessBuilder("./launcher.main.kts", "--run", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=On", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-Partitions.test-log")))
+                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions.test-log")))
                     .redirectError(Redirect.INHERIT)
                     .start()
                     .waitFor()
@@ -677,7 +732,7 @@ fun onAllTest() {
                     .start()
                     .waitFor()
                 ProcessBuilder("./launcher.main.kts", "--run", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=On", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-Partitions-Proguard.test-log")))
+                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions-Proguard.test-log")))
                     .redirectError(Redirect.INHERIT)
                     .start()
                     .waitFor()

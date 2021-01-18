@@ -27,8 +27,8 @@ enum class ReleaseMode {
 enum class DryMode {
     Enable, Disable
 }
-enum class FastMode {
-    JVM, JS, Native, Disable
+enum class TargetMode {
+    JVM, JS, Native, All
 }
 enum class IntellijMode {
     Enable, Disable
@@ -90,7 +90,7 @@ public fun createBuildFileForModule(args: Array<String>) {
     var inlineMode = InlineMode.Enable
     var suspendMode = SuspendMode.Enable
     var releaseMode = ReleaseMode.Enable
-    var fastMode = FastMode.Disable
+    var target = TargetMode.Disable
     var dryMode = DryMode.Disable
     var ideaBuildfile = IntellijMode.Disable
     for (arg in args) {
@@ -101,9 +101,9 @@ public fun createBuildFileForModule(args: Array<String>) {
             arg == "--nosuspend" -> suspendMode = SuspendMode.Disable
             arg == "--release" -> releaseMode = ReleaseMode.Enable
             arg == "--debug" -> releaseMode = ReleaseMode.Disable
-            arg == "--fastJVM" -> fastMode = FastMode.JVM
-            arg == "--fastJS" -> fastMode = FastMode.JS
-            arg == "--fastNative" -> fastMode = FastMode.Native
+            arg == "--fastJVM" -> target = TargetMode.JVM
+            arg == "--fastJS" -> target = TargetMode.JS
+            arg == "--fastNative" -> target = TargetMode.Native
             arg == "--dry" -> dryMode = DryMode.Enable
             arg == "--idea" -> {
                 dryMode = DryMode.Enable
@@ -130,12 +130,12 @@ public fun createBuildFileForModule(args: Array<String>) {
     if (moduleFolder.startsWith("/")) { // TODO same for Windows
         throw Exception("only relative paths allowed")
     }
-    createBuildFileForModule(moduleName, moduleFolder, modulePrefix, platform, releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile, args)
+    createBuildFileForModule(moduleName, moduleFolder, modulePrefix, platform, releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, args)
 }
-public fun createBuildFileForModule(moduleName: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
-    createBuildFileForModule(moduleName, moduleName, releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile, args)
+public fun createBuildFileForModule(moduleName: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
+    createBuildFileForModule(moduleName, moduleName, releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, args)
 }
-public fun createBuildFileForModule(moduleName: String, modulePrefix: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
+public fun createBuildFileForModule(moduleName: String, modulePrefix: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
     val onWindows = System.getProperty("os.name").contains("Windows")
     val pathSeparator: String
     if (onWindows) {
@@ -143,12 +143,12 @@ public fun createBuildFileForModule(moduleName: String, modulePrefix: String, re
     } else {
         pathSeparator = "/"
     }
-    createBuildFileForModule(moduleName, modulePrefix, "src${pathSeparator}${moduleName.toLowerCase()}", releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile, args)
+    createBuildFileForModule(moduleName, modulePrefix, "src${pathSeparator}${moduleName.toLowerCase()}", releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, args)
 }
-public fun createBuildFileForModule(moduleName: String, modulePrefix: String, moduleFolder: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
-    createBuildFileForModule(moduleName, moduleFolder, modulePrefix, "linuxX64", releaseMode, suspendMode, inlineMode, dryMode, fastMode, ideaBuildfile, args)
+public fun createBuildFileForModule(moduleName: String, modulePrefix: String, moduleFolder: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
+    createBuildFileForModule(moduleName, moduleFolder, modulePrefix, "linuxX64", releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, args)
 }
-public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, modulePrefix: String, platform: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode2: DryMode, fastMode: FastMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
+public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, modulePrefix: String, platform: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode2: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
     try {
         var dryMode: DryMode
         if (dryMode2 == DryMode.Enable || ideaBuildfile == IntellijMode.Enable) {
@@ -184,9 +184,9 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
             pathSeparator = "/"
             pathSeparatorEscaped = "/"
         }
-        var enableJVM = fastMode == FastMode.Disable || fastMode == FastMode.JVM
-        var enableJS = fastMode == FastMode.Disable || fastMode == FastMode.JS
-        var enableNative = fastMode == FastMode.Disable || fastMode == FastMode.Native
+        var enableJVM = target == TargetMode.Disable || target == TargetMode.JVM
+        var enableJS = target == TargetMode.Disable || target == TargetMode.JS
+        var enableNative = target == TargetMode.Disable || target == TargetMode.Native
         if (File("$moduleFolder/disableTarget").exists()) {
             File("$moduleFolder/disableTarget").forEachLine {
                 when (it) {
