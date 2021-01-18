@@ -53,7 +53,8 @@ internal actual class _File {
                 break
             }
             val s = mutableListOf<Byte>()
-            for (b in buffer) {
+            for (i in 0 until len) {
+val b=buffer[i]
                 if (b == '\r'.toInt().toByte() || b == '\n'.toInt().toByte()) {
                     action(s.toByteArray().decodeToString())
                     s.clear()
@@ -63,12 +64,18 @@ internal actual class _File {
             }
             pos += len
         }
+action(s.toByteArray().decodeToString())
         ext.fs.closeSync(fd)
     }
     internal /*suspend*/ actual inline fun forEachLineSuspended(crossinline action: /*suspend*/ (String) -> Unit): Unit = throw NotImplementedException("File", "forEachLineSuspended not implemented")
     internal actual inline fun dataOutputStream(crossinline action: (MyDataOutputStream) -> Unit): Unit = throw NotImplementedException("File", "dataOutputStream not implemented")
     internal actual inline fun dataOutputStreamSuspend(crossinline action: (MyDataOutputStream) -> Unit): Unit = throw NotImplementedException("File", "dataOutputStreamSuspend not implemented")
-    internal actual inline fun dataInputStream(crossinline action: (MyDataInputStream) -> Unit): Unit = throw NotImplementedException("File", "dataInputStream not implemented")
+    internal actual inline fun dataInputStream(crossinline action: (MyDataInputStream) -> Unit): Unit {
+val fd=ext.fs.openSync(filename, "r")
+val stream=MyDataInputStream(fd)
+action(stream)
+ext.fs.closeSync(fd)
+}
     /*suspend*/ internal actual inline fun dataInputStreamSuspended(crossinline action: /*suspend*/ (MyDataInputStream) -> Unit): Unit = throw NotImplementedException("File", "dataInputStreamSuspended not implemented")
     actual override fun equals(other: Any?): Boolean = throw NotImplementedException("File", "equals not implemented")
     @Suppress("NOTHING_TO_INLINE") internal actual inline fun openDataOutputStream(append: Boolean): MyDataOutputStream = throw NotImplementedException("File", "openDataOutputStream not implemented")
