@@ -91,11 +91,11 @@ public object BinaryTestCase {
                             }
                         }
                     }
-}catch(e:Throwable){
-if(e is NotImplementedException){
-newConfig.println(setting[0] + "=missingFeatures")
-}
-e.printStackTrace()
+                } catch (e: Throwable) {
+                    if (e is NotImplementedException) {
+                        newConfig.println(setting[0] + "=missingFeatures")
+                    }
+                    e.printStackTrace()
                 } finally {
                     newConfig.flush()
                 }
@@ -297,7 +297,7 @@ e.printStackTrace()
         "<http://www.w3.org/2002/07/owl#Thing>", //
     )
     public fun executeTestCase(query_folder: String): Boolean {
-println("executeTestCase $query_folder")
+        println("executeTestCase $query_folder")
         var returnValue = true
         File("$query_folder/query.stat").dataInputStream { targetStat ->
             File("$query_folder/query.dictionary").dataInputStream { targetDictionary ->

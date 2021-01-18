@@ -15,26 +15,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+import ext.fs.writeFileSync
 import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.MyPrintWriterMode
 import lupos.s00misc.MyPrintWriterModeExt
-import ext.fs.writeFileSync
 internal actual open class _MyPrintWriter : IMyPrintWriter {
     val buffer = StringBuilder()
     val bufferMode: MyPrintWriterMode
-val filenName:String
-     constructor(filename:String) {
-bufferMode = MyPrintWriterModeExt.FILE
-filenName=filename
-writeFileSync(filenName,"")
-}
+    val filenName: String
+    constructor(filename: String) {
+        bufferMode = MyPrintWriterModeExt.FILE
+        filenName = filename
+        writeFileSync(filenName, "")
+    }
     actual constructor(hasBuffer: Boolean) {
         if (hasBuffer) {
             bufferMode = MyPrintWriterModeExt.BUFFER
         } else {
             bufferMode = MyPrintWriterModeExt.NONE
         }
-filenName=""
+        filenName = ""
     }
     actual override fun clearBuffer() {
         if (bufferMode == MyPrintWriterModeExt.BUFFER) {
@@ -96,13 +96,13 @@ filenName=""
         }
     }
     actual override fun close() {
- if (bufferMode == MyPrintWriterModeExt.FILE) {
-writeFileSync(filenName,buffer.toString())
-}
+        if (bufferMode == MyPrintWriterModeExt.FILE) {
+            writeFileSync(filenName, buffer.toString())
+        }
     }
     actual override fun flush() {
- if (bufferMode == MyPrintWriterModeExt.FILE) {
-writeFileSync(filenName,buffer.toString())
-}
+        if (bufferMode == MyPrintWriterModeExt.FILE) {
+            writeFileSync(filenName, buffer.toString())
+        }
     }
 }

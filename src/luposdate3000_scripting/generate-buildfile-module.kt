@@ -42,11 +42,11 @@ private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, a
             } else {
                 out.println("                compileOnly(\"$d\")")
             }
-        } else if(d.startsWith("npm(")){
+        } else if (d.startsWith("npm(")) {
             out.println("                implementation($d)")
-}else{
+        } else {
             out.println("                implementation(\"$d\")")
-}
+        }
     }
 }
 private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<String, String>) {

@@ -34,7 +34,7 @@ internal actual class _File {
     @Suppress("NOTHING_TO_INLINE") internal actual inline fun readAsInputStream(): IMyInputStream = throw NotImplementedException("File", "readAsInputStream not implemented")
     internal actual inline fun walk(crossinline action: (String) -> Unit): Unit = throw NotImplementedException("File", "walk not implemented")
     @Suppress("NOTHING_TO_INLINE") internal actual inline fun myPrintWriter(): MyPrintWriter = MyPrintWriter(filename)
-internal actual inline fun printWriter(crossinline action: (MyPrintWriter) -> Unit) {
+    internal actual inline fun printWriter(crossinline action: (MyPrintWriter) -> Unit) {
         val printer = MyPrintWriter(filename)
         try {
             action(printer)
@@ -43,14 +43,28 @@ internal actual inline fun printWriter(crossinline action: (MyPrintWriter) -> Un
         }
     }
     internal /*suspend*/ actual inline fun printWriterSuspended(crossinline action: /*suspend*/ (MyPrintWriter) -> Unit): Unit = throw NotImplementedException("File", "printWriterSuspended not implemented")
-    internal actual inline fun forEachLine(crossinline action: (String) -> Unit): Unit {
-println("forEachLine $filename")
-ext.readEachLineSync.readEachLine(filename){
-println("forEachLine $filename line $it")
-action(it)
-}
-println("forEachLine $filename after")
-}
+    internal actual inline fun forEachLine(crossinline action: (String) -> Unit) {
+        val fd = ext.fs.openSync(filename, "r")
+        val buffer = ByteArray(8192)
+        var pos = 0
+        while (true) {
+            val len = ext.fs.readSync(fd, buffer, 0, buffer.size, pos)
+            if (len == 0) {
+                break
+            }
+            val s = mutableListOf<Byte>()
+            for (b in buffer) {
+                if (b == '\r'.toInt().toByte() || b == '\n'.toInt().toByte()) {
+                    action(s.toByteArray().decodeToString())
+                    s.clear()
+                } else {
+                    s.add(b)
+                }
+            }
+            pos += len
+        }
+        ext.fs.closeSync(fd)
+    }
     internal /*suspend*/ actual inline fun forEachLineSuspended(crossinline action: /*suspend*/ (String) -> Unit): Unit = throw NotImplementedException("File", "forEachLineSuspended not implemented")
     internal actual inline fun dataOutputStream(crossinline action: (MyDataOutputStream) -> Unit): Unit = throw NotImplementedException("File", "dataOutputStream not implemented")
     internal actual inline fun dataOutputStreamSuspend(crossinline action: (MyDataOutputStream) -> Unit): Unit = throw NotImplementedException("File", "dataOutputStreamSuspend not implemented")
