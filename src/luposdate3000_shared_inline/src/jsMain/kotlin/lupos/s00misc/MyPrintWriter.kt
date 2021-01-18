@@ -18,15 +18,23 @@ package lupos.modulename
 import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.MyPrintWriterMode
 import lupos.s00misc.MyPrintWriterModeExt
+import lupos.s00misc.writeFileSync
 internal actual open class _MyPrintWriter : IMyPrintWriter {
     val buffer = StringBuilder()
     val bufferMode: MyPrintWriterMode
+val filenName:String
+    actual constructor(filename:String) {
+bufferMode = MyPrintWriterModeExt.FILE
+filenName=filename
+writeFileSync(filenName,"")
+}
     actual constructor(hasBuffer: Boolean) {
         if (hasBuffer) {
             bufferMode = MyPrintWriterModeExt.BUFFER
         } else {
             bufferMode = MyPrintWriterModeExt.NONE
         }
+filenName=""
     }
     actual override fun clearBuffer() {
         if (bufferMode == MyPrintWriterModeExt.BUFFER) {
@@ -88,9 +96,13 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         }
     }
     actual override fun close() {
-        throw Exception("not supported")
+ if (bufferMode == MyPrintWriterModeExt.FILE) {
+writeFileSync(filenName,buffer.toString())
+}
     }
     actual override fun flush() {
-        throw Exception("not supported")
+ if (bufferMode == MyPrintWriterModeExt.FILE) {
+writeFileSync(filenName,buffer.toString())
+}
     }
 }
