@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystem.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystemExt.kt")
 @file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/s00misc/PlatformAlias.kt")
@@ -30,10 +29,10 @@ import lupos.s00misc.Platform
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
-import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.lang.ProcessBuilder.Redirect
 import java.nio.file.Files
 import java.nio.file.Paths
+import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.util.jar.JarFile
 var releaseMode = ""
 var suspendMode = ""
@@ -388,9 +387,9 @@ fun onCompile() {
     createBuildFileForModule("Luposdate3000_Result_Format", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
     createBuildFileForModule("Luposdate3000_Triple_Store_Id_Triple", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
     createBuildFileForModule("Luposdate3000_Triple_Store_All_WithPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Triple_Store_All_NoPartitions"  , "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, arrayOf("--USE_PARTITIONS2=false"))
-    createBuildFileForModule("Luposdate3000_Optimizer_WithPartitions","Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
-    createBuildFileForModule("Luposdate3000_Optimizer_NoPartitions",  "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, arrayOf("--USE_PARTITIONS=false"))
+    createBuildFileForModule("Luposdate3000_Triple_Store_All_NoPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, arrayOf("--USE_PARTITIONS2=false"))
+    createBuildFileForModule("Luposdate3000_Optimizer_WithPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
+    createBuildFileForModule("Luposdate3000_Optimizer_NoPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, arrayOf("--USE_PARTITIONS=false"))
     createBuildFileForModule("Luposdate3000_Endpoint", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
     createBuildFileForModule("Luposdate3000_Test", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
     createBuildFileForModule("Luposdate3000_Endpoint_None", "Luposdate3000_Endpoint_Launcher", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2)
@@ -499,49 +498,50 @@ fun onRun() {
             }
         }
         "JS" -> {
-            if (memoryMode != "Inmemory") {
+            if (memoryMode != "_Inmemory") {
                 throw Exception("JS can only use 'Inmemory' as memoryMode")
             }
             if (jenaWrapper != "Off") {
                 throw Exception("JS can only use 'Off' as jenaWrapper")
             }
-            if (partitionMode != "Off") {
+            if (partitionMode != "_NoPartitions") {
                 throw Exception("JS can only use 'Off' as partitionMode")
             }
             File("build-cache${Platform.getPathSeparator()}node_modules").deleteRecursively()
             File("build-cache${Platform.getPathSeparator()}node_modules").mkdirs()
             class JSHelper(val path: String, val name: String)
             var files = mutableListOf(
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}", "Luposdate3000_Endpoint.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}", "Luposdate3000_Operators.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}", "Luposdate3000_Parser.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}", "Luposdate3000_Result_Format.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}", "Luposdate3000_Shared.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}", "Luposdate3000_Test.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}", "Luposdate3000_Triple_Store_Id_Triple.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager$memoryMode${Platform.getPathSeparator()}", "Luposdate3000_Buffer_Manager.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Dictionary_Inmemory${Platform.getPathSeparator()}", "Luposdate3000_Dictionary.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint_$endpointMode","Luposdate3000_Endpoint_Launcher.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_$jenaWrapper","Luposdate3000_Jena_Wrapper.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Launch_$mainClass","Luposdate3000_Launch.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer$partitionMode${Platform.getPathSeparator()}", "Luposdate3000_Optimizer.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Endpoint.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Operators.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Parser.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Result_Format.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Shared.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Test.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Triple_Store_Id_Triple.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager$memoryMode", "Luposdate3000_Buffer_Manager.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Dictionary_Inmemory", "Luposdate3000_Dictionary.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint_$endpointMode", "Luposdate3000_Endpoint_Launcher.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_$jenaWrapper", "Luposdate3000_Jena_Wrapper.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Launch_$mainClass", "Luposdate3000_Main.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer$partitionMode", "Luposdate3000_Optimizer.js"),
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_All$partitionMode", "Luposdate3000_Triple_Store_All.js"),
             )
-for(f in files){
-Files.copy(File(f.path+f.name), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${f.name}"),REPLACE_EXISTING)
-}
-copyJSLibsIntoFolder("build-cache${Platform.getPathSeparator()}node_modules")
-File("build-cache${Platform.getPathSeparator()}nodeJsMain.js").printWriter().use { out ->
-out.println ("var mainLauncher = require(\"Luposdate3000_Launch.js\")")
-out.println ("mainLauncher.main(process.argv.slice(2))")
-}
-val p = ProcessBuilder("node","nodeJsMain.js")
+            for (f in files) {
+                Files.copy(File(f.path + Platform.getPathSeparator() + f.name).toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${f.name}").toPath(), REPLACE_EXISTING)
+                Files.copy(File(f.path + Platform.getPathSeparator() + f.name + ".map").toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${f.name}.map").toPath(), REPLACE_EXISTING)
+            }
+            copyJSLibsIntoFolder("build-cache${Platform.getPathSeparator()}node_modules")
+            File("build-cache${Platform.getPathSeparator()}nodeJsMain.js").printWriter().use { out ->
+                out.println("var mainLauncher = require(\"Luposdate3000_Main.js\")")
+                out.println("mainLauncher.main(process.argv.slice(2))")
+            }
+            val p = ProcessBuilder("node", "nodeJsMain.js")
                 .redirectOutput(Redirect.INHERIT)
                 .redirectError(Redirect.INHERIT)
-.directory(File("build-cache"))
+                .directory(File("build-cache"))
                 .start()
             p.waitFor()
-if (p.exitValue() != 0) {
+            if (p.exitValue() != 0) {
                 throw Exception("exit-code:: " + p.exitValue())
             }
         }
@@ -650,7 +650,7 @@ fun copyFromJar(source: InputStream, dest: String) {
     out.close()
     source.close()
 }
-fun copyJSLibsIntoFolder(targetFolder:String){
+fun copyJSLibsIntoFolder(targetFolder: String) {
     val jsStdlib = JarFile(File("${Platform.getMavenCache()}${Platform.getPathSeparator()}org${Platform.getPathSeparator()}jetbrains${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}kotlin-stdlib-js${Platform.getPathSeparator()}$compilerVersion${Platform.getPathSeparator()}kotlin-stdlib-js-$compilerVersion.jar"))
     copyFromJar(jsStdlib.getInputStream(jsStdlib.getEntry("kotlin.js")), "${targetFolder}${Platform.getPathSeparator()}kotlin.js")
     copyFromJar(jsStdlib.getInputStream(jsStdlib.getEntry("kotlin.js.map")), "${targetFolder}${Platform.getPathSeparator()}kotlin.js.map")
@@ -660,7 +660,7 @@ fun copyJSLibsIntoFolder(targetFolder:String){
 }
 fun onSetupJS() {
     onCompile()
-copyJSLibsIntoFolder("build-cache")
+    copyJSLibsIntoFolder("build-cache")
     File("build-cache${Platform.getPathSeparator()}index.html").printWriter().use { out ->
         out.println("<!DOCTYPE html>")
         out.println("<html lang=\"en\">")

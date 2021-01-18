@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.modulename
 internal actual object ParallelThread {
     internal actual inline fun <T> runBlocking(crossinline action: () -> T): T {

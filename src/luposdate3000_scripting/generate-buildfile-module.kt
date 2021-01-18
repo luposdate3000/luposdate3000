@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 import java.io.File
 import java.io.PrintWriter
 import java.lang.ProcessBuilder.Redirect
@@ -90,7 +89,7 @@ public fun createBuildFileForModule(args: Array<String>) {
     var inlineMode = InlineMode.Enable
     var suspendMode = SuspendMode.Enable
     var releaseMode = ReleaseMode.Enable
-    var target = TargetMode.Disable
+    var target = TargetMode.All
     var dryMode = DryMode.Disable
     var ideaBuildfile = IntellijMode.Disable
     for (arg in args) {
@@ -184,9 +183,9 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
             pathSeparator = "/"
             pathSeparatorEscaped = "/"
         }
-        var enableJVM = target == TargetMode.Disable || target == TargetMode.JVM
-        var enableJS = target == TargetMode.Disable || target == TargetMode.JS
-        var enableNative = target == TargetMode.Disable || target == TargetMode.Native
+        var enableJVM = target == TargetMode.All || target == TargetMode.JVM
+        var enableJS = target == TargetMode.All || target == TargetMode.JS
+        var enableNative = target == TargetMode.All || target == TargetMode.Native
         if (File("$moduleFolder/disableTarget").exists()) {
             File("$moduleFolder/disableTarget").forEachLine {
                 when (it) {

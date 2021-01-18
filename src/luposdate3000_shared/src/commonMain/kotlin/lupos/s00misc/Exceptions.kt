@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s00misc
 /* explicitly storing the classname has the advantage, that the classname is accessible in native code too, and not just via reflection */
 public abstract class Luposdate3000Exception public constructor(public val classname: String, msg: String) : Exception(msg)

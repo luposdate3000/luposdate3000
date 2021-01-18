@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.modulename
 import kotlin.jvm.JvmField
 internal actual class ParallelThreadJob(action: () -> Unit) {
