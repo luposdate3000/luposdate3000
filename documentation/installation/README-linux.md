@@ -8,6 +8,7 @@ Make sure you read the following comments as they may provide useful information
 # Yes, there are 2 versions of java ... because the dependencies dont like the wrong one.
 # Sadly latex installs a complete gui for linux - even on server distributions.
 apt install docker docker-compose docker.io g++ gnuplot gzip htop lcov make maven net-tools ntfs-3g openjdk-8-jdk openjdk-14-jdk unzip zip poppler-utils texlive texlive-latex-extra p7zip-full libncurses5 texlive-font-utils raptor2-utils curl
+npm install read-each-line-sync
 
 # Unfortunately the ifis-git uses incorrect ssl such that the following git option must be used.
 git config --global http.sslVerify false
