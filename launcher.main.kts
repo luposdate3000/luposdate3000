@@ -535,10 +535,9 @@ fun onRun() {
                 out.println("var mainLauncher = require(\"Luposdate3000_Main.js\")")
                 out.println("mainLauncher.main(process.argv.slice(2))")
             }
-            val p = ProcessBuilder("node", "nodeJsMain.js")
+            val p = ProcessBuilder("node", "build-cache${Platform.getPathSeparator()}nodeJsMain.js")
                 .redirectOutput(Redirect.INHERIT)
                 .redirectError(Redirect.INHERIT)
-                .directory(File("build-cache"))
                 .start()
             p.waitFor()
             if (p.exitValue() != 0) {
