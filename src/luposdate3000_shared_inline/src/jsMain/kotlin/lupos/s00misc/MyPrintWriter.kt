@@ -23,7 +23,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
     val buffer = StringBuilder()
     val bufferMode: MyPrintWriterMode
 val filenName:String
-    actual constructor(filename:String) {
+     constructor(filename:String) {
 bufferMode = MyPrintWriterModeExt.FILE
 filenName=filename
 writeFileSync(filenName,"")

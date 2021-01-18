@@ -1,4 +1,6 @@
 package lupos.s00misc
 
 @JsModule("fs")
-external fun writeFileSync(filename:String,data:String)
+@JsNonModule
+@JsName("writeFileSync")
+public external fun writeFileSync(filename:String,data:String)
