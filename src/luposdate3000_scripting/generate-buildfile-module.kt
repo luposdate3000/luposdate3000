@@ -76,10 +76,10 @@ private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map
         }
     }
 }
-public fun createBuildFileForModule(moduleName: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen:Boolean,args: Array<String> = arrayOf<String>()) {
-    createBuildFileForModule(moduleName, moduleName, releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, codegen,args)
+public fun createBuildFileForModule(moduleName: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen: Boolean, args: Array<String> = arrayOf<String>()) {
+    createBuildFileForModule(moduleName, moduleName, releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, codegen, args)
 }
-public fun createBuildFileForModule(moduleName: String, modulePrefix: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen:Boolean,args: Array<String> = arrayOf<String>()) {
+public fun createBuildFileForModule(moduleName: String, modulePrefix: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen: Boolean, args: Array<String> = arrayOf<String>()) {
     val onWindows = System.getProperty("os.name").contains("Windows")
     val pathSeparator: String
     if (onWindows) {
@@ -87,12 +87,12 @@ public fun createBuildFileForModule(moduleName: String, modulePrefix: String, re
     } else {
         pathSeparator = "/"
     }
-    createBuildFileForModule(moduleName, modulePrefix, "src${pathSeparator}${moduleName.toLowerCase()}", releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, codegen,args)
+    createBuildFileForModule(moduleName, modulePrefix, "src${pathSeparator}${moduleName.toLowerCase()}", releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, codegen, args)
 }
-public fun createBuildFileForModule(moduleName: String, modulePrefix: String, moduleFolder: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen:Boolean,args: Array<String> = arrayOf<String>()) {
-    createBuildFileForModule(moduleName, moduleFolder, modulePrefix, "linuxX64", releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, codegen,args)
+public fun createBuildFileForModule(moduleName: String, modulePrefix: String, moduleFolder: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen: Boolean, args: Array<String> = arrayOf<String>()) {
+    createBuildFileForModule(moduleName, moduleFolder, modulePrefix, "linuxX64", releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, codegen, args)
 }
-public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, modulePrefix: String, platform: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode2: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen:Boolean, args: Array<String> = arrayOf<String>()) {
+public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, modulePrefix: String, platform: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode2: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen: Boolean, args: Array<String> = arrayOf<String>()) {
     try {
         var dryMode: DryMode
         if (dryMode2 == DryMode.Enable || ideaBuildfile == IntellijMode.Enable) {
@@ -243,7 +243,7 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
             }
             File(filename).printWriter().use { out ->
                 out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
-out.println("import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency")
+                out.println("import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency")
                 out.println("buildscript {")
                 out.println("    repositories {")
                 out.println("        jcenter()")
@@ -269,9 +269,9 @@ out.println("import org.gradle.api.internal.artifacts.dependencies.DefaultExtern
                 }
                 out.println("plugins {")
                 out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"${compilerVersion}\"")
-if(!buildLibrary&&codegen){
-                out.println("    id(\"org.jetbrains.kotlin.kapt\") version \"${compilerVersion}\"")
-}
+                if (!buildLibrary && codegen) {
+                    out.println("    id(\"org.jetbrains.kotlin.kapt\") version \"${compilerVersion}\"")
+                }
                 if (buildForIDE && !buildLibrary) {
                     out.println("    application")
                 }
@@ -376,16 +376,6 @@ if(!buildLibrary&&codegen){
                     out.println("        }")
                     out.println("    }")
                 }
-if(!buildLibrary&&codegen){
-//out.println("    configurations {")
-//out.println("        val kapt by getting {")
-//out.println("            dependencies {")
-//out.println("                classpath(\"luposdate3000:Luposdate3000_Code_Generator:0.0.1\")")
-//out.println("            }")
-//out.println("        }")
-//out.println("    }")
-out.println("    configurations.get(\"kapt\").dependencies.add(DefaultExternalModuleDependency(\"luposdate3000\",\"Luposdate3000_Code_Generator\",\"0.0.1\"))")
-}
                 out.println("    sourceSets {")
                 out.println("        val commonMain by getting {")
                 out.println("            dependencies {")
@@ -459,6 +449,11 @@ out.println("    configurations.get(\"kapt\").dependencies.add(DefaultExternalMo
                     }
                 }
                 out.println("}")
+                if (!buildLibrary && codegen) {
+                    out.println("dependencies {")
+                    out.println("    \"kapt\"(\"luposdate3000:Luposdate3000_Code_Generator:0.0.1\") // attention to the '\"' around kapt - otherwise it resolves to another function")
+                    out.println("}")
+                }
                 if (buildForIDE && !buildLibrary) {
                     out.println("application{")
                     out.println("    mainClass.set(\"MainKt\")")
@@ -652,7 +647,7 @@ out.println("    configurations.get(\"kapt\").dependencies.add(DefaultExternalMo
         }
         println(typeAliasUsed.keys)
         println()
-// selectively copy classes which are inlined from the inline internal module <-
+        // selectively copy classes which are inlined from the inline internal module <-
         File(configFile).printWriter().use { out ->
             out.println("package lupos.s00misc")
             for ((k, v) in typeAliasUsed) {
@@ -822,8 +817,8 @@ public fun runCommand(command: List<String>, workingDir: File) {
         .directory(workingDir)
         .redirectOutput(Redirect.INHERIT)
         .redirectError(Redirect.INHERIT)
-//        .redirectOutput(Redirect.to(File(File("src.generated"), "gradle.log"))) //this disables the warnings?!?
-//        .redirectError(Redirect.to(File(File("src.generated"), "gradle.err"))) //this disables the warnings?!?
+        //        .redirectOutput(Redirect.to(File(File("src.generated"), "gradle.log"))) //this disables the warnings?!?
+        //        .redirectError(Redirect.to(File(File("src.generated"), "gradle.err"))) //this disables the warnings?!?
         .start()
     p.waitFor()
     if (p.exitValue() != 0) {
