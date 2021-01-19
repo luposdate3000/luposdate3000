@@ -243,7 +243,6 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
             }
             File(filename).printWriter().use { out ->
                 out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
-                out.println("import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency")
                 out.println("buildscript {")
                 out.println("    repositories {")
                 out.println("        jcenter()")
