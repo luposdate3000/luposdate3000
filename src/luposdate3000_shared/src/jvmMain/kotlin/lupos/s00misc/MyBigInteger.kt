@@ -34,7 +34,7 @@ public actual class MyBigInteger {
     public actual fun toDouble(): Double {
         return v.toDouble()
     }
-    public actual fun compareTo(other: MyBigInteger): Int {
+    public actual operator fun compareTo(other: MyBigInteger): Int {
         return v.compareTo(other.v)
     }
     public actual operator fun plus(other: MyBigInteger): MyBigInteger {

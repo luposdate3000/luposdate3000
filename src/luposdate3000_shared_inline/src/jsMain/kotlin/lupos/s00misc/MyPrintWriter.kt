@@ -15,18 +15,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
-import ext.fs.writeFileSync
 import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.MyPrintWriterMode
 import lupos.s00misc.MyPrintWriterModeExt
 internal actual open class _MyPrintWriter : IMyPrintWriter {
     val buffer = StringBuilder()
     val bufferMode: MyPrintWriterMode
-    val filenName: String
-    constructor(filename: String) {
+    val fileName: String
+    var file: Int
+    var filePos: Int = 0
+    constructor(fileName: String) {
         bufferMode = MyPrintWriterModeExt.FILE
-        filenName = filename
-        writeFileSync(filenName, "")
+        this.fileName = fileName
+        file = ext.fs.openSync(fileName, "w")
     }
     actual constructor(hasBuffer: Boolean) {
         if (hasBuffer) {
@@ -34,7 +35,8 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         } else {
             bufferMode = MyPrintWriterModeExt.NONE
         }
-        filenName = ""
+        fileName = ""
+        file = -1
     }
     actual override fun clearBuffer() {
         if (bufferMode == MyPrintWriterModeExt.BUFFER) {
@@ -97,12 +99,28 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
     }
     actual override fun close() {
         if (bufferMode == MyPrintWriterModeExt.FILE) {
-            writeFileSync(filenName, buffer.toString())
+            val buf = buffer.toString().encodeToByteArray()
+            ext.fs.writeSync(file, buf, 0, buf.size, filePos)
+            printlnhelper("written the buffer :: " + buf.map { it.toString(16) } + " len ${buf.size} pos $filePos fd $file fileName $fileName")
+            ext.fs.closeSync(file)
+            file = -1
+            buffer.clear()
         }
     }
     actual override fun flush() {
         if (bufferMode == MyPrintWriterModeExt.FILE) {
-            writeFileSync(filenName, buffer.toString())
+            val buf = buffer.toString().encodeToByteArray()
+            ext.fs.writeSync(file, buf, 0, buf.size, filePos)
+            printlnhelper("written the buffer :: " + buf.map { it.toString(16) } + " len ${buf.size} pos $filePos fd $file fileName $fileName")
+            filePos += buf.size
+            buffer.clear()
+if(false){
+            val buf = "afterflush\n".encodeToByteArray()
+            ext.fs.writeSync(file, buf, 0, buf.size, filePos)
+            printlnhelper("written the buffer :: " + buf.map { it.toString(16) } + " len ${buf.size} pos $filePos fd $file fileName $fileName afterflush")
+            filePos += buf.size
+}
         }
     }
 }
+internal fun printlnhelper(s: String) = println(s)

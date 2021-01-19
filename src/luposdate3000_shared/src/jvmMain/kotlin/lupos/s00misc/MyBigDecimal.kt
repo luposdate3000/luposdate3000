@@ -43,7 +43,7 @@ public actual class MyBigDecimal {
     public actual fun toPlainString(): String {
         return v.toPlainString()
     }
-    public actual fun compareTo(other: MyBigDecimal): Int {
+    public actual operator fun compareTo(other: MyBigDecimal): Int {
         return v.compareTo(other.v)
     }
     public actual operator fun plus(other: MyBigDecimal): MyBigDecimal {

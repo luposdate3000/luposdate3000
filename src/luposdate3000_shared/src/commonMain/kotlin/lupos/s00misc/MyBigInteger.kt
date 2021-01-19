@@ -20,7 +20,7 @@ public expect class MyBigInteger {
     public constructor(s1: Int)
     public fun toDouble(): Double
     public fun toMyBigDecimal(): MyBigDecimal
-    public fun compareTo(other: MyBigInteger): Int
+    public operator fun compareTo(other: MyBigInteger): Int
     public operator fun plus(other: MyBigInteger): MyBigInteger
     public operator fun minus(other: MyBigInteger): MyBigInteger
     public operator fun times(other: MyBigInteger): MyBigInteger

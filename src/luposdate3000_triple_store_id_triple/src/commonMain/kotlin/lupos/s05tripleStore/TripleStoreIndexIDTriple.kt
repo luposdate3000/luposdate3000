@@ -278,6 +278,11 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         return res
     }
     override /*suspend*/ fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle {
+try{ 
+throw Exception("the lock(${lock.getUUID()}) x131b")
+}catch(e:Throwable){ 
+e.printStackTrace()
+}
         val fp = (params as TripleStoreFeatureParamsDefault).getFilterAndProjection(query)
         val filter = fp.first
         val projection = fp.second
@@ -351,6 +356,11 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             }
         }
         SanityCheck.println { "readUnlock(${lock.getUUID()}) x131" }
+try{
+throw Exception("the lock(${lock.getUUID()}) x131a")
+}catch(e:Throwable){
+e.printStackTrace()
+}
         lock.readUnlock()
         return res
     }
@@ -411,6 +421,11 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
     }
     @Suppress("NOTHING_TO_INLINE") /*suspend*/ private inline fun flushContinueWithWriteLock() {
         SanityCheck.println { "writeLock(${lock.getUUID()}) x140" }
+try{
+throw Exception("the lock(${lock.getUUID()}) x140a")
+}catch(e:Throwable){
+e.printStackTrace()
+}
         lock.writeLock()
         flushAssumeLocks()
     }

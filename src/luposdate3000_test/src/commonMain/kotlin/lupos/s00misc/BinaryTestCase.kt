@@ -69,34 +69,40 @@ public object BinaryTestCase {
         File("$folder/config2").printWriter { newConfig ->
             File("$folder/config").forEachLine { line ->
                 val setting = line.split("=")
-                try {
-                    when (setting[1]) {
-                        "disabled", "missingFeatures" -> {
-                            newConfig.println(line)
-                        }
-                        "hadSuccess" -> {
-                            val res = executeTestCase(folder + "/" + setting[0])
-                            if (res) {
-                                newConfig.println(line)
-                            } else {
-                                newConfig.println(setting[0] + "=hadSuccessButFailedNow")
+                if (setting.size == 2) {
+                    var s = setting[0]+"="
+                    try {
+                        when (setting[1]) {
+                            "disabled" -> {
+                                s+= "disabled"
+                            }
+                            "missingFeatures" -> {
+                                s+= "missingFeatures"
+                            }
+                            "hadSuccess" -> {
+                                val res = executeTestCase(folder + "/" + setting[0])
+                                if (res) {
+                                    s+= "hadSuccess"
+                                } else {
+                                    s+= "hadSuccessButFailedNow"
+                                }
+                            }
+                            else -> {
+                                val res = executeTestCase(folder + "/" + setting[0])
+                                if (res) {
+                                    s+= "hadSuccess"
+                                } else {
+                                    s+= "enabled"
+                                }
                             }
                         }
-                        else -> {
-                            val res = executeTestCase(folder + "/" + setting[0])
-                            if (res) {
-                                newConfig.println(setting[0] + "=hadSuccess")
-                            } else {
-                                newConfig.println(setting[0] + "=enabled")
-                            }
-                        }
+                    } catch (e: Throwable) {
+			println("there is an exception !!!")
+                        e.printStackTrace()
+                        s+= "missingFeaturesException"
                     }
-                } catch (e: Throwable) {
-                    if (e is NotImplementedException) {
-                        newConfig.println(setting[0] + "=missingFeatures")
-                    }
-                    e.printStackTrace()
-                } finally {
+println("writing the string s '$s' !?!?!")
+                    newConfig.println(s)
                     newConfig.flush()
                 }
             }
@@ -299,6 +305,7 @@ public object BinaryTestCase {
     public fun executeTestCase(query_folder: String): Boolean {
         println("executeTestCase $query_folder")
         var returnValue = true
+        println("returnValue = true #1")
         File("$query_folder/query.stat").dataInputStream { targetStat ->
             File("$query_folder/query.dictionary").dataInputStream { targetDictionary ->
                 File("$query_folder/query.triples").dataInputStream { targetTriples ->
@@ -330,6 +337,7 @@ public object BinaryTestCase {
                                         SanityCheck.println { "Test: $query_folder named: $query_folder" }
                                         SanityCheck.println { "----------Skipped" }
                                         returnValue = true
+                                        println("returnValue = true #2")
                                         break@func
                                     }
                                 }
@@ -353,6 +361,7 @@ public object BinaryTestCase {
                                 SanityCheck.println { "Test: $query_folder named: $query_folder" }
                                 SanityCheck.println { "----------Skipped" }
                                 returnValue = true
+                                println("returnValue = true #7")
                                 break@func
                             }
                             val targetDict = mutableMapOf<String, Int>()
@@ -465,6 +474,7 @@ if (tmpTable != null) {
                                 }
                                 if (!success) {
                                     returnValue = false
+                                    println("returnValue = false #3")
                                     SanityCheck.println { "----------Failed(import)" }
                                     break@func
                                 }
@@ -523,6 +533,7 @@ if (tmpTable != null) {
                                 val actualResult = operatorGraphToTable(popOptimizer.optimizeCall(distributedTripleStore.getDefaultGraph(query5).getIterator(arrayOf(AOPVariable(query5, "s"), AOPVariable(query5, "p"), AOPVariable(query5, "o")), EIndexPatternExt.SPO, Partition())))
                                 if (!verifyEqual(tableOutput, actualResult, mappingLiveToTarget, targetDict, targetDict2, allowOrderBy, queryName, query_folder, "result in store (SPO) is wrong")) {
                                     returnValue = false
+                                    println("returnValue = false #4")
                                     break@func
                                 }
                                 distributedTripleStore.commit(query5)
@@ -531,11 +542,13 @@ if (tmpTable != null) {
                                 val actualResult = operatorGraphToTable(popNode)
                                 if (!verifyEqual(tableOutput, actualResult, mappingLiveToTarget, targetDict, targetDict2, allowOrderBy, queryName, query_folder, "query result is wrong")) {
                                     returnValue = false
+                                    println("returnValue = false #5")
                                     break@func
                                 }
                             }
                             SanityCheck.println { "----------Success" }
                             returnValue = true
+                            println("returnValue = true #6")
                             break@func
                         }
                     }

@@ -32,7 +32,7 @@ public actual class MyBigDecimal {
     public actual fun toDouble(): Double {
         throw object : NotImplementedException("MyBigDecimal", "toDouble not implemented") {}
     }
-    public actual fun compareTo(other: MyBigDecimal): Int {
+    public actual operator fun compareTo(other: MyBigDecimal): Int {
         throw object : NotImplementedException("MyBigDecimal", "compareTo not implemented") {}
     }
     public actual operator fun plus(other: MyBigDecimal): MyBigDecimal {

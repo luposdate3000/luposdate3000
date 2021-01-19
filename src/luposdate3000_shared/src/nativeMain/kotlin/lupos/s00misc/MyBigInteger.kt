@@ -23,7 +23,7 @@ public actual class MyBigInteger {
     public actual constructor(s1: Int) {
         s = "" + s1
     }
-    public actual fun compareTo(other: MyBigInteger): Int {
+    public actual operator fun compareTo(other: MyBigInteger): Int {
         throw object : NotImplementedException("MyBigInteger", "compareTo not implemented") {}
     }
     public actual fun toDouble(): Double {
