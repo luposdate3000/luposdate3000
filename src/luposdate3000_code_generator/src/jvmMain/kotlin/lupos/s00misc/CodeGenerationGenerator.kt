@@ -1,11 +1,11 @@
 package lupos.s00misc
 
-import com.squareup.kotlinpoet.*
+// import com.squareup.kotlinpoet.*
 import java.io.*
 import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.*
-
+import javax.lang.model.element.ElementKind
 // dieses Tutorial hat mir sehr geholfen
 // https://www.kotlindevelopment.com/generateforme/
 
@@ -14,16 +14,19 @@ import javax.lang.model.element.*
 
 // aus kompatibilitätsgründen für diese Beispiel java 1.8 ... luposdate3000 kompiliert zurzeit auch mit java 1.8, aber es sollte kein großens Problem sein, hier die Java-version zu erhöhen.
 
-@SupportedSourceVersion(SourceVersion.RELEASE_8)
-@SupportedAnnotationTypes("lupos.s00misc.CodeGenerationAnnotation")
+// @SupportedSourceVersion(SourceVersion.RELEASE_8)
+// @SupportedAnnotationTypes("lupos.s00misc.CodeGenerationAnnotation")
 @SupportedOptions(CodeGenerationGenerator.KAPT_KOTLIN_GENERATED_OPTION_NAME)
-class CodeGenerationGenerator : AbstractProcessor() {
-    companion object {
-        const val KAPT_KOTLIN_GENERATED_OPTION_NAME = "kapt.kotlin.generated"
+public class CodeGenerationGenerator : AbstractProcessor() {
+    init {
+        println("CodeGenerationGenerator init")
+    }
+    public companion object {
+        public const val KAPT_KOTLIN_GENERATED_OPTION_NAME: String = "kapt.kotlin.generated"
     }
 
-//    override fun getSupportedSourceVersion(): SourceVersion = SourceVersion.latest()
-//    override fun getSupportedAnnotationTypes(): MutableSet<String> = mutableSetOf(CodeGenerationAnnotation::class.java.name)
+    override fun getSupportedSourceVersion(): SourceVersion = SourceVersion.latest()
+    override fun getSupportedAnnotationTypes(): MutableSet<String> = mutableSetOf(CodeGenerationAnnotation::class.java.name)
 
     override fun process(
         annotations: MutableSet<out TypeElement>?,
@@ -32,27 +35,54 @@ class CodeGenerationGenerator : AbstractProcessor() {
         val kaptKotlinGeneratedDir = processingEnv.options["kapt.kotlin.generated"] ?: return false
         roundEnv.getElementsAnnotatedWith(CodeGenerationAnnotation::class.java)
             .forEach { element ->
-                val packagename = processingEnv.elementUtils.getPackageOf(element).toString()
-                val classname = element.getEnclosingElement().getSimpleName().toString()
-                val annotation = element.getAnnotation(CodeGenerationAnnotation::class.java)
-                val variablename = element.getSimpleName().toString()
-                println("CodeGenerationGenerator :: $packagename $classname $variablename")
-// throw Exception("finish")
-/*
-                        val fileName = "CodeGenerationGenerator_${classname}_${funcname}"
-                        println("processing $packagename $classname $funcname into ${kaptKotlinGeneratedDir}/$packagename/$fileName.kt")
-//-->> ab hier wird der source-code in die Datei (die mit obigen print statement ausgegeben wurde) geschrieben.
-// Hier kann jede art und weise verwendet werden, die Dateien schreibt.
-// Es ist nicht nötig kotlin-poet zu verwenden, wenn Ihr das nicht wollt.
-                        FileSpec.builder(packagename, fileName)
-                                .addFunction(FunSpec.builder("${classname}.${funcname}")
-                                        .addStatement("return \"${query}\"")
-                                        .build())
-                                .build()
-                                .writeTo(File(kaptKotlinGeneratedDir))
-//<<-- bis hier
-*/
+                try {
+// input ->
+                    val className = element.getEnclosingElement().getSimpleName().toString()
+                    val packageName = processingEnv.elementUtils.getPackageOf(element).toString()
+                    val annotation = element.getAnnotation(CodeGenerationAnnotation::class.java)
+                    recoursivelyPrintTypeInformation(element.getEnclosingElement())
+                    val variableName = element.getSimpleName().toString()
+// this does not work               val clazz = Class.forName("$packageName.$className")
+// this does not work               val variableValue = clazz.getField(variableName).get(clazz.newInstance()) as String
+                    val variableValue = annotation.query
+// output->
+                    val folderName = "$kaptKotlinGeneratedDir/$packageName"
+                    val fileName = "$folderName/$className.$variableName.kt"
+                    println("$className $packageName $variableName $variableValue into $fileName")
+                    java.io.File(folderName).mkdirs()
+                    java.io.File(fileName).printWriter().use { out ->
+                        out.println("package $packageName")
+                        out.println("public fun $className.${variableName}_evaluate()=\"$variableValue\"")
+                    }
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
             }
         return true
+    }
+    internal fun recoursivelyPrintTypeInformation(element: Element, indention: String = ""){
+        println("${indention}simpleName :: ${element.getSimpleName()}")
+        println("${indention}kind :: ${element.getKind()}")
+        println("${indention}modifiers :: ${element.getModifiers()}")
+println("${indention}annotation :: ${element.getAnnotation(CodeGenerationAnnotation::class.java)}")
+if(element is ExecutableElement){
+println("${indention}subclass :: ExecutableElement")
+}else if (element is PackageElement){
+println("${indention}subclass :: PackageElement")
+}else if (element is Parameterizable){
+println("${indention}subclass :: Parameterizable")
+}else if (element is QualifiedNameable){
+println("${indention}subclass :: QualifiedNameable")
+}else if (element is TypeElement){
+println("${indention}subclass :: TypeElement")
+}else if (element is TypeParameterElement){
+println("${indention}subclass :: TypeParameterElement")
+}else if (element is VariableElement){
+println("${indention}subclass :: VariableElement")
+println("${indention}value :: ${element.getConstantValue()}")
+}
+        for (element2 in element.getEnclosedElements()) {
+            recoursivelyPrintTypeInformation(element2, "  $indention")
+        }
     }
 }

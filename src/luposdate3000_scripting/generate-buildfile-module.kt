@@ -76,7 +76,10 @@ private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map
         }
     }
 }
-public fun createBuildFileForModule(args: Array<String>) {
+public fun createBuildFileForModule(moduleName: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen:Boolean,args: Array<String> = arrayOf<String>()) {
+    createBuildFileForModule(moduleName, moduleName, releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, codegen,args)
+}
+public fun createBuildFileForModule(moduleName: String, modulePrefix: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen:Boolean,args: Array<String> = arrayOf<String>()) {
     val onWindows = System.getProperty("os.name").contains("Windows")
     val pathSeparator: String
     if (onWindows) {
@@ -84,72 +87,12 @@ public fun createBuildFileForModule(args: Array<String>) {
     } else {
         pathSeparator = "/"
     }
-    var moduleName = ""
-    var moduleFolder = ""
-    var modulePrefix = ""
-    var platform = "linuxX64"
-    var inlineMode = InlineMode.Enable
-    var suspendMode = SuspendMode.Enable
-    var releaseMode = ReleaseMode.Enable
-    var target = TargetMode.All
-    var dryMode = DryMode.Disable
-    var ideaBuildfile = IntellijMode.Disable
-    for (arg in args) {
-        when {
-            arg == "--inline" -> inlineMode = InlineMode.Enable
-            arg == "--noinline" -> inlineMode = InlineMode.Disable
-            arg == "--suspend" -> suspendMode = SuspendMode.Enable
-            arg == "--nosuspend" -> suspendMode = SuspendMode.Disable
-            arg == "--release" -> releaseMode = ReleaseMode.Enable
-            arg == "--debug" -> releaseMode = ReleaseMode.Disable
-            arg == "--fastJVM" -> target = TargetMode.JVM
-            arg == "--fastJS" -> target = TargetMode.JS
-            arg == "--fastNative" -> target = TargetMode.Native
-            arg == "--dry" -> dryMode = DryMode.Enable
-            arg == "--idea" -> {
-                dryMode = DryMode.Enable
-                ideaBuildfile = IntellijMode.Enable
-            }
-            arg.startsWith("--module=") -> moduleName = arg.substring("--module=".length)
-            arg.startsWith("--src=") -> moduleFolder = arg.substring("--src=".length).replace("/", pathSeparator).replace("\\", pathSeparator)
-            arg.startsWith("--platform=") -> platform = arg.substring("--platform=".length)
-            arg.startsWith("--prefix=") -> modulePrefix = arg.substring("--prefix=".length).replace("/", pathSeparator).replace("\\", pathSeparator)
-        }
-    }
-    if (moduleName == "") {
-        throw Exception("you must specify a moduleName '--module=xyz'")
-    }
-    if (moduleFolder == "") {
-        moduleFolder = "src${pathSeparator}${moduleName.toLowerCase()}"
-    }
-    if (modulePrefix == "") {
-        modulePrefix = moduleName
-    }
-    if (!validPlatforms.contains(platform)) {
-        throw Exception("unsupported platform $platform")
-    }
-    if (moduleFolder.startsWith("/")) { // TODO same for Windows
-        throw Exception("only relative paths allowed")
-    }
-    createBuildFileForModule(moduleName, moduleFolder, modulePrefix, platform, releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, args)
+    createBuildFileForModule(moduleName, modulePrefix, "src${pathSeparator}${moduleName.toLowerCase()}", releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, codegen,args)
 }
-public fun createBuildFileForModule(moduleName: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
-    createBuildFileForModule(moduleName, moduleName, releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, args)
+public fun createBuildFileForModule(moduleName: String, modulePrefix: String, moduleFolder: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen:Boolean,args: Array<String> = arrayOf<String>()) {
+    createBuildFileForModule(moduleName, moduleFolder, modulePrefix, "linuxX64", releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, codegen,args)
 }
-public fun createBuildFileForModule(moduleName: String, modulePrefix: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
-    val onWindows = System.getProperty("os.name").contains("Windows")
-    val pathSeparator: String
-    if (onWindows) {
-        pathSeparator = "\\"
-    } else {
-        pathSeparator = "/"
-    }
-    createBuildFileForModule(moduleName, modulePrefix, "src${pathSeparator}${moduleName.toLowerCase()}", releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, args)
-}
-public fun createBuildFileForModule(moduleName: String, modulePrefix: String, moduleFolder: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
-    createBuildFileForModule(moduleName, moduleFolder, modulePrefix, "linuxX64", releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, args)
-}
-public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, modulePrefix: String, platform: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode2: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen:Boolean=false, args: Array<String> = arrayOf<String>()) {
+public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, modulePrefix: String, platform: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode2: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen:Boolean, args: Array<String> = arrayOf<String>()) {
     try {
         var dryMode: DryMode
         if (dryMode2 == DryMode.Enable || ideaBuildfile == IntellijMode.Enable) {
@@ -256,9 +199,6 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
             }
         }
         val commonDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-common:$compilerVersion")
-if(!buildLibrary&&codegen){
-commonDependencies.add("luposdate3000:Luposdate3000_Code_Generator:0.0.1")
-}
         if (!moduleName.startsWith("Luposdate3000_Shared")) {
             commonDependencies.add("luposdate3000:Luposdate3000_Shared:0.0.1")
         }
@@ -303,6 +243,7 @@ commonDependencies.add("luposdate3000:Luposdate3000_Code_Generator:0.0.1")
             }
             File(filename).printWriter().use { out ->
                 out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
+out.println("import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency")
                 out.println("buildscript {")
                 out.println("    repositories {")
                 out.println("        jcenter()")
@@ -327,10 +268,10 @@ commonDependencies.add("luposdate3000:Luposdate3000_Code_Generator:0.0.1")
                     }
                 }
                 out.println("plugins {")
+                out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"${compilerVersion}\"")
 if(!buildLibrary&&codegen){
                 out.println("    id(\"org.jetbrains.kotlin.kapt\") version \"${compilerVersion}\"")
 }
-                out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"${compilerVersion}\"")
                 if (buildForIDE && !buildLibrary) {
                     out.println("    application")
                 }
@@ -435,6 +376,16 @@ if(!buildLibrary&&codegen){
                     out.println("        }")
                     out.println("    }")
                 }
+if(!buildLibrary&&codegen){
+//out.println("    configurations {")
+//out.println("        val kapt by getting {")
+//out.println("            dependencies {")
+//out.println("                classpath(\"luposdate3000:Luposdate3000_Code_Generator:0.0.1\")")
+//out.println("            }")
+//out.println("        }")
+//out.println("    }")
+out.println("    configurations.get(\"kapt\").dependencies.add(DefaultExternalModuleDependency(\"luposdate3000\",\"Luposdate3000_Code_Generator\",\"0.0.1\"))")
+}
                 out.println("    sourceSets {")
                 out.println("        val commonMain by getting {")
                 out.println("            dependencies {")
@@ -466,35 +417,45 @@ if(!buildLibrary&&codegen){
                 if (buildForIDE) {
                     if (!moduleName.startsWith("Luposdate3000_Shared_Inline")) {
                         out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"commonMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}resources\")")
                     }
                     if (enableJVM) {
                         if (!moduleName.startsWith("Luposdate3000_Shared_Inline")) {
                             out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
+                            out.println("    sourceSets[\"jvmMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}resources\")")
                         }
                     }
                     if (enableJS) {
                         if (!moduleName.startsWith("Luposdate3000_Shared_Inline")) {
                             out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
+                            out.println("    sourceSets[\"jsMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}resources\")")
                         }
                     }
                     if (enableNative) {
                         out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
                         if (!moduleName.startsWith("Luposdate3000_Shared_Inline")) {
                             out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
-                            out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}${platform}Main${pathSeparatorEscaped}kotlin\")")
+                            out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}${platform}Main${pathSeparatorEscaped}resources\")")
+                            out.println("    sourceSets[\"${platform}Main\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
+                            out.println("    sourceSets[\"${platform}Main\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}${platform}Main${pathSeparatorEscaped}resources\")")
                         }
                     }
                 } else {
                     out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"commonMain${pathSeparatorEscaped}kotlin\")")
+                    out.println("    sourceSets[\"commonMain\"].resources.srcDir(\"commonMain${pathSeparatorEscaped}resources\")")
                     if (enableJVM) {
                         out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"jvmMain${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"jvmMain\"].resources.srcDir(\"jvmMain${pathSeparatorEscaped}resources\")")
                     }
                     if (enableJS) {
                         out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"jsMain${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"jsMain\"].resources.srcDir(\"jsMain${pathSeparatorEscaped}resources\")")
                     }
                     if (enableNative) {
                         out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
                         out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"${platform}Main${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"${platform}Main\"].resources.srcDir(\"nativeMain${pathSeparatorEscaped}resources\")")
+                        out.println("    sourceSets[\"${platform}Main\"].resources.srcDir(\"${platform}Main${pathSeparatorEscaped}resources\")")
                     }
                 }
                 out.println("}")

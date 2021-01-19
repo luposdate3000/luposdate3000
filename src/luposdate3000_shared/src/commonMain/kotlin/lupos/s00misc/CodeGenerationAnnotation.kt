@@ -1,5 +1,5 @@
 package lupos.s00misc
-
+import kotlin.jvm.JvmField
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS,
  AnnotationTarget.FUNCTION,

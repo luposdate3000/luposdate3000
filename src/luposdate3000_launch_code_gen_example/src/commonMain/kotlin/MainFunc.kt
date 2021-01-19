@@ -27,10 +27,6 @@ import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s16network.LuposdateEndpoint
 
-object uvw{
-@CodeGenerationAnnotation (query="abc")
-var xyz:String="def"
-}
 
 @Suppress("NOTHING_TO_INLINE") internal inline fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
@@ -67,4 +63,6 @@ var xyz:String="def"
         println(spalte2Wert.valueToString())
         i = zeileniterator.next()
     }
+val example=examplePackage.ExampleClass()
+println(example.exampleVar_evaluate())
 }
