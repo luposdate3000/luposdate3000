@@ -17,4 +17,6 @@ class EventPriorityQueue {
 
     fun hasNext() = queue.size > 0
 
+    fun clear() = queue.clear()
+
 }

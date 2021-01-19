@@ -4,36 +4,55 @@ package simulation
 abstract class Entity(val name: String) : Cloneable {
 
     private val deferredEvents: EventPriorityQueue = EventPriorityQueue()
+    private var currentState = RUNNABLE
+    private var busyDuration = 0.0
 
-    fun addIncomingEvent(event: Event) {
-        deferredEvents.enqueue(event)
+    private companion object {
+        const val RUNNABLE = 1
+        const val BUSY = 2
+        const val TERMINATED = 2
     }
 
     abstract fun startUpEntity()
     abstract fun processEvent(ev: Event)
     abstract fun shutDownEntity()
-    protected abstract fun getEventSendingDelay(destination: Entity, type: EventType, data: Any? = null): Double
+
+    fun addIncomingEvent(event: Event) {
+        deferredEvents.enqueue(event)
+    }
 
     fun processDeferredEvents() {
+        if (currentState == TERMINATED)
+            return
         var ev: Event
-        while (deferredEvents.hasNext()) {
+        while (deferredEvents.hasNext() && currentState == RUNNABLE) {
             ev = deferredEvents.dequeue()
             processEvent(ev)
         }
     }
 
-    protected fun sendEvent(destination: Entity, type: EventType, data: Any? = null) {
-        val delay = getEventSendingDelay(destination, type, data)
-        Simulation.sendEvent(this, destination, delay, type, data)
+    protected fun sendEvent(destination: Entity, delay: Double, type: EventType, data: Any? = null) {
+        val updatedDelay = addBusyDuration(delay)
+        Simulation.sendEvent(this, destination, updatedDelay, type, data)
     }
 
+    protected fun beBusy(duration: Double) {
+        currentState = BUSY
+        busyDuration = duration
+        Simulation.setEntityBusy(this, duration)
+    }
 
+    private fun addBusyDuration(delay: Double)
+            = if(currentState == BUSY) delay + busyDuration else delay
 
-//    private fun getNetworkDelay(srcEntity: Entity, dstEntity: Entity): Double {
-///*        return if (NetworkTopology.isNetworkEnabled()) {
-//            NetworkTopology.getDelay(src, dst)
-//        } else 0.0*/return 0.0
-//    }
+    fun stopBeingBusy() {
+        currentState = RUNNABLE
+        busyDuration = 0.0
+    }
 
+    protected fun terminate() {
+        currentState = TERMINATED
+        deferredEvents.clear()
+    }
 
 }

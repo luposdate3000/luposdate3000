@@ -5,157 +5,238 @@ import org.junit.jupiter.api.Test
 
 class SimulationTest {
 
-    class EntityStub(name: String) : Entity(name) {
-        override fun startUpEntity() {
-        }
-        override fun processEvent(ev: Event) {
-        }
-        override fun shutDownEntity() {
-        }
-        override fun getEventSendingDelay(destination: Entity, type: EventType, data: Any?): Double {
-            return 0.0
-        }
-    }
-
     @Test
     fun `run without entities has no effect on clock`() {
-        val startClock = Simulation.clock
-        Simulation.runSimulation()
-        val endClock = Simulation.clock
+        val startClock = 0.0
+        val endClock = Simulation.runSimulation()
         Assertions.assertEquals(startClock, endClock)
     }
 
     @Test
     fun `run without sending events has no effect on clock`() {
         val startClock = Simulation.clock
-        Simulation.addEntityToSimulation(EntityStub(""))
-        Simulation.addEntityToSimulation(EntityStub(""))
-        Simulation.addEntityToSimulation(EntityStub(""))
-        Simulation.runSimulation()
-        val endClock = Simulation.clock
+        Simulation.initialize(arrayListOf(EmptyEntityStub(""), EmptyEntityStub("")))
+        val endClock = Simulation.runSimulation()
+        Assertions.assertEquals(0.0, startClock)
         Assertions.assertEquals(startClock, endClock)
     }
 
     @Test
     fun `sent data equals the received data`() {
-        var receivedDestinationEntity: Entity = EntityStub("")
-        var receivedEventType: EventType = EventTypeStub()
-        var receivedData = 4
-        var receivedInternalEventType = -1
-        var receivedSourceEntity: Entity = EntityStub("")
-        var receivedTime = 0.0
-        val receivingEntity = object : Entity("") {
-            override fun startUpEntity(){}
-            override fun processEvent(ev: Event) {
-                receivedData = ev.data as Int
-                receivedDestinationEntity = ev.destinationEntity
-                receivedEventType = ev.eventType
-                receivedInternalEventType = ev.internalEventType
-                receivedTime = ev.time
-                receivedSourceEntity = ev.sourceEntity
-            }
-            override fun shutDownEntity() {}
-            override fun getEventSendingDelay(destination: Entity, type: EventType, data: Any?): Double {
-                return 0.0
-            }
-        }
+        val eventType: EventType = EmptyEventTypeStub()
+        val data = 5
         val delay = 18.33
-        val sentEventType = object : EventType {
-            override fun getEventType(): Int {
-                return 77
-            }
-        }
-        val sentData = 5
+        var receivingEntity: Entity? = null
+        var actualData: Int? = null
+        var actualDestEntity: Entity? = null
+        var actualSrcEntity: Entity? = null
+        var actualInternalEventType: Int? = null
+        var actualEventTime: Double? = null
+        var actualEventType: EventType? = null
 
         val sendingEntity = object : Entity("") {
             override fun startUpEntity() {
-                this.sendEvent(receivingEntity, sentEventType, sentData)
+                this.sendEvent(receivingEntity!!, delay, eventType, data)
             }
+            override fun processEvent(ev: Event) {}
+            override fun shutDownEntity() {}
+        }
+        receivingEntity = object : Entity("") {
+            override fun startUpEntity(){}
             override fun processEvent(ev: Event) {
+                actualData = ev.data as Int
+                actualDestEntity = ev.destinationEntity
+                actualSrcEntity = ev.sourceEntity
+                actualInternalEventType = ev.internalEventType
+                actualEventTime = ev.time
+                actualEventType = ev.eventType!!
             }
             override fun shutDownEntity() {}
-            override fun getEventSendingDelay(destination: Entity, type: EventType, data: Any?): Double {
-                return delay
-            }
         }
-        Simulation.addEntityToSimulation(receivingEntity)
-        Simulation.addEntityToSimulation(sendingEntity)
-        Simulation.runSimulation()
-
-        Assertions.assertEquals(delay, Simulation.clock)
-        Assertions.assertEquals(sentData, receivedData)
-        Assertions.assertEquals(sentEventType, receivedEventType)
-        Assertions.assertEquals(sendingEntity, receivedSourceEntity)
-        Assertions.assertEquals(delay, receivedTime)
-        Assertions.assertEquals(Event.SEND_EVENT, receivedInternalEventType)
-        Assertions.assertEquals(receivingEntity, receivedDestinationEntity)
+        Simulation.initialize(arrayListOf(receivingEntity, sendingEntity))
+        val endClock = Simulation.runSimulation()
+        Assertions.assertEquals(delay, endClock)
+        Assertions.assertEquals(0.0, Simulation.clock)
+        Assertions.assertEquals(data, actualData)
+        Assertions.assertEquals(receivingEntity, actualDestEntity)
+        Assertions.assertEquals(sendingEntity, actualSrcEntity)
+        Assertions.assertEquals(Event.SEND_EVENT, actualInternalEventType)
+        Assertions.assertEquals(delay, actualEventTime)
+        Assertions.assertEquals(eventType, actualEventType)
     }
 
     @Test
-    fun `two entities sending another and increasing the clock`() {
+    fun `clock equals to the time of Occurrence of the last event`() {
+        val firstDelay = 4.99
+        val secondDelay = 5.0
+        val thirdDelay = 499.1
+        var receivingEntity: Entity? = null
+        var actualFirstClock: Double? = null
+        var actualSecondClock: Double? = null
+        var actualThirdClock: Double? = null
 
-        var entityAReceivedEventsCount = 0
-        var entityBReceivedEventsCount = 0
-        val entityASentEventNumber = 200
-        val entityASentDelay = 19.33
-        val entityBSentDelay = 8.1
-        val entityA = object : Entity("") {
+        val sendingEntity = object : Entity("") {
+            override fun startUpEntity() {
+                this.sendEvent(receivingEntity!!, firstDelay, EmptyEventTypeStub(), 1)
+                this.sendEvent(receivingEntity!!, secondDelay, EmptyEventTypeStub(), 2)
+                this.sendEvent(receivingEntity!!, thirdDelay, EmptyEventTypeStub(), 3)
+            }
+            override fun processEvent(ev: Event) {}
+            override fun shutDownEntity() {}
+        }
+
+        receivingEntity = object : Entity("") {
             override fun startUpEntity(){}
             override fun processEvent(ev: Event) {
-                entityAReceivedEventsCount++
-                for(x in 1..entityASentEventNumber) {
-                    this.sendEvent(ev.sourceEntity, EventTypeStub(), null)
+                when(ev.data) {
+                    1 -> {
+                        actualFirstClock = Simulation.clock
+                    }
+                    2 -> {
+                        actualSecondClock = Simulation.clock
+                    }
+                    3 -> {
+                        actualThirdClock = Simulation.clock
+                    }
                 }
             }
             override fun shutDownEntity() {}
-            override fun getEventSendingDelay(destination: Entity, type: EventType, data: Any?): Double {
-                return entityASentDelay
-            }
         }
-
-        val entityB = object : Entity("") {
-            override fun startUpEntity() {
-                this.sendEvent(entityA, EventTypeStub(), null)
-            }
-            override fun processEvent(ev: Event) {
-                entityBReceivedEventsCount++
-            }
-            override fun shutDownEntity() {}
-            override fun getEventSendingDelay(destination: Entity, type: EventType, data: Any?): Double {
-                return entityBSentDelay
-            }
-        }
-        Simulation.addEntityToSimulation(entityA)
-        Simulation.addEntityToSimulation(entityB)
+        Simulation.initialize(arrayListOf(receivingEntity, sendingEntity))
         Simulation.runSimulation()
-        val expectedClock = entityBSentDelay + entityASentDelay
-        Assertions.assertEquals(expectedClock, Simulation.clock)
-        Assertions.assertEquals(entityASentEventNumber, entityBReceivedEventsCount)
-        Assertions.assertEquals(1, entityAReceivedEventsCount)
-
+        Assertions.assertEquals(firstDelay, actualFirstClock)
+        Assertions.assertEquals(secondDelay, actualSecondClock)
+        Assertions.assertEquals(thirdDelay, actualThirdClock)
     }
 
+    @Test
+    fun `all entities are called at the beginning`() {
 
+        var entityAIsCalled: Boolean? = null
+        val entityA = object : Entity("A") {
+            override fun startUpEntity() {
+                entityAIsCalled = true
+            }
+            override fun processEvent(ev: Event) {}
+            override fun shutDownEntity() {}
+        }
+        var entityBIsCalled: Boolean? = null
+        val entityB = object : Entity("B") {
+            override fun startUpEntity() {
+                entityBIsCalled = true
+            }
+            override fun processEvent(ev: Event) {}
+            override fun shutDownEntity() {}
+        }
+        var entityCIsCalled: Boolean? = null
+        val entityC = object : Entity("C") {
+            override fun startUpEntity() {
+                entityCIsCalled = true
+            }
+            override fun processEvent(ev: Event) {}
+            override fun shutDownEntity() {}
+        }
+        Simulation.initialize(arrayListOf(entityA, entityB, entityC))
+        Simulation.runSimulation()
+        Assertions.assertEquals(true, entityAIsCalled)
+        Assertions.assertEquals(true, entityBIsCalled)
+        Assertions.assertEquals(true, entityCIsCalled)
+    }
 
-//    @Test
-//    fun `send event to not existing entity`() {
-//        var x: Int
-//        val sendingEntity = object : Entity("") {
-//            override fun startUpEntity(){}
-//            override fun processEvent(ev: Event) {
-//                x = 5
-//            }
-//            override fun shutDownEntity() {}
-//            override fun getEventSendingDelay(destination: Entity, type: EventType, data: Any?): Double {
-//                return 0.0
-//            }
-//        }
-//        sendingEntity.se
-//        val e1 = Event(Event.SEND_EVENT, 1.0, , EntityStub(""), EventTypeStub(), null)
-//
-//        val startClock = Simulation.clock
-//        Simulation.runSimulation()
-//        val endClock = Simulation.clock
-//        Assertions.assertEquals(startClock, endClock)
-//    }
+    @Test
+    fun `all entities are called at the end`() {
+
+        var entityAIsCalled: Boolean? = null
+        val entityA = object : Entity("A") {
+            override fun startUpEntity() {}
+            override fun processEvent(ev: Event) {}
+            override fun shutDownEntity() {
+                entityAIsCalled = true
+            }
+        }
+        var entityBIsCalled: Boolean? = null
+        val entityB = object : Entity("B") {
+            override fun startUpEntity() {}
+            override fun processEvent(ev: Event) {}
+            override fun shutDownEntity() {
+                entityBIsCalled = true
+            }
+        }
+        var entityCIsCalled: Boolean? = null
+        val entityC = object : Entity("C") {
+            override fun startUpEntity() {}
+            override fun processEvent(ev: Event) {}
+            override fun shutDownEntity() {
+                entityCIsCalled = true
+            }
+        }
+        Simulation.initialize(arrayListOf(entityA, entityB, entityC))
+        Simulation.runSimulation()
+        Assertions.assertEquals(true, entityAIsCalled)
+        Assertions.assertEquals(true, entityBIsCalled)
+        Assertions.assertEquals(true, entityCIsCalled)
+    }
+
+    @Test
+    fun `An entity responds to an event with an event`() {
+        val firstDelay = 4.2
+        val responseDelay = 5.999
+        var isResponseReceived = false
+        var respondingEntity: Entity? = null
+
+        val sendingEntity = object : Entity("") {
+            override fun startUpEntity() {
+                this.sendEvent(respondingEntity!!, firstDelay, EmptyEventTypeStub(), null)
+            }
+            override fun processEvent(ev: Event) {
+               isResponseReceived = ev.data == 2
+            }
+            override fun shutDownEntity() {}
+        }
+
+        respondingEntity = object : Entity("") {
+            override fun startUpEntity(){}
+            override fun processEvent(ev: Event) {
+                this.sendEvent(ev.sourceEntity, responseDelay, EmptyEventTypeStub(), 2)
+            }
+            override fun shutDownEntity() {}
+        }
+        Simulation.initialize(arrayListOf(respondingEntity, sendingEntity))
+        val endClock = Simulation.runSimulation()
+        Assertions.assertEquals(firstDelay + responseDelay, endClock)
+        Assertions.assertTrue(isResponseReceived)
+    }
+
+    @Test
+    fun `Terminated entity does not receive a message`() {
+        val delay = 4.2
+        var processCounter = 0
+        val expectedProcessCounter = 1
+        var respondingEntity: Entity? = null
+
+        val sendingEntity = object : Entity("") {
+            override fun startUpEntity() {
+                this.sendEvent(respondingEntity!!, delay, EmptyEventTypeStub(), null)
+            }
+            override fun processEvent(ev: Event) {
+                this.sendEvent(ev.sourceEntity, delay, EmptyEventTypeStub(), null)
+            }
+            override fun shutDownEntity() {}
+        }
+
+        respondingEntity = object : Entity("") {
+            override fun startUpEntity(){}
+            override fun processEvent(ev: Event) {
+                this.sendEvent(ev.sourceEntity, delay, EmptyEventTypeStub(), null)
+                this.terminate()
+                processCounter++
+            }
+            override fun shutDownEntity() {}
+        }
+        Simulation.initialize(arrayListOf(respondingEntity, sendingEntity))
+        val endClock = Simulation.runSimulation()
+        Assertions.assertEquals(delay * 3, endClock)
+        Assertions.assertEquals(expectedProcessCounter, processCounter)
+    }
+
 }

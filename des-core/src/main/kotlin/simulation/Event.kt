@@ -5,12 +5,13 @@ class Event(
     val time: Double,
     val sourceEntity: Entity,
     val destinationEntity: Entity,
-    val eventType: EventType,
+    val eventType: EventType?,
     val data: Any?,
     ) : Cloneable, Comparable<Event?> {
 
     companion object {
         const val SEND_EVENT = 1
+        const val BUSY_END = 2
     }
 
     override fun compareTo(other: Event?) = when {

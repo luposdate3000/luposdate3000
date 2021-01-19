@@ -8,14 +8,16 @@ object Simulation {
     var clock = 0.0
         private set
 
-    fun addEntityToSimulation(entity: Entity) {
-        entities.add(entity)
+    fun initialize(entities: ArrayList<Entity>) {
+        resetVariables()
+        this.entities = entities
     }
 
-    fun runSimulation(){
+    fun runSimulation(): Double {
         prepareRun()
-        run()
+        val simClock = run()
         finishRun()
+        return simClock
     }
 
     private fun prepareRun() {
@@ -28,11 +30,12 @@ object Simulation {
         }
     }
 
-    private fun run() {
+    private fun run(): Double {
         var finished = false
         while (!finished) {
             finished = runClockTick()
         }
+        return clock
     }
 
     private fun runClockTick(): Boolean {
@@ -80,6 +83,9 @@ object Simulation {
             Event.SEND_EVENT -> {
                 event.destinationEntity.addIncomingEvent(event)
             }
+            Event.BUSY_END -> {
+                event.sourceEntity.stopBeingBusy()
+            }
         }
     }
 
@@ -88,13 +94,20 @@ object Simulation {
     }
 
     fun sendEvent(src: Entity, dest: Entity, delay: Double, type: EventType, data: Any?) {
-        val newTime = clock + delay
-        val e = Event(Event.SEND_EVENT, newTime, src, dest, type, data)
-        futureEvents.enqueue(e)
+        val event = Event(Event.SEND_EVENT, calcEventOccurringTime(delay), src, dest, type, data)
+        futureEvents.enqueue(event)
     }
+
+    fun setEntityBusy(src: Entity, delay: Double) {
+        val event = Event(Event.BUSY_END, calcEventOccurringTime(delay), src, src, null, null)
+        futureEvents.enqueue(event)
+    }
+
+    private fun calcEventOccurringTime(delay: Double) = clock + delay
 
     private fun finishRun() {
         shutDownAllEntities()
+        resetVariables()
     }
 
     private fun shutDownAllEntities() {
@@ -102,5 +115,12 @@ object Simulation {
             ent.shutDownEntity()
         }
     }
+
+    private fun resetVariables() {
+        entities.clear()
+        clock = 0.0
+        futureEvents.clear()
+    }
+
 
 }
