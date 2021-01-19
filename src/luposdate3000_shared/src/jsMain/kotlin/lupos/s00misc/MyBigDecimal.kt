@@ -17,54 +17,54 @@
 package lupos.s00misc
 public actual class MyBigDecimal {
     internal val s: String
-internal val v:Double
+    internal val v: Double
     public actual constructor(s1: String) {
         s = s1
-v=s.toDouble()
+        v = s.toDouble()
     }
     public actual constructor(s1: Double) {
         s = "" + s1
-v=s.toDouble()
+        v = s.toDouble()
     }
     public actual constructor(s1: Int) {
         s = "" + s1
-v=s.toDouble()
+        v = s.toDouble()
     }
     public actual fun toPlainString(): String {
         return s
     }
     public actual operator fun compareTo(other: MyBigDecimal): Int {
-return v.compareTo(other.v)
+        return v.compareTo(other.v)
     }
     public actual fun toDouble(): Double {
-return v
+        return v
     }
     public actual operator fun plus(other: MyBigDecimal): MyBigDecimal {
-return MyBigDecimal(v+other.v)
+        return MyBigDecimal(v + other.v)
     }
     public actual operator fun minus(other: MyBigDecimal): MyBigDecimal {
-return MyBigDecimal(v-other.v)
+        return MyBigDecimal(v - other.v)
     }
     public actual operator fun times(other: MyBigDecimal): MyBigDecimal {
-return MyBigDecimal(v*other.v)
+        return MyBigDecimal(v * other.v)
     }
     public actual operator fun div(other: MyBigDecimal): MyBigDecimal {
-return MyBigDecimal(v/other.v)
+        return MyBigDecimal(v / other.v)
     }
     public actual fun ceil(): MyBigDecimal {
-return MyBigDecimal( kotlin.math.ceil(v))
+        return MyBigDecimal(kotlin.math.ceil(v))
     }
     public actual fun floor(): MyBigDecimal {
-return MyBigDecimal( kotlin.math.floor(v))
+        return MyBigDecimal(kotlin.math.floor(v))
     }
     public actual fun round(): MyBigDecimal {
-return MyBigDecimal( kotlin.math.round(v))
+        return MyBigDecimal(kotlin.math.round(v))
     }
     public actual fun toMyBigInteger(): MyBigInteger {
-return MyBigInteger( kotlin.math.floor(v).toInt())
+        return MyBigInteger(kotlin.math.floor(v).toInt())
     }
     public actual fun abs(): MyBigDecimal {
-return MyBigDecimal( kotlin.math.abs(v))
+        return MyBigDecimal(kotlin.math.abs(v))
     }
     public actual override fun toString(): String = s
     public actual override fun equals(other: Any?): Boolean = other is MyBigDecimal && s == other.s

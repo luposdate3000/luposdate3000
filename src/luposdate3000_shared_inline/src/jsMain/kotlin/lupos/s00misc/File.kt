@@ -30,8 +30,8 @@ internal actual class _File {
     @Suppress("NOTHING_TO_INLINE") internal actual inline fun deleteRecursively(): Boolean = throw NotImplementedException("File", "deleteRecursively not implemented")
     @Suppress("NOTHING_TO_INLINE") internal actual inline fun length(): Long = throw NotImplementedException("File", "length not implemented")
     @Suppress("NOTHING_TO_INLINE") internal actual inline fun readAsString(): String {
-return ext.fs.readFileSync(filename).decodeToString()
-}
+        return ext.fs.readFileSync(filename).decodeToString()
+    }
     @Suppress("NOTHING_TO_INLINE") internal actual inline fun readAsCharIterator(): CharIterator = throw NotImplementedException("File", "readAsCharIterator not implemented")
     @Suppress("NOTHING_TO_INLINE") internal actual inline fun readAsInputStream(): IMyInputStream = throw NotImplementedException("File", "readAsInputStream not implemented")
     internal actual inline fun walk(crossinline action: (String) -> Unit): Unit = throw NotImplementedException("File", "walk not implemented")

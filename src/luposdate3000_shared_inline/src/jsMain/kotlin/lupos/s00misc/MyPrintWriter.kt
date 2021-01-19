@@ -101,7 +101,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         if (bufferMode == MyPrintWriterModeExt.FILE) {
             val buf = buffer.toString().encodeToByteArray()
             ext.fs.writeSync(file, buf, 0, buf.size, filePos)
-            printlnhelper("written the buffer :: " + buf.map { it.toString(16) } + " len ${buf.size} pos $filePos fd $file fileName $fileName")
+            printlnhelper("written the buffer :: " + buf.map { it.toString(16) }.toString() + " len ${buf.size} pos $filePos fd $file fileName $fileName")
             ext.fs.closeSync(file)
             file = -1
             buffer.clear()
@@ -109,17 +109,12 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
     }
     actual override fun flush() {
         if (bufferMode == MyPrintWriterModeExt.FILE) {
-            val buf = buffer.toString().encodeToByteArray()
+            val str = buffer.toString()
+            val buf = str.encodeToByteArray()
             ext.fs.writeSync(file, buf, 0, buf.size, filePos)
-            printlnhelper("written the buffer :: " + buf.map { it.toString(16) } + " len ${buf.size} pos $filePos fd $file fileName $fileName")
+            printlnhelper("written the buffer str '$str' buf " + buf.map { it.toString(16) } + " len ${buf.size} pos $filePos fd $file fileName $fileName")
             filePos += buf.size
             buffer.clear()
-if(false){
-            val buf = "afterflush\n".encodeToByteArray()
-            ext.fs.writeSync(file, buf, 0, buf.size, filePos)
-            printlnhelper("written the buffer :: " + buf.map { it.toString(16) } + " len ${buf.size} pos $filePos fd $file fileName $fileName afterflush")
-            filePos += buf.size
-}
         }
     }
 }

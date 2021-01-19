@@ -70,38 +70,38 @@ public object BinaryTestCase {
             File("$folder/config").forEachLine { line ->
                 val setting = line.split("=")
                 if (setting.size == 2) {
-                    var s = setting[0]+"="
+                    var s = setting[0] + "="
                     try {
                         when (setting[1]) {
                             "disabled" -> {
-                                s+= "disabled"
+                                s += "disabled"
                             }
                             "missingFeatures" -> {
-                                s+= "missingFeatures"
+                                s += "missingFeatures"
                             }
                             "hadSuccess" -> {
                                 val res = executeTestCase(folder + "/" + setting[0])
                                 if (res) {
-                                    s+= "hadSuccess"
+                                    s += "hadSuccess"
                                 } else {
-                                    s+= "hadSuccessButFailedNow"
+                                    s += "hadSuccessButFailedNow"
                                 }
                             }
                             else -> {
                                 val res = executeTestCase(folder + "/" + setting[0])
                                 if (res) {
-                                    s+= "hadSuccess"
+                                    s += "hadSuccess"
                                 } else {
-                                    s+= "enabled"
+                                    s += "enabled"
                                 }
                             }
                         }
                     } catch (e: Throwable) {
-			println("there is an exception !!!")
+                        println("there is an exception !!!")
                         e.printStackTrace()
-                        s+= "missingFeaturesException"
+                        s += "missingFeaturesException"
                     }
-println("writing the string s '$s' !?!?!")
+                    println("writing the string s '$s' !?!?!")
                     newConfig.println(s)
                     newConfig.flush()
                 }

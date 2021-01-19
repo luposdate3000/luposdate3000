@@ -12,4 +12,4 @@ public external fun writeSync(fd: Int, buffer: ByteArray, offset: Int, length: I
 @JsName("closeSync")
 public external fun closeSync(fd: Int)
 @JsName("readFileSync")
-public external fun readFileSync(filename:String):ByteArray
+public external fun readFileSync(filename: String): ByteArray
