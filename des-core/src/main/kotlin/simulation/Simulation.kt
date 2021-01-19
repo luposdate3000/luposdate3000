@@ -60,6 +60,7 @@ object Simulation {
 
     private fun processNextFutureEvent(): Event {
         val next = futureEvents.dequeue()
+        increaseSimulationClock(next)
         processEvent(next)
         return next
     }
@@ -78,7 +79,6 @@ object Simulation {
     }
 
     private fun processEvent(event: Event) {
-        increaseSimulationClock(event)
         when (event.internalEventType) {
             Event.SEND_EVENT -> {
                 event.destinationEntity.addIncomingEvent(event)

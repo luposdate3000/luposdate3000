@@ -22,8 +22,6 @@ abstract class Entity(val name: String) : Cloneable {
     }
 
     fun processDeferredEvents() {
-        if (currentState == TERMINATED)
-            return
         var ev: Event
         while (deferredEvents.hasNext() && currentState == RUNNABLE) {
             ev = deferredEvents.dequeue()
