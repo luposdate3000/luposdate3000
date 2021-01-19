@@ -149,7 +149,7 @@ public fun createBuildFileForModule(moduleName: String, modulePrefix: String, re
 public fun createBuildFileForModule(moduleName: String, modulePrefix: String, moduleFolder: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
     createBuildFileForModule(moduleName, moduleFolder, modulePrefix, "linuxX64", releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, args)
 }
-public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, modulePrefix: String, platform: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode2: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, args: Array<String> = arrayOf<String>()) {
+public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, modulePrefix: String, platform: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode2: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen:Boolean=false, args: Array<String> = arrayOf<String>()) {
     try {
         var dryMode: DryMode
         if (dryMode2 == DryMode.Enable || ideaBuildfile == IntellijMode.Enable) {
@@ -256,6 +256,9 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
             }
         }
         val commonDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-common:$compilerVersion")
+if(!buildLibrary&&codegen){
+commonDependencies.add("luposdate3000:Luposdate3000_Code_Generator:0.0.1")
+}
         if (!moduleName.startsWith("Luposdate3000_Shared")) {
             commonDependencies.add("luposdate3000:Luposdate3000_Shared:0.0.1")
         }
@@ -324,6 +327,9 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                     }
                 }
                 out.println("plugins {")
+if(!buildLibrary&&codegen){
+                out.println("    id(\"org.jetbrains.kotlin.kapt\") version \"${compilerVersion}\"")
+}
                 out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"${compilerVersion}\"")
                 if (buildForIDE && !buildLibrary) {
                     out.println("    application")

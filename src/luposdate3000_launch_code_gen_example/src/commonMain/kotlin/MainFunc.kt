@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+import lupos.s00misc.CodeGenerationAnnotation
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
@@ -25,6 +26,12 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s16network.LuposdateEndpoint
+
+object uvw{
+@CodeGenerationAnnotation (query="abc")
+var xyz:String="def"
+}
+
 @Suppress("NOTHING_TO_INLINE") internal inline fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
     LuposdateEndpoint.importTurtleFiles("/mnt/luposdate-testdata/sp2b/1024/complete.n3", mutableMapOf<String, Int>())
