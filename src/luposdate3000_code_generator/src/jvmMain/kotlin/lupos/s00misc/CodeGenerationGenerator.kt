@@ -33,7 +33,7 @@ public class CodeGenerationGenerator : AbstractProcessor() {
                     val className = element.getEnclosingElement().getSimpleName().toString()
                     val packageName = processingEnv.elementUtils.getPackageOf(element).toString()
                     // die instanz der annotation mit all ihren variablen                    val annotation = element.getAnnotation(CodeGenerationAnnotation::class.java)
-                    // debug the whole class hierachy                    recoursivelyPrintTypeInformation(element.getEnclosingElement())
+                    recoursivelyPrintTypeInformation(element.getEnclosingElement())
                     val variableName = element.getSimpleName().toString()
                     val variableValue = (element as VariableElement).getConstantValue().toString()
                     // output->

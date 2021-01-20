@@ -26,7 +26,7 @@
 @file:CompilerOptions("-Xmulti-platform")
 import lupos.s00misc.EOperatingSystemExt
 import lupos.s00misc.Platform
-import java.io.File 
+import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.lang.ProcessBuilder.Redirect
@@ -386,9 +386,11 @@ fun onCompile() {
     createBuildFileForModule("Luposdate3000_Operators", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
     createBuildFileForModule("Luposdate3000_Result_Format", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
     createBuildFileForModule("Luposdate3000_Triple_Store_Id_Triple", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Triple_Store_All_WithPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
     createBuildFileForModule("Luposdate3000_Triple_Store_All_NoPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false, arrayOf("--USE_PARTITIONS2=false"))
-    createBuildFileForModule("Luposdate3000_Optimizer_WithPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
+    if (intellijMode != "Enable") {
+        createBuildFileForModule("Luposdate3000_Triple_Store_All_WithPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
+        createBuildFileForModule("Luposdate3000_Optimizer_WithPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
+    }
     createBuildFileForModule("Luposdate3000_Optimizer_NoPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false, arrayOf("--USE_PARTITIONS=false"))
     createBuildFileForModule("Luposdate3000_Endpoint", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
     createBuildFileForModule("Luposdate3000_Test", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
