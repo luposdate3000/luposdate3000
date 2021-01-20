@@ -38,10 +38,10 @@ private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, a
     for (d in dependencies) {
         if (d.startsWith("luposdate3000")) {
             if (buildForIDE) {
-var t=d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
-if(t.contains("#")){
-t=t.substring(0,t.indexOf("#"))
-}
+                var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
+                if (t.contains("#")) {
+                    t = t.substring(0, t.indexOf("#"))
+                }
                 out.println("                implementation(project(\":src:${t}\"))")
             } else {
                 out.println("                compileOnly(\"${d.replace("#","")}\")")
@@ -94,14 +94,14 @@ public fun createBuildFileForModule(
     createBuildFileForModule(
         moduleName,
         moduleName,
- releaseMode,
- suspendMode,
- inlineMode,
- dryMode,
- target,
- ideaBuildfile,
- codegen,
- args
+        releaseMode,
+        suspendMode,
+        inlineMode,
+        dryMode,
+        target,
+        ideaBuildfile,
+        codegen,
+        args
     )
 }
 public fun createBuildFileForModule(
@@ -119,22 +119,22 @@ public fun createBuildFileForModule(
     val onWindows = System.getProperty("os.name").contains("Windows")
     val pathSeparator: String
     if (onWindows) {
-        pathSeparator = "\\"
+        pathSeparator = "\\\\"
     } else {
         pathSeparator = "/"
     }
     createBuildFileForModule(
         moduleName,
         modulePrefix,
- "src${pathSeparator}${moduleName.toLowerCase()}",
- releaseMode,
- suspendMode,
- inlineMode,
- dryMode,
- target,
- ideaBuildfile,
- codegen,
- args
+        "src${pathSeparator}${moduleName.toLowerCase()}",
+        releaseMode,
+        suspendMode,
+        inlineMode,
+        dryMode,
+        target,
+        ideaBuildfile,
+        codegen,
+        args
     )
 }
 public fun createBuildFileForModule(
@@ -153,16 +153,16 @@ public fun createBuildFileForModule(
     createBuildFileForModule(
         moduleName,
         moduleFolder,
- modulePrefix,
- "linuxX64",
- releaseMode,
- suspendMode,
- inlineMode,
- dryMode,
- target,
- ideaBuildfile,
- codegen,
- args
+        modulePrefix,
+        "linuxX64",
+        releaseMode,
+        suspendMode,
+        inlineMode,
+        dryMode,
+        target,
+        ideaBuildfile,
+        codegen,
+        args
     )
 }
 public fun createBuildFileForModule(
@@ -348,10 +348,10 @@ public fun createBuildFileForModule(
                 if (buildForIDE) {
                     for (d in commonDependencies) {
                         if (d.startsWith("luposdate3000")) {
-var t=d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
-if(t.contains("#")){
-t=t.substring(0,t.indexOf("#"))
-}
+                            var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
+                            if (t.contains("#")) {
+                                t = t.substring(0, t.indexOf("#"))
+                            }
                             out.println("    evaluationDependsOn(\":src:${t}\")")
                         }
                     }
@@ -540,7 +540,11 @@ t=t.substring(0,t.indexOf("#"))
                 out.println("}")
                 if (!buildLibrary && codegen) {
                     out.println("dependencies {")
-                    out.println("    \"kapt\"(\"luposdate3000:Luposdate3000_Code_Generator:0.0.1\") // attention to the '\"' around kapt - otherwise it resolves to another function")
+                    if (buildForIDE) {
+                        out.println("    \"kapt\"(project(\":src:luposdate3000_code_generator\")) // attention to the '\"' around kapt - otherwise it resolves to another function")
+                    } else {
+                        out.println("    \"kapt\"(\"luposdate3000:Luposdate3000_Code_Generator:0.0.1\") // attention to the '\"' around kapt - otherwise it resolves to another function")
+                    }
                     out.println("}")
                 }
                 if (buildForIDE && !buildLibrary) {
