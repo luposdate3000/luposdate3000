@@ -55,7 +55,7 @@ object Simulation {
 
     private fun dealWithFirstFutureEvents() {
         val first = processNextFutureEvent()
-        processTimeEqualEvents(first.time)
+        processTimeEqualEvents(first.occurrenceTime)
     }
 
     private fun processNextFutureEvent(): Event {
@@ -69,7 +69,7 @@ object Simulation {
         var nextEvent: Event
         while (futureEvents.hasNext()) {
             nextEvent = futureEvents.peek()
-            if (time == nextEvent.time) {
+            if (time == nextEvent.occurrenceTime) {
                 processNextFutureEvent()
             }
             else {
@@ -79,18 +79,18 @@ object Simulation {
     }
 
     private fun processEvent(event: Event) {
-        when (event.internalEventType) {
+        when (event.internalTag) {
             Event.SEND_EVENT -> {
-                event.destinationEntity.addIncomingEvent(event)
+                event.destination.addIncomingEvent(event)
             }
             Event.BUSY_END -> {
-                event.sourceEntity.stopBeingBusy()
+                event.source.stopBeingBusy()
             }
         }
     }
 
     private fun increaseSimulationClock(event: Event) {
-        clock = event.time
+        clock = event.occurrenceTime
     }
 
     fun sendEvent(src: Entity, dest: Entity, delay: Double, type: EventType, data: Any?) {

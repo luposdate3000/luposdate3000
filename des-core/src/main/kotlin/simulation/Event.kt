@@ -1,11 +1,11 @@
 package simulation
 
 class Event(
-    val internalEventType: Int,
-    val time: Double,
-    val sourceEntity: Entity,
-    val destinationEntity: Entity,
-    val eventType: EventType?,
+    val internalTag: Int,
+    val occurrenceTime: Double,
+    val source: Entity,
+    val destination: Entity,
+    val type: EventType?,
     val data: Any?,
     ) : Cloneable, Comparable<Event?> {
 
@@ -16,12 +16,12 @@ class Event(
 
     override fun compareTo(other: Event?) = when {
             other == null -> { 1 }
-            time < other.time -> { -1 }
-            time > other.time -> { 1 }
+            occurrenceTime < other.occurrenceTime -> { -1 }
+            occurrenceTime > other.occurrenceTime -> { 1 }
             else -> { 1 }
         }
 
     public override fun clone(): Event {
-        return Event(internalEventType, time, sourceEntity, destinationEntity, eventType, data)
+        return Event(internalTag, occurrenceTime, source, destination, type, data)
     }
 }

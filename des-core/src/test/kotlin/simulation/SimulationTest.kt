@@ -45,11 +45,11 @@ class SimulationTest {
             override fun startUpEntity(){}
             override fun processEvent(ev: Event) {
                 actualData = ev.data as Int
-                actualDestEntity = ev.destinationEntity
-                actualSrcEntity = ev.sourceEntity
-                actualInternalEventType = ev.internalEventType
-                actualEventTime = ev.time
-                actualEventType = ev.eventType!!
+                actualDestEntity = ev.destination
+                actualSrcEntity = ev.source
+                actualInternalEventType = ev.internalTag
+                actualEventTime = ev.occurrenceTime
+                actualEventType = ev.type!!
             }
             override fun shutDownEntity() {}
         }
@@ -197,7 +197,7 @@ class SimulationTest {
         respondingEntity = object : Entity("") {
             override fun startUpEntity(){}
             override fun processEvent(ev: Event) {
-                this.sendEvent(ev.sourceEntity, responseDelay, EmptyEventTypeStub(), 2)
+                this.sendEvent(ev.source, responseDelay, EmptyEventTypeStub(), 2)
             }
             override fun shutDownEntity() {}
         }
@@ -219,7 +219,7 @@ class SimulationTest {
                 this.sendEvent(respondingEntity!!, delay, EmptyEventTypeStub(), null)
             }
             override fun processEvent(ev: Event) {
-                this.sendEvent(ev.sourceEntity, delay, EmptyEventTypeStub(), null)
+                this.sendEvent(ev.source, delay, EmptyEventTypeStub(), null)
             }
             override fun shutDownEntity() {}
         }
@@ -227,7 +227,7 @@ class SimulationTest {
         respondingEntity = object : Entity("") {
             override fun startUpEntity(){}
             override fun processEvent(ev: Event) {
-                this.sendEvent(ev.sourceEntity, delay, EmptyEventTypeStub(), null)
+                this.sendEvent(ev.source, delay, EmptyEventTypeStub(), null)
                 this.terminate()
                 processCounter++
             }
