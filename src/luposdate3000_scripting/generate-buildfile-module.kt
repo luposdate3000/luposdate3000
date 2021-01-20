@@ -38,9 +38,13 @@ private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, a
     for (d in dependencies) {
         if (d.startsWith("luposdate3000")) {
             if (buildForIDE) {
-                out.println("                implementation(project(\":src:${d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()}\"))")
+var t=d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
+if(t.contains("#")){
+t=t.substring(0,t.indexOf("#"))
+}
+                out.println("                implementation(project(\":src:${t}\"))")
             } else {
-                out.println("                compileOnly(\"$d\")")
+                out.println("                compileOnly(\"${d.replace("#","")}\")")
             }
         } else if (d.startsWith("npm(")) {
             out.println("                implementation($d)")
@@ -76,10 +80,42 @@ private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map
         }
     }
 }
-public fun createBuildFileForModule(moduleName: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen: Boolean, args: Array<String> = arrayOf<String>()) {
-    createBuildFileForModule(moduleName, moduleName, releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, codegen, args)
+public fun createBuildFileForModule(
+    moduleName: String,
+    releaseMode: ReleaseMode,
+    suspendMode: SuspendMode,
+    inlineMode: InlineMode,
+    dryMode: DryMode,
+    target: TargetMode,
+    ideaBuildfile: IntellijMode,
+    codegen: Boolean,
+    args: Array<String> = arrayOf<String>()
+) {
+    createBuildFileForModule(
+        moduleName,
+        moduleName,
+ releaseMode,
+ suspendMode,
+ inlineMode,
+ dryMode,
+ target,
+ ideaBuildfile,
+ codegen,
+ args
+    )
 }
-public fun createBuildFileForModule(moduleName: String, modulePrefix: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen: Boolean, args: Array<String> = arrayOf<String>()) {
+public fun createBuildFileForModule(
+    moduleName: String,
+    modulePrefix: String,
+    releaseMode: ReleaseMode,
+    suspendMode: SuspendMode,
+    inlineMode: InlineMode,
+    dryMode: DryMode,
+    target: TargetMode,
+    ideaBuildfile: IntellijMode,
+    codegen: Boolean,
+    args: Array<String> = arrayOf<String>()
+) {
     val onWindows = System.getProperty("os.name").contains("Windows")
     val pathSeparator: String
     if (onWindows) {
@@ -87,12 +123,62 @@ public fun createBuildFileForModule(moduleName: String, modulePrefix: String, re
     } else {
         pathSeparator = "/"
     }
-    createBuildFileForModule(moduleName, modulePrefix, "src${pathSeparator}${moduleName.toLowerCase()}", releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, codegen, args)
+    createBuildFileForModule(
+        moduleName,
+        modulePrefix,
+ "src${pathSeparator}${moduleName.toLowerCase()}",
+ releaseMode,
+ suspendMode,
+ inlineMode,
+ dryMode,
+ target,
+ ideaBuildfile,
+ codegen,
+ args
+    )
 }
-public fun createBuildFileForModule(moduleName: String, modulePrefix: String, moduleFolder: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen: Boolean, args: Array<String> = arrayOf<String>()) {
-    createBuildFileForModule(moduleName, moduleFolder, modulePrefix, "linuxX64", releaseMode, suspendMode, inlineMode, dryMode, target, ideaBuildfile, codegen, args)
+public fun createBuildFileForModule(
+    moduleName: String,
+    modulePrefix: String,
+    moduleFolder: String,
+    releaseMode: ReleaseMode,
+    suspendMode: SuspendMode,
+    inlineMode: InlineMode,
+    dryMode: DryMode,
+    target: TargetMode,
+    ideaBuildfile: IntellijMode,
+    codegen: Boolean,
+    args: Array<String> = arrayOf<String>()
+) {
+    createBuildFileForModule(
+        moduleName,
+        moduleFolder,
+ modulePrefix,
+ "linuxX64",
+ releaseMode,
+ suspendMode,
+ inlineMode,
+ dryMode,
+ target,
+ ideaBuildfile,
+ codegen,
+ args
+    )
 }
-public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, modulePrefix: String, platform: String, releaseMode: ReleaseMode, suspendMode: SuspendMode, inlineMode: InlineMode, dryMode2: DryMode, target: TargetMode, ideaBuildfile: IntellijMode, codegen: Boolean, args: Array<String> = arrayOf<String>()) {
+public fun createBuildFileForModule(
+    moduleName_: String,
+    moduleFolder: String,
+    modulePrefix: String,
+    platform: String,
+    releaseMode: ReleaseMode,
+    suspendMode: SuspendMode,
+    inlineMode: InlineMode,
+    dryMode2: DryMode,
+    target: TargetMode,
+    ideaBuildfile: IntellijMode,
+    codegen: Boolean,
+    args: Array<String> = arrayOf<String>()
+) {
     try {
         var dryMode: DryMode
         if (dryMode2 == DryMode.Enable || ideaBuildfile == IntellijMode.Enable) {
@@ -262,7 +348,11 @@ public fun createBuildFileForModule(moduleName_: String, moduleFolder: String, m
                 if (buildForIDE) {
                     for (d in commonDependencies) {
                         if (d.startsWith("luposdate3000")) {
-                            out.println("    evaluationDependsOn(\":src:${d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()}\")")
+var t=d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
+if(t.contains("#")){
+t=t.substring(0,t.indexOf("#"))
+}
+                            out.println("    evaluationDependsOn(\":src:${t}\")")
                         }
                     }
                 }
