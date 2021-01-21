@@ -19,9 +19,9 @@ import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
-import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.IResultSetDictionary
+import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -140,20 +140,20 @@ public object BinaryTestCase {
                 return false
             }
         }
-val actualDict:IResultSetDictionary
-if(actual.query!=null){
-val q=actual.query!!
-actualDict=q.getDictionary()
-}else{
-actualDict=ResultSetDictionary()
-}
-val expectedDict:IResultSetDictionary
-if(expected.query!=null){
-val q=expected.query!!
-expectedDict=q.getDictionary()
-}else{
-expectedDict=ResultSetDictionary()
-}
+        val actualDict: IResultSetDictionary
+        if (actual.query != null) {
+            val q = actual.query!!
+            actualDict = q.getDictionary()
+        } else {
+            actualDict = ResultSetDictionary()
+        }
+        val expectedDict: IResultSetDictionary
+        if (expected.query != null) {
+            val q = expected.query!!
+            expectedDict = q.getDictionary()
+        } else {
+            expectedDict = ResultSetDictionary()
+        }
         for (row in actual.data) {
             val tmpRow = IntArray(columnCount) { -1 }
             for ((i, col) in row.withIndex()) {

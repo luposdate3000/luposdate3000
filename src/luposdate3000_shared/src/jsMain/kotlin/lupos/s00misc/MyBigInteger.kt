@@ -19,10 +19,10 @@ internal external fun BigInt(i: Int): BigIntT
 internal external fun BigInt(s: String): BigIntT
 internal external class BigIntT
 internal fun bigIntTCompareSmallerThan(a: BigIntT, b: BigIntT): Boolean = js("a<b")
-internal fun bigIntTPlus(a: BigIntT, b: BigIntT):BigIntT=js("a+b")
-internal fun bigIntTMinus(a: BigIntT, b: BigIntT):BigIntT=js("a-b")
-internal fun bigIntTTimes(a: BigIntT, b: BigIntT):BigIntT=js("a*b")
-internal fun bigIntTDiv(a: BigIntT, b: BigIntT):BigIntT=js("a/b")
+internal fun bigIntTPlus(a: BigIntT, b: BigIntT): BigIntT = js("a+b")
+internal fun bigIntTMinus(a: BigIntT, b: BigIntT): BigIntT = js("a-b")
+internal fun bigIntTTimes(a: BigIntT, b: BigIntT): BigIntT = js("a*b")
+internal fun bigIntTDiv(a: BigIntT, b: BigIntT): BigIntT = js("a/b")
 public actual class MyBigInteger {
     internal val s: String
     internal val v: BigIntT
@@ -51,23 +51,23 @@ public actual class MyBigInteger {
         return s.toDouble()
     }
     public actual operator fun plus(other: MyBigInteger): MyBigInteger {
-        return MyBigInteger(bigIntTPlus(v , other.v))
+        return MyBigInteger(bigIntTPlus(v, other.v))
     }
     public actual operator fun minus(other: MyBigInteger): MyBigInteger {
-return MyBigInteger(bigIntTMinus(v , other.v))
+        return MyBigInteger(bigIntTMinus(v, other.v))
     }
     public actual operator fun times(other: MyBigInteger): MyBigInteger {
-return MyBigInteger(bigIntTTimes(v , other.v))
+        return MyBigInteger(bigIntTTimes(v, other.v))
     }
     public actual operator fun div(other: MyBigInteger): MyBigInteger {
-return MyBigInteger(bigIntTDiv(v , other.v))
+        return MyBigInteger(bigIntTDiv(v, other.v))
     }
     public actual fun toMyBigDecimal(): MyBigDecimal {
         return MyBigDecimal("$s.0")
     }
     public actual fun abs(): MyBigInteger {
         if (bigIntTCompareSmallerThan(v, BigInt(0))) {
-            return MyBigInteger(bigIntTTimes(v , BigInt(-1)))
+            return MyBigInteger(bigIntTTimes(v, BigInt(-1)))
         } else {
             return this
         }

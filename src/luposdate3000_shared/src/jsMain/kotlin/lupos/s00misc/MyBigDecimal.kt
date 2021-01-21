@@ -73,8 +73,8 @@ public actual class MyBigDecimal {
                 s2 += c
             } else {
                 for (j in i + 1 until s3.size) {
-               c = s3[j]
-		     if (c >= '0' && c <= '4') {
+                    c = s3[j]
+                    if (c >= '0' && c <= '4') {
                         return MyBigDecimal(s2)
                     } else if (c >= '5' && c <= '9') {
                         val res: MyBigDecimal

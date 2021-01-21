@@ -238,10 +238,10 @@ public class POPGroup : POPBase {
                 }
             }
             for (columnIndex in 0 until bindings.size) {
-val columnName=bindings[columnIndex].first
+                val columnName = bindings[columnIndex].first
                 if (projectedVariables.contains(columnName)) {
-val valueraw=bindings[columnIndex].second.evaluate(localRow.iterators)()
-                val value = query.getDictionary().createValue(valueraw)
+                    val valueraw = bindings[columnIndex].second.evaluate(localRow.iterators)()
+                    val value = query.getDictionary().createValue(valueraw)
                     outMap[columnName] = ColumnIteratorRepeatValue(1, value)
                 }
             }
