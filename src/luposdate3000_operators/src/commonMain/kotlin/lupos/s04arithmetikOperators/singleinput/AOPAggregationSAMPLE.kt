@@ -39,7 +39,6 @@ public class AOPAggregationSAMPLE public constructor(query: IQuery, @JvmField pu
         val child = (children[0] as AOPBase).evaluate(row)
         res.evaluate = {
             val value = child()
-println("AOPAggregationSAMPLE $uuid adding ${value.valueToString()}")
             res.value = value
             res.evaluate = {
             }
@@ -49,7 +48,6 @@ println("AOPAggregationSAMPLE $uuid adding ${value.valueToString()}")
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
-println("AOPAggregationSAMPLE $uuid evaluate as ${tmp.value.valueToString()}")
             tmp.value
         }
     }

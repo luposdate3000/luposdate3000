@@ -45,7 +45,6 @@ public class AOPAggregationSUM public constructor(query: IQuery, @JvmField publi
         val child = (children[0] as AOPBase).evaluate(row)
         res.evaluate = {
             val value = child()
-println("AOPAggregationSUM $uuid adding ${value.valueToString()}")
             res.count++
             if (value is ValueError) {
                 res.value = value
@@ -70,7 +69,6 @@ println("AOPAggregationSUM $uuid adding ${value.valueToString()}")
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
-println("AOPAggregationSUM $uuid evaluate as ${tmp.value.valueToString()}")
             tmp.value
         }
     }
