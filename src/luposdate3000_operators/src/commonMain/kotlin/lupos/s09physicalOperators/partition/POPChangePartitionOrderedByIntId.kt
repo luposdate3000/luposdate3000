@@ -112,7 +112,6 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
                                 } else {
                                     SanityCheck.println { "merge $uuid $pChild writer append data" }
                                     ringbuffer[ringbufferWriteHead[p1] + ringbufferStart[p1]] = tmp
-                                    // println("$p produced")
                                     ringbufferWriteHead[p1] = (ringbufferWriteHead[p1] + 1) % elementsPerRing
                                     ringbufferReaderContinuation.signal()
                                 }
@@ -154,7 +153,6 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
                                             break@loop
                                         }
                                     }
-                                    // println("$p produced")
                                     ringbufferWriteHead[p1] = (ringbufferWriteHead[p1] + variables.size) % elementsPerRing
                                     ringbufferReaderContinuation.signal()
                                 }
@@ -192,7 +190,6 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
                                 for (variable in variables.indices) {
                                     ringbuffer[ringbufferWriteHead[p1] + variableMapping[variable] + ringbufferStart[p1]] = child.buf[tmp + variable]
                                 }
-                                // println("$p produced")
                                 ringbufferWriteHead[p1] = (ringbufferWriteHead[p1] + variables.size) % elementsPerRing
                                 ringbufferReaderContinuation.signal()
                             }

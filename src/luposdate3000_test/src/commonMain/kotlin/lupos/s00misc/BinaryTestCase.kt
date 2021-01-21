@@ -20,6 +20,8 @@ import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -138,15 +140,29 @@ public object BinaryTestCase {
                 return false
             }
         }
+val actualDict:IResultSetDictionary
+if(actual.query!=null){
+val q=actual.query!!
+actualDict=q.getDictionary()
+}else{
+actualDict=ResultSetDictionary()
+}
+val expectedDict:IResultSetDictionary
+if(expected.query!=null){
+val q=expected.query!!
+expectedDict=q.getDictionary()
+}else{
+expectedDict=ResultSetDictionary()
+}
         for (row in actual.data) {
             val tmpRow = IntArray(columnCount) { -1 }
             for ((i, col) in row.withIndex()) {
                 val m = mapping_live_to_target[col]
-                val value = nodeGlobalDictionary.getValue(col).valueToString()
+                val value = actualDict.getValue(col).valueToString()
                 if (m == null) {
                     if (value != null && !value.startsWith("_:")) {
                         out.println("found wrong $value")
-                        out.println("row :: ${row.map { nodeGlobalDictionary.getValue(it).valueToString() }}")
+                        out.println("row :: ${row.map { actualDict.getValue(it).valueToString() }}")
                         out.println("dict :: $dict")
                         out.println("missing value in dictionary")
                     }
@@ -166,11 +182,11 @@ public object BinaryTestCase {
             val tmpRow = IntArray(columnCount) { -1 }
             for ((i, col) in row.withIndex()) {
                 val m = mapping_live_to_target[col]
-                val value = nodeGlobalDictionary.getValue(col).valueToString()
+                val value = expectedDict.getValue(col).valueToString()
                 if (m == null) {
                     if (value != null && !value.startsWith("_:")) {
                         out.println("found wrong $value")
-                        out.println("row :: ${row.map { nodeGlobalDictionary.getValue(it).valueToString() }}")
+                        out.println("row :: ${row.map { expectedDict.getValue(it).valueToString() }}")
                         out.println("dict :: $dict")
                         out.println("missing value in dictionary")
                     }

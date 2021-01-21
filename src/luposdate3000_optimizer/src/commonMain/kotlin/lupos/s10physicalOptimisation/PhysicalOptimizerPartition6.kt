@@ -38,16 +38,11 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
     override val classname: String = "PhysicalOptimizerPartition6"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        println("PhysicalOptimizerPartition6 :: $USE_PARTITIONS ${Partition.default_k}")
         if (USE_PARTITIONS && Partition.default_k > 1) {
-            println("PhysicalOptimizerPartition6 :: should optimize 1")
             when (node) {
                 is TripleStoreIteratorGlobal -> {
-                    println("PhysicalOptimizerPartition6 :: should optimize 2")
                     if (TripleStoreLocal.providesFeature(TripleStoreFeatureExt.PARTITION, null)) {
-                        println("PhysicalOptimizerPartition6 :: should optimize 3 ${node.partition.limit}")
                         if (node.partition.limit.isEmpty()) {
-                            println("PhysicalOptimizerPartition6 :: should optimize 4")
                             val enabledPartitions = distributedTripleStore.getLocalStore().getEnabledPartitions(node.graphName)
                             var countToUse = -1
                             var columnToUse = -1
@@ -72,7 +67,6 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                                     variableToUse = "_$columnToUse"
                                 }
                             }
-                            println("PhysicalOptimizerPartition6 :: $countToUse $columnToUse $variableToUse")
                             try {
                                 val partitionID = query.getNextPartitionOperatorID()
                                 node.partition.limit.clear()

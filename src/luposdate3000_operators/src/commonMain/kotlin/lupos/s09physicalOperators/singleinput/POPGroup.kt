@@ -238,9 +238,13 @@ public class POPGroup : POPBase {
                 }
             }
             for (columnIndex in 0 until bindings.size) {
-                val value = query.getDictionary().createValue(bindings[columnIndex].second.evaluate(localRow.iterators)())
-                if (projectedVariables.contains(bindings[columnIndex].first)) {
-                    outMap[bindings[columnIndex].first] = ColumnIteratorRepeatValue(1, value)
+val columnName=bindings[columnIndex].first
+val valueraw=bindings[columnIndex].second.evaluate(localRow.iterators)()
+                val value = query.getDictionary().createValue(valueraw)
+println("POPGroup $uuid evaluate result for ${bindings[columnIndex].second.uuid} is ${valueraw.valueToString()} represented by id ${value} in the column ${columnName} $projectedVariables")
+                if (projectedVariables.contains(columnName)) {
+println("put this value to outmap .. $uuid $columnName")
+                    outMap[columnName] = ColumnIteratorRepeatValue(1, value)
                 }
             }
         } else {

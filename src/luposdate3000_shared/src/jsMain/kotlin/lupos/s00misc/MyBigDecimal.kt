@@ -75,23 +75,19 @@ public actual class MyBigDecimal {
                 for (j in i + 1 until s3.size) {
                c = s3[j]
 		     if (c >= '0' && c <= '4') {
-                        println("rounding '$s' to '$s3' a")
                         return MyBigDecimal(s2)
                     } else if (c >= '5' && c <= '9') {
                         val res: MyBigDecimal
                         if (negative) {
                             res = MyBigDecimal(s2) - MyBigDecimal(1)
-                            println("rounding '$s' to '$res' b")
                         } else {
                             res = MyBigDecimal(s2) + MyBigDecimal(1)
-                            println("rounding '$s' to '$res' c")
                         }
                         return res
                     }
                 }
             }
         }
-        println("rounding '$s' to '$s' ('$s2')")
         return this
     }
     public actual fun toMyBigInteger(): MyBigInteger {
