@@ -1,8 +1,6 @@
 @file:JsModule("fs")
 @file:JsNonModule
 package ext.fs
-@JsName("writeFileSync")
-public external fun writeFileSync(filename: String, data: ByteArray)
 @JsName("openSync")
 public external fun openSync(filename: String, flags: String): Int
 @JsName("readSync")

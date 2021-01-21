@@ -58,7 +58,41 @@ public actual class MyBigDecimal {
         return MyBigDecimal(kotlin.math.floor(v))
     }
     public actual fun round(): MyBigDecimal {
-        return MyBigDecimal(kotlin.math.round(v))
+        var s2 = ""
+        val s3 = s.toCharArray()
+        var negative = false
+        var p = 0
+        if (s.startsWith("-")) {
+            negative = true
+            p = 1
+            s2 = "-"
+        }
+        for (i in p until s3.size) {
+            var c = s3[i]
+            if (c >= '0' && c <= '9') {
+                s2 += c
+            } else {
+                for (j in i + 1 until s3.size) {
+               c = s3[j]
+		     if (c >= '0' && c <= '4') {
+                        println("rounding '$s' to '$s3' a")
+                        return MyBigDecimal(s2)
+                    } else if (c >= '5' && c <= '9') {
+                        val res: MyBigDecimal
+                        if (negative) {
+                            res = MyBigDecimal(s2) - MyBigDecimal(1)
+                            println("rounding '$s' to '$res' b")
+                        } else {
+                            res = MyBigDecimal(s2) + MyBigDecimal(1)
+                            println("rounding '$s' to '$res' c")
+                        }
+                        return res
+                    }
+                }
+            }
+        }
+        println("rounding '$s' to '$s' ('$s2')")
+        return this
     }
     public actual fun toMyBigInteger(): MyBigInteger {
         return MyBigInteger(kotlin.math.floor(v).toInt())
