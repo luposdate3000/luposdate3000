@@ -88,7 +88,6 @@ object Simulation {
         futureEvents.enqueue(timeUpdatedEvent)
     }
 
-
     private fun calcEventOccurringTime(delay: Double) = clock + delay
 
     private fun finishRun() {

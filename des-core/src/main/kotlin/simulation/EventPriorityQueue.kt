@@ -5,7 +5,8 @@ import java.util.*
 
 class EventPriorityQueue {
 
-    private val queue: PriorityQueue<Event> = PriorityQueue()
+    private val comparator = compareBy<Event> { it.occurrenceTime }
+    private val queue: PriorityQueue<Event> = PriorityQueue(comparator)
 
     fun enqueue(newEvent: Event) {
         queue.add(newEvent)
