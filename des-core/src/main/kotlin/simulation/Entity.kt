@@ -20,6 +20,7 @@ abstract class Entity {
     fun addIncomingEvent(event: Event) {
         if(isEndBusyIdentifier(event)) {
             currentState = State.RUNNABLE
+            return
         }
         deferredEvents.enqueue(event)
     }
