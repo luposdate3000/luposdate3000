@@ -536,7 +536,7 @@ fun onRun() {
             copyJSLibsIntoFolder("build-cache${Platform.getPathSeparator()}node_modules")
             File("build-cache${Platform.getPathSeparator()}nodeJsMain.js").printWriter().use { out ->
                 out.println("var mainLauncher = require(\"Luposdate3000_Main.js\")")
-                out.println("mainLauncher.main(process.argv.slice(2))")
+                out.println("mainLauncher.mainFunc(process.argv.slice(2))")
             }
             val p = ProcessBuilder("node", "build-cache${Platform.getPathSeparator()}nodeJsMain.js")
                 .redirectOutput(Redirect.INHERIT)

@@ -103,7 +103,6 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
             val buf = str.encodeToByteArray()
             if (buf.size> 0) {
                 ext.fs.writeSync(file, buf, 0, buf.size, filePos)
-                printlnhelper("File($fileName).print($str)")
                 buffer.clear()
             }
             ext.fs.closeSync(file)
@@ -116,11 +115,9 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
             val buf = str.encodeToByteArray()
             if (buf.size> 0) {
                 ext.fs.writeSync(file, buf, 0, buf.size, filePos)
-                printlnhelper("File($fileName).print($str)")
                 buffer.clear()
                 filePos += buf.size
             }
         }
     }
 }
-internal fun printlnhelper(s: String) = println(s)

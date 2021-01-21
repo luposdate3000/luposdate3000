@@ -16,9 +16,11 @@
  */
 import lupos.s00misc.BinaryTestCase
 import lupos.s00misc.BinaryTestCaseOutputModeExt
+import kotlin.js.JsName
 import lupos.s00misc.Parallel
 import lupos.s16network.LuposdateEndpoint
-@Suppress("NOTHING_TO_INLINE") internal inline fun mainFunc(args: Array<String>) {
+@JsName("mainFunc")
+@Suppress("NOTHING_TO_INLINE") public inline fun mainFunc(args: Array<String>) {
     LuposdateEndpoint.initialize()
     Parallel.runBlocking {
         if (args.isNotEmpty() && args[0] == "--generate") {
