@@ -61,7 +61,7 @@ object Simulation {
     private fun processNextFutureEvent(): Event {
         val next = futureEvents.dequeue()
         increaseSimulationClock(next)
-        processEvent(next)
+        next.destination.addIncomingEvent(next)
         return next
     }
 
@@ -78,30 +78,16 @@ object Simulation {
         }
     }
 
-    private fun processEvent(event: Event) {
-        when (event.internalTag) {
-            Event.SEND_EVENT -> {
-                event.destination.addIncomingEvent(event)
-            }
-            Event.BUSY_END -> {
-                event.source.stopBeingBusy()
-            }
-        }
-    }
-
     private fun increaseSimulationClock(event: Event) {
         clock = event.occurrenceTime
     }
 
-    fun sendEvent(src: Entity, dest: Entity, delay: Double, type: EventType, data: Any?) {
-        val event = Event(Event.SEND_EVENT, calcEventOccurringTime(delay), src, dest, type, data)
-        futureEvents.enqueue(event)
+    fun sendEvent(event: Event) {
+        val newTime = calcEventOccurringTime(event.occurrenceTime)
+        val timeUpdatedEvent = Event(newTime, event.source, event.destination, event.type, event.data)
+        futureEvents.enqueue(timeUpdatedEvent)
     }
 
-    fun setEntityBusy(src: Entity, delay: Double) {
-        val event = Event(Event.BUSY_END, calcEventOccurringTime(delay), src, src, null, null)
-        futureEvents.enqueue(event)
-    }
 
     private fun calcEventOccurringTime(delay: Double) = clock + delay
 

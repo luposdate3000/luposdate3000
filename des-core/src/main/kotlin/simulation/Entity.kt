@@ -1,7 +1,7 @@
 package simulation
 
 
-abstract class Entity(val name: String) : Cloneable {
+abstract class Entity {
 
     private val deferredEvents: EventPriorityQueue = EventPriorityQueue()
     private var currentState = RUNNABLE
@@ -29,16 +29,17 @@ abstract class Entity(val name: String) : Cloneable {
         }
     }
 
-    protected fun sendEvent(destination: Entity, delay: Double, type: EventType, data: Any? = null) {
-        val updatedDelay = addBusyDuration(delay)
-        Simulation.sendEvent(this, destination, updatedDelay, type, data)
+    protected fun sendEvent(destination: Entity, delay: Double, type: Int, data: Any?) {
+        val event = Event(delay, this, destination, type, data)
+        Simulation.sendEvent(event)
     }
 
-    protected fun beBusy(duration: Double) {
-        currentState = BUSY
-        busyDuration = duration
-        Simulation.setEntityBusy(this, duration)
-    }
+//    protected fun beBusy(duration: Double) {
+//        currentState = BUSY
+//        busyDuration = duration
+//        Simulation.setEntityBusy(this, duration)
+//
+//    }
 
     private fun addBusyDuration(delay: Double)
             = if(currentState == BUSY) delay + busyDuration else delay
