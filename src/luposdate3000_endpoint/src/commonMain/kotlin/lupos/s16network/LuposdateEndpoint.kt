@@ -206,6 +206,7 @@ public object LuposdateEndpoint {
     @JsName("import_intermediate_files_a")
     /*suspend*/ public fun importIntermediateFiles(fileNames: String, convert_to_bnodes: Boolean): String {
         try {
+            Partition.estimatedPartitions0.clear()
             Partition.estimatedPartitions1.clear()
             Partition.estimatedPartitions2.clear()
             Partition.estimatedPartitionsValid = true
@@ -222,7 +223,9 @@ public object LuposdateEndpoint {
                         try {
                             filePartitions.forEachLine {
                                 val t = it.split(",")
-                                if (t[1] == "1") {
+                                if (t[1] == "-1") {
+                                    Partition.estimatedPartitions0.add(t[0])
+                                } else if (t[1] == "1") {
                                     var t2 = Partition.estimatedPartitions1[t[0]]
                                     if (t2 == null) {
                                         t2 = mutableSetOf()
@@ -231,8 +234,7 @@ public object LuposdateEndpoint {
                                     if (t[2].toInt() > 1) {
                                         t2.add(t[2].toInt())
                                     }
-                                }
-                                if (t[1] == "2") {
+                                } else if (t[1] == "2") {
                                     var t2 = Partition.estimatedPartitions2[t[0]]
                                     if (t2 == null) {
                                         t2 = mutableSetOf()

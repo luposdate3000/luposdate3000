@@ -131,8 +131,8 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
                     }
                     idx++
                 }
-println("enabled :: ${enabledPartitions.map{"${it.index.map{EIndexPatternExt.names[it]}} ${it.column}"}}")
-println("wanted  :: ${EIndexPatternExt.names[params.idx]}")
+                println("enabled :: ${enabledPartitions.map{"${it.index.map{EIndexPatternExt.names[it]}} ${it.column}"}}")
+                println("wanted  :: ${EIndexPatternExt.names[params.idx]}")
                 SanityCheck.checkUnreachable()
             }
             is TripleStoreFeatureParamsPartition -> {

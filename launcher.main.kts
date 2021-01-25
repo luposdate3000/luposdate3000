@@ -49,7 +49,7 @@ var target = ""
 var intellijMode = ""
 var runArgs = mutableListOf<String>()
 var skipArgs = false
-var compileSpecific:String?=null
+var compileSpecific: String? = null
 enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, ALL_TEST, UNKNOWN }
 var execMode = ExecMode.UNKNOWN
 enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
@@ -371,10 +371,10 @@ val defaultParams = mutableListOf(
     ),
     ParamClass(
         "--compile",
-"",
+        "",
         {
             enableParams(compileParams)
-compileSpecific=it
+            compileSpecific = it
             execMode = ExecMode.COMPILE
         }
     ),
@@ -512,9 +512,9 @@ fun onCompile() {
     println(compileModuleArgs)
     for ((module, cond) in getAllModuleConfigurations()) {
         if (cond()) {
-if(compileSpecific==null||compileSpecific==module.moduleName){
-            createBuildFileForModule(module)
-}
+            if (compileSpecific == null || compileSpecific == module.moduleName) {
+                createBuildFileForModule(module)
+            }
         }
     }
     if (compileModuleArgs.size> 0) {

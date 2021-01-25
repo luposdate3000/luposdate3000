@@ -103,6 +103,9 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
                             tmpEnabledPartitions.add(EnabledPartitionContainer(v, 2, tmp))
                         }
                     }
+                    if( Partition.estimatedPartitions0.contains(k)) {
+                        tmpEnabledPartitions.add(EnabledPartitionContainer(v, -1, 1))
+                    }
                 }
                 enabledPartitions = tmpEnabledPartitions.toTypedArray()
             } else {

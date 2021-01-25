@@ -33,7 +33,7 @@ val minimumTime = 0.0001	// the minimum time for a single measurement
 val resultFolder = "fig5_result_data" // the folder where the results of the measurements are stored
 
 // compile
-/*
+
 val p = ProcessBuilder(
     "./launcher.main.kts",
     "--compileAll",
@@ -49,7 +49,7 @@ p.waitFor()
 if (p.exitValue() != 0) {
     throw Exception("exit-code:: " + p.exitValue())
 }
-*/
+
 File(tmpFolder).mkdirs()
 File(resultFolder).mkdirs()
 // perform the measurements
