@@ -121,19 +121,19 @@ class CreateModuleArgs() {
     }
     fun ssetArgs(args: MutableMap<String, String>): CreateModuleArgs {
         val res = clone()
-	res.args.putAll (args)
+        res.args.putAll(args)
         return res
     }
-    fun ssetArgs2(args: MutableMap<String,MutableMap<String, String>>): CreateModuleArgs {
-val arg=args[moduleName]
-if(arg!=null){
-        val res = clone()
-	res.args.putAll (arg)
-args.remove(arg)
-        return res
-}else{
-return this
-}
+    fun ssetArgs2(args: MutableMap<String, MutableMap<String, String>>): CreateModuleArgs {
+        val arg = args[moduleName]
+        if (arg != null) {
+            val res = clone()
+            res.args.putAll(arg)
+            args.remove(arg)
+            return res
+        } else {
+            return this
+        }
     }
     fun ssetModuleName(moduleName: String): CreateModuleArgs {
         val res = clone()

@@ -34,7 +34,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.util.jar.JarFile
-var moduleArgs=mutableMapOf<String,MutableMap<String,String>>()
+var moduleArgs = mutableMapOf<String, MutableMap<String, String>>()
 var releaseMode = ""
 var suspendMode = ""
 var inlineMode = ""
@@ -51,7 +51,7 @@ var cleanedArgs = mutableListOf<String>()
 var skipArgs = false
 enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, ALL_TEST, UNKNOWN }
 var execMode = ExecMode.UNKNOWN
-enum class ParamClassMode { VALUES, NO_VALUE,FREE_VALUE }
+enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
 class ParamClass {
     val name: String
     val default: String
@@ -73,15 +73,15 @@ class ParamClass {
         this.default = ""
         this.values = mapOf()
         this.action = action
-this.action2 = {}
+        this.action2 = {}
         this.mode = ParamClassMode.NO_VALUE
     }
-    constructor(name: String, default:String,action: (String) -> Unit) {
+    constructor(name: String, default: String, action: (String) -> Unit) {
         this.name = name
         this.default = default
         this.values = mapOf()
         this.action2 = action
-this.action = {}
+        this.action = {}
         this.mode = ParamClassMode.FREE_VALUE
     }
     fun setAdditionalHelp(additionalHelp: (String) -> Unit): ParamClass {
@@ -112,7 +112,7 @@ this.action = {}
                 if (arg == name) {
                     throw Exception("'$name' does not allow empty value")
                 }
-val value = arg.substring(name.length + 1)
+                val value = arg.substring(name.length + 1)
                 action2(value)
             }
         }
@@ -135,24 +135,24 @@ val value = arg.substring(name.length + 1)
 val compileParams = mutableListOf<ParamClass>()
 var enabledParams = mutableListOf<ParamClass>()
 val defaultParams = mutableListOf(
-ParamClass(
-"--moduleParam",
-"",
-{
-it->
-val idx1=it.indexOf(":")
-val idx2=it.indexOf("=",idx1)
-val name=it.substring(0,idx1)
-val param=it.substring(idx1+1,idx2)
-val value=it.substring(idx2)
-var t=moduleArgs[name]
-if(t==null){
-t=mutableMapOf<String,String>()
-moduleArgs[name]=t
-}
-t[param]=value
-}
-),
+    ParamClass(
+        "--moduleParam",
+        "",
+        {
+            it ->
+            val idx1 = it.indexOf(":")
+            val idx2 = it.indexOf("=", idx1)
+            val name = it.substring(0, idx1)
+            val param = it.substring(idx1 + 1, idx2)
+            val value = it.substring(idx2)
+            var t = moduleArgs[name]
+            if (t == null) {
+                t = mutableMapOf<String, String>()
+                moduleArgs[name] = t
+            }
+            t[param] = value
+        }
+    ),
     ParamClass(
         "--dryMode",
         "Disable",
@@ -453,12 +453,12 @@ fun onCompile() {
     createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Launch_Prepared_Statement", "Luposdate3000_Main").ssetArgs2(moduleArgs))
     createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Launch_Generate_Binary_Test_Suite", "Luposdate3000_Main").ssetArgs2(moduleArgs))
     createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main").ssetCodegen(true).ssetArgs2(moduleArgs))
-if(moduleArgs.size>0){
-for((k,v) in moduleArgs){
-println("unknown module argument '$k'")
-}
-throw Exception("there are unkown arguments")
-}
+    if (moduleArgs.size> 0) {
+        for ((k, v) in moduleArgs) {
+            println("unknown module argument '$k'")
+        }
+        throw Exception("there are unkown arguments")
+    }
 }
 fun onSetupIntellijIdea() {
     File(".idea").deleteRecursively()
