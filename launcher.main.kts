@@ -52,7 +52,6 @@ var skipArgs = false
 enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, ALL_TEST, UNKNOWN }
 var execMode = ExecMode.UNKNOWN
 enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
-
 fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
     var releaseMode2 = ReleaseMode.valueOf(releaseMode)
     var suspendMode2 = SuspendMode.valueOf(suspendMode)
@@ -101,7 +100,6 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
     res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main").ssetCodegen(true).ssetArgs2(moduleArgs), { true }))
     return res
 }
-
 class ParamClass {
     val name: String
     val default: String
@@ -204,7 +202,6 @@ fun getAllModuleSpecificParams(): List<ParamClass> {
     }
     return res
 }
-
 val compileParams = mutableListOf<ParamClass>()
 var enabledParams = mutableListOf<ParamClass>()
 val defaultParams = mutableListOf(
