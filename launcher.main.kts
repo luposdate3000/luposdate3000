@@ -49,6 +49,7 @@ var target = ""
 var intellijMode = ""
 var runArgs = mutableListOf<String>()
 var skipArgs = false
+var compileSpecific:String?=null
 enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, ALL_TEST, UNKNOWN }
 var execMode = ExecMode.UNKNOWN
 enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
@@ -369,6 +370,15 @@ val defaultParams = mutableListOf(
         }
     ),
     ParamClass(
+        "--compile",
+"",
+        {
+            enableParams(compileParams)
+compileSpecific=it
+            execMode = ExecMode.COMPILE
+        }
+    ),
+    ParamClass(
         "--compileAll",
         {
             enableParams(compileParams)
@@ -438,7 +448,7 @@ enableParams(defaultParams)
 enableParams(getAllModuleSpecificParams())
 loop@for (arg in args) {
     for (param in enabledParams) {
-        if (arg.startsWith(param.name+"=")) {
+        if (arg.startsWith(param.name + "=")) {
             param.exec(arg)
             if (skipArgs) {
                 break@loop
@@ -447,7 +457,7 @@ loop@for (arg in args) {
         }
     }
     for (param in enabledParams) {
-        if (arg==param.name) {
+        if (arg == param.name) {
             param.exec(arg)
             if (skipArgs) {
                 break@loop
@@ -502,7 +512,9 @@ fun onCompile() {
     println(compileModuleArgs)
     for ((module, cond) in getAllModuleConfigurations()) {
         if (cond()) {
+if(compileSpecific==null||compileSpecific==module.moduleName){
             createBuildFileForModule(module)
+}
         }
     }
     if (compileModuleArgs.size> 0) {
@@ -924,34 +936,34 @@ fun onAllTest() {
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s.compile-err")))
                     .start()
                     .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=On", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=On", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions.test-err")))
                     .start()
                     .waitFor()
                 File("/tmp/luposdate3000/").deleteRecursively()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions.test-err")))
                     .start()
                     .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=persistent", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=persistent", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent.test-err")))
                     .start()
                     .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=On", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=On", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions-Proguard.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions-Proguard.test-err")))
                     .start()
                     .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Proguard.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Proguard.test-err")))
                     .start()
                     .waitFor()
                 File("/tmp/luposdate3000/").deleteRecursively()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=persistent", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=persistent", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent-Proguard.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent-Proguard.test-err")))
                     .start()

@@ -19,18 +19,18 @@
 @file:Import("../../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleComponentTypeExt.kt")
 @file:CompilerOptions("-Xmulti-platform")
 import lupos.s00misc.ETripleComponentTypeExt
-import kotlin.math.pow
-import java.lang.ProcessBuilder.Redirect
 import java.io.BufferedOutputStream
 import java.io.DataOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.PrintWriter
+import java.lang.ProcessBuilder.Redirect
+import kotlin.math.pow
 
 val tmpFolder = "tmp_fig5_data" // point to a folder with enough storage space available
 val tmpFile = "$tmpFolder/intermediate.n3"
 val minimumTime = 0.0001	// the minimum time for a single measurement
-val resultFolder="fig5_result_data" //the folder where the results of the measurements are stored
+val resultFolder = "fig5_result_data" // the folder where the results of the measurements are stored
 
 // compile
 /*
@@ -38,7 +38,7 @@ val p = ProcessBuilder(
     "./launcher.main.kts",
     "--compileAll",
     "--releaseMode=Enable",
-    "--inlineMode=Enable",
+    "--inlineMode=Disable",
     "--compileArgument_Luposdate3000_Endpoint:QueryResultToStream=lupos.s11outputResult.QueryResultToEmptyStream",
 )
     .directory(File("."))
@@ -66,8 +66,8 @@ for (output_count in listOf(512, 2048, 8192, 32768)) {
                     "./launcher.main.kts",
                     "--run",
                     "--releaseMode=Enable",
-                    "--inlineMode=Enable",
-"--proguardMode=On",
+                    "--inlineMode=Disable",
+                    "--proguardMode=On",
                     "--mainClass=Benchmark_Fig5",
                     "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:datasource_files=$tmpFile",
                     "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:minimum_time=$minimumTime",
@@ -77,7 +77,7 @@ for (output_count in listOf(512, 2048, 8192, 32768)) {
                     "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join_count=$join_count",
                 )
                     .directory(File("."))
-                    .redirectOutput(Redirect.appendTo(File(File(resultFolder),"database.log")))
+                    .redirectOutput(Redirect.appendTo(File(File(resultFolder), "database.log")))
                     .redirectError(Redirect.INHERIT)
                     .start()
                     .waitFor()
@@ -92,8 +92,8 @@ for (output_count in listOf(512, 2048, 8192, 32768)) {
                     "./launcher.main.kts",
                     "--run",
                     "--releaseMode=Enable",
-                    "--inlineMode=Enable",
-"--proguardMode=On",
+                    "--inlineMode=Disable",
+                    "--proguardMode=On",
                     "--mainClass=Benchmark_Fig5",
                     "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:datasource_files=$tmpFile",
                     "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:minimum_time=$minimumTime",
@@ -103,7 +103,7 @@ for (output_count in listOf(512, 2048, 8192, 32768)) {
                     "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join_count=$join_count",
                 )
                     .directory(File("."))
-.redirectOutput(Redirect.appendTo(File(File(resultFolder),"database.log")))
+                    .redirectOutput(Redirect.appendTo(File(File(resultFolder), "database.log")))
                     .redirectError(Redirect.INHERIT)
                     .start()
                     .waitFor()
