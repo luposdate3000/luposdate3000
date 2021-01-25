@@ -18,8 +18,8 @@ public fun main(args: Array<String>): Unit {
     var flag=false
     var datasource_files:String=""
     for(a in args){
-        if(a.startsWith("--datasource_files")){
-            datasource_files=a.substring(18)
+        if(a.startsWith("--datasource_files=")){
+            datasource_files=a.substring(19)
             flag=true
             break
         }
@@ -29,8 +29,8 @@ public fun main(args: Array<String>): Unit {
     }
     var minimum_time:String=""
     for(a in args){
-        if(a.startsWith("--minimum_time")){
-            minimum_time=a.substring(14)
+        if(a.startsWith("--minimum_time=")){
+            minimum_time=a.substring(15)
             flag=true
             break
         }
@@ -40,8 +40,8 @@ public fun main(args: Array<String>): Unit {
     }
     var number_of_triples:String=""
     for(a in args){
-        if(a.startsWith("--number_of_triples")){
-            number_of_triples=a.substring(19)
+        if(a.startsWith("--number_of_triples=")){
+            number_of_triples=a.substring(20)
             flag=true
             break
         }
@@ -51,8 +51,8 @@ public fun main(args: Array<String>): Unit {
     }
     var trash:String=""
     for(a in args){
-        if(a.startsWith("--trash")){
-            trash=a.substring(7)
+        if(a.startsWith("--trash=")){
+            trash=a.substring(8)
             flag=true
             break
         }
@@ -62,8 +62,8 @@ public fun main(args: Array<String>): Unit {
     }
     var join:String=""
     for(a in args){
-        if(a.startsWith("--join")){
-            join=a.substring(6)
+        if(a.startsWith("--join=")){
+            join=a.substring(7)
             flag=true
             break
         }
@@ -73,8 +73,8 @@ public fun main(args: Array<String>): Unit {
     }
     var join_count:String=""
     for(a in args){
-        if(a.startsWith("--join_count")){
-            join_count=a.substring(12)
+        if(a.startsWith("--join_count=")){
+            join_count=a.substring(13)
             flag=true
             break
         }

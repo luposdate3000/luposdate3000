@@ -14,18 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-public fun main(args: Array<String>): Unit {
-    var flag=false
-    var basePath:String=""
-    for(a in args){
-        if(a.startsWith("--basePath=")){
-            basePath=a.substring(11)
-            flag=true
-            break
-        }
-    }
-    if(!flag){
-        throw Exception("the option '--basePath' is missing on the arguments list")
-    }
-    mainFunc(basePath,)
+import lupos.s00misc.BinaryTestCase
+import lupos.s00misc.BinaryTestCaseOutputModeExt
+import lupos.s00misc.Parallel
+import lupos.s16network.LuposdateEndpoint
+import kotlin.js.JsName
+@JsName("mainFunc")
+public fun mainFunc(args: Array<String>) {
+    LuposdateEndpoint.initialize()
+    Parallel.runBlocking {
+                BinaryTestCase.generateTestcase(args[1], args[2], args[3], args[4], args[5], BinaryTestCaseOutputModeExt.names.indexOf(args[6]))
+            }
 }

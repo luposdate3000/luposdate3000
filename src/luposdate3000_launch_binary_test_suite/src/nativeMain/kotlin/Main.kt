@@ -14,4 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-public fun main(args: Array<String>): Unit = mainFunc(args)
+public fun main(args: Array<String>): Unit {
+    var flag=false
+    var basePath:String=""
+    for(a in args){
+        if(a.startsWith("--basePath=")){
+            basePath=a.substring(11)
+            flag=true
+            break
+        }
+    }
+    if(!flag){
+        throw Exception("the option '--basePath' is missing on the arguments list")
+    }
+    mainFunc(basePath,)
+}

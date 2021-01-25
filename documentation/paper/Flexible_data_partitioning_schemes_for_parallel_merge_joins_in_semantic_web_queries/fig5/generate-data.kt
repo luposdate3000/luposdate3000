@@ -34,9 +34,6 @@ enum class ETripleComponentType {
     STRING_TYPED,
     STRING_LANG,
 }
-// generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4", 2097152, 16,1)
-// 128 1 1 32768
-// generateTriples("${Platform.getBenchmarkHome()}/luposdate-testdata/bench_4_a", 32768, 128,1,1)
 fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block: Int, join_count: Int): Int {
     val byteBuf = ByteArray(1)
     File(folderName).mkdirs()
