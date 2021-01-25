@@ -15,8 +15,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+@file:Import("../../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleComponentType.kt")
 @file:Import("../../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleComponentTypeExt.kt")
 @file:CompilerOptions("-Xmulti-platform")
+import lupos.s00misc.ETripleComponentTypeExt
+import kotlin.math.pow
+import java.lang.ProcessBuilder.Redirect
 import java.io.BufferedOutputStream
 import java.io.DataOutputStream
 import java.io.File
@@ -25,9 +29,11 @@ import java.io.PrintWriter
 
 val tmpFolder = "tmp_fig5_data" // point to a folder with enough storage space available
 val tmpFile = "$tmpFolder/intermediate.n3"
-val minimumTime = 10.0	// the minimum time for a single measurement
+val minimumTime = 0.0001	// the minimum time for a single measurement
+val resultFolder="fig5_result_data" //the folder where the results of the measurements are stored
 
 // compile
+/*
 val p = ProcessBuilder(
     "./launcher.main.kts",
     "--compileAll",
@@ -43,7 +49,9 @@ p.waitFor()
 if (p.exitValue() != 0) {
     throw Exception("exit-code:: " + p.exitValue())
 }
+*/
 File(tmpFolder).mkdirs()
+File(resultFolder).mkdirs()
 // perform the measurements
 for (output_count in listOf(512, 2048, 8192, 32768)) {
     for (join_count in listOf(1, 2, 4, 8, 16)) {
@@ -59,6 +67,7 @@ for (output_count in listOf(512, 2048, 8192, 32768)) {
                     "--run",
                     "--releaseMode=Enable",
                     "--inlineMode=Enable",
+"--proguardMode=On",
                     "--mainClass=Benchmark_Fig5",
                     "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:datasource_files=$tmpFile",
                     "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:minimum_time=$minimumTime",
@@ -68,7 +77,7 @@ for (output_count in listOf(512, 2048, 8192, 32768)) {
                     "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join_count=$join_count",
                 )
                     .directory(File("."))
-                    .redirectOutput(Redirect.INHERIT)
+                    .redirectOutput(Redirect.appendTo(File(File(resultFolder),"database.log")))
                     .redirectError(Redirect.INHERIT)
                     .start()
                     .waitFor()
@@ -84,6 +93,7 @@ for (output_count in listOf(512, 2048, 8192, 32768)) {
                     "--run",
                     "--releaseMode=Enable",
                     "--inlineMode=Enable",
+"--proguardMode=On",
                     "--mainClass=Benchmark_Fig5",
                     "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:datasource_files=$tmpFile",
                     "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:minimum_time=$minimumTime",
@@ -93,7 +103,7 @@ for (output_count in listOf(512, 2048, 8192, 32768)) {
                     "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join_count=$join_count",
                 )
                     .directory(File("."))
-                    .redirectOutput(Redirect.INHERIT)
+.redirectOutput(Redirect.appendTo(File(File(resultFolder),"database.log")))
                     .redirectError(Redirect.INHERIT)
                     .start()
                     .waitFor()
@@ -171,7 +181,7 @@ fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block
     }
     outIntermediateDictionaryStat.printWriter().use { out ->
         out.println("total=${dictCounterBnode + dictCounterIri}")
-        for (t in ETripleComponentTypeExt.names()) {
+        for (t in ETripleComponentTypeExt.names) {
             if (t == "BLANK_NODE") {
                 out.println("$t=$dictCounterBnode")
             } else if (t == "IRI") {

@@ -438,7 +438,16 @@ enableParams(defaultParams)
 enableParams(getAllModuleSpecificParams())
 loop@for (arg in args) {
     for (param in enabledParams) {
-        if (arg.startsWith(param.name)) {
+        if (arg.startsWith(param.name+"=")) {
+            param.exec(arg)
+            if (skipArgs) {
+                break@loop
+            }
+            continue@loop
+        }
+    }
+    for (param in enabledParams) {
+        if (arg==param.name) {
             param.exec(arg)
             if (skipArgs) {
                 break@loop

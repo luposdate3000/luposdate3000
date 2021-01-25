@@ -44,7 +44,7 @@ internal fun mainFunc(
     val numberOfTriples = number_of_triples.toLong()
     val _trash = trash.toLong()
     val _join = join.toLong()
-    val joincount = args[5].toInt()
+    val joincount = join_count.toInt()
     val timer = DateHelperRelative.markNow()
     LuposdateEndpoint.importIntermediateFiles(datasourceFiles)
     val time = DateHelperRelative.elapsedSeconds(timer)
