@@ -121,8 +121,8 @@ class CreateModuleArgs() {
     }
     fun ssetArgs(args: MutableMap<String, String>): CreateModuleArgs {
         val res = clone()
-  res.args=mutableMapOf()
-res.args.putAll(this.args)
+        res.args = mutableMapOf()
+        res.args.putAll(this.args)
         res.args.putAll(args)
         return res
     }
@@ -130,8 +130,8 @@ res.args.putAll(this.args)
         val arg = args[moduleName]
         if (arg != null) {
             val res = clone()
-	res.args=mutableMapOf()
-res.args.putAll(this.args)
+            res.args = mutableMapOf()
+            res.args.putAll(this.args)
             res.args.putAll(arg)
             args.remove(arg)
             return res
@@ -209,18 +209,18 @@ res.args.putAll(this.args)
         res.codegen = codegen
         return res
     }
-fun getPossibleOptions():List<String>{
-val res=mutableListOf<String>()
-if (File(File(moduleFolder),"configOptions").exists()) {
-                File(File(moduleFolder),"configOptions").forEachLine {
-val opt = it.split(",")
-                    if (opt.size == 4) {
-res.add(opt[0])
-}
-}
-}
-return res
-}
+    fun getPossibleOptions(): List<String> {
+        val res = mutableListOf<String>()
+        if (File(File(moduleFolder), "configOptions").exists()) {
+            File(File(moduleFolder), "configOptions").forEachLine {
+                val opt = it.split(",")
+                if (opt.size == 4) {
+                    res.add(opt[0])
+                }
+            }
+        }
+        return res
+    }
 }
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
     try {

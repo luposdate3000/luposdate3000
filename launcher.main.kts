@@ -100,7 +100,7 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
     res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Generate_Binary_Test_Suite", "Luposdate3000_Main").ssetArgs2(moduleArgs), { true }))
     res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main").ssetCodegen(true).ssetArgs2(moduleArgs), { true }))
     return res
-} 
+}
 
 class ParamClass {
     val name: String
@@ -203,7 +203,7 @@ fun getAllModuleSpecificParams(): List<ParamClass> {
         }
     }
     return res
-} 
+}
 
 val compileParams = mutableListOf<ParamClass>()
 var enabledParams = mutableListOf<ParamClass>()
@@ -463,12 +463,12 @@ fun onHelp() {
     for (param in defaultParams) {
         param.help()
     }
-for (param in getAllModuleSpecificParams()){
- param.help()
-}
+    for (param in getAllModuleSpecificParams()) {
+        param.help()
+    }
 }
 fun onCompile() {
-println(moduleArgs)
+    println(moduleArgs)
     for ((module, cond) in getAllModuleConfigurations()) {
         if (cond()) {
             createBuildFileForModule(module)
