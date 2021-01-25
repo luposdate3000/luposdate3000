@@ -49,7 +49,7 @@ var target = ""
 var intellijMode = ""
 var cleanedArgs = mutableListOf<String>()
 var skipArgs = false
-enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, ALL_TEST, UNKNOWN }
+enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER,GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, ALL_TEST, UNKNOWN }
 var execMode = ExecMode.UNKNOWN
 enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
 fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
@@ -186,7 +186,7 @@ fun getAllModuleSpecificParams(): List<ParamClass> {
         for (opt in module.getPossibleOptions()) {
             res.add(
                 ParamClass(
-                    "--module_${module.moduleName}:$opt",
+                    "--compileArgument_${module.moduleName}:$opt",
                     "",
                     {
                         var t = moduleArgs[module.moduleName]
@@ -332,6 +332,13 @@ val defaultParams = mutableListOf(
         }
     ),
     ParamClass(
+        "--generateLauncher",
+        {
+            execMode = ExecMode.GENERATE_LAUNCHER
+            skipArgs = true
+        }
+    ),
+    ParamClass(
         "--generateEnums",
         {
             execMode = ExecMode.GENERATE_ENUMS
@@ -445,6 +452,7 @@ when (execMode) {
     ExecMode.COMPILE -> onCompile()
     ExecMode.RUN -> onRun()
     ExecMode.GENERATE_PARSER -> onGenerateParser()
+    ExecMode.GENERATE_LAUNCHER->onGenerateLauncherMain()
     ExecMode.GENERATE_ENUMS -> onGenerateEnums()
     ExecMode.SETUP_INTELLIJ_IDEA -> onSetupIntellijIdea()
     ExecMode.SETUP_JS -> onSetupJS()
@@ -615,6 +623,22 @@ fun onRun() {
 fun onGenerateParser() {
     val outFile = File("src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}turtle${Platform.getPathSeparator()}Turtle2ParserGenerated.kt")
     outFile.printWriter().use { out ->
+out.println("/*")
+out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
+out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
+out.println(" *")
+out.println(" * This program is free software: you can redistribute it and/or modify")
+out.println(" * it under the terms of the GNU General Public License as published by")
+out.println(" * the Free Software Foundation, version 3.")
+out.println(" *")
+out.println(" * This program is distributed in the hope that it will be useful, but")
+out.println(" * WITHOUT ANY WARRANTY; without even the implied warranty of")
+out.println(" * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU")
+out.println(" * General Public License for more details.")
+out.println(" *")
+out.println(" * You should have received a copy of the GNU General Public License")
+out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
+out.println(" */")
         out.println("package lupos.s02buildSyntaxTree.turtle")
         out.println("import lupos.s00misc.IMyInputStream")
         out.println("import lupos.s00misc.Luposdate3000Exception")
@@ -660,10 +684,42 @@ fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: Strin
     }
     val mapping = mapping2.sorted()
     File(fileName + ".kt").printWriter().use { out ->
+out.println("/*")
+out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
+out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
+out.println(" *")
+out.println(" * This program is free software: you can redistribute it and/or modify")
+out.println(" * it under the terms of the GNU General Public License as published by")
+out.println(" * the Free Software Foundation, version 3.")
+out.println(" *")
+out.println(" * This program is distributed in the hope that it will be useful, but")
+out.println(" * WITHOUT ANY WARRANTY; without even the implied warranty of")
+out.println(" * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU")
+out.println(" * General Public License for more details.")
+out.println(" *")
+out.println(" * You should have received a copy of the GNU General Public License")
+out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
+out.println(" */")
         out.println("package $packageName")
         out.println("$modifier typealias $enumName = Int")
     }
     File(fileName + "Ext.kt").printWriter().use { out ->
+out.println("/*")
+out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
+out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
+out.println(" *")
+out.println(" * This program is free software: you can redistribute it and/or modify")
+out.println(" * it under the terms of the GNU General Public License as published by")
+out.println(" * the Free Software Foundation, version 3.")
+out.println(" *")
+out.println(" * This program is distributed in the hope that it will be useful, but")
+out.println(" * WITHOUT ANY WARRANTY; without even the implied warranty of")
+out.println(" * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU")
+out.println(" * General Public License for more details.")
+out.println(" *")
+out.println(" * You should have received a copy of the GNU General Public License")
+out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
+out.println(" */")
         out.println("package $packageName")
         out.println("import kotlin.jvm.JvmField")
         out.println("$modifier object ${enumName}Ext {")
@@ -706,6 +762,58 @@ fun onGenerateEnums() {
     for (args in generatingArgs) {
         onGenerateEnumsHelper(args[0], args[1], args[2], args[3])
     }
+}
+fun onGenerateLauncherMain(){
+for((module,cond) in getAllModuleConfigurations()){
+if(module.modulePrefix=="Luposdate3000_Main"){
+if(File(File(module.moduleFolder),"runOptions").exists()){
+var options=mutableListOf<String>()
+File(File(module.moduleFolder),"runOptions").forEachLine {
+options.add(it)
+}
+File(File(File(File(File(module.moduleFolder),"src"),"jvmMain"),"kotlin"),"Main.kt").printWriter().use { out ->
+out.println("/*")
+out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
+out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
+out.println(" *")
+out.println(" * This program is free software: you can redistribute it and/or modify")
+out.println(" * it under the terms of the GNU General Public License as published by")
+out.println(" * the Free Software Foundation, version 3.")
+out.println(" *")
+out.println(" * This program is distributed in the hope that it will be useful, but")
+out.println(" * WITHOUT ANY WARRANTY; without even the implied warranty of")
+out.println(" * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU")
+out.println(" * General Public License for more details.")
+out.println(" *")
+out.println(" * You should have received a copy of the GNU General Public License")
+out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
+out.println(" */")
+out.println("public fun main(args: Array<String>): Unit {")
+out.println("    var flag=false")
+for(o in options){
+out.println("    var $o:String=\"\"")
+out.println("    for(a in args){")
+out.println("        if(a.startsWith(\"--$o=\")){")
+out.println("            $o=a.substring(${o.length+3})")
+out.println("            flag=true")
+out.println("            break")
+out.println("        }")
+out.println("    }")
+out.println("    if(!flag){")
+out.println("        throw Exception(\"the option '--$o' is missing on the arguments list\")")
+out.println("    }")
+}
+var s="mainFunc("
+for(o in options){
+s+="$o,"
+}
+s+=")"
+out.println("    $s")
+out.println("}")
+}
+}
+}
+}
 }
 fun copyFromJar(source: InputStream, dest: String) {
     val out = FileOutputStream(dest)

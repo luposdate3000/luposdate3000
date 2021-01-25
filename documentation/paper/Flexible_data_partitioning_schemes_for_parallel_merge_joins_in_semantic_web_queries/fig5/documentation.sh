@@ -14,4 +14,5 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-./launcher.main.kts --compileAll --releaseMode=Enable --inlineMode=Enable --module_Luposdate3000_Endpoint:QueryResultToStream=lupos.s11outputResult.QueryResultToEmptyStream
+./launcher.main.kts --compileAll --releaseMode=Enable --inlineMode=Enable --compileArgument_Luposdate3000_Endpoint:QueryResultToStream=lupos.s11outputResult.QueryResultToEmptyStream
+./launcher.main.kts --run --releaseMode=Enable --inlineMode=Enable --mainClass=Benchmark_Fig5

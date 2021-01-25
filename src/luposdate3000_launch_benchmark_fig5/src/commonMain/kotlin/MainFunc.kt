@@ -30,13 +30,20 @@ import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s16network.LuposdateEndpoint
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
+internal fun mainFunc(
+datasource_files:String,
+minimum_time:String,
+number_of_triples:String,
+trash:String,
+join:String,
+join_count:String,
+): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-    val datasourceFiles = args[0]
-    val minimumTime = args[1].toDouble()
-    val numberOfTriples = args[2].toLong()
-    val trash = args[3].toLong()
-    val join = args[4].toLong()
+    val datasourceFiles = datasource_files
+    val minimumTime = minimum_time.toDouble()
+    val numberOfTriples = number_of_triples.toLong()
+    val _trash = trash.toLong()
+    val _join = join.toLong()
     val joincount = args[5].toInt()
     val timer = DateHelperRelative.markNow()
     LuposdateEndpoint.importIntermediateFiles(datasourceFiles)
@@ -96,6 +103,6 @@ internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
             }
         }
         partitionTimes[partitionC] = counter / time
-        println("${trash}_${join}_${joincount}_$partitions,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer,$trash,$join,$joincount,$partitions")
+        println("${_trash}_${_join}_${joincount}_$partitions,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer,$_trash,$_join,$joincount,$partitions")
     }
 }
