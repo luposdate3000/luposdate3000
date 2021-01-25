@@ -23,12 +23,12 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.PrintWriter
 
-val tmpFolder = "tmp_fig5_data" //point to a folder with enough storage space available
+val tmpFolder = "tmp_fig5_data" // point to a folder with enough storage space available
 val tmpFile = "$tmpFolder/intermediate.n3"
-val minimumTime = 10.0	//the minimum time for a single measurement
+val minimumTime = 10.0	// the minimum time for a single measurement
 
-//compile
-val p=ProcessBuilder(
+// compile
+val p = ProcessBuilder(
     "./launcher.main.kts",
     "--compileAll",
     "--releaseMode=Enable",
@@ -39,12 +39,12 @@ val p=ProcessBuilder(
     .redirectOutput(Redirect.INHERIT)
     .redirectError(Redirect.INHERIT)
     .start()
-p    .waitFor()
+p.waitFor()
 if (p.exitValue() != 0) {
-                throw Exception("exit-code:: " + p.exitValue())
-            }
+    throw Exception("exit-code:: " + p.exitValue())
+}
 File(tmpFolder).mkdirs()
-//perform the measurements
+// perform the measurements
 for (output_count in listOf(512, 2048, 8192, 32768)) {
     for (join_count in listOf(1, 2, 4, 8, 16)) {
         for (join in listOf(2, 4, 8, 16, 32, 64)) {
@@ -103,9 +103,9 @@ for (output_count in listOf(512, 2048, 8192, 32768)) {
         }
     }
 }
-//evaluate
+// evaluate
 
-//helper functions
+// helper functions
 fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block: Int, join_count: Int): Int {
     val byteBuf = ByteArray(1)
     File(folderName).mkdirs()

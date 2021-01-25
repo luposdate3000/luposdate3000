@@ -16,17 +16,17 @@
  */
 import kotlin.js.JsName
 @JsName("main")
-public fun main(args: Array<String>): Unit {
-    var flag=false
-    var basePath:String=""
-    for(a in args){
-        if(a.startsWith("--basePath=")){
-            basePath=a.substring(11)
-            flag=true
+public fun main(args: Array<String>) {
+    var flag = false
+    var basePath: String = ""
+    for (a in args) {
+        if (a.startsWith("--basePath=")) {
+            basePath = a.substring(11)
+            flag = true
             break
         }
     }
-    if(!flag){
+    if (!flag) {
         throw Exception("the option '--basePath' is missing on the arguments list")
     }
     mainFunc(basePath,)

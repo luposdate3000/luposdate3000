@@ -208,7 +208,7 @@ fun getAllModuleSpecificParams(): List<ParamClass> {
                             "--runArgument_${module.moduleName}:$opt",
                             "",
                             {
-				runArgs.add("--$opt=$it")
+                                runArgs.add("--$opt=$it")
                             }
                         )
                     )
@@ -446,7 +446,7 @@ loop@for (arg in args) {
             continue@loop
         }
     }
-throw Exception("unknown argument $arg")
+    throw Exception("unknown argument $arg")
 }
 var appendix = ""
 if (suspendMode == "Enable") {
@@ -685,14 +685,14 @@ fun onGenerateParser() {
         listOf(scriptFile, "parse_predicate_iri_or_ws", "PN_LOCAL", "SKIP_WS_FORCED"),
     )
     for (args in generatingArgs) {
-val p=        ProcessBuilder(args)
+        val p = ProcessBuilder(args)
             .redirectOutput(Redirect.appendTo(outFile))
             .redirectError(Redirect.INHERIT)
             .start()
-    p        .waitFor()
-if (p.exitValue() != 0) {
-                throw Exception("exit-code:: " + p.exitValue())
-            }
+        p.waitFor()
+        if (p.exitValue() != 0) {
+            throw Exception("exit-code:: " + p.exitValue())
+        }
     }
 }
 fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: String, fileName: String) {
@@ -791,55 +791,55 @@ fun onGenerateLauncherMain() {
                 File(File(module.moduleFolder), "runOptions").forEachLine {
                     options.add(it)
                 }
-for (p in listOf("jvmMain","jsMain","nativeMain")){
-File(File(File(File(module.moduleFolder), "src"), p), "kotlin").mkdirs()
-                File(File(File(File(File(module.moduleFolder), "src"), p), "kotlin"), "Main.kt").printWriter().use { out ->
-                    out.println("/*")
-                    out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
-                    out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
-                    out.println(" *")
-                    out.println(" * This program is free software: you can redistribute it and/or modify")
-                    out.println(" * it under the terms of the GNU General Public License as published by")
-                    out.println(" * the Free Software Foundation, version 3.")
-                    out.println(" *")
-                    out.println(" * This program is distributed in the hope that it will be useful, but")
-                    out.println(" * WITHOUT ANY WARRANTY; without even the implied warranty of")
-                    out.println(" * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU")
-                    out.println(" * General Public License for more details.")
-                    out.println(" *")
-                    out.println(" * You should have received a copy of the GNU General Public License")
-                    out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
-                    out.println(" */")
-if(p =="jsMain"){
-out.println("import kotlin.js.JsName")
-out.println("@JsName(\"main\")")
-}
-                    out.println("public fun main(args: Array<String>): Unit {")
-                    out.println("    var flag=false")
-                    for (o in options) {
-                        out.println("    var $o:String=\"\"")
-                        out.println("    for(a in args){")
-                        out.println("        if(a.startsWith(\"--$o=\")){")
-                        out.println("            $o=a.substring(${o.length + 3})")
-                        out.println("            flag=true")
-                        out.println("            break")
-                        out.println("        }")
-                        out.println("    }")
-                        out.println("    if(!flag){")
-                        out.println("        throw Exception(\"the option '--$o' is missing on the arguments list\")")
-                        out.println("    }")
+                for (p in listOf("jvmMain", "jsMain", "nativeMain")) {
+                    File(File(File(File(module.moduleFolder), "src"), p), "kotlin").mkdirs()
+                    File(File(File(File(File(module.moduleFolder), "src"), p), "kotlin"), "Main.kt").printWriter().use { out ->
+                        out.println("/*")
+                        out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
+                        out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
+                        out.println(" *")
+                        out.println(" * This program is free software: you can redistribute it and/or modify")
+                        out.println(" * it under the terms of the GNU General Public License as published by")
+                        out.println(" * the Free Software Foundation, version 3.")
+                        out.println(" *")
+                        out.println(" * This program is distributed in the hope that it will be useful, but")
+                        out.println(" * WITHOUT ANY WARRANTY; without even the implied warranty of")
+                        out.println(" * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU")
+                        out.println(" * General Public License for more details.")
+                        out.println(" *")
+                        out.println(" * You should have received a copy of the GNU General Public License")
+                        out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
+                        out.println(" */")
+                        if (p == "jsMain") {
+                            out.println("import kotlin.js.JsName")
+                            out.println("@JsName(\"main\")")
+                        }
+                        out.println("public fun main(args: Array<String>): Unit {")
+                        out.println("    var flag=false")
+                        for (o in options) {
+                            out.println("    var $o:String=\"\"")
+                            out.println("    for(a in args){")
+                            out.println("        if(a.startsWith(\"--$o=\")){")
+                            out.println("            $o=a.substring(${o.length + 3})")
+                            out.println("            flag=true")
+                            out.println("            break")
+                            out.println("        }")
+                            out.println("    }")
+                            out.println("    if(!flag){")
+                            out.println("        throw Exception(\"the option '--$o' is missing on the arguments list\")")
+                            out.println("    }")
+                        }
+                        var s = "mainFunc("
+                        for (o in options) {
+                            s += "$o,"
+                        }
+                        s += ")"
+                        out.println("    $s")
+                        out.println("}")
                     }
-                    var s = "mainFunc("
-                    for (o in options) {
-                        s += "$o,"
-                    }
-                    s += ")"
-                    out.println("    $s")
-                    out.println("}")
                 }
             }
         }
-}
     }
 }
 fun copyFromJar(source: InputStream, dest: String) {
@@ -915,34 +915,34 @@ fun onAllTest() {
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s.compile-err")))
                     .start()
                     .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run","--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=On", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=On", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions.test-err")))
                     .start()
                     .waitFor()
                 File("/tmp/luposdate3000/").deleteRecursively()
-                ProcessBuilder("./launcher.main.kts", "--run","--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions.test-err")))
                     .start()
                     .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run","--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=persistent", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=persistent", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent.test-err")))
                     .start()
                     .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run","--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=On", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=On", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions-Proguard.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions-Proguard.test-err")))
                     .start()
                     .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run","--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Proguard.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Proguard.test-err")))
                     .start()
                     .waitFor()
                 File("/tmp/luposdate3000/").deleteRecursively()
-                ProcessBuilder("./launcher.main.kts", "--run","--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=persistent", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\".\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=persistent", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent-Proguard.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent-Proguard.test-err")))
                     .start()

@@ -23,6 +23,6 @@ import kotlin.js.JsName
 public fun mainFunc(args: Array<String>) {
     LuposdateEndpoint.initialize()
     Parallel.runBlocking {
-                BinaryTestCase.generateTestcase(args[1], args[2], args[3], args[4], args[5], BinaryTestCaseOutputModeExt.names.indexOf(args[6]))
-            }
+        BinaryTestCase.generateTestcase(args[1], args[2], args[3], args[4], args[5], BinaryTestCaseOutputModeExt.names.indexOf(args[6]))
+    }
 }
