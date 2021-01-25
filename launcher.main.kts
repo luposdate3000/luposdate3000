@@ -90,7 +90,7 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
     res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Endpoint_Java_Sockets", "Luposdate3000_Endpoint_Launcher").ssetArgs2(moduleArgs), { true }))
     res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Code_Generator").ssetArgs2(moduleArgs), { true }))
     res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Benchmark", "Luposdate3000_Main").ssetArgs2(moduleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Benchmark_fig5", "Luposdate3000_Main").ssetArgs2(moduleArgs), { true }))
+    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Benchmark_Fig5", "Luposdate3000_Main").ssetArgs2(moduleArgs), { true }))
     res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Binary_Test_Suite", "Luposdate3000_Main").ssetArgs2(moduleArgs), { true }))
     res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Endpoint", "Luposdate3000_Main").ssetArgs2(moduleArgs), { true }))
     res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Import", "Luposdate3000_Main").ssetArgs2(moduleArgs), { true }))

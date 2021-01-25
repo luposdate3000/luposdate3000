@@ -133,7 +133,7 @@ class CreateModuleArgs() {
             res.args = mutableMapOf()
             res.args.putAll(this.args)
             res.args.putAll(arg)
-            args.remove(arg)
+            args.remove(moduleName)
             return res
         } else {
             return this
