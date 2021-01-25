@@ -23,7 +23,7 @@ public class Partition {
     public val limit: MutableMap<String, Int>
     public companion object {
         @JvmField
-        public val estimatedPartitions0: MutableSet<String> = mutableSetOf()//for benchmarking enable the notpartitioned stores as well
+        public val estimatedPartitions0: MutableSet<String> = mutableSetOf() // for benchmarking enable the notpartitioned stores as well
         @JvmField
         public val estimatedPartitions1: MutableMap<String, MutableSet<Int>> = mutableMapOf()
         @JvmField
