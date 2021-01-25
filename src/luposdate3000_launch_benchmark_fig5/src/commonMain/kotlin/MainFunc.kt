@@ -30,7 +30,7 @@ import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s16network.LuposdateEndpoint
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-@Suppress("NOTHING_TO_INLINE") internal inline fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
+internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
     val datasourceFiles = args[0]
     val minimumTime = args[1].toDouble()

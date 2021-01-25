@@ -31,7 +31,7 @@ internal fun helperCleanString(s: String): String {
     return res
 }
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-@Suppress("NOTHING_TO_INLINE") internal inline fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
+internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     println("importing args ${args.map { it }}")
     var cnt = 0
     val inputFileName = args[0]

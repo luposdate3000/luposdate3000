@@ -20,7 +20,7 @@ import lupos.s00misc.Parallel
 import lupos.s16network.LuposdateEndpoint
 import kotlin.js.JsName
 @JsName("mainFunc")
-@Suppress("NOTHING_TO_INLINE") public inline fun mainFunc(args: Array<String>) {
+public fun mainFunc(args: Array<String>) {
     LuposdateEndpoint.initialize()
     Parallel.runBlocking {
         if (args.isNotEmpty() && args[0] == "--generate") {

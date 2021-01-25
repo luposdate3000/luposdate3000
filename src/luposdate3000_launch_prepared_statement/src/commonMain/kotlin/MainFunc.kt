@@ -20,7 +20,7 @@ import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s11outputResult.EQueryResultToStreamExt
 import lupos.s16network.LuposdateEndpoint
-@Suppress("NOTHING_TO_INLINE") internal inline fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
+internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
     val buf = MyPrintWriter(true) // You can use any implementation of lupos.s00misc.IMyPrintWriter
 /*

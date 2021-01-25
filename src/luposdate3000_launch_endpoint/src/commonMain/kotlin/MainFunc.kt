@@ -18,7 +18,7 @@ import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s16network.HttpEndpointLauncher
 import lupos.s16network.LuposdateEndpoint
-@Suppress("NOTHING_TO_INLINE") internal inline fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
+internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
     var bootStrapServer: String? = null
     var hostname = "localhost"

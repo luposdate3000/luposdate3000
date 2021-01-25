@@ -14,12 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+import lupos.s00misc.EOperatingSystemExt
+import lupos.s00misc.Platform
 import java.io.File
 import java.io.PrintWriter
 import java.lang.ProcessBuilder.Redirect
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
+import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 enum class ReleaseMode {
     Enable, Disable
 }
@@ -80,129 +83,152 @@ private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map
         }
     }
 }
-public fun createBuildFileForModule(
-    moduleName: String,
-    releaseMode: ReleaseMode,
-    suspendMode: SuspendMode,
-    inlineMode: InlineMode,
-    dryMode: DryMode,
-    target: TargetMode,
-    ideaBuildfile: IntellijMode,
-    codegen: Boolean,
-    args: Array<String> = arrayOf<String>()
-) {
-    createBuildFileForModule(
-        moduleName,
-        moduleName,
-        releaseMode,
-        suspendMode,
-        inlineMode,
-        dryMode,
-        target,
-        ideaBuildfile,
-        codegen,
-        args
-    )
-}
-public fun createBuildFileForModule(
-    moduleName: String,
-    modulePrefix: String,
-    releaseMode: ReleaseMode,
-    suspendMode: SuspendMode,
-    inlineMode: InlineMode,
-    dryMode: DryMode,
-    target: TargetMode,
-    ideaBuildfile: IntellijMode,
-    codegen: Boolean,
-    args: Array<String> = arrayOf<String>()
-) {
-    val onWindows = System.getProperty("os.name").contains("Windows")
-    val pathSeparator: String
-    if (onWindows) {
-        pathSeparator = "\\\\"
-    } else {
-        pathSeparator = "/"
-    }
-    createBuildFileForModule(
-        moduleName,
-        modulePrefix,
-        "src${pathSeparator}${moduleName.toLowerCase()}",
-        releaseMode,
-        suspendMode,
-        inlineMode,
-        dryMode,
-        target,
-        ideaBuildfile,
-        codegen,
-        args
-    )
-}
-public fun createBuildFileForModule(
-    moduleName: String,
-    modulePrefix: String,
-    moduleFolder: String,
-    releaseMode: ReleaseMode,
-    suspendMode: SuspendMode,
-    inlineMode: InlineMode,
-    dryMode: DryMode,
-    target: TargetMode,
-    ideaBuildfile: IntellijMode,
-    codegen: Boolean,
-    args: Array<String> = arrayOf<String>()
-) {
-    createBuildFileForModule(
-        moduleName,
-        moduleFolder,
-        modulePrefix,
-        "linuxX64",
-        releaseMode,
-        suspendMode,
-        inlineMode,
-        dryMode,
-        target,
-        ideaBuildfile,
-        codegen,
-        args
-    )
-}
-public fun createBuildFileForModule(
-    moduleName_: String,
-    moduleFolder: String,
-    modulePrefix: String,
-    platform: String,
-    releaseMode: ReleaseMode,
-    suspendMode: SuspendMode,
-    inlineMode: InlineMode,
-    dryMode2: DryMode,
-    target: TargetMode,
-    ideaBuildfile: IntellijMode,
-    codegen: Boolean,
-    args: Array<String> = arrayOf<String>()
-) {
-    try {
-        var dryMode: DryMode
-        if (dryMode2 == DryMode.Enable || ideaBuildfile == IntellijMode.Enable) {
-            dryMode = DryMode.Enable
+class CreateModuleArgs() {
+    var moduleName: String = ""
+    var moduleFolder: String = ""
+    var modulePrefix: String = ""
+    var platform: String = "linuxX64"
+    var releaseMode: ReleaseMode = ReleaseMode.Disable
+    var suspendMode: SuspendMode = SuspendMode.Disable
+    var inlineMode: InlineMode = InlineMode.Disable
+    var dryMode: DryMode = DryMode.Disable
+    var target: TargetMode = TargetMode.JVM
+    var ideaBuildfile: IntellijMode = IntellijMode.Disable
+    var codegen: Boolean = false
+    var args: MutableMap<String, String> = mutableMapOf()
+    init {
+        if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
+            platform = "mingw64"
         } else {
-            dryMode = DryMode.Disable
+            platform = "linuxX64"
+        }
+    }
+    fun clone(): CreateModuleArgs {
+        var res = CreateModuleArgs()
+        res.moduleName = moduleName
+        res.moduleFolder = moduleFolder
+        res.modulePrefix = modulePrefix
+        res.platform = platform
+        res.releaseMode = releaseMode
+        res.suspendMode = suspendMode
+        res.inlineMode = inlineMode
+        res.dryMode = dryMode
+        res.target = target
+        res.ideaBuildfile = ideaBuildfile
+        res.codegen = codegen
+        res.args = args
+        return res
+    }
+    fun ssetArgs(args: MutableMap<String, String>): CreateModuleArgs {
+        val res = clone()
+	res.args.putAll (args)
+        return res
+    }
+    fun ssetArgs2(args: MutableMap<String,MutableMap<String, String>>): CreateModuleArgs {
+val arg=args[moduleName]
+if(arg!=null){
+        val res = clone()
+	res.args.putAll (arg)
+args.remove(arg)
+        return res
+}else{
+return this
+}
+    }
+    fun ssetModuleName(moduleName: String): CreateModuleArgs {
+        val res = clone()
+        val onWindows = System.getProperty("os.name").contains("Windows")
+        val pathSeparator: String
+        if (onWindows) {
+            pathSeparator = "\\\\"
+        } else {
+            pathSeparator = "/"
+        }
+        res.moduleName = moduleName
+        res.modulePrefix = moduleName
+        res.moduleFolder = "src${pathSeparator}${moduleName.toLowerCase()}"
+        return res
+    }
+    fun ssetModuleName(moduleName: String, modulePrefix: String): CreateModuleArgs {
+        val res = clone()
+        val onWindows = System.getProperty("os.name").contains("Windows")
+        val pathSeparator: String
+        if (onWindows) {
+            pathSeparator = "\\\\"
+        } else {
+            pathSeparator = "/"
+        }
+        res.moduleName = moduleName
+        res.modulePrefix = modulePrefix
+        res.moduleFolder = "src${pathSeparator}${moduleName.toLowerCase()}"
+        return res
+    }
+    fun ssetModuleName(moduleName: String, modulePrefix: String, moduleFolder: String): CreateModuleArgs {
+        val res = clone()
+        res.moduleName = moduleName
+        res.moduleFolder = moduleFolder
+        res.modulePrefix = modulePrefix
+        return res
+    }
+    fun ssetReleaseMode(releaseMode: ReleaseMode): CreateModuleArgs {
+        val res = clone()
+        res.releaseMode = releaseMode
+        return res
+    }
+    fun ssetSuspendMode(suspendMode: SuspendMode): CreateModuleArgs {
+        val res = clone()
+        res.suspendMode = suspendMode
+        return res
+    }
+    fun ssetInlineMode(inlineMode: InlineMode): CreateModuleArgs {
+        val res = clone()
+        res.inlineMode = inlineMode
+        return res
+    }
+    fun ssetDryMode(dryMode: DryMode): CreateModuleArgs {
+        val res = clone()
+        res.dryMode = dryMode
+        return res
+    }
+    fun ssetTarget(target: TargetMode): CreateModuleArgs {
+        val res = clone()
+        res.target = target
+        return res
+    }
+    fun ssetIdeaBuildfile(ideaBuildfile: IntellijMode): CreateModuleArgs {
+        val res = clone()
+        res.ideaBuildfile = ideaBuildfile
+        return res
+    }
+    fun ssetCodegen(codegen: Boolean): CreateModuleArgs {
+        val res = clone()
+        res.codegen = codegen
+        return res
+    }
+}
+public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
+    try {
+        if (moduleArgs.dryMode == DryMode.Enable || moduleArgs.ideaBuildfile == IntellijMode.Enable) {
+            moduleArgs.dryMode = DryMode.Enable
+        } else {
+            moduleArgs.dryMode = DryMode.Disable
         }
         var appendix = ""
-        if (suspendMode == SuspendMode.Enable) {
+        if (moduleArgs.suspendMode == SuspendMode.Enable) {
             appendix += "_Coroutines"
         } else {
             appendix += "_Threads"
         }
-        if (inlineMode == InlineMode.Enable) {
+        if (moduleArgs.inlineMode == InlineMode.Enable) {
             appendix += "_Inline"
         } else {
             appendix += "_NoInline"
         }
-        if (releaseMode == ReleaseMode.Enable) {
+        if (moduleArgs.releaseMode == ReleaseMode.Enable) {
             appendix += "_Release"
         } else {
             appendix += "_Debug"
         }
-        val moduleName = moduleName_
         val onWindows = System.getProperty("os.name").contains("Windows")
         val onLinux = !onWindows // TODO this is not correct ...
         val pathSeparator: String
@@ -214,34 +240,34 @@ public fun createBuildFileForModule(
             pathSeparator = "/"
             pathSeparatorEscaped = "/"
         }
-        var enableJVM = target == TargetMode.All || target == TargetMode.JVM
-        var enableJS = target == TargetMode.All || target == TargetMode.JS
-        var enableNative = target == TargetMode.All || target == TargetMode.Native
-        if (File("$moduleFolder/disableTarget").exists()) {
-            File("$moduleFolder/disableTarget").forEachLine {
+        var enableJVM = moduleArgs.target == TargetMode.All || moduleArgs.target == TargetMode.JVM
+        var enableJS = moduleArgs.target == TargetMode.All || moduleArgs.target == TargetMode.JS
+        var enableNative = moduleArgs.target == TargetMode.All || moduleArgs.target == TargetMode.Native
+        if (File("${moduleArgs.moduleFolder}/disableTarget").exists()) {
+            File("${moduleArgs.moduleFolder}/disableTarget").forEachLine {
                 when (it) {
                     "jvm" -> enableJVM = false
                     "js" -> {
                         enableJS = false
                     }
-                    platform, "native" -> enableNative = false
+                    moduleArgs.platform, "native" -> enableNative = false
                 }
             }
         }
         if (!(enableJVM || enableJS || enableNative)) {
             return
         }
-        val buildLibrary = modulePrefix != "Luposdate3000_Main"
-        println("generating buildfile for $moduleName")
-        var shortFolder = ".$pathSeparator$moduleName"
+        val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
+        println("generating buildfile for ${moduleArgs.moduleName}")
+        var shortFolder = ".$pathSeparator${moduleArgs.moduleName}"
         shortFolder = shortFolder.substring(shortFolder.lastIndexOf(pathSeparator) + 1)
         File("src.generated").deleteRecursively()
         val buildFolder = "build-cache${pathSeparator}build_$shortFolder$appendix"
         println("buildFolder :: $buildFolder")
         val srcFolder = "build-cache${pathSeparator}src_$shortFolder$appendix"
-        if (ideaBuildfile == IntellijMode.Disable) {
+        if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
             File("src.generated").mkdirs()
-            val p = Paths.get("$moduleFolder${pathSeparator}src")
+            val p = Paths.get("${moduleArgs.moduleFolder}${pathSeparator}src")
             Files.walk(p, 1).forEach { it ->
                 val tmp = it.toString()
                 if (tmp.length > p.toString().length) {
@@ -266,9 +292,9 @@ public fun createBuildFileForModule(
                         if (enableNative) {
                             copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("native.*Main", "nativeMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public "), pathSeparator)
                         }
-                    } else if (f.startsWith(platform)) {
+                    } else if (f.startsWith(moduleArgs.platform)) {
                         if (enableNative) {
-                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("$platform.*Main", "${platform}Main"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public "), pathSeparator)
+                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("${moduleArgs.platform}.*Main", "${moduleArgs.platform}Main"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public "), pathSeparator)
                         }
                     }
                 }
@@ -281,50 +307,50 @@ public fun createBuildFileForModule(
                 out.println("        gradlePluginPortal()")
                 out.println("    }")
                 out.println("}")
-                out.println("rootProject.name = \"$moduleName\"") // maven-artifactID
+                out.println("rootProject.name = \"${moduleArgs.moduleName}\"") // maven-artifactID
             }
         }
         val commonDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-common:$compilerVersion")
-        if (!moduleName.startsWith("Luposdate3000_Shared")) {
+        if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared")) {
             commonDependencies.add("luposdate3000:Luposdate3000_Shared:0.0.1")
         }
-        if (File("${moduleFolder}${pathSeparator}commonDependencies").exists()) {
-            File("${moduleFolder}${pathSeparator}commonDependencies").forEachLine {
+        if (File("${moduleArgs.moduleFolder}${pathSeparator}commonDependencies").exists()) {
+            File("${moduleArgs.moduleFolder}${pathSeparator}commonDependencies").forEachLine {
                 if (it.length > 0) {
                     commonDependencies.add(it)
                 }
             }
         }
         val jvmDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$compilerVersion")
-        if (File("${moduleFolder}${pathSeparator}jvmDependencies").exists()) {
-            File("${moduleFolder}${pathSeparator}jvmDependencies").forEachLine {
+        if (File("${moduleArgs.moduleFolder}${pathSeparator}jvmDependencies").exists()) {
+            File("${moduleArgs.moduleFolder}${pathSeparator}jvmDependencies").forEachLine {
                 if (it.length > 0) {
                     jvmDependencies.add(it)
                 }
             }
         }
         val jsDependencies = mutableSetOf("org.jetbrains.kotlin:kotlin-stdlib-js:$compilerVersion")
-        if (File("${moduleFolder}${pathSeparator}jsDependencies").exists()) {
-            File("${moduleFolder}${pathSeparator}jsDependencies").forEachLine {
+        if (File("${moduleArgs.moduleFolder}${pathSeparator}jsDependencies").exists()) {
+            File("${moduleArgs.moduleFolder}${pathSeparator}jsDependencies").forEachLine {
                 if (it.length > 0) {
                     jsDependencies.add(it)
                 }
             }
         }
         val nativeDependencies = mutableSetOf<String>()
-        if (File("${moduleFolder}${pathSeparator}nativeDependencies").exists()) {
-            File("${moduleFolder}${pathSeparator}nativeDependencies").forEachLine {
+        if (File("${moduleArgs.moduleFolder}${pathSeparator}nativeDependencies").exists()) {
+            File("${moduleArgs.moduleFolder}${pathSeparator}nativeDependencies").forEachLine {
                 if (it.length > 0) {
                     nativeDependencies.add(it)
                 }
             }
         }
-        for (filename in listOf("src.generated${pathSeparator}build.gradle.kts", "${moduleFolder}${pathSeparator}build.gradle.kts")) {
+        for (filename in listOf("src.generated${pathSeparator}build.gradle.kts", "${moduleArgs.moduleFolder}${pathSeparator}build.gradle.kts")) {
             var buildForIDE = filename != "src.generated${pathSeparator}build.gradle.kts"
-            if (ideaBuildfile == IntellijMode.Enable && !buildForIDE) {
+            if (moduleArgs.ideaBuildfile == IntellijMode.Enable && !buildForIDE) {
                 continue
             }
-            if (ideaBuildfile == IntellijMode.Disable && buildForIDE) {
+            if (moduleArgs.ideaBuildfile == IntellijMode.Disable && buildForIDE) {
                 continue
             }
             File(filename).printWriter().use { out ->
@@ -358,7 +384,7 @@ public fun createBuildFileForModule(
                 }
                 out.println("plugins {")
                 out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"${compilerVersion}\"")
-                if (!buildLibrary && codegen) {
+                if (!buildLibrary && moduleArgs.codegen) {
                     out.println("    id(\"org.jetbrains.kotlin.kapt\") version \"${compilerVersion}\"")
                 }
                 if (buildForIDE && !buildLibrary) {
@@ -405,7 +431,7 @@ public fun createBuildFileForModule(
                 }
                 if (enableJS) {
                     out.println("    js {")
-                    out.println("        moduleName = \"${modulePrefix}\"")
+                    out.println("        moduleName = \"${moduleArgs.modulePrefix}\"")
                     out.println("        browser {")
                     out.println("            compilations.forEach{")
                     out.println("                it.kotlinOptions {")
@@ -435,7 +461,7 @@ public fun createBuildFileForModule(
                     out.println("    }")
                 }
                 if (enableNative) {
-                    out.println("    $platform(\"$platform\") {")
+                    out.println("    ${moduleArgs.platform}(\"${moduleArgs.platform}\") {")
                     out.println("        compilations.forEach{")
                     out.println("            it.kotlinOptions {")
                     out.println("                freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
@@ -444,17 +470,17 @@ public fun createBuildFileForModule(
                     out.println("        }")
                     out.println("        binaries {")
                     if (buildLibrary) {
-                        if (releaseMode == ReleaseMode.Enable) {
+                        if (moduleArgs.releaseMode == ReleaseMode.Enable) {
                             out.println("            sharedLib (listOf(RELEASE)){")
-                            out.println("                baseName = \"${modulePrefix}\"")
+                            out.println("                baseName = \"${moduleArgs.modulePrefix}\"")
                             out.println("            }")
                         } else {
                             out.println("            sharedLib (listOf(DEBUG)){")
-                            out.println("                baseName = \"${modulePrefix}\"")
+                            out.println("                baseName = \"${moduleArgs.modulePrefix}\"")
                             out.println("            }")
                         }
                     } else {
-                        if (releaseMode == ReleaseMode.Enable) {
+                        if (moduleArgs.releaseMode == ReleaseMode.Enable) {
                             out.println("            executable(listOf(RELEASE)) {")
                             out.println("            }")
                         } else {
@@ -486,7 +512,7 @@ public fun createBuildFileForModule(
                     out.println("        }")
                 }
                 if (enableNative) {
-                    out.println("        val ${platform}Main by getting {")
+                    out.println("        val ${moduleArgs.platform}Main by getting {")
                     out.println("            dependencies {")
                     printDependencies(nativeDependencies, buildForIDE, appendix, out)
                     out.println("            }")
@@ -494,29 +520,29 @@ public fun createBuildFileForModule(
                 }
                 out.println("    }")
                 if (buildForIDE) {
-                    if (!moduleName.startsWith("Luposdate3000_Shared_Inline")) {
-                        out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
-                        out.println("    sourceSets[\"commonMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}resources\")")
+                    if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_Inline")) {
+                        out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"commonMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}resources\")")
                     }
                     if (enableJVM) {
-                        if (!moduleName.startsWith("Luposdate3000_Shared_Inline")) {
-                            out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
-                            out.println("    sourceSets[\"jvmMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}resources\")")
+                        if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_Inline")) {
+                            out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
+                            out.println("    sourceSets[\"jvmMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}resources\")")
                         }
                     }
                     if (enableJS) {
-                        if (!moduleName.startsWith("Luposdate3000_Shared_Inline")) {
-                            out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
-                            out.println("    sourceSets[\"jsMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}resources\")")
+                        if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_Inline")) {
+                            out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
+                            out.println("    sourceSets[\"jsMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}resources\")")
                         }
                     }
                     if (enableNative) {
-                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
-                        if (!moduleName.startsWith("Luposdate3000_Shared_Inline")) {
-                            out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
-                            out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}${platform}Main${pathSeparatorEscaped}resources\")")
-                            out.println("    sourceSets[\"${platform}Main\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
-                            out.println("    sourceSets[\"${platform}Main\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}${platform}Main${pathSeparatorEscaped}resources\")")
+                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
+                        if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_Inline")) {
+                            out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
+                            out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}${moduleArgs.platform}Main${pathSeparatorEscaped}resources\")")
+                            out.println("    sourceSets[\"${moduleArgs.platform}Main\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
+                            out.println("    sourceSets[\"${moduleArgs.platform}Main\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}${moduleArgs.platform}Main${pathSeparatorEscaped}resources\")")
                         }
                     }
                 } else {
@@ -531,14 +557,14 @@ public fun createBuildFileForModule(
                         out.println("    sourceSets[\"jsMain\"].resources.srcDir(\"jsMain${pathSeparatorEscaped}resources\")")
                     }
                     if (enableNative) {
-                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
-                        out.println("    sourceSets[\"${platform}Main\"].kotlin.srcDir(\"${platform}Main${pathSeparatorEscaped}kotlin\")")
-                        out.println("    sourceSets[\"${platform}Main\"].resources.srcDir(\"nativeMain${pathSeparatorEscaped}resources\")")
-                        out.println("    sourceSets[\"${platform}Main\"].resources.srcDir(\"${platform}Main${pathSeparatorEscaped}resources\")")
+                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"${moduleArgs.platform}Main${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].resources.srcDir(\"nativeMain${pathSeparatorEscaped}resources\")")
+                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].resources.srcDir(\"${moduleArgs.platform}Main${pathSeparatorEscaped}resources\")")
                     }
                 }
                 out.println("}")
-                if (!buildLibrary && codegen) {
+                if (!buildLibrary && moduleArgs.codegen) {
                     out.println("dependencies {")
                     if (buildForIDE) {
                         out.println("    \"kapt\"(project(\":src:luposdate3000_code_generator\")) // attention to the '\"' around kapt - otherwise it resolves to another function")
@@ -555,8 +581,8 @@ public fun createBuildFileForModule(
                 if (enableJVM) {
                     out.println("tasks.register<proguard.gradle.ProGuardTask>(\"proguard\") {")
                     out.println("    dependsOn(\"build\")")
-                    out.println("    injars(\"build/libs/$moduleName-jvm-0.0.1.jar\")")
-                    out.println("    outjars(\"build/libs/$moduleName-jvm-0.0.1-pro.jar\")")
+                    out.println("    injars(\"build/libs/${moduleArgs.moduleName}-jvm-0.0.1.jar\")")
+                    out.println("    outjars(\"build/libs/${moduleArgs.moduleName}-jvm-0.0.1-pro.jar\")")
                     out.println("    val javaHome = System.getProperty(\"java.home\")")
                     out.println("    if (System.getProperty(\"java.version\").startsWith(\"1.\")) {")
                     out.println("        libraryjars(\"\$javaHome/lib/rt.jar\")")
@@ -586,30 +612,30 @@ public fun createBuildFileForModule(
                 }
             }
         }
-        if (ideaBuildfile == IntellijMode.Disable) {
+        if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
             File("src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc$pathSeparator").mkdirs()
         }
         val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
         val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
-        if (releaseMode == ReleaseMode.Enable) {
-            typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.$moduleName.SanityCheckOff")
+        if (moduleArgs.releaseMode == ReleaseMode.Enable) {
+            typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.${moduleArgs.moduleName}.SanityCheckOff")
         } else {
-            typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.$moduleName.SanityCheckOn")
+            typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.${moduleArgs.moduleName}.SanityCheckOn")
         }
-        if (suspendMode == SuspendMode.Enable) {
-            typeAliasAll["Parallel"] = Pair("Parallel", "lupos.$moduleName.ParallelCoroutine")
-            typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.$moduleName.ParallelCoroutineJob")
-            typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.$moduleName.ParallelCoroutineCondition")
-            typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.$moduleName.ParallelCoroutineQueue<T>")
-            typeAliasAll["MyLock"] = Pair("MyLock", "lupos.$moduleName.MyCoroutineLock")
-            typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.$moduleName.MyCoroutineReadWriteLock")
+        if (moduleArgs.suspendMode == SuspendMode.Enable) {
+            typeAliasAll["Parallel"] = Pair("Parallel", "lupos.${moduleArgs.moduleName}.ParallelCoroutine")
+            typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.${moduleArgs.moduleName}.ParallelCoroutineJob")
+            typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.${moduleArgs.moduleName}.ParallelCoroutineCondition")
+            typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.${moduleArgs.moduleName}.ParallelCoroutineQueue<T>")
+            typeAliasAll["MyLock"] = Pair("MyLock", "lupos.${moduleArgs.moduleName}.MyCoroutineLock")
+            typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.${moduleArgs.moduleName}.MyCoroutineReadWriteLock")
         } else {
-            typeAliasAll["Parallel"] = Pair("Parallel", "lupos.$moduleName.ParallelThread")
-            typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.$moduleName.ParallelThreadJob")
-            typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.$moduleName.ParallelThreadCondition")
-            typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.$moduleName.ParallelThreadQueue<T>")
-            typeAliasAll["MyLock"] = Pair("MyLock", "lupos.$moduleName.MyThreadLock")
-            typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.$moduleName.MyThreadReadWriteLock")
+            typeAliasAll["Parallel"] = Pair("Parallel", "lupos.${moduleArgs.moduleName}.ParallelThread")
+            typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.${moduleArgs.moduleName}.ParallelThreadJob")
+            typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.${moduleArgs.moduleName}.ParallelThreadCondition")
+            typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.${moduleArgs.moduleName}.ParallelThreadQueue<T>")
+            typeAliasAll["MyLock"] = Pair("MyLock", "lupos.${moduleArgs.moduleName}.MyThreadLock")
+            typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.${moduleArgs.moduleName}.MyThreadReadWriteLock")
         }
 // selectively copy classes which are inlined from the inline internal module ->
         val classNamesRegex = Regex("\\s*([a-zA-Z0-9_]*)")
@@ -652,14 +678,14 @@ public fun createBuildFileForModule(
                     e.printStackTrace()
                 }
             } else {
-                if (ideaBuildfile == IntellijMode.Disable) {
+                if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
                     val f2 = File(f.toString().replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated"))
                     f2.mkdirs()
                 }
             }
         }
         var configFile: String
-        if (ideaBuildfile == IntellijMode.Disable) {
+        if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
             var changed = true
             while (changed) {
                 changed = false
@@ -703,58 +729,60 @@ public fun createBuildFileForModule(
                     for (fname in v) {
                         val src = File(fname)
                         val dest = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated"))
-                        copyFileWithReplacement(src, dest, mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.$moduleName"))
+                        copyFileWithReplacement(src, dest, mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"))
                         try {
                             val src2 = File(fname.replace(".kt", "Alias.kt"))
                             val dest2 = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated").replace(".kt", "Alias.kt"))
-                            copyFileWithReplacement(src2, dest2, mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.$moduleName"))
+                            copyFileWithReplacement(src2, dest2, mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"))
                         } catch (e: Throwable) {
                         }
                     }
                 }
                 println(classNamesUsed.keys)
             }
-            configFile = "src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}Config-$moduleName.kt"
+            configFile = "src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}Config-${moduleArgs.moduleName}.kt"
         } else {
-            var configPathBase = "src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleFolder}${pathSeparator}src"
+            var configPathBase = "src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleArgs.moduleFolder}${pathSeparator}src"
             var configPath = "${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc"
             File(configPath).mkdirs()
             typeAliasUsed.putAll(typeAliasAll)
             try {
-                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}commonMain"), ("${configPathBase}${pathSeparator}commonMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.$moduleName"), pathSeparator)
+                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}commonMain"), ("${configPathBase}${pathSeparator}commonMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
             } catch (e: Throwable) {
             }
             try {
-                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jvmMain"), ("${configPathBase}${pathSeparator}jvmMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.$moduleName"), pathSeparator)
+                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jvmMain"), ("${configPathBase}${pathSeparator}jvmMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
             } catch (e: Throwable) {
             }
             try {
-                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jsMain"), ("${configPathBase}${pathSeparator}jsMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.$moduleName"), pathSeparator)
+                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jsMain"), ("${configPathBase}${pathSeparator}jsMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
             } catch (e: Throwable) {
             }
             try {
-                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}nativeMain"), ("${configPathBase}${pathSeparator}nativeMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.$moduleName"), pathSeparator)
+                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}nativeMain"), ("${configPathBase}${pathSeparator}nativeMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
             } catch (e: Throwable) {
             }
-            configFile = "${configPath}${pathSeparator}Config-$moduleName.kt"
+            configFile = "${configPath}${pathSeparator}Config-${moduleArgs.moduleName}.kt"
         }
         println(typeAliasUsed.keys)
         println()
         // selectively copy classes which are inlined from the inline internal module <-
+        val remainingArgs = mutableMapOf<String, String>()
+        remainingArgs.putAll(moduleArgs.args)
         File(configFile).printWriter().use { out ->
             out.println("package lupos.s00misc")
             for ((k, v) in typeAliasUsed) {
                 out.println("internal typealias ${v.first} = ${v.second}")
             }
-            if (File("${moduleFolder}${pathSeparator}configOptions").exists()) {
-                File("${moduleFolder}${pathSeparator}configOptions").forEachLine {
+            if (File("${moduleArgs.moduleFolder}${pathSeparator}configOptions").exists()) {
+                File("${moduleArgs.moduleFolder}${pathSeparator}configOptions").forEachLine {
                     val opt = it.split(",")
                     if (opt.size == 4) {
                         var value = opt[3]
-                        for (a in args) {
-                            if (a.startsWith("--${opt[0]}") && a.contains("=")) {
-                                value = a.substring(a.indexOf("=") + 1)
-                            }
+                        val v = remainingArgs[opt[0]]
+                        if (v != null) {
+                            value = v
+                            remainingArgs.remove(opt[0])
                         }
                         if (opt[1] == "typealias") {
                             out.println("public ${opt[1]} ${opt[0]} = $value")
@@ -765,20 +793,26 @@ public fun createBuildFileForModule(
                 }
             }
         }
-        if (ideaBuildfile == IntellijMode.Disable) {
-            if (inlineMode == InlineMode.Enable) {
+        if (remainingArgs.size> 0) {
+            for ((k, v) in remainingArgs) {
+                println("unknown argument '$k' = '$v'")
+            }
+            throw Exception("unknown arguments")
+        }
+        if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
+            if (moduleArgs.inlineMode == InlineMode.Enable) {
                 applyInlineEnable()
             } else {
                 applyInlineDisable()
             }
-            if (suspendMode == SuspendMode.Enable) {
+            if (moduleArgs.suspendMode == SuspendMode.Enable) {
                 applySuspendEnable()
             } else {
                 applySuspendDisable()
             }
         }
         File("gradle.properties").copyTo(File("src.generated${pathSeparator}gradle.properties"))
-        if (dryMode == DryMode.Disable) {
+        if (moduleArgs.dryMode == DryMode.Disable) {
             if (onWindows) {
                 var path = System.getProperty("user.dir")
                 File("$path${pathSeparator}gradle").copyRecursively(File("$path${pathSeparator}src.generated${pathSeparator}gradle"))
@@ -813,71 +847,71 @@ public fun createBuildFileForModule(
         } catch (e: Throwable) {
             e.printStackTrace()
         }
-        if (dryMode == DryMode.Disable) {
+        if (moduleArgs.dryMode == DryMode.Disable) {
             try {
                 Files.move(Paths.get("src.generated${pathSeparator}build"), Paths.get(buildFolder))
             } catch (e: Throwable) {
                 e.printStackTrace()
             }
         }
-        if (ideaBuildfile == IntellijMode.Disable) {
+        if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
             try {
                 Files.move(Paths.get("src.generated"), Paths.get(srcFolder))
             } catch (e: Throwable) {
                 e.printStackTrace()
             }
         }
-        if (dryMode == DryMode.Disable) {
+        if (moduleArgs.dryMode == DryMode.Disable) {
             if (enableJVM) {
                 try {
-                    Files.copy(Paths.get(buildFolder + "${pathSeparator}libs${pathSeparator}$moduleName-jvm-0.0.1.jar"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$moduleName-jvm.jar"), StandardCopyOption.REPLACE_EXISTING)
-                    Files.copy(Paths.get(buildFolder + "${pathSeparator}libs${pathSeparator}$moduleName-jvm-0.0.1-pro.jar"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$moduleName-jvm-pro.jar"), StandardCopyOption.REPLACE_EXISTING)
+                    Files.copy(Paths.get(buildFolder + "${pathSeparator}libs${pathSeparator}${moduleArgs.moduleName}-jvm-0.0.1.jar"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm.jar"), StandardCopyOption.REPLACE_EXISTING)
+                    Files.copy(Paths.get(buildFolder + "${pathSeparator}libs${pathSeparator}${moduleArgs.moduleName}-jvm-0.0.1-pro.jar"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm-pro.jar"), StandardCopyOption.REPLACE_EXISTING)
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }
             }
             if (enableJS) {
-                if (modulePrefix == moduleName) {
+                if (moduleArgs.modulePrefix == moduleArgs.moduleName) {
                     try {
-                        Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$modulePrefix.js"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${moduleArgs.modulePrefix}${pathSeparator}kotlin${pathSeparator}${moduleArgs.modulePrefix}.js"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.modulePrefix}.js"), StandardCopyOption.REPLACE_EXISTING)
                     } catch (e: Throwable) {
                         e.printStackTrace()
                     }
                     try {
-                        Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js.map"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$modulePrefix.js.map"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${moduleArgs.modulePrefix}${pathSeparator}kotlin${pathSeparator}${moduleArgs.modulePrefix}.js.map"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.modulePrefix}.js.map"), StandardCopyOption.REPLACE_EXISTING)
                     } catch (e: Throwable) {
                         e.printStackTrace()
                     }
                 } else {
-                    File("build-cache${pathSeparator}bin$appendix${pathSeparator}$moduleName").mkdirs()
+                    File("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}").mkdirs()
                     try {
-                        Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$moduleName${pathSeparator}$modulePrefix.js"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${moduleArgs.modulePrefix}${pathSeparator}kotlin${pathSeparator}${moduleArgs.modulePrefix}.js"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}${pathSeparator}${moduleArgs.modulePrefix}.js"), StandardCopyOption.REPLACE_EXISTING)
                     } catch (e: Throwable) {
                         e.printStackTrace()
                     }
                     try {
-                        Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${modulePrefix}${pathSeparator}kotlin${pathSeparator}$modulePrefix.js.map"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}$moduleName${pathSeparator}$modulePrefix.js.map"), StandardCopyOption.REPLACE_EXISTING)
+                        Files.copy(Paths.get(buildFolder + "${pathSeparator}js${pathSeparator}packages${pathSeparator}${moduleArgs.modulePrefix}${pathSeparator}kotlin${pathSeparator}${moduleArgs.modulePrefix}.js.map"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}${pathSeparator}${moduleArgs.modulePrefix}.js.map"), StandardCopyOption.REPLACE_EXISTING)
                     } catch (e: Throwable) {
                         e.printStackTrace()
                     }
                 }
             }
             if (enableNative) {
-                if (platform == "linuxX64") {
+                if (moduleArgs.platform == "linuxX64") {
                     try {
                         if (buildLibrary) {
-                            if (releaseMode == ReleaseMode.Enable) {
-                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib$modulePrefix.so"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib$moduleName-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
-                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib${modulePrefix}_api.h"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib$moduleName-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+                            if (moduleArgs.releaseMode == ReleaseMode.Enable) {
+                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib${moduleArgs.modulePrefix}.so"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib${moduleArgs.moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
+                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseShared${pathSeparator}lib${moduleArgs.modulePrefix}_api.h"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib${moduleArgs.moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
                             } else {
-                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib$modulePrefix.so"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib$moduleName-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
-                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib${modulePrefix}_api.h"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib$moduleName-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
+                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib${moduleArgs.modulePrefix}.so"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib${moduleArgs.moduleName}-linuxX64.so"), StandardCopyOption.REPLACE_EXISTING)
+                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugShared${pathSeparator}lib${moduleArgs.modulePrefix}_api.h"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib${moduleArgs.moduleName}-linuxX64.h"), StandardCopyOption.REPLACE_EXISTING)
                             }
                         } else {
-                            if (releaseMode == ReleaseMode.Enable) {
-                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseExecutable${pathSeparator}$moduleName.kexe"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib$moduleName-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
+                            if (moduleArgs.releaseMode == ReleaseMode.Enable) {
+                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}releaseExecutable${pathSeparator}${moduleArgs.moduleName}.kexe"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib${moduleArgs.moduleName}-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
                             } else {
-                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugExecutable${pathSeparator}$moduleName.kexe"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib$moduleName-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
+                                Files.copy(Paths.get(buildFolder + "${pathSeparator}bin${pathSeparator}linuxX64${pathSeparator}debugExecutable${pathSeparator}${moduleArgs.moduleName}.kexe"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}lib${moduleArgs.moduleName}-linuxX64.kexe"), StandardCopyOption.REPLACE_EXISTING)
                             }
                         }
                     } catch (e: Throwable) {

@@ -23,7 +23,7 @@ internal enum class OptimizerMode {
     All, OnlyWith, OnlyWithout
 }
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-@Suppress("NOTHING_TO_INLINE") internal inline fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
+internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
     val datasourceFiles = args[0]
     val queryFiles = args[1].split(";")

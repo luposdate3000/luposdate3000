@@ -34,6 +34,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.util.jar.JarFile
+var moduleArgs=mutableMapOf<String,MutableMap<String,String>>()
 var releaseMode = ""
 var suspendMode = ""
 var inlineMode = ""
@@ -50,12 +51,13 @@ var cleanedArgs = mutableListOf<String>()
 var skipArgs = false
 enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, ALL_TEST, UNKNOWN }
 var execMode = ExecMode.UNKNOWN
-enum class ParamClassMode { VALUES, NO_VALUE }
+enum class ParamClassMode { VALUES, NO_VALUE,FREE_VALUE }
 class ParamClass {
     val name: String
     val default: String
     val values: Map<String, () -> Unit>
     val action: () -> Unit
+    val action2: (String) -> Unit
     val mode: ParamClassMode
     var additionalHelp: (String) -> Unit = {}
     constructor (name: String, default: String, values: Map<String, () -> Unit>) {
@@ -63,6 +65,7 @@ class ParamClass {
         this.default = default
         this.values = values
         this.action = {}
+        this.action2 = {}
         this.mode = ParamClassMode.VALUES
     }
     constructor(name: String, action: () -> Unit) {
@@ -70,7 +73,16 @@ class ParamClass {
         this.default = ""
         this.values = mapOf()
         this.action = action
+this.action2 = {}
         this.mode = ParamClassMode.NO_VALUE
+    }
+    constructor(name: String, default:String,action: (String) -> Unit) {
+        this.name = name
+        this.default = default
+        this.values = mapOf()
+        this.action2 = action
+this.action = {}
+        this.mode = ParamClassMode.FREE_VALUE
     }
     fun setAdditionalHelp(additionalHelp: (String) -> Unit): ParamClass {
         this.additionalHelp = additionalHelp
@@ -96,6 +108,13 @@ class ParamClass {
                 }
                 action()
             }
+            ParamClassMode.FREE_VALUE -> {
+                if (arg == name) {
+                    throw Exception("'$name' does not allow empty value")
+                }
+val value = arg.substring(name.length + 1)
+                action2(value)
+            }
         }
     }
     fun help(indention: String = "") {
@@ -106,11 +125,34 @@ class ParamClass {
             ParamClassMode.NO_VALUE -> {
                 println("$indention  $name")
             }
+            ParamClassMode.FREE_VALUE -> {
+                println("$indention  $name=String")
+            }
         }
         additionalHelp("$indention  ")
     }
 }
-val compileParams = mutableListOf<ParamClass>(
+val compileParams = mutableListOf<ParamClass>()
+var enabledParams = mutableListOf<ParamClass>()
+val defaultParams = mutableListOf(
+ParamClass(
+"--moduleParam",
+"",
+{
+it->
+val idx1=it.indexOf(":")
+val idx2=it.indexOf("=",idx1)
+val name=it.substring(0,idx1)
+val param=it.substring(idx1+1,idx2)
+val value=it.substring(idx2)
+var t=moduleArgs[name]
+if(t==null){
+t=mutableMapOf<String,String>()
+moduleArgs[name]=t
+}
+t[param]=value
+}
+),
     ParamClass(
         "--dryMode",
         "Disable",
@@ -127,9 +169,6 @@ val compileParams = mutableListOf<ParamClass>(
             "Disable" to { intellijMode = "Disable" },
         )
     ),
-)
-var enabledParams = mutableListOf<ParamClass>()
-val defaultParams = mutableListOf(
     ParamClass(
         "--target",
         "JVM",
@@ -376,49 +415,71 @@ fun onCompile() {
     var dryMode2 = DryMode.valueOf(dryMode)
     var target2 = TargetMode.valueOf(target)
     var intellijMode2 = IntellijMode.valueOf(intellijMode)
-    createBuildFileForModule("Luposdate3000_Shared", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Jena_Wrapper_On", "Luposdate3000_Jena_Wrapper", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Jena_Wrapper_Off", "Luposdate3000_Jena_Wrapper", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Parser", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Buffer_Manager_Inmemory", "Luposdate3000_Buffer_Manager", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Buffer_Manager_Persistent", "Luposdate3000_Buffer_Manager", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Dictionary_Inmemory", "Luposdate3000_Dictionary", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Operators", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Result_Format", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Triple_Store_Id_Triple", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Triple_Store_All_NoPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false, arrayOf("--USE_PARTITIONS2=false"))
+    val localArgs = CreateModuleArgs()
+        .ssetReleaseMode(releaseMode2)
+        .ssetSuspendMode(suspendMode2)
+        .ssetInlineMode(inlineMode2)
+        .ssetDryMode(dryMode2)
+        .ssetTarget(target2)
+        .ssetIdeaBuildfile(intellijMode2)
+        .ssetCodegen(false)
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Shared").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Jena_Wrapper_On", "Luposdate3000_Jena_Wrapper").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Jena_Wrapper_Off", "Luposdate3000_Jena_Wrapper").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Parser").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Buffer_Manager_Inmemory", "Luposdate3000_Buffer_Manager").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Buffer_Manager_Persistent", "Luposdate3000_Buffer_Manager").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Dictionary_Inmemory", "Luposdate3000_Dictionary").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Operators").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Result_Format").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Triple_Store_Id_Triple").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Triple_Store_All_NoPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all").ssetArgs2(moduleArgs).ssetArgs(mutableMapOf("USE_PARTITIONS2" to "false")))
     if (intellijMode != "Enable") {
-        createBuildFileForModule("Luposdate3000_Triple_Store_All_WithPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-        createBuildFileForModule("Luposdate3000_Optimizer_WithPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
+        createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Triple_Store_All_WithPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all").ssetArgs2(moduleArgs))
+        createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Optimizer_WithPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer").ssetArgs2(moduleArgs))
     }
-    createBuildFileForModule("Luposdate3000_Optimizer_NoPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false, arrayOf("--USE_PARTITIONS=false"))
-    createBuildFileForModule("Luposdate3000_Endpoint", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Test", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Endpoint_None", "Luposdate3000_Endpoint_Launcher", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Endpoint_Java_Sockets", "Luposdate3000_Endpoint_Launcher", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Code_Generator", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Launch_Benchmark", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Launch_Benchmark_fig5", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Launch_Binary_Test_Suite", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Launch_Endpoint", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Launch_Import", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Launch_Sparql_Test_Suite", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Launch_Prepared_Statement", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, true)
-    createBuildFileForModule("Luposdate3000_Launch_Generate_Binary_Test_Suite", "Luposdate3000_Main", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Optimizer_NoPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer").ssetArgs2(moduleArgs).ssetArgs(mutableMapOf("--USE_PARTITIONS" to "false")))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Endpoint").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Test").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Endpoint_None", "Luposdate3000_Endpoint_Launcher").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Endpoint_Java_Sockets", "Luposdate3000_Endpoint_Launcher").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Code_Generator").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Launch_Benchmark", "Luposdate3000_Main").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Launch_Benchmark_fig5", "Luposdate3000_Main").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Launch_Binary_Test_Suite", "Luposdate3000_Main").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Launch_Endpoint", "Luposdate3000_Main").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Launch_Import", "Luposdate3000_Main").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Launch_Sparql_Test_Suite", "Luposdate3000_Main").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Launch_Prepared_Statement", "Luposdate3000_Main").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Launch_Generate_Binary_Test_Suite", "Luposdate3000_Main").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main").ssetCodegen(true).ssetArgs2(moduleArgs))
+if(moduleArgs.size>0){
+for((k,v) in moduleArgs){
+println("unknown module argument '$k'")
+}
+throw Exception("there are unkown arguments")
+}
 }
 fun onSetupIntellijIdea() {
     File(".idea").deleteRecursively()
     File("log").mkdirs()
-    onCompile()
     var releaseMode2 = ReleaseMode.valueOf(releaseMode)
     var suspendMode2 = SuspendMode.valueOf(suspendMode)
     var inlineMode2 = InlineMode.valueOf(inlineMode)
     var dryMode2 = DryMode.valueOf(dryMode)
     var target2 = TargetMode.valueOf(target)
     var intellijMode2 = IntellijMode.valueOf(intellijMode)
-    createBuildFileForModule("Luposdate3000_Shared_Inline", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
-    createBuildFileForModule("Luposdate3000_Scripting", releaseMode2, suspendMode2, inlineMode2, dryMode2, target2, intellijMode2, false)
+    val localArgs = CreateModuleArgs()
+        .ssetReleaseMode(releaseMode2)
+        .ssetSuspendMode(suspendMode2)
+        .ssetInlineMode(inlineMode2)
+        .ssetDryMode(dryMode2)
+        .ssetTarget(target2)
+        .ssetIdeaBuildfile(intellijMode2)
+        .ssetCodegen(false)
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Shared_Inline").ssetArgs2(moduleArgs))
+    createBuildFileForModule(localArgs.ssetModuleName("Luposdate3000_Scripting").ssetArgs2(moduleArgs))
+    onCompile()
     File("build.gradle.kts").printWriter().use { outBuildGradle ->
         outBuildGradle.println("dependencies {")
         outBuildGradle.println("    project(\":src\")")
