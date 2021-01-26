@@ -215,7 +215,7 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
             .redirectOutput(Redirect.INHERIT)
             .redirectError(Redirect.INHERIT)
         processInstance = p.start()
-        processInstance!!.waitFor()
+//        processInstance!!.waitFor()
     }
     override fun runQuery(query: String) {
         println("query start $query")

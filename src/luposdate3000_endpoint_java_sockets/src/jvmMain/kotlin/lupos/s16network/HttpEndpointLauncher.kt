@@ -51,6 +51,7 @@ public actual object HttpEndpointLauncher {
             val server = ServerSocket()
             server.bind(InetSocketAddress(hostname, port))
             while (true) {
+println("launched server socket on '$hostname':'$port' - waiting for connections now")
                 val connection = server.accept()
                 Thread {
                     Parallel.runBlocking {
