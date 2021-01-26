@@ -55,7 +55,6 @@ public actual object HttpEndpointLauncher {
                 val connection = server.accept()
                 Thread {
                     Parallel.runBlocking {
-println("started thread")
 //                        var timertotal = DateHelperRelative.markNow()
 //                        var timer = timertotal
                         var connectionIn: BufferedReader? = null
@@ -63,7 +62,6 @@ println("started thread")
                         try {
                             connectionIn = BufferedReader(InputStreamReader(connection.getInputStream()))
                             connectionOut = MyPrintWriterExtension(connection.getOutputStream())
-println("opened connections")
                             var line = connectionIn.readLine()
                             var path = ""
                             var isPost = false
@@ -78,7 +76,6 @@ println("opened connections")
                                 }
                                 line = connectionIn.readLine()
                             }
-println("the params are : $params")
                             var idx = path.indexOf(' ')
                             if (idx > 0) {
                                 path = path.substring(0, idx)
@@ -92,12 +89,10 @@ println("the params are : $params")
                                 }
                                 path = path.substring(0, idx)
                             }
-println("path :: $path")
                             val content = StringBuilder()
                             while (connectionIn.ready()) {
                                 content.append(connectionIn.read().toChar())
                             }
-println("the content :: $content")
                             when (path) {
                                 "/sparql/jenaquery" -> {
                                     printHeaderSuccess(connectionOut)
@@ -119,10 +114,8 @@ println("the content :: $content")
                                 }
                                 "/sparql/query" -> {
                                     if (isPost) {
-println("received a ${content.toString()}")
                                         LuposdateEndpoint.evaluateSparqlToResultD(content.toString(), connectionOut, false)
                                     } else {
-println("received b ${params["query"]}")
                                         LuposdateEndpoint.evaluateSparqlToResultD(params["query"]!!, connectionOut, false)
                                     }
                                     /*Coverage Unreachable*/

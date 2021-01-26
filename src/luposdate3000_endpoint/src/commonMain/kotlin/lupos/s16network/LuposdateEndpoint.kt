@@ -311,7 +311,6 @@ public object LuposdateEndpoint {
     @JsName("evaluate_sparql_to_operatorgraph_b")
     /*suspend*/ public fun evaluateSparqlToOperatorgraphB(query: String, logOperatorGraph: Boolean): IOPBase {
         val q = Query()
-//        var timer = DateHelperRelative.markNow()
         SanityCheck.println { "----------String Query" }
         SanityCheck.println { query }
         SanityCheck.println { "----------Abstract Syntax Tree" }
@@ -320,24 +319,16 @@ public object LuposdateEndpoint {
         val ltit = LookAheadTokenIterator(tit, 3)
         val parser = SPARQLParser(ltit)
         val astNode = parser.expr()
-// println("timer #401 ${DateHelperRelative.elapsedSeconds(timer)}")
-//        timer = DateHelperRelative.markNow()
         SanityCheck.println { astNode }
         SanityCheck.println { "----------Logical Operator Graph" }
         val lopNode = astNode.visit(OperatorGraphVisitor(q))
-// println("timer #402 ${DateHelperRelative.elapsedSeconds(timer)}")
-//        timer = DateHelperRelative.markNow()
         SanityCheck.println { lopNode }
         SanityCheck.println { "----------Logical Operator Graph optimized" }
         val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
-// println("timer #403 ${DateHelperRelative.elapsedSeconds(timer)}")
-//        timer = DateHelperRelative.markNow()
         SanityCheck.println { lopNode2 }
         SanityCheck.println { "----------Physical Operator Graph" }
         val popOptimizer = PhysicalOptimizer(q)
         val popNode = popOptimizer.optimizeCall(lopNode2)
-// println("timer #404 ${DateHelperRelative.elapsedSeconds(timer)}")
-//        timer = DateHelperRelative.markNow()
         SanityCheck.println { popNode }
         if (logOperatorGraph) {
             println("----------")
@@ -347,7 +338,6 @@ public object LuposdateEndpoint {
             println("<<<<<<<<<<")
             println(OperatorGraphToLatex(popNode.toXMLElement().toString(), ""))
         }
-// println("timer #406 ${DateHelperRelative.elapsedSeconds(timer)}")
         return popNode
     }
     @JsName("evaluate_operatorgraph_to_result")
@@ -356,7 +346,6 @@ public object LuposdateEndpoint {
     }
     @JsName("evaluate_operatorgraph_to_result_a")
     /*suspend*/ public fun evaluateOperatorgraphToResultA(node: IOPBase, output: IMyPrintWriter, evaluator: EQueryResultToStream): Any? {
-// var timer = DateHelperRelative.markNow()
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")
         output.println()
@@ -373,7 +362,6 @@ public object LuposdateEndpoint {
         }
         distributedTripleStore.commit(node.getQuery())
         node.getQuery().setCommited()
-// println("timer #407 ${DateHelperRelative.elapsedSeconds(timer)}")
         return res
     }
     @JsName("evaluate_sparql_to_result_b")
@@ -394,11 +382,8 @@ public object LuposdateEndpoint {
     @JsName("evaluate_sparql_to_result_d")
     /*suspend*/ public fun evaluateSparqlToResultD(query: String, output: IMyPrintWriter, logOperatorGraph: Boolean) {
 // var timer = DateHelperRelative.markNow()
-        println("evaluateSparqlToResultD A")
         val node = evaluateSparqlToOperatorgraphB(query, logOperatorGraph)
-        println("evaluateSparqlToResultD B")
         evaluateOperatorgraphToResult(node, output)
-        println("evaluateSparqlToResultD C")
 // println("timer #408 ${DateHelperRelative.elapsedSeconds(timer)}")
     }
     @JsName("evaluate_operatorgraphXML_to_result_a")

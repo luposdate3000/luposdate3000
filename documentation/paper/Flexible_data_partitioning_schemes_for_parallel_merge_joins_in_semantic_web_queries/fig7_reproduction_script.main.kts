@@ -199,18 +199,35 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
     override fun getThreads() = partitionCount
     override fun getName(): String = "Luposdate3000($partitionCount)"
     override fun launch(action: () -> Unit) {
-        val p = ProcessBuilder(
-            "./launcher.main.kts",
-            "--run",
-            "--releaseMode=Enable",
-            "--inlineMode=Enable",
-            "--proguardMode=On",
-            "--mainClass=Endpoint",
-            "--endpointMode=Java_Sockets",
-            "--runArgument_Luposdate3000_Launch_Endpoint:hostname=$hostname",
-            "--runArgument_Luposdate3000_Launch_Endpoint:port=$port",
-            "--runArgument_Luposdate3000_Launch_Endpoint:partitionCount=$partitionCount",
-        )
+        val p = if (partitionCount > 1) {
+            ProcessBuilder(
+                "./launcher.main.kts",
+                "--run",
+                "--releaseMode=Enable",
+                "--inlineMode=Enable",
+                "--proguardMode=On",
+                "--mainClass=Endpoint",
+                "--endpointMode=Java_Sockets",
+                "--partitionMode=On",
+                "--runArgument_Luposdate3000_Launch_Endpoint:hostname=$hostname",
+                "--runArgument_Luposdate3000_Launch_Endpoint:port=$port",
+                "--runArgument_Luposdate3000_Launch_Endpoint:partitionCount=$partitionCount",
+            )
+        } else {
+            ProcessBuilder(
+                "./launcher.main.kts",
+                "--run",
+                "--releaseMode=Enable",
+                "--inlineMode=Enable",
+                "--proguardMode=On",
+                "--mainClass=Endpoint",
+                "--endpointMode=Java_Sockets",
+                "--partitionMode=Off",
+                "--runArgument_Luposdate3000_Launch_Endpoint:hostname=$hostname",
+                "--runArgument_Luposdate3000_Launch_Endpoint:port=$port",
+                "--runArgument_Luposdate3000_Launch_Endpoint:partitionCount=$partitionCount",
+            )
+        }
             .directory(File("."))
             .redirectError(Redirect.INHERIT)
         processInstance = p.start()
@@ -234,29 +251,19 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
         processInstance!!.destroy()
     }
     override fun runQuery(query: String) {
-        println("query start $query")
         val encodedData = query.encodeToByteArray()
-        println("a")
         val u = URL("http://$hostname:$port/sparql/query")
-        println("b")
         val conn = u.openConnection() as HttpURLConnection
-        println("c")
         conn.setDoOutput(true)
-        println("d")
         conn.setRequestMethod("POST")
-        println("e")
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
-        println("f")
         conn.setRequestProperty("Content-Length", "${encodedData.size}")
-        println("g")
         conn.connect()
-        println("h")
         val os = conn.getOutputStream()
-        println("i")
         os.write(encodedData)
-        println("j")
-        println("response:" + conn.inputStream.bufferedReader().readText())
-        println("response code" + conn.getResponseCode())
-        println("k")
+        conn.inputStream.bufferedReader().readText()
+        if (conn.getResponseCode() != 200) {
+            throw Exception("query failed")
+        }
     }
 }
