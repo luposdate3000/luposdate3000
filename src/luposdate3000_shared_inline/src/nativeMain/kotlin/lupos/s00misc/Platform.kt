@@ -20,6 +20,7 @@ import lupos.s00misc.EOperatingSystemExt
 import platform.posix.getenv
 internal actual object _Platform {
     val operatingSystem = EOperatingSystemExt.UNKNOWN
+    @Suppress("NOTHING_TO_INLINE")internal actual inline fun getHostName(): String = throw Exception("not available on this platform")
     internal actual inline fun getOperatingSystem() = operatingSystem
     internal actual inline fun getUserHome(): String = throw Exception("not available on this platform")
     internal actual inline fun getPathSeparator(): String = throw Exception("not available on this platform")

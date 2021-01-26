@@ -15,18 +15,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-@file:Import("../../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleComponentType.kt")
-@file:Import("../../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleComponentTypeExt.kt")
+@file:Import("../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystem.kt")
+@file:Import("../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystemExt.kt")
+@file:Import("../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleComponentType.kt")
+@file:Import("../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleComponentTypeExt.kt")
+@file:Import("../../../src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/s00misc/PlatformAlias.kt")
+@file:Import("../../../src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/s00misc/Platform.kt")
+@file:Import("../../../src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
 @file:CompilerOptions("-Xmulti-platform")
+import lupos.s00misc.Platform
 import java.io.File
 import java.io.PrintWriter
 import java.lang.ProcessBuilder.Redirect
+import java.net.HttpURLConnection
+import java.net.URL
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // config options -> /////////////////////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 val tmpFolder = "tmp_fig5_data" // point to a folder with enough storage space available
 val minimumTime = 10.0 // the minimum time (in seconds) for a single measurement
 val resultFolder = "fig5_result_data" // the folder where the results of the measurements are stored
+val port = 2324 // the port to be used by luposdate3000
 //
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
@@ -37,6 +46,12 @@ val enableGrapic = true
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // config options <- /////////////////////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
+val databaseHandleLuposdate3000_1 = DatabaseHandleLuposdate3000(1)
+val databaseHandleLuposdate3000_2 = DatabaseHandleLuposdate3000(2)
+val databaseHandleLuposdate3000_4 = DatabaseHandleLuposdate3000(4)
+val databaseHandleLuposdate3000_8 = DatabaseHandleLuposdate3000(8)
+val databaseHandleLuposdate3000_16 = DatabaseHandleLuposdate3000(16)
+val queries = mapOf("q10" to "PREFIX b: <http://benchmark.com/> SELECT * WHERE { ?s b:p0 ?o0 . ?s b:p1 ?o1 . ?s b:p2 ?o2 . ?s b:p3 ?o3 . ?s b:p4 ?o4 . ?s b:p5 ?o5 . ?s b:p6 ?o6 . ?s b:p7 ?o7 . ?s b:p8 ?o8 . ?s b:p9 ?o9 . }")
 val tmpLogFile = File(File(resultFolder), "database.log")
 File(tmpFolder).mkdirs()
 File(resultFolder).mkdirs()
@@ -47,7 +62,6 @@ if (enableCompile) {
         "--compileAll",
         "--releaseMode=Enable",
         "--inlineMode=Enable",
-        "--compileArgument_Luposdate3000_Endpoint:QueryResultToStream=lupos.s11outputResult.QueryResultToEmptyStream",
     )
         .directory(File("."))
         .redirectOutput(Redirect.INHERIT)
@@ -78,37 +92,44 @@ File(tmpFolder).deleteRecursively()
 // helper functions
 fun execute(result_rows: Int, trash: Int) {
     val triples = generateData(result_rows, 10, 1, trash, tmpFolder)
-    for (threads in listOf(1, 2, 4, 8, 16)) {
-        for (database in listOf(databaseLuposdate3000)) {
-            database.launch()
-            for (query in listOf("q10.sparql")) {
-                var counter = 0
-                var starttime = System.nanoTime()
-                val targettime = starttime + (minimumTime * 1_000_000_000.0).toLong()
-                var currenttime = System.nanoTime()
-                while (true) {
-                    database.runQuery(query)
-                    counter++
-                    currenttime = System.nanoTime()
-                    if (currenttime> targettime) {
-                        break
-                    }
+    for (
+        database in listOf(
+            databaseHandleLuposdate3000_1,
+            databaseHandleLuposdate3000_2,
+            databaseHandleLuposdate3000_4,
+            databaseHandleLuposdate3000_8,
+            databaseHandleLuposdate3000_16,
+        )
+    ) {
+        database.launch()
+        for ((queryname, query) in queries) {
+            var counter = 0
+            var starttime = System.nanoTime()
+            val targettime = starttime + (minimumTime * 1_000_000_000.0).toLong()
+            var currenttime = System.nanoTime()
+            while (true) {
+                database.runQuery(query)
+                counter++
+                currenttime = System.nanoTime()
+                if (currenttime> targettime) {
+                    break
                 }
-                val timeInNanoseconds = currenttime - starttime
-                val timeInMilliSeconds = (timeInNanoseconds / 1_000_000.0)
-                val timeInMilliSecondsPerRepetition = timeInMilliSeconds / counter
-/*File xxx (database.getName()).append ...*/ println("$query,$trash,1,$threads,10,$triples,$result_rows,$counter,$timeInMilliSeconds,$timeInMilliSecondsPerRepetition")
             }
-            database.terminate()
+            val timeInNanoseconds = currenttime - starttime
+            val timeInMilliSeconds = (timeInNanoseconds / 1_000_000.0)
+            val timeInMilliSecondsPerRepetition = timeInMilliSeconds / counter
+/*File xxx (database.getName()).append ...*/ println("$queryname,$trash,1,${database.getThreads()},10,$triples,$result_rows,$counter,$timeInMilliSeconds,$timeInMilliSecondsPerRepetition")
         }
+        database.terminate()
     }
 }
-fun generateData(targetNumberOfResults: Int, numberOfPredicates: Int, blockCount: Int, trashCount: Int, folderName: String): Int {
+fun generateData(targetNumberOfResults_: Int, numberOfPredicates: Int, blockCount: Int, trashCount: Int, folderName: String): Int {
 // var targetNumberOfResults = 1L
 // var numberOfPredicates = 2
 // var blockCount = 1 //if there is a match, than x elements match in a row
 // var trashCount = 0 //if there is no match, than x elements dont match in a row
 // var folderName = "/tmp/luposdate"
+    var targetNumberOfResults = targetNumberOfResults_
     val preventMultiplesOfList = intArrayOf(2, 3, 5, 7, 11, 13, 17, 19)
     val object_counter = 100
     // successful match-blocks and trash-blocks are interleaved in the data (if the data is interpreted in the same ordering as generated)
@@ -166,15 +187,19 @@ fun generateData(targetNumberOfResults: Int, numberOfPredicates: Int, blockCount
     outN3.close()
     return total_count
 }
-abstract class DatabaseHandle {
+abstract class DatabaseHandle() {
+    val hostname = Platform.getHostName()
+    abstract fun getThreads(): Int
     abstract fun getName(): String
-    abstract fun launch(): Process
-    abstract fun runQuery(filename: String)
-    abstract fun terminate(p: Process)
+    abstract fun launch(): Unit
+    abstract fun runQuery(query: String)
+    abstract fun terminate()
 }
-val databaseLuposdate3000 = object : DatabaseHandle {
-    override fun getName(): String = "Luposdate3000"
-    override fun launch(): Process {
+class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
+    var processInstance: Process? = null
+    override fun getThreads() = partitionCount
+    override fun getName(): String = "Luposdate3000($partitionCount)"
+    override fun launch() {
         val p = ProcessBuilder(
             "./launcher.main.kts",
             "--run",
@@ -182,14 +207,30 @@ val databaseLuposdate3000 = object : DatabaseHandle {
             "--inlineMode=Enable",
             "--proguardMode=On",
             "--mainClass=Endpoint",
+            "--runArgument_Luposdate3000_Launch_Endpoint:hostname=$hostname",
+            "--runArgument_Luposdate3000_Launch_Endpoint:port=$port",
+            "--runArgument_Luposdate3000_Launch_Endpoint:partitionCount=$partitionCount",
         )
             .directory(File("."))
             .redirectOutput(Redirect.INHERIT)
             .redirectError(Redirect.INHERIT)
-        return p.start()
+        processInstance = p.start()
+        processInstance!!.waitFor()
     }
-    override fun runQuery(filename: String) {
+    override fun runQuery(query: String) {
+        println("query start $query")
+        val encodedData = query.encodeToByteArray()
+        val u = URL("http://$hostname:$port/sparql/query")
+        val conn = u.openConnection() as HttpURLConnection
+        conn.setDoOutput(true)
+        conn.setRequestMethod("POST")
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+        conn.setRequestProperty("Content-Length", "${encodedData.size}")
+        val os = conn.getOutputStream()
+        os.write(encodedData)
+        println("response code" + conn.getResponseCode())
     }
-    override fun terminate(p: Process) {
+    override fun terminate() {
+        processInstance!!.destroy()
     }
 }

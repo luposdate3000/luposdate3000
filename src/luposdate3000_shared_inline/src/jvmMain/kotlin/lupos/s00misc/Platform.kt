@@ -16,16 +16,21 @@
  */
 package lupos.modulename
 import lupos.s00misc.EOperatingSystemExt
+import java.io.BufferedReader
 import java.io.File
+import java.io.InputStreamReader
 import kotlin.jvm.JvmField
 internal actual object _Platform {
     @JvmField
     val userHome: String = System.getProperty("user.home")
-    val operatingSystem = if (System.getProperty("os.name").contains("Windows")) EOperatingSystemExt.Windows else EOperatingSystemExt.Linux
+    val operatingSystem = if (System.getProperty("os.name").contains("Win")) EOperatingSystemExt.Windows else EOperatingSystemExt.Linux
     @JvmField
     val pathSepatator = if (operatingSystem == EOperatingSystemExt.Windows) "\\\\" else "/"
     @JvmField
     val nullFileName = if (operatingSystem == EOperatingSystemExt.Windows) "NUL" else "/dev/null"
+    @Suppress("NOTHING_TO_INLINE")internal actual inline fun getHostName(): String {
+        return BufferedReader(InputStreamReader(Runtime.getRuntime().exec("hostname").getInputStream())).readLine()
+    }
     @Suppress("NOTHING_TO_INLINE") internal actual inline fun getOperatingSystem() = operatingSystem
     @Suppress("NOTHING_TO_INLINE") internal actual inline fun getUserHome() = userHome
     @Suppress("NOTHING_TO_INLINE") internal actual inline fun getPathSeparator() = pathSepatator
