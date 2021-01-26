@@ -18,13 +18,13 @@
 @file:Import("../../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleComponentType.kt")
 @file:Import("../../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleComponentTypeExt.kt")
 @file:CompilerOptions("-Xmulti-platform")
-import java.lang.ProcessBuilder.Redirect
 import lupos.s00misc.ETripleComponentTypeExt
 import java.io.BufferedOutputStream
 import java.io.DataOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.PrintWriter
+import java.lang.ProcessBuilder.Redirect
 import java.text.DecimalFormat
 import kotlin.math.log2
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -125,38 +125,38 @@ for (output_count in outputCountist) {
 for (output_count in outputCountist) {
     extractData(tmpLogFile.getAbsolutePath(), "$output_count")
 }
-//visualize data
+// visualize data
 for (output_count in outputCountist) {
-File(File(resultFolder), "fig5_${output_count}.gnuplot").printWriter().use { out ->
-out.println("set terminal png size 1920,1080")
-out.println("set output 'fig5_${output_count}.png'")
-//out.println("set terminal epslatex size 20cm,8cm")
-//out.println("set output 'fig5_${output_count}.tex'")
-out.println("set xlabel \"mergejoins\"")
-out.println("set ylabel \"selectivity\" offset 4,0,0")
-out.println("set cblabel \"optimal partitions\"")
-out.println("set style textbox opaque noborder")
-out.println("set datafile separator ','")
-out.println("set xrange [-0.5:4.5]")
-out.println("set yrange [-0.5:17.5]")
-out.println("unset xtics")
-out.println("set xtics format \" \"")
-out.println("set xtics (${File(File(resultFolder),"plot.XLabels").readText()})")
-out.println("unset ytics")
-out.println("set ytics format \" \"")
-out.println("set ytics (${File(File(resultFolder),"plot.YLabels").readText()})")
-out.println("set palette model RGB maxcolors 5")
-out.println("set palette defined ( 0 0.5 0.5 0.5, 1 1 1 1 )")
-out.println("set logscale cb 2")
-out.println("set cbrange [0.75:24]")
-out.println("plot 'plot.map' matrix with image notitle, 'plot.csv' u 1:2:3 w labels notitle")
-}
-ProcessBuilder("gnuplot",File(File(resultFolder), "fig5_${output_count}.gnuplot").getAbsolutePath())
-.directory(File(resultFolder))
-                    .redirectOutput(Redirect.appendTo(tmpLogFile))
-                    .redirectError(Redirect.INHERIT)
-                    .start()
-                    .waitFor()
+    File(File(resultFolder), "fig5_$output_count.gnuplot").printWriter().use { out ->
+        out.println("set terminal png size 1920,1080")
+        out.println("set output 'fig5_$output_count.png'")
+// out.println("set terminal epslatex size 20cm,8cm")
+// out.println("set output 'fig5_${output_count}.tex'")
+        out.println("set xlabel \"mergejoins\"")
+        out.println("set ylabel \"selectivity\" offset 4,0,0")
+        out.println("set cblabel \"optimal partitions\"")
+        out.println("set style textbox opaque noborder")
+        out.println("set datafile separator ','")
+        out.println("set xrange [-0.5:4.5]")
+        out.println("set yrange [-0.5:17.5]")
+        out.println("unset xtics")
+        out.println("set xtics format \" \"")
+        out.println("set xtics (${File(File(resultFolder),"plot.XLabels").readText()})")
+        out.println("unset ytics")
+        out.println("set ytics format \" \"")
+        out.println("set ytics (${File(File(resultFolder),"plot.YLabels").readText()})")
+        out.println("set palette model RGB maxcolors 5")
+        out.println("set palette defined ( 0 0.5 0.5 0.5, 1 1 1 1 )")
+        out.println("set logscale cb 2")
+        out.println("set cbrange [0.75:24]")
+        out.println("plot 'plot.map' matrix with image notitle, 'plot.csv' u 1:2:3 w labels notitle")
+    }
+    ProcessBuilder("gnuplot", File(File(resultFolder), "fig5_$output_count.gnuplot").getAbsolutePath())
+        .directory(File(resultFolder))
+        .redirectOutput(Redirect.appendTo(tmpLogFile))
+        .redirectError(Redirect.INHERIT)
+        .start()
+        .waitFor()
 }
 // helper functions
 fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block: Int, join_count: Int): Int {
@@ -448,6 +448,6 @@ fun extractData(filename: String, output_count: String) {
         i++
     }
 }
- fun doubleToString(d: Double): String {
+fun doubleToString(d: Double): String {
     return DecimalFormat("#.##").format(d)
 }
