@@ -24,16 +24,25 @@ import java.io.DataOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.PrintWriter
-import java.lang.ProcessBuilder.Redirect
-import kotlin.math.pow
-
+import java.text.DecimalFormat
+import kotlin.math.log2
+// ///////////////////////////////////////////////////////////////////////////////////////////////////////
+// config options ////////////////////////////////////////////////////////////////////////////////////////
+// ///////////////////////////////////////////////////////////////////////////////////////////////////////
 val tmpFolder = "tmp_fig5_data" // point to a folder with enough storage space available
-val tmpFile = "$tmpFolder/intermediate.n3"
-val minimumTime = 0.0001	// the minimum time for a single measurement
+val minimumTime = 10.0	// the minimum time for a single measurement
 val resultFolder = "fig5_result_data" // the folder where the results of the measurements are stored
-
+val outputCountist = listOf(512, 2048, 8192, 32768) // number of result rows
+val joinCountList = listOf(1, 2, 4, 8, 16) // number of consekutive executed joins
+val joinList = listOf(2, 4, 8, 16, 32, 64) // number of raw rows joining together
+val trashList = listOf(0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024) // for simulating low selectivities put not joinable trash in between
+// ///////////////////////////////////////////////////////////////////////////////////////////////////////
+// config options ////////////////////////////////////////////////////////////////////////////////////////
+// ///////////////////////////////////////////////////////////////////////////////////////////////////////
+val tmpFile = "$tmpFolder/intermediate.n3"
+val tmpLogFile = File(File(resultFolder), "database.log")
 // compile
-
+/*
 val p = ProcessBuilder(
     "./launcher.main.kts",
     "--compileAll",
@@ -49,13 +58,14 @@ p.waitFor()
 if (p.exitValue() != 0) {
     throw Exception("exit-code:: " + p.exitValue())
 }
-
+*/
 File(tmpFolder).mkdirs()
 File(resultFolder).mkdirs()
 // perform the measurements
-for (output_count in listOf(512, 2048, 8192, 32768)) {
-    for (join_count in listOf(1, 2, 4, 8, 16)) {
-        for (join in listOf(2, 4, 8, 16, 32, 64)) {
+/*
+for (output_count in outputCountist) {
+    for (join_count in joinCountList) {
+        for (join in joinList) {
             try {
                 val count2 = (output_count / (join.toDouble().pow(1 + join_count.toDouble()))).toInt()
                 if (count2 == 0) {
@@ -77,7 +87,7 @@ for (output_count in listOf(512, 2048, 8192, 32768)) {
                     "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join_count=$join_count",
                 )
                     .directory(File("."))
-                    .redirectOutput(Redirect.appendTo(File(File(resultFolder), "database.log")))
+                    .redirectOutput(Redirect.appendTo(tmpLogFile))
                     .redirectError(Redirect.INHERIT)
                     .start()
                     .waitFor()
@@ -85,7 +95,7 @@ for (output_count in listOf(512, 2048, 8192, 32768)) {
                 e.printStackTrace()
             }
         }
-        for (trash in listOf(0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024)) {
+        for (trash in trashList) {
             try {
                 generateTriples(tmpFolder, output_count, trash, 1, join_count)
                 ProcessBuilder(
@@ -103,7 +113,7 @@ for (output_count in listOf(512, 2048, 8192, 32768)) {
                     "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join_count=$join_count",
                 )
                     .directory(File("."))
-                    .redirectOutput(Redirect.appendTo(File(File(resultFolder), "database.log")))
+                    .redirectOutput(Redirect.appendTo(tmpLogFile))
                     .redirectError(Redirect.INHERIT)
                     .start()
                     .waitFor()
@@ -113,7 +123,11 @@ for (output_count in listOf(512, 2048, 8192, 32768)) {
         }
     }
 }
+*/
 // evaluate
+for (output_count in outputCountist) {
+    extractData(tmpLogFile.getAbsolutePath(), "$output_count")
+}
 
 // helper functions
 fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block: Int, join_count: Int): Int {
@@ -195,4 +209,216 @@ fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block
     outIntermediateDictionary.close()
     outIntermediateTriples.close()
     return outIntermediateTriplesStatCounter
+}
+fun extractData(filename: String, output_count: String) {
+    val data = mutableMapOf<Int/*trash or join*/, MutableMap<Int/*joincount*/, MutableMap<Int/*partitions*/, Double>>>()
+    val data_trash_or_join = mutableSetOf<Int>(
+        -64,
+        -32,
+        -16,
+        -8,
+        -4,
+        -2,
+        -1,
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128,
+        256,
+        512,
+        1024,
+    )
+    val data_joincount = mutableSetOf<Int>()
+    val data_partitions = mutableSetOf<Int>()
+    File(filename).forEachLine {
+        if (it.contains("NoOptimizer")) {
+            val row = it.split(",")
+            if (row.size > 10 && row[1] == output_count) {
+                val trash = row[7].toInt()
+                val join = row[8].toInt()
+                val trash_or_join = if (trash == 0) -join else trash
+                data_trash_or_join.add(trash_or_join)
+                val joincount = row[9].toInt()
+                data_joincount.add(joincount)
+                val partitions = row[10].toInt()
+                data_partitions.add(partitions)
+                val repetitions = row[3].toInt()
+                val time = row[4].toDouble() / 1000.0/* ms to s */
+                val repetition_per_second = repetitions / time
+                var a = data[trash_or_join]
+                if (a == null) {
+                    a = mutableMapOf<Int/*joincount*/, MutableMap<Int/*partitions*/, Double>>()
+                    data[trash_or_join] = a
+                }
+                var b = a[joincount]
+                if (b == null) {
+                    b = mutableMapOf<Int/*partitions*/, Double>()
+                    a[joincount] = b
+                }
+                b[partitions] = repetition_per_second
+            }
+        }
+    }
+    var row = "\t\t\t&  "
+    for (joincount in data_joincount) {
+        row = "$row&${joincount.toString().padStart(4, ' ')}"
+    }
+    println(row)
+    for (trash_or_join in data_trash_or_join.sorted()) { // y-axis
+        if (trash_or_join < 0) {
+            row = "2^{${log2(-trash_or_join.toDouble()).toInt()}}\t\t\t"
+        } else {
+            row = "\\\\frac{1}{1+2^{${log2(trash_or_join.toDouble()).toInt()}}}\t"
+        }
+        for (partitions in data_partitions.sorted()) { // y-axis-part
+            row = "$row&${partitions.toString().padStart(2, ' ')}"
+            for (joincount in data_joincount.sorted()) { // x-axis
+                val tt = data[trash_or_join]?.get(joincount)
+                var t = tt?.get(partitions)
+                if (t != null) {
+                    var max = 0.0
+                    for ((k, v) in tt!!) {
+                        if (v > max) {
+                            max = v
+                        }
+                    }
+                    if (t == max) {
+                        row = "$row&1.00"
+                    } else {
+                        row = "$row&${(t / max).toString().take(4).padStart(4, ' ')}"
+                    }
+                } else {
+                    row = "$row&    "
+                }
+            }
+            println(row)
+            row = "\t\t\t"
+        }
+    }
+    println("-------------------")
+    row = "\t\t\t  "
+    for (joincount in data_joincount) {
+        row = "$row,${joincount.toString().padStart(4, ' ')}"
+    }
+    println(row)
+    for (trash_or_join in data_trash_or_join.sorted()) { // y-axis
+        if (trash_or_join < 0) {
+            row = "2^{${log2(-trash_or_join.toDouble())}}\t\t\t"
+        } else {
+            row = "\\\\frac{1}{1+2^{${log2(trash_or_join.toDouble()).toInt()}}}\t"
+        }
+        for (joincount in data_joincount.sorted()) { // x-axis
+            val tt = data[trash_or_join]?.get(joincount)
+            if (tt != null) {
+                var max = 0.0
+                var maxi = -1
+                for ((k, v) in tt) {
+                    if (v > max) {
+                        max = v
+                        maxi = k
+                    }
+                }
+                row = "$row,${maxi.toString().padStart(4, ' ')}"
+            } else {
+                row = "$row,    "
+            }
+        }
+        println(row)
+    }
+    println("-------------------")
+    var i = 0
+    File(File(resultFolder), "plot.XLabels").printWriter().use { out ->
+        for (joincount in data_joincount.sorted()) {
+            if (i > 0) {
+                out.print(",")
+            }
+            out.print("\"$joincount\" $i")
+            i++
+        }
+    }
+    File(File(resultFolder), "plot.YLabels").printWriter().use { out ->
+        i = 0
+        for (trash_or_join in data_trash_or_join.sorted()) {
+            println(trash_or_join)
+            if (i > 0) {
+                out.print(",")
+            }
+            if (trash_or_join < 0) {
+                out.print("\"\$2^{${log2(-trash_or_join.toDouble()).toInt()}}\$\" $i")
+            } else {
+                val xx = log2(trash_or_join.toDouble()).toInt()
+                if (xx % 2 == 1) {
+                    out.print("\"\$\\\\frac{1}{1+2^{$xx}}\$\" $i")
+                } else {
+                    out.print("\"\" $i")
+                }
+            }
+            i++
+        }
+    }
+    i = 0
+    File(File(resultFolder), "plot.map").printWriter().use { outMap ->
+        File(File(resultFolder), "plot.csv").printWriter().use { outCsv ->
+            for (trash_or_join in data_trash_or_join.sorted()) { // y-axis
+                row = ""
+                var j = 0
+                for (joincount in data_joincount.sorted()) { // x-axis
+                    val tt = data[trash_or_join]?.get(joincount)
+                    if (tt != null) {
+                        var max = 0.0
+                        var maxi = -1
+                        var seq = -1.0
+                        for ((k, v) in tt) {
+                            if (k == 1) {
+                                seq = v
+                            }
+                            if (v > max * 0.9) {
+                                max = v
+                                maxi = k
+                            }
+                        }
+                        if (seq < 0.0) {
+                            seq = max
+                        }
+                        row = "$row,${maxi.toString().padStart(4, ' ')}"
+                        var max_seq = if (max / seq < 1.0) 1.0 else max / seq
+                        outCsv.println("$j,$i,$maxi; ${doubleToString(max_seq)}; ${doubleToString(seq)}/s")
+                    } else {
+                        row = "$row,   0"
+                    }
+                    j++
+                }
+                outMap.println(row.substring(1))
+                i++
+            }
+        }
+    }
+    println("-------------------")
+    i = 0
+    for (trash_or_join in data_trash_or_join.sorted()) { // y-axis
+        for (joincount in data_joincount.sorted()) { // x-axis
+            val tt = data[trash_or_join]?.get(joincount)
+            if (tt != null) {
+                var max = 0.0
+                var maxi = -1
+                for ((k, v) in tt) {
+                    if (v > max) {
+                        max = v
+                        maxi = k
+                    }
+                }
+                println("$i $joincount $maxi")
+            } else {
+                println("$i $joincount 0")
+            }
+        }
+        i++
+    }
+}
+inline fun doubleToString(d: Double): String {
+    return DecimalFormat("#.##").format(d)
 }
