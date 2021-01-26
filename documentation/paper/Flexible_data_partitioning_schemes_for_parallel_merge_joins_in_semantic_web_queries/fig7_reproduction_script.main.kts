@@ -24,9 +24,7 @@
 @file:Import("../../../src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
 @file:CompilerOptions("-Xmulti-platform")
 import lupos.s00misc.Platform
-import java.io.BufferedReader
 import java.io.File
-import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.lang.ProcessBuilder.Redirect
 import java.net.HttpURLConnection
@@ -41,7 +39,7 @@ val port = 2324 // the port to be used by luposdate3000
 //
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
-val enableCompile = true
+val enableCompile = false
 val enableMeasuerments = true
 val enableExtraction = true
 val enableGrapic = true
@@ -103,26 +101,26 @@ fun execute(result_rows: Int, trash: Int) {
             databaseHandleLuposdate3000_16,
         )
     ) {
-        database.launch()
-        for ((queryname, query) in queries) {
-            var counter = 0
-            var starttime = System.nanoTime()
-            val targettime = starttime + (minimumTime * 1_000_000_000.0).toLong()
-            var currenttime = System.nanoTime()
-            while (true) {
-                database.runQuery(query)
-                counter++
-                currenttime = System.nanoTime()
-                if (currenttime> targettime) {
-                    break
+        database.launch {
+            for ((queryname, query) in queries) {
+                var counter = 0
+                var starttime = System.nanoTime()
+                val targettime = starttime + (minimumTime * 1_000_000_000.0).toLong()
+                var currenttime = System.nanoTime()
+                while (true) {
+                    database.runQuery(query)
+                    counter++
+                    currenttime = System.nanoTime()
+                    if (currenttime> targettime) {
+                        break
+                    }
                 }
-            }
-            val timeInNanoseconds = currenttime - starttime
-            val timeInMilliSeconds = (timeInNanoseconds / 1_000_000.0)
-            val timeInMilliSecondsPerRepetition = timeInMilliSeconds / counter
+                val timeInNanoseconds = currenttime - starttime
+                val timeInMilliSeconds = (timeInNanoseconds / 1_000_000.0)
+                val timeInMilliSecondsPerRepetition = timeInMilliSeconds / counter
 /*File xxx (database.getName()).append ...*/ println("$queryname,$trash,1,${database.getThreads()},10,$triples,$result_rows,$counter,$timeInMilliSeconds,$timeInMilliSecondsPerRepetition")
+            }
         }
-        database.terminate()
     }
 }
 fun generateData(targetNumberOfResults_: Int, numberOfPredicates: Int, blockCount: Int, trashCount: Int, folderName: String): Int {
@@ -193,15 +191,14 @@ abstract class DatabaseHandle() {
     val hostname = Platform.getHostName()
     abstract fun getThreads(): Int
     abstract fun getName(): String
-    abstract fun launch(): Unit
+    abstract fun launch(action: () -> Unit): Unit
     abstract fun runQuery(query: String)
-    abstract fun terminate()
 }
 class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
     var processInstance: Process? = null
     override fun getThreads() = partitionCount
     override fun getName(): String = "Luposdate3000($partitionCount)"
-    override fun launch() {
+    override fun launch(action: () -> Unit) {
         val p = ProcessBuilder(
             "./launcher.main.kts",
             "--run",
@@ -215,35 +212,51 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
             "--runArgument_Luposdate3000_Launch_Endpoint:partitionCount=$partitionCount",
         )
             .directory(File("."))
-//            .redirectOutput(Redirect.INHERIT)
             .redirectError(Redirect.INHERIT)
         processInstance = p.start()
-        var reader = BufferedReader(InputStreamReader(processInstance!!.getInputStream()))
-        try {
+        processInstance!!.getInputStream().bufferedReader().use { reader ->
             var line = reader.readLine()
             while (line != null) {
-                println("the line :: " + line)
+                println("found line :: $line")
+                if (line.contains("waiting for connections now")) {
+                    Thread {
+                        while (line != null) {
+                            println("found line :: $line")
+                            line = reader.readLine()
+                        }
+                    }.start()
+                    action()
+                    break
+                }
                 line = reader.readLine()
             }
-        } finally {
-            reader.close()
         }
-        println("after reader :: ")
+        processInstance!!.destroy()
     }
     override fun runQuery(query: String) {
         println("query start $query")
         val encodedData = query.encodeToByteArray()
+        println("a")
         val u = URL("http://$hostname:$port/sparql/query")
+        println("b")
         val conn = u.openConnection() as HttpURLConnection
+        println("c")
         conn.setDoOutput(true)
+        println("d")
         conn.setRequestMethod("POST")
+        println("e")
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+        println("f")
         conn.setRequestProperty("Content-Length", "${encodedData.size}")
+        println("g")
+        conn.connect()
+        println("h")
         val os = conn.getOutputStream()
+        println("i")
         os.write(encodedData)
+        println("j")
+        println("response:" + conn.inputStream.bufferedReader().readText())
         println("response code" + conn.getResponseCode())
-    }
-    override fun terminate() {
-        processInstance!!.destroy()
+        println("k")
     }
 }

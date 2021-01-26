@@ -50,11 +50,12 @@ public actual object HttpEndpointLauncher {
         try {
             val server = ServerSocket()
             server.bind(InetSocketAddress(hostname, port))
+            println("launched server socket on '$hostname':'$port' - waiting for connections now")
             while (true) {
-                println("launched server socket on '$hostname':'$port' - waiting for connections now")
                 val connection = server.accept()
                 Thread {
                     Parallel.runBlocking {
+println("started thread")
 //                        var timertotal = DateHelperRelative.markNow()
 //                        var timer = timertotal
                         var connectionIn: BufferedReader? = null
@@ -62,6 +63,7 @@ public actual object HttpEndpointLauncher {
                         try {
                             connectionIn = BufferedReader(InputStreamReader(connection.getInputStream()))
                             connectionOut = MyPrintWriterExtension(connection.getOutputStream())
+println("opened connections")
                             var line = connectionIn.readLine()
                             var path = ""
                             var isPost = false
@@ -76,6 +78,7 @@ public actual object HttpEndpointLauncher {
                                 }
                                 line = connectionIn.readLine()
                             }
+println("the params are : $params")
                             var idx = path.indexOf(' ')
                             if (idx > 0) {
                                 path = path.substring(0, idx)
@@ -89,10 +92,12 @@ public actual object HttpEndpointLauncher {
                                 }
                                 path = path.substring(0, idx)
                             }
+println("path :: $path")
                             val content = StringBuilder()
                             while (connectionIn.ready()) {
                                 content.append(connectionIn.read().toChar())
                             }
+println("the content :: $content")
                             when (path) {
                                 "/sparql/jenaquery" -> {
                                     printHeaderSuccess(connectionOut)
@@ -114,8 +119,10 @@ public actual object HttpEndpointLauncher {
                                 }
                                 "/sparql/query" -> {
                                     if (isPost) {
+println("received a ${content.toString()}")
                                         LuposdateEndpoint.evaluateSparqlToResultD(content.toString(), connectionOut, false)
                                     } else {
+println("received b ${params["query"]}")
                                         LuposdateEndpoint.evaluateSparqlToResultD(params["query"]!!, connectionOut, false)
                                     }
                                     /*Coverage Unreachable*/
