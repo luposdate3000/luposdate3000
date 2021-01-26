@@ -27,6 +27,7 @@ import java.io.PrintWriter
 import java.lang.ProcessBuilder.Redirect
 import java.text.DecimalFormat
 import kotlin.math.log2
+import kotlin.math.pow
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // config options ////////////////////////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,126 +38,143 @@ val outputCountist = listOf(512, 2048, 8192, 32768) // number of result rows
 val joinCountList = listOf(1, 2, 4, 8, 16) // number of consekutive executed joins
 val joinList = listOf(2, 4, 8, 16, 32, 64) // number of raw rows joining together
 val trashList = listOf(0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024) // for simulating low selectivities put not joinable trash in between
+// //
+val enableCompile = true
+val enableMeasuerments = true
+val enableExtraction = true
+val enableGrapic = true
+val producePNG = true
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // config options ////////////////////////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 val tmpFile = "$tmpFolder/intermediate.n3"
 val tmpLogFile = File(File(resultFolder), "database.log")
-// compile
-val p = ProcessBuilder(
-    "./launcher.main.kts",
-    "--compileAll",
-    "--releaseMode=Enable",
-    "--inlineMode=Disable",
-    "--compileArgument_Luposdate3000_Endpoint:QueryResultToStream=lupos.s11outputResult.QueryResultToEmptyStream",
-)
-    .directory(File("."))
-    .redirectOutput(Redirect.INHERIT)
-    .redirectError(Redirect.INHERIT)
-    .start()
-p.waitFor()
-if (p.exitValue() != 0) {
-    throw Exception("exit-code:: " + p.exitValue())
-}
 File(tmpFolder).mkdirs()
 File(resultFolder).mkdirs()
-// perform the measurements
-for (output_count in outputCountist) {
-    for (join_count in joinCountList) {
-        for (join in joinList) {
-            try {
-                val count2 = (output_count / (join.toDouble().pow(1 + join_count.toDouble()))).toInt()
-                if (count2 == 0) {
-                    continue
-                }
-                generateTriples(tmpFolder, count2, 0, join, join_count)
-                ProcessBuilder(
-                    "./launcher.main.kts",
-                    "--run",
-                    "--releaseMode=Enable",
-                    "--inlineMode=Disable",
-                    "--proguardMode=On",
-                    "--mainClass=Benchmark_Fig5",
-                    "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:datasource_files=$tmpFile",
-                    "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:minimum_time=$minimumTime",
-                    "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:number_of_triples=$output_count",
-                    "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:trash=0",
-                    "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join=$join",
-                    "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join_count=$join_count",
-                )
-                    .directory(File("."))
-                    .redirectOutput(Redirect.appendTo(tmpLogFile))
-                    .redirectError(Redirect.INHERIT)
-                    .start()
-                    .waitFor()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-        for (trash in trashList) {
-            try {
-                generateTriples(tmpFolder, output_count, trash, 1, join_count)
-                ProcessBuilder(
-                    "./launcher.main.kts",
-                    "--run",
-                    "--releaseMode=Enable",
-                    "--inlineMode=Disable",
-                    "--proguardMode=On",
-                    "--mainClass=Benchmark_Fig5",
-                    "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:datasource_files=$tmpFile",
-                    "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:minimum_time=$minimumTime",
-                    "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:number_of_triples=$output_count",
-                    "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:trash=$trash",
-                    "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join=1",
-                    "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join_count=$join_count",
-                )
-                    .directory(File("."))
-                    .redirectOutput(Redirect.appendTo(tmpLogFile))
-                    .redirectError(Redirect.INHERIT)
-                    .start()
-                    .waitFor()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
-}
-// extrct relevant data
-for (output_count in outputCountist) {
-    extractData(tmpLogFile.getAbsolutePath(), "$output_count")
-}
-// visualize data
-for (output_count in outputCountist) {
-    File(File(resultFolder), "fig5_$output_count.gnuplot").printWriter().use { out ->
-        out.println("set terminal png size 1920,1080")
-        out.println("set output 'fig5_$output_count.png'")
-// out.println("set terminal epslatex size 20cm,8cm")
-// out.println("set output 'fig5_${output_count}.tex'")
-        out.println("set xlabel \"mergejoins\"")
-        out.println("set ylabel \"selectivity\" offset 4,0,0")
-        out.println("set cblabel \"optimal partitions\"")
-        out.println("set style textbox opaque noborder")
-        out.println("set datafile separator ','")
-        out.println("set xrange [-0.5:4.5]")
-        out.println("set yrange [-0.5:17.5]")
-        out.println("unset xtics")
-        out.println("set xtics format \" \"")
-        out.println("set xtics (${File(File(resultFolder),"plot.XLabels").readText()})")
-        out.println("unset ytics")
-        out.println("set ytics format \" \"")
-        out.println("set ytics (${File(File(resultFolder),"plot.YLabels").readText()})")
-        out.println("set palette model RGB maxcolors 5")
-        out.println("set palette defined ( 0 0.5 0.5 0.5, 1 1 1 1 )")
-        out.println("set logscale cb 2")
-        out.println("set cbrange [0.75:24]")
-        out.println("plot 'plot.map' matrix with image notitle, 'plot.csv' u 1:2:3 w labels notitle")
-    }
-    ProcessBuilder("gnuplot", File(File(resultFolder), "fig5_$output_count.gnuplot").getAbsolutePath())
-        .directory(File(resultFolder))
-        .redirectOutput(Redirect.appendTo(tmpLogFile))
+// compile
+if (enableCompile) {
+    val p = ProcessBuilder(
+        "./launcher.main.kts",
+        "--compileAll",
+        "--releaseMode=Enable",
+        "--inlineMode=Enable",
+        "--compileArgument_Luposdate3000_Endpoint:QueryResultToStream=lupos.s11outputResult.QueryResultToEmptyStream",
+    )
+        .directory(File("."))
+        .redirectOutput(Redirect.INHERIT)
         .redirectError(Redirect.INHERIT)
         .start()
-        .waitFor()
+    p.waitFor()
+    if (p.exitValue() != 0) {
+        throw Exception("exit-code:: " + p.exitValue())
+    }
+}
+// perform the measurements
+if (enableMeasuerments) {
+    for (output_count in outputCountist) {
+        for (join_count in joinCountList) {
+            for (join in joinList) {
+                try {
+                    val count2 = (output_count / (join.toDouble().pow(1 + join_count.toDouble()))).toInt()
+                    if (count2 == 0) {
+                        continue
+                    }
+                    generateTriples(tmpFolder, count2, 0, join, join_count)
+                    ProcessBuilder(
+                        "./launcher.main.kts",
+                        "--run",
+                        "--releaseMode=Enable",
+                        "--inlineMode=Enable",
+                        "--proguardMode=On",
+                        "--mainClass=Benchmark_Fig5",
+                        "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:datasource_files=$tmpFile",
+                        "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:minimum_time=$minimumTime",
+                        "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:number_of_triples=$output_count",
+                        "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:trash=0",
+                        "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join=$join",
+                        "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join_count=$join_count",
+                    )
+                        .directory(File("."))
+                        .redirectOutput(Redirect.appendTo(tmpLogFile))
+                        .redirectError(Redirect.INHERIT)
+                        .start()
+                        .waitFor()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            for (trash in trashList) {
+                try {
+                    generateTriples(tmpFolder, output_count, trash, 1, join_count)
+                    ProcessBuilder(
+                        "./launcher.main.kts",
+                        "--run",
+                        "--releaseMode=Enable",
+                        "--inlineMode=Enable",
+                        "--proguardMode=On",
+                        "--mainClass=Benchmark_Fig5",
+                        "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:datasource_files=$tmpFile",
+                        "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:minimum_time=$minimumTime",
+                        "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:number_of_triples=$output_count",
+                        "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:trash=$trash",
+                        "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join=1",
+                        "--runArgument_Luposdate3000_Launch_Benchmark_Fig5:join_count=$join_count",
+                    )
+                        .directory(File("."))
+                        .redirectOutput(Redirect.appendTo(tmpLogFile))
+                        .redirectError(Redirect.INHERIT)
+                        .start()
+                        .waitFor()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+}
+// extract relevant data
+if (enableExtraction) {
+    for (output_count in outputCountist) {
+        extractData(tmpLogFile.getAbsolutePath(), "$output_count")
+    }
+}
+// visualize data
+if (enableGrapic) {
+    for (output_count in outputCountist) {
+        File(File(resultFolder), "fig5_$output_count.gnuplot").printWriter().use { out ->
+            if (producePNG) {
+                out.println("set terminal png size 1920,1080")
+                out.println("set output 'fig5_$output_count.png'")
+            } else {
+                out.println("set terminal epslatex size 20cm,8cm")
+                out.println("set output 'fig5_$output_count.tex'")
+            }
+            out.println("set xlabel \"mergejoins\"")
+            out.println("set ylabel \"selectivity\" offset 4,0,0")
+            out.println("set cblabel \"optimal partitions\"")
+            out.println("set style textbox opaque noborder")
+            out.println("set datafile separator ','")
+            out.println("set xrange [-0.5:4.5]")
+            out.println("set yrange [-0.5:17.5]")
+            out.println("unset xtics")
+            out.println("set xtics format \" \"")
+            out.println("set xtics (${File(File(resultFolder),"plot.XLabels").readText()})")
+            out.println("unset ytics")
+            out.println("set ytics format \" \"")
+            out.println("set ytics (${File(File(resultFolder),"plot.YLabels").readText()})")
+            out.println("set palette model RGB maxcolors 5")
+            out.println("set palette defined ( 0 0.5 0.5 0.5, 1 1 1 1 )")
+            out.println("set logscale cb 2")
+            out.println("set cbrange [0.75:24]")
+            out.println("plot 'plot.map' matrix with image notitle, 'plot.csv' u 1:2:3 w labels notitle")
+        }
+        ProcessBuilder("gnuplot", File(File(resultFolder), "fig5_$output_count.gnuplot").getAbsolutePath())
+            .directory(File(resultFolder))
+            .redirectOutput(Redirect.appendTo(tmpLogFile))
+            .redirectError(Redirect.INHERIT)
+            .start()
+            .waitFor()
+    }
 }
 // helper functions
 fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block: Int, join_count: Int): Int {
