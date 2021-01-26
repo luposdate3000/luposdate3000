@@ -25,6 +25,8 @@
 @file:CompilerOptions("-Xmulti-platform")
 import lupos.s00misc.Platform
 import java.io.File
+import java.io.InputStreamReader
+import java.io.BufferedReader
 import java.io.PrintWriter
 import java.lang.ProcessBuilder.Redirect
 import java.net.HttpURLConnection
@@ -39,7 +41,7 @@ val port = 2324 // the port to be used by luposdate3000
 //
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
-val enableCompile = false
+val enableCompile = true
 val enableMeasuerments = true
 val enableExtraction = true
 val enableGrapic = true
@@ -207,15 +209,26 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
             "--inlineMode=Enable",
             "--proguardMode=On",
             "--mainClass=Endpoint",
+	    "--endpointMode=Java_Sockets",
             "--runArgument_Luposdate3000_Launch_Endpoint:hostname=$hostname",
             "--runArgument_Luposdate3000_Launch_Endpoint:port=$port",
             "--runArgument_Luposdate3000_Launch_Endpoint:partitionCount=$partitionCount",
         )
             .directory(File("."))
-            .redirectOutput(Redirect.INHERIT)
+//            .redirectOutput(Redirect.INHERIT)
             .redirectError(Redirect.INHERIT)
         processInstance = p.start()
-//        processInstance!!.waitFor()
+var reader=BufferedReader(InputStreamReader(processInstance!!.getInputStream()))
+try {
+    var line = reader.readLine()
+    while (line != null) {
+        println("the line :: "+line)
+        line = reader.readLine()
+    }
+} finally {
+    reader.close()
+}
+println("after reader :: ")
     }
     override fun runQuery(query: String) {
         println("query start $query")

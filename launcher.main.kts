@@ -309,7 +309,7 @@ val defaultParams = mutableListOf(
         "None",
         mapOf(
             "None" to { endpointMode = "None" },
-            "JavaSockets" to { endpointMode = "JavaSockets" },
+            "Java_Sockets" to { endpointMode = "Java_Sockets" },
         )
     ),
     ParamClass(

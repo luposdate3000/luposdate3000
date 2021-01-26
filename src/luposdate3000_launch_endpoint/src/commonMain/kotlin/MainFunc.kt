@@ -16,15 +16,15 @@
  */
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
+import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.HttpEndpointLauncher
 import lupos.s16network.LuposdateEndpoint
-import lupos.s15tripleStoreDistributed.distributedTripleStore
 internal fun mainFunc(hostname: String, port: String, partitionCount: String): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
     Partition.estimatedPartitions0.clear()
     Partition.estimatedPartitions1.clear()
     Partition.estimatedPartitions2.clear()
-    if (partitionCount.toInt() == 0 ||partitionCount.toInt() ==1) {
+    if (partitionCount.toInt() == 0 || partitionCount.toInt() == 1) {
         for (s in listOf("SPO", "SOP", "PSO", "POS", "OSP", "OPS")) {
             Partition.estimatedPartitions0.add(s)
         }
@@ -42,7 +42,7 @@ internal fun mainFunc(hostname: String, port: String, partitionCount: String): U
         }
         Partition.estimatedPartitionsValid = true
     }
-distributedTripleStore.reloadPartitioningScheme()
+    distributedTripleStore.reloadPartitioningScheme()
     Parallel.launch {
         HttpEndpointLauncher.start(hostname, port.toInt())
     }
