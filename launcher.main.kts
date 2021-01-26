@@ -835,25 +835,28 @@ fun onGenerateLauncherMain() {
                             out.println("import kotlin.js.JsName")
                             out.println("@JsName(\"main\")")
                         }
-                        out.println("public fun main(args: Array<String>): Unit {")
-                        out.println("    var flag=false")
+                        out.println("public fun main(args: Array<String>) {")
+                        out.println("    var flag = false")
                         for (o in options) {
-                            out.println("    var $o:String=\"\"")
-                            out.println("    for(a in args){")
-                            out.println("        if(a.startsWith(\"--$o=\")){")
-                            out.println("            $o=a.substring(${o.length + 3})")
-                            out.println("            flag=true")
+                            out.println("    var $o: String = \"\"")
+                            out.println("    for (a in args) {")
+                            out.println("        if (a.startsWith(\"--$o=\")) {")
+                            out.println("            $o = a.substring(${o.length + 3})")
+                            out.println("            flag = true")
                             out.println("            break")
                             out.println("        }")
                             out.println("    }")
-                            out.println("    if(!flag){")
+                            out.println("    if (!flag) {")
                             out.println("        throw Exception(\"the option '--$o' is missing on the arguments list\")")
                             out.println("    }")
                         }
                         var s = "mainFunc("
-                        for (o in options) {
-                            s += "$o,"
-                        }
+for(i in 0 until options.size-1){
+s += "${options[i]}, "
+}
+if(options.size>0){
+s += "${options[options.size-1]}"
+}
                         s += ")"
                         out.println("    $s")
                         out.println("}")

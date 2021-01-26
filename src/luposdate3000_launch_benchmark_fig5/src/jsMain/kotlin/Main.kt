@@ -84,5 +84,5 @@ public fun main(args: Array<String>) {
     if (!flag) {
         throw Exception("the option '--join_count' is missing on the arguments list")
     }
-    mainFunc(datasource_files, minimum_time, number_of_triples, trash, join, join_count,)
+    mainFunc(datasource_files, minimum_time, number_of_triples, trash, join, join_count)
 }

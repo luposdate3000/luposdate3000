@@ -29,5 +29,5 @@ public fun main(args: Array<String>) {
     if (!flag) {
         throw Exception("the option '--basePath' is missing on the arguments list")
     }
-    mainFunc(basePath,)
+    mainFunc(basePath)
 }

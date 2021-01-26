@@ -18,27 +18,21 @@ import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s16network.HttpEndpointLauncher
 import lupos.s16network.LuposdateEndpoint
-internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
+internal fun mainFunc(hostname:String,port:String,partitionCount:String): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-    var bootStrapServer: String? = null
-    var hostname = "localhost"
-    for ((i, a) in args.withIndex()) {
-        when (i) {
-            0 -> {
-                hostname = a
-            }
-            1 -> {
-                if (a != "null") {
-                    bootStrapServer = a
-                }
-            }
-            2 -> {
-                Partition.default_k = a.toInt()
-            }
-        }
-    }
+            Partition.estimatedPartitions0.clear()
+            Partition.estimatedPartitions1.clear()
+            Partition.estimatedPartitions2.clear()
+if(partitionCount==0){
+Partition.estimatedPartitions0.add(s)
+}else if(partitionCount>0){
+for(s in listOf("SPO","SOP","PSO","POS","OSP","OPS")){
+Partition.estimatedPartitions1[s] = partitionCount
+Partition.estimatedPartitions2[s] = partitionCount
+}
+}
     Parallel.launch {
-        HttpEndpointLauncher.start(hostname, 2324)
+        HttpEndpointLauncher.start(hostname, port.toInt())
     }
     while (true) {
         Parallel.delay(1000)

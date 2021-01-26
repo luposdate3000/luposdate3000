@@ -29,23 +29,25 @@ import java.text.DecimalFormat
 import kotlin.math.log2
 import kotlin.math.pow
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
-// config options ////////////////////////////////////////////////////////////////////////////////////////
+// config options -> /////////////////////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 val tmpFolder = "tmp_fig5_data" // point to a folder with enough storage space available
-val minimumTime = 10.0	// the minimum time for a single measurement
+val minimumTime = 10.0	// the minimum time (in seconds) for a single measurement
 val resultFolder = "fig5_result_data" // the folder where the results of the measurements are stored
-val outputCountist = listOf(512, 2048, 8192, 32768) // number of result rows
+val outputCountList = listOf(512, 2048, 8192, 32768) // number of result rows
 val joinCountList = listOf(1, 2, 4, 8, 16) // number of consekutive executed joins
-val joinList = listOf(2, 4, 8, 16, 32, 64) // number of raw rows joining together
-val trashList = listOf(0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024) // for simulating low selectivities put not joinable trash in between
-// //
+val joinList = listOf(2, 4, 8, 16, 32, 64) // number of raw rows joining together (same number for each input, which comes directly from the store)
+val trashList = listOf(0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024) // for simulating low selectivities -> put not joinable trash-rows in between
+//
+// disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
+//
 val enableCompile = true
 val enableMeasuerments = true
 val enableExtraction = true
 val enableGrapic = true
-val producePNG = true
+val producePNG = true //if set to false, than an eps is produced as used in the paper - the labels on the figure axis expect latex-interpretation and are broken in the png variant
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
-// config options ////////////////////////////////////////////////////////////////////////////////////////
+// config options <- /////////////////////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 val tmpFile = "$tmpFolder/intermediate.n3"
 val tmpLogFile = File(File(resultFolder), "database.log")
@@ -71,7 +73,7 @@ if (enableCompile) {
 }
 // perform the measurements
 if (enableMeasuerments) {
-    for (output_count in outputCountist) {
+    for (output_count in outputCountList) {
         for (join_count in joinCountList) {
             for (join in joinList) {
                 try {
@@ -134,13 +136,13 @@ if (enableMeasuerments) {
 }
 // extract relevant data
 if (enableExtraction) {
-    for (output_count in outputCountist) {
+    for (output_count in outputCountList) {
         extractData(tmpLogFile.getAbsolutePath(), "$output_count")
     }
 }
 // visualize data
 if (enableGrapic) {
-    for (output_count in outputCountist) {
+    for (output_count in outputCountList) {
         File(File(resultFolder), "fig5_$output_count.gnuplot").printWriter().use { out ->
             if (producePNG) {
                 out.println("set terminal png size 1920,1080")
@@ -176,6 +178,8 @@ if (enableGrapic) {
             .waitFor()
     }
 }
+// remove temorary folders
+File(tmpFolder).deleteRecursively()
 // helper functions
 fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block: Int, join_count: Int): Int {
     val byteBuf = ByteArray(1)
