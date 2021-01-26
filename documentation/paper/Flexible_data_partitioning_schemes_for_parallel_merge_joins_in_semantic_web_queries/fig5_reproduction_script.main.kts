@@ -45,7 +45,7 @@ val enableCompile = true
 val enableMeasuerments = true
 val enableExtraction = true
 val enableGrapic = true
-val producePNG = true //if set to false, than an eps is produced as used in the paper - the labels on the figure axis expect latex-interpretation and are broken in the png variant
+val producePNG = true // if set to false, than an eps is produced as used in the paper - the labels on the figure axis expect latex-interpretation and are broken in the png variant
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // config options <- /////////////////////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////

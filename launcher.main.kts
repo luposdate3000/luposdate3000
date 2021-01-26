@@ -851,12 +851,12 @@ fun onGenerateLauncherMain() {
                             out.println("    }")
                         }
                         var s = "mainFunc("
-for(i in 0 until options.size-1){
-s += "${options[i]}, "
-}
-if(options.size>0){
-s += "${options[options.size-1]}"
-}
+                        for (i in 0 until options.size - 1) {
+                            s += "${options[i]}, "
+                        }
+                        if (options.size> 0) {
+                            s += "${options[options.size - 1]}"
+                        }
                         s += ")"
                         out.println("    $s")
                         out.println("}")

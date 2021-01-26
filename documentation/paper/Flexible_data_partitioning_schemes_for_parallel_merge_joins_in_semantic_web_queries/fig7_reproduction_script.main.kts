@@ -77,7 +77,7 @@ if (enableGrapic) {
 File(tmpFolder).deleteRecursively()
 // helper functions
 fun execute(result_rows: Int, trash: Int) {
-    val triples=generateData(result_rows, 10, 1, trash, tmpFolder)
+    val triples = generateData(result_rows, 10, 1, trash, tmpFolder)
     for (threads in listOf(1, 2, 4, 8, 16)) {
         for (database in listOf(databaseLuposdate3000)) {
             database.launch()
@@ -94,9 +94,9 @@ fun execute(result_rows: Int, trash: Int) {
                         break
                     }
                 }
-val timeInNanoseconds=currenttime-starttime
-val timeInMilliSeconds=(timeInNanoseconds/1_000_000.0)
-val timeInMilliSecondsPerRepetition=timeInMilliSeconds/counter
+                val timeInNanoseconds = currenttime - starttime
+                val timeInMilliSeconds = (timeInNanoseconds / 1_000_000.0)
+                val timeInMilliSecondsPerRepetition = timeInMilliSeconds / counter
 /*File xxx (database.getName()).append ...*/ println("$query,$trash,1,$threads,10,$triples,$result_rows,$counter,$timeInMilliSeconds,$timeInMilliSecondsPerRepetition")
             }
             database.terminate()
@@ -167,13 +167,13 @@ fun generateData(targetNumberOfResults: Int, numberOfPredicates: Int, blockCount
     return total_count
 }
 abstract class DatabaseHandle {
-    abstract fun getName():String
+    abstract fun getName(): String
     abstract fun launch(): Process
     abstract fun runQuery(filename: String)
     abstract fun terminate(p: Process)
 }
 val databaseLuposdate3000 = object : DatabaseHandle {
-override fun getName():String="Luposdate3000"
+    override fun getName(): String = "Luposdate3000"
     override fun launch(): Process {
         val p = ProcessBuilder(
             "./launcher.main.kts",
