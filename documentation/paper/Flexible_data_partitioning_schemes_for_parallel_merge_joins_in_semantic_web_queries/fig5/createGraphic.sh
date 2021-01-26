@@ -23,21 +23,6 @@ do
 ./extract-data.main.kts results $outputcount
 
 gnuplot << EOF
-set contour base
-#set cntrparam levels disc 16,8,4,2,1
-set cntrparam levels disc 11,6,3,1.5,0.5
-
-unset surface
-set table 'contour.tmp'
-set datafile separator ','
-splot 'plot.map' matrix
-unset table
-
-EOF
-
-cat contour.tmp | grep -v "#" | sed "s/\s\s*/,/g" | sed "s/^,//g" | sed "s/,$//g" | tr "\n" "#" | sed "s/###*/##/g" | tr "#" "\n" > contour.csv
-
-gnuplot << EOF
 
 #set terminal png size 1920,1080
 #set output 'graph_4_${outputcount}.png'
@@ -70,6 +55,5 @@ plot	'plot.map' matrix with image notitle, \
 
 EOF
 
-rm -rf contour.csv contour.tmp plot.map plot.csv plot.XLabels plot.YLabels log
+rm -rf plot.map plot.csv plot.XLabels plot.YLabels log
 done
-#	'contour.csv' u 1:2 w l lw 1.5 notitle,
