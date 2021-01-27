@@ -39,7 +39,7 @@ val port = 2324 // the port to be used by luposdate3000
 //
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
-val enableCompile = true
+val enableCompile = false
 val enableMeasuerments = true
 val enableExtraction = true
 val enableGrapic = true
@@ -107,33 +107,42 @@ fun execute(result_rows: Int, trash: Int) {
     for (databaseIdx in 0 until allDatabases.size) {
         val database = allDatabases[databaseIdx]
         try {
-            database.launch("$tmpFolder/data0.n3") {
-                for ((queryname, query) in queries) {
-                    try {
-                        var counter = 0
-                        var starttime = System.nanoTime()
-                        val targettime = starttime + (minimumTime * 1_000_000_000.0).toLong()
-                        var currenttime = System.nanoTime()
-                        while (true) {
-                            database.runQuery(query)
-                            counter++
-                            currenttime = System.nanoTime()
-                            if (currenttime> targettime) {
-                                break
+            var abortSignal = false
+            database.launch(
+                "$tmpFolder/data0.n3",
+                {
+                    abortSignal = true
+                },
+                {
+                    for ((queryname, query) in queries) {
+                        try {
+                            var counter = 0
+                            var starttime = System.nanoTime()
+                            val targettime = starttime + (minimumTime * 1_000_000_000.0).toLong()
+                            var currenttime = starttime
+                            while (!abortSignal && currenttime <targettime) {
+                                database.runQuery(query)
+                                counter++
+                                currenttime = System.nanoTime()
                             }
+                            if (!abortSignal) {
+                                val timeInNanoseconds = currenttime - starttime
+                                val timeInMilliSeconds = (timeInNanoseconds / 1_000_000.0)
+                                val timeInMilliSecondsPerRepetition = timeInMilliSeconds / counter
+                                val timeInMilliSecondsPerResultRow = timeInMilliSeconds / result_rows
+                                allDatabasePrintWriters[databaseIdx].println("$queryname,$trash,${database.getThreads()},$triples,$result_rows,$counter,$timeInMilliSeconds,$timeInMilliSecondsPerRepetition,$timeInMilliSecondsPerResultRow")
+                                allDatabasePrintWriters[databaseIdx].flush()
+                            }
+                        } catch (e: Throwable) {
+                            abortSignal = true
+                            e.printStackTrace()
                         }
-                        val timeInNanoseconds = currenttime - starttime
-                        val timeInMilliSeconds = (timeInNanoseconds / 1_000_000.0)
-                        val timeInMilliSecondsPerRepetition = timeInMilliSeconds / counter
-                        val timeInMilliSecondsPerResultRow = timeInMilliSeconds / result_rows
-                        allDatabasePrintWriters[databaseIdx].println("$queryname,$trash,${database.getThreads()},$triples,$result_rows,$counter,$timeInMilliSeconds,$timeInMilliSecondsPerRepetition,$timeInMilliSecondsPerResultRow")
-                        allDatabasePrintWriters[databaseIdx].flush()
-                    } catch (e: Throwable) {
-                        println("errored query ${database.getName()},$queryname,$trash,${database.getThreads()},$triples,$result_rows")
-                        e.printStackTrace()
+                        if (abortSignal) {
+                            println("errored query ${database.getName()},$queryname,$trash,${database.getThreads()},$triples,$result_rows")
+                        }
                     }
                 }
-            }
+            )
         } catch (e: Throwable) {
             println("errored import ${database.getName()},???,$trash,${database.getThreads()},$triples,$result_rows")
             e.printStackTrace()
@@ -208,14 +217,14 @@ abstract class DatabaseHandle() {
     val hostname = Platform.getHostName()
     abstract fun getThreads(): Int
     abstract fun getName(): String
-    abstract fun launch(import_file_name: String, action: () -> Unit): Unit
+    abstract fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit): Unit
     abstract fun runQuery(query: String)
 }
 class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
     var processInstance: Process? = null
     override fun getThreads() = partitionCount
     override fun getName(): String = "Luposdate3000($partitionCount)"
-    override fun launch(import_file_name: String, action: () -> Unit) {
+    override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
         val p_launcher = if (partitionCount > 1) {
             ProcessBuilder(
                 "./launcher.main.kts",
@@ -261,22 +270,43 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
             }
         }
         val p = ProcessBuilder(cmd).directory(File("."))
-            .redirectError(Redirect.INHERIT)
         processInstance = p.start()
         val inputstream = processInstance!!.getInputStream()
-        val reader = inputstream.bufferedReader()
-        var line = reader.readLine()
-        while (line != null) {
-            if (line.contains("waiting for connections now")) {
+        val inputreader = inputstream.bufferedReader()
+        var inputline = inputreader.readLine()
+        var inputThread = Thread {
+            while (inputline != null) {
+                println(inputline)
+                inputline = inputreader.readLine()
+            }
+        }
+        val errorstream = processInstance!!.getErrorStream()
+        val errorreader = errorstream.bufferedReader()
+        var errorThread = Thread {
+            var errorline = errorreader.readLine()
+            while (errorline != null) {
+                if (errorline.contains("Exception")) {
+                    abort()
+                }
+                println(errorline)
+                errorline = errorreader.readLine()
+            }
+        }
+        while (inputline != null) {
+            if (inputline.contains("waiting for connections now")) {
+                inputThread.start()
+                errorThread.start()
                 importData(import_file_name)
                 action()
                 break
             }
-            line = reader.readLine()
+            inputline = inputreader.readLine()
         }
         processInstance!!.destroy()
-        reader.close()
+        inputreader.close()
         inputstream.close()
+        inputThread.stop()
+        errorThread.stop()
     }
     override fun runQuery(query: String) {
         val encodedData = query.encodeToByteArray()
