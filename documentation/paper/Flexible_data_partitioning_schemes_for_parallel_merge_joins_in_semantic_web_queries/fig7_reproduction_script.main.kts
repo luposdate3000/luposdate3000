@@ -39,7 +39,7 @@ val port = 2324 // the port to be used by luposdate3000
 //
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
-val enableCompile = false
+val enableCompile = true
 val enableMeasuerments = true
 val enableExtraction = true
 val enableGrapic = true
@@ -106,26 +106,37 @@ fun execute(result_rows: Int, trash: Int) {
     val triples = generateData(result_rows, 10, 1, trash, tmpFolder)
     for (databaseIdx in 0 until allDatabases.size) {
         val database = allDatabases[databaseIdx]
-        database.launch {
-            for ((queryname, query) in queries) {
-                var counter = 0
-                var starttime = System.nanoTime()
-                val targettime = starttime + (minimumTime * 1_000_000_000.0).toLong()
-                var currenttime = System.nanoTime()
-                while (true) {
-                    database.runQuery(query)
-                    counter++
-                    currenttime = System.nanoTime()
-                    if (currenttime> targettime) {
-                        break
+        try {
+            database.launch("$tmpFolder/data0.n3") {
+                for ((queryname, query) in queries) {
+                    try {
+                        var counter = 0
+                        var starttime = System.nanoTime()
+                        val targettime = starttime + (minimumTime * 1_000_000_000.0).toLong()
+                        var currenttime = System.nanoTime()
+                        while (true) {
+                            database.runQuery(query)
+                            counter++
+                            currenttime = System.nanoTime()
+                            if (currenttime> targettime) {
+                                break
+                            }
+                        }
+                        val timeInNanoseconds = currenttime - starttime
+                        val timeInMilliSeconds = (timeInNanoseconds / 1_000_000.0)
+                        val timeInMilliSecondsPerRepetition = timeInMilliSeconds / counter
+                        val timeInMilliSecondsPerResultRow = timeInMilliSeconds / result_rows
+                        allDatabasePrintWriters[databaseIdx].println("$queryname,$trash,${database.getThreads()},$triples,$result_rows,$counter,$timeInMilliSeconds,$timeInMilliSecondsPerRepetition,$timeInMilliSecondsPerResultRow")
+                        allDatabasePrintWriters[databaseIdx].flush()
+                    } catch (e: Throwable) {
+                        println("errored query ${database.getName()},$queryname,$trash,${database.getThreads()},$triples,$result_rows")
+                        e.printStackTrace()
                     }
                 }
-                val timeInNanoseconds = currenttime - starttime
-                val timeInMilliSeconds = (timeInNanoseconds / 1_000_000.0)
-                val timeInMilliSecondsPerRepetition = timeInMilliSeconds / counter
-                allDatabasePrintWriters[databaseIdx].println("$queryname,$trash,${database.getThreads()},$triples,$result_rows,$counter,$timeInMilliSeconds,$timeInMilliSecondsPerRepetition")
-                allDatabasePrintWriters[databaseIdx].flush()
             }
+        } catch (e: Throwable) {
+            println("errored import ${database.getName()},???,$trash,${database.getThreads()},$triples,$result_rows")
+            e.printStackTrace()
         }
     }
 }
@@ -197,15 +208,14 @@ abstract class DatabaseHandle() {
     val hostname = Platform.getHostName()
     abstract fun getThreads(): Int
     abstract fun getName(): String
-    abstract fun launch(action: () -> Unit): Unit
+    abstract fun launch(import_file_name: String, action: () -> Unit): Unit
     abstract fun runQuery(query: String)
-    abstract fun importData(file: String)
 }
 class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
     var processInstance: Process? = null
     override fun getThreads() = partitionCount
     override fun getName(): String = "Luposdate3000($partitionCount)"
-    override fun launch(action: () -> Unit) {
+    override fun launch(import_file_name: String, action: () -> Unit) {
         val p_launcher = if (partitionCount > 1) {
             ProcessBuilder(
                 "./launcher.main.kts",
@@ -258,6 +268,7 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
         var line = reader.readLine()
         while (line != null) {
             if (line.contains("waiting for connections now")) {
+                importData(import_file_name)
                 action()
                 break
             }
@@ -279,11 +290,12 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
         val os = conn.getOutputStream()
         os.write(encodedData)
         conn.inputStream.bufferedReader().readText()
-        if (conn.getResponseCode() != 200) {
-            throw Exception("query failed")
+        val code = conn.getResponseCode()
+        if (code != 200) {
+            throw Exception("query failed with response code $code")
         }
     }
-    override fun importData(file: String) {
+    fun importData(file: String) {
         val encodedData = file.encodeToByteArray()
         val u = URL("http://$hostname:$port/import/turtle")
         val conn = u.openConnection() as HttpURLConnection
@@ -295,8 +307,9 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
         val os = conn.getOutputStream()
         os.write(encodedData)
         conn.inputStream.bufferedReader().readText()
-        if (conn.getResponseCode() != 200) {
-            throw Exception("query failed")
+        val code = conn.getResponseCode()
+        if (code != 200) {
+            throw Exception("import failed with response code $code")
         }
     }
 }

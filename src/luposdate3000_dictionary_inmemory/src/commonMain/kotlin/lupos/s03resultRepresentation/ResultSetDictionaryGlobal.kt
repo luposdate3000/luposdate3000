@@ -263,9 +263,14 @@ public class ResultSetDictionaryGlobal {
         }
         return res
     }
-    public fun createNewBNode(value: String = ResultSetDictionaryShared.emptyString): Int {
+    public fun createNewBNode(value: String): Int {
         val res: Int = (ResultSetDictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
         appendToFile(ETripleComponentTypeExt.BLANK_NODE, value)
+        return res
+    }
+    public fun createNewBNode(): Int {
+        val res: Int = (ResultSetDictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
+        appendToFile(ETripleComponentTypeExt.BLANK_NODE, "")
         return res
     }
     @Suppress("NOTHING_TO_INLINE") internal inline fun appendToFile(type: ETripleComponentType, data: String) {
