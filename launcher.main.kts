@@ -599,14 +599,17 @@ fun onRun() {
             }
             val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt")
             cmd.addAll(runArgs)
-            println(cmd)
-            val p = ProcessBuilder(cmd)
-                .redirectOutput(Redirect.INHERIT)
-                .redirectError(Redirect.INHERIT)
-                .start()
-            p.waitFor()
-            if (p.exitValue() != 0) {
-                throw Exception("exit-code:: " + p.exitValue())
+            if (dryMode == "Enable") {
+                println("exec :: " + cmd.joinToString(" "))
+            } else {
+                val p = ProcessBuilder(cmd)
+                    .redirectOutput(Redirect.INHERIT)
+                    .redirectError(Redirect.INHERIT)
+                    .start()
+                p.waitFor()
+                if (p.exitValue() != 0) {
+                    throw Exception("exit-code:: " + p.exitValue())
+                }
             }
         }
         "JS" -> {

@@ -43,10 +43,10 @@ internal fun mainFunc(hostname: String, port: String, partitionCount: String): U
         Partition.estimatedPartitionsValid = true
     }
     distributedTripleStore.reloadPartitioningScheme()
-    Parallel.launch {
-        HttpEndpointLauncher.start(hostname, port.toInt())
-    }
-    while (true) {
-        Parallel.delay(1000)
-    }
+//    Parallel.launch {
+    HttpEndpointLauncher.start(hostname, port.toInt())
+//    }
+//    while (true) {
+//        Parallel.delay(1000)
+//    }
 }
