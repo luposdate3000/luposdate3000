@@ -42,7 +42,7 @@ val luposdateParallelJar = "documentation/paper/Flexible_data_partitioning_schem
 //
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
-val enableCompile = true
+val enableCompile = false
 val enableMeasuerments = true
 val enableExtraction = true
 val enableGrapic = true
@@ -59,15 +59,15 @@ val databaseHandleBlazegraph = DatabaseHandleBlazegraph()
 val databaseHandleLuposdateMemory = DatabaseHandleLuposdateMemory()
 val databaseHandleLuposdateRDF3X = DatabaseHandleLuposdateRDF3X()
 val allDatabases = listOf(
-    databaseHandleLuposdate3000_1,
-    databaseHandleLuposdate3000_2,
-    databaseHandleLuposdate3000_4,
-    databaseHandleLuposdate3000_8,
-    databaseHandleLuposdate3000_16,
+//    databaseHandleLuposdate3000_1,
+//    databaseHandleLuposdate3000_2,
+//    databaseHandleLuposdate3000_4,
+//    databaseHandleLuposdate3000_8,
+//    databaseHandleLuposdate3000_16,
     databaseHandleJena,
-    databaseHandleBlazegraph,
-    databaseHandleLuposdateMemory,
-    databaseHandleLuposdateRDF3X,
+//    databaseHandleBlazegraph,
+//    databaseHandleLuposdateMemory,
+//    databaseHandleLuposdateRDF3X,
 )
 var allDatabasePrintWriters = arrayOf<PrintWriter>()
 val queries = mapOf("q10" to "PREFIX b: <http://benchmark.com/> SELECT * WHERE { ?s b:p0 ?o0 . ?s b:p1 ?o1 . ?s b:p2 ?o2 . ?s b:p3 ?o3 . ?s b:p4 ?o4 . ?s b:p5 ?o5 . ?s b:p6 ?o6 . ?s b:p7 ?o7 . ?s b:p8 ?o8 . ?s b:p9 ?o9 . }")
@@ -393,12 +393,14 @@ class DatabaseHandleJena() : DatabaseHandle() {
                 line = it.readLine()
             }
         }
+        println(cmd)
         val p = ProcessBuilder(cmd).directory(File("."))
         processInstance = p.start()
         val inputstream = processInstance!!.getInputStream()
         val inputreader = inputstream.bufferedReader()
         var inputline = inputreader.readLine()
         var inputThread = Thread {
+            println(inputline)
             while (inputline != null) {
                 inputline = inputreader.readLine()
             }
@@ -416,6 +418,7 @@ class DatabaseHandleJena() : DatabaseHandle() {
             }
         }
         while (inputline != null) {
+            println(inputline)
             if (inputline.contains("waiting for connections now")) {
                 inputThread.start()
                 errorThread.start()
@@ -455,7 +458,7 @@ class DatabaseHandleJena() : DatabaseHandle() {
     }
     fun importData(file: String) {
         val encodedData = file.encodeToByteArray()
-        val u = URL("http://$hostname:$port/jena/load")
+        val u = URL("http://$hostname:$port/sparql/jenaload")
         val conn = u.openConnection() as HttpURLConnection
         conn.setDoOutput(true)
         conn.setRequestMethod("POST")

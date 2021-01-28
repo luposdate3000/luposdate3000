@@ -581,6 +581,23 @@ fun onRun() {
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_$jenaWrapper-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Launch_$mainClass-jvm$proguardMode.jar",
             )
+            if (jenaWrapper == "On") {
+                for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}org.apache.jena${Platform.getPathSeparator()}jena-arq${Platform.getPathSeparator()}3.14.0${Platform.getPathSeparator()}", "jena-arq-3.14.0.jar")) {
+                    jars.add(f)
+                }
+                for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}org.apache.jena${Platform.getPathSeparator()}jena-core${Platform.getPathSeparator()}3.14.0${Platform.getPathSeparator()}", "jena-core-3.14.0.jar")) {
+                    jars.add(f)
+                }
+                for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}org.apache.jena${Platform.getPathSeparator()}jena-base${Platform.getPathSeparator()}3.14.0${Platform.getPathSeparator()}", "jena-base-3.14.0.jar")) {
+                    jars.add(f)
+                }
+                for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}org.slf4j${Platform.getPathSeparator()}slf4j-simple${Platform.getPathSeparator()}1.7.25${Platform.getPathSeparator()}", "slf4j-simple-1.7.25.jar")) {
+                    jars.add(f)
+                }
+                for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}org.slf4j${Platform.getPathSeparator()}slf4j-api${Platform.getPathSeparator()}1.7.26${Platform.getPathSeparator()}", "slf4j-api-1.7.26.jar")) {
+                    jars.add(f)
+                }
+            }
             for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}com.soywiz.korlibs.krypto${Platform.getPathSeparator()}krypto-jvm${Platform.getPathSeparator()}1.9.1${Platform.getPathSeparator()}", "krypto-jvm-1.9.1.jar")) {
                 jars.add(f)
             }

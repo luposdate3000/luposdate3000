@@ -611,8 +611,21 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("            \"\$javaHome/jmods/java.base.jmod\"")
                     out.println("        )")
                     out.println("    }")
-                    out.println("    for(f in configurations.getByName(\"jvmCompileClasspath\").resolve()){")
+                    out.println("    val deps = mutableListOf<String>()")
+                    out.println("    for (f in configurations.getByName(\"jvmRuntimeClasspath\").resolve()) {")
+                    out.println("        if (!\"\$f\".contains(\"luposdate3000\")) {")
+                    out.println("            deps.add(\"runtime:\$f\")")
+                    out.println("        }")
+                    out.println("    }")
+                    out.println("    for (f in configurations.getByName(\"jvmCompileClasspath\").resolve()) {")
                     out.println("        libraryjars(files(\"\$f\"))")
+                    out.println("    }")
+                    out.println("    if (deps.size > 0 ) {")
+                    out.println("        File(\"external_jar_dependencies\").printWriter().use { out ->")
+                    out.println("            for (dep in deps) {")
+                    out.println("                out.println(dep)")
+                    out.println("            }")
+                    out.println("        }")
                     out.println("    }")
                     out.println("    forceprocessing()")
                     out.println("    optimizationpasses(5)")
@@ -882,6 +895,9 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 try {
                     Files.copy(Paths.get(buildFolder + "${pathSeparator}libs${pathSeparator}${moduleArgs.moduleName}-jvm-0.0.1.jar"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm.jar"), StandardCopyOption.REPLACE_EXISTING)
                     Files.copy(Paths.get(buildFolder + "${pathSeparator}libs${pathSeparator}${moduleArgs.moduleName}-jvm-0.0.1-pro.jar"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm-pro.jar"), StandardCopyOption.REPLACE_EXISTING)
+                    if (File(File(srcFolder), "external_jar_dependencies").exists()) {
+                        Files.copy(Paths.get("$srcFolder${pathSeparator}external_jar_dependencies"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm.classpath"), StandardCopyOption.REPLACE_EXISTING)
+                    }
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }
