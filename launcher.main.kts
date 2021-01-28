@@ -497,6 +497,9 @@ when (execMode) {
         onCompile()
         onRun()
     }
+    else -> {
+        throw Exception("unknown execMode $execMode")
+    }
 }
 fun onHelp() {
     println("Usage ./launcher.main.kts <options>")
@@ -578,7 +581,6 @@ fun onRun() {
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_$jenaWrapper-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Launch_$mainClass-jvm$proguardMode.jar",
             )
-            val userHome = Platform.getUserHome()
             for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}com.soywiz.korlibs.krypto${Platform.getPathSeparator()}krypto-jvm${Platform.getPathSeparator()}1.9.1${Platform.getPathSeparator()}", "krypto-jvm-1.9.1.jar")) {
                 jars.add(f)
             }
