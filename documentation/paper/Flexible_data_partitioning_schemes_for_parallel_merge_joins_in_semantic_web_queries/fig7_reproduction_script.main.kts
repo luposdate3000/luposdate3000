@@ -39,7 +39,7 @@ val port = 2324 // the port to be used by luposdate3000
 //
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
-val enableCompile = true
+val enableCompile = false
 val enableMeasuerments = true
 val enableExtraction = true
 val enableGrapic = true
@@ -129,7 +129,7 @@ fun execute(result_rows: Int, trash: Int) {
                                 val timeInNanoseconds = currenttime - starttime
                                 val timeInMilliSeconds = (timeInNanoseconds / 1_000_000.0)
                                 val timeInMilliSecondsPerRepetition = timeInMilliSeconds / counter
-                                val timeInMilliSecondsPerResultRow = timeInMilliSeconds / result_rows
+                                val timeInMilliSecondsPerResultRow = timeInMilliSeconds / (result_rows * counter)
                                 allDatabasePrintWriters[databaseIdx].println("$queryname,$trash,${database.getThreads()},$triples,$result_rows,$counter,$timeInMilliSeconds,$timeInMilliSecondsPerRepetition,$timeInMilliSecondsPerResultRow")
                                 allDatabasePrintWriters[databaseIdx].flush()
                             }
