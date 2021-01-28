@@ -160,7 +160,6 @@ fun execute(result_rows: Int, trash: Int) {
             e.printStackTrace()
         }
     }
-    System.exit(1)
 }
 fun generateData(targetNumberOfResults_: Int, numberOfPredicates: Int, blockCount: Int, trashCount: Int, folderName: String): Int {
 // var targetNumberOfResults = 1L

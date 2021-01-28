@@ -24,6 +24,7 @@ import org.apache.jena.sparql.algebra.optimize.Optimize
 import org.apache.jena.sparql.mgt.Explain
 import org.apache.jena.update.UpdateAction
 import java.io.ByteArrayOutputStream
+import java.io.File
 public object JenaWrapper {
     private var dataset = DatasetFactory.createTxnMem()!!
     public fun dropAll() {
@@ -45,7 +46,10 @@ public object JenaWrapper {
             e.printStackTrace()
         }
     }
-    public fun execQuery(queryString: String, logging: Boolean = true): String {
+    public fun execQuery(queryString: String): String {
+        return execQuery(queryString, true)
+    }
+    public fun execQuery(queryString: String, logging: Boolean): String {
         if (logging) {
             checkExceptions(queryString)
         }
@@ -103,14 +107,14 @@ public object JenaWrapper {
         }
         val updateString = StringBuilder()
         for (fileName in fileNames.split(";")) {
-            updateString.append("load <file://$fileName> INTO GRAPH $graph2 ;")
+            updateString.append("load <file://${File(fileName).absolutePath}> INTO GRAPH $graph2 ;")
         }
         updateQuery(updateString.toString())
     }
     public fun loadFromFile(fileNames: String) {
         val updateString = StringBuilder()
         for (fileName in fileNames.split(";")) {
-            updateString.append("load <file://$fileName> ;")
+            updateString.append("load <file://${File(fileName).absolutePath}> ;")
         }
         updateQuery(updateString.toString())
     }
