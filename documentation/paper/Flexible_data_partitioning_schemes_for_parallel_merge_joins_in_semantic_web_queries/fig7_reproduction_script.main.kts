@@ -53,13 +53,15 @@ val databaseHandleLuposdate3000_4 = DatabaseHandleLuposdate3000(4)
 val databaseHandleLuposdate3000_8 = DatabaseHandleLuposdate3000(8)
 val databaseHandleLuposdate3000_16 = DatabaseHandleLuposdate3000(16)
 val databaseHandleJena = DatabaseHandleJena()
+val databaseHandleBlazegraph = DatabaseHandleBlazegraph()
 val allDatabases = listOf(
 //    databaseHandleLuposdate3000_1,
 //    databaseHandleLuposdate3000_2,
 //    databaseHandleLuposdate3000_4,
 //    databaseHandleLuposdate3000_8,
 //    databaseHandleLuposdate3000_16,
-    databaseHandleJena,
+// databaseHandleJena,
+    databaseHandleBlazegraph,
 )
 var allDatabasePrintWriters = arrayOf<PrintWriter>()
 val queries = mapOf("q10" to "PREFIX b: <http://benchmark.com/> SELECT * WHERE { ?s b:p0 ?o0 . ?s b:p1 ?o1 . ?s b:p2 ?o2 . ?s b:p3 ?o3 . ?s b:p4 ?o4 . ?s b:p5 ?o5 . ?s b:p6 ?o6 . ?s b:p7 ?o7 . ?s b:p8 ?o8 . ?s b:p9 ?o9 . }")
@@ -119,6 +121,7 @@ fun execute(result_rows: Int, trash: Int) {
                 {
                     for ((queryname, query) in queries) {
                         try {
+                            database.runQuery(query)
                             var counter = 0
                             var starttime = System.nanoTime()
                             val targettime = starttime + (minimumTime * 1_000_000_000.0).toLong()
@@ -363,7 +366,7 @@ class DatabaseHandleJena() : DatabaseHandle() {
             "--dryMode=Enable",
             "--runArgument_Luposdate3000_Launch_Endpoint:hostname=$hostname",
             "--runArgument_Luposdate3000_Launch_Endpoint:port=$port",
-            "--runArgument_Luposdate3000_Launch_Endpoint:partitionCount=$partitionCount",
+            "--runArgument_Luposdate3000_Launch_Endpoint:partitionCount=0",
         )
             .directory(File("."))
             .redirectError(Redirect.INHERIT)
@@ -455,7 +458,7 @@ class DatabaseHandleJena() : DatabaseHandle() {
 class DatabaseHandleBlazegraph() : DatabaseHandle() {
     var processInstance: Process? = null
     override fun getThreads() = -1
-    override fun getName(): String = "Jena"
+    override fun getName(): String = "Blazegraph"
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
         val p = ProcessBuilder(
             "java",
@@ -486,7 +489,7 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
             }
         }
         while (inputline != null) {
-            if (inputline.contains("waiting for connections now")) {
+            if (inputline.startsWith("Go to ") && inputline.endsWith("/blazegraph/ to get started.")) {
                 inputThread.start()
                 errorThread.start()
                 importData(import_file_name)
@@ -502,8 +505,8 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
         errorThread.stop()
     }
     override fun runQuery(query: String) {
-        val encodedData = query.encodeToByteArray()
-        val u = URL("http://$hostname:$port/sparql/jenaquery")
+        val encodedData = "query=$query".encodeToByteArray()
+        val u = URL("http://$hostname:9999/blazegraph/sparql")
         val conn = u.openConnection() as HttpURLConnection
         conn.setDoOutput(true)
         conn.setRequestMethod("POST")
@@ -519,8 +522,8 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
         }
     }
     fun importData(file: String) {
-        val encodedData = file.encodeToByteArray()
-        val u = URL("http://$hostname:$port/jena/load")
+        val encodedData = "update=LOAD <file://${File(file).getAbsolutePath()}>;".encodeToByteArray()
+        val u = URL("http://$hostname:9999/blazegraph/namespace/kb/sparql")
         val conn = u.openConnection() as HttpURLConnection
         conn.setDoOutput(true)
         conn.setRequestMethod("POST")
