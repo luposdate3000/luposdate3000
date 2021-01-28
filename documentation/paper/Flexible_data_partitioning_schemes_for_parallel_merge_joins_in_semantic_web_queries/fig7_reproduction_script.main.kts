@@ -39,7 +39,7 @@ val port = 2324 // the port to be used by luposdate3000
 //
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
-val enableCompile = false
+val enableCompile = true
 val enableMeasuerments = true
 val enableExtraction = true
 val enableGrapic = true
