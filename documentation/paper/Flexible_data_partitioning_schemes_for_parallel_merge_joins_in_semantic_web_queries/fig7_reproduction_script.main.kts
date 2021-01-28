@@ -127,13 +127,13 @@ fun execute(result_rows: Int, trash: Int) {
                 {
                     for ((queryname, query) in queries) {
                         try {
-                            database.runQuery(query, true)
+                            database.runQuery(query)
                             var counter = 0
                             var starttime = System.nanoTime()
                             val targettime = starttime + (minimumTime * 1_000_000_000.0).toLong()
                             var currenttime = starttime
                             while (!abortSignal && currenttime <targettime) {
-                                database.runQuery(query, false)
+                                database.runQuery(query)
                                 counter++
                                 currenttime = System.nanoTime()
                             }
@@ -231,7 +231,7 @@ abstract class DatabaseHandle() {
     abstract fun getThreads(): Int
     abstract fun getName(): String
     abstract fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit): Unit
-    abstract fun runQuery(query: String, logData: Boolean)
+    abstract fun runQuery(query: String)
 }
 class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
     var processInstance: Process? = null
@@ -320,7 +320,7 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
         inputThread.stop()
         errorThread.stop()
     }
-    override fun runQuery(query: String, logData: Boolean) {
+    override fun runQuery(query: String) {
         val encodedData = query.encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql/query")
         val conn = u.openConnection() as HttpURLConnection
@@ -332,11 +332,6 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
         val os = conn.getOutputStream()
         os.write(encodedData)
         val response = conn.inputStream.bufferedReader().readText()
-        if (logData) {
-            File(resultFolder + "/Luposdate3000_$partitionCount.response").printWriter().use { out ->
-                out.println(response)
-            }
-        }
         val code = conn.getResponseCode()
         if (code != 200) {
             throw Exception("query failed with response code $code")
@@ -434,7 +429,7 @@ class DatabaseHandleJena() : DatabaseHandle() {
         inputThread.stop()
         errorThread.stop()
     }
-    override fun runQuery(query: String, logData: Boolean) {
+    override fun runQuery(query: String) {
         val encodedData = query.encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql/jenaquery")
         val conn = u.openConnection() as HttpURLConnection
@@ -446,11 +441,6 @@ class DatabaseHandleJena() : DatabaseHandle() {
         val os = conn.getOutputStream()
         os.write(encodedData)
         val response = conn.inputStream.bufferedReader().readText()
-        if (logData) {
-            File(resultFolder + "/" + getName() + ".response").printWriter().use { out ->
-                out.println(response)
-            }
-        }
         val code = conn.getResponseCode()
         if (code != 200) {
             throw Exception("query failed with response code $code")
@@ -522,7 +512,7 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
         inputThread.stop()
         errorThread.stop()
     }
-    override fun runQuery(query: String, logData: Boolean) {
+    override fun runQuery(query: String) {
         val encodedData = "query=$query".encodeToByteArray()
         val u = URL("http://$hostname:9999/blazegraph/sparql")
         val conn = u.openConnection() as HttpURLConnection
@@ -534,11 +524,6 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
         val os = conn.getOutputStream()
         os.write(encodedData)
         val response = conn.inputStream.bufferedReader().readText()
-        if (logData) {
-            File(resultFolder + "/" + getName() + ".response").printWriter().use { out ->
-                out.println(response)
-            }
-        }
         val code = conn.getResponseCode()
         if (code != 200) {
             throw Exception("query failed with response code $code")
@@ -612,7 +597,7 @@ class DatabaseHandleLuposdateMemory() : DatabaseHandle() {
         inputThread.stop()
         errorThread.stop()
     }
-    override fun runQuery(query: String, logData: Boolean) {
+    override fun runQuery(query: String) {
         val encodedData = "query=$query".encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql")
         val conn = u.openConnection() as HttpURLConnection
@@ -624,11 +609,6 @@ class DatabaseHandleLuposdateMemory() : DatabaseHandle() {
         val os = conn.getOutputStream()
         os.write(encodedData)
         val response = conn.inputStream.bufferedReader().readText()
-        if (logData) {
-            File(resultFolder + "/" + getName() + ".response").printWriter().use { out ->
-                out.println(response)
-            }
-        }
         val code = conn.getResponseCode()
         if (code != 200) {
             throw Exception("query failed with response code $code")
@@ -706,7 +686,7 @@ class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
         inputThread.stop()
         errorThread.stop()
     }
-    override fun runQuery(query: String, logData: Boolean) {
+    override fun runQuery(query: String) {
         val encodedData = "query=$query".encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql")
         val conn = u.openConnection() as HttpURLConnection
@@ -718,11 +698,6 @@ class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
         val os = conn.getOutputStream()
         os.write(encodedData)
         val response = conn.inputStream.bufferedReader().readText()
-        if (logData) {
-            File(resultFolder + "/" + getName() + ".response").printWriter().use { out ->
-                out.println(response)
-            }
-        }
         val code = conn.getResponseCode()
         if (code != 200) {
             throw Exception("query failed with response code $code")
