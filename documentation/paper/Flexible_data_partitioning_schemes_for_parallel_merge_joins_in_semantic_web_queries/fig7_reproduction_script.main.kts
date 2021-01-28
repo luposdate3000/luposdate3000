@@ -42,7 +42,7 @@ val luposdateParallelJar = "documentation/paper/Flexible_data_partitioning_schem
 //
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
-val enableCompile = false
+val enableCompile = true
 val enableMeasuerments = true
 val enableExtraction = true
 val enableGrapic = true
@@ -59,14 +59,14 @@ val databaseHandleBlazegraph = DatabaseHandleBlazegraph()
 val databaseHandleLuposdateMemory = DatabaseHandleLuposdateMemory()
 val databaseHandleLuposdateRDF3X = DatabaseHandleLuposdateRDF3X()
 val allDatabases = listOf(
-//    databaseHandleLuposdate3000_1,
-//    databaseHandleLuposdate3000_2,
-//    databaseHandleLuposdate3000_4,
-//    databaseHandleLuposdate3000_8,
-//    databaseHandleLuposdate3000_16,
-// databaseHandleJena,
-//    databaseHandleBlazegraph,
-// databaseHandleLuposdateMemory,
+    databaseHandleLuposdate3000_1,
+    databaseHandleLuposdate3000_2,
+    databaseHandleLuposdate3000_4,
+    databaseHandleLuposdate3000_8,
+    databaseHandleLuposdate3000_16,
+    databaseHandleJena,
+    databaseHandleBlazegraph,
+    databaseHandleLuposdateMemory,
     databaseHandleLuposdateRDF3X,
 )
 var allDatabasePrintWriters = arrayOf<PrintWriter>()
@@ -127,13 +127,13 @@ fun execute(result_rows: Int, trash: Int) {
                 {
                     for ((queryname, query) in queries) {
                         try {
-                            database.runQuery(query)
+                            database.runQuery(query, true)
                             var counter = 0
                             var starttime = System.nanoTime()
                             val targettime = starttime + (minimumTime * 1_000_000_000.0).toLong()
                             var currenttime = starttime
                             while (!abortSignal && currenttime <targettime) {
-                                database.runQuery(query)
+                                database.runQuery(query, false)
                                 counter++
                                 currenttime = System.nanoTime()
                             }
@@ -160,6 +160,7 @@ fun execute(result_rows: Int, trash: Int) {
             e.printStackTrace()
         }
     }
+    System.exit(1)
 }
 fun generateData(targetNumberOfResults_: Int, numberOfPredicates: Int, blockCount: Int, trashCount: Int, folderName: String): Int {
 // var targetNumberOfResults = 1L
@@ -171,6 +172,7 @@ fun generateData(targetNumberOfResults_: Int, numberOfPredicates: Int, blockCoun
     val preventMultiplesOfList = intArrayOf(2, 3, 5, 7, 11, 13, 17, 19)
     val object_counter = 100
     // successful match-blocks and trash-blocks are interleaved in the data (if the data is interpreted in the same ordering as generated)
+    File(folderName).deleteRecursively()
     File(folderName).mkdirs()
     var outN3: PrintWriter = File(folderName + "/data0.n3").printWriter()
     // predefining unused values, to prevent mixing unwanted "new" values, which would break the target patterns
@@ -230,14 +232,13 @@ abstract class DatabaseHandle() {
     abstract fun getThreads(): Int
     abstract fun getName(): String
     abstract fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit): Unit
-    abstract fun runQuery(query: String)
+    abstract fun runQuery(query: String, logData: Boolean)
 }
 class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
     var processInstance: Process? = null
     override fun getThreads() = partitionCount
     override fun getName(): String = "Luposdate3000($partitionCount)"
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
-        File("$tmpFolder").deleteRecursively()
         val p_launcher = if (partitionCount > 1) {
             ProcessBuilder(
                 "./launcher.main.kts",
@@ -289,7 +290,6 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
         var inputline = inputreader.readLine()
         var inputThread = Thread {
             while (inputline != null) {
-                println(inputline)
                 inputline = inputreader.readLine()
             }
         }
@@ -298,10 +298,10 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
         var errorThread = Thread {
             var errorline = errorreader.readLine()
             while (errorline != null) {
+                println(errorline)
                 if (errorline.contains("Exception")) {
                     abort()
                 }
-                println(errorline)
                 errorline = errorreader.readLine()
             }
         }
@@ -321,7 +321,7 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
         inputThread.stop()
         errorThread.stop()
     }
-    override fun runQuery(query: String) {
+    override fun runQuery(query: String, logData: Boolean) {
         val encodedData = query.encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql/query")
         val conn = u.openConnection() as HttpURLConnection
@@ -332,7 +332,12 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
         conn.connect()
         val os = conn.getOutputStream()
         os.write(encodedData)
-        conn.inputStream.bufferedReader().readText()
+        val response = conn.inputStream.bufferedReader().readText()
+        if (logData) {
+            File(resultFolder + "/Luposdate3000_$partitionCount.response").printWriter().use { out ->
+                out.println(response)
+            }
+        }
         val code = conn.getResponseCode()
         if (code != 200) {
             throw Exception("query failed with response code $code")
@@ -349,7 +354,7 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
         conn.connect()
         val os = conn.getOutputStream()
         os.write(encodedData)
-        conn.inputStream.bufferedReader().readText()
+        val response = conn.inputStream.bufferedReader().readText()
         val code = conn.getResponseCode()
         if (code != 200) {
             throw Exception("import failed with response code $code")
@@ -361,7 +366,6 @@ class DatabaseHandleJena() : DatabaseHandle() {
     override fun getThreads() = -1
     override fun getName(): String = "Jena"
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
-        File("$tmpFolder").deleteRecursively()
         val p_launcher = ProcessBuilder(
             "./launcher.main.kts",
             "--run",
@@ -396,7 +400,6 @@ class DatabaseHandleJena() : DatabaseHandle() {
         var inputline = inputreader.readLine()
         var inputThread = Thread {
             while (inputline != null) {
-                println(inputline)
                 inputline = inputreader.readLine()
             }
         }
@@ -405,10 +408,10 @@ class DatabaseHandleJena() : DatabaseHandle() {
         var errorThread = Thread {
             var errorline = errorreader.readLine()
             while (errorline != null) {
+                println(errorline)
                 if (errorline.contains("Exception")) {
                     abort()
                 }
-                println(errorline)
                 errorline = errorreader.readLine()
             }
         }
@@ -428,7 +431,7 @@ class DatabaseHandleJena() : DatabaseHandle() {
         inputThread.stop()
         errorThread.stop()
     }
-    override fun runQuery(query: String) {
+    override fun runQuery(query: String, logData: Boolean) {
         val encodedData = query.encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql/jenaquery")
         val conn = u.openConnection() as HttpURLConnection
@@ -439,7 +442,12 @@ class DatabaseHandleJena() : DatabaseHandle() {
         conn.connect()
         val os = conn.getOutputStream()
         os.write(encodedData)
-        conn.inputStream.bufferedReader().readText()
+        val response = conn.inputStream.bufferedReader().readText()
+        if (logData) {
+            File(resultFolder + "/" + getName() + ".response").printWriter().use { out ->
+                out.println(response)
+            }
+        }
         val code = conn.getResponseCode()
         if (code != 200) {
             throw Exception("query failed with response code $code")
@@ -456,7 +464,7 @@ class DatabaseHandleJena() : DatabaseHandle() {
         conn.connect()
         val os = conn.getOutputStream()
         os.write(encodedData)
-        conn.inputStream.bufferedReader().readText()
+        val response = conn.inputStream.bufferedReader().readText()
         val code = conn.getResponseCode()
         if (code != 200) {
             throw Exception("import failed with response code $code")
@@ -468,7 +476,6 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
     override fun getThreads() = -1
     override fun getName(): String = "Blazegraph"
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
-        File("$tmpFolder").deleteRecursively()
         val p = ProcessBuilder(
             "java",
             "-server",
@@ -481,7 +488,6 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
         var inputline = inputreader.readLine()
         var inputThread = Thread {
             while (inputline != null) {
-                println(inputline)
                 inputline = inputreader.readLine()
             }
         }
@@ -513,7 +519,7 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
         inputThread.stop()
         errorThread.stop()
     }
-    override fun runQuery(query: String) {
+    override fun runQuery(query: String, logData: Boolean) {
         val encodedData = "query=$query".encodeToByteArray()
         val u = URL("http://$hostname:9999/blazegraph/sparql")
         val conn = u.openConnection() as HttpURLConnection
@@ -524,7 +530,12 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
         conn.connect()
         val os = conn.getOutputStream()
         os.write(encodedData)
-        conn.inputStream.bufferedReader().readText()
+        val response = conn.inputStream.bufferedReader().readText()
+        if (logData) {
+            File(resultFolder + "/" + getName() + ".response").printWriter().use { out ->
+                out.println(response)
+            }
+        }
         val code = conn.getResponseCode()
         if (code != 200) {
             throw Exception("query failed with response code $code")
@@ -541,7 +552,7 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
         conn.connect()
         val os = conn.getOutputStream()
         os.write(encodedData)
-        conn.inputStream.bufferedReader().readText()
+        val response = conn.inputStream.bufferedReader().readText()
         val code = conn.getResponseCode()
         if (code != 200) {
             throw Exception("import failed with response code $code")
@@ -553,7 +564,6 @@ class DatabaseHandleLuposdateMemory() : DatabaseHandle() {
     override fun getThreads() = -1
     override fun getName(): String = "LuposdateMemory"
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
-        File("$tmpFolder").deleteRecursively()
         val p = ProcessBuilder(
             "java",
             "-cp",
@@ -569,7 +579,6 @@ class DatabaseHandleLuposdateMemory() : DatabaseHandle() {
         var inputline = inputreader.readLine()
         var inputThread = Thread {
             while (inputline != null) {
-                println(inputline)
                 inputline = inputreader.readLine()
             }
         }
@@ -600,7 +609,7 @@ class DatabaseHandleLuposdateMemory() : DatabaseHandle() {
         inputThread.stop()
         errorThread.stop()
     }
-    override fun runQuery(query: String) {
+    override fun runQuery(query: String, logData: Boolean) {
         val encodedData = "query=$query".encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql")
         val conn = u.openConnection() as HttpURLConnection
@@ -611,7 +620,12 @@ class DatabaseHandleLuposdateMemory() : DatabaseHandle() {
         conn.connect()
         val os = conn.getOutputStream()
         os.write(encodedData)
-        conn.inputStream.bufferedReader().readText()
+        val response = conn.inputStream.bufferedReader().readText()
+        if (logData) {
+            File(resultFolder + "/" + getName() + ".response").printWriter().use { out ->
+                out.println(response)
+            }
+        }
         val code = conn.getResponseCode()
         if (code != 200) {
             throw Exception("query failed with response code $code")
@@ -623,7 +637,6 @@ class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
     override fun getThreads() = -1
     override fun getName(): String = "LuposdateRDF3X"
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
-        File("$tmpFolder").deleteRecursively()
         val p_launcher = ProcessBuilder(
             "java",
             "-cp",
@@ -660,7 +673,6 @@ class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
         var inputline = inputreader.readLine()
         var inputThread = Thread {
             while (inputline != null) {
-                println(inputline)
                 inputline = inputreader.readLine()
             }
         }
@@ -691,7 +703,7 @@ class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
         inputThread.stop()
         errorThread.stop()
     }
-    override fun runQuery(query: String) {
+    override fun runQuery(query: String, logData: Boolean) {
         val encodedData = "query=$query".encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql")
         val conn = u.openConnection() as HttpURLConnection
@@ -702,7 +714,12 @@ class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
         conn.connect()
         val os = conn.getOutputStream()
         os.write(encodedData)
-        conn.inputStream.bufferedReader().readText()
+        val response = conn.inputStream.bufferedReader().readText()
+        if (logData) {
+            File(resultFolder + "/" + getName() + ".response").printWriter().use { out ->
+                out.println(response)
+            }
+        }
         val code = conn.getResponseCode()
         if (code != 200) {
             throw Exception("query failed with response code $code")
