@@ -37,6 +37,8 @@ val minimumTime = 10.0 // the minimum time (in seconds) for a single measurement
 val resultFolder = "fig7_result_data" // the folder where the results of the measurements are stored
 val port = 2324 // the port to be used by luposdate3000
 val blazeGraphJar = "documentation/paper/Flexible_data_partitioning_schemes_for_parallel_merge_joins_in_semantic_web_queries/blazegraph.jar"
+val luposdateJar = "documentation/paper/Flexible_data_partitioning_schemes_for_parallel_merge_joins_in_semantic_web_queries/luposdate.jar"
+val luposdateParallelJar = "documentation/paper/Flexible_data_partitioning_schemes_for_parallel_merge_joins_in_semantic_web_queries/luposdate-parallel.jar"
 //
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
@@ -54,6 +56,8 @@ val databaseHandleLuposdate3000_8 = DatabaseHandleLuposdate3000(8)
 val databaseHandleLuposdate3000_16 = DatabaseHandleLuposdate3000(16)
 val databaseHandleJena = DatabaseHandleJena()
 val databaseHandleBlazegraph = DatabaseHandleBlazegraph()
+val databaseHandleLuposdateMemory = DatabaseHandleLuposdateMemory()
+val databaseHandleLuposdateRDF3X = DatabaseHandleLuposdateRDF3X()
 val allDatabases = listOf(
 //    databaseHandleLuposdate3000_1,
 //    databaseHandleLuposdate3000_2,
@@ -61,7 +65,9 @@ val allDatabases = listOf(
 //    databaseHandleLuposdate3000_8,
 //    databaseHandleLuposdate3000_16,
 // databaseHandleJena,
-    databaseHandleBlazegraph,
+//    databaseHandleBlazegraph,
+// databaseHandleLuposdateMemory,
+    databaseHandleLuposdateRDF3X,
 )
 var allDatabasePrintWriters = arrayOf<PrintWriter>()
 val queries = mapOf("q10" to "PREFIX b: <http://benchmark.com/> SELECT * WHERE { ?s b:p0 ?o0 . ?s b:p1 ?o1 . ?s b:p2 ?o2 . ?s b:p3 ?o3 . ?s b:p4 ?o4 . ?s b:p5 ?o5 . ?s b:p6 ?o6 . ?s b:p7 ?o7 . ?s b:p8 ?o8 . ?s b:p9 ?o9 . }")
@@ -231,6 +237,7 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
     override fun getThreads() = partitionCount
     override fun getName(): String = "Luposdate3000($partitionCount)"
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
+        File("$tmpFolder").deleteRecursively()
         val p_launcher = if (partitionCount > 1) {
             ProcessBuilder(
                 "./launcher.main.kts",
@@ -354,6 +361,7 @@ class DatabaseHandleJena() : DatabaseHandle() {
     override fun getThreads() = -1
     override fun getName(): String = "Jena"
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
+        File("$tmpFolder").deleteRecursively()
         val p_launcher = ProcessBuilder(
             "./launcher.main.kts",
             "--run",
@@ -460,6 +468,7 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
     override fun getThreads() = -1
     override fun getName(): String = "Blazegraph"
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
+        File("$tmpFolder").deleteRecursively()
         val p = ProcessBuilder(
             "java",
             "-server",
@@ -536,6 +545,167 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
         val code = conn.getResponseCode()
         if (code != 200) {
             throw Exception("import failed with response code $code")
+        }
+    }
+}
+class DatabaseHandleLuposdateMemory() : DatabaseHandle() {
+    var processInstance: Process? = null
+    override fun getThreads() = -1
+    override fun getName(): String = "LuposdateMemory"
+    override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
+        File("$tmpFolder").deleteRecursively()
+        val p = ProcessBuilder(
+            "java",
+            "-cp",
+            luposdateJar,
+            "lupos.endpoint.server.Endpoint",
+            import_file_name,
+            "port$port",
+            "MEMORY"
+        ).directory(File("."))
+        processInstance = p.start()
+        val inputstream = processInstance!!.getInputStream()
+        val inputreader = inputstream.bufferedReader()
+        var inputline = inputreader.readLine()
+        var inputThread = Thread {
+            while (inputline != null) {
+                println(inputline)
+                inputline = inputreader.readLine()
+            }
+        }
+        val errorstream = processInstance!!.getErrorStream()
+        val errorreader = errorstream.bufferedReader()
+        var errorThread = Thread {
+            var errorline = errorreader.readLine()
+            while (errorline != null) {
+                if (errorline.contains("Exception")) {
+                    abort()
+                }
+                println(errorline)
+                errorline = errorreader.readLine()
+            }
+        }
+        while (inputline != null) {
+            if (inputline.contains("Endpoint ready to receive requests")) {
+                inputThread.start()
+                errorThread.start()
+                action()
+                break
+            }
+            inputline = inputreader.readLine()
+        }
+        processInstance!!.destroy()
+        inputreader.close()
+        inputstream.close()
+        inputThread.stop()
+        errorThread.stop()
+    }
+    override fun runQuery(query: String) {
+        val encodedData = "query=$query".encodeToByteArray()
+        val u = URL("http://$hostname:$port/sparql")
+        val conn = u.openConnection() as HttpURLConnection
+        conn.setDoOutput(true)
+        conn.setRequestMethod("POST")
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+        conn.setRequestProperty("Content-Length", "${encodedData.size}")
+        conn.connect()
+        val os = conn.getOutputStream()
+        os.write(encodedData)
+        conn.inputStream.bufferedReader().readText()
+        val code = conn.getResponseCode()
+        if (code != 200) {
+            throw Exception("query failed with response code $code")
+        }
+    }
+}
+class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
+    var processInstance: Process? = null
+    override fun getThreads() = -1
+    override fun getName(): String = "LuposdateRDF3X"
+    override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
+        File("$tmpFolder").deleteRecursively()
+        val p_launcher = ProcessBuilder(
+            "java",
+            "-cp",
+            luposdateParallelJar,
+            "lupos.engine.indexconstruction.FastRDF3XIndexConstruction",
+            import_file_name,
+            "N3",
+            "UTF-8",
+            "NONE",
+            "$tmpFolder/luposdateindex",
+            "500000",
+            "4",
+            "2"
+        )
+            .redirectOutput(Redirect.INHERIT)
+            .redirectError(Redirect.INHERIT)
+            .start()
+        p_launcher.waitFor()
+        if (p_launcher.exitValue() != 0) {
+            throw Exception("import failed with error code:: " + p_launcher.exitValue())
+        }
+        val p = ProcessBuilder(
+            "java",
+            "-cp",
+            luposdateParallelJar,
+            "lupos.endpoint.server.Endpoint",
+            "$tmpFolder/luposdateindex",
+            "port$port",
+            "RDF3X_PARALLEL"
+        ).directory(File("."))
+        processInstance = p.start()
+        val inputstream = processInstance!!.getInputStream()
+        val inputreader = inputstream.bufferedReader()
+        var inputline = inputreader.readLine()
+        var inputThread = Thread {
+            while (inputline != null) {
+                println(inputline)
+                inputline = inputreader.readLine()
+            }
+        }
+        val errorstream = processInstance!!.getErrorStream()
+        val errorreader = errorstream.bufferedReader()
+        var errorThread = Thread {
+            var errorline = errorreader.readLine()
+            while (errorline != null) {
+                if (errorline.contains("Exception")) {
+                    abort()
+                }
+                println(errorline)
+                errorline = errorreader.readLine()
+            }
+        }
+        while (inputline != null) {
+            if (inputline.contains("Endpoint ready to receive requests")) {
+                inputThread.start()
+                errorThread.start()
+                action()
+                break
+            }
+            inputline = inputreader.readLine()
+        }
+        processInstance!!.destroy()
+        inputreader.close()
+        inputstream.close()
+        inputThread.stop()
+        errorThread.stop()
+    }
+    override fun runQuery(query: String) {
+        val encodedData = "query=$query".encodeToByteArray()
+        val u = URL("http://$hostname:$port/sparql")
+        val conn = u.openConnection() as HttpURLConnection
+        conn.setDoOutput(true)
+        conn.setRequestMethod("POST")
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+        conn.setRequestProperty("Content-Length", "${encodedData.size}")
+        conn.connect()
+        val os = conn.getOutputStream()
+        os.write(encodedData)
+        conn.inputStream.bufferedReader().readText()
+        val code = conn.getResponseCode()
+        if (code != 200) {
+            throw Exception("query failed with response code $code")
         }
     }
 }
