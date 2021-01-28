@@ -36,6 +36,7 @@ val tmpFolder = "tmp_fig7_data" // point to a folder with enough storage space a
 val minimumTime = 10.0 // the minimum time (in seconds) for a single measurement
 val resultFolder = "fig7_result_data" // the folder where the results of the measurements are stored
 val port = 2324 // the port to be used by luposdate3000
+val blazeGraphJar = "documentation/paper/Flexible_data_partitioning_schemes_for_parallel_merge_joins_in_semantic_web_queries/blazegraph.jar"
 //
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
@@ -51,12 +52,14 @@ val databaseHandleLuposdate3000_2 = DatabaseHandleLuposdate3000(2)
 val databaseHandleLuposdate3000_4 = DatabaseHandleLuposdate3000(4)
 val databaseHandleLuposdate3000_8 = DatabaseHandleLuposdate3000(8)
 val databaseHandleLuposdate3000_16 = DatabaseHandleLuposdate3000(16)
+val databaseHandleJena = DatabaseHandleJena()
 val allDatabases = listOf(
-    databaseHandleLuposdate3000_1,
-    databaseHandleLuposdate3000_2,
-    databaseHandleLuposdate3000_4,
-    databaseHandleLuposdate3000_8,
-    databaseHandleLuposdate3000_16,
+//    databaseHandleLuposdate3000_1,
+//    databaseHandleLuposdate3000_2,
+//    databaseHandleLuposdate3000_4,
+//    databaseHandleLuposdate3000_8,
+//    databaseHandleLuposdate3000_16,
+    databaseHandleJena,
 )
 var allDatabasePrintWriters = arrayOf<PrintWriter>()
 val queries = mapOf("q10" to "PREFIX b: <http://benchmark.com/> SELECT * WHERE { ?s b:p0 ?o0 . ?s b:p1 ?o1 . ?s b:p2 ?o2 . ?s b:p3 ?o3 . ?s b:p4 ?o4 . ?s b:p5 ?o5 . ?s b:p6 ?o6 . ?s b:p7 ?o7 . ?s b:p8 ?o8 . ?s b:p9 ?o9 . }")
@@ -328,6 +331,196 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
     fun importData(file: String) {
         val encodedData = file.encodeToByteArray()
         val u = URL("http://$hostname:$port/import/turtle")
+        val conn = u.openConnection() as HttpURLConnection
+        conn.setDoOutput(true)
+        conn.setRequestMethod("POST")
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+        conn.setRequestProperty("Content-Length", "${encodedData.size}")
+        conn.connect()
+        val os = conn.getOutputStream()
+        os.write(encodedData)
+        conn.inputStream.bufferedReader().readText()
+        val code = conn.getResponseCode()
+        if (code != 200) {
+            throw Exception("import failed with response code $code")
+        }
+    }
+}
+class DatabaseHandleJena() : DatabaseHandle() {
+    var processInstance: Process? = null
+    override fun getThreads() = -1
+    override fun getName(): String = "Jena"
+    override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
+        val p_launcher = ProcessBuilder(
+            "./launcher.main.kts",
+            "--run",
+            "--jenaWrapper=On",
+            "--releaseMode=Enable",
+            "--inlineMode=Enable",
+            "--proguardMode=On",
+            "--mainClass=Endpoint",
+            "--endpointMode=Java_Sockets",
+            "--dryMode=Enable",
+            "--runArgument_Luposdate3000_Launch_Endpoint:hostname=$hostname",
+            "--runArgument_Luposdate3000_Launch_Endpoint:port=$port",
+            "--runArgument_Luposdate3000_Launch_Endpoint:partitionCount=$partitionCount",
+        )
+            .directory(File("."))
+            .redirectError(Redirect.INHERIT)
+        val p_launcher_instance = p_launcher.start()
+        var cmd = listOf<String>()
+        p_launcher_instance!!.getInputStream().bufferedReader().use {
+            var line = it.readLine()
+            while (line != null) {
+                if (line.startsWith("exec :: ")) {
+                    cmd = line.substring("exec :: ".length).split(" ")
+                }
+                line = it.readLine()
+            }
+        }
+        val p = ProcessBuilder(cmd).directory(File("."))
+        processInstance = p.start()
+        val inputstream = processInstance!!.getInputStream()
+        val inputreader = inputstream.bufferedReader()
+        var inputline = inputreader.readLine()
+        var inputThread = Thread {
+            while (inputline != null) {
+                println(inputline)
+                inputline = inputreader.readLine()
+            }
+        }
+        val errorstream = processInstance!!.getErrorStream()
+        val errorreader = errorstream.bufferedReader()
+        var errorThread = Thread {
+            var errorline = errorreader.readLine()
+            while (errorline != null) {
+                if (errorline.contains("Exception")) {
+                    abort()
+                }
+                println(errorline)
+                errorline = errorreader.readLine()
+            }
+        }
+        while (inputline != null) {
+            if (inputline.contains("waiting for connections now")) {
+                inputThread.start()
+                errorThread.start()
+                importData(import_file_name)
+                action()
+                break
+            }
+            inputline = inputreader.readLine()
+        }
+        processInstance!!.destroy()
+        inputreader.close()
+        inputstream.close()
+        inputThread.stop()
+        errorThread.stop()
+    }
+    override fun runQuery(query: String) {
+        val encodedData = query.encodeToByteArray()
+        val u = URL("http://$hostname:$port/sparql/jenaquery")
+        val conn = u.openConnection() as HttpURLConnection
+        conn.setDoOutput(true)
+        conn.setRequestMethod("POST")
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+        conn.setRequestProperty("Content-Length", "${encodedData.size}")
+        conn.connect()
+        val os = conn.getOutputStream()
+        os.write(encodedData)
+        conn.inputStream.bufferedReader().readText()
+        val code = conn.getResponseCode()
+        if (code != 200) {
+            throw Exception("query failed with response code $code")
+        }
+    }
+    fun importData(file: String) {
+        val encodedData = file.encodeToByteArray()
+        val u = URL("http://$hostname:$port/jena/load")
+        val conn = u.openConnection() as HttpURLConnection
+        conn.setDoOutput(true)
+        conn.setRequestMethod("POST")
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+        conn.setRequestProperty("Content-Length", "${encodedData.size}")
+        conn.connect()
+        val os = conn.getOutputStream()
+        os.write(encodedData)
+        conn.inputStream.bufferedReader().readText()
+        val code = conn.getResponseCode()
+        if (code != 200) {
+            throw Exception("import failed with response code $code")
+        }
+    }
+}
+class DatabaseHandleBlazegraph() : DatabaseHandle() {
+    var processInstance: Process? = null
+    override fun getThreads() = -1
+    override fun getName(): String = "Jena"
+    override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
+        val p = ProcessBuilder(
+            "java",
+            "-server",
+            "-jar",
+            blazeGraphJar
+        ).directory(File("."))
+        processInstance = p.start()
+        val inputstream = processInstance!!.getInputStream()
+        val inputreader = inputstream.bufferedReader()
+        var inputline = inputreader.readLine()
+        var inputThread = Thread {
+            while (inputline != null) {
+                println(inputline)
+                inputline = inputreader.readLine()
+            }
+        }
+        val errorstream = processInstance!!.getErrorStream()
+        val errorreader = errorstream.bufferedReader()
+        var errorThread = Thread {
+            var errorline = errorreader.readLine()
+            while (errorline != null) {
+                if (errorline.contains("Exception")) {
+                    abort()
+                }
+                println(errorline)
+                errorline = errorreader.readLine()
+            }
+        }
+        while (inputline != null) {
+            if (inputline.contains("waiting for connections now")) {
+                inputThread.start()
+                errorThread.start()
+                importData(import_file_name)
+                action()
+                break
+            }
+            inputline = inputreader.readLine()
+        }
+        processInstance!!.destroy()
+        inputreader.close()
+        inputstream.close()
+        inputThread.stop()
+        errorThread.stop()
+    }
+    override fun runQuery(query: String) {
+        val encodedData = query.encodeToByteArray()
+        val u = URL("http://$hostname:$port/sparql/jenaquery")
+        val conn = u.openConnection() as HttpURLConnection
+        conn.setDoOutput(true)
+        conn.setRequestMethod("POST")
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+        conn.setRequestProperty("Content-Length", "${encodedData.size}")
+        conn.connect()
+        val os = conn.getOutputStream()
+        os.write(encodedData)
+        conn.inputStream.bufferedReader().readText()
+        val code = conn.getResponseCode()
+        if (code != 200) {
+            throw Exception("query failed with response code $code")
+        }
+    }
+    fun importData(file: String) {
+        val encodedData = file.encodeToByteArray()
+        val u = URL("http://$hostname:$port/jena/load")
         val conn = u.openConnection() as HttpURLConnection
         conn.setDoOutput(true)
         conn.setRequestMethod("POST")
