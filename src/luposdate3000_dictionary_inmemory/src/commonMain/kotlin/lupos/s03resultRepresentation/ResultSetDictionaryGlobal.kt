@@ -458,7 +458,8 @@ public class ResultSetDictionaryGlobal {
         return res
     }
     public fun createValue(value: String?): Int {
-        return createValue(ValueDefinition(value))
+        val res = createValue(ValueDefinition(value))
+        return res
     }
     @Suppress("NOTHING_TO_INLINE") internal inline fun createValue(value: ValueDefinition): Int {
         val res: Int
