@@ -59,15 +59,15 @@ val databaseHandleBlazegraph = DatabaseHandleBlazegraph()
 val databaseHandleLuposdateMemory = DatabaseHandleLuposdateMemory()
 val databaseHandleLuposdateRDF3X = DatabaseHandleLuposdateRDF3X()
 val allDatabases = listOf(
-//    databaseHandleLuposdate3000_1,
-//    databaseHandleLuposdate3000_2,
-//    databaseHandleLuposdate3000_4,
-//    databaseHandleLuposdate3000_8,
-//    databaseHandleLuposdate3000_16,
+    databaseHandleLuposdate3000_1,
+    databaseHandleLuposdate3000_2,
+    databaseHandleLuposdate3000_4,
+    databaseHandleLuposdate3000_8,
+    databaseHandleLuposdate3000_16,
     databaseHandleJena,
-//    databaseHandleBlazegraph,
-//    databaseHandleLuposdateMemory,
-//    databaseHandleLuposdateRDF3X,
+    databaseHandleBlazegraph,
+    databaseHandleLuposdateMemory,
+    databaseHandleLuposdateRDF3X,
 )
 var allDatabasePrintWriters = arrayOf<PrintWriter>()
 val queries = mapOf("q10" to "PREFIX b: <http://benchmark.com/> SELECT * WHERE { ?s b:p0 ?o0 . ?s b:p1 ?o1 . ?s b:p2 ?o2 . ?s b:p3 ?o3 . ?s b:p4 ?o4 . ?s b:p5 ?o5 . ?s b:p6 ?o6 . ?s b:p7 ?o7 . ?s b:p8 ?o8 . ?s b:p9 ?o9 . }")
@@ -375,10 +375,11 @@ class DatabaseHandleJena() : DatabaseHandle() {
             "--proguardMode=On",
             "--mainClass=Endpoint",
             "--endpointMode=Java_Sockets",
+            "--partitionMode=Off",
             "--dryMode=Enable",
             "--runArgument_Luposdate3000_Launch_Endpoint:hostname=$hostname",
             "--runArgument_Luposdate3000_Launch_Endpoint:port=$port",
-            "--runArgument_Luposdate3000_Launch_Endpoint:partitionCount=0",
+            "--runArgument_Luposdate3000_Launch_Endpoint:partitionCount=1",
         )
             .directory(File("."))
             .redirectError(Redirect.INHERIT)

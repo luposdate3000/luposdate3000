@@ -565,7 +565,7 @@ fun onRun() {
     File("log").mkdirs()
     when (target) {
         "JVM", "All" -> {
-            val jars = mutableListOf(
+            val jarsLuposdate3000 = mutableListOf(
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager$memoryMode-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Dictionary_Inmemory-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint-jvm$proguardMode.jar",
@@ -581,31 +581,15 @@ fun onRun() {
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_$jenaWrapper-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Launch_$mainClass-jvm$proguardMode.jar",
             )
-            if (jenaWrapper == "On") {
-                for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}org.apache.jena${Platform.getPathSeparator()}jena-arq${Platform.getPathSeparator()}3.14.0${Platform.getPathSeparator()}", "jena-arq-3.14.0.jar")) {
-                    jars.add(f)
+            val jars = mutableSetOf<String>()
+            for (jar in jarsLuposdate3000) {
+                jars.add(jar)
+                File("${jar.substring(0,jar.length - 4 - proguardMode.length)}.classpath").forEachLine {
+                    jars.add(it)
                 }
-                for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}org.apache.jena${Platform.getPathSeparator()}jena-core${Platform.getPathSeparator()}3.14.0${Platform.getPathSeparator()}", "jena-core-3.14.0.jar")) {
-                    jars.add(f)
-                }
-                for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}org.apache.jena${Platform.getPathSeparator()}jena-base${Platform.getPathSeparator()}3.14.0${Platform.getPathSeparator()}", "jena-base-3.14.0.jar")) {
-                    jars.add(f)
-                }
-                for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}org.slf4j${Platform.getPathSeparator()}slf4j-simple${Platform.getPathSeparator()}1.7.25${Platform.getPathSeparator()}", "slf4j-simple-1.7.25.jar")) {
-                    jars.add(f)
-                }
-                for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}org.slf4j${Platform.getPathSeparator()}slf4j-api${Platform.getPathSeparator()}1.7.26${Platform.getPathSeparator()}", "slf4j-api-1.7.26.jar")) {
-                    jars.add(f)
-                }
-            }
-            for (f in Platform.findNamedFileInDirectory("${Platform.getGradleCache()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}com.soywiz.korlibs.krypto${Platform.getPathSeparator()}krypto-jvm${Platform.getPathSeparator()}1.9.1${Platform.getPathSeparator()}", "krypto-jvm-1.9.1.jar")) {
-                jars.add(f)
-            }
-            for (f in Platform.findNamedFileInDirectory("${Platform.getMavenCache()}org${Platform.getPathSeparator()}jetbrains${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}kotlin-stdlib${Platform.getPathSeparator()}$compilerVersion", "kotlin-stdlib-$compilerVersion.jar")) {
-                jars.add(f)
             }
             var classpath = ""
-            for (jar in jars) {
+            for (jar in jars.sorted()) {
                 if (classpath == "") {
                     classpath = jar
                 } else {
