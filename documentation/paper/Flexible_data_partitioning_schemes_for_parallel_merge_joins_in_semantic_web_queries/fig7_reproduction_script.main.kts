@@ -44,9 +44,8 @@ val virtuosoBasePath = "/opt/virtuoso-dist/" /*this folder contains the folders 
 //
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
-val enableCompile = false
+val enableCompile = true
 val enableMeasuerments = true
-val enableExtraction = true
 val enableGrapic = true
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // config options <- /////////////////////////////////////////////////////////////////////////////////////
@@ -62,18 +61,19 @@ val databaseHandleLuposdateMemory = DatabaseHandleLuposdateMemory()
 val databaseHandleLuposdateRDF3X = DatabaseHandleLuposdateRDF3X()
 val databaseHandleVirtuoso = DatabaseHandleVirtuoso()
 val allDatabases = listOf(
-    // databaseHandleLuposdate3000_1,
-    // databaseHandleLuposdate3000_2,
-    // databaseHandleLuposdate3000_4,
-    // databaseHandleLuposdate3000_8,
-    // databaseHandleLuposdate3000_16,
-    // databaseHandleJena,
-    // databaseHandleBlazegraph,
-    // databaseHandleLuposdateMemory,
-    // databaseHandleLuposdateRDF3X,
+    databaseHandleLuposdate3000_1,
+    databaseHandleLuposdate3000_2,
+    databaseHandleLuposdate3000_4,
+    databaseHandleLuposdate3000_8,
+    databaseHandleLuposdate3000_16,
+    databaseHandleJena,
+    databaseHandleBlazegraph,
+    databaseHandleLuposdateMemory,
+    databaseHandleLuposdateRDF3X,
     databaseHandleVirtuoso,
 )
-var allDatabasePrintWriters = arrayOf<PrintWriter>()
+val resultRowsArray = arrayOf(128, 32768)
+var allDatabasePrintWriters = arrayOf<Array<PrintWriter>>()
 val queries = mapOf("q10" to "PREFIX b: <http://benchmark.com/> SELECT * WHERE { ?s b:p0 ?o0 . ?s b:p1 ?o1 . ?s b:p2 ?o2 . ?s b:p3 ?o3 . ?s b:p4 ?o4 . ?s b:p5 ?o5 . ?s b:p6 ?o6 . ?s b:p7 ?o7 . ?s b:p8 ?o8 . ?s b:p9 ?o9 . }")
 val tmpLogFile = File(File(resultFolder), "database.log")
 File(tmpFolder).mkdirs()
@@ -97,22 +97,46 @@ if (enableCompile) {
 }
 // perform the measurements
 if (enableMeasuerments) {
-    allDatabasePrintWriters = Array(allDatabases.size) { File(File(resultFolder), "${allDatabases[it].getName()}.log".replace("(", "_").replace(")", "")).printWriter() }
+    allDatabasePrintWriters = Array(allDatabases.size) { it -> Array(2) { t -> File(File(resultFolder), "${allDatabases[it].getName()}_${resultRowsArray[t]}.log".replace("(", "_").replace(")", "")).printWriter() } }
     for (trash in listOf(0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096)) {
-        execute(128, trash)
+        execute(resultRowsArray[0], trash)
     }
     for (trash in listOf(0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512)) {
-        execute(32768, trash)
+        execute(resultRowsArray[1], trash)
     }
-    for (printer in allDatabasePrintWriters) {
-        printer.close()
+    for (printers in allDatabasePrintWriters) {
+        for (printer in printers) {
+            printer.close()
+        }
     }
-}
-// extract relevant data
-if (enableExtraction) {
 }
 // visualize data
 if (enableGrapic) {
+    for (i in 0 until resultRowsArray.size) {
+        val f = "$resultFolder/graph_${resultRowsArray[i]}"
+        File(f + ".plot").printWriter().use { out ->
+            out.println("set terminal png size 1920,1080")
+            out.println("set output '$f.png'")
+            out.println("set datafile separator ','")
+            out.println("set notitle")
+            out.println("set logscale y")
+            out.println("set logscale x 2")
+            out.println("set key outside right")
+            out.println("set xlabel 'selectivity'")
+            out.println("set ylabel 'ms per result row'")
+            out.println("set format x \"\$\\\\frac{1}{1+2^{%L}}\$\"")
+            out.print("plot ")
+            for (d in 0 until allDatabases.size) {
+                out.print("'" + File(File(resultFolder), "${allDatabases[d].getName()}_${resultRowsArray[i]}.log".replace("(", "_").replace(")", "")).getAbsolutePath() + "' using 1:2 with lines title '${allDatabases[d].getName()}', ")
+            }
+        }
+        ProcessBuilder("gnuplot", "$f.plot")
+            .directory(File("."))
+            .redirectOutput(Redirect.INHERIT)
+            .redirectError(Redirect.INHERIT)
+            .start()
+            .waitFor()
+    }
 }
 // remove temorary folders
 File(tmpFolder).deleteRecursively()
@@ -146,8 +170,8 @@ fun execute(result_rows: Int, trash: Int) {
                                 val timeInMilliSeconds = (timeInNanoseconds / 1_000_000.0)
                                 val timeInMilliSecondsPerRepetition = timeInMilliSeconds / counter
                                 val timeInMilliSecondsPerResultRow = timeInMilliSeconds / (result_rows * counter)
-                                allDatabasePrintWriters[databaseIdx].println("$queryname,$trash,${database.getThreads()},$triples,$result_rows,$counter,$timeInMilliSeconds,$timeInMilliSecondsPerRepetition,$timeInMilliSecondsPerResultRow")
-                                allDatabasePrintWriters[databaseIdx].flush()
+                                allDatabasePrintWriters[databaseIdx][result_rows].println("$trash,$timeInMilliSecondsPerResultRow,$queryname,${database.getThreads()},$triples,$counter,$timeInMilliSeconds,$timeInMilliSecondsPerRepetition")
+                                allDatabasePrintWriters[databaseIdx][result_rows].flush()
                             }
                         } catch (e: Throwable) {
                             abortSignal = true
