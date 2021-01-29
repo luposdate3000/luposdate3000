@@ -29,6 +29,7 @@ import java.io.PrintWriter
 import java.lang.ProcessBuilder.Redirect
 import java.net.HttpURLConnection
 import java.net.URL
+import java.net.URLEncoder
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // config options -> /////////////////////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,6 +40,7 @@ val port = 2324 // the port to be used by luposdate3000
 val blazeGraphJar = "documentation/paper/Flexible_data_partitioning_schemes_for_parallel_merge_joins_in_semantic_web_queries/blazegraph.jar"
 val luposdateJar = "documentation/paper/Flexible_data_partitioning_schemes_for_parallel_merge_joins_in_semantic_web_queries/luposdate.jar"
 val luposdateParallelJar = "documentation/paper/Flexible_data_partitioning_schemes_for_parallel_merge_joins_in_semantic_web_queries/luposdate-parallel.jar"
+val virtuosoBasePath = "/opt/virtuoso-dist/" /*this folder contains the folders "bin", and "var/lib/virtuosodb" */
 //
 // disable individual steps, if the program crashes in the middle due to "out of memory" followed by the out-of-memory-killer choosing this script instead of the database.
 //
@@ -58,16 +60,18 @@ val databaseHandleJena = DatabaseHandleJena()
 val databaseHandleBlazegraph = DatabaseHandleBlazegraph()
 val databaseHandleLuposdateMemory = DatabaseHandleLuposdateMemory()
 val databaseHandleLuposdateRDF3X = DatabaseHandleLuposdateRDF3X()
+val databaseHandleVirtuoso = DatabaseHandleVirtuoso()
 val allDatabases = listOf(
-    databaseHandleLuposdate3000_1,
-    databaseHandleLuposdate3000_2,
-    databaseHandleLuposdate3000_4,
-    databaseHandleLuposdate3000_8,
-    databaseHandleLuposdate3000_16,
-    databaseHandleJena,
-    databaseHandleBlazegraph,
-    databaseHandleLuposdateMemory,
-    databaseHandleLuposdateRDF3X,
+    // databaseHandleLuposdate3000_1,
+    // databaseHandleLuposdate3000_2,
+    // databaseHandleLuposdate3000_4,
+    // databaseHandleLuposdate3000_8,
+    // databaseHandleLuposdate3000_16,
+    // databaseHandleJena,
+    // databaseHandleBlazegraph,
+    // databaseHandleLuposdateMemory,
+    // databaseHandleLuposdateRDF3X,
+    databaseHandleVirtuoso,
 )
 var allDatabasePrintWriters = arrayOf<PrintWriter>()
 val queries = mapOf("q10" to "PREFIX b: <http://benchmark.com/> SELECT * WHERE { ?s b:p0 ?o0 . ?s b:p1 ?o1 . ?s b:p2 ?o2 . ?s b:p3 ?o3 . ?s b:p4 ?o4 . ?s b:p5 ?o5 . ?s b:p6 ?o6 . ?s b:p7 ?o7 . ?s b:p8 ?o8 . ?s b:p9 ?o9 . }")
@@ -701,6 +705,103 @@ class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
         val code = conn.getResponseCode()
         if (code != 200) {
             throw Exception("query failed with response code $code")
+        }
+    }
+}
+class DatabaseHandleVirtuoso() : DatabaseHandle() {
+    var processInstance: Process? = null
+    override fun getThreads() = -1
+    override fun getName(): String = "Virtuoso"
+    override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
+        File("$tmpFolder/virtuoso.ini").printWriter().use { out ->
+            File("${virtuosoBasePath}var/lib/virtuoso/db/virtuoso.ini").forEachLine { line ->
+                out.println(line.replace("${virtuosoBasePath}var/lib/virtuoso/db/", "$tmpFolder/").replace("$tmpFolder/virtuoso.log", "/dev/stdout"))
+            }
+        }
+        File("$tmpFolder/init").printWriter().use { out ->
+            out.println("GRANT SPARQL_LOAD_SERVICE_DATA to \"SPARQL\";")
+            out.println("GRANT SPARQL_UPDATE to \"SPARQL\";")
+        }
+        val p = ProcessBuilder(
+            "${virtuosoBasePath}bin/virtuoso-t",
+            "-f",
+            "-c",
+            "$tmpFolder/virtuoso.ini",
+        )
+            .directory(File("."))
+        processInstance = p.start()
+        val inputstream = processInstance!!.getInputStream()
+        val inputreader = inputstream.bufferedReader()
+        var inputline = inputreader.readLine()
+        var inputThread = Thread {
+            println(inputline)
+            while (inputline != null) {
+                inputline = inputreader.readLine()
+            }
+        }
+        while (inputline != null) {
+            println(inputline)
+            if (inputline.contains("Server online at ")) {
+                inputThread.start()
+                ProcessBuilder(
+                    "${virtuosoBasePath}bin/isql",
+                    "1111",
+                    "dba",
+                    "dba",
+                    "$tmpFolder/init"
+                )
+                    .directory(File("."))
+                    .redirectOutput(Redirect.INHERIT)
+                    .redirectError(Redirect.INHERIT)
+                    .start()
+                    .waitFor()
+                importData(import_file_name)
+                action()
+                break
+            }
+            inputline = inputreader.readLine()
+        }
+        processInstance!!.destroy()
+        inputreader.close()
+        inputstream.close()
+        inputThread.stop()
+    }
+    fun encode(s: String): String {
+        return URLEncoder.encode(s, "utf-8").replace("+", "%20").replace("*", "%2A")
+    }
+    override fun runQuery(query: String) {
+        val encodedData = "default-graph-uri=${encode("http://benchmark")}&query=${encode(query)}&format=xml&timeout=0&debug=off&run=${encode(" Run Query")}".encodeToByteArray()
+        val u = URL("http://$hostname:8890/sparql/")
+        val conn = u.openConnection() as HttpURLConnection
+        conn.setDoOutput(true)
+        conn.setRequestMethod("POST")
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+        conn.setRequestProperty("Content-Length", "${encodedData.size}")
+        conn.connect()
+        val os = conn.getOutputStream()
+        os.write(encodedData)
+        val response = conn.inputStream.bufferedReader().readText()
+        val code = conn.getResponseCode()
+        if (code != 200) {
+            throw Exception("query failed with response code $code")
+        }
+    }
+    fun importData(file: String) {
+        val encodedData = "default-graph-uri=${encode("http://benchmark")}&query=${encode("LOAD <file://${File(file).getAbsolutePath()}> into GRAPH <http://benchmark>")}&format=xml&timeout=0&debug=off&run=${encode(" Run Query")}".encodeToByteArray()
+        val u = URL("http://$hostname:8890/sparql/")
+        val conn = u.openConnection() as HttpURLConnection
+        conn.setDoOutput(true)
+        conn.setRequestMethod("POST")
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+        conn.setRequestProperty("Content-Length", "${encodedData.size}")
+        conn.connect()
+        val os = conn.getOutputStream()
+        os.write(encodedData)
+        val response = conn.inputStream.bufferedReader().readText()
+        println(response)
+        val code = conn.getResponseCode()
+        if (code != 200) {
+            throw Exception("import failed with response code $code")
         }
     }
 }
