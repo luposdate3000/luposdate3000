@@ -443,7 +443,9 @@ fun extractData(filename: String, output_count: String) {
                     }
                     j++
                 }
-                outMap.println(row.substring(1))
+                if (row.length> 0) {
+                    outMap.println(row.substring(1))
+                }
                 i++
             }
         }
