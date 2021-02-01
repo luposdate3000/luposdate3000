@@ -236,26 +236,26 @@ class SimulationTest {
         Assertions.assertEquals(expectedProcessCounter, processCounter)
     }
 
-//    @Test
-//    fun `being busy is also part of the clock`() {
-//        val delay = 4.2
-//        var processCounter = 0
-//        val expectedProcessCounter = 0
-//
-//        val busyEntity = object : Entity("") {
-//            override fun startUpEntity() {
-//                this.beBusy(delay)
-//            }
-//            override fun processEvent(ev: Event) {
-//                processCounter++
-//            }
-//            override fun shutDownEntity() {}
-//        }
-//        Simulation.initialize(arrayListOf(busyEntity))
-//        val endClock = Simulation.runSimulation()
-//        Assertions.assertEquals(delay, endClock)
-//        Assertions.assertEquals(expectedProcessCounter, processCounter)
-//    }
+    @Test
+    fun `being busy is also part of the clock`() {
+        val delay = 4.2
+        var processCounter = 0
+        val expectedProcessCounter = 0
+
+        val busyEntity = object : Entity() {
+            override fun startUpEntity() {
+                this.beBusy(delay)
+            }
+            override fun processEvent(ev: Event) {
+                processCounter++
+            }
+            override fun shutDownEntity() {}
+        }
+        Simulation.initialize(arrayListOf(busyEntity))
+        val endClock = Simulation.runSimulation()
+        Assertions.assertEquals(delay, endClock)
+        Assertions.assertEquals(expectedProcessCounter, processCounter)
+    }
 
 //    @Test
 //    fun `being busy delays further sending`() {
