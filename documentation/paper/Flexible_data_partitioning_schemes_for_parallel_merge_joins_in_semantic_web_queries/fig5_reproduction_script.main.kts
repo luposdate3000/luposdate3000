@@ -43,7 +43,6 @@ val trashList = listOf(0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024) // for si
 //
 val enableCompile = true
 val enableMeasuerments = true
-val enableExtraction = true
 val enableGrapic = true
 val producePNG = true // if set to false, than an eps is produced as used in the paper - the labels on the figure axis expect latex-interpretation and are broken in the png variant
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,15 +133,10 @@ if (enableMeasuerments) {
         }
     }
 }
-// extract relevant data
-if (enableExtraction) {
-    for (output_count in outputCountList) {
-        extractData(tmpLogFile.getAbsolutePath(), "$output_count")
-    }
-}
 // visualize data
 if (enableGrapic) {
     for (output_count in outputCountList) {
+        extractData(tmpLogFile.getAbsolutePath(), "$output_count")
         File(File(resultFolder), "fig5_$output_count.gnuplot").printWriter().use { out ->
             if (producePNG) {
                 out.println("set terminal png size 1920,1080")
