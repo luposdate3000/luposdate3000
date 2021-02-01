@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s00misc
 import java.math.BigInteger
 public actual class MyBigInteger {
@@ -35,7 +34,7 @@ public actual class MyBigInteger {
     public actual fun toDouble(): Double {
         return v.toDouble()
     }
-    public actual fun compareTo(other: MyBigInteger): Int {
+    public actual operator fun compareTo(other: MyBigInteger): Int {
         return v.compareTo(other.v)
     }
     public actual operator fun plus(other: MyBigInteger): MyBigInteger {

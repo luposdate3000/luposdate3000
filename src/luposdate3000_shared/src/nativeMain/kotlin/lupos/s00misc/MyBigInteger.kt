@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s00misc
 public actual class MyBigInteger {
     internal val s: String
@@ -24,7 +23,7 @@ public actual class MyBigInteger {
     public actual constructor(s1: Int) {
         s = "" + s1
     }
-    public actual fun compareTo(other: MyBigInteger): Int {
+    public actual operator fun compareTo(other: MyBigInteger): Int {
         throw object : NotImplementedException("MyBigInteger", "compareTo not implemented") {}
     }
     public actual fun toDouble(): Double {

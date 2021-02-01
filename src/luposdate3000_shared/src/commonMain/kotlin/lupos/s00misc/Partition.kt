@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s00misc
 import kotlin.jvm.JvmField
 public class Partition {
@@ -23,6 +22,8 @@ public class Partition {
     @JvmField
     public val limit: MutableMap<String, Int>
     public companion object {
+        @JvmField
+        public val estimatedPartitions0: MutableSet<String> = mutableSetOf() // for benchmarking enable the notpartitioned stores as well
         @JvmField
         public val estimatedPartitions1: MutableMap<String, MutableSet<Int>> = mutableMapOf()
         @JvmField
@@ -33,6 +34,8 @@ public class Partition {
         public var default_k: Int = 128
         @JvmField
         public val queue_size: Int = 1000
+        @JvmField
+        public var myPartitionId: Int = 0 // used for distributed database instances
     }
     public constructor() {
         data = mutableMapOf()

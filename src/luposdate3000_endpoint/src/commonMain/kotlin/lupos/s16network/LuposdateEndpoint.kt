@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s16network
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EModifyTypeExt
@@ -168,6 +167,10 @@ public object LuposdateEndpoint {
         }
 /*Coverage Unreachable*/
     }
+    @JsName("import_turtle_string_a")
+    /*suspend*/ public fun importTurtleString_a(data: String): String {
+        return importTurtleString(data, mutableMapOf())
+    }
     @JsName("import_turtle_string")
     /*suspend*/ public fun importTurtleString(data: String, bnodeDict: MutableMap<String, Int>): String {
         try {
@@ -203,6 +206,7 @@ public object LuposdateEndpoint {
     @JsName("import_intermediate_files_a")
     /*suspend*/ public fun importIntermediateFiles(fileNames: String, convert_to_bnodes: Boolean): String {
         try {
+            Partition.estimatedPartitions0.clear()
             Partition.estimatedPartitions1.clear()
             Partition.estimatedPartitions2.clear()
             Partition.estimatedPartitionsValid = true
@@ -219,7 +223,9 @@ public object LuposdateEndpoint {
                         try {
                             filePartitions.forEachLine {
                                 val t = it.split(",")
-                                if (t[1] == "1") {
+                                if (t[1] == "-1") {
+                                    Partition.estimatedPartitions0.add(t[0])
+                                } else if (t[1] == "1") {
                                     var t2 = Partition.estimatedPartitions1[t[0]]
                                     if (t2 == null) {
                                         t2 = mutableSetOf()
@@ -228,8 +234,7 @@ public object LuposdateEndpoint {
                                     if (t[2].toInt() > 1) {
                                         t2.add(t[2].toInt())
                                     }
-                                }
-                                if (t[1] == "2") {
+                                } else if (t[1] == "2") {
                                     var t2 = Partition.estimatedPartitions2[t[0]]
                                     if (t2 == null) {
                                         t2 = mutableSetOf()
@@ -306,7 +311,6 @@ public object LuposdateEndpoint {
     @JsName("evaluate_sparql_to_operatorgraph_b")
     /*suspend*/ public fun evaluateSparqlToOperatorgraphB(query: String, logOperatorGraph: Boolean): IOPBase {
         val q = Query()
-//        var timer = DateHelperRelative.markNow()
         SanityCheck.println { "----------String Query" }
         SanityCheck.println { query }
         SanityCheck.println { "----------Abstract Syntax Tree" }
@@ -315,24 +319,16 @@ public object LuposdateEndpoint {
         val ltit = LookAheadTokenIterator(tit, 3)
         val parser = SPARQLParser(ltit)
         val astNode = parser.expr()
-// println("timer #401 ${DateHelperRelative.elapsedSeconds(timer)}")
-//        timer = DateHelperRelative.markNow()
         SanityCheck.println { astNode }
         SanityCheck.println { "----------Logical Operator Graph" }
         val lopNode = astNode.visit(OperatorGraphVisitor(q))
-// println("timer #402 ${DateHelperRelative.elapsedSeconds(timer)}")
-//        timer = DateHelperRelative.markNow()
         SanityCheck.println { lopNode }
         SanityCheck.println { "----------Logical Operator Graph optimized" }
         val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
-// println("timer #403 ${DateHelperRelative.elapsedSeconds(timer)}")
-//        timer = DateHelperRelative.markNow()
         SanityCheck.println { lopNode2 }
         SanityCheck.println { "----------Physical Operator Graph" }
         val popOptimizer = PhysicalOptimizer(q)
         val popNode = popOptimizer.optimizeCall(lopNode2)
-// println("timer #404 ${DateHelperRelative.elapsedSeconds(timer)}")
-//        timer = DateHelperRelative.markNow()
         SanityCheck.println { popNode }
         if (logOperatorGraph) {
             println("----------")
@@ -342,7 +338,6 @@ public object LuposdateEndpoint {
             println("<<<<<<<<<<")
             println(OperatorGraphToLatex(popNode.toXMLElement().toString(), ""))
         }
-// println("timer #406 ${DateHelperRelative.elapsedSeconds(timer)}")
         return popNode
     }
     @JsName("evaluate_operatorgraph_to_result")
@@ -351,7 +346,6 @@ public object LuposdateEndpoint {
     }
     @JsName("evaluate_operatorgraph_to_result_a")
     /*suspend*/ public fun evaluateOperatorgraphToResultA(node: IOPBase, output: IMyPrintWriter, evaluator: EQueryResultToStream): Any? {
-// var timer = DateHelperRelative.markNow()
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")
         output.println()
@@ -368,7 +362,6 @@ public object LuposdateEndpoint {
         }
         distributedTripleStore.commit(node.getQuery())
         node.getQuery().setCommited()
-// println("timer #407 ${DateHelperRelative.elapsedSeconds(timer)}")
         return res
     }
     @JsName("evaluate_sparql_to_result_b")

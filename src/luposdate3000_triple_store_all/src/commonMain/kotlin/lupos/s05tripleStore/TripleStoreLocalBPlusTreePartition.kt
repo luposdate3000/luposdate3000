@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s05tripleStore
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.EIndexPatternExt
@@ -34,7 +33,6 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
         val dataDistinctList = mutableListOf<TripleStoreDistinctContainer>()
         println("the activated Partitions are ::")
         if (store_root_page_init) {
-            println("XYZ TripleStoreLocalBPlusTreePartition store_root_page_init")
             val cnt = ByteArrayHelper.readInt4(rootPage, 0)
             var rootPageOffset = 4
             val tmpEnabledPartitions = mutableListOf<EnabledPartitionContainer>()
@@ -74,7 +72,6 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
             enabledPartitions = tmpEnabledPartitions.toTypedArray()
         } else {
             if (!USE_PARTITIONS2) {
-                println("XYZ TripleStoreLocalBPlusTreePartition !USE_PARTITIONS2")
                 enabledPartitions = arrayOf( //
                     EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O), -1, 1), //
                     EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.SOP, EIndexPatternExt.S_OP, EIndexPatternExt.SO_P), -1, 1), //
@@ -84,7 +81,6 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
                     EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.OPS, EIndexPatternExt.O_PS, EIndexPatternExt.OP_S), -1, 1), //
                 )
             } else if (Partition.estimatedPartitionsValid) {
-                println("XYZ TripleStoreLocalBPlusTreePartition Partition.estimatedPartitionsValid")
                 val localindicees = mapOf(
                     "SPO" to mutableSetOf(EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O),
                     "SOP" to mutableSetOf(EIndexPatternExt.SOP, EIndexPatternExt.S_OP, EIndexPatternExt.SO_P),
@@ -107,10 +103,12 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
                             tmpEnabledPartitions.add(EnabledPartitionContainer(v, 2, tmp))
                         }
                     }
+                    if (Partition.estimatedPartitions0.contains(k)) {
+                        tmpEnabledPartitions.add(EnabledPartitionContainer(v, -1, 1))
+                    }
                 }
                 enabledPartitions = tmpEnabledPartitions.toTypedArray()
             } else {
-                println("XYZ TripleStoreLocalBPlusTreePartition other")
                 enabledPartitions = arrayOf( //
                     EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O), 1, 2), // TODO use reasonable partition counts ... this is just to verify during tests
                     EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.SOP, EIndexPatternExt.S_OP, EIndexPatternExt.SO_P), 1, 4), //

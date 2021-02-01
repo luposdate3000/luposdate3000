@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s16network
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
@@ -51,6 +50,7 @@ public actual object HttpEndpointLauncher {
         try {
             val server = ServerSocket()
             server.bind(InetSocketAddress(hostname, port))
+            println("launched server socket on '$hostname':'$port' - waiting for connections now")
             while (true) {
                 val connection = server.accept()
                 Thread {

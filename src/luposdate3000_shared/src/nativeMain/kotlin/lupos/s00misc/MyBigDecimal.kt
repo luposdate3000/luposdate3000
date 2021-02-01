@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s00misc
 public actual class MyBigDecimal {
     internal val s: String
@@ -33,7 +32,7 @@ public actual class MyBigDecimal {
     public actual fun toDouble(): Double {
         throw object : NotImplementedException("MyBigDecimal", "toDouble not implemented") {}
     }
-    public actual fun compareTo(other: MyBigDecimal): Int {
+    public actual operator fun compareTo(other: MyBigDecimal): Int {
         throw object : NotImplementedException("MyBigDecimal", "compareTo not implemented") {}
     }
     public actual operator fun plus(other: MyBigDecimal): MyBigDecimal {

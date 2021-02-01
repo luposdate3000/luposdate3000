@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s00misc
 import com.soywiz.krypto.md5 as _md5
 import com.soywiz.krypto.sha1 as _sha1

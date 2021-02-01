@@ -14,14 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s00misc
 public expect class MyBigInteger {
     public constructor(s1: String)
     public constructor(s1: Int)
     public fun toDouble(): Double
     public fun toMyBigDecimal(): MyBigDecimal
-    public fun compareTo(other: MyBigInteger): Int
+    public operator fun compareTo(other: MyBigInteger): Int
     public operator fun plus(other: MyBigInteger): MyBigInteger
     public operator fun minus(other: MyBigInteger): MyBigInteger
     public operator fun times(other: MyBigInteger): MyBigInteger

@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
@@ -32,7 +31,7 @@ internal fun helperCleanString(s: String): String {
     return res
 }
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-@Suppress("NOTHING_TO_INLINE") internal inline fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
+internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     println("importing args ${args.map { it }}")
     var cnt = 0
     val inputFileName = args[0]

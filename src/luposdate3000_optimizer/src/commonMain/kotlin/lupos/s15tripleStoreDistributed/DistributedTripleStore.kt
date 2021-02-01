@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s15tripleStoreDistributed
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorIDExt
@@ -56,7 +56,7 @@ public class TripleStoreIteratorGlobal public constructor(query: IQuery, project
         return XMLElement("TripleStoreIteratorGlobal") //
             .addAttribute("uuid", "" + uuid) //
             .addAttribute("name", graphName) //
-            .addAttribute("idx", "" + idx) //
+            .addAttribute("idx", "" + EIndexPatternExt.names[idx]) //
             .addAttribute("providedVariables", getProvidedVariableNames().toString()) //
             .addAttribute("providedSort", getPossibleSortPriorities().toString()) //
             .addAttribute("selectedSort", mySortPriority.toString()) //

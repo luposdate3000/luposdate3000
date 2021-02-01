@@ -14,11 +14,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.modulename
-import lupos.s00misc.NotImplementedException
+import lupos.s00misc.ByteArrayHelper
 internal actual class MyDataInputStream {
-    @Suppress("NOTHING_TO_INLINE") internal actual inline fun readInt(): Int = throw NotImplementedException("MyDataOutputStream", "xyz not implemented")
-    @Suppress("NOTHING_TO_INLINE") internal actual inline fun readByte(): Byte = throw NotImplementedException("MyDataOutputStream", "xyz not implemented")
-    @Suppress("NOTHING_TO_INLINE") internal actual inline fun read(buf: ByteArray, off: Int, len: Int): Int = throw NotImplementedException("MyDataOutputStream", "xyz not implemented")
+    val fd: Int
+    var pos = 0
+    constructor(fd: Int) {
+        this.fd = fd
+    }
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun readInt(): Int {
+        val buffer = ByteArray(4)
+        val l = ext.fs.readSync(fd, buffer, 0, buffer.size, pos)
+        if (l != 4) {
+            throw Exception("invalid len $l")
+        }
+        pos += l
+        return ByteArrayHelper.readInt4(buffer, 0)
+    }
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun readByte(): Byte {
+        val buffer = ByteArray(1)
+        val l = ext.fs.readSync(fd, buffer, 0, buffer.size, pos)
+        if (l != 1) {
+            throw Exception("invalid len $l")
+        }
+        pos += l
+        return buffer[0]
+    }
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun read(buf: ByteArray, off: Int, len: Int): Int {
+        val l = ext.fs.readSync(fd, buf, off, len, pos)
+        pos += l
+        return l
+    }
 }

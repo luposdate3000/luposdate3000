@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s09physicalOperators.singleinput
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -239,9 +238,11 @@ public class POPGroup : POPBase {
                 }
             }
             for (columnIndex in 0 until bindings.size) {
-                val value = query.getDictionary().createValue(bindings[columnIndex].second.evaluate(localRow.iterators)())
-                if (projectedVariables.contains(bindings[columnIndex].first)) {
-                    outMap[bindings[columnIndex].first] = ColumnIteratorRepeatValue(1, value)
+                val columnName = bindings[columnIndex].first
+                if (projectedVariables.contains(columnName)) {
+                    val valueraw = bindings[columnIndex].second.evaluate(localRow.iterators)()
+                    val value = query.getDictionary().createValue(valueraw)
+                    outMap[columnName] = ColumnIteratorRepeatValue(1, value)
                 }
             }
         } else {

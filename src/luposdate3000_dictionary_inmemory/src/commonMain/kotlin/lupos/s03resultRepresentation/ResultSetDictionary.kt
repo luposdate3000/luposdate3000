@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s03resultRepresentation
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
@@ -122,27 +121,28 @@ public class ResultSetDictionary : IResultSetDictionary {
         }
     }
     @Suppress("NOTHING_TO_INLINE") internal inline fun createByType(s: String, type: ETripleComponentType): Int {
+        var res: Int
         when (type) {
             ETripleComponentTypeExt.IRI -> {
-                return createIri(s)
+                res = createIri(s)
             }
             ETripleComponentTypeExt.BLANK_NODE -> {
-                return createNewBNode(s)
+                res = createNewBNode(s)
             }
             ETripleComponentTypeExt.STRING -> {
-                return createTyped(s, "")
+                res = createTyped(s, "")
             }
             ETripleComponentTypeExt.INTEGER -> {
-                return createInteger(MyBigInteger(s))
+                res = createInteger(MyBigInteger(s))
             }
             ETripleComponentTypeExt.DECIMAL -> {
-                return createDecimal(MyBigDecimal(s))
+                res = createDecimal(MyBigDecimal(s))
             }
             ETripleComponentTypeExt.DOUBLE -> {
-                return createDouble(s.toDouble())
+                res = createDouble(s.toDouble())
             }
             ETripleComponentTypeExt.BOOLEAN -> {
-                return if (s.toLowerCase() == "true") {
+                res = if (s.toLowerCase() == "true") {
                     ResultSetDictionaryExt.booleanTrueValue
                 } else {
                     ResultSetDictionaryExt.booleanFalseValue
@@ -150,16 +150,17 @@ public class ResultSetDictionary : IResultSetDictionary {
             }
             ETripleComponentTypeExt.STRING_TYPED -> {
                 val s2 = s.split("^^")
-                return createTyped(s2[0], s2[1])
+                res = createTyped(s2[0], s2[1])
             }
             ETripleComponentTypeExt.STRING_LANG -> {
                 val s2 = s.split("@")
-                return createLangTagged(s2[0], s2[1])
+                res = createLangTagged(s2[0], s2[1])
             }
             else -> {
                 throw Exception("unexpected type")
             }
         }
+        return res
     }
     @Suppress("NOTHING_TO_INLINE") internal inline fun clear() {
         localBnodeToInt.clear()
@@ -412,7 +413,8 @@ public class ResultSetDictionary : IResultSetDictionary {
         return res
     }
     override fun createValue(value: String?): Int {
-        return createValue(ValueDefinition(value))
+        val res = createValue(ValueDefinition(value))
+        return res
     }
     override fun createValue(value: ValueDefinition): Int {
         val res: Int
@@ -551,57 +553,58 @@ public class ResultSetDictionary : IResultSetDictionary {
     ) {
         if ((value and ResultSetDictionaryShared.mask1) == ResultSetDictionaryShared.mask1) {
             nodeGlobalDictionary.getValue(value, onBNode, onBoolean, onLanguageTaggedLiteral, onSimpleLiteral, onTypedLiteral, onDecimal, onFloat, onDouble, onInteger, onIri, onError, onUndefined)
-        }
-        when (value and ResultSetDictionaryShared.mask3) {
-            ResultSetDictionaryShared.flaggedValueLocalIri -> {
-                onIri(iriToValue[value and ResultSetDictionaryShared.filter3])
-            }
-            ResultSetDictionaryShared.flaggedValueLocalBnode -> {
-                when (value) {
-                    0 -> {
-                        onBoolean(true)
-                    }
-                    1 -> {
-                        onBoolean(false)
-                    }
-                    2 -> {
-                        onError()
-                    }
-                    3 -> {
-                        onUndefined()
-                    }
-                    else -> {
-                        onBNode(value)
+        } else {
+            when (value and ResultSetDictionaryShared.mask3) {
+                ResultSetDictionaryShared.flaggedValueLocalIri -> {
+                    onIri(iriToValue[value and ResultSetDictionaryShared.filter3])
+                }
+                ResultSetDictionaryShared.flaggedValueLocalBnode -> {
+                    when (value) {
+                        0 -> {
+                            onBoolean(true)
+                        }
+                        1 -> {
+                            onBoolean(false)
+                        }
+                        2 -> {
+                            onError()
+                        }
+                        3 -> {
+                            onUndefined()
+                        }
+                        else -> {
+                            onBNode(value)
+                        }
                     }
                 }
-            }
-            ResultSetDictionaryShared.flaggedValueLocalTyped -> {
-                val tmp = typedToValue[value and ResultSetDictionaryShared.filter3]
-                val idx = tmp.indexOf(">")
-                if (idx == 0) {
-                    onSimpleLiteral(tmp.substring(idx + 1, tmp.length))
-                } else {
-                    onTypedLiteral(tmp.substring(idx + 1, tmp.length), tmp.substring(0, idx))
+                ResultSetDictionaryShared.flaggedValueLocalTyped -> {
+                    val tmp = typedToValue[value and ResultSetDictionaryShared.filter3]
+                    val idx = tmp.indexOf(">")
+                    if (idx == 0) {
+                        onSimpleLiteral(tmp.substring(idx + 1, tmp.length))
+                    } else {
+                        onTypedLiteral(tmp.substring(idx + 1, tmp.length), tmp.substring(0, idx))
+                    }
                 }
-            }
-            else -> {
-                when (value and ResultSetDictionaryShared.mask6) {
-                    ResultSetDictionaryShared.flaggedValueLocalInt -> {
-                        onInteger(intToValue[value and ResultSetDictionaryShared.filter6])
-                    }
-                    ResultSetDictionaryShared.flaggedValueLocalDecimal -> {
-                        onDecimal(decimalToValue[value and ResultSetDictionaryShared.filter6])
-                    }
-                    ResultSetDictionaryShared.flaggedValueLocalDouble -> {
-                        onDouble(doubleToValue[value and ResultSetDictionaryShared.filter6])
-                    }
-                    ResultSetDictionaryShared.flaggedValueLocalFloat -> {
-                        onFloat(floatToValue[value and ResultSetDictionaryShared.filter6])
-                    }
-                    else -> {
-                        val tmp = langTaggedToValue[value and ResultSetDictionaryShared.filter6]
-                        val idx = tmp.indexOf("@")
-                        onLanguageTaggedLiteral(tmp.substring(idx + 1, tmp.length), tmp.substring(0, idx))
+                else -> {
+                    when (value and ResultSetDictionaryShared.mask6) {
+                        ResultSetDictionaryShared.flaggedValueLocalInt -> {
+                            onInteger(intToValue[value and ResultSetDictionaryShared.filter6])
+                        }
+                        ResultSetDictionaryShared.flaggedValueLocalDecimal -> {
+                            onDecimal(decimalToValue[value and ResultSetDictionaryShared.filter6])
+                        }
+                        ResultSetDictionaryShared.flaggedValueLocalDouble -> {
+                            onDouble(doubleToValue[value and ResultSetDictionaryShared.filter6])
+                        }
+                        ResultSetDictionaryShared.flaggedValueLocalFloat -> {
+                            onFloat(floatToValue[value and ResultSetDictionaryShared.filter6])
+                        }
+                        else -> {
+                            val tmp = langTaggedToValue[value and ResultSetDictionaryShared.filter6]
+                            val idx = tmp.indexOf("@")
+                            onLanguageTaggedLiteral(tmp.substring(idx + 1, tmp.length), tmp.substring(0, idx))
+                        }
                     }
                 }
             }

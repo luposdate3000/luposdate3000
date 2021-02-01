@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s03resultRepresentation
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
@@ -264,9 +263,14 @@ public class ResultSetDictionaryGlobal {
         }
         return res
     }
-    public fun createNewBNode(value: String = ResultSetDictionaryShared.emptyString): Int {
+    public fun createNewBNode(value: String): Int {
         val res: Int = (ResultSetDictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
         appendToFile(ETripleComponentTypeExt.BLANK_NODE, value)
+        return res
+    }
+    public fun createNewBNode(): Int {
+        val res: Int = (ResultSetDictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
+        appendToFile(ETripleComponentTypeExt.BLANK_NODE, "")
         return res
     }
     @Suppress("NOTHING_TO_INLINE") internal inline fun appendToFile(type: ETripleComponentType, data: String) {
@@ -454,7 +458,8 @@ public class ResultSetDictionaryGlobal {
         return res
     }
     public fun createValue(value: String?): Int {
-        return createValue(ValueDefinition(value))
+        val res = createValue(ValueDefinition(value))
+        return res
     }
     @Suppress("NOTHING_TO_INLINE") internal inline fun createValue(value: ValueDefinition): Int {
         val res: Int

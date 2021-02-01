@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.MyPrintWriter
@@ -31,14 +30,21 @@ import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s16network.LuposdateEndpoint
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-@Suppress("NOTHING_TO_INLINE") internal inline fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
+internal fun mainFunc(
+    datasource_files: String,
+    minimum_time: String,
+    number_of_triples: String,
+    trash: String,
+    join: String,
+    join_count: String,
+): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-    val datasourceFiles = args[0]
-    val minimumTime = args[1].toDouble()
-    val numberOfTriples = args[2].toLong()
-    val trash = args[3].toLong()
-    val join = args[4].toLong()
-    val joincount = args[5].toInt()
+    val datasourceFiles = datasource_files
+    val minimumTime = minimum_time.toDouble()
+    val numberOfTriples = number_of_triples.toLong()
+    val _trash = trash.toLong()
+    val _join = join.toLong()
+    val joincount = join_count.toInt()
     val timer = DateHelperRelative.markNow()
     LuposdateEndpoint.importIntermediateFiles(datasourceFiles)
     val time = DateHelperRelative.elapsedSeconds(timer)
@@ -97,6 +103,6 @@ import lupos.s16network.LuposdateEndpoint
             }
         }
         partitionTimes[partitionC] = counter / time
-        println("${trash}_${join}_${joincount}_$partitions,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer,$trash,$join,$joincount,$partitions")
+        println("${_trash}_${_join}_${joincount}_$partitions,$numberOfTriples,0,$counter,${time * 1000.0},${counter / time},NoOptimizer,$_trash,$_join,$joincount,$partitions")
     }
 }

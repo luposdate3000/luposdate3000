@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.File
 import lupos.s00misc.MyPrintWriter
@@ -24,7 +23,7 @@ internal enum class OptimizerMode {
     All, OnlyWith, OnlyWithout
 }
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-@Suppress("NOTHING_TO_INLINE") internal inline fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
+internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
     val datasourceFiles = args[0]
     val queryFiles = args[1].split(";")

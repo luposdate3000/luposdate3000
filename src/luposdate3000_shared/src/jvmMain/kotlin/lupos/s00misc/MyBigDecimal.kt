@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s00misc
 import java.math.BigDecimal
 import java.math.MathContext
@@ -44,7 +43,7 @@ public actual class MyBigDecimal {
     public actual fun toPlainString(): String {
         return v.toPlainString()
     }
-    public actual fun compareTo(other: MyBigDecimal): Int {
+    public actual operator fun compareTo(other: MyBigDecimal): Int {
         return v.compareTo(other.v)
     }
     public actual operator fun plus(other: MyBigDecimal): MyBigDecimal {

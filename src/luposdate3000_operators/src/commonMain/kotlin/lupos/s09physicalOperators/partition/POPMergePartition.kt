@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s09physicalOperators.partition
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -112,7 +111,6 @@ public class POPMergePartition public constructor(query: IQuery, projectedVariab
                                     } else {
                                         SanityCheck.println { "merge $uuid $p writer append data" }
                                         ringbuffer[ringbufferWriteHead[p] + ringbufferStart[p]] = tmp
-                                        // println("$p produced")
                                         ringbufferWriteHead[p] = (ringbufferWriteHead[p] + 1) % elementsPerRing
                                         ringbufferReaderContinuation.signal()
                                     }
@@ -154,7 +152,6 @@ public class POPMergePartition public constructor(query: IQuery, projectedVariab
                                                 break@loop
                                             }
                                         }
-                                        // println("$p produced")
                                         ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                         ringbufferReaderContinuation.signal()
                                     }
@@ -192,7 +189,6 @@ public class POPMergePartition public constructor(query: IQuery, projectedVariab
                                     for (variable in variables.indices) {
                                         ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
                                     }
-                                    // println("$p produced")
                                     ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                     ringbufferReaderContinuation.signal()
                                 }
