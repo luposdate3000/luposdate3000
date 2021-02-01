@@ -34,6 +34,8 @@ public class Partition {
         public var default_k: Int = 128
         @JvmField
         public val queue_size: Int = 1000
+        @JvmField
+        public var myPartitionId = 0 // used for distributed database instances
     }
     public constructor() {
         data = mutableMapOf()
