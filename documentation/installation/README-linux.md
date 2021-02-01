@@ -44,7 +44,6 @@ dependencieshome=/opt
 }
 #intellij
 {
-    # Used to format the source code from the commandline - you may choose a more recent version.
     cd $dependencieshome
     wget https://download.jetbrains.com/idea/ideaIC-2020.1.2.tar.gz
     tar -xzf ideaIC-2020.1.2.tar.gz

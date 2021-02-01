@@ -170,8 +170,8 @@ fun execute(result_rows: Int, trash: Int) {
                                 val timeInMilliSeconds = (timeInNanoseconds / 1_000_000.0)
                                 val timeInMilliSecondsPerRepetition = timeInMilliSeconds / counter
                                 val timeInMilliSecondsPerResultRow = timeInMilliSeconds / (result_rows * counter)
-                                allDatabasePrintWriters[databaseIdx][result_rows].println("$trash,$timeInMilliSecondsPerResultRow,$queryname,${database.getThreads()},$triples,$counter,$timeInMilliSeconds,$timeInMilliSecondsPerRepetition")
-                                allDatabasePrintWriters[databaseIdx][result_rows].flush()
+                                allDatabasePrintWriters[databaseIdx][resultRowsArray.indexOf(result_rows)].println("$trash,$timeInMilliSecondsPerResultRow,$queryname,${database.getThreads()},$triples,$counter,$timeInMilliSeconds,$timeInMilliSecondsPerRepetition")
+                                allDatabasePrintWriters[databaseIdx][resultRowsArray.indexOf(result_rows)].flush()
                             }
                         } catch (e: Throwable) {
                             abortSignal = true
