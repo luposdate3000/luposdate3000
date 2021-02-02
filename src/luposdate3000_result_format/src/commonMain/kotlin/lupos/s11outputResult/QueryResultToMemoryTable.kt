@@ -1,4 +1,4 @@
-/*
+y/*
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
  *
@@ -68,7 +68,9 @@ public object QueryResultToMemoryTable {
             for (p in 0 until partitionCount) {
                 jobs[p] = Parallel.launch {
                     try {
-                        val child = node.getChildren()[0].evaluate(Partition(parent, partitionVariable, p, partitionCount))
+                        val child2 = node.getChildren()[0]
+child2.query.initialize(child2)
+valchild=child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
                         writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
                     } catch (e: Throwable) {
@@ -85,6 +87,7 @@ public object QueryResultToMemoryTable {
                 }
             }
         } else {
+node.query.initialize(node)
             val child = node.evaluate(parent)
             val columns = variables.map { child.columns[it]!! }.toTypedArray()
             writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
@@ -119,6 +122,7 @@ public object QueryResultToMemoryTable {
                 }
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
+node.query.initialize(node)
                     val child = node.evaluate(partition)
                     val value = node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next())
                     val res = MemoryTable(Array(0) { "" })
@@ -128,6 +132,7 @@ public object QueryResultToMemoryTable {
                     child.columns["?boolean"]!!.close()
                 } else {
                     if (variables.isEmpty()) {
+node.query.initialize(node)
                         val child = node.evaluate(partition)
                         val res = MemoryTable(Array(0) { "" })
                         res.query = rootNode.getQuery()

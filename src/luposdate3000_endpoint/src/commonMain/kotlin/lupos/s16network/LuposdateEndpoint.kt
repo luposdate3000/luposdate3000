@@ -297,7 +297,9 @@ public object LuposdateEndpoint {
     @JsName("import_xml_data")
     /*suspend*/ public fun importXmlData(data: String): String {
         val query = Query()
-        val import = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElementFromXML()(data)!!).evaluate(Partition())
+        val import2 = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElementFromXML()(data)!!)
+        query.initialize(import2)
+        val import = import2.evaluate(Partition())
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
         distributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyTypeExt.INSERT)
         distributedTripleStore.commit(query)
@@ -349,7 +351,6 @@ public object LuposdateEndpoint {
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")
         output.println()
-        node.getQuery().reset()
         var res: Any? = null
         res = when (evaluator) {
             EQueryResultToStreamExt.DEFAULT_STREAM -> QueryResultToStream(node, output)

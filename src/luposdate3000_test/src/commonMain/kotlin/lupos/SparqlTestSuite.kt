@@ -469,7 +469,9 @@ public open class SparqlTestSuite {
                     } else {
                         val query = Query()
                         query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
-                        val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate(Partition())
+                        val tmp2 = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput)
+                        query.root = tmp2
+                        val tmp = tmp2.evaluate(Partition())
                         distributedTripleStore.getDefaultGraph(query).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT)
                         distributedTripleStore.commit(query)
                         query.commited = true
@@ -496,7 +498,9 @@ public open class SparqlTestSuite {
                     val xmlQueryInput = XMLElement.parseFromAny(inputData2!!, it["filename"]!!)!!
                     val query = Query()
                     query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
-                    val tmp = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput).evaluate(Partition())
+                    val tmp2 = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput)
+                    query.root = tmp2
+                    val tmp = tmp2.evaluate(Partition())
                     distributedTripleStore.getNamedGraph(query, it["name"]!!).modify(arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT)
                     distributedTripleStore.commit(query)
                     query.commited = true

@@ -34,7 +34,7 @@ public class PartitionHelper public constructor() {
     internal var jobs: MutableMap<Partition, ParallelJob>? = null
     internal val lock = MyLock()
 }
-public class Query public constructor(@JvmField public val dictionary: ResultSetDictionary, @JvmField public val transactionID: Long) : IQuery {
+public class Query public constructor(@JvmField public val dictionary: ResultSetDictionary, @JvmField public var transactionID: Long) : IQuery {
     public constructor(dictionary: ResultSetDictionary) : this(dictionary, global_transactionID++)
     public constructor(transactionID: Long) : this(ResultSetDictionary(), transactionID)
     public constructor() : this(ResultSetDictionary(), global_transactionID++)
@@ -58,6 +58,17 @@ public class Query public constructor(@JvmField public val dictionary: ResultSet
     public val partitionOperators: MutableMap<Int, MutableSet<Long>> = mutableMapOf()
     @JvmField
     public val partitionOperatorCount: MutableMap<Int, Int> = mutableMapOf()
+    @JvmField
+    internal var root: IOPBase? = null
+    override fun initialize() {
+        initialize(root!!)
+    }
+    override fun initialize(newroot: IOPBase) {
+        root = newroot
+        transactionID = global_transactionID++
+        commited = false
+        partitions.clear()
+    }
     public fun getNextPartitionOperatorID(): Int {
         var res = 0
         while (partitionOperators[res] != null) {
@@ -128,9 +139,6 @@ public class Query public constructor(@JvmField public val dictionary: ResultSet
     override fun checkVariableExistence(): Boolean = !dontCheckVariableExistence
     override fun setCommited() {
         commited = true
-    }
-    override fun reset() {
-        partitions.clear()
     }
     public fun getUniqueVariableName(): String = "#+${generatedNameCounter++}"
     public fun isGeneratedVariableName(name: String): Boolean = name.startsWith('#')
