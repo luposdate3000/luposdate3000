@@ -425,14 +425,13 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         return "SELECT * WHERE{" + toSparql() + "}"
     }
     override fun toSparql(): String = throw ToSparqlNotImplementedException(classname)
-}
-    override /*suspend*/ fun toXMLElementRoot(partial:Boolean): XMLElement {
-return toXMLElement(partial)
-}
-    override /*suspend*/ fun toXMLElement(partial:Boolean): XMLElement {
-return toXMLElementHelper(partial,false)
-}
-     /*suspend*/ fun toXMLElementHelper(partial:Boolean,excludeChildren:Boolean): XMLElement {
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
+        return toXMLElement(partial)
+    }
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
+        return toXMLElementHelper(partial, false)
+    }
+    public /*suspend*/ fun toXMLElementHelper(partial: Boolean, excludeChildren: Boolean): XMLElement {
         val res = XMLElement(classname)
         try {
             res.addAttribute("uuid", "" + uuid)
@@ -456,18 +455,18 @@ return toXMLElementHelper(partial,false)
                     e.printStackTrace()
                 }
             }
-if(!excludeChildren){
-            if (children.isNotEmpty()) {
-                res.addContent(childrenToXML(partial))
+            if (!excludeChildren) {
+                if (children.isNotEmpty()) {
+                    res.addContent(childrenToXML(partial))
+                }
             }
-}
         } catch (e: Throwable) {
             SanityCheck.println { "TODO exception 9" }
             e.printStackTrace()
         }
         return res
     }
-    internal /*suspend*/ fun childrenToXML(partial:Boolean): XMLElement {
+    internal /*suspend*/ fun childrenToXML(partial: Boolean): XMLElement {
         val res = XMLElement("children")
         for (c in children) {
             res.addContent(c.toXMLElement(partial))

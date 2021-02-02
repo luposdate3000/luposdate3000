@@ -22,12 +22,14 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.IteratorBundle
+import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
+import lupos.s09physicalOperators.partition.POPSplitPartitionPassThrough
 import kotlin.jvm.JvmField
 public class PartitionHelper public constructor() {
     @JvmField public var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
@@ -65,13 +67,13 @@ public class Query public constructor(@JvmField public val dictionary: ResultSet
         initialize(root!!)
     }
 
-    internal fun initialize_helper(node: OPBase) {
-        if ((c is POPBase) || (c is OPBaseCompound)) {
-            for (ci in 0 until node.childrenToVerifyCount()) {
-                val c = node.children[ci]
+    internal fun initialize_helper(node: IOPBase) {
+        if ((node is POPBase) || (node is OPBaseCompound)) {
+            for (ci in 0 until (node as OPBase).childrenToVerifyCount()) {
+                val c = node.getChildren()[ci]
                 initialize_helper(c)
             }
-            when (c) {
+            when (node) {
                 is POPMergePartition,
                 is POPMergePartitionCount,
                 is POPMergePartitionOrderedByIntId,
@@ -95,7 +97,7 @@ public class Query public constructor(@JvmField public val dictionary: ResultSet
         transactionID = global_transactionID++
         commited = false
         partitions.clear()
-        initialize_helper(root)
+        initialize_helper(newroot)
     }
     public fun getNextPartitionOperatorID(): Int {
         var res = 0

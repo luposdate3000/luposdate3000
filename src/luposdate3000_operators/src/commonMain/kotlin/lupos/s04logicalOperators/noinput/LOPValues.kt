@@ -39,7 +39,7 @@ public class LOPValues public constructor(query: IQuery, @JvmField public val va
         for (v in variables) {
             xmlvariables.addContent(XMLElement("LocalVariable").addAttribute("name", v.name))
         }
-        bindings.addContent(childrenToXML())
+        bindings.addContent(childrenToXML(partial))
         return res
     }
     override fun equals(other: Any?): Boolean = other is LOPValues && variables == other.variables && children.contentEquals(other.children)

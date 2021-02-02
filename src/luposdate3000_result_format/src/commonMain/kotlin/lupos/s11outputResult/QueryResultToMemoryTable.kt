@@ -1,4 +1,4 @@
-y/*
+/*
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
  *
@@ -69,8 +69,8 @@ public object QueryResultToMemoryTable {
                 jobs[p] = Parallel.launch {
                     try {
                         val child2 = node.getChildren()[0]
-child2.query.initialize(child2)
-valchild=child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
+                        child2.getQuery().initialize(child2)
+                        val child = child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
                         writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
                     } catch (e: Throwable) {
@@ -87,7 +87,7 @@ valchild=child2.evaluate(Partition(parent, partitionVariable, p, partitionCount)
                 }
             }
         } else {
-node.query.initialize(node)
+            node.getQuery().initialize(node)
             val child = node.evaluate(parent)
             val columns = variables.map { child.columns[it]!! }.toTypedArray()
             writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
@@ -122,7 +122,7 @@ node.query.initialize(node)
                 }
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
-node.query.initialize(node)
+                    node.getQuery().initialize(node)
                     val child = node.evaluate(partition)
                     val value = node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next())
                     val res = MemoryTable(Array(0) { "" })
@@ -132,7 +132,7 @@ node.query.initialize(node)
                     child.columns["?boolean"]!!.close()
                 } else {
                     if (variables.isEmpty()) {
-node.query.initialize(node)
+                        node.getQuery().initialize(node)
                         val child = node.evaluate(partition)
                         val res = MemoryTable(Array(0) { "" })
                         res.query = rootNode.getQuery()

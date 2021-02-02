@@ -83,7 +83,7 @@ public class POPSort public constructor(query: IQuery, projectedVariables: List<
         res.addAttribute("providedSort", getPossibleSortPriorities().toString())
         res.addAttribute("filteredSort", sortPriorities.toString())
         res.addAttribute("selectedSort", mySortPriority.toString())
-        res.addContent(childrenToXML())
+        res.addContent(childrenToXML(partial))
         return res
     }
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {

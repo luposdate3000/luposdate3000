@@ -39,7 +39,7 @@ public class LOPSort public constructor(query: IQuery, @JvmField public val asc:
         res.addAttribute("providedSort", getPossibleSortPriorities().toString())
         res.addAttribute("filteredSort", sortPriorities.toString())
         res.addAttribute("selectedSort", mySortPriority.toString())
-        res.addContent(childrenToXML())
+        res.addContent(childrenToXML(partial))
         return res
     }
     override fun getRequiredVariableNames(): List<String> = listOf(by.name)
