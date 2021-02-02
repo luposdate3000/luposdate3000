@@ -260,6 +260,9 @@ abstract class DatabaseHandle() {
     abstract fun getName(): String
     abstract fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit): Unit
     abstract fun runQuery(query: String)
+    fun encode(s: String): String {
+        return URLEncoder.encode(s, "utf-8").replace("+", "%20").replace("*", "%2A")
+    }
 }
 class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
     var processInstance: Process? = null
@@ -353,7 +356,7 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
         errorThread.stop()
     }
     override fun runQuery(query: String) {
-        val encodedData = query.encodeToByteArray()
+        val encodedData = "query=${encode(query)}".encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql/query")
         val conn = u.openConnection() as HttpURLConnection
         conn.setDoOutput(true)
@@ -370,7 +373,7 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
         }
     }
     fun importData(file: String) {
-        val encodedData = file.encodeToByteArray()
+        val encodedData = "file=${encode(file)}".encodeToByteArray()
         val u = URL("http://$hostname:$port/import/turtle")
         val conn = u.openConnection() as HttpURLConnection
         conn.setDoOutput(true)
@@ -466,7 +469,7 @@ class DatabaseHandleJena() : DatabaseHandle() {
         errorThread.stop()
     }
     override fun runQuery(query: String) {
-        val encodedData = query.encodeToByteArray()
+        val encodedData = "query=${encode(query)}".encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql/jenaquery")
         val conn = u.openConnection() as HttpURLConnection
         conn.setDoOutput(true)
@@ -483,7 +486,7 @@ class DatabaseHandleJena() : DatabaseHandle() {
         }
     }
     fun importData(file: String) {
-        val encodedData = file.encodeToByteArray()
+        val encodedData = "file=${encode(file)}".encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql/jenaload")
         val conn = u.openConnection() as HttpURLConnection
         conn.setDoOutput(true)
@@ -549,7 +552,7 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
         errorThread.stop()
     }
     override fun runQuery(query: String) {
-        val encodedData = "query=$query".encodeToByteArray()
+        val encodedData = "query=${encode(query)}".encodeToByteArray()
         val u = URL("http://$hostname:9999/blazegraph/sparql")
         val conn = u.openConnection() as HttpURLConnection
         conn.setDoOutput(true)
@@ -634,7 +637,7 @@ class DatabaseHandleLuposdateMemory() : DatabaseHandle() {
         errorThread.stop()
     }
     override fun runQuery(query: String) {
-        val encodedData = "query=$query".encodeToByteArray()
+        val encodedData = "query=${encode(query)}".encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql")
         val conn = u.openConnection() as HttpURLConnection
         conn.setDoOutput(true)
@@ -723,7 +726,7 @@ class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
         errorThread.stop()
     }
     override fun runQuery(query: String) {
-        val encodedData = "query=$query".encodeToByteArray()
+        val encodedData = "query=${encode(query)}".encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql")
         val conn = u.openConnection() as HttpURLConnection
         conn.setDoOutput(true)
@@ -797,9 +800,6 @@ class DatabaseHandleVirtuoso() : DatabaseHandle() {
         inputreader.close()
         inputstream.close()
         inputThread.stop()
-    }
-    fun encode(s: String): String {
-        return URLEncoder.encode(s, "utf-8").replace("+", "%20").replace("*", "%2A")
     }
     override fun runQuery(query: String) {
         val encodedData = "default-graph-uri=${encode("http://benchmark")}&query=${encode(query)}&format=xml&timeout=0&debug=off&run=${encode(" Run Query")}".encodeToByteArray()

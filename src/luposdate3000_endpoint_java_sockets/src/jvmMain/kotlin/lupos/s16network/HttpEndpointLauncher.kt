@@ -47,6 +47,12 @@ public actual object HttpEndpointLauncher {
         stream.println("Content-Type: text/plain")
         stream.println()
     }
+    internal fun extractParamsFromString(str: String, params: MutableMap<String, String>) {
+        for (p in str.split('&')) {
+            val t = p.split('=')
+            params[t[0]] = URLDecoder.decode(t[1])
+        }
+    }
     public actual /*suspend*/ fun start() {
         val hosturl = Partition.myProcessUrls[Partition.myProcessId].split(":")
         val hostname = hosturl[0]
@@ -57,8 +63,8 @@ public actual object HttpEndpointLauncher {
         }
         try {
             val server = ServerSocket()
-            server.bind(InetSocketAddress(hostname, port))
-            println("launched server socket on '$hostname':'$port' - waiting for connections now")
+            server.bind(InetSocketAddress("0.0.0.0", port)) // maybe use "::" for ipv6
+            println("launched server socket on '0.0.0.0':'$port' - waiting for connections now")
             while (true) {
                 val connection = server.accept()
                 Thread {
@@ -90,11 +96,7 @@ public actual object HttpEndpointLauncher {
                             }
                             idx = path.indexOf('?')
                             if (idx > 0) {
-                                val allparams = path.substring(idx + 1)
-                                for (p in allparams.split('&')) {
-                                    val t = p.split('=')
-                                    params[t[0]] = URLDecoder.decode(t[1])
-                                }
+                                extractParamsFromString(path.substring(idx + 1), params)
                                 path = path.substring(0, idx)
                             }
                             val content = StringBuilder()
@@ -103,38 +105,34 @@ public actual object HttpEndpointLauncher {
                             }
                             when (path) {
                                 "/sparql/jenaquery" -> {
-                                    printHeaderSuccess(connectionOut)
                                     if (isPost) {
-                                        connectionOut.print(JenaWrapper.execQuery(content.toString()))
-                                    } else {
-                                        connectionOut.print(JenaWrapper.execQuery(params["query"]!!))
+                                        extractParamsFromString(content.toString(), params)
                                     }
+                                    printHeaderSuccess(connectionOut)
+                                    connectionOut.print(JenaWrapper.execQuery(params["query"]!!))
                                     /*Coverage Unreachable*/
                                 }
                                 "/sparql/jenaload" -> {
                                     if (isPost) {
-                                        JenaWrapper.loadFromFile(content.toString())
-                                    } else {
-                                        JenaWrapper.loadFromFile(params["query"]!!)
+                                        extractParamsFromString(content.toString(), params)
                                     }
+                                    JenaWrapper.loadFromFile(params["file"]!!)
                                     printHeaderSuccess(connectionOut)
                                     connectionOut.print("success")
                                 }
                                 "/sparql/query" -> {
                                     if (isPost) {
-                                        LuposdateEndpoint.evaluateSparqlToResultD(content.toString(), connectionOut, false)
-                                    } else {
-                                        LuposdateEndpoint.evaluateSparqlToResultD(params["query"]!!, connectionOut, false)
+                                        extractParamsFromString(content.toString(), params)
                                     }
+                                    LuposdateEndpoint.evaluateSparqlToResultD(params["query"]!!, connectionOut, false)
                                     /*Coverage Unreachable*/
                                 }
                                 "/sparql/operator" -> {
-                                    printHeaderSuccess(connectionOut)
                                     if (isPost) {
-                                        connectionOut.print(LuposdateEndpoint.evaluateOperatorgraphxmlToResultB(content.toString(), true))
-                                    } else {
-                                        connectionOut.print(LuposdateEndpoint.evaluateOperatorgraphxmlToResultB(params["query"]!!, true))
+                                        extractParamsFromString(content.toString(), params)
                                     }
+                                    printHeaderSuccess(connectionOut)
+                                    connectionOut.print(LuposdateEndpoint.evaluateOperatorgraphxmlToResultB(params["query"]!!, true))
                                     /*Coverage Unreachable*/
                                 }
                                 "/import/turtle" -> {
@@ -145,31 +143,61 @@ public actual object HttpEndpointLauncher {
                                             dict[it] = nodeGlobalDictionary.createNewBNode()
                                         }
                                     }
-                                    printHeaderSuccess(connectionOut)
                                     if (isPost) {
-                                        connectionOut.print(LuposdateEndpoint.importTurtleFiles(content.toString(), dict))
-                                    } else {
-                                        connectionOut.print(LuposdateEndpoint.importTurtleFiles(params["query"]!!, dict))
+                                        extractParamsFromString(content.toString(), params)
                                     }
+                                    printHeaderSuccess(connectionOut)
+                                    connectionOut.print(LuposdateEndpoint.importTurtleFiles(params["file"]!!, dict))
                                     /*Coverage Unreachable*/
                                 }
                                 "/import/intermediate" -> {
-                                    printHeaderSuccess(connectionOut)
                                     if (isPost) {
-                                        connectionOut.print(LuposdateEndpoint.importIntermediateFiles(content.toString()))
-                                    } else {
-                                        connectionOut.print(LuposdateEndpoint.importIntermediateFiles(params["query"]!!))
+                                        extractParamsFromString(content.toString(), params)
                                     }
+                                    printHeaderSuccess(connectionOut)
+                                    connectionOut.print(LuposdateEndpoint.importIntermediateFiles(params["file"]!!))
                                     /*Coverage Unreachable*/
                                 }
                                 "/import/xml" -> {
-                                    printHeaderSuccess(connectionOut)
                                     if (isPost) {
-                                        connectionOut.print(LuposdateEndpoint.importXmlData(content.toString()))
-                                    } else {
-                                        connectionOut.print(LuposdateEndpoint.importXmlData(params["query"]!!))
+                                        extractParamsFromString(content.toString(), params)
                                     }
+                                    printHeaderSuccess(connectionOut)
+                                    connectionOut.print(LuposdateEndpoint.importXmlData(params["xml"]!!))
                                     /*Coverage Unreachable*/
+                                }
+                                "/index.html" -> {
+                                    connectionOut.println("HTTP/1.1 200 OK")
+                                    connectionOut.println("Content-Type: text/html; charset=UTF-8")
+                                    connectionOut.println()
+                                    connectionOut.println("<html>")
+                                    connectionOut.println("   <head>")
+                                    connectionOut.println("      <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>")
+                                    connectionOut.println("      <script>")
+                                    connectionOut.println("         $(document).ready(function() {")
+                                    connectionOut.println("             $('#queryForm').on(\"submit\", function(event) {")
+                                    connectionOut.println("                 var formData = {")
+                                    connectionOut.println("                     'query': $('input[name=query]').val()")
+                                    connectionOut.println("                 };")
+                                    connectionOut.println("                 $.ajax({")
+                                    connectionOut.println("                         type: 'POST',")
+                                    connectionOut.println("                         url: 'sparql/query',")
+                                    connectionOut.println("                         data: formData")
+                                    connectionOut.println("                     })")
+                                    connectionOut.println("                     .done(function(data) {")
+                                    connectionOut.println("                         $('#responseDiv').text(data);")
+                                    connectionOut.println("                     });")
+                                    connectionOut.println("                 event.preventDefault();")
+                                    connectionOut.println("             });")
+                                    connectionOut.println("         });")
+                                    connectionOut.println("      </script>")
+                                    connectionOut.println("   </head>")
+                                    connectionOut.println("   <form id=\"queryForm\" >")
+                                    connectionOut.println("      <input type=\"text\" name=\"query\" value=\"select * where { ?s ?p ?o . }\" />")
+                                    connectionOut.println("      <input type=\"submit\" />")
+                                    connectionOut.println("   </form>")
+                                    connectionOut.println("   <div id=\"responseDiv\" />")
+                                    connectionOut.println("</html>")
                                 }
                                 else -> {
                                     throw EnpointRecievedInvalidPath(path)
