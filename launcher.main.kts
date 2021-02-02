@@ -860,6 +860,8 @@ fun onRun() {
             val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt")
             cmd.addAll(runArgs)
             if (dryMode == "Enable") {
+                println("export LUPOS_PROCESS_URLS=processUrls")
+                println("export LUPOS_THREAD_COUNT=$threadCount")
                 println("exec :: " + cmd.joinToString(" "))
             } else {
                 val processes = Array(processUrls.count { it == ',' } + 1) {
@@ -1108,7 +1110,12 @@ fun onGenerateLauncherMain() {
                         }
                         out.println("public fun main(args: Array<String>) {")
                         out.println("    var flag = false")
+                        var first = true
                         for (o in options) {
+                            if (!first) {
+                                out.println("    flag = false")
+                            }
+                            first = false
                             out.println("    var $o: String = \"\"")
                             out.println("    for (a in args) {")
                             out.println("        if (a.startsWith(\"--$o=\")) {")

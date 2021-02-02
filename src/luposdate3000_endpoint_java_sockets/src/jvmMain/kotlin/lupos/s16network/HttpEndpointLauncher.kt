@@ -20,6 +20,7 @@ import lupos.s00misc.File
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
+import lupos.s00misc.Partition
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -47,7 +48,7 @@ public actual object HttpEndpointLauncher {
         stream.println()
     }
     public actual /*suspend*/ fun start() {
-        val hosturl = Partition.myProcessUrls[Partition.myProcessId].split[":"]
+        val hosturl = Partition.myProcessUrls[Partition.myProcessId].split(":")
         val hostname = hosturl[0]
         val port = if (hosturl.size> 1) {
             hosturl[1].toInt()

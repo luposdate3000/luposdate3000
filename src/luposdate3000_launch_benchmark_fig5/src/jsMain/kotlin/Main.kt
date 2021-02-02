@@ -29,6 +29,7 @@ public fun main(args: Array<String>) {
     if (!flag) {
         throw Exception("the option '--datasource_files' is missing on the arguments list")
     }
+    flag = false
     var minimum_time: String = ""
     for (a in args) {
         if (a.startsWith("--minimum_time=")) {
@@ -40,6 +41,7 @@ public fun main(args: Array<String>) {
     if (!flag) {
         throw Exception("the option '--minimum_time' is missing on the arguments list")
     }
+    flag = false
     var number_of_triples: String = ""
     for (a in args) {
         if (a.startsWith("--number_of_triples=")) {
@@ -51,6 +53,7 @@ public fun main(args: Array<String>) {
     if (!flag) {
         throw Exception("the option '--number_of_triples' is missing on the arguments list")
     }
+    flag = false
     var trash: String = ""
     for (a in args) {
         if (a.startsWith("--trash=")) {
@@ -62,6 +65,7 @@ public fun main(args: Array<String>) {
     if (!flag) {
         throw Exception("the option '--trash' is missing on the arguments list")
     }
+    flag = false
     var join: String = ""
     for (a in args) {
         if (a.startsWith("--join=")) {
@@ -73,6 +77,7 @@ public fun main(args: Array<String>) {
     if (!flag) {
         throw Exception("the option '--join' is missing on the arguments list")
     }
+    flag = false
     var join_count: String = ""
     for (a in args) {
         if (a.startsWith("--join_count=")) {

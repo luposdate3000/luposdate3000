@@ -16,38 +16,5 @@
  */
 public fun main(args: Array<String>) {
     var flag = false
-    var hostname: String = ""
-    for (a in args) {
-        if (a.startsWith("--hostname=")) {
-            hostname = a.substring(11)
-            flag = true
-            break
-        }
-    }
-    if (!flag) {
-        throw Exception("the option '--hostname' is missing on the arguments list")
-    }
-    var port: String = ""
-    for (a in args) {
-        if (a.startsWith("--port=")) {
-            port = a.substring(7)
-            flag = true
-            break
-        }
-    }
-    if (!flag) {
-        throw Exception("the option '--port' is missing on the arguments list")
-    }
-    var partitionCount: String = ""
-    for (a in args) {
-        if (a.startsWith("--partitionCount=")) {
-            partitionCount = a.substring(17)
-            flag = true
-            break
-        }
-    }
-    if (!flag) {
-        throw Exception("the option '--partitionCount' is missing on the arguments list")
-    }
-    mainFunc(hostname, port, partitionCount)
+    mainFunc()
 }

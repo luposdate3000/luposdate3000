@@ -299,16 +299,22 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
             .redirectError(Redirect.INHERIT)
         val p_launcher_instance = p_launcher.start()
         var cmd = listOf<String>()
+        var env2 = mutableMapOf<String, String>()
         p_launcher_instance!!.getInputStream().bufferedReader().use {
             var line = it.readLine()
             while (line != null) {
                 if (line.startsWith("exec :: ")) {
                     cmd = line.substring("exec :: ".length).split(" ")
+                } else if (line.startsWith("export ")) {
+                    val tmp = line.substring("export ".length).split("=")
+                    env2[tmp[0]] = tmp[1]
                 }
                 line = it.readLine()
             }
         }
         val p = ProcessBuilder(cmd).directory(File("."))
+        val env = p.environment()
+        env.putAll(env2)
         processInstance = p.start()
         val inputstream = processInstance!!.getInputStream()
         val inputreader = inputstream.bufferedReader()
@@ -404,17 +410,22 @@ class DatabaseHandleJena() : DatabaseHandle() {
             .redirectError(Redirect.INHERIT)
         val p_launcher_instance = p_launcher.start()
         var cmd = listOf<String>()
+        var env2 = mutableMapOf<String, String>()
         p_launcher_instance!!.getInputStream().bufferedReader().use {
             var line = it.readLine()
             while (line != null) {
                 if (line.startsWith("exec :: ")) {
                     cmd = line.substring("exec :: ".length).split(" ")
+                } else if (line.startsWith("export ")) {
+                    val tmp = line.substring("export ".length).split("=")
+                    env2[tmp[0]] = tmp[1]
                 }
                 line = it.readLine()
             }
         }
-        println(cmd)
         val p = ProcessBuilder(cmd).directory(File("."))
+        val env = p.environment()
+        env.putAll(env2)
         processInstance = p.start()
         val inputstream = processInstance!!.getInputStream()
         val inputreader = inputstream.bufferedReader()
