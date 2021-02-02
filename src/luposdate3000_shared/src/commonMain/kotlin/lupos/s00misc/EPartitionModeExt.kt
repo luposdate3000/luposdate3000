@@ -14,8 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s16network
-@OptIn(ExperimentalStdlibApi::class)
-actual object HttpEndpointLauncher {
-    actual /*suspend*/ fun start() {}
+package lupos.s00misc
+import kotlin.jvm.JvmField
+public object EPartitionModeExt {
+    public const val None: EPartitionMode = 0
+    public const val Process: EPartitionMode = 1
+    public const val Thread: EPartitionMode = 2
+    public const val values_size: Int = 3
+    @JvmField public val names: Array<String> = arrayOf(
+        "None",
+        "Process",
+        "Thread",
+    )
 }

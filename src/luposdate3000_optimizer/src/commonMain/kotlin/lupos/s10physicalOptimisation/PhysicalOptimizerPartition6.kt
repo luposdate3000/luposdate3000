@@ -18,6 +18,7 @@ package lupos.s10physicalOptimisation
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EOptimizerIDExt
+import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
@@ -38,7 +39,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
     override val classname: String = "PhysicalOptimizerPartition6"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        if (USE_PARTITIONS && Partition.default_k > 1) {
+        if ((USE_PARTITIONS == EPartitionModeExt.Threads || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {
             when (node) {
                 is TripleStoreIteratorGlobal -> {
                     if (TripleStoreLocal.providesFeature(TripleStoreFeatureExt.PARTITION, null)) {

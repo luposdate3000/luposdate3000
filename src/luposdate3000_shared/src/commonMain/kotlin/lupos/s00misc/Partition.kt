@@ -35,7 +35,40 @@ public class Partition {
         @JvmField
         public val queue_size: Int = 1000
         @JvmField
-        public var myPartitionId: Int = 0 // used for distributed database instances
+        public var myProcessId: Int = Platform.getEnv("LUPOS_PROCESS_ID", "0").toInt()
+        @JvmField
+        public var myThreadCount: Int = Platform.getEnv("LUPOS_THREAD_COUNT", "1").toInt()
+        @JvmField
+        public var myProcessUrls: List<String> = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80").split(",")
+        @JvmField
+        public var myProcessCount: Int = myProcessUrls.size
+        init {
+            val countTotal = if (myThreadCount > myProcessCount) {
+                myThreadCount
+            } else {
+                myProcessCount
+            }
+            default_k = countTotal
+            if (countTotal == 0 || countTotal == 1) {
+                for (s in listOf("SPO", "SOP", "PSO", "POS", "OSP", "OPS")) {
+                    estimatedPartitions0.add(s)
+                }
+                estimatedPartitionsValid = true
+            } else if (countTotal> 1) {
+                for (s in listOf("SPO", "SOP", "PSO", "POS", "OSP", "OPS")) {
+                    if (estimatedPartitions1[s] == null) {
+                        estimatedPartitions1[s] = mutableSetOf()
+                    }
+                    if (estimatedPartitions2[s] == null) {
+                        estimatedPartitions2[s] = mutableSetOf()
+                    }
+                    estimatedPartitions1[s]!!.add(countTotal)
+                    estimatedPartitions2[s]!!.add(countTotal)
+                }
+                estimatedPartitionsValid = true
+            }
+            println("initialized Partition with myProcessId=$myProcessId myProcessCount=$myProcessCount myThreadCount=$myThreadCount myProcessUrls=$myProcessUrls")
+        }
     }
     public constructor() {
         data = mutableMapOf()
@@ -43,13 +76,13 @@ public class Partition {
     }
     public constructor(parentPartition: Partition, variableName: String, partitionNumber: Int, partitionLimit: Int) {
         val t = mutableMapOf<String, Int>()
-        for ((k, v) in parentPartition.data) {
+        for ((k, v) in parentdata) {
             t[k] = v
         }
         t[variableName] = partitionNumber
         data = t
         val t2 = mutableMapOf<String, Int>()
-        for ((k, v) in parentPartition.limit) {
+        for ((k, v) in parentlimit) {
             t2[k] = v
         }
         t2[variableName] = partitionLimit
@@ -57,14 +90,14 @@ public class Partition {
     }
     public constructor(parentPartition: Partition, variableName: String) {
         val t = mutableMapOf<String, Int>()
-        for ((k, v) in parentPartition.data) {
+        for ((k, v) in parentdata) {
             if (k != variableName) {
                 t[k] = v
             }
         }
         data = t
         val t2 = mutableMapOf<String, Int>()
-        for ((k, v) in parentPartition.limit) {
+        for ((k, v) in parentlimit) {
             if (k != variableName) {
                 t2[k] = v
             }

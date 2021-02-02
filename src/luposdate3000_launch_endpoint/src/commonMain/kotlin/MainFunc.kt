@@ -15,36 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import lupos.s00misc.Parallel
-import lupos.s00misc.Partition
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.HttpEndpointLauncher
 import lupos.s16network.LuposdateEndpoint
-internal fun mainFunc(hostname: String, port: String, partitionCount: String): Unit = Parallel.runBlocking {
+internal fun mainFunc(): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-    Partition.estimatedPartitions0.clear()
-    Partition.estimatedPartitions1.clear()
-    Partition.estimatedPartitions2.clear()
-    if (partitionCount.toInt() == 0 || partitionCount.toInt() == 1) {
-        for (s in listOf("SPO", "SOP", "PSO", "POS", "OSP", "OPS")) {
-            Partition.estimatedPartitions0.add(s)
-        }
-        Partition.estimatedPartitionsValid = true
-    } else if (partitionCount.toInt()> 1) {
-        for (s in listOf("SPO", "SOP", "PSO", "POS", "OSP", "OPS")) {
-            if (Partition.estimatedPartitions1[s] == null) {
-                Partition.estimatedPartitions1[s] = mutableSetOf()
-            }
-            if (Partition.estimatedPartitions2[s] == null) {
-                Partition.estimatedPartitions2[s] = mutableSetOf()
-            }
-            Partition.estimatedPartitions1[s]!!.add(partitionCount.toInt())
-            Partition.estimatedPartitions2[s] !!.add(partitionCount.toInt())
-        }
-        Partition.estimatedPartitionsValid = true
-    }
     distributedTripleStore.reloadPartitioningScheme()
 //    Parallel.launch {
-    HttpEndpointLauncher.start(hostname, port.toInt())
+    HttpEndpointLauncher.start()
 //    }
 //    while (true) {
 //        Parallel.delay(1000)

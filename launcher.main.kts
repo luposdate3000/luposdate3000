@@ -50,6 +50,8 @@ var intellijMode = ""
 var runArgs = mutableListOf<String>()
 var skipArgs = false
 var compileSpecific: String? = null
+var threadCount = 1
+var processUrls = ""
 enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, ALL_TEST, UNKNOWN }
 var execMode = ExecMode.UNKNOWN
 enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
@@ -69,37 +71,277 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
         .ssetIdeaBuildfile(intellijMode2)
         .ssetCodegen(false)
     var res = mutableListOf<Pair<CreateModuleArgs, ()->Boolean>>()
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Shared_Inline").ssetArgs2(compileModuleArgs), { intellijMode == "Enable" }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Scripting").ssetArgs2(compileModuleArgs), { intellijMode == "Enable" }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Shared").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Jena_Wrapper_On", "Luposdate3000_Jena_Wrapper").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Jena_Wrapper_Off", "Luposdate3000_Jena_Wrapper").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Parser").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Buffer_Manager_Inmemory", "Luposdate3000_Buffer_Manager").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Buffer_Manager_Persistent", "Luposdate3000_Buffer_Manager").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Dictionary_Inmemory", "Luposdate3000_Dictionary").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Operators").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Result_Format").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Triple_Store_Id_Triple").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Triple_Store_All_NoPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all").ssetArgs2(compileModuleArgs).ssetArgs(mutableMapOf("USE_PARTITIONS2" to "false")), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Triple_Store_All_WithPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all").ssetArgs2(compileModuleArgs), { intellijMode != "Enable" }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Optimizer_NoPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer").ssetArgs2(compileModuleArgs).ssetArgs(mutableMapOf("USE_PARTITIONS" to "false")), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Optimizer_WithPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer").ssetArgs2(compileModuleArgs), { intellijMode != "Enable" }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Endpoint").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Test").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Endpoint_None", "Luposdate3000_Endpoint_Launcher").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Endpoint_Java_Sockets", "Luposdate3000_Endpoint_Launcher").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Code_Generator").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Benchmark", "Luposdate3000_Main").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Benchmark_Fig5", "Luposdate3000_Main").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Binary_Test_Add", "Luposdate3000_Main").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Binary_Test_Suite", "Luposdate3000_Main").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Endpoint", "Luposdate3000_Main").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Import", "Luposdate3000_Main").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Sparql_Test_Suite", "Luposdate3000_Main").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Prepared_Statement", "Luposdate3000_Main").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Generate_Binary_Test_Suite", "Luposdate3000_Main").ssetArgs2(compileModuleArgs), { true }))
-    res.add(Pair(localArgs.ssetModuleName("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main").ssetCodegen(true).ssetArgs2(compileModuleArgs), { true }))
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Shared_Inline")
+                .ssetArgs2(compileModuleArgs),
+            { intellijMode == "Enable" }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Scripting")
+                .ssetArgs2(compileModuleArgs),
+            { intellijMode == "Enable" }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Shared")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Jena_Wrapper_On", "Luposdate3000_Jena_Wrapper")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Jena_Wrapper_Off", "Luposdate3000_Jena_Wrapper")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Parser")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Buffer_Manager_Inmemory", "Luposdate3000_Buffer_Manager")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Buffer_Manager_Persistent", "Luposdate3000_Buffer_Manager")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Dictionary_Inmemory", "Luposdate3000_Dictionary")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Operators")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Result_Format")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Triple_Store_Id_Triple")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Triple_Store_All_NoPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all")
+                .ssetArgs2(compileModuleArgs)
+                .ssetArgs(mutableMapOf("USE_PARTITIONS2" to "lupos.s00misc.EPartitionMode.None")),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Triple_Store_All_WithThreadPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all")
+                .ssetArgs2(compileModuleArgs)
+                .ssetArgs(mutableMapOf("USE_PARTITIONS2" to "lupos.s00misc.EPartitionMode.Threads")),
+            { intellijMode != "Enable" }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Triple_Store_All_WithProcessPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all")
+                .ssetArgs2(compileModuleArgs)
+                .ssetArgs(mutableMapOf("USE_PARTITIONS2" to "lupos.s00misc.EPartitionMode.Process")),
+            { intellijMode != "Enable" }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Optimizer_NoPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer")
+                .ssetArgs2(compileModuleArgs)
+                .ssetArgs(mutableMapOf("USE_PARTITIONS" to "lupos.s00misc.EPartitionMode.None")),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Optimizer_WithThreadPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer")
+                .ssetArgs2(compileModuleArgs)
+                .ssetArgs(mutableMapOf("USE_PARTITIONS" to "lupos.s00misc.EPartitionMode.Threads")),
+            { intellijMode != "Enable" }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Optimizer_WithProcessPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer")
+                .ssetArgs2(compileModuleArgs)
+                .ssetArgs(mutableMapOf("USE_PARTITIONS" to "lupos.s00misc.EPartitionMode.Process")),
+            { intellijMode != "Enable" }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Endpoint")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Test")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Endpoint_None", "Luposdate3000_Endpoint_Launcher")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Endpoint_Java_Sockets", "Luposdate3000_Endpoint_Launcher")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Code_Generator")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Launch_Benchmark", "Luposdate3000_Main")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Launch_Benchmark_Fig5", "Luposdate3000_Main")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Launch_Binary_Test_Add", "Luposdate3000_Main")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Launch_Binary_Test_Suite", "Luposdate3000_Main")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Launch_Endpoint", "Luposdate3000_Main")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Launch_Import", "Luposdate3000_Main")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Launch_Sparql_Test_Suite", "Luposdate3000_Main")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Launch_Prepared_Statement", "Luposdate3000_Main")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Launch_Generate_Binary_Test_Suite", "Luposdate3000_Main")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main")
+                .ssetCodegen(true)
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
     return res
 }
 class ParamClass {
@@ -249,6 +491,20 @@ val defaultParams = mutableListOf(
         )
     ),
     ParamClass(
+        "--threadCount",
+        "",
+        {
+            threadCount = it.toInt()
+        }
+    ),
+    ParamClass(
+        "--processUrls",
+        "",
+        {
+            processUrls = it
+        }
+    ),
+    ParamClass(
         "--jenaWrapper",
         "Off",
         mapOf(
@@ -282,10 +538,11 @@ val defaultParams = mutableListOf(
     ),
     ParamClass(
         "--partitionMode",
-        "On",
+        "Threads",
         mapOf(
-            "On" to { partitionMode = "_WithPartitions" },
-            "Off" to { partitionMode = "_NoPartitions" },
+            "Threads" to { partitionMode = "_WithThreadPartitions" },
+            "Process" to { partitionMode = "_WithProcessPartitions" },
+            "None" to { partitionMode = "_NoPartitions" },
         )
     ),
     ParamClass(
@@ -605,13 +862,20 @@ fun onRun() {
             if (dryMode == "Enable") {
                 println("exec :: " + cmd.joinToString(" "))
             } else {
-                val p = ProcessBuilder(cmd)
-                    .redirectOutput(Redirect.INHERIT)
-                    .redirectError(Redirect.INHERIT)
-                    .start()
-                p.waitFor()
-                if (p.exitValue() != 0) {
-                    throw Exception("exit-code:: " + p.exitValue())
+                val processes = Array(processUrls.count { it == ',' } + 1) {
+                    val p = ProcessBuilder(cmd)
+                        .redirectOutput(Redirect.INHERIT)
+                        .redirectError(Redirect.INHERIT)
+                    val env = p.environment()
+                    env["LUPOS_PROCESS_ID"] = "$it"
+                    env["LUPOS_PROCESS_URLS"] = processUrls
+                    env["LUPOS_THREAD_COUNT"] = "$threadCount"
+                    p.start()
+                }.forEach {
+                    it.waitFor()
+                    if (it.exitValue() != 0) {
+                        throw Exception("exit-code:: " + it.exitValue())
+                    }
                 }
             }
         }
@@ -623,7 +887,7 @@ fun onRun() {
                 throw Exception("JS can only use 'Off' as jenaWrapper")
             }
             if (partitionMode != "_NoPartitions") {
-                throw Exception("JS can only use 'Off' as partitionMode")
+                throw Exception("JS can only use 'None' as partitionMode")
             }
             File("build-cache${Platform.getPathSeparator()}node_modules").deleteRecursively()
             File("build-cache${Platform.getPathSeparator()}node_modules").mkdirs()
@@ -798,13 +1062,14 @@ fun onGenerateEnums() {
         listOf("ETripleComponentType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}ETripleComponentType"),
         listOf("EGraphOperationType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EGraphOperationType"),
         listOf("ESortType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}ESortType"),
-        listOf("EGroupMember", "", "lupos.s00misc", "public", "", "", "src${Platform.getPathSeparator()}luposdate3000_optimizer${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EGroupMember"),
+        listOf("EGroupMember", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_optimizer${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EGroupMember"),
         listOf("EQueryResultToStream", "lupos.s11outputResult", "public", "src${Platform.getPathSeparator()}luposdate3000_result_format${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s11outputResult${Platform.getPathSeparator()}EQueryResultToStream"),
-        listOf("EPOPDebugMode", "lupos.s00misc", "public", "", "src${Platform.getPathSeparator()}luposdate3000_operators${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EPOPDebugMode"),
+        listOf("EPOPDebugMode", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_operators${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EPOPDebugMode"),
         listOf("Turtle2ParserState", "lupos.s02buildSyntaxTree.turtle", "internal", "src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}turtle${Platform.getPathSeparator()}Turtle2ParserState"),
         listOf("EOptimizerID", "lupos.s00misc", "internal", "src${Platform.getPathSeparator()}luposdate3000_optimizer${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EOptimizerID"),
         listOf("EOperatingSystem", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EOperatingSystem"),
         listOf("EIndexPattern", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EIndexPattern"),
+        listOf("EPartitionMode", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EPartitionMode"),
     )
     for (args in generatingArgs) {
         onGenerateEnumsHelper(args[0], args[1], args[2], args[3])
@@ -945,34 +1210,34 @@ fun onAllTest() {
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s.compile-err")))
                     .start()
                     .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=On", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Threads", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions.test-err")))
                     .start()
                     .waitFor()
                 File("/tmp/luposdate3000/").deleteRecursively()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions.test-err")))
                     .start()
                     .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=persistent", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=persistent", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent.test-err")))
                     .start()
                     .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=On", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Threads", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions-Proguard.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions-Proguard.test-err")))
                     .start()
                     .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Proguard.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Proguard.test-err")))
                     .start()
                     .waitFor()
                 File("/tmp/luposdate3000/").deleteRecursively()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Off", "--partitionMode=On", "--memoryMode=persistent", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=\"resources/binary\"", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=persistent", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
                     .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent-Proguard.test-log")))
                     .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent-Proguard.test-err")))
                     .start()

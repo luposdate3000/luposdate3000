@@ -16,6 +16,7 @@
  */
 package lupos.s10physicalOptimisation
 import lupos.s00misc.EOptimizerIDExt
+import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.USE_PARTITIONS
 import lupos.s04logicalOperators.IOPBase
@@ -57,7 +58,7 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
         }
     }
     private fun embedWithinPartitionContext(joinColumns: MutableList<String>, childA: IOPBase, childB: IOPBase, create: (IOPBase, IOPBase) -> IOPBase, keepOrder: Boolean): IOPBase {
-        if (USE_PARTITIONS && Partition.default_k > 1) {
+        if ((USE_PARTITIONS == EPartitionModeExt.Threads || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {
             var a = childA
             var b = childB
             val newID = IntArray(joinColumns.size) { 0 }

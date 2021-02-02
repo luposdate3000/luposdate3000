@@ -275,11 +275,10 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
                 "--proguardMode=On",
                 "--mainClass=Endpoint",
                 "--endpointMode=Java_Sockets",
-                "--partitionMode=On",
+                "--partitionMode=Threads",
                 "--dryMode=Enable",
-                "--runArgument_Luposdate3000_Launch_Endpoint:hostname=$hostname",
-                "--runArgument_Luposdate3000_Launch_Endpoint:port=$port",
-                "--runArgument_Luposdate3000_Launch_Endpoint:partitionCount=$partitionCount",
+                "--threadCount=$partitionCount",
+                "--processUrls=$hostname:$port",
             )
         } else {
             ProcessBuilder(
@@ -290,11 +289,10 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
                 "--proguardMode=On",
                 "--mainClass=Endpoint",
                 "--endpointMode=Java_Sockets",
-                "--partitionMode=Off",
+                "--partitionMode=None",
                 "--dryMode=Enable",
-                "--runArgument_Luposdate3000_Launch_Endpoint:hostname=$hostname",
-                "--runArgument_Luposdate3000_Launch_Endpoint:port=$port",
-                "--runArgument_Luposdate3000_Launch_Endpoint:partitionCount=$partitionCount",
+                "--threadCount=$partitionCount",
+                "--processUrls=$hostname:$port",
             )
         }
             .directory(File("."))
@@ -397,11 +395,10 @@ class DatabaseHandleJena() : DatabaseHandle() {
             "--proguardMode=On",
             "--mainClass=Endpoint",
             "--endpointMode=Java_Sockets",
-            "--partitionMode=Off",
+            "--partitionMode=None",
             "--dryMode=Enable",
-            "--runArgument_Luposdate3000_Launch_Endpoint:hostname=$hostname",
-            "--runArgument_Luposdate3000_Launch_Endpoint:port=$port",
-            "--runArgument_Luposdate3000_Launch_Endpoint:partitionCount=1",
+            "--threadCount=1",
+            "--processUrls=$hostname:$port",
         )
             .directory(File("."))
             .redirectError(Redirect.INHERIT)

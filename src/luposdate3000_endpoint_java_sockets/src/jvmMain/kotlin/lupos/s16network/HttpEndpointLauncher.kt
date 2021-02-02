@@ -46,7 +46,14 @@ public actual object HttpEndpointLauncher {
         stream.println("Content-Type: text/plain")
         stream.println()
     }
-    public actual /*suspend*/ fun start(hostname: String, port: Int) {
+    public actual /*suspend*/ fun start() {
+        val hosturl = Partition.myProcessUrls[Partition.myProcessId].split[":"]
+        val hostname = hosturl[0]
+        val port = if (hosturl.size> 1) {
+            hosturl[1].toInt()
+        } else {
+            80
+        }
         try {
             val server = ServerSocket()
             server.bind(InetSocketAddress(hostname, port))

@@ -14,8 +14,5 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s16network
-@OptIn(ExperimentalStdlibApi::class)
-actual object HttpEndpointLauncher {
-    actual /*suspend*/ fun start() {}
-}
+package lupos.s00misc
+public typealias EPartitionMode = Int

@@ -16,6 +16,7 @@
  */
 package lupos.s10physicalOptimisation
 import lupos.s00misc.EOptimizerIDExt
+import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.USE_PARTITIONS
 import lupos.s04logicalOperators.IOPBase
@@ -47,7 +48,7 @@ public class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EO
         return count
     }
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        if (USE_PARTITIONS && Partition.default_k > 1) {
+        if ((USE_PARTITIONS == EPartitionModeExt.Threads || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {
             when (node) {
                 is POPSplitPartitionFromStore -> {
                     val tmp = query.partitionOperatorCount[node.partitionID]
