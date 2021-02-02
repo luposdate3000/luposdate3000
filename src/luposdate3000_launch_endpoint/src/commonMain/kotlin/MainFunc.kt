@@ -15,12 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import lupos.s00misc.Parallel
-import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.HttpEndpointLauncher
 import lupos.s16network.LuposdateEndpoint
 internal fun mainFunc(): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-    distributedTripleStore.reloadPartitioningScheme()
 //    Parallel.launch {
     HttpEndpointLauncher.start()
 //    }

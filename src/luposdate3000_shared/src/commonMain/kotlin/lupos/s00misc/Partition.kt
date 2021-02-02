@@ -43,10 +43,13 @@ public class Partition {
         @JvmField
         public var myProcessCount: Int = myProcessUrls.size
         init {
-            val countTotal = if (myThreadCount > myProcessCount) {
-                myThreadCount
-            } else {
+            val countTotal = if (myProcessCount> 1) {
+                if (myThreadCount != 1) {
+                    throw Exception("either LUPOS_PROCESS_ID or LUPOS_THREAD_COUNT must be set to '1' - other combinations are currently not supported!")
+                }
                 myProcessCount
+            } else {
+                myThreadCount
             }
             default_k = countTotal
             if (countTotal == 0 || countTotal == 1) {
