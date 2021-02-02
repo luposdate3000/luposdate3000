@@ -63,11 +63,29 @@ public class Query public constructor(@JvmField public val dictionary: ResultSet
     override fun initialize() {
         initialize(root!!)
     }
+
+    internal fun initialize_helper(node: OPBase) {
+        if ((c is POPBase) || (c is OPBaseCompound)) {
+            for (ci in 0 until node.childrenToVerifyCount()) {
+                val c = node.children[ci]
+                initialize_helper(c)
+            }
+        } else {
+            throw Exception("this query is not executable")
+        }
+    }
+
     override fun initialize(newroot: IOPBase) {
+        println("initializing Query ------------")
+        printPartialQueries = false // just to be safe
+        println(newroot)
         root = newroot
         transactionID = global_transactionID++
         commited = false
         partitions.clear()
+        printPartialQueries = true
+        initialize_helper(root)
+        printPartialQueries = false
     }
     public fun getNextPartitionOperatorID(): Int {
         var res = 0

@@ -426,7 +426,8 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         return "SELECT * WHERE{" + toSparql() + "}"
     }
     override fun toSparql(): String = throw ToSparqlNotImplementedException(classname)
-    override /*suspend*/ fun toXMLElement(): XMLElement {
+}
+    override /*suspend*/ fun toXMLElement(partial:Boolean): XMLElement {
         val res = XMLElement(classname)
         try {
             res.addAttribute("uuid", "" + uuid)
@@ -451,7 +452,7 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
                 }
             }
             if (children.isNotEmpty()) {
-                res.addContent(childrenToXML())
+                res.addContent(childrenToXML(partial))
             }
         } catch (e: Throwable) {
             SanityCheck.println { "TODO exception 9" }
@@ -459,10 +460,10 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         }
         return res
     }
-    public /*suspend*/ fun childrenToXML(): XMLElement {
+    internal /*suspend*/ fun childrenToXML(partial:Boolean): XMLElement {
         val res = XMLElement("children")
         for (c in children) {
-            res.addContent(c.toXMLElement())
+            res.addContent(c.toXMLElement(partial))
         }
         return res
     }

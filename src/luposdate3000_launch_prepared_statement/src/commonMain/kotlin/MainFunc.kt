@@ -56,7 +56,7 @@ internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
             try {
                 println("xxx query :: " + q.first)
                 val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(q.second)
-                println(node.toXMLElement().toPrettyString())
+                println(node.toXMLElement(false).toPrettyString())
                 val list = LuposdateEndpoint.evaluateOperatorgraphToResultA(node, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>
                 for (l in list) {
                     println("xxx in list")
