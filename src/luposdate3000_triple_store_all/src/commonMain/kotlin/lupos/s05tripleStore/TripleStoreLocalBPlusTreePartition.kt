@@ -72,7 +72,7 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
             }
             enabledPartitions = tmpEnabledPartitions.toTypedArray()
         } else {
-            if (!(USE_PARTITIONS2==EPartitionModeExt.Threads||USE_PARTITIONS2==EPartitionModeExt.Process)) {
+            if (!(USE_PARTITIONS2==EPartitionModeExt.Thread||USE_PARTITIONS2==EPartitionModeExt.Process)) {
                 enabledPartitions = arrayOf( //
                     EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O), -1, 1), //
                     EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.SOP, EIndexPatternExt.S_OP, EIndexPatternExt.SO_P), -1, 1), //

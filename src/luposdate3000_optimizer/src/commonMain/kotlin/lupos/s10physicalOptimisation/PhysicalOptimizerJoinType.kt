@@ -58,7 +58,7 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
         }
     }
     private fun embedWithinPartitionContext(joinColumns: MutableList<String>, childA: IOPBase, childB: IOPBase, create: (IOPBase, IOPBase) -> IOPBase, keepOrder: Boolean): IOPBase {
-        if ((USE_PARTITIONS == EPartitionModeExt.Threads || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {
+        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {
             var a = childA
             var b = childB
             val newID = IntArray(joinColumns.size) { 0 }

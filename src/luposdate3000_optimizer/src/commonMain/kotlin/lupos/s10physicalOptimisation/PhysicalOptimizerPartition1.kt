@@ -37,7 +37,7 @@ public class PhysicalOptimizerPartition1(query: Query) : OptimizerBase(query, EO
     override val classname: String = "PhysicalOptimizerPartition1"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        if ((USE_PARTITIONS == EPartitionModeExt.Threads || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {
+        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {
             when (node) {
                 is POPSplitPartition -> {
 // splitting must always split all variables provided by its direct children - if there is a different children, adapt the variables

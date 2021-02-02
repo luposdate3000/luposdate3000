@@ -172,7 +172,7 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
             localArgs
                 .ssetModuleName("Luposdate3000_Triple_Store_All_NoPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all")
                 .ssetArgs2(compileModuleArgs)
-                .ssetArgs(mutableMapOf("USE_PARTITIONS2" to "lupos.s00misc.EPartitionMode.None")),
+                .ssetArgs(mutableMapOf("USE_PARTITIONS2" to "lupos.s00misc.EPartitionModeExt.None")),
             { true }
         )
     )
@@ -181,7 +181,7 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
             localArgs
                 .ssetModuleName("Luposdate3000_Triple_Store_All_WithThreadPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all")
                 .ssetArgs2(compileModuleArgs)
-                .ssetArgs(mutableMapOf("USE_PARTITIONS2" to "lupos.s00misc.EPartitionMode.Threads")),
+                .ssetArgs(mutableMapOf("USE_PARTITIONS2" to "lupos.s00misc.EPartitionModeExt.Thread")),
             { intellijMode != "Enable" }
         )
     )
@@ -190,7 +190,7 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
             localArgs
                 .ssetModuleName("Luposdate3000_Triple_Store_All_WithProcessPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all")
                 .ssetArgs2(compileModuleArgs)
-                .ssetArgs(mutableMapOf("USE_PARTITIONS2" to "lupos.s00misc.EPartitionMode.Process")),
+                .ssetArgs(mutableMapOf("USE_PARTITIONS2" to "lupos.s00misc.EPartitionModeExt.Process")),
             { intellijMode != "Enable" }
         )
     )
@@ -199,7 +199,7 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
             localArgs
                 .ssetModuleName("Luposdate3000_Optimizer_NoPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer")
                 .ssetArgs2(compileModuleArgs)
-                .ssetArgs(mutableMapOf("USE_PARTITIONS" to "lupos.s00misc.EPartitionMode.None")),
+                .ssetArgs(mutableMapOf("USE_PARTITIONS" to "lupos.s00misc.EPartitionModeExt.None")),
             { true }
         )
     )
@@ -208,7 +208,7 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
             localArgs
                 .ssetModuleName("Luposdate3000_Optimizer_WithThreadPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer")
                 .ssetArgs2(compileModuleArgs)
-                .ssetArgs(mutableMapOf("USE_PARTITIONS" to "lupos.s00misc.EPartitionMode.Threads")),
+                .ssetArgs(mutableMapOf("USE_PARTITIONS" to "lupos.s00misc.EPartitionModeExt.Thread")),
             { intellijMode != "Enable" }
         )
     )
@@ -217,7 +217,7 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
             localArgs
                 .ssetModuleName("Luposdate3000_Optimizer_WithProcessPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer")
                 .ssetArgs2(compileModuleArgs)
-                .ssetArgs(mutableMapOf("USE_PARTITIONS" to "lupos.s00misc.EPartitionMode.Process")),
+                .ssetArgs(mutableMapOf("USE_PARTITIONS" to "lupos.s00misc.EPartitionModeExt.Process")),
             { intellijMode != "Enable" }
         )
     )
@@ -670,7 +670,7 @@ val defaultParams = mutableListOf(
             File(Platform.getGradleCache() + "${Platform.getPathSeparator()}jars-3").deleteRecursively()
             File(Platform.getMavenCache() + "${Platform.getPathSeparator()}luposdate3000").deleteRecursively()
             File("build-cache").deleteRecursively()
-            skipArgs = true
+            System.exit(0)
         }
     ),
     ParamClass(
