@@ -86,7 +86,7 @@ public class Query public constructor(@JvmField public val dictionary: ResultSet
                 }
             }
         } else {
-            throw Exception("this query is not executable")
+            throw Exception("this query is not executable ${node.getClassname()} ${(node as OPBase).uuid}")
         }
     }
 

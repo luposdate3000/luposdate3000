@@ -770,10 +770,21 @@ fun onHelp() {
 }
 fun onCompile() {
     println(compileModuleArgs)
+    var foundit = false
     for ((module, cond) in getAllModuleConfigurations()) {
         if (cond()) {
             if (compileSpecific == null || compileSpecific == module.moduleName) {
                 createBuildFileForModule(module)
+                foundit = true
+            }
+        }
+    }
+    if (foundit == false && compileSpecific != null) {
+        for ((module, cond) in getAllModuleConfigurations()) {
+            if (cond()) {
+                if (compileSpecific == null || module.moduleName.startsWith(compileSpecific!!)) {
+                    createBuildFileForModule(module)
+                }
             }
         }
     }

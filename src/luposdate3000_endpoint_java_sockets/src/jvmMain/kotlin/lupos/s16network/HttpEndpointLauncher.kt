@@ -22,6 +22,7 @@ import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s03resultRepresentation.nodeGlobalDictionary
+import lupos.s11outputResult.EQueryResultToStreamExt
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.OutputStream
@@ -124,7 +125,19 @@ public actual object HttpEndpointLauncher {
                                     if (isPost) {
                                         extractParamsFromString(content.toString(), params)
                                     }
-                                    LuposdateEndpoint.evaluateSparqlToResultD(params["query"]!!, connectionOut, false)
+                                    val e = params["evaluator"]
+                                    val evaluator = if (e == null) {
+                                        EQueryResultToStreamExt.DEFAULT_STREAM
+                                    } else {
+                                        val e2 = EQueryResultToStreamExt.names.indexOf(e)
+                                        if (e2 >= 0) {
+                                            e2
+                                        } else {
+                                            EQueryResultToStreamExt.DEFAULT_STREAM
+                                        }
+                                    }
+                                    val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(params["query"]!!, false)
+                                    LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOut, evaluator)
                                     /*Coverage Unreachable*/
                                 }
                                 "/sparql/operator" -> {
@@ -177,11 +190,26 @@ public actual object HttpEndpointLauncher {
                                     connectionOut.println("         $(document).ready(function() {")
                                     connectionOut.println("             $('#queryForm').on(\"submit\", function(event) {")
                                     connectionOut.println("                 var formData = {")
-                                    connectionOut.println("                     'query': $('input[name=query]').val()")
+                                    connectionOut.println("                     'query': $('input[name=query]').val(),")
+                                    connectionOut.println("                     'evaluator' : $('select[name=evaluator]').val()")
                                     connectionOut.println("                 };")
                                     connectionOut.println("                 $.ajax({")
                                     connectionOut.println("                         type: 'POST',")
                                     connectionOut.println("                         url: 'sparql/query',")
+                                    connectionOut.println("                         data: formData")
+                                    connectionOut.println("                     })")
+                                    connectionOut.println("                     .done(function(data) {")
+                                    connectionOut.println("                         $('#responseDiv').text(data);")
+                                    connectionOut.println("                     });")
+                                    connectionOut.println("                 event.preventDefault();")
+                                    connectionOut.println("             });")
+                                    connectionOut.println("             $('#importFileForm').on(\"submit\", function(event) {")
+                                    connectionOut.println("                 var formData = {")
+                                    connectionOut.println("                     'file': $('input[name=file]').val()")
+                                    connectionOut.println("                 };")
+                                    connectionOut.println("                 $.ajax({")
+                                    connectionOut.println("                         type: 'POST',")
+                                    connectionOut.println("                         url: 'import/turtle',")
                                     connectionOut.println("                         data: formData")
                                     connectionOut.println("                     })")
                                     connectionOut.println("                     .done(function(data) {")
@@ -194,7 +222,16 @@ public actual object HttpEndpointLauncher {
                                     connectionOut.println("   </head>")
                                     connectionOut.println("   <form id=\"queryForm\" >")
                                     connectionOut.println("      <input type=\"text\" name=\"query\" value=\"select * where { ?s ?p ?o . }\" />")
-                                    connectionOut.println("      <input type=\"submit\" />")
+                                    connectionOut.println("      <select name=\"evaluator\">")
+                                    for (evaluator in EQueryResultToStreamExt.names) {
+                                        connectionOut.println("         <option>$evaluator</option>")
+                                    }
+                                    connectionOut.println("      </select>")
+                                    connectionOut.println("      <input type=\"submit\" value=\"query\" />")
+                                    connectionOut.println("   </form>")
+                                    connectionOut.println("   <form id=\"importFileForm\" >")
+                                    connectionOut.println("      <input type=\"text\" name=\"file\" value=\"/mnt/luposdate-testdata/sp2b/1024/complete.n3\" />")
+                                    connectionOut.println("      <input type=\"submit\" value=\"importFile\" />")
                                     connectionOut.println("   </form>")
                                     connectionOut.println("   <div id=\"responseDiv\" />")
                                     connectionOut.println("</html>")

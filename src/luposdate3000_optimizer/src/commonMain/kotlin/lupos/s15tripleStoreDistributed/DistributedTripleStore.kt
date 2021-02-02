@@ -43,6 +43,7 @@ import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 public class TripleStoreIteratorGlobal public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val graphName: String, params: Array<IAOPBase>, @JvmField public val idx: EIndexPattern, @JvmField public val partition: Partition) : POPBase(query, projectedVariables, EOperatorIDExt.TripleStoreIteratorGlobalID, "TripleStoreIteratorGlobal", Array(3) { params[it] }, ESortPriorityExt.ANY_PROVIDED_VARIABLE) {
+    override fun childrenToVerifyCount(): Int = 0
     override fun getPartitionCount(variable: String): Int {
         val res = partition.limit[variable]
         if (res != null) {

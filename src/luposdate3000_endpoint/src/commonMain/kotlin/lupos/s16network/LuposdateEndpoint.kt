@@ -382,10 +382,8 @@ public object LuposdateEndpoint {
     }
     @JsName("evaluate_sparql_to_result_d")
     /*suspend*/ public fun evaluateSparqlToResultD(query: String, output: IMyPrintWriter, logOperatorGraph: Boolean) {
-// var timer = DateHelperRelative.markNow()
         val node = evaluateSparqlToOperatorgraphB(query, logOperatorGraph)
         evaluateOperatorgraphToResult(node, output)
-// println("timer #408 ${DateHelperRelative.elapsedSeconds(timer)}")
     }
     @JsName("evaluate_operatorgraphXML_to_result_a")
     /*suspend*/ public fun evaluateOperatorgraphxmlToResultA(query: String): String {
