@@ -4,10 +4,11 @@ package simulation
 abstract class Entity {
 
     private val deferredEvents: EventPriorityQueue = EventPriorityQueue()
-    private var currentState = State.RUNNABLE
+    var currentState = State.RUNNABLE
+        private set
     private class EndBusyIdentifier
 
-    private enum class State {
+    enum class State {
         RUNNABLE,
         BUSY,
         TERMINATED,
@@ -20,7 +21,6 @@ abstract class Entity {
     fun addIncomingEvent(event: Event) {
         if(isEndBusyIdentifier(event)) {
             currentState = State.RUNNABLE
-            return
         }
         deferredEvents.enqueue(event)
     }
@@ -43,15 +43,12 @@ abstract class Entity {
         Simulation.sendEvent(event)
     }
 
-
-
-    protected fun beBusy(duration: Double) {
+    protected fun sendSelfBusyEvent(busyDuration: Double) {
         require(currentState == State.RUNNABLE)
         currentState = State.BUSY
-        val event = Event(duration, this, this, 0, EndBusyIdentifier())
+        val event = Event(busyDuration, this, this, 0, EndBusyIdentifier())
         Simulation.sendEvent(event)
     }
-
 
     protected fun terminate() {
         currentState = State.TERMINATED
