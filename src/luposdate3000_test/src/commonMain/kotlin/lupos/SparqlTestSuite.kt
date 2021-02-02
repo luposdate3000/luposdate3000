@@ -549,21 +549,21 @@ public open class SparqlTestSuite {
             SanityCheck.println { "----------Logical Operator Graph" }
             val lopNode = astNode.visit(OperatorGraphVisitor(query))
             File("log/$testName2-Logical-Operator-Graph.tex").printWriterSuspended {
-                it.println(OperatorGraphToLatex(lopNode.toXMLElement(false).toString(), testName2))
+                it.println(OperatorGraphToLatex(lopNode.toString(), testName2))
             }
             SanityCheck.check({ lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
             SanityCheck.suspended {
-                val x = lopNode.toXMLElement(false).toPrettyString()
+                val x = lopNode.toString()
                 SanityCheck.println { x }
             }
             SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(query).optimizeCall(lopNode)
             SanityCheck.check { lopNode2 == lopNode2.cloneOP() }
             File("log/$testName2-Logical-Operator-Graph-Optimized.tex").printWriterSuspended {
-                it.println(OperatorGraphToLatex(lopNode2.toXMLElement(false).toString(), testName2))
+                it.println(OperatorGraphToLatex(lopNode2.toString(), testName2))
             }
             SanityCheck.suspended {
-                val x = lopNode2.toXMLElement(false).toPrettyString()
+                val x = lopNode2.toString()
                 SanityCheck.println { x }
             }
             SanityCheck.println { "----------Physical Operator Graph" }
@@ -572,10 +572,10 @@ public open class SparqlTestSuite {
             SanityCheck.check({ popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
             SanityCheck { popNode.toSparqlQuery() }
             File("log/$testName2-Physical-Operator-Graph.tex").printWriterSuspended {
-                it.println(OperatorGraphToLatex(popNode.toXMLElement(false).toString(), testName2))
+                it.println(OperatorGraphToLatex(popNode.toString(), testName2))
             }
             SanityCheck.suspended {
-                val x = popNode.toXMLElement(false).toPrettyString()
+                val x = popNode.toString()
                 SanityCheck.println { x }
             }
             var xmlQueryResult: XMLElement? = null
@@ -641,13 +641,13 @@ public open class SparqlTestSuite {
                 }
                 res = xmlQueryResult!!.myEquals(xmlQueryTarget)
                 if (res) {
-                    val xmlPOP = popNode.toXMLElement(false)
+                    val xmlPOP = popNode.toXMLElementRoot(false)
                     val query4 = Query()
                     query4.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                     val popNodeRecovered = XMLElement.convertToOPBase(query4, xmlPOP)
                     SanityCheck.println { xmlPOP.toPrettyString() }
                     SanityCheck.suspended {
-                        val x = popNodeRecovered.toXMLElement(false).toPrettyString()
+                        val x = popNodeRecovered.toString()
                         SanityCheck.println { x }
                     }
                     val xmlQueryResultRecovered = QueryResultToXMLElement.toXML(popNodeRecovered)

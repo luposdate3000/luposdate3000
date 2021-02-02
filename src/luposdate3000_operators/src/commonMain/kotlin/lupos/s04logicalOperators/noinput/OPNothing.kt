@@ -26,8 +26,8 @@ import kotlin.jvm.JvmField
 public class OPNothing public constructor(query: IQuery, @JvmField public val myProvidedVariableNames: List<String>) : LOPBase(query, EOperatorIDExt.OPNothingID, "OPNothing", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     override fun getProvidedVariableNames(): List<String> = myProvidedVariableNames
     override fun toSparql(): String = "{}"
-    override /*suspend*/ fun toXMLElement(): XMLElement {
-        val res = super.toXMLElement()
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
+        val res = super.toXMLElement(partial)
         for (v in myProvidedVariableNames) {
             res.addContent(XMLElement("v").addContent(v))
         }

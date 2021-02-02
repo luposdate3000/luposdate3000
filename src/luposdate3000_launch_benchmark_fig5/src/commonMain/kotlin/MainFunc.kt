@@ -80,7 +80,7 @@ internal fun mainFunc(
         }
         val node = op
         println("------------------------------")
-        println(node.toXMLElement().toPrettyString())
+        println(node.toString())
         val writer = MyPrintWriter(false)
         LuposdateEndpoint.evaluateOperatorgraphToResult(node, writer)
         val timerFirst = DateHelperRelative.markNow()

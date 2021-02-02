@@ -40,7 +40,7 @@ public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBas
         }
         return "GRAPH <$graph> {" + children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "}."
     }
-    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("graph", graph).addAttribute("graphVar", "" + graphVar)
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("graph", graph).addAttribute("graphVar", "" + graphVar)
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> {
         val res = mutableListOf<String>()

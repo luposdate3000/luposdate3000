@@ -346,7 +346,6 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         SanityCheck.check { i < children.size }
         children[i] = child
     }
-    public open fun toString(indentation: String): String = "${indentation}$classname\n"
     internal companion object {
         var global_uuid = 0L
     }
@@ -404,7 +403,7 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         }
         return node
     }
-    override fun toString(): String = Parallel.runBlocking { toXMLElement().toPrettyString() }
+    override fun toString(): String = Parallel.runBlocking { toXMLElement(false).toPrettyString() }
     override fun getRequiredVariableNamesRecoursive(): List<String> {
         val res = getRequiredVariableNames().toMutableList()
         for (c in children) {
@@ -427,7 +426,13 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
     }
     override fun toSparql(): String = throw ToSparqlNotImplementedException(classname)
 }
+    override /*suspend*/ fun toXMLElementRoot(partial:Boolean): XMLElement {
+return toXMLElement(partial)
+}
     override /*suspend*/ fun toXMLElement(partial:Boolean): XMLElement {
+return toXMLElementHelper(partial,false)
+}
+     /*suspend*/ fun toXMLElementHelper(partial:Boolean,excludeChildren:Boolean): XMLElement {
         val res = XMLElement(classname)
         try {
             res.addAttribute("uuid", "" + uuid)
@@ -451,9 +456,11 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
                     e.printStackTrace()
                 }
             }
+if(!excludeChildren){
             if (children.isNotEmpty()) {
                 res.addContent(childrenToXML(partial))
             }
+}
         } catch (e: Throwable) {
             SanityCheck.println { "TODO exception 9" }
             e.printStackTrace()

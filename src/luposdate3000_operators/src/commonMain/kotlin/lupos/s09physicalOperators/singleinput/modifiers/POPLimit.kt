@@ -80,5 +80,5 @@ public class POPLimit public constructor(query: IQuery, projectedVariables: List
         }
         return IteratorBundle(outMap)
     }
-    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("limit", "" + limit)
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("limit", "" + limit)
 }

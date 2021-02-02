@@ -36,7 +36,7 @@ public class AOPBuildInCallURI public constructor(query: IQuery, child: AOPBase,
             this.prefix = iri
         }
     }
-    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("prefix", prefix)
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("prefix", prefix)
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallURI && children[0] == other.children[0]
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)

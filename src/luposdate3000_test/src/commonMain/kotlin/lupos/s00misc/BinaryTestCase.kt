@@ -532,14 +532,14 @@ if (tmpTable != null) {
                             SanityCheck.println { "----------Logical Operatorgraph" }
                             val query4 = Query()
                             val lopNode = astNode.visit(OperatorGraphVisitor(query4))
-                            SanityCheck.println { lopNode.toXMLElement(false).toPrettyString() }
+                            SanityCheck.println { lopNode.toString() }
                             SanityCheck.println { "----------Logical Operatorgraph optimized" }
                             val lopNode2 = LogicalOptimizer(query4).optimizeCall(lopNode)
-                            SanityCheck.println { lopNode2.toXMLElement(false).toPrettyString() }
+                            SanityCheck.println { lopNode2.toString() }
                             SanityCheck.println { "----------Physical Operatorgraph optimized" }
                             val popOptimizer = PhysicalOptimizer(query4)
                             val popNode = popOptimizer.optimizeCall(lopNode2)
-                            SanityCheck.println { popNode.toXMLElement(false).toPrettyString() }
+                            SanityCheck.println { popNode.toString() }
                             val allowOrderBy = !toParse.toLowerCase().contains("order")
                             if (mode == BinaryTestCaseOutputModeExt.MODIFY_RESULT) {
                                 val resultWriter = MyPrintWriter(false)

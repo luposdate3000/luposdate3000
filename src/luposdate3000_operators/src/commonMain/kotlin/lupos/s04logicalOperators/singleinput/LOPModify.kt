@@ -31,17 +31,17 @@ public class LOPModify public constructor(
     child: IOPBase
 ) : LOPBase(query, EOperatorIDExt.LOPModifyID, "LOPModify", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     override fun getProvidedVariableNames(): MutableList<String> = mutableListOf("?boolean")
-    override /*suspend*/ fun toXMLElement(): XMLElement {
-        val res = super.toXMLElement()
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
+        val res = super.toXMLElement(partial)
         val xmlI = XMLElement("insert")
         res.addContent(xmlI)
         for (e in insert) {
-            xmlI.addContent(e.toXMLElement())
+            xmlI.addContent(e.toXMLElement(partial))
         }
         val xmlD = XMLElement("delete")
         res.addContent(xmlD)
         for (e in delete) {
-            xmlD.addContent(e.toXMLElement())
+            xmlD.addContent(e.toXMLElement(partial))
         }
         return res
     }

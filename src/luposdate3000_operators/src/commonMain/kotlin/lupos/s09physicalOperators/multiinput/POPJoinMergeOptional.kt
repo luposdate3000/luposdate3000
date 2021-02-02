@@ -266,6 +266,6 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
         }
         return key[0][0] == ResultSetDictionaryExt.nullValue
     }
-    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("optional", "" + optional)
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinMergeOptional(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

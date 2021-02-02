@@ -336,9 +336,9 @@ public object LuposdateEndpoint {
             println("----------")
             println(query)
             println(">>>>>>>>>>")
-            println(popNode.toXMLElement().toString())
+            println(popNode.toString())
             println("<<<<<<<<<<")
-            println(OperatorGraphToLatex(popNode.toXMLElement().toString(), ""))
+            println(OperatorGraphToLatex(popNode.toString(), ""))
         }
         return popNode
     }
@@ -401,10 +401,10 @@ public object LuposdateEndpoint {
                 SanityCheck.println { "----------" }
                 SanityCheck.println { query }
                 SanityCheck.println { ">>>>>>>>>>" }
-                val a = popNode.toXMLElement().toString()
+                val a = popNode.toString()
                 SanityCheck.println { a }
                 SanityCheck.println { "<<<<<<<<<<" }
-                val b = OperatorGraphToLatex(popNode.toXMLElement().toString(), "")
+                val b = OperatorGraphToLatex(popNode.toString(), "")
                 SanityCheck.println { b }
             }
         }

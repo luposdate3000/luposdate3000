@@ -34,12 +34,12 @@ public class AOPConstant : AOPBase, IAOPConstant {
     public constructor(query: IQuery, value2: Int) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
         value = value2
     }
-    override /*suspend*/ fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         val tmp = query.getDictionary().getValue(value)
         return if (tmp is ValueBnode) {
             XMLElement("ValueBnode").addAttribute("dictvalue", "" + value)
         } else {
-            tmp.toXMLElement()
+            tmp.toXMLElement(partial)
         }
     }
     override fun toSparql(): String = query.getDictionary().getValue(value).valueToString() ?: ""

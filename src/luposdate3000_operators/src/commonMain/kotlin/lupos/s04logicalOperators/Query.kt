@@ -60,6 +60,7 @@ public class Query public constructor(@JvmField public val dictionary: ResultSet
     public val partitionOperatorCount: MutableMap<Int, Int> = mutableMapOf()
     @JvmField
     internal var root: IOPBase? = null
+
     override fun initialize() {
         initialize(root!!)
     }
@@ -70,6 +71,18 @@ public class Query public constructor(@JvmField public val dictionary: ResultSet
                 val c = node.children[ci]
                 initialize_helper(c)
             }
+            when (c) {
+                is POPMergePartition,
+                is POPMergePartitionCount,
+                is POPMergePartitionOrderedByIntId,
+                is POPChangePartitionOrderedByIntId,
+                is POPSplitPartitionFromStore,
+                is POPSplitPartition,
+                is POPSplitPartitionPassThrough
+                -> {
+                    node.toXMLElementRoot(true).toPrettyString()
+                }
+            }
         } else {
             throw Exception("this query is not executable")
         }
@@ -77,15 +90,12 @@ public class Query public constructor(@JvmField public val dictionary: ResultSet
 
     override fun initialize(newroot: IOPBase) {
         println("initializing Query ------------")
-        printPartialQueries = false // just to be safe
-        println(newroot)
+        println(newroot.toXMLElementRoot(false).toPrettyString())
         root = newroot
         transactionID = global_transactionID++
         commited = false
         partitions.clear()
-        printPartialQueries = true
         initialize_helper(root)
-        printPartialQueries = false
     }
     public fun getNextPartitionOperatorID(): Int {
         var res = 0

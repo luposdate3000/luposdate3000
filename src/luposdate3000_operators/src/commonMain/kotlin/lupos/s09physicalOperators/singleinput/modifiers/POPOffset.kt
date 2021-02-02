@@ -66,5 +66,5 @@ public class POPOffset public constructor(query: IQuery, projectedVariables: Lis
         }
         return IteratorBundle(outMap)
     }
-    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("offset", "" + offset)
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("offset", "" + offset)
 }

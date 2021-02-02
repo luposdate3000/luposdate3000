@@ -124,8 +124,8 @@ public class LOPGroup public constructor(query: IQuery, @JvmField public var by:
         }
         return res.distinct()
     }
-    override /*suspend*/ fun toXMLElement(): XMLElement {
-        val res = super.toXMLElement()
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
+        val res = super.toXMLElement(partial)
         val byxml = XMLElement("LocalBy")
         res.addContent(byxml)
         for (b in by) {
@@ -134,7 +134,7 @@ public class LOPGroup public constructor(query: IQuery, @JvmField public var by:
         val bindingsxml = XMLElement("LocalBindings")
         res.addContent(bindingsxml)
         for ((first, second) in bindings) {
-            bindingsxml.addContent(XMLElement("Binding").addAttribute("name", first).addContent(second.toXMLElement()))
+            bindingsxml.addContent(XMLElement("Binding").addAttribute("name", first).addContent(second.toXMLElement(partial)))
         }
         return res
     }

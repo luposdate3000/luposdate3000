@@ -40,8 +40,16 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
             children[0].getPartitionCount(variable)
         }
     }
-    override /*suspend*/ fun toXMLElement(): XMLElement {
-        val res = super.toXMLElement()
+    override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
+        var res = toXMLElementHelper2(partial, true)
+        return res
+    }
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
+        var res = toXMLElementHelper2(partial, false)
+        return res
+    }
+    private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
+        val res = super.toXMLElementHelper(partial, partial && !isRoot)
         res.addAttribute("partitionVariable", partitionVariable)
         res.addAttribute("partitionCountFrom", "" + partitionCountFrom)
         res.addAttribute("partitionCountTo", "" + partitionCountTo)

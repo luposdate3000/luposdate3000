@@ -27,7 +27,7 @@ import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
 public class LOPSort public constructor(query: IQuery, @JvmField public val asc: Boolean, @JvmField public var by: AOPVariable, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPSortID, "LOPSort", arrayOf(child), ESortPriorityExt.SORT) {
     public constructor(query: IQuery, asc: Boolean, by: AOPVariable) : this(query, asc, by, OPEmptyRow(query))
-    override /*suspend*/ fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         val res = XMLElement("LOPSort")
         res.addAttribute("by", by.name)
         if (asc) {

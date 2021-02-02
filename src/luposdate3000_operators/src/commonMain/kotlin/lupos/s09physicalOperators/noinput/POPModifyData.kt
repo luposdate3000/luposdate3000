@@ -69,11 +69,11 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
         res += "}"
         return res
     }
-    override /*suspend*/ fun toXMLElement(): XMLElement {
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         val res = XMLElement("POPModifyData")
         res.addAttribute("uuid", "" + uuid)
         for (t in data) {
-            res.addContent(t.toXMLElement())
+            res.addContent(t.toXMLElement(partial))
         }
         return res
     }

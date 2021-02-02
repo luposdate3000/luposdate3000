@@ -37,8 +37,8 @@ public abstract class POPBase public constructor(
     OPBase(query, operatorID, classname, children, sortPriority), IPOPBase {
     public open fun getProvidedVariableNamesInternal(): List<String> = super.getProvidedVariableNames()
     override fun getProvidedVariableNames(): List<String> = projectedVariables
-    override /*suspend*/ fun toXMLElement(): XMLElement {
-        val res = super.toXMLElement()
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
+        val res = super.toXMLElement(partial)
         val projectedXML = XMLElement("projectedVariables")
         res.addContent(projectedXML)
         for (variable in projectedVariables) {
