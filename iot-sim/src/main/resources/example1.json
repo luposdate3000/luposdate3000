@@ -1,36 +1,215 @@
 {
-  "deviceCategories": [
+  "networkProtocol": [
     {
-      "name": "raspberry pi",
-      "numberOfDevices": 32,
-      "area": {
-        "xLeft": 0,
-        "xRight": 10,
-        "yBottom": 0,
-        "yTop": 10
-      },
-      "device": {
-        "signalRange": 25.0,
-        "application": {
-          "processingPower": ""
-        },
-        "sensor": {
-          "dataSize": "3?",
-          "storageCapacity": "2"
-        },
-        "actuator": true,
-        "power": {
-          "capacity": 70.0,
-          "drainageRate": 1.0
-        },
-        "mobility": {
-          "velocity": 0,
-          "destinationPoint": {
-            "x": 0,
-            "y": 0
-          }
-        }
+      "name": "WIFI",
+      "rangeInMeters": 50,
+      "dataRateInKbps": 54000,
+      "wireless": true
+    },
+    {
+      "name": "WPAN",
+      "rangeInMeters": 100,
+      "dataRateInKbps": 250,
+      "wireless": true
+    },
+    {
+      "name": "CELL",
+      "rangeInMeters": -1,
+      "dataRateInKbps": 12000,
+      "wireless": true
+    },
+    {
+      "name": "CABLE",
+      "rangeInMeters": -1,
+      "dataRateInKbps": -1,
+      "wireless": false
+    }
+  ],
+  "sensorType": [
+    {
+      "name": "Traffic",
+      "networkProtocol": [{"name": "WPAN"}],
+      "dataRateInSeconds": 300,
+      "power": {
+        "capacity": 30.0,
+        "drainageRate": 1.0
       }
+    },
+    {
+      "name": "Weather",
+      "networkProtocol": [{"name": "WIFI"}],
+      "dataRateInSeconds": 360,
+      "power": {}
+    },
+    {
+      "name": "Pollution",
+      "networkProtocol": [{"name": "WPAN"}],
+      "dataRateInSeconds": 60,
+      "power": {}
+    },
+    {
+      "name": "UserLocation",
+      "networkProtocol": [],
+      "dataRateInSeconds": 30,
+      "power": {}
+    }
+  ],
+  "deviceType": [
+    {
+      "name": "Tower",
+      "wirelessAP": "CELL",
+      "networkProtocol": [{"name": "CABLE"}],
+      "application": false,
+      "mobile": false,
+      "sensors": [],
+      "power": {}
+    },
+    {
+      "name": "Fog",
+      "wirelessAP": "WIFI",
+      "networkProtocol": [{"name": "CABLE"}],
+      "application": true,
+      "mobile": false,
+      "sensors": [],
+      "power": {}
+    },
+    {
+      "name": "Edge",
+      "wirelessAP": "WPAN",
+      "networkProtocol": [ {"name": "WIFI"}],
+      "application": true,
+      "mobile": false,
+      "sensors": [],
+      "power": {}
+    },
+    {
+      "name": "MobileEdge",
+      "wirelessAP": "",
+      "networkProtocol": [ {"name": "CELL"}],
+      "application": true,
+      "mobile": true,
+      "sensors": [{"name": "UserLocation"}],
+      "power": {
+        "capacity": 70.0,
+        "drainageRate": 1.0
+      }
+    }
+  ],
+  "fixedLocation": [
+    {
+      "name": "Tower1",
+      "deviceType": "Tower",
+      "latitude": 53.83271874844555,
+      "longitude": 53.83271874844555
+    },
+    {
+      "name": "Tower2",
+      "deviceType": "Tower",
+      "latitude": 53.83271874844555,
+      "longitude": 53.83271874844555
+    },
+    {
+      "name": "Fog1",
+      "deviceType": "Fog",
+      "latitude": 53.83271874844555,
+      "longitude": 53.83271874844555
+    },
+    {
+      "name": "Fog2",
+      "deviceType": "Fog",
+      "latitude": 53.83271874844555,
+      "longitude": 53.83271874844555
+    },
+    {
+      "name": "Fog3",
+      "deviceType": "Fog",
+      "latitude": 53.83271874844555,
+      "longitude": 53.83271874844555
+    },
+    {
+      "name": "Fog4",
+      "deviceType": "Fog",
+      "latitude": 53.83271874844555,
+      "longitude": 53.83271874844555
+    }
+  ],
+  "fixedConnection": [
+    {
+      "networkProtocol": "CELL",
+      "endpointA": "Tower1",
+      "endpointB": "Tower2"
+    },
+    {
+      "networkProtocol": "CABLE",
+      "endpointA": "Tower1",
+      "endpointB": "Fog3"
+    },
+    {
+      "networkProtocol": "CABLE",
+      "endpointA": "Fog1",
+      "endpointB": "Fog2"
+    },
+    {
+      "networkProtocol": "CABLE",
+      "endpointA": "Fog1",
+      "endpointB": "Fog3"
+    },
+    {
+      "networkProtocol": "CABLE",
+      "endpointA": "Fog3",
+      "endpointB": "Fog4"
+    },
+    {
+      "networkProtocol": "CABLE",
+      "endpointA": "Fog1",
+      "endpointB": "Fog4"
+    }
+  ],
+  "randomNetwork": [
+    {
+      "originWirelessAP": "Fog1",
+      "generatedDeviceType": "Edge",
+      "number": "187",
+      "sensors": [
+        {
+          "sensorType": "Weather",
+          "number": "201"
+        },
+        {
+          "sensorType": "Pollution",
+          "number": "201"
+        }
+      ]
+    },
+    {
+      "originWirelessAP": "Fog3",
+      "generatedDeviceType": "Edge",
+      "number": "7",
+      "sensors": [
+        {
+          "sensorType": "Traffic",
+          "number": "80"
+        }
+      ]
+    },
+    {
+      "originWirelessAP": "Fog2",
+      "generatedDeviceType": "Edge",
+      "number": "30",
+      "sensors": [
+        {
+          "sensorType": "Traffic",
+          "number": "8"
+        },
+        {
+          "sensorType": "Weather",
+          "number": "1"
+        },
+        {
+          "sensorType": "Pollution",
+          "number": "7"
+        }
+      ]
     }
   ]
 }

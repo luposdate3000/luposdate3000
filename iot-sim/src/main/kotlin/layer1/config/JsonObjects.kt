@@ -1,25 +1,36 @@
 package layer1.config
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 
 @Serializable
-data class Area(
-    val xLeft: Int = 0,
-    val xRight: Int = 0,
-    val yBottom: Int = 0,
-    val yTop: Int = 0,
+data class Config(
+    val networkProtocol: List<NetworkProtocol> = arrayListOf(),
+    val sensorType: List<SensorType> = arrayListOf(),
+    val deviceType: List<DeviceType> = arrayListOf(),
+    val fixedLocation: List<FixedLocation> = arrayListOf(),
+    val fixedConnection: List<FixedConnection> = arrayListOf(),
+    val randomNetwork: List<RandomNetwork> = arrayListOf(),
 )
 
 @Serializable
-data class Application(
-    val processingPower: String = "",
+data class NetworkProtocol(
+    val name: String = "",
+    val rangeInMeters: Int = 0,
+    val dataRateInKbps: Int = 0,
+    val wireless: Boolean = false
 )
 
 @Serializable
-data class Sensor(
-    val dataSize: String = "",
-    val storageCapacity: String = "",
+data class SensorType(
+    val name: String = "",
+    val networkProtocol: List<ProtocolRef> = arrayListOf(),
+    val dataRateInSeconds: Int = 0,
+    val power: Power = Power()
+)
+
+@Serializable
+data class ProtocolRef(
+    val name: String = "",
 )
 
 @Serializable
@@ -29,39 +40,47 @@ data class Power(
 )
 
 @Serializable
-data class Point(
-    val x: Int = -1,
-    val y: Int = -1,
-)
-
-@Serializable
-data class Mobility(
-    val velocity: Int = 0,
-    val destinationPoint: Point = Point(),
-)
-
-@Serializable
-data class Device(
-    var signalRange: Double = 0.0,
-    val application: Application = Application(),
-    val sensor: Sensor = Sensor(),
-    val actuator: Boolean = false,
-    val power: Power = Power(),
-    val mobility: Mobility = Mobility(),
-    @Transient var point: Point = Point(-1, -1),
-)
-
-@Serializable
-data class DeviceCategory(
+data class DeviceType(
     val name: String = "",
-    var numberOfDevices: Int = 1,
-    val area: Area = Area(),
-    val device: Device = Device(),
-    @Transient var devices: ArrayList<Device> = arrayListOf(),
+    val wirelessAP: String = "",
+    val networkProtocol: List<ProtocolRef> = arrayListOf(),
+    val application: Boolean = false,
+    val mobile: Boolean = false,
+    val sensors: List<SensorRef> = arrayListOf(),
+    val power: Power = Power()
+)
+
+@Serializable
+data class SensorRef(
+    val name: String = "",
+)
+
+@Serializable
+data class FixedLocation(
+    val name: String = "",
+    val deviceType: String = "",
+    val latitude: Double,
+    val longitude: Double,
+)
+
+@Serializable
+data class FixedConnection(
+    val networkProtocol: String = "",
+    val endpointA: String = "",
+    val endpointB: String = "",
+)
+
+@Serializable
+data class RandomNetwork(
+    val originWirelessAP: String = "",
+    val generatedDeviceType: String = "",
+    val number: Int = 0,
+    val sensors: List<SensorGroup> = arrayListOf(),
 )
 
 
 @Serializable
-data class DeviceCategories(
-    val deviceCategories: List<DeviceCategory> = arrayListOf(),
+data class SensorGroup(
+    val sensorType: String = "",
+    val number: Int = 0,
 )

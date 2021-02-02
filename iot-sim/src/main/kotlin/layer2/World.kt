@@ -1,9 +1,6 @@
 package layer2
 
-import layer1.config.Area
-import layer1.config.Device
-import layer1.config.DeviceCategory
-import layer1.config.Point
+
 import layer1.net.AdjacencyMatrix
 import layer1.net.Connection
 import java.util.*
@@ -11,7 +8,7 @@ import kotlin.math.*
 
 object World {
 
-    val graph: AdjacencyMatrix<Device, Connection> = AdjacencyMatrix()
+/*    val graph: AdjacencyMatrix<Device, Connection> = AdjacencyMatrix()
 
     fun createRandomPoint(area: Area): Point = createRandomPoint(area.xLeft, area.xRight, area.yBottom, area.yTop)
 
@@ -58,5 +55,5 @@ object World {
     fun deviceOneCanReachDeviceTwo(one: Device, two: Device): Boolean {
         val distance = getDistance(one.point, two.point)
         return one.signalRange >= distance
-    }
+    }*/
 }

@@ -9,7 +9,7 @@ class ConfigParser {
 
     fun parse(fileName: String) {
         val fileStr = readFileDirectlyAsText(fileName)
-        val data = Json.decodeFromString<DeviceCategories>(fileStr)
+        val data = Json.decodeFromString<Config>(fileStr)
         println(data)
     }
 
