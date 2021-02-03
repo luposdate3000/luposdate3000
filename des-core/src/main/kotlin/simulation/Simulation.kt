@@ -59,10 +59,10 @@ object Simulation {
     }
 
     private fun processNextFutureEvent(): Event {
-        val next = futureEvents.dequeue()
-        increaseSimulationClock(next)
-        next.destination.addIncomingEvent(next)
-        return next
+        val nextEvent = futureEvents.dequeue()
+        clock = nextEvent.occurrenceTime
+        nextEvent.destination.addIncomingEvent(nextEvent)
+        return nextEvent
     }
 
     private fun processTimeEqualEvents(time: Double) {
@@ -76,10 +76,6 @@ object Simulation {
                 break
             }
         }
-    }
-
-    private fun increaseSimulationClock(event: Event) {
-        clock = event.occurrenceTime
     }
 
     fun sendEvent(event: Event) {
