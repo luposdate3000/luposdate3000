@@ -51,10 +51,13 @@ public actual object HttpEndpointLauncher {
     internal fun extractParamsFromString(str: String, params: MutableMap<String, String>) {
         for (p in str.split('&')) {
             val t = p.split('=')
-            params[t[0]] = URLDecoder.decode(t[1])
+            if (t.size> 1) {
+                params[t[0]] = URLDecoder.decode(t[1])
+            }
         }
     }
-    class PathMappingHelper(val addPostParams: Boolean, val action: () -> Unit)
+    internal fun inputElement(name: String): String = "<input type=\"text\" name=\"$name\" />"
+    internal class PathMappingHelper(val addPostParams: Boolean, val params: Map<String, (String)->String>, val action: () -> Unit)
     public actual /*suspend*/ fun start() {
         val hosturl = Partition.myProcessUrls[Partition.myProcessId].split(":")
         val hostname = hosturl[0]
@@ -105,18 +108,30 @@ public actual object HttpEndpointLauncher {
                             while (connectionIn.ready()) {
                                 content.append(connectionIn.read().toChar())
                             }
-                            val paths = MutableMap<String, PathMappingHelper>()
-                            paths[ "/sparql/jenaquery" ] = PathMappingHelper(true) {
+                            val paths = mutableMapOf<String, PathMappingHelper>()
+                            paths[ "/sparql/jenaquery" ] = PathMappingHelper(true, mapOf("query" to ::inputElement)) {
                                 printHeaderSuccess(connectionOut)
                                 connectionOut.print(JenaWrapper.execQuery(params["query"]!!))
                                 /*Coverage Unreachable*/
                             }
-                            paths[ "/sparql/jenaload" ] = PathMappingHelper(true) {
+                            paths[ "/sparql/jenaload" ] = PathMappingHelper(true, mapOf("file" to ::inputElement)) {
                                 JenaWrapper.loadFromFile(params["file"]!!)
                                 printHeaderSuccess(connectionOut)
                                 connectionOut.print("success")
                             }
-                            paths[ "/sparql/query" ] = PathMappingHelper(true) {
+                            paths[ "/sparql/query" ] = PathMappingHelper(
+                                true,
+                                mapOf(
+                                    "query" to ::inputElement,
+                                    "evaluator" to {
+                                        var res: String = "<select name=\"$it\">"
+                                        for (evaluator in EQueryResultToStreamExt.names) {
+                                            res += "<option>$evaluator</option>"
+                                        }
+                                        res + "</select>"
+                                    }
+                                )
+                            ) {
                                 val e = params["evaluator"]
                                 val evaluator = if (e == null) {
                                     EQueryResultToStreamExt.DEFAULT_STREAM
@@ -132,12 +147,12 @@ public actual object HttpEndpointLauncher {
                                 LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOut, evaluator)
                                 /*Coverage Unreachable*/
                             }
-                            paths["/sparql/operator" ] = PathMappingHelper(true) {
+                            paths["/sparql/operator" ] = PathMappingHelper(true, mapOf("query" to ::inputElement)) {
                                 printHeaderSuccess(connectionOut)
                                 connectionOut.print(LuposdateEndpoint.evaluateOperatorgraphxmlToResultB(params["query"]!!, true))
                                 /*Coverage Unreachable*/
                             }
-                            paths["/import/turtle" ] = PathMappingHelper(true) {
+                            paths["/import/turtle" ] = PathMappingHelper(true, mapOf("file" to ::inputElement)) {
                                 val dict = mutableMapOf<String, Int>()
                                 val dictfile = params["bnodeList"]
                                 if (dictfile != null) {
@@ -149,7 +164,7 @@ public actual object HttpEndpointLauncher {
                                 connectionOut.print(LuposdateEndpoint.importTurtleFiles(params["file"]!!, dict))
                                 /*Coverage Unreachable*/
                             }
-                            paths["/import/estimatedPartitions" ] = PathMappingHelper(true) {
+                            paths["/import/estimatedPartitions" ] = PathMappingHelper(true, mapOf("file" to ::inputElement)) {
                                 LuposdateEndpoint.setEstimatedPartitionsFromFile(params["file"]!!)
                                 printHeaderSuccess(connectionOut)
                                 connectionOut.println("Partitining-Scheme :: ")
@@ -158,68 +173,56 @@ public actual object HttpEndpointLauncher {
                                 connectionOut.println("${Partition.estimatedPartitions2}")
                                 connectionOut.println("${Partition.estimatedPartitionsValid}")
                             }
-                            paths["/import/intermediate" ] = PathMappingHelper(true) {
+                            paths["/import/intermediate" ] = PathMappingHelper(true, mapOf("file" to ::inputElement)) {
                                 printHeaderSuccess(connectionOut)
                                 connectionOut.print(LuposdateEndpoint.importIntermediateFiles(params["file"]!!))
                                 /*Coverage Unreachable*/
                             }
-                            paths["/import/xml" ] = PathMappingHelper(true) {
+                            paths["/import/xml" ] = PathMappingHelper(true, mapOf("xml" to ::inputElement)) {
                                 printHeaderSuccess(connectionOut)
                                 connectionOut.print(LuposdateEndpoint.importXmlData(params["xml"]!!))
                                 /*Coverage Unreachable*/
                             }
-                            paths["/index.html" ] = PathMappingHelper(true) {
-                                printHeaderSuccess(connectionOut)
+                            paths["/index.html" ] = PathMappingHelper(true, mapOf()) {
+                                connectionOut.println("HTTP/1.1 200 OK")
+                                connectionOut.println("Content-Type: text/html; charset=UTF-8")
+                                connectionOut.println()
                                 connectionOut.println("<html>")
                                 connectionOut.println("   <head>")
-                                connectionOut.println("      <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>")
-                                connectionOut.println("      <script>")
-                                connectionOut.println("         $(document).ready(function() {")
-                                connectionOut.println("             $('#queryForm').on(\"submit\", function(event) {")
-                                connectionOut.println("                 var formData = {")
-                                connectionOut.println("                     'query': $('input[name=query]').val(),")
-                                connectionOut.println("                     'evaluator' : $('select[name=evaluator]').val()")
-                                connectionOut.println("                 };")
-                                connectionOut.println("                 $.ajax({")
-                                connectionOut.println("                         type: 'POST',")
-                                connectionOut.println("                         url: 'sparql/query',")
-                                connectionOut.println("                         data: formData")
-                                connectionOut.println("                     })")
-                                connectionOut.println("                     .done(function(data) {")
-                                connectionOut.println("                         $('#responseDiv').text(data);")
-                                connectionOut.println("                     });")
-                                connectionOut.println("                 event.preventDefault();")
-                                connectionOut.println("             });")
-                                connectionOut.println("             $('#importFileForm').on(\"submit\", function(event) {")
-                                connectionOut.println("                 var formData = {")
-                                connectionOut.println("                     'file': $('input[name=file]').val()")
-                                connectionOut.println("                 };")
-                                connectionOut.println("                 $.ajax({")
-                                connectionOut.println("                         type: 'POST',")
-                                connectionOut.println("                         url: 'import/turtle',")
-                                connectionOut.println("                         data: formData")
-                                connectionOut.println("                     })")
-                                connectionOut.println("                     .done(function(data) {")
-                                connectionOut.println("                         $('#responseDiv').text(data);")
-                                connectionOut.println("                     });")
-                                connectionOut.println("                 event.preventDefault();")
-                                connectionOut.println("             });")
-                                connectionOut.println("         });")
-                                connectionOut.println("      </script>")
-                                connectionOut.println("   </head>")
-                                connectionOut.println("   <form id=\"queryForm\" >")
-                                connectionOut.println("      <input type=\"text\" name=\"query\" value=\"select * where { ?s ?p ?o . }\" />")
-                                connectionOut.println("      <select name=\"evaluator\">")
-                                for (evaluator in EQueryResultToStreamExt.names) {
-                                    connectionOut.println("         <option>$evaluator</option>")
+                                connectionOut.println("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>")
+                                connectionOut.println("<script>")
+                                connectionOut.println("   $(document).ready(function() {")
+                                for ((k, v) in paths) {
+                                    val formId = k.replace("/", "_")
+                                    connectionOut.println("       $('#$formId').on(\"submit\", function(event) {")
+                                    connectionOut.println("           var formData = {")
+                                    for ((p, q) in v.params) {
+                                        connectionOut.println("               '$p': $('#$formId [name=$p]').val(),")
+                                    }
+                                    connectionOut.println("           };")
+                                    connectionOut.println("           $.ajax({")
+                                    connectionOut.println("                   type: 'POST',")
+                                    connectionOut.println("                   url: '${k.substring(1)}',")
+                                    connectionOut.println("                   data: formData")
+                                    connectionOut.println("               })")
+                                    connectionOut.println("               .done(function(data) {")
+                                    connectionOut.println("                   $('#responseDiv').text(data);")
+                                    connectionOut.println("               });")
+                                    connectionOut.println("           event.preventDefault();")
+                                    connectionOut.println("       });")
                                 }
-                                connectionOut.println("      </select>")
-                                connectionOut.println("      <input type=\"submit\" value=\"query\" />")
-                                connectionOut.println("   </form>")
-                                connectionOut.println("   <form id=\"importFileForm\" >")
-                                connectionOut.println("      <input type=\"text\" name=\"file\" value=\"/mnt/luposdate-testdata/sp2b/1024/complete.n3\" />")
-                                connectionOut.println("      <input type=\"submit\" value=\"importFile\" />")
-                                connectionOut.println("   </form>")
+                                connectionOut.println("   });")
+                                connectionOut.println("</script>")
+                                connectionOut.println("   </head>")
+                                for ((k, v) in paths) {
+                                    val formId = k.replace("/", "_")
+                                    connectionOut.println("   <form id=\"$formId\" >")
+                                    for ((p, q) in v.params) {
+                                        connectionOut.println("${q(p)}")
+                                    }
+                                    connectionOut.println("<input type=\"submit\" value=\"$k\" />")
+                                    connectionOut.println("   </form>")
+                                }
                                 connectionOut.println("   <div id=\"responseDiv\" />")
                                 connectionOut.println("</html>")
                             }
