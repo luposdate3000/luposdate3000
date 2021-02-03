@@ -19,7 +19,7 @@
       "wireless": true
     },
     {
-      "name": "CABLE",
+      "name": "WIRE",
       "rangeInMeters": -1,
       "dataRateInKbps": -1,
       "wireless": false
@@ -58,7 +58,7 @@
     {
       "name": "Tower",
       "wirelessAP": "CELL",
-      "networkProtocol": [{"name": "CABLE"}],
+      "networkProtocol": [{"name": "WIRE"}],
       "application": false,
       "mobile": false,
       "sensors": [],
@@ -67,7 +67,7 @@
     {
       "name": "Fog",
       "wirelessAP": "WIFI",
-      "networkProtocol": [{"name": "CABLE"}],
+      "networkProtocol": [{"name": "WIRE"}],
       "application": true,
       "mobile": false,
       "sensors": [],
@@ -140,27 +140,27 @@
       "endpointB": "Tower2"
     },
     {
-      "networkProtocol": "CABLE",
+      "networkProtocol": "WIRE",
       "endpointA": "Tower1",
       "endpointB": "Fog3"
     },
     {
-      "networkProtocol": "CABLE",
+      "networkProtocol": "WIRE",
       "endpointA": "Fog1",
       "endpointB": "Fog2"
     },
     {
-      "networkProtocol": "CABLE",
+      "networkProtocol": "WIRE",
       "endpointA": "Fog1",
       "endpointB": "Fog3"
     },
     {
-      "networkProtocol": "CABLE",
+      "networkProtocol": "WIRE",
       "endpointA": "Fog3",
       "endpointB": "Fog4"
     },
     {
-      "networkProtocol": "CABLE",
+      "networkProtocol": "WIRE",
       "endpointA": "Fog1",
       "endpointB": "Fog4"
     }

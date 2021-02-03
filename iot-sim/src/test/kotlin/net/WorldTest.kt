@@ -10,7 +10,7 @@ class WorldTest {
 //        "10, 10, 10, 10"
 //    )
 //    fun `Random point should be within borders`(xLeft: Int, xRight: Int, yBottom: Int, yTop: Int) {
-//        val point = World.createRandomPoint(xLeft, xRight, yBottom, yTop)
+//        val point = iot.World.createRandomPoint(xLeft, xRight, yBottom, yTop)
 //        val xIsValid = point.x in xLeft..xRight
 //        val yIsValid = point.y in yBottom..yTop
 //        assertTrue(xIsValid)
@@ -24,7 +24,7 @@ class WorldTest {
 //    )
 //    fun `Random point should be in the area`(xLeft: Int, xRight: Int, yBottom: Int, yTop: Int) {
 //        val area = Area(xLeft, xRight, yBottom, yTop)
-//        val point = World.createRandomPoint(area)
+//        val point = iot.World.createRandomPoint(area)
 //        val xIsValid = point.x in xLeft..xRight
 //        val yIsValid = point.y in yBottom..yTop
 //        assertTrue(xIsValid)
@@ -36,7 +36,7 @@ class WorldTest {
 //    fun `Number of created devices should match x`(x: Int) {
 //        var category = DeviceCategory()
 //        category.numberOfDevices = x
-//        category = World.createDevicesInCategory(category)
+//        category = iot.World.createDevicesInCategory(category)
 //        val listSizeDoesMatch = category.devices.size == x
 //        assertTrue(listSizeDoesMatch)
 //    }
@@ -51,7 +51,7 @@ class WorldTest {
 //    fun `check calculation of distance`(x1: Int, y1: Int, x2: Int, y2: Int, expected: Double) {
 //        var point1 = Point(x1, y1)
 //        var point2 = Point(x2, y2)
-//        var actual = World.getDistance(point1, point2)
+//        var actual = iot.World.getDistance(point1, point2)
 //        assertEquals(expected, actual)
 //    }
 //
@@ -63,7 +63,7 @@ class WorldTest {
 //        "1.91, 2, 1.91",
 //    )
 //    fun `check correct rounding`(number: Double, places: Int, expected: Double) {
-//        val actual = World.roundToNDecimalPlaces(number, places)
+//        val actual = iot.World.roundToNDecimalPlaces(number, places)
 //        assertEquals(expected, actual)
 //    }
 //
@@ -82,7 +82,7 @@ class WorldTest {
 //        one.signalRange = signalRange
 //        val two = Device()
 //        two.point = point2
-//        val isReachable = World.deviceOneCanReachDeviceTwo(one, two)
+//        val isReachable = iot.World.deviceOneCanReachDeviceTwo(one, two)
 //        assertFalse(isReachable)
 //    }
 //
@@ -101,7 +101,7 @@ class WorldTest {
 //        one.signalRange = signalRange
 //        val two = Device()
 //        two.point = point2
-//        val isReachable = World.deviceOneCanReachDeviceTwo(one, two)
+//        val isReachable = iot.World.deviceOneCanReachDeviceTwo(one, two)
 //        assertTrue(isReachable)
 //    }
 

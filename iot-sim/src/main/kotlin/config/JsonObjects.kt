@@ -9,7 +9,7 @@ data class Config(
     val deviceType: List<DeviceType> = arrayListOf(),
     val fixedLocation: List<FixedLocation> = arrayListOf(),
     val fixedConnection: List<FixedConnection> = arrayListOf(),
-    val randomNetwork: List<RandomNetwork> = arrayListOf(),
+    val randomSensorNetwork: List<RandomSensorNetwork> = arrayListOf(),
 )
 
 @Serializable
@@ -71,13 +71,10 @@ data class FixedConnection(
 )
 
 @Serializable
-data class RandomNetwork(
-    val originWirelessAP: String = "",
-    val generatedDeviceType: String = "",
-    val number: Int = 0,
+data class RandomSensorNetwork(
+    val DataSink: String = "",
     val sensors: List<SensorGroup> = arrayListOf(),
 )
-
 
 @Serializable
 data class SensorGroup(
