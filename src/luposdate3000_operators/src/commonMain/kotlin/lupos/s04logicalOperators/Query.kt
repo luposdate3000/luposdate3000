@@ -78,11 +78,11 @@ public class Query public constructor(@JvmField public val dictionary: ResultSet
                 is POPMergePartitionCount,
                 is POPMergePartitionOrderedByIntId,
                 is POPChangePartitionOrderedByIntId,
-                is POPSplitPartitionFromStore,
                 is POPSplitPartition,
                 is POPSplitPartitionPassThrough
                 -> {
-                    node.toXMLElementRoot(true).toPrettyString()
+                    println("subquery graph")
+                    println(node.toXMLElementRoot(true).toPrettyString())
                 }
             }
         } else {
@@ -91,13 +91,14 @@ public class Query public constructor(@JvmField public val dictionary: ResultSet
     }
 
     override fun initialize(newroot: IOPBase) {
-        println("initializing Query ------------")
+        println("initializing Query ------------ start")
         println(newroot.toXMLElementRoot(false).toPrettyString())
         root = newroot
         transactionID = global_transactionID++
         commited = false
         partitions.clear()
         initialize_helper(newroot)
+        println("initializing Query ------------ done")
     }
     public fun getNextPartitionOperatorID(): Int {
         var res = 0

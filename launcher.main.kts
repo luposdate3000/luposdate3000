@@ -55,6 +55,12 @@ var processUrls = ""
 enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, ALL_TEST, UNKNOWN }
 var execMode = ExecMode.UNKNOWN
 enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
+class PartitionModesHelper(val label: String, val option: String, val enabled: () -> Boolean)
+val partitionModes = listOf(
+    PartitionModesHelper("_NoPartitions", "lupos.s00misc.EPartitionModeExt.None", { true }),
+    PartitionModesHelper("_WithThreadPartitions", "lupos.s00misc.EPartitionModeExt.Thread", { intellijMode != "Enable" }),
+    PartitionModesHelper("_WithProcessPartitions", "lupos.s00misc.EPartitionModeExt.Process", { intellijMode != "Enable" }),
+)
 fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
     var releaseMode2 = ReleaseMode.valueOf(releaseMode)
     var suspendMode2 = SuspendMode.valueOf(suspendMode)
@@ -151,14 +157,17 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
             { true }
         )
     )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Result_Format")
-                .ssetArgs2(compileModuleArgs),
-            { true }
+    for (p in partitionModes) {
+        res.add(
+            Pair(
+                localArgs
+                    .ssetModuleName("Luposdate3000_Result_Format${p.label}", "Luposdate3000_Result_Format", "src${Platform.getPathSeparator()}luposdate3000_result_format")
+                    .ssetArgs2(compileModuleArgs)
+                    .ssetArgs(mutableMapOf("USE_PARTITIONS3" to p.option)),
+                p.enabled
+            )
         )
-    )
+    }
     res.add(
         Pair(
             localArgs
@@ -167,60 +176,26 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
             { true }
         )
     )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Triple_Store_All_NoPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all")
-                .ssetArgs2(compileModuleArgs)
-                .ssetArgs(mutableMapOf("USE_PARTITIONS2" to "lupos.s00misc.EPartitionModeExt.None")),
-            { true }
+    for (p in partitionModes) {
+        res.add(
+            Pair(
+                localArgs
+                    .ssetModuleName("Luposdate3000_Triple_Store_All${p.label}", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all")
+                    .ssetArgs2(compileModuleArgs)
+                    .ssetArgs(mutableMapOf("USE_PARTITIONS2" to p.option)),
+                p.enabled
+            )
         )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Triple_Store_All_WithThreadPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all")
-                .ssetArgs2(compileModuleArgs)
-                .ssetArgs(mutableMapOf("USE_PARTITIONS2" to "lupos.s00misc.EPartitionModeExt.Thread")),
-            { intellijMode != "Enable" }
+        res.add(
+            Pair(
+                localArgs
+                    .ssetModuleName("Luposdate3000_Optimizer${p.label}", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer")
+                    .ssetArgs2(compileModuleArgs)
+                    .ssetArgs(mutableMapOf("USE_PARTITIONS" to p.option)),
+                p.enabled
+            )
         )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Triple_Store_All_WithProcessPartitions", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all")
-                .ssetArgs2(compileModuleArgs)
-                .ssetArgs(mutableMapOf("USE_PARTITIONS2" to "lupos.s00misc.EPartitionModeExt.Process")),
-            { intellijMode != "Enable" }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Optimizer_NoPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer")
-                .ssetArgs2(compileModuleArgs)
-                .ssetArgs(mutableMapOf("USE_PARTITIONS" to "lupos.s00misc.EPartitionModeExt.None")),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Optimizer_WithThreadPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer")
-                .ssetArgs2(compileModuleArgs)
-                .ssetArgs(mutableMapOf("USE_PARTITIONS" to "lupos.s00misc.EPartitionModeExt.Thread")),
-            { intellijMode != "Enable" }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Optimizer_WithProcessPartitions", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer")
-                .ssetArgs2(compileModuleArgs)
-                .ssetArgs(mutableMapOf("USE_PARTITIONS" to "lupos.s00misc.EPartitionModeExt.Process")),
-            { intellijMode != "Enable" }
-        )
-    )
+    }
     res.add(
         Pair(
             localArgs
@@ -839,7 +814,7 @@ fun onRun() {
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Operators-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Parser-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Result_Format-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Result_Format$partitionMode-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Shared-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Test-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_All$partitionMode-jvm$proguardMode.jar",

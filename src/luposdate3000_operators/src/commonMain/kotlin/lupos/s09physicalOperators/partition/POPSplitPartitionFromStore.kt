@@ -41,7 +41,7 @@ public class POPSplitPartitionFromStore public constructor(query: IQuery, projec
         return res
     }
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
-        val res = super.toXMLElementHelper(partial, partial && !isRoot)
+        val res = super.toXMLElementHelper(partial, false)
         res.addAttribute("partitionVariable", partitionVariable)
         res.addAttribute("partitionCount", "" + partitionCount)
         res.addAttribute("partitionID", "" + partitionID)

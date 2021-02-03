@@ -203,6 +203,42 @@ public object LuposdateEndpoint {
     /*suspend*/ public fun importIntermediateFiles(fileNames: String): String {
         return importIntermediateFiles(fileNames, false)
     }
+    public fun setEstimatedPartitionsFromFile(filename: String) {
+        Partition.estimatedPartitions0.clear()
+        Partition.estimatedPartitions1.clear()
+        Partition.estimatedPartitions2.clear()
+        Partition.estimatedPartitionsValid = true
+        val filePartitions = File("$filename")
+        try {
+            filePartitions.forEachLine {
+                val t = it.split(",")
+                if (t[1] == "-1") {
+                    Partition.estimatedPartitions0.add(t[0])
+                } else if (t[1] == "1") {
+                    var t2 = Partition.estimatedPartitions1[t[0]]
+                    if (t2 == null) {
+                        t2 = mutableSetOf()
+                        Partition.estimatedPartitions1[t[0]] = t2
+                    }
+                    if (t[2].toInt() > 1) {
+                        t2.add(t[2].toInt())
+                    }
+                } else if (t[1] == "2") {
+                    var t2 = Partition.estimatedPartitions2[t[0]]
+                    if (t2 == null) {
+                        t2 = mutableSetOf()
+                        Partition.estimatedPartitions2[t[0]] = t2
+                    }
+                    if (t[2].toInt() > 0) {
+                        t2.add(t[2].toInt())
+                    }
+                }
+            }
+            distributedTripleStore.reloadPartitioningScheme()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
     @JsName("import_intermediate_files_a")
     /*suspend*/ public fun importIntermediateFiles(fileNames: String, convert_to_bnodes: Boolean): String {
         try {
@@ -219,36 +255,7 @@ public object LuposdateEndpoint {
                     println("importing intermediate file '$fileName'")
                     val startTime = DateHelperRelative.markNow()
                     if (fileNamesS.size == 1) {
-                        val filePartitions = File("$fileName.partitions")
-                        try {
-                            filePartitions.forEachLine {
-                                val t = it.split(",")
-                                if (t[1] == "-1") {
-                                    Partition.estimatedPartitions0.add(t[0])
-                                } else if (t[1] == "1") {
-                                    var t2 = Partition.estimatedPartitions1[t[0]]
-                                    if (t2 == null) {
-                                        t2 = mutableSetOf()
-                                        Partition.estimatedPartitions1[t[0]] = t2
-                                    }
-                                    if (t[2].toInt() > 1) {
-                                        t2.add(t[2].toInt())
-                                    }
-                                } else if (t[1] == "2") {
-                                    var t2 = Partition.estimatedPartitions2[t[0]]
-                                    if (t2 == null) {
-                                        t2 = mutableSetOf()
-                                        Partition.estimatedPartitions2[t[0]] = t2
-                                    }
-                                    if (t[2].toInt() > 0) {
-                                        t2.add(t[2].toInt())
-                                    }
-                                }
-                            }
-                            distributedTripleStore.reloadPartitioningScheme()
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
+                        setEstimatedPartitionsFromFile("$fileName.partitions")
                     }
                     val fileTriples = File("$fileName.triples")
                     val fileDictionaryStat = File("$fileName.stat")
@@ -409,6 +416,63 @@ public object LuposdateEndpoint {
         val buf = MyPrintWriter(true)
         evaluateOperatorgraphToResult(popNode, buf)
         return buf.toString()
+    }
+    public fun index_html(connectionOut: MyPrintWriter) {
+        connectionOut.println("HTTP/1.1 200 OK")
+        connectionOut.println("Content-Type: text/html; charset=UTF-8")
+        connectionOut.println()
+        connectionOut.println("<html>")
+        connectionOut.println("   <head>")
+        connectionOut.println("      <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>")
+        connectionOut.println("      <script>")
+        connectionOut.println("         $(document).ready(function() {")
+        connectionOut.println("             $('#queryForm').on(\"submit\", function(event) {")
+        connectionOut.println("                 var formData = {")
+        connectionOut.println("                     'query': $('input[name=query]').val(),")
+        connectionOut.println("                     'evaluator' : $('select[name=evaluator]').val()")
+        connectionOut.println("                 };")
+        connectionOut.println("                 $.ajax({")
+        connectionOut.println("                         type: 'POST',")
+        connectionOut.println("                         url: 'sparql/query',")
+        connectionOut.println("                         data: formData")
+        connectionOut.println("                     })")
+        connectionOut.println("                     .done(function(data) {")
+        connectionOut.println("                         $('#responseDiv').text(data);")
+        connectionOut.println("                     });")
+        connectionOut.println("                 event.preventDefault();")
+        connectionOut.println("             });")
+        connectionOut.println("             $('#importFileForm').on(\"submit\", function(event) {")
+        connectionOut.println("                 var formData = {")
+        connectionOut.println("                     'file': $('input[name=file]').val()")
+        connectionOut.println("                 };")
+        connectionOut.println("                 $.ajax({")
+        connectionOut.println("                         type: 'POST',")
+        connectionOut.println("                         url: 'import/turtle',")
+        connectionOut.println("                         data: formData")
+        connectionOut.println("                     })")
+        connectionOut.println("                     .done(function(data) {")
+        connectionOut.println("                         $('#responseDiv').text(data);")
+        connectionOut.println("                     });")
+        connectionOut.println("                 event.preventDefault();")
+        connectionOut.println("             });")
+        connectionOut.println("         });")
+        connectionOut.println("      </script>")
+        connectionOut.println("   </head>")
+        connectionOut.println("   <form id=\"queryForm\" >")
+        connectionOut.println("      <input type=\"text\" name=\"query\" value=\"select * where { ?s ?p ?o . }\" />")
+        connectionOut.println("      <select name=\"evaluator\">")
+        for (evaluator in EQueryResultToStreamExt.names) {
+            connectionOut.println("         <option>$evaluator</option>")
+        }
+        connectionOut.println("      </select>")
+        connectionOut.println("      <input type=\"submit\" value=\"query\" />")
+        connectionOut.println("   </form>")
+        connectionOut.println("   <form id=\"importFileForm\" >")
+        connectionOut.println("      <input type=\"text\" name=\"file\" value=\"/mnt/luposdate-testdata/sp2b/1024/complete.n3\" />")
+        connectionOut.println("      <input type=\"submit\" value=\"importFile\" />")
+        connectionOut.println("   </form>")
+        connectionOut.println("   <div id=\"responseDiv\" />")
+        connectionOut.println("</html>")
     }
     @JsName("initialize")
     public fun initialize() {
