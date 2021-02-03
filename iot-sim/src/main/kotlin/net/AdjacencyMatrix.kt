@@ -1,4 +1,4 @@
-package layer1.net
+package net
 
 class AdjacencyMatrix<T, E>{
 

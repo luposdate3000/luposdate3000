@@ -1,4 +1,4 @@
-package layer1.net
+package net
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue

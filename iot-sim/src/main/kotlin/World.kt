@@ -1,11 +1,3 @@
-package layer2
-
-
-import layer1.net.AdjacencyMatrix
-import layer1.net.Connection
-import java.util.*
-import kotlin.math.*
-
 object World {
 
 /*    val graph: AdjacencyMatrix<Device, Connection> = AdjacencyMatrix()

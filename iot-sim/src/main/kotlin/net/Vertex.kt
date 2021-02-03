@@ -1,3 +1,3 @@
-package layer1.net
+package net
 
 data class Vertex<T>(val index: Int, val data: T)

@@ -1,4 +1,4 @@
-import layer1.config.ConfigParser
+import config.ConfigParser
 
 fun main() {
 

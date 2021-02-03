@@ -1,13 +1,4 @@
-package layer1.net
-
-import layer1.config.*
-import layer2.World
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.CsvSource
-import org.junit.jupiter.params.provider.ValueSource
-import kotlin.math.sign
+package net
 
 class WorldTest {
 

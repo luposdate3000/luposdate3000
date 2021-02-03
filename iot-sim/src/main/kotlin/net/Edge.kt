@@ -1,4 +1,4 @@
-package layer1.net
+package net
 
 data class Edge<T>(
     val source: Vertex<T>,

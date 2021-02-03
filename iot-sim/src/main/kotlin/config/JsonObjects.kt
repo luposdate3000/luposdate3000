@@ -1,4 +1,4 @@
-package layer1.config
+package config
 
 import kotlinx.serialization.Serializable
 
