@@ -74,7 +74,7 @@ object Simulation {
         }
     }
 
-    fun sendEvent(event: Event) {
+    fun addEvent(event: Event) {
         val eventOccurringTime = clock + event.occurrenceTime
         val timeUpdatedEvent = Event(eventOccurringTime, event.source, event.destination, event.type, event.data)
         futureEvents.enqueue(timeUpdatedEvent)
