@@ -1,8 +1,6 @@
-package rand
-
 import kotlin.random.Random
 
-object RandomValues {
+object RandomGenerator {
     var seed: Int = 1
         set(value) {
             field = value

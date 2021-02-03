@@ -1,19 +1,16 @@
-package rand
-
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.ValueSource
-import simulation.Simulation
 
-class RandomValuesTest {
+class RandomGeneratorTest {
 
     @Test
     fun `change seed`() {
         val firstSeed = 1
-        RandomValues.seed = firstSeed
-        val actualSeed = RandomValues.seed
+        RandomGenerator.seed = firstSeed
+        val actualSeed = RandomGenerator.seed
         Assertions.assertEquals(firstSeed, actualSeed)
     }
 
@@ -25,7 +22,7 @@ class RandomValuesTest {
     )
     fun `random double is between min and max`(min: Double, max: Double) {
         for(i in 1..30) {
-            val actual = RandomValues.getDouble(min, max)
+            val actual = RandomGenerator.getDouble(min, max)
             Assertions.assertTrue(actual >= min, "actual is $actual")
             Assertions.assertTrue(actual <= max, "actual is $actual")
         }
@@ -40,14 +37,14 @@ class RandomValuesTest {
         val maxRandom = Double.MIN_VALUE
         val minRandom = sequenceSize.toDouble()
 
-        RandomValues.seed = seed
+        RandomGenerator.seed = seed
         for(i in 0 until sequenceSize) {
-            firstSequence[i] = RandomValues.getDouble(maxRandom, minRandom)
+            firstSequence[i] = RandomGenerator.getDouble(maxRandom, minRandom)
         }
 
-        RandomValues.seed = seed
+        RandomGenerator.seed = seed
         for(i in 0 until sequenceSize) {
-            secondSequence[i] = RandomValues.getDouble(maxRandom, minRandom)
+            secondSequence[i] = RandomGenerator.getDouble(maxRandom, minRandom)
         }
 
         for(i in 0 until sequenceSize) {
