@@ -83,12 +83,10 @@ object Simulation {
     }
 
     fun sendEvent(event: Event) {
-        val newTime = calcEventOccurringTime(event.occurrenceTime)
-        val timeUpdatedEvent = Event(newTime, event.source, event.destination, event.type, event.data)
+        val eventOccurringTime = clock + event.occurrenceTime
+        val timeUpdatedEvent = Event(eventOccurringTime, event.source, event.destination, event.type, event.data)
         futureEvents.enqueue(timeUpdatedEvent)
     }
-
-    private fun calcEventOccurringTime(delay: Double) = clock + delay
 
     private fun finishRun() {
         shutDownAllEntities()
@@ -106,6 +104,5 @@ object Simulation {
         clock = 0.0
         futureEvents.clear()
     }
-
 
 }
