@@ -14,14 +14,10 @@ object Simulation {
     }
 
     fun runSimulation(): Double {
-        prepareRun()
+        startUpAllEntities()
         val simClock = run()
         finishRun()
         return simClock
-    }
-
-    private fun prepareRun() {
-        startUpAllEntities()
     }
 
     private fun startUpAllEntities() {
