@@ -220,13 +220,15 @@ public actual object HttpEndpointLauncher {
                                 connectionOut.println("   </head>")
                                 connectionOut.println("   <body>")
                                 for ((k, v) in paths) {
-                                    val formId = k.replace("/", "_")
-                                    connectionOut.println("<form id=\"$formId\" >")
-                                    for ((p, q) in v.params) {
-                                        connectionOut.println("${q(p.first,p.second)}")
+                                    if (k.length> 1) {
+                                        val formId = k.replace("/", "_")
+                                        connectionOut.println("<form id=\"$formId\" >")
+                                        for ((p, q) in v.params) {
+                                            connectionOut.println("${q(p.first,p.second)}")
+                                        }
+                                        connectionOut.println("<input type=\"submit\" value=\"$k\" />")
+                                        connectionOut.println("</form>")
                                     }
-                                    connectionOut.println("<input type=\"submit\" value=\"$k\" />")
-                                    connectionOut.println("</form>")
                                 }
                                 connectionOut.println("   <div id=\"responseDiv\"></div>")
                                 connectionOut.println("   </body>")

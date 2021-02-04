@@ -1,5 +1,23 @@
+/*
+ * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
+ * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package lupos.s04logicalOperators
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.XMLElement
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPMergePartition
@@ -16,6 +34,10 @@ internal object DistributedQuery {
             }
             val xml = node.toXMLElementRoot(true)
             val key = xml["partitionDistributionProvideKey"]!!.attributes["key"]!!
+            if (node is POPSplitPartitionFromStore) {
+                SanityCheck.check { allIdx.size == 1 }
+                query.operatorgraphPartsToHostMap[key] = Partition.myProcessUrls[allIdx[0] % Partition.myProcessCount]
+            }
             query.operatorgraphParts[key] = xml
             query.allVariationsKey.clear()
         } else {
@@ -79,21 +101,57 @@ internal object DistributedQuery {
                         i++
                     }
                     getAllVariations(query, node, allNames, allSize, IntArray(currentPartitionsCopy.size), 0)
-                    if (root) {
-                        query.operatorgraphParts[""] = node.toXMLElement(true)
-                    }
                 }
             }
         } else {
             throw Exception("this query is not executable ${node.getClassname()} ${(node as OPBase).uuid}")
         }
     }
+    internal fun walkXMLElement(node: XMLElement, dependencies: MutableList<String>) {
+        for (c in node.childs) {
+            walkXMLElement(c, dependencies)
+        }
+        if (node.tag == "partitionDistributionReceiveKey") {
+            dependencies.add(node.attributes["key"]!!)
+        }
+    }
     internal fun initialize(query: Query) {
         query.operatorgraphParts.clear()
+        query.operatorgraphParts[""] = query.root!!.toXMLElement(true)
+        query.operatorgraphPartsToHostMap[""] = Partition.myProcessUrls[Partition.myProcessId]
         initialize_helper(query, query.root!!, mutableMapOf(), true)
         for ((k, v) in query.operatorgraphParts) {
             println("subgraph $k")
             println(v.toPrettyString())
+        }
+        println("host mappings :: init")
+        var dependenciesMap = mutableMapOf<String, List<String>>()
+        for ((k, v) in query.operatorgraphParts) {
+            val dependencies = mutableListOf<String>()
+            walkXMLElement(v, dependencies)
+            dependenciesMap[k] = dependencies
+            println("$k :: ${query.operatorgraphPartsToHostMap[k] ?: "?"} :: $dependencies")
+        }
+        var changed = true
+        var iteration = 0
+        while (changed) {
+            changed = false
+            println("host mappings :: iteration $iteration")
+            iteration++
+            for ((k, v) in query.operatorgraphParts) {
+                if (!query.operatorgraphPartsToHostMap.contains(k)) {
+                    var possibleHosts = mutableSetOf<String>()
+                    for (s in dependenciesMap[k]!!) {
+                        possibleHosts.add(query.operatorgraphPartsToHostMap[s] ?: "?")
+                    }
+                    println(possibleHosts)
+                    if (possibleHosts.size == 1) {
+                        query.operatorgraphPartsToHostMap[k] = possibleHosts.first()
+                        changed = true
+                    }
+                }
+                println("$k :: ${query.operatorgraphPartsToHostMap[k] ?: "?"}")
+            }
         }
     }
 }

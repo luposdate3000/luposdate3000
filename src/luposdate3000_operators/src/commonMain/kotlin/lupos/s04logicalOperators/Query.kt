@@ -61,9 +61,12 @@ public class Query public constructor(@JvmField public val dictionary: ResultSet
     public val partitionOperatorCount: MutableMap<Int, Int> = mutableMapOf()
     @JvmField
     internal var root: IOPBase? = null
-
-    @JvmField public var allVariationsKey: MutableMap<String, Int> = mutableMapOf<String, Int>()
-    @JvmField internal var operatorgraphParts = mutableMapOf<String, XMLElement>()
+    @JvmField
+    public var allVariationsKey: MutableMap<String, Int> = mutableMapOf<String, Int>()
+    @JvmField
+    internal var operatorgraphParts = mutableMapOf<String, XMLElement>()
+    @JvmField
+    public var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
 
     override fun getDistributionKey(): Map<String, Int> = allVariationsKey
     override fun initialize() {
