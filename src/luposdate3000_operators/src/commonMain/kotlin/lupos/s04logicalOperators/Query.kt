@@ -23,14 +23,12 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-import lupos.s09physicalOperators.partition.POPSplitPartitionPassThrough
 import kotlin.jvm.JvmField
 public class PartitionHelper public constructor() {
     @JvmField public var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
@@ -64,90 +62,13 @@ public class Query public constructor(@JvmField public val dictionary: ResultSet
     @JvmField
     internal var root: IOPBase? = null
 
+    @JvmField public var allVariationsKey: MutableMap<String, Int> = mutableMapOf<String, Int>()
+    @JvmField internal var operatorgraphParts = mutableMapOf<String, XMLElement>()
+
+    override fun getDistributionKey(): Map<String, Int> = allVariationsKey
     override fun initialize() {
         initialize(root!!)
     }
-    @JvmField public var allVariationsKey: MutableMap<String, Int> = mutableMapOf<String, Int>()
-    override fun getDistributionKey(): Map<String, Int> = allVariationsKey
-    internal var operatorgraphParts = mutableMapOf<String, XMLElement>()
-    internal fun getAllVariations(node: IOPBase, allNames: Array<String>, allSize: IntArray, allIdx: IntArray, offset: Int) {
-        if (offset == allNames.size) {
-            for (i in 0 until allNames.size) {
-                allVariationsKey[allNames[i]] = allIdx[i]
-            }
-            operatorgraphParts["${node.getUUID()}:$allVariationsKey"] = node.toXMLElementRoot(true)
-            allVariationsKey.clear()
-        } else {
-            for (i in 0 until allSize[offset]) {
-                allIdx[offset] = i
-                getAllVariations(node, allNames, allSize, allIdx, offset + 1)
-            }
-        }
-    }
-
-    internal fun initialize_helper(node: IOPBase, currentPartitions: Map<String, Int>) {
-        if ((node is POPBase) || (node is OPBaseCompound)) {
-            val currentPartitionsCopy = mutableMapOf<String, Int>()
-            currentPartitionsCopy.putAll(currentPartitions)
-            when (node) {
-                is POPMergePartition -> {
-                    SanityCheck.check { currentPartitionsCopy[node.partitionVariable] == null }
-                    currentPartitionsCopy[node.partitionVariable] = node.partitionCount
-                }
-                is POPMergePartitionCount -> {
-                    SanityCheck.check { currentPartitionsCopy[node.partitionVariable] == null }
-                    currentPartitionsCopy[node.partitionVariable] = node.partitionCount
-                }
-                is POPMergePartitionOrderedByIntId -> {
-                    SanityCheck.check { currentPartitionsCopy[node.partitionVariable] == null }
-                    currentPartitionsCopy[node.partitionVariable] = node.partitionCount
-                }
-                is POPChangePartitionOrderedByIntId -> {
-                    SanityCheck.check { currentPartitionsCopy[node.partitionVariable] == node.partitionCountTo }
-                    currentPartitionsCopy[node.partitionVariable] = node.partitionCountFrom
-                }
-                is POPSplitPartition -> {
-                    SanityCheck.check { currentPartitionsCopy[node.partitionVariable] != null }
-                    currentPartitionsCopy.remove(node.partitionVariable)
-                }
-                is POPSplitPartitionFromStore -> {
-                    SanityCheck.check { currentPartitionsCopy[node.partitionVariable] == node.partitionCount }
-                }
-                is POPSplitPartitionPassThrough -> {
-                    SanityCheck.check { currentPartitionsCopy[node.partitionVariable] == node.partitionCount }
-                }
-            }
-            for (ci in 0 until (node as OPBase).childrenToVerifyCount()) {
-                val c = node.getChildren()[ci]
-                initialize_helper(c, currentPartitionsCopy)
-            }
-            when (node) {
-                is POPMergePartition,
-                is POPMergePartitionCount,
-                is POPMergePartitionOrderedByIntId,
-                is POPChangePartitionOrderedByIntId,
-                is POPSplitPartition,
-                is POPSplitPartitionFromStore,
-                is POPSplitPartitionPassThrough
-                -> {
-                    val allNames = Array(currentPartitionsCopy.size) { "" }
-                    val allSize = IntArray(currentPartitionsCopy.size)
-                    var i = 0
-                    for ((k, v) in currentPartitionsCopy) {
-                        allNames[i] = k
-                        allSize[i] = v
-                        i++
-                    }
-                    getAllVariations(node, allNames, allSize, IntArray(currentPartitionsCopy.size), 0)
-//                    println("subquery graph within partition $currentPartitionsCopy")
-//                    println(toXMLElementRoot(true).toPrettyString())
-                }
-            }
-        } else {
-            throw Exception("this query is not executable ${node.getClassname()} ${(node as OPBase).uuid}")
-        }
-    }
-
     override fun initialize(newroot: IOPBase) {
         println("initializing Query ------------ start")
         println(newroot.toXMLElementRoot(false).toPrettyString())
@@ -155,12 +76,7 @@ public class Query public constructor(@JvmField public val dictionary: ResultSet
         transactionID = global_transactionID++
         commited = false
         partitions.clear()
-        operatorgraphParts.clear()
-        initialize_helper(newroot, mutableMapOf())
-        for ((k, v) in operatorgraphParts) {
-            println("subgraph $k")
-            println(v.toPrettyString())
-        }
+        DistributedQuery.initialize(this)
         println("initializing Query ------------ done")
     }
     public fun getNextPartitionOperatorID(): Int {

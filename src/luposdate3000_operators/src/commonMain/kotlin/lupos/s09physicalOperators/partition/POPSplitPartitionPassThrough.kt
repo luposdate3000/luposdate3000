@@ -49,12 +49,12 @@ public class POPSplitPartitionPassThrough public constructor(query: IQuery, proj
     }
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = super.toXMLElementHelper(partial, partial && !isRoot)
-        var theKey = mutableMapOf<String, Int>()
+        var theKey = mutableMapOf<String, Int>(partitionVariable to 0)
         theKey.putAll(query.getDistributionKey())
         if (isRoot) {
-            res.addAttribute("partitionDistributionProvideKey", theKeyToString(theKey))
+            res.addContent(XMLElement("partitionDistributionProvideKey").addAttribute("key", theKeyToString(theKey)))
         } else {
-            res.addAttribute("partitionDistributionReceiveKey", theKeyToString(theKey))
+            res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
         }
         res.addAttribute("partitionVariable", partitionVariable)
         res.addAttribute("partitionCount", "" + partitionCount)

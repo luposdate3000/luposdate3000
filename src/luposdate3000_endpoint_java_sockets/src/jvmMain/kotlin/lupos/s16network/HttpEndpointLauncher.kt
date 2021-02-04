@@ -195,23 +195,25 @@ public actual object HttpEndpointLauncher {
                                 connectionOut.println("<script>")
                                 connectionOut.println("   $(document).ready(function() {")
                                 for ((k, v) in paths) {
-                                    val formId = k.replace("/", "_")
-                                    connectionOut.println("       $('#$formId').on(\"submit\", function(event) {")
-                                    connectionOut.println("           var formData = {")
-                                    for ((p, q) in v.params) {
-                                        connectionOut.println("               '${p.first}': $('#$formId [name=${p.first}]').val(),")
+                                    if (k.length> 1) {
+                                        val formId = k.replace("/", "_")
+                                        connectionOut.println("       $('#$formId').on(\"submit\", function(event) {")
+                                        connectionOut.println("           var formData = {")
+                                        for ((p, q) in v.params) {
+                                            connectionOut.println("               '${p.first}': $('#$formId [name=${p.first}]').val(),")
+                                        }
+                                        connectionOut.println("           };")
+                                        connectionOut.println("           $.ajax({")
+                                        connectionOut.println("                   type: 'POST',")
+                                        connectionOut.println("                   url: '${k.substring(1)}',")
+                                        connectionOut.println("                   data: formData")
+                                        connectionOut.println("               })")
+                                        connectionOut.println("               .done(function(data) {")
+                                        connectionOut.println("                   $('#responseDiv').text(data);")
+                                        connectionOut.println("               });")
+                                        connectionOut.println("           event.preventDefault();")
+                                        connectionOut.println("       });")
                                     }
-                                    connectionOut.println("           };")
-                                    connectionOut.println("           $.ajax({")
-                                    connectionOut.println("                   type: 'POST',")
-                                    connectionOut.println("                   url: '${k.substring(1)}',")
-                                    connectionOut.println("                   data: formData")
-                                    connectionOut.println("               })")
-                                    connectionOut.println("               .done(function(data) {")
-                                    connectionOut.println("                   $('#responseDiv').text(data);")
-                                    connectionOut.println("               });")
-                                    connectionOut.println("           event.preventDefault();")
-                                    connectionOut.println("       });")
                                 }
                                 connectionOut.println("   });")
                                 connectionOut.println("</script>")
@@ -230,7 +232,8 @@ public actual object HttpEndpointLauncher {
                                 connectionOut.println("   </body>")
                                 connectionOut.println("</html>")
                             }
-                            paths["/" ] = paths["/index.html" ]!!
+                            paths[""] = paths["/index.html"]!!
+                            paths["/"] = paths["/index.html"]!!
                             val actionHelper = paths[path]
                             if (actionHelper == null) {
                                 throw EnpointRecievedInvalidPath(path)

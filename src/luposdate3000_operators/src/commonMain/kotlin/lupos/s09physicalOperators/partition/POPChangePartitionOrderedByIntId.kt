@@ -57,23 +57,19 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
     }
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = super.toXMLElementHelper(partial, partial && !isRoot)
-        var theKey = mutableMapOf<String, Int>()
+        var theKey = mutableMapOf<String, Int>(partitionVariable to 0)
         theKey.putAll(query.getDistributionKey())
         if (isRoot) {
-            res.addAttribute("partitionDistributionProvideKey", theKeyToString(theKey))
-            if (theKey.contains(partitionVariable)) {
-                for (i in 0 until partitionCountTo / partitionCountFrom) {
-                    theKey[partitionVariable] = theKey[partitionVariable]!! + i * partitionCountFrom
-                    res.addAttribute("partitionDistributionProvideKey", theKeyToString(theKey))
-                }
+            res.addContent(XMLElement("partitionDistributionProvideKey").addAttribute("key", theKeyToString(theKey)))
+            for (i in 1 until partitionCountTo / partitionCountFrom) {
+                theKey[partitionVariable] = theKey[partitionVariable]!! + i * partitionCountFrom
+                res.addContent(XMLElement("partitionDistributionProvideKey").addAttribute("key", theKeyToString(theKey)))
             }
         } else {
-            res.addAttribute("partitionDistributionReceiveKey", theKeyToString(theKey))
-            if (theKey.contains(partitionVariable)) {
-                for (i in 0 until partitionCountFrom / partitionCountTo) {
-                    theKey[partitionVariable] = theKey[partitionVariable]!! + i * partitionCountTo
-                    res.addAttribute("partitionDistributionReceiveKey", theKeyToString(theKey))
-                }
+            res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
+            for (i in 1 until partitionCountFrom / partitionCountTo) {
+                theKey[partitionVariable] = theKey[partitionVariable]!! + i * partitionCountTo
+                res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
             }
         }
         res.addAttribute("partitionVariable", partitionVariable)
