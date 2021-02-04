@@ -31,10 +31,8 @@ internal fun helperCleanString(s: String): String {
     return res
 }
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
-    println("importing args ${args.map { it }}")
+internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     var cnt = 0
-    val inputFileName = args[0]
     println("importing $inputFileName start")
     val inputFile = File(inputFileName)
     val dict = mutableMapOf<String, Int>()

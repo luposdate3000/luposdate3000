@@ -130,3 +130,4 @@ TripleStoreIteratorGlobalID
 POPSplitPartitionID
 POPSplitPartitionFromStoreID
 POPMergePartitionCountID
+POPGenerated

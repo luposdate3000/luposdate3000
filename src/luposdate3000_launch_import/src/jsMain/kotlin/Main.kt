@@ -16,4 +16,18 @@
  */
 import kotlin.js.JsName
 @JsName("main")
-public fun main(args: Array<String>): Unit = mainFunc(args)
+public fun main(args: Array<String>) {
+    var flag = false
+    var inputFileName: String = ""
+    for (a in args) {
+        if (a.startsWith("--inputFileName=")) {
+            inputFileName = a.substring(16)
+            flag = true
+            break
+        }
+    }
+    if (!flag) {
+        throw Exception("the option '--inputFileName' is missing on the arguments list")
+    }
+    mainFunc(inputFileName)
+}

@@ -122,34 +122,35 @@ public object EOperatorIDExt {
     public const val POPDebugID: EOperatorID = 102
     public const val POPEmptyRowID: EOperatorID = 103
     public const val POPFilterID: EOperatorID = 104
-    public const val POPGraphOperationID: EOperatorID = 105
-    public const val POPGroupID: EOperatorID = 106
-    public const val POPJoinCartesianProductID: EOperatorID = 107
-    public const val POPJoinHashMapID: EOperatorID = 108
-    public const val POPJoinMergeID: EOperatorID = 109
-    public const val POPJoinMergeOptionalID: EOperatorID = 110
-    public const val POPJoinMergeSingleColumnID: EOperatorID = 111
-    public const val POPJoinWithStoreExistsID: EOperatorID = 112
-    public const val POPJoinWithStoreID: EOperatorID = 113
-    public const val POPLimitID: EOperatorID = 114
-    public const val POPMakeBooleanResultID: EOperatorID = 115
-    public const val POPMergePartitionCountID: EOperatorID = 116
-    public const val POPMergePartitionID: EOperatorID = 117
-    public const val POPMergePartitionOrderedByIntIdID: EOperatorID = 118
-    public const val POPMinusID: EOperatorID = 119
-    public const val POPModifyDataID: EOperatorID = 120
-    public const val POPModifyID: EOperatorID = 121
-    public const val POPOffsetID: EOperatorID = 122
-    public const val POPProjectionID: EOperatorID = 123
-    public const val POPReducedID: EOperatorID = 124
-    public const val POPSortID: EOperatorID = 125
-    public const val POPSplitPartitionFromStoreID: EOperatorID = 126
-    public const val POPSplitPartitionID: EOperatorID = 127
-    public const val POPSplitPartitionPassThroughID: EOperatorID = 128
-    public const val POPUnionID: EOperatorID = 129
-    public const val POPValuesID: EOperatorID = 130
-    public const val TripleStoreIteratorGlobalID: EOperatorID = 131
-    public const val values_size: Int = 132
+    public const val POPGenerated: EOperatorID = 105
+    public const val POPGraphOperationID: EOperatorID = 106
+    public const val POPGroupID: EOperatorID = 107
+    public const val POPJoinCartesianProductID: EOperatorID = 108
+    public const val POPJoinHashMapID: EOperatorID = 109
+    public const val POPJoinMergeID: EOperatorID = 110
+    public const val POPJoinMergeOptionalID: EOperatorID = 111
+    public const val POPJoinMergeSingleColumnID: EOperatorID = 112
+    public const val POPJoinWithStoreExistsID: EOperatorID = 113
+    public const val POPJoinWithStoreID: EOperatorID = 114
+    public const val POPLimitID: EOperatorID = 115
+    public const val POPMakeBooleanResultID: EOperatorID = 116
+    public const val POPMergePartitionCountID: EOperatorID = 117
+    public const val POPMergePartitionID: EOperatorID = 118
+    public const val POPMergePartitionOrderedByIntIdID: EOperatorID = 119
+    public const val POPMinusID: EOperatorID = 120
+    public const val POPModifyDataID: EOperatorID = 121
+    public const val POPModifyID: EOperatorID = 122
+    public const val POPOffsetID: EOperatorID = 123
+    public const val POPProjectionID: EOperatorID = 124
+    public const val POPReducedID: EOperatorID = 125
+    public const val POPSortID: EOperatorID = 126
+    public const val POPSplitPartitionFromStoreID: EOperatorID = 127
+    public const val POPSplitPartitionID: EOperatorID = 128
+    public const val POPSplitPartitionPassThroughID: EOperatorID = 129
+    public const val POPUnionID: EOperatorID = 130
+    public const val POPValuesID: EOperatorID = 131
+    public const val TripleStoreIteratorGlobalID: EOperatorID = 132
+    public const val values_size: Int = 133
     @JvmField public val names: Array<String> = arrayOf(
         "AOPAdditionID",
         "AOPAggregationAVGID",
@@ -256,6 +257,7 @@ public object EOperatorIDExt {
         "POPDebugID",
         "POPEmptyRowID",
         "POPFilterID",
+        "POPGenerated",
         "POPGraphOperationID",
         "POPGroupID",
         "POPJoinCartesianProductID",

@@ -222,6 +222,9 @@ public object LuposdateEndpoint {
                     }
                     if (t[2].toInt() > 1) {
                         t2.add(t[2].toInt())
+                        if (t[2].toInt()> Partition.default_k) {
+                            Partition.default_k = t[2].toInt()
+                        }
                     }
                 } else if (t[1] == "2") {
                     var t2 = Partition.estimatedPartitions2[t[0]]
@@ -231,6 +234,9 @@ public object LuposdateEndpoint {
                     }
                     if (t[2].toInt() > 0) {
                         t2.add(t[2].toInt())
+                        if (t[2].toInt()> Partition.default_k) {
+                            Partition.default_k = t[2].toInt()
+                        }
                     }
                 }
             }

@@ -56,8 +56,8 @@ public actual object HttpEndpointLauncher {
             }
         }
     }
-    internal fun inputElement(name: String): String = "<input type=\"text\" name=\"$name\" />"
-    internal class PathMappingHelper(val addPostParams: Boolean, val params: Map<String, (String)->String>, val action: () -> Unit)
+    internal fun inputElement(name: String, value: String): String = "<input type=\"text\" name=\"$name\" value=\"$value\"/>"
+    internal class PathMappingHelper(val addPostParams: Boolean/*parse the post-body as additional parameters for the query*/, val params: Map<Pair<String/*name*/, String/*default-value*/>, (String, String)->String/*html-string of element*/>, val action: () -> Unit/*action to perform, when this is the called url*/)
     public actual /*suspend*/ fun start() {
         val hosturl = Partition.myProcessUrls[Partition.myProcessId].split(":")
         val hostname = hosturl[0]
@@ -109,12 +109,12 @@ public actual object HttpEndpointLauncher {
                                 content.append(connectionIn.read().toChar())
                             }
                             val paths = mutableMapOf<String, PathMappingHelper>()
-                            paths[ "/sparql/jenaquery" ] = PathMappingHelper(true, mapOf("query" to ::inputElement)) {
+                            paths[ "/sparql/jenaquery" ] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE {?s <p> ?o . ?s ?p <o>}") to ::inputElement)) {
                                 printHeaderSuccess(connectionOut)
                                 connectionOut.print(JenaWrapper.execQuery(params["query"]!!))
                                 /*Coverage Unreachable*/
                             }
-                            paths[ "/sparql/jenaload" ] = PathMappingHelper(true, mapOf("file" to ::inputElement)) {
+                            paths[ "/sparql/jenaload" ] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3") to ::inputElement)) {
                                 JenaWrapper.loadFromFile(params["file"]!!)
                                 printHeaderSuccess(connectionOut)
                                 connectionOut.print("success")
@@ -122,8 +122,8 @@ public actual object HttpEndpointLauncher {
                             paths[ "/sparql/query" ] = PathMappingHelper(
                                 true,
                                 mapOf(
-                                    "query" to ::inputElement,
-                                    "evaluator" to {
+                                    Pair("query", "SELECT * WHERE {?s <p> ?o . ?s ?p <o>}") to ::inputElement,
+                                    Pair("evaluator", "") to { it, value ->
                                         var res: String = "<select name=\"$it\">"
                                         for (evaluator in EQueryResultToStreamExt.names) {
                                             res += "<option>$evaluator</option>"
@@ -147,12 +147,12 @@ public actual object HttpEndpointLauncher {
                                 LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOut, evaluator)
                                 /*Coverage Unreachable*/
                             }
-                            paths["/sparql/operator" ] = PathMappingHelper(true, mapOf("query" to ::inputElement)) {
+                            paths["/sparql/operator" ] = PathMappingHelper(true, mapOf(Pair("query", "") to ::inputElement)) {
                                 printHeaderSuccess(connectionOut)
                                 connectionOut.print(LuposdateEndpoint.evaluateOperatorgraphxmlToResultB(params["query"]!!, true))
                                 /*Coverage Unreachable*/
                             }
-                            paths["/import/turtle" ] = PathMappingHelper(true, mapOf("file" to ::inputElement)) {
+                            paths["/import/turtle" ] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3") to ::inputElement)) {
                                 val dict = mutableMapOf<String, Int>()
                                 val dictfile = params["bnodeList"]
                                 if (dictfile != null) {
@@ -164,7 +164,7 @@ public actual object HttpEndpointLauncher {
                                 connectionOut.print(LuposdateEndpoint.importTurtleFiles(params["file"]!!, dict))
                                 /*Coverage Unreachable*/
                             }
-                            paths["/import/estimatedPartitions" ] = PathMappingHelper(true, mapOf("file" to ::inputElement)) {
+                            paths["/import/estimatedPartitions" ] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3.partitions") to ::inputElement)) {
                                 LuposdateEndpoint.setEstimatedPartitionsFromFile(params["file"]!!)
                                 printHeaderSuccess(connectionOut)
                                 connectionOut.println("Partitining-Scheme :: ")
@@ -173,12 +173,12 @@ public actual object HttpEndpointLauncher {
                                 connectionOut.println("${Partition.estimatedPartitions2}")
                                 connectionOut.println("${Partition.estimatedPartitionsValid}")
                             }
-                            paths["/import/intermediate" ] = PathMappingHelper(true, mapOf("file" to ::inputElement)) {
+                            paths["/import/intermediate" ] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3") to ::inputElement)) {
                                 printHeaderSuccess(connectionOut)
                                 connectionOut.print(LuposdateEndpoint.importIntermediateFiles(params["file"]!!))
                                 /*Coverage Unreachable*/
                             }
-                            paths["/import/xml" ] = PathMappingHelper(true, mapOf("xml" to ::inputElement)) {
+                            paths["/import/xml" ] = PathMappingHelper(true, mapOf(Pair("xml", "") to ::inputElement)) {
                                 printHeaderSuccess(connectionOut)
                                 connectionOut.print(LuposdateEndpoint.importXmlData(params["xml"]!!))
                                 /*Coverage Unreachable*/
@@ -187,8 +187,10 @@ public actual object HttpEndpointLauncher {
                                 connectionOut.println("HTTP/1.1 200 OK")
                                 connectionOut.println("Content-Type: text/html; charset=UTF-8")
                                 connectionOut.println()
-                                connectionOut.println("<html>")
+                                connectionOut.println("<!DOCTYPE html>")
+                                connectionOut.println("<html lang=\"en\">")
                                 connectionOut.println("   <head>")
+                                connectionOut.println("   <title>Luposdate3000</title>")
                                 connectionOut.println("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>")
                                 connectionOut.println("<script>")
                                 connectionOut.println("   $(document).ready(function() {")
@@ -197,7 +199,7 @@ public actual object HttpEndpointLauncher {
                                     connectionOut.println("       $('#$formId').on(\"submit\", function(event) {")
                                     connectionOut.println("           var formData = {")
                                     for ((p, q) in v.params) {
-                                        connectionOut.println("               '$p': $('#$formId [name=$p]').val(),")
+                                        connectionOut.println("               '${p.first}': $('#$formId [name=${p.first}]').val(),")
                                     }
                                     connectionOut.println("           };")
                                     connectionOut.println("           $.ajax({")
@@ -214,16 +216,18 @@ public actual object HttpEndpointLauncher {
                                 connectionOut.println("   });")
                                 connectionOut.println("</script>")
                                 connectionOut.println("   </head>")
+                                connectionOut.println("   <body>")
                                 for ((k, v) in paths) {
                                     val formId = k.replace("/", "_")
-                                    connectionOut.println("   <form id=\"$formId\" >")
+                                    connectionOut.println("<form id=\"$formId\" >")
                                     for ((p, q) in v.params) {
-                                        connectionOut.println("${q(p)}")
+                                        connectionOut.println("${q(p.first,p.second)}")
                                     }
                                     connectionOut.println("<input type=\"submit\" value=\"$k\" />")
-                                    connectionOut.println("   </form>")
+                                    connectionOut.println("</form>")
                                 }
-                                connectionOut.println("   <div id=\"responseDiv\" />")
+                                connectionOut.println("   <div id=\"responseDiv\"></div>")
+                                connectionOut.println("   </body>")
                                 connectionOut.println("</html>")
                             }
                             val actionHelper = paths[path]
