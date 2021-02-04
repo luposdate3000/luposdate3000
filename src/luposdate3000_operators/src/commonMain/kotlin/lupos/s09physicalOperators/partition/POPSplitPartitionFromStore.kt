@@ -40,8 +40,22 @@ public class POPSplitPartitionFromStore public constructor(query: IQuery, projec
         var res = toXMLElementHelper2(partial, false)
         return res
     }
+    private fun theKeyToString(key: Map<String, Int>): String {
+        var s = "$uuid"
+        for (k in key.keys.sorted()) {
+            s += ":$k=${key[k]}"
+        }
+        return s
+    }
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
-        val res = super.toXMLElementHelper(partial, false)
+        val res = super.toXMLElementHelper(partial, partial && !isRoot)
+        var theKey = mutableMapOf<String, Int>()
+        theKey.putAll(query.getDistributionKey())
+        if (isRoot) {
+            res.addAttribute("partitionDistributionProvideKey", theKeyToString(theKey))
+        } else {
+            res.addAttribute("partitionDistributionReceiveKey", theKeyToString(theKey))
+        }
         res.addAttribute("partitionVariable", partitionVariable)
         res.addAttribute("partitionCount", "" + partitionCount)
         res.addAttribute("partitionID", "" + partitionID)

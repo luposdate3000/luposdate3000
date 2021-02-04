@@ -230,6 +230,7 @@ public actual object HttpEndpointLauncher {
                                 connectionOut.println("   </body>")
                                 connectionOut.println("</html>")
                             }
+                            paths["/" ] = paths["/index.html" ]!!
                             val actionHelper = paths[path]
                             if (actionHelper == null) {
                                 throw EnpointRecievedInvalidPath(path)

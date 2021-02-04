@@ -25,4 +25,5 @@ public interface IQuery {
     public fun initialize(newroot: IOPBase)
     public fun setCommited()
     public fun getTransactionID(): Long
+    public fun getDistributionKey(): Map<String, Int>
 }
