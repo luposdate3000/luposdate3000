@@ -981,18 +981,41 @@ fun onGenerateParser() {
         "PREDICATE_LIST1" to "(';')",
         "VERB1" to "('a')",
         "IRI1" to "('^') ('^')",
-        "EOF" to "=",
         "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
         "SKIP_WS" to "[#x20#x9#xD#xA]*",
     )
     val turtleFilename = "src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}turtle${Platform.getPathSeparator()}Turtle2ParserGenerated.kt"
     val turtlePackage = "lupos.s02buildSyntaxTree.turtle"
-    ParserGenerator(
-        turtleGeneratingArgs,
-        turtleGrammar,
-        turtleFilename,
-        turtlePackage,
+    val xmlGeneratingArgs = arrayOf(
+        listOf("PARSER_CONTEXT"),
+        listOf("parse_ws", "SKIP_WS"),
+        listOf("parse_ws_forced", "SKIP_WS_FORCED"),
+        listOf("parse_element_start", "ELEMENT_START"),
+        listOf("parse_element_tag_or_immediate_close_char", "ELEMENT_END_PART", "TAG"),
+        listOf("parse_element_tag", "TAG"),
+        listOf("parse_element_close", "ELEMENT_CLOSE_LATER"),
+        listOf("parse_attribute_or_close_tag", "ATTRIBUTE_NAME", "ELEMENT_CLOSE_IMMEDIATELY", "ELEMENT_CLOSE_LATER"),
+        listOf("parse_attribute_assinment", "ATTRIBUTE_ASSIGNMENT"),
+        listOf("parse_attribute_value", "ATTRIBUTE_VALUE"),
+        listOf("parse_content_or_child", "ELEMENT_CONTENT", "ELEMENT_START"),
     )
+    val xmlGrammar = mapOf(
+        "ELEMENT_START" to "'<'",
+        "ELEMENT_END_PART" to "'/'", // if this is directly after the ELEMENT_START, than the element is finished
+        "ELEMENT_CLOSE_IMMEDIATELY" to "'/' '>'",
+        "ELEMENT_CLOSE_LATER" to "'>'",
+        "TAG" to "[a-zA-Z][a-zA-Z0-9]*",
+        "ATTRIBUTE_NAME" to "[a-zA-Z][a-zA-Z0-9]*",
+        "ATTRIBUTE_ASSIGNMENT" to "'='",
+        "ATTRIBUTE_VALUE" to "'\"' [^\"]* '\"'",
+        "ELEMENT_CONTENT" to "[^<]*",
+        "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
+        "SKIP_WS" to "[#x20#x9#xD#xA]*",
+    )
+    val xmlFilename = "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}xmlParser${Platform.getPathSeparator()}XMLParserGenerated.kt"
+    val xmlPackage = "lupos.s00misc.xmlParser"
+//  ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage,)
+    ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage,)
 }
 fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: String, fileName: String) {
     val mapping2 = mutableListOf<String>()
