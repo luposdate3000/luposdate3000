@@ -18,7 +18,45 @@ import java.io.PrintWriter
 // addition to regex-grammar::
 // a '=' directly terminates a group
 // a '!' prevents a tail from beeing added only use this if there is a '=' somewhere before - otherwise this wont return a success
-class ParserGenerator(val allTokens: Map<String/*gramar token*/, String/*regex definition including additional regex chars*/>, val out: PrintWriter) {
+object ParserGenerator {
+    operator fun invoke(
+        generatingArgs: Array<List<String>>,
+        grammar: Map<String, String>,
+        filename: String,
+        packagename: String
+    ) {
+        val f = File(filename)
+        f.printWriter().use { out ->
+            out.println("/*")
+            out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
+            out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
+            out.println(" *")
+            out.println(" * This program is free software: you can redistribute it and/or modify")
+            out.println(" * it under the terms of the GNU General Public License as published by")
+            out.println(" * the Free Software Foundation, version 3.")
+            out.println(" *")
+            out.println(" * This program is distributed in the hope that it will be useful, but")
+            out.println(" * WITHOUT ANY WARRANTY; without even the implied warranty of")
+            out.println(" * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU")
+            out.println(" * General Public License for more details.")
+            out.println(" *")
+            out.println(" * You should have received a copy of the GNU General Public License")
+            out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
+            out.println(" */")
+            out.println("package $packagename")
+            out.println("import lupos.s00misc.IMyInputStream")
+            out.println("import lupos.s00misc.Luposdate3000Exception")
+            out.println("import kotlin.jvm.JvmField")
+            out.println("internal open class ParserException(msg: String) : Luposdate3000Exception(\"ParserContext\", msg)")
+            out.println("internal class ParserExceptionEOF : ParserException(\"EOF\")")
+            out.println("internal class ParserExceptionUnexpectedChar(context: ParserContext) : ParserException(\"unexpected char 0x\${context.c.toString(16)} at \${context.line}:\${context.column}\")")
+            for (args in generatingArgs) {
+                val generator = ParserGenerator_Helper(grammar, out)(args)
+            }
+        }
+    }
+}
+class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*regex definition including additional regex chars*/>, val out: PrintWriter) {
     enum class CharGroupModifier {
         MAYBE,
         ONE,

@@ -918,102 +918,81 @@ fun onRun() {
     }
 }
 fun onGenerateParser() {
-    val outFile = File("src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}turtle${Platform.getPathSeparator()}Turtle2ParserGenerated.kt")
-    outFile.printWriter().use { out ->
-        out.println("/*")
-        out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
-        out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
-        out.println(" *")
-        out.println(" * This program is free software: you can redistribute it and/or modify")
-        out.println(" * it under the terms of the GNU General Public License as published by")
-        out.println(" * the Free Software Foundation, version 3.")
-        out.println(" *")
-        out.println(" * This program is distributed in the hope that it will be useful, but")
-        out.println(" * WITHOUT ANY WARRANTY; without even the implied warranty of")
-        out.println(" * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU")
-        out.println(" * General Public License for more details.")
-        out.println(" *")
-        out.println(" * You should have received a copy of the GNU General Public License")
-        out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
-        out.println(" */")
-        out.println("package lupos.s02buildSyntaxTree.turtle")
-        out.println("import lupos.s00misc.IMyInputStream")
-        out.println("import lupos.s00misc.Luposdate3000Exception")
-        out.println("import kotlin.jvm.JvmField")
-        out.println("internal open class ParserException(msg: String) : Luposdate3000Exception(\"ParserContext\", msg)")
-        out.println("internal class ParserExceptionEOF : ParserException(\"EOF\")")
-        out.println("internal class ParserExceptionUnexpectedChar(context: ParserContext) : ParserException(\"unexpected char 0x\${context.c.toString(16)} at \${context.line}:\${context.column}\")")
-        val generatingArgs = arrayOf(
-            listOf("PARSER_CONTEXT"),
-            listOf("parse_dot", "DOT"),
-            listOf("parse_ws", "SKIP_WS"),
-            listOf("parse_ws_forced", "SKIP_WS_FORCED"),
-            listOf("parse_statement", "BASE", "PREFIX", "BASE2", "PREFIX2", "IRIREF", "PNAME_NS", "BLANK_NODE_LABEL"),
-            listOf("parse_base", "IRIREF"),
-            listOf("parse_prefix", "PNAME_NS"),
-            listOf("parse_prefix2", "IRIREF"),
-            listOf("parse_predicate", "VERB1", "IRIREF", "PNAME_NS"),
-            listOf("parse_obj", "IRIREF", "PNAME_NS", "BLANK_NODE_LABEL", "STRING_LITERAL_QUOTE", "STRING_LITERAL_SINGLE_QUOTE", "STRING_LITERAL_LONG_SINGLE_QUOTE", "STRING_LITERAL_LONG_QUOTE", "INTEGER", "DECIMAL", "DOUBLE", "BOOLEAN"),
-            listOf("parse_triple_end", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT"),
-            listOf("parse_triple_end_or_object_iri", "PN_LOCAL", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT", "SKIP_WS_FORCED"),
-            listOf("parse_triple_end_or_object_string", "LANGTAG", "IRI1", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT", "SKIP_WS_FORCED"),
-            listOf("parse_triple_end_or_object_string_typed", "IRIREF", "PNAME_NS"),
-            listOf("parse_triple_end_or_object_string_typed_iri", "PN_LOCAL", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT", "SKIP_WS_FORCED"),
-            listOf("parse_subject_iri_or_ws", "PN_LOCAL", "SKIP_WS_FORCED"),
-            listOf("parse_predicate_iri_or_ws", "PN_LOCAL", "SKIP_WS_FORCED"),
-        )
-        val grammar = mapOf(
-            "EXPONENT" to "[eE] [+-]? [0-9]+",
-            "DOUBLE" to "[+-]? ([0-9]+ '.' [0-9]* EXPONENT | '.' [0-9]+ EXPONENT | [0-9]+ EXPONENT)",
-            "DECIMAL" to "[+-]? [0-9]* '.' [0-9]+",
-            "INTEGER" to "[+-]? [0-9]+",
-            "PN_LOCAL_ESC" to "'\\\\' ('_' | '~' | '.' | '-' | '!' | '$' | '&' | '\\'' | '(' | ')' | '*' | '+' | ',' | ';' | '=' | '/' | '?' | '#' | '@' | '%')",
-            "HEX" to "([0-9] | [A-F] | [a-f])",
-            "PERCENT" to "'%' HEX HEX",
-            "PLX" to "(PERCENT | PN_LOCAL_ESC)",
-            "PN_CHARS_BASE" to "([A-Z] | [a-z] | [#x00C0-#x00D6] | [#x00D8-#x00F6] | [#x00F8-#x02FF] | [#x0370-#x037D] | [#x037F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#x1fffff])",
-            "PN_CHARS_U" to "(PN_CHARS_BASE | '_')",
-            "PN_PREFIX" to "PN_CHARS_BASE ([.]* PN_CHARS)*",
-            "UCHAR" to "(('\\\\') 'u' HEX HEX HEX HEX | ('\\\\') 'U' HEX HEX HEX HEX HEX HEX HEX HEX)",
-            "PN_CHARS" to "(PN_CHARS_U | '-' | [0-9] | #x00B7 | [#x0300-#x036F] | [#x203F-#x2040])",
-            "PN_LOCAL" to "(PN_CHARS_U | ':' | [0-9] | PLX) ([.]* (PN_CHARS | ':' | PLX))*", // TODO this includes a trailling dot, which is wrong due to the given grammar
-            "ANON" to "'[' [#x20#x9#xD#xA]* ']'",
-            "ECHAR" to "('\\\\') ([tbnrf\"'\\])",
-            "PNAME_NS" to "(PN_PREFIX)? ':'",
-            "PNAME_LN" to "PNAME_NS PN_LOCAL",
-            "LANGTAG" to "'@' [a-zA-Z]+ ('-' [a-zA-Z0-9]+)*",
-            "STRING_LITERAL_LONG_QUOTE" to "'\"' '\"' '\"' (STRING_LITERAL_LONG_QUOTE_A | ('\"' STRING_LITERAL_LONG_QUOTE_A) | ('\"' '\"' STRING_LITERAL_LONG_QUOTE_A) | ('\"' '\"' '\"' (=)))* (!)",
-            "STRING_LITERAL_LONG_QUOTE_A" to "([^\"\\] | ECHAR | UCHAR)",
-            "STRING_LITERAL_LONG_SINGLE_QUOTE" to "'\\'' '\\'' '\\'' (STRING_LITERAL_LONG_SINGLE_QUOTE_A | ('\\'' STRING_LITERAL_LONG_SINGLE_QUOTE_A) | ('\\'' '\\'' STRING_LITERAL_LONG_SINGLE_QUOTE_A) | ('\\'' '\\'' '\\'' (=)))* (!)",
-            "STRING_LITERAL_LONG_SINGLE_QUOTE_A" to "([^\\'\\] | ECHAR | UCHAR)",
-            "STRING_LITERAL_SINGLE_QUOTE" to "((('\\'') ([^#x27#x5C#xA#xD] | ECHAR | UCHAR) ([^#x27#x5C#xA#xD] | ECHAR | UCHAR)* '\\'') | (('\\'') ('\\'')))",
-            "STRING_LITERAL_QUOTE" to "((('\"') ([^#x22#x5C#xA#xD] | ECHAR | UCHAR) ([^#x22#x5C#xA#xD] | ECHAR | UCHAR)* '\"') | (('\"') ('\"')))",
-            "BLANK_NODE_LABEL" to "'_' ':' (PN_CHARS_U | [0-9]) ([.]* PN_CHARS)*", // TODO this includes a trailling dot, which is wrong due to the given grammar
-            "IRIREF" to "'<' (IRIREF_A)* '>'",
-            "IRIREF_A" to "IRIREF_B | UCHAR",
-            "IRIREF_B" to "[^#x00-#x20<>\"{}|^`\\]",
-            "BOOLEAN" to "(('t') ('r') ('u') ('e')) | (('f') ('a') ('l') ('s') ('e'))",
-            "PREFIX" to "('P') ('R') ('E') ('F') ('I') ('X')",
-            "BASE" to "('B') ('A') ('S') ('E')",
-            "PREFIX2" to "('@') ('p') ('r') ('e') ('f') ('i') ('x')",
-            "BASE2" to "('@') ('b') ('a') ('s') ('e')",
-            "COLLECTION1" to "('(')",
-            "COLLECTION2" to "(')')",
-            "DOT" to "('.')",
-            "PROPERTY_LIST1" to "('[')",
-            "PROPERTY_LIST2" to "(']')",
-            "OBJECT_LIST1" to "(',')",
-            "PREDICATE_LIST1" to "(';')",
-            "VERB1" to "('a')",
-            "IRI1" to "('^') ('^')",
-            "EOF" to "=",
-            "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
-            "SKIP_WS" to "[#x20#x9#xD#xA]*",
-        )
-        for (args in generatingArgs) {
-            val generator = ParserGenerator(grammar, out)(args)
-        }
-    }
+    val turtleGeneratingArgs = arrayOf(
+        listOf("PARSER_CONTEXT"),
+        listOf("parse_dot", "DOT"),
+        listOf("parse_ws", "SKIP_WS"),
+        listOf("parse_ws_forced", "SKIP_WS_FORCED"),
+        listOf("parse_statement", "BASE", "PREFIX", "BASE2", "PREFIX2", "IRIREF", "PNAME_NS", "BLANK_NODE_LABEL"),
+        listOf("parse_base", "IRIREF"),
+        listOf("parse_prefix", "PNAME_NS"),
+        listOf("parse_prefix2", "IRIREF"),
+        listOf("parse_predicate", "VERB1", "IRIREF", "PNAME_NS"),
+        listOf("parse_obj", "IRIREF", "PNAME_NS", "BLANK_NODE_LABEL", "STRING_LITERAL_QUOTE", "STRING_LITERAL_SINGLE_QUOTE", "STRING_LITERAL_LONG_SINGLE_QUOTE", "STRING_LITERAL_LONG_QUOTE", "INTEGER", "DECIMAL", "DOUBLE", "BOOLEAN"),
+        listOf("parse_triple_end", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT"),
+        listOf("parse_triple_end_or_object_iri", "PN_LOCAL", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT", "SKIP_WS_FORCED"),
+        listOf("parse_triple_end_or_object_string", "LANGTAG", "IRI1", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT", "SKIP_WS_FORCED"),
+        listOf("parse_triple_end_or_object_string_typed", "IRIREF", "PNAME_NS"),
+        listOf("parse_triple_end_or_object_string_typed_iri", "PN_LOCAL", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT", "SKIP_WS_FORCED"),
+        listOf("parse_subject_iri_or_ws", "PN_LOCAL", "SKIP_WS_FORCED"),
+        listOf("parse_predicate_iri_or_ws", "PN_LOCAL", "SKIP_WS_FORCED"),
+    )
+    val turtleGrammar = mapOf(
+        "EXPONENT" to "[eE] [+-]? [0-9]+",
+        "DOUBLE" to "[+-]? ([0-9]+ '.' [0-9]* EXPONENT | '.' [0-9]+ EXPONENT | [0-9]+ EXPONENT)",
+        "DECIMAL" to "[+-]? [0-9]* '.' [0-9]+",
+        "INTEGER" to "[+-]? [0-9]+",
+        "PN_LOCAL_ESC" to "'\\\\' ('_' | '~' | '.' | '-' | '!' | '$' | '&' | '\\'' | '(' | ')' | '*' | '+' | ',' | ';' | '=' | '/' | '?' | '#' | '@' | '%')",
+        "HEX" to "([0-9] | [A-F] | [a-f])",
+        "PERCENT" to "'%' HEX HEX",
+        "PLX" to "(PERCENT | PN_LOCAL_ESC)",
+        "PN_CHARS_BASE" to "([A-Z] | [a-z] | [#x00C0-#x00D6] | [#x00D8-#x00F6] | [#x00F8-#x02FF] | [#x0370-#x037D] | [#x037F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#x1fffff])",
+        "PN_CHARS_U" to "(PN_CHARS_BASE | '_')",
+        "PN_PREFIX" to "PN_CHARS_BASE ([.]* PN_CHARS)*",
+        "UCHAR" to "(('\\\\') 'u' HEX HEX HEX HEX | ('\\\\') 'U' HEX HEX HEX HEX HEX HEX HEX HEX)",
+        "PN_CHARS" to "(PN_CHARS_U | '-' | [0-9] | #x00B7 | [#x0300-#x036F] | [#x203F-#x2040])",
+        "PN_LOCAL" to "(PN_CHARS_U | ':' | [0-9] | PLX) ([.]* (PN_CHARS | ':' | PLX))*", // TODO this includes a trailling dot, which is wrong due to the given grammar
+        "ANON" to "'[' [#x20#x9#xD#xA]* ']'",
+        "ECHAR" to "('\\\\') ([tbnrf\"'\\])",
+        "PNAME_NS" to "(PN_PREFIX)? ':'",
+        "PNAME_LN" to "PNAME_NS PN_LOCAL",
+        "LANGTAG" to "'@' [a-zA-Z]+ ('-' [a-zA-Z0-9]+)*",
+        "STRING_LITERAL_LONG_QUOTE" to "'\"' '\"' '\"' (STRING_LITERAL_LONG_QUOTE_A | ('\"' STRING_LITERAL_LONG_QUOTE_A) | ('\"' '\"' STRING_LITERAL_LONG_QUOTE_A) | ('\"' '\"' '\"' (=)))* (!)",
+        "STRING_LITERAL_LONG_QUOTE_A" to "([^\"\\] | ECHAR | UCHAR)",
+        "STRING_LITERAL_LONG_SINGLE_QUOTE" to "'\\'' '\\'' '\\'' (STRING_LITERAL_LONG_SINGLE_QUOTE_A | ('\\'' STRING_LITERAL_LONG_SINGLE_QUOTE_A) | ('\\'' '\\'' STRING_LITERAL_LONG_SINGLE_QUOTE_A) | ('\\'' '\\'' '\\'' (=)))* (!)",
+        "STRING_LITERAL_LONG_SINGLE_QUOTE_A" to "([^\\'\\] | ECHAR | UCHAR)",
+        "STRING_LITERAL_SINGLE_QUOTE" to "((('\\'') ([^#x27#x5C#xA#xD] | ECHAR | UCHAR) ([^#x27#x5C#xA#xD] | ECHAR | UCHAR)* '\\'') | (('\\'') ('\\'')))",
+        "STRING_LITERAL_QUOTE" to "((('\"') ([^#x22#x5C#xA#xD] | ECHAR | UCHAR) ([^#x22#x5C#xA#xD] | ECHAR | UCHAR)* '\"') | (('\"') ('\"')))",
+        "BLANK_NODE_LABEL" to "'_' ':' (PN_CHARS_U | [0-9]) ([.]* PN_CHARS)*", // TODO this includes a trailling dot, which is wrong due to the given grammar
+        "IRIREF" to "'<' (IRIREF_A)* '>'",
+        "IRIREF_A" to "IRIREF_B | UCHAR",
+        "IRIREF_B" to "[^#x00-#x20<>\"{}|^`\\]",
+        "BOOLEAN" to "(('t') ('r') ('u') ('e')) | (('f') ('a') ('l') ('s') ('e'))",
+        "PREFIX" to "('P') ('R') ('E') ('F') ('I') ('X')",
+        "BASE" to "('B') ('A') ('S') ('E')",
+        "PREFIX2" to "('@') ('p') ('r') ('e') ('f') ('i') ('x')",
+        "BASE2" to "('@') ('b') ('a') ('s') ('e')",
+        "COLLECTION1" to "('(')",
+        "COLLECTION2" to "(')')",
+        "DOT" to "('.')",
+        "PROPERTY_LIST1" to "('[')",
+        "PROPERTY_LIST2" to "(']')",
+        "OBJECT_LIST1" to "(',')",
+        "PREDICATE_LIST1" to "(';')",
+        "VERB1" to "('a')",
+        "IRI1" to "('^') ('^')",
+        "EOF" to "=",
+        "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
+        "SKIP_WS" to "[#x20#x9#xD#xA]*",
+    )
+    val turtleFilename = "src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}turtle${Platform.getPathSeparator()}Turtle2ParserGenerated.kt"
+    val turtlePackage = "lupos.s02buildSyntaxTree.turtle"
+    ParserGenerator(
+        turtleGeneratingArgs,
+        turtleGrammar,
+        turtleFilename,
+        turtlePackage,
+    )
 }
 fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: String, fileName: String) {
     val mapping2 = mutableListOf<String>()
@@ -1076,7 +1055,7 @@ fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: Strin
     }
 }
 fun onGenerateEnums() {
-    val generatingArgs = arrayOf(
+    val turtleGeneratingArgs = arrayOf(
         listOf("MyPrintWriterMode", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}MyPrintWriterMode"),
         listOf("BuiltInFunctions", "lupos.s02buildSyntaxTree.sparql1_1", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}sparql1_1${Platform.getPathSeparator()}BuiltInFunctions"),
         listOf("BinaryTestCaseOutputMode", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_test${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}BinaryTestCaseOutputMode"),
@@ -1100,7 +1079,7 @@ fun onGenerateEnums() {
         listOf("EIndexPattern", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EIndexPattern"),
         listOf("EPartitionMode", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EPartitionMode"),
     )
-    for (args in generatingArgs) {
+    for (args in turtleGeneratingArgs) {
         onGenerateEnumsHelper(args[0], args[1], args[2], args[3])
     }
 }
