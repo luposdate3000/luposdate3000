@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators
+import lupos.s00misc.ICommunicationHandler
 import lupos.s00misc.MyLock
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
@@ -68,6 +69,11 @@ public class Query public constructor(@JvmField public val dictionary: ResultSet
     @JvmField
     public var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
 
+    @JvmField
+    public var communicationHandler: ICommunicationHandler? = null
+    public override fun setCommunicationHandler(handler: ICommunicationHandler) {
+        communicationHandler = handler
+    }
     override fun getDistributionKey(): Map<String, Int> = allVariationsKey
     override fun initialize() {
         initialize(root!!)
@@ -79,7 +85,9 @@ public class Query public constructor(@JvmField public val dictionary: ResultSet
         transactionID = global_transactionID++
         commited = false
         partitions.clear()
-        DistributedQuery.initialize(this)
+        if (communicationHandler != null) {
+            DistributedQuery.initialize(this)
+        }
         println("initializing Query ------------ done")
     }
     public fun getNextPartitionOperatorID(): Int {

@@ -22,6 +22,8 @@ import lupos.s00misc.JenaWrapper
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
+import lupos.s00misc.XMLElement
+import lupos.s00misc.XMLElementFromXML
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s11outputResult.EQueryResultToStreamExt
 import java.io.BufferedReader
@@ -29,7 +31,9 @@ import java.io.InputStreamReader
 import java.io.OutputStream
 import java.net.InetSocketAddress
 import java.net.ServerSocket
+import java.net.Socket
 import java.net.URLDecoder
+import java.net.URLEncoder
 internal class MyPrintWriterExtension(out: OutputStream) : MyPrintWriter(out) {
     private var counter = 0
     override fun print(x: String) {
@@ -43,8 +47,23 @@ internal class MyPrintWriterExtension(out: OutputStream) : MyPrintWriter(out) {
     }
 }
 public class CommunicationHandler : ICommunicationHandler {
-    public override fun sendData(targetHost: String, path: String, message: String) {
-        throw Exception("not implemented")
+    public override fun sendData(targetHost: String, path: String, params: Map<String, String>) {
+        val target = targetHost.split(":")
+        val targetName = target[0]
+        val targetPort = if (target.size> 1) {
+            target[1].toInt()
+        } else {
+            80
+        }
+        val client = Socket(targetName, targetPort)
+        val connectionOut = MyPrintWriterExtension(client.getOutputStream())
+        connectionOut.println("POST $path")
+        connectionOut.println()
+        for ((k, v)in params) {
+            connectionOut.println("$k=${URLEncoder.encode(v)}")
+        }
+        connectionOut.flush()
+        connectionOut.close()
     }
 }
 @OptIn(ExperimentalStdlibApi::class)
@@ -73,6 +92,7 @@ public actual object HttpEndpointLauncher {
             80
         }
         try {
+            var queryMappings = mutableMapOf<String, XMLElement>()
             val server = ServerSocket()
             server.bind(InetSocketAddress("0.0.0.0", port)) // maybe use "::" for ipv6
             println("launched server socket on '0.0.0.0':'$port' - waiting for connections now")
@@ -185,6 +205,23 @@ public actual object HttpEndpointLauncher {
                                 printHeaderSuccess(connectionOut)
                                 connectionOut.print(LuposdateEndpoint.importXmlData(params["xml"]!!))
                                 /*Coverage Unreachable*/
+                            }
+                            paths["distributed/query/register"] = PathMappingHelper(true, mapOf()) {
+                                queryMappings[params["key"]!!] = XMLElementFromXML()(params["query"]!!)!!
+                            }
+                            paths["distributed/query/execute"] = PathMappingHelper(false, mapOf()) {
+                                var queryXML = queryMappings[params["key"]!!]
+                                if (queryXML == null) {
+                                    throw Exception("this query was not registered before")
+                                } else {
+                                    throw Exception("not implemented ... but the raw query is $queryXML")
+                                }
+                            }
+                            paths["distributed/query/list"] = PathMappingHelper(true, mapOf()) {
+                                printHeaderSuccess(connectionOut)
+                                for ((k, v) in queryMappings) {
+                                    connectionOut.println("<p> $k :: $v </p>")
+                                }
                             }
                             paths["/index.html" ] = PathMappingHelper(true, mapOf()) {
                                 connectionOut.println("HTTP/1.1 200 OK")
