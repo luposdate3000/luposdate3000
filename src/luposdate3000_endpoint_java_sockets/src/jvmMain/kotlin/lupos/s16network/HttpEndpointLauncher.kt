@@ -17,6 +17,7 @@
 package lupos.s16network
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
+import lupos.s00misc.ICommunicationHandler
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
@@ -39,6 +40,11 @@ internal class MyPrintWriterExtension(out: OutputStream) : MyPrintWriter(out) {
             counter = len
         }
         super.print(x)
+    }
+}
+public class CommunicationHandler : ICommunicationHandler {
+    public override fun sendData(targetHost: String, path: String, message: String) {
+        throw Exception("not implemented")
     }
 }
 @OptIn(ExperimentalStdlibApi::class)
@@ -104,10 +110,6 @@ public actual object HttpEndpointLauncher {
                                 extractParamsFromString(path.substring(idx + 1), params)
                                 path = path.substring(0, idx)
                             }
-                            val content = StringBuilder()
-                            while (connectionIn.ready()) {
-                                content.append(connectionIn.read().toChar())
-                            }
                             val paths = mutableMapOf<String, PathMappingHelper>()
                             paths[ "/sparql/jenaquery" ] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE {?s <p> ?o . ?s ?p <o>}") to ::inputElement)) {
                                 printHeaderSuccess(connectionOut)
@@ -144,6 +146,7 @@ public actual object HttpEndpointLauncher {
                                     }
                                 }
                                 val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(params["query"]!!, false)
+                                node.getQuery().setCommunicationHandler(CommunicationHandler())
                                 LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOut, evaluator)
                                 /*Coverage Unreachable*/
                             }
@@ -241,6 +244,10 @@ public actual object HttpEndpointLauncher {
                                 throw EnpointRecievedInvalidPath(path)
                             } else {
                                 if (actionHelper.addPostParams && isPost) {
+                                    val content = StringBuilder()
+                                    while (connectionIn.ready()) {
+                                        content.append(connectionIn.read().toChar())
+                                    }
                                     extractParamsFromString(content.toString(), params)
                                 }
                                 actionHelper.action()

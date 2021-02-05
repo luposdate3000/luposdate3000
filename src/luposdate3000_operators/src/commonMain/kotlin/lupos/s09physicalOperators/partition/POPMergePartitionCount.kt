@@ -50,7 +50,15 @@ public class POPMergePartitionCount public constructor(query: IQuery, projectedV
         return s
     }
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
-        val res = super.toXMLElementHelper(partial, partial && !isRoot)
+        val res = if (partial) {
+            if (isRoot) {
+                XMLElement("${classname}Send").addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+            } else {
+                XMLElement("${classname}Receive").addAttribute("uuid", "$uuid")
+            }
+        } else {
+            super.toXMLElementHelper(partial, partial && !isRoot)
+        }
         var theKey = mutableMapOf<String, Int>(partitionVariable to 0)
         theKey.putAll(query.getDistributionKey())
         if (isRoot) {

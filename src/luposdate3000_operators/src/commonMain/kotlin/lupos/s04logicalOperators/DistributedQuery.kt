@@ -144,13 +144,31 @@ internal object DistributedQuery {
                     for (s in dependenciesMap[k]!!) {
                         possibleHosts.add(query.operatorgraphPartsToHostMap[s] ?: "?")
                     }
-                    println(possibleHosts)
+                    println("possibleHosts $possibleHosts")
                     if (possibleHosts.size == 1) {
                         query.operatorgraphPartsToHostMap[k] = possibleHosts.first()
                         changed = true
                     }
                 }
                 println("$k :: ${query.operatorgraphPartsToHostMap[k] ?: "?"}")
+            }
+            if (!changed) {
+                loop@for ((k, v) in query.operatorgraphParts) {
+                    if (!query.operatorgraphPartsToHostMap.contains(k)) {
+                        var possibleHosts = mutableSetOf<String>()
+                        for (s in dependenciesMap[k]!!) {
+                            possibleHosts.add(query.operatorgraphPartsToHostMap[s] ?: "?")
+                        }
+                        possibleHosts.remove("?")
+                        println("possibleHosts $possibleHosts")
+                        if (possibleHosts.size > 0) {
+                            query.operatorgraphPartsToHostMap[k] = possibleHosts.first()
+                            changed = true
+                            break@loop
+                        }
+                    }
+                    println("$k :: ${query.operatorgraphPartsToHostMap[k] ?: "?"}")
+                }
             }
         }
     }
