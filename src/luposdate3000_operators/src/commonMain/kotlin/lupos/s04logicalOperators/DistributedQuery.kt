@@ -172,7 +172,7 @@ internal object DistributedQuery {
             }
         }
         for ((k, v) in query.operatorgraphParts) {
-            query.communicationHandler!!.sendData(query.operatorgraphPartsToHostMap[k]!!, "distributed/query/register", mapOf("key" to k, "query" to "v"))
+            query.communicationHandler!!.sendData(query.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("key" to k, "query" to "$v"))
         }
     }
 }

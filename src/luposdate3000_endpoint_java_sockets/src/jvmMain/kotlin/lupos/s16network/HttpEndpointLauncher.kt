@@ -59,8 +59,13 @@ public class CommunicationHandler : ICommunicationHandler {
         val connectionOut = MyPrintWriterExtension(client.getOutputStream())
         connectionOut.println("POST $path")
         connectionOut.println()
+        var first = true
         for ((k, v)in params) {
-            connectionOut.println("$k=${URLEncoder.encode(v)}")
+            if (!first) {
+                connectionOut.print("&")
+            }
+            first = false
+            connectionOut.print("$k=${URLEncoder.encode(v)}")
         }
         connectionOut.flush()
         connectionOut.close()
@@ -206,10 +211,12 @@ public actual object HttpEndpointLauncher {
                                 connectionOut.print(LuposdateEndpoint.importXmlData(params["xml"]!!))
                                 /*Coverage Unreachable*/
                             }
-                            paths["distributed/query/register"] = PathMappingHelper(true, mapOf()) {
+                            paths["/distributed/query/register"] = PathMappingHelper(true, mapOf()) {
+                                println("key :: ${params["key"]}")
+                                println("query :: ${params["query"]}")
                                 queryMappings[params["key"]!!] = XMLElementFromXML()(params["query"]!!)!!
                             }
-                            paths["distributed/query/execute"] = PathMappingHelper(false, mapOf()) {
+                            paths["/distributed/query/execute"] = PathMappingHelper(false, mapOf()) {
                                 var queryXML = queryMappings[params["key"]!!]
                                 if (queryXML == null) {
                                     throw Exception("this query was not registered before")
@@ -217,7 +224,7 @@ public actual object HttpEndpointLauncher {
                                     throw Exception("not implemented ... but the raw query is $queryXML")
                                 }
                             }
-                            paths["distributed/query/list"] = PathMappingHelper(true, mapOf()) {
+                            paths["/distributed/query/list"] = PathMappingHelper(true, mapOf()) {
                                 printHeaderSuccess(connectionOut)
                                 for ((k, v) in queryMappings) {
                                     connectionOut.println("<p> $k :: $v </p>")

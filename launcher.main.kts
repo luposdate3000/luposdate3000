@@ -23,6 +23,7 @@
 @file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
+@file:Import("src/luposdate3000_scripting/parsergenerator.kt")
 @file:CompilerOptions("-Xmulti-platform")
 import lupos.s00misc.EOperatingSystemExt
 import lupos.s00misc.Platform
@@ -942,35 +943,75 @@ fun onGenerateParser() {
         out.println("internal open class ParserException(msg: String) : Luposdate3000Exception(\"ParserContext\", msg)")
         out.println("internal class ParserExceptionEOF : ParserException(\"EOF\")")
         out.println("internal class ParserExceptionUnexpectedChar(context: ParserContext) : ParserException(\"unexpected char 0x\${context.c.toString(16)} at \${context.line}:\${context.column}\")")
-    }
-    val scriptFile = "src/luposdate3000_scripting/parsergenerator.main.kts"
-    val generatingArgs = arrayOf(
-        listOf(scriptFile, "PARSER_CONTEXT"),
-        listOf(scriptFile, "parse_dot", "DOT"),
-        listOf(scriptFile, "parse_ws", "SKIP_WS"),
-        listOf(scriptFile, "parse_ws_forced", "SKIP_WS_FORCED"),
-        listOf(scriptFile, "parse_statement", "BASE", "PREFIX", "BASE2", "PREFIX2", "IRIREF", "PNAME_NS", "BLANK_NODE_LABEL"),
-        listOf(scriptFile, "parse_base", "IRIREF"),
-        listOf(scriptFile, "parse_prefix", "PNAME_NS"),
-        listOf(scriptFile, "parse_prefix2", "IRIREF"),
-        listOf(scriptFile, "parse_predicate", "VERB1", "IRIREF", "PNAME_NS"),
-        listOf(scriptFile, "parse_obj", "IRIREF", "PNAME_NS", "BLANK_NODE_LABEL", "STRING_LITERAL_QUOTE", "STRING_LITERAL_SINGLE_QUOTE", "STRING_LITERAL_LONG_SINGLE_QUOTE", "STRING_LITERAL_LONG_QUOTE", "INTEGER", "DECIMAL", "DOUBLE", "BOOLEAN"),
-        listOf(scriptFile, "parse_triple_end", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT"),
-        listOf(scriptFile, "parse_triple_end_or_object_iri", "PN_LOCAL", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT", "SKIP_WS_FORCED"),
-        listOf(scriptFile, "parse_triple_end_or_object_string", "LANGTAG", "IRI1", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT", "SKIP_WS_FORCED"),
-        listOf(scriptFile, "parse_triple_end_or_object_string_typed", "IRIREF", "PNAME_NS"),
-        listOf(scriptFile, "parse_triple_end_or_object_string_typed_iri", "PN_LOCAL", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT", "SKIP_WS_FORCED"),
-        listOf(scriptFile, "parse_subject_iri_or_ws", "PN_LOCAL", "SKIP_WS_FORCED"),
-        listOf(scriptFile, "parse_predicate_iri_or_ws", "PN_LOCAL", "SKIP_WS_FORCED"),
-    )
-    for (args in generatingArgs) {
-        val p = ProcessBuilder(args)
-            .redirectOutput(Redirect.appendTo(outFile))
-            .redirectError(Redirect.INHERIT)
-            .start()
-        p.waitFor()
-        if (p.exitValue() != 0) {
-            throw Exception("exit-code:: " + p.exitValue())
+        val generatingArgs = arrayOf(
+            listOf("PARSER_CONTEXT"),
+            listOf("parse_dot", "DOT"),
+            listOf("parse_ws", "SKIP_WS"),
+            listOf("parse_ws_forced", "SKIP_WS_FORCED"),
+            listOf("parse_statement", "BASE", "PREFIX", "BASE2", "PREFIX2", "IRIREF", "PNAME_NS", "BLANK_NODE_LABEL"),
+            listOf("parse_base", "IRIREF"),
+            listOf("parse_prefix", "PNAME_NS"),
+            listOf("parse_prefix2", "IRIREF"),
+            listOf("parse_predicate", "VERB1", "IRIREF", "PNAME_NS"),
+            listOf("parse_obj", "IRIREF", "PNAME_NS", "BLANK_NODE_LABEL", "STRING_LITERAL_QUOTE", "STRING_LITERAL_SINGLE_QUOTE", "STRING_LITERAL_LONG_SINGLE_QUOTE", "STRING_LITERAL_LONG_QUOTE", "INTEGER", "DECIMAL", "DOUBLE", "BOOLEAN"),
+            listOf("parse_triple_end", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT"),
+            listOf("parse_triple_end_or_object_iri", "PN_LOCAL", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT", "SKIP_WS_FORCED"),
+            listOf("parse_triple_end_or_object_string", "LANGTAG", "IRI1", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT", "SKIP_WS_FORCED"),
+            listOf("parse_triple_end_or_object_string_typed", "IRIREF", "PNAME_NS"),
+            listOf("parse_triple_end_or_object_string_typed_iri", "PN_LOCAL", "PREDICATE_LIST1", "OBJECT_LIST1", "DOT", "SKIP_WS_FORCED"),
+            listOf("parse_subject_iri_or_ws", "PN_LOCAL", "SKIP_WS_FORCED"),
+            listOf("parse_predicate_iri_or_ws", "PN_LOCAL", "SKIP_WS_FORCED"),
+        )
+        val grammar = mapOf(
+            "EXPONENT" to "[eE] [+-]? [0-9]+",
+            "DOUBLE" to "[+-]? ([0-9]+ '.' [0-9]* EXPONENT | '.' [0-9]+ EXPONENT | [0-9]+ EXPONENT)",
+            "DECIMAL" to "[+-]? [0-9]* '.' [0-9]+",
+            "INTEGER" to "[+-]? [0-9]+",
+            "PN_LOCAL_ESC" to "'\\\\' ('_' | '~' | '.' | '-' | '!' | '$' | '&' | '\\'' | '(' | ')' | '*' | '+' | ',' | ';' | '=' | '/' | '?' | '#' | '@' | '%')",
+            "HEX" to "([0-9] | [A-F] | [a-f])",
+            "PERCENT" to "'%' HEX HEX",
+            "PLX" to "(PERCENT | PN_LOCAL_ESC)",
+            "PN_CHARS_BASE" to "([A-Z] | [a-z] | [#x00C0-#x00D6] | [#x00D8-#x00F6] | [#x00F8-#x02FF] | [#x0370-#x037D] | [#x037F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#x1fffff])",
+            "PN_CHARS_U" to "(PN_CHARS_BASE | '_')",
+            "PN_PREFIX" to "PN_CHARS_BASE ([.]* PN_CHARS)*",
+            "UCHAR" to "(('\\\\') 'u' HEX HEX HEX HEX | ('\\\\') 'U' HEX HEX HEX HEX HEX HEX HEX HEX)",
+            "PN_CHARS" to "(PN_CHARS_U | '-' | [0-9] | #x00B7 | [#x0300-#x036F] | [#x203F-#x2040])",
+            "PN_LOCAL" to "(PN_CHARS_U | ':' | [0-9] | PLX) ([.]* (PN_CHARS | ':' | PLX))*", // TODO this includes a trailling dot, which is wrong due to the given grammar
+            "ANON" to "'[' [#x20#x9#xD#xA]* ']'",
+            "ECHAR" to "('\\\\') ([tbnrf\"'\\])",
+            "PNAME_NS" to "(PN_PREFIX)? ':'",
+            "PNAME_LN" to "PNAME_NS PN_LOCAL",
+            "LANGTAG" to "'@' [a-zA-Z]+ ('-' [a-zA-Z0-9]+)*",
+            "STRING_LITERAL_LONG_QUOTE" to "'\"' '\"' '\"' (STRING_LITERAL_LONG_QUOTE_A | ('\"' STRING_LITERAL_LONG_QUOTE_A) | ('\"' '\"' STRING_LITERAL_LONG_QUOTE_A) | ('\"' '\"' '\"' (=)))* (!)",
+            "STRING_LITERAL_LONG_QUOTE_A" to "([^\"\\] | ECHAR | UCHAR)",
+            "STRING_LITERAL_LONG_SINGLE_QUOTE" to "'\\'' '\\'' '\\'' (STRING_LITERAL_LONG_SINGLE_QUOTE_A | ('\\'' STRING_LITERAL_LONG_SINGLE_QUOTE_A) | ('\\'' '\\'' STRING_LITERAL_LONG_SINGLE_QUOTE_A) | ('\\'' '\\'' '\\'' (=)))* (!)",
+            "STRING_LITERAL_LONG_SINGLE_QUOTE_A" to "([^\\'\\] | ECHAR | UCHAR)",
+            "STRING_LITERAL_SINGLE_QUOTE" to "((('\\'') ([^#x27#x5C#xA#xD] | ECHAR | UCHAR) ([^#x27#x5C#xA#xD] | ECHAR | UCHAR)* '\\'') | (('\\'') ('\\'')))",
+            "STRING_LITERAL_QUOTE" to "((('\"') ([^#x22#x5C#xA#xD] | ECHAR | UCHAR) ([^#x22#x5C#xA#xD] | ECHAR | UCHAR)* '\"') | (('\"') ('\"')))",
+            "BLANK_NODE_LABEL" to "'_' ':' (PN_CHARS_U | [0-9]) ([.]* PN_CHARS)*", // TODO this includes a trailling dot, which is wrong due to the given grammar
+            "IRIREF" to "'<' (IRIREF_A)* '>'",
+            "IRIREF_A" to "IRIREF_B | UCHAR",
+            "IRIREF_B" to "[^#x00-#x20<>\"{}|^`\\]",
+            "BOOLEAN" to "(('t') ('r') ('u') ('e')) | (('f') ('a') ('l') ('s') ('e'))",
+            "PREFIX" to "('P') ('R') ('E') ('F') ('I') ('X')",
+            "BASE" to "('B') ('A') ('S') ('E')",
+            "PREFIX2" to "('@') ('p') ('r') ('e') ('f') ('i') ('x')",
+            "BASE2" to "('@') ('b') ('a') ('s') ('e')",
+            "COLLECTION1" to "('(')",
+            "COLLECTION2" to "(')')",
+            "DOT" to "('.')",
+            "PROPERTY_LIST1" to "('[')",
+            "PROPERTY_LIST2" to "(']')",
+            "OBJECT_LIST1" to "(',')",
+            "PREDICATE_LIST1" to "(';')",
+            "VERB1" to "('a')",
+            "IRI1" to "('^') ('^')",
+            "EOF" to "=",
+            "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
+            "SKIP_WS" to "[#x20#x9#xD#xA]*",
+        )
+        for (args in generatingArgs) {
+            val generator = ParserGenerator(grammer, out)(args)
         }
     }
 }
