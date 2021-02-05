@@ -1011,7 +1011,7 @@ fun onGenerateParser() {
             "SKIP_WS" to "[#x20#x9#xD#xA]*",
         )
         for (args in generatingArgs) {
-            val generator = ParserGenerator(grammer, out)(args)
+            val generator = ParserGenerator(grammar, out)(args)
         }
     }
 }
