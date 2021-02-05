@@ -23,7 +23,7 @@ import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s00misc.XMLElement
-import lupos.s00misc.XMLElementFromXML
+import lupos.s00misc.xmlParser.XMLParser
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s11outputResult.EQueryResultToStreamExt
 import java.io.BufferedReader
@@ -214,7 +214,7 @@ public actual object HttpEndpointLauncher {
                             paths["/distributed/query/register"] = PathMappingHelper(true, mapOf()) {
                                 println("key :: ${params["key"]}")
                                 println("query :: ${params["query"]}")
-                                queryMappings[params["key"]!!] = XMLElementFromXML()(params["query"]!!)!!
+                                queryMappings[params["key"]!!] = XMLParser(MyStringStream(params["query"]!!)).toPrettyString()
                             }
                             paths["/distributed/query/execute"] = PathMappingHelper(false, mapOf()) {
                                 var queryXML = queryMappings[params["key"]!!]
