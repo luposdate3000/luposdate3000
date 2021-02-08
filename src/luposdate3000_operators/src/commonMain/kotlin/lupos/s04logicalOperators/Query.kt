@@ -36,8 +36,8 @@ public class PartitionHelper public constructor() {
     internal var jobs: MutableMap<Partition, ParallelJob>? = null
     internal val lock = MyLock()
 }
-public class Query public constructor(@JvmField public val dictionary: ResultSetDictionary, @JvmField public var transactionID: Long) : IQuery {
-    public constructor(dictionary: ResultSetDictionary) : this(dictionary, global_transactionID++)
+public class Query public constructor(@JvmField public val dictionary: IResultSetDictionary, @JvmField public var transactionID: Long) : IQuery {
+    public constructor(dictionary: IResultSetDictionary) : this(dictionary, global_transactionID++)
     public constructor(transactionID: Long) : this(ResultSetDictionary(), transactionID)
     public constructor() : this(ResultSetDictionary(), global_transactionID++)
     @JvmField

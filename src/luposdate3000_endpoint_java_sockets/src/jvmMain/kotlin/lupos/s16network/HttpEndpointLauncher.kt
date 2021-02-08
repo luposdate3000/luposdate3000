@@ -20,6 +20,7 @@ import lupos.s00misc.File
 import lupos.s00misc.ICommunicationHandler
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.MyPrintWriter
+import lupos.s00misc.MyStringStream
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s00misc.XMLElement
@@ -214,7 +215,7 @@ public actual object HttpEndpointLauncher {
                             paths["/distributed/query/register"] = PathMappingHelper(true, mapOf()) {
                                 println("key :: ${params["key"]}")
                                 println("query :: ${params["query"]}")
-                                queryMappings[params["key"]!!] = XMLParser(MyStringStream(params["query"]!!)).toPrettyString()
+                                queryMappings[params["key"]!!] = XMLParser(MyStringStream(params["query"]!!))
                             }
                             paths["/distributed/query/execute"] = PathMappingHelper(false, mapOf()) {
                                 var queryXML = queryMappings[params["key"]!!]
@@ -222,6 +223,16 @@ public actual object HttpEndpointLauncher {
                                     throw Exception("this query was not registered before")
                                 } else {
                                     throw Exception("not implemented ... but the raw query is $queryXML")
+/*
+val remoteDictionary=...
+val query=Query(remoteDictionary)
+val node=XMLElement.convertToOPBase(query,queryXML)
+while(true){
+sendNextTriple ...
+otherwise
+break
+}
+*/
                                 }
                             }
                             paths["/distributed/query/list"] = PathMappingHelper(true, mapOf()) {

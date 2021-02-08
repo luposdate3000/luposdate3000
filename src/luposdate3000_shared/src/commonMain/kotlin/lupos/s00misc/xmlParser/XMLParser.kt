@@ -18,7 +18,7 @@ package lupos.s00misc.xmlParser
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-object XMLParser {
+public object XMLParser {
     internal fun parse(context: ParserContext, stack: MutableList<XMLElement>): Boolean {
         var res = false
         parse_element_tag_or_immediate_close_char(
