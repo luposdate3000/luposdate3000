@@ -15,17 +15,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.IMyInputStream
 import kotlin.jvm.JvmField
+
 internal class _MyStringStream(str: String) : IMyInputStream {
-    @JvmField val buf4 = ByteArray(4)
-    @JvmField public val data = str.encodeToByteArray()
-    @JvmField public var pos = 0
+    @JvmField
+    val buf4 = ByteArray(4)
+    @JvmField
+    public val data = str.encodeToByteArray()
+    @JvmField
+    public var pos = 0
+    public override fun close() {
+    }
+
     override fun read(buf: ByteArray): Int {
         var s = pos + buf.size
         var res = buf.size
-        if (s> data.size) {
+        if (s > data.size) {
             s = data.size
             res = s - pos
         }
@@ -33,10 +41,11 @@ internal class _MyStringStream(str: String) : IMyInputStream {
         pos = s
         return res
     }
+
     override fun read(buf: ByteArray, len: Int): Int {
         var s = pos + len
         var res = buf.size
-        if (s> data.size) {
+        if (s > data.size) {
             s = data.size
             res = s - pos
         }
@@ -44,10 +53,11 @@ internal class _MyStringStream(str: String) : IMyInputStream {
         pos = s
         return res
     }
+
     override fun read(buf: ByteArray, off: Int, len: Int): Int {
         var s = pos + len
         var res = buf.size
-        if (s> data.size) {
+        if (s > data.size) {
             s = data.size
             res = s - pos
         }
@@ -55,10 +65,12 @@ internal class _MyStringStream(str: String) : IMyInputStream {
         pos = s
         return res
     }
+
     override fun readInt(): Int {
         read(buf4, 4)
         return ByteArrayHelper.readInt4(buf4, 0)
     }
+
     override fun readByte(): Byte {
         read(buf4, 1)
         return buf4[0]

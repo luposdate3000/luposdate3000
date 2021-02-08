@@ -15,17 +15,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s09physicalOperators.partition
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
+import lupos.s00misc.IMyInputStream
+import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
+
 // http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
 public class POPMergePartitionOrderedByIntIdReceive public constructor(
     query: IQuery,
@@ -43,14 +48,17 @@ public class POPMergePartitionOrderedByIntIdReceive public constructor(
             children[0].getPartitionCount(variable)
         }
     }
+
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
         var res = toXMLElementHelper2(partial, true)
         return res
     }
+
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         var res = toXMLElementHelper2(partial, false)
         return res
     }
+
     private fun theKeyToString(key: Map<String, Int>): String {
         var s = "$uuid"
         for (k in key.keys.sorted()) {
@@ -58,6 +66,7 @@ public class POPMergePartitionOrderedByIntIdReceive public constructor(
         }
         return s
     }
+
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
             if (isRoot) {
@@ -84,6 +93,7 @@ public class POPMergePartitionOrderedByIntIdReceive public constructor(
         res.addAttribute("partitionID", "" + partitionID)
         return res
     }
+
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> {
@@ -94,10 +104,11 @@ public class POPMergePartitionOrderedByIntIdReceive public constructor(
             tmp.getProvidedVariableNames()
         }
     }
-    override fun cloneOP(): IOPBase = POPMergePartitionOrderedByIntIdReceive(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
+
+    override fun cloneOP(): IOPBase = POPMergePartitionOrderedByIntIdReceive(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), hosts)
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartitionOrderedByIntIdReceive && children[0] == other.children[0] && partitionVariable == other.partitionVariable
-    internal class MyConnection(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream, columnsMap: IntArray)
+    internal class MyConnection(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream, @JvmField val mapping: IntArray)
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = mutableListOf<String>()
@@ -105,12 +116,12 @@ public class POPMergePartitionOrderedByIntIdReceive public constructor(
         variables.remove(partitionVariable)
         variables.add(0, partitionVariable)
         var buffer = IntArray(partitionCount * variables.size)
-        var connections = Array<MyConnection>(variables.size) { null }
+        var connections = Array<MyConnection?>(variables.size) { null }
         var openConnections = 0
         SanityCheck.check { hosts.size == partitionCount }
-        val handler = query.communicationHandler
+        val handler = query.getCommunicationHandler()!!
         for ((k, v) in hosts) {
-            val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.dictionaryUrl))
+            val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))
             var mapping = IntArray(variables.size)
             val cnt = conn.first.readInt()
             SanityCheck.check { cnt == variables.size }
@@ -120,7 +131,7 @@ public class POPMergePartitionOrderedByIntIdReceive public constructor(
                 conn.first.read(buf, len)
                 val name = buf.decodeToString()
                 val j = variables.indexOf(name)
-                SanityCheck.check { j >= 0 && j <variables.size }
+                SanityCheck.check { j >= 0 && j < variables.size }
                 mapping[i] = j
             }
             val off = openConnections * variables.size
@@ -140,7 +151,7 @@ public class POPMergePartitionOrderedByIntIdReceive public constructor(
         iterator.buf = IntArray(variables.size)
         iterator.next = {
             var res = -1
-            if (openConnections> 0) {
+            if (openConnections > 0) {
                 res = 0
                 var min = 0
                 for (i in 1 until openConnections) {
@@ -151,21 +162,22 @@ public class POPMergePartitionOrderedByIntIdReceive public constructor(
                 val off = min * variables.size
                 buffer.copyInto(iterator.buf, 0, off, off + variables.size)
                 for (i in 0 until variables.size) {
-                    buffer[off + mapping[i]] = connections[min].input.readInt()
+                    buffer[off + connections[min]!!.mapping[i]] = connections[min]!!.input.readInt()
                 }
                 if (buffer[off] == ResultSetDictionaryExt.nullValue) {
-                    connections[min].input.close()
-                    connections[min].output.close()
+                    connections[min]!!.input.close()
+                    connections[min]!!.output.close()
                     connections[min] = connections[openConnections - 1]
+                    connections[openConnections - 1] = null
                     openConnections--
                 }
             }
-            return res
+            res
         }
         iterator.close = {
             for (i in 0 until openConnections) {
-                connections[i].input.close()
-                connections[i].output.close()
+                connections[i]!!.input.close()
+                connections[i]!!.output.close()
             }
         }
         return IteratorBundle(iterator)

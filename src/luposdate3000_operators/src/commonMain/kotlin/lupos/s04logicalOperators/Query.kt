@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators
+
 import lupos.s00misc.ICommunicationHandler
 import lupos.s00misc.MyLock
 import lupos.s00misc.ParallelJob
@@ -31,54 +32,77 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import kotlin.jvm.JvmField
+
 public class PartitionHelper public constructor() {
-    @JvmField public var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
+    @JvmField
+    public var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
     internal var jobs: MutableMap<Partition, ParallelJob>? = null
     internal val lock = MyLock()
 }
+
 public class Query public constructor(@JvmField public val dictionary: IResultSetDictionary, @JvmField public var transactionID: Long) : IQuery {
     public constructor(dictionary: IResultSetDictionary) : this(dictionary, global_transactionID++)
     public constructor(transactionID: Long) : this(ResultSetDictionary(), transactionID)
     public constructor() : this(ResultSetDictionary(), global_transactionID++)
+
     @JvmField
     public var _workingDirectory: String = ""
+
     @JvmField
     public var filtersMovedUpFromOptionals: Boolean = false
+
     @JvmField
     public var commited: Boolean = false
+
     @JvmField
     public var dontCheckVariableExistence: Boolean = false
+
     @JvmField
     public var generatedNameCounter: Int = 0
+
     @JvmField
     public var generatedNameByBase: MutableMap<String, String> = mutableMapOf()
+
     @JvmField
     internal val partitions = mutableMapOf<Long, PartitionHelper>()
+
     @JvmField
     internal val partitionsLock = MyLock()
+
     @JvmField
     public val partitionOperators: MutableMap<Int, MutableSet<Long>> = mutableMapOf()
+
     @JvmField
     public val partitionOperatorCount: MutableMap<Int, Int> = mutableMapOf()
+
     @JvmField
     internal var root: IOPBase? = null
+
     @JvmField
     public var allVariationsKey: MutableMap<String, Int> = mutableMapOf<String, Int>()
+
     @JvmField
     internal var operatorgraphParts = mutableMapOf<String, XMLElement>()
+
     @JvmField
     public var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
+
     @JvmField
     public var communicationHandler: ICommunicationHandler? = null
+
     @JvmField
-    public var dictionaryUrl: String = ""
+    public var dictionaryUrl: String? = null
+    public override fun getDictionaryUrl(): String? = dictionaryUrl
+    public override fun getCommunicationHandler(): ICommunicationHandler? = communicationHandler
     public override fun setCommunicationHandler(handler: ICommunicationHandler) {
         communicationHandler = handler
     }
+
     override fun getDistributionKey(): Map<String, Int> = allVariationsKey
     override fun initialize(): IOPBase {
         return initialize(root!!)
     }
+
     override fun initialize(newroot: IOPBase): IOPBase {
         println(newroot.toXMLElementRoot(false).toPrettyString())
         root = newroot
@@ -90,6 +114,7 @@ public class Query public constructor(@JvmField public val dictionary: IResultSe
         }
         return newroot
     }
+
     public fun getNextPartitionOperatorID(): Int {
         var res = 0
         while (partitionOperators[res] != null) {
@@ -97,6 +122,7 @@ public class Query public constructor(@JvmField public val dictionary: IResultSe
         }
         return res
     }
+
     public fun addPartitionOperator(uuid: Long, id: Int) {
         val tmp = partitionOperators[id]
         if (tmp == null) {
@@ -106,6 +132,7 @@ public class Query public constructor(@JvmField public val dictionary: IResultSe
             tmp.add(uuid)
         }
     }
+
     public fun removePartitionOperator(uuid: Long, id: Int) {
         val tmp = partitionOperators[id]
         if (tmp != null) {
@@ -116,6 +143,7 @@ public class Query public constructor(@JvmField public val dictionary: IResultSe
             }
         }
     }
+
     private fun changeID(root: IOPBase, list: Set<Long>, idFrom: Int, idTo: Int) {
         if (list.contains(root.getUUID())) {
             when (root) {
@@ -141,12 +169,14 @@ public class Query public constructor(@JvmField public val dictionary: IResultSe
             changeID(c, list, idFrom, idTo)
         }
     }
+
     public fun mergePartitionOperator(id1: Int, id2: Int, root: IOPBase): Int {
         partitionOperators[id1]!!.addAll(partitionOperators[id2]!!)
         changeID(root, partitionOperators[id2]!!, id2, id1)
         partitionOperators.remove(id2)
         return id1
     }
+
     override fun setWorkingDirectory(value: String) {
         _workingDirectory = if (value.endsWith("/")) {
             value
@@ -154,6 +184,7 @@ public class Query public constructor(@JvmField public val dictionary: IResultSe
             "$value/"
         }
     }
+
     override fun getTransactionID(): Long = transactionID
     override fun getWorkingDirectory(): String = _workingDirectory
     override fun getDictionary(): IResultSetDictionary = dictionary
@@ -161,6 +192,7 @@ public class Query public constructor(@JvmField public val dictionary: IResultSe
     override fun setCommited() {
         commited = true
     }
+
     public fun getUniqueVariableName(): String = "#+${generatedNameCounter++}"
     public fun isGeneratedVariableName(name: String): Boolean = name.startsWith('#')
     public /*suspend*/ fun getPartitionHelper(uuid: Long): PartitionHelper {
@@ -174,6 +206,7 @@ public class Query public constructor(@JvmField public val dictionary: IResultSe
         }
         return res!!
     }
+
     public fun getUniqueVariableName(name: String): String {
         val tmp = generatedNameByBase[name]
         return if (tmp != null) {
@@ -184,6 +217,7 @@ public class Query public constructor(@JvmField public val dictionary: IResultSe
             tmp2
         }
     }
+
     internal companion object {
         @JvmField
         internal var global_transactionID = 0L

@@ -15,15 +15,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.IMyInputStream
 import java.io.InputStream
 import kotlin.jvm.JvmField
+
 internal actual class _MyInputStream(@JvmField internal val stream: InputStream) : IMyInputStream {
-    @JvmField internal val buf4: ByteArray = ByteArray(4)
+    @JvmField
+    internal val buf4: ByteArray = ByteArray(4)
     public actual override fun read(buf: ByteArray): Int {
         return read(buf, buf.size)
     }
+
     public actual override fun read(buf: ByteArray, len: Int): Int {
         var off = 0
         var s = len
@@ -37,6 +41,7 @@ internal actual class _MyInputStream(@JvmField internal val stream: InputStream)
         }
         return len
     }
+
     public actual override fun read(buf: ByteArray, off: Int, len: Int): Int {
         var o = off
         var s = len
@@ -47,12 +52,18 @@ internal actual class _MyInputStream(@JvmField internal val stream: InputStream)
         }
         return len
     }
+
     public actual override fun readInt(): Int {
         read(buf4, 4)
         return ByteArrayHelper.readInt4(buf4, 0)
     }
+
     public actual override fun readByte(): Byte {
         read(buf4, 1)
         return buf4[0]
+    }
+
+    public actual override fun close() {
+        stream.close()
     }
 }

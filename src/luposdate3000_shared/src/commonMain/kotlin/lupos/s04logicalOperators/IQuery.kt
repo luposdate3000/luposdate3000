@@ -15,8 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators
+
 import lupos.s00misc.ICommunicationHandler
 import lupos.s03resultRepresentation.IResultSetDictionary
+
 public interface IQuery {
     public fun getDictionary(): IResultSetDictionary
     public fun checkVariableExistence(): Boolean
@@ -28,4 +30,6 @@ public interface IQuery {
     public fun getTransactionID(): Long
     public fun getDistributionKey(): Map<String, Int>
     public fun setCommunicationHandler(handler: ICommunicationHandler)
+    public fun getDictionaryUrl(): String?
+    public fun getCommunicationHandler(): ICommunicationHandler?
 }

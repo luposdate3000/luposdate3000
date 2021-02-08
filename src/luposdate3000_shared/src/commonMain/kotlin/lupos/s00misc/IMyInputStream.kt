@@ -15,10 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 public interface IMyInputStream {
     public fun read(buf: ByteArray): Int
     public fun read(buf: ByteArray, len: Int): Int
     public fun read(buf: ByteArray, off: Int, len: Int): Int
-	public fun readInt(): Int
-	public fun readByte(): Byte
+    public fun readInt(): Int
+    public fun readByte(): Byte
+    public fun close(): Unit
 }

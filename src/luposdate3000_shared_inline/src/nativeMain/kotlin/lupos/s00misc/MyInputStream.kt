@@ -15,12 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.NotImplementedException
+
 internal actual class _MyInputStream : IMyInputStream {
     public actual override fun readByte(): Byte = throw NotImplementedException("MyOutputStream", "xyz not implemented")
     public actual override fun readInt(): Int = throw NotImplementedException("MyOutputStream", "xyz not implemented")
     public actual override fun read(buf: ByteArray, off: Int, len: Int): Int = throw NotImplementedException("MyOutputStream", "xyz not implemented")
     public actual override fun read(buf: ByteArray, len: Int): Int = throw NotImplementedException("MyOutputStream", "xyz not implemented")
     public actual override fun read(buf: ByteArray): Int = throw NotImplementedException("MyOutputStream", "xyz not implemented")
+    public actual override fun close() {
+    }
 }
