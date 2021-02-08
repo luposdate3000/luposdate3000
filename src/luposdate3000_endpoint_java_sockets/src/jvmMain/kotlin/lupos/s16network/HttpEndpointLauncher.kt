@@ -79,7 +79,7 @@ public class CommunicationHandler : ICommunicationHandler {
         connectionOutPrinter.flush()
         connectionOutPrinter.close()
     }
-    public override fun openConnection(targetHost: String, path: String, params: Map<String, String>, action: (input: IMyInputStream, output: IMyOutputStream) -> Unit) {
+    public override fun openConnection(targetHost: String, path: String, params: Map<String, String>): Pair<IMyInputStream, IMyOutputStream> {
         val target = targetHost.split(":")
         val targetName = target[0]
         val targetPort = if (target.size> 1) {
@@ -103,10 +103,7 @@ public class CommunicationHandler : ICommunicationHandler {
         }
         val buf = "$p\n\n".encodeToByteArray()
         output.write(buf, 0, buf.size)
-        action(MyInputStream(input), MyOutputStream(output))
-        output.flush()
-        output.close()
-        input.close()
+        return Pair(MyInputStream(input), MyOutputStream(output))
     }
 }
 @OptIn(ExperimentalStdlibApi::class)

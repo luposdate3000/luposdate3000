@@ -172,14 +172,24 @@ internal object DistributedQuery {
                 }
             }
         }
-        var res: IOPBase? = null
+        query.dictionaryUrl = "httpTODO://xyz"
+        var res: XMLElement? = null
         for ((k, v) in query.operatorgraphParts) {
+            updateXMLtargets(v, query.operatorgraphPartsToHostMap)
             if (k == "") {
-                res = XMLElement.convertToOPBase(query, v)
+                res = v
             } else {
                 query.communicationHandler!!.sendData(query.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
             }
         }
-        return res!!
+        return XMLElement.convertToOPBase(query, res!!)
+    }
+    fun updateXMLtargets(xml: XMLElement, mapping: Map<String, String>) {
+        for (c in xml.childs) {
+            updateXMLtargets(c, mapping)
+        }
+        if (xml.tag == "partitionDistributionReceiveKey") {
+            xml.addAttribute("host", mapping[xml.attributes["key"]!!]!!)
+        }
     }
 }

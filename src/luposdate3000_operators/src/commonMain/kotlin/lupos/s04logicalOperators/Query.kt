@@ -68,9 +68,10 @@ public class Query public constructor(@JvmField public val dictionary: IResultSe
     internal var operatorgraphParts = mutableMapOf<String, XMLElement>()
     @JvmField
     public var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
-
     @JvmField
     public var communicationHandler: ICommunicationHandler? = null
+    @JvmField
+    public var dictionaryUrl: String = ""
     public override fun setCommunicationHandler(handler: ICommunicationHandler) {
         communicationHandler = handler
     }
