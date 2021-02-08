@@ -104,6 +104,15 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         }
         return histogramResult!!
     }
+    override /*suspend*/ fun evaluateRoot(): IteratorBundle {
+        val node = query.initialize(this)
+        return node.evaluate(Partition())
+    }
+    override /*suspend*/ fun evaluateRoot(partition: Partition): IteratorBundle {
+        val node = query.initialize(this)
+        return node.evaluate(partition)
+    }
+
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
     override fun getChildrenCountRecoursive(): Int {
         var res = children.size

@@ -115,7 +115,7 @@ internal object DistributedQuery {
             dependencies.add(node.attributes["key"]!!)
         }
     }
-    internal fun initialize(query: Query) {
+    internal fun initialize(query: Query): OPBase {
         query.operatorgraphParts.clear()
         query.operatorgraphParts[""] = query.root!!.toXMLElement(true)
         query.operatorgraphPartsToHostMap[""] = Partition.myProcessUrls[Partition.myProcessId]
@@ -173,8 +173,9 @@ internal object DistributedQuery {
         }
         for ((k, v) in query.operatorgraphParts) {
             if (k != "") {
-                query.communicationHandler!!.sendData(query.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("key" to k, "query" to "$v"))
+                query.communicationHandler!!.sendData(query.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
             }
         }
+        return query.root
     }
 }

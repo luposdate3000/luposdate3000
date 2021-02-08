@@ -53,8 +53,7 @@ public object QueryResultToXMLElement {
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
-                node.getQuery().initialize(node)
-                val child = node.evaluate(Partition())
+                val child = node.evaluateRoot(Partition())
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
                     val value = node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next()).valueToString()!!

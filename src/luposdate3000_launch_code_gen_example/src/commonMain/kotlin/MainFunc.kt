@@ -46,8 +46,7 @@ internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
         EIndexPatternExt.P_SO, // Indexsortierung nach PSO, Variablen mit Namen _ kommen zum Schluss
         partition // Partition
     )
-    query.initialize(x)
-    val c: IteratorBundle = x.evaluate(Partition())
+    val c: IteratorBundle = x.evaluateRoot()
     val zeileniterator: RowIterator = c.rows
     println(zeileniterator.columns.map { it })
     val dictionary = query.getDictionary() // Dictionary für aktuelle Query

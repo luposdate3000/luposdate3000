@@ -159,8 +159,7 @@ public object QueryResultToXMLStream {
                 jobs[p] = Parallel.launch {
                     try {
                         val child2 = node.getChildren()[0]
-                        child2.getQuery().initialize(child2)
-                        val child = child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
+                        val child = child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
                         writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
                     } catch (e: Throwable) {
@@ -177,8 +176,7 @@ public object QueryResultToXMLStream {
                 }
             }
         } else {
-            node.getQuery().initialize(node)
-            val child = node.evaluate(parent)
+            val child = node.evaluateRoot(parent)
             val columns = variables.map { child.columns[it]!! }.toTypedArray()
             writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
         }
@@ -219,8 +217,7 @@ public object QueryResultToXMLStream {
                 }
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
-                    node.getQuery().initialize(node)
-                    val child = node.evaluate(Partition())
+                    val child = node.evaluateRoot(Partition())
                     output.print(" <head/>\n")
                     val value = node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next())
                     output.print(" <boolean>")
@@ -229,8 +226,7 @@ public object QueryResultToXMLStream {
                     child.columns["?boolean"]!!.close()
                 } else {
                     if (variables.isEmpty()) {
-                        node.getQuery().initialize(node)
-                        val child = node.evaluate(Partition())
+                        val child = node.evaluateRoot(Partition())
                         output.print(" <head/>\n <results>\n")
                         for (j in 0 until child.count()) {
                             output.print("  <result/>\n")

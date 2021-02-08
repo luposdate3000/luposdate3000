@@ -311,8 +311,7 @@ public object LuposdateEndpoint {
     /*suspend*/ public fun importXmlData(data: String): String {
         val query = Query()
         val import2 = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElementFromXML()(data)!!)
-        query.initialize(import2)
-        val import = import2.evaluate(Partition())
+        val import = import2.evaluateRoot()
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
         distributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyTypeExt.INSERT)
         distributedTripleStore.commit(query)

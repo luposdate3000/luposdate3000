@@ -71,8 +71,7 @@ public object QueryResultToMemoryTable {
                 jobs[p] = Parallel.launch {
                     try {
                         val child2 = node.getChildren()[0]
-                        child2.getQuery().initialize(child2)
-                        val child = child2.evaluate(Partition(parent, partitionVariable, p, partitionCount))
+                        val child = child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
                         writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
                     } catch (e: Throwable) {
@@ -89,8 +88,7 @@ public object QueryResultToMemoryTable {
                 }
             }
         } else {
-            node.getQuery().initialize(node)
-            val child = node.evaluate(parent)
+            val child = node.evaluateRoot(parent)
             val columns = variables.map { child.columns[it]!! }.toTypedArray()
             writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
         }
@@ -124,8 +122,7 @@ public object QueryResultToMemoryTable {
                 }
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
-                    node.getQuery().initialize(node)
-                    val child = node.evaluate(partition)
+                    val child = node.evaluateRoot(partition)
                     val value = node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next())
                     val res = MemoryTable(Array(0) { "" })
                     res.query = rootNode.getQuery()
@@ -134,8 +131,7 @@ public object QueryResultToMemoryTable {
                     child.columns["?boolean"]!!.close()
                 } else {
                     if (variables.isEmpty()) {
-                        node.getQuery().initialize(node)
-                        val child = node.evaluate(partition)
+                        val child = node.evaluateRoot(partition)
                         val res = MemoryTable(Array(0) { "" })
                         res.query = rootNode.getQuery()
                         for (j in 0 until child.count()) {

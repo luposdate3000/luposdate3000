@@ -54,4 +54,6 @@ public interface IOPBase {
     public fun getPartOfAskQuery(): Boolean
     public fun setPartOfAskQuery(value: Boolean)
     public fun setOnlyExistenceRequired(value: Boolean)
+    public /*suspend*/ fun evaluateRoot(): IteratorBundle
+    public /*suspend*/ fun evaluateRoot(partition: Partition): IteratorBundle
 }
