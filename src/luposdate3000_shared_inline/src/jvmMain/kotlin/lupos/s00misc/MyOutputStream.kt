@@ -15,7 +15,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.IMyOutputStream
 import java.io.OutputStream
 import kotlin.jvm.JvmField
-internal class MyOutputStream(@JvmField public val stream: OutputStream) : IMyOutputStream
+internal class MyOutputStream(@JvmField public val stream: OutputStream) : IMyOutputStream {
+    @JvmField val buf4 = ByteArray(4)
+    override fun write(buf: ByteArray) {
+        stream.write(buf, 0, buf.size)
+    }
+    override fun writeInt(i: Int) {
+        ByteArrayHelper.writeInt4(buf4, 0, i)
+        write(buf4)
+    }
+}
