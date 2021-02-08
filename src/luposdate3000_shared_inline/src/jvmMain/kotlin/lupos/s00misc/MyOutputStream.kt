@@ -15,12 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.IMyOutputStream
 import java.io.OutputStream
-import lupos.s00misc.ByteArrayHelper
 import kotlin.jvm.JvmField
-internal actual class _MyOutputStream :IMyOutputStream{
-   @JvmField val buf4 = ByteArray(4)
+internal actual class _MyOutputStream : IMyOutputStream {
+    @JvmField val buf4 = ByteArray(4)
     @JvmField internal val it: OutputStream?
     internal constructor(it: OutputStream) {
         this.it = it
@@ -28,13 +28,13 @@ internal actual class _MyOutputStream :IMyOutputStream{
     internal actual constructor() {
         it = null
     }
-     public actual  override fun writeInt(value: Int): Unit {
- ByteArrayHelper.writeInt4(buf4, 0, value)
-it!!.        write(buf4,0,4)
-}
-     public actual  override fun write(buf: ByteArray, off: Int, len: Int): Unit = it!!.write(buf, off, len)
-     public actual  override fun close(): Unit = it!!.close()
-     public actual  override fun flush(): Unit = it!!.flush()
-actual override    public  fun write(buf: ByteArray):Unit=it!!.write(buf,0,buf.size)
-actual override    public  fun write(buf: ByteArray, len: Int):Unit=it!!.write(buf,0,len)
+    public actual override fun writeInt(value: Int) {
+        ByteArrayHelper.writeInt4(buf4, 0, value)
+        it!!.write(buf4, 0, 4)
+    }
+    public actual override fun write(buf: ByteArray, off: Int, len: Int): Unit = it!!.write(buf, off, len)
+    public actual override fun close(): Unit = it!!.close()
+    public actual override fun flush(): Unit = it!!.flush()
+    public actual override fun write(buf: ByteArray): Unit = it!!.write(buf, 0, buf.size)
+    public actual override fun write(buf: ByteArray, len: Int): Unit = it!!.write(buf, 0, len)
 }

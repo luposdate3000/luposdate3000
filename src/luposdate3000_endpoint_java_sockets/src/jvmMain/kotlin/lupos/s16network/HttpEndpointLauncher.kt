@@ -15,15 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s16network
-import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
+import lupos.s00misc.ICommunicationHandler
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
+import lupos.s00misc.JenaWrapper
 import lupos.s00misc.MyInputStream
 import lupos.s00misc.MyOutputStream
-import lupos.s00misc.ICommunicationHandler
-import lupos.s00misc.JenaWrapper
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.MyStringStream
 import lupos.s00misc.Parallel
@@ -36,7 +35,6 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 import lupos.s11outputResult.EQueryResultToStreamExt
 import lupos.s14endpoint.convertToOPBase
-import java.io.BufferedOutputStream
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.OutputStream
@@ -81,35 +79,35 @@ public class CommunicationHandler : ICommunicationHandler {
         connectionOutPrinter.flush()
         connectionOutPrinter.close()
     }
-public override fun openConnection(targetHost: String, path: String, params: Map<String, String>,action:(input:IMyInputStream,output:IMyOutputStream)->Unit){
- val target = targetHost.split(":")
-val targetName = target[0]
+    public override fun openConnection(targetHost: String, path: String, params: Map<String, String>, action: (input: IMyInputStream, output: IMyOutputStream) -> Unit) {
+        val target = targetHost.split(":")
+        val targetName = target[0]
         val targetPort = if (target.size> 1) {
             target[1].toInt()
         } else {
             80
         }
         val client = Socket(targetName, targetPort)
-val input=client.getInputStream()
-val output=client.getOutputStream()
-var p="POST $path"
+        val input = client.getInputStream()
+        val output = client.getOutputStream()
+        var p = "POST $path"
         var first = true
         for ((k, v)in params) {
             if (first) {
-p+="?"
-            }else{
-p+="&"
-		}
+                p += "?"
+            } else {
+                p += "&"
+            }
             first = false
-p+="$k=${URLEncoder.encode(v)}"
+            p += "$k=${URLEncoder.encode(v)}"
         }
-val buf="$p\n\n".encodeToByteArray()
-output.write(buf,0,buf.size)
-action(MyInputStream(input),MyOutputStream(output))
-output.flush()
-output.close()
-input.close()
-}
+        val buf = "$p\n\n".encodeToByteArray()
+        output.write(buf, 0, buf.size)
+        action(MyInputStream(input), MyOutputStream(output))
+        output.flush()
+        output.close()
+        input.close()
+    }
 }
 @OptIn(ExperimentalStdlibApi::class)
 public actual object HttpEndpointLauncher {

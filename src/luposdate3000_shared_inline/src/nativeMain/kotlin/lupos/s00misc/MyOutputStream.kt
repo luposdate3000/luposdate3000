@@ -17,12 +17,12 @@
 package lupos.modulename
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.NotImplementedException
-internal actual class _MyOutputStream :IMyOutputStream{
+internal actual class _MyOutputStream : IMyOutputStream {
     internal actual constructor() {}
-    public actual  override fun writeInt(value: Int): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
-    public actual  override fun write(buf: ByteArray, off: Int, len: Int): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
-    public actual  override fun close(): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
-    public actual  override fun flush(): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
-actual override    public  fun write(buf: ByteArray):Unit=write(buf,0,buf.size)
-actual override    public  fun write(buf: ByteArray, len: Int):Unit=write(buf,0,len)
+    public actual override fun writeInt(value: Int): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
+    public actual override fun write(buf: ByteArray, off: Int, len: Int): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
+    public actual override fun close(): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
+    public actual override fun flush(): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
+    public actual override fun write(buf: ByteArray): Unit = write(buf, 0, buf.size)
+    public actual override fun write(buf: ByteArray, len: Int): Unit = write(buf, 0, len)
 }

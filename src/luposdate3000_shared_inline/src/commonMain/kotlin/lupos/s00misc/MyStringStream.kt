@@ -15,12 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
-import lupos.s00misc.IMyInputStream
 import lupos.s00misc.ByteArrayHelper
+import lupos.s00misc.IMyInputStream
 import kotlin.jvm.JvmField
 internal class _MyStringStream(str: String) : IMyInputStream {
-   @JvmField val buf4 = ByteArray(4)
-  @JvmField public val data = str.encodeToByteArray()
+    @JvmField val buf4 = ByteArray(4)
+    @JvmField public val data = str.encodeToByteArray()
     @JvmField public var off = 0
     override fun read(buf: ByteArray): Int {
         var len = off + buf.size
@@ -33,12 +33,12 @@ internal class _MyStringStream(str: String) : IMyInputStream {
         off = len
         return res
     }
-    override fun read(buf: ByteArray,len:Int) {
+    override fun read(buf: ByteArray, len: Int) {
         val s = off + len
         data.copyInto(buf, 0, off, s)
         off = s
     }
-override fun readInt(): Int {
+    override fun readInt(): Int {
         read(buf4, 4)
         return ByteArrayHelper.readInt4(buf4, 0)
     }

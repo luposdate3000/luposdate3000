@@ -16,13 +16,12 @@
  */
 package lupos.modulename
 import lupos.s00misc.IMyOutputStream
-internal expect class _MyOutputStream :IMyOutputStream{
+internal expect class _MyOutputStream : IMyOutputStream {
     internal constructor()
-override    public  fun writeInt(value: Int): Unit
-override    public  fun write(buf: ByteArray, off: Int , len: Int ): Unit
-override    public  fun write(buf: ByteArray): Unit
-override    public  fun write(buf: ByteArray,len:Int): Unit
-override    public  fun close(): Unit
-override    public  fun flush(): Unit
-
+    public override fun writeInt(value: Int): Unit
+    public override fun write(buf: ByteArray, off: Int, len: Int): Unit
+    public override fun write(buf: ByteArray): Unit
+    public override fun write(buf: ByteArray, len: Int): Unit
+    public override fun close(): Unit
+    public override fun flush(): Unit
 }

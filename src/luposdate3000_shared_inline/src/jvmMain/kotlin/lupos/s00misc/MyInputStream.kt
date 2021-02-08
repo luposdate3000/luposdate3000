@@ -29,9 +29,9 @@ internal actual class _MyInputStream(@JvmField internal val stream: InputStream)
         var s = len
         while (s > 0) {
             val tmp = stream.read(buf, off, s)
-if(tmp<=0){
-return len-s
-}
+            if (tmp <= 0) {
+                return len - s
+            }
             s -= tmp
             off += tmp
         }
