@@ -81,7 +81,8 @@ public class CommunicationHandler : ICommunicationHandler {
         connectionOutPrinter.flush()
         connectionOutPrinter.close()
     }
-public override fun openConnection(targetHost: String, path: String, params: Map<String, String>,action(input:IMyInputStream,output:IMyOutputStream)->Unit){
+public override fun openConnection(targetHost: String, path: String, params: Map<String, String>,action:(input:IMyInputStream,output:IMyOutputStream)->Unit){
+ val target = targetHost.split(":")
 val targetName = target[0]
         val targetPort = if (target.size> 1) {
             target[1].toInt()

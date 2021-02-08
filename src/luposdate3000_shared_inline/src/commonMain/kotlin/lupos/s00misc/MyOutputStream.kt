@@ -15,8 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
-internal expect class MyDataInputStream {
-    internal inline fun readInt(): Int
-    internal inline fun readByte(): Byte
-    internal inline fun read(buf: ByteArray, off: Int = 0, len: Int = buf.size): Int
+import lupos.s00misc.IMyOutputStream
+internal expect class _MyOutputStream :IMyOutputStream{
+    internal constructor()
+override    public  fun writeInt(value: Int): Unit
+override    public  fun write(buf: ByteArray, off: Int , len: Int ): Unit
+override    public  fun write(buf: ByteArray): Unit
+override    public  fun write(buf: ByteArray,len:Int): Unit
+override    public  fun close(): Unit
+override    public  fun flush(): Unit
+
 }

@@ -14,11 +14,5 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.modulename
-internal expect class _MyDataOutputStream {
-    internal constructor()
-    internal inline fun writeInt(value: Int): Unit
-    internal inline fun write(buf: ByteArray, off: Int = 0, len: Int = buf.size): Unit
-    internal inline fun close(): Unit
-    internal inline fun flush(): Unit
-}
+package lupos.s00misc
+internal typealias MyInputStream = lupos.modulename._MyInputStream

@@ -17,7 +17,9 @@
 package lupos.modulename
 import lupos.s00misc.DirectoryCompareNotImplementedException
 import lupos.s00misc.IMyInputStream
-import lupos.s00misc.MyDataOutputStream
+import lupos.s00misc.IMyOutputStream
+import lupos.s00misc.MyInputStream
+import lupos.s00misc.MyOutputStream
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import java.io.BufferedInputStream
@@ -72,46 +74,46 @@ internal actual class _File actual constructor(@JvmField public val filename: St
             action(it)
         }
     }
-    internal actual inline fun dataOutputStream(crossinline action: (MyDataOutputStream) -> Unit) {
+    internal actual inline fun dataOutputStream(crossinline action: (IMyOutputStream) -> Unit) {
         var dos: DataOutputStream? = null
         try {
             val fos = FileOutputStream(filename)
             val bos = BufferedOutputStream(fos)
             dos = DataOutputStream(bos)
-            action(MyDataOutputStream(dos))
+            action(MyOutputStream(dos))
         } finally {
             dos?.close()
         }
     }
-    internal actual inline fun dataOutputStreamSuspend(crossinline action: (MyDataOutputStream) -> Unit) {
+    internal actual inline fun dataOutputStreamSuspend(crossinline action: (IMyOutputStream) -> Unit) {
         var dos: DataOutputStream? = null
         try {
             val fos = FileOutputStream(filename)
             val bos = BufferedOutputStream(fos)
             dos = DataOutputStream(bos)
-            action(MyDataOutputStream(dos))
+            action(MyOutputStream(dos))
         } finally {
             dos?.close()
         }
     }
-    internal actual inline fun dataInputStream(crossinline action: (MyDataInputStream) -> Unit) {
+    internal actual inline fun dataInputStream(crossinline action: (IMyInputStream) -> Unit) {
         var dis: DataInputStream? = null
         try {
             val fis = FileInputStream(filename)
             val bis = BufferedInputStream(fis)
             dis = DataInputStream(bis)
-            action(MyDataInputStream(dis))
+            action(MyInputStream(dis))
         } finally {
             dis?.close()
         }
     }
-    internal /*suspend*/ actual inline fun dataInputStreamSuspended(crossinline action: /*suspend*/ (MyDataInputStream) -> Unit) {
+    internal /*suspend*/ actual inline fun dataInputStreamSuspended(crossinline action: /*suspend*/ (IMyInputStream) -> Unit) {
         var dis: DataInputStream? = null
         try {
             val fis = FileInputStream(filename)
             val bis = BufferedInputStream(fis)
             dis = DataInputStream(bis)
-            action(MyDataInputStream(dis))
+            action(MyInputStream(dis))
         } finally {
             dis?.close()
         }
@@ -160,11 +162,11 @@ internal actual class _File actual constructor(@JvmField public val filename: St
             input2.close()
         }
     }
-    @Suppress("NOTHING_TO_INLINE") internal actual inline fun openDataOutputStream(append: Boolean): MyDataOutputStream {
+    @Suppress("NOTHING_TO_INLINE") internal actual inline fun openDataOutputStream(append: Boolean): IMyOutputStream {
         var dos: DataOutputStream? = null
         val fos = FileOutputStream(filename, append)
         val bos = BufferedOutputStream(fos)
         dos = DataOutputStream(bos)
-        return MyDataOutputStream(dos)
+        return MyOutputStream(dos)
     }
 }

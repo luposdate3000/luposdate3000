@@ -16,7 +16,7 @@
  */
 package lupos.modulename
 import lupos.s00misc.IMyInputStream
-import lupos.s00misc.MyDataOutputStream
+import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyPrintWriter
 internal expect class _File(filename: String) {
     internal inline fun createTempFile(prefix: String, suffix: String, directory: String): String
@@ -33,10 +33,10 @@ internal expect class _File(filename: String) {
     /*suspend*/ internal inline fun printWriterSuspended(crossinline action: /*suspend*/ (MyPrintWriter) -> Unit)
     internal inline fun forEachLine(crossinline action: (String) -> Unit)
     /*suspend*/ internal inline fun forEachLineSuspended(crossinline action: /*suspend*/ (String) -> Unit)
-    internal inline fun dataOutputStream(crossinline action: (MyDataOutputStream) -> Unit)
-    internal inline fun openDataOutputStream(append: Boolean): MyDataOutputStream
-    internal inline fun dataOutputStreamSuspend(crossinline action: (MyDataOutputStream) -> Unit)
-    internal inline fun dataInputStream(crossinline action: (MyDataInputStream) -> Unit)
-    /*suspend*/ internal inline fun dataInputStreamSuspended(crossinline action: /*suspend*/ (MyDataInputStream) -> Unit)
+    internal inline fun dataOutputStream(crossinline action: (IMyOutputStream) -> Unit)
+    internal inline fun openDataOutputStream(append: Boolean): IMyOutputStream
+    internal inline fun dataOutputStreamSuspend(crossinline action: (IMyOutputStream) -> Unit)
+    internal inline fun dataInputStream(crossinline action: (IMyInputStream) -> Unit)
+    /*suspend*/ internal inline fun dataInputStreamSuspended(crossinline action: /*suspend*/ (IMyInputStream) -> Unit)
     override fun equals(other: Any?): Boolean
 }

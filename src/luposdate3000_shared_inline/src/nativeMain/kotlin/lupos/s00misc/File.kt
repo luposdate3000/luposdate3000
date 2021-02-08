@@ -16,7 +16,7 @@
  */
 package lupos.modulename
 import lupos.s00misc.IMyInputStream
-import lupos.s00misc.MyDataOutputStream
+import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.NotImplementedException
 internal actual class _File {
@@ -38,10 +38,10 @@ internal actual class _File {
     internal /*suspend*/ actual inline fun printWriterSuspended(crossinline action: /*suspend*/ (MyPrintWriter) -> Unit): Unit = throw NotImplementedException("File", "printWriterSuspended not implemented")
     internal actual inline fun forEachLine(crossinline action: (String) -> Unit): Unit = throw NotImplementedException("File", "forEachLine not implemented")
     internal /*suspend*/ actual inline fun forEachLineSuspended(crossinline action: /*suspend*/ (String) -> Unit): Unit = throw NotImplementedException("File", "forEachLineSuspended not implemented")
-    internal actual inline fun dataOutputStream(crossinline action: (MyDataOutputStream) -> Unit): Unit = throw NotImplementedException("File", "dataOutputStream not implemented")
-    internal actual inline fun dataOutputStreamSuspend(crossinline action: (MyDataOutputStream) -> Unit): Unit = throw NotImplementedException("File", "dataOutputStreamSuspend not implemented")
-    internal actual inline fun dataInputStream(crossinline action: (MyDataInputStream) -> Unit): Unit = throw NotImplementedException("File", "dataInputStream not implemented")
-    /*suspend*/ internal actual inline fun dataInputStreamSuspended(crossinline action: /*suspend*/ (MyDataInputStream) -> Unit): Unit = throw NotImplementedException("File", "dataInputStreamSuspended not implemented")
+    internal actual inline fun dataOutputStream(crossinline action: (IMyOutputStream) -> Unit): Unit = throw NotImplementedException("File", "dataOutputStream not implemented")
+    internal actual inline fun dataOutputStreamSuspend(crossinline action: (IMyOutputStream) -> Unit): Unit = throw NotImplementedException("File", "dataOutputStreamSuspend not implemented")
+    internal actual inline fun dataInputStream(crossinline action: (IMyInputStream) -> Unit): Unit = throw NotImplementedException("File", "dataInputStream not implemented")
+    /*suspend*/ internal actual inline fun dataInputStreamSuspended(crossinline action: /*suspend*/ (IMyInputStream) -> Unit): Unit = throw NotImplementedException("File", "dataInputStreamSuspended not implemented")
     actual override fun equals(other: Any?): Boolean = throw NotImplementedException("File", "equals not implemented")
-    internal actual inline fun openDataOutputStream(append: Boolean): MyDataOutputStream = throw NotImplementedException("File", "openDataOutputStream not implemented")
+    internal actual inline fun openDataOutputStream(append: Boolean): IMyOutputStream = throw NotImplementedException("File", "openDataOutputStream not implemented")
 }

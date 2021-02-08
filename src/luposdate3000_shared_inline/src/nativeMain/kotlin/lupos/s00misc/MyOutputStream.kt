@@ -15,11 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.NotImplementedException
-internal actual class _MyDataOutputStream {
+internal actual class _MyOutputStream :IMyOutputStream{
     internal actual constructor() {}
-    internal actual inline fun writeInt(value: Int): Unit = throw NotImplementedException("MyDataInputStream", "xyz not implemented")
-    internal actual inline fun write(buf: ByteArray, off: Int, len: Int): Unit = throw NotImplementedException("MyDataInputStream", "xyz not implemented")
-    internal actual inline fun close(): Unit = throw NotImplementedException("MyDataInputStream", "xyz not implemented")
-    internal actual inline fun flush(): Unit = throw NotImplementedException("MyDataInputStream", "xyz not implemented")
+    public actual  override fun writeInt(value: Int): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
+    public actual  override fun write(buf: ByteArray, off: Int, len: Int): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
+    public actual  override fun close(): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
+    public actual  override fun flush(): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
+actual override    public  fun write(buf: ByteArray):Unit=write(buf,0,buf.size)
+actual override    public  fun write(buf: ByteArray, len: Int):Unit=write(buf,0,len)
 }

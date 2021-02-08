@@ -19,22 +19,40 @@ import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.IMyInputStream
 import java.io.InputStream
 import kotlin.jvm.JvmField
-internal class MyInputStream(@JvmField public val stream: InputStream) : IMyInputStream {
-    @JvmField val buf4 = ByteArray(4)
-    override fun read(buf: ByteArray): Int {
-        return stream.read(buf, 0, buf.size)
+internal actual class _MyInputStream(@JvmField internal val stream: InputStream) : IMyInputStream {
+    @JvmField internal val buf4: ByteArray = ByteArray(4)
+    public actual override fun read(buf: ByteArray): Int {
+        return read(buf, buf.size)
     }
-    override fun read(buf: ByteArray, len: Int) {
+    public actual override fun read(buf: ByteArray, len: Int): Int {
         var off = 0
         var s = len
         while (s > 0) {
             val tmp = stream.read(buf, off, s)
+if(tmp<=0){
+return len-s
+}
             s -= tmp
             off += tmp
         }
+        return len
     }
-    override fun readInt(): Int {
+    public actual override fun read(buf: ByteArray, off: Int, len: Int): Int {
+        var o = off
+        var s = len
+        while (s > 0) {
+            val tmp = stream.read(buf, o, s)
+            s -= tmp
+            o += tmp
+        }
+        return len
+    }
+    public actual override fun readInt(): Int {
         read(buf4, 4)
         return ByteArrayHelper.readInt4(buf4, 0)
+    }
+    public actual override fun readByte(): Byte {
+        read(buf4, 1)
+        return buf4[0]
     }
 }
