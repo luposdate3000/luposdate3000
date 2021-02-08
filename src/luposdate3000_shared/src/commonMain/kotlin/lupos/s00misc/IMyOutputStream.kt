@@ -15,8 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
-public interface IMyInputStream {
-    public fun read(buf: ByteArray): Int
-    public fun read(buf: ByteArray, len: Int)
-	public fun readInt(): Int
+public interface IMyOutputStream {
+    public fun write(buf: ByteArray)
+	public fun writeInt(i: Int)
 }

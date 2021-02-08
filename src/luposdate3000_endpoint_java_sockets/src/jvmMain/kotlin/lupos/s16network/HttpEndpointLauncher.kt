@@ -18,6 +18,10 @@ package lupos.s16network
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
+import lupos.s00misc.IMyInputStream
+import lupos.s00misc.IMyOutputStream
+import lupos.s00misc.MyInputStream
+import lupos.s00misc.MyOutputStream
 import lupos.s00misc.ICommunicationHandler
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.MyPrintWriter
@@ -77,6 +81,34 @@ public class CommunicationHandler : ICommunicationHandler {
         connectionOutPrinter.flush()
         connectionOutPrinter.close()
     }
+public override fun openConnection(targetHost: String, path: String, params: Map<String, String>,action(input:IMyInputStream,output:IMyOutputStream)->Unit){
+val targetName = target[0]
+        val targetPort = if (target.size> 1) {
+            target[1].toInt()
+        } else {
+            80
+        }
+        val client = Socket(targetName, targetPort)
+val input=client.getInputStream()
+val output=client.getOutputStream()
+var p="POST $path"
+        var first = true
+        for ((k, v)in params) {
+            if (first) {
+p+="?"
+            }else{
+p+="&"
+		}
+            first = false
+p+="$k=${URLEncoder.encode(v)}"
+        }
+val buf="$p\n\n".encodeToByteArray()
+output.write(buf,0,buf.size)
+action(MyInputStream(input),MyOutputStream(output))
+output.flush()
+output.close()
+input.close()
+}
 }
 @OptIn(ExperimentalStdlibApi::class)
 public actual object HttpEndpointLauncher {
@@ -118,7 +150,7 @@ public actual object HttpEndpointLauncher {
                         var connectionOutBase = connection.getOutputStream()
                         var connectionIn: BufferedReader? = null
                         var connectionOutPrinter: MyPrintWriter? = null
-                        var connectionOutBuffered: BufferedOutputStream? = null
+                        var connectionOutMy: MyOutputStream? = null
                         try {
                             connectionIn = BufferedReader(InputStreamReader(connectionInBase))
                             var line = connectionIn.readLine()
@@ -255,7 +287,7 @@ public actual object HttpEndpointLauncher {
                             paths["/distributed/query/execute"] = PathMappingHelper(false, mapOf()) {
                                 var queryXML = queryMappings[params["key"]!!]
                                 var dictionaryURL = params["dictionaryURL"]!!
-                                val connectionOutBuffered2 = BufferedOutputStream(connectionOutBase)
+                                val connectionOutBuffered2 = MyOutputStream(connectionOutBase)
                                 connectionOutBuffered = connectionOutBuffered2
                                 if (queryXML == null) {
                                     throw Exception("this query was not registered before")
@@ -265,25 +297,21 @@ public actual object HttpEndpointLauncher {
                                     val node = XMLElement.convertToOPBase(query, queryXML) as POPBase
                                     var variables = Array(node.projectedVariables.size) { "" }
                                     var i = 0
-                                    var buf = ByteArray(4)
-                                    ByteArrayHelper.writeInt4(buf, 0, variables.size)
-                                    connectionOutBuffered2.write(buf, 0, 4)
+                                    connectionOutBuffered2.writeInt(variables.size)
                                     for (v in node.projectedVariables) {
                                         variables[i++] = v
-                                        val buf2 = v.encodeToByteArray()
-                                        ByteArrayHelper.writeInt4(buf, 0, buf2.size)
-                                        connectionOutBuffered2.write(buf, 0, 4)
-                                        connectionOutBuffered2.write(buf2, 0, buf2.size)
+                                        val buf = v.encodeToByteArray()
+                                        connectionOutBuffered2.writeInt(buf.size)
+                                        connectionOutBuffered2.write(buf)
                                     }
                                     var p = Partition()
                                     val bundle = node.evaluate(p)
                                     val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
-                                    var buf3 = ResultSetDictionaryExt.nullValue + 1
-                                    while (buf3 != ResultSetDictionaryExt.nullValue) {
+                                    var buf = ResultSetDictionaryExt.nullValue + 1
+                                    while (buf != ResultSetDictionaryExt.nullValue) {
                                         for (i in 0 until variables.size) {
-                                            buf3 = columns[i].next()
-                                            ByteArrayHelper.writeInt4(buf, 0, buf3)
-                                            connectionOutBuffered2.write(buf, 0, 4)
+                                            buf = columns[i].next()
+                                            connectionOutBuffered2.writeInt(buf)
                                         }
                                     }
                                 }

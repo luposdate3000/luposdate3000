@@ -26,6 +26,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s09physicalOperators.partition.POPSplitPartitionPassThrough
+import lupos.s14endpoint.convertToOPBase
 internal object DistributedQuery {
     private fun getAllVariations(query: Query, node: IOPBase, allNames: Array<String>, allSize: IntArray, allIdx: IntArray, offset: Int) {
         if (offset == allNames.size) {
@@ -115,7 +116,7 @@ internal object DistributedQuery {
             dependencies.add(node.attributes["key"]!!)
         }
     }
-    internal fun initialize(query: Query): OPBase {
+    internal fun initialize(query: Query): IOPBase {
         query.operatorgraphParts.clear()
         query.operatorgraphParts[""] = query.root!!.toXMLElement(true)
         query.operatorgraphPartsToHostMap[""] = Partition.myProcessUrls[Partition.myProcessId]
@@ -171,11 +172,14 @@ internal object DistributedQuery {
                 }
             }
         }
+        var res: IOPBase? = null
         for ((k, v) in query.operatorgraphParts) {
-            if (k != "") {
+            if (k == "") {
+                res = XMLElement.convertToOPBase(query, v)
+            } else {
                 query.communicationHandler!!.sendData(query.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
             }
         }
-        return query.root
+        return res!!
     }
 }

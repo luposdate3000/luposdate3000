@@ -14,9 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s00misc
-public interface IMyInputStream {
-    public fun read(buf: ByteArray): Int
-    public fun read(buf: ByteArray, len: Int)
-	public fun readInt(): Int
-}
+package lupos.modulename
+import lupos.s00misc.IMyOutputStream
+import java.io.OutputStream
+import kotlin.jvm.JvmField
+internal class MyOutputStream(@JvmField public val stream: OutputStream) : IMyOutputStream

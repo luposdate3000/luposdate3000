@@ -75,10 +75,10 @@ public class Query public constructor(@JvmField public val dictionary: IResultSe
         communicationHandler = handler
     }
     override fun getDistributionKey(): Map<String, Int> = allVariationsKey
-    override fun initialize(): OPBase {
+    override fun initialize(): IOPBase {
         return initialize(root!!)
     }
-    override fun initialize(newroot: IOPBase): OPBase {
+    override fun initialize(newroot: IOPBase): IOPBase {
         println(newroot.toXMLElementRoot(false).toPrettyString())
         root = newroot
         transactionID = global_transactionID++
@@ -87,7 +87,7 @@ public class Query public constructor(@JvmField public val dictionary: IResultSe
         if (communicationHandler != null) {
             return DistributedQuery.initialize(this)
         }
-        return root
+        return newroot
     }
     public fun getNextPartitionOperatorID(): Int {
         var res = 0

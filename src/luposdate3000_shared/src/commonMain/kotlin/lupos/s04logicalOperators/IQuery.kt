@@ -22,8 +22,8 @@ public interface IQuery {
     public fun checkVariableExistence(): Boolean
     public fun getWorkingDirectory(): String
     public fun setWorkingDirectory(value: String)
-    public fun initialize()
-    public fun initialize(newroot: IOPBase)
+    public fun initialize(): IOPBase
+    public fun initialize(newroot: IOPBase): IOPBase
     public fun setCommited()
     public fun getTransactionID(): Long
     public fun getDistributionKey(): Map<String, Int>
