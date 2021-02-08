@@ -286,8 +286,8 @@ public actual object HttpEndpointLauncher {
                             paths["/distributed/query/execute"] = PathMappingHelper(false, mapOf()) {
                                 var queryXML = queryMappings[params["key"]!!]
                                 var dictionaryURL = params["dictionaryURL"]!!
-                                val connectionOutBuffered2 = MyOutputStream(connectionOutBase)
-                                connectionOutBuffered = connectionOutBuffered2
+                                val connectionOutMy2 = MyOutputStream(connectionOutBase)
+                                connectionOutMy = connectionOutMy2
                                 if (queryXML == null) {
                                     throw Exception("this query was not registered before")
                                 } else {
@@ -296,12 +296,12 @@ public actual object HttpEndpointLauncher {
                                     val node = XMLElement.convertToOPBase(query, queryXML) as POPBase
                                     var variables = Array(node.projectedVariables.size) { "" }
                                     var i = 0
-                                    connectionOutBuffered2.writeInt(variables.size)
+                                    connectionOutMy2.writeInt(variables.size)
                                     for (v in node.projectedVariables) {
                                         variables[i++] = v
                                         val buf = v.encodeToByteArray()
-                                        connectionOutBuffered2.writeInt(buf.size)
-                                        connectionOutBuffered2.write(buf)
+                                        connectionOutMy2.writeInt(buf.size)
+                                        connectionOutMy2.write(buf)
                                     }
                                     var p = Partition()
                                     val bundle = node.evaluate(p)
@@ -310,7 +310,7 @@ public actual object HttpEndpointLauncher {
                                     while (buf != ResultSetDictionaryExt.nullValue) {
                                         for (i in 0 until variables.size) {
                                             buf = columns[i].next()
-                                            connectionOutBuffered2.writeInt(buf)
+                                            connectionOutMy2.writeInt(buf)
                                         }
                                     }
                                 }
@@ -400,8 +400,8 @@ public actual object HttpEndpointLauncher {
                                 connectionOutPrinter2.println()
                             }
                         } finally {
-                            connectionOutBuffered?.flush()
-                            connectionOutBuffered?.close()
+                            connectionOutMy?.flush()
+                            connectionOutMy?.close()
                             connectionOutPrinter?.flush()
                             connectionOutPrinter?.close()
                             connectionOutBase.close()

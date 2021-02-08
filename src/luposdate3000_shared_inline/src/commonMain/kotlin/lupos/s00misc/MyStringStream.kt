@@ -21,25 +21,46 @@ import kotlin.jvm.JvmField
 internal class _MyStringStream(str: String) : IMyInputStream {
     @JvmField val buf4 = ByteArray(4)
     @JvmField public val data = str.encodeToByteArray()
-    @JvmField public var off = 0
+    @JvmField public var pos = 0
     override fun read(buf: ByteArray): Int {
-        var len = off + buf.size
+        var s = pos + buf.size
         var res = buf.size
-        if (len> data.size) {
-            len = data.size
-            res = len - off
+        if (s> data.size) {
+            s = data.size
+            res = s - pos
         }
-        data.copyInto(buf, 0, off, len)
-        off = len
+        data.copyInto(buf, 0, pos, s)
+        pos = s
         return res
     }
-    override fun read(buf: ByteArray, len: Int) {
-        val s = off + len
-        data.copyInto(buf, 0, off, s)
-        off = s
+    override fun read(buf: ByteArray, len: Int): Int {
+        var s = pos + len
+        var res = buf.size
+        if (s> data.size) {
+            s = data.size
+            res = s - pos
+        }
+        data.copyInto(buf, 0, pos, s)
+        pos = s
+        return res
+    }
+    override fun read(buf: ByteArray, off: Int, len: Int): Int {
+        var s = pos + len
+        var res = buf.size
+        if (s> data.size) {
+            s = data.size
+            res = s - pos
+        }
+        data.copyInto(buf, off, pos, s)
+        pos = s
+        return res
     }
     override fun readInt(): Int {
         read(buf4, 4)
         return ByteArrayHelper.readInt4(buf4, 0)
+    }
+    override fun readByte(): Byte {
+        read(buf4, 1)
+        return buf4[0]
     }
 }

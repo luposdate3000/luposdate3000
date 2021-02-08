@@ -18,6 +18,7 @@ package lupos.s03resultRepresentation
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
+import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
 import lupos.s00misc.MyOutputStream
@@ -62,7 +63,7 @@ public class ResultSetDictionaryGlobal {
     internal val intToInt = mutableMapOf<String, Int>()
     @JvmField
     internal var intToValue = Array(1) { ResultSetDictionaryShared.emptyString }
-    @JvmField internal var outputDictionaryFile: MyOutputStream
+    @JvmField internal var outputDictionaryFile: IMyOutputStream
     @JvmField internal var initializationphase = true
     @JvmField internal val byteBuf = ByteArray(1)
     init {
