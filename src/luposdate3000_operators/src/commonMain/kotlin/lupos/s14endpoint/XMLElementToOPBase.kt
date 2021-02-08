@@ -128,6 +128,7 @@ import lupos.s09physicalOperators.noinput.POPValues
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
+import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntIdReceive
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s09physicalOperators.singleinput.POPBind
@@ -493,6 +494,25 @@ public fun createProjectedVariables(query: Query, node: XMLElement, mapping: Mut
         "POPMergePartitionOrderedByIntId" -> {
             val id = node.attributes["partitionID"]!!.toInt()
             res = POPMergePartitionOrderedByIntId(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            query.addPartitionOperator(res.uuid, id)
+        }
+        "POPMergePartitionOrderedByIntIdReceive" -> {
+            val id = node.attributes["partitionID"]!!.toInt()
+            val hosts = mutableMapOf<String, String>()
+            for (c in node.childs) {
+                if (c.tag == "partitionDistributionReceiveKey") {
+                    hosts[c.attributes["key"]!!] = c.attributes["host"]!!
+                }
+            }
+            res = POPMergePartitionOrderedByIntIdReceive(
+                query,
+                createProjectedVariables(query, node, mapping),
+                node.attributes["partitionVariable"]!!,
+                node.attributes["partitionCount"]!!.toInt(),
+                id,
+                OPNothing(query, createProjectedVariables(query, node, mapping)),
+                hosts
+            )
             query.addPartitionOperator(res.uuid, id)
         }
         "POPMergePartitionCount" -> {

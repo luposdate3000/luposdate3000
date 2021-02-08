@@ -72,13 +72,19 @@ public class POPMergePartitionCount public constructor(query: IQuery, projectedV
         } else {
             res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
             for (i in 1 until partitionCount) {
-                theKey[partitionVariable] = theKey[partitionVariable]!! + i
+                theKey[partitionVariable] = theKey[partitionVariable]!! + 1
                 res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
             }
         }
+        res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionVariable", partitionVariable)
         res.addAttribute("partitionCount", "" + partitionCount)
         res.addAttribute("partitionID", "" + partitionID)
+        val projectedXML = XMLElement("projectedVariables")
+        res.addContent(projectedXML)
+        for (variable in projectedVariables) {
+            projectedXML.addContent(XMLElement("variable").addAttribute("name", variable))
+        }
         return res
     }
 

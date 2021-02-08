@@ -179,6 +179,7 @@ internal object DistributedQuery {
         }
         query.dictionaryUrl = "httpTODO://xyz"
         var res: XMLElement? = null
+        println("mapping :: ${query.operatorgraphPartsToHostMap}")
         for ((k, v) in query.operatorgraphParts) {
             updateXMLtargets(v, query.operatorgraphPartsToHostMap)
             if (k == "") {
@@ -195,6 +196,7 @@ internal object DistributedQuery {
             updateXMLtargets(c, mapping)
         }
         if (xml.tag == "partitionDistributionReceiveKey") {
+            println("search in mapping :: '${xml.attributes["key"]!!}'")
             xml.addAttribute("host", mapping[xml.attributes["key"]!!]!!)
         }
     }

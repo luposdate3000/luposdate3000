@@ -86,11 +86,17 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
                 res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
             }
         }
+        res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionVariable", partitionVariable)
         res.addAttribute("partitionCountFrom", "" + partitionCountFrom)
         res.addAttribute("partitionCountTo", "" + partitionCountTo)
         res.addAttribute("partitionIDFrom", "" + partitionIDFrom)
         res.addAttribute("partitionIDTo", "" + partitionIDTo)
+        val projectedXML = XMLElement("projectedVariables")
+        res.addContent(projectedXML)
+        for (variable in projectedVariables) {
+            projectedXML.addContent(XMLElement("variable").addAttribute("name", variable))
+        }
         return res
     }
 

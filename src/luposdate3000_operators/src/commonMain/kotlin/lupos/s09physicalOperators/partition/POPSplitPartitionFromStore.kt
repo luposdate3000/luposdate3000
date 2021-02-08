@@ -70,9 +70,15 @@ public class POPSplitPartitionFromStore public constructor(query: IQuery, projec
         } else {
             res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
         }
+        res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionVariable", partitionVariable)
         res.addAttribute("partitionCount", "" + partitionCount)
         res.addAttribute("partitionID", "" + partitionID)
+        val projectedXML = XMLElement("projectedVariables")
+        res.addContent(projectedXML)
+        for (variable in projectedVariables) {
+            projectedXML.addContent(XMLElement("variable").addAttribute("name", variable))
+        }
         return res
     }
 
