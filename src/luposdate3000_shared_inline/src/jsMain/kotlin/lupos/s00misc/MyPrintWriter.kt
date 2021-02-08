@@ -15,20 +15,24 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.MyPrintWriterMode
 import lupos.s00misc.MyPrintWriterModeExt
+
 internal actual open class _MyPrintWriter : IMyPrintWriter {
     val buffer = StringBuilder()
     val bufferMode: MyPrintWriterMode
     val fileName: String
     var file: Int
     var filePos: Int = 0
+
     constructor(fileName: String) {
         bufferMode = MyPrintWriterModeExt.FILE
         this.fileName = fileName
         file = ext.fs.openSync(fileName, "w")
     }
+
     actual constructor(hasBuffer: Boolean) {
         if (hasBuffer) {
             bufferMode = MyPrintWriterModeExt.BUFFER
@@ -38,6 +42,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         fileName = ""
         file = -1
     }
+
     actual override fun clearBuffer() {
         if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             buffer.clear()
@@ -45,6 +50,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
             throw Exception("not supported")
         }
     }
+
     actual override fun toString(): String {
         if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             return buffer.toString()
@@ -52,56 +58,66 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
             throw Exception("not supported")
         }
     }
+
     actual override fun println(x: String) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine(x)
         }
     }
+
     actual override fun print(x: String) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.append(x)
         }
     }
+
     actual override fun println(x: Boolean) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine(x)
         }
     }
+
     actual override fun print(x: Boolean) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.append(x)
         }
     }
+
     actual override fun println(x: Int) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine(x)
         }
     }
+
     actual override fun print(x: Int) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.append(x)
         }
     }
+
     actual override fun println(x: Double) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine(x)
         }
     }
+
     actual override fun print(x: Double) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.append(x)
         }
     }
+
     actual override fun println() {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine()
         }
     }
+
     actual override fun close() {
         if (bufferMode == MyPrintWriterModeExt.FILE) {
             val str = buffer.toString()
             val buf = str.encodeToByteArray()
-            if (buf.size> 0) {
+            if (buf.size > 0) {
                 ext.fs.writeSync(file, buf, 0, buf.size, filePos)
                 buffer.clear()
             }
@@ -109,11 +125,12 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
             file = -1
         }
     }
+
     actual override fun flush() {
         if (bufferMode == MyPrintWriterModeExt.FILE) {
             val str = buffer.toString()
             val buf = str.encodeToByteArray()
-            if (buf.size> 0) {
+            if (buf.size > 0) {
                 ext.fs.writeSync(file, buf, 0, buf.size, filePos)
                 buffer.clear()
                 filePos += buf.size

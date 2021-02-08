@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import kotlin.js.JsName
+
 @JsName("main")
 public fun main(args: Array<String>) {
     var flag = false

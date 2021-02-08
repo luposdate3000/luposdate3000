@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s05tripleStore
+
 import lupos.s00misc.EIndexPattern
+
 public interface ITripleStoreBulkImport {
     public fun getData(idx: EIndexPattern): IntArray
     public fun getIdx(): Int

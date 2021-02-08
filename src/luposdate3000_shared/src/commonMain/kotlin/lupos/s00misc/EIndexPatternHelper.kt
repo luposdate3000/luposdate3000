@@ -15,9 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
+
 public object EIndexPatternHelper {
-    @JvmField public val keyIndices: Array<IntArray> = Array(EIndexPatternExt.values_size) {
+    @JvmField
+    public val keyIndices: Array<IntArray> = Array(EIndexPatternExt.values_size) {
         when (it) {
             EIndexPatternExt.S_PO -> intArrayOf(0)
             EIndexPatternExt.SP_O -> intArrayOf(0, 1)
@@ -40,7 +43,9 @@ public object EIndexPatternHelper {
             else -> throw UnreachableException()
         }
     }
-    @JvmField public val valueIndices: Array<IntArray> = Array(EIndexPatternExt.values_size) {
+
+    @JvmField
+    public val valueIndices: Array<IntArray> = Array(EIndexPatternExt.values_size) {
         when (it) {
             EIndexPatternExt.S_PO -> intArrayOf(1, 2)
             EIndexPatternExt.SP_O -> intArrayOf(2)
@@ -63,7 +68,9 @@ public object EIndexPatternHelper {
             else -> throw UnreachableException()
         }
     }
-    @JvmField public val tripleIndicees: Array<IntArray> = Array(EIndexPatternExt.values_size) {
+
+    @JvmField
+    public val tripleIndicees: Array<IntArray> = Array(EIndexPatternExt.values_size) {
         when (it) {
             EIndexPatternExt.S_PO -> intArrayOf(0, 1, 2)
             EIndexPatternExt.SP_O -> intArrayOf(0, 1, 2)

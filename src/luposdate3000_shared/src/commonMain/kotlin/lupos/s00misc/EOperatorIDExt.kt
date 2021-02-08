@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
+
 public object EOperatorIDExt {
     public const val AOPAdditionID: EOperatorID = 0
     public const val AOPAggregationAVGID: EOperatorID = 1
@@ -151,7 +153,9 @@ public object EOperatorIDExt {
     public const val POPValuesID: EOperatorID = 131
     public const val TripleStoreIteratorGlobalID: EOperatorID = 132
     public const val values_size: Int = 133
-    @JvmField public val names: Array<String> = arrayOf(
+
+    @JvmField
+    public val names: Array<String> = arrayOf(
         "AOPAdditionID",
         "AOPAggregationAVGID",
         "AOPAggregationCOUNTID",

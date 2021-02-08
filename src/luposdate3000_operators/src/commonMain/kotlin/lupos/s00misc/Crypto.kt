@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 internal expect object Crypto {
     internal fun md5(value: String): String
     internal fun sha256(value: String): String

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04arithmetikOperators.noinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueDefinition
@@ -23,8 +24,10 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
+
 public class AOPBuildInCallBNODE0 public constructor(query: IQuery) : AOPBase(query, EOperatorIDExt.AOPBuildInCallBNODE0ID, "AOPBuildInCallBNODE0", arrayOf()) {
     override fun toSparql(): String = "BNODE()"
+
     @JvmField
     internal var localbnode = 0L
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallBNODE0
@@ -33,5 +36,6 @@ public class AOPBuildInCallBNODE0 public constructor(query: IQuery) : AOPBase(qu
             ValueBnode("" + uuid + localbnode++)
         }
     }
+
     override fun cloneOP(): IOPBase = this
 }

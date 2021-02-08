@@ -15,35 +15,49 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
+
 public class Partition {
     @JvmField
     public val data: MutableMap<String, Int>
+
     @JvmField
     public val limit: MutableMap<String, Int>
+
     public companion object {
         @JvmField
         public val estimatedPartitions0: MutableSet<String> = mutableSetOf() // for benchmarking enable the notpartitioned stores as well
+
         @JvmField
         public val estimatedPartitions1: MutableMap<String, MutableSet<Int>> = mutableMapOf()
+
         @JvmField
         public val estimatedPartitions2: MutableMap<String, MutableSet<Int>> = mutableMapOf()
+
         @JvmField
         public var estimatedPartitionsValid: Boolean = false
+
         @JvmField
         public var default_k: Int = 128
+
         @JvmField
         public val queue_size: Int = 1000
+
         @JvmField
         public var myProcessId: Int = Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()
+
         @JvmField
         public var myThreadCount: Int = Platform.getEnv("LUPOS_THREAD_COUNT", "1")!!.toInt()
+
         @JvmField
         public var myProcessUrls: List<String> = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80")!!.split(",")
+
         @JvmField
         public var myProcessCount: Int = myProcessUrls.size
+
         init {
-            val countTotal = if (myProcessCount> 1) {
+            val countTotal = if (myProcessCount > 1) {
                 if (myThreadCount != 1) {
                     throw Exception("either LUPOS_PROCESS_ID or LUPOS_THREAD_COUNT must be set to '1' - other combinations are currently not supported!")
                 }
@@ -57,7 +71,7 @@ public class Partition {
                     estimatedPartitions0.add(s)
                 }
                 estimatedPartitionsValid = true
-            } else if (countTotal> 1) {
+            } else if (countTotal > 1) {
                 for (s in listOf("SPO", "SOP", "PSO", "POS", "OSP", "OPS")) {
                     if (estimatedPartitions1[s] == null) {
                         estimatedPartitions1[s] = mutableSetOf()
@@ -73,10 +87,12 @@ public class Partition {
             println("initialized Partition with myProcessId=$myProcessId myProcessCount=$myProcessCount myThreadCount=$myThreadCount myProcessUrls=$myProcessUrls")
         }
     }
+
     public constructor() {
         data = mutableMapOf()
         limit = mutableMapOf()
     }
+
     public constructor(parentPartition: Partition, variableName: String, partitionNumber: Int, partitionLimit: Int) {
         val t = mutableMapOf<String, Int>()
         for ((k, v) in parentPartition.data) {
@@ -91,6 +107,7 @@ public class Partition {
         t2[variableName] = partitionLimit
         limit = t2
     }
+
     public constructor(parentPartition: Partition, variableName: String) {
         val t = mutableMapOf<String, Int>()
         for ((k, v) in parentPartition.data) {
@@ -107,6 +124,7 @@ public class Partition {
         }
         limit = t2
     }
+
     override fun equals(other: Any?): Boolean = other is Partition && data == other.data && limit == other.limit
     override fun hashCode(): Int = data.hashCode()
     public fun toXMLElement(partial: Boolean): XMLElement {

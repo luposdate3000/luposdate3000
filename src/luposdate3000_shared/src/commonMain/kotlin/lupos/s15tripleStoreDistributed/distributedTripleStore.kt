@@ -15,40 +15,53 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 @file:lupos.ProguardKeepAnnotation
+
 package lupos.s15tripleStoreDistributed
+
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
+
 @JvmField
 public var distributedTripleStore: IDistributedTripleStore = DummyDistributedTripleStore()
+
 public class DummyDistributedTripleStore public constructor() : IDistributedTripleStore {
     override fun reloadPartitioningScheme() {
         SanityCheck.checkUnreachable()
     }
+
     override fun getGraphNames(includeDefault: Boolean): List<String> {
         SanityCheck.checkUnreachable()
     }
+
     override /*suspend*/ fun createGraph(query: IQuery, name: String): IDistributedGraph {
         SanityCheck.checkUnreachable()
     }
+
     override /*suspend*/ fun dropGraph(query: IQuery, name: String) {
         SanityCheck.checkUnreachable()
     }
+
     override /*suspend*/ fun clearGraph(query: IQuery, name: String) {
         SanityCheck.checkUnreachable()
     }
+
     override /*suspend*/ fun getNamedGraph(query: IQuery, name: String): IDistributedGraph {
         SanityCheck.checkUnreachable()
     }
+
     override fun getDefaultGraph(query: IQuery): IDistributedGraph {
         SanityCheck.checkUnreachable()
     }
+
     override /*suspend*/ fun commit(query: IQuery) {
         SanityCheck.checkUnreachable()
     }
+
     override fun getLocalStore(): IPersistentStoreLocal {
         SanityCheck.checkUnreachable()
     }
+
     override fun getGraphNames(): List<String> {
         return getGraphNames(false)
     }

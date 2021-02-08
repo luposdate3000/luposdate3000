@@ -15,15 +15,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import java.util.Calendar
 import kotlin.jvm.JvmField
+
 internal actual class _DateHelper actual constructor() {
     @JvmField
     internal val time = Calendar.getInstance()
-    @Suppress("NOTHING_TO_INLINE") internal actual inline fun year(): Int = time.get(Calendar.YEAR)
-    @Suppress("NOTHING_TO_INLINE") internal actual inline fun month(): Int = time.get(Calendar.MONTH)
-    @Suppress("NOTHING_TO_INLINE") internal actual inline fun day(): Int = time.get(Calendar.DAY_OF_MONTH)
-    @Suppress("NOTHING_TO_INLINE") internal actual inline fun hours(): Int = time.get(Calendar.HOUR)
-    @Suppress("NOTHING_TO_INLINE") internal actual inline fun minutes(): Int = time.get(Calendar.MINUTE)
-    @Suppress("NOTHING_TO_INLINE") internal actual inline fun seconds(): Int = time.get(Calendar.SECOND)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun year(): Int = time.get(Calendar.YEAR)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun month(): Int = time.get(Calendar.MONTH)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun day(): Int = time.get(Calendar.DAY_OF_MONTH)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun hours(): Int = time.get(Calendar.HOUR)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun minutes(): Int = time.get(Calendar.MINUTE)
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun seconds(): Int = time.get(Calendar.SECOND)
 }

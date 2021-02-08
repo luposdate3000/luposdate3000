@@ -15,9 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s15tripleStoreDistributed
+
 import lupos.s04logicalOperators.IQuery
 import lupos.s05tripleStore.EnabledPartitionContainer
 import lupos.s05tripleStore.ITripleStoreLocalBase
+
 public interface IPersistentStoreLocal {
     public fun getGraphNames(): List<String>
     public fun getGraphNames(includeDefault: Boolean): List<String>

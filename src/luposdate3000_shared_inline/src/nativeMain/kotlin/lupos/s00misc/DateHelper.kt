@@ -15,9 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.s00misc.NotImplementedException
+
 internal actual class _DateHelper {
     actual constructor() {}
+
     internal actual inline fun year(): Int = throw NotImplementedException("DateHelper", "year not implemented")
     internal actual inline fun month(): Int = throw NotImplementedException("DateHelper", "month not implemented")
     internal actual inline fun day(): Int = throw NotImplementedException("DateHelper", "day not implemented")

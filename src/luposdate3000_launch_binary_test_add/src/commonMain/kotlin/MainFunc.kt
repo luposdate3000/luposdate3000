@@ -19,6 +19,7 @@ import lupos.s00misc.BinaryTestCaseOutputModeExt
 import lupos.s00misc.Parallel
 import lupos.s16network.LuposdateEndpoint
 import kotlin.js.JsName
+
 @JsName("mainFunc")
 public fun mainFunc(args: Array<String>) {
     LuposdateEndpoint.initialize()

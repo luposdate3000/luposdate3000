@@ -15,17 +15,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
-public class MemoryTable public constructor (@JvmField public val columns: Array<String>) {
+
+public class MemoryTable public constructor(@JvmField public val columns: Array<String>) {
     @JvmField
     public val data: MutableList<IntArray> = mutableListOf()
+
     @JvmField
     public var booleanResult: Boolean? = null
+
     @JvmField
     public var query: IQuery? = null
+
     public companion object {
-        @Suppress("NOTHING_TO_INLINE") internal inline operator fun invoke(a: MemoryTable, b: MemoryTable): MemoryTable {
+        @Suppress("NOTHING_TO_INLINE")
+        internal inline operator fun invoke(a: MemoryTable, b: MemoryTable): MemoryTable {
             if (a.columns.size != b.columns.size) {
                 throw Exception("incompatible input")
             }

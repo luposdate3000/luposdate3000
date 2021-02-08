@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators.singleinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.GroupByColumnMissing
@@ -30,9 +31,12 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
+
 public class LOPGroup public constructor(query: IQuery, @JvmField public var by: List<AOPVariable>) : LOPBase(query, EOperatorIDExt.LOPGroupID, "LOPGroup", arrayOf(OPEmptyRow(query)), ESortPriorityExt.GROUP) {
     override fun childrenToVerifyCount(): Int = 1
-    @JvmField public var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf()
+
+    @JvmField
+    public var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf()
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         /*possibilities for_ next operator*/
         val res = mutableListOf<List<SortHelper>>()
@@ -50,10 +54,12 @@ public class LOPGroup public constructor(query: IQuery, @JvmField public var by:
         }
         return res
     }
+
     public constructor(query: IQuery, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: IOPBase) : this(query, by) {
         this.bindings = bindings.toMutableList()
         children[0] = child
     }
+
     public constructor(query: IQuery, by: List<AOPVariable>, bindings: IOPBase?, child: IOPBase) : this(query, by) {
         var b = bindings
         while (b != null) {
@@ -68,6 +74,7 @@ public class LOPGroup public constructor(query: IQuery, @JvmField public var by:
         this.bindings = this.bindings.asReversed()
         children[0] = child
     }
+
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         children[0].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
         SanityCheck.check { additionalProvided.isEmpty() }
@@ -111,9 +118,11 @@ public class LOPGroup public constructor(query: IQuery, @JvmField public var by:
             }
         }
     }
+
     override fun getProvidedVariableNames(): List<String> {
         return (bindings.map { it.first } + Array(by.size) { by[it].name }).distinct()
     }
+
     override fun getRequiredVariableNames(): List<String> {
         val res = mutableListOf<String>()
         for (b in bindings) {
@@ -124,6 +133,7 @@ public class LOPGroup public constructor(query: IQuery, @JvmField public var by:
         }
         return res.distinct()
     }
+
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         val res = super.toXMLElement(partial)
         val byxml = XMLElement("LocalBy")
@@ -138,6 +148,7 @@ public class LOPGroup public constructor(query: IQuery, @JvmField public var by:
         }
         return res
     }
+
     override fun equals(other: Any?): Boolean = other is LOPGroup && children[0] == other.children[0] && by == other.by && bindings == other.bindings
     override fun cloneOP(): IOPBase = LOPGroup(query, by, bindings.map { it }, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {

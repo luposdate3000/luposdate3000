@@ -15,32 +15,44 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
+
 @OptIn(ExperimentalStdlibApi::class)
 internal class ByteArrayBuilder {
     internal companion object {
         @JvmField
         var debuguuidtmp = 0L
     }
+
     @JvmField
     var uuid = debuguuidtmp++
+
     @JvmField
     var capacity = 128
+
     @JvmField
     var data = ByteArray(capacity)
+
     @JvmField
     var size = 0
-    @Suppress("NOTHING_TO_INLINE") internal inline fun build(): ByteArrayRead {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun build(): ByteArrayRead {
         SanityCheck.println { "ByteArrayBuilder($uuid).build with size $size and capacity $capacity" }
         return ByteArrayRead(data, size)
     }
-    @Suppress("NOTHING_TO_INLINE") internal inline fun reset() {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun reset() {
         SanityCheck.println { "ByteArrayBuilder($uuid).reset" }
         capacity = 128
         data = ByteArray(capacity)
         size = 0
     }
-    @Suppress("NOTHING_TO_INLINE") internal inline fun writeByte(b: Byte) {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeByte(b: Byte) {
         if (size + 1 > capacity) {
             data += ByteArray(capacity)
             capacity *= 2
@@ -49,7 +61,9 @@ internal class ByteArrayBuilder {
         ByteArrayHelper.writeInt1(data, size, b.toInt() and 0xFF)
         size += 1
     }
-    @Suppress("NOTHING_TO_INLINE") internal inline fun writeChar(c: Char) {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeChar(c: Char) {
         if (size + 2 > capacity) {
             data += ByteArray(capacity)
             capacity *= 2
@@ -58,7 +72,9 @@ internal class ByteArrayBuilder {
         ByteArrayHelper.writeChar(data, size, c)
         size += 2
     }
-    @Suppress("NOTHING_TO_INLINE") internal inline fun writeInt(i: Int) {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeInt(i: Int) {
         if (size + 4 > capacity) {
             data += ByteArray(capacity)
             capacity *= 2
@@ -67,7 +83,9 @@ internal class ByteArrayBuilder {
         ByteArrayHelper.writeInt4(data, size, i)
         size += 4
     }
-    @Suppress("NOTHING_TO_INLINE") internal inline fun writeLong(l: Long) {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeLong(l: Long) {
         if (size + 8 > capacity) {
             data += ByteArray(capacity)
             capacity *= 2
@@ -76,7 +94,9 @@ internal class ByteArrayBuilder {
         ByteArrayHelper.writeLong8(data, size, l)
         size += 8
     }
-    @Suppress("NOTHING_TO_INLINE") internal inline fun writeString(s: String) {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun writeString(s: String) {
         val tmp = s.toCharArray()
         writeInt(tmp.size)
         tmp.forEach {

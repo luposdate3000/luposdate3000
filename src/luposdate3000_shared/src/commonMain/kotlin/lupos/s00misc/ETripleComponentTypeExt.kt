@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
+
 public object ETripleComponentTypeExt {
     public const val BLANK_NODE: ETripleComponentType = 0
     public const val BOOLEAN: ETripleComponentType = 1
@@ -27,7 +29,9 @@ public object ETripleComponentTypeExt {
     public const val STRING_LANG: ETripleComponentType = 7
     public const val STRING_TYPED: ETripleComponentType = 8
     public const val values_size: Int = 9
-    @JvmField public val names: Array<String> = arrayOf(
+
+    @JvmField
+    public val names: Array<String> = arrayOf(
         "BLANK_NODE",
         "BOOLEAN",
         "DECIMAL",

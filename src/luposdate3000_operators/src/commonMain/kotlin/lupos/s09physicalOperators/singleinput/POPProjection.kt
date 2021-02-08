@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s09physicalOperators.singleinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
@@ -26,6 +27,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
+
 public class POPProjection public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPProjectionID, "POPProjection", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
     override fun toSparql(): String {
@@ -38,6 +40,7 @@ public class POPProjection public constructor(query: IQuery, projectedVariables:
         res += "}}"
         return res
     }
+
     override fun cloneOP(): IOPBase = POPProjection(query, projectedVariables, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPProjection && projectedVariables == other.projectedVariables && children[0] == other.children[0]
     override fun getProvidedVariableNamesInternal(): List<String> = projectedVariables
@@ -63,6 +66,7 @@ public class POPProjection public constructor(query: IQuery, projectedVariables:
                     override /*suspend*/ fun hasNext2(): Boolean {
                         return column.next() != ResultSetDictionaryExt.nullValue
                     }
+
                     override /*suspend*/ fun hasNext2Close() {
                         column.close()
                     }

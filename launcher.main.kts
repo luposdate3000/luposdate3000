@@ -25,6 +25,7 @@
 @file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
 @file:Import("src/luposdate3000_scripting/parsergenerator.kt")
 @file:CompilerOptions("-Xmulti-platform")
+
 import lupos.s00misc.EOperatingSystemExt
 import lupos.s00misc.Platform
 import java.io.File
@@ -35,6 +36,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.util.jar.JarFile
+
 var compileModuleArgs = mutableMapOf<String, MutableMap<String, String>>()
 var releaseMode = ""
 var suspendMode = ""
@@ -53,16 +55,21 @@ var skipArgs = false
 var compileSpecific: String? = null
 var threadCount = 1
 var processUrls = ""
+
 enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, ALL_TEST, UNKNOWN }
+
 var execMode = ExecMode.UNKNOWN
+
 enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
 class PartitionModesHelper(val label: String, val option: String, val enabled: () -> Boolean)
+
 val partitionModes = listOf(
     PartitionModesHelper("_NoPartitions", "lupos.s00misc.EPartitionModeExt.None", { true }),
     PartitionModesHelper("_WithThreadPartitions", "lupos.s00misc.EPartitionModeExt.Thread", { intellijMode != "Enable" }),
     PartitionModesHelper("_WithProcessPartitions", "lupos.s00misc.EPartitionModeExt.Process", { intellijMode != "Enable" }),
 )
-fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
+
+fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
     var releaseMode2 = ReleaseMode.valueOf(releaseMode)
     var suspendMode2 = SuspendMode.valueOf(suspendMode)
     var inlineMode2 = InlineMode.valueOf(inlineMode)
@@ -77,7 +84,7 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
         .ssetTarget(target2)
         .ssetIdeaBuildfile(intellijMode2)
         .ssetCodegen(false)
-    var res = mutableListOf<Pair<CreateModuleArgs, ()->Boolean>>()
+    var res = mutableListOf<Pair<CreateModuleArgs, () -> Boolean>>()
     res.add(
         Pair(
             localArgs
@@ -320,6 +327,7 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, ()->Boolean>> {
     )
     return res
 }
+
 class ParamClass {
     val name: String
     val default: String
@@ -328,6 +336,7 @@ class ParamClass {
     val action2: (String) -> Unit
     val mode: ParamClassMode
     var additionalHelp: (String) -> Unit = {}
+
     constructor (name: String, default: String, values: Map<String, () -> Unit>) {
         this.name = name
         this.default = default
@@ -336,6 +345,7 @@ class ParamClass {
         this.action2 = {}
         this.mode = ParamClassMode.VALUES
     }
+
     constructor(name: String, action: () -> Unit) {
         this.name = name
         this.default = ""
@@ -344,6 +354,7 @@ class ParamClass {
         this.action2 = {}
         this.mode = ParamClassMode.NO_VALUE
     }
+
     constructor(name: String, default: String, action: (String) -> Unit) {
         this.name = name
         this.default = default
@@ -352,15 +363,18 @@ class ParamClass {
         this.action = {}
         this.mode = ParamClassMode.FREE_VALUE
     }
+
     fun setAdditionalHelp(additionalHelp: (String) -> Unit): ParamClass {
         this.additionalHelp = additionalHelp
         return this
     }
+
     fun execDefault() {
         if (mode == ParamClassMode.VALUES) {
             values[default]!!()
         }
     }
+
     fun exec(arg: String) {
         when (mode) {
             ParamClassMode.VALUES -> {
@@ -385,10 +399,11 @@ class ParamClass {
             }
         }
     }
+
     fun help(indention: String = "") {
         when (mode) {
             ParamClassMode.VALUES -> {
-                println("$indention  $name=${values.keys.map{it}.toString().replace("[","<").replace("]",">").replace(", ","|")}  default=$default")
+                println("$indention  $name=${values.keys.map { it }.toString().replace("[", "<").replace("]", ">").replace(", ", "|")}  default=$default")
             }
             ParamClassMode.NO_VALUE -> {
                 println("$indention  $name")
@@ -400,6 +415,7 @@ class ParamClass {
         additionalHelp("$indention  ")
     }
 }
+
 fun getAllModuleSpecificParams(): List<ParamClass> {
     val res = mutableListOf<ParamClass>()
     for ((module, cond) in getAllModuleConfigurations()) {
@@ -437,6 +453,7 @@ fun getAllModuleSpecificParams(): List<ParamClass> {
     }
     return res
 }
+
 val compileParams = mutableListOf<ParamClass>()
 var enabledParams = mutableListOf<ParamClass>()
 val defaultParams = mutableListOf(
@@ -671,6 +688,7 @@ val defaultParams = mutableListOf(
         }
     ),
 )
+
 fun enableParams(params: List<ParamClass>) {
     for (param in params) {
         param.execDefault()
@@ -679,7 +697,7 @@ fun enableParams(params: List<ParamClass>) {
 }
 enableParams(defaultParams)
 enableParams(getAllModuleSpecificParams())
-loop@for (arg in args) {
+loop@ for (arg in args) {
     for (param in enabledParams) {
         if (arg.startsWith(param.name + "=")) {
             param.exec(arg)
@@ -744,6 +762,7 @@ fun onHelp() {
         param.help()
     }
 }
+
 fun onCompile() {
     println(compileModuleArgs)
     var foundit = false
@@ -764,13 +783,14 @@ fun onCompile() {
             }
         }
     }
-    if (compileModuleArgs.size> 0) {
+    if (compileModuleArgs.size > 0) {
         for ((k, v) in compileModuleArgs) {
             println("unknown module argument '$k'")
         }
         throw Exception("there are unkown arguments")
     }
 }
+
 fun onSetupIntellijIdea() {
     File(".idea").deleteRecursively()
     File("log").mkdirs()
@@ -805,6 +825,7 @@ fun onSetupIntellijIdea() {
         }
     }
 }
+
 fun onRun() {
     File("log").mkdirs()
     when (target) {
@@ -828,7 +849,7 @@ fun onRun() {
             val jars = mutableSetOf<String>()
             for (jar in jarsLuposdate3000) {
                 jars.add(jar)
-                File("${jar.substring(0,jar.length - 4 - proguardMode.length)}.classpath").forEachLine {
+                File("${jar.substring(0, jar.length - 4 - proguardMode.length)}.classpath").forEachLine {
                     jars.add(it)
                 }
             }
@@ -881,6 +902,7 @@ fun onRun() {
             File("build-cache${Platform.getPathSeparator()}node_modules").deleteRecursively()
             File("build-cache${Platform.getPathSeparator()}node_modules").mkdirs()
             class JSHelper(val path: String, val name: String)
+
             var files = mutableListOf(
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Endpoint.js"),
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Operators.js"),
@@ -917,6 +939,7 @@ fun onRun() {
         }
     }
 }
+
 fun onGenerateParser() {
     val turtleGeneratingArgs = arrayOf(
         listOf("PARSER_CONTEXT"),
@@ -1017,6 +1040,7 @@ fun onGenerateParser() {
     ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage,)
     ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage,)
 }
+
 fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: String, fileName: String) {
     val mapping2 = mutableListOf<String>()
     var id = 0
@@ -1077,6 +1101,7 @@ fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: Strin
         out.println("}")
     }
 }
+
 fun onGenerateEnums() {
     val turtleGeneratingArgs = arrayOf(
         listOf("MyPrintWriterMode", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}MyPrintWriterMode"),
@@ -1106,6 +1131,7 @@ fun onGenerateEnums() {
         onGenerateEnumsHelper(args[0], args[1], args[2], args[3])
     }
 }
+
 fun onGenerateLauncherMain() {
     for ((module, cond) in getAllModuleConfigurations()) {
         if (module.modulePrefix == "Luposdate3000_Main") {
@@ -1161,7 +1187,7 @@ fun onGenerateLauncherMain() {
                         for (i in 0 until options.size - 1) {
                             s += "${options[i]}, "
                         }
-                        if (options.size> 0) {
+                        if (options.size > 0) {
                             s += "${options[options.size - 1]}"
                         }
                         s += ")"
@@ -1173,14 +1199,16 @@ fun onGenerateLauncherMain() {
         }
     }
 }
+
 fun copyFromJar(source: InputStream, dest: String) {
     val out = FileOutputStream(dest)
-    while (source.available()> 0) {
+    while (source.available() > 0) {
         out.write(source.read())
     }
     out.close()
     source.close()
 }
+
 fun copyJSLibsIntoFolder(targetFolder: String) {
     val jsStdlib = JarFile(File("${Platform.getMavenCache()}${Platform.getPathSeparator()}org${Platform.getPathSeparator()}jetbrains${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}kotlin-stdlib-js${Platform.getPathSeparator()}$compilerVersion${Platform.getPathSeparator()}kotlin-stdlib-js-$compilerVersion.jar"))
     copyFromJar(jsStdlib.getInputStream(jsStdlib.getEntry("kotlin.js")), "${targetFolder}${Platform.getPathSeparator()}kotlin.js")
@@ -1189,6 +1217,7 @@ fun copyJSLibsIntoFolder(targetFolder: String) {
     copyFromJar(kryptoLib.getInputStream(kryptoLib.getEntry("krypto-root-krypto.js")), "${targetFolder}${Platform.getPathSeparator()}krypto-root-krypto.js")
     copyFromJar(kryptoLib.getInputStream(kryptoLib.getEntry("krypto-root-krypto.js.map")), "${targetFolder}${Platform.getPathSeparator()}krypto-root-krypto.js.map")
 }
+
 fun onSetupJS() {
     onCompile()
     copyJSLibsIntoFolder("build-cache")
@@ -1222,6 +1251,7 @@ fun onSetupJS() {
         out.println("</html>")
     }
 }
+
 fun find(path: String, fName: String): File? {
     val f = File(path)
     if (fName == f.getName()) {
@@ -1237,6 +1267,7 @@ fun find(path: String, fName: String): File? {
     }
     return null
 }
+
 fun onAllTest() {
     for (r in listOf("Enable", "Disable")) {
         for (i in listOf("Enable", "Disable")) {

@@ -15,10 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.NotImplementedException
+
 internal actual class _MyPrintWriter : IMyPrintWriter {
     actual constructor(hasBuffer: Boolean)
+
     actual override fun clearBuffer(): Unit = throw NotImplementedException("MyPrintWriter", "xyz not implemented")
     actual override fun toString(): String = throw NotImplementedException("MyPrintWriter", "xyz not implemented")
     actual override fun println(x: String): Unit = throw NotImplementedException("MyPrintWriter", "xyz not implemented")

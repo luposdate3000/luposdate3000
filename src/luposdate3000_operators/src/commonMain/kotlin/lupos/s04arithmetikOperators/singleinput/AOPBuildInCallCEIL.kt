@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04arithmetikOperators.singleinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueDecimal
@@ -28,6 +29,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.math.ceil
+
 public class AOPBuildInCallCEIL public constructor(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallCEILID, "AOPBuildInCallCEIL", arrayOf(child)) {
     // return integer which is equal or larger than input
     override fun toSparql(): String = "CEIL(" + children[0].toSparql() + ")"
@@ -63,5 +65,6 @@ public class AOPBuildInCallCEIL public constructor(query: IQuery, child: AOPBase
             res
         }
     }
+
     override fun cloneOP(): IOPBase = AOPBuildInCallCEIL(query, children[0].cloneOP() as AOPBase)
 }

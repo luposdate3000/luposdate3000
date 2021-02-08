@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s09physicalOperators.singleinput.modifiers
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
@@ -27,11 +28,13 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
+
 public class POPLimit public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val limit: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPLimitID, "POPLimit", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int {
         SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
         return 1
     }
+
     override fun toSparql(): String {
         val sparql = children[0].toSparql()
         if (sparql.startsWith("{SELECT ")) {
@@ -39,6 +42,7 @@ public class POPLimit public constructor(query: IQuery, projectedVariables: List
         }
         return "{SELECT * {$sparql} LIMIT $limit}"
     }
+
     override fun equals(other: Any?): Boolean = other is POPLimit && limit == other.limit && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = POPLimit(query, projectedVariables, limit, children[0].cloneOP())
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
@@ -49,8 +53,10 @@ public class POPLimit public constructor(query: IQuery, projectedVariables: List
             val tmp = object : ColumnIterator() {
                 @JvmField
                 var count = 0
+
                 @JvmField
                 val iterator = child.columns[variable]!!
+
                 @JvmField
                 var label = 1
                 override /*suspend*/ fun next(): Int {
@@ -66,12 +72,15 @@ public class POPLimit public constructor(query: IQuery, projectedVariables: List
                         ResultSetDictionaryExt.nullValue
                     }
                 }
-                @Suppress("NOTHING_TO_INLINE") /*suspend*/ inline fun _close() {
+
+                @Suppress("NOTHING_TO_INLINE")
+                /*suspend*/ inline fun _close() {
                     if (label != 0) {
                         label = 0
                         iterator.close()
                     }
                 }
+
                 override /*suspend*/ fun close() {
                     _close()
                 }
@@ -80,5 +89,6 @@ public class POPLimit public constructor(query: IQuery, projectedVariables: List
         }
         return IteratorBundle(outMap)
     }
+
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("limit", "" + limit)
 }

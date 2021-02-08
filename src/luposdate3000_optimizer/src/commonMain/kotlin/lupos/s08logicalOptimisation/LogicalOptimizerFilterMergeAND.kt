@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s08logicalOptimisation
+
 import lupos.s00misc.BugException
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.SanityCheck
@@ -27,6 +28,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPFilter
+
 public class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterMergeANDID) {
     override val classname: String = "LogicalOptimizerFilterMergeAND"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
@@ -76,6 +78,7 @@ public class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query,
         }
         return res
     }
+
     private fun containsBound(filter: AOPBase): Boolean {
         if (filter is AOPBuildInCallBOUND) {
             return true

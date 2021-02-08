@@ -15,10 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s05tripleStore
+
 import lupos.s00misc.EModifyType
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
+
 public interface ITripleStoreLocalBase {
     public fun dropStore()
     public fun getEnabledPartitions(): Array<EnabledPartitionContainer>

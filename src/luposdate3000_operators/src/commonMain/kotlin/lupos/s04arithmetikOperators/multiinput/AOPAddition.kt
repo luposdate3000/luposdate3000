@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04arithmetikOperators.multiinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.SanityCheck
@@ -28,6 +29,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
+
 public class AOPAddition public constructor(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorIDExt.AOPAdditionID, "AOPAddition", arrayOf(childA, childB)) {
     override fun toSparql(): String = "(" + children[0].toSparql() + " + " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPAddition && children[0] == other.children[0] && children[1] == other.children[1]
@@ -56,5 +58,6 @@ public class AOPAddition public constructor(query: IQuery, childA: AOPBase, chil
             res
         }
     }
+
     override fun cloneOP(): IOPBase = AOPAddition(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

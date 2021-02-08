@@ -15,9 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators.iterator
+
 import lupos.s00misc.MERGE_SORT_MIN_ROWS
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
+
 public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmField public val b: RowIterator, @JvmField public val comparator: Comparator<Int>, @JvmField public val compCount: Int) : RowIterator() {
     public companion object {
         public /*suspend*/ operator fun invoke(a: RowIterator, comparator: Comparator<Int>, compCount: Int, columns: Array<String>): RowIterator {
@@ -167,12 +169,16 @@ public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmFiel
             return resultList[resultList.size - 1]!!
         }
     }
+
     @JvmField
     public var flag: Int = 3
+
     @JvmField
     public var aIdx: Int = -1
+
     @JvmField
     public var bIdx: Int = -1
+
     init {
         SanityCheck {
             SanityCheck.check { a.columns.size == b.columns.size }
@@ -284,6 +290,7 @@ public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmFiel
             res
         }
     }
+
     private inline fun compare(crossinline actionA: () -> Unit, crossinline actionB: () -> Unit) {
         var i = 0
         while (i < compCount) {

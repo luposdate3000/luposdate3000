@@ -18,6 +18,7 @@
 @file:Import("../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleComponentType.kt")
 @file:Import("../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleComponentTypeExt.kt")
 @file:CompilerOptions("-Xmulti-platform")
+
 import lupos.s00misc.ETripleComponentTypeExt
 import java.io.BufferedOutputStream
 import java.io.DataOutputStream
@@ -28,11 +29,12 @@ import java.lang.ProcessBuilder.Redirect
 import java.text.DecimalFormat
 import kotlin.math.log2
 import kotlin.math.pow
+
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // config options -> /////////////////////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 val tmpFolder = "tmp_fig5_data" // point to a folder with enough storage space available
-val minimumTime = 10.0	// the minimum time (in seconds) for a single measurement
+val minimumTime = 10.0 // the minimum time (in seconds) for a single measurement
 val resultFolder = "fig5_result_data" // the folder where the results of the measurements are stored
 val outputCountList = listOf(512, 2048, 8192, 32768) // number of result rows
 val joinCountList = listOf(1, 2, 4, 8, 16) // number of consekutive executed joins
@@ -154,10 +156,10 @@ if (enableGrapic) {
             out.println("set yrange [-0.5:17.5]")
             out.println("unset xtics")
             out.println("set xtics format \" \"")
-            out.println("set xtics (${File(File(resultFolder),"plot.XLabels").readText()})")
+            out.println("set xtics (${File(File(resultFolder), "plot.XLabels").readText()})")
             out.println("unset ytics")
             out.println("set ytics format \" \"")
-            out.println("set ytics (${File(File(resultFolder),"plot.YLabels").readText()})")
+            out.println("set ytics (${File(File(resultFolder), "plot.YLabels").readText()})")
             out.println("set palette model RGB maxcolors 5")
             out.println("set palette defined ( 0 0.5 0.5 0.5, 1 1 1 1 )")
             out.println("set logscale cb 2")
@@ -207,6 +209,7 @@ fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block
         idMapping[s] = idMappingCounter++
         return idMapping[s]!!
     }
+
     fun appendTriple(s: String, p: String, o: String) {
         val si = writeToDict(s)
         val pi = writeToDict(p)
@@ -255,6 +258,7 @@ fun generateTriples(folderName: String, count: Int, trash_block: Int, join_block
     outIntermediateTriples.close()
     return outIntermediateTriplesStatCounter
 }
+
 fun extractData(filename: String, output_count: String) {
     val data = mutableMapOf<Int/*trash or join*/, MutableMap<Int/*joincount*/, MutableMap<Int/*partitions*/, Double>>>()
     val data_trash_or_join = mutableSetOf<Int>(
@@ -437,7 +441,7 @@ fun extractData(filename: String, output_count: String) {
                     }
                     j++
                 }
-                if (row.length> 0) {
+                if (row.length > 0) {
                     outMap.println(row.substring(1))
                 }
                 i++
@@ -466,6 +470,7 @@ fun extractData(filename: String, output_count: String) {
         i++
     }
 }
+
 fun doubleToString(d: Double): String {
     return DecimalFormat("#.##").format(d)
 }

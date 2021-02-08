@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04arithmetikOperators.singleinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.MyBigInteger
 import lupos.s03resultRepresentation.ValueDefinition
@@ -27,6 +28,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
+
 public class AOPBuildInCallSTRLEN public constructor(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallSTRLENID, "AOPBuildInCallSTRLEN", arrayOf(child)) {
     override fun toSparql(): String = "STRLEN(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallSTRLEN && children[0] == other.children[0]
@@ -48,5 +50,6 @@ public class AOPBuildInCallSTRLEN public constructor(query: IQuery, child: AOPBa
             res
         }
     }
+
     override fun cloneOP(): IOPBase = AOPBuildInCallSTRLEN(query, children[0].cloneOP() as AOPBase)
 }

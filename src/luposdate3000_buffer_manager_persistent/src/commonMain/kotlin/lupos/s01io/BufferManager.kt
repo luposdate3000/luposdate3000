@@ -15,8 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s01io
+
 public expect class BufferManager {
     internal constructor(name: String)
+
     /*suspend*/ public fun clear()
     public fun releasePage(pageid: Int)
     public fun getPage(pageid: Int): ByteArray

@@ -15,15 +15,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
+
 internal object _ColumnIteratorQueueExt {
-    @Suppress("NOTHING_TO_INLINE") internal inline fun _close(it: ColumnIteratorQueue) {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun _close(it: ColumnIteratorQueue) {
         if (it.label != 0) {
             it.label = 0
             it.queue.clear()
         }
     }
+
     /*suspend*/ internal inline fun nextHelper(it: ColumnIteratorQueue, crossinline onEmptyQueue: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): Int {
         when (it.label) {
             1 -> {
@@ -52,7 +56,9 @@ internal object _ColumnIteratorQueueExt {
             }
         }
     }
-    @Suppress("NOTHING_TO_INLINE") internal inline fun closeOnEmptyQueue(it: ColumnIteratorQueue) {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun closeOnEmptyQueue(it: ColumnIteratorQueue) {
         if (it.label != 0) {
             it.label = 2
         }

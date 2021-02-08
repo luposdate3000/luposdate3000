@@ -15,8 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s08logicalOptimisation
+
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s04logicalOperators.Query
+
 public class LogicalOptimizer public constructor(query: Query) : OptimizerCompoundBase(query, EOptimizerIDExt.LogicalOptimizerID) {
     override val classname: String = "LogicalOptimizer"
     override val childrenOptimizers: Array<Array<OptimizerBase>> = arrayOf( //

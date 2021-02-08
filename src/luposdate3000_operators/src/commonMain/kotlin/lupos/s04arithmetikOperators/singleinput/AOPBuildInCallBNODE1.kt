@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04arithmetikOperators.singleinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueDefinition
@@ -22,6 +23,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
+
 public class AOPBuildInCallBNODE1 public constructor(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallBNODE1ID, "AOPBuildInCallBNODE1", arrayOf(child)) {
     override fun toSparql(): String = "BNODE(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallBNODE1 && children[0] == other.children[0]
@@ -32,5 +34,6 @@ public class AOPBuildInCallBNODE1 public constructor(query: IQuery, child: AOPBa
             ValueBnode("" + uuid + a.valueToString())
         }
     }
+
     override fun cloneOP(): IOPBase = AOPBuildInCallBNODE1(query, children[0].cloneOP() as AOPBase)
 }

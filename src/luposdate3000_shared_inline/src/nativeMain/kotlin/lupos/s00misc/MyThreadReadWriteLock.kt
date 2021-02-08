@@ -15,31 +15,40 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.s00misc.NotImplementedException
+
 internal actual class MyThreadReadWriteLock {
     internal companion object {
         var uuidCounter = 0L
     }
+
     val uuid = uuidCounter++
     internal actual inline fun getUUID() = uuid
     internal actual inline fun downgradeToReadLock() {
         throw NotImplementedException("MyThreadReadWriteLock", "downgradeToReadLock not implemented")
     }
+
     internal actual inline fun readLock() {
         throw NotImplementedException("MyThreadReadWriteLock", "readLock not implemented")
     }
+
     internal actual inline fun readUnlock() {
         throw NotImplementedException("MyThreadReadWriteLock", "readUnlock not implemented")
     }
+
     internal actual inline fun writeLock() {
         throw NotImplementedException("MyThreadReadWriteLock", "writeLock not implemented")
     }
+
     internal actual inline fun tryWriteLock(): Boolean {
         throw NotImplementedException("MyThreadReadWriteLock", "tryWriteLock not implemented")
     }
+
     internal actual inline fun writeUnlock() {
         throw NotImplementedException("MyThreadReadWriteLock", "writeUnlock not implemented")
     }
+
     internal actual inline fun <T> withReadLock(crossinline action: () -> T): T {
         readLock()
         try {
@@ -48,6 +57,7 @@ internal actual class MyThreadReadWriteLock {
             readUnlock()
         }
     }
+
     internal actual inline fun <T> withWriteLock(crossinline action: () -> T): T {
         writeLock()
         try {

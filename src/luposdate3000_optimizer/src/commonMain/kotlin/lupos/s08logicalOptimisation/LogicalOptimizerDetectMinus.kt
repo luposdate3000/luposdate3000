@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s08logicalOptimisation
+
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -27,6 +28,7 @@ import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
+
 public class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerDetectMinusID) {
     override val classname: String = "LogicalOptimizerDetectMinus"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
@@ -79,6 +81,7 @@ public class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EO
         }
         return res
     }
+
     private fun searchForOptionalJoin(node: IOPBase, variableName: String, action: (IOPBase, Int) -> Unit) {
         for (c in node.getChildren().indices) {
             val child = node.getChildren()[c]

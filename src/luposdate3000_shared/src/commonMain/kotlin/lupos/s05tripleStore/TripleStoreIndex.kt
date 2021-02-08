@@ -15,10 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s05tripleStore
+
 import lupos.s00misc.HistogramNotImplementedException
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
+
 public abstract class TripleStoreIndex(@JvmField public val store_root_page_id: Int) {
     public abstract fun dropIndex()
     public /*suspend*/ abstract fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle
@@ -36,6 +38,7 @@ public abstract class TripleStoreIndex(@JvmField public val store_root_page_id: 
             i += 3
         }
     }
+
     public /*suspend*/ open fun removeAsBulk(data: IntArray, order: IntArray) {
         var i = 0
         while (i < data.size) {

@@ -23,18 +23,23 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
+
 enum class ReleaseMode {
     Enable, Disable
 }
+
 enum class DryMode {
     Enable, Disable
 }
+
 enum class TargetMode {
     JVM, JS, Native, All
 }
+
 enum class IntellijMode {
     Enable, Disable
 }
+
 val compilerVersion = "1.5.255-SNAPSHOT"
 val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
 private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, appendix: String, out: PrintWriter) {
@@ -47,7 +52,7 @@ private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, a
                 }
                 out.println("                implementation(project(\":src:${t}\"))")
             } else {
-                out.println("                compileOnly(\"${d.replace("#","")}\")")
+                out.println("                compileOnly(\"${d.replace("#", "")}\")")
             }
         } else if (d.startsWith("npm(")) {
             out.println("                implementation($d)")
@@ -56,11 +61,12 @@ private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, a
         }
     }
 }
+
 private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<String, String>) {
     dest.printWriter().use { out ->
         src.forEachLine { it ->
             var s = it
-            for ((k, v)in replacement) {
+            for ((k, v) in replacement) {
                 s = s.replace(k, v)
                 if (k.startsWith(" ")) {
                     if (s.startsWith(k.substring(1))) {
@@ -72,6 +78,7 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<Stri
         }
     }
 }
+
 private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map<String, String>, pathSeparator: String) {
     for (it in File(src).walk()) {
         val tmp = it.toString()
@@ -83,6 +90,7 @@ private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map
         }
     }
 }
+
 class CreateModuleArgs() {
     var moduleName: String = ""
     var moduleFolder: String = ""
@@ -96,6 +104,7 @@ class CreateModuleArgs() {
     var ideaBuildfile: IntellijMode = IntellijMode.Disable
     var codegen: Boolean = false
     var args: MutableMap<String, String> = mutableMapOf()
+
     init {
         if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
             platform = "mingw64"
@@ -103,6 +112,7 @@ class CreateModuleArgs() {
             platform = "linuxX64"
         }
     }
+
     fun clone(): CreateModuleArgs {
         var res = CreateModuleArgs()
         res.moduleName = moduleName
@@ -119,6 +129,7 @@ class CreateModuleArgs() {
         res.args = args
         return res
     }
+
     fun ssetArgs(args: MutableMap<String, String>): CreateModuleArgs {
         val res = clone()
         res.args = mutableMapOf()
@@ -126,6 +137,7 @@ class CreateModuleArgs() {
         res.args.putAll(args)
         return res
     }
+
     fun ssetArgs2(args: MutableMap<String, MutableMap<String, String>>): CreateModuleArgs {
         val arg = args[moduleName]
         if (arg != null) {
@@ -139,6 +151,7 @@ class CreateModuleArgs() {
             return this
         }
     }
+
     fun ssetModuleName(moduleName: String): CreateModuleArgs {
         val res = clone()
         val onWindows = System.getProperty("os.name").contains("Windows")
@@ -153,6 +166,7 @@ class CreateModuleArgs() {
         res.moduleFolder = "src${pathSeparator}${moduleName.toLowerCase()}"
         return res
     }
+
     fun ssetModuleName(moduleName: String, modulePrefix: String): CreateModuleArgs {
         val res = clone()
         val onWindows = System.getProperty("os.name").contains("Windows")
@@ -167,6 +181,7 @@ class CreateModuleArgs() {
         res.moduleFolder = "src${pathSeparator}${moduleName.toLowerCase()}"
         return res
     }
+
     fun ssetModuleName(moduleName: String, modulePrefix: String, moduleFolder: String): CreateModuleArgs {
         val res = clone()
         res.moduleName = moduleName
@@ -174,41 +189,49 @@ class CreateModuleArgs() {
         res.modulePrefix = modulePrefix
         return res
     }
+
     fun ssetReleaseMode(releaseMode: ReleaseMode): CreateModuleArgs {
         val res = clone()
         res.releaseMode = releaseMode
         return res
     }
+
     fun ssetSuspendMode(suspendMode: SuspendMode): CreateModuleArgs {
         val res = clone()
         res.suspendMode = suspendMode
         return res
     }
+
     fun ssetInlineMode(inlineMode: InlineMode): CreateModuleArgs {
         val res = clone()
         res.inlineMode = inlineMode
         return res
     }
+
     fun ssetDryMode(dryMode: DryMode): CreateModuleArgs {
         val res = clone()
         res.dryMode = dryMode
         return res
     }
+
     fun ssetTarget(target: TargetMode): CreateModuleArgs {
         val res = clone()
         res.target = target
         return res
     }
+
     fun ssetIdeaBuildfile(ideaBuildfile: IntellijMode): CreateModuleArgs {
         val res = clone()
         res.ideaBuildfile = ideaBuildfile
         return res
     }
+
     fun ssetCodegen(codegen: Boolean): CreateModuleArgs {
         val res = clone()
         res.codegen = codegen
         return res
     }
+
     fun getPossibleOptions(): List<String> {
         val res = mutableListOf<String>()
         if (File(File(moduleFolder), "configOptions").exists()) {
@@ -222,6 +245,7 @@ class CreateModuleArgs() {
         return res
     }
 }
+
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
     try {
         if (moduleArgs.dryMode == DryMode.Enable || moduleArgs.ideaBuildfile == IntellijMode.Enable) {
@@ -816,7 +840,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 }
             }
         }
-        if (remainingArgs.size> 0) {
+        if (remainingArgs.size > 0) {
             for ((k, v) in remainingArgs) {
                 println("unknown argument '$k' = '$v'")
             }
@@ -963,6 +987,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         throw e
     }
 }
+
 public fun runCommand(command: List<String>, workingDir: File) {
     val p = ProcessBuilder(command)
         .directory(workingDir)

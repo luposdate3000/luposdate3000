@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s09physicalOperators.singleinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.NotImplementedException
@@ -29,6 +30,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
+
 public class POPFilter public constructor(query: IQuery, projectedVariables: List<String>, filter: AOPBase, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPFilterID, "POPFilter", arrayOf(child, filter), ESortPriorityExt.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
     override fun toSparql(): String {
@@ -38,6 +40,7 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
         }
         return "{SELECT * {" + sparql + " FILTER (" + children[1].toSparql() + ")}}"
     }
+
     override fun equals(other: Any?): Boolean = other is POPFilter && children[0] == other.children[0] && children[1] == other.children[1]
     override fun childrenToVerifyCount(): Int = 1
     override fun cloneOP(): IOPBase = POPFilter(query, projectedVariables, children[1].cloneOP() as AOPBase, children[0].cloneOP())
@@ -62,7 +65,9 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                     override /*suspend*/ fun close() {
                         __close()
                     }
-                    @Suppress("NOTHING_TO_INLINE") /*suspend*/ inline fun __close() {
+
+                    @Suppress("NOTHING_TO_INLINE")
+                    /*suspend*/ inline fun __close() {
                         if (label != 0) {
                             ColumnIteratorQueueExt._close(this)
                             SanityCheck.println { "POPFilterXXX$uuid close E $classname" }
@@ -71,6 +76,7 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                             }
                         }
                     }
+
                     override /*suspend*/ fun next(): Int {
                         return ColumnIteratorQueueExt.nextHelper(
                             this,
@@ -153,6 +159,7 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                                 v.close()
                             }
                         }
+
                         override /*suspend*/ fun hasNext2(): Boolean {
                             var res2 = false
                             try {

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators
+
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -27,6 +28,7 @@ import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s09physicalOperators.partition.POPSplitPartitionPassThrough
 import lupos.s14endpoint.convertToOPBase
+
 internal object DistributedQuery {
     private fun getAllVariations(query: Query, node: IOPBase, allNames: Array<String>, allSize: IntArray, allIdx: IntArray, offset: Int) {
         if (offset == allNames.size) {
@@ -48,6 +50,7 @@ internal object DistributedQuery {
             }
         }
     }
+
     private fun initialize_helper(query: Query, node: IOPBase, currentPartitions: Map<String, Int>, root: Boolean) {
         if ((node is POPBase) || (node is OPBaseCompound)) {
             val currentPartitionsCopy = mutableMapOf<String, Int>()
@@ -108,6 +111,7 @@ internal object DistributedQuery {
             throw Exception("this query is not executable ${node.getClassname()} ${(node as OPBase).uuid}")
         }
     }
+
     internal fun walkXMLElement(node: XMLElement, dependencies: MutableList<String>) {
         for (c in node.childs) {
             walkXMLElement(c, dependencies)
@@ -116,6 +120,7 @@ internal object DistributedQuery {
             dependencies.add(node.attributes["key"]!!)
         }
     }
+
     internal fun initialize(query: Query): IOPBase {
         query.operatorgraphParts.clear()
         query.operatorgraphParts[""] = query.root!!.toXMLElement(true)
@@ -154,7 +159,7 @@ internal object DistributedQuery {
                 println("$k :: ${query.operatorgraphPartsToHostMap[k] ?: "?"}")
             }
             if (!changed) {
-                loop@for ((k, v) in query.operatorgraphParts) {
+                loop@ for ((k, v) in query.operatorgraphParts) {
                     if (!query.operatorgraphPartsToHostMap.contains(k)) {
                         var possibleHosts = mutableSetOf<String>()
                         for (s in dependenciesMap[k]!!) {
@@ -184,6 +189,7 @@ internal object DistributedQuery {
         }
         return XMLElement.convertToOPBase(query, res!!)
     }
+
     fun updateXMLtargets(xml: XMLElement, mapping: Map<String, String>) {
         for (c in xml.childs) {
             updateXMLtargets(c, mapping)

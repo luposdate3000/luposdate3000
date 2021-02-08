@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s02buildSyntaxTree.turtle
+
 import kotlin.jvm.JvmField
+
 internal object Turtle2ParserStateExt {
     internal const val EOF: Turtle2ParserState = 0
     internal const val OBJECT: Turtle2ParserState = 1
@@ -25,7 +27,9 @@ internal object Turtle2ParserStateExt {
     internal const val TRIPLE_END_OR_OBJECT_IRI: Turtle2ParserState = 5
     internal const val TRIPLE_END_OR_OBJECT_STRING: Turtle2ParserState = 6
     internal const val values_size: Int = 7
-    @JvmField internal val names: Array<String> = arrayOf(
+
+    @JvmField
+    internal val names: Array<String> = arrayOf(
         "EOF",
         "OBJECT",
         "PREDICATE",

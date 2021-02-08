@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04arithmetikOperators.noinput
+
 import lupos.s00misc.Crypto
 import lupos.s00misc.EOperatorIDExt
 import lupos.s03resultRepresentation.ValueDefinition
@@ -23,6 +24,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
+
 public class AOPBuildInCallUUID public constructor(query: IQuery) : AOPBase(query, EOperatorIDExt.AOPBuildInCallUUIDID, "AOPBuildInCallUUID", arrayOf()) {
     override fun toSparql(): String = "UUID()"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallUUID
@@ -31,5 +33,6 @@ public class AOPBuildInCallUUID public constructor(query: IQuery) : AOPBase(quer
             ValueIri("urn:uuid:" + Crypto.uuid())
         }
     }
+
     override fun cloneOP(): IOPBase = this
 }

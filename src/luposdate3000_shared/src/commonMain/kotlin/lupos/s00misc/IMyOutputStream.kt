@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 public interface IMyOutputStream {
     public fun writeInt(value: Int): Unit
     public fun write(buf: ByteArray, off: Int, len: Int = buf.size): Unit

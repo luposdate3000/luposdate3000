@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators.noinput
+
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EOperatorIDExt
@@ -33,6 +34,7 @@ import lupos.s04logicalOperators.LOPBase
 import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.jvm.JvmField
+
 public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField public val graph: String, @JvmField public val graphVar: Boolean) : LOPBase(query, EOperatorIDExt.LOPTripleID, "LOPTriple", arrayOf(s, p, o), ESortPriorityExt.ANY_PROVIDED_VARIABLE) {
     override fun toSparql(): String {
         if (graph == PersistentStoreLocalExt.defaultGraphName) {
@@ -40,6 +42,7 @@ public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBas
         }
         return "GRAPH <$graph> {" + children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "}."
     }
+
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("graph", graph).addAttribute("graphVar", "" + graphVar)
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> {
@@ -52,9 +55,11 @@ public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBas
         res.remove("_")
         return res.distinct()
     }
+
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {}
     override fun equals(other: Any?): Boolean = other is LOPTriple && graph == other.graph && graphVar == other.graphVar && children[0] == other.children[0] && children[1] == other.children[1] && children[2] == other.children[2]
     override fun cloneOP(): IOPBase = LOPTriple(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase, children[2].cloneOP() as AOPBase, graph, graphVar)
+
     public companion object {
         public fun getIndex(children: Array<IOPBase>, sortPriority: List<String>): EIndexPattern {
             /*
@@ -113,6 +118,7 @@ public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBas
             return EIndexPatternExt.names.indexOf(resString)
         }
     }
+
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
         if (graphVar) {
             throw GraphVarHistogramsNotImplementedException()

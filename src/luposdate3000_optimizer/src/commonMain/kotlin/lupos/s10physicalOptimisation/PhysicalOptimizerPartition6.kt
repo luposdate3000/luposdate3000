@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s10physicalOptimisation
+
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EOptimizerIDExt
@@ -35,6 +36,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s15tripleStoreDistributed.distributedTripleStore
+
 public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition6ID) {
     override val classname: String = "PhysicalOptimizerPartition6"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
@@ -48,7 +50,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                             var countToUse = -1
                             var columnToUse = -1
                             for (p in enabledPartitions) {
-                                if (p.index.contains(node.idx) && (p.partitionCount <countToUse || countToUse == -1) && (node.children[EIndexPatternHelper.tripleIndicees[node.idx][p.column]]is AOPVariable)) {
+                                if (p.index.contains(node.idx) && (p.partitionCount < countToUse || countToUse == -1) && (node.children[EIndexPatternHelper.tripleIndicees[node.idx][p.column]] is AOPVariable)) {
                                     columnToUse = p.column
                                     countToUse = p.partitionCount
                                 }
@@ -56,14 +58,14 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                             var variableToUse = ""
                             if (columnToUse == -1) {
                                 for (p in enabledPartitions) {
-                                    if (p.index.contains(node.idx) && (p.partitionCount <countToUse || countToUse == -1)) {
+                                    if (p.index.contains(node.idx) && (p.partitionCount < countToUse || countToUse == -1)) {
                                         columnToUse = p.column
                                         countToUse = p.partitionCount
                                     }
                                 }
                                 variableToUse = "_$columnToUse"
                             } else {
-                                variableToUse = (node.children[EIndexPatternHelper.tripleIndicees[node.idx][columnToUse]]as AOPVariable).name
+                                variableToUse = (node.children[EIndexPatternHelper.tripleIndicees[node.idx][columnToUse]] as AOPVariable).name
                                 if (variableToUse == "_") {
                                     variableToUse = "_$columnToUse"
                                 }

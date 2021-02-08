@@ -15,5 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04arithmetikOperators
+
 import lupos.s04logicalOperators.IOPBase
+
 public interface IAOPBase : IOPBase

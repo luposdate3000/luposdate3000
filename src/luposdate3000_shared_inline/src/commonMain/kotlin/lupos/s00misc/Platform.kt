@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.s00misc.EOperatingSystem
+
 internal expect object _Platform {
     internal inline fun getEnv(key: String, default: String? = null): String?
     internal inline fun getHostName(): String

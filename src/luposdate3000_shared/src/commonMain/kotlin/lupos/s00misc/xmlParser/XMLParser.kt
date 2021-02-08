@@ -15,9 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc.xmlParser
+
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+
 public object XMLParser {
     internal fun parse(context: ParserContext, stack: MutableList<XMLElement>): Boolean {
         var res = false
@@ -96,6 +98,7 @@ public object XMLParser {
         )
         return res
     }
+
     public operator fun invoke(input: IMyInputStream): XMLElement {
         val context = ParserContext(input)
         var stack = mutableListOf(XMLElement("root"))

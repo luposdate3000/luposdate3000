@@ -15,5 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s09physicalOperators
+
 import lupos.s04logicalOperators.IOPBase
+
 public interface IPOPBase : IOPBase

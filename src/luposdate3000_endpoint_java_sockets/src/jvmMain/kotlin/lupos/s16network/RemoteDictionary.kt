@@ -15,25 +15,32 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s16network
+
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ValueDefinition
+
 internal class RemoteDictionaryServer(val dictionary: IResultSetDictionary)
 internal class RemoteDictionaryClient(val url: String) : IResultSetDictionary {
     public override fun valueToGlobal(value: Int): Int {
         throw Exception("not implemented")
     }
+
     public override fun getValue(value: Int): ValueDefinition {
         throw Exception("not implemented")
     }
+
     public override fun createValue(value: String?): Int {
         throw Exception("not implemented")
     }
+
     public override fun createValue(value: ValueDefinition): Int {
         throw Exception("not implemented")
     }
+
     public override fun toBooleanOrError(value: Int): Int {
         throw Exception("not implemented")
     }
+
     public override fun getValue(
         value: Int,
         onBNode: (value: Int) -> Unit,

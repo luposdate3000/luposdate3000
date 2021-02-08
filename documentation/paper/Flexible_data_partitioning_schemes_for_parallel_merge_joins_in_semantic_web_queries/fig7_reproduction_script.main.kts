@@ -23,6 +23,7 @@
 @file:Import("../../../src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/s00misc/Platform.kt")
 @file:Import("../../../src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
 @file:CompilerOptions("-Xmulti-platform")
+
 import lupos.s00misc.Platform
 import java.io.File
 import java.io.PrintWriter
@@ -30,6 +31,7 @@ import java.lang.ProcessBuilder.Redirect
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
+
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
 // config options -> /////////////////////////////////////////////////////////////////////////////////////
 // ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -160,7 +162,7 @@ fun execute(result_rows: Int, trash: Int) {
                             var starttime = System.nanoTime()
                             val targettime = starttime + (minimumTime * 1_000_000_000.0).toLong()
                             var currenttime = starttime
-                            while (!abortSignal && currenttime <targettime) {
+                            while (!abortSignal && currenttime < targettime) {
                                 database.runQuery(query)
                                 counter++
                                 currenttime = System.nanoTime()
@@ -189,6 +191,7 @@ fun execute(result_rows: Int, trash: Int) {
         }
     }
 }
+
 fun generateData(targetNumberOfResults_: Int, numberOfPredicates: Int, blockCount: Int, trashCount: Int, folderName: String): Int {
 // var targetNumberOfResults = 1L
 // var numberOfPredicates = 2
@@ -254,6 +257,7 @@ fun generateData(targetNumberOfResults_: Int, numberOfPredicates: Int, blockCoun
     outN3.close()
     return total_count
 }
+
 abstract class DatabaseHandle() {
     val hostname = Platform.getHostName()
     abstract fun getThreads(): Int
@@ -264,6 +268,7 @@ abstract class DatabaseHandle() {
         return URLEncoder.encode(s, "utf-8").replace("+", "%20").replace("*", "%2A")
     }
 }
+
 class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
     var processInstance: Process? = null
     override fun getThreads() = partitionCount
@@ -355,6 +360,7 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
         inputThread.stop()
         errorThread.stop()
     }
+
     override fun runQuery(query: String) {
         val encodedData = "query=${encode(query)}".encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql/query")
@@ -372,6 +378,7 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
             throw Exception("query failed with response code $code")
         }
     }
+
     fun importData(file: String) {
         val encodedData = "file=${encode(file)}".encodeToByteArray()
         val u = URL("http://$hostname:$port/import/turtle")
@@ -390,6 +397,7 @@ class DatabaseHandleLuposdate3000(val partitionCount: Int) : DatabaseHandle() {
         }
     }
 }
+
 class DatabaseHandleJena() : DatabaseHandle() {
     var processInstance: Process? = null
     override fun getThreads() = -1
@@ -468,6 +476,7 @@ class DatabaseHandleJena() : DatabaseHandle() {
         inputThread.stop()
         errorThread.stop()
     }
+
     override fun runQuery(query: String) {
         val encodedData = "query=${encode(query)}".encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql/jenaquery")
@@ -485,6 +494,7 @@ class DatabaseHandleJena() : DatabaseHandle() {
             throw Exception("query failed with response code $code")
         }
     }
+
     fun importData(file: String) {
         val encodedData = "file=${encode(file)}".encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql/jenaload")
@@ -503,6 +513,7 @@ class DatabaseHandleJena() : DatabaseHandle() {
         }
     }
 }
+
 class DatabaseHandleBlazegraph() : DatabaseHandle() {
     var processInstance: Process? = null
     override fun getThreads() = -1
@@ -551,6 +562,7 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
         inputThread.stop()
         errorThread.stop()
     }
+
     override fun runQuery(query: String) {
         val encodedData = "query=${encode(query)}".encodeToByteArray()
         val u = URL("http://$hostname:9999/blazegraph/sparql")
@@ -568,6 +580,7 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
             throw Exception("query failed with response code $code")
         }
     }
+
     fun importData(file: String) {
         val encodedData = "update=LOAD <file://${File(file).getAbsolutePath()}>;".encodeToByteArray()
         val u = URL("http://$hostname:9999/blazegraph/namespace/kb/sparql")
@@ -586,6 +599,7 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
         }
     }
 }
+
 class DatabaseHandleLuposdateMemory() : DatabaseHandle() {
     var processInstance: Process? = null
     override fun getThreads() = -1
@@ -636,6 +650,7 @@ class DatabaseHandleLuposdateMemory() : DatabaseHandle() {
         inputThread.stop()
         errorThread.stop()
     }
+
     override fun runQuery(query: String) {
         val encodedData = "query=${encode(query)}".encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql")
@@ -654,6 +669,7 @@ class DatabaseHandleLuposdateMemory() : DatabaseHandle() {
         }
     }
 }
+
 class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
     var processInstance: Process? = null
     override fun getThreads() = -1
@@ -725,6 +741,7 @@ class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
         inputThread.stop()
         errorThread.stop()
     }
+
     override fun runQuery(query: String) {
         val encodedData = "query=${encode(query)}".encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql")
@@ -743,6 +760,7 @@ class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
         }
     }
 }
+
 class DatabaseHandleVirtuoso() : DatabaseHandle() {
     var processInstance: Process? = null
     override fun getThreads() = -1
@@ -801,6 +819,7 @@ class DatabaseHandleVirtuoso() : DatabaseHandle() {
         inputstream.close()
         inputThread.stop()
     }
+
     override fun runQuery(query: String) {
         val encodedData = "default-graph-uri=${encode("http://benchmark")}&query=${encode(query)}&format=xml&timeout=0&debug=off&run=${encode(" Run Query")}".encodeToByteArray()
         val u = URL("http://$hostname:8890/sparql/")
@@ -818,6 +837,7 @@ class DatabaseHandleVirtuoso() : DatabaseHandle() {
             throw Exception("query failed with response code $code")
         }
     }
+
     fun importData(file: String) {
         val encodedData = "default-graph-uri=${encode("http://benchmark")}&query=${encode("LOAD <file://${File(file).getAbsolutePath()}> into GRAPH <http://benchmark>")}&format=xml&timeout=0&debug=off&run=${encode(" Run Query")}".encodeToByteArray()
         val u = URL("http://$hostname:8890/sparql/")

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s05tripleStore
+
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EModifyType
@@ -27,9 +28,11 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
+
 public abstract class TripleStoreLocalBase(@JvmField public val name: String, @JvmField public val store_root_page_id: Int) : ITripleStoreLocalBase {
     @JvmField // override this during initialisation
     public var dataDistinct: Array<TripleStoreDistinctContainer> = arrayOf()
+
     @JvmField // override this during initialisation
     public var enabledPartitions: Array<EnabledPartitionContainer> = arrayOf( //
         EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O), 2, 1), //
@@ -39,8 +42,10 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
         EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.OSP, EIndexPatternExt.O_SP, EIndexPatternExt.OS_P), 2, 1), //
         EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.OPS, EIndexPatternExt.O_PS, EIndexPatternExt.OP_S), 2, 1), //
     )
+
     @JvmField // override this during initialisation
     public var pendingModificationsInsert: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf() }
+
     @JvmField // override this during initialisation
     public var pendingModificationsRemove: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf() }
     override fun getEnabledPartitions(): Array<EnabledPartitionContainer> = enabledPartitions
@@ -49,6 +54,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
             it.second.flush()
         }
     }
+
     override /*suspend*/ fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> {
         var idx = 0
         when (params) {
@@ -60,10 +66,10 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
                     idx++
                 }
                 for (p in enabledPartitions) {
-                    if (p.index.contains(params.idx) && p.column != -1 && (params.params[EIndexPatternHelper.tripleIndicees[params.idx][p.column]]is AOPVariable)) {
+                    if (p.index.contains(params.idx) && p.column != -1 && (params.params[EIndexPatternHelper.tripleIndicees[params.idx][p.column]] is AOPVariable)) {
                         var resa = 0
                         var resb = 0
-                        var columnName = (params.params[EIndexPatternHelper.tripleIndicees[params.idx][p.column]]as AOPVariable).name
+                        var columnName = (params.params[EIndexPatternHelper.tripleIndicees[params.idx][p.column]] as AOPVariable).name
                         if (columnName == "_") {
                             columnName = "_${p.column}"
                         }
@@ -121,6 +127,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
         }
         SanityCheck.checkUnreachable()
     }
+
     override /*suspend*/ fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle {
         var idx = 0
         when (params) {
@@ -131,7 +138,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
                     }
                     idx++
                 }
-                println("enabled :: ${enabledPartitions.map{"${it.index.map{EIndexPatternExt.names[it]}} ${it.column}"}}")
+                println("enabled :: ${enabledPartitions.map { "${it.index.map { EIndexPatternExt.names[it] }} ${it.column}" }}")
                 println("wanted  :: ${EIndexPatternExt.names[params.idx]}")
                 SanityCheck.checkUnreachable()
             }
@@ -173,7 +180,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
                     idx++
                 }
                 SanityCheck {
-                    SanityCheck.println { "FAIL ::::: ${params.idx} $partitionColumn $partitionLimit $partitionName ${params.params.map{it}}" }
+                    SanityCheck.println { "FAIL ::::: ${params.idx} $partitionColumn $partitionLimit $partitionName ${params.params.map { it }}" }
                     for (p in enabledPartitions) {
                         SanityCheck.println { "${p.index} ${p.column} ${p.partitionCount}" }
                     }
@@ -183,11 +190,13 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
         }
         SanityCheck.checkUnreachable()
     }
+
     override /*suspend*/ fun import(dataImport: ITripleStoreBulkImport) {
         for (i in dataDistinct.indices) {
             dataDistinct[i].second.import(dataDistinct[i].importField(dataImport), dataImport.getIdx(), EIndexPatternHelper.tripleIndicees[dataDistinct[i].idx])
         }
     }
+
     override /*suspend*/ fun commit(query: IQuery) {
         /*
          * the input is ALWAYS in SPO order. The remapping of the triple layout is within the index, using the parameter order.
@@ -219,6 +228,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
             }
         }
     }
+
     override /*suspend*/ fun clear() {
         dataDistinct.forEach {
             it.second.clear()
@@ -228,6 +238,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
             pendingModificationsRemove[idx].clear()
         }
     }
+
     override /*suspend*/ fun modify(query: IQuery, dataModify: Array<ColumnIterator>, type: EModifyType) {
         /*
          * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase
@@ -270,9 +281,10 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
             }
         }
     }
+
     override fun modify(query: IQuery, dataModify: MutableList<Int>, type: EModifyType) {
         /*
-         * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase 
+         * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase
          */
         SanityCheck.check { dataModify.size == 3 }
         for (idx in dataDistinct.indices) {

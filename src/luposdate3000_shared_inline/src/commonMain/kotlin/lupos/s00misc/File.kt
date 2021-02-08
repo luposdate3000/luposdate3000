@@ -15,9 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyPrintWriter
+
 internal expect class _File(filename: String) {
     internal inline fun createTempFile(prefix: String, suffix: String, directory: String): String
     internal inline fun exists(): Boolean

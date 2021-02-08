@@ -19,9 +19,11 @@ import lupos.s00misc.File
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s16network.LuposdateEndpoint
+
 internal enum class OptimizerMode {
     All, OnlyWith, OnlyWithout
 }
+
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()

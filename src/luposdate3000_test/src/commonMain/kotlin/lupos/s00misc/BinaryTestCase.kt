@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
@@ -35,6 +36,7 @@ import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToMemoryTable
 import lupos.s11outputResult.QueryResultToXMLStream
 import lupos.s15tripleStoreDistributed.distributedTripleStore
+
 public object BinaryTestCase {
     private var outSummary = MyPrintWriter(false)
     private var lastInput = MemoryTable(Array(0) { "" })
@@ -54,6 +56,7 @@ public object BinaryTestCase {
         }
         return res
     }
+
     private fun helperCleanString(s: String): String {
         var res: String = s
         while (true) {
@@ -63,9 +66,11 @@ public object BinaryTestCase {
         }
         return res
     }
+
     public fun executeAllTestCase() {
         executeAllTestCase("resources/binary/")
     }
+
     public fun executeAllTestCase(folder: String) {
         outSummary = File("log/error").myPrintWriter()
         File("$folder/config2").printWriter { newConfig ->
@@ -111,6 +116,7 @@ public object BinaryTestCase {
             outSummary.close()
         }
     }
+
     private fun operatorGraphToTable(node: IOPBase, partition: Partition = Partition()): MemoryTable {
         println(node)
         val tmp = QueryResultToMemoryTable(node, partition)
@@ -119,6 +125,7 @@ public object BinaryTestCase {
         }
         return tmp[0]
     }
+
     private fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, out: MyPrintWriter): Boolean {
         if (expected.booleanResult != null) {
             if (expected.booleanResult != actual.booleanResult) {
@@ -244,6 +251,7 @@ public object BinaryTestCase {
         }
         return true
     }
+
     internal class IntArrayComparator : Comparator<IntArray> {
         override fun compare(a: IntArray, b: IntArray): Int {
             for (i in a.indices) {
@@ -256,6 +264,7 @@ public object BinaryTestCase {
             return 0
         }
     }
+
     private fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, query_name: String, query_folder: String, tag: String): Boolean {
         val out = MyPrintWriter(true)
         val res = verifyEqual(expected, actual, mapping_live_to_target, dict, dict2, allowOrderBy, out)
@@ -268,6 +277,7 @@ public object BinaryTestCase {
         }
         return res
     }
+
     private var notImplementedFeaturesList = mutableSetOf( //
         "rdfs:subPropertyOf", //
         "rdfs:subClassOf", //
@@ -318,6 +328,7 @@ public object BinaryTestCase {
         "<http://www.w3.org/2002/07/owl#someValuesFrom>", //
         "<http://www.w3.org/2002/07/owl#Thing>", //
     )
+
     public fun executeTestCase(query_folder: String): Boolean {
         println("executeTestCase $query_folder")
         var returnValue = true
@@ -340,7 +351,7 @@ public object BinaryTestCase {
                                         println("WWW stat.read 4 297 $len variablenamelength")
                                         val buf = ByteArray(len)
                                         val read = targetStat.read(buf, 0, len)
-                                        println("WWW stat.read $len 300 ${buf.map{it}} variablename")
+                                        println("WWW stat.read $len 300 ${buf.map { it }} variablename")
                                         if (read < len) {
                                             throw Exception("not enough data available")
                                         }
@@ -362,7 +373,7 @@ public object BinaryTestCase {
                             println("WWW stat.read 4 318 $len querynamelength")
                             val buf = ByteArray(len) { 0 }
                             val read = targetStat.read(buf, 0, len)
-                            println("WWW stat.read $len 321 ${buf.map{it}} queryname")
+                            println("WWW stat.read $len 321 ${buf.map { it }} queryname")
                             if (read < len) {
                                 throw Exception("not enough data available")
                             }
@@ -389,7 +400,7 @@ public object BinaryTestCase {
                                 println("WWW dict.read 4 344 $len2")
                                 val buf2 = ByteArray(len2)
                                 val read2 = targetDictionary.read(buf2, 0, len2)
-                                println("WWW dict.read $len 347 ${buf2.map{it}}")
+                                println("WWW dict.read $len 347 ${buf2.map { it }}")
                                 if (read2 < len2) {
                                     throw Exception("not enough data available")
                                 }
@@ -573,6 +584,7 @@ if (tmpTable != null) {
         }
         return returnValue
     }
+
     public fun generateTestcase(query_input_file: String, query_file: String, query_output_file: String, output_folder: String, query_name: String, output_mode_tmp: BinaryTestCaseOutputMode): Boolean {
         try {
             println("generating for $query_input_file $query_file $query_output_file $output_folder $query_name ${BinaryTestCaseOutputModeExt.names[output_mode_tmp]}")
@@ -635,7 +647,7 @@ if (tmpTable != null) {
                                 outDictionary.writeInt(tmp.size)
                                 println("WWW dict.write 4 587 ${tmp.size}")
                                 outDictionary.write(tmp)
-                                println("WWW dict.write ${tmp.size} 589 ${tmp.map{it}}")
+                                println("WWW dict.write ${tmp.size} 589 ${tmp.map { it }}")
                                 println("WWW as String ${tmp.decodeToString()}")
                             }
                         }
@@ -670,7 +682,7 @@ if (tmpTable != null) {
                                         outStat.writeInt(tmp.size)
                                         println("WWW stat.write 4 622 ${tmp.size} variablenamelength")
                                         outStat.write(tmp)
-                                        println("WWW stat.write ${tmp.size} 624 ${tmp.map{it}} variablename")
+                                        println("WWW stat.write ${tmp.size} 624 ${tmp.map { it }} variablename")
                                         println("WWW as String ${tmp.decodeToString()}")
                                     }
                                     val allRows = mutableListOf<IntArray>()
@@ -713,7 +725,7 @@ if (tmpTable != null) {
                                                     outDictionary.writeInt(tmp.size)
                                                     println("WWW dict.write 4 665 ${tmp.size}")
                                                     outDictionary.write(tmp)
-                                                    println("WWW dict.write ${tmp.size} 667 ${tmp.map{it}}")
+                                                    println("WWW dict.write ${tmp.size} 667 ${tmp.map { it }}")
                                                     println("WWW as String ${tmp.decodeToString()}")
                                                 }
                                             }
@@ -758,7 +770,7 @@ if (tmpTable != null) {
                             outStat.writeInt(tmp2.size)
                             println("WWW stat.write 4 710 ${tmp2.size} querynamelength")
                             outStat.write(tmp2)
-                            println("WWW stat.write ${tmp2.size} 712 ${tmp2.map{it}} queryname")
+                            println("WWW stat.write ${tmp2.size} 712 ${tmp2.map { it }} queryname")
                             println("WWW as String ${tmp2.decodeToString()}")
                             outStat.writeInt(dict.size)
                             println("WWW stat.write 4 715 ${dict.size} dictsize")

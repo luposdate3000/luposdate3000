@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s10physicalOptimisation
+
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
@@ -28,6 +29,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
+
 public class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition4ID) {
     override val classname: String = "PhysicalOptimizerPartition4"
     private fun getNumberOfEnclosingPartitions(node: IOPBase): Int {
@@ -47,6 +49,7 @@ public class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EO
         }
         return count
     }
+
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {
             when (node) {

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04arithmetikOperators
+
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.EvaluationException
@@ -26,6 +27,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.iterator.IteratorBundle
+
 public abstract class AOPBase public constructor(
     query: IQuery,
     operatorID: EOperatorID,
@@ -57,16 +59,19 @@ public abstract class AOPBase public constructor(
             }
         }
     }
+
     public open fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         return {
             query.getDictionary().getValue(evaluateID(row)())
         }
     }
+
     public open fun evaluateID(row: IteratorBundle): () -> Int {
         return {
             query.getDictionary().createValue(evaluate(row)())
         }
     }
+
     public open fun enforcesBooleanOrError(): Boolean = false
     override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()
     override /*suspend*/ fun calculateHistogram(): HistogramResult = SanityCheck.checkUnreachable()

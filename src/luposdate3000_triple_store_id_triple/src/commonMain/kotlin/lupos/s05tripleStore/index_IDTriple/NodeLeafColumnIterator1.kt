@@ -15,10 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s05tripleStore.index_IDTriple
+
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
+
 internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyReadWriteLock) : NodeLeafColumnIterator(node, nodeid, lock) {
     @JvmField
     var value = 0
@@ -41,6 +43,7 @@ internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyRea
             ResultSetDictionaryExt.nullValue
         }
     }
+
     override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
         if (label == 3) {
             label = 1
@@ -129,6 +132,7 @@ internal class NodeLeafColumnIterator1(node: ByteArray, nodeid: Int, lock: MyRea
             result[1] = ResultSetDictionaryExt.nullValue
         }
     }
+
     override /*suspend*/ fun skipSIP(skipCount: Int): Int {
         if (label == 3) {
             label = 1

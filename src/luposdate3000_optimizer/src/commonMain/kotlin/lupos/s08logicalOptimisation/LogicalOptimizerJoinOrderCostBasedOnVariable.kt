@@ -15,24 +15,32 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s08logicalOptimisation
+
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import kotlin.jvm.JvmField
+
 public object LogicalOptimizerJoinOrderCostBasedOnVariable {
     public class Plan : Comparable<Plan> {
         @JvmField
         public val child: IOPBase?
+
         @JvmField
         public val childs: Pair<Int, Int>?
+
         @JvmField
         public val variables: Array<Int>
+
         @JvmField
         public val columns: Int
+
         @JvmField
         public val cost: Int
+
         @JvmField
         public val depth: Int
+
         public constructor(child: IOPBase, variables: Array<Int>, allVariables: List<Int>) {
             depth = 1
             this.child = child
@@ -48,7 +56,10 @@ public object LogicalOptimizerJoinOrderCostBasedOnVariable {
             columns = c
             cost = columns
         }
-        @Suppress("NOTHING_TO_INLINE") private inline fun sqr(i: Int) = i * i
+
+        @Suppress("NOTHING_TO_INLINE")
+        private inline fun sqr(i: Int) = i * i
+
         public constructor(plans: Array<Plan?>, childA: Int, childB: Int, allVariables: List<Int>) {
             child = null
             childs = Pair(childA, childB)
@@ -83,9 +94,11 @@ public object LogicalOptimizerJoinOrderCostBasedOnVariable {
             }
             // cost calculation ... the least cost for_ deepest partial results
         }
+
         override operator fun compareTo(other: Plan): Int {
             return cost.compareTo(other.cost)
         }
+
         public fun toOPBase(plans: Array<Plan?>): IOPBase {
             if (child != null) {
                 return child
@@ -95,6 +108,7 @@ public object LogicalOptimizerJoinOrderCostBasedOnVariable {
             return LOPJoin(cA.getQuery(), cA, cB, false)
         }
     }
+
     public /*suspend*/ fun optimize(plans: Array<Plan?>, target: Int, variables: List<Int>) {
         val targetInv = target.inv()
         for (a in 1 until target) {
@@ -112,6 +126,7 @@ public object LogicalOptimizerJoinOrderCostBasedOnVariable {
             }
         }
     }
+
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
         SanityCheck.check { allChilds.size > 2 }
         if (allChilds.size < 30) {

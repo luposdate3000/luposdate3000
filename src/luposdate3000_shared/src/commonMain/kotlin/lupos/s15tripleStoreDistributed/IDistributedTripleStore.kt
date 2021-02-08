@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s15tripleStoreDistributed
+
 import lupos.s04logicalOperators.IQuery
+
 public interface IDistributedTripleStore {
     public fun reloadPartitioningScheme()
     public fun getGraphNames(): List<String>

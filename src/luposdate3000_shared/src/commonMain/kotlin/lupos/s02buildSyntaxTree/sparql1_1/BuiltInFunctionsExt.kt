@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s02buildSyntaxTree.sparql1_1
+
 import kotlin.jvm.JvmField
+
 public object BuiltInFunctionsExt {
     public const val ABS: BuiltInFunctions = 0
     public const val BNODE: BuiltInFunctions = 1
@@ -72,7 +74,9 @@ public object BuiltInFunctionsExt {
     public const val isURI: BuiltInFunctions = 52
     public const val sameTerm: BuiltInFunctions = 53
     public const val values_size: Int = 54
-    @JvmField public val names: Array<String> = arrayOf(
+
+    @JvmField
+    public val names: Array<String> = arrayOf(
         "ABS",
         "BNODE",
         "BOUND",

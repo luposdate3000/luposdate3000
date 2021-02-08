@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04arithmetikOperators.singleinput
+
 import lupos.s00misc.CanNotCastLiteralToDoubleException
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EOperatorIDExt
@@ -32,6 +33,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
+
 public class AOPFunctionCallDouble public constructor(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorIDExt.AOPFunctionCallDoubleID, "AOPFunctionCallDouble", arrayOf(child)) {
     override fun toSparql(): String = "<http://www.w3.org/2001/XMLSchema#double>(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPFunctionCallDouble && children[0] == other.children[0]
@@ -84,5 +86,6 @@ public class AOPFunctionCallDouble public constructor(query: IQuery, child: AOPB
             res
         }
     }
+
     override fun cloneOP(): IOPBase = AOPFunctionCallDouble(query, children[0].cloneOP() as AOPBase)
 }

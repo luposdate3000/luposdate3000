@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s09physicalOperators.multiinput
+
 import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -40,6 +41,7 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.jvm.JvmField
+
 public class POPJoinWithStore public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, @JvmField public val childB: LOPTriple, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinWithStoreID, "POPJoinWithStore", arrayOf(childA), ESortPriorityExt.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
     override fun toSparql(): String {
@@ -48,6 +50,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
         }
         return children[0].toSparql() + childB.toSparql()
     }
+
     override fun equals(other: Any?): Boolean = other is POPJoinWithStore && optional == other.optional && children[0] == other.children[0]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
@@ -163,7 +166,9 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
                     override /*suspend*/ fun close() {
                         __close()
                     }
-                    @Suppress("NOTHING_TO_INLINE") /*suspend*/ inline fun __close() {
+
+                    @Suppress("NOTHING_TO_INLINE")
+                    /*suspend*/ inline fun __close() {
                         if (label != 0) {
                             ColumnIteratorQueueExt._close(this)
                             SanityCheck.println { "POPJoinWithStoreXXXclosing store for join with store A $theuuid" }
@@ -178,6 +183,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
                             }
                         }
                     }
+
                     override /*suspend*/ fun next(): Int {
                         return ColumnIteratorQueueExt.nextHelper(
                             this,
@@ -262,10 +268,12 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
         }
         return IteratorBundle(outMap)
     }
+
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         val res = super.toXMLElement(partial).addAttribute("optional", "" + optional)
         res["children"]!!.addContent(childB.toXMLElement(partial))
         return res
     }
+
     override fun cloneOP(): IOPBase = POPJoinWithStore(query, projectedVariables, children[0].cloneOP(), childB.cloneOP() as LOPTriple, optional)
 }

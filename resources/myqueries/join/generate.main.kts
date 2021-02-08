@@ -16,6 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import java.io.File
+
 var permutations = mutableListOf<IntArray>()
 for (i in 0 until 3) {
     for (j in 1 until 3) {

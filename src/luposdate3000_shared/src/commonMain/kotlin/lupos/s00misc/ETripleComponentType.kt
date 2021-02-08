@@ -15,4 +15,5 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 public typealias ETripleComponentType = Int

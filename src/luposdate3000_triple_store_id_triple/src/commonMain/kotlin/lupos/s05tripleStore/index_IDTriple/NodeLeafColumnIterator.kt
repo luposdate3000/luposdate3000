@@ -15,25 +15,34 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s05tripleStore.index_IDTriple
+
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import kotlin.jvm.JvmField
+
 internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @JvmField var nodeid: Int, @JvmField val lock: MyReadWriteLock) : ColumnIterator() {
     @JvmField
     var remaining = 0
+
     @JvmField
     var offset = NodeLeaf.START_OFFSET
+
     @JvmField
     var label = 3
+
     @JvmField
     var needsReset = true
-    @Suppress("NOTHING_TO_INLINE") /*suspend*/ internal inline fun __init() {
+
+    @Suppress("NOTHING_TO_INLINE")
+    /*suspend*/ internal inline fun __init() {
         SanityCheck.println { "readLock(${lock.getUUID()}) x44" }
         lock.readLock()
         remaining = NodeShared.getTripleCount(node)
     }
-    @Suppress("NOTHING_TO_INLINE") /*suspend*/ internal inline fun _close() {
+
+    @Suppress("NOTHING_TO_INLINE")
+    /*suspend*/ internal inline fun _close() {
         if (label == 3) {
 /* "__init" was never called*/
             label = 0
@@ -51,9 +60,11 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
             lock.readUnlock()
         }
     }
+
     override /*suspend*/ fun close() {
         _close()
     }
+
     /*suspend*/ internal inline fun updateRemaining(crossinline setDone: () -> Unit = {}) {
         SanityCheck.check { remaining > 0 }
         remaining--

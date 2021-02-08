@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04arithmetikOperators.noinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -26,6 +27,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
+
 public class AOPVariable public constructor(query: IQuery, @JvmField public var name: String) : AOPBase(query, EOperatorIDExt.AOPVariableID, "AOPVariable", arrayOf()), IAOPVariable {
     override fun getName(): String = name
     override fun toSparql(): String = "?$name".replace("#", "LuposVariable")
@@ -48,6 +50,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
             }
         }
     }
+
     override fun evaluateID(row: IteratorBundle): () -> Int {
         val tmp = row.columns[name]
         return if (tmp == null) {

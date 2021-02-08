@@ -15,27 +15,36 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators.iterator
+
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
+
 public class ColumnIteratorRepeatIterator(@JvmField public val count: Int, @JvmField public val child: ColumnIterator) : ColumnIterator() {
     @JvmField
     public var index: Int = 0
+
     @JvmField
     public var index2: Int = 0
+
     // TODO use pages instead
     @JvmField
     public val data: MutableList<Int> = mutableListOf()
+
     @JvmField
     public var label: Int = 1
-    @Suppress("NOTHING_TO_INLINE") /*suspend*/ internal inline fun _close() {
+
+    @Suppress("NOTHING_TO_INLINE")
+    /*suspend*/ internal inline fun _close() {
         if (label != 0) {
             label = 0
             child.close()
         }
     }
+
     override /*suspend*/ fun close() {
         _close()
     }
+
     override /*suspend*/ fun next(): Int {
         when (label) {
             1 -> {

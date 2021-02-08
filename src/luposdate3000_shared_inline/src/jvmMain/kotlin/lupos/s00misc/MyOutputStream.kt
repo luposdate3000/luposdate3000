@@ -15,23 +15,32 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.IMyOutputStream
 import java.io.OutputStream
 import kotlin.jvm.JvmField
+
 internal actual class _MyOutputStream : IMyOutputStream {
-    @JvmField val buf4 = ByteArray(4)
-    @JvmField internal val it: OutputStream?
+    @JvmField
+    val buf4 = ByteArray(4)
+
+    @JvmField
+    internal val it: OutputStream?
+
     internal constructor(it: OutputStream) {
         this.it = it
     }
+
     internal actual constructor() {
         it = null
     }
+
     public actual override fun writeInt(value: Int) {
         ByteArrayHelper.writeInt4(buf4, 0, value)
         it!!.write(buf4, 0, 4)
     }
+
     public actual override fun write(buf: ByteArray, off: Int, len: Int): Unit = it!!.write(buf, off, len)
     public actual override fun close(): Unit = it!!.close()
     public actual override fun flush(): Unit = it!!.flush()

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s05tripleStore
+
 import lupos.s00misc.File
 import lupos.s00misc.GraphNameAlreadyExistsDuringCreateException
 import lupos.s00misc.GraphNameNotExistsDuringDeleteException
@@ -26,9 +27,11 @@ import lupos.s01io.BufferManagerExt
 import lupos.s04logicalOperators.IQuery
 import lupos.s15tripleStoreDistributed.IPersistentStoreLocal
 import kotlin.jvm.JvmField
+
 public class PersistentStoreLocal : IPersistentStoreLocal {
     @JvmField
     public val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
+
     @JvmField
     public val stores: MutableMap<String, TripleStoreLocal> = mutableMapOf()
     private fun storesAdd(name: String) {
@@ -40,11 +43,13 @@ public class PersistentStoreLocal : IPersistentStoreLocal {
         stores[name] = TripleStoreLocal(name, pageid2, false)
         storesChanged()
     }
+
     private fun storesRemove(name: String) {
         stores[name]!!.dropStore()
         stores.remove(name)
         storesChanged()
     }
+
     private fun storesRemoveAll() {
         for ((k, v) in stores) {
             v.dropStore()
@@ -52,6 +57,7 @@ public class PersistentStoreLocal : IPersistentStoreLocal {
         stores.clear()
         storesChanged()
     }
+
     private fun storesChanged() {
         if (!BufferManagerExt.isInMemoryOnly) {
             File(BufferManagerExt.bufferPrefix + "PersistentStoreLocal.cnf").printWriter { out ->
@@ -61,6 +67,7 @@ public class PersistentStoreLocal : IPersistentStoreLocal {
             }
         }
     }
+
     init {
         if (BufferManagerExt.initializedFromDisk) {
             File(BufferManagerExt.bufferPrefix + "PersistentStoreLocal.cnf").forEachLine { line ->
@@ -73,13 +80,16 @@ public class PersistentStoreLocal : IPersistentStoreLocal {
             storesAdd(PersistentStoreLocalExt.defaultGraphName)
         }
     }
+
     public fun reloadPartitioningScheme() {
         storesRemoveAll()
         storesAdd(PersistentStoreLocalExt.defaultGraphName)
     }
+
     public override fun getGraphNames(): List<String> {
         return getGraphNames(false)
     }
+
     public override fun getGraphNames(includeDefault: Boolean): List<String> {
         val res = mutableListOf<String>()
         stores.keys.forEach { t ->
@@ -89,6 +99,7 @@ public class PersistentStoreLocal : IPersistentStoreLocal {
         }
         return res
     }
+
     public override fun createGraph(query: IQuery, name: String): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null) {
@@ -97,21 +108,26 @@ public class PersistentStoreLocal : IPersistentStoreLocal {
         storesAdd(name)
         return stores[name]!!
     }
+
     public override fun getEnabledPartitions(name: String): Array<EnabledPartitionContainer> {
         return stores[name]!!.enabledPartitions
     }
+
     public override /*suspend*/ fun dropGraph(query: IQuery, name: String) {
         SanityCheck.check { name != PersistentStoreLocalExt.defaultGraphName }
         val store = stores[name] ?: throw GraphNameNotExistsDuringDeleteException(name)
         store.clear()
         storesRemove(name)
     }
+
     public override /*suspend*/ fun clearGraph(query: IQuery, name: String) {
         getNamedGraph(query, name).clear()
     }
+
     public override /*suspend*/ fun getNamedGraph(query: IQuery, name: String): TripleStoreLocal {
         return getNamedGraph(query, name, false)
     }
+
     public override /*suspend*/ fun getNamedGraph(query: IQuery, name: String, create: Boolean): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null) {
@@ -121,9 +137,11 @@ public class PersistentStoreLocal : IPersistentStoreLocal {
         }
         return createGraph(query, name)
     }
+
     public override /*suspend*/ fun getDefaultGraph(query: IQuery): TripleStoreLocal {
         return getNamedGraph(query, PersistentStoreLocalExt.defaultGraphName, true)
     }
+
     public override /*suspend*/ fun commit(query: IQuery) {
         stores.values.forEach { v ->
             v.commit(query)

@@ -15,16 +15,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s05tripleStore.index_IDTriple
+
 import kotlin.jvm.JvmField
+
 internal class DistinctIterator(@JvmField val a: TripleIterator) : TripleIterator() {
     @JvmField
     var flag = 0
+
     init {
         if (a.hasNext()) {
             a.next()
             flag = 1
         }
     }
+
     override fun hasNext() = flag != 0
     override fun next(component: Int): Int {
         value[0] = a.value[0]

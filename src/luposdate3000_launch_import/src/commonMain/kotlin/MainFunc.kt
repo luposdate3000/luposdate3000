@@ -21,6 +21,7 @@ import lupos.s00misc.Parallel
 import lupos.s00misc.PartitionExt
 import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
+
 internal fun helperCleanString(s: String): String {
     var res: String = s
     while (true) {
@@ -30,6 +31,7 @@ internal fun helperCleanString(s: String): String {
     }
     return res
 }
+
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     var cnt = 0

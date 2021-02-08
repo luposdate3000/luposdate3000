@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s09physicalOperators.multiinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
@@ -29,6 +30,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
+
 public class POPJoinHashMap public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinHashMapID, "POPJoinHashMap", arrayOf(childA, childB), ESortPriorityExt.JOIN) {
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
@@ -46,12 +48,14 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
             }
         }
     }
+
     override fun toSparql(): String {
         if (optional) {
             return "OPTIONAL{" + children[0].toSparql() + children[1].toSparql() + "}"
         }
         return children[0].toSparql() + children[1].toSparql()
     }
+
     override fun equals(other: Any?): Boolean = other is POPJoinHashMap && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     internal class MapKey(@JvmField val data: IntArray) {
         override fun hashCode(): Int {
@@ -61,6 +65,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
             }
             return res
         }
+
         override fun equals(other: Any?) = other is MapKey && data.contentEquals(other.data)
         fun equalsFuzzy(other: Any?): Boolean {
             SanityCheck.check { other is MapKey }
@@ -72,10 +77,12 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
             return true
         }
     }
+
     internal class MapRow(columns: Int) {
         val columns = Array(columns) { mutableListOf<Int>() }
         var count = 0
     }
+
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
 // --- obtain child columns
         val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
@@ -196,7 +203,9 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                 override /*suspend*/ fun close() {
                     __close()
                 }
-                @Suppress("NOTHING_TO_INLINE") /*suspend*/ inline fun __close() {
+
+                @Suppress("NOTHING_TO_INLINE")
+                /*suspend*/ inline fun __close() {
                     if (label != 0) {
                         _close()
                         for (iterator2 in outIteratorsAllocated) {
@@ -210,6 +219,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                         }
                     }
                 }
+
                 override /*suspend*/ fun next(): Int {
                     return nextHelper(
                         {
@@ -341,6 +351,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                 override /*suspend*/ fun hasNext2(): Boolean {
                     return outJ[0].next() != ResultSetDictionaryExt.nullValue
                 }
+
                 override /*suspend*/ fun hasNext2Close() {
                     outJ[0].close()
                     for (closeIndex in 0 until columnsINAJ.size) {
@@ -354,6 +365,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
         }
         return res
     }
+
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinHashMap(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
 }

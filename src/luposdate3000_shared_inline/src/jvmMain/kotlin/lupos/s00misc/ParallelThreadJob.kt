@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import kotlin.jvm.JvmField
+
 internal actual class ParallelThreadJob(action: () -> Unit) {
     @JvmField
     val myThread = Thread { action() }

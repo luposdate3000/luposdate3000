@@ -15,12 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import kotlinx.cinterop.toKString
 import lupos.s00misc.EOperatingSystemExt
 import platform.posix.getenv
+
 internal actual object _Platform {
     val operatingSystem = EOperatingSystemExt.UNKNOWN
-    @Suppress("NOTHING_TO_INLINE")internal actual inline fun getHostName(): String = throw Exception("not available on this platform")
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun getHostName(): String = throw Exception("not available on this platform")
     internal actual inline fun getOperatingSystem() = operatingSystem
     internal actual inline fun getUserHome(): String = throw Exception("not available on this platform")
     internal actual inline fun getPathSeparator(): String = throw Exception("not available on this platform")
@@ -33,15 +37,19 @@ internal actual object _Platform {
         }
         return default
     }
+
     internal actual inline fun getBenchmarkHome(): String {
         return getEnv("LUPOS_BENCHMARK_HOME", "${getPathSeparator()}mnt")!!
     }
+
     internal actual inline fun getGradleCache(): String {
         return getEnv("LUPOS_GRADLE_CACHE", "${getUserHome()}${getPathSeparator()}.gradle${getPathSeparator()}caches${getPathSeparator()}")!!
     }
+
     internal actual inline fun getMavenCache(): String {
         return getEnv("LUPOS_MAVEN_CACHE", "${getUserHome()}${getPathSeparator()}.m2${getPathSeparator()}repository${getPathSeparator()}")!!
     }
+
     internal actual inline fun getAvailableRam(): Int {
         return getEnv("LUPOS_RAM", "60")!!.toInt()
     }

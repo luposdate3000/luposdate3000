@@ -15,9 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.s00misc.IMyOutputStream
+
 internal expect class _MyOutputStream : IMyOutputStream {
     internal constructor()
+
     public override fun writeInt(value: Int): Unit
     public override fun write(buf: ByteArray, off: Int, len: Int): Unit
     public override fun write(buf: ByteArray): Unit

@@ -15,10 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import kotlin.jvm.JvmField
+
 internal actual class ParallelThreadCondition {
     @JvmField
     val myMonitorObject = this as Object
+
     @JvmField
     var wasSignalled = false
     internal actual inline fun waitCondition(crossinline condition: () -> Boolean) {
@@ -32,7 +35,9 @@ internal actual class ParallelThreadCondition {
             wasSignalled = false
         }
     }
-    @Suppress("NOTHING_TO_INLINE") internal actual inline fun signal() {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun signal() {
         synchronized(myMonitorObject) {
             wasSignalled = true
             myMonitorObject.notify()

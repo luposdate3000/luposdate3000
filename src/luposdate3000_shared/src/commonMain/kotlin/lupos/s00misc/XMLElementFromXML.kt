@@ -15,10 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 public class XMLElementFromXML : XMLElementParser {
     override operator fun invoke(data: String): XMLElement? {
         return parseFromXmlHelper(data)?.first()
     }
+
     private fun parseFromXmlHelper(xml: String): List<XMLElement>? {
         val x = xml.replace("\n", "").replace("\r", "")
         val res = mutableListOf<XMLElement>()

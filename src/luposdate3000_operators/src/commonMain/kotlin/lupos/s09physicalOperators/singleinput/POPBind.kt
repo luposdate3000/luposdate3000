@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s09physicalOperators.singleinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
@@ -36,6 +37,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
+
 public class POPBind public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val name: AOPVariable, value: AOPBase, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPBindID, "POPBind", arrayOf(child, value), ESortPriorityExt.BIND) {
     override fun getPartitionCount(variable: String): Int {
         return if (variable == name.name) {
@@ -44,6 +46,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
             children[0].getPartitionCount(variable)
         }
     }
+
     override fun toSparql(): String {
         if (children[1] is AOPConstant && (children[1] as AOPConstant).value == ResultSetDictionaryExt.undefValue) {
             return children[0].toSparql()
@@ -57,6 +60,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
         res += "}}"
         return res
     }
+
     override fun cloneOP(): IOPBase = POPBind(query, projectedVariables, name, children[1].cloneOP() as AOPBase, children[0].cloneOP())
     override fun equals(other: Any?): Boolean = other is POPBind && name == other.name && children[0] == other.children[0]
     override fun childrenToVerifyCount(): Int = 1
@@ -88,6 +92,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
                     override /*suspend*/ fun close() {
                         ColumnIteratorQueueExt._close(this)
                     }
+
                     override /*suspend*/ fun next(): Int {
                         return ColumnIteratorQueueExt.nextHelper(
                             this,

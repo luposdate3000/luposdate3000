@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s01io
+
 import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
@@ -23,6 +24,7 @@ import java.util.Arrays
 import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
 import kotlin.jvm.JvmField
+
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 public actual class BufferManager internal actual constructor(
     @JvmField
@@ -30,11 +32,13 @@ public actual class BufferManager internal actual constructor(
 ) {
     @JvmField
     public val cacheSize: Int = 100
+
     internal companion object {
         internal const val freelistfileOffsetCounter = 0L
         internal const val freelistfileOffsetFreeLen = 4L
         internal const val freelistfileOffsetData = 8L
     }
+
     /*
      * each type safe page-manager safes to its own store
      * using another layer of indirection,
@@ -46,25 +50,36 @@ public actual class BufferManager internal actual constructor(
      */
     @JvmField
     internal val lock = MyReadWriteLock()
+
     @JvmField
     internal var openPages = Array(cacheSize) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
+
     @JvmField
     internal var openPagesRefcounters = IntArray(cacheSize)
+
     @JvmField
     internal var openPagesMapping = mutableMapOf<Int, Int>()
+
     @JvmField
     internal var counter: Int
+
     @JvmField
     internal var freeArray: IntArray
+
     @JvmField
     internal var freeArrayLength: Int
+
     @JvmField
     internal val freelistfile: RandomAccessFile
+
     @JvmField
     internal val datafile: RandomAccessFile
+
     @JvmField
     internal var datafilelength: Long
-    @Suppress("NOTHING_TO_INLINE") private inline fun localSanityCheck() {
+
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun localSanityCheck() {
         SanityCheck {
             var cntg = 0
             for (i in 0 until cacheSize) {
@@ -85,18 +100,20 @@ public actual class BufferManager internal actual constructor(
             }
             SanityCheck.check { openPagesMapping.size == cntg }
             for ((k, v) in openPagesMapping) {
-                SanityCheck.check { openPagesRefcounters[v]> 0 }
-                SanityCheck.check { k <counter }
+                SanityCheck.check { openPagesRefcounters[v] > 0 }
+                SanityCheck.check { k < counter }
                 for (i in 0 until freeArrayLength) {
                     SanityCheck { freeArray[i] != k }
                 }
             }
         }
     }
-    @Suppress("NOTHING_TO_INLINE") private inline fun findNextOpenID(): Int {
+
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun findNextOpenID(): Int {
         // this assumes write lock
         var openId = 0
-        while (openId <cacheSize) {
+        while (openId < cacheSize) {
             if (openPagesRefcounters[openId] == 0) {
                 openPagesRefcounters[openId]++
                 break
@@ -108,6 +125,7 @@ public actual class BufferManager internal actual constructor(
         }
         return openId
     }
+
     public actual /*suspend*/ fun clear(): Unit = lock.withWriteLock {
         counter = 0
         freelistfile.seek(freelistfileOffsetCounter)
@@ -120,10 +138,11 @@ public actual class BufferManager internal actual constructor(
             openPagesRefcounters[i] = 0
         }
     }
+
     public actual fun flushPage(pageid: Int) {
         lock.withWriteLock {
             localSanityCheck()
-            SanityCheck.check { pageid <counter }
+            SanityCheck.check { pageid < counter }
             for (i in 0 until freeArrayLength) {
                 SanityCheck { freeArray[i] != pageid }
             }
@@ -147,10 +166,11 @@ public actual class BufferManager internal actual constructor(
             localSanityCheck()
         }
     }
+
     public actual fun releasePage(pageid: Int) {
         lock.withWriteLock {
             localSanityCheck()
-            SanityCheck.check { pageid <counter }
+            SanityCheck.check { pageid < counter }
             for (i in 0 until freeArrayLength) {
                 SanityCheck { freeArray[i] != pageid }
             }
@@ -179,11 +199,12 @@ public actual class BufferManager internal actual constructor(
             localSanityCheck()
         }
     }
+
     public actual fun getPage(pageid: Int): ByteArray {
         var openId: Int?
         lock.withWriteLock {
             localSanityCheck()
-            SanityCheck.check { pageid <counter }
+            SanityCheck.check { pageid < counter }
             for (i in 0 until freeArrayLength) {
                 SanityCheck { freeArray[i] != pageid }
             }
@@ -201,12 +222,13 @@ public actual class BufferManager internal actual constructor(
         }
         return openPages[openId!!]
     }
+
     public actual /*suspend*/ fun createPage(action: (ByteArray, Int) -> Unit) {
         contract { callsInPlace(action, EXACTLY_ONCE) }
         lock.withWriteLock {
             localSanityCheck()
             val pageid: Int
-            if (freeArrayLength> 0) {
+            if (freeArrayLength > 0) {
                 freeArrayLength--
                 freelistfile.seek(freelistfileOffsetFreeLen)
                 freelistfile.writeInt(freeArrayLength)
@@ -216,7 +238,7 @@ public actual class BufferManager internal actual constructor(
                 freelistfile.seek(freelistfileOffsetCounter)
                 freelistfile.writeInt(counter)
             }
-            SanityCheck.check { pageid <counter }
+            SanityCheck.check { pageid < counter }
             for (i in 0 until freeArrayLength) {
                 SanityCheck { freeArray[i] != pageid }
             }
@@ -228,9 +250,10 @@ public actual class BufferManager internal actual constructor(
             localSanityCheck()
         }
     }
+
     public actual /*suspend*/ fun deletePage(pageid: Int): Unit = lock.withWriteLock {
         localSanityCheck()
-        SanityCheck.check { pageid <counter }
+        SanityCheck.check { pageid < counter }
         for (i in 0 until freeArrayLength) {
             SanityCheck { freeArray[i] != pageid }
         }
@@ -253,6 +276,7 @@ public actual class BufferManager internal actual constructor(
         SanityCheck.check { !openPagesMapping.values.contains(openId) }
         localSanityCheck()
     }
+
     init {
         datafile = RandomAccessFile(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEnding, "rw")
         freelistfile = RandomAccessFile(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEndingFree, "rw")
@@ -263,7 +287,7 @@ public actual class BufferManager internal actual constructor(
             freelistfile.seek(freelistfileOffsetCounter)
             counter = freelistfile.readInt()
             var s = cacheSize
-            while (s <freeArrayLength) {
+            while (s < freeArrayLength) {
                 s *= 2
             }
             freeArray = IntArray(s)

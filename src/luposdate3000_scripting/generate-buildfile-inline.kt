@@ -17,9 +17,11 @@
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
+
 enum class InlineMode {
     Enable, Disable
 }
+
 val regexEnableNoInline = "/\\*noinline\\*/".toRegex()
 val regexEnableInline = "/\\*inline\\*/".toRegex()
 val regexEnableCrossInline = "/\\*crossinline\\*/".toRegex()
@@ -34,6 +36,7 @@ public fun applyInlineEnable() {
         }
     }
 }
+
 public fun applyInlineDisable() {
     Files.walk(Paths.get("src.generated")).forEach { it ->
         val tmp = it.toString()
@@ -42,6 +45,7 @@ public fun applyInlineDisable() {
         }
     }
 }
+
 public fun applyInline(f: String, inlineMode: InlineMode) {
     val fileSource = File(f)
     val fileTarget = File(f + ".tmp")

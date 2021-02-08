@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04arithmetikOperators.singleinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueDecimal
@@ -28,6 +29,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.math.floor
+
 public class AOPBuildInCallFLOOR public constructor(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallFLOORID, "AOPBuildInCallFLOOR", arrayOf(child)) {
     override fun toSparql(): String = "FLOOR(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallFLOOR && children[0] == other.children[0]
@@ -62,5 +64,6 @@ public class AOPBuildInCallFLOOR public constructor(query: IQuery, child: AOPBas
             res
         }
     }
+
     override fun cloneOP(): IOPBase = AOPBuildInCallFLOOR(query, children[0].cloneOP() as AOPBase)
 }

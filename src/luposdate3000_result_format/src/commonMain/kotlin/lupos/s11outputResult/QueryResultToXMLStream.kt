@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s11outputResult
+
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.MyLock
@@ -32,6 +33,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
+
 public object QueryResultToXMLStream {
     private /*suspend*/ fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
         dictionary.getValue(
@@ -113,6 +115,7 @@ public object QueryResultToXMLStream {
             {}, {}
         )
     }
+
     private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
         output.print("  <result>\n")
         for (variableIndex in variables.indices) {
@@ -120,7 +123,9 @@ public object QueryResultToXMLStream {
         }
         output.print("  </result>\n")
     }
-    @Suppress("NOTHING_TO_INLINE") /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
+
+    @Suppress("NOTHING_TO_INLINE")
+    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
         val rowBuf = IntArray(variables.size)
         val resultWriter = MyPrintWriter(true)
         loop@ while (true) {
@@ -141,6 +146,7 @@ public object QueryResultToXMLStream {
             element.close()
         }
     }
+
     private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyPrintWriter, parent: Partition = Partition()) {
         if ((USE_PARTITIONS3 == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
             var partitionCount = 0
@@ -181,6 +187,7 @@ public object QueryResultToXMLStream {
             writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
         }
     }
+
     public /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyPrintWriter) {
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()

@@ -15,9 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
+
 public object EOptimizerIDHelper {
-    @JvmField public val optional: BooleanArray = BooleanArray(EOptimizerIDExt.values_size) {
+    @JvmField
+    public val optional: BooleanArray = BooleanArray(EOptimizerIDExt.values_size) {
         when (it) {
             EOptimizerIDExt.LogicalOptimizerMinusAddSortID -> true
             EOptimizerIDExt.LogicalOptimizerDistinctSplitID -> true
@@ -65,7 +68,9 @@ public object EOptimizerIDHelper {
             else -> throw UnreachableException()
         }
     }
-    @JvmField public val repeatOnChange: BooleanArray = BooleanArray(EOptimizerIDExt.values_size) {
+
+    @JvmField
+    public val repeatOnChange: BooleanArray = BooleanArray(EOptimizerIDExt.values_size) {
         when (it) {
             EOptimizerIDExt.LogicalOptimizerMinusAddSortID -> true
             EOptimizerIDExt.LogicalOptimizerDistinctSplitID -> true

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s05tripleStore
+
 import lupos.s00misc.BugException
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
@@ -26,6 +27,7 @@ import lupos.s04arithmetikOperators.noinput.IAOPConstant
 import lupos.s04arithmetikOperators.noinput.IAOPVariable
 import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
+
 public sealed class TripleStoreFeatureParams(@JvmField public val feature: TripleStoreFeature, @JvmField public val params: Array<IAOPBase>) {
     public abstract fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int
     internal fun myToStringHelper(n: IAOPBase): String {
@@ -42,11 +44,13 @@ public sealed class TripleStoreFeatureParams(@JvmField public val feature: Tripl
         }
     }
 }
+
 public class TripleStoreFeatureParamsDefault(@JvmField public val idx: EIndexPattern, params: Array<IAOPBase>) : TripleStoreFeatureParams(TripleStoreFeatureExt.DEFAULT, params) {
     override fun toString(): String = "TripleStoreFeatureParamsDefault $feature ${EIndexPatternExt.names[idx]} ${params.map { myToStringHelper(it) }}"
     override fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int {
         return data[featureRange.first + idx]
     }
+
     public fun getFilter(query: IQuery): IntArray {
         var variableCount = 0
         val filter = mutableListOf<Int>()
@@ -69,6 +73,7 @@ public class TripleStoreFeatureParamsDefault(@JvmField public val idx: EIndexPat
         }
         return IntArray(filter.size) { filter[it] }
     }
+
     public fun getFilterAndProjection(query: IQuery): Pair<IntArray, List<String>> {
         val filter = mutableListOf<Int>()
         val projection = mutableListOf<String>()
@@ -90,8 +95,10 @@ public class TripleStoreFeatureParamsDefault(@JvmField public val idx: EIndexPat
         return Pair(IntArray(filter.size) { filter[it] }, projection)
     }
 }
+
 public class TripleStoreFeatureParamsPartition(@JvmField public val idx: EIndexPattern, params: Array<IAOPBase>, @JvmField public val partition: Partition) : TripleStoreFeatureParams(TripleStoreFeatureExt.PARTITION, params) {
     override fun toString(): String = "TripleStoreFeatureParamsDefault $feature ${EIndexPatternExt.names[idx]} ${params.map { myToStringHelper(it) }} ${partition.data.map { it }} ${getColumn()}"
+
     /*
      * column 0, 1 or 2 .. references the 'x'-th column in choosen idx
      * currently column==0 is not supported
@@ -99,9 +106,11 @@ public class TripleStoreFeatureParamsPartition(@JvmField public val idx: EIndexP
     override fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int {
         return data[featureRange.first + idx + EIndexPatternExt.values_size * (getColumn() - 1)]
     }
+
     public fun toTripleStoreFeatureParamsDefault(): TripleStoreFeatureParamsDefault {
         return TripleStoreFeatureParamsDefault(idx, params)
     }
+
     public fun getColumn(): Int {
         if (partition.data.size != 1) {
             throw throw BugException("TripleStoreFeature", "partition within store only supported for 1 partition at a time")

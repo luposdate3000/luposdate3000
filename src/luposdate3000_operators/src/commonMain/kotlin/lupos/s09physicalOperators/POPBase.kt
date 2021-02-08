@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s09physicalOperators
+
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.HistogramNotImplementedException
@@ -26,6 +27,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.OPBase
 import kotlin.jvm.JvmField
+
 public abstract class POPBase public constructor(
     query: IQuery,
     @JvmField public var projectedVariables: List<String>,
@@ -46,6 +48,7 @@ public abstract class POPBase public constructor(
         }
         return res
     }
+
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         for (i in 0 until childrenToVerifyCount()) {
             children[i].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
@@ -68,5 +71,6 @@ public abstract class POPBase public constructor(
             }
         }
     }
+
     override /*suspend*/ fun calculateHistogram(): HistogramResult = throw HistogramNotImplementedException(classname)
 }

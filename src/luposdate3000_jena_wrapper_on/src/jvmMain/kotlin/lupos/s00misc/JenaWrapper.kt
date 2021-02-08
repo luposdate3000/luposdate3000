@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 import org.apache.jena.query.ARQ
 import org.apache.jena.query.DatasetFactory
 import org.apache.jena.query.QueryExecutionFactory
@@ -25,11 +26,13 @@ import org.apache.jena.sparql.mgt.Explain
 import org.apache.jena.update.UpdateAction
 import java.io.ByteArrayOutputStream
 import java.io.File
+
 public object JenaWrapper {
     private var dataset = DatasetFactory.createTxnMem()!!
     public fun dropAll() {
         updateQuery("DROP SILENT ALL")
     }
+
     private fun checkExceptions(queryString: String) {
         if (queryString.contains("STRDT")) {
             throw JenaBugException("jena implementation is wrong in combination with STRDT when there are typed literals matching the new specified type")
@@ -38,6 +41,7 @@ public object JenaWrapper {
             throw JenaBugException("jena implementation changes the language to uppercase, and is wrong, when there already are language tagged literals")
         }
     }
+
     private fun updateQuery(queryString: String) {
         checkExceptions(queryString)
         try {
@@ -46,9 +50,11 @@ public object JenaWrapper {
             e.printStackTrace()
         }
     }
+
     public fun execQuery(queryString: String): String {
         return execQuery(queryString, true)
     }
+
     public fun execQuery(queryString: String, logging: Boolean): String {
         if (logging) {
             checkExceptions(queryString)
@@ -100,6 +106,7 @@ public object JenaWrapper {
         }
         return res
     }
+
     public fun loadFromFile(fileNames: String, graph: String) {
         var graph2 = graph
         if (!graph2.startsWith("<")) {
@@ -111,6 +118,7 @@ public object JenaWrapper {
         }
         updateQuery(updateString.toString())
     }
+
     public fun loadFromFile(fileNames: String) {
         val updateString = StringBuilder()
         for (fileName in fileNames.split(";")) {

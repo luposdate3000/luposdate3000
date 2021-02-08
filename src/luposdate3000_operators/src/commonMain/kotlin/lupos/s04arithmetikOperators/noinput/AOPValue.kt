@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04arithmetikOperators.noinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueDefinition
@@ -22,6 +23,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
+
 public class AOPValue public constructor(query: IQuery, childs: List<AOPConstant>) : AOPBase(query, EOperatorIDExt.AOPValueID, "AOPValue", Array(childs.size) { childs[it] }) {
     override fun toSparql(): String {
         var res = ""
@@ -35,9 +37,11 @@ public class AOPValue public constructor(query: IQuery, childs: List<AOPConstant
         res += ")"
         return res
     }
+
     override fun equals(other: Any?): Boolean = other is AOPValue && children.contentEquals(other.children)
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         SanityCheck.checkUnreachable()
     }
+
     override fun cloneOP(): IOPBase = this
 }

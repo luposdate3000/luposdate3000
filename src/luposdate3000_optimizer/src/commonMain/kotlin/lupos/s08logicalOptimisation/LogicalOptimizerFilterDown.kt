@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s08logicalOptimisation
+
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
@@ -27,6 +28,7 @@ import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPGroup
+
 public class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterDownID) {
     override val classname: String = "LogicalOptimizerFilterDown"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
@@ -95,6 +97,7 @@ public class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOp
         }
         return res
     }
+
     private fun addFilters(filters: MutableList<AOPBase>, filter: AOPBase) {
         if (filter is AOPAnd) {
             addFilters(filters, filter.getChildren()[0] as AOPBase)
@@ -103,6 +106,7 @@ public class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOp
             filters.add(filter)
         }
     }
+
     private fun containsBound(filter: AOPBase): Boolean {
         if (filter is AOPBuildInCallBOUND) {
             return true

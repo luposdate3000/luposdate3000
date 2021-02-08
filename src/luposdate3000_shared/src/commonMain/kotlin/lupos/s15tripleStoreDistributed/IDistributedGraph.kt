@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s15tripleStoreDistributed
+
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
 import lupos.s00misc.Partition
@@ -22,6 +23,7 @@ import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s05tripleStore.ITripleStoreBulkImport
 import lupos.s09physicalOperators.IPOPBase
+
 public interface IDistributedGraph {
     public /*suspend*/ fun bulkImport(action: /*suspend*/ (ITripleStoreBulkImport) -> Unit)
     public /*suspend*/ fun modify(data: Array<ColumnIterator>, type: EModifyType)

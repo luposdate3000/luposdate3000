@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04arithmetikOperators.singleinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.SanityCheck
@@ -29,6 +30,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
+
 public class AOPAggregationMAX public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationMAXID, "AOPAggregationMAX", Array(childs.size) { childs[it] }) {
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
@@ -37,6 +39,7 @@ public class AOPAggregationMAX public constructor(query: IQuery, @JvmField publi
         }
         return "MAX(" + children[0].toSparql() + ")"
     }
+
     override fun equals(other: Any?): Boolean = other is AOPAggregationMAX && distinct == other.distinct && children.contentEquals(other.children)
     override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
         val res = ColumnIteratorAggregate()
@@ -59,6 +62,7 @@ public class AOPAggregationMAX public constructor(query: IQuery, @JvmField publi
         }
         return res
     }
+
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
@@ -66,5 +70,6 @@ public class AOPAggregationMAX public constructor(query: IQuery, @JvmField publi
             res
         }
     }
+
     override fun cloneOP(): IOPBase = AOPAggregationMAX(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
 }

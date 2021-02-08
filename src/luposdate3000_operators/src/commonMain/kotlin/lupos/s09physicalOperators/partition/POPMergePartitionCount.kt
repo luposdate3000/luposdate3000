@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s09physicalOperators.partition
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Parallel
@@ -26,6 +27,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
+
 public class POPMergePartitionCount public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCount: Int, @JvmField public var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPMergePartitionCountID, "POPMergePartitionCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
@@ -34,14 +36,17 @@ public class POPMergePartitionCount public constructor(query: IQuery, projectedV
             children[0].getPartitionCount(variable)
         }
     }
+
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
         var res = toXMLElementHelper2(partial, true)
         return res
     }
+
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         var res = toXMLElementHelper2(partial, false)
         return res
     }
+
     private fun theKeyToString(key: Map<String, Int>): String {
         var s = "$uuid"
         for (k in key.keys.sorted()) {
@@ -49,6 +54,7 @@ public class POPMergePartitionCount public constructor(query: IQuery, projectedV
         }
         return s
     }
+
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
             if (isRoot) {
@@ -75,6 +81,7 @@ public class POPMergePartitionCount public constructor(query: IQuery, projectedV
         res.addAttribute("partitionID", "" + partitionID)
         return res
     }
+
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> {
@@ -85,6 +92,7 @@ public class POPMergePartitionCount public constructor(query: IQuery, projectedV
             tmp.getProvidedVariableNames()
         }
     }
+
     override fun cloneOP(): IOPBase = POPMergePartitionCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPMergePartitionCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
@@ -147,6 +155,7 @@ public class POPMergePartitionCount public constructor(query: IQuery, projectedV
                     }
                     return res
                 }
+
                 override /*suspend*/ fun hasNext2Close() {
                     SanityCheck.println { "merge $uuid reader closed" }
                     readerFinished = 1

@@ -15,8 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s09physicalOperators.noinput
+
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery
+
 public abstract class POPValuesImportBase public constructor(query: IQuery, projectedVariables: List<String>, variables: List<String>) : POPValues(query, projectedVariables, variables, mutableListOf()) {
     override fun getPartitionCount(variable: String): Int = 1
     private fun cleanString(s: String?): String? {
@@ -31,6 +33,7 @@ public abstract class POPValuesImportBase public constructor(query: IQuery, proj
         }
         return res
     }
+
     public fun addRow(values: Array<String?>) {
         SanityCheck.check { values.size == variables.size }
         for (i in variables.indices) {

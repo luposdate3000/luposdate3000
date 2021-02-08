@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s05tripleStore
+
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EPartitionModeExt
@@ -26,9 +27,11 @@ import lupos.s00misc.UnreachableException
 import lupos.s01io.BufferManager
 import lupos.s01io.BufferManagerExt
 import kotlin.jvm.JvmField
+
 public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreLocalBase(name, store_root_page_id_) {
     @JvmField
     public val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
+
     init {
         val rootPage = bufferManager.getPage(store_root_page_id)
         val dataDistinctList = mutableListOf<TripleStoreDistinctContainer>()
@@ -72,7 +75,7 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
             }
             enabledPartitions = tmpEnabledPartitions.toTypedArray()
         } else {
-            if (!(USE_PARTITIONS2==EPartitionModeExt.Thread||USE_PARTITIONS2==EPartitionModeExt.Process)) {
+            if (!(USE_PARTITIONS2 == EPartitionModeExt.Thread || USE_PARTITIONS2 == EPartitionModeExt.Process)) {
                 enabledPartitions = arrayOf( //
                     EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O), -1, 1), //
                     EnabledPartitionContainer(mutableSetOf(EIndexPatternExt.SOP, EIndexPatternExt.S_OP, EIndexPatternExt.SO_P), -1, 1), //
@@ -164,6 +167,7 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
         pendingModificationsRemove = Array(dataDistinct.size) { mutableMapOf() }
         bufferManager.releasePage(store_root_page_id)
     }
+
     override fun dropStore() {
         for (c in dataDistinct) {
             c.second.dropIndex()
@@ -171,6 +175,7 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
         bufferManager.getPage(store_root_page_id)
         bufferManager.deletePage(store_root_page_id)
     }
+
     public companion object {
         public fun providesFeature(feature: TripleStoreFeature, params: TripleStoreFeatureParams?): Boolean {
             return when (feature) {

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s09physicalOperators.partition
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.ESortTypeExt
@@ -31,6 +32,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
+
 // http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
 public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCountFrom: Int, @JvmField public var partitionCountTo: Int, @JvmField public var partitionIDFrom: Int, @JvmField public var partitionIDTo: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPChangePartitionOrderedByIntIdID, "POPChangePartitionOrderedByIntId", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
@@ -40,14 +42,17 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
             children[0].getPartitionCount(variable)
         }
     }
+
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
         var res = toXMLElementHelper2(partial, true)
         return res
     }
+
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         var res = toXMLElementHelper2(partial, false)
         return res
     }
+
     private fun theKeyToString(key: Map<String, Int>): String {
         var s = "$uuid"
         for (k in key.keys.sorted()) {
@@ -55,6 +60,7 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
         }
         return s
     }
+
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
             if (isRoot) {
@@ -87,6 +93,7 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
         res.addAttribute("partitionIDTo", "" + partitionIDTo)
         return res
     }
+
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> = children[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> {
@@ -97,6 +104,7 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
             tmp.getProvidedVariableNames()
         }
     }
+
     override fun cloneOP(): IOPBase = POPChangePartitionOrderedByIntId(query, projectedVariables, partitionVariable, partitionCountFrom, partitionCountTo, partitionIDFrom, partitionIDTo, children[0].cloneOP())
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPChangePartitionOrderedByIntId && children[0] == other.children[0] && partitionVariable == other.partitionVariable

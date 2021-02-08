@@ -1,4 +1,5 @@
 package lupos.s00misc
+
 @Retention(AnnotationRetention.SOURCE)
 @Target(
 // AnnotationTarget.CLASS,

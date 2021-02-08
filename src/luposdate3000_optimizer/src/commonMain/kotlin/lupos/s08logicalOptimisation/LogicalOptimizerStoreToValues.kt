@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s08logicalOptimisation
+
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.Partition
 import lupos.s00misc.REPLACE_STORE_WITH_VALUES
@@ -32,6 +33,7 @@ import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s15tripleStoreDistributed.distributedTripleStore
+
 public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerStoreToValuesID) {
     override val classname: String = "LogicalOptimizerStoreToValues"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
@@ -47,7 +49,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
             }
             if (node.alreadyCheckedStore != hashCode) {
                 node.alreadyCheckedStore = hashCode
-                // dont query the same statements twice ... 
+                // dont query the same statements twice ...
                 val variables = mutableListOf<String>()
                 for (c in node.getChildren()) {
                     if (c is AOPVariable) {

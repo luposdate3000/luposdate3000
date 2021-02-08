@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 public expect object DateHelperRelative {
     public fun markNow(): Long
     public fun elapsedSeconds(marker: Long): Double

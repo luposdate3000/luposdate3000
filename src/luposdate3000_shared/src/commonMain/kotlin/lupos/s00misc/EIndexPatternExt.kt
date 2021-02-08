@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
+
 public object EIndexPatternExt {
     public const val OPS: EIndexPattern = 0
     public const val OP_S: EIndexPattern = 1
@@ -36,7 +38,9 @@ public object EIndexPatternExt {
     public const val S_OP: EIndexPattern = 16
     public const val S_PO: EIndexPattern = 17
     public const val values_size: Int = 18
-    @JvmField public val names: Array<String> = arrayOf(
+
+    @JvmField
+    public val names: Array<String> = arrayOf(
         "OPS",
         "OP_S",
         "OSP",

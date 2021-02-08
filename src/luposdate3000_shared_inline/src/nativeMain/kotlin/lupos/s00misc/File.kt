@@ -15,15 +15,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.NotImplementedException
+
 internal actual class _File {
     val filename: String
+
     actual constructor(filename: String) {
         this.filename = filename
     }
+
     internal actual inline fun createTempFile(prefix: String, suffix: String, directory: String): String = throw NotImplementedException("File", "createTempFile not implemented")
     internal actual inline fun exists(): Boolean = throw NotImplementedException("File", "exists not implemented")
     internal actual inline fun mkdirs(): Boolean = throw NotImplementedException("File", "mkdirs not implemented")

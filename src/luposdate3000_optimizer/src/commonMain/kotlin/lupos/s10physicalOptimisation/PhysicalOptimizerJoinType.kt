@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s10physicalOptimisation
+
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
@@ -39,6 +40,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
+
 public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerJoinTypeID) {
     override val classname: String = "PhysicalOptimizerJoinType"
     private fun localGetProjected(node: IOPBase, parent: IOPBase?): List<String> {
@@ -57,6 +59,7 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
             }
         }
     }
+
     private fun embedWithinPartitionContext(joinColumns: MutableList<String>, childA: IOPBase, childB: IOPBase, create: (IOPBase, IOPBase) -> IOPBase, keepOrder: Boolean): IOPBase {
         if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {
             var a = childA
@@ -97,6 +100,7 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
             return create(childA, childB)
         }
     }
+
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         val projectedVariables = localGetProjected(node, parent)

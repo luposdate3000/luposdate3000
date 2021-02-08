@@ -15,8 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 internal actual object _IntegerExt {
-    @Suppress("NOTHING_TO_INLINE") internal actual inline fun numberOfLeadingZeros(value: Int): Int {
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun numberOfLeadingZeros(value: Int): Int {
         return Integer.numberOfLeadingZeros(value)
     }
 }

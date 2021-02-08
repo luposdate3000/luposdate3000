@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04arithmetikOperators.multiinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.SanityCheck
@@ -25,6 +26,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
+
 public class AOPBuildInCallCOALESCE public constructor(query: IQuery, childs: List<AOPBase>) : AOPBase(query, EOperatorIDExt.AOPBuildInCallCOALESCEID, "AOPBuildInCallCOALESCE", Array(childs.size) { childs[it] }) {
     override fun toSparql(): String {
         val res = StringBuilder()
@@ -41,6 +43,7 @@ public class AOPBuildInCallCOALESCE public constructor(query: IQuery, childs: Li
         res.append(")")
         return res.toString()
     }
+
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallCOALESCE && children.contentEquals(other.children)
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val tmpChilds = children.map { (it as AOPBase).evaluate(row) }
@@ -62,5 +65,6 @@ public class AOPBuildInCallCOALESCE public constructor(query: IQuery, childs: Li
             res
         }
     }
+
     override fun cloneOP(): IOPBase = AOPBuildInCallCOALESCE(query, children.map { it.cloneOP() as AOPBase })
 }

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 public interface IMyPrintWriter {
     public fun clearBuffer()
     public override fun toString(): String

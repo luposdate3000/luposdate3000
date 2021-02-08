@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s08logicalOptimisation
+
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -23,6 +24,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.singleinput.LOPBind
+
 public class LogicalOptimizerDetectMinusStep2(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerDetectMinusStep2ID) {
     override val classname: String = "LogicalOptimizerDetectMinusStep2"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

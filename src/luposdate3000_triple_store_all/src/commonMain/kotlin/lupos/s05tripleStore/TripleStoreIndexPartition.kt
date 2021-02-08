@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s05tripleStore
+
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ETripleIndexTypeExt
 import lupos.s00misc.PartitionExt
@@ -24,10 +25,12 @@ import lupos.s01io.BufferManagerExt
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
+
 public class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStoreIndex, @JvmField private val column: Int, @JvmField public val partitionCount: Int, store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex(store_root_page_id_) {
     @JvmField
     public val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
     private val partitions: Array<TripleStoreIndex>
+
     init {
         SanityCheck.check { partitionCount * 4 + 4 <= BufferManagerExt.getPageSize() }
         val rootPage = bufferManager.getPage(store_root_page_id)
@@ -57,6 +60,7 @@ public class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStore
         }
         bufferManager.releasePage(store_root_page_id)
     }
+
     override fun dropIndex() {
         for (p in partitions) {
             p.dropIndex()
@@ -64,6 +68,7 @@ public class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStore
         bufferManager.getPage(store_root_page_id)
         bufferManager.deletePage(store_root_page_id)
     }
+
     override /*suspend*/ fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> {
         var i = -1
         val partition = (params as TripleStoreFeatureParamsPartition).partition
@@ -74,6 +79,7 @@ public class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStore
         val p2 = params.toTripleStoreFeatureParamsDefault()
         return partitions[i].getHistogram(query, p2)
     }
+
     override /*suspend*/ fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle {
         var i = -1
         val partition = (params as TripleStoreFeatureParamsPartition).partition
@@ -84,6 +90,7 @@ public class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStore
         val p2 = params.toTripleStoreFeatureParamsDefault()
         return partitions[i].getIterator(query, p2)
     }
+
     override /*suspend*/ fun import(dataImport: IntArray, count: Int, order: IntArray) {
         var counters = IntArray(partitionCount)
         for (i in 0 until count / 3) {
@@ -109,6 +116,7 @@ public class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStore
             }
         }
     }
+
     override /*suspend*/ fun insertAsBulk(dataImport: IntArray, order: IntArray) {
         var counters = IntArray(partitionCount)
         for (i in 0 until dataImport.size / 3) {
@@ -133,6 +141,7 @@ public class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStore
             }
         }
     }
+
     override /*suspend*/ fun removeAsBulk(dataImport: IntArray, order: IntArray) {
         var counters = IntArray(partitionCount)
         for (i in 0 until dataImport.size / 3) {
@@ -157,22 +166,27 @@ public class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStore
             }
         }
     }
+
     override /*suspend*/ fun flush() {
         for (i in 0 until partitionCount) {
             partitions[i].flush()
         }
     }
+
     override fun insert(a: Int, b: Int, c: Int) {
         SanityCheck.checkUnreachable()
     }
+
     override fun remove(a: Int, b: Int, c: Int) {
         SanityCheck.checkUnreachable()
     }
+
     override /*suspend*/ fun clear() {
         for (i in 0 until partitionCount) {
             partitions[i].clear()
         }
     }
+
     override /*suspend*/ fun printContents() {
         for (i in 0 until partitionCount) {
             SanityCheck.println { "TripleStoreIndex_Partition :: $i" }

@@ -15,10 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.NotImplementedException
+
 internal actual class _MyOutputStream : IMyOutputStream {
     internal actual constructor() {}
+
     public actual override fun writeInt(value: Int): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
     public actual override fun write(buf: ByteArray, off: Int, len: Int): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")
     public actual override fun close(): Unit = throw NotImplementedException("MyOutputStream", "xyz not implemented")

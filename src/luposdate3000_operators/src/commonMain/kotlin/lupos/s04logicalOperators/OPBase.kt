@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators
+
 import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -45,41 +46,54 @@ import lupos.s04logicalOperators.singleinput.LOPSort
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s09physicalOperators.singleinput.POPSort
 import kotlin.jvm.JvmField
+
 public abstract class OPBase public constructor(@JvmField public val query: IQuery, @JvmField public val operatorID: EOperatorID, @JvmField public val classname: String, @JvmField public val children: Array<IOPBase>, private val sortPriority: ESortPriority) : IOPBase {
     override fun getClassname(): String = classname
+
     @JvmField
     public var onlyExistenceRequired: Boolean = false
+
     /* onlyExistenceRequired:: ask / distinct / reduced */
     @JvmField
     public var partOfAskQuery: Boolean = false
+
     /*partOfAskQuery :: if_ true, prefer join with store, otherwiese perform fast-sort followed by reduced everywhere*/
     @JvmField
     public var alreadyCheckedStore: Long = -1L
+
     @JvmField
     public val uuid: Long = global_uuid++
+
     @JvmField
     public var sortPrioritiesInitialized: Boolean = false
+
     @JvmField
     public var sortPriorities: MutableList<List<SortHelper>> = mutableListOf() // possibilities (filtered for_ parent)
+
     @JvmField
     public var mySortPriority: MutableList<SortHelper> = mutableListOf()
+
     @JvmField
     public var histogramResult: HistogramResult? = null
     override fun setPartOfAskQuery(value: Boolean) {
         partOfAskQuery = value
     }
+
     override fun setOnlyExistenceRequired(value: Boolean) {
         onlyExistenceRequired = value
     }
+
     override fun getPartOfAskQuery(): Boolean = partOfAskQuery
     override fun getOnlyExistenceRequired(): Boolean = onlyExistenceRequired
     override fun getSortPrioritiesInitialized(): Boolean = sortPrioritiesInitialized
     override fun setSortPriorities(value: MutableList<List<SortHelper>>) {
         sortPriorities = value
     }
+
     override fun setMySortPriority(value: MutableList<SortHelper>) {
         mySortPriority = value
     }
+
     override fun getQuery(): IQuery = query
     override fun getSortPriorities(): MutableList<List<SortHelper>> = sortPriorities
     override fun getUUID(): Long = uuid
@@ -104,10 +118,12 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         }
         return histogramResult!!
     }
+
     override /*suspend*/ fun evaluateRoot(): IteratorBundle {
         val node = query.initialize(this)
         return node.evaluate(Partition())
     }
+
     override /*suspend*/ fun evaluateRoot(partition: Partition): IteratorBundle {
         val node = query.initialize(this)
         return node.evaluate(partition)
@@ -121,6 +137,7 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         }
         return res
     }
+
     public fun addToPrefixFreeList(data: List<SortHelper>, target: MutableList<List<SortHelper>>) {
         if (data.isNotEmpty()) {
             if (!target.contains(data)) {
@@ -151,6 +168,7 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
             }
         }
     }
+
     override fun selectSortPriority(priority: List<SortHelper>) {
         val tmp = mutableListOf<List<SortHelper>>()
         for (x in sortPriorities) {
@@ -208,6 +226,7 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         SanityCheck.check({ getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName }) }, { "$this" })
         sortPriorities = tmp
     }
+
     override fun initializeSortPriorities(onChange: () -> Unit): Boolean {
         if (!sortPrioritiesInitialized) {
             sortPriorities.addAll(getPossibleSortPriorities())
@@ -221,6 +240,7 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         sortPrioritiesInitialized = true
         return sortPriorities.size < 1
     }
+
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         /*possibilities for_ next operator*/
         val res = mutableListOf<List<SortHelper>>()
@@ -345,19 +365,23 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         }
         return res
     }
+
     override fun applyPrefix(prefix: String, iri: String) {
         for (c in children) {
             c.applyPrefix(prefix, iri)
         }
     }
+
     public open fun childrenToVerifyCount(): Int = children.size
     override fun updateChildren(i: Int, child: IOPBase) {
         SanityCheck.check { i < children.size }
         children[i] = child
     }
+
     internal companion object {
         var global_uuid = 0L
     }
+
     public fun replaceVariableWithUndef(node: IOPBase, name: String, existsClauses: Boolean): IOPBase {
         if (!existsClauses && (node is AOPBuildInCallExists || node is AOPBuildInCallNotExists)) {
             return node
@@ -370,10 +394,12 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         }
         return node
     }
+
     override fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String): IOPBase {
         val tmp = LOPNOOP(node.getQuery(), node)
         return replaceVariableWithAnother(node, name, name2, tmp, 0)
     }
+
     public fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
         SanityCheck.check { parent.getChildren()[parentIdx] == node }
         if (node is LOPBind && node.name.name == name) {
@@ -403,6 +429,7 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         }
         return node
     }
+
     public fun replaceVariableWithConstant(node: IOPBase, name: String, value: Int): IOPBase {
         if (node is AOPVariable && node.name == name) {
             return AOPConstant(query, value)
@@ -412,6 +439,7 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         }
         return node
     }
+
     override fun toString(): String = Parallel.runBlocking { toXMLElement(false).toPrettyString() }
     override fun getRequiredVariableNamesRecoursive(): List<String> {
         val res = getRequiredVariableNames().toMutableList()
@@ -420,9 +448,11 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         }
         return res.distinct()
     }
+
     override fun getRequiredVariableNames(): List<String> {
         return mutableListOf()
     }
+
     override fun getProvidedVariableNames(): List<String> {
         val res = mutableListOf<String>()
         for (c in children) {
@@ -430,16 +460,20 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         }
         return res.distinct()
     }
+
     override fun toSparqlQuery(): String {
         return "SELECT * WHERE{" + toSparql() + "}"
     }
+
     override fun toSparql(): String = throw ToSparqlNotImplementedException(classname)
     override /*suspend*/ fun toXMLElementRoot(partial: Boolean): XMLElement {
         return toXMLElement(partial)
     }
+
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         return toXMLElementHelper(partial, false)
     }
+
     public /*suspend*/ fun toXMLElementHelper(partial: Boolean, excludeChildren: Boolean): XMLElement {
         val res = XMLElement(classname)
         try {
@@ -475,6 +509,7 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         }
         return res
     }
+
     internal /*suspend*/ fun childrenToXML(partial: Boolean): XMLElement {
         val res = XMLElement("children")
         for (c in children) {
@@ -482,6 +517,7 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         }
         return res
     }
+
     public fun syntaxVerifyAllVariableExistsAutocorrect() {
         for (name in getRequiredVariableNames()) {
             var found = false
@@ -497,6 +533,7 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
             }
         }
     }
+
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         for (i in 0 until childrenToVerifyCount()) {
             children[i].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
@@ -517,11 +554,13 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
             }
         }
     }
+
     override fun setChild(child: IOPBase): IOPBase {
         SanityCheck.check { children.isNotEmpty() }
         this.getChildren()[0] = child
         return child
     }
+
     override fun getLatestChild(): IOPBase {
         if (children.isNotEmpty() && children[0].getChildren().isNotEmpty()) {
             return children[0].getLatestChild()

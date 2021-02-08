@@ -15,10 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.s00misc.File
 import java.io.BufferedInputStream
 import java.io.DataInputStream
 import java.io.FileInputStream
+
 internal class MyCharIterator(file: File) : CharIterator() {
     private val fis = FileInputStream(file.filename)
     private val bis = BufferedInputStream(fis)
@@ -30,6 +32,7 @@ internal class MyCharIterator(file: File) : CharIterator() {
         }
         return res
     }
+
     override fun nextChar(): Char {
         return dis.readChar()
     }

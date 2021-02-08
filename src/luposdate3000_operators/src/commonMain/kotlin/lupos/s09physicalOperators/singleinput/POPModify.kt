@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s09physicalOperators.singleinput
+
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EOperatorIDExt
@@ -34,11 +35,13 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s09physicalOperators.POPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.jvm.JvmField
+
 public class POPModify public constructor(query: IQuery, projectedVariables: List<String>, insert: List<LOPTriple>, delete: List<LOPTriple>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPModifyID, "POPModify", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
         return 1
     }
+
     @JvmField
     public val modify: Array<Pair<LOPTriple, EModifyType>> = Array(insert.size + delete.size) {
         if (it < insert.size) {
@@ -47,6 +50,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
             Pair(delete[it - insert.size], EModifyTypeExt.DELETE)
         }
     }
+
     override fun equals(other: Any?): Boolean = other is POPModify && modify.contentEquals(other.modify) && children[0] == other.children[0]
     override fun toSparql(): String {
         val res = StringBuilder()
@@ -76,6 +80,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         res.append("}")
         return res.toString()
     }
+
     override fun toSparqlQuery(): String = toSparql()
     override fun getProvidedVariableNames(): List<String> = listOf("?success")
     override fun getProvidedVariableNamesInternal(): List<String> = children[0].getProvidedVariableNames()
@@ -94,6 +99,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         }
         return res.intersect(children[0].getProvidedVariableNames()).distinct()
     }
+
     override fun cloneOP(): POPModify {
         val insert = mutableListOf<LOPTriple>()
         val delete = mutableListOf<LOPTriple>()
@@ -106,6 +112,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         }
         return POPModify(query, projectedVariables, insert, delete, children[0].cloneOP())
     }
+
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = children[0].getProvidedVariableNames()
         val child = children[0].evaluate(parent)

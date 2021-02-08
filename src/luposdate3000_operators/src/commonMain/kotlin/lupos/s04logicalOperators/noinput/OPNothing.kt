@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators.noinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.XMLElement
@@ -23,6 +24,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import kotlin.jvm.JvmField
+
 public class OPNothing public constructor(query: IQuery, @JvmField public val myProvidedVariableNames: List<String>) : LOPBase(query, EOperatorIDExt.OPNothingID, "OPNothing", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     override fun getProvidedVariableNames(): List<String> = myProvidedVariableNames
     override fun toSparql(): String = "{}"
@@ -33,6 +35,7 @@ public class OPNothing public constructor(query: IQuery, @JvmField public val my
         }
         return res
     }
+
     override fun equals(other: Any?): Boolean = other is OPNothing
     override fun cloneOP(): IOPBase = this
     override /*suspend*/ fun calculateHistogram(): HistogramResult {

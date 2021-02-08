@@ -16,6 +16,7 @@
  */
 import java.io.File
 import java.io.PrintWriter
+
 // addition to regex-grammar::
 // a '=' directly terminates a group
 // a '!' prevents a tail from beeing added only use this if there is a '=' somewhere before - otherwise this wont return a success
@@ -57,6 +58,7 @@ object ParserGenerator {
         }
     }
 }
+
 class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*regex definition including additional regex chars*/>, val out: PrintWriter) {
     enum class CharGroupModifier {
         MAYBE,
@@ -65,6 +67,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
         AT_LEAST_ONE,
         ACTION,
     }
+
     data class MyPair(var first: Int, var second: Int) : Comparable<MyPair> {
         override fun compareTo(other: MyPair): Int {
             var res = first.compareTo(other.first)
@@ -74,12 +77,14 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             return second.compareTo(other.second)
         }
     }
+
     var functionName = "func"
     var helperfunctions = mutableMapOf<String, String>() // func content -> func name
     var uuid = 1
     var startEndMap = mutableMapOf<Int, String>()
     var startEndMapElseBranch = mutableMapOf<Int, String>()
     var identicalIdsMap = mutableMapOf<Int, MutableSet<Int>>()
+
     inner class CharGroup {
         var modifier: CharGroupModifier
         var submodifier: CharGroupModifier? = null
@@ -94,11 +99,13 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             submodifierTail = _tail
             return this
         }
+
         fun setStartFlag(): CharGroup {
             submodifierId = uuid++
             submodifierFlag = true
             return this
         }
+
         fun setEndFlag(other: CharGroup): CharGroup {
             submodifierId = other.submodifierId
             submodifierFlag = false
@@ -106,37 +113,45 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             submodifier = other.submodifier
             return this
         }
+
         fun addChars(c: Int): CharGroup {
             ranges.add(MyPair(c, c))
             return this
         }
+
         fun addChars(c: Char): CharGroup {
             ranges.add(MyPair(c.toInt(), c.toInt()))
             return this
         }
+
         fun addChars(str: String): CharGroup {
             for (c in str) {
                 ranges.add(MyPair(c.toInt(), c.toInt()))
             }
             return this
         }
+
         fun addChars(cFrom: Int, cTo: Int): CharGroup {
             ranges.add(MyPair(cFrom, cTo))
             return this
         }
+
         fun addChars(chars: List<MyPair>): CharGroup {
             ranges.addAll(chars)
             return this
         }
+
         fun setModifier(_modifier: CharGroupModifier, _submodifier: CharGroupModifier): CharGroup {
             modifier = _modifier
             submodifier = _submodifier
             return this
         }
+
         fun setModifier(_modifier: CharGroupModifier): CharGroup {
             modifier = _modifier
             return this
         }
+
         fun flatCopy(_modifier: CharGroupModifier = CharGroupModifier.ONE): CharGroup {
             var res: CharGroup
             if (modifier != CharGroupModifier.ACTION) {
@@ -152,11 +167,13 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             res.name = name
             return res
         }
+
         fun deepCopy(_modifier: CharGroupModifier = CharGroupModifier.ONE): CharGroup {
             var res = flatCopy(_modifier)
             res.childs.addAll(childs)
             return res
         }
+
         constructor(str: String, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
             modifier = _modifier
             if (modifier == CharGroupModifier.ACTION) {
@@ -165,35 +182,44 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                 addChars(str)
             }
         }
+
         constructor(c: Int, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
             modifier = _modifier
             addChars(c)
         }
+
         constructor(c: Char, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
             modifier = _modifier
             addChars(c.toInt())
         }
+
         constructor(cFrom: Int, cTo: Int, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
             modifier = _modifier
             addChars(cFrom, cTo)
         }
+
         constructor(_modifier: CharGroupModifier) {
             modifier = _modifier
         }
+
         constructor() {
             modifier = CharGroupModifier.ONE
         }
+
         constructor(_childs: List<CharGroup>, _modifier: CharGroupModifier = CharGroupModifier.ONE) {
             modifier = _modifier
             childs.addAll(_childs)
         }
+
         fun append(child: CharGroup): CharGroup {
             childs.add(child)
             return this
         }
+
         fun charToString(c: Int): String {
             return "0x${c.toInt().toString(16)}"
         }
+
         fun charsToRanges(): String {
             var arr: Array<MyPair> = ranges.toTypedArray()
             if (arr.size > 0) {
@@ -248,6 +274,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             }
             return ""
         }
+
         fun cleanupIdenticalIDs() {
             var change = true
             while (change) {
@@ -279,6 +306,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                 v.add(min)
             }
         }
+
         fun myPrintRoot(printmode: Boolean) {
             startEndMap.clear()
             startEndMapElseBranch.clear()
@@ -288,6 +316,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             // println(startEndMapElseBranch)
             // println(identicalIdsMap)
         }
+
         fun myPrint(indention: Int, printmode: Boolean, skipheader: Boolean = false, onElseBranch: () -> String = { "break@error" }) {
             if (printmode) {
                 when (modifier) {
@@ -627,6 +656,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                 }
             }
         }
+
         fun unpack(): List<CharGroup> {
             var res = mutableListOf<CharGroup>()
             var unpackedChilds = mutableListOf<CharGroup>()
@@ -694,6 +724,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             }
             return res2
         }
+
         fun addSubmodifierIdenticalIds(a: Int, b: Int) {
             var tmp = identicalIdsMap[a]
             if (tmp == null) {
@@ -702,6 +733,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             }
             tmp.add(b)
         }
+
         fun collapseIdenticalHelper(map: MutableMap<String, CharGroup>, c: CharGroup) {
             val k = c.charsToRanges()
             val v = map[k]
@@ -769,6 +801,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                 }
             }
         }
+
         fun childsEquals(other: CharGroup): Boolean {
             if (childs.size != other.childs.size) {
                 return false
@@ -797,6 +830,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             }
             return true
         }
+
         fun removeEmptyGroups(): CharGroup {
             var res = flatCopy(modifier)
             for (c2 in childs) {
@@ -809,6 +843,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             }
             return res
         }
+
         fun collapseIdenticalChilds(): CharGroup {
             var i = 0
             var j = 1
@@ -841,6 +876,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             res.childs.addAll(childsCopy)
             return res
         }
+
         fun collapseIdentical(): CharGroup {
             val res = flatCopy(modifier)
             val map = mutableMapOf<String, CharGroup>()
@@ -852,6 +888,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             }
             return res
         }
+
         fun makeChildrenSameType(): CharGroup {
             if (childs.size <= 1) {
                 return this
@@ -909,6 +946,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                 }
             }
         }
+
         fun compile(): CharGroup {
             var res = this
             for (i in 0 until 5) {
@@ -922,6 +960,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             return res
         }
     }
+
     fun parseRegex(str: String, tail: CharGroup): CharGroup {
         var res = CharGroup()
         var idx = 0
@@ -1218,6 +1257,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
         res.append(tail)
         return res.compile()
     }
+
     var root = CharGroup()
     operator fun invoke(args: List<String>) {
         if (args.size == 1 && args[0] == "PARSER_CONTEXT") {

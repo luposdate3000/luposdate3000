@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s05tripleStore
+
 public object PersistentStoreLocalExt {
     public const val defaultGraphName: String = ""
 }

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s05tripleStore
+
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EIndexPatternHelper
@@ -22,23 +23,32 @@ import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.jvm.JvmField
+
 public class TripleStoreBulkImport(@JvmField public val query: IQuery, @JvmField public val graphName: String) : ITripleStoreBulkImport {
     @JvmField
     public var totalflushed: Int = 0
+
     @JvmField
     public val data: Array<IntArray> = Array(9) { IntArray(size) }
+
     @JvmField
     public var idx: Int = 0
+
     @JvmField
     public var dataSPO: IntArray = data[0]
+
     @JvmField
     public var dataSOP: IntArray = data[0]
+
     @JvmField
     public var dataPSO: IntArray = data[0]
+
     @JvmField
     public var dataPOS: IntArray = data[0]
+
     @JvmField
     public var dataOSP: IntArray = data[0]
+
     @JvmField
     public var dataOPS: IntArray = data[0]
     override fun getData(idx: EIndexPattern): IntArray {
@@ -52,6 +62,7 @@ public class TripleStoreBulkImport(@JvmField public val query: IQuery, @JvmField
             else -> SanityCheck.checkUnreachable()
         }
     }
+
     override fun getIdx(): Int = idx
     override /*suspend*/ fun insert(si: Int, pi: Int, oi: Int) {
         data[8][idx++] = si
@@ -63,23 +74,29 @@ public class TripleStoreBulkImport(@JvmField public val query: IQuery, @JvmField
             reset()
         }
     }
+
     override /*suspend*/ fun finishImport() {
         sort()
         flush()
     }
+
     public /*suspend*/ fun flush() {
         totalflushed += idx / 3
         println("flushed triples $totalflushed")
         distributedTripleStore.getLocalStore().getNamedGraph(query, graphName).import(this)
     }
+
     private fun reset() {
         idx = 0
     }
+
     private fun full() = idx >= size
+
     public companion object {
         private const val sizeshift = 20
         public const val size: Int = 3 * (1 shl sizeshift)
     }
+
     private fun sort() {
         // the target data is sorted, but may contain duplicates, _if the input contains those
         val total = idx / 3

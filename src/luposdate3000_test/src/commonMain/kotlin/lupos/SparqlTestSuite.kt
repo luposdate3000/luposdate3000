@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos
+
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
@@ -54,13 +55,21 @@ import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import lupos.s16network.LuposdateEndpoint
 import kotlin.jvm.JvmField
+
 public open class SparqlTestSuite {
     public companion object {
         public const val testPersistence: Boolean = false
-        @JvmField public val filterList: MutableList<String> = mutableListOf()
-        @JvmField public var prefixDirectory: String = "."
-        @JvmField public val enabledTestCases: List<String> = listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
+
+        @JvmField
+        public val filterList: MutableList<String> = mutableListOf()
+
+        @JvmField
+        public var prefixDirectory: String = "."
+
+        @JvmField
+        public val enabledTestCases: List<String> = listOf("resources/myqueries/", "resources/bsbm/", "resources/btc/", "resources/sp2b/")
     }
+
     public /*suspend*/ fun testMain() {
         repeat(1) {
             println("Starting tests...")
@@ -103,6 +112,7 @@ public open class SparqlTestSuite {
             }
         }
     }
+
     private /*suspend*/ fun listMembers(data: SevenIndices, start: Long, f: /*suspend*/ (Long) -> Unit) {
         val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
         val nil = rdf + "nil"
@@ -121,6 +131,7 @@ public open class SparqlTestSuite {
         }
         recursiveListMembers(start)
     }
+
     private fun readTurtleData(filename: String, consume_triple: (Long, Long, Long) -> Unit) {
         val ltit = LookAheadTokenIterator(lupos.s02buildSyntaxTree.turtle.TurtleScanner(LexerCharIterator(File(filename).readAsString())), 3)
         try {
@@ -133,12 +144,14 @@ public open class SparqlTestSuite {
             SanityCheck.println { e.lineNumber }
         }
     }
+
     private fun createSevenIndices(filename: String): SevenIndices {
         val data = SevenIndices()
         readTurtleData(filename, data::add)
         data.distinct()
         return data
     }
+
     private /*suspend*/ fun parseManifestFile(prefix: String, filename: String): Pair<Int, Int> {
         var numberOfErrors = 0
         var numberOfTests = 0
@@ -177,12 +190,14 @@ public open class SparqlTestSuite {
         }
         return Pair(numberOfTests, numberOfErrors)
     }
+
     private fun readFileOrNull(name: String?): String? {
         if (name == null) {
             return null
         }
         return File(name).readAsString()
     }
+
     private /*suspend*/ fun testOneEntry(data: SevenIndices, node: Long, prefix: String): Boolean {
         var testType: String? = null
         var comment: String? = null
@@ -406,8 +421,10 @@ public open class SparqlTestSuite {
         val success = parseSPARQLAndEvaluate(true, names.first(), expectedResult, queryFile!!, inputDataFile, resultFile, services, inputDataGraph, outputDataGraph)
         return success == expectedResult
     }
+
     @JvmField
     public var lastTripleCount: Int = 0
+
     @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
     public open /*suspend*/ fun parseSPARQLAndEvaluate(executeJena: Boolean, testName: String, expectedResult: Boolean, queryFile: String, inputDataFileName: String?, resultDataFileName: String?, services: List<Map<String, String>>?, inputDataGraph: MutableList<MutableMap<String, String>>, outputDataGraph: MutableList<MutableMap<String, String>>): Boolean {
 //        if (!testName.contains("resources")) {
@@ -775,6 +792,7 @@ public open class SparqlTestSuite {
         }
     }
 }
+
 public class SevenIndices {
     private val s = mutableMapOf<Long, Array<Pair<Long, Long>>>()
     private val p = mutableMapOf<Long, Array<Pair<Long, Long>>>()
@@ -782,6 +800,7 @@ public class SevenIndices {
     private val sp = mutableMapOf<Pair<Long, Long>, LongArray>()
     private val so = mutableMapOf<Pair<Long, Long>, LongArray>()
     private val po = mutableMapOf<Pair<Long, Long>, LongArray>()
+
     @JvmField
     public val spo: MutableSet<ID_Triple> = mutableSetOf()
     public fun s(key: Long): Array<Pair<Long, Long>> = this.s[key] ?: arrayOf()
@@ -797,6 +816,7 @@ public class SevenIndices {
         distinctTwoKeysMap(this.po)
         // duplicates are already eliminated in this.spo!
     }
+
     public fun add(triple_s: Long, triple_p: Long, triple_o: Long) {
         addToOneKeyMap(this.s, triple_s, triple_p, triple_o)
         addToOneKeyMap(this.p, triple_p, triple_s, triple_o)
@@ -806,6 +826,7 @@ public class SevenIndices {
         addToTwoKeysMap(this.po, triple_p, triple_o, triple_s)
         this.spo += ID_Triple(triple_s, triple_p, triple_o)
     }
+
     private fun addToOneKeyMap(onekeymap: MutableMap<Long, Array<Pair<Long, Long>>>, key: Long, value1: Long, value2: Long) {
         val values = onekeymap[key]
         val value = Pair(value1, value2)
@@ -815,6 +836,7 @@ public class SevenIndices {
             onekeymap[key] = values + value
         }
     }
+
     private fun addToTwoKeysMap(twokeysmap: MutableMap<Pair<Long, Long>, LongArray>, key1: Long, key2: Long, value: Long) {
         val key = Pair(key1, key2)
         val values = twokeysmap[key]
@@ -824,11 +846,13 @@ public class SevenIndices {
             twokeysmap[key] = values + value
         }
     }
+
     private fun distinctOneKeyMap(onekeymap: MutableMap<Long, Array<Pair<Long, Long>>>) {
         for (entry in onekeymap) {
             entry.setValue(entry.value.toMutableSet().toTypedArray())
         }
     }
+
     private fun distinctTwoKeysMap(twokeysmap: MutableMap<Pair<Long, Long>, LongArray>) {
         for (entry in twokeysmap) {
             entry.setValue(entry.value.toMutableSet().toLongArray())

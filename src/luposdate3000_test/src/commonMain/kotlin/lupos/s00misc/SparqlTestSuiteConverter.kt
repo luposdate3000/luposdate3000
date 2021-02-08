@@ -15,13 +15,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 import lupos.SparqlTestSuite
+
 public class SparqlTestSuiteConverter(resource_folder: String, private val output_folder: String) : SparqlTestSuite() {
     private var counter = 0
     private var lastFile: String = ""
+
     init {
         prefixDirectory = "$resource_folder/"
     }
+
     override fun parseSPARQLAndEvaluate( //
         executeJena: Boolean,
         testName: String, //

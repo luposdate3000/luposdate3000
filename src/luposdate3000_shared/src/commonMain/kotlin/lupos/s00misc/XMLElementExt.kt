@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 public fun XMLElement.Companion.parseFromAny(data: String, filename: String): XMLElement? {
     val ext = filename.substring(filename.lastIndexOf(".") + 1)
     val parser = parseFromAnyRegistered[ext]

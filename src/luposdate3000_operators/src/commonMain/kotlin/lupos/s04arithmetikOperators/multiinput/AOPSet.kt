@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04arithmetikOperators.multiinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.SparqlFeatureNotImplementedException
 import lupos.s03resultRepresentation.ValueDefinition
@@ -22,6 +23,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
+
 public class AOPSet public constructor(query: IQuery, childs: List<AOPBase>) : AOPBase(query, EOperatorIDExt.AOPSetID, "AOPSet", Array(childs.size) { childs[it] }) {
     override fun toSparql(): String {
         var res = ""
@@ -35,9 +37,11 @@ public class AOPSet public constructor(query: IQuery, childs: List<AOPBase>) : A
         res += ")"
         return res
     }
+
     override fun equals(other: Any?): Boolean = other is AOPSet && children.contentEquals(other.children)
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         throw SparqlFeatureNotImplementedException("AOPSet")
     }
+
     override fun cloneOP(): IOPBase = AOPSet(query, List(children.size) { children[it].cloneOP() as AOPBase })
 }

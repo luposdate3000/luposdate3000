@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s09physicalOperators.singleinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.GroupByColumnMissing
@@ -44,6 +45,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
+
 // TODO refactor such that the optimizer may choose which strategy to use
 public class POPGroup : POPBase {
     override fun getPossibleSortPriorities(): List<List<SortHelper>> {
@@ -63,12 +65,15 @@ public class POPGroup : POPBase {
         }
         return res
     }
+
     override fun getPartitionCount(variable: String): Int {
         SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
         return 1
     }
+
     @JvmField
     public var by: List<AOPVariable>
+
     @JvmField
     public var bindings: MutableList<Pair<String, AOPBase>> = mutableListOf()
     override fun toSparql(): String {
@@ -82,6 +87,7 @@ public class POPGroup : POPBase {
         }
         return res
     }
+
     override fun cloneOP(): POPGroup {
         return if (bindings.size > 0) {
             var tmpBindings = POPBind(query, listOf(), AOPVariable(query, bindings[0].first), bindings[0].second, OPEmptyRow(query))
@@ -93,6 +99,7 @@ public class POPGroup : POPBase {
             POPGroup(query, projectedVariables, by, null, children[0].cloneOP())
         }
     }
+
     public constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: POPBind?, child: IOPBase) : super(query, projectedVariables, EOperatorIDExt.POPGroupID, "POPGroup", arrayOf(child), ESortPriorityExt.GROUP) {
         this.by = by
         var tmpBind: IOPBase? = bindings
@@ -102,10 +109,12 @@ public class POPGroup : POPBase {
         }
         this.bindings = this.bindings.asReversed()
     }
+
     public constructor(query: IQuery, projectedVariables: List<String>, by: List<AOPVariable>, bindings: List<Pair<String, AOPBase>>, child: IOPBase) : super(query, projectedVariables, EOperatorIDExt.POPGroupID, "POPGroup", arrayOf(child), ESortPriorityExt.GROUP) {
         this.by = by
         this.bindings = bindings.toMutableList()
     }
+
     override fun equals(other: Any?): Boolean = other is POPGroup && by == other.by && children[0] == other.children[0] && bindings == other.bindings
     override fun getProvidedVariableNamesInternal(): List<String> = (MutableList(by.size) { by[it].name } + MutableList(bindings.size) { bindings[it].first }).distinct()
     override fun getRequiredVariableNames(): List<String> {
@@ -115,6 +124,7 @@ public class POPGroup : POPBase {
         }
         return res.distinct()
     }
+
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         children[0].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
         SanityCheck.check { additionalProvided.isEmpty() }
@@ -158,6 +168,7 @@ public class POPGroup : POPBase {
             }
         }
     }
+
     private fun getAggregations(node: IOPBase): MutableList<AOPAggregationBase> {
         val res = mutableListOf<AOPAggregationBase>()
         for (n in node.getChildren()) {
@@ -168,6 +179,7 @@ public class POPGroup : POPBase {
         }
         return res
     }
+
     internal class MapKey(@JvmField val data: IntArray) {
         override fun hashCode(): Int {
             var res = 0
@@ -176,9 +188,12 @@ public class POPGroup : POPBase {
             }
             return res
         }
+
         override fun equals(other: Any?) = other is MapKey && data.contentEquals(other.data)
     }
+
     internal class MapRow(val iterators: IteratorBundle, val aggregates: Array<ColumnIteratorAggregate>, val columns: Array<ColumnIteratorQueue>)
+
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val localVariables = children[0].getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -321,7 +336,9 @@ public class POPGroup : POPBase {
                             override /*suspend*/ fun close() {
                                 __close()
                             }
-                            @Suppress("NOTHING_TO_INLINE") /*suspend*/ inline fun __close() {
+
+                            @Suppress("NOTHING_TO_INLINE")
+                            /*suspend*/ inline fun __close() {
                                 if (label != 0) {
                                     ColumnIteratorQueueExt._close(this)
                                     for (element in keyColumns) {
@@ -332,6 +349,7 @@ public class POPGroup : POPBase {
                                     }
                                 }
                             }
+
                             override /*suspend*/ fun next(): Int {
                                 return ColumnIteratorQueueExt.nextHelper(
                                     this,
@@ -541,6 +559,7 @@ public class POPGroup : POPBase {
         }
         return IteratorBundle(outMap)
     }
+
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         val res = super.toXMLElement(partial)
         val byxml = XMLElement("by")

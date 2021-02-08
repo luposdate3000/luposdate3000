@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s09physicalOperators.multiinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
@@ -28,6 +29,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
+
 public class POPJoinMerge public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinMergeID, "POPJoinMerge", arrayOf(childA, childB), ESortPriorityExt.JOIN) {
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
@@ -45,6 +47,7 @@ public class POPJoinMerge public constructor(query: IQuery, projectedVariables: 
             }
         }
     }
+
     override fun toSparql(): String = children[0].toSparql() + children[1].toSparql()
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("optional", "" + optional)
     override fun cloneOP(): IOPBase = POPJoinMerge(query, projectedVariables, children[0].cloneOP(), children[1].cloneOP(), optional)
@@ -57,9 +60,12 @@ public class POPJoinMerge public constructor(query: IQuery, projectedVariables: 
             }
             return tmp
         }
+
         @JvmField
         var localHasnext2closeI = 0
-        @Suppress("NOTHING_TO_INLINE") /*suspend*/ private inline fun _hasNext2Close() {
+
+        @Suppress("NOTHING_TO_INLINE")
+        /*suspend*/ private inline fun _hasNext2Close() {
             localHasnext2closeI = 0
             while (localHasnext2closeI < columnsINJ0.size) {
                 columnsINJ0[localHasnext2closeI].close()
@@ -71,10 +77,12 @@ public class POPJoinMerge public constructor(query: IQuery, projectedVariables: 
                 localHasnext2closeI++
             }
         }
+
         override /*suspend*/ fun hasNext2Close() {
             _hasNext2Close()
         }
     }
+
     internal class ColumnIteratorChildIteratorImpl(
         @JvmField val columnsINJ0: List<ColumnIterator>,
         @JvmField val columnsINJ1: List<ColumnIterator>,
@@ -88,27 +96,39 @@ public class POPJoinMerge public constructor(query: IQuery, projectedVariables: 
     ) : ColumnIteratorChildIterator() {
         @JvmField
         val data0 = Array(columnsINO0.size) { IntArray(100) }
+
         @JvmField
         val data1 = Array(columnsINO1.size) { IntArray(100) }
+
         @JvmField
         var localNextI = 0
+
         @JvmField
         var localNextJ = 0
+
         @JvmField
         var localNextCounta = 0
+
         @JvmField
         var localNextCountb = 0
+
         @JvmField
         val localNextKeycopy = IntArray(columnsINJ0.size)
+
         @JvmField
         var localCloseI = 0
+
         @JvmField
         var skipO0 = 0
+
         @JvmField
         var skipO1 = 0
+
         @JvmField
         var sipbuf = IntArray(2)
-        @Suppress("NOTHING_TO_INLINE") /*suspend*/ private inline fun __close() {
+
+        @Suppress("NOTHING_TO_INLINE")
+        /*suspend*/ private inline fun __close() {
             if (label != 0) {
                 localCloseI = 0
                 while (localCloseI < columnsOUT0.size) {
@@ -148,9 +168,11 @@ public class POPJoinMerge public constructor(query: IQuery, projectedVariables: 
                 _close()
             }
         }
+
         override /*suspend*/ fun close() {
             __close()
         }
+
         override /*suspend*/ fun next(): Int {
             return nextHelper(
                 {
@@ -338,6 +360,7 @@ public class POPJoinMerge public constructor(query: IQuery, projectedVariables: 
             )
         }
     }
+
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         // setup columns

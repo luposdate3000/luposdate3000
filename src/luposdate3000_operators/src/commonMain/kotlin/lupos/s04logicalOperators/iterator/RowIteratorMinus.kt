@@ -15,10 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators.iterator
+
 import lupos.s00misc.Parallel
 import kotlin.jvm.JvmField
+
 public open class RowIteratorMinus(@JvmField public val a: RowIterator, @JvmField public val b: RowIterator, @JvmField private val projection: Array<String>) : RowIterator() {
-    @JvmField public var flag: Int = 2
+    @JvmField
+    public var flag: Int = 2
     private var aIdx = -1
     private var bIdx = -1
     public /*suspend*/ fun _init() {

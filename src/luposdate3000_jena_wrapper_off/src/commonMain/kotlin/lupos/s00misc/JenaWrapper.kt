@@ -15,14 +15,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 public object JenaWrapper {
     public fun dropAll() {
     }
+
     public fun execQuery(queryString: String): String {
         return ""
     }
+
     public fun loadFromFile(fileName: String) {
     }
+
     public fun loadFromFile(fileName: String, graph: String) {
     }
 }

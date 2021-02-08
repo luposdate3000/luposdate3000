@@ -15,19 +15,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 internal actual class ParallelThreadQueue<T> {
     var queue = mutableListOf<T>()
     var terminalValue: T
+
     actual constructor(terminationValue: T) {
         terminalValue = terminationValue
     }
-    @Suppress("NOTHING_TO_INLINE") internal actual inline fun send(value: T) {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun send(value: T) {
         queue.add(value)
     }
-    @Suppress("NOTHING_TO_INLINE") internal actual inline fun close() {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun close() {
         queue.clear()
     }
-    @Suppress("NOTHING_TO_INLINE") internal actual inline fun receive(): T {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun receive(): T {
         if (queue.size > 0) {
             return queue.removeAt(0)
         }

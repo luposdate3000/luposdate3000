@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators.singleinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.XMLElement
@@ -25,16 +26,20 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
+
 public class LOPProjection public constructor(query: IQuery, @JvmField public val variables: MutableList<AOPVariable>, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPProjectionID, "LOPProjection", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     public constructor(query: IQuery, variables: MutableList<AOPVariable>) : this(query, variables, OPEmptyRow(query))
     public constructor(query: IQuery) : this(query, mutableListOf(), OPEmptyRow(query))
     public constructor(query: IQuery, child: IOPBase) : this(query, mutableListOf(), child)
+
     override fun getProvidedVariableNames(): List<String> {
         return MutableList(variables.size) { variables[it].name }.distinct()
     }
+
     override fun getRequiredVariableNames(): List<String> {
         return MutableList(variables.size) { variables[it].name }.distinct()
     }
+
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         val res = super.toXMLElement(partial)
         val vars = XMLElement("LocalVariables")
@@ -44,6 +49,7 @@ public class LOPProjection public constructor(query: IQuery, @JvmField public va
         }
         return res
     }
+
     override fun equals(other: Any?): Boolean = other is LOPProjection && variables == other.variables && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPProjection(query, variables, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {

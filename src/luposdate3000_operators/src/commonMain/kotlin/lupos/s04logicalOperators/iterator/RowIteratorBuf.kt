@@ -15,10 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators.iterator
+
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
+
 public class RowIteratorBuf(buf: IntArray, columns: Array<String>, @JvmField public val size: Int) : RowIterator() {
-    @JvmField public var offset: Int = 0
+    @JvmField
+    public var offset: Int = 0
+
     init {
         this.buf = buf
         this.columns = columns

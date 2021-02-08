@@ -15,10 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators
+
 import lupos.s00misc.Partition
 import lupos.s00misc.SortHelper
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.iterator.IteratorBundle
+
 public interface IOPBase {
     public fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String): IOPBase
     public fun getClassname(): String

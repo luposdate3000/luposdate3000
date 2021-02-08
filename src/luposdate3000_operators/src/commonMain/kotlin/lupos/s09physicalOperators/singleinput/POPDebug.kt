@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s09physicalOperators.singleinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.EPOPDebugModeExt
 import lupos.s00misc.ESortPriorityExt
@@ -30,6 +31,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
+
 public class POPDebug public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPDebugID, "POPDebug", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = getChildren()[0].getPartitionCount(variable)
     override fun equals(other: Any?): Boolean = other is POPDebug && getChildren()[0] == other.getChildren()[0]
@@ -102,6 +104,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                                         ResultSetDictionaryExt.nullValue
                                     }
                                 }
+
                                 override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
                                     if (label != 0) {
                                         SanityCheck.println { "$uuid $k next call minValue SIP" }
@@ -118,6 +121,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                                         result[1] = ResultSetDictionaryExt.nullValue
                                     }
                                 }
+
                                 override /*suspend*/ fun skipSIP(skipCount: Int): Int {
                                     return if (label != 0) {
                                         SanityCheck.println { "$uuid $k next call skip SIP" }
@@ -133,6 +137,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                                         ResultSetDictionaryExt.nullValue
                                     }
                                 }
+
                                 override /*suspend*/ fun close() {
                                     if (label != 0) {
                                         label = 0

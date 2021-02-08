@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 internal expect class MyThreadReadWriteLock() {
     internal inline fun getUUID(): Long
     internal inline fun downgradeToReadLock()

@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
+
 internal object EOptimizerIDExt {
     internal const val LogicalOptimizerArithmeticID: EOptimizerID = 0
     internal const val LogicalOptimizerBindToFilterID: EOptimizerID = 1
@@ -61,7 +63,9 @@ internal object EOptimizerIDExt {
     internal const val PhysicalOptimizerPartition6ID: EOptimizerID = 41
     internal const val PhysicalOptimizerTripleIndexID: EOptimizerID = 42
     internal const val values_size: Int = 43
-    @JvmField internal val names: Array<String> = arrayOf(
+
+    @JvmField
+    internal val names: Array<String> = arrayOf(
         "LogicalOptimizerArithmeticID",
         "LogicalOptimizerBindToFilterID",
         "LogicalOptimizerBindUpID",

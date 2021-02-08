@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.s00misc.IMyPrintWriter
+
 internal expect class _MyPrintWriter(hasBuffer: Boolean = true) : IMyPrintWriter {
     override fun clearBuffer()
     override fun toString(): String

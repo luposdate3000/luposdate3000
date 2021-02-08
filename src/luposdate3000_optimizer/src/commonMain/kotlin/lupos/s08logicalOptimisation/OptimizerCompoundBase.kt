@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s08logicalOptimisation
+
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.EOptimizerIDHelper
 import lupos.s00misc.SanityCheck
@@ -27,6 +28,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
+
 public abstract class OptimizerCompoundBase internal constructor(query: Query, optimizerID: EOptimizerID) : OptimizerBase(query, optimizerID) {
     override val classname: String = "OptimizerCompoundBase"
     public abstract val childrenOptimizers: Array<Array<OptimizerBase>>
@@ -92,6 +94,7 @@ public abstract class OptimizerCompoundBase internal constructor(query: Query, o
             verifyPartitionOperators(c, allList, currentPartitions, root)
         }
     }
+
     override /*suspend*/ fun optimizeCall(node: IOPBase, onChange: () -> Unit): IOPBase {
         if (query.filtersMovedUpFromOptionals) {
             node.syntaxVerifyAllVariableExists(listOf(), true)

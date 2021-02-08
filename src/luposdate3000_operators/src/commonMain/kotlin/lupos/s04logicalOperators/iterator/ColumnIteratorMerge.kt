@@ -15,10 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators.iterator
+
 import lupos.s00misc.MERGE_SORT_MIN_ROWS
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
+
 public object ColumnIteratorMerge {
     public /*suspend*/ operator fun invoke(a: ColumnIterator, comparator: Comparator<Int>): ColumnIterator {
         var buf1 = IntArray(MERGE_SORT_MIN_ROWS)
@@ -121,6 +123,7 @@ public object ColumnIteratorMerge {
         SanityCheck.check { resultList.size > 0 }
         return resultList[resultList.size - 1]!!
     }
+
     public /*suspend*/ operator fun invoke(a: ColumnIterator): ColumnIterator {
         var buf1 = IntArray(MERGE_SORT_MIN_ROWS)
         var buf2 = IntArray(MERGE_SORT_MIN_ROWS)
@@ -223,11 +226,14 @@ public object ColumnIteratorMerge {
         return resultList[resultList.size - 1]!!
     }
 }
+
 public class ColumnIteratorMerge1(@JvmField public val a: ColumnIterator, @JvmField public val b: ColumnIterator, @JvmField public val comparator: Comparator<Int>) : ColumnIterator() {
     @JvmField
     public var label: Int = 3
+
     @JvmField
     public var aBuf: Int = ResultSetDictionaryExt.nullValue
+
     @JvmField
     public var bBuf: Int = ResultSetDictionaryExt.nullValue
     override /*suspend*/ fun close() {
@@ -237,6 +243,7 @@ public class ColumnIteratorMerge1(@JvmField public val a: ColumnIterator, @JvmFi
             b.close()
         }
     }
+
     override /*suspend*/ fun next(): Int {
         var res: Int = ResultSetDictionaryExt.nullValue
         when (label) {
@@ -316,11 +323,14 @@ public class ColumnIteratorMerge1(@JvmField public val a: ColumnIterator, @JvmFi
         return res
     }
 }
+
 public class ColumnIteratorMerge2(@JvmField public val a: ColumnIterator, @JvmField public val b: ColumnIterator) : ColumnIterator() {
     @JvmField
     public var label: Int = 3
+
     @JvmField
     public var aBuf: Int = ResultSetDictionaryExt.nullValue
+
     @JvmField
     public var bBuf: Int = ResultSetDictionaryExt.nullValue
     override /*suspend*/ fun close() {
@@ -330,6 +340,7 @@ public class ColumnIteratorMerge2(@JvmField public val a: ColumnIterator, @JvmFi
             b.close()
         }
     }
+
     override /*suspend*/ fun next(): Int {
         var res: Int = ResultSetDictionaryExt.nullValue
         when (label) {

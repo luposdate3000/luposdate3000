@@ -15,10 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 public expect class MyBigDecimal {
     public constructor(s1: String)
     public constructor(s1: Double)
     public constructor(s1: Int)
+
     public operator fun compareTo(other: MyBigDecimal): Int
     public fun toPlainString(): String
     public fun toDouble(): Double

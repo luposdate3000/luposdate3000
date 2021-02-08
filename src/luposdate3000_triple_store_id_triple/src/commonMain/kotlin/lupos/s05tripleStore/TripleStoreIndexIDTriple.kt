@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s05tripleStore
+
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ETripleIndexTypeExt
 import lupos.s00misc.MyReadWriteLock
@@ -46,9 +47,13 @@ import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 import kotlin.jvm.JvmField
+
 public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex(store_root_page_id_) {
-    @JvmField public val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
-    @JvmField public var firstLeaf_: Int = NodeManager.nodeNullPointer
+    @JvmField
+    public val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
+
+    @JvmField
+    public var firstLeaf_: Int = NodeManager.nodeNullPointer
     private var firstLeaf: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
@@ -58,7 +63,9 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             bufferManager.releasePage(store_root_page_id)
         }
         get() = firstLeaf_
-    @JvmField public var root_: Int = NodeManager.nodeNullPointer
+
+    @JvmField
+    public var root_: Int = NodeManager.nodeNullPointer
     private var root: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
@@ -68,7 +75,9 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             bufferManager.releasePage(store_root_page_id)
         }
         get() = root_
-    @JvmField public var countPrimary_: Int = 0
+
+    @JvmField
+    public var countPrimary_: Int = 0
     private var countPrimary: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
@@ -78,7 +87,9 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             bufferManager.releasePage(store_root_page_id)
         }
         get() = countPrimary_
-    @JvmField public var distinctPrimary_: Int = 0
+
+    @JvmField
+    public var distinctPrimary_: Int = 0
     private var distinctPrimary: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
@@ -88,24 +99,34 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             bufferManager.releasePage(store_root_page_id)
         }
         get() = distinctPrimary_
+
     @JvmField
     public var rootNode: ByteArray? = null
+
     @JvmField
     public var pendingImport: MutableList<Int?> = mutableListOf()
+
     @JvmField
     internal var lock = MyReadWriteLock()
+
     @JvmField
     public var cachedHistograms1Size: Int = 0
+
     @JvmField
     public var cachedHistograms1Cursor: Int = 0
+
     @JvmField
     public val cachedHistograms1: IntArray = IntArray(300)
+
     @JvmField
     public var cachedHistograms2Size: Int = 0
+
     @JvmField
     public var cachedHistograms2Cursor: Int = 0
+
     @JvmField
     public val cachedHistograms2: IntArray = IntArray(400)
+
     init {
         val rootPage = bufferManager.getPage(store_root_page_id)
         if (store_root_page_init) {
@@ -134,21 +155,26 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         }
         bufferManager.releasePage(store_root_page_id)
     }
+
     internal companion object {
         @JvmField
         var debugLock = MyReadWriteLock()
     }
+
     override fun dropIndex() {
         clear()
         bufferManager.getPage(store_root_page_id)
         bufferManager.deletePage(store_root_page_id)
     }
-    @Suppress("NOTHING_TO_INLINE") private inline fun clearCachedHistogram() {
+
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun clearCachedHistogram() {
         cachedHistograms1Size = 0
         cachedHistograms2Size = 0
         cachedHistograms1Cursor = 0
         cachedHistograms2Cursor = 0
     }
+
     private fun checkForCachedHistogram(filter: IntArray): Pair<Int, Int>? {
         var res: Pair<Int, Int>? = null
         when (filter.size) {
@@ -177,6 +203,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         }
         return res
     }
+
     private fun updateCachedHistogram(filter: IntArray, data: Pair<Int, Int>) {
         when (filter.size) {
             1 -> {
@@ -221,6 +248,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             }
         }
     }
+
     override /*suspend*/ fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> {
         val filter = (params as TripleStoreFeatureParamsDefault).getFilter(query)
         var res: Pair<Int, Int>? = checkForCachedHistogram(filter)
@@ -277,6 +305,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         }
         return res
     }
+
     override /*suspend*/ fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle {
         val fp = (params as TripleStoreFeatureParamsDefault).getFilterAndProjection(query)
         val filter = fp.first
@@ -354,6 +383,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         lock.readUnlock()
         return res
     }
+
     private /*suspend*/ fun importHelper(a: Int, b: Int): Int {
         var nodeA: ByteArray? = null
         var nodeB: ByteArray? = null
@@ -372,6 +402,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         NodeManager.freeAllLeaves(b)
         return res
     }
+
     private /*suspend*/ fun importHelper(iterator: TripleIterator): Int {
         var res = NodeManager.nodeNullPointer
         var node2: ByteArray? = null
@@ -400,6 +431,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         NodeManager.releaseNode(nodeid)
         return res
     }
+
     override /*suspend*/ fun flush() {
         if (pendingImport.size > 0) {
             SanityCheck.println { "writeLock(${lock.getUUID()}) x138" }
@@ -409,12 +441,16 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             lock.writeUnlock()
         }
     }
-    @Suppress("NOTHING_TO_INLINE") /*suspend*/ private inline fun flushContinueWithWriteLock() {
+
+    @Suppress("NOTHING_TO_INLINE")
+    /*suspend*/ private inline fun flushContinueWithWriteLock() {
         SanityCheck.println { "writeLock(${lock.getUUID()}) x140" }
         lock.writeLock()
         flushAssumeLocks()
     }
-    @Suppress("NOTHING_TO_INLINE") /*suspend*/ private inline fun flushContinueWithReadLock() {
+
+    @Suppress("NOTHING_TO_INLINE")
+    /*suspend*/ private inline fun flushContinueWithReadLock() {
         var hasLock = false
         while (pendingImport.size > 0) {
             SanityCheck.println { "tryWriteLock(${lock.getUUID()}) x204" }
@@ -435,6 +471,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             lock.readLock()
         }
     }
+
     private /*suspend*/ fun flushAssumeLocks() {
         if (pendingImport.size > 0) {
             // check again, that there is something to be done ... this may be changed, because there could be someone _else beforehand, holding exactly this lock ... .
@@ -480,6 +517,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             pendingImport.clear()
         }
     }
+
     override /*suspend*/ fun import(dataImport: IntArray, count: Int, order: IntArray) {
         SanityCheck.println { "writeLock(${lock.getUUID()}) x142" }
         lock.writeLock()
@@ -525,6 +563,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         SanityCheck.println { "writeUnlock(${lock.getUUID()}) x61" }
         lock.writeUnlock()
     }
+
     private /*suspend*/ fun rebuildData(_iterator: TripleIterator) {
 // assuming to have write-lock
         var iterator: TripleIterator = Count1PassThroughIterator(DistinctIterator(_iterator))
@@ -633,10 +672,12 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         distinctPrimary = (iterator as Count1PassThroughIterator).distinct
         clearCachedHistogram()
     }
+
     private fun rebuildDataSanity(iterator: TripleIterator) {
 // work around the crossinline here, because the method would be too large
         rebuildDataSanity2(iterator)
     }
+
     private fun rebuildDataSanity2(iterator: TripleIterator) {
         if (firstLeaf != NodeManager.nodeNullPointer) {
             debugLock.writeLock()
@@ -888,6 +929,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         }
 //
     }
+
     override /*suspend*/ fun insertAsBulk(data: IntArray, order: IntArray) {
         flushContinueWithWriteLock()
         val d = arrayOf(data, IntArray(data.size))
@@ -916,6 +958,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         SanityCheck.println { "writeUnlock(${lock.getUUID()}) x62" }
         lock.writeUnlock()
     }
+
     override /*suspend*/ fun removeAsBulk(data: IntArray, order: IntArray) {
         flushContinueWithWriteLock()
         val d = arrayOf(data, IntArray(data.size))
@@ -944,12 +987,15 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         SanityCheck.println { "writeUnlock(${lock.getUUID()}) x63" }
         lock.writeUnlock()
     }
+
     override fun insert(a: Int, b: Int, c: Int) {
         SanityCheck.checkUnreachable()
     }
+
     override fun remove(a: Int, b: Int, c: Int) {
         SanityCheck.checkUnreachable()
     }
+
     override /*suspend*/ fun clear() {
         flushContinueWithWriteLock()
         if (root != NodeManager.nodeNullPointer) {
@@ -963,6 +1009,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         SanityCheck.println { "writeUnlock(${lock.getUUID()}) x64" }
         lock.writeUnlock()
     }
+
     override /*suspend*/ fun printContents() {
         SanityCheck.println { "readLock(${lock.getUUID()}) x65" }
         lock.readLock()

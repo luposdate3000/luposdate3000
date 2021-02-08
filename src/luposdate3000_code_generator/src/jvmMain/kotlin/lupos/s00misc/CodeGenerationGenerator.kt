@@ -4,6 +4,7 @@ import java.io.*
 import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.*
+
 // dieses Tutorial hat mir sehr geholfen
 // https://www.kotlindevelopment.com/generateforme/
 // An dieser stelle wird häufig eine Annotation AutoService verwendet. Diese Annotation erzeigt lediglich die Datei "processor/src/main/resources/META-INF/services/javax.annotation.processing.Processor"
@@ -16,9 +17,11 @@ public class CodeGenerationGenerator : AbstractProcessor() {
     init {
         println("CodeGenerationGenerator init")
     }
+
     public companion object {
         public const val KAPT_KOTLIN_GENERATED_OPTION_NAME: String = "kapt.kotlin.generated"
     }
+
     override fun getSupportedSourceVersion(): SourceVersion = SourceVersion.latest()
     override fun getSupportedAnnotationTypes(): MutableSet<String> = mutableSetOf(CodeGenerationAnnotation::class.java.name)
     override fun process(
@@ -51,6 +54,7 @@ public class CodeGenerationGenerator : AbstractProcessor() {
             }
         return true
     }
+
     internal fun recoursivelyPrintTypeInformation(element: Element, indention: String = "") {
         println("${indention}simpleName :: ${element.getSimpleName()}")
         println("${indention}kind :: ${element.getKind()}")

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 internal expect object ParallelThread {
     internal inline fun <T> runBlocking(crossinline action: () -> T): T
     internal inline fun launch(crossinline action: () -> Unit): ParallelThreadJob

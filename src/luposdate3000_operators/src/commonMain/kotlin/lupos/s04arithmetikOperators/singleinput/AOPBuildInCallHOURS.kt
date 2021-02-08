@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04arithmetikOperators.singleinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.MyBigInteger
 import lupos.s03resultRepresentation.ValueDateTime
@@ -25,6 +26,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
+
 public class AOPBuildInCallHOURS public constructor(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallHOURSID, "AOPBuildInCallHOURS", arrayOf(child)) {
     override fun toSparql(): String = "HOURS(" + children[0].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallHOURS && children[0] == other.children[0]
@@ -39,5 +41,6 @@ public class AOPBuildInCallHOURS public constructor(query: IQuery, child: AOPBas
             res
         }
     }
+
     override fun cloneOP(): IOPBase = AOPBuildInCallHOURS(query, children[0].cloneOP() as AOPBase)
 }

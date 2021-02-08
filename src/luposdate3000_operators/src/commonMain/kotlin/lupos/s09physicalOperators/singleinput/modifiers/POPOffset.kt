@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s09physicalOperators.singleinput.modifiers
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
@@ -27,11 +28,13 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
+
 public class POPOffset public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val offset: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPOffsetID, "POPOffset", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int {
         SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
         return 1
     }
+
     override fun equals(other: Any?): Boolean = other is POPOffset && offset == other.offset && children[0] == other.children[0]
     override fun toSparql(): String {
         val sparql = children[0].toSparql()
@@ -40,6 +43,7 @@ public class POPOffset public constructor(query: IQuery, projectedVariables: Lis
         }
         return "{SELECT * {$sparql} OFFSET $offset}"
     }
+
     override fun cloneOP(): IOPBase = POPOffset(query, projectedVariables, offset, children[0].cloneOP())
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = getProvidedVariableNames()
@@ -66,5 +70,6 @@ public class POPOffset public constructor(query: IQuery, projectedVariables: Lis
         }
         return IteratorBundle(outMap)
     }
+
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("offset", "" + offset)
 }

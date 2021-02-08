@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s11outputResult
+
 import kotlin.jvm.JvmField
+
 public object EQueryResultToStreamExt {
     public const val DEFAULT_STREAM: EQueryResultToStream = 0
     public const val EMPTYDICTIONARY_STREAM: EQueryResultToStream = 1
@@ -24,7 +26,9 @@ public object EQueryResultToStreamExt {
     public const val XML_ELEMENT: EQueryResultToStream = 4
     public const val XML_STREAM: EQueryResultToStream = 5
     public const val values_size: Int = 6
-    @JvmField public val names: Array<String> = arrayOf(
+
+    @JvmField
+    public val names: Array<String> = arrayOf(
         "DEFAULT_STREAM",
         "EMPTYDICTIONARY_STREAM",
         "EMPTY_STREAM",

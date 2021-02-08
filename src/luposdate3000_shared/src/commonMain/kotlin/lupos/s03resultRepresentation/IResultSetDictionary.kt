@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s03resultRepresentation
+
 public interface IResultSetDictionary {
     public fun valueToGlobal(value: Int): Int
     public fun getValue(value: Int): ValueDefinition

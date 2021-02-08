@@ -23,8 +23,10 @@ import kotlin.jvm.JvmField
 internal class _MyStringStream(str: String) : IMyInputStream {
     @JvmField
     val buf4 = ByteArray(4)
+
     @JvmField
     public val data = str.encodeToByteArray()
+
     @JvmField
     public var pos = 0
     public override fun close() {

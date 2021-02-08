@@ -15,13 +15,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
+
 public object OperatorGraphToLatex {
     public class StackElement(@JvmField public val name: String) {
         @JvmField
         public var projectionHelper: String = ""
+
         @JvmField
         public var partitionHelper: String = ""
+
         @JvmField
         public val children: MutableList<StackElement> = mutableListOf()
         private fun getChildParallelism(): Int {
@@ -36,6 +40,7 @@ public object OperatorGraphToLatex {
             }
             return res
         }
+
         private fun getParallelism(): Int {
             var res = getChildParallelism()
             if (name.startsWith("MergePartition")) {
@@ -43,9 +48,11 @@ public object OperatorGraphToLatex {
             }
             return res
         }
+
         private fun isChangingParallelism(): Boolean {
             return name.startsWith("SplitPartition") || name.startsWith("MergePartition")
         }
+
         override fun toString(): String {
             val parallelism = getParallelism()
             val res = StringBuilder()
@@ -81,6 +88,7 @@ public object OperatorGraphToLatex {
             return res.toString()
         }
     }
+
     public fun coloredText(color: String, str: String): String = "\\textcolor{$color}{$str}"
     public operator fun invoke(inputString: String, caption: String? = null): String {
         val output = StringBuilder()

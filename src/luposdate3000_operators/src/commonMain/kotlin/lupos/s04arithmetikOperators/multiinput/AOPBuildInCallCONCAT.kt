@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04arithmetikOperators.multiinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError
@@ -26,6 +27,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
+
 public class AOPBuildInCallCONCAT public constructor(query: IQuery, child: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallCONCATID, "AOPBuildInCallCONCAT", arrayOf(child, childB)) {
     override fun toSparql(): String = "CONCAT(" + children[0].toSparql() + ", " + children[1].toSparql() + ")"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallCONCAT && children[0] == other.children[0] && children[1] == other.children[1]
@@ -46,5 +48,6 @@ public class AOPBuildInCallCONCAT public constructor(query: IQuery, child: AOPBa
             res
         }
     }
+
     override fun cloneOP(): IOPBase = AOPBuildInCallCONCAT(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
 }

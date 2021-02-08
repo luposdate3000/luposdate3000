@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators.singleinput
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.XMLElement
@@ -25,8 +26,10 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
+
 public class LOPSort public constructor(query: IQuery, @JvmField public val asc: Boolean, @JvmField public var by: AOPVariable, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPSortID, "LOPSort", arrayOf(child), ESortPriorityExt.SORT) {
     public constructor(query: IQuery, asc: Boolean, by: AOPVariable) : this(query, asc, by, OPEmptyRow(query))
+
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         val res = XMLElement("LOPSort")
         res.addAttribute("by", by.name)
@@ -42,6 +45,7 @@ public class LOPSort public constructor(query: IQuery, @JvmField public val asc:
         res.addContent(childrenToXML(partial))
         return res
     }
+
     override fun getRequiredVariableNames(): List<String> = listOf(by.name)
     override fun equals(other: Any?): Boolean = other is LOPSort && asc == other.asc && by == other.by && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPSort(query, asc, by, children[0].cloneOP())

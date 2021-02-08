@@ -15,4 +15,5 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s02buildSyntaxTree.sparql1_1
+
 public typealias BuiltInFunctions = Int

@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
+
 public object ESortPriorityExt {
     public const val ANY_PROVIDED_VARIABLE: ESortPriority = 0
     public const val BIND: ESortPriority = 1
@@ -27,7 +29,9 @@ public object ESortPriorityExt {
     public const val SORT: ESortPriority = 7
     public const val UNION: ESortPriority = 8
     public const val values_size: Int = 9
-    @JvmField public val names: Array<String> = arrayOf(
+
+    @JvmField
+    public val names: Array<String> = arrayOf(
         "ANY_PROVIDED_VARIABLE",
         "BIND",
         "GROUP",

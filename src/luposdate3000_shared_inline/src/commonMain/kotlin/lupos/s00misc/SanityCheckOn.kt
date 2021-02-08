@@ -15,15 +15,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.s00misc.UnreachableException
 import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
+
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal object SanityCheckOn {
     internal inline fun println(crossinline s: () -> Any?) {
         contract { callsInPlace(s, EXACTLY_ONCE) }
         println(s())
     }
+
     internal inline operator fun invoke(crossinline action: () -> Unit) {
         try {
             action()
@@ -33,6 +36,7 @@ internal object SanityCheckOn {
             throw e
         }
     }
+
     /*suspend*/ internal inline fun suspended(crossinline action: /*suspend*/ () -> Unit) {
         contract { callsInPlace(action, EXACTLY_ONCE) }
         try {
@@ -43,10 +47,12 @@ internal object SanityCheckOn {
             throw e
         }
     }
+
     internal inline fun <T> helper(crossinline action: () -> T): T? {
         contract { callsInPlace(action, EXACTLY_ONCE) }
         return action()
     }
+
     internal inline fun check(crossinline value: () -> Boolean, crossinline msg: () -> String) {
         contract { callsInPlace(value, EXACTLY_ONCE) }
         try {
@@ -59,6 +65,7 @@ internal object SanityCheckOn {
             throw e
         }
     }
+
     internal inline fun check(crossinline value: () -> Boolean) {
         contract { callsInPlace(value, EXACTLY_ONCE) }
         try {
@@ -71,5 +78,7 @@ internal object SanityCheckOn {
             throw e
         }
     }
-    @Suppress("NOTHING_TO_INLINE") internal inline fun checkUnreachable(): Nothing = throw UnreachableException()
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun checkUnreachable(): Nothing = throw UnreachableException()
 }

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators.singleinput.modifiers
+
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.XMLElement
@@ -24,8 +25,10 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
+
 public class LOPLimit public constructor(query: IQuery, @JvmField public val limit: Int, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPLimitID, "LOPLimit", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     public constructor(query: IQuery, limit: Int) : this(query, limit, OPEmptyRow(query))
+
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("limit", "" + limit)
     override fun equals(other: Any?): Boolean = other is LOPLimit && limit == other.limit && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPLimit(query, limit, children[0].cloneOP())

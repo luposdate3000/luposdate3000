@@ -15,18 +15,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s02buildSyntaxTree.turtle
+
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.UnexpectedToken
 import kotlin.jvm.JvmField
+
 public abstract class TurtleParserWithStringTriples {
     @JvmField
     public var ltit: LookAheadTokenIterator? = null
     public /*suspend*/ abstract fun consume_triple(s: String, p: String, o: String)
+
     // for storing the prefixes...
     @JvmField
     public val prefixes: MutableMap<String, String> = mutableMapOf()
+
     // some constants used for typed literals
     public companion object {
         private const val xsd = "http://www.w3.org/2001/XMLSchema#"
@@ -43,6 +47,7 @@ public abstract class TurtleParserWithStringTriples {
         public const val rest_iri: String = "<$rest>"
         public const val type_iri: String = "<" + rdf + "type" + ">"
     }
+
     @JvmField
     public var bnodeCounter: Int = 0
     /*suspend*/ public fun turtleDoc() {
@@ -56,6 +61,7 @@ public abstract class TurtleParserWithStringTriples {
             throw UnexpectedToken(token, arrayOf("EOF"), ltit!!)
         }
     }
+
     /*suspend*/ private fun statement() {
         val token: Token
         val t2 = ltit!!.lookahead()
@@ -75,6 +81,7 @@ public abstract class TurtleParserWithStringTriples {
             }
         }
     }
+
     private fun directive() {
         var token: Token
         val t3 = ltit!!.lookahead()
@@ -96,6 +103,7 @@ public abstract class TurtleParserWithStringTriples {
             }
         }
     }
+
     private fun prefixID() {
         var token: Token = ltit!!.nextToken()
         if (token.image != "@prefix") {
@@ -116,6 +124,7 @@ public abstract class TurtleParserWithStringTriples {
             throw UnexpectedToken(token, arrayOf("."), ltit!!)
         }
     }
+
     private fun base() {
         var token: Token = ltit!!.nextToken()
         if (token.image != "@base") {
@@ -131,6 +140,7 @@ public abstract class TurtleParserWithStringTriples {
             throw UnexpectedToken(token, arrayOf("."), ltit!!)
         }
     }
+
     private fun sparqlBase() {
         var token: Token = ltit!!.nextToken()
         if (token.image != "BASE") {
@@ -142,6 +152,7 @@ public abstract class TurtleParserWithStringTriples {
         }
         prefixes[""] = token.content
     }
+
     private fun sparqlPrefix() {
         var token: Token = ltit!!.nextToken()
         if (token.image != "PREFIX") {
@@ -158,6 +169,7 @@ public abstract class TurtleParserWithStringTriples {
         }
         prefixes[key] = token.content
     }
+
     /*suspend*/ private fun triples() {
         var token: Token
         val t5 = ltit!!.lookahead()
@@ -178,6 +190,7 @@ public abstract class TurtleParserWithStringTriples {
             }
         }
     }
+
     /*suspend*/ private fun predicateObjectList(s: String) {
         var token: Token
         val p = verb()
@@ -196,6 +209,7 @@ public abstract class TurtleParserWithStringTriples {
             t7 = ltit!!.lookahead()
         }
     }
+
     /*suspend*/ private fun objectList(s: String, p: String) {
         val o = triple_object()
         consume_triple(s, p, o)
@@ -207,6 +221,7 @@ public abstract class TurtleParserWithStringTriples {
             t8 = ltit!!.lookahead()
         }
     }
+
     private fun verb(): String {
         val token: Token
         val t9 = ltit!!.lookahead()
@@ -230,6 +245,7 @@ public abstract class TurtleParserWithStringTriples {
             }
         }
     }
+
     /*suspend*/ private fun subject(): String {
         var token: Token
         val result: String
@@ -250,10 +266,12 @@ public abstract class TurtleParserWithStringTriples {
         }
         return result
     }
+
     private fun predicate(): String {
         var token: Token
         return iri()
     }
+
     /*suspend*/ private fun triple_object(): String {
         var token: Token
         val result: String
@@ -280,6 +298,7 @@ public abstract class TurtleParserWithStringTriples {
         }
         return result
     }
+
     private fun literal(): String {
         var token: Token
         val result: String
@@ -300,6 +319,7 @@ public abstract class TurtleParserWithStringTriples {
         }
         return result
     }
+
     /*suspend*/ private fun blankNodePropertyList(): String {
         val result = "_:_$bnodeCounter"; bnodeCounter++
         var token: Token = ltit!!.nextToken()
@@ -313,6 +333,7 @@ public abstract class TurtleParserWithStringTriples {
         }
         return result
     }
+
     /*suspend*/ private fun collection(): String {
         var first = nil_iri
         var current = nil_iri
@@ -342,6 +363,7 @@ public abstract class TurtleParserWithStringTriples {
         }
         return first
     }
+
     private fun NumericLiteral(): String {
         val token: Token
         when (val t14 = ltit!!.lookahead()) {
@@ -371,6 +393,7 @@ public abstract class TurtleParserWithStringTriples {
             }
         }
     }
+
     private fun RDFLiteral(): String {
         var token: Token
         token = ltit!!.nextToken()
@@ -405,6 +428,7 @@ public abstract class TurtleParserWithStringTriples {
         }
         return delimiter + content + delimiter
     }
+
     private fun BooleanLiteral(): String {
         val token: Token
         val t17 = ltit!!.lookahead()
@@ -432,6 +456,7 @@ public abstract class TurtleParserWithStringTriples {
             }
         }
     }
+
     public fun iri(): String {
         val token: Token
         val iri: String
@@ -460,6 +485,7 @@ public abstract class TurtleParserWithStringTriples {
         }
         return "<$iri>"
     }
+
     private fun iri_string(): String {
         val token: Token
         val iri: String
@@ -488,6 +514,7 @@ public abstract class TurtleParserWithStringTriples {
         }
         return iri
     }
+
     private fun PrefixedName(): String {
         val token: Token
         when (val t20 = ltit!!.lookahead()) {
@@ -512,6 +539,7 @@ public abstract class TurtleParserWithStringTriples {
             }
         }
     }
+
     private fun BlankNode(): String {
         val token: Token
         when (val t21 = ltit!!.lookahead()) {

@@ -15,9 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s04logicalOperators.iterator
+
 import kotlin.jvm.JvmField
+
 public open class RowIteratorReduced(@JvmField public val child: RowIterator) : RowIterator() {
-    @JvmField public var first: Boolean = true
+    @JvmField
+    public var first: Boolean = true
+
     init {
         columns = child.columns
         buf = IntArray(columns.size)

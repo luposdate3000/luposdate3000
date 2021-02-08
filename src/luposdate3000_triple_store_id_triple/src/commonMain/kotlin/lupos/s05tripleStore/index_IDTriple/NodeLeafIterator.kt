@@ -15,13 +15,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s05tripleStore.index_IDTriple
+
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
+
 internal class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nodeid: Int) : TripleIterator() {
     @JvmField
     var remaining = NodeShared.getTripleCount(node)
+
     @JvmField
     var offset = NodeLeaf.START_OFFSET
+
     @JvmField
     var needsReset = true
     override fun hasNext() = remaining > 0
@@ -40,7 +44,9 @@ internal class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nod
         updateRemaining()
         return value[component]
     }
-    @Suppress("NOTHING_TO_INLINE") private inline fun updateRemaining() {
+
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun updateRemaining() {
         remaining--
         if (remaining == 0) {
             needsReset = true

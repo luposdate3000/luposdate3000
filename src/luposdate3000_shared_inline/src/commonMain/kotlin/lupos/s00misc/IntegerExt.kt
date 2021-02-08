@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 internal expect object _IntegerExt {
     internal inline fun numberOfLeadingZeros(value: Int): Int
 }
