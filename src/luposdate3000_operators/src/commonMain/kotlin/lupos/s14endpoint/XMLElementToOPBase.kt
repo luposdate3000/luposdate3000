@@ -125,10 +125,12 @@ import lupos.s09physicalOperators.multiinput.POPMinus
 import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPValues
+import lupos.s09physicalOperators.partition.POPDistributedReceiveMulti
+import lupos.s09physicalOperators.partition.POPDistributedReceiveMultiOrdered
+import lupos.s09physicalOperators.partition.POPDistributedSendSingle
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntIdReceive
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s09physicalOperators.singleinput.POPBind
@@ -496,7 +498,26 @@ public fun createProjectedVariables(query: Query, node: XMLElement, mapping: Mut
             res = POPMergePartitionOrderedByIntId(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, convertToOPBase(query, node["children"]!!.childs[0], mapping))
             query.addPartitionOperator(res.uuid, id)
         }
-        "POPMergePartitionOrderedByIntIdReceive" -> {
+        "POPDistributedSendSingle" -> {
+            val id = node.attributes["partitionID"]!!.toInt()
+            val hosts = mutableMapOf<String, String>()
+            for (c in node.childs) {
+                if (c.tag == "partitionDistributionProvideKey") {
+                    hosts[c.attributes["key"]!!] = c.attributes["host"]!!
+                }
+            }
+            res = POPDistributedSendSingle(
+                query,
+                createProjectedVariables(query, node, mapping),
+                node.attributes["partitionVariable"]!!,
+                node.attributes["partitionCount"]!!.toInt(),
+                id,
+                OPNothing(query, createProjectedVariables(query, node, mapping)),
+                hosts
+            )
+            query.addPartitionOperator(res.uuid, id)
+        }
+        "POPDistributedReceiveMulti" -> {
             val id = node.attributes["partitionID"]!!.toInt()
             val hosts = mutableMapOf<String, String>()
             for (c in node.childs) {
@@ -504,7 +525,26 @@ public fun createProjectedVariables(query: Query, node: XMLElement, mapping: Mut
                     hosts[c.attributes["key"]!!] = c.attributes["host"]!!
                 }
             }
-            res = POPMergePartitionOrderedByIntIdReceive(
+            res = POPDistributedReceiveMulti(
+                query,
+                createProjectedVariables(query, node, mapping),
+                node.attributes["partitionVariable"]!!,
+                node.attributes["partitionCount"]!!.toInt(),
+                id,
+                OPNothing(query, createProjectedVariables(query, node, mapping)),
+                hosts
+            )
+            query.addPartitionOperator(res.uuid, id)
+        }
+        "POPDistributedReceiveMultiOrdered" -> {
+            val id = node.attributes["partitionID"]!!.toInt()
+            val hosts = mutableMapOf<String, String>()
+            for (c in node.childs) {
+                if (c.tag == "partitionDistributionReceiveKey") {
+                    hosts[c.attributes["key"]!!] = c.attributes["host"]!!
+                }
+            }
+            res = POPDistributedReceiveMultiOrdered(
                 query,
                 createProjectedVariables(query, node, mapping),
                 node.attributes["partitionVariable"]!!,

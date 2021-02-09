@@ -30,7 +30,6 @@ import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s00misc.XMLElement
 import lupos.s00misc.xmlParser.XMLParser
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
@@ -299,24 +298,9 @@ public actual object HttpEndpointLauncher {
                                     val remoteDictionary = RemoteDictionaryClient(dictionaryURL)
                                     val query = Query(remoteDictionary)
                                     val node = XMLElement.convertToOPBase(query, queryXML) as POPBase
-                                    var variables = Array(node.projectedVariables.size) { "" }
-                                    var i = 0
-                                    connectionOutMy2.writeInt(variables.size)
-                                    for (v in node.projectedVariables) {
-                                        variables[i++] = v
-                                        val buf = v.encodeToByteArray()
-                                        connectionOutMy2.writeInt(buf.size)
-                                        connectionOutMy2.write(buf)
-                                    }
-                                    var p = Partition()
-                                    val bundle = node.evaluate(p)
-                                    val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
-                                    var buf = ResultSetDictionaryExt.nullValue + 1
-                                    while (buf != ResultSetDictionaryExt.nullValue) {
-                                        for (i in 0 until variables.size) {
-                                            buf = columns[i].next()
-                                            connectionOutMy2.writeInt(buf)
-                                        }
+                                    when (node) {
+                                        is POPDistributedSendSingle -> node.evaluate(connectionOutMy2)
+                                        else -> throw Exception("unexpected node '${node.classname}'")
                                     }
                                 }
                                 queryMappings.remove(params["key"]!!)

@@ -56,9 +56,9 @@ public class POPSplitPartitionFromStore public constructor(query: IQuery, projec
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
             if (isRoot) {
-                XMLElement("${classname}Send").addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+                XMLElement("POPDistributedSendSingle").addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
             } else {
-                XMLElement("${classname}Receive").addAttribute("uuid", "$uuid")
+                XMLElement("POPDistributedReceiveSingle").addAttribute("uuid", "$uuid")
             }
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)

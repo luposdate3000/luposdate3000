@@ -64,9 +64,17 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
             if (isRoot) {
-                XMLElement("${classname}Send").addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+                if (partitionCountTo > partitionCountFrom) {
+                    XMLElement("POPDistributedSendMulti").addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+                } else {
+                    XMLElement("POPDistributedSendSingle").addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+                }
             } else {
-                XMLElement("${classname}Receive").addAttribute("uuid", "$uuid")
+                if (partitionCountTo < partitionCountFrom) {
+                    XMLElement("POPDistributedReceiveMultiOrdered").addAttribute("uuid", "$uuid")
+                } else {
+                    XMLElement("POPDistributedReceiveSingle").addAttribute("uuid", "$uuid")
+                }
             }
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)

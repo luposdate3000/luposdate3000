@@ -65,9 +65,13 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
             if (isRoot) {
-                XMLElement("${classname}Send").addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+                if (partitionCount > 1) {
+                    XMLElement("POPDistributedSendMulti").addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+                } else {
+                    XMLElement("POPDistributedSendSingle").addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+                }
             } else {
-                XMLElement("${classname}Receive").addAttribute("uuid", "$uuid")
+                XMLElement("POPDistributedReceiveSingle").addAttribute("uuid", "$uuid")
             }
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)

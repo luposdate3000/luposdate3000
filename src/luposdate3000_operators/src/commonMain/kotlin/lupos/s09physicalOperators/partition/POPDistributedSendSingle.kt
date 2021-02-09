@@ -21,18 +21,16 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 
 // http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
-public class POPMergePartitionOrderedByIntIdReceive public constructor(
+public class POPDistributedSendSingle public constructor(
     query: IQuery,
     projectedVariables: List<String>,
     @JvmField public val partitionVariable: String,
@@ -40,7 +38,7 @@ public class POPMergePartitionOrderedByIntIdReceive public constructor(
     @JvmField public var partitionID: Int,
     child: IOPBase,
     @JvmField public val hosts: Map<String, String>, // key -> hostname
-) : POPBase(query, projectedVariables, EOperatorIDExt.POPMergePartitionOrderedByIntIdID, "POPMergePartitionOrderedByIntIdReceive", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedSendSingleID, "POPDistributedSendSingle", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
             1
@@ -69,11 +67,7 @@ public class POPMergePartitionOrderedByIntIdReceive public constructor(
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
-            if (isRoot) {
-                XMLElement("${classname}Send").addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
-            } else {
-                XMLElement("${classname}Receive").addAttribute("uuid", "$uuid")
-            }
+            XMLElement(classname).addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
@@ -111,81 +105,43 @@ public class POPMergePartitionOrderedByIntIdReceive public constructor(
         }
     }
 
-    override fun cloneOP(): IOPBase = POPMergePartitionOrderedByIntIdReceive(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), hosts)
+    override fun cloneOP(): IOPBase = POPDistributedSendSingle(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), hosts)
     override fun toSparql(): String = children[0].toSparql()
-    override fun equals(other: Any?): Boolean = other is POPMergePartitionOrderedByIntIdReceive && children[0] == other.children[0] && partitionVariable == other.partitionVariable
+    override fun equals(other: Any?): Boolean = other is POPDistributedSendSingle && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     internal class MyConnection(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream, @JvmField val mapping: IntArray)
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val variables = mutableListOf<String>()
-        variables.addAll(projectedVariables)
-        variables.remove(partitionVariable)
-        variables.add(0, partitionVariable)
-        var buffer = IntArray(partitionCount * variables.size)
-        var connections = Array<MyConnection?>(variables.size) { null }
-        var openConnections = 0
-        SanityCheck.check { hosts.size == partitionCount }
-        val handler = query.getCommunicationHandler()!!
-        for ((k, v) in hosts) {
-            val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))
-            var mapping = IntArray(variables.size)
-            val cnt = conn.first.readInt()
-            SanityCheck.check({ cnt == variables.size }, { "$cnt vs ${variables.size}" })
+        throw Exception("this must not be called !!")
+    }
+
+    public fun evaluate(connectionOut: IMyOutputStream) {
+        var partitionNumber = -1
+        for (k in hosts.keys) {
+            if (k.startsWith("$partitionVariable:")) {
+// dont care, if this is not directly the triple store ... .
+                partitionNumber = k.substring(partitionVariable.length + 1)
+                break
+            }
+        }
+        SanityCheck.check { partitionNumber >= 0 && partitionNumber < partitionCount }
+        var variables = Array(projectedVariables.size) { "" }
+        var i = 0
+        connectionOut.writeInt(variables.size)
+        for (v in projectedVariables) {
+            variables[i++] = v
+            val buf = v.encodeToByteArray()
+            connectionOut.writeInt(buf.size)
+            connectionOut.write(buf)
+        }
+        var p = Partition(partitionVariable, partitionNumber, partitionCount)
+        val bundle = children[0].evaluate(p)
+        val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
+        var buf = ResultSetDictionaryExt.nullValue + 1
+        while (buf != ResultSetDictionaryExt.nullValue) {
             for (i in 0 until variables.size) {
-                val len = conn.first.readInt()
-                val buf = ByteArray(len)
-                conn.first.read(buf, len)
-                val name = buf.decodeToString()
-                val j = variables.indexOf(name)
-                SanityCheck.check { j >= 0 && j < variables.size }
-                mapping[i] = j
-            }
-            val off = openConnections * variables.size
-            for (i in 0 until variables.size) {
-                buffer[off + mapping[i]] = conn.first.readInt()
-            }
-            if (buffer[off] == ResultSetDictionaryExt.nullValue) {
-                conn.first.close()
-                conn.second.close()
-            } else {
-                connections[openConnections] = MyConnection(conn.first, conn.second, mapping)
-                openConnections++
+                buf = columns[i].next()
+                connectionOut.writeInt(buf)
             }
         }
-        val iterator = RowIterator()
-        iterator.columns = variables.toTypedArray()
-        iterator.buf = IntArray(variables.size)
-        iterator.next = {
-            var res = -1
-            if (openConnections > 0) {
-                res = 0
-                var min = 0
-                for (i in 1 until openConnections) {
-                    if (buffer[i * variables.size] < buffer[min * variables.size]) {
-                        min = i
-                    }
-                }
-                val off = min * variables.size
-                buffer.copyInto(iterator.buf, 0, off, off + variables.size)
-                for (i in 0 until variables.size) {
-                    buffer[off + connections[min]!!.mapping[i]] = connections[min]!!.input.readInt()
-                }
-                if (buffer[off] == ResultSetDictionaryExt.nullValue) {
-                    connections[min]!!.input.close()
-                    connections[min]!!.output.close()
-                    connections[min] = connections[openConnections - 1]
-                    connections[openConnections - 1] = null
-                    openConnections--
-                }
-            }
-            res
-        }
-        iterator.close = {
-            for (i in 0 until openConnections) {
-                connections[i]!!.input.close()
-                connections[i]!!.output.close()
-            }
-        }
-        return IteratorBundle(iterator)
     }
 }

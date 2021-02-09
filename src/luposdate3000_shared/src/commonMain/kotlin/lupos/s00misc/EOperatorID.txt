@@ -131,3 +131,8 @@ POPSplitPartitionID
 POPSplitPartitionFromStoreID
 POPMergePartitionCountID
 POPGenerated
+POPDistributedReceiveMultiID
+POPDistributedReceiveMultiOrderedID
+POPDistributedReceiveSingleID
+POPDistributedSendMultiID
+POPDistributedSendSingleID
