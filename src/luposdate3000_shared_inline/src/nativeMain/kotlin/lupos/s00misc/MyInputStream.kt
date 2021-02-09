@@ -34,7 +34,9 @@ internal actual class _MyInputStream : IMyInputStream {
         try {
             var b = readByte()
             while (b != '\n'.toByte()) {
-                buf.add(b)
+                if (b != '\r'.toByte()) {
+                    buf.add(b)
+                }
                 b = readByte()
             }
         } catch (e: Throwable) {

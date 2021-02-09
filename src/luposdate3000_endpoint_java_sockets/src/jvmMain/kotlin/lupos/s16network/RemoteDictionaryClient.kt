@@ -16,9 +16,23 @@
  */
 package lupos.s16network
 
+import lupos.s00misc.IMyInputStream
+import lupos.s00misc.IMyOutputStream
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.ValueBnode
+import lupos.s03resultRepresentation.ValueBoolean
+import lupos.s03resultRepresentation.ValueDateTime
+import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
+import lupos.s03resultRepresentation.ValueDouble
+import lupos.s03resultRepresentation.ValueError
+import lupos.s03resultRepresentation.ValueFloat
+import lupos.s03resultRepresentation.ValueInteger
+import lupos.s03resultRepresentation.ValueIri
+import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
+import lupos.s03resultRepresentation.ValueSimpleLiteral
+import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s03resultRepresentation.ValueUndef
 
 internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream) : IResultSetDictionary {
@@ -62,7 +76,7 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
             return ResultSetDictionaryExt.undefValue
         } else {
             output.writeInt(1)
-            val buf = value.valueToString().encodeToByteArray()
+            val buf = value.valueToString()!!.encodeToByteArray()
             output.writeInt(buf.size)
             output.write(buf, buf.size)
             output.flush()
@@ -105,10 +119,10 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
             val str = buf.decodeToString()
             val v = ValueDefinition(str)
             when (v) {
-                is ValueBnode -> onBNode(v.value)
+                is ValueBnode -> onBNode(value)
                 is ValueBoolean -> onBoolean(v.value)
                 is ValueError -> onError()
-                is ValueLanguageTaggedLiteral -> onLanguageTaggedLiteral(v.content, v.lang)
+                is ValueLanguageTaggedLiteral -> onLanguageTaggedLiteral(v.content, v.language)
                 is ValueSimpleLiteral -> onSimpleLiteral(v.content)
                 is ValueTypedLiteral -> onTypedLiteral(v.content, v.type_iri)
                 is ValueDecimal -> onDecimal(v.value.toString())

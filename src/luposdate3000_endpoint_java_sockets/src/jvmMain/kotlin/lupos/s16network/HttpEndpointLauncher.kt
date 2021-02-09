@@ -133,7 +133,7 @@ public actual object HttpEndpointLauncher {
     internal fun inputElement(name: String, value: String): String = "<input type=\"text\" name=\"$name\" value=\"$value\"/>"
     internal class PathMappingHelper(val addPostParams: Boolean/*parse the post-body as additional parameters for the query*/, val params: Map<Pair<String/*name*/, String/*default-value*/>, (String, String) -> String/*html-string of element*/>, val action: () -> Unit/*action to perform, when this is the called url*/)
 
-    var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
+    internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
 
     public actual /*suspend*/ fun start() {
         val hosturl = Partition.myProcessUrls[Partition.myProcessId].split(":")
@@ -299,7 +299,7 @@ public actual object HttpEndpointLauncher {
                                 }
                             }
                             paths["/distributed/query/dictionary"] = PathMappingHelper(false, mapOf()) {
-                                val dict = dictionaryMapping[params["key"]!!]
+                                val dict = dictionaryMapping[params["key"]!!]!!
                                 val connectionOutMy2 = MyOutputStream(connectionOutBase)
                                 connectionOutMy = connectionOutMy2
                                 dict.connect(connectionInMy2, connectionOutMy2)

@@ -16,6 +16,9 @@
  */
 package lupos.s16network
 
+import lupos.s00misc.IMyInputStream
+import lupos.s00misc.IMyOutputStream
+import lupos.s00misc.MyReadWriteLock
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ValueDefinition
 
