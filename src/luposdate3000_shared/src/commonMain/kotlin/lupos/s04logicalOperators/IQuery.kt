@@ -33,4 +33,5 @@ public interface IQuery {
     public fun getDictionaryUrl(): String?
     public fun setDictionaryUrl(url: String)
     public fun getCommunicationHandler(): ICommunicationHandler?
+    public fun setDictionaryServer(dict: IResultSetDictionary)
 }

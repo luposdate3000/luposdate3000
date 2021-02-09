@@ -36,8 +36,6 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.partition.POPDistributedSendSingle
 import lupos.s11outputResult.EQueryResultToStreamExt
 import lupos.s14endpoint.convertToOPBase
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.io.OutputStream
 import java.net.InetSocketAddress
 import java.net.ServerSocket
@@ -84,16 +82,6 @@ public class CommunicationHandler : ICommunicationHandler {
     }
 
     public override fun openConnection(targetHost: String, path: String, params: Map<String, String>): Pair<IMyInputStream, IMyOutputStream> {
-        val target = targetHost.split(":")
-        val targetName = target[0]
-        val targetPort = if (target.size > 1) {
-            target[1].toInt()
-        } else {
-            80
-        }
-        val client = Socket(targetName, targetPort)
-        val input = client.getInputStream()
-        val output = client.getOutputStream()
         var p = "POST $path"
         var first = true
         for ((k, v) in params) {
@@ -105,7 +93,21 @@ public class CommunicationHandler : ICommunicationHandler {
             first = false
             p += "$k=${URLEncoder.encode(v)}"
         }
-        val buf = "$p\n\n".encodeToByteArray()
+        return openConnection(targetHost, "$p\n\n")
+    }
+
+    public override fun openConnection(targetHost: String, header: String): Pair<IMyInputStream, IMyOutputStream> {
+        val target = targetHost.split(":")
+        val targetName = target[0]
+        val targetPort = if (target.size > 1) {
+            target[1].toInt()
+        } else {
+            80
+        }
+        val client = Socket(targetName, targetPort)
+        val input = client.getInputStream()
+        val output = client.getOutputStream()
+        val buf = "$header".encodeToByteArray()
         output.write(buf, 0, buf.size)
         return Pair(MyInputStream(input), MyOutputStream(output))
     }
@@ -131,6 +133,8 @@ public actual object HttpEndpointLauncher {
     internal fun inputElement(name: String, value: String): String = "<input type=\"text\" name=\"$name\" value=\"$value\"/>"
     internal class PathMappingHelper(val addPostParams: Boolean/*parse the post-body as additional parameters for the query*/, val params: Map<Pair<String/*name*/, String/*default-value*/>, (String, String) -> String/*html-string of element*/>, val action: () -> Unit/*action to perform, when this is the called url*/)
 
+    var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
+
     public actual /*suspend*/ fun start() {
         val hosturl = Partition.myProcessUrls[Partition.myProcessId].split(":")
         val hostname = hosturl[0]
@@ -148,16 +152,15 @@ public actual object HttpEndpointLauncher {
                 val connection = server.accept()
                 Thread {
                     Parallel.runBlocking {
-//                        var timertotal = DateHelperRelative.markNow()
-//                        var timer = timertotal
                         var connectionInBase = connection.getInputStream()
+                        var connectionInMy: MyInputStream? = null
                         var connectionOutBase = connection.getOutputStream()
-                        var connectionIn: BufferedReader? = null
                         var connectionOutPrinter: MyPrintWriter? = null
                         var connectionOutMy: MyOutputStream? = null
                         try {
-                            connectionIn = BufferedReader(InputStreamReader(connectionInBase))
-                            var line = connectionIn.readLine()
+                            val connectionInMy2 = MyInputStream(connectionInBase)
+                            connectionInMy = connectionInMy2
+                            var line = connectionInMy2.readLine()
                             var path = ""
                             var isPost = false
                             val params = mutableMapOf<String, String>()
@@ -169,7 +172,7 @@ public actual object HttpEndpointLauncher {
                                 if (line.startsWith("GET")) {
                                     path = line.substring(4)
                                 }
-                                line = connectionIn.readLine()
+                                line = connectionInMy2.readLine()
                             }
                             var idx = path.indexOf(' ')
                             if (idx > 0) {
@@ -220,10 +223,17 @@ public actual object HttpEndpointLauncher {
                                     }
                                 }
                                 val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(params["query"]!!, false)
-                                node.getQuery().setCommunicationHandler(CommunicationHandler())
+                                val query = node.getQuery()
+                                query.setCommunicationHandler(CommunicationHandler())
+                                val dict = RemoteDictionaryServer(query.getDictionary())
+                                query.setDictionaryServer(dict)
+                                val key = "${query.getTransactionID()}"
+                                dictionaryMapping[key] = dict
+                                query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
                                 val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutPrinter2, evaluator)
+                                dictionaryMapping.remove(key)
                                 /*Coverage Unreachable*/
                             }
                             paths["/sparql/operator"] = PathMappingHelper(true, mapOf(Pair("query", "") to ::inputElement)) {
@@ -288,6 +298,12 @@ public actual object HttpEndpointLauncher {
                                     throw Exception("the number ${keys.size} is not implemented as number of keys for a distributed query.")
                                 }
                             }
+                            paths["/distributed/query/dictionary"] = PathMappingHelper(false, mapOf()) {
+                                val dict = dictionaryMapping[params["key"]!!]
+                                val connectionOutMy2 = MyOutputStream(connectionOutBase)
+                                connectionOutMy = connectionOutMy2
+                                dict.connect(connectionInMy2, connectionOutMy2)
+                            }
                             paths["/distributed/query/execute"] = PathMappingHelper(false, mapOf()) {
                                 var queryXML = queryMappings[params["key"]!!]
                                 var dictionaryURL = params["dictionaryURL"]!!
@@ -296,7 +312,10 @@ public actual object HttpEndpointLauncher {
                                 if (queryXML == null) {
                                     throw Exception("this query was not registered before")
                                 } else {
-                                    val remoteDictionary = RemoteDictionaryClient(dictionaryURL)
+                                    val comm = CommunicationHandler()
+                                    var idx = dictionaryURL.indexOf("/")
+                                    val conn = comm.openConnection(dictionaryURL.substring(0, idx), dictionaryURL.substring(idx))
+                                    val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second)
                                     val query = Query(remoteDictionary)
                                     query.setCommunicationHandler(CommunicationHandler())
                                     query.setDictionaryUrl(dictionaryURL)
@@ -305,6 +324,9 @@ public actual object HttpEndpointLauncher {
                                         is POPDistributedSendSingle -> node.evaluate(connectionOutMy2)
                                         else -> throw Exception("unexpected node '${node.classname}'")
                                     }
+                                    remoteDictionary.close()
+                                    conn.first.close()
+                                    conn.second.close()
                                 }
                                 queryMappings.remove(params["key"]!!)
                             }
@@ -377,8 +399,10 @@ public actual object HttpEndpointLauncher {
                             } else {
                                 if (actionHelper.addPostParams && isPost) {
                                     val content = StringBuilder()
-                                    while (connectionIn.ready()) {
-                                        content.append(connectionIn.read().toChar())
+                                    var line = connectionInMy2.readLine()
+                                    while (line != null) {
+                                        content.appendLine(line)
+                                        line = connectionInMy2.readLine()
                                     }
                                     extractParamsFromString(content.toString(), params)
                                 }
@@ -397,7 +421,7 @@ public actual object HttpEndpointLauncher {
                             connectionOutPrinter?.flush()
                             connectionOutPrinter?.close()
                             connectionOutBase.close()
-                            connectionIn?.close()
+                            connectionInMy?.close()
                             connectionInBase.close()
                             connection?.close()
                         }

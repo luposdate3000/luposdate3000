@@ -27,4 +27,21 @@ internal actual class _MyInputStream : IMyInputStream {
     public actual override fun read(buf: ByteArray): Int = throw NotImplementedException("MyOutputStream", "xyz not implemented")
     public actual override fun close() {
     }
+
+    public actual override fun readLine(): String? {
+// TODO this may break on utf-8
+        var buf = mutableListOf<Byte>()
+        try {
+            var b = readByte()
+            while (b != '\n'.toByte()) {
+                buf.add(b)
+                b = readByte()
+            }
+        } catch (e: Throwable) {
+            if (buf.size == 0) {
+                return null
+            }
+        }
+        return buf.toByteArray().decodeToString()
+    }
 }

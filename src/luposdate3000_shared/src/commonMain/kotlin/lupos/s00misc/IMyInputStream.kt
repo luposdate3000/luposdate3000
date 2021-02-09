@@ -23,4 +23,5 @@ public interface IMyInputStream {
     public fun readInt(): Int
     public fun readByte(): Byte
     public fun close(): Unit
+    public fun readLine(): String?
 }

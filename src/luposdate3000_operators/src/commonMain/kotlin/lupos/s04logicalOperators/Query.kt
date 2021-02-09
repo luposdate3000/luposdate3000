@@ -40,7 +40,7 @@ public class PartitionHelper public constructor() {
     internal val lock = MyLock()
 }
 
-public class Query public constructor(@JvmField public val dictionary: IResultSetDictionary, @JvmField public var transactionID: Long) : IQuery {
+public class Query public constructor(@JvmField public var dictionary: IResultSetDictionary, @JvmField public var transactionID: Long) : IQuery {
     public constructor(dictionary: IResultSetDictionary) : this(dictionary, global_transactionID++)
     public constructor(transactionID: Long) : this(ResultSetDictionary(), transactionID)
     public constructor() : this(ResultSetDictionary(), global_transactionID++)
@@ -94,6 +94,10 @@ public class Query public constructor(@JvmField public val dictionary: IResultSe
     public var dictionaryUrl: String? = null
     public override fun setDictionaryUrl(url: String) {
         this.dictionaryUrl = url
+    }
+
+    public override fun setDictionaryServer(dict: IResultSetDictionary) {
+        dictionary = dict
     }
 
     public override fun getDictionaryUrl(): String? = dictionaryUrl

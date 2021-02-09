@@ -25,4 +25,5 @@ internal expect class _MyInputStream : IMyInputStream {
     public override fun read(buf: ByteArray, len: Int): Int
     public override fun read(buf: ByteArray, off: Int, len: Int): Int
     public override fun close(): Unit
+    public override fun readLine(): String?
 }

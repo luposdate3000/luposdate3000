@@ -66,4 +66,21 @@ internal actual class _MyInputStream(@JvmField internal val stream: InputStream)
     public actual override fun close() {
         stream.close()
     }
+
+    public actual override fun readLine(): String? {
+// TODO this may break on utf-8
+        var buf = mutableListOf<Byte>()
+        try {
+            var b = readByte()
+            while (b != '\n'.toByte()) {
+                buf.add(b)
+                b = readByte()
+            }
+        } catch (e: Throwable) {
+            if (buf.size == 0) {
+                return null
+            }
+        }
+        return buf.toByteArray().decodeToString()
+    }
 }
