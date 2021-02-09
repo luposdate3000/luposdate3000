@@ -92,6 +92,10 @@ public class Query public constructor(@JvmField public val dictionary: IResultSe
 
     @JvmField
     public var dictionaryUrl: String? = null
+    public override fun setDictionaryUrl(url: String) {
+        this.dictionaryUrl = url
+    }
+
     public override fun getDictionaryUrl(): String? = dictionaryUrl
     public override fun getCommunicationHandler(): ICommunicationHandler? = communicationHandler
     public override fun setCommunicationHandler(handler: ICommunicationHandler) {

@@ -116,7 +116,7 @@ public class POPDistributedReceiveSingle public constructor(
         val variables = mutableListOf<String>()
         variables.addAll(projectedVariables)
         val handler = query.getCommunicationHandler()!!
-        val connection: MyConnection? = null
+        var connection: MyConnection? = null
         var mapping = IntArray(variables.size)
         for ((k, v) in hosts) {
             SanityCheck.check { connection == null }

@@ -33,6 +33,7 @@ import lupos.s00misc.xmlParser.XMLParser
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
+import lupos.s09physicalOperators.partition.POPDistributedSendSingle
 import lupos.s11outputResult.EQueryResultToStreamExt
 import lupos.s14endpoint.convertToOPBase
 import java.io.BufferedReader
@@ -297,6 +298,8 @@ public actual object HttpEndpointLauncher {
                                 } else {
                                     val remoteDictionary = RemoteDictionaryClient(dictionaryURL)
                                     val query = Query(remoteDictionary)
+                                    query.setCommunicationHandler(CommunicationHandler())
+                                    query.setDictionaryUrl(dictionaryURL)
                                     val node = XMLElement.convertToOPBase(query, queryXML) as POPBase
                                     when (node) {
                                         is POPDistributedSendSingle -> node.evaluate(connectionOutMy2)

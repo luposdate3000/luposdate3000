@@ -21,6 +21,7 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
@@ -37,7 +38,7 @@ public class POPDistributedSendSingle public constructor(
     @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
     child: IOPBase,
-    @JvmField public val hosts: Map<String, String>, // key -> hostname
+    @JvmField public val hosts: List<String>, // key
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedSendSingleID, "POPDistributedSendSingle", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
@@ -116,10 +117,10 @@ public class POPDistributedSendSingle public constructor(
 
     public fun evaluate(connectionOut: IMyOutputStream) {
         var partitionNumber = -1
-        for (k in hosts.keys) {
-            if (k.startsWith("$partitionVariable:")) {
+        for (k in hosts) {
+            if (k.contains(":$partitionVariable=")) {
 // dont care, if this is not directly the triple store ... .
-                partitionNumber = k.substring(partitionVariable.length + 1)
+                partitionNumber = k.substring(k.indexOf("=") + 1).toInt()
                 break
             }
         }
@@ -133,7 +134,7 @@ public class POPDistributedSendSingle public constructor(
             connectionOut.writeInt(buf.size)
             connectionOut.write(buf)
         }
-        var p = Partition(partitionVariable, partitionNumber, partitionCount)
+        var p = Partition(Partition(), partitionVariable, partitionNumber, partitionCount)
         val bundle = children[0].evaluate(p)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
         var buf = ResultSetDictionaryExt.nullValue + 1

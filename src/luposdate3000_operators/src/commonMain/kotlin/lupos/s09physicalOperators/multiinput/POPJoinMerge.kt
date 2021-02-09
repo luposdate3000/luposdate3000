@@ -364,14 +364,6 @@ public class POPJoinMerge public constructor(query: IQuery, projectedVariables: 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck.check { !optional }
         // setup columns
-        SanityCheck {
-            for (v in children[0].getProvidedVariableNames()) {
-                getPartitionCount(v)
-            }
-            for (v in children[1].getProvidedVariableNames()) {
-                getPartitionCount(v)
-            }
-        }
         SanityCheck.println { "$uuid open $classname" }
         val child0 = children[0].evaluate(parent)
         val child1 = children[1].evaluate(parent)

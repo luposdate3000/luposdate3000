@@ -31,5 +31,6 @@ public interface IQuery {
     public fun getDistributionKey(): Map<String, Int>
     public fun setCommunicationHandler(handler: ICommunicationHandler)
     public fun getDictionaryUrl(): String?
+    public fun setDictionaryUrl(url: String)
     public fun getCommunicationHandler(): ICommunicationHandler?
 }
