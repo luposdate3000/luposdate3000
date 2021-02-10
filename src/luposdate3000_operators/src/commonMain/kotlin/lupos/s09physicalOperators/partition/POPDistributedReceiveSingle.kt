@@ -158,8 +158,8 @@ public class POPDistributedReceiveSingle public constructor(
             res
         }
         iterator.close = {
-            connection!!.input.close()
-            connection!!.output.close()
+            connection?.input?.close()
+            connection?.output?.close()
         }
         return IteratorBundle(iterator)
     }

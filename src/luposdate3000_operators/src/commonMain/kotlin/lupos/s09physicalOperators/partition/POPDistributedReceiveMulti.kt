@@ -183,8 +183,8 @@ public class POPDistributedReceiveMulti public constructor(
         }
         iterator.close = {
             for (i in 0 until openConnections) {
-                connections[i]!!.input.close()
-                connections[i]!!.output.close()
+                connections[i]?.input?.close()
+                connections[i]?.output?.close()
             }
         }
         return IteratorBundle(iterator)

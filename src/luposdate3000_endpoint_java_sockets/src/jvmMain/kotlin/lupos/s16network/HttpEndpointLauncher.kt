@@ -345,7 +345,7 @@ public actual object HttpEndpointLauncher {
                                     val comm = CommunicationHandler()
                                     var idx = dictionaryURL.indexOf("/")
                                     println("opening dictionary :: '${dictionaryURL.substring(0, idx)}' '${dictionaryURL.substring(idx)}'")
-                                    val conn = comm.openConnection(dictionaryURL.substring(0, idx), dictionaryURL.substring(idx) + "\n\n")
+                                    val conn = comm.openConnection(dictionaryURL.substring(0, idx), "POST " + dictionaryURL.substring(idx) + "\n\n")
                                     val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second)
                                     val query = Query(remoteDictionary)
                                     query.setCommunicationHandler(CommunicationHandler())
