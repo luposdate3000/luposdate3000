@@ -87,39 +87,52 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IResultSetDictio
 
     public fun connect(input: IMyInputStream, output: IMyOutputStream) {
         loop@ while (true) {
+            println("dict-server read #1 4")
             val mode = input.readInt()
             when (mode) {
                 0 -> {
                     break@loop
                 }
                 1 -> {
+                    println("dict-server read #2 4")
                     val len = input.readInt()
                     val buf = ByteArray(len)
+                    println("dict-server read #3 $len")
                     input.read(buf, len)
                     val str = buf.decodeToString()
                     val res = createValue(str)
+                    println("dict-server write #7 4")
                     output.writeInt(res)
                 }
                 2 -> {
+                    println("dict-server read #4 4")
                     val value = input.readInt()
                     val str = getValue(value).valueToString()
                     if (str == null) {
+                        println("dict-server write #8 4")
                         output.writeInt(-1)
                     } else {
                         val buf = str.encodeToByteArray()
+                        println("dict-server write #9 4")
                         output.writeInt(buf.size)
+                        println("dict-server write #10 ${buf.size}")
                         output.write(buf, buf.size)
                     }
                 }
                 3 -> {
+                    println("dict-server read #5 4")
                     val value = input.readInt()
+                    println("dict-server write #11 4")
                     output.writeInt(valueToGlobal(value))
                 }
                 4 -> {
+                    println("dict-server read #6 4")
                     val value = input.readInt()
+                    println("dict-server write #12 4")
                     output.writeInt(toBooleanOrError(value))
                 }
             }
+            println("dict-server flush")
             output.flush()
         }
     }

@@ -37,21 +37,28 @@ import lupos.s03resultRepresentation.ValueUndef
 
 internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream) : IResultSetDictionary {
     public override fun valueToGlobal(value: Int): Int {
+        println("dict-client write #1 4")
         output.writeInt(3)
+        println("dict-client write #2 4")
         output.writeInt(value)
         output.flush()
+        println("dict-client read #16 4")
         return input.readInt()
     }
 
     public override fun getValue(value: Int): ValueDefinition {
+        println("dict-client write #3 4")
         output.writeInt(2)
+        println("dict-client write #4 4")
         output.writeInt(value)
         output.flush()
+        println("dict-client read #17 4")
         val len = input.readInt()
         if (len == -1) {
             return ValueUndef()
         } else {
             val buf = ByteArray(len)
+            println("dict-client read #18 $len")
             input.read(buf, len)
             val str = buf.decodeToString()
             return ValueDefinition(str)
@@ -62,11 +69,15 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         if (value == null) {
             return ResultSetDictionaryExt.undefValue
         } else {
+            println("dict-client write #5 4")
             output.writeInt(1)
             val buf = value.encodeToByteArray()
+            println("dict-client write #6 4")
             output.writeInt(buf.size)
+            println("dict-client write #7 ${buf.size}")
             output.write(buf, buf.size)
             output.flush()
+            println("dict-client read #19 4")
             return input.readInt()
         }
     }
@@ -75,19 +86,26 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         if (value is ValueUndef) {
             return ResultSetDictionaryExt.undefValue
         } else {
+            println("dict-client write #8 4")
             output.writeInt(1)
             val buf = value.valueToString()!!.encodeToByteArray()
+            println("dict-client write #9 4")
             output.writeInt(buf.size)
+            println("dict-client write #10 ${buf.size}")
             output.write(buf, buf.size)
             output.flush()
+            println("dict-client read #20 4")
             return input.readInt()
         }
     }
 
     public override fun toBooleanOrError(value: Int): Int {
+        println("dict-client write #11 4")
         output.writeInt(4)
+        println("dict-client write #12 4")
         output.writeInt(value)
         output.flush()
+        println("dict-client read #21 4")
         return input.readInt()
     }
 
@@ -106,15 +124,18 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         onError: () -> Unit,
         onUndefined: () -> Unit
     ) {
+        println("dict-client write #13 4")
         output.writeInt(2)
-        output.writeInt(2)
+        println("dict-client write #14 4")
         output.writeInt(value)
         output.flush()
+        println("dict-client read #22 4")
         val len = input.readInt()
         if (len == -1) {
             onUndefined()
         } else {
             val buf = ByteArray(len)
+            println("dict-client read #23 $len")
             input.read(buf, len)
             val str = buf.decodeToString()
             val v = ValueDefinition(str)
@@ -139,7 +160,10 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
     }
 
     public fun close() {
+        println("dict-client write #15 4")
         output.writeInt(0)
         output.flush()
+        output.close()
+        input.close()
     }
 }

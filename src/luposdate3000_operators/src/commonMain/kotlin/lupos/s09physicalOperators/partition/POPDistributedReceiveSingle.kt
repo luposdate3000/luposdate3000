@@ -121,11 +121,14 @@ public class POPDistributedReceiveSingle public constructor(
         for ((k, v) in hosts) {
             SanityCheck.check { connection == null }
             val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))
+            println("waiting for read #11 4")
             val cnt = conn.first.readInt()
             SanityCheck.check({ cnt == variables.size }, { "$cnt vs ${variables.size}" })
             for (i in 0 until variables.size) {
+                println("waiting for read #12 4")
                 val len = conn.first.readInt()
                 val buf = ByteArray(len)
+                println("waiting for read #13 $len")
                 conn.first.read(buf, len)
                 val name = buf.decodeToString()
                 val j = variables.indexOf(name)
@@ -141,6 +144,7 @@ public class POPDistributedReceiveSingle public constructor(
             var res = -1
             if (connection != null) {
                 for (i in 0 until variables.size) {
+                    println("waiting for read #14 4")
                     iterator.buf[mapping[i]] = connection!!.input.readInt()
                 }
                 if (iterator.buf[0] == ResultSetDictionaryExt.nullValue) {

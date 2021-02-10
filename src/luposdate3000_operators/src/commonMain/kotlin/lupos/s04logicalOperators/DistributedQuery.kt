@@ -177,7 +177,6 @@ internal object DistributedQuery {
                 }
             }
         }
-        query.dictionaryUrl = "httpTODO://xyz"
         var res: XMLElement? = null
         println("mapping :: ${query.operatorgraphPartsToHostMap}")
         for ((k, v) in query.operatorgraphParts) {

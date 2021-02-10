@@ -23,6 +23,7 @@ import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.MyInputStream
+import lupos.s00misc.MyInputStreamFixedLength
 import lupos.s00misc.MyOutputStream
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.MyStringStream
@@ -58,6 +59,18 @@ internal class MyPrintWriterExtension(out: OutputStream) : MyPrintWriter(out) {
 
 public class CommunicationHandler : ICommunicationHandler {
     public override fun sendData(targetHost: String, path: String, params: Map<String, String>) {
+        val content = StringBuilder()
+        var first = true
+        for ((k, v) in params) {
+            if (!first) {
+                content.append("&")
+            }
+            first = false
+            content.append("$k=${URLEncoder.encode(v)}")
+        }
+        val contentStr = content.toString()
+        val header = "POST $path\nContent-Length: ${contentStr.length}\n\n"
+        val data = header + content
         val target = targetHost.split(":")
         val targetName = target[0]
         val targetPort = if (target.size > 1) {
@@ -66,19 +79,26 @@ public class CommunicationHandler : ICommunicationHandler {
             80
         }
         val client = Socket(targetName, targetPort)
-        val connectionOutPrinter = MyPrintWriterExtension(client.getOutputStream())
-        connectionOutPrinter.println("POST $path")
-        connectionOutPrinter.println()
-        var first = true
-        for ((k, v) in params) {
-            if (!first) {
-                connectionOutPrinter.print("&")
+        val input = MyInputStream(client.getInputStream())
+        val output = client.getOutputStream()
+        output.write(data.encodeToByteArray())
+        output.flush()
+        var line = input.readLine()
+        var status: Int? = null
+        while (line != null && line.isNotEmpty()) {
+            if (line.startsWith("HTTP/1.1")) {
+                val t = line.split(" ")
+                if (t.size == 3) {
+                    status = t[1].toInt()
+                }
             }
-            first = false
-            connectionOutPrinter.print("$k=${URLEncoder.encode(v)}")
+            line = input.readLine()
         }
-        connectionOutPrinter.flush()
-        connectionOutPrinter.close()
+        input.close()
+        output.close()
+        if (status != 200) {
+            throw Exception("failed ... $status")
+        }
     }
 
     public override fun openConnection(targetHost: String, path: String, params: Map<String, String>): Pair<IMyInputStream, IMyOutputStream> {
@@ -96,7 +116,7 @@ public class CommunicationHandler : ICommunicationHandler {
         return openConnection(targetHost, "$p\n\n")
     }
 
-    public override fun openConnection(targetHost: String, header: String): Pair<IMyInputStream, IMyOutputStream> {
+    public override fun openConnection(targetHost: String, header: String/*caller MUST finish the header by appending an empty line*/): Pair<IMyInputStream, IMyOutputStream> {
         val target = targetHost.split(":")
         val targetName = target[0]
         val targetPort = if (target.size > 1) {
@@ -107,8 +127,9 @@ public class CommunicationHandler : ICommunicationHandler {
         val client = Socket(targetName, targetPort)
         val input = client.getInputStream()
         val output = client.getOutputStream()
-        val buf = "$header".encodeToByteArray()
+        val buf = header.encodeToByteArray()
         output.write(buf, 0, buf.size)
+        output.flush()
         return Pair(MyInputStream(input), MyOutputStream(output))
     }
 }
@@ -153,14 +174,16 @@ public actual object HttpEndpointLauncher {
                 Thread {
                     Parallel.runBlocking {
                         var connectionInBase = connection.getInputStream()
-                        var connectionInMy: MyInputStream? = null
+                        var connectionInMy: IMyInputStream? = null
                         var connectionOutBase = connection.getOutputStream()
                         var connectionOutPrinter: MyPrintWriter? = null
-                        var connectionOutMy: MyOutputStream? = null
+                        var connectionOutMy: IMyOutputStream? = null
                         try {
-                            val connectionInMy2 = MyInputStream(connectionInBase)
+                            var connectionInMy2: IMyInputStream = MyInputStream(connectionInBase)
                             connectionInMy = connectionInMy2
                             var line = connectionInMy2.readLine()
+                            var contentLength: Int? = null
+                            // println("$hostname:$port line :: '$line'")
                             var path = ""
                             var isPost = false
                             val params = mutableMapOf<String, String>()
@@ -168,11 +191,13 @@ public actual object HttpEndpointLauncher {
                                 if (line.startsWith("POST")) {
                                     isPost = true
                                     path = line.substring(5)
-                                }
-                                if (line.startsWith("GET")) {
+                                } else if (line.startsWith("GET")) {
                                     path = line.substring(4)
+                                } else if (line.startsWith("Content-Length: ")) {
+                                    contentLength = line.substring("Content-Length: ".length).toInt()
                                 }
                                 line = connectionInMy2.readLine()
+                                // println("$hostname:$port line :: '$line'")
                             }
                             var idx = path.indexOf(' ')
                             if (idx > 0) {
@@ -183,6 +208,7 @@ public actual object HttpEndpointLauncher {
                                 extractParamsFromString(path.substring(idx + 1), params)
                                 path = path.substring(0, idx)
                             }
+                            println("$hostname:$port path : '$path'")
                             val paths = mutableMapOf<String, PathMappingHelper>()
                             paths["/sparql/jenaquery"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE {?s <p> ?o . ?s ?p <o>}") to ::inputElement)) {
                                 val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
@@ -211,6 +237,7 @@ public actual object HttpEndpointLauncher {
                                     }
                                 )
                             ) {
+                                // println("within /sparql/query")
                                 val e = params["evaluator"]
                                 val evaluator = if (e == null) {
                                     EQueryResultToStreamExt.DEFAULT_STREAM
@@ -283,7 +310,6 @@ public actual object HttpEndpointLauncher {
                                 /*Coverage Unreachable*/
                             }
                             paths["/distributed/query/register"] = PathMappingHelper(true, mapOf()) {
-                                println("query :: ${params["query"]}")
                                 val xml = XMLParser(MyStringStream(params["query"]!!))
                                 val keys = mutableListOf<String>()
                                 for (c in xml.childs) {
@@ -291,12 +317,15 @@ public actual object HttpEndpointLauncher {
                                         keys.add(c.attributes["key"]!!)
                                     }
                                 }
-                                println("keys :: $keys")
+                                println("register ... :: $hostname:$port -> $keys")
                                 if (keys.size == 1) {
                                     queryMappings[keys[0]] = xml
                                 } else {
                                     throw Exception("the number ${keys.size} is not implemented as number of keys for a distributed query.")
                                 }
+                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                connectionOutPrinter = connectionOutPrinter2
+                                connectionOutPrinter2.print("HTTP/1.1 200 OK\n\n")
                             }
                             paths["/distributed/query/dictionary"] = PathMappingHelper(false, mapOf()) {
                                 val dict = dictionaryMapping[params["key"]!!]!!
@@ -305,6 +334,7 @@ public actual object HttpEndpointLauncher {
                                 dict.connect(connectionInMy2, connectionOutMy2)
                             }
                             paths["/distributed/query/execute"] = PathMappingHelper(false, mapOf()) {
+                                println("execute ... :: $hostname:$port -> ${params["key"]}")
                                 var queryXML = queryMappings[params["key"]!!]
                                 var dictionaryURL = params["dictionaryURL"]!!
                                 val connectionOutMy2 = MyOutputStream(connectionOutBase)
@@ -314,7 +344,8 @@ public actual object HttpEndpointLauncher {
                                 } else {
                                     val comm = CommunicationHandler()
                                     var idx = dictionaryURL.indexOf("/")
-                                    val conn = comm.openConnection(dictionaryURL.substring(0, idx), dictionaryURL.substring(idx))
+                                    println("opening dictionary :: '${dictionaryURL.substring(0, idx)}' '${dictionaryURL.substring(idx)}'")
+                                    val conn = comm.openConnection(dictionaryURL.substring(0, idx), dictionaryURL.substring(idx) + "\n\n")
                                     val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second)
                                     val query = Query(remoteDictionary)
                                     query.setCommunicationHandler(CommunicationHandler())
@@ -398,18 +429,24 @@ public actual object HttpEndpointLauncher {
                                 throw EnpointRecievedInvalidPath(path)
                             } else {
                                 if (actionHelper.addPostParams && isPost) {
+                                    connectionInMy2 = MyInputStreamFixedLength(connectionInMy2, contentLength!!)
+                                    // println("$hostname:$port readPost-content")
                                     val content = StringBuilder()
                                     var line = connectionInMy2.readLine()
                                     while (line != null) {
                                         content.appendLine(line)
                                         line = connectionInMy2.readLine()
                                     }
+                                    // println("$hostname:$port extract-params-from-string")
                                     extractParamsFromString(content.toString(), params)
                                 }
+                                // println("going to call action")
                                 actionHelper.action()
                             }
                         } catch (e: Throwable) {
+                            System.err.println("start error ...")
                             e.printStackTrace()
+                            System.err.println("finish error ...")
                             val connectionOutPrinter2 = connectionOutPrinter
                             if (connectionOutPrinter2 != null) {
                                 connectionOutPrinter2.println("HTTP/1.1 500 Internal Server Error")

@@ -78,7 +78,7 @@ internal class _MyStringStream(str: String) : IMyInputStream {
         return buf4[0]
     }
 
-    public actual override fun readLine(): String? {
+    public override fun readLine(): String? {
 // TODO this may break on utf-8
         var buf = mutableListOf<Byte>()
         try {
