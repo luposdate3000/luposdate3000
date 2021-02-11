@@ -127,14 +127,11 @@ public class POPDistributedSendSingle public constructor(
         SanityCheck.check { partitionNumber >= 0 && partitionNumber < partitionCount }
         var variables = Array(projectedVariables.size) { "" }
         var i = 0
-        println("prepareing to send #1 4")
         connectionOut.writeInt(variables.size)
         for (v in projectedVariables) {
             variables[i++] = v
             val buf = v.encodeToByteArray()
-            println("prepareing to send #2 4")
             connectionOut.writeInt(buf.size)
-            println("prepareing to send #3 ${buf.size}")
             connectionOut.write(buf)
         }
         var p = Partition(Partition(), partitionVariable, partitionNumber, partitionCount)
@@ -144,11 +141,9 @@ public class POPDistributedSendSingle public constructor(
         while (buf != ResultSetDictionaryExt.nullValue) {
             for (i in 0 until variables.size) {
                 buf = columns[i].next()
-                println("prepareing to send #4 4")
                 connectionOut.writeInt(buf)
             }
         }
-        println("send finish")
         connectionOut.flush()
     }
 }

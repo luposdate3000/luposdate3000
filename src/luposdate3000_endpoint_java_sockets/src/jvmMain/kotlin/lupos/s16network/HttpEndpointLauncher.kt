@@ -23,7 +23,6 @@ import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.JenaWrapper
 import lupos.s00misc.MyInputStream
-import lupos.s00misc.MyInputStreamFixedLength
 import lupos.s00misc.MyOutputStream
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.MyStringStream
@@ -183,7 +182,6 @@ public actual object HttpEndpointLauncher {
                             connectionInMy = connectionInMy2
                             var line = connectionInMy2.readLine()
                             var contentLength: Int? = null
-                            // println("$hostname:$port line :: '$line'")
                             var path = ""
                             var isPost = false
                             val params = mutableMapOf<String, String>()
@@ -197,7 +195,6 @@ public actual object HttpEndpointLauncher {
                                     contentLength = line.substring("Content-Length: ".length).toInt()
                                 }
                                 line = connectionInMy2.readLine()
-                                // println("$hostname:$port line :: '$line'")
                             }
                             var idx = path.indexOf(' ')
                             if (idx > 0) {
@@ -237,7 +234,6 @@ public actual object HttpEndpointLauncher {
                                     }
                                 )
                             ) {
-                                // println("within /sparql/query")
                                 val e = params["evaluator"]
                                 val evaluator = if (e == null) {
                                     EQueryResultToStreamExt.DEFAULT_STREAM
@@ -429,18 +425,11 @@ public actual object HttpEndpointLauncher {
                                 throw EnpointRecievedInvalidPath(path)
                             } else {
                                 if (actionHelper.addPostParams && isPost) {
-                                    connectionInMy2 = MyInputStreamFixedLength(connectionInMy2, contentLength!!)
-                                    // println("$hostname:$port readPost-content")
-                                    val content = StringBuilder()
-                                    var line = connectionInMy2.readLine()
-                                    while (line != null) {
-                                        content.appendLine(line)
-                                        line = connectionInMy2.readLine()
-                                    }
-                                    // println("$hostname:$port extract-params-from-string")
+                                    val buf = ByteArray(contentLength!!)
+                                    connectionInMy2.read(buf, contentLength!!)
+                                    val content = buf.decodeToString()
                                     extractParamsFromString(content.toString(), params)
                                 }
-                                // println("going to call action")
                                 actionHelper.action()
                             }
                         } catch (e: Throwable) {

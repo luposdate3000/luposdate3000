@@ -195,7 +195,6 @@ internal object DistributedQuery {
             updateXMLtargets(c, mapping)
         }
         if (xml.tag == "partitionDistributionReceiveKey") {
-            println("search in mapping :: '${xml.attributes["key"]!!}'")
             xml.addAttribute("host", mapping[xml.attributes["key"]!!]!!)
         }
     }
