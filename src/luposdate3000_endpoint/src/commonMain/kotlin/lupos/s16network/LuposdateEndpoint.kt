@@ -45,6 +45,7 @@ import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
@@ -103,34 +104,48 @@ public object LuposdateEndpoint {
             val query = Query()
             var counter = 0
             val store = distributedTripleStore.getDefaultGraph(query)
-            store.bulkImport { bulk ->
-                for (fileName in fileNames.split(";")) {
-                    println("importing file '$fileName'")
-                    val f = File(fileName)
-                    val lcit: LexerCharIterator = if (f.length() < Int.MAX_VALUE) {
-                        val data = f.readAsString()
-                        LexerCharIterator(data)
-                    } else {
-                        val data = f.readAsCharIterator()
-                        LexerCharIterator(data)
-                    }
-                    val tit = TurtleScanner(lcit)
-                    val ltit = LookAheadTokenIterator(tit, 3)
-                    try {
-                        val x = object : TurtleParserWithStringTriples() {
-                            /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
-                                counter++
-                                bulk.insert(helperImportRaw(bnodeDict, s), helperImportRaw(bnodeDict, p), helperImportRaw(bnodeDict, o))
+            val bufS = IntArray(1048576)
+            val bufP = IntArray(1048576)
+            val bufO = IntArray(1048576)
+            var bufPos = 0
+            for (fileName in fileNames.split(";")) {
+                println("importing file '$fileName'")
+                val f = File(fileName)
+                val lcit: LexerCharIterator = if (f.length() < Int.MAX_VALUE) {
+                    val data = f.readAsString()
+                    LexerCharIterator(data)
+                } else {
+                    val data = f.readAsCharIterator()
+                    LexerCharIterator(data)
+                }
+                val tit = TurtleScanner(lcit)
+                val ltit = LookAheadTokenIterator(tit, 3)
+                try {
+                    val x = object : TurtleParserWithStringTriples() {
+                        /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
+                            counter++
+                            if (bufPos == bufS.size) {
+                                store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                                bufPos = 0
                             }
+                            bufS[bufPos] = helperImportRaw(bnodeDict, s)
+                            bufP[bufPos] = helperImportRaw(bnodeDict, p)
+                            bufO[bufPos] = helperImportRaw(bnodeDict, o)
+                            bufPos++
                         }
-                        x.ltit = ltit
-                        x.turtleDoc()
-                    } catch (e: lupos.s02buildSyntaxTree.ParseError) {
-                        println("error in file '$fileName'")
-                        throw e
                     }
+                    x.ltit = ltit
+                    x.turtleDoc()
+                    if (bufPos > 0) {
+                        store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                        bufPos = 0
+                    }
+                } catch (e: lupos.s02buildSyntaxTree.ParseError) {
+                    println("error in file '$fileName'")
+                    throw e
                 }
             }
+            distributedTripleStore.commit(query)
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             SanityCheck.println { "TODO exception 15" }
@@ -146,26 +161,40 @@ public object LuposdateEndpoint {
             val query = Query()
             var counter = 0
             val store = distributedTripleStore.getDefaultGraph(query)
-            store.bulkImport { bulk ->
-                for (fileName in fileNames.split(";")) {
-                    println("importing file '$fileName'")
-                    val f = File(fileName)
-                    val iter = f.readAsInputStream()
-                    try {
-                        val x = object : Turtle2Parser(iter) {
-                            override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
-                                counter++
-                                bulk.insert(helperImportRaw(bnodeDict, triple[0]), helperImportRaw(bnodeDict, triple[1]), helperImportRaw(bnodeDict, triple[2]))
+            val bufS = IntArray(1048576)
+            val bufP = IntArray(1048576)
+            val bufO = IntArray(1048576)
+            var bufPos = 0
+            for (fileName in fileNames.split(";")) {
+                println("importing file '$fileName'")
+                val f = File(fileName)
+                val iter = f.readAsInputStream()
+                try {
+                    val x = object : Turtle2Parser(iter) {
+                        override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
+                            counter++
+                            if (bufPos == bufS.size) {
+                                store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                                bufPos = 0
                             }
+                            bufS[bufPos] = helperImportRaw(bnodeDict, triple[0])
+                            bufP[bufPos] = helperImportRaw(bnodeDict, triple[1])
+                            bufO[bufPos] = helperImportRaw(bnodeDict, triple[2])
+                            bufPos++
                         }
-                        x.turtleDoc()
-                    } catch (e: Exception) {
-                        println("fast_parser :: error in file '$fileName'")
-                        e.printStackTrace()
-                        throw e
                     }
+                    x.turtleDoc()
+                    if (bufPos > 0) {
+                        store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                        bufPos = 0
+                    }
+                } catch (e: Exception) {
+                    println("fast_parser :: error in file '$fileName'")
+                    e.printStackTrace()
+                    throw e
                 }
             }
+            distributedTripleStore.commit(query)
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             return importTurtleFilesOld(fileNames, bnodeDict)
@@ -184,22 +213,36 @@ public object LuposdateEndpoint {
             val query = Query()
             var counter = 0
             val store = distributedTripleStore.getDefaultGraph(query)
-            store.bulkImport { bulk ->
-                val iter = MyStringStream(data)
-                try {
-                    val x = object : Turtle2Parser(iter) {
-                        override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
-                            counter++
-                            bulk.insert(helperImportRaw(bnodeDict, triple[0]), helperImportRaw(bnodeDict, triple[1]), helperImportRaw(bnodeDict, triple[2]))
+            val bufS = IntArray(1048576)
+            val bufP = IntArray(1048576)
+            val bufO = IntArray(1048576)
+            var bufPos = 0
+            val iter = MyStringStream(data)
+            try {
+                val x = object : Turtle2Parser(iter) {
+                    override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
+                        counter++
+                        if (bufPos == bufS.size) {
+                            store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                            bufPos = 0
                         }
+                        bufS[bufPos] = helperImportRaw(bnodeDict, triple[0])
+                        bufP[bufPos] = helperImportRaw(bnodeDict, triple[1])
+                        bufO[bufPos] = helperImportRaw(bnodeDict, triple[2])
+                        bufPos++
                     }
-                    x.turtleDoc()
-                } catch (e: Exception) {
-                    println("fast_parser :: error in turtle-string")
-                    e.printStackTrace()
-                    throw e
                 }
+                x.turtleDoc()
+                if (bufPos > 0) {
+                    store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                    bufPos = 0
+                }
+            } catch (e: Exception) {
+                println("fast_parser :: error in turtle-string")
+                e.printStackTrace()
+                throw e
             }
+            distributedTripleStore.commit(query)
             return "successfully imported $counter Triples"
         } catch (e: Exception) {
             e.printStackTrace()
@@ -265,50 +308,64 @@ public object LuposdateEndpoint {
             val query = Query()
             var counter = 0L
             val store = distributedTripleStore.getDefaultGraph(query)
-            store.bulkImport { bulk ->
-                val fileNamesS = fileNames.split(";")
-                for (fileName in fileNamesS) {
-                    println("importing intermediate file '$fileName'")
-                    val startTime = DateHelperRelative.markNow()
-                    if (fileNamesS.size == 1) {
-                        setEstimatedPartitionsFromFile("$fileName.partitions")
-                    }
-                    val fileTriples = File("$fileName.triples")
-                    val fileDictionaryStat = File("$fileName.stat")
-                    var dictTotal = 0
-                    val dictTyped = IntArray(ETripleComponentTypeExt.values_size)
-                    dictTyped[ETripleComponentTypeExt.BLANK_NODE] = 0
-                    fileDictionaryStat.forEachLine {
-                        val p = it.split("=")
-                        if (p[0] == "total") {
-                            dictTotal = p[1].toInt()
-                        } else {
-                            if (convert_to_bnodes) {
-                                dictTyped[ETripleComponentTypeExt.BLANK_NODE] = dictTyped[ETripleComponentTypeExt.BLANK_NODE] + p[1].toInt()
-                            } else {
-                                dictTyped[ETripleComponentTypeExt.names.indexOf(p[0])] = p[1].toInt()
-                            }
-                        }
-                    }
-                    nodeGlobalDictionary.prepareBulk(dictTotal, dictTyped)
-                    val mapping = IntArray(dictTotal)
-                    nodeGlobalDictionary.importFromDictionaryFile("$fileName.dictionary", mapping)
-                    val dictTime = DateHelperRelative.elapsedSeconds(startTime)
-                    val cnt = fileTriples.length() / 12L
-                    counter += cnt
-                    fileTriples.dataInputStreamSuspended {
-                        for (i in 0 until cnt) {
-                            val s = it.readInt()
-                            val p = it.readInt()
-                            val o = it.readInt()
-                            bulk.insert(mapping[s], mapping[p], mapping[o])
-                        }
-                    }
-                    val totalTime = DateHelperRelative.elapsedSeconds(startTime)
-                    val storeTime = totalTime - dictTime
-                    println("imported file $fileName,$cnt,$totalTime,$dictTime,$storeTime")
+            val bufS = IntArray(1048576)
+            val bufP = IntArray(1048576)
+            val bufO = IntArray(1048576)
+            var bufPos = 0
+            val fileNamesS = fileNames.split(";")
+            for (fileName in fileNamesS) {
+                println("importing intermediate file '$fileName'")
+                val startTime = DateHelperRelative.markNow()
+                if (fileNamesS.size == 1) {
+                    setEstimatedPartitionsFromFile("$fileName.partitions")
                 }
+                val fileTriples = File("$fileName.triples")
+                val fileDictionaryStat = File("$fileName.stat")
+                var dictTotal = 0
+                val dictTyped = IntArray(ETripleComponentTypeExt.values_size)
+                dictTyped[ETripleComponentTypeExt.BLANK_NODE] = 0
+                fileDictionaryStat.forEachLine {
+                    val p = it.split("=")
+                    if (p[0] == "total") {
+                        dictTotal = p[1].toInt()
+                    } else {
+                        if (convert_to_bnodes) {
+                            dictTyped[ETripleComponentTypeExt.BLANK_NODE] = dictTyped[ETripleComponentTypeExt.BLANK_NODE] + p[1].toInt()
+                        } else {
+                            dictTyped[ETripleComponentTypeExt.names.indexOf(p[0])] = p[1].toInt()
+                        }
+                    }
+                }
+                nodeGlobalDictionary.prepareBulk(dictTotal, dictTyped)
+                val mapping = IntArray(dictTotal)
+                nodeGlobalDictionary.importFromDictionaryFile("$fileName.dictionary", mapping)
+                val dictTime = DateHelperRelative.elapsedSeconds(startTime)
+                val cnt = fileTriples.length() / 12L
+                counter += cnt
+                fileTriples.dataInputStreamSuspended {
+                    for (i in 0 until cnt) {
+                        val s = it.readInt()
+                        val p = it.readInt()
+                        val o = it.readInt()
+                        if (bufPos == bufS.size) {
+                            store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                            bufPos = 0
+                        }
+                        bufS[bufPos] = mapping[s]
+                        bufP[bufPos] = mapping[p]
+                        bufO[bufPos] = mapping[o]
+                        bufPos++
+                    }
+                }
+                if (bufPos > 0) {
+                    store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                    bufPos = 0
+                }
+                val totalTime = DateHelperRelative.elapsedSeconds(startTime)
+                val storeTime = totalTime - dictTime
+                println("imported file $fileName,$cnt,$totalTime,$dictTime,$storeTime")
             }
+            distributedTripleStore.commit(query)
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             SanityCheck.println { "TODO exception 15" }

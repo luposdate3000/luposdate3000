@@ -29,6 +29,7 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
@@ -443,11 +444,25 @@ public object BinaryTestCase {
                                 query1.commited = true
                                 val query2 = Query()
                                 val store = distributedTripleStore.getDefaultGraph(query2)
-                                store.bulkImport { bulk ->
-                                    for (row in tableInput.data) {
-                                        bulk.insert(row[0], row[1], row[2])
+                                val bufS = IntArray(1048576)
+                                val bufP = IntArray(1048576)
+                                val bufO = IntArray(1048576)
+                                var bufPos = 0
+                                for (row in tableInput.data) {
+                                    if (bufPos == bufS.size) {
+                                        store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                                        bufPos = 0
                                     }
+                                    bufS[bufPos] = row[0]
+                                    bufP[bufPos] = row[1]
+                                    bufO[bufPos] = row[2]
+                                    bufPos++
                                 }
+                                if (bufPos > 0) {
+                                    store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                                    bufPos = 0
+                                }
+                                distributedTripleStore.commit(query2)
                                 val query3 = Query()
                                 val queryParam = arrayOf<IAOPBase>(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o"))
                                 val enablesPartitions = distributedTripleStore.getLocalStore().getDefaultGraph(query3).getEnabledPartitions()
