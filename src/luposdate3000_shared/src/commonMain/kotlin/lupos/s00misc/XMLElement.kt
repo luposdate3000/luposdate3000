@@ -318,13 +318,6 @@ public class XMLElement(tag: String) {
         return this
     }
 
-    public fun addContent(childs: Collection<String>, childTag: String): XMLElement {
-        for (c in childs) {
-            addContent(XMLElement(childTag).addContent(c).toString())
-        }
-        return this
-    }
-
     private fun encodeText(text: String): String {
         return text.replace("&", "&amp;").replace(">", "&gt;").replace("<", "&lt;").replace("'", "&apos;").replace("\"", "&quot;").replace("\\n", "&#x0A;")
     }

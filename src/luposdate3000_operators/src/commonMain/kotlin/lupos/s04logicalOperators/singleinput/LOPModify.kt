@@ -28,8 +28,8 @@ import kotlin.jvm.JvmField
 
 public class LOPModify public constructor(
     query: IQuery,
-    @JvmField public val insert: MutableList<LOPTriple> = mutableListOf(),
-    @JvmField public val delete: MutableList<LOPTriple> = mutableListOf(),
+    @JvmField public val insert: MutableList<LOPTriple>,
+    @JvmField public val delete: MutableList<LOPTriple>,
     child: IOPBase
 ) : LOPBase(query, EOperatorIDExt.LOPModifyID, "LOPModify", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     override fun getProvidedVariableNames(): MutableList<String> = mutableListOf("?boolean")

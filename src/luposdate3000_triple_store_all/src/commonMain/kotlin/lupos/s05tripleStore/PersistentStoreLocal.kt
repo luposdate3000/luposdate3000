@@ -86,11 +86,7 @@ public class PersistentStoreLocal : IPersistentStoreLocal {
         storesAdd(PersistentStoreLocalExt.defaultGraphName)
     }
 
-    public override fun getGraphNames(): List<String> {
-        return getGraphNames(false)
-    }
-
-    public override fun getGraphNames(includeDefault: Boolean): List<String> {
+    public fun getGraphNames(includeDefault: Boolean): List<String> {
         val res = mutableListOf<String>()
         stores.keys.forEach { t ->
             if (t != PersistentStoreLocalExt.defaultGraphName || includeDefault) {
@@ -100,7 +96,7 @@ public class PersistentStoreLocal : IPersistentStoreLocal {
         return res
     }
 
-    public override fun createGraph(query: IQuery, name: String): TripleStoreLocal {
+    public fun createGraph(query: IQuery, name: String): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null) {
             throw GraphNameAlreadyExistsDuringCreateException(name)
@@ -113,14 +109,14 @@ public class PersistentStoreLocal : IPersistentStoreLocal {
         return stores[name]!!.enabledPartitions
     }
 
-    public override /*suspend*/ fun dropGraph(query: IQuery, name: String) {
+    public /*suspend*/ fun dropGraph(query: IQuery, name: String) {
         SanityCheck.check { name != PersistentStoreLocalExt.defaultGraphName }
         val store = stores[name] ?: throw GraphNameNotExistsDuringDeleteException(name)
         store.clear()
         storesRemove(name)
     }
 
-    public override /*suspend*/ fun clearGraph(query: IQuery, name: String) {
+    public /*suspend*/ fun clearGraph(query: IQuery, name: String) {
         getNamedGraph(query, name).clear()
     }
 
@@ -128,7 +124,7 @@ public class PersistentStoreLocal : IPersistentStoreLocal {
         return getNamedGraph(query, name, false)
     }
 
-    public override /*suspend*/ fun getNamedGraph(query: IQuery, name: String, create: Boolean): TripleStoreLocal {
+    public /*suspend*/ fun getNamedGraph(query: IQuery, name: String, create: Boolean): TripleStoreLocal {
         val tmp = stores[name]
         if (tmp != null) {
             return tmp
@@ -142,7 +138,7 @@ public class PersistentStoreLocal : IPersistentStoreLocal {
         return getNamedGraph(query, PersistentStoreLocalExt.defaultGraphName, true)
     }
 
-    public override /*suspend*/ fun commit(query: IQuery) {
+    public /*suspend*/ fun commit(query: IQuery) {
         stores.values.forEach { v ->
             v.commit(query)
         }

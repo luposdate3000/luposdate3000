@@ -126,19 +126,6 @@ public actual class BufferManager internal actual constructor(
         return openId
     }
 
-    public actual /*suspend*/ fun clear(): Unit = lock.withWriteLock {
-        counter = 0
-        freelistfile.seek(freelistfileOffsetCounter)
-        freelistfile.writeInt(counter)
-        freeArrayLength = 0
-        freelistfile.seek(freelistfileOffsetFreeLen)
-        freelistfile.writeInt(freeArrayLength)
-        openPagesMapping.clear()
-        for (i in openPagesRefcounters.indices) {
-            openPagesRefcounters[i] = 0
-        }
-    }
-
     public actual fun flushPage(pageid: Int) {
         lock.withWriteLock {
             localSanityCheck()

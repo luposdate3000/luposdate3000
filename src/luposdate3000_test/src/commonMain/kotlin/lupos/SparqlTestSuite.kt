@@ -43,7 +43,6 @@ import lupos.s02buildSyntaxTree.rdf.SimpleLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
-import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
@@ -456,7 +455,6 @@ public open class SparqlTestSuite {
                 }
                 distributedTripleStore.commit(query2)
                 query2.commited = true
-                nodeGlobalDictionary.clear()
                 JenaWrapper.dropAll()
                 val inputData = readFileOrNull(inputDataFileName)
                 if (inputData != null && inputDataFileName != null) {

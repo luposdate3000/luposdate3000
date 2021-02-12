@@ -28,9 +28,7 @@ import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
 
 public class LOPProjection public constructor(query: IQuery, @JvmField public val variables: MutableList<AOPVariable>, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPProjectionID, "LOPProjection", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
-    public constructor(query: IQuery, variables: MutableList<AOPVariable>) : this(query, variables, OPEmptyRow(query))
     public constructor(query: IQuery) : this(query, mutableListOf(), OPEmptyRow(query))
-    public constructor(query: IQuery, child: IOPBase) : this(query, mutableListOf(), child)
 
     override fun getProvidedVariableNames(): List<String> {
         return MutableList(variables.size) { variables[it].name }.distinct()

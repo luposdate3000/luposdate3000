@@ -260,28 +260,6 @@ public class ResultSetDictionaryGlobal {
         }
     }
 
-    public fun clear() {
-        localBnodeToInt.clear()
-        bNodeCounter = 5
-        bnodeMapToGlobal.clear()
-        iriToInt.clear()
-        langTaggedToInt.clear()
-        typedToInt.clear()
-        doubleToInt.clear()
-        floatToInt.clear()
-        decimalToInt.clear()
-        intToInt.clear()
-        iriToValue = Array(1) { ResultSetDictionaryShared.emptyString }
-        langTaggedToValue = Array(1) { ResultSetDictionaryShared.emptyString }
-        typedToValue = Array(1) { ResultSetDictionaryShared.emptyString }
-        doubleToValue = DoubleArray(1) { 0.0 }
-        floatToValue = DoubleArray(1) { 0.0 }
-        decimalToValue = Array(1) { ResultSetDictionaryShared.emptyString }
-        intToValue = Array(1) { ResultSetDictionaryShared.emptyString }
-        outputDictionaryFile = File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream(false)
-        outputDictionaryFile.flush()
-    }
-
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun toBooleanOrError(value: Int): Int {
         var res: Int = ResultSetDictionaryExt.errorValue

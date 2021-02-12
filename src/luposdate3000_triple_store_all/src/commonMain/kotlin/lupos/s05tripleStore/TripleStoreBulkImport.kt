@@ -75,7 +75,7 @@ public class TripleStoreBulkImport(@JvmField public val query: IQuery, @JvmField
         }
     }
 
-    override /*suspend*/ fun finishImport() {
+    public /*suspend*/ fun finishImport() {
         sort()
         flush()
     }

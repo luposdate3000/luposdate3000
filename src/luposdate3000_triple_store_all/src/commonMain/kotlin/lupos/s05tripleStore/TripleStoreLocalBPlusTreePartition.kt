@@ -168,7 +168,7 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
         bufferManager.releasePage(store_root_page_id)
     }
 
-    override fun dropStore() {
+    public fun dropStore() {
         for (c in dataDistinct) {
             c.second.dropIndex()
         }

@@ -83,7 +83,6 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         onlyExistenceRequired = value
     }
 
-    override fun getPartOfAskQuery(): Boolean = partOfAskQuery
     override fun getOnlyExistenceRequired(): Boolean = onlyExistenceRequired
     override fun getSortPrioritiesInitialized(): Boolean = sortPrioritiesInitialized
     override fun setSortPriorities(value: MutableList<List<SortHelper>>) {

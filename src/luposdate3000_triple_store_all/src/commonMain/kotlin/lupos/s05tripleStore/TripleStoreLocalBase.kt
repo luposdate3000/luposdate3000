@@ -49,7 +49,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
     @JvmField // override this during initialisation
     public var pendingModificationsRemove: Array<MutableMap<Long, MutableList<Int>>> = Array(0) { mutableMapOf() }
     override fun getEnabledPartitions(): Array<EnabledPartitionContainer> = enabledPartitions
-    override /*suspend*/ fun flush() {
+    public /*suspend*/ fun flush() {
         dataDistinct.forEach {
             it.second.flush()
         }
@@ -197,7 +197,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
         }
     }
 
-    override /*suspend*/ fun commit(query: IQuery) {
+    public /*suspend*/ fun commit(query: IQuery) {
         /*
          * the input is ALWAYS in SPO order. The remapping of the triple layout is within the index, using the parameter order.
          */
@@ -229,7 +229,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
         }
     }
 
-    override /*suspend*/ fun clear() {
+    public override /*suspend*/ fun clear() {
         dataDistinct.forEach {
             it.second.clear()
         }
@@ -282,7 +282,7 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
         }
     }
 
-    override fun modify(query: IQuery, dataModify: MutableList<Int>, type: EModifyType) {
+    public fun modify(query: IQuery, dataModify: MutableList<Int>, type: EModifyType) {
         /*
          * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase
          */

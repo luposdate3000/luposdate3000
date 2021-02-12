@@ -16,8 +16,10 @@
  */
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
+
 /* explicitly storing the classname has the advantage, that the classname is accessible in native code too, and not just via reflection */
-public abstract class Luposdate3000Exception public constructor(public val classname: String, msg: String) : Exception(msg)
+public abstract class Luposdate3000Exception public constructor(@JvmField public val classname: String, msg: String) : Exception(msg)
 
 // not implemented exceptions --->>>
 public open class NotImplementedException public constructor(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
