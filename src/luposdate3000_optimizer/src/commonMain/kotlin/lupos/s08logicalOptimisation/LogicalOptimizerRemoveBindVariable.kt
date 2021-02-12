@@ -23,8 +23,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPProjection
 
-public class LogicalOptimizerRemoveBindVariable(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerRemoveBindVariableID) {
-    override val classname: String = "LogicalOptimizerRemoveBindVariable"
+public class LogicalOptimizerRemoveBindVariable(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerRemoveBindVariableID, "LogicalOptimizerRemoveBindVariable") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         if (node is LOPProjection) {
             val child = node.getChildren()[0]

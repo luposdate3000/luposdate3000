@@ -91,7 +91,7 @@ public open class SparqlTestSuite {
                                 JenaWrapper.loadFromFile("/src/luposdate3000/$inputFile")
                                 val jenaResult = JenaWrapper.execQuery(File(queryFile).readAsString())
                                 val jenaXML = XMLElementFromXML()(jenaResult)!!
-                                File(outputFile).printWriterSuspended { it3 ->
+                                File(outputFile).printWriter { it3 ->
                                     it3.println(jenaXML.toPrettyString())
                                 }
                             } catch (e: Throwable) {
@@ -563,7 +563,7 @@ public open class SparqlTestSuite {
             SanityCheck.println { astNode }
             SanityCheck.println { "----------Logical Operator Graph" }
             val lopNode = astNode.visit(OperatorGraphVisitor(query))
-            File("log/$testName2-Logical-Operator-Graph.tex").printWriterSuspended {
+            File("log/$testName2-Logical-Operator-Graph.tex").printWriter {
                 it.println(OperatorGraphToLatex(lopNode.toString(), testName2))
             }
             SanityCheck.check({ lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
@@ -574,7 +574,7 @@ public open class SparqlTestSuite {
             SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(query).optimizeCall(lopNode)
             SanityCheck.check { lopNode2 == lopNode2.cloneOP() }
-            File("log/$testName2-Logical-Operator-Graph-Optimized.tex").printWriterSuspended {
+            File("log/$testName2-Logical-Operator-Graph-Optimized.tex").printWriter {
                 it.println(OperatorGraphToLatex(lopNode2.toString(), testName2))
             }
             SanityCheck.suspended {
@@ -586,7 +586,7 @@ public open class SparqlTestSuite {
             val popNode = popOptimizer.optimizeCall(lopNode2)
             SanityCheck.check({ popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
             SanityCheck { popNode.toSparqlQuery() }
-            File("log/$testName2-Physical-Operator-Graph.tex").printWriterSuspended {
+            File("log/$testName2-Physical-Operator-Graph.tex").printWriter {
                 it.println(OperatorGraphToLatex(popNode.toString(), testName2))
             }
             SanityCheck.suspended {

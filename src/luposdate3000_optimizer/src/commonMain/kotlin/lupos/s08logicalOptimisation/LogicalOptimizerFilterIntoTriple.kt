@@ -26,8 +26,7 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 
-public class LogicalOptimizerFilterIntoTriple(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterIntoTripleID) {
-    override val classname: String = "LogicalOptimizerFilterIntoTriple"
+public class LogicalOptimizerFilterIntoTriple(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterIntoTripleID, "LogicalOptimizerFilterIntoTriple") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPFilter) {

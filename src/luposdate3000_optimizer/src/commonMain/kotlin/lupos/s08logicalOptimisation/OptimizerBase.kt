@@ -22,8 +22,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import kotlin.jvm.JvmField
 
-public abstract class OptimizerBase internal constructor(@JvmField public val query: Query, @JvmField public val optimizerID: EOptimizerID) {
-    public abstract val classname: String
+public abstract class OptimizerBase internal constructor(@JvmField public val query: Query, @JvmField public val optimizerID: EOptimizerID, @JvmField public val classname: String) {
     public abstract /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase
     public /*suspend*/ fun optimizeInternal(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         SanityCheck {

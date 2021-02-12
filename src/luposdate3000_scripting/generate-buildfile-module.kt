@@ -247,6 +247,7 @@ class CreateModuleArgs() {
 }
 
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
+    val copySelevtively = true
     try {
         if (moduleArgs.dryMode == DryMode.Enable || moduleArgs.ideaBuildfile == IntellijMode.Enable) {
             moduleArgs.dryMode = DryMode.Enable
@@ -645,6 +646,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("    for (f in configurations.getByName(\"jvmCompileClasspath\").resolve()) {")
                     out.println("        libraryjars(files(\"\$f\"))")
                     out.println("    }")
+                    out.println("    printusage()")
                     out.println("    forceprocessing()")
                     out.println("    optimizationpasses(5)")
                     out.println("    allowaccessmodification()")
@@ -733,59 +735,64 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         }
         var configFile: String
         if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
-            var changed = true
-            while (changed) {
-                changed = false
-                val classNamesUsed = mutableMapOf<String, MutableSet<String>>()
-                for (f in File("src.generated").walk()) {
-                    if (f.isFile()) {
-                        try {
-                            f.forEachLine { line ->
-                                val tmpSet = mutableListOf(line)
-                                val tmpAlias = mutableSetOf<String>()
-                                for ((k, v) in typeAliasAll) {
-                                    if (line.indexOf(k) >= 0) {
-                                        tmpSet.add(v.second)
-                                        typeAliasUsed[k] = v
-                                        tmpAlias.add(k)
-                                    }
-                                }
-                                for (a in tmpAlias) {
-                                    typeAliasAll.remove(a)
-                                }
-                                for (it in tmpSet) {
-                                    val tmp = mutableSetOf<String>()
-                                    for ((k, v) in classNamesFound) {
-                                        if (it.indexOf(k) >= 0) {
-                                            classNamesUsed[k] = v
-                                            tmp.add(k)
-                                            changed = true
+            if (copySelevtively) {
+                var changed = true
+                while (changed) {
+                    changed = false
+                    val classNamesUsed = mutableMapOf<String, MutableSet<String>>()
+                    for (f in File("src.generated").walk()) {
+                        if (f.isFile()) {
+                            try {
+                                f.forEachLine { line ->
+                                    val tmpSet = mutableListOf(line)
+                                    val tmpAlias = mutableSetOf<String>()
+                                    for ((k, v) in typeAliasAll) {
+                                        if (line.indexOf(k) >= 0) {
+                                            tmpSet.add(v.second)
+                                            typeAliasUsed[k] = v
+                                            tmpAlias.add(k)
                                         }
                                     }
-                                    for (k in tmp) {
-                                        classNamesFound.remove(k)
+                                    for (a in tmpAlias) {
+                                        typeAliasAll.remove(a)
+                                    }
+                                    for (it in tmpSet) {
+                                        val tmp = mutableSetOf<String>()
+                                        for ((k, v) in classNamesFound) {
+                                            if (it.indexOf(k) >= 0) {
+                                                classNamesUsed[k] = v
+                                                tmp.add(k)
+                                                changed = true
+                                            }
+                                        }
+                                        for (k in tmp) {
+                                            classNamesFound.remove(k)
+                                        }
                                     }
                                 }
+                            } catch (e: Throwable) {
+                                e.printStackTrace()
                             }
-                        } catch (e: Throwable) {
-                            e.printStackTrace()
                         }
                     }
-                }
-                for ((k, v) in classNamesUsed) {
-                    for (fname in v) {
-                        val src = File(fname)
-                        val dest = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated"))
-                        copyFileWithReplacement(src, dest, mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"))
-                        try {
-                            val src2 = File(fname.replace(".kt", "Alias.kt"))
-                            val dest2 = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated").replace(".kt", "Alias.kt"))
-                            copyFileWithReplacement(src2, dest2, mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"))
-                        } catch (e: Throwable) {
+                    for ((k, v) in classNamesUsed) {
+                        for (fname in v) {
+                            val src = File(fname)
+                            val dest = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated"))
+                            copyFileWithReplacement(src, dest, mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"))
+                            try {
+                                val src2 = File(fname.replace(".kt", "Alias.kt"))
+                                val dest2 = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated").replace(".kt", "Alias.kt"))
+                                copyFileWithReplacement(src2, dest2, mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"))
+                            } catch (e: Throwable) {
+                            }
                         }
                     }
+                    println(classNamesUsed.keys)
                 }
-                println(classNamesUsed.keys)
+            } else {
+                typeAliasUsed.putAll(typeAliasAll)
+                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src"), "src.generated", mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
             }
             configFile = "src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}Config-${moduleArgs.moduleName}.kt"
         } else {

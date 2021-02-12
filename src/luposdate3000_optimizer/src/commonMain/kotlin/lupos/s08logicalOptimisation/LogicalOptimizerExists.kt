@@ -26,8 +26,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 
-public class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerExistsID) {
-    override val classname: String = "LogicalOptimizerExists"
+public class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerExistsID, "LogicalOptimizerExists") {
     private fun applyRecoursive(node: IOPBase, askFlag: Boolean) {
         if (node !is LOPLimit && node !is LOPOffset) {
             if (askFlag) {

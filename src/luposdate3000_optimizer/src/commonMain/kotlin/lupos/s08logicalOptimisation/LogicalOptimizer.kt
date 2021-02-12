@@ -19,8 +19,7 @@ package lupos.s08logicalOptimisation
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s04logicalOperators.Query
 
-public class LogicalOptimizer public constructor(query: Query) : OptimizerCompoundBase(query, EOptimizerIDExt.LogicalOptimizerID) {
-    override val classname: String = "LogicalOptimizer"
+public class LogicalOptimizer public constructor(query: Query) : OptimizerCompoundBase(query, EOptimizerIDExt.LogicalOptimizerID, "LogicalOptimizer") {
     override val childrenOptimizers: Array<Array<OptimizerBase>> = arrayOf( //
         arrayOf(
             // assign prefix to all operators which require those

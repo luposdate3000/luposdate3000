@@ -30,8 +30,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 
-public class PhysicalOptimizerPartition5(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition5ID) {
-    override val classname: String = "PhysicalOptimizerPartition5"
+public class PhysicalOptimizerPartition5(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition5ID, "PhysicalOptimizerPartition5") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {

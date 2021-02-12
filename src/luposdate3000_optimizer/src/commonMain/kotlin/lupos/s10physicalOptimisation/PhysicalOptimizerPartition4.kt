@@ -30,8 +30,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 
-public class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition4ID) {
-    override val classname: String = "PhysicalOptimizerPartition4"
+public class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition4ID, "PhysicalOptimizerPartition4") {
     private fun getNumberOfEnclosingPartitions(node: IOPBase): Int {
         var count = 1
         val childs = node.getChildren()

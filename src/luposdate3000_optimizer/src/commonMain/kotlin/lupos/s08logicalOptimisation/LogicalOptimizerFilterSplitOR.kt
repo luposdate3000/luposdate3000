@@ -24,8 +24,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.singleinput.LOPFilter
 
-public class LogicalOptimizerFilterSplitOR(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterSplitORID) {
-    override val classname: String = "LogicalOptimizerFilterSplitOR"
+public class LogicalOptimizerFilterSplitOR(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterSplitORID, "LogicalOptimizerFilterSplitOR") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPFilter && node.dontSplitFilter == 0) {

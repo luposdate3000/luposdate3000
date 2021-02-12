@@ -27,8 +27,7 @@ import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 
-public class LogicalOptimizerProjectionUp(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerProjectionUpID) {
-    override val classname: String = "LogicalOptimizerProjectionUp"
+public class LogicalOptimizerProjectionUp(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerProjectionUpID, "LogicalOptimizerProjectionUp") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node !is LOPProjection && node !is OPBaseCompound && node !is LOPUnion && node !is LOPMinus && node !is LOPReduced && node !is LOPDistinct) {

@@ -27,8 +27,7 @@ import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.singleinput.LOPProjection
 
-public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID) {
-    override val classname: String = "LogicalOptimizerJoinOrder"
+public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrder") {
     private fun findAllJoinsInChildren(node: LOPJoin): List<IOPBase> {
         val res = mutableListOf<IOPBase>()
         for (c in node.getChildren()) {

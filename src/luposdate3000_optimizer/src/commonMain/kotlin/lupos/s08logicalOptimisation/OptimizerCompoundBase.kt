@@ -29,8 +29,7 @@ import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
-public abstract class OptimizerCompoundBase internal constructor(query: Query, optimizerID: EOptimizerID) : OptimizerBase(query, optimizerID) {
-    override val classname: String = "OptimizerCompoundBase"
+public abstract class OptimizerCompoundBase internal constructor(query: Query, optimizerID: EOptimizerID, classname: String) : OptimizerBase(query, optimizerID, classname) {
     public abstract val childrenOptimizers: Array<Array<OptimizerBase>>
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase = node
     private fun verifyPartitionOperators(node: IOPBase, allList: MutableMap<Int, MutableSet<Long>>, currentPartitions_: MutableMap<String, Int>, root: IOPBase) {

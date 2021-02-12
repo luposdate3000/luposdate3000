@@ -26,8 +26,7 @@ import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPProjection
 
-public class LogicalOptimizerFilterEQ(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterEQID) {
-    override val classname: String = "LogicalOptimizerFilterEQ"
+public class LogicalOptimizerFilterEQ(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterEQID, "LogicalOptimizerFilterEQ") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPFilter) {

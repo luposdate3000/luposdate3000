@@ -47,8 +47,7 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 
-public class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition3ID) {
-    override val classname: String = "PhysicalOptimizerPartition3"
+public class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition3ID, "PhysicalOptimizerPartition3") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {

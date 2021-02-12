@@ -26,8 +26,7 @@ import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s04logicalOperators.singleinput.LOPFilter
 import lupos.s04logicalOperators.singleinput.LOPProjection
 
-public class LogicalOptimizerBindToFilter(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerBindToFilterID) {
-    override val classname: String = "LogicalOptimizerBindToFilter"
+public class LogicalOptimizerBindToFilter(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerBindToFilterID, "LogicalOptimizerBindToFilter") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         if (node is LOPBind) {
             val v = node.getChildren()[0].getProvidedVariableNames()
