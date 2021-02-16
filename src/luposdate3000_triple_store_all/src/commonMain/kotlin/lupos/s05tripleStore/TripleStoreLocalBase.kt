@@ -275,30 +275,4 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
             }
         }
     }
-
-    public fun modify(query: IQuery, dataModify: MutableList<Int>, type: EModifyType) {
-        /*
-         * the input iterators are always in the SPO order. The real remapping to the ordering of the store happens within the commit-phase
-         */
-        SanityCheck.check { dataModify.size == 3 }
-        for (idx in dataDistinct.indices) {
-            var tmp: MutableList<Int>?
-            tmp = if (type == EModifyTypeExt.INSERT) {
-                pendingModificationsInsert[idx][query.getTransactionID()]
-            } else {
-                pendingModificationsRemove[idx][query.getTransactionID()]
-            }
-            if (tmp == null) {
-                tmp = mutableListOf()
-                if (type == EModifyTypeExt.INSERT) {
-                    pendingModificationsInsert[idx][query.getTransactionID()] = tmp
-                } else {
-                    pendingModificationsRemove[idx][query.getTransactionID()] = tmp
-                }
-            }
-            for (v in dataModify) {
-                tmp.add(query.getDictionary().valueToGlobal(v))
-            }
-        }
-    }
 }

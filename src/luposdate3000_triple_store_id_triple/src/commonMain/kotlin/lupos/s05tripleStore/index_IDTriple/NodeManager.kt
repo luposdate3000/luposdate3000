@@ -163,28 +163,4 @@ internal object NodeManager {
         }
         SanityCheck.println { "NodeManager.freeAllLeaves B" }
     }
-
-    /*suspend*/ fun freeAllInnerNodes(nodeid: Int) {
-        SanityCheck.println { "NodeManager.freeAllInnerNodes A" }
-        SanityCheck.println { "debug NodeManager freeAllInnerNodes ${nodeid.toString(16)}" }
-        if (nodeid != nodeNullPointer) {
-            var node: ByteArray? = null
-            SanityCheck.println { "Outside.refcount($nodeid)  x17" }
-            getNodeAny(
-                nodeid,
-                {
-                },
-                { n ->
-                    node = n
-                }
-            )
-            if (node != null) {
-                NodeInner.forEachChild(node!!) {
-                    freeAllInnerNodes(it)
-                }
-                freeNode(nodeid)
-            }
-        }
-        SanityCheck.println { "NodeManager.freeAllInnerNodes B" }
-    }
 }

@@ -27,7 +27,6 @@ public abstract class TripleStoreIndex(@JvmField public val store_root_page_id: 
     public abstract fun insert(a: Int, b: Int, c: Int)
     public abstract fun remove(a: Int, b: Int, c: Int)
     public /*suspend*/ abstract fun clear()
-    public /*suspend*/ abstract fun printContents()
     public /*suspend*/ abstract fun flush()
     public /*suspend*/ open fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int> = throw HistogramNotImplementedException("TripleStoreIndex")
     public /*suspend*/ open fun insertAsBulk(data: IntArray, order: IntArray) {

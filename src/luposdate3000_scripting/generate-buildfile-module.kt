@@ -40,8 +40,10 @@ enum class IntellijMode {
     Enable, Disable
 }
 
-// var compilerVersion = "1.5.255-SNAPSHOT"
-var compilerVersion = "1.4.0"
+var compilerVersion = "1.5.255-SNAPSHOT"
+
+// var compilerVersion = "1.4.255-SNAPSHOT"
+// var compilerVersion = "1.4.0"
 val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
 private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, appendix: String, out: PrintWriter) {
     for (d in dependencies) {
@@ -256,7 +258,7 @@ class CreateModuleArgs() {
 }
 
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
-    val copySelevtively = true
+    val copySelevtively = false
     try {
         if (moduleArgs.dryMode == DryMode.Enable || moduleArgs.ideaBuildfile == IntellijMode.Enable) {
             moduleArgs.dryMode = DryMode.Enable
@@ -310,7 +312,9 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
         println("generating buildfile for ${moduleArgs.moduleName}")
         if (!buildLibrary && moduleArgs.codegenKSP) {
-            compilerVersion = "1.4.0"
+            if (compilerVersion != "1.4.0" || copySelevtively == false) {
+                return
+            }
         }
         var shortFolder = ".$pathSeparator${moduleArgs.moduleName}"
         shortFolder = shortFolder.substring(shortFolder.lastIndexOf(pathSeparator) + 1)

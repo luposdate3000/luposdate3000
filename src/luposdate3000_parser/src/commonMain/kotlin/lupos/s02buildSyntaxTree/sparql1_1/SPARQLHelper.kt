@@ -19,11 +19,6 @@ package lupos.s02buildSyntaxTree.sparql1_1
 import kotlin.jvm.JvmField
 
 public abstract class ASTNode(@JvmField public val children: Array<ASTNode>) {
-    internal companion object {
-        private var global_uuid = 0L
-    }
-
-    public val uuid: Long = global_uuid++
     public override fun toString(): String {
         return toString("")
     }

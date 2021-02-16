@@ -884,44 +884,6 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         return ASTQuery(collect)
     }
 
-    public fun Query(): ASTQuery {
-        var token: Token
-        val collect: MutableList<ASTNode> = mutableListOf()
-        val t8 = ltit.lookahead()
-        if (t8.image == "BASE" || t8.image == "PREFIX") {
-            val list = Prologue()
-            collect.addAll(list)
-        }
-        val t9 = ltit.lookahead()
-        when (t9.image) {
-            "SELECT" -> {
-                val select = SelectQuery()
-                collect.add(select)
-            }
-            "CONSTRUCT" -> {
-                val construct = ConstructQuery()
-                collect.add(construct)
-            }
-            "DESCRIBE" -> {
-                val describe = DescribeQuery()
-                collect.add(describe)
-            }
-            "ASK" -> {
-                val ask = AskQuery()
-                collect.add(ask)
-            }
-            else -> {
-                throw UnexpectedToken(t9, arrayOf("SELECT", "CONSTRUCT", "DESCRIBE", "ASK"), ltit)
-            }
-        }
-        val t10 = ltit.lookahead()
-        if (t10.image == "VALUES") {
-            val value = ValuesClause()
-            collect.add(value)
-        }
-        return ASTQuery(collect)
-    }
-
     private fun Prologue(): MutableList<ASTNode> {
         var token: Token
         val collect: MutableList<ASTNode> = mutableListOf()

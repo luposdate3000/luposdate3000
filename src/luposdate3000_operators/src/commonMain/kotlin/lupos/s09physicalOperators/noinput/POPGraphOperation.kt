@@ -44,10 +44,10 @@ public class POPGraphOperation public constructor(
     query: IQuery,
     projectedVariables: List<String>,
     @JvmField public val silent: Boolean,
-    @JvmField public var graph1type: EGraphRefType = EGraphRefTypeExt.DefaultGraphRef,
-    @JvmField public var graph1iri: String? = null,
-    @JvmField public var graph2type: EGraphRefType = EGraphRefTypeExt.DefaultGraphRef,
-    @JvmField public var graph2iri: String? = null,
+    @JvmField public var graph1type: EGraphRefType,
+    @JvmField public var graph1iri: String?,
+    @JvmField public var graph2type: EGraphRefType,
+    @JvmField public var graph2iri: String?,
     @JvmField public val action: EGraphOperationType
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPGraphOperationID, "POPGraphOperation", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = 1

@@ -963,21 +963,4 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         SanityCheck.println { "writeUnlock(${lock.getUUID()}) x64" }
         lock.writeUnlock()
     }
-
-    override /*suspend*/ fun printContents() {
-        SanityCheck.println { "readLock(${lock.getUUID()}) x65" }
-        lock.readLock()
-        if (firstLeaf != NodeManager.nodeNullPointer) {
-            SanityCheck.println { "Outside.refcount($firstLeaf)  x122" }
-            NodeManager.getNodeLeaf(firstLeaf) { node ->
-                val it = NodeLeaf.iterator(node, firstLeaf)
-                while (it.hasNext()) {
-                    val d = it.next()
-                    SanityCheck.println { "debug ${d.map { it }}" }
-                }
-            }
-        }
-        SanityCheck.println { "readUnlock(${lock.getUUID()}) x66" }
-        lock.readUnlock()
-    }
 }

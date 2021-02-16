@@ -160,11 +160,4 @@ public class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStore
             partitions[i].clear()
         }
     }
-
-    override /*suspend*/ fun printContents() {
-        for (i in 0 until partitionCount) {
-            SanityCheck.println { "TripleStoreIndex_Partition :: $i" }
-            partitions[i].printContents()
-        }
-    }
 }

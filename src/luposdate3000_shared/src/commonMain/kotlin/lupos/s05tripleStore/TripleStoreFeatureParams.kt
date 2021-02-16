@@ -29,7 +29,6 @@ import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
 
 public sealed class TripleStoreFeatureParams(@JvmField public val feature: TripleStoreFeature, @JvmField public val params: Array<IAOPBase>) {
-    public abstract fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int
     internal fun myToStringHelper(n: IAOPBase): String {
         return when (n) {
             is IAOPVariable -> {
@@ -47,9 +46,6 @@ public sealed class TripleStoreFeatureParams(@JvmField public val feature: Tripl
 
 public class TripleStoreFeatureParamsDefault(@JvmField public val idx: EIndexPattern, params: Array<IAOPBase>) : TripleStoreFeatureParams(TripleStoreFeatureExt.DEFAULT, params) {
     override fun toString(): String = "TripleStoreFeatureParamsDefault $feature ${EIndexPatternExt.names[idx]} ${params.map { myToStringHelper(it) }}"
-    override fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int {
-        return data[featureRange.first + idx]
-    }
 
     public fun getFilter(query: IQuery): IntArray {
         var variableCount = 0
@@ -98,14 +94,6 @@ public class TripleStoreFeatureParamsDefault(@JvmField public val idx: EIndexPat
 
 public class TripleStoreFeatureParamsPartition(@JvmField public val idx: EIndexPattern, params: Array<IAOPBase>, @JvmField public val partition: Partition) : TripleStoreFeatureParams(TripleStoreFeatureExt.PARTITION, params) {
     override fun toString(): String = "TripleStoreFeatureParamsDefault $feature ${EIndexPatternExt.names[idx]} ${params.map { myToStringHelper(it) }} ${partition.data.map { it }} ${getColumn()}"
-
-    /*
-     * column 0, 1 or 2 .. references the 'x'-th column in choosen idx
-     * currently column==0 is not supported
-     */
-    override fun chooseData(data: IntArray, featureRange: Pair<Int, Int>, params: TripleStoreFeatureParams): Int {
-        return data[featureRange.first + idx + EIndexPatternExt.values_size * (getColumn() - 1)]
-    }
 
     public fun toTripleStoreFeatureParamsDefault(): TripleStoreFeatureParamsDefault {
         return TripleStoreFeatureParamsDefault(idx, params)
