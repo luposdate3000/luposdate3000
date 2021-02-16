@@ -65,10 +65,10 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
                 if (column >= 0) {
                     name2.insert(column, partitionCount)
                     SanityCheck.check { store is TripleStoreIndexPartition }
-                    dataDistinctList.add(TripleStoreDistinctContainer(name2.toString(), store, { it.getData(idx) }, idx))
+                    dataDistinctList.add(TripleStoreDistinctContainer(name2.toString(), store, idx))
                 } else {
                     SanityCheck.check { store is TripleStoreIndexIDTriple }
-                    dataDistinctList.add(TripleStoreDistinctContainer(name2.toString(), store, { it.getData(idx) }, idx))
+                    dataDistinctList.add(TripleStoreDistinctContainer(name2.toString(), store, idx))
                 }
                 rootPageOffset += 16
                 tmpEnabledPartitions.add(EnabledPartitionContainer(localindicees[idx]!!, column, partitionCount))
@@ -155,9 +155,9 @@ public class TripleStoreLocalBPlusTreePartition(name: String, store_root_page_id
                 SanityCheck.check { rootPageOffset <= BufferManagerExt.getPageSize() }
                 if (p.column >= 0) {
                     name2.insert(p.column, p.partitionCount)
-                    dataDistinctList.add(TripleStoreDistinctContainer(name2.toString(), TripleStoreIndexPartition({ i, k -> TripleStoreIndexIDTriple(i, k) }, p.column, p.partitionCount, pageid2, store_root_page_init), { it.getData(idx) }, idx))
+                    dataDistinctList.add(TripleStoreDistinctContainer(name2.toString(), TripleStoreIndexPartition({ i, k -> TripleStoreIndexIDTriple(i, k) }, p.column, p.partitionCount, pageid2, store_root_page_init), idx))
                 } else {
-                    dataDistinctList.add(TripleStoreDistinctContainer(name2.toString(), TripleStoreIndexIDTriple(pageid2, store_root_page_init), { it.getData(idx) }, idx))
+                    dataDistinctList.add(TripleStoreDistinctContainer(name2.toString(), TripleStoreIndexIDTriple(pageid2, store_root_page_init), idx))
                 }
             }
             bufferManager.flushPage(store_root_page_id)

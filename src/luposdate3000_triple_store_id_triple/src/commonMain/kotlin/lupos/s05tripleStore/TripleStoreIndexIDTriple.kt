@@ -518,52 +518,6 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         }
     }
 
-    override /*suspend*/ fun import(dataImport: IntArray, count: Int, order: IntArray) {
-        SanityCheck.println { "writeLock(${lock.getUUID()}) x142" }
-        lock.writeLock()
-        if (count > 0) {
-            val iteratorImport = BulkImportIterator(dataImport, count, order)
-            val newFirstLeaf = importHelper(iteratorImport)
-            if (firstLeaf != NodeManager.nodeNullPointer) {
-                pendingImport.add(firstLeaf)
-                SanityCheck.println { "Outside.refcount($root)  x49" }
-                NodeManager.freeAllInnerNodes(root)
-                firstLeaf = NodeManager.nodeNullPointer
-                SanityCheck.check { root != NodeManager.nodeNullPointer }
-                SanityCheck.println { "Outside.refcount($root)  x60" }
-                NodeManager.releaseNode(root)
-                root = NodeManager.nodeNullPointer
-                rootNode = null
-            }
-            if (pendingImport.size == 0) {
-                pendingImport.add(newFirstLeaf)
-            } else if (pendingImport[0] == null) {
-                pendingImport[0] = newFirstLeaf
-            } else {
-                pendingImport[0] = importHelper(pendingImport[0]!!, newFirstLeaf)
-                if (pendingImport[pendingImport.size - 1] != null) {
-                    pendingImport.add(null)
-                }
-                var j = 1
-                while (j < pendingImport.size) {
-                    if (pendingImport[j] == null) {
-                        pendingImport[j] = pendingImport[j - 1]
-                        pendingImport[j - 1] = null
-                        break
-                    } else {
-                        val a = pendingImport[j]!!
-                        val b = pendingImport[j - 1]!!
-                        pendingImport[j] = importHelper(a, b)
-                        pendingImport[j - 1] = null
-                    }
-                    j++
-                }
-            }
-        }
-        SanityCheck.println { "writeUnlock(${lock.getUUID()}) x61" }
-        lock.writeUnlock()
-    }
-
     private /*suspend*/ fun rebuildData(_iterator: TripleIterator) {
 // assuming to have write-lock
         var iterator: TripleIterator = Count1PassThroughIterator(DistinctIterator(_iterator))

@@ -26,6 +26,5 @@ public interface ITripleStoreLocalBase {
     public fun getEnabledPartitions(): Array<EnabledPartitionContainer>
     /*suspend*/ public fun getHistogram(query: IQuery, params: TripleStoreFeatureParams): Pair<Int, Int>
     /*suspend*/ public fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle
-    /*suspend*/ public fun import(dataImport: ITripleStoreBulkImport)
     /*suspend*/ public fun modify(query: IQuery, dataModify: Array<ColumnIterator>, type: EModifyType)
 }

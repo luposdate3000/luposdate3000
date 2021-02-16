@@ -191,12 +191,6 @@ public abstract class TripleStoreLocalBase(@JvmField public val name: String, @J
         SanityCheck.checkUnreachable()
     }
 
-    override /*suspend*/ fun import(dataImport: ITripleStoreBulkImport) {
-        for (i in dataDistinct.indices) {
-            dataDistinct[i].second.import(dataDistinct[i].importField(dataImport), dataImport.getIdx(), EIndexPatternHelper.tripleIndicees[dataDistinct[i].idx])
-        }
-    }
-
     public /*suspend*/ fun commit(query: IQuery) {
         /*
          * the input is ALWAYS in SPO order. The remapping of the triple layout is within the index, using the parameter order.

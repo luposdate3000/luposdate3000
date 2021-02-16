@@ -91,32 +91,6 @@ public class TripleStoreIndexPartition(childIndex: (Int, Boolean) -> TripleStore
         return partitions[i].getIterator(query, p2)
     }
 
-    override /*suspend*/ fun import(dataImport: IntArray, count: Int, order: IntArray) {
-        var counters = IntArray(partitionCount)
-        for (i in 0 until count / 3) {
-            val a = i * 3
-            val h = PartitionExt.hashFunction(dataImport[a + order[column]], partitionCount)
-            SanityCheck.println { "partitioning by ${dataImport[a + order[column]]} -> $h" }
-            counters[h]++
-        }
-        val data = Array(partitionCount) { IntArray(counters[it] * 3) }
-        counters = IntArray(partitionCount)
-        for (i in 0 until count / 3) {
-            val a = i * 3
-            val h = PartitionExt.hashFunction(dataImport[a + order[column]], partitionCount)
-            val b = counters[h] * 3
-            counters[h]++
-            for (j in 0 until 3) {
-                data[h][b + j] = dataImport[a + j]
-            }
-        }
-        for (i in 0 until partitionCount) {
-            if (data[i].isNotEmpty()) {
-                partitions[i].import(data[i], data[i].size, order)
-            }
-        }
-    }
-
     override /*suspend*/ fun insertAsBulk(dataImport: IntArray, order: IntArray) {
         var counters = IntArray(partitionCount)
         for (i in 0 until dataImport.size / 3) {

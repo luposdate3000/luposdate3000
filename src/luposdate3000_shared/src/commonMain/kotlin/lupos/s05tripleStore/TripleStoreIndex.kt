@@ -24,7 +24,6 @@ import kotlin.jvm.JvmField
 public abstract class TripleStoreIndex(@JvmField public val store_root_page_id: Int) {
     public abstract fun dropIndex()
     public /*suspend*/ abstract fun getIterator(query: IQuery, params: TripleStoreFeatureParams): IteratorBundle
-    public /*suspend*/ abstract fun import(dataImport: IntArray, count: Int, order: IntArray)
     public abstract fun insert(a: Int, b: Int, c: Int)
     public abstract fun remove(a: Int, b: Int, c: Int)
     public /*suspend*/ abstract fun clear()

@@ -34,10 +34,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s05tripleStore.ITripleStoreBulkImport
 import lupos.s05tripleStore.PersistentStoreLocal
 import lupos.s05tripleStore.PersistentStoreLocalExt
-import lupos.s05tripleStore.TripleStoreBulkImport
 import lupos.s05tripleStore.TripleStoreFeatureParams
 import lupos.s05tripleStore.TripleStoreFeatureParamsDefault
 import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
@@ -125,11 +123,6 @@ public class TripleStoreIteratorGlobal public constructor(query: IQuery, project
 }
 
 public class DistributedGraph(@JvmField public val query: IQuery, @JvmField public val name: String) : IDistributedGraph {
-    override /*suspend*/ fun bulkImport(action: /*suspend*/ (ITripleStoreBulkImport) -> Unit) {
-        val bulk = TripleStoreBulkImport(query, name)
-        action(bulk as ITripleStoreBulkImport)
-        bulk.finishImport()
-    }
 
     override /*suspend*/ fun modify(data: Array<ColumnIterator>, type: EModifyType) {
         SanityCheck.check { data.size == 3 }
