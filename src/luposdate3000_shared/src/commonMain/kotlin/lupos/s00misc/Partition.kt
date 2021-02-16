@@ -56,15 +56,19 @@ public class Partition {
         @JvmField
         public var myProcessCount: Int = myProcessUrls.size
 
-        init {
-            val countTotal = if (myProcessCount > 1) {
+        public fun getMyCombinedCount(): Int {
+            if (myProcessCount > 1) {
                 if (myThreadCount != 1) {
                     throw Exception("either LUPOS_PROCESS_ID or LUPOS_THREAD_COUNT must be set to '1' - other combinations are currently not supported!")
                 }
-                myProcessCount
+                return myProcessCount
             } else {
-                myThreadCount
+                return myThreadCount
             }
+        }
+
+        init {
+            val countTotal = getMyCombinedCount()
             default_k = countTotal
             if (countTotal == 0 || countTotal == 1) {
                 for (s in listOf("SPO", "SOP", "PSO", "POS", "OSP", "OPS")) {
