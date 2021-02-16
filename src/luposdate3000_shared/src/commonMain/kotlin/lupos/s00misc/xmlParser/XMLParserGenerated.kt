@@ -200,56 +200,6 @@ internal inline fun parse_ws(
     throw ParserExceptionUnexpectedChar(context)
 }
 
-internal inline fun parse_ws_forced(
-    context: ParserContext,
-    crossinline onSKIP_WS_FORCED: () -> Unit
-) {
-    context.clear()
-    error@ while (true) {
-        val localswitch1 = parse_ws_forced_helper_0(context.c)
-        when (localswitch1) {
-            0 -> {
-                context.append()
-                loop3@ while (true) {
-                    when (context.c) {
-                        0x9, 0xa, 0xd, 0x20 -> {
-                            context.append()
-                        }
-                        else -> {
-                            break@loop3
-                        }
-                    }
-                }
-                onSKIP_WS_FORCED()
-                return
-            }
-            else -> {
-                break@error
-            }
-        }
-    }
-    throw ParserExceptionUnexpectedChar(context)
-}
-
-@Suppress("NOTHING_TO_INLINE")
-private inline fun parse_ws_forced_helper_0(c: Int): Int {
-    if (c < 0x9) {
-        return 1
-    } else if (c <= 0xa) {
-        return 0
-    } else if (c < 0xd) {
-        return 1
-    } else if (c <= 0xd) {
-        return 0
-    } else if (c < 0x20) {
-        return 1
-    } else if (c <= 0x20) {
-        return 0
-    } else {
-        return 1
-    }
-}
-
 internal inline fun parse_element_start(
     context: ParserContext,
     crossinline onELEMENT_START: () -> Unit

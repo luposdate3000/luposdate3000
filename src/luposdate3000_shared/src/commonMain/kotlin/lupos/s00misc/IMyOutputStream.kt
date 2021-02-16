@@ -18,7 +18,6 @@ package lupos.s00misc
 
 public interface IMyOutputStream {
     public fun writeInt(value: Int): Unit
-    public fun write(buf: ByteArray, off: Int, len: Int = buf.size): Unit
     public fun write(buf: ByteArray): Unit
     public fun write(buf: ByteArray, len: Int): Unit
     public fun close(): Unit

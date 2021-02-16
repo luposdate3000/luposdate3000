@@ -55,19 +55,3 @@ public class ColumnIteratorMultiValue3(@JvmField public val values: IntArray, @J
         }
     }
 }
-
-public class ColumnIteratorMultiValue2(@JvmField public val iterator: Iterator<Int>) : ColumnIterator() {
-    @JvmField
-    public var label: Int = 1
-    public /*suspend*/ override fun close() {
-        label = 0
-    }
-
-    public /*suspend*/ override fun next(): Int {
-        return if (label != 0 && iterator.hasNext()) {
-            iterator.next()
-        } else {
-            ResultSetDictionaryExt.nullValue
-        }
-    }
-}

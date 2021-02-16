@@ -22,7 +22,6 @@ internal expect class _MyOutputStream : IMyOutputStream {
     internal constructor()
 
     public override fun writeInt(value: Int): Unit
-    public override fun write(buf: ByteArray, off: Int, len: Int): Unit
     public override fun write(buf: ByteArray): Unit
     public override fun write(buf: ByteArray, len: Int): Unit
     public override fun close(): Unit

@@ -802,7 +802,6 @@ public class SevenIndices {
     @JvmField
     public val spo: MutableSet<ID_Triple> = mutableSetOf()
     public fun s(key: Long): Array<Pair<Long, Long>> = this.s[key] ?: arrayOf()
-    public fun o(key: Long): Array<Pair<Long, Long>> = this.o[key] ?: arrayOf()
     public fun sp(key1: Long, key2: Long): LongArray = this.sp[Pair(key1, key2)] ?: longArrayOf()
     public fun po(key1: Long, key2: Long): LongArray = this.po[Pair(key1, key2)] ?: longArrayOf()
     public fun distinct() {
