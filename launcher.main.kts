@@ -83,7 +83,8 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
         .ssetDryMode(dryMode2)
         .ssetTarget(target2)
         .ssetIdeaBuildfile(intellijMode2)
-        .ssetCodegen(false)
+        .ssetCodegenKSP(false)
+        .ssetCodegenKAPT(false)
     var res = mutableListOf<Pair<CreateModuleArgs, () -> Boolean>>()
     res.add(
         Pair(
@@ -239,7 +240,15 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
     res.add(
         Pair(
             localArgs
-                .ssetModuleName("Luposdate3000_Code_Generator")
+                .ssetModuleName("Luposdate3000_Code_Generator_KAPT")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Code_Generator_KSP")
                 .ssetArgs2(compileModuleArgs),
             { true }
         )
@@ -319,8 +328,17 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
     res.add(
         Pair(
             localArgs
-                .ssetModuleName("Luposdate3000_Launch_Code_Gen_Example", "Luposdate3000_Main")
-                .ssetCodegen(true)
+                .ssetModuleName("Luposdate3000_Launch_Code_Gen_Example_KAPT", "Luposdate3000_Main")
+                .ssetCodegenKAPT(true)
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Launch_Code_Gen_Example_KSP", "Luposdate3000_Main")
+                .ssetCodegenKSP(true)
                 .ssetArgs2(compileModuleArgs),
             { true }
         )

@@ -40,7 +40,8 @@ enum class IntellijMode {
     Enable, Disable
 }
 
-val compilerVersion = "1.5.255-SNAPSHOT"
+// var compilerVersion = "1.5.255-SNAPSHOT"
+var compilerVersion = "1.4.0"
 val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
 private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, appendix: String, out: PrintWriter) {
     for (d in dependencies) {
@@ -102,7 +103,8 @@ class CreateModuleArgs() {
     var dryMode: DryMode = DryMode.Disable
     var target: TargetMode = TargetMode.JVM
     var ideaBuildfile: IntellijMode = IntellijMode.Disable
-    var codegen: Boolean = false
+    var codegenKAPT: Boolean = false
+    var codegenKSP: Boolean = false
     var args: MutableMap<String, String> = mutableMapOf()
 
     init {
@@ -125,7 +127,8 @@ class CreateModuleArgs() {
         res.dryMode = dryMode
         res.target = target
         res.ideaBuildfile = ideaBuildfile
-        res.codegen = codegen
+        res.codegenKAPT = codegenKAPT
+        res.codegenKSP = codegenKSP
         res.args = args
         return res
     }
@@ -226,9 +229,15 @@ class CreateModuleArgs() {
         return res
     }
 
-    fun ssetCodegen(codegen: Boolean): CreateModuleArgs {
+    fun ssetCodegenKSP(codegenKSP: Boolean): CreateModuleArgs {
         val res = clone()
-        res.codegen = codegen
+        res.codegenKSP = codegenKSP
+        return res
+    }
+
+    fun ssetCodegenKAPT(codegenKAPT: Boolean): CreateModuleArgs {
+        val res = clone()
+        res.codegenKAPT = codegenKAPT
         return res
     }
 
@@ -300,6 +309,9 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         }
         val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
         println("generating buildfile for ${moduleArgs.moduleName}")
+        if (!buildLibrary && moduleArgs.codegenKSP) {
+            compilerVersion = "1.4.0"
+        }
         var shortFolder = ".$pathSeparator${moduleArgs.moduleName}"
         shortFolder = shortFolder.substring(shortFolder.lastIndexOf(pathSeparator) + 1)
         File("src.generated").deleteRecursively()
@@ -341,9 +353,20 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 }
             }
             File("src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos").mkdirs()
-            File("src.generated${pathSeparator}settings.gradle").printWriter().use { out ->
+            File("src.generated${pathSeparator}settings.gradle.kts").printWriter().use { out ->
                 out.println("pluginManagement {")
+                out.println("    resolutionStrategy {")
+                out.println("        eachPlugin {")
+                out.println("            when (requested.id.id) {")
+                out.println("                \"kotlin-ksp\",")
+                out.println("                \"org.jetbrains.kotlin.kotlin-ksp\",")
+                out.println("                \"org.jetbrains.kotlin.ksp\" -> useModule(\"org.jetbrains.kotlin:kotlin-ksp:\${requested.version}\")")
+                out.println("            }")
+                out.println("        }")
+                out.println("    }")
                 out.println("    repositories {")
+                out.println("        maven(\"https://dl.bintray.com/kotlin/kotlin-eap\")")
+                out.println("        google()")
                 out.println("        mavenLocal()")
                 out.println("        gradlePluginPortal()")
                 out.println("    }")
@@ -425,8 +448,11 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 }
                 out.println("plugins {")
                 out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"${compilerVersion}\"")
-                if (!buildLibrary && moduleArgs.codegen) {
+                if (!buildLibrary && moduleArgs.codegenKAPT) {
                     out.println("    id(\"org.jetbrains.kotlin.kapt\") version \"${compilerVersion}\"")
+                }
+                if (!buildLibrary && moduleArgs.codegenKSP) {
+                    out.println("    id(\"kotlin-ksp\") version \"1.4.0-dev-experimental-20200914\"")
                 }
                 if (buildForIDE && !buildLibrary) {
                     out.println("    application")
@@ -542,6 +568,17 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("        val jvmMain by getting {")
                     out.println("            dependencies {")
                     printDependencies(jvmDependencies, buildForIDE, appendix, out)
+                    if (!buildLibrary && moduleArgs.codegenKSP) {
+                        out.println("dependencies {")
+                        if (buildForIDE) {
+                            out.println("    implementation(project(\":src:luposdate3000_code_generator_ksp\"))")
+                            out.println("    configurations[\"ksp\"].dependencies.add(project.dependencies.create(project(\":src:luposdate3000_code_generator_ksp\")))")
+                        } else {
+                            out.println("    implementation(\"luposdate3000:Luposdate3000_Code_Generator_KSP:0.0.1\")")
+                            out.println("    configurations[\"ksp\"].dependencies.add(project.dependencies.create(\"luposdate3000:Luposdate3000_Code_Generator_KSP:0.0.1\"))")
+                        }
+                        out.println("}")
+                    }
                     out.println("            }")
                     out.println("        }")
                 }
@@ -605,12 +642,12 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     }
                 }
                 out.println("}")
-                if (!buildLibrary && moduleArgs.codegen) {
+                if (!buildLibrary && moduleArgs.codegenKAPT) {
                     out.println("dependencies {")
                     if (buildForIDE) {
-                        out.println("    \"kapt\"(project(\":src:luposdate3000_code_generator\")) // attention to the '\"' around kapt - otherwise it resolves to another function")
+                        out.println("    \"kapt\"(project(\":src:luposdate3000_code_generator_kapt\")) // attention to the '\"' around kapt - otherwise it resolves to another function")
                     } else {
-                        out.println("    \"kapt\"(\"luposdate3000:Luposdate3000_Code_Generator:0.0.1\") // attention to the '\"' around kapt - otherwise it resolves to another function")
+                        out.println("    \"kapt\"(\"luposdate3000:Luposdate3000_Code_Generator_KAPT:0.0.1\") // attention to the '\"' around kapt - otherwise it resolves to another function")
                     }
                     out.println("}")
                 }
