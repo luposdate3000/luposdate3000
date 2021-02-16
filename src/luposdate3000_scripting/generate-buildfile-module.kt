@@ -256,7 +256,7 @@ class CreateModuleArgs() {
 }
 
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
-    val copySelevtively = false
+    val copySelevtively = true
     try {
         if (moduleArgs.dryMode == DryMode.Enable || moduleArgs.ideaBuildfile == IntellijMode.Enable) {
             moduleArgs.dryMode = DryMode.Enable

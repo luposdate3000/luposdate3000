@@ -13,7 +13,7 @@ import java.io.File
 import java.io.OutputStream
 import java.io.PrintWriter
 
-private val mylogger = File("code-gen-ksp.log").printWriter()
+private val mylogger = File("/tmp/code-gen-ksp.log").printWriter()
 
 public class SampleProcessor : SymbolProcessor {
 
