@@ -189,15 +189,6 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
         res.add(
             Pair(
                 localArgs
-                    .ssetModuleName("Luposdate3000_Triple_Store_All${p.label}", "Luposdate3000_Triple_Store_All", "src${Platform.getPathSeparator()}luposdate3000_triple_store_all")
-                    .ssetArgs2(compileModuleArgs)
-                    .ssetArgs(mutableMapOf("USE_PARTITIONS2" to p.option)),
-                p.enabled
-            )
-        )
-        res.add(
-            Pair(
-                localArgs
                     .ssetModuleName("Luposdate3000_Optimizer${p.label}", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer")
                     .ssetArgs2(compileModuleArgs)
                     .ssetArgs(mutableMapOf("USE_PARTITIONS" to p.option)),
@@ -857,7 +848,6 @@ fun onRun() {
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Result_Format$partitionMode-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Shared-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Test-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_All$partitionMode-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_Id_Triple-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer$partitionMode-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint_$endpointMode-jvm$proguardMode.jar",
@@ -935,7 +925,6 @@ fun onRun() {
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_$jenaWrapper", "Luposdate3000_Jena_Wrapper.js"),
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Launch_$mainClass", "Luposdate3000_Main.js"),
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer$partitionMode", "Luposdate3000_Optimizer.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_All$partitionMode", "Luposdate3000_Triple_Store_All.js"),
             )
             for (f in files) {
                 Files.copy(File(f.path + Platform.getPathSeparator() + f.name).toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${f.name}").toPath(), REPLACE_EXISTING)
@@ -1254,7 +1243,6 @@ fun onSetupJS() {
         out.println("    <script src=\"bin$appendix/Luposdate3000_Parser.js\"></script>")
         out.println("    <script src=\"bin$appendix/Luposdate3000_Result_Format.js\"></script>")
         out.println("    <script src=\"bin$appendix/Luposdate3000_Triple_Store_Id_Triple.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Triple_Store_All_NoPartitions/Luposdate3000_Triple_Store_All.js\"></script>")
         out.println("    <script src=\"bin$appendix/Luposdate3000_Optimizer_NoPartitions/Luposdate3000_Optimizer.js\"></script>")
         out.println("    <script src=\"bin$appendix/Luposdate3000_Endpoint.js\"></script>")
         out.println("</head>")

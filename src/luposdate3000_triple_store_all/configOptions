@@ -1,2 +1,0 @@
-TripleStoreLocal,typealias,TripleStoreLocalBase,lupos.s05tripleStore.TripleStoreLocalBPlusTreePartition
-USE_PARTITIONS2,internal val,lupos.s00misc.EPartitionMode,lupos.s00misc.EPartitionModeExt.Thread
