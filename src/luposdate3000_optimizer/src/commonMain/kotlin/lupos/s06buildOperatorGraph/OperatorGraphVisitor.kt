@@ -241,7 +241,6 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
-import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import kotlin.jvm.JvmField
 
@@ -577,7 +576,7 @@ public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<I
                     val data = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromAny(File(query.getWorkingDirectory() + d.source_iri).readAsString(), d.source_iri)!!)
                     when (d) {
                         is ASTDefaultGraph -> {
-                            datasets[PersistentStoreLocalExt.defaultGraphName] = data
+                            datasets[TripleStoreManager.DEFAULT_GRAPH_NAME] = data
                         }
                         is ASTNamedGraph -> {
                             datasets["<" + d.source_iri + ">"] = data
@@ -957,7 +956,7 @@ return tmp
 
     override fun visit(node: ASTTriple, childrenValues: List<IOPBase>): IOPBase {
         SanityCheck.check { childrenValues.size == 3 }
-        return LOPTriple(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase, PersistentStoreLocalExt.defaultGraphName, false)
+        return LOPTriple(query, childrenValues[0] as AOPBase, childrenValues[1] as AOPBase, childrenValues[2] as AOPBase, TripleStoreManager.DEFAULT_GRAPH_NAME, false)
     }
 
     override fun visit(node: ASTMinusGroup, childrenValues: List<IOPBase>): IOPBase {
@@ -1450,7 +1449,7 @@ return tmp
                 return node
             }
             is LOPTriple -> {
-                return if (!optional || node.graph == PersistentStoreLocalExt.defaultGraphName) {
+                return if (!optional || node.graph == TripleStoreManager.DEFAULT_GRAPH_NAME) {
                     LOPTriple(query, node.getChildren()[0] as AOPBase, node.getChildren()[1] as AOPBase, node.getChildren()[2] as AOPBase, iri, iriIsVariable)
                 } else {
                     node
@@ -1560,7 +1559,7 @@ return tmp
         for (c in children) {
             when (c) {
                 is ASTTriple -> {
-                    modify.data.add(LOPTriple(query, simpleAstToLiteralValue(c.children[0]), simpleAstToLiteralValue(c.children[1]), simpleAstToLiteralValue(c.children[2]), PersistentStoreLocalExt.defaultGraphName, false))
+                    modify.data.add(LOPTriple(query, simpleAstToLiteralValue(c.children[0]), simpleAstToLiteralValue(c.children[1]), simpleAstToLiteralValue(c.children[2]), TripleStoreManager.DEFAULT_GRAPH_NAME, false))
                 }
                 is ASTGraph -> {
                     for (c2 in c.children) {
@@ -1675,7 +1674,7 @@ return tmp
             val g2 = graphRefToEnum(tmp)
             LOPGraphOperation(query, EGraphOperationTypeExt.LOAD, node.silent, EGraphRefTypeExt.DefaultGraphRef, node.iri, g2.first, g2.second)
         } else {
-            LOPGraphOperation(query, EGraphOperationTypeExt.LOAD, node.silent, EGraphRefTypeExt.DefaultGraphRef, node.iri, EGraphRefTypeExt.DefaultGraphRef, PersistentStoreLocalExt.defaultGraphName)
+            LOPGraphOperation(query, EGraphOperationTypeExt.LOAD, node.silent, EGraphRefTypeExt.DefaultGraphRef, node.iri, EGraphRefTypeExt.DefaultGraphRef, TripleStoreManager.DEFAULT_GRAPH_NAME)
         }
     }
 

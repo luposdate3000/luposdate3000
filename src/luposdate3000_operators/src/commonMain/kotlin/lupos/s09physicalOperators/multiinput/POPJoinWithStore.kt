@@ -38,8 +38,8 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.LOPTriple
+import lupos.s05tripleStore.TripleStoreManager
 import lupos.s09physicalOperators.POPBase
-import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.jvm.JvmField
 
 public class POPJoinWithStore public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, @JvmField public val childB: LOPTriple, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinWithStoreID, "POPJoinWithStore", arrayOf(childA), ESortPriorityExt.SAME_AS_CHILD) {
@@ -118,7 +118,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
             }
         }
         SanityCheck.check { variablINBO.size > 0 }
-        val distributedStore = distributedTripleStore.getNamedGraph(query, childB.graph)
+        val distributedStore = TripleStoreManager.getGraph(childB.graph)
         val valuesAO = IntArray(columnsINAO.size) { ResultSetDictionaryExt.nullValue }
         val valuesAJ = IntArray(columnsINAJ.size) { ResultSetDictionaryExt.nullValue }
         var count = 0

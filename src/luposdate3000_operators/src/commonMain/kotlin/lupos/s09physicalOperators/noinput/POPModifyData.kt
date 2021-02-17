@@ -33,9 +33,8 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s05tripleStore.PersistentStoreLocalExt
+import lupos.s05tripleStore.TripleStoreManager
 import lupos.s09physicalOperators.POPBase
-import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.jvm.JvmField
 
 public class POPModifyData public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val type: EModifyType, @JvmField public val data: List<LOPTriple>) : POPBase(query, projectedVariables, EOperatorIDExt.POPModifyDataID, "POPModifyData", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
@@ -63,7 +62,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
                 throw GraphVariablesNotImplementedException(classname)
             }
             SanityCheck.check { !c.graphVar }
-            if (c.graph == PersistentStoreLocalExt.defaultGraphName) {
+            if (c.graph == TripleStoreManager.DEFAULT_GRAPH_NAME) {
                 res += c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "."
             }
             res += "GRAPH <${c.graph}> {" + c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "}."
@@ -94,8 +93,8 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
             }
         }
         for ((graph, iteratorData) in iteratorDataMap) {
-            val graphLocal = distributedTripleStore.getNamedGraph(query, graph)
-            graphLocal.modify(Array(3) { ColumnIteratorMultiValue(iteratorData[it]) }, type)
+            val graphLocal = TripleStoreManager.getGraph(graph)
+            graphLocal.modify(query, Array(3) { ColumnIteratorMultiValue(iteratorData[it]) }, type)
         }
         return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, query.getDictionary().createValue(ValueBoolean(true)))))
     }

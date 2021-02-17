@@ -31,13 +31,12 @@ import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
-import lupos.s05tripleStore.PersistentStoreLocalExt
-import lupos.s15tripleStoreDistributed.distributedTripleStore
+import lupos.s05tripleStore.TripleStoreManager
 import kotlin.jvm.JvmField
 
 public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField public val graph: String, @JvmField public val graphVar: Boolean) : LOPBase(query, EOperatorIDExt.LOPTripleID, "LOPTriple", arrayOf(s, p, o), ESortPriorityExt.ANY_PROVIDED_VARIABLE) {
     override fun toSparql(): String {
-        if (graph == PersistentStoreLocalExt.defaultGraphName) {
+        if (graph == TripleStoreManager.DEFAULT_GRAPH_NAME) {
             return children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "."
         }
         return "GRAPH <$graph> {" + children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "}."
@@ -134,7 +133,7 @@ public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBas
                 t as IAOPBase
             }
             val idx = getIndex(params.map { it }.toTypedArray(), listOf())
-            val store = distributedTripleStore.getNamedGraph(query, graph)
+            val store = TripleStoreManager.getGraph(graph)
             val childHistogram = store.getHistogram(params, idx)
             if (childHistogram.first < res.count || res.count == -1) {
                 res.count = childHistogram.first

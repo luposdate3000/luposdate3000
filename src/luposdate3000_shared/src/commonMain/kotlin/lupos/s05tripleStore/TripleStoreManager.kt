@@ -19,6 +19,12 @@ package lupos.s05tripleStore
 
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
+import lupos.s00misc.EModifyType
+import lupos.s00misc.Partition
+import lupos.s04arithmetikOperators.IAOPBase
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
+import lupos.s04logicalOperators.iterator.ColumnIterator
 
 public typealias LuposHostname = String
 public typealias LuposStoreKey = String
@@ -136,6 +142,20 @@ public class TripleStoreDescription(
         }
         return res
     }
+
+    public fun modify(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType) {
+        throw Exception("TODO perform the modification on every index")
+        throw Exception("TODO move this into the exact index too, to be consistent with the read-case")
+    }
+
+    public fun getIterator(params: Array<IAOPBase>, idx: EIndexPattern, partition: Partition): IOPBase {
+        throw Exception("TODO move this into the exact index to use - and remove partition parameter")
+        throw Exception("TODO get iterator from correct remote node")
+    }
+
+    public fun getHistogram(params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
+        throw Exception("TODO get histogram from correct remote node")
+    }
 }
 
 public open class TripleStoreIndexDescriptionFactory {
@@ -175,6 +195,7 @@ public class TripleStoreDescriptionFactory {
 }
 
 public object TripleStoreManager {
+    public const val DEFAULT_GRAPH_NAME: String = ""
     internal val localStores = mutableMapOf<LuposStoreKey, TripleStoreIndex>()
     internal val metadata = mutableMapOf<LuposGraphName, TripleStoreDescription>()
     internal var hostnames = Array<LuposHostname>(1) { "localhost" }
@@ -205,7 +226,11 @@ public object TripleStoreManager {
         keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() }
     }
 
-    public fun createGraph(graphName: LuposGraphName, action: (TripleStoreDescriptionFactory) -> Unit) {
+    public fun createGraph(query: IQuery, graphName: LuposGraphName) {
+        createGraph(query, graphName, {})
+    }
+
+    public fun createGraph(query: IQuery, graphName: LuposGraphName, action: (TripleStoreDescriptionFactory) -> Unit) {
         if (metadata[graphName] != null) {
             throw Exception("graph already exist")
         }
@@ -217,19 +242,41 @@ public object TripleStoreManager {
         throw Exception("initialize local store")
     }
 
-    public fun resetGraph(graphName: LuposGraphName, action: (TripleStoreDescriptionFactory) -> Unit) {
+    public fun resetGraph(query: IQuery, graphName: LuposGraphName) {
+        resetGraph(query, graphName, {})
+    }
+
+    public fun resetGraph(query: IQuery, graphName: LuposGraphName, action: (TripleStoreDescriptionFactory) -> Unit) {
         val factory = TripleStoreDescriptionFactory()
         action(factory)
         val idx = factory.build()
         throw Exception("not implemented")
     }
 
-    public fun clearGraph(graphName: LuposGraphName) {
+    public fun clearGraph(query: IQuery, graphName: LuposGraphName) {
         throw Exception("not implemented")
     }
 
-    public fun dropGraph(graphName: LuposGraphName) {
+    public fun dropGraph(query: IQuery, graphName: LuposGraphName) {
         throw Exception("not implemented")
+    }
+
+    public fun getGraphNames(): List<LuposGraphName> {
+        return getGraphNames(false)
+    }
+
+    public fun getGraphNames(includeDefault: Boolean): List<LuposGraphName> {
+        val res = mutableListOf<LuposGraphName>()
+        metadata.keys.forEach {
+            if (it != DEFAULT_GRAPH_NAME || includeDefault) {
+                res.add(it)
+            }
+        }
+        return res
+    }
+
+    public fun getDefaultGraph(): TripleStoreDescription {
+        return getGraph(DEFAULT_GRAPH_NAME)
     }
 
     public fun getGraph(graphName: LuposGraphName): TripleStoreDescription {

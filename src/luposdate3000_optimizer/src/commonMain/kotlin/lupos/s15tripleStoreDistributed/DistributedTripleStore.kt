@@ -35,7 +35,6 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s05tripleStore.PersistentStoreLocal
-import lupos.s05tripleStore.PersistentStoreLocalExt
 import lupos.s05tripleStore.TripleStoreFeatureParams
 import lupos.s05tripleStore.TripleStoreFeatureParamsDefault
 import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
@@ -69,7 +68,7 @@ public class TripleStoreIteratorGlobal public constructor(query: IQuery, project
     }
 
     override fun toSparql(): String {
-        if (graphName == PersistentStoreLocalExt.defaultGraphName) {
+        if (graphName == TripleStoreManager.DEFAULT_GRAPH_NAME) {
             return children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "."
         }
         return "GRAPH <$graphName> {" + children[0].toSparql() + " " + children[1].toSparql() + " " + children[2].toSparql() + "}."
@@ -265,7 +264,7 @@ public class DistributedTripleStore : IDistributedTripleStore {
     }
 
     override fun getDefaultGraph(query: IQuery): DistributedGraph {
-        return DistributedGraph(query, PersistentStoreLocalExt.defaultGraphName)
+        return DistributedGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
     }
 
     override /*suspend*/ fun commit(query: IQuery) {
