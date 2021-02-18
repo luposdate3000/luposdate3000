@@ -59,20 +59,14 @@ public class PhysicalOptimizerPartition1(query: Query) : OptimizerBase(query, EO
                             onChange()
                         }
                         is POPTripleStoreIterator -> {
-                            if (TripleStoreLocal.providesFeature(TripleStoreFeatureExt.PARTITION, null)) {
-                                try {
-                                    val p = Partition(Partition(), node.partitionVariable, 0, node.partitionCount)
-                                    val params = TripleStoreFeatureParamsPartition(c.idx, Array(3) { c.children[it] as AOPBase }, p)
-                                    if (params.getColumn() > 0 && TripleStoreLocal.providesFeature(TripleStoreFeatureExt.PARTITION, params)) {
-                                        res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, node.partitionCount, node.partitionID, c)
-                                        c.partition.limit[node.partitionVariable] = node.partitionCount
-                                        query.removePartitionOperator(node.getUUID(), node.partitionID)
-                                        query.addPartitionOperator(res.getUUID(), node.partitionID)
-                                        onChange()
-                                    }
-                                } catch (e: DontCareWhichException) {
-                                    e.printStackTrace()
-                                }
+                            try {
+                                c.changePartitionCount(node.partitionCount, node.partitionVariable)
+                                res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, node.partitionCount, node.partitionID, c)
+                                query.removePartitionOperator(node.getUUID(), node.partitionID)
+                                query.addPartitionOperator(res.getUUID(), node.partitionID)
+                                onChange()
+                            } catch (e: DontCareWhichException) {
+                                e.printStackTrace()
                             }
                         }
                     }

@@ -161,9 +161,10 @@ public class POPTripleStoreIterator(
     }
 
     public override fun cloneOP(): IOPBase = POPTripleStoreIterator(query, projectedVariables, tripleStoreDescription, tripleStoreIndexDescription, children)
-    public fun changePartitionCount(target: Int) {
+
+    public fun changePartitionCount(count: Int) {
         val currentindex = tripleStoreIndexDescription as TripleStoreIndexDescription
-        if (target == 1) {
+        if (count == 1) {
             for (index in tripleStoreDescription.getIndices(currentindex.idx)) {
                 if (index.getPartitionCount() == 1) {
                     tripleStoreIndexDescription = index
@@ -173,7 +174,52 @@ public class POPTripleStoreIterator(
         } else {
             val partitionColumn = (currentindex as TripleStoreIndexDescriptionPartitionedByID).partitionColumn
             for (index in tripleStoreDescription.getIndices(currentindex.idx)) {
-                if (index is TripleStoreIndexDescriptionPartitionedByID && index.partitionColumn == partitionColumn && index.partitionCount == target) {
+                if (index is TripleStoreIndexDescriptionPartitionedByID && index.partitionColumn == partitionColumn && index.partitionCount == count) {
+                    tripleStoreIndexDescription = index
+                    return
+                }
+            }
+        }
+        throw Exception("desired index not found")
+    }
+
+    public fun changePartitionCount(count: Int, column: String) {
+        val index = c.tripleStoreIndexDescription as TripleStoreIndexDescription
+        var partitionColumn = -1
+        if (index is TripleStoreIndexDescriptionPartitionedByID) {
+            partitionColumn = index.partitionColumn
+        } else {
+            var i = 0
+            for (cc in c.children) {
+                if (cc is AOPVariable && cc.name == node.partitionVariable) {
+                    partitionColumn = EIndexPatternHelper.tripleIndicees[index.idx][i]
+                    break
+                }
+                i++
+            }
+        }
+        if (partitionColumn == -1) {
+            throw Exception("desired index not found")
+        }
+        changePartitionCount(count, partitionColumn)
+    }
+
+    internal fun changePartitionCount(count: Int, column: Int) {
+        val currentindex = tripleStoreIndexDescription as TripleStoreIndexDescription
+        if (count == 1) {
+            if (currentindex is TripleStoreIndexDescriptionPartitionedByID) {
+                for (index in tripleStoreDescription.getIndices(currentindex.idx)) {
+                    if (index.getPartitionCount() == 1) {
+                        tripleStoreIndexDescription = index
+                        return
+                    }
+                }
+            } else {
+                return
+            }
+        } else {
+            for (index in tripleStoreDescription.getIndices(currentindex.idx)) {
+                if (index is TripleStoreIndexDescriptionPartitionedByID && index.partitionColumn == column && index.partitionCount == count) {
                     tripleStoreIndexDescription = index
                     return
                 }
