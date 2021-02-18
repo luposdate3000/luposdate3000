@@ -184,14 +184,14 @@ public class POPTripleStoreIterator(
     }
 
     public fun changePartitionCount(count: Int, column: String) {
-        val index = c.tripleStoreIndexDescription as TripleStoreIndexDescription
+        val index = tripleStoreIndexDescription as TripleStoreIndexDescription
         var partitionColumn = -1
         if (index is TripleStoreIndexDescriptionPartitionedByID) {
             partitionColumn = index.partitionColumn
         } else {
             var i = 0
-            for (cc in c.children) {
-                if (cc is AOPVariable && cc.name == node.partitionVariable) {
+            for (cc in children) {
+                if (cc is AOPVariable && cc.name == column) {
                     partitionColumn = EIndexPatternHelper.tripleIndicees[index.idx][i]
                     break
                 }
