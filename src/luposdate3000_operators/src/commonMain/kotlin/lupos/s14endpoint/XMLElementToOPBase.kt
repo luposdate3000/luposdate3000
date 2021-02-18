@@ -677,7 +677,7 @@ public fun createProjectedVariables(query: Query, node: XMLElement, mapping: Mut
         "POPJoinWithStoreExists" -> {
             res = POPJoinWithStoreExists(query, createProjectedVariables(query, node, mapping), convertToOPBase(query, node["children"]!!.childs[0], mapping), convertToOPBase(query, node["children"]!!.childs[1], mapping) as LOPTriple, node.attributes["optional"]!!.toBoolean())
         }
-        "TripleStoreIteratorGlobal" -> {
+        "POPTripleStoreIterator" -> {
             val s = convertToOPBase(query, node["sparam"]!!.childs[0], mapping) as IAOPBase
             val p = convertToOPBase(query, node["pparam"]!!.childs[0], mapping) as IAOPBase
             val o = convertToOPBase(query, node["oparam"]!!.childs[0], mapping) as IAOPBase

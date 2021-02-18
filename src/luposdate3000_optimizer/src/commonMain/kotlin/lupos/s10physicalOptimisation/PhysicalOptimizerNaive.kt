@@ -43,6 +43,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
+import lupos.s05tripleStore.tripleStoreManager
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
@@ -220,7 +221,7 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                     res.sortPrioritiesInitialized = node.sortPrioritiesInitialized
                 }
                 is LOPTriple -> {
-                    res = TripleStoreManager.getGraph(node.graph).getIterator(Array(3) { node.getChildren()[it] as IAOPBase }, EIndexPatternExt.SPO, Partition())
+                    res = tripleStoreManager.getGraph(node.graph).getIterator(Array(3) { node.getChildren()[it] as IAOPBase }, EIndexPatternExt.SPO, Partition())
                 }
                 is OPEmptyRow -> {
                     res = POPEmptyRow(query, projectedVariables)

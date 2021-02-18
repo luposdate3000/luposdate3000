@@ -23,15 +23,12 @@ import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.TripleStoreLocal
 import lupos.s00misc.USE_PARTITIONS
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.IAOPVariable
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.TripleStoreFeatureExt
-import lupos.s05tripleStore.TripleStoreFeatureParamsPartition
+import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
@@ -52,7 +49,7 @@ public class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EO
             when (node) {
                 is POPSplitPartitionFromStore -> {
                     var storeNodeTmp = node.children[0]
-                    while (storeNodeTmp !is TripleStoreIteratorGlobal) {
+                    while (storeNodeTmp !is POPTripleStoreIterator) {
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
                         storeNodeTmp = storeNodeTmp.getChildren()[0]
                     }
@@ -72,7 +69,6 @@ public class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EO
                             partitionColumn++ // constants at the front do count
                         }
                     }
-                    SanityCheck.check({ partitionColumn in 1..2 }, { "$partitionColumn ${node.partitionVariable} ${EIndexPatternExt.names[idx]} ${EIndexPatternHelper.tripleIndicees[idx].map { it }} ${storeNode.children.map { "${(it as OPBase).classname} ${(it as? IAOPVariable)?.getName()}" }}" })
                     var count = -1
                     val partitions = distributedTripleStore.getLocalStore().getDefaultGraph(query).getEnabledPartitions()
                     for (p in partitions) {
@@ -359,7 +355,7 @@ public class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EO
                             query.partitionOperatorCount.clear()
                             onChange()
                         }
-                        is TripleStoreIteratorGlobal -> {
+                        is POPTripleStoreIterator -> {
                             if (TripleStoreLocal.providesFeature(TripleStoreFeatureExt.PARTITION, null)) {
                                 try {
                                     val p = Partition(Partition(), node.partitionVariable, 0, node.partitionCount)

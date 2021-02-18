@@ -24,10 +24,10 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
+import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.s09physicalOperators.multiinput.POPJoinMerge
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 import lupos.s16network.LuposdateEndpoint
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
@@ -61,13 +61,13 @@ internal fun mainFunc(
         val query = Query()
         val p = Partition()
         p.limit["j"] = partitions
-        var op: IOPBase = TripleStoreIteratorGlobal(query, listOf("j", "a"), "", arrayOf(AOPVariable(query, "j"), AOPConstant(query, ValueIri("a")), AOPVariable(query, "a")), EIndexPatternExt.PSO, p)
+        var op: IOPBase = POPTripleStoreIterator(query, listOf("j", "a"), "", arrayOf(AOPVariable(query, "j"), AOPConstant(query, ValueIri("a")), AOPVariable(query, "a")), EIndexPatternExt.PSO, p)
         if (partitions > 1) {
             op = POPSplitPartitionFromStore(query, listOf("j", "a"), "j", partitions, 1, op)
         }
         for (j in 0 until joincount) {
             val cc = 'b' + j
-            var op2: IOPBase = TripleStoreIteratorGlobal(query, listOf("j", "$cc"), "", arrayOf(AOPVariable(query, "j"), AOPConstant(query, ValueIri("$cc")), AOPVariable(query, "$cc")), EIndexPatternExt.PSO, p)
+            var op2: IOPBase = POPTripleStoreIterator(query, listOf("j", "$cc"), "", arrayOf(AOPVariable(query, "j"), AOPConstant(query, ValueIri("$cc")), AOPVariable(query, "$cc")), EIndexPatternExt.PSO, p)
             if (partitions > 1) {
                 op2 = POPSplitPartitionFromStore(query, listOf("j", "$cc"), "j", partitions, 1, op2)
             }

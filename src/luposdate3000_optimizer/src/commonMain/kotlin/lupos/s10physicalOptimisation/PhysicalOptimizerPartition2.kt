@@ -16,17 +16,14 @@
  */
 package lupos.s10physicalOptimisation
 
-import lupos.s00misc.EIndexPatternExt
-import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.USE_PARTITIONS
-import lupos.s04arithmetikOperators.noinput.IAOPVariable
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s05tripleStore.POPTripleStoreIterator
+import lupos.s05tripleStore.TripleStoreManager
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPMergePartition
@@ -41,27 +38,12 @@ public class PhysicalOptimizerPartition2(query: Query) : OptimizerBase(query, EO
             when (node) {
                 is POPSplitPartitionFromStore -> {
                     var storeNodeTmp = node.children[0]
-                    while (storeNodeTmp !is TripleStoreIteratorGlobal) {
+                    while (storeNodeTmp !is POPTripleStoreIterator) {
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
                         storeNodeTmp = storeNodeTmp.getChildren()[0]
                     }
-                    val storeNode = storeNodeTmp
+                    val storeNode = storeNodeTmp as POPTripleStoreIterator
                     val idx = storeNode.idx
-                    var partitionColumn = 0
-                    for (ii in 0 until 3) {
-                        val i = EIndexPatternHelper.tripleIndicees[idx][ii]
-                        val param = storeNode.children[i]
-                        if (param is IAOPVariable) {
-                            if (param.getName() == node.partitionVariable) {
-                                break
-                            } else {
-                                partitionColumn++
-                            }
-                        } else {
-                            partitionColumn++ // constants at the front do count
-                        }
-                    }
-                    SanityCheck.check({ partitionColumn in 1..2 }, { "$partitionColumn ${node.partitionVariable} ${EIndexPatternExt.names[idx]} ${EIndexPatternHelper.tripleIndicees[idx].map { it }} ${storeNode.children.map { "${(it as OPBase).classname} ${(it as? IAOPVariable)?.getName()}" }}" })
                     var count = 1
                     val store = TripleStoreManager.getDefaultGraph()
                     for (index in store.getIndices(idx)) {

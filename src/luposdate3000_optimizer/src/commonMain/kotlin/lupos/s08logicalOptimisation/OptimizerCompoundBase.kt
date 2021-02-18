@@ -21,17 +21,14 @@ import lupos.s00misc.EOptimizerIDHelper
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-import kotlin.jvm.JvmField
 
 public abstract class OptimizerCompoundBase internal constructor(query: Query, optimizerID: EOptimizerID, classname: String) : OptimizerBase(query, optimizerID, classname) {
-    @JvmField
     public abstract val childrenOptimizers: Array<Array<OptimizerBase>>
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase = node
     private fun verifyPartitionOperators(node: IOPBase, allList: MutableMap<Int, MutableSet<Long>>, currentPartitions_: MutableMap<String, Int>, root: IOPBase) {
@@ -69,20 +66,6 @@ public abstract class OptimizerCompoundBase internal constructor(query: Query, o
                 currentPartitions[node.partitionVariable] = node.partitionCountFrom
                 ids.add(node.partitionIDFrom)
                 ids.add(node.partitionIDTo)
-            }
-            is POPTripleStoreIterator -> {
-                SanityCheck {
-                    SanityCheck.check({ currentPartitions.isEmpty() || currentPartitions.size == 1 }, { "$currentPartitions" })
-                    SanityCheck.check({ node.partition.limit.size == currentPartitions.size }, { "${node.partition.limit} $currentPartitions $root" })
-                    if (currentPartitions.size == 1) {
-                        for ((k, v) in node.partition.limit) {
-                            for ((k2, v2) in currentPartitions) {
-                                SanityCheck.check({ k == k2 }, { "$k $k2 $node\n$root" })
-                                SanityCheck.check({ v == -v2 }, { "$v $v2 $node\n$root" })
-                            }
-                        }
-                    }
-                }
             }
         }
         for (id in ids) {

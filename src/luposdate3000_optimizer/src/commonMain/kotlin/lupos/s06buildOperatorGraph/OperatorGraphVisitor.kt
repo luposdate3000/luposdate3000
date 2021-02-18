@@ -241,6 +241,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
+import lupos.s05tripleStore.TripleStoreManager
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import kotlin.jvm.JvmField
 

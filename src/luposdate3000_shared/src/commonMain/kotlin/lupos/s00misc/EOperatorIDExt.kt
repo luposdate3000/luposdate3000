@@ -154,11 +154,10 @@ public object EOperatorIDExt {
     public const val POPSplitPartitionFromStoreID: EOperatorID = 132
     public const val POPSplitPartitionID: EOperatorID = 133
     public const val POPSplitPartitionPassThroughID: EOperatorID = 134
-    public const val POPUnionID: EOperatorID = 135
-    public const val POPValuesID: EOperatorID = 136
-    public const val TripleStoreIteratorGlobalID: EOperatorID = 137
+    public const val POPTripleStoreIterator: EOperatorID = 135
+    public const val POPUnionID: EOperatorID = 136
+    public const val POPValuesID: EOperatorID = 137
     public const val values_size: Int = 138
-
     @JvmField
     public val names: Array<String> = arrayOf(
         "AOPAdditionID",
@@ -296,8 +295,8 @@ public object EOperatorIDExt {
         "POPSplitPartitionFromStoreID",
         "POPSplitPartitionID",
         "POPSplitPartitionPassThroughID",
+        "POPTripleStoreIterator",
         "POPUnionID",
         "POPValuesID",
-        "TripleStoreIteratorGlobalID",
     )
 }

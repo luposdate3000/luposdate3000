@@ -126,7 +126,6 @@ POPUnionID
 POPMinusID
 POPValuesID
 POPMergePartitionID
-TripleStoreIteratorGlobalID
 POPSplitPartitionID
 POPSplitPartitionFromStoreID
 POPMergePartitionCountID
@@ -136,3 +135,4 @@ POPDistributedReceiveMultiOrderedID
 POPDistributedReceiveSingleID
 POPDistributedSendMultiID
 POPDistributedSendSingleID
+POPTripleStoreIterator

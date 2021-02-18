@@ -102,7 +102,7 @@ public object OperatorGraphToLatex {
         }
         val stack = mutableListOf<StackElement>()
         for (element2 in inputString.split("<")) {
-            val element = element2.replace("TripleStoreIteratorGlobal", "LOPTriple")
+            val element = element2.replace("POPTripleStoreIterator", "LOPTriple")
             when {
                 element == "children>" || element == "/children>" || element == "LocalVariables>" || element == "/LocalVariables>" || element == "LocalVariables/>" || element == "variables>" || element == "/variables>" -> {
                 }

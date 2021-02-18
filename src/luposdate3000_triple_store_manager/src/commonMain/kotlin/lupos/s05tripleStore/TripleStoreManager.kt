@@ -19,9 +19,13 @@ package lupos.s05tripleStore
 
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
+import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EModifyType
+import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s04arithmetikOperators.IAOPBase
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -132,24 +136,45 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
 }
 
 public class POPTripleStoreIterator(
-    @JvmField internal var tripleStoreDescription: TripleStoreDescription,
-    @JvmField public var idx: EIndexPattern,
-) : POPBase {
-    fun changePartitionCount(target: Int) {
+    query: IQuery,
+    projectedVariables: List<String>,
+    @JvmField internal var tripleStoreDescription: ITripleStoreDescription,
+    @JvmField internal var tripleStoreIndexDescription: ITripleStoreIndexDescription,
+    children: Array<IOPBase>,
+) : POPBase(
+    query,
+    projectedVariables,
+    EOperatorIDExt.POPTripleStoreIterator,
+    "POPTripleStoreIterator",
+    children,
+    ESortPriorityExt.ANY_PROVIDED_VARIABLE
+) {
+    override fun getPartitionCount(variable: String): Int {
+        val index = tripleStoreIndexDescription
+        if (index is TripleStoreIndexDescriptionPartitionedByID) {
+            val c = children[EIndexPatternHelper.tripleIndicees[index.idx][index.partitionColumn]]
+            if (c is AOPVariable && c.name == variable) {
+                return index.partitionCount
+            }
+        }
+        return 1
+    }
+
+    public override fun cloneOP(): IOPBase = POPTripleStoreIterator(query, projectedVariables, tripleStoreDescription, tripleStoreIndexDescription, children)
+    public fun changePartitionCount(target: Int) {
+        val currentindex = tripleStoreIndexDescription as TripleStoreIndexDescription
         if (target == 1) {
-            for (index in tripleStoreDescription.getIndices(idx)) {
+            for (index in tripleStoreDescription.getIndices(currentindex.idx)) {
                 if (index.getPartitionCount() == 1) {
-                    tripleStoreDescription = index
-                    partition.limit[partitionVariable] = target
+                    tripleStoreIndexDescription = index
                     return
                 }
             }
         } else {
-            val partitionColumn = (tripleStoreDescription as TripleStoreIndexDescriptionPartitionedByID).partitionColumn
-            for (index in tripleStoreDescription.getIndices(idx)) {
-                if (index == TripleStoreIndexDescriptionPartitionedByID && index.partitionColumn == partitionColumn && index.partitionCount == target) {
-                    tripleStoreDescription = index
-                    partition.limit[partitionVariable] = target
+            val partitionColumn = (currentindex as TripleStoreIndexDescriptionPartitionedByID).partitionColumn
+            for (index in tripleStoreDescription.getIndices(currentindex.idx)) {
+                if (index is TripleStoreIndexDescriptionPartitionedByID && index.partitionColumn == partitionColumn && index.partitionCount == target) {
+                    tripleStoreIndexDescription = index
                     return
                 }
             }
@@ -158,13 +183,13 @@ public class POPTripleStoreIterator(
     }
 }
 
-public class TripleStoreDescription : ITripleStoreDescription(
+public class TripleStoreDescription(
     @JvmField internal val indices: Array<TripleStoreIndexDescription>
-) {
-    public fun getIndices(idx: EIndexPattern): List<ITripleStoreIndexDescription> {
+) : ITripleStoreDescription {
+    public override fun getIndices(idx: EIndexPattern): List<ITripleStoreIndexDescription> {
         var res = mutableListOf<ITripleStoreIndexDescription>()
         for (index in indices) {
-            if (indices.idx == idx) {
+            if (index.idx == idx) {
                 res.add(index)
             }
         }
@@ -179,17 +204,17 @@ public class TripleStoreDescription : ITripleStoreDescription(
         return res
     }
 
-    public fun modify(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType) {
+    public override fun modify(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType) {
         throw Exception("TODO perform the modification on every index")
         throw Exception("TODO move this into the exact index too, to be consistent with the read-case")
     }
 
-    public fun getIterator(params: Array<IAOPBase>, idx: EIndexPattern, partition: Partition): IOPBase {
+    public override fun getIterator(params: Array<IAOPBase>, idx: EIndexPattern, partition: Partition): IOPBase {
         throw Exception("TODO move this into the exact index to use - and remove partition parameter")
         throw Exception("TODO get iterator from correct remote node")
     }
 
-    public fun getHistogram(params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
+    public override fun getHistogram(params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
         throw Exception("TODO get histogram from correct remote node")
     }
 }
@@ -197,17 +222,17 @@ public class TripleStoreDescription : ITripleStoreDescription(
 public open class TripleStoreIndexDescriptionFactory : ITripleStoreIndexDescriptionFactory {
     @JvmField
     internal var res: TripleStoreIndexDescription = TripleStoreIndexDescriptionSimple(EIndexPatternExt.SPO)
-    public fun simple(idx: EIndexPattern): TripleStoreIndexDescriptionFactory {
+    public override fun simple(idx: EIndexPattern): TripleStoreIndexDescriptionFactory {
         res = TripleStoreIndexDescriptionSimple(idx)
         return this
     }
 
-    public fun partitionedByID(idx: EIndexPattern, partitionCount: Int, partitionColumn: Int): TripleStoreIndexDescriptionFactory {
+    public override fun partitionedByID(idx: EIndexPattern, partitionCount: Int, partitionColumn: Int): TripleStoreIndexDescriptionFactory {
         res = TripleStoreIndexDescriptionPartitionedByID(idx, partitionCount, partitionColumn)
         return this
     }
 
-    public fun partitionedByKey(idx: EIndexPattern, partitionCount: Int): TripleStoreIndexDescriptionFactory {
+    public override fun partitionedByKey(idx: EIndexPattern, partitionCount: Int): TripleStoreIndexDescriptionFactory {
         res = TripleStoreIndexDescriptionPartitionedByKey(idx, partitionCount)
         return this
     }
@@ -232,9 +257,10 @@ public class TripleStoreDescriptionFactory : ITripleStoreDescriptionFactory {
     }
 }
 
-public class TripleStoreManagerImpl : TripleStoreManager() {
-
-    public const val DEFAULT_GRAPH_NAME: String = ""
+public class TripleStoreManagerImpl(
+    @JvmField internal var hostnames: Array<LuposHostname>,
+    @JvmField internal var localhost: LuposHostname,
+) : TripleStoreManager() {
 
     @JvmField
     internal val localStores = mutableMapOf<LuposStoreKey, TripleStoreIndex>()
@@ -243,13 +269,7 @@ public class TripleStoreManagerImpl : TripleStoreManager() {
     internal val metadata = mutableMapOf<LuposGraphName, TripleStoreDescription>()
 
     @JvmField
-    internal var hostnames = Array<LuposHostname>(1) { "localhost" }
-
-    @JvmField
     internal var keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() }
-
-    @JvmField
-    internal var localhost: LuposHostname = ""
 
     internal fun releaseHostAndKey(host: LuposHostname, key: LuposStoreKey) {
         keysOnHostname[hostnames.indexOf(host)].remove(key)
@@ -269,17 +289,11 @@ public class TripleStoreManagerImpl : TripleStoreManager() {
         return Pair(hostnames[hostidx], "$key")
     }
 
-    public fun initialize(hosts: List<LuposHostname>, localhost: LuposHostname) {
-        this.localhost = localhost
-        hostnames = hosts.toTypedArray()
-        keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() }
-    }
-
-    public fun createGraph(query: IQuery, graphName: LuposGraphName) {
+    public override fun createGraph(query: IQuery, graphName: LuposGraphName) {
         createGraph(query, graphName, {})
     }
 
-    public fun createGraph(query: IQuery, graphName: LuposGraphName, action: (TripleStoreDescriptionFactory) -> Unit) {
+    public override fun createGraph(query: IQuery, graphName: LuposGraphName, action: (ITripleStoreDescriptionFactory) -> Unit) {
         if (metadata[graphName] != null) {
             throw Exception("graph already exist")
         }
@@ -291,30 +305,30 @@ public class TripleStoreManagerImpl : TripleStoreManager() {
         throw Exception("initialize local store")
     }
 
-    public fun resetGraph(query: IQuery, graphName: LuposGraphName) {
+    public override fun resetGraph(query: IQuery, graphName: LuposGraphName) {
         resetGraph(query, graphName, {})
     }
 
-    public fun resetGraph(query: IQuery, graphName: LuposGraphName, action: (TripleStoreDescriptionFactory) -> Unit) {
+    public override fun resetGraph(query: IQuery, graphName: LuposGraphName, action: (ITripleStoreDescriptionFactory) -> Unit) {
         val factory = TripleStoreDescriptionFactory()
         action(factory)
         val idx = factory.build()
         throw Exception("not implemented")
     }
 
-    public fun clearGraph(query: IQuery, graphName: LuposGraphName) {
+    public override fun clearGraph(query: IQuery, graphName: LuposGraphName) {
         throw Exception("not implemented")
     }
 
-    public fun dropGraph(query: IQuery, graphName: LuposGraphName) {
+    public override fun dropGraph(query: IQuery, graphName: LuposGraphName) {
         throw Exception("not implemented")
     }
 
-    public fun getGraphNames(): List<LuposGraphName> {
+    public override fun getGraphNames(): List<LuposGraphName> {
         return getGraphNames(false)
     }
 
-    public fun getGraphNames(includeDefault: Boolean): List<LuposGraphName> {
+    public override fun getGraphNames(includeDefault: Boolean): List<LuposGraphName> {
         val res = mutableListOf<LuposGraphName>()
         metadata.keys.forEach {
             if (it != DEFAULT_GRAPH_NAME || includeDefault) {
@@ -324,11 +338,11 @@ public class TripleStoreManagerImpl : TripleStoreManager() {
         return res
     }
 
-    public fun getDefaultGraph(): TripleStoreDescription {
+    public override fun getDefaultGraph(): TripleStoreDescription {
         return getGraph(DEFAULT_GRAPH_NAME)
     }
 
-    public fun getGraph(graphName: LuposGraphName): TripleStoreDescription {
+    public override fun getGraph(graphName: LuposGraphName): TripleStoreDescription {
         throw Exception("not implemented")
     }
 }

@@ -23,7 +23,7 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
-import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
+import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.s16network.LuposdateEndpoint
 
 internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
@@ -35,7 +35,7 @@ internal fun mainFunc(args: Array<String>): Unit = Parallel.runBlocking {
     val partition = Partition() // fürs erste ohne partitionierung - einfach ohne parameter überall übergeben
     val query = Query() // überall in einem query die gleiche instanz übergeben
     // SELECT ?j ?a WHERE {?j <a> ?a}
-    val x = TripleStoreIteratorGlobal(
+    val x = POPTripleStoreIterator(
         query,
         listOf("j", "a"), // Variablen fuer den output
         "", // Leerer String = Standardgraph

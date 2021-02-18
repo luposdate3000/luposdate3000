@@ -24,7 +24,6 @@ public object EGraphRefTypeExt {
     public const val IriGraphRef: EGraphRefType = 2
     public const val NamedGraphRef: EGraphRefType = 3
     public const val values_size: Int = 4
-
     @JvmField
     public val names: Array<String> = arrayOf(
         "AllGraphRef",

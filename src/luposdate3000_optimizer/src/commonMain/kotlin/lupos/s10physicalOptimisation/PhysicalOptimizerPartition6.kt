@@ -24,12 +24,11 @@ import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
-import lupos.s00misc.TripleStoreLocal
 import lupos.s00misc.USE_PARTITIONS
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.TripleStoreFeatureExt
+import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
@@ -40,7 +39,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
         var res = node
         if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {
             when (node) {
-                is TripleStoreIteratorGlobal -> {
+                is POPTripleStoreIterator -> {
                     if (TripleStoreLocal.providesFeature(TripleStoreFeatureExt.PARTITION, null)) {
                         if (node.partition.limit.isEmpty()) {
                             val enabledPartitions = distributedTripleStore.getLocalStore().getEnabledPartitions(node.graphName)

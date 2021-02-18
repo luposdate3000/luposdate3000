@@ -27,7 +27,6 @@ public object AggregationExt {
     public const val SAMPLE: Aggregation = 5
     public const val SUM: Aggregation = 6
     public const val values_size: Int = 7
-
     @JvmField
     public val names: Array<String> = arrayOf(
         "AVG",

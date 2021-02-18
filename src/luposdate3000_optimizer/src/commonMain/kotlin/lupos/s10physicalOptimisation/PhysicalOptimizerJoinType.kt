@@ -25,6 +25,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.singleinput.LOPProjection
+import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.multiinput.POPJoinCartesianProduct
@@ -39,7 +40,6 @@ import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.singleinput.POPProjection
-import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
 
 public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerJoinTypeID, "PhysicalOptimizerJoinType") {
     private fun localGetProjected(node: IOPBase, parent: IOPBase?): List<String> {
@@ -154,7 +154,7 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
                         POPJoinWithStore(query, projectedVariables, childB, childA, false)
                     } else if (node.partOfAskQuery && childB is LOPTriple && columns[2].size > 0 && childA.getProvidedVariableNames().containsAll(node.getMySortPriority().map { it.variableName })) {
                         POPJoinWithStore(query, projectedVariables, childA, childB, false)
-                    } else if (childA is TripleStoreIteratorGlobal || childA is LOPTriple && childB.getProvidedVariableNames().containsAll(node.getMySortPriority().map { it.variableName })) {
+                    } else if (childA is POPTripleStoreIterator || childA is LOPTriple && childB.getProvidedVariableNames().containsAll(node.getMySortPriority().map { it.variableName })) {
                         embedWithinPartitionContext(columns[0], childB, childA, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, false) }, keepOrder)
                     } else {
                         embedWithinPartitionContext(columns[0], childA, childB, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, false) }, keepOrder)
