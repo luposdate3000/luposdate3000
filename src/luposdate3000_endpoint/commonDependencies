@@ -5,4 +5,4 @@ luposdate3000:Luposdate3000_Optimizer#_NoPartitions:0.0.1
 luposdate3000:Luposdate3000_Operators:0.0.1
 luposdate3000:Luposdate3000_Buffer_Manager_Inmemory:0.0.1
 luposdate3000:Luposdate3000_Triple_Store_Id_Triple:0.0.1
-luposdate3000:Luposdate3000_Triple_Store_All#_NoPartitions:0.0.1
+luposdate3000:Luposdate3000_Triple_Store_Manager:0.0.1

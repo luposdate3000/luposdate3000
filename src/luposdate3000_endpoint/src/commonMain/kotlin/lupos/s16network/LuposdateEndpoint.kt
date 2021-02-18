@@ -504,7 +504,7 @@ public object LuposdateEndpoint {
     public fun initialize() {
         if (!initialized) {
             initialized = true
-            tripleStoreManager = TripleStoreManagerImp()
+            tripleStoreManager = TripleStoreManagerImpl()
             XMLElement.parseFromAnyRegistered["n3"] = XMLElementFromN3()
             XMLElement.parseFromAnyRegistered["ttl"] = XMLElementFromN3()
             XMLElement.parseFromAnyRegistered["srx"] = XMLElementFromXML()
