@@ -185,6 +185,14 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
             { true }
         )
     )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Triple_Store_Manager")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
     for (p in partitionModes) {
         res.add(
             Pair(
@@ -849,6 +857,7 @@ fun onRun() {
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Shared-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Test-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_Id_Triple-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_Manager-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer$partitionMode-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint_$endpointMode-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_$jenaWrapper-jvm$proguardMode.jar",
@@ -919,6 +928,7 @@ fun onRun() {
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Shared.js"),
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Test.js"),
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Triple_Store_Id_Triple.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Triple_Store_Manager.js"),
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager$memoryMode", "Luposdate3000_Buffer_Manager.js"),
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Dictionary_Inmemory", "Luposdate3000_Dictionary.js"),
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint_$endpointMode", "Luposdate3000_Endpoint_Launcher.js"),
@@ -1243,6 +1253,7 @@ fun onSetupJS() {
         out.println("    <script src=\"bin$appendix/Luposdate3000_Parser.js\"></script>")
         out.println("    <script src=\"bin$appendix/Luposdate3000_Result_Format.js\"></script>")
         out.println("    <script src=\"bin$appendix/Luposdate3000_Triple_Store_Id_Triple.js\"></script>")
+        out.println("    <script src=\"bin$appendix/Luposdate3000_Triple_Store_Manager.js\"></script>")
         out.println("    <script src=\"bin$appendix/Luposdate3000_Optimizer_NoPartitions/Luposdate3000_Optimizer.js\"></script>")
         out.println("    <script src=\"bin$appendix/Luposdate3000_Endpoint.js\"></script>")
         out.println("</head>")

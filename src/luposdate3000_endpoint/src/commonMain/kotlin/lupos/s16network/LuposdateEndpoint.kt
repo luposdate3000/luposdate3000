@@ -58,7 +58,6 @@ import lupos.s11outputResult.QueryResultToMemoryTable
 import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s11outputResult.QueryResultToXMLStream
 import lupos.s14endpoint.convertToOPBase
-import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.js.JsName
 
@@ -505,7 +504,7 @@ public object LuposdateEndpoint {
     public fun initialize() {
         if (!initialized) {
             initialized = true
-            distributedTripleStore = DistributedTripleStore()
+            tripleStoreManager = TripleStoreManagerImp()
             XMLElement.parseFromAnyRegistered["n3"] = XMLElementFromN3()
             XMLElement.parseFromAnyRegistered["ttl"] = XMLElementFromN3()
             XMLElement.parseFromAnyRegistered["srx"] = XMLElementFromXML()

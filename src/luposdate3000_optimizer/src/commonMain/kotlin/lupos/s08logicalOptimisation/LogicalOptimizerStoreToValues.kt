@@ -32,7 +32,7 @@ import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s15tripleStoreDistributed.distributedTripleStore
+import lupos.s05tripleStore.TripleStoreManager
 
 public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerStoreToValuesID, "LogicalOptimizerStoreToValues") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
@@ -57,7 +57,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                 }
                 if (variables.size == 0) {
                     val idx = LOPTriple.getIndex(node.getChildren(), listOf())
-                    val tmp = distributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.getChildren()[it] as IAOPBase }, idx, Partition())
+                    val tmp = TripleStoreManager.getGraph(node.graph).getIterator(Array(3) { node.getChildren()[it] as IAOPBase }, idx, Partition())
                     val tmp2 = tmp.evaluateRoot()
                     SanityCheck.check { tmp2.hasCountMode() }
                     res = if (tmp2.count() > 0) { // closed childs due to reading from count
@@ -68,7 +68,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     onChange()
                 } else if (variables.size == 1) {
                     val idx = LOPTriple.getIndex(node.getChildren(), listOf())
-                    val tmp = distributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.getChildren()[it] as IAOPBase }, idx, Partition())
+                    val tmp = TripleStoreManager.getGraph(node.graph).getIterator(Array(3) { node.getChildren()[it] as IAOPBase }, idx, Partition())
                     val tmp2 = tmp.evaluateRoot()
                     val columns = tmp2.columns
                     SanityCheck.check { columns.size == 1 }

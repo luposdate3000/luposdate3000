@@ -27,6 +27,7 @@ import lupos.s04arithmetikOperators.noinput.IAOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
+import lupos.s05tripleStore.TripleStoreManager
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPMergePartition
@@ -34,8 +35,6 @@ import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
-import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 public class PhysicalOptimizerPartition2(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition2ID, "PhysicalOptimizerPartition2") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
@@ -65,23 +64,21 @@ public class PhysicalOptimizerPartition2(query: Query) : OptimizerBase(query, EO
                     }
                     SanityCheck.check({ partitionColumn in 1..2 }, { "$partitionColumn ${node.partitionVariable} ${EIndexPatternExt.names[idx]} ${EIndexPatternHelper.tripleIndicees[idx].map { it }} ${storeNode.children.map { "${(it as OPBase).classname} ${(it as? IAOPVariable)?.getName()}" }}" })
                     var count = 1
-                    val partitions = distributedTripleStore.getLocalStore().getDefaultGraph(query).getEnabledPartitions()
-                    for (p in partitions) {
-                        if (p.index.contains(idx) && p.column == partitionColumn) {
-                            if (p.partitionCount > count) {
-                                count = p.partitionCount
-                            }
+                    val store = TripleStoreManager.getDefaultGraph()
+                    for (index in store.getIndices(idx)) {
+                        if (index is TripleStoreIndexDescriptionPartitionedByID && index.getPartitionCount() > count) {
+                            count = index.getPartitionCount()
                         }
                     }
                     val tmp = query.partitionOperatorCount[node.partitionID]
                     if (tmp == null || count < tmp) {
                         query.partitionOperatorCount[node.partitionID] = count
                         node.partitionCount = count
-                        storeNode.partition.limit[node.partitionVariable] = count
+                        storeNode.changePartitionCount(count)
                         onChange()
                     } else if (node.partitionCount != tmp) {
                         node.partitionCount = tmp
-                        storeNode.partition.limit[node.partitionVariable] = tmp
+                        storeNode.changePartitionCount(tmp)
                         onChange()
                     }
                 }

@@ -44,8 +44,6 @@ import lupos.s09physicalOperators.singleinput.POPBind
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
-import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
-import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 public class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition3ID, "PhysicalOptimizerPartition3") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

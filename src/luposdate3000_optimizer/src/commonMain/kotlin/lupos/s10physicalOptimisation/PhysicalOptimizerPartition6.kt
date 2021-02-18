@@ -34,8 +34,6 @@ import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
-import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition6ID, "PhysicalOptimizerPartition6") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

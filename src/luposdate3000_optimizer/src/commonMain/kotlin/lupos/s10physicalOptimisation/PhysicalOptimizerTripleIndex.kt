@@ -27,11 +27,10 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.singleinput.LOPProjection
+import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPProjection
-import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
-import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerTripleIndexID, "PhysicalOptimizerTripleIndex") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
@@ -68,7 +67,7 @@ public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, E
                 }
             }
             res = store.getIterator(params, LOPTriple.getIndex(node.children, node.mySortPriority.map { it.variableName }), Partition())
-            if (res is TripleStoreIteratorGlobal) {
+            if (res is POPTripleStoreIterator) {
                 res.sortPriorities = node.sortPriorities
                 res.mySortPriority = node.mySortPriority
                 res.sortPrioritiesInitialized = node.sortPrioritiesInitialized

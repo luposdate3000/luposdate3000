@@ -43,6 +43,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
+import lupos.s05tripleStore.TripleStoreManager
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
@@ -62,7 +63,6 @@ import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
-import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerNaiveID, "PhysicalOptimizerNaive") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
@@ -221,7 +221,7 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                     res.sortPrioritiesInitialized = node.sortPrioritiesInitialized
                 }
                 is LOPTriple -> {
-                    res = distributedTripleStore.getNamedGraph(query, node.graph).getIterator(Array(3) { node.getChildren()[it] as IAOPBase }, EIndexPatternExt.SPO, Partition())
+                    res = TripleStoreManager.getGraph(node.graph).getIterator(Array(3) { node.getChildren()[it] as IAOPBase }, EIndexPatternExt.SPO, Partition())
                 }
                 is OPEmptyRow -> {
                     res = POPEmptyRow(query, projectedVariables)

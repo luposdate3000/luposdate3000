@@ -25,21 +25,23 @@ import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
+import kotlin.jvm.JvmField
 
 public typealias LuposHostname = String
 public typealias LuposStoreKey = String
 public typealias LuposGraphName = String
 
-public abstract class TripleStoreIndexDescription {
+public abstract class TripleStoreIndexDescription : ITripleStoreIndexDescription(
+    @JvmField internal val idx: EIndexPattern,
+) {
     internal abstract fun assignHosts()
     internal abstract fun releaseHosts()
     internal abstract fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>>
-    public abstract fun getPartitionCount(): Int
 }
 
 public class TripleStoreIndexDescriptionSimple(
-    internal val idx: EIndexPattern,
-) : TripleStoreIndexDescription() {
+    idx: EIndexPattern,
+) : TripleStoreIndexDescription(idx) {
     internal var hostname: LuposHostname = ""
     internal var key: LuposStoreKey = ""
     internal override fun assignHosts() {
@@ -62,10 +64,10 @@ public class TripleStoreIndexDescriptionSimple(
 }
 
 public class TripleStoreIndexDescriptionPartitionedByID(
-    internal val idx: EIndexPattern,
-    internal val partitionCount: Int,
-    internal val partitionColumn: Int,
-) : TripleStoreIndexDescription() {
+    idx: EIndexPattern,
+    @JvmField internal val partitionCount: Int,
+    @JvmField internal val partitionColumn: Int,
+) : TripleStoreIndexDescription(idx) {
     internal val hostnames = Array<LuposHostname>(partitionCount) { "" }
     internal val keys = Array<LuposStoreKey>(partitionCount) { "" }
     internal override fun assignHosts() {
@@ -96,9 +98,9 @@ public class TripleStoreIndexDescriptionPartitionedByID(
 }
 
 public class TripleStoreIndexDescriptionPartitionedByKey(
-    internal val idx: EIndexPattern,
-    internal val partitionCount: Int,
-) : TripleStoreIndexDescription() {
+    idx: EIndexPattern,
+    @JvmField internal val partitionCount: Int,
+) : TripleStoreIndexDescription(idx) {
     internal val hostnames = Array<LuposHostname>(partitionCount) { "" }
     internal val keys = Array<LuposStoreKey>(partitionCount) { "" }
     internal override fun assignHosts() {
@@ -128,11 +130,44 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
     }
 }
 
-public class TripleStoreDescription(
-    internal val indices: Array<TripleStoreIndexDescription>
+public class POPTripleStoreIterator(
+    @JvmField internal var tripleStoreDescription: TripleStoreDescription,
+    @JvmField public idx: EIndexPattern,
+) : POPBase {
+    fun changePartitionCount(target: Int) {
+        if (target == 1) {
+            for (index in tripleStoreDescription.getIndices(idx)) {
+                if (index.getPartitionCount() == 1) {
+                    tripleStoreDescription = index
+                    partition.limit[partitionVariable] = target
+                    return
+                }
+            }
+        } else {
+            val partitionColumn = (tripleStoreDescription as TripleStoreIndexDescriptionPartitionedByID).partitionColumn
+            for (index in tripleStoreDescription.getIndices(idx)) {
+                if (index == TripleStoreIndexDescriptionPartitionedByID && index.partitionColumn == partitionColumn && index.partitionCount == target) {
+                    tripleStoreDescription = index
+                    partition.limit[partitionVariable] = target
+                    return
+                }
+            }
+        }
+        throw Exception("desired index not found")
+    }
+}
+
+public class TripleStoreDescription : ITripleStoreDescription(
+    @JvmField internal val indices: Array<TripleStoreIndexDescription>
 ) {
-    public fun getIndices(): Array<TripleStoreIndexDescription> {
-        return indices
+    public fun getIndices(idx: EIndexPattern): List<ITripleStoreIndexDescription> {
+        var res = mutableListOf<ITripleStoreIndexDescription>()
+        for (index in indices) {
+            if (indices.idx == idx) {
+                res.add(index)
+            }
+        }
+        return res
     }
 
     internal fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>> {
@@ -158,7 +193,8 @@ public class TripleStoreDescription(
     }
 }
 
-public open class TripleStoreIndexDescriptionFactory {
+public open class TripleStoreIndexDescriptionFactory : ITripleStoreIndexDescriptionFactory {
+    @JvmField
     internal var res: TripleStoreIndexDescription = TripleStoreIndexDescriptionSimple(EIndexPatternExt.SPO)
     public fun simple(idx: EIndexPattern): TripleStoreIndexDescriptionFactory {
         res = TripleStoreIndexDescriptionSimple(idx)
@@ -180,9 +216,10 @@ public open class TripleStoreIndexDescriptionFactory {
     }
 }
 
-public class TripleStoreDescriptionFactory {
+public class TripleStoreDescriptionFactory : ITripleStoreDescriptionFactory {
+    @JvmField
     internal var indices = mutableListOf<TripleStoreIndexDescription>()
-    public fun addIndex(action: (TripleStoreIndexDescriptionFactory) -> Unit): TripleStoreDescriptionFactory {
+    override public fun addIndex(action: (ITripleStoreIndexDescriptionFactory) -> Unit): TripleStoreDescriptionFactory {
         val factory = TripleStoreIndexDescriptionFactory()
         action(factory)
         indices.add(factory.build())
@@ -194,92 +231,98 @@ public class TripleStoreDescriptionFactory {
     }
 }
 
-public object TripleStoreManager {
-    public const val DEFAULT_GRAPH_NAME: String = ""
-    internal val localStores = mutableMapOf<LuposStoreKey, TripleStoreIndex>()
-    internal val metadata = mutableMapOf<LuposGraphName, TripleStoreDescription>()
-    internal var hostnames = Array<LuposHostname>(1) { "localhost" }
-    internal var keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() }
-    internal var localhost: LuposHostname = ""
+public class TripleStoreManagerImp : TripleStoreManager()
 
-    internal fun releaseHostAndKey(host: LuposHostname, key: LuposStoreKey) {
-        keysOnHostname[hostnames.indexOf(host)].remove(key)
-    }
+public const val DEFAULT_GRAPH_NAME: String = ""
+@JvmField
+internal val localStores = mutableMapOf<LuposStoreKey, TripleStoreIndex>()
+@JvmField
+internal val metadata = mutableMapOf<LuposGraphName, TripleStoreDescription>()
+@JvmField
+internal var hostnames = Array<LuposHostname>(1) { "localhost" }
+@JvmField
+internal var keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() }
+@JvmField
+internal var localhost: LuposHostname = ""
 
-    internal fun getNextHostAndKey(): Pair<LuposHostname, LuposStoreKey> {
-        var hostidx = 0
-        for (i in 1 until hostnames.size) {
-            if (keysOnHostname[i].size < keysOnHostname[hostidx].size) {
-                hostidx = i
-            }
+internal fun releaseHostAndKey(host: LuposHostname, key: LuposStoreKey) {
+    keysOnHostname[hostnames.indexOf(host)].remove(key)
+}
+
+internal fun getNextHostAndKey(): Pair<LuposHostname, LuposStoreKey> {
+    var hostidx = 0
+    for (i in 1 until hostnames.size) {
+        if (keysOnHostname[i].size < keysOnHostname[hostidx].size) {
+            hostidx = i
         }
-        var key = 0
-        while (keysOnHostname[hostidx].contains(key)) {
-            key++
+    }
+    var key = 0
+    while (keysOnHostname[hostidx].contains(key)) {
+        key++
+    }
+    return Pair(hostnames[hostidx], "$key")
+}
+
+public fun initialize(hosts: List<LuposHostname>, localhost: LuposHostname) {
+    this.localhost = localhost
+    hostnames = hosts.toTypedArray()
+    keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() }
+}
+
+public fun createGraph(query: IQuery, graphName: LuposGraphName) {
+    createGraph(query, graphName, {})
+}
+
+public fun createGraph(query: IQuery, graphName: LuposGraphName, action: (TripleStoreDescriptionFactory) -> Unit) {
+    if (metadata[graphName] != null) {
+        throw Exception("graph already exist")
+    }
+    val factory = TripleStoreDescriptionFactory()
+    action(factory)
+    val idx = factory.build()
+    metadata[graphName] = idx
+    throw Exception("TODO publish metadata to other nodes")
+    throw Exception("initialize local store")
+}
+
+public fun resetGraph(query: IQuery, graphName: LuposGraphName) {
+    resetGraph(query, graphName, {})
+}
+
+public fun resetGraph(query: IQuery, graphName: LuposGraphName, action: (TripleStoreDescriptionFactory) -> Unit) {
+    val factory = TripleStoreDescriptionFactory()
+    action(factory)
+    val idx = factory.build()
+    throw Exception("not implemented")
+}
+
+public fun clearGraph(query: IQuery, graphName: LuposGraphName) {
+    throw Exception("not implemented")
+}
+
+public fun dropGraph(query: IQuery, graphName: LuposGraphName) {
+    throw Exception("not implemented")
+}
+
+public fun getGraphNames(): List<LuposGraphName> {
+    return getGraphNames(false)
+}
+
+public fun getGraphNames(includeDefault: Boolean): List<LuposGraphName> {
+    val res = mutableListOf<LuposGraphName>()
+    metadata.keys.forEach {
+        if (it != DEFAULT_GRAPH_NAME || includeDefault) {
+            res.add(it)
         }
-        return Pair(hostnames[hostidx], "$key")
     }
+    return res
+}
 
-    public fun initialize(hosts: List<LuposHostname>, localhost: LuposHostname) {
-        this.localhost = localhost
-        hostnames = hosts.toTypedArray()
-        keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() }
-    }
+public fun getDefaultGraph(): TripleStoreDescription {
+    return getGraph(DEFAULT_GRAPH_NAME)
+}
 
-    public fun createGraph(query: IQuery, graphName: LuposGraphName) {
-        createGraph(query, graphName, {})
-    }
-
-    public fun createGraph(query: IQuery, graphName: LuposGraphName, action: (TripleStoreDescriptionFactory) -> Unit) {
-        if (metadata[graphName] != null) {
-            throw Exception("graph already exist")
-        }
-        val factory = TripleStoreDescriptionFactory()
-        action(factory)
-        val idx = factory.build()
-        metadata[graphName] = idx
-        throw Exception("TODO publish metadata to other nodes")
-        throw Exception("initialize local store")
-    }
-
-    public fun resetGraph(query: IQuery, graphName: LuposGraphName) {
-        resetGraph(query, graphName, {})
-    }
-
-    public fun resetGraph(query: IQuery, graphName: LuposGraphName, action: (TripleStoreDescriptionFactory) -> Unit) {
-        val factory = TripleStoreDescriptionFactory()
-        action(factory)
-        val idx = factory.build()
-        throw Exception("not implemented")
-    }
-
-    public fun clearGraph(query: IQuery, graphName: LuposGraphName) {
-        throw Exception("not implemented")
-    }
-
-    public fun dropGraph(query: IQuery, graphName: LuposGraphName) {
-        throw Exception("not implemented")
-    }
-
-    public fun getGraphNames(): List<LuposGraphName> {
-        return getGraphNames(false)
-    }
-
-    public fun getGraphNames(includeDefault: Boolean): List<LuposGraphName> {
-        val res = mutableListOf<LuposGraphName>()
-        metadata.keys.forEach {
-            if (it != DEFAULT_GRAPH_NAME || includeDefault) {
-                res.add(it)
-            }
-        }
-        return res
-    }
-
-    public fun getDefaultGraph(): TripleStoreDescription {
-        return getGraph(DEFAULT_GRAPH_NAME)
-    }
-
-    public fun getGraph(graphName: LuposGraphName): TripleStoreDescription {
-        throw Exception("not implemented")
-    }
+public fun getGraph(graphName: LuposGraphName): TripleStoreDescription {
+    throw Exception("not implemented")
+}
 }
