@@ -32,7 +32,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s05tripleStore.TripleStoreManager
+import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 
@@ -176,7 +176,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
             child.hasNext2Close()
         }
         for ((graphName, iterator) in data) {
-            val store = TripleStoreManager.getGraph(graphName)
+            val store = tripleStoreManager.getGraph(graphName)
             for (type in 0 until EModifyTypeExt.values_size) {
                 if (iterator[type][0].size > 0) {
                     store.modify(query, Array(3) { ColumnIteratorMultiValue(iterator[type][it]) }, type)

@@ -27,7 +27,6 @@ import lupos.s04arithmetikOperators.noinput.IAOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.TripleStoreManager
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPMergePartition

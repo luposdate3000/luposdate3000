@@ -38,7 +38,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s05tripleStore.TripleStoreManager
+import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 
@@ -118,7 +118,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
             }
         }
         SanityCheck.check { variablINBO.size > 0 }
-        val distributedStore = TripleStoreManager.getGraph(childB.graph)
+        val distributedStore = tripleStoreManager.getGraph(childB.graph)
         val valuesAO = IntArray(columnsINAO.size) { ResultSetDictionaryExt.nullValue }
         val valuesAJ = IntArray(columnsINAJ.size) { ResultSetDictionaryExt.nullValue }
         var count = 0

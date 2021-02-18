@@ -113,7 +113,7 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
-import lupos.s05tripleStore.TripleStoreManager
+import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.multiinput.POPJoinCartesianProduct
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
@@ -683,7 +683,7 @@ public fun createProjectedVariables(query: Query, node: XMLElement, mapping: Mut
             val o = convertToOPBase(query, node["oparam"]!!.childs[0], mapping) as IAOPBase
             val idx = EIndexPatternExt.names.indexOf(node.attributes["idx"]!!)
             val partition = convertToPartition(node["partition"]!!.childs[0])
-            res = TripleStoreManager.getGraph(node.attributes["name"]!!).getIterator(arrayOf(s, p, o), idx, partition)
+            res = tripleStoreManager.getGraph(node.attributes["name"]!!).getIterator(arrayOf(s, p, o), idx, partition)
         }
         "LOPTriple" -> {
             res = LOPTriple(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[2], mapping) as AOPBase, node.attributes["graph"]!!, node.attributes["graphVar"]!!.toBoolean())

@@ -32,6 +32,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s05tripleStore.TripleStoreManager
+import lupos.s05tripleStore.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField public val graph: String, @JvmField public val graphVar: Boolean) : LOPBase(query, EOperatorIDExt.LOPTripleID, "LOPTriple", arrayOf(s, p, o), ESortPriorityExt.ANY_PROVIDED_VARIABLE) {
@@ -133,7 +134,7 @@ public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBas
                 t as IAOPBase
             }
             val idx = getIndex(params.map { it }.toTypedArray(), listOf())
-            val store = TripleStoreManager.getGraph(graph)
+            val store = tripleStoreManager.getGraph(graph)
             val childHistogram = store.getHistogram(params, idx)
             if (childHistogram.first < res.count || res.count == -1) {
                 res.count = childHistogram.first

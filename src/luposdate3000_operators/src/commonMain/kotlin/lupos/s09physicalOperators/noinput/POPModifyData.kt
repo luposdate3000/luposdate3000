@@ -34,6 +34,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s05tripleStore.TripleStoreManager
+import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 
@@ -93,7 +94,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
             }
         }
         for ((graph, iteratorData) in iteratorDataMap) {
-            val graphLocal = TripleStoreManager.getGraph(graph)
+            val graphLocal = tripleStoreManager.getGraph(graph)
             graphLocal.modify(query, Array(3) { ColumnIteratorMultiValue(iteratorData[it]) }, type)
         }
         return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, query.getDictionary().createValue(ValueBoolean(true)))))

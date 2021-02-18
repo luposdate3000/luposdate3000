@@ -30,7 +30,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s05tripleStore.TripleStoreManager
+import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 
@@ -80,7 +80,7 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
             }
         }
         if (!done) {
-            val distributedStore = TripleStoreManager.getGraph(childB.graph)
+            val distributedStore = tripleStoreManager.getGraph(childB.graph)
             SanityCheck.println { "opening store for join with store C $uuid" }
             var iteratorB = distributedStore.getIterator(params, index, Partition()).evaluate(parent)
             res = object : IteratorBundle(0) {
