@@ -263,14 +263,6 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
     res.add(
         Pair(
             localArgs
-                .ssetModuleName("Luposdate3000_Launch_Benchmark_Fig5", "Luposdate3000_Main")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
                 .ssetModuleName("Luposdate3000_Launch_Binary_Test_Add", "Luposdate3000_Main")
                 .ssetArgs2(compileModuleArgs),
             { true }
