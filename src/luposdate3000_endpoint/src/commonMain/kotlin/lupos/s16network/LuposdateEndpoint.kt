@@ -496,6 +496,7 @@ public object LuposdateEndpoint {
             val hostnames = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80")!!.split(",").toTypedArray()
             val localhost = hostnames[Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()]
             tripleStoreManager = TripleStoreManagerImpl(hostnames, localhost)
+            tripleStoreManager.initialize()
             distributedQuery = DistributedQueryImpl()
             XMLElement.parseFromAnyRegistered["n3"] = XMLElementFromN3()
             XMLElement.parseFromAnyRegistered["ttl"] = XMLElementFromN3()

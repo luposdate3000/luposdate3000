@@ -1,6 +1,7 @@
 package lupos.s00misc
 // import com.squareup.kotlinpoet.*
-import java.io.*
+
+import java.io.File
 import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
 import javax.lang.model.element.*

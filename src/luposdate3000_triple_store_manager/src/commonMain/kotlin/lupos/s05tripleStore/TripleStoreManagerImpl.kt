@@ -40,8 +40,24 @@ public class TripleStoreManagerImpl(
     internal var keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() }
     internal lateinit var defaultTripleStoreLayout: TripleStoreDescriptionFactory
 
-    init {
+    public override fun initialize() {
         resetDefaultTripleStoreLayout()
+        val graph = defaultTripleStoreLayout.build()
+        metadata[TripleStoreManager.DEFAULT_GRAPH_NAME] = graph
+        for (index in graph.indices) {
+            index.assignHosts()
+            for (store in index.getAllLocations()) {
+                if (store.first == localhost) {
+                    var page: Int = 0
+                    bufferManager.createPage { byteArray, pageid ->
+                        page = pageid
+                    }
+                    localStores[store.second] = TripleStoreIndexIDTriple(page, false)
+                } else {
+                    throw Exception("createGraph on other nodes")
+                }
+            }
+        }
     }
 
     public override fun resetDefaultTripleStoreLayout() {

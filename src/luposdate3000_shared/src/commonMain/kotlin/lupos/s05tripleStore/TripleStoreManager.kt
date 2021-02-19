@@ -20,4 +20,5 @@ public abstract class TripleStoreManager {
     public abstract fun getGraphNames(includeDefault: Boolean): List<LuposGraphName>
     public abstract fun getDefaultGraph(): ITripleStoreDescription
     public abstract fun getGraph(graphName: LuposGraphName): ITripleStoreDescription
+    public abstract fun initialize()
 }
