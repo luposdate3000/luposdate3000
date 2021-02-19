@@ -23,7 +23,6 @@ import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -32,10 +31,6 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
-
-public typealias LuposHostname = String
-public typealias LuposStoreKey = String
-public typealias LuposGraphName = String
 
 public abstract class TripleStoreIndexDescription(
     @JvmField internal val idx: EIndexPattern,
@@ -247,18 +242,71 @@ public class TripleStoreDescription(
     }
 
     public override fun modify(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType) {
-        throw Exception("TODO perform the modification on every index")
-        throw Exception("TODO move this into the exact index too, to be consistent with the read-case")
+        val bufSize = 100
+        val buf = IntArray(bufSize)
+        val bufSize = 100
+        val bufLimit = (bufSize / 3) * 3
+        loop@ while (true) {
+            var i = 0
+            while (i < bufLimit) {
+                buf[i++] = columns[0].next()
+                buf[i++] = columns[1].next()
+                buf[i++] = columns[2].next()
+                if (buf[i - 1] == ResultSetDictionaryExt.nullValue) {
+                    i -= 3
+                    break
+                }
+            }
+            for (index in indices) {
+                for (store in index.getAllLocations()) {
+                    if (store.first == localhost) {
+                        val tmp = tripleStoreManager.localStores[store.second]!!
+                        if (type == EModifyTypeExt.Insert) {
+                            tmp.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[index.idx], i)
+                        } else
+                            tmp.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[index.idx], i)
+                    }
+                }else{
+                    throw Exception("modify send to other nodes")
+                }
+            }
+        }
     }
+}
 
-    public override fun getIterator(params: Array<IAOPBase>, idx: EIndexPattern, partition: Partition): IOPBase {
-        throw Exception("TODO move this into the exact index to use - and remove partition parameter")
-        throw Exception("TODO get iterator from correct remote node")
+public override fun getIterator(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): IOPBase {
+    for (index in indices) {
+        if (index.idx == idx) {
+            val projectedVariables = mutableListOf<String>()
+            for (param in params) {
+                if (param is AOPVariable) {
+                    projectedVariables.add(param.name)
+                }
+            }
+            return POPTripleStoreIterator(query, projectedVariables, index, params)
+        }
     }
+    throw Exception("no valid index found")
+}
 
-    public override fun getHistogram(params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
-        throw Exception("TODO get histogram from correct remote node")
+public override fun getHistogram(params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
+    for (index in indices) {
+        if (index.idx == idx) {
+            var first = 0
+            var second = 0
+            for (store in index.getAllLocations()) {
+                if (store.first == localhost) {
+                    val tmp = tripleStoreManager.localStores[store.second]!!.getHistogram(params)
+                    first += tmp.first
+                    second += tmp.second
+                } else {
+                    throw Exception("getHistogram send to remote node")
+                }
+            }
+            return Pair(first, second)
+        }
     }
+}
 }
 
 public open class TripleStoreIndexDescriptionFactory : ITripleStoreIndexDescriptionFactory {
@@ -314,6 +362,8 @@ public class TripleStoreManagerImpl(
     @JvmField internal var hostnames: Array<LuposHostname>,
     @JvmField internal var localhost: LuposHostname,
 ) : TripleStoreManager() {
+    @JvmField
+    internal val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
 
     @JvmField
     internal val localStores = mutableMapOf<LuposStoreKey, TripleStoreIndex>()
@@ -379,10 +429,22 @@ public class TripleStoreManagerImpl(
         }
         val factory = TripleStoreDescriptionFactory()
         action(factory)
-        val idx = factory.build()
-        metadata[graphName] = idx
-        throw Exception("TODO publish metadata to other nodes")
-        throw Exception("initialize local store")
+        val graph = factory.build()
+        metadata[graphName] = graph
+        for (index in graph.indices) {
+            index.assignHosts()
+            for (store in index.getAllLocations()) {
+                if (store.first == localhost) {
+                    var page: Int = 0
+                    bufferManager.createPage { byteArray, pageid ->
+                        page = pageid
+                    }
+                    localStores[store.second] = TripleStoreIndexIDTriple(page, false)
+                } else {
+                    throw Exception("createGraph on other nodes")
+                }
+            }
+        }
     }
 
     public override fun resetGraph(query: IQuery, graphName: LuposGraphName) {
@@ -396,11 +458,36 @@ public class TripleStoreManagerImpl(
     }
 
     public override fun clearGraph(query: IQuery, graphName: LuposGraphName) {
-        throw Exception("not implemented")
+        val graph = metadata[graphName]
+        if (graph != null) {
+            for (index in graph.indices) {
+                for (store in index.getAllLocations()) {
+                    if (store.first == localhost) {
+                        localStores[store.second]!!.clear()
+                    } else {
+                        throw Exception("clearGraph on other nodes")
+                    }
+                }
+            }
+        }
     }
 
     public override fun dropGraph(query: IQuery, graphName: LuposGraphName) {
-        throw Exception("not implemented")
+        val graph = metadata[graphName]
+        if (graph != null) {
+            for (index in graph.indices) {
+                for (store in index.getAllLocations()) {
+                    if (store.first == localhost) {
+                        localStores[store.second]!!.clear()
+                        val page = localStores[store.second]!!.store_root_page_id
+                        buffermanager.deletePage(page)
+                        localStores.remove(store.second)
+                    } else {
+                        throw Exception("deleteGraph on other nodes")
+                    }
+                }
+            }
+        }
     }
 
     public override fun getGraphNames(): List<LuposGraphName> {
@@ -422,10 +509,21 @@ public class TripleStoreManagerImpl(
     }
 
     public override fun getGraph(graphName: LuposGraphName): TripleStoreDescription {
-        throw Exception("not implemented")
+        return metadata[graphName]
     }
 
     public override fun commit(query: IQuery) {
-        throw Exception("not implemented")
+        val graph = metadata[graphName]
+        if (graph != null) {
+            for (index in graph.indices) {
+                for (store in index.getAllLocations()) {
+                    if (store.first == localhost) {
+                        localStores[store.second]!!.commit(query)
+                    } else {
+                        throw Exception("commit on other nodes")
+                    }
+                }
+            }
+        }
     }
 }

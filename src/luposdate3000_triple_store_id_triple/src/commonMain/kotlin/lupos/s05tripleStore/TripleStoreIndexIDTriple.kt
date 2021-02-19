@@ -50,7 +50,7 @@ import kotlin.jvm.JvmField
 
 public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex(store_root_page_id_) {
     @JvmField
-    public val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
+    internal val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
 
     @JvmField
     public var firstLeaf_: Int = NodeManager.nodeNullPointer
@@ -922,11 +922,11 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
 //
     }
 
-    override /*suspend*/ fun insertAsBulk(data: IntArray, order: IntArray) {
+    override /*suspend*/ fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
         flushContinueWithWriteLock()
-        val d = arrayOf(data, IntArray(data.size))
-        TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
-        val iteratorImport = BulkImportIterator(d[0], data.size, order)
+        val d = arrayOf(data, IntArray(dataSize))
+        TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
+        val iteratorImport = BulkImportIterator(d[0], dataSize, order)
         var iteratorStore2: TripleIterator? = null
         if (firstLeaf == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
@@ -951,11 +951,11 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         lock.writeUnlock()
     }
 
-    override /*suspend*/ fun removeAsBulk(data: IntArray, order: IntArray) {
+    override /*suspend*/ fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
         flushContinueWithWriteLock()
-        val d = arrayOf(data, IntArray(data.size))
-        TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, data.size / 3, order)
-        val iteratorImport = BulkImportIterator(d[0], data.size, order)
+        val d = arrayOf(data, IntArray(dataSize))
+        TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
+        val iteratorImport = BulkImportIterator(d[0], dataSize, order)
         var iteratorStore2: TripleIterator? = null
         if (firstLeaf == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
