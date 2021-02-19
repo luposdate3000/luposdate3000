@@ -20,19 +20,21 @@ package lupos.s05tripleStore
 import lupos.s00misc.EIndexPattern
 import kotlin.jvm.JvmField
 
-public abstract class TripleStoreIndexDescription(
-    @JvmField internal val idx: EIndexPattern,
-) : ITripleStoreIndexDescription {
+public abstract class TripleStoreIndexDescription() : ITripleStoreIndexDescription {
+    @JvmField
+    internal var idx_set: IntArray = intArrayOf()
+
     @JvmField
     internal var tripleStoreDescription: TripleStoreDescription = TripleStoreDescriptionDummy
     internal abstract fun assignHosts()
     internal abstract fun releaseHosts()
+    internal fun hasPattern(idx: EIndexPattern): Boolean = idx_set.contains(idx)
     internal abstract fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>>
     internal fun getIndexWithMaximumPartitions(max_partitions: Int?, column: Int): ITripleStoreIndexDescription {
         var count = -1
         var currentindex: TripleStoreIndexDescription = this
         for (index in tripleStoreDescription.indices) {
-            if (index.idx == idx &&
+            if (index.hasPattern(idx_set[0]) &&
                 (
                     index is TripleStoreIndexDescriptionPartitionedByID &&
                         (max_partitions == null || index.partitionCount < max_partitions) &&
@@ -51,5 +53,18 @@ public abstract class TripleStoreIndexDescription(
             return currentindex
         }
         throw Exception("no matching index found")
+    }
+
+    public override fun toXMLElement(): XMLElement {
+        val res = XMLElement("TripleStoreIndexDescription")
+        val manager = tripleStoreManager as TripleStoreManagerImpl
+        for ((k, v) in manager.metadata) {
+            if (v == tripleStoreDescription) {
+                res.addAttribute("graphName", k)
+                break
+            }
+        }
+        res.addAttribute("pattern", EIndexPatternExt.names[idx_set[0]])
+        return res
     }
 }

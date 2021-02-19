@@ -18,14 +18,30 @@
 package lupos.s05tripleStore
 
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EIndexPatternExt
+import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
 
 public class TripleStoreIndexDescriptionPartitionedByKey(
     idx: EIndexPattern,
     @JvmField internal val partitionCount: Int,
-) : TripleStoreIndexDescription(idx) {
+) : TripleStoreIndexDescription() {
     internal val hostnames = Array<LuposHostname>(partitionCount) { "" }
     internal val keys = Array<LuposStoreKey>(partitionCount) { "" }
+
+    init {
+        idx_set = when (idx) {
+            EIndexPatternExt.SPO, EIndexPatternExt.SOP, EIndexPatternExt.PSO, EIndexPatternExt.POS, EIndexPatternExt.OPS, EIndexPatternExt.OPS -> intArrayOf(EIndexPatternExt.SPO, EIndexPatternExt.SOP, EIndexPatternExt.PSO, EIndexPatternExt.POS, EIndexPatternExt.OPS, EIndexPatternExt.OPS)
+            EIndexPatternExt.S_PO, EIndexPatternExt.S_OP -> intArrayOf(EIndexPatternExt.S_PO, EIndexPatternExt.S_OP)
+            EIndexPatternExt.P_SO, EIndexPatternExt.P_OS -> intArrayOf(EIndexPatternExt.P_SO, EIndexPatternExt.P_OS)
+            EIndexPatternExt.O_SP, EIndexPatternExt.O_PS -> intArrayOf(EIndexPatternExt.O_SP, EIndexPatternExt.O_PS)
+            EIndexPatternExt.SP_O, EIndexPatternExt.PS_O -> intArrayOf(EIndexPatternExt.SP_O, EIndexPatternExt.PS_O)
+            EIndexPatternExt.SO_P, EIndexPatternExt.OS_P -> intArrayOf(EIndexPatternExt.SO_P, EIndexPatternExt.OS_P)
+            EIndexPatternExt.PO_S, EIndexPatternExt.OP_S -> intArrayOf(EIndexPatternExt.PO_S, EIndexPatternExt.OP_S)
+            else -> SanityCheck.checkUnreachable()
+        }
+    }
+
     internal override fun assignHosts() {
         for (i in 0 until partitionCount) {
             val tmp = (tripleStoreManager as TripleStoreManagerImpl).getNextHostAndKey()
@@ -49,6 +65,13 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
         for (i in 0 until partitionCount) {
             res.add(Pair(hostnames[i], keys[i]))
         }
+        return res
+    }
+
+    public override fun toXMLElement(): XMLElement {
+        val res = super.toXMLElement()
+        res.addAttribute("type", "TripleStoreIndexDescriptionPartitionedByKey")
+        res.addAttribute("partitionCount", "$partitionCount")
         return res
     }
 }

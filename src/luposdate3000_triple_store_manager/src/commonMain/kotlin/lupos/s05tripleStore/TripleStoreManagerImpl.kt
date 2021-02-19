@@ -189,6 +189,40 @@ public class TripleStoreManagerImpl(
         return getGraph(DEFAULT_GRAPH_NAME)
     }
 
+    public override fun getIndexFromXML(node: XMLElement): TripleStoreIndexDescription {
+        val graph = metadata[node.attributes["graphName"]]!!
+        val idx = EIndexPatternExt.names.indexOf(node.attributes["pattern"]!!)
+        for (index in graph.indices) {
+            if (index.hasPattern(idx)) {
+                when (index) {
+                    is TripleStoreIndexDescriptionPartitionedByID -> {
+                        if (node.attributes["type"] == "TripleStoreIndexDescriptionPartitionedByID") {
+                            if (index.partitionCount == node.attributes["partitionCount"]!!.toInt()) {
+                                if (index.partitionColumn == node.attributes["partitionColumn"]!!.toInt()) {
+                                    return index
+                                }
+                            }
+                        }
+                    }
+                    is TripleStoreIndexDescriptionPartitionedByKey -> {
+                        if (node.attributes["type"] == "TripleStoreIndexDescriptionPartitionedByKey") {
+                            if (index.partitionCount == node.attributes["partitionCount"]!!.toInt()) {
+                                return index
+                            }
+                        }
+                    }
+                    is TripleStoreIndexDescriptionSimple -> {
+                        if (node.attributes["type"] == "TripleStoreIndexDescriptionSimple") {
+                            return index
+                        }
+                    }
+                    else -> throw Exception("unexpected type")
+                }
+            }
+        }
+        throw Exception("desired index not found")
+    }
+
     public override fun getGraph(graphName: LuposGraphName): TripleStoreDescription {
         return metadata[graphName]!!
     }

@@ -20,10 +20,12 @@ package lupos.s05tripleStore
 import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 
@@ -45,12 +47,24 @@ public class POPTripleStoreIterator(
 
     @JvmField
     public var hasSplitFromStore: Boolean = false
+
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
+        var res = super.toXMLElement(partial)
+        res.addContent(XMLElement("sparam").addContent(children[0].toXMLElement(partial)))
+        res.addContent(XMLElement("pparam").addContent(children[1].toXMLElement(partial)))
+        res.addContent(XMLElement("oparam").addContent(children[2].toXMLElement(partial)))
+        res.addContent(XMLElement("idx").addContent(tripleStoreIndexDescription.toXMLElement()))
+        return res
+// tripleStoreManager.getIndexFromXML(node["idx"])
+    }
+
+    override fun childrenToVerifyCount(): Int = 0
     public fun changeToIndexWithMaximumPartitions(max_partitions: Int?, column: String): Int {
         var partition_column = -1
         for (i in 0 until 3) {
             val c = children[i]
             if (c is AOPVariable && c.name == column) {
-                partition_column = EIndexPatternHelper.tripleIndicees[(tripleStoreIndexDescription as TripleStoreIndexDescription).idx][i]
+                partition_column = EIndexPatternHelper.tripleIndicees[(tripleStoreIndexDescription as TripleStoreIndexDescription).idx_set[0]][i]
                 break
             }
         }
@@ -74,7 +88,7 @@ public class POPTripleStoreIterator(
                 if (c is AOPVariable && c.name == variable) {
                     val currentindex = tripleStoreIndexDescription
                     if (currentindex is TripleStoreIndexDescriptionPartitionedByID &&
-                        currentindex.partitionColumn == EIndexPatternHelper.tripleIndicees[currentindex.idx][i]
+                        currentindex.partitionColumn == EIndexPatternHelper.tripleIndicees[currentindex.idx_set[0]][i]
                     ) {
                         return count
                     }
@@ -86,4 +100,7 @@ public class POPTripleStoreIterator(
     }
 
     public override fun cloneOP(): IOPBase = POPTripleStoreIterator(query, projectedVariables, tripleStoreIndexDescription, children)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
+        throw Exception("not implemented")
+    }
 }

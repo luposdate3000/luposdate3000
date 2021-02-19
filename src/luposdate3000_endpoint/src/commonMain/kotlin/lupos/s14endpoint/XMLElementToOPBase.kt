@@ -16,7 +16,6 @@
  */
 package lupos.s14endpoint
 
-import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
@@ -689,8 +688,8 @@ private fun createProjectedVariables(query: Query, node: XMLElement, mapping: Mu
             val s = convertToOPBase(query, node["sparam"]!!.childs[0], mapping) as IAOPBase
             val p = convertToOPBase(query, node["pparam"]!!.childs[0], mapping) as IAOPBase
             val o = convertToOPBase(query, node["oparam"]!!.childs[0], mapping) as IAOPBase
-            val idx = EIndexPatternExt.names.indexOf(node.attributes["idx"]!!)
-            res = tripleStoreManager.getGraph(node.attributes["name"]!!).getIterator(query, arrayOf(s, p, o), idx)
+            val tripleStoreIndexDescription = tripleStoreManager.getIndexFromXML(node["idx"])
+            res = POPTripleStoreIterator(query, createProjectedVariables(query, node, mapping), tripleStoreIndexDescription, arrayOf<IOPBase>(s, p, o))
         }
         "LOPTriple" -> {
             res = LOPTriple(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[2], mapping) as AOPBase, node.attributes["graph"]!!, node.attributes["graphVar"]!!.toBoolean())

@@ -19,6 +19,7 @@ package lupos.s05tripleStore
 
 import lupos.s00misc.BugException
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
@@ -39,7 +40,7 @@ public class TripleStoreDescription(
     public override fun getIndices(idx: EIndexPattern): List<ITripleStoreIndexDescription> {
         var res = mutableListOf<ITripleStoreIndexDescription>()
         for (index in indices) {
-            if (index.idx == idx) {
+            if (index.hasPattern(idx)) {
                 res.add(index)
             }
         }
@@ -75,9 +76,9 @@ public class TripleStoreDescription(
                     if (store.first == (tripleStoreManager as TripleStoreManagerImpl).localhost) {
                         val tmp = (tripleStoreManager as TripleStoreManagerImpl).localStores[store.second]!!
                         if (type == EModifyTypeExt.INSERT) {
-                            tmp.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[index.idx], i)
+                            tmp.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[index.idx_set[0]], i)
                         } else {
-                            tmp.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[index.idx], i)
+                            tmp.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[index.idx_set[0]], i)
                         }
                     } else {
                         throw Exception("modify send to other nodes")
@@ -89,7 +90,7 @@ public class TripleStoreDescription(
 
     public override fun getIterator(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): IOPBase {
         for (index in indices) {
-            if (index.idx == idx) {
+            if (index.hasPattern(idx)) {
                 val projectedVariables = mutableListOf<String>()
                 for (param in params) {
                     if (param is AOPVariable) {
@@ -103,6 +104,7 @@ public class TripleStoreDescription(
     }
 
     public override fun getHistogram(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
+        println("getHistogram ${params.map { it.toString() }} ${EIndexPatternExt.names[idx]}")
         var variableCount = 0
         val filter2 = mutableListOf<Int>()
         for (ii in 0 until 3) {
@@ -123,11 +125,14 @@ public class TripleStoreDescription(
             throw BugException("TripleStoreFeature", "Filter can not be calculated using multipe variables at once. ${params.map { it.toSparql() }}")
         }
         val filter = IntArray(filter2.size) { filter2[it] }
+        println("filter ${filter.map { it }}")
         for (index in indices) {
-            if (index.idx == idx) {
+            println("check index ${index.idx_set.map { EIndexPatternExt.names[it] }}")
+            if (index.hasPattern(idx)) {
                 var first = 0
                 var second = 0
                 for (store in index.getAllLocations()) {
+                    println("  check location $store")
                     if (store.first == (tripleStoreManager as TripleStoreManagerImpl).localhost) {
                         val tmp = (tripleStoreManager as TripleStoreManagerImpl).localStores[store.second]!!.getHistogram(query, filter)
                         first += tmp.first
