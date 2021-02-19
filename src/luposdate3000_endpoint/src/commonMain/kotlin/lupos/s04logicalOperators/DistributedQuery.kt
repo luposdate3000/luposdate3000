@@ -121,22 +121,23 @@ internal class DistributedQueryImpl : IDistributedQuery {
         }
     }
 
-    public fun initialize(query: Query): IOPBase {
-        query.operatorgraphParts.clear()
-        query.operatorgraphParts[""] = query.root!!.toXMLElement(true)
-        query.operatorgraphPartsToHostMap[""] = Partition.myProcessUrls[Partition.myProcessId]
-        initialize_helper(query, query.root!!, mutableMapOf(), true)
-        for ((k, v) in query.operatorgraphParts) {
+    public override fun initialize(query: IQuery): IOPBase {
+        val query2 = query as Query
+        query2.operatorgraphParts.clear()
+        query2.operatorgraphParts[""] = query2.root!!.toXMLElement(true)
+        query2.operatorgraphPartsToHostMap[""] = Partition.myProcessUrls[Partition.myProcessId]
+        initialize_helper(query, query2.root!!, mutableMapOf(), true)
+        for ((k, v) in query2.operatorgraphParts) {
             println("subgraph $k")
             println(v.toPrettyString())
         }
         println("host mappings :: init")
         var dependenciesMap = mutableMapOf<String, List<String>>()
-        for ((k, v) in query.operatorgraphParts) {
+        for ((k, v) in query2.operatorgraphParts) {
             val dependencies = mutableListOf<String>()
             walkXMLElement(v, dependencies)
             dependenciesMap[k] = dependencies
-            println("$k :: ${query.operatorgraphPartsToHostMap[k] ?: "?"} :: $dependencies")
+            println("$k :: ${query2.operatorgraphPartsToHostMap[k] ?: "?"} :: $dependencies")
         }
         var changed = true
         var iteration = 0
@@ -144,47 +145,47 @@ internal class DistributedQueryImpl : IDistributedQuery {
             changed = false
             println("host mappings :: iteration $iteration")
             iteration++
-            for ((k, v) in query.operatorgraphParts) {
-                if (!query.operatorgraphPartsToHostMap.contains(k)) {
+            for ((k, v) in query2.operatorgraphParts) {
+                if (!query2.operatorgraphPartsToHostMap.contains(k)) {
                     var possibleHosts = mutableSetOf<String>()
                     for (s in dependenciesMap[k]!!) {
-                        possibleHosts.add(query.operatorgraphPartsToHostMap[s] ?: "?")
+                        possibleHosts.add(query2.operatorgraphPartsToHostMap[s] ?: "?")
                     }
                     println("possibleHosts $possibleHosts")
                     if (possibleHosts.size == 1) {
-                        query.operatorgraphPartsToHostMap[k] = possibleHosts.first()
+                        query2.operatorgraphPartsToHostMap[k] = possibleHosts.first()
                         changed = true
                     }
                 }
-                println("$k :: ${query.operatorgraphPartsToHostMap[k] ?: "?"}")
+                println("$k :: ${query2.operatorgraphPartsToHostMap[k] ?: "?"}")
             }
             if (!changed) {
-                loop@ for ((k, v) in query.operatorgraphParts) {
-                    if (!query.operatorgraphPartsToHostMap.contains(k)) {
+                loop@ for ((k, v) in query2.operatorgraphParts) {
+                    if (!query2.operatorgraphPartsToHostMap.contains(k)) {
                         var possibleHosts = mutableSetOf<String>()
                         for (s in dependenciesMap[k]!!) {
-                            possibleHosts.add(query.operatorgraphPartsToHostMap[s] ?: "?")
+                            possibleHosts.add(query2.operatorgraphPartsToHostMap[s] ?: "?")
                         }
                         possibleHosts.remove("?")
                         println("possibleHosts $possibleHosts")
                         if (possibleHosts.size > 0) {
-                            query.operatorgraphPartsToHostMap[k] = possibleHosts.first()
+                            query2.operatorgraphPartsToHostMap[k] = possibleHosts.first()
                             changed = true
                             break@loop
                         }
                     }
-                    println("$k :: ${query.operatorgraphPartsToHostMap[k] ?: "?"}")
+                    println("$k :: ${query2.operatorgraphPartsToHostMap[k] ?: "?"}")
                 }
             }
         }
         var res: XMLElement? = null
-        println("mapping :: ${query.operatorgraphPartsToHostMap}")
-        for ((k, v) in query.operatorgraphParts) {
-            updateXMLtargets(v, query.operatorgraphPartsToHostMap)
+        println("mapping :: ${query2.operatorgraphPartsToHostMap}")
+        for ((k, v) in query2.operatorgraphParts) {
+            updateXMLtargets(v, query2.operatorgraphPartsToHostMap)
             if (k == "") {
                 res = v
             } else {
-                query.communicationHandler!!.sendData(query.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
+                query2.communicationHandler!!.sendData(query2.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
             }
         }
         return XMLElement.convertToOPBase(query, res!!)

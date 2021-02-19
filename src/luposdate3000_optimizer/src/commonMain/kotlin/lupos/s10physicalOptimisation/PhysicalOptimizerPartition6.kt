@@ -35,7 +35,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
             when (node) {
                 is POPTripleStoreIterator -> {
                     if (!node.hasSplitFromStore) {
-                        val partitionVariable = ""
+                        var partitionVariable = ""
                         var new_count = -1
                         for (c in node.children) {
                             if (c is AOPVariable) {

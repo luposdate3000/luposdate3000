@@ -43,9 +43,13 @@ import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s03resultRepresentation.nodeGlobalDictionary
+import lupos.s04logicalOperators.DistributedQueryImpl
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.distributedQuery
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
+import lupos.s05tripleStore.TripleStoreManagerImpl
+import lupos.s05tripleStore.tripleStoreManager
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
@@ -58,7 +62,6 @@ import lupos.s11outputResult.QueryResultToMemoryTable
 import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s11outputResult.QueryResultToXMLStream
 import lupos.s14endpoint.convertToOPBase
-import lupos.s15tripleStoreDistributed.distributedTripleStore
 import kotlin.js.JsName
 
 /*
@@ -102,7 +105,7 @@ public object LuposdateEndpoint {
         try {
             val query = Query()
             var counter = 0
-            val store = distributedTripleStore.getDefaultGraph(query)
+            val store = tripleStoreManager.getDefaultGraph()
             val bufS = IntArray(1048576)
             val bufP = IntArray(1048576)
             val bufO = IntArray(1048576)
@@ -124,7 +127,7 @@ public object LuposdateEndpoint {
                         /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
                             counter++
                             if (bufPos == bufS.size) {
-                                store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                                store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
                                 bufPos = 0
                             }
                             bufS[bufPos] = helperImportRaw(bnodeDict, s)
@@ -136,7 +139,7 @@ public object LuposdateEndpoint {
                     x.ltit = ltit
                     x.turtleDoc()
                     if (bufPos > 0) {
-                        store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                        store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
                         bufPos = 0
                     }
                 } catch (e: lupos.s02buildSyntaxTree.ParseError) {
@@ -144,7 +147,7 @@ public object LuposdateEndpoint {
                     throw e
                 }
             }
-            distributedTripleStore.commit(query)
+            tripleStoreManager.commit(query)
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             SanityCheck.println { "TODO exception 15" }
@@ -159,7 +162,7 @@ public object LuposdateEndpoint {
         try {
             val query = Query()
             var counter = 0
-            val store = distributedTripleStore.getDefaultGraph(query)
+            val store = tripleStoreManager.getDefaultGraph()
             val bufS = IntArray(1048576)
             val bufP = IntArray(1048576)
             val bufO = IntArray(1048576)
@@ -173,7 +176,7 @@ public object LuposdateEndpoint {
                         override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                             counter++
                             if (bufPos == bufS.size) {
-                                store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                                store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
                                 bufPos = 0
                             }
                             bufS[bufPos] = helperImportRaw(bnodeDict, triple[0])
@@ -184,7 +187,7 @@ public object LuposdateEndpoint {
                     }
                     x.turtleDoc()
                     if (bufPos > 0) {
-                        store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                        store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
                         bufPos = 0
                     }
                 } catch (e: Exception) {
@@ -193,7 +196,7 @@ public object LuposdateEndpoint {
                     throw e
                 }
             }
-            distributedTripleStore.commit(query)
+            tripleStoreManager.commit(query)
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             return importTurtleFilesOld(fileNames, bnodeDict)
@@ -211,7 +214,7 @@ public object LuposdateEndpoint {
         try {
             val query = Query()
             var counter = 0
-            val store = distributedTripleStore.getDefaultGraph(query)
+            val store = tripleStoreManager.getDefaultGraph()
             val bufS = IntArray(1048576)
             val bufP = IntArray(1048576)
             val bufO = IntArray(1048576)
@@ -222,7 +225,7 @@ public object LuposdateEndpoint {
                     override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                         counter++
                         if (bufPos == bufS.size) {
-                            store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                            store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
                             bufPos = 0
                         }
                         bufS[bufPos] = helperImportRaw(bnodeDict, triple[0])
@@ -233,7 +236,7 @@ public object LuposdateEndpoint {
                 }
                 x.turtleDoc()
                 if (bufPos > 0) {
-                    store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                    store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
                     bufPos = 0
                 }
             } catch (e: Exception) {
@@ -241,7 +244,7 @@ public object LuposdateEndpoint {
                 e.printStackTrace()
                 throw e
             }
-            distributedTripleStore.commit(query)
+            tripleStoreManager.commit(query)
             return "successfully imported $counter Triples"
         } catch (e: Exception) {
             e.printStackTrace()
@@ -255,58 +258,40 @@ public object LuposdateEndpoint {
     }
 
     public fun setEstimatedPartitionsFromFile(filename: String) {
-        Partition.estimatedPartitions0.clear()
-        Partition.estimatedPartitions1.clear()
-        Partition.estimatedPartitions2.clear()
-        Partition.estimatedPartitionsValid = true
-        val filePartitions = File("$filename")
-        try {
-            filePartitions.forEachLine {
-                val t = it.split(",")
-                if (t[1] == "-1") {
-                    Partition.estimatedPartitions0.add(t[0])
-                } else if (t[1] == "1") {
-                    var t2 = Partition.estimatedPartitions1[t[0]]
-                    if (t2 == null) {
-                        t2 = mutableSetOf()
-                        Partition.estimatedPartitions1[t[0]] = t2
-                    }
-                    if (t[2].toInt() > 1) {
-                        t2.add(t[2].toInt())
+        tripleStoreManager.updateDefaultTripleStoreLayout { layout ->
+            val filePartitions = File("$filename")
+            try {
+                filePartitions.forEachLine {
+                    val t = it.split(",")
+                    val idx = EIndexPatternExt.names.indexOf(t[0])
+                    if (t[1] == "-1") {
+                        layout.addIndex { it.simple(idx) }
+                    } else if (t[1] == "1") {
+                        layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 1) }
                         if (t[2].toInt() > Partition.default_k) {
                             Partition.default_k = t[2].toInt()
                         }
-                    }
-                } else if (t[1] == "2") {
-                    var t2 = Partition.estimatedPartitions2[t[0]]
-                    if (t2 == null) {
-                        t2 = mutableSetOf()
-                        Partition.estimatedPartitions2[t[0]] = t2
-                    }
-                    if (t[2].toInt() > 0) {
-                        t2.add(t[2].toInt())
+                    } else if (t[1] == "2") {
+                        layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 2) }
                         if (t[2].toInt() > Partition.default_k) {
                             Partition.default_k = t[2].toInt()
                         }
                     }
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-            distributedTripleStore.reloadPartitioningScheme()
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 
     @JsName("import_intermediate_files_a")
     /*suspend*/ public fun importIntermediateFiles(fileNames: String, convert_to_bnodes: Boolean): String {
         try {
-            Partition.estimatedPartitions0.clear()
-            Partition.estimatedPartitions1.clear()
-            Partition.estimatedPartitions2.clear()
-            Partition.estimatedPartitionsValid = true
+            tripleStoreManager.resetDefaultTripleStoreLayout()
+            tripleStoreManager.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
             val query = Query()
             var counter = 0L
-            val store = distributedTripleStore.getDefaultGraph(query)
+            val store = tripleStoreManager.getDefaultGraph()
             val bufS = IntArray(1048576)
             val bufP = IntArray(1048576)
             val bufO = IntArray(1048576)
@@ -317,6 +302,7 @@ public object LuposdateEndpoint {
                 val startTime = DateHelperRelative.markNow()
                 if (fileNamesS.size == 1) {
                     setEstimatedPartitionsFromFile("$fileName.partitions")
+                    tripleStoreManager.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
                 }
                 val fileTriples = File("$fileName.triples")
                 val fileDictionaryStat = File("$fileName.stat")
@@ -347,7 +333,7 @@ public object LuposdateEndpoint {
                         val p = it.readInt()
                         val o = it.readInt()
                         if (bufPos == bufS.size) {
-                            store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                            store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
                             bufPos = 0
                         }
                         bufS[bufPos] = mapping[s]
@@ -357,14 +343,14 @@ public object LuposdateEndpoint {
                     }
                 }
                 if (bufPos > 0) {
-                    store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                    store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
                     bufPos = 0
                 }
                 val totalTime = DateHelperRelative.elapsedSeconds(startTime)
                 val storeTime = totalTime - dictTime
                 println("imported file $fileName,$cnt,$totalTime,$dictTime,$storeTime")
             }
-            distributedTripleStore.commit(query)
+            tripleStoreManager.commit(query)
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             SanityCheck.println { "TODO exception 15" }
@@ -380,8 +366,8 @@ public object LuposdateEndpoint {
         val import2 = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElementFromXML()(data)!!)
         val import = import2.evaluateRoot()
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
-        distributedTripleStore.getDefaultGraph(query).modify(dataLocal, EModifyTypeExt.INSERT)
-        distributedTripleStore.commit(query)
+        tripleStoreManager.getDefaultGraph().modify(query, dataLocal, EModifyTypeExt.INSERT)
+        tripleStoreManager.commit(query)
         query.commited = true
         return XMLElement("success").toString()
     }
@@ -444,7 +430,7 @@ public object LuposdateEndpoint {
             EQueryResultToStreamExt.XML_ELEMENT -> QueryResultToXMLElement.toXML(node)
             else -> throw UnreachableException()
         }
-        distributedTripleStore.commit(node.getQuery())
+        tripleStoreManager.commit(node.getQuery())
         node.getQuery().setCommited()
         return res
     }
@@ -504,7 +490,9 @@ public object LuposdateEndpoint {
     public fun initialize() {
         if (!initialized) {
             initialized = true
-            tripleStoreManager = TripleStoreManagerImpl()
+            val hostnames = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80")!!.split(",").toTypedArray()
+            val localhost = hostnames[Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()]
+            tripleStoreManager = TripleStoreManagerImpl(hostnames, localhost)
             distributedQuery = DistributedQueryImpl()
             XMLElement.parseFromAnyRegistered["n3"] = XMLElementFromN3()
             XMLElement.parseFromAnyRegistered["ttl"] = XMLElementFromN3()

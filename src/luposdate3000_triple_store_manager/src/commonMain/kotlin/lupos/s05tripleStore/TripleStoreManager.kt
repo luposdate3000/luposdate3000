@@ -24,6 +24,7 @@ import lupos.s00misc.EModifyType
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
@@ -175,7 +176,10 @@ public class POPTripleStoreIterator(
     ESortPriorityExt.ANY_PROVIDED_VARIABLE
 ) {
     @JvmField
-    public var hasSplitFromStore = false
+    public var partitionColumn: String? = null
+
+    @JvmField
+    public var hasSplitFromStore: Boolean = false
     public fun changeToIndexWithMaximumPartitions(max_partitions: Int?, column: String): Int {
         var partition_column = -1
         for (i in 0 until 3) {
@@ -188,8 +192,7 @@ public class POPTripleStoreIterator(
         if (partition_column > -1) {
             tripleStoreIndexDescription = (tripleStoreIndexDescription as TripleStoreIndexDescription).getIndexWithMaximumPartitions(max_partitions, partition_column)
             val count = tripleStoreIndexDescription.getPartitionCount()
-            partition.limit.clear()
-            partition.limit[column] = count
+            partitionColumn = column
             return count
         } else {
             throw Exception("no matching index found")
@@ -197,24 +200,24 @@ public class POPTripleStoreIterator(
     }
 
     override fun getPartitionCount(variable: String): Int {
-        var count = partition.limit[column]
-        if (count == null) {
-            count = 1
-        }
-        SanityCheck {
-            SanityCheck.check { partition.limit.size == 1 }
-            if (count > 1) {
-                SanityCheck.check { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count }
-                for (i in 0 until 3) {
-                    val c = children[i]
-                    if (c is AOPVariable && c.name == column) {
-                        SanityCheck.check { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionColumn == EIndexPatternHelper.tripleIndicees[(tripleStoreIndexDescription as TripleStoreIndexDescription).idx][i] }
-                        break
+        var count = tripleStoreIndexDescription.getPartitionCount()
+
+        if (count > 1) {
+            SanityCheck.check { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count }
+            for (i in 0 until 3) {
+                val c = children[i]
+                if (c is AOPVariable && c.name == variable) {
+                    val currentindex = tripleStoreIndexDescription
+                    if (currentindex is TripleStoreIndexDescriptionPartitionedByID &&
+                        currentindex.partitionColumn == EIndexPatternHelper.tripleIndicees[currentindex.idx][i]
+                    ) {
+                        return count
                     }
+                    break
                 }
             }
         }
-        return count
+        return 1
     }
 
     public override fun cloneOP(): IOPBase = POPTripleStoreIterator(query, projectedVariables, tripleStoreIndexDescription, children)
@@ -292,6 +295,12 @@ public class TripleStoreDescriptionFactory : ITripleStoreDescriptionFactory {
         return this
     }
 
+    internal fun apply(other: TripleStoreDescriptionFactory): TripleStoreDescriptionFactory {
+        indices.removeAll()
+        indices.addAll(other.indices)
+        return this
+    }
+
     internal fun build(): TripleStoreDescription {
         val store = TripleStoreDescription(indices.toTypedArray())
         for (index in indices) {
@@ -314,6 +323,22 @@ public class TripleStoreManagerImpl(
 
     @JvmField
     internal var keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() }
+    @JvmField
+    internal var defaultTripleStoreLayout: TripleStoreDescriptionFactory
+
+    init {
+        resetDefaultTripleStoreLayout()
+    }
+
+    public fun resetDefaultTripleStoreLayout() {
+        defaultTripleStoreLayout = TripleStoreDescriptionFactory().addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = 4, partitionColumn = 1) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = 4, partitionColumn = 2) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = 4, partitionColumn = 1) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = 4, partitionColumn = 2) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = 4, partitionColumn = 1) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = 4, partitionColumn = 2) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = 4, partitionColumn = 1) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = 4, partitionColumn = 2) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = 4, partitionColumn = 1) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = 4, partitionColumn = 2) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = 4, partitionColumn = 1) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = 4, partitionColumn = 2) }
+    }
+
+    public fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit) {
+        val factory = TripleStoreDescriptionFactory()
+        action(factory)
+        defaultTripleStoreLayout = factory
+    }
 
     internal fun releaseHostAndKey(host: LuposHostname, key: LuposStoreKey) {
         keysOnHostname[hostnames.indexOf(host)].remove(key)
@@ -334,7 +359,7 @@ public class TripleStoreManagerImpl(
     }
 
     public override fun createGraph(query: IQuery, graphName: LuposGraphName) {
-        createGraph(query, graphName, {})
+        createGraph(query, graphName, { it.apply(defaultTripleStoreLayout) })
     }
 
     public override fun createGraph(query: IQuery, graphName: LuposGraphName, action: (ITripleStoreDescriptionFactory) -> Unit) {
@@ -350,14 +375,13 @@ public class TripleStoreManagerImpl(
     }
 
     public override fun resetGraph(query: IQuery, graphName: LuposGraphName) {
-        resetGraph(query, graphName, {})
+        dropGraph(query, graphName)
+        createGraph(query, graphName, { it.apply(defaultTripleStoreLayout) })
     }
 
     public override fun resetGraph(query: IQuery, graphName: LuposGraphName, action: (ITripleStoreDescriptionFactory) -> Unit) {
-        val factory = TripleStoreDescriptionFactory()
-        action(factory)
-        val idx = factory.build()
-        throw Exception("not implemented")
+        dropGraph(query, graphName)
+        createGraph(query, graphName, action)
     }
 
     public override fun clearGraph(query: IQuery, graphName: LuposGraphName) {
@@ -387,6 +411,10 @@ public class TripleStoreManagerImpl(
     }
 
     public override fun getGraph(graphName: LuposGraphName): TripleStoreDescription {
+        throw Exception("not implemented")
+    }
+
+    public fun commit(query: IQuery) {
         throw Exception("not implemented")
     }
 }

@@ -16,10 +16,10 @@
  */
 package lupos.s04logicalOperators
 
-interface IDistributedQuery {
-    public fun initialize(query: Query): IOPBase
+public interface IDistributedQuery {
+    public fun initialize(query: IQuery): IOPBase
 }
 
 public var distributedQuery: IDistributedQuery = object : IDistributedQuery {
-    public override fun initialize(query: Query): IOPBase = throw Exception("not initialized")
+    public override fun initialize(query: IQuery): IOPBase = throw Exception("not initialized")
 }
