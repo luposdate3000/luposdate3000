@@ -29,7 +29,7 @@ import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s09physicalOperators.partition.POPSplitPartitionPassThrough
 import lupos.s14endpoint.convertToOPBase
 
-internal object DistributedQuery {
+internal class DistributedQueryImpl : IDistributedQuery {
     private fun getAllVariations(query: Query, node: IOPBase, allNames: Array<String>, allSize: IntArray, allIdx: IntArray, offset: Int) {
         if (offset == allNames.size) {
             for (i in 0 until allNames.size) {
@@ -121,7 +121,7 @@ internal object DistributedQuery {
         }
     }
 
-    internal fun initialize(query: Query): IOPBase {
+    public fun initialize(query: Query): IOPBase {
         query.operatorgraphParts.clear()
         query.operatorgraphParts[""] = query.root!!.toXMLElement(true)
         query.operatorgraphPartsToHostMap[""] = Partition.myProcessUrls[Partition.myProcessId]
@@ -190,7 +190,7 @@ internal object DistributedQuery {
         return XMLElement.convertToOPBase(query, res!!)
     }
 
-    fun updateXMLtargets(xml: XMLElement, mapping: Map<String, String>) {
+    private fun updateXMLtargets(xml: XMLElement, mapping: Map<String, String>) {
         for (c in xml.childs) {
             updateXMLtargets(c, mapping)
         }

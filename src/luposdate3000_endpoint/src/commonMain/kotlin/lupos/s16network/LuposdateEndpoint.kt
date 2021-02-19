@@ -505,6 +505,7 @@ public object LuposdateEndpoint {
         if (!initialized) {
             initialized = true
             tripleStoreManager = TripleStoreManagerImpl()
+            distributedQuery = DistributedQueryImpl()
             XMLElement.parseFromAnyRegistered["n3"] = XMLElementFromN3()
             XMLElement.parseFromAnyRegistered["ttl"] = XMLElementFromN3()
             XMLElement.parseFromAnyRegistered["srx"] = XMLElementFromXML()

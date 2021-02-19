@@ -113,6 +113,7 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
+import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.multiinput.POPJoinCartesianProduct
