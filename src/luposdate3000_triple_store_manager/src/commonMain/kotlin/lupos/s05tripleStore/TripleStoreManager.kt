@@ -295,9 +295,9 @@ public class TripleStoreDescriptionFactory : ITripleStoreDescriptionFactory {
         return this
     }
 
-    internal fun apply(other: TripleStoreDescriptionFactory): TripleStoreDescriptionFactory {
-        indices.removeAll()
-        indices.addAll(other.indices)
+    public override fun apply(other: ITripleStoreDescriptionFactory): ITripleStoreDescriptionFactory {
+        indices.clear()
+        indices.addAll((other as TripleStoreDescriptionFactory).indices)
         return this
     }
 
@@ -323,18 +323,29 @@ public class TripleStoreManagerImpl(
 
     @JvmField
     internal var keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() }
-    @JvmField
-    internal var defaultTripleStoreLayout: TripleStoreDescriptionFactory
+    internal lateinit var defaultTripleStoreLayout: TripleStoreDescriptionFactory
 
     init {
         resetDefaultTripleStoreLayout()
     }
 
-    public fun resetDefaultTripleStoreLayout() {
-        defaultTripleStoreLayout = TripleStoreDescriptionFactory().addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = 4, partitionColumn = 1) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = 4, partitionColumn = 2) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = 4, partitionColumn = 1) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = 4, partitionColumn = 2) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = 4, partitionColumn = 1) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = 4, partitionColumn = 2) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = 4, partitionColumn = 1) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = 4, partitionColumn = 2) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = 4, partitionColumn = 1) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = 4, partitionColumn = 2) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = 4, partitionColumn = 1) }.addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = 4, partitionColumn = 2) }
+    public override fun resetDefaultTripleStoreLayout() {
+        defaultTripleStoreLayout = TripleStoreDescriptionFactory() //
+            .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = 4, partitionColumn = 1) } //
+            .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = 4, partitionColumn = 2) } //
+            .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = 4, partitionColumn = 1) } //
+            .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = 4, partitionColumn = 2) } //
+            .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = 4, partitionColumn = 1) } //
+            .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = 4, partitionColumn = 2) } //
+            .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = 4, partitionColumn = 1) } //
+            .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = 4, partitionColumn = 2) } //
+            .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = 4, partitionColumn = 1) } //
+            .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = 4, partitionColumn = 2) } //
+            .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = 4, partitionColumn = 1) } //
+            .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = 4, partitionColumn = 2) }
     }
 
-    public fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit) {
+    public override fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit) {
         val factory = TripleStoreDescriptionFactory()
         action(factory)
         defaultTripleStoreLayout = factory
@@ -414,7 +425,7 @@ public class TripleStoreManagerImpl(
         throw Exception("not implemented")
     }
 
-    public fun commit(query: IQuery) {
+    public override fun commit(query: IQuery) {
         throw Exception("not implemented")
     }
 }

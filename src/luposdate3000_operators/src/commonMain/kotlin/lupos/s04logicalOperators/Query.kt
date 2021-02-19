@@ -82,7 +82,7 @@ public class Query public constructor(@JvmField public var dictionary: IResultSe
     public var allVariationsKey: MutableMap<String, Int> = mutableMapOf<String, Int>()
 
     @JvmField
-    public var operatorgraphParts = mutableMapOf<String, XMLElement>()
+    public var operatorgraphParts: MutableMap<String, XMLElement> = mutableMapOf<String, XMLElement>()
 
     @JvmField
     public var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()

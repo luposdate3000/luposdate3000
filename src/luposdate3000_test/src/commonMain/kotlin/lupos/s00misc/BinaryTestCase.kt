@@ -24,19 +24,17 @@ import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
+import lupos.s05tripleStore.TripleStoreManager
+import lupos.s05tripleStore.tripleStoreManager
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToMemoryTable
 import lupos.s11outputResult.QueryResultToXMLStream
-import lupos.s15tripleStoreDistributed.distributedTripleStore
 
 public object BinaryTestCase {
     private var outSummary = MyPrintWriter(false)
@@ -436,21 +434,21 @@ public object BinaryTestCase {
                             }
                             if (!verifyEqual(lastInput, tableInput, mappingLiveToTarget, targetDict, targetDict2, true, queryName, query_folder, "this is no error")) {
                                 val query1 = Query()
-                                distributedTripleStore.getLocalStore().getDefaultGraph(query1).clear()
-                                for (g in distributedTripleStore.getGraphNames()) {
-                                    distributedTripleStore.dropGraph(query1, g)
+                                tripleStoreManager.clearGraph(query1, TripleStoreManager.DEFAULT_GRAPH_NAME)
+                                for (g in tripleStoreManager.getGraphNames()) {
+                                    tripleStoreManager.dropGraph(query1, g)
                                 }
-                                distributedTripleStore.commit(query1)
+                                tripleStoreManager.commit(query1)
                                 query1.commited = true
                                 val query2 = Query()
-                                val store = distributedTripleStore.getDefaultGraph(query2)
+                                val store = tripleStoreManager.getDefaultGraph()
                                 val bufS = IntArray(1048576)
                                 val bufP = IntArray(1048576)
                                 val bufO = IntArray(1048576)
                                 var bufPos = 0
                                 for (row in tableInput.data) {
                                     if (bufPos == bufS.size) {
-                                        store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                                        store.modify(query2, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
                                         bufPos = 0
                                     }
                                     bufS[bufPos] = row[0]
@@ -459,19 +457,21 @@ public object BinaryTestCase {
                                     bufPos++
                                 }
                                 if (bufPos > 0) {
-                                    store.modify(arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                                    store.modify(query2, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
                                     bufPos = 0
                                 }
-                                distributedTripleStore.commit(query2)
+                                tripleStoreManager.commit(query2)
+/*
+TODO verify triple store input
                                 val query3 = Query()
                                 val queryParam = arrayOf<IAOPBase>(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o"))
-                                val enablesPartitions = distributedTripleStore.getLocalStore().getDefaultGraph(query3).getEnabledPartitions()
+                                val enablesPartitions = tripleStoreManager.getDefaultGraph().getEnabledPartitions()
                                 var success = true
                                 for (p in enablesPartitions) {
                                     val idx = p.index.toList().first()
                                     var tmpTable: MemoryTable? = null
                                     if (p.partitionCount == 1) {
-                                        val node = distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, Partition())
+                                        val node = tripleStoreManager.getDefaultGraph().getIterator(queryParam, idx, Partition())
                                         tmpTable = operatorGraphToTable(OPBaseCompound(query3, arrayOf(node), listOf(listOf("s", "p", "o"))))
                                         SanityCheck.println { "storage content ${EIndexPatternExt.names[idx]} x/${p.partitionCount} '' ${tmpTable.columns.map { it }}" }
                                         for (r in tmpTable.data) {
@@ -484,7 +484,7 @@ public object BinaryTestCase {
                                             SanityCheck.println { "extractKey :: ${EIndexPatternExt.names[idx]} ${p.column} $key" }
                                             partition.limit[key] = p.partitionCount
                                             partition.data[key] = value
-                                            val iterator = distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, partition)
+                                            val iterator = tripleStoreManager.getDefaultGraph().getIterator(queryParam, idx, partition)
                                             iterator.hasSplitFromStore = true
                                             val node = OPBaseCompound(
                                                 query3,
@@ -501,14 +501,6 @@ public object BinaryTestCase {
                                             for (r in table.data) {
                                                 SanityCheck.println { r.map { it } }
                                             }
-/*
-TODO
-if (tmpTable != null) {
-                                                tmpTable = MemoryTable(tmpTable!!, table)
-                                            } else {
-                                                tmpTable = table
-                                            }
-*/
                                         }
                                     }
                                     if (tmpTable != null) {
@@ -522,6 +514,7 @@ if (tmpTable != null) {
                                     SanityCheck.println { "----------Failed(import)" }
                                     break@func
                                 }
+*/
                             }
                             val tableOutput = MemoryTable(variables.toTypedArray())
                             if (mode == BinaryTestCaseOutputModeExt.ASK_QUERY_RESULT) {
@@ -574,13 +567,13 @@ if (tmpTable != null) {
                                 QueryResultToXMLStream(popNode, resultWriter)
                                 val query5 = Query()
                                 val popOptimizer = PhysicalOptimizer(query5)
-                                val actualResult = operatorGraphToTable(popOptimizer.optimizeCall(distributedTripleStore.getDefaultGraph(query5).getIterator(arrayOf(AOPVariable(query5, "s"), AOPVariable(query5, "p"), AOPVariable(query5, "o")), EIndexPatternExt.SPO, Partition())))
+                                val actualResult = operatorGraphToTable(popOptimizer.optimizeCall(tripleStoreManager.getDefaultGraph().getIterator(arrayOf(AOPVariable(query5, "s"), AOPVariable(query5, "p"), AOPVariable(query5, "o")), EIndexPatternExt.SPO, Partition())))
                                 if (!verifyEqual(tableOutput, actualResult, mappingLiveToTarget, targetDict, targetDict2, allowOrderBy, queryName, query_folder, "result in store (SPO) is wrong")) {
                                     returnValue = false
                                     println("returnValue = false #4")
                                     break@func
                                 }
-                                distributedTripleStore.commit(query5)
+                                tripleStoreManager.commit(query5)
                                 query5.commited = true
                             } else {
                                 val actualResult = operatorGraphToTable(popNode)

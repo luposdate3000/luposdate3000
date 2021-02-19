@@ -17,6 +17,7 @@
 package lupos.s16network
 
 import lupos.s00misc.DateHelperRelative
+import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
@@ -26,6 +27,7 @@ import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.MyStringStream
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.Partition
+import lupos.s00misc.Platform
 import lupos.s00misc.QueryResultToStream
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.UnreachableException
@@ -48,6 +50,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.distributedQuery
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
+import lupos.s05tripleStore.TripleStoreManager
 import lupos.s05tripleStore.TripleStoreManagerImpl
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
@@ -287,9 +290,9 @@ public object LuposdateEndpoint {
     @JsName("import_intermediate_files_a")
     /*suspend*/ public fun importIntermediateFiles(fileNames: String, convert_to_bnodes: Boolean): String {
         try {
+            val query = Query()
             tripleStoreManager.resetDefaultTripleStoreLayout()
             tripleStoreManager.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
-            val query = Query()
             var counter = 0L
             val store = tripleStoreManager.getDefaultGraph()
             val bufS = IntArray(1048576)

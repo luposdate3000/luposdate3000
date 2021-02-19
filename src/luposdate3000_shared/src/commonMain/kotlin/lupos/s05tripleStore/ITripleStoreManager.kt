@@ -25,6 +25,7 @@ public interface ITripleStoreDescription {
 
 public interface ITripleStoreDescriptionFactory {
     public fun addIndex(action: (ITripleStoreIndexDescriptionFactory) -> Unit): ITripleStoreDescriptionFactory
+    public fun apply(other: ITripleStoreDescriptionFactory): ITripleStoreDescriptionFactory
 }
 
 public interface ITripleStoreIndexDescriptionFactory {
@@ -38,6 +39,9 @@ public abstract class TripleStoreManager {
         public const val DEFAULT_GRAPH_NAME: String = ""
     }
 
+    public abstract fun resetDefaultTripleStoreLayout()
+    public abstract fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit)
+    public abstract fun commit(query: IQuery)
     public abstract fun createGraph(query: IQuery, graphName: LuposGraphName): Unit
     public abstract fun createGraph(query: IQuery, graphName: LuposGraphName, action: (ITripleStoreDescriptionFactory) -> Unit): Unit
     public abstract fun resetGraph(query: IQuery, graphName: LuposGraphName): Unit
@@ -51,6 +55,9 @@ public abstract class TripleStoreManager {
 }
 
 public var tripleStoreManager: TripleStoreManager = object : TripleStoreManager() {
+    public override fun resetDefaultTripleStoreLayout(): Unit = throw Exception("not implemented")
+    public override fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit): Unit = throw Exception("not implemented")
+    public override fun commit(query: IQuery): Unit = throw Exception("not implemented")
     public override fun createGraph(query: IQuery, graphName: LuposGraphName): Unit = throw Exception("not implemented")
     public override fun createGraph(query: IQuery, graphName: LuposGraphName, action: (ITripleStoreDescriptionFactory) -> Unit): Unit = throw Exception("not implemented")
     public override fun resetGraph(query: IQuery, graphName: LuposGraphName): Unit = throw Exception("not implemented")
