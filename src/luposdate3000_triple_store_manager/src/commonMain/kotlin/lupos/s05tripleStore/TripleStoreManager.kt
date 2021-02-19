@@ -263,50 +263,50 @@ public class TripleStoreDescription(
                         val tmp = tripleStoreManager.localStores[store.second]!!
                         if (type == EModifyTypeExt.Insert) {
                             tmp.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[index.idx], i)
-                        } else
+                        } else {
                             tmp.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[index.idx], i)
+                        }
+                    } else {
+                        throw Exception("modify send to other nodes")
                     }
-                }else{
-                    throw Exception("modify send to other nodes")
                 }
             }
         }
     }
-}
 
-public override fun getIterator(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): IOPBase {
-    for (index in indices) {
-        if (index.idx == idx) {
-            val projectedVariables = mutableListOf<String>()
-            for (param in params) {
-                if (param is AOPVariable) {
-                    projectedVariables.add(param.name)
+    public override fun getIterator(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): IOPBase {
+        for (index in indices) {
+            if (index.idx == idx) {
+                val projectedVariables = mutableListOf<String>()
+                for (param in params) {
+                    if (param is AOPVariable) {
+                        projectedVariables.add(param.name)
+                    }
                 }
+                return POPTripleStoreIterator(query, projectedVariables, index, params)
             }
-            return POPTripleStoreIterator(query, projectedVariables, index, params)
         }
+        throw Exception("no valid index found")
     }
-    throw Exception("no valid index found")
-}
 
-public override fun getHistogram(params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
-    for (index in indices) {
-        if (index.idx == idx) {
-            var first = 0
-            var second = 0
-            for (store in index.getAllLocations()) {
-                if (store.first == localhost) {
-                    val tmp = tripleStoreManager.localStores[store.second]!!.getHistogram(params)
-                    first += tmp.first
-                    second += tmp.second
-                } else {
-                    throw Exception("getHistogram send to remote node")
+    public override fun getHistogram(params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
+        for (index in indices) {
+            if (index.idx == idx) {
+                var first = 0
+                var second = 0
+                for (store in index.getAllLocations()) {
+                    if (store.first == localhost) {
+                        val tmp = tripleStoreManager.localStores[store.second]!!.getHistogram(params)
+                        first += tmp.first
+                        second += tmp.second
+                    } else {
+                        throw Exception("getHistogram send to remote node")
+                    }
                 }
+                return Pair(first, second)
             }
-            return Pair(first, second)
         }
     }
-}
 }
 
 public open class TripleStoreIndexDescriptionFactory : ITripleStoreIndexDescriptionFactory {
