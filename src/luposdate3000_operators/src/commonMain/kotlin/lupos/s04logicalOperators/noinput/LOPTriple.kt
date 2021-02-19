@@ -135,7 +135,7 @@ public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBas
             }
             val idx = getIndex(params.map { it }.toTypedArray(), listOf())
             val store = tripleStoreManager.getGraph(graph)
-            val childHistogram = store.getHistogram(params, idx)
+            val childHistogram = store.getHistogram(query, params, idx)
             if (childHistogram.first < res.count || res.count == -1) {
                 res.count = childHistogram.first
             }

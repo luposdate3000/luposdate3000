@@ -18,7 +18,6 @@ package lupos.s10physicalOptimisation
 
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.ESortTypeExt
-import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.IAOPBase
@@ -67,7 +66,7 @@ public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, E
                     SanityCheck.check { node.mySortPriority[i].sortType == ESortTypeExt.FAST }
                 }
             }
-            res = store.getIterator(params, LOPTriple.getIndex(node.children, node.mySortPriority.map { it.variableName }), Partition())
+            res = store.getIterator(query, params, LOPTriple.getIndex(node.children, node.mySortPriority.map { it.variableName }))
             if (res is POPTripleStoreIterator) {
                 res.sortPriorities = node.sortPriorities
                 res.mySortPriority = node.mySortPriority

@@ -147,7 +147,7 @@ import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 
-public fun convertToPartition(node: XMLElement): Partition {
+private fun convertToPartition(node: XMLElement): Partition {
     val res = Partition()
     for (c in node.childs) {
         if (c.tag == "Limit") {
@@ -160,7 +160,7 @@ public fun convertToPartition(node: XMLElement): Partition {
     return res
 }
 
-public fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: String): AOPVariable {
+private fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: String): AOPVariable {
     val n = mapping[name]
     if (n != null) {
         return AOPVariable(query, n)
@@ -168,7 +168,7 @@ public fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, 
     return AOPVariable(query, name)
 }
 
-public fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf()): List<String> {
+private fun createProjectedVariables(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf()): List<String> {
     val res = mutableListOf<String>()
     SanityCheck.check { node["projectedVariables"] != null }
     for (c in node["projectedVariables"]!!.childs) {
@@ -690,8 +690,7 @@ public fun createProjectedVariables(query: Query, node: XMLElement, mapping: Mut
             val p = convertToOPBase(query, node["pparam"]!!.childs[0], mapping) as IAOPBase
             val o = convertToOPBase(query, node["oparam"]!!.childs[0], mapping) as IAOPBase
             val idx = EIndexPatternExt.names.indexOf(node.attributes["idx"]!!)
-            val partition = convertToPartition(node["partition"]!!.childs[0])
-            res = tripleStoreManager.getGraph(node.attributes["name"]!!).getIterator(arrayOf(s, p, o), idx, partition)
+            res = tripleStoreManager.getGraph(node.attributes["name"]!!).getIterator(query, arrayOf(s, p, o), idx)
         }
         "LOPTriple" -> {
             res = LOPTriple(query, convertToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, convertToOPBase(query, node["children"]!!.childs[2], mapping) as AOPBase, node.attributes["graph"]!!, node.attributes["graphVar"]!!.toBoolean())

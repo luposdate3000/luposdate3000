@@ -82,7 +82,7 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
         if (!done) {
             val distributedStore = tripleStoreManager.getGraph(childB.graph)
             SanityCheck.println { "opening store for join with store C $uuid" }
-            var iteratorB = distributedStore.getIterator(params, index, Partition()).evaluate(parent)
+            var iteratorB = distributedStore.getIterator(query, params, index).evaluate(parent)
             res = object : IteratorBundle(0) {
                 override /*suspend*/ fun hasNext2(): Boolean {
                     val t = iteratorB.hasNext2()
@@ -102,7 +102,7 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
                         }
                         if (!done) {
                             SanityCheck.println { "opening store for join with store D $uuid" }
-                            iteratorB = distributedStore.getIterator(params, index, Partition()).evaluate(parent)
+                            iteratorB = distributedStore.getIterator(query, params, index).evaluate(parent)
                         }
                     }
                     return t

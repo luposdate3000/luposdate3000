@@ -26,7 +26,6 @@ import lupos.s00misc.Luposdate3000Exception
 import lupos.s00misc.MAX_TRIPLES_DURING_TEST
 import lupos.s00misc.NotImplementedException
 import lupos.s00misc.OperatorGraphToLatex
-import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.UnknownManifestException
 import lupos.s00misc.XMLElement
@@ -473,7 +472,7 @@ public open class SparqlTestSuite {
                         val query = Query()
                         query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                         LuposdateEndpoint.importTurtleFiles(inputDataFileName, mutableMapOf())
-                        val bulkSelect = tripleStoreManager.getDefaultGraph().getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO, Partition())
+                        val bulkSelect = tripleStoreManager.getDefaultGraph().getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO)
                         val xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
                         if (!xmlGraphBulk.myEqualsUnclean(xmlQueryInput, true, true, true)) {
                             println("test xmlQueryInput :: " + xmlQueryInput.toPrettyString())
@@ -604,7 +603,7 @@ public open class SparqlTestSuite {
             outputDataGraph.forEach {
                 val outputData = readFileOrNull(it["filename"])
                 val xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)!!
-                val tmp = tripleStoreManager.getGraph(it["name"]!!).getIterator(arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO, Partition())
+                val tmp = tripleStoreManager.getGraph(it["name"]!!).getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO)
                 val xmlGraphActual = QueryResultToXMLElement.toXML(tmp)
                 if (!xmlGraphTarget.myEqualsUnclean(xmlGraphActual, true, true, true)) {
                     println("OutputData Graph[${it["name"]}] Original")

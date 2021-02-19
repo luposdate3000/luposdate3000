@@ -567,7 +567,7 @@ TODO verify triple store input
                                 QueryResultToXMLStream(popNode, resultWriter)
                                 val query5 = Query()
                                 val popOptimizer = PhysicalOptimizer(query5)
-                                val actualResult = operatorGraphToTable(popOptimizer.optimizeCall(tripleStoreManager.getDefaultGraph().getIterator(arrayOf(AOPVariable(query5, "s"), AOPVariable(query5, "p"), AOPVariable(query5, "o")), EIndexPatternExt.SPO, Partition())))
+                                val actualResult = operatorGraphToTable(popOptimizer.optimizeCall(tripleStoreManager.getDefaultGraph().getIterator(query5, arrayOf(AOPVariable(query5, "s"), AOPVariable(query5, "p"), AOPVariable(query5, "o")), EIndexPatternExt.SPO)))
                                 if (!verifyEqual(tableOutput, actualResult, mappingLiveToTarget, targetDict, targetDict2, allowOrderBy, queryName, query_folder, "result in store (SPO) is wrong")) {
                                     returnValue = false
                                     println("returnValue = false #4")

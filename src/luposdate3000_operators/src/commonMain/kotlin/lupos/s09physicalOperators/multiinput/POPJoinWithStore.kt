@@ -156,7 +156,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
                 params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i])
             }
             SanityCheck.println { "POPJoinWithStoreXXXopening store for join with store A $theuuid" }
-            var columnsInBRoot = distributedStore.getIterator(params, index, Partition()).evaluate(parent)
+            var columnsInBRoot = distributedStore.getIterator(query, params, index).evaluate(parent)
             for (i in 0 until variablINBO.size) {
                 columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
             }
@@ -224,7 +224,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
                                                 params[indicesINBJ[i]] = AOPConstant(query, valuesAJ[i])
                                             }
                                             SanityCheck.println { "POPJoinWithStoreXXXopening store for join with store B $theuuid" }
-                                            columnsInBRoot = distributedStore.getIterator(params, index, Partition()).evaluate(parent)
+                                            columnsInBRoot = distributedStore.getIterator(query, params, index).evaluate(parent)
                                             for (i in 0 until variablINBO.size) {
                                                 columnsInB[i] = columnsInBRoot.columns[variablINBO[i]]!!
                                             }
