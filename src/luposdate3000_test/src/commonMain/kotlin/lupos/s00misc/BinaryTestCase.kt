@@ -484,12 +484,14 @@ public object BinaryTestCase {
                                             SanityCheck.println { "extractKey :: ${EIndexPatternExt.names[idx]} ${p.column} $key" }
                                             partition.limit[key] = p.partitionCount
                                             partition.data[key] = value
+                                            val iterator = distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, partition)
+                                            iterator.hasSplitFromStore = true
                                             val node = OPBaseCompound(
                                                 query3,
                                                 arrayOf(
                                                     POPSplitPartitionFromStore(
                                                         query3, listOf("s", "p", "o"), key, p.partitionCount, -1,
-                                                        distributedTripleStore.getDefaultGraph(query3).getIterator(queryParam, idx, partition)
+                                                        iterator
                                                     )
                                                 ),
                                                 listOf(listOf("s", "p", "o"))

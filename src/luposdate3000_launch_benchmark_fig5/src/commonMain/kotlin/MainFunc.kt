@@ -63,12 +63,14 @@ internal fun mainFunc(
         p.limit["j"] = partitions
         var op: IOPBase = POPTripleStoreIterator(query, listOf("j", "a"), "", arrayOf(AOPVariable(query, "j"), AOPConstant(query, ValueIri("a")), AOPVariable(query, "a")), EIndexPatternExt.PSO, p)
         if (partitions > 1) {
+            op.hasSplitFromStore = true
             op = POPSplitPartitionFromStore(query, listOf("j", "a"), "j", partitions, 1, op)
         }
         for (j in 0 until joincount) {
             val cc = 'b' + j
             var op2: IOPBase = POPTripleStoreIterator(query, listOf("j", "$cc"), "", arrayOf(AOPVariable(query, "j"), AOPConstant(query, ValueIri("$cc")), AOPVariable(query, "$cc")), EIndexPatternExt.PSO, p)
             if (partitions > 1) {
+                o2..hasSplitFromStore = true
                 op2 = POPSplitPartitionFromStore(query, listOf("j", "$cc"), "j", partitions, 1, op2)
             }
             variables.add("$cc")

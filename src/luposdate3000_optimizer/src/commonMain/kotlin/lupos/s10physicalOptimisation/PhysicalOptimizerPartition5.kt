@@ -38,6 +38,13 @@ public class PhysicalOptimizerPartition5(query: Query) : OptimizerBase(query, EO
                 is POPSplitPartitionFromStore -> {
                     if (node.partitionCount == 1) {
                         res = node.children[0]
+                        var storeNodeTmp = node.children[0]
+                        while (storeNodeTmp !is POPTripleStoreIterator) {
+// this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
+                            storeNodeTmp = storeNodeTmp.getChildren()[0]
+                        }
+                        val storeNode = storeNodeTmp as POPTripleStoreIterator
+                        storeNode.hasSplitFromStore = false
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         onChange()
                     }

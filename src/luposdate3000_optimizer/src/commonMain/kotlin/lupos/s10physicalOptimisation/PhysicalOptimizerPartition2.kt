@@ -23,7 +23,6 @@ import lupos.s00misc.USE_PARTITIONS
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.POPTripleStoreIterator
-import lupos.s05tripleStore.TripleStoreManager
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPMergePartition
@@ -43,23 +42,11 @@ public class PhysicalOptimizerPartition2(query: Query) : OptimizerBase(query, EO
                         storeNodeTmp = storeNodeTmp.getChildren()[0]
                     }
                     val storeNode = storeNodeTmp as POPTripleStoreIterator
-                    val idx = storeNode.idx
-                    var count = 1
-                    val store = TripleStoreManager.getDefaultGraph()
-                    for (index in store.getIndices(idx)) {
-                        if (index is TripleStoreIndexDescriptionPartitionedByID && index.getPartitionCount() > count) {
-                            count = index.getPartitionCount()
-                        }
-                    }
-                    val tmp = query.partitionOperatorCount[node.partitionID]
-                    if (tmp == null || count < tmp) {
-                        query.partitionOperatorCount[node.partitionID] = count
-                        node.partitionCount = count
-                        storeNode.changePartitionCount(count)
-                        onChange()
-                    } else if (node.partitionCount != tmp) {
-                        node.partitionCount = tmp
-                        storeNode.changePartitionCount(tmp)
+                    val max_count = query.partitionOperatorCount[node.partitionID]
+                    val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
+                    query.partitionOperatorCount[node.partitionID] = new_count
+                    node.partitionCount = new_count
+                    if (new_count != max_count) {
                         onChange()
                     }
                 }

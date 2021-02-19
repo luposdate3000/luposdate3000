@@ -60,8 +60,9 @@ public class PhysicalOptimizerPartition1(query: Query) : OptimizerBase(query, EO
                         }
                         is POPTripleStoreIterator -> {
                             try {
-                                c.changePartitionCount(node.partitionCount, node.partitionVariable)
-                                res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, node.partitionCount, node.partitionID, c)
+                                val new_count = c.changeToIndexWithMaximumPartitions(node.partitionCount, node.partitionVariable)
+                                c.hasSplitFromStore = true
+                                res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)
                                 query.removePartitionOperator(node.getUUID(), node.partitionID)
                                 query.addPartitionOperator(res.getUUID(), node.partitionID)
                                 onChange()

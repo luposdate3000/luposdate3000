@@ -39,9 +39,35 @@ public typealias LuposGraphName = String
 public abstract class TripleStoreIndexDescription(
     @JvmField internal val idx: EIndexPattern,
 ) : ITripleStoreIndexDescription {
+    @JvmField
+    internal var tripleStoreDescription: TripleStoreDescription = TripleStoreDescriptionDummy
     internal abstract fun assignHosts()
     internal abstract fun releaseHosts()
     internal abstract fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>>
+    internal fun getIndexWithMaximumPartitions(max_partitions: Int?, column: Int): ITripleStoreIndexDescription {
+        var count = -1
+        var currentindex: TripleStoreIndexDescription = this
+        for (index in tripleStoreDescription.indices) {
+            if (index.idx == idx &&
+                (
+                    index is TripleStoreIndexDescriptionPartitionedByID &&
+                        (max_partitions == null || index.partitionCount < max_partitions) &&
+                        index.partitionCount > count &&
+                        index.partitionColumn == column
+                    ) || (
+                    index.getPartitionCount() == 1 &&
+                        1 < count
+                    )
+            ) {
+                count = index.getPartitionCount()
+                currentindex = index
+            }
+        }
+        if (count > -1) {
+            return currentindex
+        }
+        throw Exception("no matching index found")
+    }
 }
 
 public class TripleStoreIndexDescriptionSimple(
@@ -138,7 +164,6 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
 public class POPTripleStoreIterator(
     query: IQuery,
     projectedVariables: List<String>,
-    @JvmField internal var tripleStoreDescription: ITripleStoreDescription,
     @JvmField internal var tripleStoreIndexDescription: ITripleStoreIndexDescription,
     children: Array<IOPBase>,
 ) : POPBase(
@@ -149,85 +174,53 @@ public class POPTripleStoreIterator(
     children,
     ESortPriorityExt.ANY_PROVIDED_VARIABLE
 ) {
+    @JvmField
+    public var hasSplitFromStore = false
+    public fun changeToIndexWithMaximumPartitions(max_partitions: Int?, column: String): Int {
+        var partition_column = -1
+        for (i in 0 until 3) {
+            val c = children[i]
+            if (c is AOPVariable && c.name == column) {
+                partition_column = EIndexPatternHelper.tripleIndicees[(tripleStoreIndexDescription as TripleStoreIndexDescription).idx][i]
+                break
+            }
+        }
+        if (partition_column > -1) {
+            tripleStoreIndexDescription = (tripleStoreIndexDescription as TripleStoreIndexDescription).getIndexWithMaximumPartitions(max_partitions, partition_column)
+            val count = tripleStoreIndexDescription.getPartitionCount()
+            partition.limit.clear()
+            partition.limit[column] = count
+            return count
+        } else {
+            throw Exception("no matching index found")
+        }
+    }
+
     override fun getPartitionCount(variable: String): Int {
-        val index = tripleStoreIndexDescription
-        if (index is TripleStoreIndexDescriptionPartitionedByID) {
-            val c = children[EIndexPatternHelper.tripleIndicees[index.idx][index.partitionColumn]]
-            if (c is AOPVariable && c.name == variable) {
-                return index.partitionCount
-            }
+        var count = partition.limit[column]
+        if (count == null) {
+            count = 1
         }
-        return 1
-    }
-
-    public override fun cloneOP(): IOPBase = POPTripleStoreIterator(query, projectedVariables, tripleStoreDescription, tripleStoreIndexDescription, children)
-
-    public fun changePartitionCount(count: Int) {
-        val currentindex = tripleStoreIndexDescription as TripleStoreIndexDescription
-        if (count == 1) {
-            for (index in tripleStoreDescription.getIndices(currentindex.idx)) {
-                if (index.getPartitionCount() == 1) {
-                    tripleStoreIndexDescription = index
-                    return
-                }
-            }
-        } else {
-            val partitionColumn = (currentindex as TripleStoreIndexDescriptionPartitionedByID).partitionColumn
-            for (index in tripleStoreDescription.getIndices(currentindex.idx)) {
-                if (index is TripleStoreIndexDescriptionPartitionedByID && index.partitionColumn == partitionColumn && index.partitionCount == count) {
-                    tripleStoreIndexDescription = index
-                    return
-                }
-            }
-        }
-        throw Exception("desired index not found")
-    }
-
-    public fun changePartitionCount(count: Int, column: String) {
-        val index = tripleStoreIndexDescription as TripleStoreIndexDescription
-        var partitionColumn = -1
-        if (index is TripleStoreIndexDescriptionPartitionedByID) {
-            partitionColumn = index.partitionColumn
-        } else {
-            var i = 0
-            for (cc in children) {
-                if (cc is AOPVariable && cc.name == column) {
-                    partitionColumn = EIndexPatternHelper.tripleIndicees[index.idx][i]
-                    break
-                }
-                i++
-            }
-        }
-        if (partitionColumn == -1) {
-            throw Exception("desired index not found")
-        }
-        changePartitionCount(count, partitionColumn)
-    }
-
-    internal fun changePartitionCount(count: Int, column: Int) {
-        val currentindex = tripleStoreIndexDescription as TripleStoreIndexDescription
-        if (count == 1) {
-            if (currentindex is TripleStoreIndexDescriptionPartitionedByID) {
-                for (index in tripleStoreDescription.getIndices(currentindex.idx)) {
-                    if (index.getPartitionCount() == 1) {
-                        tripleStoreIndexDescription = index
-                        return
+        SanityCheck {
+            SanityCheck.check { partition.limit.size == 1 }
+            if (count > 1) {
+                SanityCheck.check { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count }
+                for (i in 0 until 3) {
+                    val c = children[i]
+                    if (c is AOPVariable && c.name == column) {
+                        SanityCheck.check { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionColumn == EIndexPatternHelper.tripleIndicees[(tripleStoreIndexDescription as TripleStoreIndexDescription).idx][i] }
+                        break
                     }
                 }
-            } else {
-                return
-            }
-        } else {
-            for (index in tripleStoreDescription.getIndices(currentindex.idx)) {
-                if (index is TripleStoreIndexDescriptionPartitionedByID && index.partitionColumn == column && index.partitionCount == count) {
-                    tripleStoreIndexDescription = index
-                    return
-                }
             }
         }
-        throw Exception("desired index not found")
+        return count
     }
+
+    public override fun cloneOP(): IOPBase = POPTripleStoreIterator(query, projectedVariables, tripleStoreIndexDescription, children)
 }
+
+internal val TripleStoreDescriptionDummy = TripleStoreDescription(arrayOf<TripleStoreIndexDescription>())
 
 public class TripleStoreDescription(
     @JvmField internal val indices: Array<TripleStoreIndexDescription>
@@ -294,12 +287,17 @@ public class TripleStoreDescriptionFactory : ITripleStoreDescriptionFactory {
     public override fun addIndex(action: (ITripleStoreIndexDescriptionFactory) -> Unit): TripleStoreDescriptionFactory {
         val factory = TripleStoreIndexDescriptionFactory()
         action(factory)
-        indices.add(factory.build())
+        val index = factory.build()
+        indices.add(index)
         return this
     }
 
     internal fun build(): TripleStoreDescription {
-        return TripleStoreDescription(indices.toTypedArray())
+        val store = TripleStoreDescription(indices.toTypedArray())
+        for (index in indices) {
+            index.tripleStoreDescription = store
+        }
+        return store
     }
 }
 

@@ -17,15 +17,11 @@
 package lupos.s10physicalOptimisation
 
 import lupos.s00misc.DontCareWhichException
-import lupos.s00misc.EIndexPatternExt
-import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.USE_PARTITIONS
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.IAOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.POPTripleStoreIterator
@@ -54,39 +50,14 @@ public class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EO
                         storeNodeTmp = storeNodeTmp.getChildren()[0]
                     }
                     val storeNode = storeNodeTmp
-                    val idx = storeNode.idx
-                    var partitionColumn = 0
-                    for (ii in 0 until 3) {
-                        val i = EIndexPatternHelper.tripleIndicees[idx][ii]
-                        val param = storeNode.children[i]
-                        if (param is IAOPVariable) {
-                            if (param.getName() == node.partitionVariable) {
-                                break
-                            } else {
-                                partitionColumn++
-                            }
-                        } else {
-                            partitionColumn++ // constants at the front do count
-                        }
-                    }
-                    var count = -1
-                    val partitions = distributedTripleStore.getLocalStore().getDefaultGraph(query).getEnabledPartitions()
-                    for (p in partitions) {
-                        if (p.index.contains(idx) && p.column == partitionColumn) {
-                            if (count == -1 || (p.partitionCount >= count && p.partitionCount <= node.partitionCount)) {
-                                count = p.partitionCount
-                            }
-                        }
-                    }
-// SanityCheck failed :: -1 0 P_SO 1
-                    SanityCheck.check({ count != -1 }, { "$count $partitionColumn ${EIndexPatternExt.names[idx]} ${node.partitionCount}" })
-                    if (count != node.partitionCount) {
+                    val max_count = node.partitionCount
+                    val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
+                    if (new_count != max_count) {
                         val newID = query.getNextPartitionOperatorID()
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
-                        res = POPChangePartitionOrderedByIntId(query, node.projectedVariables, node.partitionVariable, count, node.partitionCount, newID, node.partitionID, node)
+                        res = POPChangePartitionOrderedByIntId(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionCount, newID, node.partitionID, node)
                         node.partitionID = newID
-                        node.partitionCount = count
-                        storeNode.partition.limit[node.partitionVariable] = count
+                        node.partitionCount = new_count
                         query.addPartitionOperator(node.getUUID(), node.partitionID)
                         query.addPartitionOperator(res.getUUID(), res.partitionIDTo)
                         query.addPartitionOperator(res.getUUID(), res.partitionIDFrom)
@@ -356,21 +327,15 @@ public class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EO
                             onChange()
                         }
                         is POPTripleStoreIterator -> {
-                            if (TripleStoreLocal.providesFeature(TripleStoreFeatureExt.PARTITION, null)) {
-                                try {
-                                    val p = Partition(Partition(), node.partitionVariable, 0, node.partitionCount)
-                                    val params = TripleStoreFeatureParamsPartition(c.idx, Array(3) { c.children[it] as AOPBase }, p)
-                                    if (params.getColumn() > 0 && TripleStoreLocal.providesFeature(TripleStoreFeatureExt.PARTITION, params)) {
-                                        res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, node.partitionCount, node.partitionID, c)
-                                        c.partition.limit[node.partitionVariable] = node.partitionCount
-                                        query.removePartitionOperator(node.getUUID(), node.partitionID)
-                                        query.addPartitionOperator(res.getUUID(), node.partitionID)
-                                        query.partitionOperatorCount.clear()
-                                        onChange()
-                                    }
-                                } catch (e: DontCareWhichException) {
-                                    e.printStackTrace()
-                                }
+                            try {
+                                val new_count = c.changeToIndexWithMaximumPartitions(node.partitionCount, node.partitionVariable)
+                                c.hasSplitFromStore = true
+                                res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)
+                                query.removePartitionOperator(node.getUUID(), node.partitionID)
+                                query.addPartitionOperator(res.getUUID(), node.partitionID)
+                                onChange()
+                            } catch (e: DontCareWhichException) {
+                                e.printStackTrace()
                             }
                         }
                     }

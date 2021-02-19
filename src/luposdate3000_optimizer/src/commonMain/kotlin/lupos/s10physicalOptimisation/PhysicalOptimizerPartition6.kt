@@ -16,21 +16,15 @@
  */
 package lupos.s10physicalOptimisation
 
-import lupos.s00misc.DontCareWhichException
-import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.SortHelper
 import lupos.s00misc.USE_PARTITIONS
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.s08logicalOptimisation.OptimizerBase
-import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 
@@ -40,55 +34,27 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
         if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {
             when (node) {
                 is POPTripleStoreIterator -> {
-                    if (TripleStoreLocal.providesFeature(TripleStoreFeatureExt.PARTITION, null)) {
-                        if (node.partition.limit.isEmpty()) {
-                            val enabledPartitions = distributedTripleStore.getLocalStore().getEnabledPartitions(node.graphName)
-                            var countToUse = -1
-                            var columnToUse = -1
-                            for (p in enabledPartitions) {
-                                if (p.index.contains(node.idx) && (p.partitionCount < countToUse || countToUse == -1) && (node.children[EIndexPatternHelper.tripleIndicees[node.idx][p.column]] is AOPVariable)) {
-                                    columnToUse = p.column
-                                    countToUse = p.partitionCount
+                    if (!node.hasSplitFromStore) {
+                        val partitionVariable = ""
+                        var new_count = -1
+                        for (c in node.children) {
+                            if (c is AOPVariable) {
+                                try {
+                                    partitionVariable = c.name
+                                    new_count = node.changeToIndexWithMaximumPartitions(null, partitionVariable)
+                                    break
+                                } catch (e: Throwable) {
                                 }
                             }
-                            var variableToUse = ""
-                            if (columnToUse == -1) {
-                                for (p in enabledPartitions) {
-                                    if (p.index.contains(node.idx) && (p.partitionCount < countToUse || countToUse == -1)) {
-                                        columnToUse = p.column
-                                        countToUse = p.partitionCount
-                                    }
-                                }
-                                variableToUse = "_$columnToUse"
-                            } else {
-                                variableToUse = (node.children[EIndexPatternHelper.tripleIndicees[node.idx][columnToUse]] as AOPVariable).name
-                                if (variableToUse == "_") {
-                                    variableToUse = "_$columnToUse"
-                                }
-                            }
-                            try {
-                                val partitionID = query.getNextPartitionOperatorID()
-                                node.partition.limit.clear()
-                                node.partition.limit[variableToUse] = countToUse
-                                res = POPSplitPartitionFromStore(query, node.projectedVariables, variableToUse, countToUse, partitionID, node)
-                                query.addPartitionOperator(res.getUUID(), partitionID)
-                                if (node.projectedVariables.isNotEmpty()) {
-                                    res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, variableToUse, countToUse, partitionID, res)
-                                    for (i in EIndexPatternHelper.valueIndices[node.idx]) {
-                                        val c = node.children[i]
-                                        SanityCheck.check { c is AOPVariable }
-                                        if (c is AOPVariable && c.name != "_") {
-                                            res.mySortPriority.add(SortHelper(c.name, ESortTypeExt.FAST))
-                                        }
-                                    }
-                                } else {
-                                    res = POPMergePartitionCount(query, node.projectedVariables, variableToUse, countToUse, partitionID, res)
-                                }
-                                query.addPartitionOperator(res.getUUID(), partitionID)
-                                onChange()
-                            } catch (e: DontCareWhichException) {
-                                e.printStackTrace()
-                            }
+                        }
+                        if (new_count > 1) {
+                            val partitionID = query.getNextPartitionOperatorID()
+                            res = POPSplitPartitionFromStore(query, node.projectedVariables, partitionVariable, new_count, partitionID, node)
+                            query.addPartitionOperator(res.getUUID(), partitionID)
+                            res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, partitionVariable, new_count, partitionID, res)
+                            query.addPartitionOperator(res.getUUID(), partitionID)
+                            node.hasSplitFromStore = true
+                            onChange()
                         }
                     }
                 }

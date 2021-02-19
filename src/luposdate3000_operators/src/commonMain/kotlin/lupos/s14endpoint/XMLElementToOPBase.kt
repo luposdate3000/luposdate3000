@@ -588,6 +588,13 @@ public fun createProjectedVariables(query: Query, node: XMLElement, mapping: Mut
         "POPSplitPartitionFromStore" -> {
             val id = node.attributes["partitionID"]!!.toInt()
             res = POPSplitPartitionFromStore(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, convertToOPBase(query, node["children"]!!.childs[0], mapping))
+            var storeNodeTmp = node.children[0]
+            while (storeNodeTmp !is POPTripleStoreIterator) {
+// this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
+                storeNodeTmp = storeNodeTmp.getChildren()[0]
+            }
+            val storeNode = storeNodeTmp as POPTripleStoreIterator
+            storeNode.hasSplitFromStore = true
             query.addPartitionOperator(res.uuid, id)
         }
         "POPGroup" -> {
