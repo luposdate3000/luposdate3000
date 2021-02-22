@@ -129,7 +129,7 @@ public object LuposdateEndpoint {
                         /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
                             counter++
                             if (bufPos == bufS.size) {
-                                store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                                store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
                                 bufPos = 0
                             }
                             bufS[bufPos] = helperImportRaw(bnodeDict, s)
@@ -141,7 +141,7 @@ public object LuposdateEndpoint {
                     x.ltit = ltit
                     x.turtleDoc()
                     if (bufPos > 0) {
-                        store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                        store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
                         bufPos = 0
                     }
                 } catch (e: lupos.s02buildSyntaxTree.ParseError) {
@@ -178,7 +178,7 @@ public object LuposdateEndpoint {
                         override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                             counter++
                             if (bufPos == bufS.size) {
-                                store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                                store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
                                 bufPos = 0
                             }
                             bufS[bufPos] = helperImportRaw(bnodeDict, triple[0])
@@ -189,7 +189,7 @@ public object LuposdateEndpoint {
                     }
                     x.turtleDoc()
                     if (bufPos > 0) {
-                        store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                        store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
                         bufPos = 0
                     }
                 } catch (e: Exception) {
@@ -227,7 +227,7 @@ public object LuposdateEndpoint {
                     override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                         counter++
                         if (bufPos == bufS.size) {
-                            store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                            store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
                             bufPos = 0
                         }
                         bufS[bufPos] = helperImportRaw(bnodeDict, triple[0])
@@ -238,7 +238,7 @@ public object LuposdateEndpoint {
                 }
                 x.turtleDoc()
                 if (bufPos > 0) {
-                    store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                    store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
                     bufPos = 0
                 }
             } catch (e: Exception) {
@@ -329,7 +329,7 @@ public object LuposdateEndpoint {
                         val p = it.readInt()
                         val o = it.readInt()
                         if (bufPos == bufS.size) {
-                            store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                            store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
                             bufPos = 0
                         }
                         bufS[bufPos] = mapping[s]
@@ -339,7 +339,7 @@ public object LuposdateEndpoint {
                     }
                 }
                 if (bufPos > 0) {
-                    store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                    store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
                     bufPos = 0
                 }
                 val totalTime = DateHelperRelative.elapsedSeconds(startTime)

@@ -364,12 +364,7 @@ public actual object HttpEndpointLauncher {
                                     connectionOutPrinter2.println("<p> $k :: $v </p>")
                                 }
                             }
-                            paths["/distributed/graph/create"] = PathMappingHelper(
-                                true,
-                                mapOf(
-                                    Pair("name", "") to ::inputElement,
-                                )
-                            ) {
+                            paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement,)) {
                                 val name = params["name"]!!
                                 val query = Query()
                                 tripleStoreManager.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])
@@ -377,15 +372,16 @@ public actual object HttpEndpointLauncher {
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
                             }
-                            paths["/distributed/graph/commit"] = PathMappingHelper(false, mapOf()) {
+                            paths["/distributed/graph/commit"] = PathMappingHelper(true, mapOf()) {
                                 val query = Query()
                                 val origin = params["origin"] == null || params["origin"]!!.toBoolean()
+                                println("origin $origin $params")
                                 tripleStoreManager.remoteCommit(query, origin)
                                 val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
                             }
-                            paths["/distributed/graph/drop"] = PathMappingHelper(false, mapOf(Pair("name", "") to ::inputElement)) {
+                            paths["/distributed/graph/drop"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) {
                                 val query = Query()
                                 val origin = params["origin"] == null || params["origin"]!!.toBoolean()
                                 tripleStoreManager.remoteDropGraph(query, params["name"]!!, origin)
@@ -393,7 +389,7 @@ public actual object HttpEndpointLauncher {
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
                             }
-                            paths["/distributed/graph/clear"] = PathMappingHelper(false, mapOf(Pair("name", "") to ::inputElement)) {
+                            paths["/distributed/graph/clear"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) {
                                 val query = Query()
                                 val origin = params["origin"] == null || params["origin"]!!.toBoolean()
                                 tripleStoreManager.remoteClearGraph(query, params["name"]!!, origin)

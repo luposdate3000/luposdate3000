@@ -91,8 +91,10 @@ public class TripleStoreDescription(
     internal class MyBuf {
         @JvmField
         internal val size = (128000 / 3) * 3
+
         @JvmField
         internal var offset: Int = 0
+
         @JvmField
         internal var buf = IntArray(size)
     }
@@ -132,7 +134,6 @@ public class TripleStoreDescription(
 
         val row = IntArray(3)
         loop@ while (true) {
-            println("TripleStoreDescription.loop next")
             row[0] = columns[0].next()
             row[1] = columns[1].next()
             row[2] = columns[2].next()
@@ -151,8 +152,8 @@ public class TripleStoreDescription(
             }
         }
         for (i in 0 until allBuf.size) {
-            for (j in 0 until allBuf[i].size) {
-                mySend(i, j)
+            for (bufID in 0 until allBuf[i].size) {
+                mySend(i, bufID)
             }
         }
     }
@@ -173,7 +174,6 @@ public class TripleStoreDescription(
     }
 
     public override fun getHistogram(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int> {
-        println("getHistogram ${params.map { it.toString() }} ${EIndexPatternExt.names[idx]}")
         var variableCount = 0
         val filter2 = mutableListOf<Int>()
         for (ii in 0 until 3) {
@@ -194,14 +194,11 @@ public class TripleStoreDescription(
             throw BugException("TripleStoreFeature", "Filter can not be calculated using multipe variables at once. ${params.map { it.toSparql() }}")
         }
         val filter = IntArray(filter2.size) { filter2[it] }
-        println("filter ${filter.map { it }}")
         for (index in indices) {
-            println("check index ${index.idx_set.map { EIndexPatternExt.names[it] }}")
             if (index.hasPattern(idx)) {
                 var first = 0
                 var second = 0
                 for (store in index.getAllLocations()) {
-                    println("  check location $store")
                     if (store.first == (tripleStoreManager as TripleStoreManagerImpl).localhost) {
                         val tmp = (tripleStoreManager as TripleStoreManagerImpl).localStores[store.second]!!.getHistogram(query, filter)
                         first += tmp.first

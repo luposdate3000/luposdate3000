@@ -82,7 +82,7 @@ public class TripleStoreManagerImpl(
             }
         }
         var key = 0
-        while (keysOnHostname[hostidx].contains(key)) {
+        while (keysOnHostname[hostidx].contains("$key")) {
             key++
         }
         keysOnHostname[hostidx].add("$key")
@@ -121,7 +121,6 @@ public class TripleStoreManagerImpl(
     internal inline fun createGraphShared(graph: TripleStoreDescription) {
         println("createGraphShared $localhost")
         for (index in graph.indices) {
-            index.assignHosts()
             for (store in index.getAllLocations()) {
                 if (store.first == localhost) {
                     var page: Int = 0
@@ -144,6 +143,9 @@ public class TripleStoreManagerImpl(
         action(factory)
         val graph = factory.build()
         metadata[graphName] = graph
+        for (index in graph.indices) {
+            index.assignHosts()
+        }
         createGraphShared(graph)
         val metadataStr = graph.toMetaString()
         for (hostname in hostnames) {
@@ -302,16 +304,19 @@ public class TripleStoreManagerImpl(
                 for (store in index.getAllLocations()) {
                     if (store.first == localhost) {
                         localStores[store.second]!!.flush()
-                    } else {
-                        if (origin) {
-                            communicationHandler.sendData(
-                                store.first, "/distributed/graph/commit",
-                                mapOf(
-                                    "origin" to "false",
-                                )
-                            )
-                        }
                     }
+                }
+            }
+        }
+        if (origin) {
+            for (hostname in hostnames) {
+                if (hostname != localhost) {
+                    communicationHandler.sendData(
+                        hostname, "/distributed/graph/commit",
+                        mapOf(
+                            "origin" to "false",
+                        )
+                    )
                 }
             }
         }
