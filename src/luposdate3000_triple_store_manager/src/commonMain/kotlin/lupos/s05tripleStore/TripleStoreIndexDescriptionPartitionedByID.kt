@@ -32,6 +32,8 @@ public class TripleStoreIndexDescriptionPartitionedByID(
     @JvmField internal val partitionCount: Int,
     @JvmField internal val partitionColumn: Int,
 ) : TripleStoreIndexDescription() {
+    internal val hostnames = Array<LuposHostname>(partitionCount) { "" }
+    internal val keys = Array<LuposStoreKey>(partitionCount) { "" }
     internal override fun findPartitionFor(query: IQuery, triple: IntArray): Int {
         return triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][partitionColumn]] % partitionCount
     }
@@ -44,9 +46,6 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         }
         throw Exception("unreachable")
     }
-
-    internal val hostnames = Array<LuposHostname>(partitionCount) { "" }
-    internal val keys = Array<LuposStoreKey>(partitionCount) { "" }
 
     init {
         idx_set = when (idx) {

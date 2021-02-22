@@ -42,9 +42,23 @@ public class TripleStoreDescription(
         var res = StringBuilder()
         for (idx in indices) {
             when (idx) {
-                is TripleStoreIndexDescriptionPartitionedByID -> res.append("PartitionedByID:${EIndexPatternExt.names[idx.idx_set[0]]}:${idx.partitionCount}:${idx.partitionColumn}|")
-                is TripleStoreIndexDescriptionPartitionedByKey -> res.append("PartitionedByKey:${EIndexPatternExt.names[idx.idx_set[0]]}:${idx.partitionCount}|")
-                is TripleStoreIndexDescriptionSimple -> res.append("Simple:${EIndexPatternExt.names[idx.idx_set[0]]}|")
+                is TripleStoreIndexDescriptionPartitionedByID -> {
+                    res.append("PartitionedByID;${EIndexPatternExt.names[idx.idx_set[0]]};${idx.partitionCount};${idx.partitionColumn}")
+                    for (i in 0 until idx.partitionCount) {
+                        res.append(";${idx.hostnames[i]};${idx.keys[i]}")
+                    }
+                    res.append("|")
+                }
+                is TripleStoreIndexDescriptionPartitionedByKey -> {
+                    res.append("PartitionedByKey;${EIndexPatternExt.names[idx.idx_set[0]]};${idx.partitionCount}")
+                    for (i in 0 until idx.partitionCount) {
+                        res.append(";${idx.hostnames[i]};${idx.keys[i]}")
+                    }
+                    res.append("|")
+                }
+                is TripleStoreIndexDescriptionSimple -> {
+                    res.append("Simple;${EIndexPatternExt.names[idx.idx_set[0]]};${idx.hostname};${idx.key}|")
+                }
                 else -> throw Exception("unexpected type")
             }
         }
@@ -56,12 +70,31 @@ public class TripleStoreDescription(
             var indices = mutableListOf<TripleStoreIndexDescription>()
             val metad = metaString.split("|")
             for (meta in metad) {
-                val args = meta.split(":")
+                val args = meta.split(";")
                 if (args.size > 1) {
                     when (args[0]) {
-                        "PartitionedByID" -> indices.add(TripleStoreIndexDescriptionPartitionedByID(EIndexPatternExt.names.indexOf(args[1]), args[2].toInt(), args[3].toInt()))
-                        "PartitionedByKey" -> indices.add(TripleStoreIndexDescriptionPartitionedByKey(EIndexPatternExt.names.indexOf(args[1]), args[2].toInt()))
-                        "Simple" -> indices.add(TripleStoreIndexDescriptionSimple(EIndexPatternExt.names.indexOf(args[1])))
+                        "PartitionedByID" -> {
+                            val idx = TripleStoreIndexDescriptionPartitionedByID(EIndexPatternExt.names.indexOf(args[1]), args[2].toInt(), args[3].toInt())
+                            for (i in 0 until args[2].toInt()) {
+                                idx.hostnames[i] = args[4 + i * 2]
+                                idx.keys[i] = args[4 + i * 2 + 1]
+                            }
+                            indices.add(idx)
+                        }
+                        "PartitionedByKey" -> {
+                            val idx = TripleStoreIndexDescriptionPartitionedByKey(EIndexPatternExt.names.indexOf(args[1]), args[2].toInt())
+                            for (i in 0 until args[2].toInt()) {
+                                idx.hostnames[i] = args[3 + i * 2]
+                                idx.keys[i] = args[3 + i * 2 + 1]
+                            }
+                            indices.add(idx)
+                        }
+                        "Simple" -> {
+                            val idx = TripleStoreIndexDescriptionSimple(EIndexPatternExt.names.indexOf(args[1]))
+                            idx.hostname = args[2]
+                            idx.key = args[3]
+                            indices.add(idx)
+                        }
                         else -> throw Exception("unexpected type")
                     }
                 }

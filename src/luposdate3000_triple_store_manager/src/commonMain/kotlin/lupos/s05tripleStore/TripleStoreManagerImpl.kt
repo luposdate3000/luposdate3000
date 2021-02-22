@@ -85,6 +85,7 @@ public class TripleStoreManagerImpl(
         while (keysOnHostname[hostidx].contains("$key")) {
             key++
         }
+        println(keysOnHostname.map { it })
         keysOnHostname[hostidx].add("$key")
         return Pair(hostnames[hostidx], "$key")
     }
@@ -121,7 +122,9 @@ public class TripleStoreManagerImpl(
     internal inline fun createGraphShared(graph: TripleStoreDescription) {
         println("createGraphShared $localhost")
         for (index in graph.indices) {
+            println("createGraphShared -- $localhost :: ${EIndexPatternExt.names[index.idx_set[0]]}")
             for (store in index.getAllLocations()) {
+                println("createGraphShared -- $localhost :: ${store.first} ${store.second}")
                 if (store.first == localhost) {
                     var page: Int = 0
                     bufferManager.createPage { byteArray, pageid ->
