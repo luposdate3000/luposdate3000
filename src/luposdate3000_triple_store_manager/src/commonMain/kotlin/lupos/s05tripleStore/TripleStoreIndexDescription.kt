@@ -29,27 +29,35 @@ public abstract class TripleStoreIndexDescription() : ITripleStoreIndexDescripti
 
     @JvmField
     internal var tripleStoreDescription: TripleStoreDescription = TripleStoreDescriptionDummy
+
     internal abstract fun assignHosts()
-    internal fun hasPattern(idx: EIndexPattern): Boolean = idx_set.contains(idx)
+
     internal abstract fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>>
+
     internal abstract fun findPartitionFor(query: IQuery, triple: IntArray): Int
+
+    internal fun hasPattern(idx: EIndexPattern): Boolean = idx_set.contains(idx)
+
     internal fun getIndexWithMaximumPartitions(max_partitions: Int?, column: Int): ITripleStoreIndexDescription {
         var count = -1
+        var distributionCount = -1
         var currentindex: TripleStoreIndexDescription = this
         for (index in tripleStoreDescription.indices) {
             if (index.hasPattern(idx_set[0]) &&
                 (
                     index is TripleStoreIndexDescriptionPartitionedByID &&
                         (max_partitions == null || index.partitionCount <= max_partitions) &&
-                        index.partitionCount > count &&
+                        index.partitionCount >= count &&
                         index.partitionColumn == column
                     ) || (
                     index.getPartitionCount() == 1 &&
-                        1 < count
+                        1 >= count
                     )
             ) {
-                count = index.getPartitionCount()
-                currentindex = index
+                if (count != index.getPartitionCount() || distributionCount < index.getDistributionCount()) {
+                    count = index.getPartitionCount()
+                    currentindex = index
+                }
             }
         }
         if (count > -1) {

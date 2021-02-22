@@ -98,6 +98,10 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
         return 1
     }
 
+    public override fun getDistributionCount(): Int {
+        return partitionCount
+    }
+
     internal override fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>> {
         var res = mutableListOf<Pair<LuposHostname, LuposStoreKey>>()
         for (i in 0 until partitionCount) {

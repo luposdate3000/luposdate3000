@@ -62,6 +62,10 @@ public class TripleStoreIndexDescriptionSimple(
         return 1
     }
 
+    public override fun getDistributionCount(): Int {
+        return 1
+    }
+
     internal override fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>> {
         return listOf(Pair(hostname, key))
     }

@@ -22,6 +22,7 @@ import lupos.s04logicalOperators.IOPBase
 
 public interface ITripleStoreIndexDescription {
     public fun getPartitionCount(): Int
+    public fun getDistributionCount(): Int
     public fun toXMLElement(): XMLElement
     public fun getStore(params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey>
 }

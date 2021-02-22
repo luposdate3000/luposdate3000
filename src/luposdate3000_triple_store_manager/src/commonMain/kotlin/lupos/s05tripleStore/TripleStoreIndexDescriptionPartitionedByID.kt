@@ -34,6 +34,7 @@ public class TripleStoreIndexDescriptionPartitionedByID(
 ) : TripleStoreIndexDescription() {
     internal val hostnames = Array<LuposHostname>(partitionCount) { "" }
     internal val keys = Array<LuposStoreKey>(partitionCount) { "" }
+
     internal override fun findPartitionFor(query: IQuery, triple: IntArray): Int {
         return triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][partitionColumn]] % partitionCount
     }
@@ -68,6 +69,10 @@ public class TripleStoreIndexDescriptionPartitionedByID(
     }
 
     public override fun getPartitionCount(): Int {
+        return partitionCount
+    }
+
+    public override fun getDistributionCount(): Int {
         return partitionCount
     }
 
