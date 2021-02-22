@@ -118,7 +118,7 @@ internal object NodeManager {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline /*suspend*/ fun freeNodeAndAllRelated(nodeid: Int) {
-        SanityCheck.println { "Outside.refcount($nodeid)  x70" }
+        // SanityCheck.println { "Outside.refcount($nodeid)  x70" }
         releaseNode(nodeid)
         freeNodeAndAllRelatedInternal(nodeid)
     }
@@ -128,7 +128,7 @@ internal object NodeManager {
         SanityCheck.println { "debug NodeManager freeNodeAndAllRelatedInternal ${nodeid.toString(16)}" }
         if (nodeid != nodeNullPointer) {
             var node: ByteArray? = null
-            SanityCheck.println { "Outside.refcount($nodeid)  x16" }
+            // SanityCheck.println { "Outside.refcount($nodeid)  x16" }
             getNodeAny(
                 nodeid,
                 {
@@ -154,7 +154,7 @@ internal object NodeManager {
         var pageid = nodeid
         while (pageid != nodeNullPointer) {
             val id = pageid
-            SanityCheck.println { "Outside.refcount($pageid)  x01" }
+            // SanityCheck.println { "Outside.refcount($pageid)  x01" }
             getNodeLeaf(pageid) { node ->
                 val tmp = NodeShared.getNextNode(node)
                 pageid = tmp

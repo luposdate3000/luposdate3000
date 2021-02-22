@@ -33,6 +33,7 @@ import lupos.s00misc.communicationHandler
 import lupos.s00misc.xmlParser.XMLParser
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.Query
+import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.partition.POPDistributedSendSingle
 import lupos.s11outputResult.EQueryResultToStreamExt
@@ -360,6 +361,19 @@ public actual object HttpEndpointLauncher {
                                 for ((k, v) in queryMappings) {
                                     connectionOutPrinter2.println("<p> $k :: $v </p>")
                                 }
+                            }
+                            paths["/distributed/graph/create"] = PathMappingHelper(
+                                true,
+                                mapOf(
+                                    Pair("name", "") to ::inputElement,
+                                )
+                            ) {
+                                val name = params["name"]!!
+                                val query = Query()
+                                tripleStoreManager.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])
+                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                connectionOutPrinter = connectionOutPrinter2
+                                printHeaderSuccess(connectionOutPrinter2)
                             }
                             paths["/index.html"] = PathMappingHelper(true, mapOf()) {
                                 val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)

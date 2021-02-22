@@ -39,4 +39,5 @@ public abstract class TripleStoreManager {
     public abstract fun getDefaultGraph(): ITripleStoreDescription
     public abstract fun getGraph(graphName: LuposGraphName): ITripleStoreDescription
     public abstract fun initialize()
+    public abstract fun remoteCreateGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean, meta: String?)
 }

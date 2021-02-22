@@ -37,6 +37,38 @@ import kotlin.jvm.JvmField
 public class TripleStoreDescription(
     @JvmField internal val indices: Array<TripleStoreIndexDescription>
 ) : ITripleStoreDescription {
+    public fun toMetaString(): String {
+        var res = StringBuilder()
+        for (idx in indices) {
+            when (idx) {
+                is TripleStoreIndexDescriptionPartitionedByID -> res.append("PartitionedByID:${EIndexPatternExt.names[idx.idx_set[0]]}:${idx.partitionCount}:${idx.partitionColumn}|")
+                is TripleStoreIndexDescriptionPartitionedByKey -> res.append("PartitionedByKey:${EIndexPatternExt.names[idx.idx_set[0]]}:${idx.partitionCount}|")
+                is TripleStoreIndexDescriptionSimple -> res.append("Simple:${EIndexPatternExt.names[idx.idx_set[0]]}|")
+                else -> throw Exception("unexpected type")
+            }
+        }
+        return res.toString()
+    }
+
+    public companion object {
+        public operator fun invoke(metaString: String): TripleStoreDescription {
+            var indices = mutableListOf<TripleStoreIndexDescription>()
+            val metad = metaString.split("|")
+            for (meta in metad) {
+                val args = meta.split(":")
+                if (args.size > 1) {
+                    when (args[0]) {
+                        "PartitionedByID" -> indices.add(TripleStoreIndexDescriptionPartitionedByID(EIndexPatternExt.names.indexOf(args[1]), args[2].toInt(), args[3].toInt()))
+                        "PartitionedByKey" -> indices.add(TripleStoreIndexDescriptionPartitionedByKey(EIndexPatternExt.names.indexOf(args[1]), args[2].toInt()))
+                        "Simple" -> indices.add(TripleStoreIndexDescriptionSimple(EIndexPatternExt.names.indexOf(args[1])))
+                        else -> throw Exception("unexpected type")
+                    }
+                }
+            }
+            return TripleStoreDescription(indices.toTypedArray())
+        }
+    }
+
     public override fun getIndices(idx: EIndexPattern): List<ITripleStoreIndexDescription> {
         var res = mutableListOf<ITripleStoreIndexDescription>()
         for (index in indices) {

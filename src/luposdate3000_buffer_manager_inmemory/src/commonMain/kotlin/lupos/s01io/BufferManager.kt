@@ -110,7 +110,6 @@ public class BufferManager {
     public fun releasePage(pageid: Int) {
         SanityCheck.check({ allPagesRefcounters[pageid] > 0 }, { "Failed requirement pageid = $pageid" })
         allPagesRefcounters[pageid]--
-        SanityCheck.println { "BufferManager.refcount($pageid) decreased a ${allPagesRefcounters[pageid]}" }
     }
 
     public fun getPage(pageid: Int): ByteArray {
@@ -121,7 +120,6 @@ public class BufferManager {
             }
         }
         allPagesRefcounters[pageid]++
-        SanityCheck.println { "BufferManager.refcount($pageid) increased a ${allPagesRefcounters[pageid]}" }
         return allPages[pageid]
     }
 
@@ -158,7 +156,6 @@ public class BufferManager {
             pageid = counter++
         }
         allPagesRefcounters[pageid]++
-        SanityCheck.println { "BufferManager.refcount($pageid) increased b ${allPagesRefcounters[pageid]}" }
         action(allPages[pageid], pageid)
     }
 
@@ -170,7 +167,6 @@ public class BufferManager {
         }
         SanityCheck.check({ allPagesRefcounters[pageid] == 1 }, { "Failed requirement pageid = $pageid" })
         allPagesRefcounters[pageid] = 0
-        SanityCheck.println { "BufferManager.refcount($pageid) decreased b ${allPagesRefcounters[pageid]}" }
         if (BUFFER_MANAGER_USE_FREE_LIST) {
             freeList.add(pageid)
             if (freeList.size == counter) {

@@ -35,4 +35,5 @@ public var tripleStoreManager: TripleStoreManager = object : TripleStoreManager(
     public override fun getGraph(graphName: LuposGraphName): ITripleStoreDescription = throw Exception("not implemented")
     public override fun initialize(): Unit = throw Exception("not implemented")
     public override fun getIndexFromXML(node: XMLElement): ITripleStoreIndexDescription = throw Exception("not implemented")
+    public override fun remoteCreateGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean, meta: String?): Unit = throw Exception("not implemented")
 }

@@ -36,7 +36,7 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ internal inline fun __init() {
-        SanityCheck.println { "readLock(${lock.getUUID()}) x44" }
+        // SanityCheck.println { "readLock(${lock.getUUID()}) x44" }
         lock.readLock()
         remaining = NodeShared.getTripleCount(node)
     }
@@ -47,16 +47,16 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
 /* "__init" was never called*/
             label = 0
             if (nodeid != NodeManager.nodeNullPointer) {
-                SanityCheck.println { "Outside.refcount($nodeid)  x38" }
+                // SanityCheck.println { "Outside.refcount($nodeid)  x38" }
                 NodeManager.releaseNode(nodeid)
             }
         } else if (label != 0) {
             label = 0
             if (nodeid != NodeManager.nodeNullPointer) {
-                SanityCheck.println { "Outside.refcount($nodeid)  x38" }
+                // SanityCheck.println { "Outside.refcount($nodeid)  x38" }
                 NodeManager.releaseNode(nodeid)
             }
-            SanityCheck.println { "readUnlock(${lock.getUUID()}) x45" }
+            // SanityCheck.println { "readUnlock(${lock.getUUID()}) x45" }
             lock.readUnlock()
         }
     }
@@ -71,11 +71,11 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
         if (remaining == 0) {
             needsReset = true
             offset = NodeLeaf.START_OFFSET
-            SanityCheck.println { "Outside.refcount($nodeid)  x594" }
+            // SanityCheck.println { "Outside.refcount($nodeid)  x594" }
             NodeManager.releaseNode(nodeid)
             nodeid = NodeShared.getNextNode(node)
             if (nodeid != NodeManager.nodeNullPointer) {
-                SanityCheck.println { "Outside.refcount($nodeid)  x505" }
+                // SanityCheck.println { "Outside.refcount($nodeid)  x505" }
                 NodeManager.getNodeLeaf(nodeid) {
                     SanityCheck.check { node != it }
                     node = it
