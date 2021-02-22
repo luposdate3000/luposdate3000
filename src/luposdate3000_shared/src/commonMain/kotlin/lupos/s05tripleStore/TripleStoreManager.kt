@@ -16,6 +16,7 @@
  */
 package lupos.s05tripleStore
 
+import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IQuery
 
 public abstract class TripleStoreManager {
@@ -23,6 +24,7 @@ public abstract class TripleStoreManager {
         public const val DEFAULT_GRAPH_NAME: String = ""
     }
 
+    public abstract fun getIndexFromXML(node: XMLElement): ITripleStoreIndexDescription
     public abstract fun resetDefaultTripleStoreLayout()
     public abstract fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit)
     public abstract fun commit(query: IQuery)

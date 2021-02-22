@@ -19,13 +19,21 @@ package lupos.s05tripleStore
 
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.XMLElement
+import lupos.s04logicalOperators.IOPBase
 
 public class TripleStoreIndexDescriptionSimple(
     idx: EIndexPattern,
 ) : TripleStoreIndexDescription() {
     internal var hostname: LuposHostname = ""
     internal var key: LuposStoreKey = ""
+    public override fun getStore(params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
+        SanityCheck.check { partition.limit.size == 0 }
+        SanityCheck.check { partition.data.size == 0 }
+        return Pair(hostname, key)
+    }
 
     init {
         idx_set = when (idx) {

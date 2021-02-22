@@ -22,9 +22,13 @@ import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04arithmetikOperators.noinput.IAOPConstant
+import lupos.s04arithmetikOperators.noinput.IAOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
+import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
@@ -101,6 +105,32 @@ public class POPTripleStoreIterator(
 
     public override fun cloneOP(): IOPBase = POPTripleStoreIterator(query, projectedVariables, tripleStoreIndexDescription, children)
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        throw Exception("not implemented")
+
+        println("the root :: ${(query as Query).root}")
+
+        val index = tripleStoreIndexDescription as TripleStoreIndexDescription
+        val target = index.getStore(children, parent)
+        val manager = tripleStoreManager as TripleStoreManagerImpl
+        SanityCheck.check { target.first == manager.localhost }
+        val store = manager.localStores[target.second]!!
+        val filter2 = mutableListOf<Int>()
+        val projection = mutableListOf<String>()
+        for (ii in 0 until 3) {
+            val i = EIndexPatternHelper.tripleIndicees[index.idx_set[0]][ii]
+            when (val param = children[i]) {
+                is IAOPConstant -> {
+                    SanityCheck.check { filter2.size == ii }
+                    filter2.add(query.getDictionary().valueToGlobal(param.getValue()))
+                }
+                is IAOPVariable -> {
+                    projection.add(param.getName())
+                }
+                else -> {
+                    SanityCheck.checkUnreachable()
+                }
+            }
+        }
+        val filter = IntArray(filter2.size) { filter2[it] }
+        return store.getIterator(query, filter, projection)
     }
 }

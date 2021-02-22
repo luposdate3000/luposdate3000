@@ -688,7 +688,7 @@ private fun createProjectedVariables(query: Query, node: XMLElement, mapping: Mu
             val s = convertToOPBase(query, node["sparam"]!!.childs[0], mapping) as IAOPBase
             val p = convertToOPBase(query, node["pparam"]!!.childs[0], mapping) as IAOPBase
             val o = convertToOPBase(query, node["oparam"]!!.childs[0], mapping) as IAOPBase
-            val tripleStoreIndexDescription = tripleStoreManager.getIndexFromXML(node["idx"])
+            val tripleStoreIndexDescription = tripleStoreManager.getIndexFromXML(node["idx"]!!)
             res = POPTripleStoreIterator(query, createProjectedVariables(query, node, mapping), tripleStoreIndexDescription, arrayOf<IOPBase>(s, p, o))
         }
         "LOPTriple" -> {

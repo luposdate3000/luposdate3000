@@ -16,6 +16,7 @@
  */
 package lupos.s05tripleStore
 
+import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IQuery
 
 public var tripleStoreManager: TripleStoreManager = object : TripleStoreManager() {
@@ -33,4 +34,5 @@ public var tripleStoreManager: TripleStoreManager = object : TripleStoreManager(
     public override fun getDefaultGraph(): ITripleStoreDescription = throw Exception("not implemented")
     public override fun getGraph(graphName: LuposGraphName): ITripleStoreDescription = throw Exception("not implemented")
     public override fun initialize(): Unit = throw Exception("not implemented")
+    public override fun getIndexFromXML(node: XMLElement): ITripleStoreIndexDescription = throw Exception("not implemented")
 }

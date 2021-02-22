@@ -19,7 +19,10 @@ package lupos.s05tripleStore
 
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.XMLElement
+import lupos.s04logicalOperators.IOPBase
 import kotlin.jvm.JvmField
 
 public class TripleStoreIndexDescriptionPartitionedByKey(
@@ -28,6 +31,11 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
 ) : TripleStoreIndexDescription() {
     internal val hostnames = Array<LuposHostname>(partitionCount) { "" }
     internal val keys = Array<LuposStoreKey>(partitionCount) { "" }
+    public override fun getStore(params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
+        SanityCheck.check { partition.limit.size == 0 }
+        SanityCheck.check { partition.data.size == 0 }
+        throw Exception("not implemented")
+    }
 
     init {
         idx_set = when (idx) {

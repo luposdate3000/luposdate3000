@@ -347,6 +347,7 @@ public actual object HttpEndpointLauncher {
                                     query.setCommunicationHandler(CommunicationHandler())
                                     query.setDictionaryUrl(dictionaryURL)
                                     val node = XMLElement.convertToOPBase(query, queryXML) as POPBase
+                                    query.root = node
                                     when (node) {
                                         is POPDistributedSendSingle -> node.evaluate(connectionOutMy2)
                                         else -> throw Exception("unexpected node '${node.classname}'")

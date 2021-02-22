@@ -18,6 +18,8 @@
 package lupos.s05tripleStore
 
 import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EIndexPatternExt
+import lupos.s00misc.XMLElement
 import kotlin.jvm.JvmField
 
 public abstract class TripleStoreIndexDescription() : ITripleStoreIndexDescription {

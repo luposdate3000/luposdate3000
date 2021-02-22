@@ -18,6 +18,7 @@
 package lupos.s05tripleStore
 
 import lupos.s00misc.EIndexPatternExt
+import lupos.s00misc.XMLElement
 import lupos.s01io.BufferManager
 import lupos.s01io.BufferManagerExt
 import lupos.s04logicalOperators.IQuery
@@ -189,30 +190,32 @@ public class TripleStoreManagerImpl(
         return getGraph(DEFAULT_GRAPH_NAME)
     }
 
-    public override fun getIndexFromXML(node: XMLElement): TripleStoreIndexDescription {
-        val graph = metadata[node.attributes["graphName"]]!!
-        val idx = EIndexPatternExt.names.indexOf(node.attributes["pattern"]!!)
+    public override fun getIndexFromXML(node: XMLElement): ITripleStoreIndexDescription {
+        println("node=${node.toPrettyString()}")
+        val node2 = node["TripleStoreIndexDescription"]!!
+        val graph = metadata[node2.attributes["graphName"]]!!
+        val idx = EIndexPatternExt.names.indexOf(node2.attributes["pattern"]!!)
         for (index in graph.indices) {
             if (index.hasPattern(idx)) {
                 when (index) {
                     is TripleStoreIndexDescriptionPartitionedByID -> {
-                        if (node.attributes["type"] == "TripleStoreIndexDescriptionPartitionedByID") {
-                            if (index.partitionCount == node.attributes["partitionCount"]!!.toInt()) {
-                                if (index.partitionColumn == node.attributes["partitionColumn"]!!.toInt()) {
+                        if (node2.attributes["type"] == "TripleStoreIndexDescriptionPartitionedByID") {
+                            if (index.partitionCount == node2.attributes["partitionCount"]!!.toInt()) {
+                                if (index.partitionColumn == node2.attributes["partitionColumn"]!!.toInt()) {
                                     return index
                                 }
                             }
                         }
                     }
                     is TripleStoreIndexDescriptionPartitionedByKey -> {
-                        if (node.attributes["type"] == "TripleStoreIndexDescriptionPartitionedByKey") {
-                            if (index.partitionCount == node.attributes["partitionCount"]!!.toInt()) {
+                        if (node2.attributes["type"] == "TripleStoreIndexDescriptionPartitionedByKey") {
+                            if (index.partitionCount == node2.attributes["partitionCount"]!!.toInt()) {
                                 return index
                             }
                         }
                     }
                     is TripleStoreIndexDescriptionSimple -> {
-                        if (node.attributes["type"] == "TripleStoreIndexDescriptionSimple") {
+                        if (node2.attributes["type"] == "TripleStoreIndexDescriptionSimple") {
                             return index
                         }
                     }

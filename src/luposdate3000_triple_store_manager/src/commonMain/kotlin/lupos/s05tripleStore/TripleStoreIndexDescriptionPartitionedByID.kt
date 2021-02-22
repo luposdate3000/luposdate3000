@@ -19,7 +19,10 @@ package lupos.s05tripleStore
 
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
+import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.XMLElement
+import lupos.s04logicalOperators.IOPBase
 import kotlin.jvm.JvmField
 
 public class TripleStoreIndexDescriptionPartitionedByID(
@@ -27,6 +30,16 @@ public class TripleStoreIndexDescriptionPartitionedByID(
     @JvmField internal val partitionCount: Int,
     @JvmField internal val partitionColumn: Int,
 ) : TripleStoreIndexDescription() {
+
+    public override fun getStore(params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
+        SanityCheck.check({ partition.limit.size == 1 }, { "${partition.limit} ${partition.data}" })
+        SanityCheck.check({ partition.data.size == 1 }, { "${partition.limit} ${partition.data}" })
+        for ((k, v) in partition.data) {
+            return Pair(hostnames[v], keys[v])
+        }
+        throw Exception("unreachable")
+    }
+
     internal val hostnames = Array<LuposHostname>(partitionCount) { "" }
     internal val keys = Array<LuposStoreKey>(partitionCount) { "" }
 
