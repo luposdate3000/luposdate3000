@@ -23,6 +23,7 @@ import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+import lupos.s00misc.communicationHandler
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -115,7 +116,7 @@ public class POPDistributedReceiveSingle public constructor(
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = mutableListOf<String>()
         variables.addAll(projectedVariables)
-        val handler = query.getCommunicationHandler()!!
+        val handler = communicationHandler
         var connection: MyConnection? = null
         var mapping = IntArray(variables.size)
         for ((k, v) in hosts) {

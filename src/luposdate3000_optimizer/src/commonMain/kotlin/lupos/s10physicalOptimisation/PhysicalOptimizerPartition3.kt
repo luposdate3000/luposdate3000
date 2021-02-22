@@ -19,7 +19,6 @@ package lupos.s10physicalOptimisation
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.Partition
 import lupos.s00misc.USE_PARTITIONS
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
@@ -39,9 +38,10 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 
 public class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition3ID, "PhysicalOptimizerPartition3") {
+    // this optimizer moves the partitioning upwards to the root
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {
+        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process)) {
             when (node) {
                 is POPSplitPartitionFromStore -> {
                     var storeNodeTmp = node.children[0]
@@ -51,6 +51,7 @@ public class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EO
                     }
                     val storeNode = storeNodeTmp
                     val max_count = node.partitionCount
+                    println("PhysicalOptimizerPartition3 : initialize specific ${node.getUUID()}")
                     val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
                     if (new_count != max_count) {
                         val newID = query.getNextPartitionOperatorID()
@@ -328,6 +329,7 @@ public class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EO
                         }
                         is POPTripleStoreIterator -> {
                             try {
+                                println("PhysicalOptimizerPartition3 : initialize specific b ${c.getUUID()}")
                                 val new_count = c.changeToIndexWithMaximumPartitions(node.partitionCount, node.partitionVariable)
                                 c.hasSplitFromStore = true
                                 res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)

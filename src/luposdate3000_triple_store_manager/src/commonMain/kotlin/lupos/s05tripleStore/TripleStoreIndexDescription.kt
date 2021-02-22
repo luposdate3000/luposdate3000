@@ -39,7 +39,7 @@ public abstract class TripleStoreIndexDescription() : ITripleStoreIndexDescripti
             if (index.hasPattern(idx_set[0]) &&
                 (
                     index is TripleStoreIndexDescriptionPartitionedByID &&
-                        (max_partitions == null || index.partitionCount < max_partitions) &&
+                        (max_partitions == null || index.partitionCount <= max_partitions) &&
                         index.partitionCount > count &&
                         index.partitionColumn == column
                     ) || (

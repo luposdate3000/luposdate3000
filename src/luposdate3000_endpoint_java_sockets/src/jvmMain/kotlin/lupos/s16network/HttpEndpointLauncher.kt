@@ -29,6 +29,7 @@ import lupos.s00misc.MyStringStream
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
 import lupos.s00misc.XMLElement
+import lupos.s00misc.communicationHandler
 import lupos.s00misc.xmlParser.XMLParser
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.Query
@@ -164,6 +165,7 @@ public actual object HttpEndpointLauncher {
             80
         }
         try {
+            communicationHandler = CommunicationHandler()
             var queryMappings = mutableMapOf<String, XMLElement>()
             val server = ServerSocket()
             server.bind(InetSocketAddress("0.0.0.0", port)) // maybe use "::" for ipv6
@@ -247,7 +249,6 @@ public actual object HttpEndpointLauncher {
                                 }
                                 val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(params["query"]!!, false)
                                 val query = node.getQuery()
-                                query.setCommunicationHandler(CommunicationHandler())
                                 val dict = RemoteDictionaryServer(query.getDictionary())
                                 query.setDictionaryServer(dict)
                                 val key = "${query.getTransactionID()}"
@@ -285,11 +286,6 @@ public actual object HttpEndpointLauncher {
                                 val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
-                                connectionOutPrinter2.println("Partitining-Scheme :: ")
-                                connectionOutPrinter2.println("${Partition.estimatedPartitions0}")
-                                connectionOutPrinter2.println("${Partition.estimatedPartitions1}")
-                                connectionOutPrinter2.println("${Partition.estimatedPartitions2}")
-                                connectionOutPrinter2.println("${Partition.estimatedPartitionsValid}")
                             }
                             paths["/import/intermediate"] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3") to ::inputElement)) {
                                 val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
@@ -338,13 +334,12 @@ public actual object HttpEndpointLauncher {
                                 if (queryXML == null) {
                                     throw Exception("this query was not registered before")
                                 } else {
-                                    val comm = CommunicationHandler()
+                                    val comm = communicationHandler
                                     var idx = dictionaryURL.indexOf("/")
                                     println("opening dictionary :: '${dictionaryURL.substring(0, idx)}' '${dictionaryURL.substring(idx)}'")
                                     val conn = comm.openConnection(dictionaryURL.substring(0, idx), "POST " + dictionaryURL.substring(idx) + "\n\n")
                                     val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second)
                                     val query = Query(remoteDictionary)
-                                    query.setCommunicationHandler(CommunicationHandler())
                                     query.setDictionaryUrl(dictionaryURL)
                                     val node = XMLElement.convertToOPBase(query, queryXML) as POPBase
                                     query.root = node

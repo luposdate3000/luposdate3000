@@ -26,7 +26,6 @@ import lupos.s00misc.IMyPrintWriter
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.MyStringStream
 import lupos.s00misc.OperatorGraphToLatex
-import lupos.s00misc.Partition
 import lupos.s00misc.Platform
 import lupos.s00misc.QueryResultToStream
 import lupos.s00misc.SanityCheck
@@ -271,14 +270,8 @@ public object LuposdateEndpoint {
                         layout.addIndex { it.simple(idx) }
                     } else if (t[1] == "1") {
                         layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 1) }
-                        if (t[2].toInt() > Partition.default_k) {
-                            Partition.default_k = t[2].toInt()
-                        }
                     } else if (t[1] == "2") {
                         layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 2) }
-                        if (t[2].toInt() > Partition.default_k) {
-                            Partition.default_k = t[2].toInt()
-                        }
                     }
                 }
             } catch (e: Exception) {

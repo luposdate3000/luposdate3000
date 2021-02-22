@@ -26,20 +26,7 @@ public class Partition {
     public val limit: MutableMap<String, Int>
 
     public companion object {
-        @JvmField
-        public val estimatedPartitions0: MutableSet<String> = mutableSetOf() // for benchmarking enable the notpartitioned stores as well
-
-        @JvmField
-        public val estimatedPartitions1: MutableMap<String, MutableSet<Int>> = mutableMapOf()
-
-        @JvmField
-        public val estimatedPartitions2: MutableMap<String, MutableSet<Int>> = mutableMapOf()
-
-        @JvmField
-        public var estimatedPartitionsValid: Boolean = false
-
-        @JvmField
-        public var default_k: Int = 128
+        public const val maxThreads: Int = 128
 
         @JvmField
         public val queue_size: Int = 1000
@@ -68,26 +55,6 @@ public class Partition {
         }
 
         init {
-            val countTotal = getMyCombinedCount()
-            default_k = countTotal
-            if (countTotal == 0 || countTotal == 1) {
-                for (s in listOf("SPO", "SOP", "PSO", "POS", "OSP", "OPS")) {
-                    estimatedPartitions0.add(s)
-                }
-                estimatedPartitionsValid = true
-            } else if (countTotal > 1) {
-                for (s in listOf("SPO", "SOP", "PSO", "POS", "OSP", "OPS")) {
-                    if (estimatedPartitions1[s] == null) {
-                        estimatedPartitions1[s] = mutableSetOf()
-                    }
-                    if (estimatedPartitions2[s] == null) {
-                        estimatedPartitions2[s] = mutableSetOf()
-                    }
-                    estimatedPartitions1[s]!!.add(countTotal)
-                    estimatedPartitions2[s]!!.add(countTotal)
-                }
-                estimatedPartitionsValid = true
-            }
             println("initialized Partition with myProcessId=$myProcessId myProcessCount=$myProcessCount myThreadCount=$myThreadCount myProcessUrls=$myProcessUrls")
         }
     }

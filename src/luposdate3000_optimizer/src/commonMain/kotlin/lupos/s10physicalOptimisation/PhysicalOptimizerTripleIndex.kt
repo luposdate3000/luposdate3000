@@ -67,6 +67,7 @@ public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, E
                 }
             }
             res = store.getIterator(query, params, LOPTriple.getIndex(node.children, node.mySortPriority.map { it.variableName }))
+            println("PhysicalOptimizerTripleIndex : initialize any Iterator ${res.getUUID()}")
             if (res is POPTripleStoreIterator) {
                 res.sortPriorities = node.sortPriorities
                 res.mySortPriority = node.mySortPriority

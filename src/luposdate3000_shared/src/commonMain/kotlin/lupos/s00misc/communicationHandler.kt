@@ -14,21 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s04logicalOperators
+package lupos.s00misc
 
-import lupos.s03resultRepresentation.IResultSetDictionary
+import kotlin.jvm.JvmField
 
-public interface IQuery {
-    public fun getDictionary(): IResultSetDictionary
-    public fun checkVariableExistence(): Boolean
-    public fun getWorkingDirectory(): String
-    public fun setWorkingDirectory(value: String)
-    public fun initialize(): IOPBase
-    public fun initialize(newroot: IOPBase): IOPBase
-    public fun setCommited()
-    public fun getTransactionID(): Long
-    public fun getDistributionKey(): Map<String, Int>
-    public fun getDictionaryUrl(): String?
-    public fun setDictionaryUrl(url: String)
-    public fun setDictionaryServer(dict: IResultSetDictionary)
+@JvmField
+public var communicationHandler: ICommunicationHandler = object : ICommunicationHandler {
+    public override fun sendData(targetHost: String, path: String, params: Map<String, String>) = throw Exception("not implemented")
+    public override fun openConnection(targetHost: String, path: String, params: Map<String, String>): Pair<IMyInputStream, IMyOutputStream> = throw Exception("not implemented")
+    public override fun openConnection(targetHost: String, header: String): Pair<IMyInputStream, IMyOutputStream> = throw Exception("not implemented")
 }

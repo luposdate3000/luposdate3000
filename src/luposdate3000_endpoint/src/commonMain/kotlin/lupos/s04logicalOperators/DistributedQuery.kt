@@ -19,6 +19,7 @@ package lupos.s04logicalOperators
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+import lupos.s00misc.communicationHandler
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPMergePartition
@@ -185,7 +186,7 @@ internal class DistributedQueryImpl : IDistributedQuery {
             if (k == "") {
                 res = v
             } else {
-                query2.communicationHandler!!.sendData(query2.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
+                communicationHandler.sendData(query2.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
             }
         }
         return XMLElement.convertToOPBase(query, res!!)

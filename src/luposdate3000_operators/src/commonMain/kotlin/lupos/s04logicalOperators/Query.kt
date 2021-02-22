@@ -16,7 +16,6 @@
  */
 package lupos.s04logicalOperators
 
-import lupos.s00misc.ICommunicationHandler
 import lupos.s00misc.MyLock
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
@@ -88,9 +87,6 @@ public class Query public constructor(@JvmField public var dictionary: IResultSe
     public var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
 
     @JvmField
-    public var communicationHandler: ICommunicationHandler? = null
-
-    @JvmField
     public var dictionaryUrl: String? = null
     public override fun setDictionaryUrl(url: String) {
         this.dictionaryUrl = url
@@ -101,10 +97,6 @@ public class Query public constructor(@JvmField public var dictionary: IResultSe
     }
 
     public override fun getDictionaryUrl(): String? = dictionaryUrl
-    public override fun getCommunicationHandler(): ICommunicationHandler? = communicationHandler
-    public override fun setCommunicationHandler(handler: ICommunicationHandler) {
-        communicationHandler = handler
-    }
 
     override fun getDistributionKey(): Map<String, Int> = allVariationsKey
     override fun initialize(): IOPBase {
@@ -117,9 +109,7 @@ public class Query public constructor(@JvmField public var dictionary: IResultSe
         transactionID = global_transactionID++
         commited = false
         partitions.clear()
-        if (communicationHandler != null) {
-            return distributedQuery.initialize(this)
-        }
+        return distributedQuery.initialize(this)
         return newroot
     }
 

@@ -23,6 +23,7 @@ import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+import lupos.s00misc.communicationHandler
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -118,10 +119,10 @@ public class POPDistributedReceiveMultiOrdered public constructor(
         variables.remove(partitionVariable)
         variables.add(0, partitionVariable)
         var buffer = IntArray(partitionCount * variables.size)
-        var connections = Array<MyConnection?>(variables.size) { null }
+        var connections = Array<MyConnection?>(partitionCount) { null }
         var openConnections = 0
         SanityCheck.check { hosts.size == partitionCount }
-        val handler = query.getCommunicationHandler()!!
+        val handler = communicationHandler
         for ((k, v) in hosts) {
             val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))
             var mapping = IntArray(variables.size)

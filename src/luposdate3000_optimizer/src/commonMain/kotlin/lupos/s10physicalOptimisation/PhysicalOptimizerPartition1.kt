@@ -19,7 +19,6 @@ package lupos.s10physicalOptimisation
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.Partition
 import lupos.s00misc.USE_PARTITIONS
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
@@ -33,9 +32,10 @@ import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 
 public class PhysicalOptimizerPartition1(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition1ID, "PhysicalOptimizerPartition1") {
+    // this optimizer moved the partitioning towards and into the triple store, but does NOT care if the specific triple store exist ...
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {
+        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process)) {
             when (node) {
                 is POPSplitPartition -> {
 // splitting must always split all variables provided by its direct children - if there is a different children, adapt the variables
@@ -62,7 +62,8 @@ public class PhysicalOptimizerPartition1(query: Query) : OptimizerBase(query, EO
                             try {
                                 val new_count = c.changeToIndexWithMaximumPartitions(node.partitionCount, node.partitionVariable)
                                 c.hasSplitFromStore = true
-                                res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)
+                                println("PhysicalOptimizerPartition1 : initialize specific ${c.getUUID()}")
+                                res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, node.partitionCount, node.partitionID, c)
                                 query.removePartitionOperator(node.getUUID(), node.partitionID)
                                 query.addPartitionOperator(res.getUUID(), node.partitionID)
                                 onChange()

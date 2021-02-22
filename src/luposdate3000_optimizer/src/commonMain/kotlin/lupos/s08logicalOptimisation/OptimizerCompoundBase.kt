@@ -52,7 +52,7 @@ public abstract class OptimizerCompoundBase internal constructor(query: Query, o
                 ids.add(node.partitionID)
             }
             is POPSplitPartitionFromStore -> {
-                SanityCheck.check { currentPartitions[node.partitionVariable] == node.partitionCount }
+                SanityCheck.check({ currentPartitions[node.partitionVariable] == node.partitionCount }, { "${root.toXMLElement(false).toPrettyString()}" })
                 currentPartitions[node.partitionVariable] = -node.partitionCount
                 ids.add(node.partitionID)
             }

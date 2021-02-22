@@ -31,6 +31,7 @@ import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 
 public class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition4ID, "PhysicalOptimizerPartition4") {
+    // this optimizer reduces the partitions, such that a max partition count is preserved
     private fun getNumberOfEnclosingPartitions(node: IOPBase): Int {
         var count = 1
         val childs = node.getChildren()
@@ -50,7 +51,7 @@ public class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EO
     }
 
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {
+        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process)) {
             when (node) {
                 is POPSplitPartitionFromStore -> {
                     val tmp = query.partitionOperatorCount[node.partitionID]
@@ -61,8 +62,8 @@ public class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EO
                     query.partitionOperatorCount[node.partitionID] = node.partitionCount
                     var newCount = node.partitionCount
                     val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCount
-                    if (count > Partition.default_k) {
-                        val reduceFactor = count / Partition.default_k
+                    if (count > Partition.maxThreads) { // prevent TOO many threads
+                        val reduceFactor = count / Partition.maxThreads
                         newCount = if (reduceFactor > node.partitionCount) {
                             1
                         } else {
@@ -84,8 +85,8 @@ public class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EO
                     query.partitionOperatorCount[node.partitionID] = node.partitionCount
                     var newCount = node.partitionCount
                     val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCount
-                    if (count > Partition.default_k) {
-                        val reduceFactor = count / Partition.default_k
+                    if (count > Partition.maxThreads) {
+                        val reduceFactor = count / Partition.maxThreads
                         newCount = if (reduceFactor > node.partitionCount) {
                             1
                         } else {
@@ -133,8 +134,8 @@ public class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EO
                     query.partitionOperatorCount[node.partitionIDTo] = node.partitionCountTo
                     var newCount = node.partitionCountTo
                     val count = getNumberOfEnclosingPartitions(node.children[0]) * node.partitionCountTo / node.partitionCountFrom
-                    if (count > Partition.default_k) {
-                        val reduceFactor = count / Partition.default_k
+                    if (count > Partition.maxThreads) {
+                        val reduceFactor = count / Partition.maxThreads
                         newCount = if (reduceFactor > node.partitionCountTo) {
                             1
                         } else {

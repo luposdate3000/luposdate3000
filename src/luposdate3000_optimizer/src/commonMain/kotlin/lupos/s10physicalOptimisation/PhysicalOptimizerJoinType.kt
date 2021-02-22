@@ -60,7 +60,7 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
     }
 
     private fun embedWithinPartitionContext(joinColumns: MutableList<String>, childA: IOPBase, childB: IOPBase, create: (IOPBase, IOPBase) -> IOPBase, keepOrder: Boolean): IOPBase {
-        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {
+        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process)) {
             var a = childA
             var b = childB
             val newID = IntArray(joinColumns.size) { 0 }
@@ -68,8 +68,8 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
             while (i >= 0) {
                 newID[i] = query.getNextPartitionOperatorID()
                 val s = joinColumns[i]
-                a = POPSplitPartition(query, a.getProvidedVariableNames(), s, Partition.default_k, newID[i], a)
-                b = POPSplitPartition(query, b.getProvidedVariableNames(), s, Partition.default_k, newID[i], b)
+                a = POPSplitPartition(query, a.getProvidedVariableNames(), s, Partition.maxThreads, newID[i], a)
+                b = POPSplitPartition(query, b.getProvidedVariableNames(), s, Partition.maxThreads, newID[i], b)
                 query.addPartitionOperator(a.uuid, newID[i])
                 query.addPartitionOperator(b.uuid, newID[i])
                 i--
@@ -78,17 +78,17 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
             var c = create(a, b)
             if (c.getProvidedVariableNames().isEmpty()) {
                 for (s in joinColumns) {
-                    c = POPMergePartitionCount(query, c.getProvidedVariableNames(), s, Partition.default_k, newID[i], c)
+                    c = POPMergePartitionCount(query, c.getProvidedVariableNames(), s, Partition.maxThreads, newID[i], c)
                     query.addPartitionOperator(c.uuid, newID[i])
                     i++
                 }
             } else {
                 for (s in joinColumns) {
                     if (keepOrder) {
-                        c = POPMergePartitionOrderedByIntId(query, c.getProvidedVariableNames(), s, Partition.default_k, newID[i], c)
+                        c = POPMergePartitionOrderedByIntId(query, c.getProvidedVariableNames(), s, Partition.maxThreads, newID[i], c)
                         query.addPartitionOperator(c.uuid, newID[i])
                     } else {
-                        c = POPMergePartition(query, c.getProvidedVariableNames(), s, Partition.default_k, newID[i], c)
+                        c = POPMergePartition(query, c.getProvidedVariableNames(), s, Partition.maxThreads, newID[i], c)
                         query.addPartitionOperator(c.uuid, newID[i])
                     }
                     i++

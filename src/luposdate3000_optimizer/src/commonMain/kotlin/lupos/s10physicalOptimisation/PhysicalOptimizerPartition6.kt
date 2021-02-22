@@ -18,7 +18,6 @@ package lupos.s10physicalOptimisation
 
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.Partition
 import lupos.s00misc.USE_PARTITIONS
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
@@ -29,9 +28,10 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 
 public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition6ID, "PhysicalOptimizerPartition6") {
+    // this store introduces fixes, if the desired triple store does not participate in any partitioning at all, but it is required to do so
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {
+        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process)) {
             when (node) {
                 is POPTripleStoreIterator -> {
                     if (!node.hasSplitFromStore) {
@@ -49,6 +49,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                         }
                         if (new_count > 1) {
                             val partitionID = query.getNextPartitionOperatorID()
+                            println("PhysicalOptimizerPartition6 : initialize specific ${node.getUUID()}")
                             res = POPSplitPartitionFromStore(query, node.projectedVariables, partitionVariable, new_count, partitionID, node)
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, partitionVariable, new_count, partitionID, res)

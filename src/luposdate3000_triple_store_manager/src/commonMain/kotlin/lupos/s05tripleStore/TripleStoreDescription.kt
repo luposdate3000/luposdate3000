@@ -56,23 +56,29 @@ public class TripleStoreDescription(
     }
 
     public override fun modify(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType) {
-        val bufSize = 100
+        val bufSize = 128000
         val buf = IntArray(bufSize)
         val bufLimit = (bufSize / 3) * 3
-        loop@ while (true) {
+        var loop = true
+        while (loop) {
+            println("TripleStoreDescription.loop $bufSize $bufLimit")
             var i = 0
             while (i < bufLimit) {
+                println("TripleStoreDescription.loop next")
                 buf[i++] = columns[0].next()
                 buf[i++] = columns[1].next()
                 buf[i++] = columns[2].next()
                 if (buf[i - 1] == ResultSetDictionaryExt.nullValue) {
                     i -= 3
+                    loop = false
                     break
                 }
             }
 
             for (index in indices) {
+                println("TripleStoreDescription.loop indices")
                 for (store in index.getAllLocations()) {
+                    println("TripleStoreDescription.loop locations")
                     if (store.first == (tripleStoreManager as TripleStoreManagerImpl).localhost) {
                         val tmp = (tripleStoreManager as TripleStoreManagerImpl).localStores[store.second]!!
                         if (type == EModifyTypeExt.INSERT) {

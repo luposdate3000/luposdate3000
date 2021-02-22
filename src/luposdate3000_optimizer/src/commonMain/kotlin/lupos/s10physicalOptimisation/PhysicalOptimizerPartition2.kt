@@ -18,7 +18,6 @@ package lupos.s10physicalOptimisation
 
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.Partition
 import lupos.s00misc.USE_PARTITIONS
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
@@ -32,8 +31,9 @@ import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 
 public class PhysicalOptimizerPartition2(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition2ID, "PhysicalOptimizerPartition2") {
+    // this optimizer makes sure, that every partitioning which belongs to the same section uses the same partition count
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process) && Partition.default_k > 1) {
+        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process)) {
             when (node) {
                 is POPSplitPartitionFromStore -> {
                     var storeNodeTmp = node.children[0]
@@ -43,6 +43,7 @@ public class PhysicalOptimizerPartition2(query: Query) : OptimizerBase(query, EO
                     }
                     val storeNode = storeNodeTmp as POPTripleStoreIterator
                     val max_count = query.partitionOperatorCount[node.partitionID]
+                    println("PhysicalOptimizerPartition2 : initialize specific ${node.getUUID()}")
                     val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
                     query.partitionOperatorCount[node.partitionID] = new_count
                     node.partitionCount = new_count

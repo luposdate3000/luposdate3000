@@ -22,6 +22,7 @@ import lupos.s00misc.XMLElement
 import lupos.s01io.BufferManager
 import lupos.s01io.BufferManagerExt
 import lupos.s04logicalOperators.IQuery
+import lupos.s04logicalOperators.Query
 import kotlin.jvm.JvmField
 
 public class TripleStoreManagerImpl(
@@ -43,22 +44,6 @@ public class TripleStoreManagerImpl(
 
     public override fun initialize() {
         resetDefaultTripleStoreLayout()
-        val graph = defaultTripleStoreLayout.build()
-        metadata[TripleStoreManager.DEFAULT_GRAPH_NAME] = graph
-        for (index in graph.indices) {
-            index.assignHosts()
-            for (store in index.getAllLocations()) {
-                if (store.first == localhost) {
-                    var page: Int = 0
-                    bufferManager.createPage { byteArray, pageid ->
-                        page = pageid
-                    }
-                    localStores[store.second] = TripleStoreIndexIDTriple(page, false)
-                } else {
-                    throw Exception("createGraph on other nodes")
-                }
-            }
-        }
     }
 
     public override fun resetDefaultTripleStoreLayout() {
@@ -140,14 +125,18 @@ public class TripleStoreManagerImpl(
     }
 
     public override fun clearGraph(query: IQuery, graphName: LuposGraphName) {
-        val graph = metadata[graphName]
-        if (graph != null) {
-            for (index in graph.indices) {
-                for (store in index.getAllLocations()) {
-                    if (store.first == localhost) {
-                        localStores[store.second]!!.clear()
-                    } else {
-                        throw Exception("clearGraph on other nodes")
+        if (graphName == DEFAULT_GRAPH_NAME && metadata[graphName] == null) {
+            createGraph(query, graphName)
+        } else {
+            val graph = metadata[graphName]
+            if (graph != null) {
+                for (index in graph.indices) {
+                    for (store in index.getAllLocations()) {
+                        if (store.first == localhost) {
+                            localStores[store.second]!!.clear()
+                        } else {
+                            throw Exception("clearGraph on other nodes")
+                        }
                     }
                 }
             }
@@ -178,8 +167,11 @@ public class TripleStoreManagerImpl(
 
     public override fun getGraphNames(includeDefault: Boolean): List<LuposGraphName> {
         val res = mutableListOf<LuposGraphName>()
+        if (includeDefault) {
+            res.add(DEFAULT_GRAPH_NAME)
+        }
         metadata.keys.forEach {
-            if (it != DEFAULT_GRAPH_NAME || includeDefault) {
+            if (it != DEFAULT_GRAPH_NAME) {
                 res.add(it)
             }
         }
@@ -227,6 +219,10 @@ public class TripleStoreManagerImpl(
     }
 
     public override fun getGraph(graphName: LuposGraphName): TripleStoreDescription {
+        if (graphName == DEFAULT_GRAPH_NAME && metadata[graphName] == null) {
+            val query = Query()
+            createGraph(query, graphName)
+        }
         return metadata[graphName]!!
     }
 
