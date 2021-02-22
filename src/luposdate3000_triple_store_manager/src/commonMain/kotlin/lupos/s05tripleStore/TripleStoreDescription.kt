@@ -24,6 +24,7 @@ import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.communicationHandler
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -87,41 +88,71 @@ public class TripleStoreDescription(
         return res
     }
 
-    public override fun modify(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType) {
-        val bufSize = 128000
-        val buf = IntArray(bufSize)
-        val bufLimit = (bufSize / 3) * 3
-        var loop = true
-        while (loop) {
-            println("TripleStoreDescription.loop $bufSize $bufLimit")
-            var i = 0
-            while (i < bufLimit) {
-                println("TripleStoreDescription.loop next")
-                buf[i++] = columns[0].next()
-                buf[i++] = columns[1].next()
-                buf[i++] = columns[2].next()
-                if (buf[i - 1] == ResultSetDictionaryExt.nullValue) {
-                    i -= 3
-                    loop = false
-                    break
-                }
-            }
+    internal class MyBuf {
+        @JvmField
+        internal val size = (128000 / 3) * 3
+        @JvmField
+        internal var offset: Int = 0
+        @JvmField
+        internal var buf = IntArray(size)
+    }
 
-            for (index in indices) {
-                println("TripleStoreDescription.loop indices")
-                for (store in index.getAllLocations()) {
-                    println("TripleStoreDescription.loop locations")
-                    if (store.first == (tripleStoreManager as TripleStoreManagerImpl).localhost) {
-                        val tmp = (tripleStoreManager as TripleStoreManagerImpl).localStores[store.second]!!
-                        if (type == EModifyTypeExt.INSERT) {
-                            tmp.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[index.idx_set[0]], i)
-                        } else {
-                            tmp.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[index.idx_set[0]], i)
-                        }
-                    } else {
-                        throw Exception("modify send to other nodes")
-                    }
+    public override fun modify(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType) {
+        val allBuf = Array(indices.size) { index -> Array(indices[index].getAllLocations().size) { MyBuf() } }
+        inline fun mySend(i: Int, j: Int) {
+            val buf = allBuf[i][j]
+            val index = indices[i]
+            val store = index.getAllLocations()[j]
+            if (store.first == (tripleStoreManager as TripleStoreManagerImpl).localhost) {
+                val tmp = (tripleStoreManager as TripleStoreManagerImpl).localStores[store.second]!!
+                if (type == EModifyTypeExt.INSERT) {
+                    tmp.insertAsBulk(buf.buf, EIndexPatternHelper.tripleIndicees[index.idx_set[0]], buf.offset)
+                } else {
+                    tmp.removeAsBulk(buf.buf, EIndexPatternHelper.tripleIndicees[index.idx_set[0]], buf.offset)
                 }
+            } else {
+                val conn = communicationHandler.openConnection(
+                    store.first, "/distributed/graph/modify",
+                    mapOf(
+                        "key" to store.second,
+                        "idx" to EIndexPatternExt.names[index.idx_set[0]],
+                        "mode" to EModifyTypeExt.names[type],
+                    )
+                )
+                conn.second.writeInt(buf.offset)
+                for (k in 0 until buf.offset) {
+                    conn.second.writeInt(buf.buf[k])
+                }
+                conn.second.flush()
+                conn.first.close()
+                conn.second.close()
+                buf.offset = 0
+            }
+        }
+
+        val row = IntArray(3)
+        loop@ while (true) {
+            println("TripleStoreDescription.loop next")
+            row[0] = columns[0].next()
+            row[1] = columns[1].next()
+            row[2] = columns[2].next()
+            if (row[0] == ResultSetDictionaryExt.nullValue) {
+                break@loop
+            }
+            for (i in 0 until allBuf.size) {
+                val bufID = indices[i].findPartitionFor(query, row)
+                val buf = allBuf[i][bufID]
+                if (buf.offset >= buf.size) {
+                    mySend(i, bufID)
+                }
+                buf.buf[buf.offset++] = row[0]
+                buf.buf[buf.offset++] = row[1]
+                buf.buf[buf.offset++] = row[2]
+            }
+        }
+        for (i in 0 until allBuf.size) {
+            for (j in 0 until allBuf[i].size) {
+                mySend(i, j)
             }
         }
     }

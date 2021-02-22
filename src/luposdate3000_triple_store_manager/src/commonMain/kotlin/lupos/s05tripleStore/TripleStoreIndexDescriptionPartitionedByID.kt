@@ -19,10 +19,12 @@ package lupos.s05tripleStore
 
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
+import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
 
 public class TripleStoreIndexDescriptionPartitionedByID(
@@ -30,6 +32,9 @@ public class TripleStoreIndexDescriptionPartitionedByID(
     @JvmField internal val partitionCount: Int,
     @JvmField internal val partitionColumn: Int,
 ) : TripleStoreIndexDescription() {
+    internal override fun findPartitionFor(query: IQuery, triple: IntArray): Int {
+        return triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][partitionColumn]] % partitionCount
+    }
 
     public override fun getStore(params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
         SanityCheck.check({ partition.limit.size == 1 }, { "${partition.limit} ${partition.data}" })
@@ -60,12 +65,6 @@ public class TripleStoreIndexDescriptionPartitionedByID(
             val tmp = (tripleStoreManager as TripleStoreManagerImpl).getNextHostAndKey()
             hostnames[i] = tmp.first
             keys[i] = tmp.second
-        }
-    }
-
-    internal override fun releaseHosts() {
-        for (i in 0 until partitionCount) {
-            (tripleStoreManager as TripleStoreManagerImpl).releaseHostAndKey(hostnames[i], keys[i])
         }
     }
 

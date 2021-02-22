@@ -17,7 +17,12 @@
 
 package lupos.s05tripleStore
 
+import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
+import lupos.s00misc.EIndexPatternHelper
+import lupos.s00misc.EModifyType
+import lupos.s00misc.EModifyTypeExt
+import lupos.s00misc.IMyInputStream
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
 import lupos.s01io.BufferManager
@@ -40,7 +45,7 @@ public class TripleStoreManagerImpl(
     internal val metadata = mutableMapOf<LuposGraphName, TripleStoreDescription>()
 
     @JvmField
-    internal var keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() }
+    internal var keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() } // TODO initialize based on "metadata" on each restart
     internal lateinit var defaultTripleStoreLayout: TripleStoreDescriptionFactory
 
     public override fun initialize() {
@@ -69,10 +74,6 @@ public class TripleStoreManagerImpl(
         defaultTripleStoreLayout = factory
     }
 
-    internal fun releaseHostAndKey(host: LuposHostname, key: LuposStoreKey) {
-        keysOnHostname[hostnames.indexOf(host)].remove(key)
-    }
-
     internal fun getNextHostAndKey(): Pair<LuposHostname, LuposStoreKey> {
         var hostidx = 0
         for (i in 1 until hostnames.size) {
@@ -84,11 +85,26 @@ public class TripleStoreManagerImpl(
         while (keysOnHostname[hostidx].contains(key)) {
             key++
         }
+        keysOnHostname[hostidx].add("$key")
         return Pair(hostnames[hostidx], "$key")
     }
 
     public override fun createGraph(query: IQuery, graphName: LuposGraphName) {
         createGraph(query, graphName, { it.apply(defaultTripleStoreLayout) })
+    }
+
+    public override fun remoteModify(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream) {
+        val store = localStores[key]!!
+        var count = stream.readInt()
+        val buf = IntArray(count)
+        for (i in 0 until count) {
+            buf[i] = stream.readInt()
+        }
+        if (mode == EModifyTypeExt.INSERT) {
+            store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], count)
+        } else {
+            store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], count)
+        }
     }
 
     public override fun remoteCreateGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean, meta: String?) {
@@ -155,6 +171,10 @@ public class TripleStoreManagerImpl(
     }
 
     public override fun clearGraph(query: IQuery, graphName: LuposGraphName) {
+        remoteClearGraph(query, graphName, true)
+    }
+
+    public override fun remoteClearGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean) {
         if (graphName == DEFAULT_GRAPH_NAME && metadata[graphName] == null) {
             createGraph(query, graphName)
         } else {
@@ -165,7 +185,15 @@ public class TripleStoreManagerImpl(
                         if (store.first == localhost) {
                             localStores[store.second]!!.clear()
                         } else {
-                            throw Exception("clearGraph on other nodes")
+                            if (origin) {
+                                communicationHandler.sendData(
+                                    store.first, "/distributed/graph/clear",
+                                    mapOf(
+                                        "origin" to "false",
+                                        "name" to graphName
+                                    )
+                                )
+                            }
                         }
                     }
                 }
@@ -174,6 +202,10 @@ public class TripleStoreManagerImpl(
     }
 
     public override fun dropGraph(query: IQuery, graphName: LuposGraphName) {
+        remoteDropGraph(query, graphName, true)
+    }
+
+    public override fun remoteDropGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean) {
         val graph = metadata[graphName]
         if (graph != null) {
             for (index in graph.indices) {
@@ -184,7 +216,15 @@ public class TripleStoreManagerImpl(
                         bufferManager.deletePage(page)
                         localStores.remove(store.second)
                     } else {
-                        throw Exception("deleteGraph on other nodes")
+                        if (origin) {
+                            communicationHandler.sendData(
+                                store.first, "/distributed/graph/drop",
+                                mapOf(
+                                    "origin" to "false",
+                                    "name" to graphName
+                                )
+                            )
+                        }
                     }
                 }
             }
@@ -256,17 +296,28 @@ public class TripleStoreManagerImpl(
         return metadata[graphName]!!
     }
 
-    public override fun commit(query: IQuery) {
+    public override fun remoteCommit(query: IQuery, origin: Boolean) {
         for (graph in metadata.values) {
             for (index in graph.indices) {
                 for (store in index.getAllLocations()) {
                     if (store.first == localhost) {
                         localStores[store.second]!!.flush()
                     } else {
-                        throw Exception("commit on other nodes")
+                        if (origin) {
+                            communicationHandler.sendData(
+                                store.first, "/distributed/graph/commit",
+                                mapOf(
+                                    "origin" to "false",
+                                )
+                            )
+                        }
                     }
                 }
             }
         }
+    }
+
+    public override fun commit(query: IQuery) {
+        remoteCommit(query, true)
     }
 }

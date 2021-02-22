@@ -23,12 +23,17 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 
 public class TripleStoreIndexDescriptionSimple(
     idx: EIndexPattern,
 ) : TripleStoreIndexDescription() {
     internal var hostname: LuposHostname = ""
     internal var key: LuposStoreKey = ""
+    internal override fun findPartitionFor(query: IQuery, triple: IntArray): Int {
+        return 0
+    }
+
     public override fun getStore(params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
         SanityCheck.check { partition.limit.size == 0 }
         SanityCheck.check { partition.data.size == 0 }
@@ -51,10 +56,6 @@ public class TripleStoreIndexDescriptionSimple(
         val tmp = (tripleStoreManager as TripleStoreManagerImpl).getNextHostAndKey()
         hostname = tmp.first
         key = tmp.second
-    }
-
-    internal override fun releaseHosts() {
-        (tripleStoreManager as TripleStoreManagerImpl).releaseHostAndKey(hostname, key)
     }
 
     public override fun getPartitionCount(): Int {

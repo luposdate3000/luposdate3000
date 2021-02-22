@@ -20,6 +20,7 @@ package lupos.s05tripleStore
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.XMLElement
+import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
 
 public abstract class TripleStoreIndexDescription() : ITripleStoreIndexDescription {
@@ -29,9 +30,9 @@ public abstract class TripleStoreIndexDescription() : ITripleStoreIndexDescripti
     @JvmField
     internal var tripleStoreDescription: TripleStoreDescription = TripleStoreDescriptionDummy
     internal abstract fun assignHosts()
-    internal abstract fun releaseHosts()
     internal fun hasPattern(idx: EIndexPattern): Boolean = idx_set.contains(idx)
     internal abstract fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>>
+    internal abstract fun findPartitionFor(query: IQuery, triple: IntArray): Int
     internal fun getIndexWithMaximumPartitions(max_partitions: Int?, column: Int): ITripleStoreIndexDescription {
         var count = -1
         var currentindex: TripleStoreIndexDescription = this

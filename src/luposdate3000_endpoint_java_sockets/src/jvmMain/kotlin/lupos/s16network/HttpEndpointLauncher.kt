@@ -16,6 +16,8 @@
  */
 package lupos.s16network
 
+import lupos.s00misc.EIndexPatternExt
+import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
 import lupos.s00misc.ICommunicationHandler
@@ -374,6 +376,37 @@ public actual object HttpEndpointLauncher {
                                 val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
+                            }
+                            paths["/distributed/graph/commit"] = PathMappingHelper(false, mapOf()) {
+                                val query = Query()
+                                val origin = params["origin"] == null || params["origin"]!!.toBoolean()
+                                tripleStoreManager.remoteCommit(query, origin)
+                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                connectionOutPrinter = connectionOutPrinter2
+                                printHeaderSuccess(connectionOutPrinter2)
+                            }
+                            paths["/distributed/graph/drop"] = PathMappingHelper(false, mapOf(Pair("name", "") to ::inputElement)) {
+                                val query = Query()
+                                val origin = params["origin"] == null || params["origin"]!!.toBoolean()
+                                tripleStoreManager.remoteDropGraph(query, params["name"]!!, origin)
+                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                connectionOutPrinter = connectionOutPrinter2
+                                printHeaderSuccess(connectionOutPrinter2)
+                            }
+                            paths["/distributed/graph/clear"] = PathMappingHelper(false, mapOf(Pair("name", "") to ::inputElement)) {
+                                val query = Query()
+                                val origin = params["origin"] == null || params["origin"]!!.toBoolean()
+                                tripleStoreManager.remoteClearGraph(query, params["name"]!!, origin)
+                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                connectionOutPrinter = connectionOutPrinter2
+                                printHeaderSuccess(connectionOutPrinter2)
+                            }
+                            paths["/distributed/graph/modify"] = PathMappingHelper(false, mapOf()) {
+                                val query = Query()
+                                val key = params["key"]!!
+                                val idx = EIndexPatternExt.names.indexOf(params["idx"]!!)
+                                val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
+                                tripleStoreManager.remoteModify(query, key, mode, idx, connectionInMy)
                             }
                             paths["/index.html"] = PathMappingHelper(true, mapOf()) {
                                 val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)

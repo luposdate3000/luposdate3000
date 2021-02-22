@@ -16,6 +16,9 @@
  */
 package lupos.s05tripleStore
 
+import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EModifyType
+import lupos.s00misc.IMyInputStream
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IQuery
 
@@ -23,6 +26,9 @@ public var tripleStoreManager: TripleStoreManager = object : TripleStoreManager(
     public override fun resetDefaultTripleStoreLayout(): Unit = throw Exception("not implemented")
     public override fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit): Unit = throw Exception("not implemented")
     public override fun commit(query: IQuery): Unit = throw Exception("not implemented")
+    public override fun remoteCommit(query: IQuery, origin: Boolean): Unit = throw Exception("not implemented")
+    public override fun remoteDropGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean): Unit = throw Exception("not implemented")
+    public override fun remoteClearGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean): Unit = throw Exception("not implemented")
     public override fun createGraph(query: IQuery, graphName: LuposGraphName): Unit = throw Exception("not implemented")
     public override fun createGraph(query: IQuery, graphName: LuposGraphName, action: (ITripleStoreDescriptionFactory) -> Unit): Unit = throw Exception("not implemented")
     public override fun resetGraph(query: IQuery, graphName: LuposGraphName): Unit = throw Exception("not implemented")
@@ -36,4 +42,5 @@ public var tripleStoreManager: TripleStoreManager = object : TripleStoreManager(
     public override fun initialize(): Unit = throw Exception("not implemented")
     public override fun getIndexFromXML(node: XMLElement): ITripleStoreIndexDescription = throw Exception("not implemented")
     public override fun remoteCreateGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean, meta: String?): Unit = throw Exception("not implemented")
+    public override fun remoteModify(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream): Unit = throw Exception("not implemented")
 }

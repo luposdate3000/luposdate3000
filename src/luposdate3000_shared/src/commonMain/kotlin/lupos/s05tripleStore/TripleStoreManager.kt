@@ -16,6 +16,9 @@
  */
 package lupos.s05tripleStore
 
+import lupos.s00misc.EIndexPattern
+import lupos.s00misc.EModifyType
+import lupos.s00misc.IMyInputStream
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IQuery
 
@@ -24,10 +27,14 @@ public abstract class TripleStoreManager {
         public const val DEFAULT_GRAPH_NAME: String = ""
     }
 
+    public abstract fun remoteDropGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean): Unit
+    public abstract fun remoteClearGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean): Unit
+    public abstract fun remoteModify(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream)
     public abstract fun getIndexFromXML(node: XMLElement): ITripleStoreIndexDescription
     public abstract fun resetDefaultTripleStoreLayout()
     public abstract fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit)
     public abstract fun commit(query: IQuery)
+    public abstract fun remoteCommit(query: IQuery, origin: Boolean)
     public abstract fun createGraph(query: IQuery, graphName: LuposGraphName): Unit
     public abstract fun createGraph(query: IQuery, graphName: LuposGraphName, action: (ITripleStoreDescriptionFactory) -> Unit): Unit
     public abstract fun resetGraph(query: IQuery, graphName: LuposGraphName): Unit
