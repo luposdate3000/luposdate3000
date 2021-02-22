@@ -39,7 +39,7 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         return triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][partitionColumn]] % partitionCount
     }
 
-    public override fun getStore(params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
+    public override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
         SanityCheck.check({ partition.limit.size == 1 }, { "${partition.limit} ${partition.data}" })
         SanityCheck.check({ partition.data.size == 1 }, { "${partition.limit} ${partition.data}" })
         for ((k, v) in partition.data) {

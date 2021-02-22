@@ -34,7 +34,7 @@ public class TripleStoreIndexDescriptionSimple(
         return 0
     }
 
-    public override fun getStore(params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
+    public override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
         SanityCheck.check { partition.limit.size == 0 }
         SanityCheck.check { partition.data.size == 0 }
         return Pair(hostname, key)

@@ -23,6 +23,7 @@ import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
@@ -35,21 +36,47 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
     internal val keys = Array<LuposStoreKey>(partitionCount) { "" }
     internal val key_size: Int
     internal override fun findPartitionFor(query: IQuery, triple: IntArray): Int {
-        throw Exception("not implemented")
         val hash: Int
         when (key_size) {
-            1 -> hash = triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]]
-            2 -> hash = triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]]
-            3 -> hash = triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][2]]
+            1 -> {
+                SanityCheck.check { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 }
+                hash = triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]]
+            }
+            2 -> {
+                SanityCheck.check { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 }
+                SanityCheck.check { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0 }
+                hash = triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]]
+            }
+            3 -> {
+                SanityCheck.check { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 }
+                SanityCheck.check { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0 }
+                SanityCheck.check { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][2]] >= 0 }
+                hash = triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][2]]
+            }
             else -> throw Exception("unreachable")
         }
-        return hash % partitionCount
+        if (hash < 0) {
+            return -hash % partitionCount
+        } else {
+            return hash % partitionCount
+        }
     }
 
-    public override fun getStore(params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
+    public override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
         SanityCheck.check { partition.limit.size == 0 }
         SanityCheck.check { partition.data.size == 0 }
-        throw Exception("not implemented")
+        val triple = IntArray(3) { -1 }
+        var counter = 0
+        for (i in 0 until 3) {
+            val param = params[i]
+            if (param is AOPConstant) {
+                triple[i] = param.value
+                counter++
+            }
+        }
+        SanityCheck.check { counter == key_size }
+        val partitionToUse = findPartitionFor(query, triple)
+        return Pair(hostnames[partitionToUse], keys[partitionToUse])
     }
 
     init {

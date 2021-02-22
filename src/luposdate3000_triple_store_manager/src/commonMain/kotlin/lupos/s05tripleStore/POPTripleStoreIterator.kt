@@ -109,7 +109,7 @@ public class POPTripleStoreIterator(
         println("the root :: ${(query as Query).root}")
 
         val index = tripleStoreIndexDescription as TripleStoreIndexDescription
-        val target = index.getStore(children, parent)
+        val target = index.getStore(query, children, parent)
         val manager = tripleStoreManager as TripleStoreManagerImpl
         SanityCheck.check { target.first == manager.localhost }
         val store = manager.localStores[target.second]!!

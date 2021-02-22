@@ -43,24 +43,22 @@ public abstract class TripleStoreIndexDescription() : ITripleStoreIndexDescripti
         var distributionCount = -1
         var currentindex: TripleStoreIndexDescription = this
         for (index in tripleStoreDescription.indices) {
-            if (index.hasPattern(idx_set[0]) &&
-                (
-                    index is TripleStoreIndexDescriptionPartitionedByID &&
-                        (max_partitions == null || index.partitionCount <= max_partitions) &&
-                        index.partitionCount >= count &&
-                        index.partitionColumn == column
-                    ) || (
-                    index.getPartitionCount() == 1 &&
-                        1 >= count
-                    )
-            ) {
-                if (count != index.getPartitionCount() || distributionCount < index.getDistributionCount()) {
-                    count = index.getPartitionCount()
-                    currentindex = index
+            if (index.hasPattern(idx_set[0])) {
+                println("patterns ${idx_set.map { EIndexPatternExt.names[it] }} and ${index.idx_set.map { EIndexPatternExt.names[it] }} matching")
+                if (index.getPartitionCount() >= count) {
+                    if ((max_partitions == null || index.getPartitionCount() <= max_partitions)) {
+                        if (index !is TripleStoreIndexDescriptionPartitionedByID || index.partitionColumn == column) {
+                            if (count != index.getPartitionCount() || distributionCount < index.getDistributionCount()) {
+                                count = index.getPartitionCount()
+                                currentindex = index
+                            }
+                        }
+                    }
                 }
             }
         }
         if (count > -1) {
+            println("getIndexWithMaximumPartitions :: ${idx_set.map { EIndexPatternExt.names[it] }} -> ${currentindex.idx_set.map { EIndexPatternExt.names[it] }}")
             return currentindex
         }
         throw Exception("no matching index found")

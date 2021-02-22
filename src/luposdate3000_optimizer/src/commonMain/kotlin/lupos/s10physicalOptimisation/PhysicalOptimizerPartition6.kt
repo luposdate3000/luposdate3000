@@ -41,6 +41,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                             if (c is AOPVariable) {
                                 try {
                                     partitionVariable = c.name
+                                    println("PhysicalOptimizerPartition6 : initialize specific ${node.getUUID()}")
                                     new_count = node.changeToIndexWithMaximumPartitions(null, partitionVariable)
                                     break
                                 } catch (e: Throwable) {

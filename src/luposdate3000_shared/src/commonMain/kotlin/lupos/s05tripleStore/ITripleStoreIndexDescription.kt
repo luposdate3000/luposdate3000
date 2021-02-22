@@ -19,10 +19,11 @@ package lupos.s05tripleStore
 import lupos.s00misc.Partition
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 
 public interface ITripleStoreIndexDescription {
     public fun getPartitionCount(): Int
     public fun getDistributionCount(): Int
     public fun toXMLElement(): XMLElement
-    public fun getStore(params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey>
+    public fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey>
 }
