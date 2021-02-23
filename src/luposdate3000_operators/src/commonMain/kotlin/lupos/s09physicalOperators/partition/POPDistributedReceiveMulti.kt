@@ -163,14 +163,22 @@ public class POPDistributedReceiveMulti public constructor(
                     }
                 }
                 val off = min * variables.size
+                val connMin = connections[min]!!
                 buffer.copyInto(iterator.buf, 0, off, off + variables.size)
                 for (i in 0 until variables.size) {
-                    buffer[off + connections[min]!!.mapping[i]] = connections[min]!!.input.readInt()
+                    buffer[off + connMin.mapping[i]] = connMin.input.readInt()
                 }
                 if (buffer[off] == ResultSetDictionaryExt.nullValue) {
-                    connections[min]!!.input.close()
-                    connections[min]!!.output.close()
-                    connections[min] = connections[openConnections - 1]
+                    connMin.input.close()
+                    connMin.output.close()
+                    val off2 = (openConnections - 1) * variables.size
+                    if (off != off2) {
+                        val connOther = connections[openConnections - 1]!!
+                        for (i in 0 until variables.size) {
+                            buffer[off + connMin.mapping[i]] = buffer[off2 + connOther.mapping[i]]
+                        }
+                        connections[min] = connections[openConnections - 1]
+                    }
                     connections[openConnections - 1] = null
                     openConnections--
                 }

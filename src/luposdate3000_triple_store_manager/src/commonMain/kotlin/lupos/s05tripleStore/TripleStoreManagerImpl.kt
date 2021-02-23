@@ -69,7 +69,8 @@ public class TripleStoreManagerImpl(
                 while (off > -1) {
                     var s = ""
                     for (i in 0 until 3) {
-                        s += query.getDictionary().getValue(rowiter.buf[off + i]).valueToString()
+//                        s += query.getDictionary().getValue(rowiter.buf[off + i]).valueToString()
+                        s += "0x${rowiter.buf[off + i].toString(16)}"
                         if (i < 2) {
                             s += " "
                         }

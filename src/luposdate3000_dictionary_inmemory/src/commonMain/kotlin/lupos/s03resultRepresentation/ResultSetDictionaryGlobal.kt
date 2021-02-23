@@ -107,6 +107,40 @@ public class ResultSetDictionaryGlobal {
         initializationphase = false
     }
 
+    public fun debugAllDictionaryContent() {
+        File("global.dictionary").printWriter { out ->
+            out.println("0x0 -> true")
+            out.println("0x1 -> false")
+            out.println("0x2 -> error")
+            out.println("0x3 -> undef")
+            out.println("0x4 -> null")
+            for (i in 0 until iriToInt.size) {
+                out.println("0x${(i + ResultSetDictionaryShared.flaggedValueGlobalIri).toString(16)} -> ${iriToValue[i]}")
+            }
+            for (i in 0 until langTaggedToInt.size) {
+                out.println("0x${(i + ResultSetDictionaryShared.flaggedValueGlobalLangTagged).toString(16)} -> ${langTaggedToValue[i]}")
+            }
+            for (i in 0 until typedToInt.size) {
+                out.println("0x${(i + ResultSetDictionaryShared.flaggedValueGlobalTyped).toString(16)} -> ${typedToValue[i]}")
+            }
+            for (i in 0 until doubleToInt.size) {
+                out.println("0x${(i + ResultSetDictionaryShared.flaggedValueGlobalDouble).toString(16)} -> ${doubleToValue[i]}")
+            }
+            for (i in 0 until floatToInt.size) {
+                out.println("0x${(i + ResultSetDictionaryShared.flaggedValueGlobalFloat).toString(16)} -> ${floatToValue[i]}")
+            }
+            for (i in 0 until decimalToInt.size) {
+                out.println("0x${(i + ResultSetDictionaryShared.flaggedValueGlobalDecimal).toString(16)} -> ${decimalToValue[i]}")
+            }
+            for (i in 0 until intToInt.size) {
+                out.println("0x${(i + ResultSetDictionaryShared.flaggedValueGlobalInt).toString(16)} -> ${intToValue[i]}")
+            }
+            for (i in 5 until bNodeCounter) {
+                out.println("0x${(i + ResultSetDictionaryShared.flaggedValueGlobalBnode).toString(16)} -> _:$i")
+            }
+        }
+    }
+
     public fun importFromDictionaryFile(filename: String, mapping: IntArray) {
         importFromDictionaryFileH(filename, mapping)
     }
