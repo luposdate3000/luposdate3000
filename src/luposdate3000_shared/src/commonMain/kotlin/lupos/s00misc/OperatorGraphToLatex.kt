@@ -18,7 +18,6 @@ package lupos.s00misc
 
 public object OperatorGraphToLatex {
 
-    public fun coloredText(color: String, str: String): String = "\\textcolor{$color}{$str}"
     public operator fun invoke(inputString: String, caption: String? = null): String {
         val output = StringBuilder()
         output.append("\\documentclass[tikz,border=10pt]{standalone}\n")

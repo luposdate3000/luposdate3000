@@ -86,4 +86,6 @@ public class OperatorGraphToLatex_StackElement(@JvmField public val name: String
         res.append("]")
         return res.toString()
     }
+
+    public fun coloredText(color: String, str: String): String = "\\textcolor{$color}{$str}"
 }
