@@ -27,6 +27,7 @@ public abstract class TripleStoreManager {
         public const val DEFAULT_GRAPH_NAME: String = ""
     }
 
+    public abstract fun debugAllLocalStoreContent()
     public abstract fun remoteDropGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean): Unit
     public abstract fun remoteClearGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean): Unit
     public abstract fun remoteModify(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream)

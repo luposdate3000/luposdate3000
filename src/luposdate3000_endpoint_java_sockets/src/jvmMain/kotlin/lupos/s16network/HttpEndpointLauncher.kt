@@ -404,6 +404,12 @@ public actual object HttpEndpointLauncher {
                                 val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
                                 tripleStoreManager.remoteModify(query, key, mode, idx, connectionInMy)
                             }
+                            paths["debugLocalStore"] = PathMappingHelper(false, mapOf()) {
+                                tripleStoreManager.debugAllLocalStoreContent()
+                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                connectionOutPrinter = connectionOutPrinter2
+                                printHeaderSuccess(connectionOutPrinter2)
+                            }
                             paths["/index.html"] = PathMappingHelper(true, mapOf()) {
                                 val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2

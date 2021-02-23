@@ -23,6 +23,7 @@ import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IQuery
 
 public var tripleStoreManager: TripleStoreManager = object : TripleStoreManager() {
+    public override fun debugAllLocalStoreContent(): Unit = throw Exception("not implemented")
     public override fun resetDefaultTripleStoreLayout(): Unit = throw Exception("not implemented")
     public override fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit): Unit = throw Exception("not implemented")
     public override fun commit(query: IQuery): Unit = throw Exception("not implemented")

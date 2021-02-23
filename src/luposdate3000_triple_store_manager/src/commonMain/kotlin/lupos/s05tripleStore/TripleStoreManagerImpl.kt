@@ -22,6 +22,7 @@ import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
+import lupos.s00misc.File
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
@@ -47,6 +48,39 @@ public class TripleStoreManagerImpl(
     @JvmField
     internal var keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() } // TODO initialize based on "metadata" on each restart
     internal lateinit var defaultTripleStoreLayout: TripleStoreDescriptionFactory
+
+    public override fun debugAllLocalStoreContent() {
+        File("${localhost.replace(":", "_")}.metadata").printWriter { out ->
+            for ((k, v) in metadata) {
+                out.println("graphname : '$k'")
+                val meta = v.toMetaString().split("|")
+                for (s in meta) {
+                    out.println("    $s")
+                }
+            }
+            out.flush()
+        }
+        for ((k, v) in localStores) {
+            File("${localhost.replace(":", "_")}_$k.store").printWriter { out ->
+                val query = Query()
+                val iter = v.getIterator(query, IntArray(0), listOf("s", "p", "o"))
+                val rowiter = iter.rows
+                var off = rowiter.next()
+                while (off > -1) {
+                    var s = ""
+                    for (i in 0 until 3) {
+                        s += query.getDictionary().getValue(rowiter.buf[off + i]).valueToString()
+                        if (i < 2) {
+                            s += " "
+                        }
+                    }
+                    out.println(s)
+                    off = rowiter.next()
+                }
+                out.flush()
+            }
+        }
+    }
 
     public override fun initialize() {
         resetDefaultTripleStoreLayout()
