@@ -250,14 +250,6 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
     res.add(
         Pair(
             localArgs
-                .ssetModuleName("Luposdate3000_Launch_Binary_Test_Add", "Luposdate3000_Main")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
                 .ssetModuleName("Luposdate3000_Launch_Binary_Test_Suite", "Luposdate3000_Main")
                 .ssetArgs2(compileModuleArgs),
             { true }
@@ -290,7 +282,7 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
     res.add(
         Pair(
             localArgs
-                .ssetModuleName("Luposdate3000_Launch_Prepared_Statement", "Luposdate3000_Main")
+                .ssetModuleName("Luposdate3000_Launch_Generate_Binary_Test_Suite_Single", "Luposdate3000_Main")
                 .ssetArgs2(compileModuleArgs),
             { true }
         )
@@ -298,7 +290,7 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
     res.add(
         Pair(
             localArgs
-                .ssetModuleName("Luposdate3000_Launch_Generate_Binary_Test_Suite", "Luposdate3000_Main")
+                .ssetModuleName("Luposdate3000_Launch_Generate_Binary_Test_Suite_Multi", "Luposdate3000_Main")
                 .ssetArgs2(compileModuleArgs),
             { true }
         )
@@ -562,15 +554,14 @@ val defaultParams = mutableListOf(
         "--mainClass",
         "Endpoint",
         mapOf(
-            "Binary_Test_Add" to { mainClass = "Binary_Test_Add" },
             "Binary_Test_Suite" to { mainClass = "Binary_Test_Suite" },
             "Benchmark" to { mainClass = "Benchmark" },
             "Benchmark_Fig5" to { mainClass = "Benchmark_Fig5" },
             "Code_Gen_Example" to { mainClass = "Code_Gen_Example" },
             "Endpoint" to { mainClass = "Endpoint" },
-            "Generate_Binary_Test_Suite" to { mainClass = "Generate_Binary_Test_Suite" },
+            "Generate_Binary_Test_Suite_Single" to { mainClass = "Generate_Binary_Test_Suite_Single" },
+            "Generate_Binary_Test_Suite_Multi" to { mainClass = "Generate_Binary_Test_Suite_Multi" },
             "Import" to { mainClass = "Import" },
-            "Prepared_Statement" to { mainClass = "Prepared_Statement" },
             "Sparql_Test_Suite" to { mainClass = "Sparql_Test_Suite" },
         )
     ),
@@ -1161,7 +1152,10 @@ fun onGenerateLauncherMain() {
                         out.println("import lupos.launch.$pkg.mainFunc")
                         if (p == "jsMain") {
                             out.println("import kotlin.js.JsName")
+                            out.println("")
                             out.println("@JsName(\"main\")")
+                        } else {
+                            out.println("")
                         }
                         out.println("public fun main(args: Array<String>) {")
                         out.println("    var flag = false")

@@ -20,16 +20,16 @@ import kotlin.js.JsName
 @JsName("main")
 public fun main(args: Array<String>) {
     var flag = false
-    var prefixDirectory: String = ""
+    var input_folder: String = ""
     for (a in args) {
-        if (a.startsWith("--prefixDirectory=")) {
-            prefixDirectory = a.substring(18)
+        if (a.startsWith("--input_folder=")) {
+            input_folder = a.substring(15)
             flag = true
             break
         }
     }
     if (!flag) {
-        throw Exception("the option '--prefixDirectory' is missing on the arguments list")
+        throw Exception("the option '--input_folder' is missing on the arguments list")
     }
     flag = false
     var output_folder: String = ""
@@ -43,5 +43,5 @@ public fun main(args: Array<String>) {
     if (!flag) {
         throw Exception("the option '--output_folder' is missing on the arguments list")
     }
-    mainFunc(prefixDirectory, output_folder)
+    mainFunc(input_folder, output_folder)
 }

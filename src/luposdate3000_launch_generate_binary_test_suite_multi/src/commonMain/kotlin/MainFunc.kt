@@ -20,9 +20,9 @@ import lupos.SparqlTestSuite
 import lupos.s00misc.SparqlTestSuiteConverter
 import lupos.s16network.LuposdateEndpoint
 
-internal fun mainFunc(prefixDirectory: String, output_folder: String) {
+internal fun mainFunc(input_folder: String, output_folder: String) {
     LuposdateEndpoint.initialize()
-    SparqlTestSuite.prefixDirectory = prefixDirectory
-    val converter = SparqlTestSuiteConverter(prefixDirectory, output_folder)
+    SparqlTestSuite.prefixDirectory = input_folder
+    val converter = SparqlTestSuiteConverter(input_folder, output_folder)
     converter.testMain()
 }
