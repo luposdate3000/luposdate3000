@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.launch.generate_binary_test_suite
+package lupos.launch.generate_binary_test_suite_multi
 
 import lupos.SparqlTestSuite
 import lupos.s00misc.SparqlTestSuiteConverter

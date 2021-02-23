@@ -112,7 +112,7 @@ public class POPTripleStoreIterator(
         return 1
     }
 
-    public fun getDesiredHostnameFor(partition: Partition): LuposHostName {
+    public fun getDesiredHostnameFor(partition: Partition): LuposHostname {
         val index = tripleStoreIndexDescription as TripleStoreIndexDescription
         val target = index.getStore(query, children, partition)
         return target.first
