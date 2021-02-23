@@ -16,10 +16,12 @@
  */
 package lupos.s04logicalOperators
 
+import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
+import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPMergePartition
@@ -123,81 +125,83 @@ internal class DistributedQueryImpl : IDistributedQuery {
     }
 
     public override fun initialize(query: IQuery): IOPBase {
-        val query2 = query as Query
-        query2.operatorgraphParts.clear()
-        query2.operatorgraphParts[""] = query2.root!!.toXMLElement(true)
-        query2.operatorgraphPartsToHostMap[""] = Partition.myProcessUrls[Partition.myProcessId]
-        initialize_helper(query, query2.root!!, mutableMapOf(), true)
-        for ((k, v) in query2.operatorgraphParts) {
-            println("subgraph $k")
-            println(v.toPrettyString())
-        }
-        println("host mappings :: init")
-        var dependenciesMap = mutableMapOf<String, List<String>>()
-        for ((k, v) in query2.operatorgraphParts) {
-            val dependencies = mutableListOf<String>()
-            walkXMLElement(v, dependencies)
-            dependenciesMap[k] = dependencies
-            println("$k :: ${query2.operatorgraphPartsToHostMap[k] ?: "?"} :: $dependencies")
-        }
-        var changed = true
-        var iteration = 0
-        while (changed) {
-            changed = false
-            println("host mappings :: iteration $iteration")
-            iteration++
+        if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+            val query2 = query as Query
+            query2.operatorgraphParts.clear()
+            query2.operatorgraphParts[""] = query2.root!!.toXMLElement(true)
+            query2.operatorgraphPartsToHostMap[""] = Partition.myProcessUrls[Partition.myProcessId]
+            initialize_helper(query, query2.root!!, mutableMapOf(), true)
             for ((k, v) in query2.operatorgraphParts) {
-                if (!query2.operatorgraphPartsToHostMap.contains(k)) {
-                    var possibleHosts = mutableSetOf<String>()
-                    for (s in dependenciesMap[k]!!) {
-                        possibleHosts.add(query2.operatorgraphPartsToHostMap[s] ?: "?")
-                    }
-                    println("possibleHosts $possibleHosts")
-                    if (possibleHosts.size == 1) {
-                        query2.operatorgraphPartsToHostMap[k] = possibleHosts.first()
-                        changed = true
-                    }
-                }
-                println("$k :: ${query2.operatorgraphPartsToHostMap[k] ?: "?"}")
+                println("subgraph $k")
+                println(v.toPrettyString())
             }
-            if (!changed) {
-                loop@ for ((k, v) in query2.operatorgraphParts) {
+            println("host mappings :: init")
+            var dependenciesMap = mutableMapOf<String, List<String>>()
+            for ((k, v) in query2.operatorgraphParts) {
+                val dependencies = mutableListOf<String>()
+                walkXMLElement(v, dependencies)
+                dependenciesMap[k] = dependencies
+                println("$k :: ${query2.operatorgraphPartsToHostMap[k] ?: "?"} :: $dependencies")
+            }
+            var changed = true
+            var iteration = 0
+            while (changed) {
+                changed = false
+                println("host mappings :: iteration $iteration")
+                iteration++
+                for ((k, v) in query2.operatorgraphParts) {
                     if (!query2.operatorgraphPartsToHostMap.contains(k)) {
                         var possibleHosts = mutableSetOf<String>()
                         for (s in dependenciesMap[k]!!) {
                             possibleHosts.add(query2.operatorgraphPartsToHostMap[s] ?: "?")
                         }
-                        possibleHosts.remove("?")
                         println("possibleHosts $possibleHosts")
-                        if (possibleHosts.size > 0) {
+                        if (possibleHosts.size == 1) {
                             query2.operatorgraphPartsToHostMap[k] = possibleHosts.first()
                             changed = true
-                            break@loop
                         }
                     }
                     println("$k :: ${query2.operatorgraphPartsToHostMap[k] ?: "?"}")
                 }
+                if (!changed) {
+                    loop@ for ((k, v) in query2.operatorgraphParts) {
+                        if (!query2.operatorgraphPartsToHostMap.contains(k)) {
+                            var possibleHosts = mutableSetOf<String>()
+                            for (s in dependenciesMap[k]!!) {
+                                possibleHosts.add(query2.operatorgraphPartsToHostMap[s] ?: "?")
+                            }
+                            possibleHosts.remove("?")
+                            println("possibleHosts $possibleHosts")
+                            if (possibleHosts.size > 0) {
+                                query2.operatorgraphPartsToHostMap[k] = possibleHosts.first()
+                                changed = true
+                                break@loop
+                            }
+                        }
+                        println("$k :: ${query2.operatorgraphPartsToHostMap[k] ?: "?"}")
+                    }
+                }
             }
-        }
-        var res: XMLElement? = null
-        println("mapping :: ${query2.operatorgraphPartsToHostMap}")
-        for ((k, v) in query2.operatorgraphParts) {
-            updateXMLtargets(v, query2.operatorgraphPartsToHostMap)
-            if (k == "") {
-                res = v
-            } else {
-                communicationHandler.sendData(query2.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
+            var res: XMLElement? = null
+            println("mapping :: ${query2.operatorgraphPartsToHostMap}")
+            for ((k, v) in query2.operatorgraphParts) {
+                updateXMLtargets(v, query2.operatorgraphPartsToHostMap)
+                if (k == "") {
+                    res = v
+                } else {
+                    communicationHandler.sendData(query2.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
+                }
             }
+            return XMLElement.convertToOPBase(query, res!!)
         }
-        return XMLElement.convertToOPBase(query, res!!)
-    }
 
-    private fun updateXMLtargets(xml: XMLElement, mapping: Map<String, String>) {
-        for (c in xml.childs) {
-            updateXMLtargets(c, mapping)
-        }
-        if (xml.tag == "partitionDistributionReceiveKey") {
-            xml.addAttribute("host", mapping[xml.attributes["key"]!!]!!)
+        private fun updateXMLtargets(xml: XMLElement, mapping: Map<String, String>) {
+            for (c in xml.childs) {
+                updateXMLtargets(c, mapping)
+            }
+            if (xml.tag == "partitionDistributionReceiveKey") {
+                xml.addAttribute("host", mapping[xml.attributes["key"]!!]!!)
+            }
         }
     }
 }
