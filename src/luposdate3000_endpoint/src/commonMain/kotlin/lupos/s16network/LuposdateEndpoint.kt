@@ -67,9 +67,9 @@ import lupos.s14endpoint.convertToOPBase
 import kotlin.js.JsName
 
 /*
- * This is the interface of the database
+ * This is the _interface_ of the database
  * Do not overload any function here - because that would yield bad function names in the exported headers.
- * Do not use default parameters - for the same reason - mangled function names in the interface are bad
+ * Do not use default parameters - for the same reason - mangled function names in the _interface_ are bad
  */
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 public object LuposdateEndpoint {

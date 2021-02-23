@@ -121,17 +121,6 @@ public class TripleStoreDescription(
         return res
     }
 
-    internal class MyBuf {
-        @JvmField
-        internal val size = (128000 / 3) * 3
-
-        @JvmField
-        internal var offset: Int = 0
-
-        @JvmField
-        internal var buf = IntArray(size)
-    }
-
     public override fun modify(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType) {
         val allBuf = Array(indices.size) { index -> Array(indices[index].getAllLocations().size) { MyBuf() } }
         inline fun mySend(i: Int, j: Int) {

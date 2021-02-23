@@ -14,16 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.modulename
+package lupos.s00misc
 
-import lupos.s00misc.IMyInputStream
-
-internal expect class _MyInputStream : IMyInputStream {
-    public override fun readInt(): Int
-    public override fun readByte(): Byte
-    public override fun read(buf: ByteArray): Int
-    public override fun read(buf: ByteArray, len: Int): Int
-    public override fun read(buf: ByteArray, off: Int, len: Int): Int
-    public override fun close(): Unit
-    public override fun readLine(): String?
-}
+internal typealias MyInputStream = lupos.modulename._MyInputStream

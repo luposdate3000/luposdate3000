@@ -23,7 +23,6 @@ import lupos.s00misc.MyBigInteger
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
 
-@OptIn(ExperimentalUnsignedTypes::class)
 public class ResultSetDictionary : IResultSetDictionary {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun isLocalBNode(value: Int) = (value and ResultSetDictionaryShared.mask3) == ResultSetDictionaryShared.flaggedValueLocalBnode

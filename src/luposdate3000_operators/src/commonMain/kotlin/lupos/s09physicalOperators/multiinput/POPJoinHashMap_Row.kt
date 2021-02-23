@@ -14,6 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s00misc
+package lupos.s09physicalOperators.multiinput
 
-internal typealias MyInputStreamFixedLength = lupos.modulename._MyInputStreamFixedLength
+internal class POPJoinHashMap_Row(columns: Int) {
+    val columns = Array(columns) { mutableListOf<Int>() }
+    var count = 0
+}

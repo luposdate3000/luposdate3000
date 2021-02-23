@@ -14,6 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s00misc
+package lupos.s16network
 
-internal typealias ByteArrayHelper = lupos.modulename._ByteArrayHelper
+internal class PathMappingHelper(val addPostParams: Boolean/*parse the post-body as additional parameters for the query*/, val params: Map<Pair<String/*name*/, String/*default-value*/>, (String, String) -> String/*html-string of element*/>, val action: () -> Unit/*action to perform, when this is the called url*/)

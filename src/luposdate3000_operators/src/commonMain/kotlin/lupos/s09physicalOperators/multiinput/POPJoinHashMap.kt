@@ -28,6 +28,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.s09physicalOperators.MapKey
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 
@@ -57,31 +58,6 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
     }
 
     override fun equals(other: Any?): Boolean = other is POPJoinHashMap && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    internal class MapKey(@JvmField val data: IntArray) {
-        override fun hashCode(): Int {
-            var res = 0
-            for (element in data) {
-                res += element.hashCode()
-            }
-            return res
-        }
-
-        override fun equals(other: Any?) = other is MapKey && data.contentEquals(other.data)
-        fun equalsFuzzy(other: Any?): Boolean {
-            SanityCheck.check { other is MapKey }
-            for (i in data.indices) {
-                if (data[i] != ResultSetDictionaryExt.undefValue && (other as MapKey).data[i] != ResultSetDictionaryExt.undefValue && data[i] != other.data[i]) {
-                    return false
-                }
-            }
-            return true
-        }
-    }
-
-    internal class MapRow(columns: Int) {
-        val columns = Array(columns) { mutableListOf<Int>() }
-        var count = 0
-    }
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
 // --- obtain child columns
@@ -130,14 +106,14 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))
         }
-        val mapWithoutUndef = mutableMapOf<MapKey, MapRow>()
-        val mapWithUndef = mutableMapOf<MapKey, MapRow>()
+        val mapWithoutUndef = mutableMapOf<MapKey, POPJoinHashMap_Row>()
+        val mapWithUndef = mutableMapOf<MapKey, POPJoinHashMap_Row>()
         var currentKey: IntArray? = null
         var nextKey: IntArray?
-        var map: MutableMap<MapKey, MapRow> = mapWithUndef
-        var nextMap: MutableMap<MapKey, MapRow>
+        var map: MutableMap<MapKey, POPJoinHashMap_Row> = mapWithUndef
+        var nextMap: MutableMap<MapKey, POPJoinHashMap_Row>
         var key: MapKey
-        var oldArr: MapRow?
+        var oldArr: POPJoinHashMap_Row?
         var count: Int
         var countA: Int
         var countB: Int
@@ -177,7 +153,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
             key = MapKey(currentKey)
             oldArr = map[key]
             if (oldArr == null) {
-                oldArr = MapRow(columnsINBO.size)
+                oldArr = POPJoinHashMap_Row(columnsINBO.size)
                 map[key] = oldArr
             }
             oldArr.count += count
@@ -258,7 +234,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                                     __close()
                                 } else {
                                     key = MapKey(currentKey!!)
-                                    val others = mutableListOf<Pair<MapKey, MapRow>>()
+                                    val others = mutableListOf<Pair<MapKey, POPJoinHashMap_Row>>()
 // search for_join-partners
                                     if (map == mapWithoutUndef) {
                                         val tmp2 = mapWithoutUndef[key]

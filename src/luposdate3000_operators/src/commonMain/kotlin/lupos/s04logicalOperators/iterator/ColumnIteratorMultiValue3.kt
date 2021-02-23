@@ -14,6 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s00misc
+package lupos.s04logicalOperators.iterator
 
-internal typealias MyStringStream = lupos.modulename._MyStringStream
+import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import kotlin.jvm.JvmField
+
+public class ColumnIteratorMultiValue3(@JvmField public val values: IntArray, @JvmField public val size: Int) : ColumnIterator() {
+    @JvmField
+    public var index: Int = 0
+    public /*suspend*/ override fun close() {
+        index = size
+    }
+
+    public /*suspend*/ override fun next(): Int {
+        return if (index == size) {
+            ResultSetDictionaryExt.nullValue
+        } else {
+            values[index++]
+        }
+    }
+}

@@ -125,8 +125,8 @@ internal class DistributedQueryImpl : IDistributedQuery {
     }
 
     public override fun initialize(query: IQuery): IOPBase {
+        val query2 = query as Query
         if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-            val query2 = query as Query
             query2.operatorgraphParts.clear()
             query2.operatorgraphParts[""] = query2.root!!.toXMLElement(true)
             query2.operatorgraphPartsToHostMap[""] = Partition.myProcessUrls[Partition.myProcessId]
@@ -193,15 +193,17 @@ internal class DistributedQueryImpl : IDistributedQuery {
                 }
             }
             return XMLElement.convertToOPBase(query, res!!)
+        } else {
+            return query2.root!!
         }
+    }
 
-        private fun updateXMLtargets(xml: XMLElement, mapping: Map<String, String>) {
-            for (c in xml.childs) {
-                updateXMLtargets(c, mapping)
-            }
-            if (xml.tag == "partitionDistributionReceiveKey") {
-                xml.addAttribute("host", mapping[xml.attributes["key"]!!]!!)
-            }
+    private fun updateXMLtargets(xml: XMLElement, mapping: Map<String, String>) {
+        for (c in xml.childs) {
+            updateXMLtargets(c, mapping)
+        }
+        if (xml.tag == "partitionDistributionReceiveKey") {
+            xml.addAttribute("host", mapping[xml.attributes["key"]!!]!!)
         }
     }
 }

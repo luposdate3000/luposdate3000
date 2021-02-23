@@ -35,7 +35,6 @@ import lupos.s04arithmetikOperators.singleinput.AOPAggregationCOUNT
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueueEmpty
@@ -43,6 +42,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.OPEmptyRow
+import lupos.s09physicalOperators.MapKey
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 
@@ -180,20 +180,6 @@ public class POPGroup : POPBase {
         return res
     }
 
-    internal class MapKey(@JvmField val data: IntArray) {
-        override fun hashCode(): Int {
-            var res = 0
-            for (element in data) {
-                res += element.hashCode()
-            }
-            return res
-        }
-
-        override fun equals(other: Any?) = other is MapKey && data.contentEquals(other.data)
-    }
-
-    internal class MapRow(val iterators: IteratorBundle, val aggregates: Array<ColumnIteratorAggregate>, val columns: Array<ColumnIteratorQueue>)
-
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val localVariables = children[0].getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -226,7 +212,7 @@ public class POPGroup : POPBase {
                 localMap["#" + aggregations[it].uuid] = tmp
                 tmp
             }
-            val localRow = MapRow(row, localAggregations, localColumns)
+            val localRow = POPGroup_Row(row, localAggregations, localColumns)
             if (valueColumnNames.size == 0) {
                 for (i in 0 until child.count()) {
                     for (aggregate in localRow.aggregates) {
@@ -480,7 +466,7 @@ public class POPGroup : POPBase {
                     outMap[keyColumnNames[0]] = ColumnIteratorMultiValue(arrK, arrK.size)
                     outMap[bindings.toList().first().first] = ColumnIteratorMultiValue(arrV, arrV.size)
                 } else {
-                    val map = mutableMapOf<MapKey, MapRow>()
+                    val map = mutableMapOf<MapKey, POPGroup_Row>()
                     loop@ while (true) {
                         val currentKey = IntArray(keyColumnNames.size) { ResultSetDictionaryExt.undefValue }
                         for (columnIndex in keyColumnNames.indices) {
@@ -516,7 +502,7 @@ public class POPGroup : POPBase {
                                 localMap["#" + aggregations[it].uuid] = tmp
                                 tmp
                             }
-                            localRow = MapRow(row, localAggregations, localColumns)
+                            localRow = POPGroup_Row(row, localAggregations, localColumns)
                             map[key] = localRow
                         }
                         for (columnIndex in 0 until valueColumnNames.size) {

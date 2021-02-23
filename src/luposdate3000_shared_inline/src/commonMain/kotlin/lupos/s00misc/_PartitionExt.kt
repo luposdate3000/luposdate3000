@@ -14,6 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s00misc
+package lupos.modulename
 
-internal typealias PartitionExt = lupos.modulename._PartitionExt
+internal object _PartitionExt {
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun hashFunction(v: Int, k: Int): Int {
+        return if (v < 0) {
+            (-v) % k
+        } else {
+            v % k
+        }
+    }
+}

@@ -17,13 +17,10 @@
 package lupos.s04logicalOperators
 
 import lupos.s00misc.MyLock
-import lupos.s00misc.ParallelJob
-import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionCount
@@ -31,13 +28,6 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import kotlin.jvm.JvmField
-
-public class PartitionHelper public constructor() {
-    @JvmField
-    public var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
-    internal var jobs: MutableMap<Partition, ParallelJob>? = null
-    internal val lock = MyLock()
-}
 
 public class Query public constructor(@JvmField public var dictionary: IResultSetDictionary, @JvmField public var transactionID: Long) : IQuery {
     public constructor(dictionary: IResultSetDictionary) : this(dictionary, global_transactionID++)

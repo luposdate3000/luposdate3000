@@ -1,8 +1,8 @@
 luposdate3000:Luposdate3000_Dictionary_Inmemory:0.0.1
 luposdate3000:Luposdate3000_Endpoint:0.0.1
 luposdate3000:Luposdate3000_Operators:0.0.1
-luposdate3000:Luposdate3000_Optimizer#_NoPartitions:0.0.1
-luposdate3000:Luposdate3000_Result_Format#_NoPartitions:0.0.1
+luposdate3000:Luposdate3000_Optimizer:0.0.1
+luposdate3000:Luposdate3000_Result_Format:0.0.1
 luposdate3000:Luposdate3000_Parser:0.0.1
 luposdate3000:Luposdate3000_Buffer_Manager_Inmemory:0.0.1
 luposdate3000:Luposdate3000_Triple_Store_Id_Triple:0.0.1

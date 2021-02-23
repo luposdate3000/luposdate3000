@@ -14,6 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s00misc
+package lupos.modulename
 
-internal typealias Platform = lupos.modulename._Platform
+internal expect class _DateHelper() {
+    internal inline fun year(): Int
+    internal inline fun month(): Int
+    internal inline fun day(): Int
+    internal inline fun hours(): Int
+    internal inline fun minutes(): Int
+    internal inline fun seconds(): Int
+}

@@ -36,7 +36,6 @@ import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.rdf.BlankNode
 import lupos.s02buildSyntaxTree.rdf.Dictionary
-import lupos.s02buildSyntaxTree.rdf.ID_Triple
 import lupos.s02buildSyntaxTree.rdf.IRI
 import lupos.s02buildSyntaxTree.rdf.SimpleLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
@@ -787,72 +786,6 @@ public open class SparqlTestSuite {
                 e.printStackTrace()
             }
             return false
-        }
-    }
-}
-
-public class SevenIndices {
-    private val s = mutableMapOf<Long, Array<Pair<Long, Long>>>()
-    private val p = mutableMapOf<Long, Array<Pair<Long, Long>>>()
-    private val o = mutableMapOf<Long, Array<Pair<Long, Long>>>()
-    private val sp = mutableMapOf<Pair<Long, Long>, LongArray>()
-    private val so = mutableMapOf<Pair<Long, Long>, LongArray>()
-    private val po = mutableMapOf<Pair<Long, Long>, LongArray>()
-
-    @JvmField
-    public val spo: MutableSet<ID_Triple> = mutableSetOf()
-    public fun s(key: Long): Array<Pair<Long, Long>> = this.s[key] ?: arrayOf()
-    public fun sp(key1: Long, key2: Long): LongArray = this.sp[Pair(key1, key2)] ?: longArrayOf()
-    public fun po(key1: Long, key2: Long): LongArray = this.po[Pair(key1, key2)] ?: longArrayOf()
-    public fun distinct() {
-        distinctOneKeyMap(this.s)
-        distinctOneKeyMap(this.p)
-        distinctOneKeyMap(this.o)
-        distinctTwoKeysMap(this.sp)
-        distinctTwoKeysMap(this.so)
-        distinctTwoKeysMap(this.po)
-        // duplicates are already eliminated in this.spo!
-    }
-
-    public fun add(triple_s: Long, triple_p: Long, triple_o: Long) {
-        addToOneKeyMap(this.s, triple_s, triple_p, triple_o)
-        addToOneKeyMap(this.p, triple_p, triple_s, triple_o)
-        addToOneKeyMap(this.o, triple_o, triple_s, triple_p)
-        addToTwoKeysMap(this.sp, triple_s, triple_p, triple_o)
-        addToTwoKeysMap(this.so, triple_s, triple_o, triple_p)
-        addToTwoKeysMap(this.po, triple_p, triple_o, triple_s)
-        this.spo += ID_Triple(triple_s, triple_p, triple_o)
-    }
-
-    private fun addToOneKeyMap(onekeymap: MutableMap<Long, Array<Pair<Long, Long>>>, key: Long, value1: Long, value2: Long) {
-        val values = onekeymap[key]
-        val value = Pair(value1, value2)
-        if (values == null) {
-            onekeymap[key] = arrayOf(value)
-        } else {
-            onekeymap[key] = values + value
-        }
-    }
-
-    private fun addToTwoKeysMap(twokeysmap: MutableMap<Pair<Long, Long>, LongArray>, key1: Long, key2: Long, value: Long) {
-        val key = Pair(key1, key2)
-        val values = twokeysmap[key]
-        if (values == null) {
-            twokeysmap[key] = longArrayOf(value)
-        } else {
-            twokeysmap[key] = values + value
-        }
-    }
-
-    private fun distinctOneKeyMap(onekeymap: MutableMap<Long, Array<Pair<Long, Long>>>) {
-        for (entry in onekeymap) {
-            entry.setValue(entry.value.toMutableSet().toTypedArray())
-        }
-    }
-
-    private fun distinctTwoKeysMap(twokeysmap: MutableMap<Pair<Long, Long>, LongArray>) {
-        for (entry in twokeysmap) {
-            entry.setValue(entry.value.toMutableSet().toLongArray())
         }
     }
 }

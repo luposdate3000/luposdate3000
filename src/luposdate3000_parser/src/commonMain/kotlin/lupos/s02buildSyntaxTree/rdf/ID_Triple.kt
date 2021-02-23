@@ -14,6 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s00misc
+package lupos.s02buildSyntaxTree.rdf
 
-internal typealias DateHelper = lupos.modulename._DateHelper
+import kotlin.jvm.JvmField
+
+public class ID_Triple(@JvmField public val s: Long, @JvmField public val p: Long, @JvmField public val o: Long)

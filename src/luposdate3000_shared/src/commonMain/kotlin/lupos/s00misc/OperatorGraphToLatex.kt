@@ -16,78 +16,7 @@
  */
 package lupos.s00misc
 
-import kotlin.jvm.JvmField
-
 public object OperatorGraphToLatex {
-    public class StackElement(@JvmField public val name: String) {
-        @JvmField
-        public var projectionHelper: String = ""
-
-        @JvmField
-        public var partitionHelper: String = ""
-
-        @JvmField
-        public val children: MutableList<StackElement> = mutableListOf()
-        private fun getChildParallelism(): Int {
-            var res = 0
-            if (children.size > 0) {
-                res = children[0].getChildParallelism()
-            }
-            if (name.startsWith("SplitPartition")) {
-                res++
-            } else if (name.startsWith("MergePartition")) {
-                res--
-            }
-            return res
-        }
-
-        private fun getParallelism(): Int {
-            var res = getChildParallelism()
-            if (name.startsWith("MergePartition")) {
-                res++
-            }
-            return res
-        }
-
-        private fun isChangingParallelism(): Boolean {
-            return name.startsWith("SplitPartition") || name.startsWith("MergePartition")
-        }
-
-        override fun toString(): String {
-            val parallelism = getParallelism()
-            val res = StringBuilder()
-            res.append("[")
-            when {
-                isChangingParallelism() -> {
-                    res.append(coloredText("red", name))
-                }
-                parallelism > 0 -> {
-                    res.append(coloredText("blue", name))
-                }
-                else -> {
-                    res.append(name)
-                }
-            }
-            if (name == "Projection") {
-                res.append("(\\textit{$projectionHelper})")
-            } else if (name.startsWith("SplitPartition") || name.startsWith("MergePartition")) {
-                res.append("(\\textit{$partitionHelper})")
-            }
-            if (children.size > 0) {
-                if (children.size > 1) {
-                    res.append("[")
-                }
-                for (c in children) {
-                    res.append(c.toString())
-                }
-                if (children.size > 1) {
-                    res.append("]")
-                }
-            }
-            res.append("]")
-            return res.toString()
-        }
-    }
 
     public fun coloredText(color: String, str: String): String = "\\textcolor{$color}{$str}"
     public operator fun invoke(inputString: String, caption: String? = null): String {
@@ -100,7 +29,7 @@ public object OperatorGraphToLatex {
         if (caption != null) {
             output.append("[$caption")
         }
-        val stack = mutableListOf<StackElement>()
+        val stack = mutableListOf<OperatorGraphToLatex_StackElement>()
         for (element2 in inputString.split("<")) {
             val element = element2.replace("POPTripleStoreIterator", "LOPTriple")
             when {
@@ -117,11 +46,11 @@ public object OperatorGraphToLatex {
                 }
                 element.startsWith("AOPVariable") -> {
                     val idx = element.indexOf("name=\"") + 6
-                    stack[0].children.add(StackElement("Variable(${element.substring(idx, element.length - 3)})"))
+                    stack[0].children.add(OperatorGraphToLatex_StackElement("Variable(${element.substring(idx, element.length - 3)})"))
                 }
                 element.startsWith("Value") -> {
                     if (stack.size > 0) {
-                        stack[0].children.add(StackElement("Value"))
+                        stack[0].children.add(OperatorGraphToLatex_StackElement("Value"))
                     }
                 }
                 element.startsWith("LocalVariable") -> {
@@ -143,14 +72,14 @@ public object OperatorGraphToLatex {
                     }
                 }
                 element.startsWith("POPSplitPartition") || element.startsWith("POPMergePartition") -> {
-                    stack.add(0, StackElement(element.substring(3, element.indexOf(" "))))
+                    stack.add(0, OperatorGraphToLatex_StackElement(element.substring(3, element.indexOf(" "))))
                     val t = "partitionVariable"
                     val i = element.indexOf(t) + t.length + 2
                     val j = element.indexOf("\"", i)
                     stack[0].partitionHelper = element.substring(i, j)
                 }
                 element.startsWith("LOP") || element.startsWith("AOP") || element.startsWith("POP") -> {
-                    stack.add(0, StackElement(element.substring(3, element.indexOf(" "))))
+                    stack.add(0, OperatorGraphToLatex_StackElement(element.substring(3, element.indexOf(" "))))
                 }
                 else -> {
                 }

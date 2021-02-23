@@ -16,7 +16,6 @@
  */
 package lupos.s03resultRepresentation
 
-@OptIn(ExperimentalUnsignedTypes::class)
 public object ResultSetDictionaryShared {
     /*to most significant bit leads to signed errors because toInt sadly performs a whole reencoding of the int and stores it completely different*/
     internal const val mask1 = 0x40000000/*first 2 bit*/

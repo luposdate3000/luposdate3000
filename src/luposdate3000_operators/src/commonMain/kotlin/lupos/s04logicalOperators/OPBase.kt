@@ -283,7 +283,7 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
                 addToPrefixFreeList(tmp, res)
             }
         } else if (sortPriority == ESortPriorityExt.GROUP) {
-            throw Exception("this should be overriden by the corresponding class")
+            throw Exception("this should be overriden by the corresponding clazz")
         } else if (sortPriority == ESortPriorityExt.PREVENT_ANY || sortPriority == ESortPriorityExt.UNION) {
         } else if (sortPriority == ESortPriorityExt.SORT) {
             val requiredVariables = mutableListOf<String>()

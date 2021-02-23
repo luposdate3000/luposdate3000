@@ -18,8 +18,6 @@ package lupos.s09physicalOperators.partition
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.IMyInputStream
-import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -111,7 +109,6 @@ public class POPDistributedReceiveMultiOrdered public constructor(
     override fun cloneOP(): IOPBase = POPDistributedReceiveMultiOrdered(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), hosts)
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiOrdered && children[0] == other.children[0] && partitionVariable == other.partitionVariable
-    internal class MyConnection(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream, @JvmField val mapping: IntArray)
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = mutableListOf<String>()

@@ -57,111 +57,6 @@ public class POPJoinMergeSingleColumn public constructor(query: IQuery, projecte
     }
 
     override fun equals(other: Any?): Boolean = other is POPJoinMergeSingleColumn && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    internal class ColumnIteratorImpl(@JvmField val child0: ColumnIterator, @JvmField val child1: ColumnIterator, @JvmField var head0: Int, @JvmField var head1: Int) : ColumnIterator() {
-        @JvmField
-        var counter: Int = 0
-
-        @JvmField
-        var value: Int = head0
-
-        @JvmField
-        var label = 1
-
-        @JvmField
-        var sipbuf = IntArray(2)
-        override /*suspend*/ fun next(): Int {
-            when (label) {
-                1 -> {
-                    if (counter == 0) {
-                        var change = true
-                        while (change) {
-                            change = false
-                            while (head0 < head1) {
-                                child0.nextSIP(head1, sipbuf)
-                                val c = sipbuf[1]
-                                if (c == ResultSetDictionaryExt.nullValue) {
-                                    _close()
-                                    return ResultSetDictionaryExt.nullValue
-                                } else {
-                                    head0 = c
-                                }
-                            }
-                            while (head1 < head0) {
-                                change = true
-                                child1.nextSIP(head0, sipbuf)
-                                val c = sipbuf[1]
-                                if (c == ResultSetDictionaryExt.nullValue) {
-                                    _close()
-                                    return ResultSetDictionaryExt.nullValue
-                                } else {
-                                    head1 = c
-                                }
-                            }
-                        }
-                        value = head0
-                        var hadnull = false
-                        var count0 = 0
-                        while (head0 == value) {
-                            count0++
-                            val d = child0.next()
-                            if (d == ResultSetDictionaryExt.nullValue) {
-                                hadnull = true
-                                break
-                            } else {
-                                head0 = d
-                            }
-                        }
-                        var count1 = 0
-                        while (head1 == value) {
-                            count1++
-                            val d = child1.next()
-                            if (d == ResultSetDictionaryExt.nullValue) {
-                                hadnull = true
-                                break
-                            } else {
-                                head1 = d
-                            }
-                        }
-                        counter = count0 * count1
-                        if (hadnull) {
-                            if (counter == 0) {
-                                _close()
-                            } else {
-                                label = 2
-                            }
-                        }
-                    }
-                    counter--
-                    return value
-                }
-                2 -> {
-                    if (counter == 0) {
-                        _close()
-                        return ResultSetDictionaryExt.nullValue
-                    } else {
-                        counter--
-                    }
-                    return value
-                }
-                else -> {
-                    return ResultSetDictionaryExt.nullValue
-                }
-            }
-        }
-
-        @Suppress("NOTHING_TO_INLINE")
-        /*suspend*/ internal inline fun _close() {
-            if (label != 0) {
-                label = 0
-                child0.close()
-                child1.close()
-            }
-        }
-
-        override /*suspend*/ fun close() {
-            _close()
-        }
-    }
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         SanityCheck {
@@ -184,7 +79,7 @@ public class POPJoinMergeSingleColumn public constructor(query: IQuery, projecte
         val a = child0.next()
         val b = child1.next()
         if (a != ResultSetDictionaryExt.nullValue && b != ResultSetDictionaryExt.nullValue) {
-            outMap[projectedVariables[0]] = ColumnIteratorImpl(child0, child1, a, b)
+            outMap[projectedVariables[0]] = POPJoinMergeSingleColumn_Iterator(child0, child1, a, b)
         } else {
             outMap[projectedVariables[0]] = ColumnIteratorEmpty()
             child0.close()

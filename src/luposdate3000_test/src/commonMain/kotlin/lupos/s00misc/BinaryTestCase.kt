@@ -248,19 +248,6 @@ public object BinaryTestCase {
         return true
     }
 
-    internal class IntArrayComparator : Comparator<IntArray> {
-        override fun compare(a: IntArray, b: IntArray): Int {
-            for (i in a.indices) {
-                if (a[i] < b[i]) {
-                    return -1
-                } else if (a[i] > b[i]) {
-                    return 1
-                }
-            }
-            return 0
-        }
-    }
-
     private fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, query_name: String, query_folder: String, tag: String): Boolean {
         val out = MyPrintWriter(true)
         val res = verifyEqual(expected, actual, mapping_live_to_target, dict, dict2, allowOrderBy, out)

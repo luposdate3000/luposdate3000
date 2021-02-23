@@ -17,9 +17,9 @@
  */
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystem.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystemExt.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/s00misc/PlatformAlias.kt")
 @file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/s00misc/Platform.kt")
-@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
+@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/s00misc/_Platform.kt")
+@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/_Platform.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
@@ -163,8 +163,8 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
         Pair(
             localArgs
                 .ssetModuleName("Luposdate3000_Result_Format", "Luposdate3000_Result_Format", "src${Platform.getPathSeparator()}luposdate3000_result_format")
-                .ssetArgs2(compileModuleArgs)
-                p . enabled
+                .ssetArgs2(compileModuleArgs),
+            { true }
         )
     )
     res.add(
@@ -187,8 +187,8 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
         Pair(
             localArgs
                 .ssetModuleName("Luposdate3000_Optimizer", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer")
-                .ssetArgs2(compileModuleArgs)
-                p . enabled
+                .ssetArgs2(compileModuleArgs),
+            { true }
         )
     )
     res.add(
@@ -1034,8 +1034,8 @@ fun onGenerateParser() {
     )
     val xmlFilename = "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}xmlParser${Platform.getPathSeparator()}XMLParserGenerated.kt"
     val xmlPackage = "lupos.s00misc.xmlParser"
-    ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage, )
-    ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage, )
+    ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage,)
+    ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage,)
 }
 
 fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: String, fileName: String) {

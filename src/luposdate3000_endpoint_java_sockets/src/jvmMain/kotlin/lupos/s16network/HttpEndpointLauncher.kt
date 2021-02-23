@@ -20,7 +20,6 @@ import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
-import lupos.s00misc.ICommunicationHandler
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.JenaWrapper
@@ -40,102 +39,9 @@ import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.partition.POPDistributedSendSingle
 import lupos.s11outputResult.EQueryResultToStreamExt
 import lupos.s14endpoint.convertToOPBase
-import java.io.OutputStream
 import java.net.InetSocketAddress
 import java.net.ServerSocket
-import java.net.Socket
 import java.net.URLDecoder
-import java.net.URLEncoder
-
-internal class MyPrintWriterExtension(out: OutputStream) : MyPrintWriter(out) {
-    private var counter = 0
-    override fun print(x: String) {
-        val len = x.length
-        counter += len
-        if (counter > 8192) {
-            flush()
-            counter = len
-        }
-        super.print(x)
-    }
-}
-
-public class CommunicationHandler : ICommunicationHandler {
-    public override fun sendData(targetHost: String, path: String, params: Map<String, String>) {
-        val content = StringBuilder()
-        var first = true
-        for ((k, v) in params) {
-            if (!first) {
-                content.append("&")
-            }
-            first = false
-            content.append("$k=${URLEncoder.encode(v)}")
-        }
-        val contentStr = content.toString()
-        val header = "POST $path\nContent-Length: ${contentStr.length}\n\n"
-        val data = header + content
-        val target = targetHost.split(":")
-        val targetName = target[0]
-        val targetPort = if (target.size > 1) {
-            target[1].toInt()
-        } else {
-            80
-        }
-        val client = Socket(targetName, targetPort)
-        val input = MyInputStream(client.getInputStream())
-        val output = client.getOutputStream()
-        output.write(data.encodeToByteArray())
-        output.flush()
-        var line = input.readLine()
-        var status: Int? = null
-        while (line != null && line.isNotEmpty()) {
-            if (line.startsWith("HTTP/1.1")) {
-                val t = line.split(" ")
-                if (t.size == 3) {
-                    status = t[1].toInt()
-                }
-            }
-            line = input.readLine()
-        }
-        input.close()
-        output.close()
-        if (status != 200) {
-            throw Exception("failed ... $status")
-        }
-    }
-
-    public override fun openConnection(targetHost: String, path: String, params: Map<String, String>): Pair<IMyInputStream, IMyOutputStream> {
-        var p = "POST $path"
-        var first = true
-        for ((k, v) in params) {
-            if (first) {
-                p += "?"
-            } else {
-                p += "&"
-            }
-            first = false
-            p += "$k=${URLEncoder.encode(v)}"
-        }
-        return openConnection(targetHost, "$p\n\n")
-    }
-
-    public override fun openConnection(targetHost: String, header: String/*caller MUST finish the header by appending an empty line*/): Pair<IMyInputStream, IMyOutputStream> {
-        val target = targetHost.split(":")
-        val targetName = target[0]
-        val targetPort = if (target.size > 1) {
-            target[1].toInt()
-        } else {
-            80
-        }
-        val client = Socket(targetName, targetPort)
-        val input = client.getInputStream()
-        val output = client.getOutputStream()
-        val buf = header.encodeToByteArray()
-        output.write(buf, 0, buf.size)
-        output.flush()
-        return Pair(MyInputStream(input), MyOutputStream(output))
-    }
-}
 
 @OptIn(ExperimentalStdlibApi::class)
 public actual object HttpEndpointLauncher {
@@ -155,7 +61,6 @@ public actual object HttpEndpointLauncher {
     }
 
     internal fun inputElement(name: String, value: String): String = "<input type=\"text\" name=\"$name\" value=\"$value\"/>"
-    internal class PathMappingHelper(val addPostParams: Boolean/*parse the post-body as additional parameters for the query*/, val params: Map<Pair<String/*name*/, String/*default-value*/>, (String, String) -> String/*html-string of element*/>, val action: () -> Unit/*action to perform, when this is the called url*/)
 
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
 
@@ -213,7 +118,7 @@ public actual object HttpEndpointLauncher {
                             println("$hostname:$port path : '$path'")
                             val paths = mutableMapOf<String, PathMappingHelper>()
                             paths["/sparql/jenaquery"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE {?s <p> ?o . ?s ?p <o>}") to ::inputElement)) {
-                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
                                 connectionOutPrinter2.print(JenaWrapper.execQuery(params["query"]!!))
@@ -221,7 +126,7 @@ public actual object HttpEndpointLauncher {
                             }
                             paths["/sparql/jenaload"] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3") to ::inputElement)) {
                                 JenaWrapper.loadFromFile(params["file"]!!)
-                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
                                 connectionOutPrinter2.print("success")
@@ -257,14 +162,14 @@ public actual object HttpEndpointLauncher {
                                 val key = "${query.getTransactionID()}"
                                 dictionaryMapping[key] = dict
                                 query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
-                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutPrinter2, evaluator)
                                 dictionaryMapping.remove(key)
                                 /*Coverage Unreachable*/
                             }
                             paths["/sparql/operator"] = PathMappingHelper(true, mapOf(Pair("query", "") to ::inputElement)) {
-                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
                                 connectionOutPrinter2.print(LuposdateEndpoint.evaluateOperatorgraphxmlToResultB(params["query"]!!, true))
@@ -278,7 +183,7 @@ public actual object HttpEndpointLauncher {
                                         dict[it] = nodeGlobalDictionary.createNewBNode()
                                     }
                                 }
-                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
                                 connectionOutPrinter2.print(LuposdateEndpoint.importTurtleFiles(params["file"]!!, dict))
@@ -286,19 +191,19 @@ public actual object HttpEndpointLauncher {
                             }
                             paths["/import/estimatedPartitions"] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3.partitions") to ::inputElement)) {
                                 LuposdateEndpoint.setEstimatedPartitionsFromFile(params["file"]!!)
-                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
                             }
                             paths["/import/intermediate"] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3") to ::inputElement)) {
-                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
                                 connectionOutPrinter2.print(LuposdateEndpoint.importIntermediateFiles(params["file"]!!))
                                 /*Coverage Unreachable*/
                             }
                             paths["/import/xml"] = PathMappingHelper(true, mapOf(Pair("xml", "") to ::inputElement)) {
-                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
                                 connectionOutPrinter2.print(LuposdateEndpoint.importXmlData(params["xml"]!!))
@@ -318,7 +223,7 @@ public actual object HttpEndpointLauncher {
                                 } else {
                                     throw Exception("the number ${keys.size} is not implemented as number of keys for a distributed query.")
                                 }
-                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 connectionOutPrinter2.print("HTTP/1.1 200 OK\n\n")
                             }
@@ -357,7 +262,7 @@ public actual object HttpEndpointLauncher {
                                 queryMappings.remove(params["key"]!!)
                             }
                             paths["/distributed/query/list"] = PathMappingHelper(true, mapOf()) {
-                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
                                 for ((k, v) in queryMappings) {
@@ -368,7 +273,7 @@ public actual object HttpEndpointLauncher {
                                 val name = params["name"]!!
                                 val query = Query()
                                 tripleStoreManager.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])
-                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
                             }
@@ -377,7 +282,7 @@ public actual object HttpEndpointLauncher {
                                 val origin = params["origin"] == null || params["origin"]!!.toBoolean()
                                 println("origin $origin $params")
                                 tripleStoreManager.remoteCommit(query, origin)
-                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
                             }
@@ -385,7 +290,7 @@ public actual object HttpEndpointLauncher {
                                 val query = Query()
                                 val origin = params["origin"] == null || params["origin"]!!.toBoolean()
                                 tripleStoreManager.remoteDropGraph(query, params["name"]!!, origin)
-                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
                             }
@@ -393,7 +298,7 @@ public actual object HttpEndpointLauncher {
                                 val query = Query()
                                 val origin = params["origin"] == null || params["origin"]!!.toBoolean()
                                 tripleStoreManager.remoteClearGraph(query, params["name"]!!, origin)
-                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
                             }
@@ -406,18 +311,18 @@ public actual object HttpEndpointLauncher {
                             }
                             paths["/debugGlobalDictionary"] = PathMappingHelper(false, mapOf()) {
                                 nodeGlobalDictionary.debugAllDictionaryContent()
-                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
                             }
                             paths["/debugLocalStore"] = PathMappingHelper(false, mapOf()) {
                                 tripleStoreManager.debugAllLocalStoreContent()
-                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 printHeaderSuccess(connectionOutPrinter2)
                             }
                             paths["/index.html"] = PathMappingHelper(true, mapOf()) {
-                                val connectionOutPrinter2 = MyPrintWriterExtension(connectionOutBase)
+                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
                                 connectionOutPrinter2.println("HTTP/1.1 200 OK")
                                 connectionOutPrinter2.println("Content-Type: text/html; charset=UTF-8")

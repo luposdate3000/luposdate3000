@@ -29,7 +29,6 @@ import kotlin.jvm.JvmField
 
 public val nodeGlobalDictionary: ResultSetDictionaryGlobal = ResultSetDictionaryGlobal()
 
-@OptIn(ExperimentalUnsignedTypes::class)
 public class ResultSetDictionaryGlobal {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun isLocalBNode(value: Int) = (value and ResultSetDictionaryShared.mask3) == ResultSetDictionaryShared.flaggedValueLocalBnode

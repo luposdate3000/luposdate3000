@@ -14,6 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s03resultRepresentation
 
-internal typealias ResultSetDictionaryExt = lupos.modulename._ResultSetDictionaryExt
+package lupos.s05tripleStore
+
+import kotlin.jvm.JvmField
+
+internal class MyBuf {
+    @JvmField
+    internal val size = (128000 / 3) * 3
+
+    @JvmField
+    internal var offset: Int = 0
+
+    @JvmField
+    internal var buf = IntArray(size)
+}

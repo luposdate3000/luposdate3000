@@ -16,8 +16,6 @@
  */
 package lupos.s02buildSyntaxTree.rdf
 
-import kotlin.jvm.JvmField
-
 public object Dictionary {
     private var max_id = 0L
     private val RDFTerm_to_ID = mutableMapOf<String, Long>()
@@ -49,5 +47,3 @@ public object Dictionary {
         return this.ID_to_RDFTerm[id]
     }
 }
-
-public class ID_Triple(@JvmField public val s: Long, @JvmField public val p: Long, @JvmField public val o: Long)

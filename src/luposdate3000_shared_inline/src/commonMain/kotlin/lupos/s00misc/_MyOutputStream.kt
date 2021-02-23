@@ -14,6 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s00misc
+package lupos.modulename
 
-internal typealias MyPrintWriter = lupos.modulename._MyPrintWriter
+import lupos.s00misc.IMyOutputStream
+
+internal expect class _MyOutputStream : IMyOutputStream {
+    internal constructor()
+
+    public override fun writeInt(value: Int): Unit
+    public override fun write(buf: ByteArray): Unit
+    public override fun write(buf: ByteArray, len: Int): Unit
+    public override fun close(): Unit
+    public override fun flush(): Unit
+}

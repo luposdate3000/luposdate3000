@@ -14,6 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s00misc
+package lupos.s09physicalOperators.partition
 
-internal typealias MyOutputStream = lupos.modulename._MyOutputStream
+import lupos.s00misc.IMyInputStream
+import lupos.s00misc.IMyOutputStream
+import kotlin.jvm.JvmField
+
+internal class MyConnection(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream, @JvmField val mapping: IntArray)
