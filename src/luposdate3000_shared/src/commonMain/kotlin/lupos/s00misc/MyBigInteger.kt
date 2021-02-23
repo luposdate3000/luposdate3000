@@ -26,7 +26,6 @@ public expect class MyBigInteger {
     public operator fun plus(other: MyBigInteger): MyBigInteger
     public operator fun minus(other: MyBigInteger): MyBigInteger
     public operator fun times(other: MyBigInteger): MyBigInteger
-    public operator fun div(other: MyBigInteger): MyBigInteger
     public fun abs(): MyBigInteger
     public override fun toString(): String
     public override fun equals(other: Any?): Boolean

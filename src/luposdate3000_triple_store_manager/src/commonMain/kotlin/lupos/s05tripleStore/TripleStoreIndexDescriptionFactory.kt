@@ -24,17 +24,17 @@ import kotlin.jvm.JvmField
 public open class TripleStoreIndexDescriptionFactory : ITripleStoreIndexDescriptionFactory {
     @JvmField
     internal var res: TripleStoreIndexDescription = TripleStoreIndexDescriptionSimple(EIndexPatternExt.SPO)
-    public override fun simple(idx: EIndexPattern): TripleStoreIndexDescriptionFactory {
+    public override fun simple(idx: EIndexPattern): ITripleStoreIndexDescriptionFactory {
         res = TripleStoreIndexDescriptionSimple(idx)
         return this
     }
 
-    public override fun partitionedByID(idx: EIndexPattern, partitionCount: Int, partitionColumn: Int): TripleStoreIndexDescriptionFactory {
+    public override fun partitionedByID(idx: EIndexPattern, partitionCount: Int, partitionColumn: Int): ITripleStoreIndexDescriptionFactory {
         res = TripleStoreIndexDescriptionPartitionedByID(idx, partitionCount, partitionColumn)
         return this
     }
 
-    public override fun partitionedByKey(idx: EIndexPattern, partitionCount: Int): TripleStoreIndexDescriptionFactory {
+    public override fun partitionedByKey(idx: EIndexPattern, partitionCount: Int): ITripleStoreIndexDescriptionFactory {
         res = TripleStoreIndexDescriptionPartitionedByKey(idx, partitionCount)
         return this
     }

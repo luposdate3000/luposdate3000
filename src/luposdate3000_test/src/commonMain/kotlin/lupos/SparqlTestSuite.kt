@@ -56,7 +56,6 @@ import kotlin.jvm.JvmField
 
 public open class SparqlTestSuite {
     public companion object {
-        public const val testPersistence: Boolean = false
 
         @JvmField
         public val filterList: MutableList<String> = mutableListOf()

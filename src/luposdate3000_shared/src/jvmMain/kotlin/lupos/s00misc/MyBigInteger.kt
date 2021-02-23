@@ -57,10 +57,6 @@ public actual class MyBigInteger {
         return MyBigInteger(v.multiply(other.v))
     }
 
-    public actual operator fun div(other: MyBigInteger): MyBigInteger {
-        return MyBigInteger(v.divide(other.v))
-    }
-
     public actual fun toMyBigDecimal(): MyBigDecimal {
         return MyBigDecimal(v.toBigDecimal())
     }

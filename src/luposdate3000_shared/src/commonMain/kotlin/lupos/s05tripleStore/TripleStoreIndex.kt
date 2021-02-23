@@ -22,7 +22,6 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 public abstract class TripleStoreIndex(@JvmField public val store_root_page_id: Int) {
-    public abstract fun dropIndex()
     public /*suspend*/ abstract fun getIterator(query: IQuery, filter: IntArray, projection: List<String>): IteratorBundle
     public abstract fun insert(a: Int, b: Int, c: Int)
     public abstract fun remove(a: Int, b: Int, c: Int)

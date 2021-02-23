@@ -161,12 +161,6 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         var debugLock = MyReadWriteLock()
     }
 
-    override fun dropIndex() {
-        clear()
-        bufferManager.getPage(store_root_page_id)
-        bufferManager.deletePage(store_root_page_id)
-    }
-
     @Suppress("NOTHING_TO_INLINE")
     private inline fun clearCachedHistogram() {
         cachedHistograms1Size = 0

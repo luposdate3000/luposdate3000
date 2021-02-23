@@ -103,16 +103,6 @@ public class TripleStoreDescription(
         }
     }
 
-    public override fun getIndices(idx: EIndexPattern): List<ITripleStoreIndexDescription> {
-        var res = mutableListOf<ITripleStoreIndexDescription>()
-        for (index in indices) {
-            if (index.hasPattern(idx)) {
-                res.add(index)
-            }
-        }
-        return res
-    }
-
     internal fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>> {
         var res = mutableListOf<Pair<LuposHostname, LuposStoreKey>>()
         for (idx in indices) {

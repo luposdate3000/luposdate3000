@@ -43,10 +43,11 @@ cat <<EOT >> config.pro
 -printconfiguration XXX_${buffermanager}_${endpoint_launcher}_${jena}.config.pro.generated
 -printusage XXX_${buffermanager}_${endpoint_launcher}_${jena}.usage.txt
 
-#-keep public class MainKt {
-#    public static void main(java.lang.String[]);
-#}
 -keep public class lupos.launch.** {
+    *;
+}
+
+-keep public class lupos.s16network.LuposdateEndpoint{
     *;
 }
 

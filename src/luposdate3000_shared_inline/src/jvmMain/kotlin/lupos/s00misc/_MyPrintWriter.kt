@@ -54,7 +54,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         printer = PrintWriter(o, false)
     }
 
-    actual override fun clearBuffer() {
+    actual fun clearBuffer() {
         if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             buffer.buffer.setLength(0)
         } else {
@@ -82,7 +82,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         }
     }
 
-    actual override fun println(x: Boolean) {
+    actual fun println(x: Boolean) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.println(x)
         }
@@ -94,7 +94,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         }
     }
 
-    actual override fun println(x: Int) {
+    actual fun println(x: Int) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.println(x)
         }
@@ -106,7 +106,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         }
     }
 
-    actual override fun println(x: Double) {
+    actual fun println(x: Double) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.println(x)
         }
@@ -124,7 +124,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         }
     }
 
-    actual override fun close() {
+    actual fun close() {
         if (bufferMode == MyPrintWriterModeExt.FILE) {
             printer.close()
         } else {
@@ -132,7 +132,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         }
     }
 
-    actual override fun flush() {
+    actual fun flush() {
         if (bufferMode == MyPrintWriterModeExt.FILE) {
             printer.flush()
         } else {

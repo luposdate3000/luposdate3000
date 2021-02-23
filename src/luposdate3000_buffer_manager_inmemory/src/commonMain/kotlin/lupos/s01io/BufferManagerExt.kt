@@ -16,15 +16,11 @@
  */
 package lupos.s01io
 
-import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Platform
 import kotlin.jvm.JvmField
 
 public object BufferManagerExt {
-    public fun getPageSize(): Long {
-        return BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
-    }
 
     @JvmField
     public // dont put const val here, because it wont work when exchanging the modules

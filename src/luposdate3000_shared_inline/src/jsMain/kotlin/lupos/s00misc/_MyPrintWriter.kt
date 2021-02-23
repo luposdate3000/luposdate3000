@@ -43,7 +43,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         file = -1
     }
 
-    actual override fun clearBuffer() {
+    actual fun clearBuffer() {
         if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             buffer.clear()
         } else {

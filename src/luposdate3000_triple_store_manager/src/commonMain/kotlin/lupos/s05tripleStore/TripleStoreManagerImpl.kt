@@ -199,7 +199,7 @@ public class TripleStoreManagerImpl(
         }
     }
 
-    public override fun createGraph(query: IQuery, graphName: LuposGraphName, action: (ITripleStoreDescriptionFactory) -> Unit) {
+    public fun createGraph(query: IQuery, graphName: LuposGraphName, action: (ITripleStoreDescriptionFactory) -> Unit) {
         if (metadata[graphName] != null) {
             throw Exception("graph already exist")
         }
@@ -229,11 +229,6 @@ public class TripleStoreManagerImpl(
     public override fun resetGraph(query: IQuery, graphName: LuposGraphName) {
         dropGraph(query, graphName)
         createGraph(query, graphName, { it.apply(defaultTripleStoreLayout) })
-    }
-
-    public override fun resetGraph(query: IQuery, graphName: LuposGraphName, action: (ITripleStoreDescriptionFactory) -> Unit) {
-        dropGraph(query, graphName)
-        createGraph(query, graphName, action)
     }
 
     public override fun clearGraph(query: IQuery, graphName: LuposGraphName) {

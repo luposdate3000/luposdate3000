@@ -47,10 +47,6 @@ public actual class MyBigInteger {
         throw object : NotImplementedException("MyBigInteger", "times not implemented") {}
     }
 
-    public actual operator fun div(other: MyBigInteger): MyBigInteger {
-        throw object : NotImplementedException("MyBigInteger", "div not implemented") {}
-    }
-
     public actual fun toMyBigDecimal(): MyBigDecimal {
         throw object : NotImplementedException("MyBigInteger", "toMyBigDecimal not implemented") {}
     }

@@ -19,7 +19,6 @@ package lupos.s14endpoint
 import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
-import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s00misc.UnknownOperatorTypeInXMLException
@@ -145,19 +144,6 @@ import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
-
-private fun convertToPartition(node: XMLElement): Partition {
-    val res = Partition()
-    for (c in node.childs) {
-        if (c.tag == "Limit") {
-            res.limit[c.attributes["name"]!!] = c.attributes["value"]!!.toInt()
-            res.data[c.attributes["name"]!!] = 0
-        } else {
-            throw Exception("unexpected xml ${c.tag}")
-        }
-    }
-    return res
-}
 
 private fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: String): AOPVariable {
     val n = mapping[name]

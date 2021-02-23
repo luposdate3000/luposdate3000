@@ -31,7 +31,6 @@ import kotlin.jvm.JvmField
 
 public class Query public constructor(@JvmField public var dictionary: IResultSetDictionary, @JvmField public var transactionID: Long) : IQuery {
     public constructor(dictionary: IResultSetDictionary) : this(dictionary, global_transactionID++)
-    public constructor(transactionID: Long) : this(ResultSetDictionary(), transactionID)
     public constructor() : this(ResultSetDictionary(), global_transactionID++)
 
     @JvmField
@@ -89,9 +88,6 @@ public class Query public constructor(@JvmField public var dictionary: IResultSe
     public override fun getDictionaryUrl(): String? = dictionaryUrl
 
     override fun getDistributionKey(): Map<String, Int> = allVariationsKey
-    override fun initialize(): IOPBase {
-        return initialize(root!!)
-    }
 
     override fun initialize(newroot: IOPBase): IOPBase {
         println(newroot.toXMLElementRoot(false).toPrettyString())
@@ -165,7 +161,7 @@ public class Query public constructor(@JvmField public var dictionary: IResultSe
         return id1
     }
 
-    override fun setWorkingDirectory(value: String) {
+    public fun setWorkingDirectory(value: String) {
         _workingDirectory = if (value.endsWith("/")) {
             value
         } else {

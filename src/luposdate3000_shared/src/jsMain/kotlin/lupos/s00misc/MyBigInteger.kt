@@ -70,10 +70,6 @@ public actual class MyBigInteger {
         return MyBigInteger(bigIntTTimes(v, other.v))
     }
 
-    public actual operator fun div(other: MyBigInteger): MyBigInteger {
-        return MyBigInteger(bigIntTDiv(v, other.v))
-    }
-
     public actual fun toMyBigDecimal(): MyBigDecimal {
         return MyBigDecimal("$s.0")
     }
