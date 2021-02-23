@@ -14,13 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.launch.sparql_test_suite
+package lupos.launch.generate_binary_test_suite
 
 import lupos.SparqlTestSuite
-import lupos.s00misc.Parallel
+import lupos.s00misc.SparqlTestSuiteConverter
 import lupos.s16network.LuposdateEndpoint
 
-internal fun mainFunc(): Unit = Parallel.runBlocking {
+internal fun mainFunc(prefixDirectory: String, output_folder: String) {
     LuposdateEndpoint.initialize()
-    SparqlTestSuite().testMain()
+    SparqlTestSuite.prefixDirectory = prefixDirectory
+    val converter = SparqlTestSuiteConverter(prefixDirectory, output_folder)
+    converter.testMain()
 }

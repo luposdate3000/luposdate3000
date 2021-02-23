@@ -14,13 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.launch.sparql_test_suite
+package lupos.launch.binary_test_add
 
-import lupos.SparqlTestSuite
+import lupos.s00misc.BinaryTestCase
+import lupos.s00misc.BinaryTestCaseOutputModeExt
 import lupos.s00misc.Parallel
 import lupos.s16network.LuposdateEndpoint
+import kotlin.js.JsName
 
-internal fun mainFunc(): Unit = Parallel.runBlocking {
+@JsName("mainFunc")
+public fun mainFunc(query_input_file: String, query_file: String, query_output_file: String, output_folder: String, query_name: String, output_mode_tmp: String) {
     LuposdateEndpoint.initialize()
-    SparqlTestSuite().testMain()
+    Parallel.runBlocking {
+        val tmp = BinaryTestCaseOutputModeExt.names.indexOf(output_mode_tmp)
+        if (tmp < 0) {
+            throw Exception("invalid value '$output_mode_tmp' for BinaryTestCaseOutputModeExt. Valid values are ${BinaryTestCaseOutputModeExt.names}")
+        }
+        BinaryTestCase.generateTestcase(query_input_file, query_file, query_output_file, output_folder, query_name, tmp)
+    }
 }

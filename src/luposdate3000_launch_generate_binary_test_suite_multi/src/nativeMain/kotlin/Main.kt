@@ -14,13 +14,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.launch.sparql_test_suite
+import lupos.launch.generate_binary_test_suite_multi.mainFunc
 
-import lupos.SparqlTestSuite
-import lupos.s00misc.Parallel
-import lupos.s16network.LuposdateEndpoint
-
-internal fun mainFunc(): Unit = Parallel.runBlocking {
-    LuposdateEndpoint.initialize()
-    SparqlTestSuite().testMain()
+public fun main(args: Array<String>) {
+    var flag = false
+    var prefixDirectory: String = ""
+    for (a in args) {
+        if (a.startsWith("--prefixDirectory=")) {
+            prefixDirectory = a.substring(18)
+            flag = true
+            break
+        }
+    }
+    if (!flag) {
+        throw Exception("the option '--prefixDirectory' is missing on the arguments list")
+    }
+    flag = false
+    var output_folder: String = ""
+    for (a in args) {
+        if (a.startsWith("--output_folder=")) {
+            output_folder = a.substring(16)
+            flag = true
+            break
+        }
+    }
+    if (!flag) {
+        throw Exception("the option '--output_folder' is missing on the arguments list")
+    }
+    mainFunc(prefixDirectory, output_folder)
 }
