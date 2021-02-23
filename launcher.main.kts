@@ -1155,6 +1155,10 @@ fun onGenerateLauncherMain() {
                         out.println(" * You should have received a copy of the GNU General Public License")
                         out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
                         out.println(" */")
+                        var pkg = module.moduleFolder
+                        val idx = pkg.indexOf("_launch_") + "_launch_".length
+                        pkg = pkg.substring(idx)
+                        out.println("import lupos.launch.$pkg.mainFunc")
                         if (p == "jsMain") {
                             out.println("import kotlin.js.JsName")
                             out.println("@JsName(\"main\")")
