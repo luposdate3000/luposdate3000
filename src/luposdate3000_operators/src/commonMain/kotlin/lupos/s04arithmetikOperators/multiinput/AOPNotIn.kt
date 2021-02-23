@@ -45,7 +45,6 @@ public class AOPNotIn public constructor(query: IQuery, childA: AOPBase, childB:
                         break
                     }
                 } catch (e: Throwable) {
-                    SanityCheck.println { "TODO exception 24" }
                     e.printStackTrace()
                     noError = false
                 }

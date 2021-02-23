@@ -19,7 +19,6 @@ package lupos.s04arithmetikOperators.singleinput
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.MyBigDecimal
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
@@ -75,7 +74,6 @@ public class AOPAggregationAVG public constructor(query: IQuery, @JvmField publi
                 tmp1 = ValueError()
                 res.evaluate = res::aggregateEvaluate
             } catch (e: Throwable) {
-                SanityCheck.println { "TODO exception 34" }
                 e.printStackTrace()
                 tmp1 = ValueError()
                 res.evaluate = res::aggregateEvaluate

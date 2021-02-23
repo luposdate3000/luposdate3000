@@ -273,7 +273,6 @@ public class ResultSetDictionaryGlobal {
                     ResultSetDictionaryExt.booleanFalseValue
                 }
             } catch (e: Throwable) {
-                SanityCheck.println { "TODO exception 1" }
                 e.printStackTrace()
             }
         }

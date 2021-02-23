@@ -274,7 +274,6 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
 */
         var res: Pair<Int, Int>? = checkForCachedHistogram(filter)
         if (res == null) {
-            // SanityCheck.println { "readLock(${lock.getUUID()}) x129" }
             lock.readLock()
             val node = rootNode
             if (node != null) {
@@ -320,7 +319,6 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             } else {
                 res = Pair(0, 0)
             }
-            // SanityCheck.println { "readUnlock(${lock.getUUID()}) x130" }
             lock.readUnlock()
             updateCachedHistogram(filter, res)
         }
@@ -417,7 +415,6 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 }
             }
         }
-        // SanityCheck.println { "readUnlock(${lock.getUUID()}) x131" }
         lock.readUnlock()
         return res
     }
@@ -425,18 +422,14 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
     private /*suspend*/ fun importHelper(a: Int, b: Int): Int {
         var nodeA: ByteArray? = null
         var nodeB: ByteArray? = null
-        // SanityCheck.println { "Outside.refcount($a)  x132" }
         NodeManager.getNodeLeaf(a) {
             nodeA = it
         }
-        // SanityCheck.println { "Outside.refcount($b)  x125" }
         NodeManager.getNodeLeaf(b) {
             nodeB = it
         }
         val res = importHelper(MergeIterator(NodeLeaf.iterator(nodeA!!, a), NodeLeaf.iterator(nodeB!!, b)))
-        // SanityCheck.println { "Outside.refcount($a)  x133" }
         NodeManager.freeAllLeaves(a)
-        // SanityCheck.println { "Outside.refcount($b)  x134" }
         NodeManager.freeAllLeaves(b)
         return res
     }
@@ -444,7 +437,6 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
     private /*suspend*/ fun importHelper(iterator: TripleIterator): Int {
         var res = NodeManager.nodeNullPointer
         var node2: ByteArray? = null
-        // SanityCheck.println { "Outside.refcount(??) - x135" }
         NodeManager.allocateNodeLeaf { n, i ->
             res = i
             node2 = n
@@ -453,9 +445,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         var node = node2!!
         NodeLeaf.initializeWith(node, nodeid, iterator)
         while (iterator.hasNext()) {
-            // SanityCheck.println { "Outside.refcount(??) - x51" }
             NodeManager.allocateNodeLeaf { n, i ->
-                // SanityCheck.println { "Outside.refcount($nodeid)  x136" }
                 NodeShared.setNextNode(node, i)
                 NodeManager.flushNode(nodeid)
                 NodeManager.releaseNode(nodeid)
@@ -464,7 +454,6 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             }
             NodeLeaf.initializeWith(node, nodeid, iterator)
         }
-        // SanityCheck.println { "Outside.refcount($nodeid)  x137" }
         NodeManager.flushNode(nodeid)
         NodeManager.releaseNode(nodeid)
         return res
@@ -472,17 +461,14 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
 
     override /*suspend*/ fun flush() {
         if (pendingImport.size > 0) {
-            // SanityCheck.println { "writeLock(${lock.getUUID()}) x138" }
             lock.writeLock()
             flushAssumeLocks()
-            // SanityCheck.println { "writeUnlock(${lock.getUUID()}) x139" }
             lock.writeUnlock()
         }
     }
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private inline fun flushContinueWithWriteLock() {
-        // SanityCheck.println { "writeLock(${lock.getUUID()}) x140" }
         lock.writeLock()
         flushAssumeLocks()
     }
@@ -491,9 +477,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
     /*suspend*/ private inline fun flushContinueWithReadLock() {
         var hasLock = false
         while (pendingImport.size > 0) {
-            SanityCheck.println { "tryWriteLock(${lock.getUUID()}) x204" }
             if (lock.tryWriteLock()) {
-                SanityCheck.println { "tryWriteLock(${lock.getUUID()}) x204 success" }
                 flushAssumeLocks()
                 lock.downgradeToReadLock()
                 hasLock = true
@@ -505,7 +489,6 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             }
         }
         if (!hasLock) {
-            // SanityCheck.println { "readLock(${lock.getUUID()}) x57" }
             lock.readLock()
         }
     }
@@ -528,7 +511,6 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             val firstLeaf2 = pendingImport[pendingImport.size - 1]!!
             var node: ByteArray? = null
             var flag = false
-            // SanityCheck.println { "Outside.refcount($firstLeaf2)  x141" }
             NodeManager.getNodeAny(
                 firstLeaf2,
                 {
@@ -550,7 +532,6 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             } else {
                 rebuildData(NodeInner.iterator(node!!))
             }
-            // SanityCheck.println { "Outside.refcount($firstLeaf2)  x48" }
             NodeManager.freeAllLeaves(firstLeaf2)
             pendingImport.clear()
         }
@@ -565,7 +546,6 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Int>()
             var node2: ByteArray? = null
-            // SanityCheck.println { "Outside.refcount(??) - x52" }
             NodeManager.allocateNodeLeaf { n, i ->
                 firstLeaf = i
                 node2 = n
@@ -575,10 +555,8 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             var nodeid = firstLeaf
             NodeLeaf.initializeWith(node, nodeid, iterator)
             while (iterator.hasNext()) {
-                // SanityCheck.println { "Outside.refcount(??) - x53" }
                 NodeManager.allocateNodeLeaf { n, i ->
                     NodeShared.setNextNode(node, i)
-                    // SanityCheck.println { "Outside.refcount($nodeid)  x143" }
                     NodeManager.flushNode(nodeid)
                     NodeManager.releaseNode(nodeid)
                     nodeid = i
@@ -593,9 +571,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 while (currentLayer.size > 1) {
                     val tmp = mutableListOf<Int>()
                     var prev2: ByteArray? = null
-                    // SanityCheck.println { "Outside.refcount(??) - x54" }
                     NodeManager.allocateNodeInner { n, i ->
-                        // SanityCheck.println { "Outside.refcount($nodeid)  x144" }
                         NodeManager.flushNode(nodeid)
                         NodeManager.releaseNode(nodeid)
                         nodeid = i
@@ -605,9 +581,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                     }
                     var prev = prev2!!
                     while (currentLayer.size > 0) {
-                        // SanityCheck.println { "Outside.refcount(??) - x55" }
                         NodeManager.allocateNodeInner { n, i ->
-                            // SanityCheck.println { "Outside.refcount($nodeid)  x145" }
                             NodeManager.flushNode(nodeid)
                             NodeManager.releaseNode(nodeid)
                             nodeid = i
@@ -621,12 +595,10 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 }
             }
             rebuildDataPart1()
-            // SanityCheck.println { "Outside.refcount($nodeid)  x146" }
             NodeManager.flushNode(nodeid)
             NodeManager.releaseNode(nodeid)
             var rootNodeIsLeaf = false
             SanityCheck.check { rootNode == null }
-            // SanityCheck.println { "Outside.refcount(${currentLayer[0]}) x10" }
             NodeManager.getNodeAny(
                 currentLayer[0],
                 {
@@ -638,10 +610,8 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 }
             )
             if (rootNodeIsLeaf) {
-                // SanityCheck.println { "Outside.refcount($nodeid)  x148" }
                 NodeManager.flushNode(nodeid)
                 NodeManager.releaseNode(nodeid)
-                // SanityCheck.println { "Outside.refcount(??) - x56" }
                 NodeManager.allocateNodeInner { n, i ->
                     NodeInner.initializeWith(n, i, mutableListOf(currentLayer[0]))
                     rootNode = n
@@ -932,7 +902,6 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         if (firstLeaf == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
         } else {
-            // SanityCheck.println { "Outside.refcount($firstLeaf)  x12" }
             NodeManager.getNodeLeaf(firstLeaf) {
                 iteratorStore2 = NodeLeaf.iterator(it, firstLeaf)
             }
@@ -945,10 +914,8 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         firstLeaf = NodeManager.nodeNullPointer
         rebuildData(iterator)
         if (oldroot != NodeManager.nodeNullPointer) {
-            // SanityCheck.println { "Outside.refcount($oldroot)  x149" }
             NodeManager.freeNodeAndAllRelated(oldroot)
         }
-        // SanityCheck.println { "writeUnlock(${lock.getUUID()}) x62" }
         lock.writeUnlock()
     }
 
@@ -961,7 +928,6 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         if (firstLeaf == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
         } else {
-            // SanityCheck.println { "Outside.refcount($firstLeaf)  x13" }
             NodeManager.getNodeLeaf(firstLeaf) {
                 iteratorStore2 = NodeLeaf.iterator(it, firstLeaf)
             }
@@ -974,10 +940,8 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         firstLeaf = NodeManager.nodeNullPointer
         rebuildData(iterator)
         if (oldroot != NodeManager.nodeNullPointer) {
-            // SanityCheck.println { "Outside.refcount($oldroot)  x150" }
             NodeManager.freeNodeAndAllRelated(oldroot)
         }
-        // SanityCheck.println { "writeUnlock(${lock.getUUID()}) x63" }
         lock.writeUnlock()
     }
 
@@ -992,14 +956,12 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
     override /*suspend*/ fun clear() {
         flushContinueWithWriteLock()
         if (root != NodeManager.nodeNullPointer) {
-            // SanityCheck.println { "Outside.refcount($root)  x151" }
             NodeManager.freeNodeAndAllRelated(root)
             root = NodeManager.nodeNullPointer
         }
         firstLeaf = NodeManager.nodeNullPointer
         rootNode = null
         clearCachedHistogram()
-        // SanityCheck.println { "writeUnlock(${lock.getUUID()}) x64" }
         lock.writeUnlock()
     }
 }

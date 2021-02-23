@@ -18,7 +18,6 @@ package lupos.s04arithmetikOperators.multiinput
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.EvaluationException
-import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
@@ -53,7 +52,6 @@ public class AOPMultiplication public constructor
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {
-                SanityCheck.println { "TODO exception 18" }
                 e.printStackTrace()
             }
             res

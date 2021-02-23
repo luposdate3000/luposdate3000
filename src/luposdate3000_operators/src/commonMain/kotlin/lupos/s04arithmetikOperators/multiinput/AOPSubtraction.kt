@@ -18,7 +18,6 @@ package lupos.s04arithmetikOperators.multiinput
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.EvaluationException
-import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
@@ -52,7 +51,6 @@ public class AOPSubtraction public constructor(query: IQuery, childA: AOPBase, c
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {
-                SanityCheck.println { "TODO exception 16" }
                 e.printStackTrace()
             }
             res

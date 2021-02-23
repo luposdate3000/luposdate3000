@@ -92,7 +92,6 @@ public abstract class OptimizerCompoundBase internal constructor(query: Query, o
             while (d) {
                 d = false
                 for (o in opt) {
-                    SanityCheck.println { "debug ${o.optimizerID}" }
                     var c = true
                     while (c) {
                         c = false

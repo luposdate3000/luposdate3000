@@ -856,7 +856,6 @@ return tmp
             if (x is LOPProjection) {
                 list.addAll(x.variables.map { it.name })
             } else {
-                SanityCheck.println { "debug no force-selected column order ?!? ..." }
             }
             columnProjectionOrder.add(list)
         }
@@ -1441,7 +1440,6 @@ return tmp
                 name.name
             }
             else -> {
-                SanityCheck.println { "$name --- $name" }
                 SanityCheck.checkUnreachable()
             }
         }

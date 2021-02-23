@@ -124,31 +124,25 @@ public class POPMergePartitionCount public constructor(query: IQuery, projectedV
                 Parallel.launch {
                     val child = children[0].evaluate(Partition(parent, partitionVariable, p, partitionCount))
                     loop@ while (readerFinished == 0) {
-                        SanityCheck.println { "merge $uuid $p writer loop start" }
                         val tmp = child.hasNext2()
                         if (tmp) {
-                            SanityCheck.println { "merge $uuid $p writer append data" }
                             ringbufferWriteHead[p]++
                         } else {
-                            SanityCheck.println { "merge $uuid $p writer closed B" }
                             break@loop
                         }
                     }
                     writerFinished[p] = 1
                     child.hasNext2Close()
-                    SanityCheck.println { "merge $uuid $p writer exited loop" }
                 }
             }
             return object : IteratorBundle(0) {
                 override /*suspend*/ fun hasNext2(): Boolean {
                     var res = false
                     loop@ while (true) {
-                        SanityCheck.println { "merge $uuid reader loop start" }
                         var finishedWriters = 0
                         for (p in 0 until partitionCount) {
                             if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
                                 // non empty queue -> read one row
-                                SanityCheck.println { "merge $uuid $p reader consumed data" }
                                 res = true
                                 ringbufferReadHead[p]++
                                 break@loop
@@ -160,14 +154,12 @@ public class POPMergePartitionCount public constructor(query: IQuery, projectedV
                             // done
                             break@loop
                         }
-                        SanityCheck.println { "merge $uuid reader wait for writer" }
                         Parallel.delay(1)
                     }
                     return res
                 }
 
                 override /*suspend*/ fun hasNext2Close() {
-                    SanityCheck.println { "merge $uuid reader closed" }
                     readerFinished = 1
                 }
             }

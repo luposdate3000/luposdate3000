@@ -20,7 +20,6 @@ import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.s00misc.File
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Platform
-import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
 
 public object BufferManagerExt {
@@ -53,7 +52,7 @@ public object BufferManagerExt {
     }
 
     init {
-        SanityCheck.println { "bufferPrefix = $bufferPrefix" }
+        println { "BufferManagerExt.bufferPrefix = $bufferPrefix" }
         File(bufferPrefix).mkdirs()
     }
 

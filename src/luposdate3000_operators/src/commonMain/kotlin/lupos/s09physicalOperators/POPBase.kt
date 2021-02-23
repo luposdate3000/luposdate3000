@@ -19,7 +19,6 @@ package lupos.s09physicalOperators
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.HistogramNotImplementedException
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.HistogramResult
@@ -62,10 +61,8 @@ public abstract class POPBase public constructor(
                 tmp.removeAll(additionalProvided)
                 tmp.removeAll(getProvidedVariableNamesInternal())
                 if (tmp.size == 1) {
-                    SanityCheck.println { this }
                     throw VariableNotDefinedSyntaxException(classname, tmp.first())
                 } else {
-                    SanityCheck.println { this }
                     throw VariableNotDefinedSyntaxException(classname, tmp.toString())
                 }
             }

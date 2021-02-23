@@ -153,7 +153,6 @@ public class POPJoinMergeSingleColumn public constructor(query: IQuery, projecte
         /*suspend*/ internal inline fun _close() {
             if (label != 0) {
                 label = 0
-                SanityCheck.println { "\$uuid close ColumnIteratorJoinMergeSingleColumn" }
                 child0.close()
                 child1.close()
             }
@@ -179,7 +178,6 @@ public class POPJoinMergeSingleColumn public constructor(query: IQuery, projecte
         SanityCheck.check { children[0].getProvidedVariableNames()[0] == projectedVariables[0] }
         SanityCheck.check { children[1].getProvidedVariableNames().size == 1 }
         SanityCheck.check { children[1].getProvidedVariableNames()[0] == projectedVariables[0] }
-        SanityCheck.println { "$uuid open $classname" }
         val child0 = children[0].evaluate(parent).columns[projectedVariables[0]]!!
         val child1 = children[1].evaluate(parent).columns[projectedVariables[0]]!!
         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -189,7 +187,6 @@ public class POPJoinMergeSingleColumn public constructor(query: IQuery, projecte
             outMap[projectedVariables[0]] = ColumnIteratorImpl(child0, child1, a, b)
         } else {
             outMap[projectedVariables[0]] = ColumnIteratorEmpty()
-            SanityCheck.println { "$uuid close $classname" }
             child0.close()
             child1.close()
         }

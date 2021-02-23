@@ -20,7 +20,6 @@ import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
-import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
@@ -65,7 +64,6 @@ public class AOPDivision public constructor(query: IQuery, childA: AOPBase, chil
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {
-                SanityCheck.println { "TODO exception 23" }
                 e.printStackTrace()
             }
             res

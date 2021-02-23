@@ -152,7 +152,6 @@ public object LuposdateEndpoint {
             tripleStoreManager.commit(query)
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
-            SanityCheck.println { "TODO exception 15" }
             e.printStackTrace()
             throw e
         }
@@ -349,7 +348,6 @@ public object LuposdateEndpoint {
             tripleStoreManager.commit(query)
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
-            SanityCheck.println { "TODO exception 15" }
             e.printStackTrace()
             throw e
         }

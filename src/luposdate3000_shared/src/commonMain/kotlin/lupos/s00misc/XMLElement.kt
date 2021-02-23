@@ -193,7 +193,6 @@ public class XMLElement(tag: String) {
                 }
                 var n = 0
                 for (c in childs) {
-                    // SanityCheck.println({ "myEqualsUnclean - loop A ${n} ${childs.size}" })
                     val s = c.toString()
                     if (myMap[s] == null) {
                         myMap[s] = mutableListOf(c)
@@ -204,7 +203,6 @@ public class XMLElement(tag: String) {
                 }
                 n = 0
                 for (c in other.childs) {
-                    // SanityCheck.println({ "myEqualsUnclean - loop B ${n} ${other.childs.size}" })
                     val s = c.toString()
                     if (otherMap[s] == null) {
                         otherMap[s] = mutableListOf(c)
@@ -215,7 +213,6 @@ public class XMLElement(tag: String) {
                 }
                 while (change) {
                     change = false
-                    // SanityCheck.println({ "myEqualsUnclean - loop C ${myMap.size} ${otherMap.size}" })
                     for ((k, v) in myMap) {
                         val w = otherMap[k]
                         if (w != null) {
@@ -259,7 +256,6 @@ public class XMLElement(tag: String) {
             change = true
             while (change) {
                 change = false
-                // SanityCheck.println({ "myEqualsUnclean - loop D ${myRemaining.size} ${otherRemaining.size}" })
                 val i = 0
                 loop@ for (c in myRemaining) {
                     for ((j, d) in otherRemaining.withIndex()) {

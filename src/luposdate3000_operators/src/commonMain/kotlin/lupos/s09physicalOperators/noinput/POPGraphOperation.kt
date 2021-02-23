@@ -345,7 +345,6 @@ public class POPGraphOperation public constructor(
                 throw e
             }
         } catch (e: Throwable) {
-            SanityCheck.println { "TODO exception 7" }
             e.printStackTrace()
             if (!silent) {
                 throw e

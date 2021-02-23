@@ -52,7 +52,6 @@ public class LOPUnion public constructor(query: IQuery, first: IOPBase, second: 
                 res.values[v] = a + b
             }
         } catch (e: Throwable) {
-            SanityCheck.println { "TODO exception 10" }
             e.printStackTrace()
             throw BugException(classname, "calculateHistogram column missing")
         }

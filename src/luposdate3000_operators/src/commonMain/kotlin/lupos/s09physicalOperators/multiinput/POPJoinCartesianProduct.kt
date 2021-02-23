@@ -73,9 +73,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
             }
         }
         SanityCheck.check { columns[0].size == 0 }
-        SanityCheck.println { "POPJoinCartesianProductXXX$uuid open A $classname" }
         val childA = children[0].evaluate(parent)
-        SanityCheck.println { "POPJoinCartesianProductXXX$uuid open B $classname" }
         val childB = children[1].evaluate(parent)
         val columnsINAO = mutableListOf<ColumnIterator>() // only in childA
         val columnsINBO = mutableListOf<ColumnIterator>() // only in childB
@@ -91,22 +89,17 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
         }
         val count: Int
         if (columnsINAO.size == 0 && columnsINBO.size == 0) {
-            SanityCheck.println { "POPJoinCartesianProductXXX$uuid mode A" }
             try {
                 res = IteratorBundle(childA.count() * childB.count())
             } catch (e: Throwable) {
-                SanityCheck.println { "exception from ${getUUID()} ${children[0].getUUID()} ${children[1].getUUID()}" }
                 throw e
             }
         } else if (columnsINAO.size == 0) {
-            SanityCheck.println { "POPJoinCartesianProductXXX$uuid mode B" }
-            SanityCheck.println { "POPJoinCartesianProductXXX$uuid closecount A $classname" }
             if (childA.count() > 0) {
                 for (columnIndex in 0 until columnsINBO.size) {
                     outMap[columns[2][columnIndex]] = ColumnIteratorRepeatIterator(childA.count(), columnsINBO[columnIndex])
                 }
             } else {
-                SanityCheck.println { "POPJoinCartesianProductXXX$uuid close B $classname" }
                 for ((k, v) in childB.columns) {
                     v.close()
                 }
@@ -116,14 +109,11 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
             }
             res = IteratorBundle(outMap)
         } else if (columnsINBO.size == 0) {
-            SanityCheck.println { "POPJoinCartesianProductXXX$uuid mode C" }
-            SanityCheck.println { "POPJoinCartesianProductXXX$uuid closecount B $classname" }
             if (childB.count() > 0) {
                 for (columnIndex in 0 until columnsINAO.size) {
                     outMap[columns[1][columnIndex]] = ColumnIteratorRepeatIterator(childB.count(), columnsINAO[columnIndex])
                 }
             } else {
-                SanityCheck.println { "POPJoinCartesianProductXXX$uuid close A $classname" }
                 for ((k, v) in childA.columns) {
                     v.close()
                 }
@@ -133,7 +123,6 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
             }
             res = IteratorBundle(outMap)
         } else {
-            SanityCheck.println { "POPJoinCartesianProductXXX$uuid mode D" }
             val data = Array(columnsINBO.size) { mutableListOf<Int>() }
             loopC@ while (true) {
                 for (columnIndex in 0 until columnsINBO.size) {
@@ -144,15 +133,12 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                     data[columnIndex].add(value)
                 }
             }
-            SanityCheck.println { "POPJoinCartesianProductXXX$uuid close B $classname" }
             for ((k, v) in childB.columns) {
                 v.close()
             }
             count = data[0].size
             if (count == 0) {
-                SanityCheck.println { "POPJoinCartesianProductXXX$uuid mode E" }
                 if (optional) {
-                    SanityCheck.println { "POPJoinCartesianProductXXX$uuid mode F" }
                     for (i in 0 until columns[1].size + columns[2].size) {
                         val iterator = object : ColumnIteratorChildIterator() {
                             override /*suspend*/ fun close() {
@@ -163,7 +149,6 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                             /*suspend*/ inline fun __close() {
                                 if (label != 0) {
                                     _close()
-                                    SanityCheck.println { "POPJoinCartesianProductXXX$uuid close A $classname" }
                                     for ((k, v) in childA.columns) {
                                         v.close()
                                     }
@@ -179,7 +164,6 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                                             if (value == ResultSetDictionaryExt.nullValue) {
                                                 SanityCheck.check { columnIndex == 0 }
                                                 done = true
-                                                SanityCheck.println { "POPJoinCartesianProductXXX$uuid close A $classname" }
                                                 for ((k, v) in childA.columns) {
                                                     v.close()
                                                 }
@@ -206,7 +190,6 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                         }
                     }
                 } else {
-                    SanityCheck.println { "POPJoinCartesianProductXXX$uuid close A $classname" }
                     for ((k, v) in childA.columns) {
                         v.close()
                     }
@@ -222,7 +205,6 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                     }
                 }
             } else {
-                SanityCheck.println { "POPJoinCartesianProductXXX$uuid mode G" }
                 for (i in 0 until columns[1].size + columns[2].size) {
                     val iterator = object : ColumnIteratorChildIterator() {
                         override /*suspend*/ fun close() {
@@ -233,7 +215,6 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                         /*suspend*/ inline fun __close() {
                             if (label != 0) {
                                 _close()
-                                SanityCheck.println { "POPJoinCartesianProductXXX$uuid close A $classname" }
                                 for ((k, v) in childA.columns) {
                                     v.close()
                                 }
@@ -249,7 +230,6 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                                         if (value == ResultSetDictionaryExt.nullValue) {
                                             SanityCheck.check { columnIndex == 0 }
                                             done = true
-                                            SanityCheck.println { "POPJoinCartesianProductXXX$uuid close A $classname" }
                                             for ((k, v) in childA.columns) {
                                                 v.close()
                                             }

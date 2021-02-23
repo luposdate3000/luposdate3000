@@ -220,7 +220,6 @@ public class ResultSetDictionary : IResultSetDictionary {
                     ResultSetDictionaryExt.booleanFalseValue
                 }
             } catch (e: Throwable) {
-                SanityCheck.println { "TODO exception 1" }
                 e.printStackTrace()
             }
         }

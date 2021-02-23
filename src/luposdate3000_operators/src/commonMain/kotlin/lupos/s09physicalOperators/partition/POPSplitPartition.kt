@@ -124,7 +124,6 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
             val childPartition = Partition(parent, partitionVariable)
             val partitionHelper: PartitionHelper?
             partitionHelper = (query as Query).getPartitionHelper(uuid)
-            SanityCheck.println { "lock(${partitionHelper.lock.getUUID()}) x178" }
             partitionHelper.lock.lock()
             if (partitionHelper.iterators != null) {
                 iterators = partitionHelper.iterators!![childPartition]
@@ -147,15 +146,11 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                 val ringbufferWriterContinuation: ParallelCondition = Parallel.createCondition()
                 val readerFinished = IntArray(partitionCount) { 0 } // writer changes to 1 if finished
                 var writerFinished = 0
-                SanityCheck.println { "ringbuffersize = ${ringbuffer.size} $elementsPerRing $partitionCount ${ringbufferStart.map { it }} ${ringbufferReadHead.map { it }} ${ringbufferWriteHead.map { it }}" }
-                SanityCheck.println { "split $uuid writer launched A" }
                 val job = Parallel.launch {
                     var child2: RowIterator? = null
                     try {
-                        SanityCheck.println { "split $uuid writer launched B" }
                         val child = children[0].evaluate(childPartition).rows
                         child2 = child
-                        SanityCheck.println { "split $uuid writer launched C" }
                         var hashVariableIndex = -1
                         val variableMapping = IntArray(variables.size)
                         for (variable in variables.indices) {
@@ -171,9 +166,7 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                         }
                         SanityCheck.check { hashVariableIndex != -1 }
                         val cacheArr = IntArray(partitionCount) { it }
-                        SanityCheck.println { "split $uuid writer launched D" }
                         loop@ while (true) {
-                            SanityCheck.println { "split $uuid writer loop start" }
                             var tmp = child.next()
                             var readerFinishedCounter = 0
                             for (p in 0 until partitionCount) {
@@ -182,11 +175,9 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                                 }
                             }
                             if (readerFinishedCounter == partitionCount) {
-                                SanityCheck.println { "split $uuid writer launched E" }
                                 tmp = -1
                             }
                             if (tmp == -1) {
-                                SanityCheck.println { "split $uuid writer closed A" }
                                 break@loop
                             } else {
                                 var q = child.buf[tmp + hashVariableIndex]
@@ -206,7 +197,6 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                                     if (readerFinished[p] != 0) {
                                         continue@loopcache
                                     }
-                                    SanityCheck.println { "selected $p for $partitionVariable = $hashVariableIndex value ${child.buf[tmp + hashVariableIndex]}" }
                                     val t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                     while (ringbufferReadHead[p] == t && readerFinished[p] == 0) {
                                         ringbufferReaderContinuation[p].signal()
@@ -215,31 +205,22 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                                     if (readerFinished[p] != 0) {
                                         continue@loopcache
                                     }
-                                    SanityCheck.println { "split $uuid $p writer append data ${variables.size} ${variableMapping.toMutableList()} ${ringbufferStart[p]}" }
                                     for (variable in variables.indices) {
-                                        SanityCheck.println { "split $uuid $p writer append data ... $variable ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]} ${tmp + variable}" }
                                         ringbuffer[ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]] = child.buf[tmp + variable]
-                                        SanityCheck.println { "split $uuid $p writer append data --- $variables ${child.columns.map { it }} ${ringbufferWriteHead[p] + variableMapping[variable] + ringbufferStart[p]}<-${tmp + variable} = ${child.buf[tmp + variable]}" }
                                     }
-                                    SanityCheck.println { "split $uuid $p writer append data - written data" }
                                     ringbufferWriteHead[p] = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
-                                    SanityCheck.println { "split $uuid $p writer append data - increased pointer" }
                                     ringbufferReaderContinuation[p].signal()
                                 }
                             }
-                            SanityCheck.println { "split $uuid writer loop end of iteration" }
                         }
                     } catch (e: Throwable) {
                         error = e
                     }
-                    SanityCheck.println { "split $uuid writer launched F" }
                     child2?.close?.invoke()
                     writerFinished = 1
                     for (p in 0 until partitionCount) {
                         ringbufferReaderContinuation[p].signal()
                     }
-                    SanityCheck.println { "split $uuid writer launched G" }
-                    SanityCheck.println { "split $uuid writer exited loop" }
                 }
                 for (p in 0 until partitionCount) {
                     val iterator = RowIterator()
@@ -248,10 +229,8 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                     iterator.next = {
                         var res = -1
                         loop@ while (true) {
-                            SanityCheck.println { "split $uuid $p reader loop start" }
                             if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
                                 // non empty queue -> read one row
-                                SanityCheck.println { "split $uuid $p reader consumed data" }
                                 for (variable in variables.indices) {
                                     iterator.buf[variable] = (ringbuffer[ringbufferReadHead[p] + variable + ringbufferStart[p]])
                                 }
@@ -259,7 +238,6 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                                 ringbufferReadHead[p] = (ringbufferReadHead[p] + variables.size) % elementsPerRing
                                 break@loop
                             } else if (writerFinished == 1) {
-                                SanityCheck.println { "split $uuid $p reader closed" }
                                 iterator.close()
                                 if (error != null) {
                                     throw error!!
@@ -272,7 +250,6 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                         res
                     }
                     iterator.close = {
-                        SanityCheck.println { "split $uuid $p reader close" }
                         readerFinished[p] = 1
                         ringbufferWriterContinuation.signal()
                     }
@@ -286,7 +263,6 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                     partitionHelper.jobs!![childPartition] = job
                 }
             }
-            SanityCheck.println { "unlock(${partitionHelper.lock.getUUID()}) x191" }
             partitionHelper.lock.unlock()
             return iterators[parent.data[partitionVariable]!!]
         }

@@ -18,7 +18,6 @@ package lupos.s04arithmetikOperators.multiinput
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.EvaluationException
-import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
@@ -43,7 +42,6 @@ public class AOPLEQ public constructor(query: IQuery, childA: AOPBase, childB: A
                     ResultSetDictionaryExt.booleanFalseValue2
                 }
             } catch (e: Throwable) {
-                SanityCheck.println { "TODO exception 27" }
                 e.printStackTrace()
             }
             res
@@ -65,7 +63,6 @@ public class AOPLEQ public constructor(query: IQuery, childA: AOPBase, childB: A
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {
-                SanityCheck.println { "TODO exception 28" }
                 e.printStackTrace()
             }
             res

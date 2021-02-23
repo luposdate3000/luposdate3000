@@ -17,7 +17,6 @@
 package lupos.s03resultRepresentation
 
 import lupos.s00misc.EvaluationException
-import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
 
@@ -50,7 +49,6 @@ public class ValueComparatorASC(@JvmField public val query: IQuery) : Comparator
             val sB = b1.valueToString()!!
             return sA.compareTo(sB)
         } catch (e: Throwable) {
-            SanityCheck.println { "TODO exception 45" }
             e.printStackTrace()
             return 0
         }

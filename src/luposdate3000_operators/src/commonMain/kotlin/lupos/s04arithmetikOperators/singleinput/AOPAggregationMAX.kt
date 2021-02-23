@@ -18,7 +18,6 @@ package lupos.s04arithmetikOperators.singleinput
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.EvaluationException
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError
@@ -54,7 +53,6 @@ public class AOPAggregationMAX public constructor(query: IQuery, @JvmField publi
                 res.value = ValueError()
                 res.evaluate = res::aggregateEvaluate
             } catch (e: Throwable) {
-                SanityCheck.println { "TODO exception 37" }
                 e.printStackTrace()
                 res.value = ValueError()
                 res.evaluate = res::aggregateEvaluate

@@ -18,7 +18,6 @@ package lupos.s04arithmetikOperators.multiinput
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.EvaluationException
-import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueUndef
@@ -58,7 +57,6 @@ public class AOPBuildInCallCOALESCE public constructor(query: IQuery, childs: Li
                     }
                 } catch (e: EvaluationException) {
                 } catch (e: Throwable) {
-                    SanityCheck.println { "TODO exception 17" }
                     e.printStackTrace()
                 }
             }

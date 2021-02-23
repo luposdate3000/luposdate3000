@@ -103,11 +103,9 @@ public object BinaryTestCase {
                             }
                         }
                     } catch (e: Throwable) {
-                        println("there is an exception !!!")
                         e.printStackTrace()
                         s += "missingFeaturesException"
                     }
-                    println("writing the string s '$s' !?!?!")
                     newConfig.println(s)
                     newConfig.flush()
                 }
@@ -117,7 +115,6 @@ public object BinaryTestCase {
     }
 
     private fun operatorGraphToTable(node: IOPBase, partition: Partition = Partition()): MemoryTable {
-        println(node)
         val tmp = QueryResultToMemoryTable(node, partition)
         if (tmp.size != 1) {
             throw Exception("multi-queries are not supported right now")
@@ -270,7 +267,6 @@ public object BinaryTestCase {
         if (!res && tag != "this is no error") {
             out.println("----------Failed($tag)")
             val x = out.toString()
-            SanityCheck.println { x }
             outSummary.println("Test: $query_folder named: $query_name")
             outSummary.println(x)
         }
@@ -331,63 +327,49 @@ public object BinaryTestCase {
     public fun executeTestCase(query_folder: String): Boolean {
         println("executeTestCase $query_folder")
         var returnValue = true
-        println("returnValue = true #1")
         File("$query_folder/query.stat").dataInputStream { targetStat ->
             File("$query_folder/query.dictionary").dataInputStream { targetDictionary ->
                 File("$query_folder/query.triples").dataInputStream { targetTriples ->
                     File("$query_folder/query.result").dataInputStream { targetResult ->
                         func@ while (true) {
                             val mode = targetStat.readInt()
-                            println("WWW stat.read 4 288 ${BinaryTestCaseOutputModeExt.names[mode]} outputmode")
                             val variables = mutableListOf<String>()
                             var targetResultCount = 0
                             when (mode) {
                                 BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT, BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT_COUNT, BinaryTestCaseOutputModeExt.MODIFY_RESULT -> {
                                     val variablesSize = targetStat.readInt()
-                                    println("WWW stat.read 4 294 $variablesSize variablesSize")
                                     for (i in 0 until variablesSize) {
                                         val len = targetStat.readInt()
-                                        println("WWW stat.read 4 297 $len variablenamelength")
                                         val buf = ByteArray(len)
                                         val read = targetStat.read(buf, 0, len)
-                                        println("WWW stat.read $len 300 ${buf.map { it }} variablename")
                                         if (read < len) {
                                             throw Exception("not enough data available")
                                         }
                                         variables.add(buf.decodeToString())
-                                        println("WWW as String ${buf.decodeToString()}")
                                     }
                                     targetResultCount = targetStat.readInt()
-                                    println("WWW stat.read 4 307 $targetResultCount resultcount")
                                     if (MAX_TRIPLES_DURING_TEST in 1 until targetResultCount) {
-                                        SanityCheck.println { "Test: $query_folder named: $query_folder" }
-                                        SanityCheck.println { "----------Skipped" }
+                                        println { "Test: $query_folder named: $query_folder" }
+                                        println { "----------Skipped" }
                                         returnValue = true
-                                        println("returnValue = true #2")
                                         break@func
                                     }
                                 }
                             }
                             val len = targetStat.readInt()
-                            println("WWW stat.read 4 318 $len querynamelength")
                             val buf = ByteArray(len) { 0 }
                             val read = targetStat.read(buf, 0, len)
-                            println("WWW stat.read $len 321 ${buf.map { it }} queryname")
                             if (read < len) {
                                 throw Exception("not enough data available")
                             }
                             val queryName = buf.decodeToString()
-                            println("WWW as String ${buf.decodeToString()}")
-                            SanityCheck.println { "Test: $query_folder named: $queryName" }
+                            println { "Test: $query_folder named: $queryName" }
                             val dictionarySize = targetStat.readInt()
-                            println("WWW stat.read 4 329 $dictionarySize dictionarysize")
                             val targetInputCount = targetStat.readInt()
-                            println("WWW stat.read 4 331 $targetInputCount resultcount")
                             if (MAX_TRIPLES_DURING_TEST in 1 until targetInputCount) {
-                                SanityCheck.println { "Test: $query_folder named: $query_folder" }
-                                SanityCheck.println { "----------Skipped" }
+                                println { "Test: $query_folder named: $query_folder" }
+                                println { "----------Skipped" }
                                 returnValue = true
-                                println("returnValue = true #7")
                                 break@func
                             }
                             val targetDict = mutableMapOf<String, Int>()
@@ -396,10 +378,8 @@ public object BinaryTestCase {
                             val mappingLiveToTarget = mutableMapOf(ResultSetDictionaryExt.undefValue to -1, ResultSetDictionaryExt.errorValue to -1, ResultSetDictionaryExt.nullValue to -1)
                             for (i in 0 until dictionarySize) {
                                 val len2 = targetDictionary.readInt()
-                                println("WWW dict.read 4 344 $len2")
                                 val buf2 = ByteArray(len2)
                                 val read2 = targetDictionary.read(buf2, 0, len2)
-                                println("WWW dict.read $len 347 ${buf2.map { it }}")
                                 if (read2 < len2) {
                                     throw Exception("not enough data available")
                                 }
@@ -412,21 +392,16 @@ public object BinaryTestCase {
                                 }
                                 targetDict[s] = i
                                 targetDict2[i] = s
-                                SanityCheck.println { "XXX added value:$s" }
                                 val tmp = nodeGlobalDictionary.createValue(s)
                                 mappingTargetToLive[i] = tmp
                                 mappingLiveToTarget[tmp] = i
                             }
                             val tableInput = MemoryTable(arrayOf("s", "p", "o"))
-                            SanityCheck.println { "----------Triple-Store-Target" }
+                            println { "----------Triple-Store-Target" }
                             for (i in 0 until targetInputCount) {
                                 val s1 = targetTriples.readInt()
-                                println("WWW trip.read 4 369 $s1")
                                 val p1 = targetTriples.readInt()
-                                println("WWW trip.read 4 371 $s1")
                                 val o1 = targetTriples.readInt()
-                                println("WWW trip.read 4 373 $s1")
-                                SanityCheck.println { "[$s1, $p1, $o1] :: [${targetDict2[s1]}, ${targetDict2[p1]}, ${targetDict2[o1]}]" }
                                 val s = mappingTargetToLive[s1]
                                 val p = mappingTargetToLive[p1]
                                 val o = mappingTargetToLive[o1]
@@ -473,15 +448,10 @@ TODO verify triple store input
                                     if (p.partitionCount == 1) {
                                         val node = tripleStoreManager.getDefaultGraph().getIterator(queryParam, idx, Partition())
                                         tmpTable = operatorGraphToTable(OPBaseCompound(query3, arrayOf(node), listOf(listOf("s", "p", "o"))))
-                                        SanityCheck.println { "storage content ${EIndexPatternExt.names[idx]} x/${p.partitionCount} '' ${tmpTable.columns.map { it }}" }
-                                        for (r in tmpTable.data) {
-                                            SanityCheck.println { r.map { it } }
-                                        }
                                     } else {
                                         for (value in 0 until p.partitionCount) {
                                             val partition = Partition()
                                             val key = EIndexPatternExt.names[idx].substring(p.column, p.column + 1).toLowerCase()
-                                            SanityCheck.println { "extractKey :: ${EIndexPatternExt.names[idx]} ${p.column} $key" }
                                             partition.limit[key] = p.partitionCount
                                             partition.data[key] = value
                                             val iterator = tripleStoreManager.getDefaultGraph().getIterator(queryParam, idx, partition)
@@ -497,21 +467,15 @@ TODO verify triple store input
                                                 listOf(listOf("s", "p", "o"))
                                             )
                                             val table = operatorGraphToTable(node, partition)
-                                            SanityCheck.println { "storage content ${EIndexPatternExt.names[idx]} $value/${p.partitionCount} '$key' ${table.columns.map { it }}" }
-                                            for (r in table.data) {
-                                                SanityCheck.println { r.map { it } }
-                                            }
                                         }
                                     }
                                     if (tmpTable != null) {
                                         success = verifyEqual(tableInput, tmpTable, mappingLiveToTarget, targetDict, targetDict2, true, queryName, query_folder, "import (${EIndexPatternExt.names[idx]} ${p.column} ${p.partitionCount})") && success
-                                        SanityCheck.println { "success after idx ${EIndexPatternExt.names[idx]} $success" }
                                     }
                                 }
                                 if (!success) {
                                     returnValue = false
-                                    println("returnValue = false #3")
-                                    SanityCheck.println { "----------Failed(import)" }
+                                    println { "----------Failed(import)" }
                                     break@func
                                 }
 */
@@ -519,13 +483,11 @@ TODO verify triple store input
                             val tableOutput = MemoryTable(variables.toTypedArray())
                             if (mode == BinaryTestCaseOutputModeExt.ASK_QUERY_RESULT) {
                                 tableOutput.booleanResult = targetResult.readInt() == 1
-                                println("WWW resu.read 4 455 ${tableOutput.booleanResult}")
                             } else {
                                 for (i in 0 until targetResultCount) {
                                     val row = IntArray(variables.size) { -1 }
                                     for (j in 0 until variables.size) {
                                         val tmp = targetResult.readInt()
-                                        println("WWW resu.read 4 461 $tmp")
                                         if (tmp == -1) {
                                             row[j] = ResultSetDictionaryExt.undefValue
                                         } else {
@@ -535,32 +497,32 @@ TODO verify triple store input
                                     tableOutput.data.add(row)
                                 }
                             }
-                            SanityCheck.println { "----------String query" }
+                            println { "----------String query" }
                             val toParse = File("$query_folder/query.sparql").readAsString()
-                            SanityCheck.println { toParse }
+                            println { toParse }
                             for (f in notImplementedFeaturesList) {
                                 if (toParse.contains(f)) {
                                     throw object : NotImplementedException("NotImplementedException", "Inference not implemented '$f'") {}
                                 }
                             }
-                            SanityCheck.println { "----------AST" }
+                            println { "----------AST" }
                             val lcit = LexerCharIterator(toParse)
                             val tit = TokenIteratorSPARQLParser(lcit)
                             val ltit = LookAheadTokenIterator(tit, 3)
                             val parser = SPARQLParser(ltit)
                             val astNode = parser.expr()
-                            SanityCheck.println { astNode }
-                            SanityCheck.println { "----------Logical Operatorgraph" }
+                            println { astNode }
+                            println { "----------Logical Operatorgraph" }
                             val query4 = Query()
                             val lopNode = astNode.visit(OperatorGraphVisitor(query4))
-                            SanityCheck.println { lopNode.toString() }
-                            SanityCheck.println { "----------Logical Operatorgraph optimized" }
+                            println { lopNode.toString() }
+                            println { "----------Logical Operatorgraph optimized" }
                             val lopNode2 = LogicalOptimizer(query4).optimizeCall(lopNode)
-                            SanityCheck.println { lopNode2.toString() }
-                            SanityCheck.println { "----------Physical Operatorgraph optimized" }
+                            println { lopNode2.toString() }
+                            println { "----------Physical Operatorgraph optimized" }
                             val popOptimizer = PhysicalOptimizer(query4)
                             val popNode = popOptimizer.optimizeCall(lopNode2)
-                            SanityCheck.println { popNode.toString() }
+                            println { popNode.toString() }
                             val allowOrderBy = !toParse.toLowerCase().contains("order")
                             if (mode == BinaryTestCaseOutputModeExt.MODIFY_RESULT) {
                                 val resultWriter = MyPrintWriter(false)
@@ -570,7 +532,6 @@ TODO verify triple store input
                                 val actualResult = operatorGraphToTable(popOptimizer.optimizeCall(tripleStoreManager.getDefaultGraph().getIterator(query5, arrayOf(AOPVariable(query5, "s"), AOPVariable(query5, "p"), AOPVariable(query5, "o")), EIndexPatternExt.SPO)))
                                 if (!verifyEqual(tableOutput, actualResult, mappingLiveToTarget, targetDict, targetDict2, allowOrderBy, queryName, query_folder, "result in store (SPO) is wrong")) {
                                     returnValue = false
-                                    println("returnValue = false #4")
                                     break@func
                                 }
                                 tripleStoreManager.commit(query5)
@@ -579,13 +540,11 @@ TODO verify triple store input
                                 val actualResult = operatorGraphToTable(popNode)
                                 if (!verifyEqual(tableOutput, actualResult, mappingLiveToTarget, targetDict, targetDict2, allowOrderBy, queryName, query_folder, "query result is wrong")) {
                                     returnValue = false
-                                    println("returnValue = false #5")
                                     break@func
                                 }
                             }
-                            SanityCheck.println { "----------Success" }
+                            println { "----------Success" }
                             returnValue = true
-                            println("returnValue = true #6")
                             break@func
                         }
                     }
@@ -655,15 +614,11 @@ TODO verify triple store input
                                     s.encodeToByteArray()
                                 }
                                 outDictionary.writeInt(tmp.size)
-                                println("WWW dict.write 4 587 ${tmp.size}")
                                 outDictionary.write(tmp)
-                                println("WWW dict.write ${tmp.size} 589 ${tmp.map { it }}")
-                                println("WWW as String ${tmp.decodeToString()}")
                             }
                         }
                         for (i in 0 until 3) {
                             outTriples.writeInt(row[i])
-                            println("WWW trip.write 4 595 ${row[i]}")
                         }
                     }
                     val target = XMLElement.parseFromAny(File(query_output_file).readAsString(), query_output_file)!!
@@ -684,16 +639,11 @@ TODO verify triple store input
                                         outputMode = BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT_COUNT
                                     }
                                     outStat.writeInt(outputMode)
-                                    println("WWW stat.write 4 616 ${BinaryTestCaseOutputModeExt.names[outputMode]} outputmode")
                                     outStat.writeInt(variables.size)
-                                    println("WWW stat.write 4 618 ${variables.size} variables.size")
                                     for (element in variables) {
                                         val tmp = element.encodeToByteArray()
                                         outStat.writeInt(tmp.size)
-                                        println("WWW stat.write 4 622 ${tmp.size} variablenamelength")
                                         outStat.write(tmp)
-                                        println("WWW stat.write ${tmp.size} 624 ${tmp.map { it }} variablename")
-                                        println("WWW as String ${tmp.decodeToString()}")
                                     }
                                     val allRows = mutableListOf<IntArray>()
                                     for (node in target["results"]!!.childs) {
@@ -733,43 +683,34 @@ TODO verify triple store input
                                                         s.encodeToByteArray()
                                                     }
                                                     outDictionary.writeInt(tmp.size)
-                                                    println("WWW dict.write 4 665 ${tmp.size}")
                                                     outDictionary.write(tmp)
-                                                    println("WWW dict.write ${tmp.size} 667 ${tmp.map { it }}")
-                                                    println("WWW as String ${tmp.decodeToString()}")
                                                 }
                                             }
                                         }
                                         if (containsOrderBy) {
                                             for (i in 0 until variables.size) {
                                                 outResult.writeInt(rowOut[i])
-                                                println("WWW resu.write 4 675 ${rowOut[i]}")
                                             }
                                         } else {
                                             allRows.add(rowOut)
                                         }
                                     }
                                     outStat.writeInt(resultCounter)
-                                    println("WWW stat.write 4 682 $resultCounter resultcounter")
                                     if (!containsOrderBy) {
                                         allRows.sortWith(IntArrayComparator())
                                         for (row2 in allRows) {
                                             for (i in 0 until variables.size) {
                                                 outResult.writeInt(row2[i])
-                                                println("WWW resu.write 4 688 ${row2[i]}")
                                             }
                                         }
                                     }
                                 }
                                 BinaryTestCaseOutputModeExt.ASK_QUERY_RESULT -> {
                                     outStat.writeInt(outputMode)
-                                    println("WWW stat.write 4 695 ${BinaryTestCaseOutputModeExt.names[outputMode]} outputmode")
                                     if (target["boolean"]!!.content.toLowerCase() == "true") {
                                         outResult.writeInt(1)
-                                        println("WWW resu.write 4 698 1")
                                     } else {
                                         outResult.writeInt(0)
-                                        println("WWW resu.write 4 701 0")
                                     }
                                 }
                                 else -> {
@@ -778,15 +719,10 @@ TODO verify triple store input
                             }
                             val tmp2 = query_name.encodeToByteArray()
                             outStat.writeInt(tmp2.size)
-                            println("WWW stat.write 4 710 ${tmp2.size} querynamelength")
                             outStat.write(tmp2)
-                            println("WWW stat.write ${tmp2.size} 712 ${tmp2.map { it }} queryname")
-                            println("WWW as String ${tmp2.decodeToString()}")
                             outStat.writeInt(dict.size)
-                            println("WWW stat.write 4 715 ${dict.size} dictsize")
                             outStat.writeInt(inputCounter)
-                            println("WWW stat.write 4 717 $inputCounter inputcounter")
-                            SanityCheck.println { "added Testcase $output_folder ${BinaryTestCaseOutputModeExt.names[outputMode]} (${BinaryTestCaseOutputModeExt.names[output_mode_tmp]}) $query_name $query_input_file $query_output_file $query_file" }
+                            println { "added Testcase $output_folder ${BinaryTestCaseOutputModeExt.names[outputMode]} (${BinaryTestCaseOutputModeExt.names[output_mode_tmp]}) $query_name $query_input_file $query_output_file $query_file" }
                         }
                     }
                 }

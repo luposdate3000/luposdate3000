@@ -52,7 +52,6 @@ public abstract class AOPBase public constructor(
                     res = false
                 } catch (e: Throwable) {
                     res = false
-                    SanityCheck.println { "TODO exception 48" }
                     e.printStackTrace()
                 }
                 res

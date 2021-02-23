@@ -53,7 +53,6 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
         val outMap = mutableMapOf<String, ColumnIterator>()
         val localMap = mutableMapOf<String, ColumnIterator>()
         var expression: () -> Boolean = { true }
-        SanityCheck.println { "POPFilterXXX$uuid open A $classname" }
         val child = children[0].evaluate(parent)
         val res: IteratorBundle
         try {
@@ -70,7 +69,6 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                     /*suspend*/ inline fun __close() {
                         if (label != 0) {
                             ColumnIteratorQueueExt._close(this)
-                            SanityCheck.println { "POPFilterXXX$uuid close E $classname" }
                             for ((k, v) in child.columns) {
                                 v.close()
                             }
@@ -89,7 +87,6 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                                             // point each iterator to the current value
                                             if (columnsLocal[variableIndex2].tmp == ResultSetDictionaryExt.nullValue) {
                                                 SanityCheck.check { variableIndex2 == 0 }
-                                                SanityCheck.println { "POPFilterXXX$uuid close F $classname" }
                                                 for ((k, v) in child.columns) {
                                                     v.close()
                                                 }
@@ -112,8 +109,6 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                                         }
                                     }
                                 } catch (e: NotImplementedException) {
-                                    SanityCheck.println { "POPFilterXXX$uuid close G $classname" }
-                                    SanityCheck.println { "filter caught notimplemented and closed its childs" }
                                     for ((k, v) in child.columns) {
                                         v.close()
                                     }
@@ -154,7 +149,6 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                 } else {
                     res = object : IteratorBundle(0) {
                         override /*suspend*/ fun hasNext2Close() {
-                            SanityCheck.println { "POPFilterXXX$uuid close B $classname" }
                             for ((k, v) in child.columns) {
                                 v.close()
                             }
@@ -169,7 +163,6 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                                         columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
                                         // point each iterator to the current value
                                         if (columnsLocal[variableIndex2].tmp == ResultSetDictionaryExt.nullValue) {
-                                            SanityCheck.println { "POPFilterXXX$uuid close C $classname" }
                                             for ((k, v) in child.columns) {
                                                 v.close()
                                             }
@@ -190,8 +183,6 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                                     }
                                 }
                             } catch (e: NotImplementedException) {
-                                SanityCheck.println { "filter caught notimplemented and closed its childs" }
-                                SanityCheck.println { "POPFilterXXX$uuid close D $classname" }
                                 for ((k, v) in child.columns) {
                                     v.close()
                                 }
@@ -205,8 +196,6 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                 res = IteratorBundle(outMap)
             }
         } catch (e: NotImplementedException) {
-            SanityCheck.println { "POPFilterXXX$uuid close H $classname" }
-            SanityCheck.println { "filter caught notimplemented and closed its childs" }
             for ((k, v) in child.columns) {
                 v.close()
             }

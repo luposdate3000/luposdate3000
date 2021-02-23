@@ -493,7 +493,6 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
                 } catch (e: HistogramNotImplementedException) {
                     e.printStackTrace()
                 } catch (e: Throwable) {
-                    SanityCheck.println { "TODO exception 8" }
                     e.printStackTrace()
                 }
             }
@@ -503,7 +502,6 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
                 }
             }
         } catch (e: Throwable) {
-            SanityCheck.println { "TODO exception 9" }
             e.printStackTrace()
         }
         return res

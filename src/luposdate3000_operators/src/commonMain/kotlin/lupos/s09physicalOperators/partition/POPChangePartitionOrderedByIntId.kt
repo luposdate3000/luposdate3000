@@ -143,20 +143,15 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
         var readerFinished = 0
         for (p1 in 0 until partitionCountSrc) {
             val pChild = p1 * partitionCountTo + parent.data[partitionVariable]!!
-            SanityCheck.println { "merge $uuid $pChild writer launched G" }
             Parallel.launch {
                 try {
                     val childEval2: IteratorBundle?
                     childEval2 = children[0].evaluate(Partition(parent, partitionVariable, pChild, partitionCountFrom))
-                    SanityCheck.println { "merge $uuid $pChild writer launched A" }
                     if (childEval2.hasColumnMode()) {
-                        SanityCheck.println { "merge $uuid $pChild writer launched B" }
                         val child = childEval2.columns
                         if (variables.size == 1) {
-                            SanityCheck.println { "merge $uuid $pChild writer launched C" }
                             val childIterator = child[variables[0]]!!
                             loop@ while (readerFinished == 0) {
-                                SanityCheck.println { "merge $uuid $pChild writer loop start" }
                                 val t = (ringbufferWriteHead[p1] + 1) % elementsPerRing
                                 while (ringbufferReadHead[p1] == t && readerFinished == 0) {
                                     ringbufferReaderContinuation.signal()
@@ -170,17 +165,14 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
                                 if (tmp == ResultSetDictionaryExt.nullValue) {
                                     break@loop
                                 } else {
-                                    SanityCheck.println { "merge $uuid $pChild writer append data" }
                                     ringbuffer[ringbufferWriteHead[p1] + ringbufferStart[p1]] = tmp
                                     ringbufferWriteHead[p1] = (ringbufferWriteHead[p1] + 1) % elementsPerRing
                                     ringbufferReaderContinuation.signal()
                                 }
                             }
                         } else {
-                            SanityCheck.println { "merge $uuid $pChild writer launched D" }
                             val variableMapping = Array(variables.size) { child[variables[it]]!! }
                             loop@ while (readerFinished == 0) {
-                                SanityCheck.println { "merge $uuid $pChild writer loop start" }
                                 val t = (ringbufferWriteHead[p1] + variables.size) % elementsPerRing
                                 while (ringbufferReadHead[p1] == t && readerFinished == 0) {
                                     ringbufferReaderContinuation.signal()
@@ -194,19 +186,16 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
                                 }
                                 val tmp = variableMapping[0].next()
                                 if (tmp == ResultSetDictionaryExt.nullValue) {
-                                    SanityCheck.println { "merge $uuid $pChild writer closed B" }
                                     for (variable in 0 until variables.size) {
                                         variableMapping[variable].close()
                                     }
                                     break@loop
                                 } else {
-                                    SanityCheck.println { "merge $uuid $pChild writer append data" }
                                     ringbuffer[ringbufferWriteHead[p1] + ringbufferStart[p1]] = tmp
                                     for (variableIdx in 1 until variables.size) {
                                         try {
                                             ringbuffer[ringbufferWriteHead[p1] + variableIdx + ringbufferStart[p1]] = variableMapping[variableIdx].next()
                                         } catch (e: Throwable) {
-                                            SanityCheck.println { "merge $uuid $pChild writer closed A" }
                                             for (variableIdx2 in 0 until variables.size) {
                                                 variableMapping[variableIdx2].close()
                                             }
@@ -219,7 +208,6 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
                             }
                         }
                     } else {
-                        SanityCheck.println { "merge $uuid $pChild writer launched E" }
                         val child = childEval2.rows
                         val variableMapping = IntArray(variables.size)
                         for (variable in variables.indices) {
@@ -231,7 +219,6 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
                             }
                         }
                         loop@ while (readerFinished == 0) {
-                            SanityCheck.println { "merge $uuid $pChild writer loop start" }
                             val t = (ringbufferWriteHead[p1] + variables.size) % elementsPerRing
                             while (ringbufferReadHead[p1] == t && readerFinished == 0) {
                                 ringbufferReaderContinuation.signal()
@@ -243,10 +230,8 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
                             }
                             val tmp = child.next()
                             if (tmp == -1) {
-                                SanityCheck.println { "merge $uuid $pChild writer closed B" }
                                 break@loop
                             } else {
-                                SanityCheck.println { "merge $uuid $pChild writer append data" }
                                 for (variable in variables.indices) {
                                     ringbuffer[ringbufferWriteHead[p1] + variableMapping[variable] + ringbufferStart[p1]] = child.buf[tmp + variable]
                                 }
@@ -261,9 +246,7 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
                 }
                 writerFinished[p1] = 1
                 ringbufferReaderContinuation.signal()
-                SanityCheck.println { "merge $uuid $pChild writer exited loop" }
             }
-            SanityCheck.println { "merge $uuid $pChild writer lupos.s00misc.ParallelJob init :: " }
         }
         val sortColumns = IntArray(mySortPriority.size) { variables.indexOf(mySortPriority[it].variableName) }
         SanityCheck {
@@ -278,7 +261,6 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
         iterator.next = {
             var res = -1
             loop@ while (true) {
-                SanityCheck.println { "merge $uuid reader loop start" }
                 var partitionToUse = -1
                 loop2@ for (p in 0 until partitionCountSrc) {
                     if (ringbufferReadHead[p] != ringbufferWriteHead[p]) {
@@ -333,7 +315,6 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
             res
         }
         iterator.close = {
-            SanityCheck.println { "merge $uuid reader closed" }
             readerFinished = 1
             for (p in 0 until partitionCountSrc) {
                 ringbufferWriterContinuation[p].signal()

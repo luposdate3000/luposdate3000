@@ -17,7 +17,6 @@
 package lupos.s04arithmetikOperators.singleinput
 
 import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
@@ -57,7 +56,6 @@ public class AOPBuildInCallROUND public constructor(query: IQuery, child: AOPBas
                     }
                 }
             } catch (e: Throwable) {
-                SanityCheck.println { "TODO exception 33" }
                 e.printStackTrace()
                 res = ValueError()
             }

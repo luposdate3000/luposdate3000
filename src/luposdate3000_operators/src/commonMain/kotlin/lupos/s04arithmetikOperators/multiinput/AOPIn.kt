@@ -47,7 +47,6 @@ public class AOPIn public constructor(query: IQuery, childA: IAOPBase, childB: I
                     }
                 } catch (e: Throwable) {
                     noError = false
-                    SanityCheck.println { "TODO exception 22" }
                     e.printStackTrace()
                 }
             }
