@@ -28,7 +28,6 @@ import lupos.s00misc.MyOutputStream
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.MyStringStream
 import lupos.s00misc.Parallel
-import lupos.s00misc.Partition
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
 import lupos.s00misc.xmlParser.XMLParser
@@ -65,7 +64,7 @@ public actual object HttpEndpointLauncher {
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
 
     public actual /*suspend*/ fun start() {
-        val hosturl = Partition.myProcessUrls[Partition.myProcessId].split(":")
+        val hosturl = tripleStoreManager.getLocalhost().split(":")
         val hostname = hosturl[0]
         val port = if (hosturl.size > 1) {
             hosturl[1].toInt()

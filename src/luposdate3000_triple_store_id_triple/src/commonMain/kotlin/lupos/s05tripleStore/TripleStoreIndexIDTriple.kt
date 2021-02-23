@@ -893,7 +893,6 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
     }
 
     override /*suspend*/ fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
-        println("TripleStoreIndexIDTriple.insertAsBulk $dataSize")
         flushContinueWithWriteLock()
         val d = arrayOf(data, IntArray(dataSize))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)

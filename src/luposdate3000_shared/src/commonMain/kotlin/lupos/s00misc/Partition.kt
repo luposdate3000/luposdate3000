@@ -30,33 +30,6 @@ public class Partition {
 
         @JvmField
         public val queue_size: Int = 1000
-
-        @JvmField
-        public var myProcessId: Int = Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()
-
-        @JvmField
-        public var myThreadCount: Int = Platform.getEnv("LUPOS_THREAD_COUNT", "1")!!.toInt()
-
-        @JvmField
-        public var myProcessUrls: List<String> = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80")!!.split(",")
-
-        @JvmField
-        public var myProcessCount: Int = myProcessUrls.size
-
-        public fun getMyCombinedCount(): Int {
-            if (myProcessCount > 1) {
-                if (myThreadCount != 1) {
-                    throw Exception("either LUPOS_PROCESS_ID or LUPOS_THREAD_COUNT must be set to '1' - other combinations are currently not supported!")
-                }
-                return myProcessCount
-            } else {
-                return myThreadCount
-            }
-        }
-
-        init {
-            println("initialized Partition with myProcessId=$myProcessId myProcessCount=$myProcessCount myThreadCount=$myThreadCount myProcessUrls=$myProcessUrls")
-        }
     }
 
     public constructor() {

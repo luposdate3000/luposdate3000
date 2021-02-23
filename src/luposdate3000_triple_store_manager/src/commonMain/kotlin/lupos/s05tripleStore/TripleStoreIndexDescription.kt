@@ -44,7 +44,6 @@ public abstract class TripleStoreIndexDescription() : ITripleStoreIndexDescripti
         var currentindex: TripleStoreIndexDescription = this
         for (index in tripleStoreDescription.indices) {
             if (index.hasPattern(idx_set[0])) {
-                println("patterns ${idx_set.map { EIndexPatternExt.names[it] }} and ${index.idx_set.map { EIndexPatternExt.names[it] }} matching")
                 if (index.getPartitionCount() >= count) {
                     if ((max_partitions == null || index.getPartitionCount() <= max_partitions)) {
                         if (index !is TripleStoreIndexDescriptionPartitionedByID || index.partitionColumn == column) {
@@ -58,7 +57,6 @@ public abstract class TripleStoreIndexDescription() : ITripleStoreIndexDescripti
             }
         }
         if (count > -1) {
-            println("getIndexWithMaximumPartitions :: ${idx_set.map { EIndexPatternExt.names[it] }} -> ${currentindex.idx_set.map { EIndexPatternExt.names[it] }}")
             return currentindex
         }
         throw Exception("no matching index found")

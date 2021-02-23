@@ -28,6 +28,7 @@ public abstract class TripleStoreManager {
         public const val DEFAULT_GRAPH_NAME: String = ""
     }
 
+    public abstract fun getLocalhost(): LuposHostname
     public abstract fun getPartitionMode(): EPartitionMode
     public abstract fun debugAllLocalStoreContent()
     public abstract fun remoteDropGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean): Unit

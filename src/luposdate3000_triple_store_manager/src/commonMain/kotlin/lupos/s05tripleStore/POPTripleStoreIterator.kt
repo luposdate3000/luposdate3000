@@ -28,7 +28,6 @@ import lupos.s04arithmetikOperators.noinput.IAOPConstant
 import lupos.s04arithmetikOperators.noinput.IAOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
@@ -51,6 +50,16 @@ public class POPTripleStoreIterator(
 
     @JvmField
     public var hasSplitFromStore: Boolean = false
+    override fun getRequiredVariableNames(): List<String> = listOf()
+    override fun getProvidedVariableNames(): List<String> {
+        var res = mutableListOf<String>()
+        for (c in children) {
+            if (c is AOPVariable && c.name != "_") {
+                res.add(c.name)
+            }
+        }
+        return res
+    }
 
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         var res = super.toXMLElement(partial)
@@ -103,11 +112,14 @@ public class POPTripleStoreIterator(
         return 1
     }
 
+    public fun getDesiredHostnameFor(partition: Partition): LuposHostName {
+        val index = tripleStoreIndexDescription as TripleStoreIndexDescription
+        val target = index.getStore(query, children, partition)
+        return target.first
+    }
+
     public override fun cloneOP(): IOPBase = POPTripleStoreIterator(query, projectedVariables, tripleStoreIndexDescription, children)
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-
-        println("the root :: ${(query as Query).root}")
-
         val index = tripleStoreIndexDescription as TripleStoreIndexDescription
         val target = index.getStore(query, children, parent)
         val manager = tripleStoreManager as TripleStoreManagerImpl

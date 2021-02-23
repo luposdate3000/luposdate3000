@@ -43,9 +43,10 @@ public class TripleStoreManagerImpl(
     internal val partitionMode: EPartitionMode
 
     init {
-        val tmp = EPartitionModeExt.names.indexOf(Platform.getEnv("LUPOS_PARTITION_MODE", "None")!!)
+        val t = Platform.getEnv("LUPOS_PARTITION_MODE", "None")!!
+        val tmp = EPartitionModeExt.names.indexOf(t)
         if (tmp < 0) {
-            throw Exception("invalid parameter for 'LUPOS_PARTITION_MODE'. Choose one of ${EPartitionModeExt.names.map { it }}")
+            throw Exception("invalid parameter '$t' for 'LUPOS_PARTITION_MODE'. Choose one of ${EPartitionModeExt.names.map { it }}")
         }
         partitionMode = tmp
     }
@@ -62,6 +63,8 @@ public class TripleStoreManagerImpl(
     @JvmField
     internal var keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() } // TODO initialize based on "metadata" on each restart
     internal lateinit var defaultTripleStoreLayout: TripleStoreDescriptionFactory
+
+    public override fun getLocalhost(): LuposHostname = localhost
 
     public override fun getPartitionMode(): EPartitionMode = partitionMode
 
@@ -150,7 +153,6 @@ public class TripleStoreManagerImpl(
         while (keysOnHostname[hostidx].contains("$key")) {
             key++
         }
-        println(keysOnHostname.map { it })
         keysOnHostname[hostidx].add("$key")
         return Pair(hostnames[hostidx], "$key")
     }
@@ -174,7 +176,6 @@ public class TripleStoreManagerImpl(
     }
 
     public override fun remoteCreateGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean, meta: String?) {
-        println("remoteCreateGraph $localhost '$graphName'")
         if (origin) {
             createGraph(query, graphName)
         } else {
@@ -185,17 +186,13 @@ public class TripleStoreManagerImpl(
     }
 
     internal inline fun createGraphShared(graph: TripleStoreDescription) {
-        println("createGraphShared $localhost")
         for (index in graph.indices) {
-            println("createGraphShared -- $localhost :: ${EIndexPatternExt.names[index.idx_set[0]]}")
             for (store in index.getAllLocations()) {
-                println("createGraphShared -- $localhost :: ${store.first} ${store.second}")
                 if (store.first == localhost) {
                     var page: Int = 0
                     bufferManager.createPage { byteArray, pageid ->
                         page = pageid
                     }
-                    println("create index $localhost ${store.second}")
                     localStores[store.second] = TripleStoreIndexIDTriple(page, false)
                 }
             }
@@ -203,7 +200,6 @@ public class TripleStoreManagerImpl(
     }
 
     public override fun createGraph(query: IQuery, graphName: LuposGraphName, action: (ITripleStoreDescriptionFactory) -> Unit) {
-        println("createGraph $localhost '$graphName'")
         if (metadata[graphName] != null) {
             throw Exception("graph already exist")
         }
@@ -323,7 +319,6 @@ public class TripleStoreManagerImpl(
     }
 
     public override fun getIndexFromXML(node: XMLElement): ITripleStoreIndexDescription {
-        println("node=${node.toPrettyString()}")
         val node2 = node["TripleStoreIndexDescription"]!!
         val graph = metadata[node2.attributes["graphName"]]!!
         val idx = EIndexPatternExt.names.indexOf(node2.attributes["pattern"]!!)

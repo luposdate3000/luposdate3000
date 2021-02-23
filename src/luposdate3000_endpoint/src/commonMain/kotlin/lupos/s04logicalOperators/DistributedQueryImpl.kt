@@ -42,7 +42,15 @@ internal class DistributedQueryImpl : IDistributedQuery {
             val key = xml["partitionDistributionProvideKey"]!!.attributes["key"]!!
             if (node is POPSplitPartitionFromStore) {
                 SanityCheck.check { allIdx.size == 1 }
-                query.operatorgraphPartsToHostMap[key] = Partition.myProcessUrls[allIdx[0] % Partition.myProcessCount]
+                var n: IOPBase = node
+                while (n !is POPTripleStoreIterator) {
+                    n = n.getChildren()[0]
+                }
+                var partition = Partition()
+                for (i in 0 until allNames.size) {
+                    partition = Partition(partition, allNames[i], allIdx[i], allSize[i])
+                }
+                query.operatorgraphPartsToHostMap[key] = n.getDesiredHostnameFor(partition)
             }
             query.operatorgraphParts[key] = xml
             query.allVariationsKey.clear()
@@ -129,7 +137,7 @@ internal class DistributedQueryImpl : IDistributedQuery {
         if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
             query2.operatorgraphParts.clear()
             query2.operatorgraphParts[""] = query2.root!!.toXMLElement(true)
-            query2.operatorgraphPartsToHostMap[""] = Partition.myProcessUrls[Partition.myProcessId]
+            query2.operatorgraphPartsToHostMap[""] = tripleStoreManager.getLocalhost()
             initialize_helper(query, query2.root!!, mutableMapOf(), true)
             for ((k, v) in query2.operatorgraphParts) {
                 println("subgraph $k")

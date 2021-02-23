@@ -24,6 +24,7 @@ import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IQuery
 
 public var tripleStoreManager: TripleStoreManager = object : TripleStoreManager() {
+    public override fun getLocalhost(): LuposHostname = throw Exception("not implemented")
     public override fun getPartitionMode(): EPartitionMode = throw Exception("not implemented")
     public override fun debugAllLocalStoreContent(): Unit = throw Exception("not implemented")
     public override fun resetDefaultTripleStoreLayout(): Unit = throw Exception("not implemented")
