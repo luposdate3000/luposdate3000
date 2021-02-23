@@ -1,2 +1,1 @@
 REPLACE_STORE_WITH_VALUES,const internal val,Boolean,false
-USE_PARTITIONS,internal val,lupos.s00misc.EPartitionMode,lupos.s00misc.EPartitionModeExt.Thread

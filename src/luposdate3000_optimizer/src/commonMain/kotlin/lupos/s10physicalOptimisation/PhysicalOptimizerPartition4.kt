@@ -19,9 +19,9 @@ package lupos.s10physicalOptimisation
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
-import lupos.s00misc.USE_PARTITIONS
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
+import lupos.s05tripleStore.tripleStoreManager
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPMergePartition
@@ -51,7 +51,7 @@ public class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EO
     }
 
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process)) {
+        if ((tripleStoreManager.getPartitionMode() == EPartitionModeExt.Thread || tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process)) {
             when (node) {
                 is POPSplitPartitionFromStore -> {
                     val tmp = query.partitionOperatorCount[node.partitionID]

@@ -22,8 +22,11 @@ import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
+import lupos.s00misc.EPartitionMode
+import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.File
 import lupos.s00misc.IMyInputStream
+import lupos.s00misc.Platform
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
 import lupos.s01io.BufferManager
@@ -37,6 +40,17 @@ public class TripleStoreManagerImpl(
     @JvmField internal var localhost: LuposHostname,
 ) : TripleStoreManager() {
     @JvmField
+    internal val partitionMode: EPartitionMode
+
+    init {
+        val tmp = EPartitionModeExt.names.indexOf(Platform.getEnv("LUPOS_PARTITION_MODE", "None")!!)
+        if (tmp < 0) {
+            throw Exception("invalid parameter for 'LUPOS_PARTITION_MODE'. Choose one of ${EPartitionModeExt.names.map { it }}")
+        }
+        partitionMode = tmp
+    }
+
+    @JvmField
     internal val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
 
     @JvmField
@@ -48,6 +62,8 @@ public class TripleStoreManagerImpl(
     @JvmField
     internal var keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() } // TODO initialize based on "metadata" on each restart
     internal lateinit var defaultTripleStoreLayout: TripleStoreDescriptionFactory
+
+    public override fun getPartitionMode(): EPartitionMode = partitionMode
 
     public override fun debugAllLocalStoreContent() {
         File("${localhost.replace(":", "_")}.metadata").printWriter { out ->

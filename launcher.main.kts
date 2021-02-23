@@ -61,13 +61,6 @@ enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENE
 var execMode = ExecMode.UNKNOWN
 
 enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
-class PartitionModesHelper(val label: String, val option: String, val enabled: () -> Boolean)
-
-val partitionModes = listOf(
-    PartitionModesHelper("_NoPartitions", "lupos.s00misc.EPartitionModeExt.None", { true }),
-    PartitionModesHelper("_WithThreadPartitions", "lupos.s00misc.EPartitionModeExt.Thread", { intellijMode != "Enable" }),
-    PartitionModesHelper("_WithProcessPartitions", "lupos.s00misc.EPartitionModeExt.Process", { intellijMode != "Enable" }),
-)
 
 fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
     var releaseMode2 = ReleaseMode.valueOf(releaseMode)
@@ -166,17 +159,14 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
             { true }
         )
     )
-    for (p in partitionModes) {
-        res.add(
-            Pair(
-                localArgs
-                    .ssetModuleName("Luposdate3000_Result_Format${p.label}", "Luposdate3000_Result_Format", "src${Platform.getPathSeparator()}luposdate3000_result_format")
-                    .ssetArgs2(compileModuleArgs)
-                    .ssetArgs(mutableMapOf("USE_PARTITIONS3" to p.option)),
-                p.enabled
-            )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Result_Format", "Luposdate3000_Result_Format", "src${Platform.getPathSeparator()}luposdate3000_result_format")
+                .ssetArgs2(compileModuleArgs)
+                p . enabled
         )
-    }
+    )
     res.add(
         Pair(
             localArgs
@@ -193,17 +183,14 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
             { true }
         )
     )
-    for (p in partitionModes) {
-        res.add(
-            Pair(
-                localArgs
-                    .ssetModuleName("Luposdate3000_Optimizer${p.label}", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer")
-                    .ssetArgs2(compileModuleArgs)
-                    .ssetArgs(mutableMapOf("USE_PARTITIONS" to p.option)),
-                p.enabled
-            )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Optimizer", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer")
+                .ssetArgs2(compileModuleArgs)
+                p . enabled
         )
-    }
+    )
     res.add(
         Pair(
             localArgs
@@ -542,9 +529,9 @@ val defaultParams = mutableListOf(
         "--partitionMode",
         "Threads",
         mapOf(
-            "Threads" to { partitionMode = "_WithThreadPartitions" },
-            "Process" to { partitionMode = "_WithProcessPartitions" },
-            "None" to { partitionMode = "_NoPartitions" },
+            "Threads" to { partitionMode = "Threads" },
+            "Process" to { partitionMode = "Process" },
+            "None" to { partitionMode = "None" },
         )
     ),
     ParamClass(
@@ -845,12 +832,12 @@ fun onRun() {
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Operators-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Parser-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Result_Format$partitionMode-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Result_Format-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Shared-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Test-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_Id_Triple-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_Manager-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer$partitionMode-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint_$endpointMode-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_$jenaWrapper-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Launch_$mainClass-jvm$proguardMode.jar",
@@ -879,6 +866,7 @@ fun onRun() {
             if (dryMode == "Enable") {
                 println("export LUPOS_PROCESS_URLS=processUrls")
                 println("export LUPOS_THREAD_COUNT=$threadCount")
+                println("export LUPOS_PARTITION_MODE=$partitionMode")
                 println("exec :: " + cmd.joinToString(" "))
             } else {
                 val processes = Array(processUrls.count { it == ',' } + 1) {
@@ -889,6 +877,7 @@ fun onRun() {
                     env["LUPOS_PROCESS_ID"] = "$it"
                     env["LUPOS_PROCESS_URLS"] = processUrls
                     env["LUPOS_THREAD_COUNT"] = "$threadCount"
+                    env["LUPOS_PARTITION_MODE"] = partitionMode
                     p.start()
                 }.forEach {
                     it.waitFor()
@@ -905,7 +894,7 @@ fun onRun() {
             if (jenaWrapper != "Off") {
                 throw Exception("JS can only use 'Off' as jenaWrapper")
             }
-            if (partitionMode != "_NoPartitions") {
+            if (partitionMode != "None") {
                 throw Exception("JS can only use 'None' as partitionMode")
             }
             File("build-cache${Platform.getPathSeparator()}node_modules").deleteRecursively()
@@ -926,7 +915,7 @@ fun onRun() {
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint_$endpointMode", "Luposdate3000_Endpoint_Launcher.js"),
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_$jenaWrapper", "Luposdate3000_Jena_Wrapper.js"),
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Launch_$mainClass", "Luposdate3000_Main.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer$partitionMode", "Luposdate3000_Optimizer.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer", "Luposdate3000_Optimizer.js"),
             )
             for (f in files) {
                 Files.copy(File(f.path + Platform.getPathSeparator() + f.name).toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${f.name}").toPath(), REPLACE_EXISTING)
@@ -1045,8 +1034,8 @@ fun onGenerateParser() {
     )
     val xmlFilename = "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}xmlParser${Platform.getPathSeparator()}XMLParserGenerated.kt"
     val xmlPackage = "lupos.s00misc.xmlParser"
-    ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage,)
-    ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage,)
+    ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage, )
+    ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage, )
 }
 
 fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: String, fileName: String) {

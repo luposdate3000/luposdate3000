@@ -23,13 +23,13 @@ import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.USE_PARTITIONS3
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
@@ -59,7 +59,7 @@ public object QueryResultToMemoryTable {
     }
 
     private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: MemoryTable, parent: Partition) {
-        if ((USE_PARTITIONS3 == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
+        if ((tripleStoreManager.getPartitionMode() == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
             var partitionCount = 0
             var partitionVariable = ""
             if (node is POPMergePartition) {

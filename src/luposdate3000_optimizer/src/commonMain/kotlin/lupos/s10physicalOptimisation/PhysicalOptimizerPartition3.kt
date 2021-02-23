@@ -19,11 +19,11 @@ package lupos.s10physicalOptimisation
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.USE_PARTITIONS
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.POPTripleStoreIterator
+import lupos.s05tripleStore.tripleStoreManager
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.multiinput.POPUnion
 import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
@@ -41,7 +41,7 @@ public class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EO
     // this optimizer moves the partitioning upwards to the root
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process)) {
+        if ((tripleStoreManager.getPartitionMode() == EPartitionModeExt.Thread || tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process)) {
             when (node) {
                 is POPSplitPartitionFromStore -> {
                     var storeNodeTmp = node.children[0]

@@ -19,13 +19,13 @@ package lupos.s10physicalOptimisation
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
-import lupos.s00misc.USE_PARTITIONS
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s05tripleStore.POPTripleStoreIterator
+import lupos.s05tripleStore.tripleStoreManager
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.multiinput.POPJoinCartesianProduct
@@ -60,7 +60,7 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
     }
 
     private fun embedWithinPartitionContext(joinColumns: MutableList<String>, childA: IOPBase, childB: IOPBase, create: (IOPBase, IOPBase) -> IOPBase, keepOrder: Boolean): IOPBase {
-        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process)) {
+        if ((tripleStoreManager.getPartitionMode() == EPartitionModeExt.Thread || tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process)) {
             var a = childA
             var b = childB
             val newID = IntArray(joinColumns.size) { 0 }

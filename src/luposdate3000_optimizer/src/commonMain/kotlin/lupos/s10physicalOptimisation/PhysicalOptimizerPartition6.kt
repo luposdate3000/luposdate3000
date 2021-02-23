@@ -18,11 +18,11 @@ package lupos.s10physicalOptimisation
 
 import lupos.s00misc.EOptimizerIDExt
 import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.USE_PARTITIONS
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.POPTripleStoreIterator
+import lupos.s05tripleStore.tripleStoreManager
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
@@ -31,7 +31,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
     // this store introduces fixes, if the desired triple store does not participate in any partitioning at all, but it is required to do so
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
-        if ((USE_PARTITIONS == EPartitionModeExt.Thread || USE_PARTITIONS == EPartitionModeExt.Process)) {
+        if ((tripleStoreManager.getPartitionMode() == EPartitionModeExt.Thread || tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process)) {
             when (node) {
                 is POPTripleStoreIterator -> {
                     if (!node.hasSplitFromStore) {

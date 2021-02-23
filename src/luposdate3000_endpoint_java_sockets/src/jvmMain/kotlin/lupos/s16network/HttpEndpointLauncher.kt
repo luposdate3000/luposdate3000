@@ -229,7 +229,7 @@ public actual object HttpEndpointLauncher {
                             paths["/sparql/query"] = PathMappingHelper(
                                 true,
                                 mapOf(
-                                    Pair("query", "SELECT * WHERE {?s <p> ?o . ?s ?p <o>}") to ::inputElement,
+                                    Pair("query", "SELECT * WHERE {?s ?p ?o . ?s ?p1 <http://localhost/vocabulary/bench/Article> . }") to ::inputElement,
                                     Pair("evaluator", "") to { it, value ->
                                         var res: String = "<select name=\"$it\">"
                                         for (evaluator in EQueryResultToStreamExt.names) {
