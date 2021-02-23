@@ -71,7 +71,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         }
     }
 
-    actual override fun println(x: Boolean) {
+    actual fun println(x: Boolean) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine(x)
         }
@@ -83,7 +83,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         }
     }
 
-    actual override fun println(x: Int) {
+    actual fun println(x: Int) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine(x)
         }
@@ -95,7 +95,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         }
     }
 
-    actual override fun println(x: Double) {
+    actual fun println(x: Double) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine(x)
         }
@@ -113,7 +113,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         }
     }
 
-    actual override fun close() {
+    actual fun close() {
         if (bufferMode == MyPrintWriterModeExt.FILE) {
             val str = buffer.toString()
             val buf = str.encodeToByteArray()
@@ -126,7 +126,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         }
     }
 
-    actual override fun flush() {
+    actual fun flush() {
         if (bufferMode == MyPrintWriterModeExt.FILE) {
             val str = buffer.toString()
             val buf = str.encodeToByteArray()
