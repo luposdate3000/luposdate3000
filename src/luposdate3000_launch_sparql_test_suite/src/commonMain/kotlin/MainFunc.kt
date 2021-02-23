@@ -14,6 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package lupos.launch.sparql_test_suite
+
 import lupos.SparqlTestSuite
 import lupos.s00misc.Parallel
 import lupos.s16network.LuposdateEndpoint

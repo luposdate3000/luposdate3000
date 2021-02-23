@@ -14,4 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-public fun main(args: Array<String>): Unit = mainFunc(args)
+import lupos.launch.sparql_test_suite.mainFunc
+
+public fun main(args: Array<String>) {
+    var flag = false
+    mainFunc()
+}

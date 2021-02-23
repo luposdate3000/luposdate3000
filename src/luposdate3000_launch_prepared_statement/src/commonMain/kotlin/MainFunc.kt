@@ -14,6 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package lupos.launch.prepared_statement
+
 import lupos.s00misc.File
 import lupos.s00misc.MemoryTable
 import lupos.s00misc.MyPrintWriter

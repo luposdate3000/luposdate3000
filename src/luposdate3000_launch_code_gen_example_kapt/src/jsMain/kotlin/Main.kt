@@ -14,18 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.launch.endpoint
+import lupos.launch.code_gen_example_kapt.mainFunc
+import kotlin.js.JsName
 
-import lupos.s00misc.Parallel
-import lupos.s16network.HttpEndpointLauncher
-import lupos.s16network.LuposdateEndpoint
-
-internal fun mainFunc(): Unit = Parallel.runBlocking {
-    LuposdateEndpoint.initialize()
-//    Parallel.launch {
-    HttpEndpointLauncher.start()
-//    }
-//    while (true) {
-//        Parallel.delay(1000)
-//    }
+@JsName("main")
+public fun main(args: Array<String>) {
+    var flag = false
+    mainFunc()
 }

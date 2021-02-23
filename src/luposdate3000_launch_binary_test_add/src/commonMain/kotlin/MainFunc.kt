@@ -14,6 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package lupos.launch.binary_test_add
+
 import lupos.s00misc.BinaryTestCase
 import lupos.s00misc.BinaryTestCaseOutputModeExt
 import lupos.s00misc.Parallel
