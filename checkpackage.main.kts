@@ -18,7 +18,7 @@
 import java.io.File
 
 for (it in File("src").walk()) {
-    val name = "/" + it.toString()
+    val name = it.toString()
     try {
         if (name.endsWith(".kt") && name.contains("/kotlin/")) {
             var pkg = ""
@@ -37,7 +37,9 @@ for (it in File("src").walk()) {
             }
             if (folder != desiredfolder) {
                 val newname = name.replace(folder, desiredfolder)
-                println("suggested Fix :: mv $name to $newname")
+                val newfolder = newname.substring(0, newname.lastIndexOf("/"))
+                println("mkdir -p $newfolder")
+                println("mv $name $newname")
             }
         }
     } catch (e: Throwable) {
