@@ -15,7 +15,9 @@ cat <<EOT > config.pro
 -injars ./Luposdate3000_Endpoint-jvm.jar
 -injars ./Luposdate3000_Jena_Wrapper_${jena}-jvm.jar
 -injars ./Luposdate3000_Operators-jvm.jar
--injars ./Luposdate3000_Optimizer-jvm.jar
+-injars ./Luposdate3000_Optimizer_Ast-jvm.jar
+-injars ./Luposdate3000_Optimizer_Logical-jvm.jar
+-injars ./Luposdate3000_Optimizer_Physical-jvm.jar
 -injars ./Luposdate3000_Parser-jvm.jar
 -injars ./Luposdate3000_Result_Format-jvm.jar
 -injars ./Luposdate3000_Shared-jvm.jar

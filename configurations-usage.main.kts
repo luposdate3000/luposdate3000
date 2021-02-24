@@ -4,15 +4,15 @@ var line = readLine()
 var prefix = ""
 var mapping = mutableMapOf<String, Int>()
 val modulenames = listOf(
-    "Luposdate3000_Triple_Store_All_NoPartitions",
-    "Luposdate3000_Result_Format_NoPartitions",
-    "Luposdate3000_Optimizer_NoPartitions",
+    "Luposdate3000_Triple_Store_All",
+    "Luposdate3000_Result_Format",
+    "Luposdate3000_Optimizer_Ast",
+    "Luposdate3000_Optimizer_Logical",
+    "Luposdate3000_Optimizer_Physical",
     "Luposdate3000_Triple_Store_Manager",
     "Luposdate3000_Result_Format",
-    "Luposdate3000_Optimizer",
-    "Luposdate3000_Triple_Store_All_WithProcessPartitions",
-    "Luposdate3000_Result_Format_WithProcessPartitions",
-    "Luposdate3000_Optimizer_WithProcessPartitions",
+    "Luposdate3000_Triple_Store_All",
+    "Luposdate3000_Result_Format",
     "Luposdate3000_Triple_Store_Id_Triple",
     "Luposdate3000_Test",
     "Luposdate3000_Shared",

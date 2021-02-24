@@ -186,7 +186,23 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
     res.add(
         Pair(
             localArgs
-                .ssetModuleName("Luposdate3000_Optimizer", "Luposdate3000_Optimizer", "src${Platform.getPathSeparator()}luposdate3000_optimizer")
+                .ssetModuleName("Luposdate3000_Optimizer_Ast")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Optimizer_Logical")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Optimizer_Physical")
                 .ssetArgs2(compileModuleArgs),
             { true }
         )
@@ -828,7 +844,9 @@ fun onRun() {
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Test-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_Id_Triple-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_Manager-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer_Ast-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer_Logical-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer_Physical-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint_$endpointMode-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_$jenaWrapper-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Launch_$mainClass-jvm$proguardMode.jar",
@@ -906,7 +924,9 @@ fun onRun() {
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint_$endpointMode", "Luposdate3000_Endpoint_Launcher.js"),
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_$jenaWrapper", "Luposdate3000_Jena_Wrapper.js"),
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Launch_$mainClass", "Luposdate3000_Main.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer", "Luposdate3000_Optimizer.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Optimizer_Ast.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Optimizer_Logical.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Optimizer_Physical.js"),
             )
             for (f in files) {
                 Files.copy(File(f.path + Platform.getPathSeparator() + f.name).toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${f.name}").toPath(), REPLACE_EXISTING)
@@ -1105,11 +1125,11 @@ fun onGenerateEnums() {
         listOf("ETripleComponentType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}ETripleComponentType"),
         listOf("EGraphOperationType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EGraphOperationType"),
         listOf("ESortType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}ESortType"),
-        listOf("EGroupMember", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_optimizer${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EGroupMember"),
+        listOf("EGroupMember", "lupos.optimizer.ast", "public", "src${Platform.getPathSeparator()}luposdate3000_optimizer_ast${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}optimizer${Platform.getPathSeparator()}ast${Platform.getPathSeparator()}EGroupMember"),
         listOf("EQueryResultToStream", "lupos.s11outputResult", "public", "src${Platform.getPathSeparator()}luposdate3000_result_format${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s11outputResult${Platform.getPathSeparator()}EQueryResultToStream"),
         listOf("EPOPDebugMode", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_operators${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EPOPDebugMode"),
         listOf("Turtle2ParserState", "lupos.s02buildSyntaxTree.turtle", "internal", "src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}turtle${Platform.getPathSeparator()}Turtle2ParserState"),
-        listOf("EOptimizerID", "lupos.s00misc", "internal", "src${Platform.getPathSeparator()}luposdate3000_optimizer${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EOptimizerID"),
+        listOf("EOptimizerID", "lupos.optimizer.logical", "public", "src${Platform.getPathSeparator()}luposdate3000_optimizer_logical${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}optimizer${Platform.getPathSeparator()}logical${Platform.getPathSeparator()}EOptimizerID"),
         listOf("EOperatingSystem", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EOperatingSystem"),
         listOf("EIndexPattern", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EIndexPattern"),
         listOf("EPartitionMode", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EPartitionMode"),
@@ -1232,7 +1252,9 @@ fun onSetupJS() {
         out.println("    <script src=\"bin$appendix/Luposdate3000_Result_Format.js\"></script>")
         out.println("    <script src=\"bin$appendix/Luposdate3000_Triple_Store_Id_Triple.js\"></script>")
         out.println("    <script src=\"bin$appendix/Luposdate3000_Triple_Store_Manager.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Optimizer_NoPartitions/Luposdate3000_Optimizer.js\"></script>")
+        out.println("    <script src=\"bin$appendix/Luposdate3000_Optimizer_Ast.js\"></script>")
+        out.println("    <script src=\"bin$appendix/Luposdate3000_Optimizer_Logical.js\"></script>")
+        out.println("    <script src=\"bin$appendix/Luposdate3000_Optimizer_Physical.js\"></script>")
         out.println("    <script src=\"bin$appendix/Luposdate3000_Endpoint.js\"></script>")
         out.println("</head>")
         out.println("<body>")

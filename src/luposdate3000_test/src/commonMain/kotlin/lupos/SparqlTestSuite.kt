@@ -16,6 +16,9 @@
  */
 package lupos
 
+import lupos.optimizer.ast.OperatorGraphVisitor
+import lupos.optimizer.logical.LogicalOptimizer
+import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
@@ -45,10 +48,7 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.TripleStoreManager
 import lupos.s05tripleStore.tripleStoreManager
-import lupos.s06buildOperatorGraph.OperatorGraphVisitor
-import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
-import lupos.s10physicalOptimisation.PhysicalOptimizer
 import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s14endpoint.convertToOPBase
 import lupos.s16network.LuposdateEndpoint
