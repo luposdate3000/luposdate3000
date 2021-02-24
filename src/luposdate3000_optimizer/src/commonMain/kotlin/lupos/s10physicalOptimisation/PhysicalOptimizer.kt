@@ -33,18 +33,18 @@ public class PhysicalOptimizer public constructor(query: Query) : OptimizerCompo
             PhysicalOptimizerNaive(query), //
         ),
         arrayOf(
-            PhysicalOptimizerPartition1(query), //
-            PhysicalOptimizerPartition2(query), //
-            PhysicalOptimizerPartition3(query), //
+            PhysicalOptimizerPartitionExpandPartitionTowardsStore(query), //
+            PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
+            PhysicalOptimizerPartitionExpandTowardsRoot(query), //
         ),
         arrayOf(
-            PhysicalOptimizerPartition4(query), //
+            PhysicalOptimizerPartitionRespectMaxPartitions(query), //
         ),
         arrayOf(
-            PhysicalOptimizerPartition5(query), //
+            PhysicalOptimizerPartitionRemoveUselessPartitions(query), //
         ),
         arrayOf(
-            PhysicalOptimizerPartition6(query), //
+            PhysicalOptimizerPartitionAssingPartitionsToRemaining(query), //
         ),
         arrayOf(
             PhysicalOptimizerDebug(query)

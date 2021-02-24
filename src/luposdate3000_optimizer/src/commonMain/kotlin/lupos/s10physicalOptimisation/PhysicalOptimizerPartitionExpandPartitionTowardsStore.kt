@@ -31,7 +31,7 @@ import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 
-public class PhysicalOptimizerPartition1(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition1ID, "PhysicalOptimizerPartition1") {
+public class PhysicalOptimizerPartitionExpandPartitionTowardsStore(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionExpandPartitionTowardsStoreID, "PhysicalOptimizerPartitionExpandPartitionTowardsStore") {
     // this optimizer moved the partitioning towards and into the triple store, but does NOT care if the specific triple store exist ...
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
@@ -60,10 +60,10 @@ public class PhysicalOptimizerPartition1(query: Query) : OptimizerBase(query, EO
                         }
                         is POPTripleStoreIterator -> {
                             try {
-                                println("PhysicalOptimizerPartition1 : initialize specific ${c.getUUID()}")
+                                println("PhysicalOptimizerPartitionExpandPartitionTowardsStore : initialize specific ${c.getUUID()}")
                                 val new_count = c.changeToIndexWithMaximumPartitions(node.partitionCount, node.partitionVariable)
                                 c.hasSplitFromStore = true
-                                println("PhysicalOptimizerPartition1 : initialize specific ${c.getUUID()}")
+                                println("PhysicalOptimizerPartitionExpandPartitionTowardsStore : initialize specific ${c.getUUID()}")
                                 res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, node.partitionCount, node.partitionID, c)
                                 query.removePartitionOperator(node.getUUID(), node.partitionID)
                                 query.addPartitionOperator(res.getUUID(), node.partitionID)

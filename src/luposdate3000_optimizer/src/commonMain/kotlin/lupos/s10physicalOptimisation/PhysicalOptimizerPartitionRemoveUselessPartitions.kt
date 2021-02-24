@@ -30,7 +30,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 
-public class PhysicalOptimizerPartition5(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition5ID, "PhysicalOptimizerPartition5") {
+public class PhysicalOptimizerPartitionRemoveUselessPartitions(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionRemoveUselessPartitionsID, "PhysicalOptimizerPartitionRemoveUselessPartitions") {
     // this optimizer removes useless partitioning operators
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
@@ -46,7 +46,7 @@ public class PhysicalOptimizerPartition5(query: Query) : OptimizerBase(query, EO
                         }
                         val storeNode = storeNodeTmp as POPTripleStoreIterator
                         storeNode.hasSplitFromStore = false
-                        println("PhysicalOptimizerPartition5 : initialize specific ${node.getUUID()}")
+                        println("PhysicalOptimizerPartitionRemoveUselessPartitions : initialize specific ${node.getUUID()}")
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
                         onChange()
                     }

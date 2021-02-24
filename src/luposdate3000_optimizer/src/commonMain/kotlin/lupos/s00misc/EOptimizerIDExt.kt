@@ -55,14 +55,15 @@ internal object EOptimizerIDExt {
     internal const val PhysicalOptimizerID: EOptimizerID = 33
     internal const val PhysicalOptimizerJoinTypeID: EOptimizerID = 34
     internal const val PhysicalOptimizerNaiveID: EOptimizerID = 35
-    internal const val PhysicalOptimizerPartition1ID: EOptimizerID = 36
-    internal const val PhysicalOptimizerPartition2ID: EOptimizerID = 37
-    internal const val PhysicalOptimizerPartition3ID: EOptimizerID = 38
-    internal const val PhysicalOptimizerPartition4ID: EOptimizerID = 39
-    internal const val PhysicalOptimizerPartition5ID: EOptimizerID = 40
-    internal const val PhysicalOptimizerPartition6ID: EOptimizerID = 41
+    internal const val PhysicalOptimizerPartitionExpandPartitionTowardsStoreID: EOptimizerID = 36
+    internal const val PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperatorID: EOptimizerID = 37
+    internal const val PhysicalOptimizerPartitionExpandTowardsRootID: EOptimizerID = 38
+    internal const val PhysicalOptimizerPartitionRespectMaxPartitionsID: EOptimizerID = 39
+    internal const val PhysicalOptimizerPartitionRemoveUselessPartitionsID: EOptimizerID = 40
+    internal const val PhysicalOptimizerPartitionAssingPartitionsToRemainingID: EOptimizerID = 41
     internal const val PhysicalOptimizerTripleIndexID: EOptimizerID = 42
     internal const val values_size: Int = 43
+
     @JvmField
     internal val names: Array<String> = arrayOf(
         "LogicalOptimizerArithmeticID",
@@ -101,12 +102,12 @@ internal object EOptimizerIDExt {
         "PhysicalOptimizerID",
         "PhysicalOptimizerJoinTypeID",
         "PhysicalOptimizerNaiveID",
-        "PhysicalOptimizerPartition1ID",
-        "PhysicalOptimizerPartition2ID",
-        "PhysicalOptimizerPartition3ID",
-        "PhysicalOptimizerPartition4ID",
-        "PhysicalOptimizerPartition5ID",
-        "PhysicalOptimizerPartition6ID",
+        "PhysicalOptimizerPartitionExpandPartitionTowardsStoreID",
+        "PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperatorID",
+        "PhysicalOptimizerPartitionExpandTowardsRootID",
+        "PhysicalOptimizerPartitionRespectMaxPartitionsID",
+        "PhysicalOptimizerPartitionRemoveUselessPartitionsID",
+        "PhysicalOptimizerPartitionAssingPartitionsToRemainingID",
         "PhysicalOptimizerTripleIndexID",
     )
 }

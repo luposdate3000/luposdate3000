@@ -37,7 +37,7 @@ import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 
-public class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition3ID, "PhysicalOptimizerPartition3") {
+public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionExpandTowardsRootID, "PhysicalOptimizerPartitionExpandTowardsRoot") {
     // this optimizer moves the partitioning upwards to the root
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
@@ -51,7 +51,7 @@ public class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EO
                     }
                     val storeNode = storeNodeTmp
                     val max_count = node.partitionCount
-                    println("PhysicalOptimizerPartition3 : initialize specific ${node.getUUID()}")
+                    println("PhysicalOptimizerPartitionExpandTowardsRoot : initialize specific ${node.getUUID()}")
                     val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
                     if (new_count != max_count) {
                         val newID = query.getNextPartitionOperatorID()
@@ -329,7 +329,7 @@ public class PhysicalOptimizerPartition3(query: Query) : OptimizerBase(query, EO
                         }
                         is POPTripleStoreIterator -> {
                             try {
-                                println("PhysicalOptimizerPartition3 : initialize specific b ${c.getUUID()}")
+                                println("PhysicalOptimizerPartitionExpandTowardsRoot : initialize specific b ${c.getUUID()}")
                                 val new_count = c.changeToIndexWithMaximumPartitions(node.partitionCount, node.partitionVariable)
                                 c.hasSplitFromStore = true
                                 res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)

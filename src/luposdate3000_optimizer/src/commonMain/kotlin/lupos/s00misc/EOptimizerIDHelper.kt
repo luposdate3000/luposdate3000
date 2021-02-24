@@ -57,12 +57,12 @@ public object EOptimizerIDHelper {
             EOptimizerIDExt.PhysicalOptimizerJoinTypeID -> false
             EOptimizerIDExt.PhysicalOptimizerNaiveID -> false
             EOptimizerIDExt.PhysicalOptimizerDebugID -> false
-            EOptimizerIDExt.PhysicalOptimizerPartition1ID -> false
-            EOptimizerIDExt.PhysicalOptimizerPartition2ID -> false
-            EOptimizerIDExt.PhysicalOptimizerPartition3ID -> false
-            EOptimizerIDExt.PhysicalOptimizerPartition4ID -> false
-            EOptimizerIDExt.PhysicalOptimizerPartition5ID -> false
-            EOptimizerIDExt.PhysicalOptimizerPartition6ID -> false
+            EOptimizerIDExt.PhysicalOptimizerPartitionExpandPartitionTowardsStoreID -> false
+            EOptimizerIDExt.PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperatorID -> false
+            EOptimizerIDExt.PhysicalOptimizerPartitionExpandTowardsRootID -> false
+            EOptimizerIDExt.PhysicalOptimizerPartitionRespectMaxPartitionsID -> false
+            EOptimizerIDExt.PhysicalOptimizerPartitionRemoveUselessPartitionsID -> false
+            EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID -> false
             EOptimizerIDExt.LogicalOptimizerDistinctUpID -> false
             EOptimizerIDExt.LogicalOptimizerStoreToValuesID -> true
             else -> throw UnreachableException()
@@ -107,12 +107,12 @@ public object EOptimizerIDHelper {
             EOptimizerIDExt.PhysicalOptimizerJoinTypeID -> true
             EOptimizerIDExt.PhysicalOptimizerNaiveID -> true
             EOptimizerIDExt.PhysicalOptimizerDebugID -> true
-            EOptimizerIDExt.PhysicalOptimizerPartition1ID -> true
-            EOptimizerIDExt.PhysicalOptimizerPartition2ID -> true
-            EOptimizerIDExt.PhysicalOptimizerPartition3ID -> true
-            EOptimizerIDExt.PhysicalOptimizerPartition4ID -> true
-            EOptimizerIDExt.PhysicalOptimizerPartition5ID -> false
-            EOptimizerIDExt.PhysicalOptimizerPartition6ID -> false
+            EOptimizerIDExt.PhysicalOptimizerPartitionExpandPartitionTowardsStoreID -> true
+            EOptimizerIDExt.PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperatorID -> true
+            EOptimizerIDExt.PhysicalOptimizerPartitionExpandTowardsRootID -> true
+            EOptimizerIDExt.PhysicalOptimizerPartitionRespectMaxPartitionsID -> true
+            EOptimizerIDExt.PhysicalOptimizerPartitionRemoveUselessPartitionsID -> false
+            EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID -> false
             EOptimizerIDExt.LogicalOptimizerDistinctUpID -> true
             EOptimizerIDExt.LogicalOptimizerStoreToValuesID -> false
             else -> throw UnreachableException()

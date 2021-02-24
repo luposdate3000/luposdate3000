@@ -27,7 +27,7 @@ import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 
-public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition6ID, "PhysicalOptimizerPartition6") {
+public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID, "PhysicalOptimizerPartitionAssingPartitionsToRemaining") {
     // this store introduces fixes, if the desired triple store does not participate in any partitioning at all, but it is required to do so
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
@@ -41,7 +41,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                             if (c is AOPVariable) {
                                 try {
                                     partitionVariable = c.name
-                                    println("PhysicalOptimizerPartition6 : initialize specific ${node.getUUID()}")
+                                    println("PhysicalOptimizerPartitionAssingPartitionsToRemaining : initialize specific ${node.getUUID()}")
                                     new_count = node.changeToIndexWithMaximumPartitions(null, partitionVariable)
                                     break
                                 } catch (e: Throwable) {
@@ -50,7 +50,7 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
                         }
                         if (new_count > 1) {
                             val partitionID = query.getNextPartitionOperatorID()
-                            println("PhysicalOptimizerPartition6 : initialize specific ${node.getUUID()}")
+                            println("PhysicalOptimizerPartitionAssingPartitionsToRemaining : initialize specific ${node.getUUID()}")
                             res = POPSplitPartitionFromStore(query, node.projectedVariables, partitionVariable, new_count, partitionID, node)
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, partitionVariable, new_count, partitionID, res)

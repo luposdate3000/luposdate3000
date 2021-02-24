@@ -30,7 +30,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 
-public class PhysicalOptimizerPartition4(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartition4ID, "PhysicalOptimizerPartition4") {
+public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionRespectMaxPartitionsID, "PhysicalOptimizerPartitionRespectMaxPartitions") {
     // this optimizer reduces the partitions, such that a max partition count is preserved
     private fun getNumberOfEnclosingPartitions(node: IOPBase): Int {
         var count = 1
