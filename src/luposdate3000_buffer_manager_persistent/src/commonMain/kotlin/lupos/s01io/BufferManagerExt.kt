@@ -48,7 +48,7 @@ public object BufferManagerExt {
     }
 
     init {
-        println { "BufferManagerExt.bufferPrefix = $bufferPrefix" }
+        println("BufferManagerExt.bufferPrefix = $bufferPrefix")
         File(bufferPrefix).mkdirs()
     }
 

@@ -137,8 +137,8 @@ public open class SparqlTestSuite {
             SanityCheck {
                 e.printStackTrace()
             }
-            println { "Error in the following line:" }
-            println { e.lineNumber }
+            println("Error in the following line:")
+            println(e.lineNumber)
         }
     }
 

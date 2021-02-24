@@ -191,6 +191,8 @@ internal class DistributedQueryImpl : IDistributedQuery {
                     }
                 }
             }
+// TODO iterate from root to leaf and assign nodes to any undecided part
+// TODO this in an optimizer interface
             var res: XMLElement? = null
             println("mapping :: ${query2.operatorgraphPartsToHostMap}")
             for ((k, v) in query2.operatorgraphParts) {
@@ -198,6 +200,7 @@ internal class DistributedQueryImpl : IDistributedQuery {
                 if (k == "") {
                     res = v
                 } else {
+                    println("register key '$k'")
                     communicationHandler.sendData(query2.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
                 }
             }

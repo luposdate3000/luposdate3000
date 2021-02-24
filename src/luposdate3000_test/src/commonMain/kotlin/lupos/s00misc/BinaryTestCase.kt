@@ -332,8 +332,8 @@ public object BinaryTestCase {
                                     }
                                     targetResultCount = targetStat.readInt()
                                     if (MAX_TRIPLES_DURING_TEST in 1 until targetResultCount) {
-                                        println { "Test: $query_folder named: $query_folder" }
-                                        println { "----------Skipped" }
+                                        println("Test: $query_folder named: $query_folder")
+                                        println("----------Skipped")
                                         returnValue = true
                                         break@func
                                     }
@@ -346,12 +346,12 @@ public object BinaryTestCase {
                                 throw Exception("not enough data available")
                             }
                             val queryName = buf.decodeToString()
-                            println { "Test: $query_folder named: $queryName" }
+                            println("Test: $query_folder named: $queryName")
                             val dictionarySize = targetStat.readInt()
                             val targetInputCount = targetStat.readInt()
                             if (MAX_TRIPLES_DURING_TEST in 1 until targetInputCount) {
-                                println { "Test: $query_folder named: $query_folder" }
-                                println { "----------Skipped" }
+                                println("Test: $query_folder named: $query_folder")
+                                println("----------Skipped")
                                 returnValue = true
                                 break@func
                             }
@@ -380,7 +380,7 @@ public object BinaryTestCase {
                                 mappingLiveToTarget[tmp] = i
                             }
                             val tableInput = MemoryTable(arrayOf("s", "p", "o"))
-                            println { "----------Triple-Store-Target" }
+                            println("----------Triple-Store-Target")
                             for (i in 0 until targetInputCount) {
                                 val s1 = targetTriples.readInt()
                                 val p1 = targetTriples.readInt()
@@ -458,7 +458,7 @@ TODO verify triple store input
                                 }
                                 if (!success) {
                                     returnValue = false
-                                    println { "----------Failed(import)" }
+                                    println ( "----------Failed(import)" )
                                     break@func
                                 }
 */
@@ -480,32 +480,32 @@ TODO verify triple store input
                                     tableOutput.data.add(row)
                                 }
                             }
-                            println { "----------String query" }
+                            println("----------String query")
                             val toParse = File("$query_folder/query.sparql").readAsString()
-                            println { toParse }
+                            println(toParse)
                             for (f in notImplementedFeaturesList) {
                                 if (toParse.contains(f)) {
                                     throw object : NotImplementedException("NotImplementedException", "Inference not implemented '$f'") {}
                                 }
                             }
-                            println { "----------AST" }
+                            println("----------AST")
                             val lcit = LexerCharIterator(toParse)
                             val tit = TokenIteratorSPARQLParser(lcit)
                             val ltit = LookAheadTokenIterator(tit, 3)
                             val parser = SPARQLParser(ltit)
                             val astNode = parser.expr()
-                            println { astNode }
-                            println { "----------Logical Operatorgraph" }
+                            println(astNode)
+                            println("----------Logical Operatorgraph")
                             val query4 = Query()
                             val lopNode = astNode.visit(OperatorGraphVisitor(query4))
-                            println { lopNode.toString() }
-                            println { "----------Logical Operatorgraph optimized" }
+                            println(lopNode.toString())
+                            println("----------Logical Operatorgraph optimized")
                             val lopNode2 = LogicalOptimizer(query4).optimizeCall(lopNode)
-                            println { lopNode2.toString() }
-                            println { "----------Physical Operatorgraph optimized" }
+                            println(lopNode2.toString())
+                            println("----------Physical Operatorgraph optimized")
                             val popOptimizer = PhysicalOptimizer(query4)
                             val popNode = popOptimizer.optimizeCall(lopNode2)
-                            println { popNode.toString() }
+                            println(popNode.toString())
                             val allowOrderBy = !toParse.toLowerCase().contains("order")
                             if (mode == BinaryTestCaseOutputModeExt.MODIFY_RESULT) {
                                 val resultWriter = MyPrintWriter(false)
@@ -526,7 +526,7 @@ TODO verify triple store input
                                     break@func
                                 }
                             }
-                            println { "----------Success" }
+                            println("----------Success")
                             returnValue = true
                             break@func
                         }
@@ -705,7 +705,7 @@ TODO verify triple store input
                             outStat.write(tmp2)
                             outStat.writeInt(dict.size)
                             outStat.writeInt(inputCounter)
-                            println { "added Testcase $output_folder ${BinaryTestCaseOutputModeExt.names[outputMode]} (${BinaryTestCaseOutputModeExt.names[output_mode_tmp]}) $query_name $query_input_file $query_output_file $query_file" }
+                            println("added Testcase $output_folder ${BinaryTestCaseOutputModeExt.names[outputMode]} (${BinaryTestCaseOutputModeExt.names[output_mode_tmp]}) $query_name $query_input_file $query_output_file $query_file")
                         }
                     }
                 }

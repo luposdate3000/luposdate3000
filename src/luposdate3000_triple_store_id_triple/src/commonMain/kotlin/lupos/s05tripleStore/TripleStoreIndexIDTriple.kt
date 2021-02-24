@@ -635,7 +635,8 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
     }
 
     private fun rebuildDataSanity2(iterator: TripleIterator) {
-        if (firstLeaf != NodeManager.nodeNullPointer) {
+        val tripleStoreSanityEnabled = false
+        if (firstLeaf != NodeManager.nodeNullPointer && tripleStoreSanityEnabled) {
             debugLock.writeLock()
             debugLock.writeUnlock()
             val queueS = (iterator as DebugPassThroughIterator).queueS

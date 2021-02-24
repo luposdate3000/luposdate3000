@@ -44,7 +44,7 @@ public object BufferManagerExt {
     public var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
 
     init {
-        println { "BufferManagerExt.bufferPrefix = $bufferPrefix" }
+        println("BufferManagerExt.bufferPrefix = $bufferPrefix")
     }
 
     @JvmField

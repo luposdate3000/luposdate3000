@@ -193,6 +193,7 @@ public class TripleStoreManagerImpl(
                     bufferManager.createPage { byteArray, pageid ->
                         page = pageid
                     }
+                    println("allocated store-root page :: $page")
                     localStores[store.second] = TripleStoreIndexIDTriple(page, false)
                 }
             }
