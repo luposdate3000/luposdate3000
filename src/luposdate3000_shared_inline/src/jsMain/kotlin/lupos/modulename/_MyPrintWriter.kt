@@ -16,11 +16,11 @@
  */
 package lupos.modulename
 
-import lupos.s00misc.IMyPrintWriter
+import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyPrintWriterMode
 import lupos.s00misc.MyPrintWriterModeExt
 
-internal actual open class _MyPrintWriter : IMyPrintWriter {
+internal actual open class _MyPrintWriter : IMyOutputStream {
     val buffer = StringBuilder()
     val bufferMode: MyPrintWriterMode
     val fileName: String
@@ -43,7 +43,10 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         file = -1
     }
 
-    actual fun clearBuffer() {
+    actual override fun write(buf: ByteArray, len: Int): Unit = throw Exception("not implemented")
+    actual override fun write(buf: ByteArray): Unit = throw Exception("not implemented")
+    public actual override fun writeInt(value: Int): Unit = throw Exception("not implemented")
+    actual override fun clearBuffer() {
         if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             buffer.clear()
         } else {
@@ -113,7 +116,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         }
     }
 
-    actual fun close() {
+    actual override fun close() {
         if (bufferMode == MyPrintWriterModeExt.FILE) {
             val str = buffer.toString()
             val buf = str.encodeToByteArray()
@@ -126,7 +129,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         }
     }
 
-    actual fun flush() {
+    actual override fun flush() {
         if (bufferMode == MyPrintWriterModeExt.FILE) {
             val str = buffer.toString()
             val buf = str.encodeToByteArray()

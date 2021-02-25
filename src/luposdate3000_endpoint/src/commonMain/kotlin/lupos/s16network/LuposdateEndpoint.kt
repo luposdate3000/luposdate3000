@@ -27,7 +27,7 @@ import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
-import lupos.s00misc.IMyPrintWriter
+import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.MyStringStream
 import lupos.s00misc.OperatorGraphToLatex
@@ -405,12 +405,12 @@ public object LuposdateEndpoint {
     }
 
     @JsName("evaluate_operatorgraph_to_result")
-    /*suspend*/ public fun evaluateOperatorgraphToResult(node: IOPBase, output: IMyPrintWriter) {
+    /*suspend*/ public fun evaluateOperatorgraphToResult(node: IOPBase, output: IMyOutputStream) {
         evaluateOperatorgraphToResultA(node, output, EQueryResultToStreamExt.DEFAULT_STREAM)
     }
 
     @JsName("evaluate_operatorgraph_to_result_a")
-    /*suspend*/ public fun evaluateOperatorgraphToResultA(node: IOPBase, output: IMyPrintWriter, evaluator: EQueryResultToStream): Any? {
+    /*suspend*/ public fun evaluateOperatorgraphToResultA(node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream): Any? {
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")
         output.println()
@@ -443,12 +443,12 @@ public object LuposdateEndpoint {
     }
 
     @JsName("evaluate_sparql_to_result_a")
-    /*suspend*/ public fun evaluateSparqlToResultA(query: String, output: IMyPrintWriter) {
+    /*suspend*/ public fun evaluateSparqlToResultA(query: String, output: IMyOutputStream) {
         evaluateSparqlToResultD(query, output, false)
     }
 
     @JsName("evaluate_sparql_to_result_d")
-    /*suspend*/ public fun evaluateSparqlToResultD(query: String, output: IMyPrintWriter, logOperatorGraph: Boolean) {
+    /*suspend*/ public fun evaluateSparqlToResultD(query: String, output: IMyOutputStream, logOperatorGraph: Boolean) {
         val node = evaluateSparqlToOperatorgraphB(query, logOperatorGraph)
         evaluateOperatorgraphToResult(node, output)
     }

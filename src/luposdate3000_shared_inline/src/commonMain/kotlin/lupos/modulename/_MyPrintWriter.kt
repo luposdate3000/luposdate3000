@@ -16,9 +16,9 @@
  */
 package lupos.modulename
 
-import lupos.s00misc.IMyPrintWriter
+import lupos.s00misc.IMyOutputStream
 
-internal expect class _MyPrintWriter(hasBuffer: Boolean = true) : IMyPrintWriter {
+internal expect class _MyPrintWriter(hasBuffer: Boolean = true) : IMyOutputStream {
     fun clearBuffer()
     override fun toString(): String
     override fun println(x: String)
@@ -30,6 +30,9 @@ internal expect class _MyPrintWriter(hasBuffer: Boolean = true) : IMyPrintWriter
     fun println(x: Double)
     override fun print(x: Double)
     override fun println()
-    fun close()
-    fun flush()
+    override fun close()
+    override fun flush()
+    override fun writeInt(value: Int): Unit
+    override fun write(buf: ByteArray): Unit
+    override fun write(buf: ByteArray, len: Int): Unit
 }

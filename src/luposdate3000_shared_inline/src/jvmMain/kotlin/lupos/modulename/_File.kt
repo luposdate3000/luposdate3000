@@ -21,12 +21,9 @@ import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyInputStream
 import lupos.s00misc.MyOutputStream
-import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
-import java.io.DataInputStream
-import java.io.DataOutputStream
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import kotlin.jvm.JvmField
@@ -57,7 +54,11 @@ internal actual class _File actual constructor(@JvmField public val filename: St
     internal actual inline fun readAsCharIterator(): CharIterator = MyCharIterator(this)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun readAsInputStream(): IMyInputStream = MyInputStream(FileInputStream(java.io.File(filename)))
+    internal actual inline fun openInputStream(): IMyInputStream = MyInputStream(BufferedInputStream(FileInputStream(java.io.File(filename))))
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun openOutputStream(): MyOutputStream = MyOutputStream(BufferedOutputStream(FileOutputStream(java.io.File(filename))))
+
     internal actual inline fun walk(crossinline action: (String) -> Unit) {
         java.nio.file.Files.walk(java.nio.file.Paths.get(filename), 1).forEach {
             val tmp = it.toString()
@@ -67,10 +68,8 @@ internal actual class _File actual constructor(@JvmField public val filename: St
         }
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun myPrintWriter(): MyPrintWriter = MyPrintWriter(java.io.File(filename))
-    internal actual inline fun printWriter(crossinline action: (MyPrintWriter) -> Unit) {
-        val printer = MyPrintWriter(java.io.File(filename))
+    internal actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit) {
+        val printer = MyOutputStream(BufferedOutputStream(FileOutputStream(java.io.File(filename))))
         try {
             action(printer)
         } finally {
@@ -78,8 +77,8 @@ internal actual class _File actual constructor(@JvmField public val filename: St
         }
     }
 
-    internal /*suspend*/ actual inline fun printWriterSuspended(crossinline action: /*suspend*/ (MyPrintWriter) -> Unit) {
-        val printer = MyPrintWriter(java.io.File(filename))
+    internal actual inline fun withInputStream(crossinline action: (IMyInputStream) -> Unit) {
+        val printer = MyInputStream(BufferedInputStream(FileInputStream(java.io.File(filename))))
         try {
             action(printer)
         } finally {
@@ -94,54 +93,6 @@ internal actual class _File actual constructor(@JvmField public val filename: St
     internal /*suspend*/ actual inline fun forEachLineSuspended(crossinline action: /*suspend*/ (String) -> Unit) = java.io.File(filename).forEachLine {
         Parallel.runBlocking {
             action(it)
-        }
-    }
-
-    internal actual inline fun dataOutputStream(crossinline action: (IMyOutputStream) -> Unit) {
-        var dos: DataOutputStream? = null
-        try {
-            val fos = FileOutputStream(filename)
-            val bos = BufferedOutputStream(fos)
-            dos = DataOutputStream(bos)
-            action(MyOutputStream(dos))
-        } finally {
-            dos?.close()
-        }
-    }
-
-    internal actual inline fun dataOutputStreamSuspend(crossinline action: (IMyOutputStream) -> Unit) {
-        var dos: DataOutputStream? = null
-        try {
-            val fos = FileOutputStream(filename)
-            val bos = BufferedOutputStream(fos)
-            dos = DataOutputStream(bos)
-            action(MyOutputStream(dos))
-        } finally {
-            dos?.close()
-        }
-    }
-
-    internal actual inline fun dataInputStream(crossinline action: (IMyInputStream) -> Unit) {
-        var dis: DataInputStream? = null
-        try {
-            val fis = FileInputStream(filename)
-            val bis = BufferedInputStream(fis)
-            dis = DataInputStream(bis)
-            action(MyInputStream(dis))
-        } finally {
-            dis?.close()
-        }
-    }
-
-    internal /*suspend*/ actual inline fun dataInputStreamSuspended(crossinline action: /*suspend*/ (IMyInputStream) -> Unit) {
-        var dis: DataInputStream? = null
-        try {
-            val fis = FileInputStream(filename)
-            val bis = BufferedInputStream(fis)
-            dis = DataInputStream(bis)
-            action(MyInputStream(dis))
-        } finally {
-            dis?.close()
         }
     }
 
@@ -188,14 +139,5 @@ internal actual class _File actual constructor(@JvmField public val filename: St
             input1.close()
             input2.close()
         }
-    }
-
-    @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun openDataOutputStream(append: Boolean): IMyOutputStream {
-        var dos: DataOutputStream? = null
-        val fos = FileOutputStream(filename, append)
-        val bos = BufferedOutputStream(fos)
-        dos = DataOutputStream(bos)
-        return MyOutputStream(dos)
     }
 }

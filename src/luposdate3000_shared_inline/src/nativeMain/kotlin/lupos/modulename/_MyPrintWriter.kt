@@ -16,13 +16,16 @@
  */
 package lupos.modulename
 
-import lupos.s00misc.IMyPrintWriter
+import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.NotImplementedException
 
-internal actual class _MyPrintWriter : IMyPrintWriter {
+internal actual class _MyPrintWriter : IMyOutputStream {
     actual constructor(hasBuffer: Boolean)
 
+    actual override fun write(buf: ByteArray, len: Int): Unit = throw Exception("not implemented")
+    actual override fun write(buf: ByteArray): Unit = throw Exception("not implemented")
     actual override fun clearBuffer(): Unit = throw NotImplementedException("MyPrintWriter", "xyz not implemented")
+    public actual override fun writeInt(value: Int): Unit = throw Exception("not implemented")
     actual override fun toString(): String = throw NotImplementedException("MyPrintWriter", "xyz not implemented")
     actual override fun println(x: String): Unit = throw NotImplementedException("MyPrintWriter", "xyz not implemented")
     actual override fun print(x: String): Unit = throw NotImplementedException("MyPrintWriter", "xyz not implemented")

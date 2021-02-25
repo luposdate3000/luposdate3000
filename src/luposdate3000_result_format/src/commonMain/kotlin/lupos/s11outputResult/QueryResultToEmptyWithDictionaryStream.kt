@@ -17,7 +17,7 @@
 package lupos.s11outputResult
 
 import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.IMyPrintWriter
+import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelJob
@@ -34,7 +34,7 @@ import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
 public object QueryResultToEmptyWithDictionaryStream {
-    private /*suspend*/ fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
+    private /*suspend*/ fun writeValue(valueID: Int, columnName: String, dictionary: IResultSetDictionary, output: IMyOutputStream) {
         dictionary.getValue(
             valueID,
             { value ->
@@ -61,14 +61,14 @@ public object QueryResultToEmptyWithDictionaryStream {
         )
     }
 
-    private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: IMyPrintWriter) {
+    private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: IMyOutputStream) {
         for (variableIndex in variables.indices) {
             writeValue(rowBuf[variableIndex], variables[variableIndex], dictionary, output)
         }
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyPrintWriter) {
+    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyOutputStream) {
         val rowBuf = IntArray(variables.size)
         loop@ while (true) {
             for (variableIndex in variables.indices) {
@@ -85,7 +85,7 @@ public object QueryResultToEmptyWithDictionaryStream {
         }
     }
 
-    private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyPrintWriter, parent: Partition = Partition()) {
+    private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: IMyOutputStream, parent: Partition = Partition()) {
         if ((tripleStoreManager.getPartitionMode() == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
             var partitionCount = 0
             var partitionVariable = ""
@@ -126,7 +126,7 @@ public object QueryResultToEmptyWithDictionaryStream {
         }
     }
 
-    public /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyPrintWriter) {
+    public /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyOutputStream) {
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()
         if (rootNode is OPBaseCompound) {

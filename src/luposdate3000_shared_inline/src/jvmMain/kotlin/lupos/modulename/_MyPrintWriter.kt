@@ -16,15 +16,14 @@
  */
 package lupos.modulename
 
-import lupos.s00misc.IMyPrintWriter
+import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyPrintWriterMode
 import lupos.s00misc.MyPrintWriterModeExt
-import java.io.OutputStream
 import java.io.PrintWriter
 import java.io.StringWriter
 import kotlin.jvm.JvmField
 
-internal actual open class _MyPrintWriter : IMyPrintWriter {
+internal actual open class _MyPrintWriter : IMyOutputStream {
     @JvmField
     val buffer = StringWriter()
 
@@ -33,6 +32,9 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
 
     @JvmField
     val bufferMode: MyPrintWriterMode
+    actual override fun write(buf: ByteArray, len: Int): Unit = throw Exception("not implemented")
+    actual override fun write(buf: ByteArray): Unit = throw Exception("not implemented")
+    public actual override fun writeInt(value: Int): Unit = throw Exception("not implemented")
 
     actual constructor(hasBuffer: Boolean) {
         if (hasBuffer) {
@@ -42,16 +44,6 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
             bufferMode = MyPrintWriterModeExt.NONE
             printer = PrintWriter(buffer)
         }
-    }
-
-    public constructor(f: java.io.File) {
-        bufferMode = MyPrintWriterModeExt.FILE
-        printer = f.printWriter()
-    }
-
-    public constructor(o: OutputStream) {
-        bufferMode = MyPrintWriterModeExt.FILE
-        printer = PrintWriter(o, false)
     }
 
     actual fun clearBuffer() {
@@ -124,7 +116,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         }
     }
 
-    actual fun close() {
+    actual override fun close() {
         if (bufferMode == MyPrintWriterModeExt.FILE) {
             printer.close()
         } else {
@@ -132,7 +124,7 @@ internal actual open class _MyPrintWriter : IMyPrintWriter {
         }
     }
 
-    actual fun flush() {
+    actual override fun flush() {
         if (bufferMode == MyPrintWriterModeExt.FILE) {
             printer.flush()
         } else {

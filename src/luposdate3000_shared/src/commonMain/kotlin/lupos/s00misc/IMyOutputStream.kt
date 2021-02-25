@@ -16,10 +16,16 @@
  */
 package lupos.s00misc
 
-public interface IMyOutputStream : IMyPrintWriter {
+public interface IMyOutputStream {
     public fun writeInt(value: Int): Unit
     public fun write(buf: ByteArray): Unit
     public fun write(buf: ByteArray, len: Int): Unit
     public fun close(): Unit
     public fun flush(): Unit
+    public fun println(x: String)
+    public fun print(x: String)
+    public fun print(x: Boolean)
+    public fun print(x: Int)
+    public fun print(x: Double)
+    public fun println()
 }

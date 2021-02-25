@@ -27,7 +27,6 @@ import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyInputStream
 import lupos.s00misc.MyLock
 import lupos.s00misc.MyOutputStream
-import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.MyStringStream
 import lupos.s00misc.Parallel
 import lupos.s00misc.XMLElement
@@ -46,7 +45,7 @@ import java.net.URLDecoder
 
 @OptIn(ExperimentalStdlibApi::class)
 public actual object HttpEndpointLauncher {
-    private fun printHeaderSuccess(stream: MyPrintWriter) {
+    private fun printHeaderSuccess(stream: IMyOutputStream) {
         stream.println("HTTP/1.1 200 OK")
         stream.println("Content-Type: text/plain")
         stream.println()
@@ -91,9 +90,7 @@ public actual object HttpEndpointLauncher {
                     var dontCloseSockets: Boolean = false
                     Parallel.runBlocking {
                         var connectionInMy = MyInputStream(connection.getInputStream())
-                        var connectionOutBase = connection.getOutputStream()
-                        var connectionOutPrinter: MyPrintWriter? = null
-                        var connectionOutMy: IMyOutputStream? = null
+                        var connectionOutMy = MyOutputStream(connection.getOutputStream())
                         try {
                             var line = connectionInMy.readLine()
                             var contentLength: Int? = null
@@ -123,18 +120,14 @@ public actual object HttpEndpointLauncher {
                             println("$hostname:$port path : '$path'")
                             val paths = mutableMapOf<String, PathMappingHelper>()
                             paths["/sparql/jenaquery"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE {?s <p> ?o . ?s ?p <o>}") to ::inputElement)) {
-                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
-                                connectionOutPrinter = connectionOutPrinter2
-                                printHeaderSuccess(connectionOutPrinter2)
-                                connectionOutPrinter2.print(JenaWrapper.execQuery(params["query"]!!))
+                                printHeaderSuccess(connectionOutMy)
+                                connectionOutMy.print(JenaWrapper.execQuery(params["query"]!!))
                                 /*Coverage Unreachable*/
                             }
                             paths["/sparql/jenaload"] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3") to ::inputElement)) {
                                 JenaWrapper.loadFromFile(params["file"]!!)
-                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
-                                connectionOutPrinter = connectionOutPrinter2
-                                printHeaderSuccess(connectionOutPrinter2)
-                                connectionOutPrinter2.print("success")
+                                printHeaderSuccess(connectionOutMy)
+                                connectionOutMy.print("success")
                             }
                             paths["/sparql/query"] = PathMappingHelper(
                                 true,
@@ -167,17 +160,13 @@ public actual object HttpEndpointLauncher {
                                 val key = "${query.getTransactionID()}"
                                 dictionaryMapping[key] = dict
                                 query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
-                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
-                                connectionOutPrinter = connectionOutPrinter2
-                                LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutPrinter2, evaluator)
+                                LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
                                 dictionaryMapping.remove(key)
                                 /*Coverage Unreachable*/
                             }
                             paths["/sparql/operator"] = PathMappingHelper(true, mapOf(Pair("query", "") to ::inputElement)) {
-                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
-                                connectionOutPrinter = connectionOutPrinter2
-                                printHeaderSuccess(connectionOutPrinter2)
-                                connectionOutPrinter2.print(LuposdateEndpoint.evaluateOperatorgraphxmlToResultB(params["query"]!!, true))
+                                printHeaderSuccess(connectionOutMy)
+                                connectionOutMy.print(LuposdateEndpoint.evaluateOperatorgraphxmlToResultB(params["query"]!!, true))
                                 /*Coverage Unreachable*/
                             }
                             paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3") to ::inputElement)) {
@@ -188,30 +177,22 @@ public actual object HttpEndpointLauncher {
                                         dict[it] = nodeGlobalDictionary.createNewBNode()
                                     }
                                 }
-                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
-                                connectionOutPrinter = connectionOutPrinter2
-                                printHeaderSuccess(connectionOutPrinter2)
-                                connectionOutPrinter2.print(LuposdateEndpoint.importTurtleFiles(params["file"]!!, dict))
+                                printHeaderSuccess(connectionOutMy)
+                                connectionOutMy.print(LuposdateEndpoint.importTurtleFiles(params["file"]!!, dict))
                                 /*Coverage Unreachable*/
                             }
                             paths["/import/estimatedPartitions"] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3.partitions") to ::inputElement)) {
                                 LuposdateEndpoint.setEstimatedPartitionsFromFile(params["file"]!!)
-                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
-                                connectionOutPrinter = connectionOutPrinter2
-                                printHeaderSuccess(connectionOutPrinter2)
+                                printHeaderSuccess(connectionOutMy)
                             }
                             paths["/import/intermediate"] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3") to ::inputElement)) {
-                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
-                                connectionOutPrinter = connectionOutPrinter2
-                                printHeaderSuccess(connectionOutPrinter2)
-                                connectionOutPrinter2.print(LuposdateEndpoint.importIntermediateFiles(params["file"]!!))
+                                printHeaderSuccess(connectionOutMy)
+                                connectionOutMy.print(LuposdateEndpoint.importIntermediateFiles(params["file"]!!))
                                 /*Coverage Unreachable*/
                             }
                             paths["/import/xml"] = PathMappingHelper(true, mapOf(Pair("xml", "") to ::inputElement)) {
-                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
-                                connectionOutPrinter = connectionOutPrinter2
-                                printHeaderSuccess(connectionOutPrinter2)
-                                connectionOutPrinter2.print(LuposdateEndpoint.importXmlData(params["xml"]!!))
+                                printHeaderSuccess(connectionOutMy)
+                                connectionOutMy.print(LuposdateEndpoint.importXmlData(params["xml"]!!))
                                 /*Coverage Unreachable*/
                             }
                             paths["/distributed/query/register"] = PathMappingHelper(true, mapOf()) {
@@ -227,15 +208,11 @@ public actual object HttpEndpointLauncher {
                                 for (key in keys) {
                                     queryMappings[key] = container
                                 }
-                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
-                                connectionOutPrinter = connectionOutPrinter2
-                                connectionOutPrinter2.print("HTTP/1.1 200 OK\n\n")
+                                connectionOutMy.print("HTTP/1.1 200 OK\n\n")
                             }
                             paths["/distributed/query/dictionary"] = PathMappingHelper(false, mapOf()) {
                                 val dict = dictionaryMapping[params["key"]!!]!!
-                                val connectionOutMy2 = MyOutputStream(connectionOutBase)
-                                connectionOutMy = connectionOutMy2
-                                dict.connect(connectionInMy, connectionOutMy2)
+                                dict.connect(connectionInMy, connectionOutMy)
                             }
                             paths["/distributed/query/execute"] = PathMappingHelper(false, mapOf()) {
                                 println("execute ... :: $hostname:$port -> ${params["key"]}")
@@ -243,8 +220,6 @@ public actual object HttpEndpointLauncher {
                                 val queryContainer = queryMappings[key]!!
                                 var queryXML = queryContainer.xml
                                 var dictionaryURL = params["dictionaryURL"]!!
-                                val connectionOutMy2 = MyOutputStream(connectionOutBase)
-                                connectionOutMy = connectionOutMy2
                                 if (queryXML == null) {
                                     throw Exception("this query was not registered before")
                                 } else {
@@ -288,8 +263,8 @@ public actual object HttpEndpointLauncher {
                                             query.root = node
 // evaluate
                                             when (node) {
-                                                is POPDistributedSendSingle -> node.evaluate(connectionOutMy2)
-                                                is POPDistributedSendMulti -> node.evaluate(connectionOutMy2, partitionNumber, queryContainer.outputStreams)
+                                                is POPDistributedSendSingle -> node.evaluate(connectionOutMy)
+                                                is POPDistributedSendMulti -> node.evaluate(connectionOutMy, partitionNumber, queryContainer.outputStreams)
                                                 else -> throw Exception("unexpected node '${node.classname}'")
                                             }
 // release
@@ -312,45 +287,35 @@ public actual object HttpEndpointLauncher {
                                 queryMappings.remove(key)
                             }
                             paths["/distributed/query/list"] = PathMappingHelper(true, mapOf()) {
-                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
-                                connectionOutPrinter = connectionOutPrinter2
-                                printHeaderSuccess(connectionOutPrinter2)
+                                printHeaderSuccess(connectionOutMy)
                                 for ((k, v) in queryMappings) {
-                                    connectionOutPrinter2.println("<p> $k :: $v </p>")
+                                    connectionOutMy.println("<p> $k :: $v </p>")
                                 }
                             }
                             paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement,)) {
                                 val name = params["name"]!!
                                 val query = Query()
                                 tripleStoreManager.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])
-                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
-                                connectionOutPrinter = connectionOutPrinter2
-                                printHeaderSuccess(connectionOutPrinter2)
+                                printHeaderSuccess(connectionOutMy)
                             }
                             paths["/distributed/graph/commit"] = PathMappingHelper(true, mapOf()) {
                                 val query = Query()
                                 val origin = params["origin"] == null || params["origin"]!!.toBoolean()
                                 println("origin $origin $params")
                                 tripleStoreManager.remoteCommit(query, origin)
-                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
-                                connectionOutPrinter = connectionOutPrinter2
-                                printHeaderSuccess(connectionOutPrinter2)
+                                printHeaderSuccess(connectionOutMy)
                             }
                             paths["/distributed/graph/drop"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) {
                                 val query = Query()
                                 val origin = params["origin"] == null || params["origin"]!!.toBoolean()
                                 tripleStoreManager.remoteDropGraph(query, params["name"]!!, origin)
-                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
-                                connectionOutPrinter = connectionOutPrinter2
-                                printHeaderSuccess(connectionOutPrinter2)
+                                printHeaderSuccess(connectionOutMy)
                             }
                             paths["/distributed/graph/clear"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) {
                                 val query = Query()
                                 val origin = params["origin"] == null || params["origin"]!!.toBoolean()
                                 tripleStoreManager.remoteClearGraph(query, params["name"]!!, origin)
-                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
-                                connectionOutPrinter = connectionOutPrinter2
-                                printHeaderSuccess(connectionOutPrinter2)
+                                printHeaderSuccess(connectionOutMy)
                             }
                             paths["/distributed/graph/modify"] = PathMappingHelper(false, mapOf()) {
                                 val query = Query()
@@ -361,68 +326,62 @@ public actual object HttpEndpointLauncher {
                             }
                             paths["/debugGlobalDictionary"] = PathMappingHelper(false, mapOf()) {
                                 nodeGlobalDictionary.debugAllDictionaryContent()
-                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
-                                connectionOutPrinter = connectionOutPrinter2
-                                printHeaderSuccess(connectionOutPrinter2)
+                                printHeaderSuccess(connectionOutMy)
                             }
                             paths["/debugLocalStore"] = PathMappingHelper(false, mapOf()) {
                                 tripleStoreManager.debugAllLocalStoreContent()
-                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
-                                connectionOutPrinter = connectionOutPrinter2
-                                printHeaderSuccess(connectionOutPrinter2)
+                                printHeaderSuccess(connectionOutMy)
                             }
                             paths["/index.html"] = PathMappingHelper(true, mapOf()) {
-                                val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
-                                connectionOutPrinter = connectionOutPrinter2
-                                connectionOutPrinter2.println("HTTP/1.1 200 OK")
-                                connectionOutPrinter2.println("Content-Type: text/html; charset=UTF-8")
-                                connectionOutPrinter2.println()
-                                connectionOutPrinter2.println("<!DOCTYPE html>")
-                                connectionOutPrinter2.println("<html lang=\"en\">")
-                                connectionOutPrinter2.println("   <head>")
-                                connectionOutPrinter2.println("   <title>Luposdate3000</title>")
-                                connectionOutPrinter2.println("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>")
-                                connectionOutPrinter2.println("<script>")
-                                connectionOutPrinter2.println("   $(document).ready(function() {")
+                                connectionOutMy.println("HTTP/1.1 200 OK")
+                                connectionOutMy.println("Content-Type: text/html; charset=UTF-8")
+                                connectionOutMy.println()
+                                connectionOutMy.println("<!DOCTYPE html>")
+                                connectionOutMy.println("<html lang=\"en\">")
+                                connectionOutMy.println("   <head>")
+                                connectionOutMy.println("   <title>Luposdate3000</title>")
+                                connectionOutMy.println("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>")
+                                connectionOutMy.println("<script>")
+                                connectionOutMy.println("   $(document).ready(function() {")
                                 for ((k, v) in paths) {
                                     if (k.length > 1) {
                                         val formId = k.replace("/", "_")
-                                        connectionOutPrinter2.println("       $('#$formId').on(\"submit\", function(event) {")
-                                        connectionOutPrinter2.println("           var formData = {")
+                                        connectionOutMy.println("       $('#$formId').on(\"submit\", function(event) {")
+                                        connectionOutMy.println("           var formData = {")
                                         for ((p, q) in v.params) {
-                                            connectionOutPrinter2.println("               '${p.first}': $('#$formId [name=${p.first}]').val(),")
+                                            connectionOutMy.println("               '${p.first}': $('#$formId [name=${p.first}]').val(),")
                                         }
-                                        connectionOutPrinter2.println("           };")
-                                        connectionOutPrinter2.println("           $.ajax({")
-                                        connectionOutPrinter2.println("                   type: 'POST',")
-                                        connectionOutPrinter2.println("                   url: '${k.substring(1)}',")
-                                        connectionOutPrinter2.println("                   data: formData")
-                                        connectionOutPrinter2.println("               })")
-                                        connectionOutPrinter2.println("               .done(function(data) {")
-                                        connectionOutPrinter2.println("                   $('#responseDiv').text(data);")
-                                        connectionOutPrinter2.println("               });")
-                                        connectionOutPrinter2.println("           event.preventDefault();")
-                                        connectionOutPrinter2.println("       });")
+                                        connectionOutMy.println("           };")
+                                        connectionOutMy.println("           $.ajax({")
+                                        connectionOutMy.println("                   type: 'POST',")
+                                        connectionOutMy.println("                   url: '${k.substring(1)}',")
+                                        connectionOutMy.println("                   data: formData")
+                                        connectionOutMy.println("               })")
+                                        connectionOutMy.println("               .done(function(data) {")
+                                        connectionOutMy.println("                   $('#responseDiv').text(data);")
+                                        connectionOutMy.println("               });")
+                                        connectionOutMy.println("           event.preventDefault();")
+                                        connectionOutMy.println("       });")
                                     }
                                 }
-                                connectionOutPrinter2.println("   });")
-                                connectionOutPrinter2.println("</script>")
-                                connectionOutPrinter2.println("   </head>")
-                                connectionOutPrinter2.println("   <body>")
+                                connectionOutMy.println("   });")
+                                connectionOutMy.println("</script>")
+                                connectionOutMy.println("   </head>")
+                                connectionOutMy.println("   <body>")
                                 for ((k, v) in paths) {
                                     if (k.length > 1) {
                                         val formId = k.replace("/", "_")
-                                        connectionOutPrinter2.println("<form id=\"$formId\" >")
+                                        connectionOutMy.println("<form id=\"$formId\" >")
                                         for ((p, q) in v.params) {
-                                            connectionOutPrinter2.println("${q(p.first, p.second)}")
+                                            connectionOutMy.println("${q(p.first, p.second)}")
                                         }
-                                        connectionOutPrinter2.println("<input type=\"submit\" value=\"$k\" />")
-                                        connectionOutPrinter2.println("</form>")
+                                        connectionOutMy.println("<input type=\"submit\" value=\"$k\" />")
+                                        connectionOutMy.println("</form>")
                                     }
                                 }
-                                connectionOutPrinter2.println("   <div id=\"responseDiv\"></div>")
-                                connectionOutPrinter2.println("   </body>")
-                                connectionOutPrinter2.println("</html>")
+                                connectionOutMy.println("   <div id=\"responseDiv\"></div>")
+                                connectionOutMy.println("   </body>")
+                                connectionOutMy.println("</html>")
                             }
                             paths[""] = paths["/index.html"]!!
                             paths["/"] = paths["/index.html"]!!
@@ -442,18 +401,15 @@ public actual object HttpEndpointLauncher {
                             System.err.println("start error ...")
                             e.printStackTrace()
                             System.err.println("finish error ...")
-                            val connectionOutPrinter2 = connectionOutPrinter
-                            if (connectionOutPrinter2 != null) {
-                                connectionOutPrinter2.println("HTTP/1.1 500 Internal Server Error")
-                                connectionOutPrinter2.println()
+                            val connectionOutMy = connectionOutMy
+                            if (connectionOutMy != null) {
+                                connectionOutMy.println("HTTP/1.1 500 Internal Server Error")
+                                connectionOutMy.println()
                             }
                         } finally {
                             if (!dontCloseSockets) {
                                 connectionOutMy?.flush()
                                 connectionOutMy?.close()
-                                connectionOutPrinter?.flush()
-                                connectionOutPrinter?.close()
-                                connectionOutBase.close()
                                 connectionInMy.close()
                                 connection?.close()
                             }
