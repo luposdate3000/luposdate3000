@@ -16,13 +16,15 @@
  */
 package lupos.optimizer.distributed.query
 
+import lupos.s00misc.XMLElement
+
 public class DistributedOptimizerAssignAnyParent() : DistributedOptimizerBase {
 
     override fun optimize(key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMap: MutableMap<String, String>, onChange: () -> Unit) {
         for (s in dependenciesBottomUp) {
             val tmp = keytoHostMap[s]
             if (tmp != null) {
-                keytoHostMap[k] = tmp
+                keytoHostMap[key] = tmp
                 onChange()
             }
         }

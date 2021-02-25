@@ -16,7 +16,9 @@
  */
 package lupos.s16network
 
+import lupos.operator.factory.XMLElementToOPBase
 import lupos.optimizer.ast.OperatorGraphVisitor
+import lupos.optimizer.distributed.query.DistributedOptimizerQuery
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.s00misc.DateHelperRelative
@@ -47,10 +49,8 @@ import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.shared.optimizer.distributedOptimizerQueryFactory
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.distributedQuery
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s05tripleStore.TripleStoreManager
 import lupos.s05tripleStore.TripleStoreManagerImpl
@@ -63,7 +63,7 @@ import lupos.s11outputResult.QueryResultToEmptyWithDictionaryStream
 import lupos.s11outputResult.QueryResultToMemoryTable
 import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s11outputResult.QueryResultToXMLStream
-import lupos.s14endpoint.convertToOPBase
+import lupos.shared.optimizer.distributedOptimizerQueryFactory
 import kotlin.js.JsName
 
 /*
@@ -461,7 +461,7 @@ public object LuposdateEndpoint {
     @JsName("evaluate_operatorgraphXML_to_result_b")
     /*suspend*/ public fun evaluateOperatorgraphxmlToResultB(query: String, logOperatorGraph: Boolean): String {
         val q = Query()
-        val popNode = XMLElement.convertToOPBase(q, XMLElementFromXML()(query)!!)
+        val popNode = XMLElementToOPBase(q, XMLElementFromXML()(query)!!)
         SanityCheck.println { popNode }
         if (logOperatorGraph) {
             SanityCheck.suspended {
@@ -488,7 +488,7 @@ public object LuposdateEndpoint {
             val localhost = hostnames[Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()]
             tripleStoreManager = TripleStoreManagerImpl(hostnames, localhost)
             tripleStoreManager.initialize()
-            distributedOptimizerQueryFactory:(query: IQuery)->IDistributedOptimizer = { DistributedOptimizerQuery(query) }
+            distributedOptimizerQueryFactory = { DistributedOptimizerQuery() }
             XMLElement.parseFromAnyRegistered["n3"] = XMLElementFromN3()
             XMLElement.parseFromAnyRegistered["ttl"] = XMLElementFromN3()
             XMLElement.parseFromAnyRegistered["srx"] = XMLElementFromXML()

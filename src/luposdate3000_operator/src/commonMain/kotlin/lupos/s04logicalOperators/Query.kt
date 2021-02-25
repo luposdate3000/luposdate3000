@@ -16,10 +16,12 @@
  */
 package lupos.s04logicalOperators
 
+import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.MyLock
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionCount
@@ -88,7 +90,7 @@ public class Query public constructor(@JvmField public var dictionary: IResultSe
         transactionID = global_transactionID++
         commited = false
         partitions.clear()
-        if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Partiton) {
+        if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
             return distributedOptimizerQueryFactory(this).optimize()
         } else {
             return newroot

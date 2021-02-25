@@ -16,11 +16,17 @@
  */
 package lupos.optimizer.distributed.query
 
+import lupos.operator.factory.XMLElementToOPBase
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
+import lupos.s04logicalOperators.OPBase
+import lupos.s04logicalOperators.OPBaseCompound
+import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
@@ -31,9 +37,11 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s09physicalOperators.partition.POPSplitPartitionPassThrough
-import lupos.s14endpoint.convertToOPBase
+import lupos.shared.optimizer.IDistributedOptimizer
 
-public class DistributedOptimizerQuery(val query: IQuery) : IDistributedOptimizer {
+public class DistributedOptimizerQuery() : IDistributedOptimizer {
+    internal var query: Query? = null
+
     private var operatorgraphParts: MutableMap<String, XMLElement> = mutableMapOf<String, XMLElement>()
     private var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
     private var dependenciesMapTopDown = mutableMapOf<String, Set<String>>()
@@ -51,7 +59,7 @@ public class DistributedOptimizerQuery(val query: IQuery) : IDistributedOptimize
     private fun splitPartitionsVariations(node: IOPBase, allNames: Array<String>, allSize: IntArray, allIdx: IntArray, offset: Int) {
         if (offset == allNames.size) {
             for (i in 0 until allNames.size) {
-                query.allVariationsKey[allNames[i]] = allIdx[i]
+                query!!.allVariationsKey[allNames[i]] = allIdx[i]
             }
             val xml = node.toXMLElementRoot(true)
             val key = xml["partitionDistributionProvideKey"]!!.attributes["key"]!!
@@ -70,7 +78,7 @@ public class DistributedOptimizerQuery(val query: IQuery) : IDistributedOptimize
                 operatorgraphPartsToHostMap[key] = target
             }
             operatorgraphParts[key] = xml
-            query.allVariationsKey.clear()
+            query!!.allVariationsKey.clear()
         } else {
             for (i in 0 until allSize[offset]) {
                 allIdx[offset] = i
@@ -171,9 +179,9 @@ public class DistributedOptimizerQuery(val query: IQuery) : IDistributedOptimize
         }
     }
 
-    public override fun optimize(): IOPBase {
-        val query2 = query as Query
-        val root = query2.root!!
+    public override fun optimize(query: IQuery): IOPBase {
+        this.query = query as Query
+        val root = query!!.root!!
         if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
             operatorgraphParts.clear()
 // assign host to root node
@@ -198,6 +206,8 @@ public class DistributedOptimizerQuery(val query: IQuery) : IDistributedOptimize
                             if (!operatorgraphPartsToHostMap.contains(k)) {
                                 opt.optimize(k, v, dependenciesMapTopDown[k]!!, dependenciesMapBottomUp[k]!!, operatorgraphPartsToHostMap) {
                                     changed = true
+                                }
+                                if (changed) {
                                     continue@loop
                                 }
                             }
@@ -215,7 +225,7 @@ public class DistributedOptimizerQuery(val query: IQuery) : IDistributedOptimize
                     communicationHandler.sendData(operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
                 }
             }
-            return XMLElement.convertToOPBase(query, res!!)
+            return XMLElementToOPBase(query, res!!)
         } else {
             return root
         }

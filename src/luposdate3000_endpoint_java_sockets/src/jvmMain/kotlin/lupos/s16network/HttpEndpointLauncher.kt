@@ -16,6 +16,7 @@
  */
 package lupos.s16network
 
+import lupos.operator.factory.XMLElementToOPBase
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EnpointRecievedInvalidPath
@@ -37,7 +38,6 @@ import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.partition.POPDistributedSendSingle
 import lupos.s11outputResult.EQueryResultToStreamExt
-import lupos.s14endpoint.convertToOPBase
 import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.URLDecoder
@@ -248,7 +248,7 @@ public actual object HttpEndpointLauncher {
                                     val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second)
                                     val query = Query(remoteDictionary)
                                     query.setDictionaryUrl(dictionaryURL)
-                                    val node = XMLElement.convertToOPBase(query, queryXML) as POPBase
+                                    val node = XMLElementToOPBase(query, queryXML) as POPBase
                                     query.root = node
                                     when (node) {
                                         is POPDistributedSendSingle -> node.evaluate(connectionOutMy2)

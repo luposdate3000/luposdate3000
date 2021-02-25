@@ -16,12 +16,11 @@
  */
 package lupos.shared.optimizer
 
-public interface IDistributedOptimizer {
-    public fun optimize(): IOPBase
-}
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 
-var distributedOptimizerQueryFactory: (query: IQuery) -> IDistributedOptimizer = {
+public var distributedOptimizerQueryFactory: () -> IDistributedOptimizer = {
     object : IDistributedOptimizer {
-        override fun optimize(): IOPBase = throw Exception("not implemented")
+        override fun optimize(query: IQuery): IOPBase = throw Exception("not implemented")
     }
 }

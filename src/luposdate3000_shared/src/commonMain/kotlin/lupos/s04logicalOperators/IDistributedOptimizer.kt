@@ -14,19 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s00misc
+package lupos.shared.optimizer
 
-import kotlin.jvm.JvmField
+import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 
-public object EPOPDebugModeExt {
-    public const val DEBUG1: EPOPDebugMode = 0
-    public const val DEBUG2: EPOPDebugMode = 1
-    public const val NONE: EPOPDebugMode = 2
-    public const val values_size: Int = 3
-    @JvmField
-    public val names: Array<String> = arrayOf(
-        "DEBUG1",
-        "DEBUG2",
-        "NONE",
-    )
+public interface IDistributedOptimizer {
+    public fun optimize(query: IQuery): IOPBase
 }

@@ -16,6 +16,7 @@
  */
 package lupos
 
+import lupos.operator.factory.XMLElementToOPBase
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
@@ -50,7 +51,6 @@ import lupos.s05tripleStore.TripleStoreManager
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s11outputResult.QueryResultToXMLElement
-import lupos.s14endpoint.convertToOPBase
 import lupos.s16network.LuposdateEndpoint
 import kotlin.jvm.JvmField
 
@@ -655,7 +655,7 @@ public open class SparqlTestSuite {
                     val xmlPOP = popNode.toXMLElementRoot(false)
                     val query4 = Query()
                     query4.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
-                    val popNodeRecovered = XMLElement.convertToOPBase(query4, xmlPOP)
+                    val popNodeRecovered = XMLElementToOPBase(query4, xmlPOP)
                     SanityCheck.println { xmlPOP.toPrettyString() }
                     SanityCheck.suspended {
                         val x = popNodeRecovered.toString()
