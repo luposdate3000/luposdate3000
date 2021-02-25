@@ -1,0 +1,13 @@
+luposdate3000:Luposdate3000_Dictionary_Inmemory:0.0.1
+luposdate3000:Luposdate3000_Jena_Wrapper_Off:0.0.1
+luposdate3000:Luposdate3000_Operator_Factory:0.0.1
+luposdate3000:Luposdate3000_Operator:0.0.1
+luposdate3000:Luposdate3000_Optimizer_Ast:0.0.1
+luposdate3000:Luposdate3000_Optimizer_Distributed_Query:0.0.1
+luposdate3000:Luposdate3000_Optimizer_Logical:0.0.1
+luposdate3000:Luposdate3000_Optimizer_Physical:0.0.1
+luposdate3000:Luposdate3000_Parser:0.0.1
+luposdate3000:Luposdate3000_Result_Format:0.0.1
+luposdate3000:Luposdate3000_Triple_Store_Manager:0.0.1
+luposdate3000:Luposdate3000_Buffer_Manager_Inmemory:0.0.1
+luposdate3000:Luposdate3000_Triple_Store_Id_Triple:0.0.1
