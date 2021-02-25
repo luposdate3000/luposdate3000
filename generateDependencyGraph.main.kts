@@ -94,3 +94,8 @@ for ((k, v) in allNodes) {
 
 println("\\end{chart}")
 println("\\end{document}")
+// ---------------------------------------------
+for ((k, v) in allNodes) {
+    println("${layers[k]!!} :: $k")
+}
+// ---------------------------------------------
