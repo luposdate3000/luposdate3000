@@ -69,7 +69,7 @@ public class TripleStoreManagerImpl(
     public override fun getPartitionMode(): EPartitionMode = partitionMode
 
     public override fun debugAllLocalStoreContent() {
-        File("${localhost.replace(":", "_")}.metadata").printWriter { out ->
+        File("${localhost.replace(":", "_")}.metadata").withOutputStream { out ->
             for ((k, v) in metadata) {
                 out.println("graphname : '$k'")
                 val meta = v.toMetaString().split("|")
@@ -80,7 +80,7 @@ public class TripleStoreManagerImpl(
             out.flush()
         }
         for ((k, v) in localStores) {
-            File("${localhost.replace(":", "_")}_$k.store").printWriter { out ->
+            File("${localhost.replace(":", "_")}_$k.store").withOutputStream { out ->
                 val query = Query()
                 val iter = v.getIterator(query, IntArray(0), listOf("s", "p", "o"))
                 val rowiter = iter.rows

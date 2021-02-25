@@ -28,7 +28,7 @@ internal expect class _File(filename: String) {
     internal inline fun readAsString(): String
     internal inline fun readAsCharIterator(): CharIterator
     internal inline fun openInputStream(): IMyInputStream
-    internal inline fun openOutputStream(): IMyOutputStream
+    internal inline fun openOutputStream(append: Boolean): IMyOutputStream
     internal inline fun walk(crossinline action: (String) -> Unit)
     internal inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit)
     internal inline fun withInputStream(crossinline action: (IMyInputStream) -> Unit)

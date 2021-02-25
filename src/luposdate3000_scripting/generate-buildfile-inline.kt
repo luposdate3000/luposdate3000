@@ -49,7 +49,7 @@ public fun applyInlineDisable() {
 public fun applyInline(f: String, inlineMode: InlineMode) {
     val fileSource = File(f)
     val fileTarget = File(f + ".tmp")
-    fileTarget.printWriter().use { out ->
+    fileTarget.withOutputStream().use { out ->
         fileSource.bufferedReader().readLines().forEach {
             when (inlineMode) {
                 InlineMode.Enable -> {

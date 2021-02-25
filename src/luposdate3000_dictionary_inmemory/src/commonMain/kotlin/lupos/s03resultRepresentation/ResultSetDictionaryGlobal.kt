@@ -98,16 +98,16 @@ public class ResultSetDictionaryGlobal {
         if (!BufferManagerExt.isInMemoryOnly) {
             outputDictionaryFile = if (BufferManagerExt.initializedFromDisk) {
                 importFromDictionaryFile(BufferManagerExt.bufferPrefix + "dictionary.data")
-                File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream(true)
+                File(BufferManagerExt.bufferPrefix + "dictionary.data").openOutputStream(true)
             } else {
-                File(BufferManagerExt.bufferPrefix + "dictionary.data").openDataOutputStream(false)
+                File(BufferManagerExt.bufferPrefix + "dictionary.data").openOutputStream(false)
             }
         }
         initializationphase = false
     }
 
     public fun debugAllDictionaryContent() {
-        File("global.dictionary").printWriter { out ->
+        File("global.dictionary").withOutputStream { out ->
             out.println("0x0 -> true")
             out.println("0x1 -> false")
             out.println("0x2 -> error")
@@ -153,7 +153,7 @@ public class ResultSetDictionaryGlobal {
         val fileDictionary = File(filename)
         var buffer = ByteArray(0)
         var mappingIdx = 0
-        fileDictionary.dataInputStream { dictStream ->
+        fileDictionary.withInputStream { dictStream ->
             while (true) {
                 var length = 0
                 try {

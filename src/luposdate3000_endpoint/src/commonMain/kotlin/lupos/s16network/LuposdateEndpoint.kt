@@ -171,7 +171,7 @@ public object LuposdateEndpoint {
             for (fileName in fileNames.split(";")) {
                 println("importing file '$fileName'")
                 val f = File(fileName)
-                val iter = f.readAsInputStream()
+                val iter = f.openInputStream()
                 try {
                     val x = object : Turtle2Parser(iter) {
                         override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
@@ -322,7 +322,7 @@ public object LuposdateEndpoint {
                 val dictTime = DateHelperRelative.elapsedSeconds(startTime)
                 val cnt = fileTriples.length() / 12L
                 counter += cnt
-                fileTriples.dataInputStreamSuspended {
+                fileTriples.withInputStream {
                     for (i in 0 until cnt) {
                         val s = it.readInt()
                         val p = it.readInt()

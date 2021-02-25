@@ -42,15 +42,15 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     val dict = mutableMapOf<String, Int>()
     var dictCounter = 0
     val dictCounterByType = IntArray(ETripleComponentTypeExt.values_size)
-    val iter = inputFile.readAsInputStream()
+    val iter = inputFile.openInputStream()
     val outputTriplesFile = File("$inputFileName.triples")
     val outputDictionaryFile = File("$inputFileName.dictionary")
     val outputDictionaryStatFile = File("$inputFileName.stat")
     val outputPartitionsFile = File("$inputFileName.partitions")
     val byteBuf = ByteArray(1)
     try {
-        outputDictionaryFile.dataOutputStream { outDictionary ->
-            outputTriplesFile.dataOutputStream { outTriples ->
+        outputDictionaryFile.withOutputStream { outDictionary ->
+            outputTriplesFile.withOutputStream { outTriples ->
                 val x = object : Turtle2Parser(iter) {
                     override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                         for (i in 0 until 3) {
@@ -87,7 +87,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         println("error in file '$inputFileName'")
         throw e
     }
-    outputDictionaryStatFile.printWriter { out ->
+    outputDictionaryStatFile.withOutputStream { out ->
         out.println("total=$dictCounter")
         for (t in 0 until ETripleComponentTypeExt.values_size) {
             out.println("$t=${dictCounterByType[t]}")
@@ -103,7 +103,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     val tripleBuf = IntArray(3)
     val counters = Array(3) { IntArray(dictCounter) }
     val maxCounter = IntArray(3)
-    outputTriplesFile.dataInputStream { fis ->
+    outputTriplesFile.withInputStream { fis ->
         for (c in 0 until cnt) {
             for (i in 0 until 3) {
                 val tmp = fis.readInt()
@@ -123,7 +123,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             tmp
         }
     }
-    outputTriplesFile.dataInputStream { fis ->
+    outputTriplesFile.withInputStream { fis ->
         for (c in 0 until cnt) {
             for (i in 0 until 3) {
                 tripleBuf[i] = fis.readInt()
@@ -223,7 +223,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         }
     }
     val indicees = arrayOf("SPO", "SOP", "PSO", "POS", "OSP", "OPS")
-    outputPartitionsFile.printWriter { out ->
+    outputPartitionsFile.withOutputStream { out ->
         for (i in indicees) {
             val t1 = configurations1[i]
             val t2 = configurations2[i]

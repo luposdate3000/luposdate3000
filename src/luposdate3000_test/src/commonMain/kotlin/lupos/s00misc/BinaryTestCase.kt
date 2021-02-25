@@ -37,7 +37,7 @@ import lupos.s11outputResult.QueryResultToMemoryTable
 import lupos.s11outputResult.QueryResultToXMLStream
 
 public object BinaryTestCase {
-    private var outSummary = MyPrintWriter(false)
+    private var outSummary: IMyOutputStream = MyPrintWriter(false)
     private var lastInput = MemoryTable(Array(0) { "" })
     private fun rowToString(row: IntArray, dict: Array<String>): String {
         var res = "${row.map { it }}::"
@@ -67,8 +67,8 @@ public object BinaryTestCase {
     }
 
     public fun executeAllTestCase(folder: String) {
-        outSummary = File("log/error").myPrintWriter()
-        File("$folder/config2").printWriter { newConfig ->
+        outSummary = File("log/error").openOutputStream(false)
+        File("$folder/config2").withOutputStream { newConfig ->
             File("$folder/config").forEachLine { line ->
                 val setting = line.split("=")
                 if (setting.size == 2) {
@@ -310,10 +310,10 @@ public object BinaryTestCase {
     public fun executeTestCase(query_folder: String): Boolean {
         println("executeTestCase $query_folder")
         var returnValue = true
-        File("$query_folder/query.stat").dataInputStream { targetStat ->
-            File("$query_folder/query.dictionary").dataInputStream { targetDictionary ->
-                File("$query_folder/query.triples").dataInputStream { targetTriples ->
-                    File("$query_folder/query.result").dataInputStream { targetResult ->
+        File("$query_folder/query.stat").withInputStream { targetStat ->
+            File("$query_folder/query.dictionary").withInputStream { targetDictionary ->
+                File("$query_folder/query.triples").withInputStream { targetTriples ->
+                    File("$query_folder/query.result").withInputStream { targetResult ->
                         func@ while (true) {
                             val mode = targetStat.readInt()
                             val variables = mutableListOf<String>()
@@ -544,7 +544,7 @@ TODO verify triple store input
             File(output_folder).deleteRecursively()
             File(output_folder).mkdirs()
             var containsOrderBy = false
-            File("$output_folder/query.sparql").printWriter { out ->
+            File("$output_folder/query.sparql").withOutputStream { out ->
                 File(query_file).forEachLine { line ->
                     if (line.isNotEmpty()) {
                         if (line.toLowerCase().contains("order")) {
@@ -556,8 +556,8 @@ TODO verify triple store input
             }
             val dict = mutableMapOf<String, Int>()
             var dictBnodeCount = 0
-            File("$output_folder/query.dictionary").dataOutputStream { outDictionary ->
-                File("$output_folder/query.triples").dataOutputStream { outTriples ->
+            File("$output_folder/query.dictionary").withOutputStream { outDictionary ->
+                File("$output_folder/query.triples").withOutputStream { outTriples ->
                     val data = XMLElement.parseFromAny(File(query_input_file).readAsString(), query_input_file)!!
                     var inputCounter = 0
                     for (node in data["results"]!!.childs) {
@@ -608,8 +608,8 @@ TODO verify triple store input
                     if (target["results"] == null && target["boolean"] != null) {
                         outputMode = BinaryTestCaseOutputModeExt.ASK_QUERY_RESULT
                     }
-                    File("$output_folder/query.stat").dataOutputStream { outStat ->
-                        File("$output_folder/query.result").dataOutputStream { outResult ->
+                    File("$output_folder/query.stat").withOutputStream { outStat ->
+                        File("$output_folder/query.result").withOutputStream { outResult ->
                             var resultCounter = 0
                             when (outputMode) {
                                 BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT, BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT_COUNT, BinaryTestCaseOutputModeExt.MODIFY_RESULT -> {

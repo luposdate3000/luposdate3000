@@ -53,7 +53,7 @@ internal actual class _File {
     internal actual inline fun readAsCharIterator(): CharIterator = throw NotImplementedException("File", "readAsCharIterator not implemented")
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun readAsInputStream(): IMyInputStream = throw NotImplementedException("File", "readAsInputStream not implemented")
+    internal actual inline fun openInputStream(): IMyInputStream = throw NotImplementedException("File", "openInputStream not implemented")
     internal actual inline fun walk(crossinline action: (String) -> Unit): Unit = throw NotImplementedException("File", "walk not implemented")
 
     @Suppress("NOTHING_TO_INLINE")
@@ -67,7 +67,7 @@ internal actual class _File {
         }
     }
 
-    internal /*suspend*/ actual inline fun printWriterSuspended(crossinline action: /*suspend*/ (MyPrintWriter) -> Unit): Unit = throw NotImplementedException("File", "printWriterSuspended not implemented")
+    internal /*suspend*/ actual inline fun withOutputStream(crossinline action: /*suspend*/ (MyPrintWriter) -> Unit): Unit = throw NotImplementedException("File", "withOutputStream not implemented")
     internal actual inline fun forEachLine(crossinline action: (String) -> Unit) {
         val fd = ext.fs.openSync(filename, "r")
         val buffer = ByteArray(8192)
@@ -94,18 +94,17 @@ internal actual class _File {
     }
 
     internal /*suspend*/ actual inline fun forEachLineSuspended(crossinline action: /*suspend*/ (String) -> Unit): Unit = throw NotImplementedException("File", "forEachLineSuspended not implemented")
-    internal actual inline fun dataOutputStream(crossinline action: (IMyOutputStream) -> Unit): Unit = throw NotImplementedException("File", "dataOutputStream not implemented")
-    internal actual inline fun dataOutputStreamSuspend(crossinline action: (IMyOutputStream) -> Unit): Unit = throw NotImplementedException("File", "dataOutputStreamSuspend not implemented")
-    internal actual inline fun dataInputStream(crossinline action: (IMyInputStream) -> Unit) {
+    internal actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit): Unit = throw NotImplementedException("File", "withOutputStream not implemented")
+    internal actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit): Unit = throw NotImplementedException("File", "withOutputStream not implemented")
+    internal actual inline fun withInputStream(crossinline action: (IMyInputStream) -> Unit) {
         val fd = ext.fs.openSync(filename, "r")
         val stream = MyInputStream(fd)
         action(stream)
         ext.fs.closeSync(fd)
     }
 
-    /*suspend*/ internal actual inline fun dataInputStreamSuspended(crossinline action: /*suspend*/ (IMyInputStream) -> Unit): Unit = throw NotImplementedException("File", "dataInputStreamSuspended not implemented")
     actual override fun equals(other: Any?): Boolean = throw NotImplementedException("File", "equals not implemented")
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun openDataOutputStream(append: Boolean): IMyOutputStream = throw NotImplementedException("File", "openDataOutputStream not implemented")
+    internal actual inline fun openOutputStream(append: Boolean): IMyOutputStream = throw NotImplementedException("File", "openOutputStream not implemented")
 }
