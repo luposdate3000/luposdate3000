@@ -25,6 +25,7 @@ import lupos.s00misc.File
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyInputStream
+import lupos.s00misc.MyLock
 import lupos.s00misc.MyOutputStream
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.MyStringStream
@@ -36,6 +37,7 @@ import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
+import lupos.s09physicalOperators.partition.POPDistributedSendMulti
 import lupos.s09physicalOperators.partition.POPDistributedSendSingle
 import lupos.s11outputResult.EQueryResultToStreamExt
 import java.net.InetSocketAddress
@@ -63,6 +65,13 @@ public actual object HttpEndpointLauncher {
 
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
 
+    internal class QueryMappingContainer(internal val xml: XMLElement, internal var inputStreams: Array<IMyInputStream?>, internal var outputStreams: Array<IMyOutputStream?>) {
+        internal var instance: POPBase? = null
+        internal val instanceLock = MyLock()
+    }
+
+    internal var queryMappings = mutableMapOf<String, QueryMappingContainer>()
+
     public actual /*suspend*/ fun start() {
         val hosturl = tripleStoreManager.getLocalhost().split(":")
         val hostname = hosturl[0]
@@ -73,23 +82,20 @@ public actual object HttpEndpointLauncher {
         }
         try {
             communicationHandler = CommunicationHandler()
-            var queryMappings = mutableMapOf<String, XMLElement>()
             val server = ServerSocket()
             server.bind(InetSocketAddress("0.0.0.0", port)) // maybe use "::" for ipv6
             println("launched server socket on '0.0.0.0':'$port' - waiting for connections now")
             while (true) {
                 val connection = server.accept()
                 Thread {
+                    var dontCloseSockets: Boolean = false
                     Parallel.runBlocking {
-                        var connectionInBase = connection.getInputStream()
-                        var connectionInMy: IMyInputStream? = null
+                        var connectionInMy = MyInputStream(connection.getInputStream())
                         var connectionOutBase = connection.getOutputStream()
                         var connectionOutPrinter: MyPrintWriter? = null
                         var connectionOutMy: IMyOutputStream? = null
                         try {
-                            var connectionInMy2: IMyInputStream = MyInputStream(connectionInBase)
-                            connectionInMy = connectionInMy2
-                            var line = connectionInMy2.readLine()
+                            var line = connectionInMy.readLine()
                             var contentLength: Int? = null
                             var path = ""
                             var isPost = false
@@ -103,7 +109,7 @@ public actual object HttpEndpointLauncher {
                                 } else if (line.startsWith("Content-Length: ")) {
                                     contentLength = line.substring("Content-Length: ".length).toInt()
                                 }
-                                line = connectionInMy2.readLine()
+                                line = connectionInMy.readLine()
                             }
                             var idx = path.indexOf(' ')
                             if (idx > 0) {
@@ -217,10 +223,9 @@ public actual object HttpEndpointLauncher {
                                     }
                                 }
                                 println("register ... :: $hostname:$port -> $keys")
-                                if (keys.size == 1) {
-                                    queryMappings[keys[0]] = xml
-                                } else {
-                                    throw Exception("the number ${keys.size} is not implemented as number of keys for a distributed query.")
+                                val container = QueryMappingContainer(xml, Array<IMyInputStream?>(keys.size) { null }, Array<IMyOutputStream?>(keys.size) { null })
+                                for (key in keys) {
+                                    queryMappings[key] = container
                                 }
                                 val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
                                 connectionOutPrinter = connectionOutPrinter2
@@ -230,11 +235,13 @@ public actual object HttpEndpointLauncher {
                                 val dict = dictionaryMapping[params["key"]!!]!!
                                 val connectionOutMy2 = MyOutputStream(connectionOutBase)
                                 connectionOutMy = connectionOutMy2
-                                dict.connect(connectionInMy2, connectionOutMy2)
+                                dict.connect(connectionInMy, connectionOutMy2)
                             }
                             paths["/distributed/query/execute"] = PathMappingHelper(false, mapOf()) {
                                 println("execute ... :: $hostname:$port -> ${params["key"]}")
-                                var queryXML = queryMappings[params["key"]!!]
+                                val key = params["key"]!!
+                                val queryContainer = queryMappings[key]!!
+                                var queryXML = queryContainer.xml
                                 var dictionaryURL = params["dictionaryURL"]!!
                                 val connectionOutMy2 = MyOutputStream(connectionOutBase)
                                 connectionOutMy = connectionOutMy2
@@ -242,23 +249,67 @@ public actual object HttpEndpointLauncher {
                                     throw Exception("this query was not registered before")
                                 } else {
                                     val comm = communicationHandler
-                                    var idx = dictionaryURL.indexOf("/")
-                                    println("opening dictionary :: '${dictionaryURL.substring(0, idx)}' '${dictionaryURL.substring(idx)}'")
-                                    val conn = comm.openConnection(dictionaryURL.substring(0, idx), "POST " + dictionaryURL.substring(idx) + "\n\n")
-                                    val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second)
-                                    val query = Query(remoteDictionary)
-                                    query.setDictionaryUrl(dictionaryURL)
-                                    val node = XMLElementToOPBase(query, queryXML) as POPBase
-                                    query.root = node
-                                    when (node) {
-                                        is POPDistributedSendSingle -> node.evaluate(connectionOutMy2)
-                                        else -> throw Exception("unexpected node '${node.classname}'")
+// calculate current partition
+                                    var partitionNumber: Int = 0
+                                    if (queryContainer.inputStreams.size > 1) {
+                                        for (k in key.split(":")) {
+                                            val s = queryXML.attributes["partitionVariable"] + "="
+                                            if (k.startsWith(s)) {
+                                                partitionNumber = k.substring(s.length + 1).toInt()
+                                                break
+                                            }
+                                        }
                                     }
-                                    remoteDictionary.close()
-                                    conn.first.close()
-                                    conn.second.close()
+                                    queryContainer.instanceLock.withLock {
+                                        queryContainer.outputStreams[partitionNumber] = connectionOutMy
+                                        queryContainer.inputStreams[partitionNumber] = connectionInMy
+                                        var flag = true
+                                        for (c in queryContainer.outputStreams) {
+                                            if (c == null) {
+                                                flag = false
+                                                break
+                                            }
+                                        }
+                                        if (flag) {
+// only launch if all receivers are started
+// init dictionary
+                                            var idx = dictionaryURL.indexOf("/")
+                                            println("opening dictionary :: '${dictionaryURL.substring(0, idx)}' '${dictionaryURL.substring(idx)}'")
+                                            val conn = comm.openConnection(dictionaryURL.substring(0, idx), "POST " + dictionaryURL.substring(idx) + "\n\n")
+                                            val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second)
+                                            val query = Query(remoteDictionary)
+                                            query.setDictionaryUrl(dictionaryURL)
+// init node
+                                            var node = queryContainer.instance
+                                            if (node == null) {
+                                                node = XMLElementToOPBase(query, queryXML) as POPBase
+                                                queryContainer.instance = node
+                                            }
+                                            query.root = node
+// evaluate
+                                            when (node) {
+                                                is POPDistributedSendSingle -> node.evaluate(connectionOutMy2)
+                                                is POPDistributedSendMulti -> node.evaluate(connectionOutMy2, partitionNumber, queryContainer.outputStreams)
+                                                else -> throw Exception("unexpected node '${node.classname}'")
+                                            }
+// release
+                                            remoteDictionary.close()
+                                            conn.first.close()
+                                            conn.second.close()
+                                            for (c in queryContainer.outputStreams) {
+                                                c!!.flush()
+                                                c!!.close()
+                                            }
+                                            for (c in queryContainer.inputStreams) {
+                                                c!!.close()
+                                            }
+                                        } else {
+                                        }
+                                    }
+// done
                                 }
-                                queryMappings.remove(params["key"]!!)
+                                dontCloseSockets = true
+                                queryMappings.remove(key)
                             }
                             paths["/distributed/query/list"] = PathMappingHelper(true, mapOf()) {
                                 val connectionOutPrinter2 = MyPrintWriter(connectionOutBase)
@@ -381,7 +432,7 @@ public actual object HttpEndpointLauncher {
                             } else {
                                 if (actionHelper.addPostParams && isPost) {
                                     val buf = ByteArray(contentLength!!)
-                                    connectionInMy2.read(buf, contentLength!!)
+                                    connectionInMy.read(buf, contentLength!!)
                                     val content = buf.decodeToString()
                                     extractParamsFromString(content.toString(), params)
                                 }
@@ -397,14 +448,15 @@ public actual object HttpEndpointLauncher {
                                 connectionOutPrinter2.println()
                             }
                         } finally {
-                            connectionOutMy?.flush()
-                            connectionOutMy?.close()
-                            connectionOutPrinter?.flush()
-                            connectionOutPrinter?.close()
-                            connectionOutBase.close()
-                            connectionInMy?.close()
-                            connectionInBase.close()
-                            connection?.close()
+                            if (!dontCloseSockets) {
+                                connectionOutMy?.flush()
+                                connectionOutMy?.close()
+                                connectionOutPrinter?.flush()
+                                connectionOutPrinter?.close()
+                                connectionOutBase.close()
+                                connectionInMy.close()
+                                connection?.close()
+                            }
                         }
                     }
                 }.start()

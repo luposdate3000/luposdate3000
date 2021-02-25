@@ -43,6 +43,18 @@ internal actual class _MyOutputStream : IMyOutputStream {
 
     public actual override fun close(): Unit = it!!.close()
     public actual override fun flush(): Unit = it!!.flush()
-    public actual override fun write(buf: ByteArray): Unit = it!!.write(buf, 0, buf.size)
-    public actual override fun write(buf: ByteArray, len: Int): Unit = it!!.write(buf, 0, len)
+    internal inline fun _write(buf: ByteArray, off: Int, len: Int): Unit = it!!.write(buf, off, len)
+    public actual override fun write(buf: ByteArray): Unit = _write(buf, 0, buf.size)
+    public actual override fun write(buf: ByteArray, len: Int): Unit = _write(buf, 0, len)
+    internal inline fun _print(x: String) {
+        val buf = x.encodeToByteArray()
+        _write(buf, 0, buf.size)
+    }
+
+    public actual override fun println(x: String) = _print("$x\n")
+    public actual override fun print(x: String) = _print(x)
+    public actual override fun print(x: Boolean) = _print("$x")
+    public actual override fun print(x: Int) = _print("$x")
+    public actual override fun print(x: Double) = _print("$x")
+    public actual override fun println() = _print("\n")
 }

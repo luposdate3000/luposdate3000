@@ -19,5 +19,5 @@ package lupos.optimizer.distributed.query
 import lupos.s00misc.XMLElement
 
 internal interface DistributedOptimizerBase {
-    public fun optimize(key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMap: MutableMap<String, String>, onChange: () -> Unit)
+    public fun optimize(key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMapGet: (String) -> String?, keytoHostMapSet: (String, String) -> Unit, onChange: () -> Unit)
 }

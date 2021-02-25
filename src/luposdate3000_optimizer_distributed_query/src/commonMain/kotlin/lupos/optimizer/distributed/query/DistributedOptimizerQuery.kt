@@ -46,6 +46,8 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
     private var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
     private var dependenciesMapTopDown = mutableMapOf<String, Set<String>>()
     private var dependenciesMapBottomUp = mutableMapOf<String, Set<String>>()
+    private var keyRepresentative = mutableMapOf<String, String>()
+
     private val childOptimizer = arrayOf(
         arrayOf(
             DistributedOptimizerAssignChild(),
@@ -62,7 +64,18 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                 query!!.allVariationsKey[allNames[i]] = allIdx[i]
             }
             val xml = node.toXMLElementRoot(true)
-            val key = xml["partitionDistributionProvideKey"]!!.attributes["key"]!!
+            val keys = mutableSetOf<String>()
+            for (c in xml.childs) {
+                if (c.tag == "partitionDistributionProvideKey") {
+                    keys.add(c.attributes["key"]!!)
+                }
+            }
+            val key = keys.first()
+            if (keys.size > 1) {
+                for (k in keys) {
+                    keyRepresentative[k] = key
+                }
+            }
             if (node is POPSplitPartitionFromStore) {
                 SanityCheck.check { allIdx.size == 1 }
                 var n: IOPBase = node
@@ -170,12 +183,21 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
         return res
     }
 
-    private fun assignHosts(node: XMLElement, mapping: Map<String, String>) {
+    private fun getHostForKey(key: String): String? {
+        var res = operatorgraphPartsToHostMap[key]
+        if (res != null) {
+            return res
+        }
+        return operatorgraphPartsToHostMap[keyRepresentative[key]]
+    }
+
+    private fun assignHosts(node: XMLElement) {
         for (c in node.childs) {
-            assignHosts(c, mapping)
+            assignHosts(c)
         }
         if (node.tag == "partitionDistributionReceiveKey") {
-            node.addAttribute("host", mapping[node.attributes["key"]!!]!!)
+            println("key -> ${node.attributes["key"]}")
+            node.addAttribute("host", getHostForKey(node.attributes["key"]!!)!!)
         }
     }
 
@@ -204,7 +226,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                     for (opt in childOptimizer2) {
                         for ((k, v) in operatorgraphParts) {
                             if (!operatorgraphPartsToHostMap.contains(k)) {
-                                opt.optimize(k, v, dependenciesMapTopDown[k]!!, dependenciesMapBottomUp[k]!!, operatorgraphPartsToHostMap) {
+                                opt.optimize(k, v, dependenciesMapTopDown[k]!!, dependenciesMapBottomUp[k]!!, { it -> getHostForKey(it) }, { key, value -> operatorgraphPartsToHostMap[key] = value }) {
                                     changed = true
                                 }
                                 if (changed) {
@@ -216,9 +238,13 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                 }
             }
 // publish the query to the other database instances
+            for ((k, v) in operatorgraphParts) {
+                println("$k -> ${operatorgraphPartsToHostMap[k]}")
+            }
             var res: XMLElement? = null
             for ((k, v) in operatorgraphParts) {
-                assignHosts(v, operatorgraphPartsToHostMap)
+                println(v.toPrettyString())
+                assignHosts(v)
                 if (k == "") {
                     res = v
                 } else {

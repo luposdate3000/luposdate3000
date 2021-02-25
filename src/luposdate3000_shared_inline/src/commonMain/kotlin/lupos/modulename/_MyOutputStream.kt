@@ -21,9 +21,15 @@ import lupos.s00misc.IMyOutputStream
 internal expect class _MyOutputStream : IMyOutputStream {
     internal constructor()
 
-    public override fun writeInt(value: Int): Unit
-    public override fun write(buf: ByteArray): Unit
-    public override fun write(buf: ByteArray, len: Int): Unit
+    public override fun writeInt(value: Int)
     public override fun close(): Unit
     public override fun flush(): Unit
+    public override fun write(buf: ByteArray): Unit
+    public override fun write(buf: ByteArray, len: Int): Unit
+    public override fun println(x: String)
+    public override fun print(x: String)
+    public override fun print(x: Boolean)
+    public override fun print(x: Int)
+    public override fun print(x: Double)
+    public override fun println()
 }

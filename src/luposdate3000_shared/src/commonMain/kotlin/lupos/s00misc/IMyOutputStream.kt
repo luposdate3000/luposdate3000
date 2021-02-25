@@ -16,7 +16,7 @@
  */
 package lupos.s00misc
 
-public interface IMyOutputStream {
+public interface IMyOutputStream : IMyPrintWriter {
     public fun writeInt(value: Int): Unit
     public fun write(buf: ByteArray): Unit
     public fun write(buf: ByteArray, len: Int): Unit

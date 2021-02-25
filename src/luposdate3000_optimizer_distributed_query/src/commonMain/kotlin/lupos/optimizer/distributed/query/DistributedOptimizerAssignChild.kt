@@ -20,16 +20,16 @@ import lupos.s00misc.XMLElement
 
 public class DistributedOptimizerAssignChild() : DistributedOptimizerBase {
 
-    override fun optimize(key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMap: MutableMap<String, String>, onChange: () -> Unit) {
+    override fun optimize(key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMapGet: (String) -> String?, keytoHostMapSet: (String, String) -> Unit, onChange: () -> Unit) {
         if (dependenciesTopDown.size > 0) {
-            var possibleHost = keytoHostMap[dependenciesTopDown.first()]
+            var possibleHost = keytoHostMapGet(dependenciesTopDown.first())
             if (possibleHost != null) {
                 for (s in dependenciesTopDown) {
-                    if (possibleHost != keytoHostMap[s]) {
+                    if (possibleHost != keytoHostMapGet(s)) {
                         return
                     }
                 }
-                keytoHostMap[key] = possibleHost
+                keytoHostMapSet(key, possibleHost)
                 onChange()
             }
         }
