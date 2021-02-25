@@ -16,6 +16,7 @@
  */
 package lupos.s16network
 
+import lupos.jena.JenaWrapper
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
@@ -23,7 +24,6 @@ import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.File
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
-import lupos.s00misc.JenaWrapper
 import lupos.s00misc.MyInputStream
 import lupos.s00misc.MyOutputStream
 import lupos.s00misc.MyPrintWriter

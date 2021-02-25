@@ -162,14 +162,6 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
     res.add(
         Pair(
             localArgs
-                .ssetModuleName("Luposdate3000_Operator_Factory")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
                 .ssetModuleName("Luposdate3000_Result_Format", "Luposdate3000_Result_Format", "src${Platform.getPathSeparator()}luposdate3000_result_format")
                 .ssetArgs2(compileModuleArgs),
             { true }
@@ -187,6 +179,14 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
         Pair(
             localArgs
                 .ssetModuleName("Luposdate3000_Triple_Store_Manager")
+                .ssetArgs2(compileModuleArgs),
+            { true }
+        )
+    )
+    res.add(
+        Pair(
+            localArgs
+                .ssetModuleName("Luposdate3000_Operator_Factory")
                 .ssetArgs2(compileModuleArgs),
             { true }
         )

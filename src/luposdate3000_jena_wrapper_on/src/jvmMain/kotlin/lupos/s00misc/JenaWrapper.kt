@@ -14,8 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s00misc
+package lupos.jena
 
+import lupos.s00misc.JenaBugException
 import org.apache.jena.query.ARQ
 import org.apache.jena.query.DatasetFactory
 import org.apache.jena.query.QueryExecutionFactory

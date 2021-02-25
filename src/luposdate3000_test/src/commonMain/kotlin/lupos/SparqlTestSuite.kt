@@ -16,6 +16,7 @@
  */
 package lupos
 
+import lupos.jena.JenaWrapper
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
@@ -25,7 +26,6 @@ import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.File
 import lupos.s00misc.JenaBugException
-import lupos.s00misc.JenaWrapper
 import lupos.s00misc.Luposdate3000Exception
 import lupos.s00misc.MAX_TRIPLES_DURING_TEST
 import lupos.s00misc.NotImplementedException

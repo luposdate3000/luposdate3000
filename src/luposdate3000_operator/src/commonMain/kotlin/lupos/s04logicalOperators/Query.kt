@@ -91,7 +91,7 @@ public class Query public constructor(@JvmField public var dictionary: IResultSe
         commited = false
         partitions.clear()
         if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-            return distributedOptimizerQueryFactory(this).optimize()
+            return distributedOptimizerQueryFactory().optimize(this)
         } else {
             return newroot
         }
