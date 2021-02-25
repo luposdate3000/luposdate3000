@@ -47,7 +47,7 @@ import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.s04logicalOperators.DistributedQueryImpl
+import lupos.shared.optimizer.distributedOptimizerQueryFactory
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.distributedQuery
@@ -488,7 +488,7 @@ public object LuposdateEndpoint {
             val localhost = hostnames[Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()]
             tripleStoreManager = TripleStoreManagerImpl(hostnames, localhost)
             tripleStoreManager.initialize()
-            distributedQuery = DistributedQueryImpl()
+            distributedOptimizerQueryFactory:(query: IQuery)->IDistributedOptimizer = { DistributedOptimizerQuery(query) }
             XMLElement.parseFromAnyRegistered["n3"] = XMLElementFromN3()
             XMLElement.parseFromAnyRegistered["ttl"] = XMLElementFromN3()
             XMLElement.parseFromAnyRegistered["srx"] = XMLElementFromXML()

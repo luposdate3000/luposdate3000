@@ -18,7 +18,6 @@ package lupos.s04logicalOperators
 
 import lupos.s00misc.MyLock
 import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
@@ -27,6 +26,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
+import lupos.shared.optimizer.distributedOptimizerQueryFactory
 import kotlin.jvm.JvmField
 
 public class Query public constructor(@JvmField public var dictionary: IResultSetDictionary, @JvmField public var transactionID: Long) : IQuery {
@@ -70,12 +70,6 @@ public class Query public constructor(@JvmField public var dictionary: IResultSe
     public var allVariationsKey: MutableMap<String, Int> = mutableMapOf<String, Int>()
 
     @JvmField
-    public var operatorgraphParts: MutableMap<String, XMLElement> = mutableMapOf<String, XMLElement>()
-
-    @JvmField
-    public var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
-
-    @JvmField
     public var dictionaryUrl: String? = null
     public override fun setDictionaryUrl(url: String) {
         this.dictionaryUrl = url
@@ -90,13 +84,15 @@ public class Query public constructor(@JvmField public var dictionary: IResultSe
     override fun getDistributionKey(): Map<String, Int> = allVariationsKey
 
     override fun initialize(newroot: IOPBase): IOPBase {
-        println(newroot.toXMLElementRoot(false).toPrettyString())
         root = newroot
         transactionID = global_transactionID++
         commited = false
         partitions.clear()
-        return distributedQuery.initialize(this)
-        return newroot
+        if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Partiton) {
+            return distributedOptimizerQueryFactory(this).optimize()
+        } else {
+            return newroot
+        }
     }
 
     public fun getNextPartitionOperatorID(): Int {

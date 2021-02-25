@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s04logicalOperators
+package lupos.optimizer.distributed.query
 
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
@@ -33,8 +33,22 @@ import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s09physicalOperators.partition.POPSplitPartitionPassThrough
 import lupos.s14endpoint.convertToOPBase
 
-internal class DistributedQueryImpl : IDistributedQuery {
-    private fun getAllVariations(query: Query, node: IOPBase, allNames: Array<String>, allSize: IntArray, allIdx: IntArray, offset: Int) {
+public class DistributedOptimizerQuery(val query: IQuery) : IDistributedOptimizer {
+    private var operatorgraphParts: MutableMap<String, XMLElement> = mutableMapOf<String, XMLElement>()
+    private var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
+    private var dependenciesMapTopDown = mutableMapOf<String, Set<String>>()
+    private var dependenciesMapBottomUp = mutableMapOf<String, Set<String>>()
+    private val childOptimizer = arrayOf(
+        arrayOf(
+            DistributedOptimizerAssignChild(),
+            DistributedOptimizerAssignParent(),
+            DistributedOptimizerAssignAnyChild(),
+            DistributedOptimizerAssignAnyParent(),
+        ),
+        arrayOf(DistributedOptimizerAssignLocalhost())
+    )
+
+    private fun splitPartitionsVariations(node: IOPBase, allNames: Array<String>, allSize: IntArray, allIdx: IntArray, offset: Int) {
         if (offset == allNames.size) {
             for (i in 0 until allNames.size) {
                 query.allVariationsKey[allNames[i]] = allIdx[i]
@@ -51,19 +65,21 @@ internal class DistributedQueryImpl : IDistributedQuery {
                 for (i in 0 until allNames.size) {
                     partition = Partition(partition, allNames[i], allIdx[i], allSize[i])
                 }
-                query.operatorgraphPartsToHostMap[key] = n.getDesiredHostnameFor(partition)
+                val target = n.getDesiredHostnameFor(partition)
+                SanityCheck.check { !operatorgraphPartsToHostMap.contains(key) || operatorgraphPartsToHostMap[key] == target }
+                operatorgraphPartsToHostMap[key] = target
             }
-            query.operatorgraphParts[key] = xml
+            operatorgraphParts[key] = xml
             query.allVariationsKey.clear()
         } else {
             for (i in 0 until allSize[offset]) {
                 allIdx[offset] = i
-                getAllVariations(query, node, allNames, allSize, allIdx, offset + 1)
+                splitPartitionsVariations(node, allNames, allSize, allIdx, offset + 1)
             }
         }
     }
 
-    private fun initialize_helper(query: Query, node: IOPBase, currentPartitions: Map<String, Int>, root: Boolean) {
+    private fun splitPartitions(node: IOPBase, currentPartitions: Map<String, Int>, root: Boolean) {
         if ((node is POPBase) || (node is OPBaseCompound)) {
             val currentPartitionsCopy = mutableMapOf<String, Int>()
             currentPartitionsCopy.putAll(currentPartitions)
@@ -97,7 +113,7 @@ internal class DistributedQueryImpl : IDistributedQuery {
             }
             for (ci in 0 until (node as OPBase).childrenToVerifyCount()) {
                 val c = node.getChildren()[ci]
-                initialize_helper(query, c, currentPartitionsCopy, false)
+                splitPartitions(c, currentPartitionsCopy, false)
             }
             when (node) {
                 is POPMergePartition,
@@ -116,7 +132,7 @@ internal class DistributedQueryImpl : IDistributedQuery {
                         allSize[i] = v
                         i++
                     }
-                    getAllVariations(query, node, allNames, allSize, IntArray(currentPartitionsCopy.size), 0)
+                    splitPartitionsVariations(node, allNames, allSize, IntArray(currentPartitionsCopy.size), 0)
                 }
             }
         } else {
@@ -124,98 +140,84 @@ internal class DistributedQueryImpl : IDistributedQuery {
         }
     }
 
-    internal fun walkXMLElement(node: XMLElement, dependencies: MutableList<String>) {
+    private fun calculateDependenciesTopDown(node: XMLElement): Set<String> {
+        var res = mutableSetOf<String>()
         for (c in node.childs) {
-            walkXMLElement(c, dependencies)
+            res.addAll(calculateDependenciesTopDown(c))
         }
         if (node.tag == "partitionDistributionReceiveKey") {
-            dependencies.add(node.attributes["key"]!!)
+            res.add(node.attributes["key"]!!)
+        }
+        return res
+    }
+
+    private fun calculateDependenciesBottomUp(node: XMLElement): Set<String> {
+        var res = mutableSetOf<String>()
+        for (c in node.childs) {
+            res.addAll(calculateDependenciesBottomUp(c))
+        }
+        if (node.tag == "partitionDistributionProvideKey") {
+            res.add(node.attributes["key"]!!)
+        }
+        return res
+    }
+
+    private fun assignHosts(node: XMLElement, mapping: Map<String, String>) {
+        for (c in node.childs) {
+            assignHosts(c, mapping)
+        }
+        if (node.tag == "partitionDistributionReceiveKey") {
+            node.addAttribute("host", mapping[node.attributes["key"]!!]!!)
         }
     }
 
-    public override fun initialize(query: IQuery): IOPBase {
+    public override fun optimize(): IOPBase {
         val query2 = query as Query
+        val root = query2.root!!
         if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-            query2.operatorgraphParts.clear()
-            query2.operatorgraphParts[""] = query2.root!!.toXMLElement(true)
-            query2.operatorgraphPartsToHostMap[""] = tripleStoreManager.getLocalhost()
-            initialize_helper(query, query2.root!!, mutableMapOf(), true)
-            for ((k, v) in query2.operatorgraphParts) {
-                println("subgraph $k")
-                println(v.toPrettyString())
+            operatorgraphParts.clear()
+// assign host to root node
+            operatorgraphParts[""] = root.toXMLElement(true)
+            operatorgraphPartsToHostMap[""] = tripleStoreManager.getLocalhost()
+// split query into parts, and automatically assign hosts to triple store access parts
+            splitPartitions(root, mutableMapOf(), true)
+// calculate dependencies
+            for ((k, v) in operatorgraphParts) {
+                dependenciesMapTopDown[k] = calculateDependenciesTopDown(v)
             }
-            println("host mappings :: init")
-            var dependenciesMap = mutableMapOf<String, List<String>>()
-            for ((k, v) in query2.operatorgraphParts) {
-                val dependencies = mutableListOf<String>()
-                walkXMLElement(v, dependencies)
-                dependenciesMap[k] = dependencies
-                println("$k :: ${query2.operatorgraphPartsToHostMap[k] ?: "?"} :: $dependencies")
+            for ((k, v) in operatorgraphParts) {
+                dependenciesMapBottomUp[k] = calculateDependenciesBottomUp(v)
             }
-            var changed = true
-            var iteration = 0
-            while (changed) {
-                changed = false
-                println("host mappings :: iteration $iteration")
-                iteration++
-                for ((k, v) in query2.operatorgraphParts) {
-                    if (!query2.operatorgraphPartsToHostMap.contains(k)) {
-                        var possibleHosts = mutableSetOf<String>()
-                        for (s in dependenciesMap[k]!!) {
-                            possibleHosts.add(query2.operatorgraphPartsToHostMap[s] ?: "?")
-                        }
-                        println("possibleHosts $possibleHosts")
-                        if (possibleHosts.size == 1) {
-                            query2.operatorgraphPartsToHostMap[k] = possibleHosts.first()
-                            changed = true
-                        }
-                    }
-                    println("$k :: ${query2.operatorgraphPartsToHostMap[k] ?: "?"}")
-                }
-                if (!changed) {
-                    loop@ for ((k, v) in query2.operatorgraphParts) {
-                        if (!query2.operatorgraphPartsToHostMap.contains(k)) {
-                            var possibleHosts = mutableSetOf<String>()
-                            for (s in dependenciesMap[k]!!) {
-                                possibleHosts.add(query2.operatorgraphPartsToHostMap[s] ?: "?")
-                            }
-                            possibleHosts.remove("?")
-                            println("possibleHosts $possibleHosts")
-                            if (possibleHosts.size > 0) {
-                                query2.operatorgraphPartsToHostMap[k] = possibleHosts.first()
-                                changed = true
-                                break@loop
+// assign hosts to other parts
+            for (childOptimizer2 in childOptimizer) {
+                var changed = true
+                loop@ while (changed) {
+                    changed = false
+                    for (opt in childOptimizer2) {
+                        for ((k, v) in operatorgraphParts) {
+                            if (!operatorgraphPartsToHostMap.contains(k)) {
+                                opt.optimize(k, v, dependenciesMapTopDown[k]!!, dependenciesMapBottomUp[k]!!, operatorgraphPartsToHostMap) {
+                                    changed = true
+                                    continue@loop
+                                }
                             }
                         }
-                        println("$k :: ${query2.operatorgraphPartsToHostMap[k] ?: "?"}")
                     }
                 }
             }
-// TODO iterate from root to leaf and assign nodes to any undecided part
-// TODO this in an optimizer interface
+// publish the query to the other database instances
             var res: XMLElement? = null
-            println("mapping :: ${query2.operatorgraphPartsToHostMap}")
-            for ((k, v) in query2.operatorgraphParts) {
-                updateXMLtargets(v, query2.operatorgraphPartsToHostMap)
+            for ((k, v) in operatorgraphParts) {
+                assignHosts(v, operatorgraphPartsToHostMap)
                 if (k == "") {
                     res = v
                 } else {
-                    println("register key '$k'")
-                    communicationHandler.sendData(query2.operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
+                    communicationHandler.sendData(operatorgraphPartsToHostMap[k]!!, "/distributed/query/register", mapOf("query" to "$v"))
                 }
             }
             return XMLElement.convertToOPBase(query, res!!)
         } else {
-            return query2.root!!
-        }
-    }
-
-    private fun updateXMLtargets(xml: XMLElement, mapping: Map<String, String>) {
-        for (c in xml.childs) {
-            updateXMLtargets(c, mapping)
-        }
-        if (xml.tag == "partitionDistributionReceiveKey") {
-            xml.addAttribute("host", mapping[xml.attributes["key"]!!]!!)
+            return root
         }
     }
 }

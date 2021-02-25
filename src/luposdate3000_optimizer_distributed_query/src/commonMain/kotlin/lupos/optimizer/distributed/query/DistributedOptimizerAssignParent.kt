@@ -14,12 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s04logicalOperators
+package lupos.optimizer.distributed.query
 
-public interface IDistributedQuery {
-    public fun initialize(query: IQuery): IOPBase
-}
+public class DistributedOptimizerAssignParent() : DistributedOptimizerBase {
 
-public var distributedQuery: IDistributedQuery = object : IDistributedQuery {
-    public override fun initialize(query: IQuery): IOPBase = throw Exception("not initialized")
+    override fun optimize(key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMap: MutableMap<String, String>, onChange: () -> Unit) {
+        if (dependenciesBottomUp.size > 0) {
+            var possibleHost = keytoHostMap[dependenciesBottomUp.first()]
+            if (possibleHost != null) {
+                for (s in dependenciesBottomUp) {
+                    if (possibleHost != keytoHostMap[s]) {
+                        return
+                    }
+                }
+                keytoHostMap[key] = possibleHost
+                onChange()
+            }
+        }
+    }
 }
