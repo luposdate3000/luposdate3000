@@ -31,9 +31,15 @@ val layers = mutableMapOf<String, Int>()
 val path = Paths.get("src")
 Files.walk(path, 1).forEach { it ->
     val name = it.toString()
-    if (name.length > 3 && !name.startsWith("src/luposdate3000_launch_")) {
+    if (name.length > 3) {
         val tmp = mutableSetOf<String>()
-        for (target in listOf("jvm", "js", "common")) {
+        if (!name.endsWith("shared_inline")) {
+            if (!name.endsWith("shared")) {
+                tmp.add("luposdate3000:luposdate3000_shared:0.0.1")
+            }
+            tmp.add("luposdate3000:luposdate3000_shared_inline:0.0.1")
+        }
+        for (target in listOf("common")) {
             val f = File(it.toString() + "/${target}Dependencies")
             if (f.exists()) {
                 f.forEachLine {
@@ -55,6 +61,9 @@ Files.walk(path, 1).forEach { it ->
 }
 for ((k, v) in allNodes) {
     layers[k] = 0
+    for (kk in v) {
+        layers[kk] = 0
+    }
 }
 var changed = true
 while (changed) {
