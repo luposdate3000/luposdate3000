@@ -62,7 +62,7 @@ var execMode = ExecMode.UNKNOWN
 
 enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
 
-fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
+fun getAllModuleConfigurations(): List<CreateModuleArgs> {
     var releaseMode2 = ReleaseMode.valueOf(releaseMode)
     var suspendMode2 = SuspendMode.valueOf(suspendMode)
     var inlineMode2 = InlineMode.valueOf(inlineMode)
@@ -78,7 +78,7 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
         .ssetIdeaBuildfile(intellijMode2)
         .ssetCodegenKSP(false)
         .ssetCodegenKAPT(false)
-    var modules = mutableMapOf<String, Pair<CreateModuleArgs, () -> Boolean>>()
+    var modules = mutableMapOf<String, CreateModuleArgs>()
     val dependencyMap = mutableMapOf<String, Set<String>>()
     Files.walk(Paths.get("src"), 1).forEach { it ->
         val filename = it.toString()
@@ -87,6 +87,7 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
             var pkg = ""
             var name = ""
             var enabledFunc: () -> Boolean = { true }
+            var enabledRunFunc: () -> Boolean = { true }
             f.forEachLine { line ->
                 when {
                     line.startsWith("name=") -> {
@@ -108,6 +109,64 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
                             }
                         }
                     }
+                    line.startsWith("enabledRun=") -> {
+                        when (line) {
+                            "enabledRun=always" -> {
+                                enabledRunFunc = { true }
+                            }
+                            "enabledRun=never" -> {
+                                enabledRunFunc = { false }
+                            }
+                            "enabledRun=endpointMode:Java_Sockets" -> {
+                                enabledRunFunc = { endpointMode == "Java_Sockets" }
+                            }
+                            "enabledRun=endpointMode:None" -> {
+                                enabledRunFunc = { endpointMode == "None" }
+                            }
+                            "enabledRun=jenaWrapper:Off" -> {
+                                enabledRunFunc = { jenaWrapper == "Off" }
+                            }
+                            "enabledRun=jenaWrapper:On" -> {
+                                enabledRunFunc = { jenaWrapper == "On" }
+                            }
+                            "enabledRun=mainClass:Benchmark" -> {
+                                enabledRunFunc = { mainClass == "Benchmark" }
+                            }
+                            "enabledRun=mainClass:Binary_Test_Suite" -> {
+                                enabledRunFunc = { mainClass == "Binary_Test_Suite" }
+                            }
+                            "enabledRun=mainClass:Code_Gen_Example_KAPT" -> {
+                                enabledRunFunc = { mainClass == "Code_Gen_Example_KAPT" }
+                            }
+                            "enabledRun=mainClass:Code_Gen_Example_KSP" -> {
+                                enabledRunFunc = { mainClass == "Code_Gen_Example_KSP" }
+                            }
+                            "enabledRun=mainClass:Endpoint" -> {
+                                enabledRunFunc = { mainClass == "Endpoint" }
+                            }
+                            "enabledRun=mainClass:Generate_Binary_Test_Suite_Multi" -> {
+                                enabledRunFunc = { mainClass == "Generate_Binary_Test_Suite_Multi" }
+                            }
+                            "enabledRun=mainClass:Generate_Binary_Test_Suite_Single" -> {
+                                enabledRunFunc = { mainClass == "Generate_Binary_Test_Suite_Single" }
+                            }
+                            "enabledRun=mainClass:Import" -> {
+                                enabledRunFunc = { mainClass == "Import" }
+                            }
+                            "enabledRun=mainClass:Sparql_Test_Suite" -> {
+                                enabledRunFunc = { mainClass == "Sparql_Test_Suite" }
+                            }
+                            "enabledRun=memoryMode:_Inmemory" -> {
+                                enabledRunFunc = { memoryMode == "_Inmemory" }
+                            }
+                            "enabledRun=memoryMode:_Persistent" -> {
+                                enabledRunFunc = { memoryMode == "_Persistent" }
+                            }
+                            else -> {
+                                throw Exception("unknown value '$line'")
+                            }
+                        }
+                    }
                     else -> {
                         throw Exception("unknown value")
                     }
@@ -118,12 +177,11 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
                     pkg = name
                 }
                 modules[name] = (
-                    Pair(
-                        localArgs
-                            .ssetModuleName(name, pkg)
-                            .ssetArgs2(compileModuleArgs),
-                        enabledFunc
-                    )
+                    localArgs
+                        .ssetModuleName(name, pkg)
+                        .ssetArgs2(compileModuleArgs)
+                        .ssetEnabledFunc(enabledFunc)
+                        .ssetEnabledRunFunc(enabledRunFunc)
                     )
                 val dep = mutableSetOf<String>()
                 dependencyMap[name] = dep
@@ -140,7 +198,7 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
             }
         }
     }
-    var res = mutableListOf<Pair<CreateModuleArgs, () -> Boolean>>()
+    var res = mutableListOf<CreateModuleArgs>()
     val nameSet = mutableSetOf<String>()
     var changed = true
     while (changed) {
@@ -254,7 +312,7 @@ class ParamClass {
 
 fun getAllModuleSpecificParams(): List<ParamClass> {
     val res = mutableListOf<ParamClass>()
-    for ((module, cond) in getAllModuleConfigurations()) {
+    for (module in getAllModuleConfigurations()) {
         for (opt in module.getPossibleOptions()) {
             res.add(
                 ParamClass(
@@ -405,7 +463,8 @@ val defaultParams = mutableListOf(
             "Binary_Test_Suite" to { mainClass = "Binary_Test_Suite" },
             "Benchmark" to { mainClass = "Benchmark" },
             "Benchmark_Fig5" to { mainClass = "Benchmark_Fig5" },
-            "Code_Gen_Example" to { mainClass = "Code_Gen_Example" },
+            "Code_Gen_Example_KAPT" to { mainClass = "Code_Gen_Example_KAPT" },
+            "Code_Gen_Example_KSP" to { mainClass = "Code_Gen_Example_KSP" },
             "Endpoint" to { mainClass = "Endpoint" },
             "Generate_Binary_Test_Suite_Single" to { mainClass = "Generate_Binary_Test_Suite_Single" },
             "Generate_Binary_Test_Suite_Multi" to { mainClass = "Generate_Binary_Test_Suite_Multi" },
@@ -601,8 +660,8 @@ fun onHelp() {
 fun onCompile() {
     println(compileModuleArgs)
     var foundit = false
-    for ((module, cond) in getAllModuleConfigurations()) {
-        if (cond()) {
+    for (module in getAllModuleConfigurations()) {
+        if (module.enabledFunc()) {
             if (compileSpecific == null || compileSpecific!!.toLowerCase() == module.moduleName.toLowerCase()) {
                 createBuildFileForModule(module)
                 foundit = true
@@ -610,8 +669,8 @@ fun onCompile() {
         }
     }
     if (foundit == false && compileSpecific != null) {
-        for ((module, cond) in getAllModuleConfigurations()) {
-            if (cond()) {
+        for (module in getAllModuleConfigurations()) {
+            if (module.enabledFunc()) {
                 if (compileSpecific == null || module.moduleName.toLowerCase().startsWith(compileSpecific!!.toLowerCase())) {
                     createBuildFileForModule(module)
                 }
@@ -665,29 +724,12 @@ fun onRun() {
     File("log").mkdirs()
     when (target) {
         "JVM", "All" -> {
-            val jarsLuposdate3000 = mutableListOf(
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager$memoryMode-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Dictionary_Inmemory-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Operator_Base-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Operator_Arithmetik-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Operator_Logical-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Operator_Physical-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Operator_Factory-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Parser-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Result_Format-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Shared-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Test-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_Id_Triple-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Triple_Store_Manager-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer_Ast-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer_Distributed_Query-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer_Logical-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Optimizer_Physical-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint_$endpointMode-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_$jenaWrapper-jvm$proguardMode.jar",
-                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Launch_$mainClass-jvm$proguardMode.jar",
-            )
+            val jarsLuposdate3000 = mutableListOf<String>()
+            for (module in getAllModuleConfigurations()) {
+                if (module.enabledRunFunc()) {
+                    jarsLuposdate3000.add("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}${module.moduleName}-jvm$proguardMode.jar")
+                }
+            }
             val jars = mutableSetOf<String>()
             for (jar in jarsLuposdate3000) {
                 jars.add(jar)
@@ -747,29 +789,16 @@ fun onRun() {
             File("build-cache${Platform.getPathSeparator()}node_modules").mkdirs()
             class JSHelper(val path: String, val name: String)
 
-            var files = mutableListOf(
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Endpoint.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Operator_Base.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Operator_Arithmetik.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Operator_Logical.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Operator_Physical.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Operator_Factory.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Parser.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Result_Format.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Shared.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Test.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Triple_Store_Id_Triple.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Triple_Store_Manager.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager$memoryMode", "Luposdate3000_Buffer_Manager.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Dictionary_Inmemory", "Luposdate3000_Dictionary.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint_$endpointMode", "Luposdate3000_Endpoint_Launcher.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Jena_Wrapper_$jenaWrapper", "Luposdate3000_Jena_Wrapper.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Launch_$mainClass", "Luposdate3000_Main.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Optimizer_Ast.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Optimizer_Distributed_Query.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Optimizer_Logical.js"),
-                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Optimizer_Physical.js"),
-            )
+            val files = mutableListOf<JSHelper>()
+            for (module in getAllModuleConfigurations()) {
+                if (module.enabledRunFunc() && module.module_prefix != "Luposdate3000_Main") {
+                    if (module.module_prefix == module.module_name) {
+                        files.add(JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "${module.module_prefix}.js"))
+                    } else {
+                        files.add(JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}${module.module_name}", "${module.module_prefix}.js"))
+                    }
+                }
+            }
             for (f in files) {
                 Files.copy(File(f.path + Platform.getPathSeparator() + f.name).toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${f.name}").toPath(), REPLACE_EXISTING)
                 Files.copy(File(f.path + Platform.getPathSeparator() + f.name + ".map").toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${f.name}.map").toPath(), REPLACE_EXISTING)
@@ -887,8 +916,8 @@ fun onGenerateParser() {
     )
     val xmlFilename = "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}xmlParser${Platform.getPathSeparator()}XMLParserGenerated.kt"
     val xmlPackage = "lupos.s00misc.xmlParser"
-    ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage,)
-    ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage,)
+    ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage, )
+    ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage, )
 }
 
 fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: String, fileName: String) {
@@ -982,7 +1011,7 @@ fun onGenerateEnums() {
 }
 
 fun onGenerateLauncherMain() {
-    for ((module, cond) in getAllModuleConfigurations()) {
+    for (module in getAllModuleConfigurations()) {
         if (module.modulePrefix == "Luposdate3000_Main") {
             if (File(File(module.moduleFolder), "runOptions").exists()) {
                 var options = mutableListOf<String>()
@@ -1085,94 +1114,84 @@ fun onSetupJS() {
         out.println("    <title>Luposdate3000</title>")
         out.println("    <script src=\"kotlin.js\"></script>")
         out.println("    <script src=\"krypto-root-krypto.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Shared.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Buffer_Manager_Inmemory/Luposdate3000_Buffer_Manager.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Dictionary_Inmemory/Luposdate3000_Dictionary.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Jena_Wrapper_Off/Luposdate3000_Jena_Wrapper.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Operator_Base.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Operator_Arithmetik.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Operator_Logical.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Operator_Physical.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Operator_Factory.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Parser.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Result_Format.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Triple_Store_Id_Triple.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Triple_Store_Manager.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Optimizer_Ast.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Optimizer_Distributed_Query.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Optimizer_Logical.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Optimizer_Physical.js\"></script>")
-        out.println("    <script src=\"bin$appendix/Luposdate3000_Endpoint.js\"></script>")
-        out.println("</head>")
-        out.println("<body>")
-        out.println("<script>")
-        out.println("Luposdate3000_Endpoint.lupos.s16network.LuposdateEndpoint.initialize()")
-        out.println("Luposdate3000_Endpoint.lupos.s16network.LuposdateEndpoint.evaluate_sparql_to_result_b(\"INSERT DATA { <s> <p> <o> } \")")
-        out.println("Luposdate3000_Endpoint.lupos.s16network.LuposdateEndpoint.evaluate_sparql_to_result_b(\"SELECT (5 as ?x) ?s {?s ?p ?o .}\")")
-        out.println("</script>")
-        out.println("</body>")
-        out.println("</html>")
-    }
-}
-
-fun find(path: String, fName: String): File? {
-    val f = File(path)
-    if (fName == f.getName()) {
-        return f
-    }
-    if (f.isDirectory()) {
-        for (aChild in f.list()) {
-            val ff = find(path + File.separator + aChild, fName)
-            if (ff != null) {
-                return ff
+        val files = mutableListOf<JSHelper>()
+        for (module in getAllModuleConfigurations()) {
+            if (module.enabledRunFunc() && module.module_prefix != "Luposdate3000_Main") {
+                if (module.module_prefix == module.module_name) {
+                    out.println("    <script src=\"bin$appendix/${module.module_prefix}.js\"></script>")
+                } else {
+                    out.println("    <script src=\"bin$appendix/${module.module_name}/${module.module_prefix}.js\"></script>")
+                }
+                out.println("</head>")
+                out.println("<body>")
+                out.println("<script>")
+                out.println("Luposdate3000_Endpoint.lupos.s16network.LuposdateEndpoint.initialize()")
+                out.println("Luposdate3000_Endpoint.lupos.s16network.LuposdateEndpoint.evaluate_sparql_to_result_b(\"INSERT DATA { <s> <p> <o> } \")")
+                out.println("Luposdate3000_Endpoint.lupos.s16network.LuposdateEndpoint.evaluate_sparql_to_result_b(\"SELECT (5 as ?x) ?s {?s ?p ?o .}\")")
+                out.println("</script>")
+                out.println("</body>")
+                out.println("</html>")
             }
         }
-    }
-    return null
-}
 
-fun onAllTest() {
-    for (r in listOf("Enable", "Disable")) {
-        for (i in listOf("Enable", "Disable")) {
-            for (s in listOf("Disable")) {
-                ProcessBuilder("./launcher.main.kts", "--compileAll", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--dryMode=Disable", "--target=All", "--intellijMode=Disable")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s.compile-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s.compile-err")))
-                    .start()
-                    .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Thread", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions.test-err")))
-                    .start()
-                    .waitFor()
-                File("/tmp/luposdate3000/").deleteRecursively()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions.test-err")))
-                    .start()
-                    .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=persistent", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent.test-err")))
-                    .start()
-                    .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Thread", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions-Proguard.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions-Proguard.test-err")))
-                    .start()
-                    .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Proguard.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Proguard.test-err")))
-                    .start()
-                    .waitFor()
-                File("/tmp/luposdate3000/").deleteRecursively()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=persistent", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent-Proguard.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent-Proguard.test-err")))
-                    .start()
-                    .waitFor()
+        fun find(path: String, fName: String): File? {
+            val f = File(path)
+            if (fName == f.getName()) {
+                return f
+            }
+            if (f.isDirectory()) {
+                for (aChild in f.list()) {
+                    val ff = find(path + File.separator + aChild, fName)
+                    if (ff != null) {
+                        return ff
+                    }
+                }
+            }
+            return null
+        }
+
+        fun onAllTest() {
+            for (r in listOf("Enable", "Disable")) {
+                for (i in listOf("Enable", "Disable")) {
+                    for (s in listOf("Disable")) {
+                        ProcessBuilder("./launcher.main.kts", "--compileAll", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--dryMode=Disable", "--target=All", "--intellijMode=Disable")
+                            .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s.compile-log")))
+                            .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s.compile-err")))
+                            .start()
+                            .waitFor()
+                        ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Thread", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                            .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions.test-log")))
+                            .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions.test-err")))
+                            .start()
+                            .waitFor()
+                        File("/tmp/luposdate3000/").deleteRecursively()
+                        ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                            .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions.test-log")))
+                            .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions.test-err")))
+                            .start()
+                            .waitFor()
+                        ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=persistent", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                            .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent.test-log")))
+                            .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent.test-err")))
+                            .start()
+                            .waitFor()
+                        ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Thread", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                            .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions-Proguard.test-log")))
+                            .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions-Proguard.test-err")))
+                            .start()
+                            .waitFor()
+                        ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                            .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Proguard.test-log")))
+                            .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Proguard.test-err")))
+                            .start()
+                            .waitFor()
+                        File("/tmp/luposdate3000/").deleteRecursively()
+                        ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=persistent", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
+                            .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent-Proguard.test-log")))
+                            .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent-Proguard.test-err")))
+                            .start()
+                            .waitFor()
+                    }
+                }
             }
         }
-    }
-}

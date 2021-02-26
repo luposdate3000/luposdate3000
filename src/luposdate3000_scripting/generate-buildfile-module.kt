@@ -95,6 +95,8 @@ private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map
 }
 
 class CreateModuleArgs() {
+    var enabledFunc: () -> Boolean = { true }
+    var enabledRunFunc: () -> Boolean = { true }
     var moduleName: String = ""
     var moduleFolder: String = ""
     var modulePrefix: String = ""
@@ -119,6 +121,8 @@ class CreateModuleArgs() {
 
     fun clone(): CreateModuleArgs {
         var res = CreateModuleArgs()
+        res.enabledFunc = enabledFunc
+        res.enabledRunFunc = enabledRunFunc
         res.moduleName = moduleName
         res.moduleFolder = moduleFolder
         res.modulePrefix = modulePrefix
@@ -132,6 +136,18 @@ class CreateModuleArgs() {
         res.codegenKAPT = codegenKAPT
         res.codegenKSP = codegenKSP
         res.args = args
+        return res
+    }
+
+    fun ssetEnabledFunc(enabledFunc: () -> Boolean): CreateModuleArgs {
+        val res = clone()
+        res.enabledFunc = enabledFunc
+        return res
+    }
+
+    fun ssetEnabledRunFunc(enabledRunFunc: () -> Boolean): CreateModuleArgs {
+        val res = clone()
+        res.enabledRunFunc = enabledRunFunc
         return res
     }
 

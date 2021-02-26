@@ -1,3 +1,4 @@
 package=Luposdate3000_Triple_Store_Manager
 name=Luposdate3000_Triple_Store_Manager
 enabled=always
+enabledRun=always

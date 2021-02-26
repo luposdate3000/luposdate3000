@@ -1,3 +1,4 @@
 package=Luposdate3000_Main
 name=Luposdate3000_Launch_Binary_Test_Suite
 enabled=always
+enabledRun=mainClass:Binary_Test_Suite

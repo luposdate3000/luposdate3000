@@ -1,3 +1,4 @@
 package=Luposdate3000_Operator_Logical
 name=Luposdate3000_Operator_Logical
 enabled=always
+enabledRun=always

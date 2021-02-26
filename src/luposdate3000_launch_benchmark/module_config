@@ -1,3 +1,4 @@
 package=Luposdate3000_Main
 name=Luposdate3000_Launch_Benchmark
 enabled=always
+enabledRun=mainClass:Benchmark

@@ -1,3 +1,4 @@
 package=Luposdate3000_Optimizer_Logical
 name=Luposdate3000_Optimizer_Logical
 enabled=always
+enabledRun=always

@@ -1,3 +1,4 @@
 package=Luposdate3000_Operator_Factory
 name=Luposdate3000_Operator_Factory
 enabled=always
+enabledRun=always
