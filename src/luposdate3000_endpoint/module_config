@@ -1,1 +1,3 @@
+package=Luposdate3000_Endpoint
 name=Luposdate3000_Endpoint
+enabled=always

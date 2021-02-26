@@ -1,1 +1,3 @@
+package=Luposdate3000_Optimizer_Physical
 name=Luposdate3000_Optimizer_Physical
+enabled=always

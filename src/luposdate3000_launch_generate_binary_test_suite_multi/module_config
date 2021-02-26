@@ -1,1 +1,3 @@
-name=Luposdate3000_Main
+package=Luposdate3000_Main
+name=Luposdate3000_Launch_Generate_Binary_Test_Suite_Multi
+enabled=always

@@ -1,1 +1,3 @@
+package=Luposdate3000_Parser
 name=Luposdate3000_Parser
+enabled=always
