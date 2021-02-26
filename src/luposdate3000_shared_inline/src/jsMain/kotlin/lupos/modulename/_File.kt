@@ -19,7 +19,6 @@ package lupos.modulename
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyInputStream
-import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.NotImplementedException
 
 internal actual class _File {
@@ -56,18 +55,12 @@ internal actual class _File {
     internal actual inline fun openInputStream(): IMyInputStream = throw NotImplementedException("File", "openInputStream not implemented")
     internal actual inline fun walk(crossinline action: (String) -> Unit): Unit = throw NotImplementedException("File", "walk not implemented")
 
-    @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun myPrintWriter(): MyPrintWriter = MyPrintWriter(filename)
-    internal actual inline fun printWriter(crossinline action: (MyPrintWriter) -> Unit) {
-        val printer = MyPrintWriter(filename)
-        try {
-            action(printer)
-        } finally {
-            printer.close()
+    internal actual inline fun forEachLineSuspended(crossinline action: (String) -> Unit) {
+        forEachLine { it ->
+            action(it)
         }
     }
 
-    internal /*suspend*/ actual inline fun withOutputStream(crossinline action: /*suspend*/ (MyPrintWriter) -> Unit): Unit = throw NotImplementedException("File", "withOutputStream not implemented")
     internal actual inline fun forEachLine(crossinline action: (String) -> Unit) {
         val fd = ext.fs.openSync(filename, "r")
         val buffer = ByteArray(8192)
@@ -93,8 +86,6 @@ internal actual class _File {
         ext.fs.closeSync(fd)
     }
 
-    internal /*suspend*/ actual inline fun forEachLineSuspended(crossinline action: /*suspend*/ (String) -> Unit): Unit = throw NotImplementedException("File", "forEachLineSuspended not implemented")
-    internal actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit): Unit = throw NotImplementedException("File", "withOutputStream not implemented")
     internal actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit): Unit = throw NotImplementedException("File", "withOutputStream not implemented")
     internal actual inline fun withInputStream(crossinline action: (IMyInputStream) -> Unit) {
         val fd = ext.fs.openSync(filename, "r")

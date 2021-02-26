@@ -18,14 +18,14 @@ package lupos.s00misc
 
 public actual class MyThreadLock {
     public companion object {
-        var uuidCounter = 0L
+        private var uuidCounter = 0L
     }
 
-    val uuid = uuidCounter++
+    private val uuid = uuidCounter++
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun getUUID() = uuid
-    var locked = false
+    public actual inline fun getUUID(): Long = uuid
+    private var locked: Boolean = false
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun lock() {

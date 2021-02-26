@@ -194,6 +194,9 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                         .ssetCodegenKAPT(kapt)
                     )
                 val dep = mutableSetOf<String>()
+                if (name != "Luposdate3000_Shared") {
+                    dep.add("Luposdate3000_Shared")
+                }
                 dependencyMap[name] = dep
                 for (t in listOf("js", "jvm", "common", "native")) {
                     val f2 = File(filename + "/${t}Dependencies")
@@ -1114,8 +1117,6 @@ fun copyJSLibsIntoFolder(targetFolder: String) {
 }
 
 fun onSetupJS() {
-    onCompile()
-    copyJSLibsIntoFolder("build-cache")
     File("build-cache${Platform.getPathSeparator()}index.html").printWriter().use { out ->
         out.println("<!DOCTYPE html>")
         out.println("<html lang=\"en\">")
@@ -1143,6 +1144,8 @@ fun onSetupJS() {
         out.println("</body>")
         out.println("</html>")
     }
+    copyJSLibsIntoFolder("build-cache")
+    onCompile()
 }
 
 fun find(path: String, fName: String): File? {

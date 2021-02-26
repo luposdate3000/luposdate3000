@@ -1,3 +1,7 @@
+luposdate3000:Luposdate3000_Operator_Arithmetik:0.0.1
+luposdate3000:Luposdate3000_Operator_Physical:0.0.1
+luposdate3000:Luposdate3000_Operator_Base:0.0.1
+luposdate3000:Luposdate3000_Operator_Logical:0.0.1
 luposdate3000:Luposdate3000_Dictionary_Inmemory:0.0.1
 luposdate3000:Luposdate3000_Jena_Wrapper_Off:0.0.1
 luposdate3000:Luposdate3000_Operator_Factory:0.0.1
