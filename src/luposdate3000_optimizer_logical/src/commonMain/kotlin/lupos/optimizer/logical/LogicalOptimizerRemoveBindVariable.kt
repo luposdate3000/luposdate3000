@@ -31,7 +31,7 @@ public class LogicalOptimizerRemoveBindVariable(query: Query) : OptimizerBase(qu
                 if (exp is AOPVariable) {
                     val provided = node.getProvidedVariableNames()
                     if (!provided.contains(exp.name)) {
-                        node.replaceVariableWithAnother(child.getChildren()[0], exp.name, child.name.name, child, 0)
+                        child.getChildren()[0].replaceVariableWithAnother(exp.name, child.name.name, child, 0)
                         node.getChildren()[0] = child.getChildren()[0]
                         onChange()
                     }

@@ -39,14 +39,14 @@ public class LogicalOptimizerFilterEQ(query: Query) : OptimizerBase(query, EOpti
                         /* child may only be a triple, if_ both variables are from the same triple - which leads to errors if_ those are inlined */
                         res = if (parent != null) {
                             if (parent is LOPProjection && parent.variables.map { it.name }.contains(v1.name)) {
-                                node.replaceVariableWithAnother(node.getChildren()[0], v2.name, v1.name, node, 0)
+                                node.getChildren()[0].replaceVariableWithAnother(v2.name, v1.name, node, 0)
                                 LOPBind(query, v2, v1, node.getChildren()[0])
                             } else {
-                                node.replaceVariableWithAnother(node.getChildren()[0], v1.name, v2.name, node, 0)
+                                node.getChildren()[0].replaceVariableWithAnother(v1.name, v2.name, node, 0)
                                 LOPBind(query, v1, v2, node.getChildren()[0])
                             }
                         } else {
-                            node.replaceVariableWithAnother(node.getChildren()[0], v1.name, v2.name, node, 0)
+                            node.getChildren()[0].replaceVariableWithAnother(v1.name, v2.name, node, 0)
                             LOPBind(query, v1, v2, node.getChildren()[0])
                         }
                         onChange()

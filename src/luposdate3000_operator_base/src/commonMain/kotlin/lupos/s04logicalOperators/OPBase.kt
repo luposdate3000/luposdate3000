@@ -30,24 +30,19 @@ import lupos.s00misc.SortHelper
 import lupos.s00misc.ToSparqlNotImplementedException
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallExists
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
+import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.multiinput.LOPJoin_Helper
 import lupos.s04logicalOperators.singleinput.LOPNOOP
-import lupos.s04logicalOperators.singleinput.LOPProjection
-import lupos.s04logicalOperators.singleinput.LOPSort
-import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
-import lupos.s09physicalOperators.singleinput.POPSort
 import kotlin.jvm.JvmField
 
-public abstract class OPBase public constructor(@JvmField public val query: IQuery, @JvmField public val operatorID: EOperatorID, @JvmField public val classname: String, @JvmField public val children: Array<IOPBase>, private val sortPriority: ESortPriority) : IOPBase {
+public abstract class OPBase public constructor(
+    @JvmField public val query: IQuery,
+    @JvmField public val operatorID: EOperatorID,
+    @JvmField public val classname: String,
+    @JvmField public val children: Array<IOPBase>,
+    private val sortPriority: ESortPriority
+) : IOPBase {
     override fun getClassname(): String = classname
 
     @JvmField
@@ -286,40 +281,12 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
             throw Exception("this should be overriden by the corresponding clazz")
         } else if (sortPriority == ESortPriorityExt.PREVENT_ANY || sortPriority == ESortPriorityExt.UNION) {
         } else if (sortPriority == ESortPriorityExt.SORT) {
-            val requiredVariables = mutableListOf<String>()
-            var sortType = ESortTypeExt.ASC
-            when (this) {
-                is LOPSortAny -> {
-                    res.add(this.possibleSortOrder)
-                }
-                is LOPSort -> {
-                    if (!this.asc) {
-                        sortType = ESortTypeExt.DESC
-                    }
-                    requiredVariables.add(this.by.name)
-                }
-                is POPSort -> {
-                    if (!this.sortOrder) {
-                        sortType = ESortTypeExt.DESC
-                    }
-                    for (v in this.sortBy) {
-                        requiredVariables.add(v.name)
-                    }
-                }
-                else -> {
-                    SanityCheck.checkUnreachable()
-                }
-            }
-            val tmp = mutableListOf<SortHelper>()
-            for (v in requiredVariables) {
-                tmp.add(SortHelper(v, sortType))
-            }
-            res.add(tmp)
+            throw Exception("this should be overriden by the corresponding clazz")
         } else if (sortPriority == ESortPriorityExt.JOIN) {
             val resTmp = Array(2) { mutableListOf<List<SortHelper>>() }
             val childA = children[0]
             val childB = children[1]
-            val columns = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
+            val columns = LOPJoin_Helper.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
             val provided = getProvidedVariableNames()
             for (child in 0 until 2) {
                 for (x in children[child].getPossibleSortPriorities()) {
@@ -381,62 +348,31 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         var global_uuid = 0L
     }
 
-    public fun replaceVariableWithUndef(node: IOPBase, name: String, existsClauses: Boolean): IOPBase {
-        if (!existsClauses && (node is AOPBuildInCallExists || node is AOPBuildInCallNotExists)) {
-            return node
+    public open override fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase {
+        for (i in this.getChildren().indices) {
+            this.getChildren()[i] = this.getChildren()[i].replaceVariableWithUndef(name, existsClauses)
         }
-        if (node is AOPVariable && node.name == name) {
-            return AOPConstant(query, ResultSetDictionaryExt.undefValue2)
-        }
-        for (i in node.getChildren().indices) {
-            node.getChildren()[i] = replaceVariableWithUndef(node.getChildren()[i], name, existsClauses)
-        }
-        return node
+        return this
     }
 
-    override fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String): IOPBase {
-        val tmp = LOPNOOP(node.getQuery(), node)
-        return replaceVariableWithAnother(node, name, name2, tmp, 0)
+    override fun replaceVariableWithAnother(name: String, name2: String): IOPBase {
+        val tmp = LOPNOOP(this.getQuery(), this)
+        return replaceVariableWithAnother(name, name2, tmp, 0)
     }
 
-    public fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-        SanityCheck.check { parent.getChildren()[parentIdx] == node }
-        if (node is LOPBind && node.name.name == name) {
-            val exp = node.getChildren()[1]
-            if (exp is AOPVariable) {
-                replaceVariableWithAnother(node.getChildren()[0], exp.name, node.name.name, node, 0)
-                parent.getChildren()[parentIdx] = node.getChildren()[0]
-            } else {
-                parent.getChildren()[parentIdx] = LOPBind(query, AOPVariable(query, name2), node.getChildren()[1] as AOPBase, node.getChildren()[0])
-            }
-            return replaceVariableWithAnother(parent.getChildren()[parentIdx], name, name2, parent, parentIdx)
-        } else if (node is LOPProjection) {
-            for (i in 0 until node.variables.size) {
-                if (node.variables[i].name == name) {
-                    node.variables[i] = AOPVariable(query, name2)
-                }
-            }
-        } else if (node is LOPSort) {
-            if (node.by.name == name) {
-                node.by = AOPVariable(query, name2)
-            }
-        } else if (node is AOPVariable && node.name == name) {
-            return AOPVariable(query, name2)
+    public open override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
+        SanityCheck.check { parent.getChildren()[parentIdx] == this }
+        for (i in this.getChildren().indices) {
+            this.getChildren()[i] = this.getChildren()[i].replaceVariableWithAnother(name, name2, this, i)
         }
-        for (i in node.getChildren().indices) {
-            node.getChildren()[i] = replaceVariableWithAnother(node.getChildren()[i], name, name2, node, i)
-        }
-        return node
+        return this
     }
 
-    public fun replaceVariableWithConstant(node: IOPBase, name: String, value: Int): IOPBase {
-        if (node is AOPVariable && node.name == name) {
-            return AOPConstant(query, value)
+    public open override fun replaceVariableWithConstant(name: String, value: Int): IOPBase {
+        for (i in this.getChildren().indices) {
+            this.getChildren()[i] = this.getChildren()[i].replaceVariableWithConstant(name, value)
         }
-        for (i in node.getChildren().indices) {
-            node.getChildren()[i] = replaceVariableWithConstant(node.getChildren()[i], name, value)
-        }
-        return node
+        return this
     }
 
     override fun toString(): String = Parallel.runBlocking { toXMLElement(false).toPrettyString() }
@@ -473,18 +409,18 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         return toXMLElementHelper(partial, false)
     }
 
-    public /*suspend*/ fun toXMLElementHelper(partial: Boolean, excludeChildren: Boolean): XMLElement {
+    public open /*suspend*/ fun toXMLElementHelper(partial: Boolean, excludeChildren: Boolean): XMLElement {
         val res = XMLElement(classname)
         try {
             res.addAttribute("uuid", "" + uuid)
-            if (this !is AOPBase) {
+            if (this !is IAOPBase) {
                 res.addAttribute("providedVariables", getProvidedVariableNames().toString())
                 res.addAttribute("providedSort", getPossibleSortPriorities().toString())
                 res.addAttribute("filteredSort", sortPriorities.toString())
                 res.addAttribute("selectedSort", mySortPriority.toString())
                 res.addAttribute("existOnly", "" + onlyExistenceRequired)
             }
-            if (this is LOPBase) {
+            if (this is ILOPBase) {
                 try {
                     val h = getHistogram()
                     res.addAttribute("histogram", "${h.count} - ${h.values}")
@@ -507,7 +443,7 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         return res
     }
 
-    internal /*suspend*/ fun childrenToXML(partial: Boolean): XMLElement {
+    public /*suspend*/ fun childrenToXML(partial: Boolean): XMLElement {
         val res = XMLElement("children")
         for (c in children) {
             res.addContent(c.toXMLElement(partial))
@@ -515,7 +451,7 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         return res
     }
 
-    public fun syntaxVerifyAllVariableExistsAutocorrect() {
+    public open fun syntaxVerifyAllVariableExistsAutocorrect() {
         for (name in getRequiredVariableNames()) {
             var found = false
             for (prov in getProvidedVariableNames()) {
@@ -525,8 +461,7 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
                 }
             }
             if (!found) {
-                SanityCheck.check { this is LOPBind || this is LOPFilter }
-                children[1] = replaceVariableWithUndef(children[1], name, false)
+                throw Exception("this should be unreachable")
             }
         }
     }
@@ -564,4 +499,6 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         }
         return this
     }
+
+    public open override fun changePartitionID(idFrom: Int, idTo: Int): Unit = throw Exception("this should be unreachable")
 }

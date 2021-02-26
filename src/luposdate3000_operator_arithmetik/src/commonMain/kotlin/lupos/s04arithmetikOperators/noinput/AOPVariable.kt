@@ -65,4 +65,35 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
             }
         }
     }
+
+    public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
+        SanityCheck.check { parent.getChildren()[parentIdx] == this }
+        if (this.name == name) {
+            return AOPVariable(query, name2)
+        }
+        for (i in this.getChildren().indices) {
+            this.getChildren()[i] = this.getChildren()[i].replaceVariableWithAnother(name, name2, this, i)
+        }
+        return this
+    }
+
+    public override fun replaceVariableWithConstant(name: String, value: Int): IOPBase {
+        if (this.name == name) {
+            return AOPConstant(query, value)
+        }
+        for (i in this.getChildren().indices) {
+            this.getChildren()[i] = this.getChildren()[i].replaceVariableWithConstant(name, value)
+        }
+        return this
+    }
+
+    public override fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase {
+        if (this.name == name) {
+            return AOPConstant(query, ResultSetDictionaryExt.undefValue2)
+        }
+        for (i in this.getChildren().indices) {
+            this.getChildren()[i] = this.getChildren()[i].replaceVariableWithUndef(name, existsClauses)
+        }
+        return this
+    }
 }

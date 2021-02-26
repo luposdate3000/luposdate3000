@@ -35,6 +35,10 @@ import kotlin.jvm.JvmField
 
 // http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
 public class POPMergePartitionOrderedByIntId public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCount: Int, @JvmField public var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPMergePartitionOrderedByIntIdID, "POPMergePartitionOrderedByIntId", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+    public override fun changePartitionID(idFrom: Int, idTo: Int) {
+        root.partitionID = idTo
+    }
+
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
             1

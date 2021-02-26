@@ -39,4 +39,19 @@ public class LOPFilter public constructor(query: IQuery, filter: AOPBase, child:
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
         return children[0].getHistogram()
     }
+
+    public override fun syntaxVerifyAllVariableExistsAutocorrect() {
+        for (name in getRequiredVariableNames()) {
+            var found = false
+            for (prov in getProvidedVariableNames()) {
+                if (prov == name) {
+                    found = true
+                    break
+                }
+            }
+            if (!found) {
+                children[1] = children[1].replaceVariableWithUndef(name, false)
+            }
+        }
+    }
 }

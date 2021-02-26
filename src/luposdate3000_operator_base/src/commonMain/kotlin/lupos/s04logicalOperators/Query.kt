@@ -22,12 +22,6 @@ import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s05tripleStore.tripleStoreManager
-import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPMergePartition
-import lupos.s09physicalOperators.partition.POPMergePartitionCount
-import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPSplitPartition
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.shared.optimizer.distributedOptimizerQueryFactory
 import kotlin.jvm.JvmField
 
@@ -128,24 +122,7 @@ public class Query public constructor(@JvmField public var dictionary: IResultSe
 
     private fun changeID(root: IOPBase, list: Set<Long>, idFrom: Int, idTo: Int) {
         if (list.contains(root.getUUID())) {
-            when (root) {
-                is POPMergePartitionCount -> root.partitionID = idTo
-                is POPMergePartition -> root.partitionID = idTo
-                is POPMergePartitionOrderedByIntId -> root.partitionID = idTo
-                is POPSplitPartitionFromStore -> root.partitionID = idTo
-                is POPSplitPartition -> root.partitionID = idTo
-                is POPChangePartitionOrderedByIntId -> {
-                    if (root.partitionIDFrom == idFrom) {
-                        root.partitionIDFrom = idTo
-                    } else {
-                        SanityCheck.check { root.partitionIDTo == idFrom }
-                        root.partitionIDTo = idTo
-                    }
-                }
-                else -> {
-                    SanityCheck.checkUnreachable()
-                }
-            }
+            root.changePartitionID(idFrom, idTo)
         }
         for (c in root.getChildren()) {
             changeID(c, list, idFrom, idTo)

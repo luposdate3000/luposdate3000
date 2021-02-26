@@ -18,6 +18,7 @@ package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -54,5 +55,38 @@ public class LOPBind public constructor(query: IQuery, @JvmField public val name
         }
         res.values[name.name] = distinct
         return res
+    }
+
+    public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
+        SanityCheck.check { parent.getChildren()[parentIdx] == this }
+        if (this.name.name == name) {
+            val exp = this.getChildren()[1]
+            if (exp is AOPVariable) {
+                this.getChildren()[0].replaceVariableWithAnother(exp.name, this.name.name, this, 0)
+                parent.getChildren()[parentIdx] = this.getChildren()[0]
+            } else {
+                parent.getChildren()[parentIdx] = LOPBind(query, AOPVariable(query, name2), this.getChildren()[1] as AOPBase, this.getChildren()[0])
+            }
+            return parent.getChildren()[parentIdx].replaceVariableWithAnother(name, name2, parent, parentIdx)
+        }
+        for (i in this.getChildren().indices) {
+            this.getChildren()[i] = this.getChildren()[i].replaceVariableWithAnother(name, name2, this, i)
+        }
+        return this
+    }
+
+    public override fun syntaxVerifyAllVariableExistsAutocorrect() {
+        for (name in getRequiredVariableNames()) {
+            var found = false
+            for (prov in getProvidedVariableNames()) {
+                if (prov == name) {
+                    found = true
+                    break
+                }
+            }
+            if (!found) {
+                children[1] = children[1].replaceVariableWithUndef(name, false)
+            }
+        }
     }
 }

@@ -18,6 +18,7 @@ package lupos.s04logicalOperators.singleinput.modifiers
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
+import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.SortHelper
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
@@ -31,5 +32,18 @@ public class LOPSortAny public constructor(query: IQuery, @JvmField public val p
     override fun cloneOP(): IOPBase = LOPSortAny(query, possibleSortOrder, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
         return children[0].getHistogram()
+    }
+
+    override fun getPossibleSortPriorities(): List<List<SortHelper>> {
+        val res = mutableListOf<List<SortHelper>>()
+        val requiredVariables = mutableListOf<String>()
+        var sortType = ESortTypeExt.ASC
+        res.add(this.possibleSortOrder)
+        val tmp = mutableListOf<SortHelper>()
+        for (v in requiredVariables) {
+            tmp.add(SortHelper(v, sortType))
+        }
+        res.add(tmp)
+        return res
     }
 }

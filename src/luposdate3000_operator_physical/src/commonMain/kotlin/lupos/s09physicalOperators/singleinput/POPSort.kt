@@ -91,6 +91,24 @@ public class POPSort public constructor(query: IQuery, projectedVariables: List<
         return res
     }
 
+    override fun getPossibleSortPriorities(): List<List<SortHelper>> {
+        val res = mutableListOf<List<SortHelper>>()
+        val requiredVariables = mutableListOf<String>()
+        var sortType = ESortTypeExt.ASC
+        if (!this.sortOrder) {
+            sortType = ESortTypeExt.DESC
+        }
+        for (v in this.sortBy) {
+            requiredVariables.add(v.name)
+        }
+        val tmp = mutableListOf<SortHelper>()
+        for (v in requiredVariables) {
+            tmp.add(SortHelper(v, sortType))
+        }
+        res.add(tmp)
+        return res
+    }
+
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val child = children[0].evaluate(parent)
         val variablesOut = getProvidedVariableNames()

@@ -31,4 +31,13 @@ public class AOPBuildInCallExists public constructor(query: IQuery, @JvmField pu
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition = throw EvaluateNotImplementedException(classname)
     override fun enforcesBooleanOrError(): Boolean = true
     override fun cloneOP(): IOPBase = AOPBuildInCallExists(query, children[0].cloneOP())
+    public override fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase {
+        if (!existsClauses) {
+            return this
+        }
+        for (i in this.getChildren().indices) {
+            this.getChildren()[i] = this.getChildren()[i].replaceVariableWithUndef(name, existsClauses)
+        }
+        return this
+    }
 }

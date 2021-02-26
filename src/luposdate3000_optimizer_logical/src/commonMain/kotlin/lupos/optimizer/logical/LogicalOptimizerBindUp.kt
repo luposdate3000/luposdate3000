@@ -50,7 +50,7 @@ public class LogicalOptimizerBindUp(query: Query) : OptimizerBase(query, EOptimi
             if (child0 is LOPBind) {
                 val child01 = child0.getChildren()[1]
                 if (child01 is AOPConstant) {
-                    node.replaceVariableWithConstant(node.getChildren()[1], child0.name.name, child01.value)
+                    node.getChildren()[1].replaceVariableWithConstant(child0.name.name, child01.value)
                     node.getChildren()[0] = child0.getChildren()[0]
                     child0.getChildren()[0] = node
                     res = child0

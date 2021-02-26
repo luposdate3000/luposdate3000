@@ -18,6 +18,9 @@ package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
+import lupos.s00misc.ESortTypeExt
+import lupos.s00misc.SanityCheck
+import lupos.s00misc.SortHelper
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.HistogramResult
@@ -51,5 +54,32 @@ public class LOPSort public constructor(query: IQuery, @JvmField public val asc:
     override fun cloneOP(): IOPBase = LOPSort(query, asc, by, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
         return children[0].getHistogram()
+    }
+
+    override fun getPossibleSortPriorities(): List<List<SortHelper>> {
+        val res = mutableListOf<List<SortHelper>>()
+        val requiredVariables = mutableListOf<String>()
+        var sortType = ESortTypeExt.ASC
+        if (!this.asc) {
+            sortType = ESortTypeExt.DESC
+        }
+        requiredVariables.add(this.by.name)
+        val tmp = mutableListOf<SortHelper>()
+        for (v in requiredVariables) {
+            tmp.add(SortHelper(v, sortType))
+        }
+        res.add(tmp)
+        return res
+    }
+
+    public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
+        SanityCheck.check { parent.getChildren()[parentIdx] == this }
+        if (this.by.name == name) {
+            this.by = AOPVariable(query, name2)
+        }
+        for (i in this.getChildren().indices) {
+            this.getChildren()[i] = this.getChildren()[i].replaceVariableWithAnother(name, name2, this, i)
+        }
+        return this
     }
 }

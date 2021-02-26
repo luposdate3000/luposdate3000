@@ -22,7 +22,9 @@ import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 public interface IOPBase {
-    public fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String): IOPBase
+    public fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase
+    public fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase
+    public fun replaceVariableWithAnother(name: String, name2: String): IOPBase
     public fun getClassname(): String
     public fun toSparql(): String
     /*suspend*/ public fun evaluate(parent: Partition): IteratorBundle
@@ -57,4 +59,6 @@ public interface IOPBase {
     public fun setOnlyExistenceRequired(value: Boolean)
     public /*suspend*/ fun evaluateRoot(): IteratorBundle
     public /*suspend*/ fun evaluateRoot(partition: Partition): IteratorBundle
+    public fun changePartitionID(idFrom: Int, idTo: Int)
+    public fun replaceVariableWithConstant(name: String, value: Int): IOPBase
 }

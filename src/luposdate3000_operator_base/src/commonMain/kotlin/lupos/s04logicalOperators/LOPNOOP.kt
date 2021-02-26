@@ -18,15 +18,17 @@ package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
+import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.LOPBase
+import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 
-public class LOPNOOP public constructor(query: IQuery, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPNOOPID, "LOPNOOP", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
+public class LOPNOOP public constructor(query: IQuery, child: IOPBase) : OPBase(query, EOperatorIDExt.LOPNOOPID, "LOPNOOP", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     public constructor(query: IQuery) : this(query, OPEmptyRow(query))
 
+    override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()
     override fun equals(other: Any?): Boolean = other is LOPNOOP && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPNOOP(query, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {

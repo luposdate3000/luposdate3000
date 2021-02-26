@@ -18,6 +18,7 @@ package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.HistogramResult
@@ -63,5 +64,18 @@ public class LOPProjection public constructor(query: IQuery, @JvmField public va
         }
         res.count = childHistogram.count
         return res
+    }
+
+    public override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
+        SanityCheck.check { parent.getChildren()[parentIdx] == this }
+        for (i in 0 until this.variables.size) {
+            if (this.variables[i].name == name) {
+                this.variables[i] = AOPVariable(query, name2)
+            }
+        }
+        for (i in this.getChildren().indices) {
+            this.getChildren()[i] = this.getChildren()[i].replaceVariableWithAnother(name, name2, this, i)
+        }
+        return this
     }
 }

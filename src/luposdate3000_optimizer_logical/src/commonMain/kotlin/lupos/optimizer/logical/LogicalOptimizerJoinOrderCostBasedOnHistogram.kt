@@ -47,7 +47,7 @@ public object LogicalOptimizerJoinOrderCostBasedOnHistogram {
 // prevent any cross-product without any join-variable - except very last joins, where cross-product is unavoidable
                             val ch0 = nodes[i].getHistogram()
                             val ch1 = nodes[j].getHistogram()
-                            val h2 = LOPJoin.mergeHistograms(ch0, ch1, false)
+                            val h2 = LOPJoin_Helper.mergeHistograms(ch0, ch1, false)
                             var r2 = h2.count.toDouble() / (ch0.count.toDouble() * ch1.count.toDouble())
                             if (nodes[i] is LOPTriple) {
                                 r2 *= p0.size.toDouble() * 0.3 // prefer triples with many constants first

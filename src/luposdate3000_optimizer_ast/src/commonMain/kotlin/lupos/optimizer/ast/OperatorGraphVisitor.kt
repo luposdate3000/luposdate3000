@@ -374,15 +374,15 @@ public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<I
 
     override fun visit(node: ASTDescribeQuery, childrenValues: List<IOPBase>): IOPBase {
         var child = visitSelectBase(node, node.select, false, false)
-        child = child.replaceVariableWithAnother(child, "s", query.getUniqueVariableName())
-        child = child.replaceVariableWithAnother(child, "p", query.getUniqueVariableName())
-        child = child.replaceVariableWithAnother(child, "o", query.getUniqueVariableName())
+        child = child.replaceVariableWithAnother("s", query.getUniqueVariableName())
+        child = child.replaceVariableWithAnother("p", query.getUniqueVariableName())
+        child = child.replaceVariableWithAnother("o", query.getUniqueVariableName())
         var res: IOPBase? = null
         for (v in child.getProvidedVariableNames()) {
             val tmp5 = child.cloneOP()
-            val tmp1 = LOPProjection(query, mutableListOf(AOPVariable(query, "s")), tmp5.replaceVariableWithAnother(tmp5, v, "s"))
-            val tmp2 = LOPProjection(query, mutableListOf(AOPVariable(query, "p")), tmp5.replaceVariableWithAnother(tmp5, v, "p"))
-            val tmp3 = LOPProjection(query, mutableListOf(AOPVariable(query, "o")), tmp5.replaceVariableWithAnother(tmp5, v, "o"))
+            val tmp1 = LOPProjection(query, mutableListOf(AOPVariable(query, "s")), tmp5.replaceVariableWithAnother(v, "s"))
+            val tmp2 = LOPProjection(query, mutableListOf(AOPVariable(query, "p")), tmp5.replaceVariableWithAnother(v, "p"))
+            val tmp3 = LOPProjection(query, mutableListOf(AOPVariable(query, "o")), tmp5.replaceVariableWithAnother(v, "o"))
             val tmp4 = LOPUnion(
                 query,
                 LOPUnion(
@@ -428,7 +428,7 @@ public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<I
         for (selected in names) {
             if (provided.contains(selected)) {
                 val tmp = query.getUniqueVariableName()
-                mychild = mychild.replaceVariableWithAnother(mychild, selected, tmp)
+                mychild = mychild.replaceVariableWithAnother(selected, tmp)
                 for (i in 0 until templates.size) {
                     if (templates[i].second && templates[i].first == selected) {
                         templates[i] = Pair(tmp, true)
@@ -442,7 +442,7 @@ public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<I
             for (name in 0 until 3) {
                 val tmp2 = templates[i * 3 + name]
                 tmp = if (tmp2.second) {
-                    tmp.replaceVariableWithAnother(tmp, tmp2.first as String, names[name])
+                    tmp.replaceVariableWithAnother(tmp2.first as String, names[name])
                 } else {
                     LOPBind(query, AOPVariable(query, names[name]), tmp2.first as AOPConstant, tmp)
                 }

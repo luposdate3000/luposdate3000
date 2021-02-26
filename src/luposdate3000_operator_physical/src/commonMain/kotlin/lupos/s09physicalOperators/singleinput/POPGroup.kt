@@ -153,7 +153,7 @@ public class POPGroup : POPBase {
                             }
                         }
                         for (b in bindings.indices) {
-                            bindings[b] = Pair(bindings[b].first, replaceVariableWithUndef(bindings[b].second, name, true) as AOPBase)
+                            bindings[b] = Pair(bindings[b].first, bindings[b].second.replaceVariableWithUndef(name, true) as AOPBase)
                         }
                     }
                 }

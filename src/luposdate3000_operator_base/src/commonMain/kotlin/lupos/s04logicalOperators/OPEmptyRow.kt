@@ -14,23 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s04logicalOperators.multiinput
+package lupos.s04logicalOperators.noinput
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.XMLElement
+import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.LOPBase
-import kotlin.jvm.JvmField
+import lupos.s04logicalOperators.OPBase
 
-public class LOPJoin public constructor(query: IQuery, first: IOPBase, second: IOPBase, @JvmField public val optional: Boolean) : LOPBase(query, EOperatorIDExt.LOPJoinID, "LOPJoin", arrayOf(first, second), ESortPriorityExt.JOIN) {
-    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("optional", "" + optional)
-    override fun equals(other: Any?): Boolean = other is LOPJoin && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
-    override fun cloneOP(): IOPBase = LOPJoin(query, children[0].cloneOP(), children[1].cloneOP(), optional)
-
+public class OPEmptyRow public constructor(query: IQuery) : OPBase(query, EOperatorIDExt.OPEmptyRowID, "OPEmptyRow", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
+    override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()
+    override fun toSparql(): String = "{}"
+    override fun equals(other: Any?): Boolean = other is OPEmptyRow
+    override fun cloneOP(): IOPBase = this
     override /*suspend*/ fun calculateHistogram(): HistogramResult {
-        return LOPJoin_Helper.mergeHistograms(children[0].getHistogram(), children[1].getHistogram(), optional)
+        val res = HistogramResult()
+        res.count = 1
+        return res
     }
 }

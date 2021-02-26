@@ -33,7 +33,7 @@ public abstract class ColumnIteratorChildIterator : ColumnIterator() {
     public var label: Int = 1
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun addChildColumnIteratorValue(value: Int) {
+    public inline fun addChildColumnIteratorValue(value: Int) {
         val res = ColumnIteratorValue()
         res.value = value
         res.done = false
@@ -41,7 +41,7 @@ public abstract class ColumnIteratorChildIterator : ColumnIterator() {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun addChild(child: ColumnIterator) {
+    public inline fun addChild(child: ColumnIterator) {
         if (queueRead == queueWrite) {
             queueRead = 0
             queueWrite = 0
@@ -61,19 +61,19 @@ public abstract class ColumnIteratorChildIterator : ColumnIterator() {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun closeOnNoMoreElements() {
+    public inline fun closeOnNoMoreElements() {
         if (label != 0) {
             label = 2
         }
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun releaseValue(obj: ColumnIterator) {
+    public inline fun releaseValue(obj: ColumnIterator) {
         obj.close()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun _close() {
+    /*suspend*/ public inline fun _close() {
         if (label != 0) {
             label = 0
             for (i in queueRead until queueWrite) {
@@ -82,7 +82,7 @@ public abstract class ColumnIteratorChildIterator : ColumnIterator() {
         }
     }
 
-    /*suspend*/ internal inline fun nextHelper(crossinline onNoMoreElements: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): Int {
+    /*suspend*/ public inline fun nextHelper(crossinline onNoMoreElements: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): Int {
         when (label) {
             1 -> {
                 while (queueRead < queueWrite) {
