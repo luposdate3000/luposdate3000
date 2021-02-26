@@ -240,7 +240,7 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
         return sortPriorities.size < 1
     }
 
-    override fun getPossibleSortPriorities(): List<List<SortHelper>> {
+    open override fun getPossibleSortPriorities(): List<List<SortHelper>> {
         /*possibilities for_ next operator*/
         val res = mutableListOf<List<SortHelper>>()
         if (sortPriority == ESortPriorityExt.ANY_PROVIDED_VARIABLE) {

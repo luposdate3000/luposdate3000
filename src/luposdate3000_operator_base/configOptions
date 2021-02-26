@@ -1,0 +1,2 @@
+ITERATOR_DEBUG_MODE,internal val,lupos.s00misc.EPOPDebugMode,lupos.s00misc.EPOPDebugModeExt.NONE
+MERGE_SORT_MIN_ROWS,const internal val,Int,128
