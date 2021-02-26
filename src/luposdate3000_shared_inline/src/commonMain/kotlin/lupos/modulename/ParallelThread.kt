@@ -16,6 +16,8 @@
  */
 package lupos.modulename
 
+import lupos.s00misc.ParallelThreadJob
+
 internal expect object ParallelThread {
     internal inline fun <T> runBlocking(crossinline action: () -> T): T
     internal inline fun launch(crossinline action: () -> Unit): ParallelThreadJob

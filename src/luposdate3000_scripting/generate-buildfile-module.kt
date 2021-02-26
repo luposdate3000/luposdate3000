@@ -721,10 +721,10 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.${moduleArgs.moduleName}.MyCoroutineReadWriteLock")
         } else {
             typeAliasAll["Parallel"] = Pair("Parallel", "lupos.${moduleArgs.moduleName}.ParallelThread")
-            typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.${moduleArgs.moduleName}.ParallelThreadJob")
+            typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.s00misc.ParallelThreadJob")
             typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.${moduleArgs.moduleName}.ParallelThreadCondition")
             typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.${moduleArgs.moduleName}.ParallelThreadQueue<T>")
-            typeAliasAll["MyLock"] = Pair("MyLock", "lupos.${moduleArgs.moduleName}.MyThreadLock")
+            typeAliasAll["MyLock"] = Pair("MyLock", "lupos.s00misc.MyThreadLock")
             typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.${moduleArgs.moduleName}.MyThreadReadWriteLock")
         }
 // selectively copy classes which are inlined from the inline internal module ->

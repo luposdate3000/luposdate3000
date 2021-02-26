@@ -14,13 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.modulename
+package lupos.s00misc
 
-import kotlin.jvm.JvmField
-
-internal actual class ParallelThreadJob(action: () -> Unit) {
-    @JvmField
-    val myThread = Thread { action() }
-    actual fun join() = myThread.join()
-    actual fun start() = myThread.start()
+public actual class ParallelThreadJob {
+    public actual fun join(): Unit = throw Exception("not implemented")
+    public actual fun start(): Unit = throw Exception("not implemented")
 }

@@ -32,7 +32,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.s04logicalOperators.multiinput.LOPJoin_Helper
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 
@@ -63,7 +63,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
 
     override fun equals(other: Any?): Boolean = other is POPJoinCartesianProduct && optional == other.optional && children[0] == other.children[0] && children[1] == other.children[1]
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
+        val columns = LOPJoin_Helper.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
         SanityCheck {
             for (v in children[0].getProvidedVariableNames()) {
                 getPartitionCount(v)

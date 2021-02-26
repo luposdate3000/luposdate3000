@@ -14,12 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.modulename
+package lupos.s00misc
 
-internal expect class MyThreadLock() {
-    internal inline fun getUUID(): Long
-    internal inline fun lock()
-    internal inline fun unlock()
-    internal inline fun tryLock(): Boolean
-    internal inline fun <T> withLock(crossinline action: () -> T): T
+public actual class ParallelThreadJob(action: () -> Unit) {
+    private val myThread = Thread { action() }
+    public actual fun join(): Unit = myThread.join()
+    public actual fun start(): Unit = myThread.start()
 }

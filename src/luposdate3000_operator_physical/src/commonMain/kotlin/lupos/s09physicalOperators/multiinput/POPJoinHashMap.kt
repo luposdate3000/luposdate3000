@@ -27,7 +27,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.s04logicalOperators.multiinput.LOPJoin_Helper
 import lupos.s09physicalOperators.MapKey
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
@@ -61,7 +61,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
 // --- obtain child columns
-        val columns = LOPJoin.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
+        val columns = LOPJoin_Helper.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
         SanityCheck {
             for (v in children[0].getProvidedVariableNames()) {
                 getPartitionCount(v)

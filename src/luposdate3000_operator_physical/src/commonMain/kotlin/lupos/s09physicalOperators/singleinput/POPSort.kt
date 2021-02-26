@@ -18,8 +18,10 @@ package lupos.s09physicalOperators.singleinput
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
+import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.SortHelper
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueComparatorASC
 import lupos.s03resultRepresentation.ValueComparatorDESC

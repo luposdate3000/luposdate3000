@@ -30,7 +30,7 @@ import kotlin.jvm.JvmField
 
 public class POPMergePartitionCount public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCount: Int, @JvmField public var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPMergePartitionCountID, "POPMergePartitionCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     public override fun changePartitionID(idFrom: Int, idTo: Int) {
-        root.partitionID = idTo
+        partitionID = idTo
     }
 
     override fun getPartitionCount(variable: String): Int {

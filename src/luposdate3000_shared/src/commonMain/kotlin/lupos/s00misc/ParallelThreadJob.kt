@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.modulename
+package lupos.s00misc
 
-internal actual class ParallelThreadJob {
-    actual fun join(): Unit = throw Exception("not implemented")
-    actual fun start(): Unit = throw Exception("not implemented")
+public expect class ParallelThreadJob {
+    public fun join()
+    public fun start()
 }

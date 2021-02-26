@@ -14,23 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.modulename
+package lupos.s00misc
 
-import lupos.s00misc.SanityCheck
-
-internal actual class MyThreadLock {
-    internal companion object {
+public actual class MyThreadLock {
+    public companion object {
         var uuidCounter = 0L
     }
 
     val uuid = uuidCounter++
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getUUID() = uuid
+    public actual inline fun getUUID() = uuid
     var locked = false
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun lock() {
+    public actual inline fun lock() {
         SanityCheck {
             if (locked) {
                 throw Exception("deadlock")
@@ -40,7 +38,7 @@ internal actual class MyThreadLock {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun unlock() {
+    public actual inline fun unlock() {
         SanityCheck {
             if (!locked) {
                 throw Exception("unlock without previous lock")
@@ -50,7 +48,7 @@ internal actual class MyThreadLock {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun tryLock(): Boolean {
+    public actual inline fun tryLock(): Boolean {
         SanityCheck {
             if (locked) {
                 throw Exception("deadlock")
@@ -60,7 +58,7 @@ internal actual class MyThreadLock {
         return true
     }
 
-    internal actual inline fun <T> withLock(crossinline action: () -> T): T {
+    public actual inline fun <T> withLock(crossinline action: () -> T): T {
         lock()
         try {
             return action()

@@ -25,6 +25,6 @@ import kotlin.jvm.JvmField
 public class PartitionHelper public constructor() {
     @JvmField
     public var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
-    internal var jobs: MutableMap<Partition, ParallelJob>? = null
-    internal val lock = MyLock()
+    public var jobs: MutableMap<Partition, ParallelJob>? = null
+    public val lock: MyLock = MyLock()
 }

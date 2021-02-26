@@ -36,7 +36,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueueEmpty
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.s04logicalOperators.multiinput.LOPJoin_Helper
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
@@ -68,7 +68,7 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
         val outMap = mutableMapOf<String, ColumnIterator>()
         val tmp2 = mutableListOf<String>()
         tmp2.addAll(childA.getProvidedVariableNames())
-        val columnsTmp = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
+        val columnsTmp = LOPJoin_Helper.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
         val localSortPriority = mutableListOf<String>()
         localSortPriority.addAll(childB.mySortPriority.map { it.variableName })
         val paramsHelper = Array<IOPBase>(3) {
