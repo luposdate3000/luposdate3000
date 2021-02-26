@@ -21,6 +21,7 @@ import lupos.s00misc.SortHelper
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.s04logicalOperators.multiinput.LOPJoin_Helper
 import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
@@ -41,7 +42,7 @@ public class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, 
                     onChange()
                 } else {
                     if (child is LOPJoin) {
-                        val columns = LOPJoin.getColumns(child.getChildren()[0].getProvidedVariableNames(), child.getChildren()[1].getProvidedVariableNames())
+                        val columns = LOPJoin_Helper.getColumns(child.getChildren()[0].getProvidedVariableNames(), child.getChildren()[1].getProvidedVariableNames())
                         val variables = mutableListOf<String>()
                         variables.addAll(columns[0])
                         variables.addAll(columns[1])

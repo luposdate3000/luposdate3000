@@ -23,6 +23,7 @@ import lupos.s00misc.Partition
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.s04logicalOperators.multiinput.LOPJoin_Helper
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s05tripleStore.POPTripleStoreIterator
@@ -106,7 +107,7 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
         if (node is LOPJoin) {
             val childA = node.children[0]
             val childB = node.children[1]
-            val columns = LOPJoin.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
+            val columns = LOPJoin_Helper.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
             if (columns[0].size == 0) {
                 res = POPJoinCartesianProduct(query, projectedVariables, childA, childB, false)
             } else {
