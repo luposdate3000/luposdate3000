@@ -877,6 +877,7 @@ fun onRun() {
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Buffer_Manager$memoryMode-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Dictionary_Inmemory-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Endpoint-jvm$proguardMode.jar",
+                "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Operator_Base-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Operator_Arithmetik-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Operator_Logical-jvm$proguardMode.jar",
                 "build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}Luposdate3000_Operator_Physical-jvm$proguardMode.jar",
@@ -956,6 +957,7 @@ fun onRun() {
 
             var files = mutableListOf(
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Endpoint.js"),
+                JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Operator_Base.js"),
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Operator_Arithmetik.js"),
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Operator_Logical.js"),
                 JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "Luposdate3000_Operator_Physical.js"),
@@ -1295,6 +1297,7 @@ fun onSetupJS() {
         out.println("    <script src=\"bin$appendix/Luposdate3000_Buffer_Manager_Inmemory/Luposdate3000_Buffer_Manager.js\"></script>")
         out.println("    <script src=\"bin$appendix/Luposdate3000_Dictionary_Inmemory/Luposdate3000_Dictionary.js\"></script>")
         out.println("    <script src=\"bin$appendix/Luposdate3000_Jena_Wrapper_Off/Luposdate3000_Jena_Wrapper.js\"></script>")
+        out.println("    <script src=\"bin$appendix/Luposdate3000_Operator_Base.js\"></script>")
         out.println("    <script src=\"bin$appendix/Luposdate3000_Operator_Arithmetik.js\"></script>")
         out.println("    <script src=\"bin$appendix/Luposdate3000_Operator_Logical.js\"></script>")
         out.println("    <script src=\"bin$appendix/Luposdate3000_Operator_Physical.js\"></script>")
