@@ -78,297 +78,89 @@ fun getAllModuleConfigurations(): List<Pair<CreateModuleArgs, () -> Boolean>> {
         .ssetIdeaBuildfile(intellijMode2)
         .ssetCodegenKSP(false)
         .ssetCodegenKAPT(false)
+    var modules = mutableMapOf<String, Pair<CreateModuleArgs, () -> Boolean>>()
+    val dependencyMap = mutableMapOf<String, Set<String>>()
+    Files.walk(Paths.get("src"), 1).forEach { it ->
+        val filename = it.toString()
+        val f = File(filename + "/module_config")
+        if (f.exists()) {
+            var pkg = ""
+            var name = ""
+            var enabledFunc: () -> Boolean = { true }
+            f.forEachLine { line ->
+                when {
+                    line.startsWith("name=") -> {
+                        name = line.substring("name=".length)
+                    }
+                    line.startsWith("package=") -> {
+                        pkg = line.substring("package=".length)
+                    }
+                    line.startsWith("enabled=") -> {
+                        when (line) {
+                            "enabled=always" -> {
+                                enabledFunc = { true }
+                            }
+                            "enabled=intellijOnly" -> {
+                                enabledFunc = { intellijMode == "Enable" }
+                            }
+                            else -> {
+                                throw Exception("unknown value")
+                            }
+                        }
+                    }
+                    else -> {
+                        throw Exception("unknown value")
+                    }
+                }
+            }
+            if (name.length > 0) {
+                if (pkg == "") {
+                    pkg = name
+                }
+                modules[name] = (
+                    Pair(
+                        localArgs
+                            .ssetModuleName(name, pkg)
+                            .ssetArgs2(compileModuleArgs),
+                        enabledFunc
+                    )
+                    )
+                val dep = mutableSetOf<String>()
+                dependencyMap[name] = dep
+                for (t in listOf("js", "jvm", "common", "native")) {
+                    val f2 = File(filename + "/${t}Dependencies")
+                    if (f2.exists()) {
+                        f2.forEachLine { line ->
+                            if (line.startsWith("luposdate3000:")) {
+                                dep.add(line.substring("luposdate3000:".length, line.lastIndexOf(":")))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     var res = mutableListOf<Pair<CreateModuleArgs, () -> Boolean>>()
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Shared_Inline")
-                .ssetArgs2(compileModuleArgs),
-            { intellijMode == "Enable" }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Scripting")
-                .ssetArgs2(compileModuleArgs),
-            { intellijMode == "Enable" }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Shared")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Jena_Wrapper_On", "Luposdate3000_Jena_Wrapper")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Jena_Wrapper_Off", "Luposdate3000_Jena_Wrapper")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Parser")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Buffer_Manager_Inmemory", "Luposdate3000_Buffer_Manager")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Buffer_Manager_Persistent", "Luposdate3000_Buffer_Manager")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Dictionary_Inmemory", "Luposdate3000_Dictionary")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Operator_Base")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Operator_Arithmetik")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Operator_Logical")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Operator_Physical")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Result_Format", "Luposdate3000_Result_Format", "src${Platform.getPathSeparator()}luposdate3000_result_format")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Triple_Store_Id_Triple")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Triple_Store_Manager")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Operator_Factory")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Optimizer_Ast")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Optimizer_Logical")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Optimizer_Physical")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Optimizer_Distributed_Query")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Endpoint")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Test")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Endpoint_None", "Luposdate3000_Endpoint_Launcher")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Endpoint_Java_Sockets", "Luposdate3000_Endpoint_Launcher")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Code_Generator_KAPT")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Code_Generator_KSP")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Launch_Benchmark", "Luposdate3000_Main")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Launch_Binary_Test_Suite", "Luposdate3000_Main")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Launch_Endpoint", "Luposdate3000_Main")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Launch_Import", "Luposdate3000_Main")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Launch_Sparql_Test_Suite", "Luposdate3000_Main")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Launch_Generate_Binary_Test_Suite_Single", "Luposdate3000_Main")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Launch_Generate_Binary_Test_Suite_Multi", "Luposdate3000_Main")
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Launch_Code_Gen_Example_KAPT", "Luposdate3000_Main")
-                .ssetCodegenKAPT(true)
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
-    res.add(
-        Pair(
-            localArgs
-                .ssetModuleName("Luposdate3000_Launch_Code_Gen_Example_KSP", "Luposdate3000_Main")
-                .ssetCodegenKSP(true)
-                .ssetArgs2(compileModuleArgs),
-            { true }
-        )
-    )
+    val nameSet = mutableSetOf<String>()
+    var changed = true
+    while (changed) {
+        changed = false
+        loop@ for ((k, v) in modules) {
+            if (!nameSet.contains(k)) {
+                for (d in dependencyMap[k]!!) {
+                    if (!nameSet.contains(d)) {
+                        continue@loop
+                    }
+                }
+                changed = true
+                nameSet.add(k)
+                res.add(v)
+            }
+        }
+    }
+    if (res.size != modules.size || res.size != nameSet.size) {
+        throw Exception("something wrong ${modules.keys} ------- $nameSet")
+    }
     return res
 }
 
