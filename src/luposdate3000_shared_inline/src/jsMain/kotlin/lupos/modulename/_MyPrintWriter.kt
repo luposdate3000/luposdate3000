@@ -27,12 +27,6 @@ internal actual open class _MyPrintWriter : IMyOutputStream {
     var file: Int
     var filePos: Int = 0
 
-    constructor(fileName: String) {
-        bufferMode = MyPrintWriterModeExt.FILE
-        this.fileName = fileName
-        file = ext.fs.openSync(fileName, "w")
-    }
-
     actual constructor(hasBuffer: Boolean) {
         if (hasBuffer) {
             bufferMode = MyPrintWriterModeExt.BUFFER
@@ -43,9 +37,6 @@ internal actual open class _MyPrintWriter : IMyOutputStream {
         file = -1
     }
 
-    actual override fun write(buf: ByteArray, len: Int): Unit = throw Exception("not implemented")
-    actual override fun write(buf: ByteArray): Unit = throw Exception("not implemented")
-    public actual override fun writeInt(value: Int): Unit = throw Exception("not implemented")
     actual override fun clearBuffer() {
         if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             buffer.clear()
@@ -116,28 +107,9 @@ internal actual open class _MyPrintWriter : IMyOutputStream {
         }
     }
 
-    actual override fun close() {
-        if (bufferMode == MyPrintWriterModeExt.FILE) {
-            val str = buffer.toString()
-            val buf = str.encodeToByteArray()
-            if (buf.size > 0) {
-                ext.fs.writeSync(file, buf, 0, buf.size, filePos)
-                buffer.clear()
-            }
-            ext.fs.closeSync(file)
-            file = -1
-        }
-    }
-
-    actual override fun flush() {
-        if (bufferMode == MyPrintWriterModeExt.FILE) {
-            val str = buffer.toString()
-            val buf = str.encodeToByteArray()
-            if (buf.size > 0) {
-                ext.fs.writeSync(file, buf, 0, buf.size, filePos)
-                buffer.clear()
-                filePos += buf.size
-            }
-        }
-    }
+    actual override fun write(buf: ByteArray, len: Int): Unit = throw Exception("not supported")
+    actual override fun write(buf: ByteArray): Unit = throw Exception("not supported")
+    public actual override fun writeInt(value: Int): Unit = throw Exception("not supported")
+    actual override fun close(): Unit = throw Exception("not supported")
+    actual override fun flush(): Unit = throw Exception("not supported")
 }

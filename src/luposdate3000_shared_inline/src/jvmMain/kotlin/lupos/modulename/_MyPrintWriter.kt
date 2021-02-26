@@ -32,9 +32,6 @@ internal actual open class _MyPrintWriter : IMyOutputStream {
 
     @JvmField
     val bufferMode: MyPrintWriterMode
-    actual override fun write(buf: ByteArray, len: Int): Unit = throw Exception("not implemented")
-    actual override fun write(buf: ByteArray): Unit = throw Exception("not implemented")
-    public actual override fun writeInt(value: Int): Unit = throw Exception("not implemented")
 
     actual constructor(hasBuffer: Boolean) {
         if (hasBuffer) {
@@ -116,19 +113,9 @@ internal actual open class _MyPrintWriter : IMyOutputStream {
         }
     }
 
-    actual override fun close() {
-        if (bufferMode == MyPrintWriterModeExt.FILE) {
-            printer.close()
-        } else {
-            throw Exception("not supported")
-        }
-    }
-
-    actual override fun flush() {
-        if (bufferMode == MyPrintWriterModeExt.FILE) {
-            printer.flush()
-        } else {
-            throw Exception("not supported")
-        }
-    }
+    actual override fun write(buf: ByteArray, len: Int): Unit = throw Exception("not supported")
+    actual override fun write(buf: ByteArray): Unit = throw Exception("not supported")
+    public actual override fun writeInt(value: Int): Unit = throw Exception("not supported")
+    actual override fun close(): Unit = throw Exception("not supported")
+    actual override fun flush(): Unit = throw Exception("not supported")
 }

@@ -18,6 +18,8 @@ package lupos.s09physicalOperators.partition
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
+import lupos.s00misc.IMyInputStream
+import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -120,8 +122,12 @@ public class POPDistributedReceiveMultiOrdered public constructor(
         var openConnections = 0
         SanityCheck.check { hosts.size == partitionCount }
         val handler = communicationHandler
+        val allConnections = mutableMapOf<String, Pair<IMyInputStream, IMyOutputStream>>()
         for ((k, v) in hosts) {
-            val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))
+            allConnections[k] = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))
+        }
+        for ((k, v) in hosts) {
+            val conn = allConnections[k]!!
             var mapping = IntArray(variables.size)
             val cnt = conn.first.readInt()
             SanityCheck.check({ cnt == variables.size }, { "$cnt vs ${variables.size}" })

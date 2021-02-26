@@ -113,28 +113,48 @@ public class POPDistributedSendMulti public constructor(
         throw Exception("this must not be called !!")
     }
 
-    public fun evaluate(connectionOut: IMyOutputStream, partitionNumber: Int, data: Array<IMyOutputStream?>) {
-        throw Exception("not implemented")
-        SanityCheck.check { partitionNumber >= 0 && partitionNumber < partitionCount }
+    public fun evaluate(data: Array<IMyOutputStream?>) {
         var variables = Array(projectedVariables.size) { "" }
         var i = 0
-        connectionOut.writeInt(variables.size)
-        for (v in projectedVariables) {
-            variables[i++] = v
-            val buf = v.encodeToByteArray()
-            connectionOut.writeInt(buf.size)
-            connectionOut.write(buf)
+        for (connectionOut in data) {
+            connectionOut!!.writeInt(variables.size)
         }
+// the partition column first
+        variables[i++] = partitionVariable
+        val buf2 = partitionVariable.encodeToByteArray()
+        for (connectionOut in data) {
+            connectionOut!!.writeInt(buf2.size)
+            connectionOut!!.write(buf2)
+        }
+// all other columns
+        for (v in projectedVariables) {
+            if (v != partitionVariable) {
+                variables[i++] = v
+                val buf = v.encodeToByteArray()
+                for (connectionOut in data) {
+                    connectionOut!!.writeInt(buf.size)
+                    connectionOut!!.write(buf)
+                }
+            }
+        }
+        SanityCheck.check { i == variables.size }
         var p = Partition()
         val bundle = children[0].evaluate(p)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
         var buf = ResultSetDictionaryExt.nullValue + 1
         while (buf != ResultSetDictionaryExt.nullValue) {
-            for (i in 0 until variables.size) {
+// the partition column
+            buf = columns[0].next()
+            val connectionOut = data[buf % partitionCount]
+            connectionOut!!.writeInt(buf)
+// all other columns
+            for (i in 1 until variables.size) {
                 buf = columns[i].next()
-                connectionOut.writeInt(buf)
+                connectionOut!!.writeInt(buf)
             }
         }
-        connectionOut.flush()
+        for (connectionOut in data) {
+            connectionOut!!.flush()
+        }
     }
 }

@@ -128,6 +128,7 @@ import lupos.s09physicalOperators.noinput.POPValues
 import lupos.s09physicalOperators.partition.POPDistributedReceiveMulti
 import lupos.s09physicalOperators.partition.POPDistributedReceiveMultiOrdered
 import lupos.s09physicalOperators.partition.POPDistributedReceiveSingle
+import lupos.s09physicalOperators.partition.POPDistributedSendMulti
 import lupos.s09physicalOperators.partition.POPDistributedSendSingle
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionCount
@@ -495,6 +496,25 @@ public object XMLElementToOPBase {
                     }
                 }
                 res = POPDistributedSendSingle(
+                    query,
+                    createProjectedVariables(query, node, mapping),
+                    node.attributes["partitionVariable"]!!,
+                    node.attributes["partitionCount"]!!.toInt(),
+                    id,
+                    XMLElementToOPBase(query, node["children"]!!.childs[0], mapping),
+                    hosts
+                )
+                query.addPartitionOperator(res.uuid, id)
+            }
+            "POPDistributedSendMulti" -> {
+                val id = node.attributes["partitionID"]!!.toInt()
+                val hosts = mutableListOf<String>()
+                for (c in node.childs) {
+                    if (c.tag == "partitionDistributionProvideKey") {
+                        hosts.add(c.attributes["key"]!!)
+                    }
+                }
+                res = POPDistributedSendMulti(
                     query,
                     createProjectedVariables(query, node, mapping),
                     node.attributes["partitionVariable"]!!,

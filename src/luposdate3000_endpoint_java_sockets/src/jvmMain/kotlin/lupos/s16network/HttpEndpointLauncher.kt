@@ -41,6 +41,7 @@ import lupos.s09physicalOperators.partition.POPDistributedSendSingle
 import lupos.s11outputResult.EQueryResultToStreamExt
 import java.net.InetSocketAddress
 import java.net.ServerSocket
+import java.net.Socket
 import java.net.URLDecoder
 
 @OptIn(ExperimentalStdlibApi::class)
@@ -64,7 +65,7 @@ public actual object HttpEndpointLauncher {
 
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
 
-    internal class QueryMappingContainer(internal val xml: XMLElement, internal var inputStreams: Array<IMyInputStream?>, internal var outputStreams: Array<IMyOutputStream?>) {
+    internal class QueryMappingContainer(internal val xml: XMLElement, internal var inputStreams: Array<IMyInputStream?>, internal var outputStreams: Array<IMyOutputStream?>, internal var connections: Array<Socket?>) {
         internal var instance: POPBase? = null
         internal val instanceLock = MyLock()
     }
@@ -204,7 +205,7 @@ public actual object HttpEndpointLauncher {
                                     }
                                 }
                                 println("register ... :: $hostname:$port -> $keys")
-                                val container = QueryMappingContainer(xml, Array<IMyInputStream?>(keys.size) { null }, Array<IMyOutputStream?>(keys.size) { null })
+                                val container = QueryMappingContainer(xml, Array<IMyInputStream?>(keys.size) { null }, Array<IMyOutputStream?>(keys.size) { null }, Array<Socket?>(keys.size) { null })
                                 for (key in keys) {
                                     queryMappings[key] = container
                                 }
@@ -223,21 +224,27 @@ public actual object HttpEndpointLauncher {
                                 if (queryXML == null) {
                                     throw Exception("this query was not registered before")
                                 } else {
+                                    println("execute a")
                                     val comm = communicationHandler
 // calculate current partition
                                     var partitionNumber: Int = 0
                                     if (queryContainer.inputStreams.size > 1) {
+                                        println("execute b")
                                         for (k in key.split(":")) {
                                             val s = queryXML.attributes["partitionVariable"] + "="
                                             if (k.startsWith(s)) {
-                                                partitionNumber = k.substring(s.length + 1).toInt()
+                                                println("'$k' :: '$s' => '${k.substring(s.length)}'")
+                                                partitionNumber = k.substring(s.length).toInt()
                                                 break
                                             }
                                         }
                                     }
+                                    println("execute c")
                                     queryContainer.instanceLock.withLock {
+                                        println("execute d")
                                         queryContainer.outputStreams[partitionNumber] = connectionOutMy
                                         queryContainer.inputStreams[partitionNumber] = connectionInMy
+                                        queryContainer.connections[partitionNumber] = connection
                                         var flag = true
                                         for (c in queryContainer.outputStreams) {
                                             if (c == null) {
@@ -245,7 +252,9 @@ public actual object HttpEndpointLauncher {
                                                 break
                                             }
                                         }
+                                        println("${queryContainer.outputStreams.map { it != null }} $queryXML")
                                         if (flag) {
+                                            println("execute e")
 // only launch if all receivers are started
 // init dictionary
                                             var idx = dictionaryURL.indexOf("/")
@@ -257,32 +266,49 @@ public actual object HttpEndpointLauncher {
 // init node
                                             var node = queryContainer.instance
                                             if (node == null) {
+                                                println("execute f")
                                                 node = XMLElementToOPBase(query, queryXML) as POPBase
                                                 queryContainer.instance = node
                                             }
                                             query.root = node
 // evaluate
                                             when (node) {
-                                                is POPDistributedSendSingle -> node.evaluate(connectionOutMy)
-                                                is POPDistributedSendMulti -> node.evaluate(connectionOutMy, partitionNumber, queryContainer.outputStreams)
+                                                is POPDistributedSendSingle -> {
+                                                    println("execute g")
+                                                    node.evaluate(connectionOutMy)
+                                                }
+                                                is POPDistributedSendMulti -> {
+                                                    println("execute h")
+                                                    node.evaluate(queryContainer.outputStreams)
+                                                }
                                                 else -> throw Exception("unexpected node '${node.classname}'")
                                             }
+                                            println("execute i")
 // release
+                                            println("execute j")
                                             remoteDictionary.close()
+                                            println("execute k")
                                             conn.first.close()
+                                            println("execute l")
                                             conn.second.close()
+                                            println("execute m")
                                             for (c in queryContainer.outputStreams) {
-                                                c!!.flush()
                                                 c!!.close()
                                             }
                                             for (c in queryContainer.inputStreams) {
                                                 c!!.close()
                                             }
-                                        } else {
+                                            for (c in queryContainer.connections) {
+                                                c!!.close()
+                                            }
+                                            println("execute n")
                                         }
+                                        println("execute o")
                                     }
+                                    println("execute p")
 // done
                                 }
+                                println("execute q")
                                 dontCloseSockets = true
                                 queryMappings.remove(key)
                             }
@@ -408,7 +434,6 @@ public actual object HttpEndpointLauncher {
                             }
                         } finally {
                             if (!dontCloseSockets) {
-                                connectionOutMy?.flush()
                                 connectionOutMy?.close()
                                 connectionInMy.close()
                                 connection?.close()

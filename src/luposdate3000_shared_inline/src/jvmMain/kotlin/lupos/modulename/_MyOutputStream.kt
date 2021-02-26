@@ -41,7 +41,11 @@ internal actual class _MyOutputStream : IMyOutputStream {
         it!!.write(buf4, 0, 4)
     }
 
-    public actual override fun close(): Unit = it!!.close()
+    public actual override fun close() {
+        it!!.flush()
+        it!!.close()
+    }
+
     public actual override fun flush(): Unit = it!!.flush()
     internal inline fun _write(buf: ByteArray, off: Int, len: Int): Unit = it!!.write(buf, off, len)
     public actual override fun write(buf: ByteArray): Unit = _write(buf, 0, buf.size)
