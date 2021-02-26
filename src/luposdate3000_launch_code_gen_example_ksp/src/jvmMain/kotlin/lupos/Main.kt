@@ -21,7 +21,7 @@ public fun main(args: Array<String>) {
     println(abc())
 }
 
-public expect class XYZ {
+public expect class XYZ() {
     @MyAnnotation("query")
     public fun x(): Int
 }
