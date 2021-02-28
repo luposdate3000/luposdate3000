@@ -6,7 +6,7 @@ abstract class Entity {
     private val deferredEvents: EventPriorityQueue = EventPriorityQueue()
     var currentState = State.RUNNABLE
         private set
-    private class EndBusyIdentifier
+    private class BusyEndIdentifier
 
     enum class State {
         RUNNABLE,
@@ -15,18 +15,18 @@ abstract class Entity {
     }
 
     abstract fun startUpEntity()
-    abstract fun processEvent(ev: Event)
+    abstract fun processEvent(event: Event)
     abstract fun shutDownEntity()
 
     fun addIncomingEvent(event: Event) {
-        if(isEndBusyIdentifier(event)) {
+        if(isBusyEndEvent(event)) {
             currentState = State.RUNNABLE
         }
         deferredEvents.enqueue(event)
     }
 
-    private fun isEndBusyIdentifier(event: Event)
-        = event.data != null && event.data is EndBusyIdentifier
+    protected fun isBusyEndEvent(event: Event)
+        = event.data != null && event.data is BusyEndIdentifier
 
 
     fun processDeferredEvents() {
@@ -43,10 +43,10 @@ abstract class Entity {
         Simulation.addEvent(event)
     }
 
-    protected fun sendSelfBusyEvent(busyDuration: Double) {
+    protected fun beBusy(busyDuration: Double) {
         require(currentState == State.RUNNABLE)
         currentState = State.BUSY
-        val event = Event(busyDuration, this, this, 0, EndBusyIdentifier())
+        val event = Event(busyDuration, this, this, 0, BusyEndIdentifier())
         Simulation.addEvent(event)
     }
 

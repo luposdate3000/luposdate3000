@@ -1,0 +1,35 @@
+{
+  "networkProtocol": [
+  ],
+  "sensorType": [
+    {
+      "name": "Parking",
+      "dataRateInSeconds": 8
+    },
+    {
+      "name": "Localization",
+      "dataRateInSeconds": 60
+    }
+  ],
+  "deviceType": [
+    {
+      "name": "RadioTower",
+      "application": true,
+      "sensors": ["Parking","Localization"],
+      "powerCapacity": "70.0"
+    }
+  ],
+  "fixedDevices": [
+    {
+      "name": "Tower1",
+      "deviceType": "RadioTower",
+      "latitude": 3.0,
+      "longitude": 3.0
+    }
+  ],
+  "fixedConnection": [
+  ],
+  "randomNetwork": [
+  ]
+}
+

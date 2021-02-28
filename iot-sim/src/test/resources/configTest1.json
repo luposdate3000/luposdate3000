@@ -3,108 +3,83 @@
     {
       "name": "WIFI",
       "rangeInMeters": 50,
-      "dataRateInKbps": 54000,
-      "wireless": true
+      "dataRateInKbps": 54000
     },
     {
       "name": "WPAN",
-      "rangeInMeters": 100,
-      "dataRateInKbps": 250,
-      "wireless": true
+      "rangeInMeters": 30,
+      "dataRateInKbps": 250
     },
     {
       "name": "CELL",
       "rangeInMeters": -1,
-      "dataRateInKbps": 12000,
-      "wireless": true
+      "dataRateInKbps": 12000
     },
     {
       "name": "WIRE",
       "rangeInMeters": -1,
-      "dataRateInKbps": -1,
-      "wireless": false
+      "dataRateInKbps": -1
     }
   ],
   "sensorType": [
     {
-      "name": "Traffic",
-      "networkProtocol": [{"name": "WPAN"}],
-      "dataRateInSeconds": 300,
-      "power": {
-        "capacity": 30.0,
-        "drainageRate": 1.0
-      }
+      "name": "Parking",
+      "dataRateInSeconds": 8
     },
     {
-      "name": "Weather",
-      "networkProtocol": [{"name": "WIFI"}],
-      "dataRateInSeconds": 360,
-      "power": {}
-    },
-    {
-      "name": "Pollution",
-      "networkProtocol": [{"name": "WPAN"}],
-      "dataRateInSeconds": 60,
-      "power": {}
-    },
-    {
-      "name": "UserLocation",
-      "networkProtocol": [],
-      "dataRateInSeconds": 30,
-      "power": {}
+      "name": "Localization",
+      "dataRateInSeconds": 60
     }
   ],
   "deviceType": [
     {
-      "name": "Tower",
-      "wirelessAP": "CELL",
-      "networkProtocol": [{"name": "WIRE"}],
+      "name": "StandAloneParkingSensor",
       "application": false,
-      "mobile": false,
+      "sensors": ["Parking"],
+      "powerCapacity": -1.0
+    },
+
+    {
+      "name": "RadioTower",
+      "application": false,
       "sensors": [],
-      "power": {}
+      "powerCapacity": -1.0
     },
     {
       "name": "Fog",
-      "wirelessAP": "WIFI",
-      "networkProtocol": [{"name": "WIRE"}],
       "application": true,
-      "mobile": false,
       "sensors": [],
-      "power": {}
+      "powerCapacity": -1.0
     },
     {
       "name": "Edge",
-      "wirelessAP": "WPAN",
-      "networkProtocol": [ {"name": "WIFI"}],
       "application": true,
-      "mobile": false,
       "sensors": [],
-      "power": {}
+      "powerCapacity": -1.0
     },
     {
       "name": "MobileEdge",
-      "wirelessAP": "",
-      "networkProtocol": [ {"name": "CELL"}],
       "application": true,
-      "mobile": true,
-      "sensors": [{"name": "UserLocation"}],
-      "power": {
-        "capacity": 70.0,
-        "drainageRate": 1.0
-      }
+      "sensors": ["Localization"],
+      "powerCapacity": -1.0
+    },
+    {
+      "name": "MobileEdge2",
+      "application": true,
+      "sensors": ["Parking","Localization"],
+      "powerCapacity": -1.0
     }
   ],
-  "fixedLocation": [
+  "fixedDevices": [
     {
       "name": "Tower1",
-      "deviceType": "Tower",
+      "deviceType": "RadioTower",
       "latitude": 53.83271874844555,
       "longitude": 53.83271874844555
     },
     {
       "name": "Tower2",
-      "deviceType": "Tower",
+      "deviceType": "RadioTower",
       "latitude": 53.83271874844555,
       "longitude": 53.83271874844555
     },
@@ -129,6 +104,18 @@
     {
       "name": "Fog4",
       "deviceType": "Fog",
+      "latitude": 53.83271874844555,
+      "longitude": 53.83271874844555
+    },
+    {
+      "name": "FixedParkingSensor",
+      "deviceType": "StandAloneParkingSensor",
+      "latitude": 53.83271874844555,
+      "longitude": 53.83271874844555
+    },
+    {
+      "name": "MobileEdge2 Name",
+      "deviceType": "MobileEdge2",
       "latitude": 53.83271874844555,
       "longitude": 53.83271874844555
     }
@@ -167,49 +154,18 @@
   ],
   "randomNetwork": [
     {
-      "originWirelessAP": "Fog1",
-      "generatedDeviceType": "Edge",
-      "number": "187",
-      "sensors": [
-        {
-          "sensorType": "Weather",
-          "number": "201"
-        },
-        {
-          "sensorType": "Pollution",
-          "number": "201"
-        }
-      ]
-    },
-    {
-      "originWirelessAP": "Fog3",
-      "generatedDeviceType": "Edge",
-      "number": "7",
-      "sensors": [
-        {
-          "sensorType": "Traffic",
-          "number": "80"
-        }
-      ]
-    },
-    {
-      "originWirelessAP": "Fog2",
-      "generatedDeviceType": "Edge",
+      "name": "garageA",
+      "dataSink": "Fog1",
+      "type": "StandAloneParkingSensor",
       "number": "30",
-      "sensors": [
-        {
-          "sensorType": "Traffic",
-          "number": "8"
-        },
-        {
-          "sensorType": "Weather",
-          "number": "1"
-        },
-        {
-          "sensorType": "Pollution",
-          "number": "7"
-        }
-      ]
+      "networkProtocol": "WPAN"
+    },
+    {
+      "name": "garageB",
+      "dataSink": "Fog2",
+      "type": "StandAloneParkingSensor",
+      "number": "45",
+      "networkProtocol": "WPAN"
     }
   ]
 }

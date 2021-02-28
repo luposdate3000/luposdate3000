@@ -1,19 +1,173 @@
 package config
 
+import com.javadocmd.simplelatlng.LatLng
+import iot.*
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
+import simulation.Entity
+import java.lang.IllegalArgumentException
 
-class ConfigParser {
+object ConfigParser {
 
-    val configFile = "example1.json"
+    private var devices: MutableMap<String, Device> = HashMap()
+    private var config: Config = Config()
 
-    fun parse(fileName: String) {
-        val fileStr = readFileDirectlyAsText(fileName)
-        val data = Json.decodeFromString<Config>(fileStr)
-        println(data)
+    fun parse(fileName: String) : Map<String, Device> {
+        devices.clear()
+        readJsonFile(fileName)
+        createFixedDevices()
+        createFixedConnections()
+        createRandomNetworks()
+        return devices
     }
 
-    private fun readFileDirectlyAsText(fileName: String): String
-            = javaClass.classLoader.getResource(fileName).readText()
+
+
+    private fun readJsonFile(fileName: String) {
+        val fileStr = readFileDirectlyAsText(fileName)
+        config = Json.decodeFromString(fileStr)
+    }
+
+    private fun readFileDirectlyAsText(fileName: String)
+        = javaClass.classLoader!!.getResource(fileName)!!.readText()
+
+
+
+    private fun put(key: String, device: Device) {
+        require(!devices.contains(key))
+        devices[key] = device
+    }
+
+
+
+    private fun createRandomNetworks() {
+        for (network in config.randomNetwork) {
+            createRandomNetwork(network)
+        }
+    }
+
+    private fun createRandomNetwork(network: RandomNetwork){
+        val dataSink = devices[network.dataSink]!!
+        val deviceType = findDeviceType(network.type)
+        val protocol = findProtocol(network.networkProtocol)
+        for (i in 1..network.number) {
+            val deviceName = network.name + i.toString()
+            val location = RandomGenerator.getLocationInRangeOf(dataSink.location, protocol.rangeInMeters)
+            val createdDevice = createDevice(deviceType, location, deviceName)
+            put(createdDevice.name, createdDevice)
+
+            //AddConnection
+            createConnection(createdDevice, dataSink, protocol)
+            createConnection(dataSink, createdDevice, protocol)
+        }
+    }
+
+
+
+    private fun createFixedDevices() {
+        for (fixedDevice in config.fixedDevices) {
+            val createdDevice = createFixedLocatedDevice(fixedDevice)
+            put(createdDevice.name, createdDevice)
+        }
+    }
+
+    private fun createFixedConnections() {
+        for (fixedCon in config.fixedConnection) {
+            val protocol = findProtocol(fixedCon.networkProtocol)
+            val a = devices[fixedCon.endpointA]!!
+            val b = devices[fixedCon.endpointB]!!
+            createConnection(a, b, protocol)
+            createConnection(b, a, protocol)
+        }
+
+    }
+
+    private fun createConnection(src: Device, dest: Device, p: NetworkProtocol) {
+        val distance = src.getDistance(dest)
+        //require(distance <= p.rangeInMeters)
+        val con = Connection(p.dataRateInKbps, p.rangeInMeters.toDouble(),
+            p.name, 0.0, dest)
+        src.connections.add(con)
+    }
+
+
+
+    private fun createFixedLocatedDevice(fixedDevices: FixedDevices): Device {
+        val deviceType = findDeviceType(fixedDevices.deviceType)
+        val location = LatLng(fixedDevices.latitude, fixedDevices.longitude)
+        return createDevice(deviceType, location, fixedDevices.name)
+    }
+
+    private fun createDevice(deviceType: DeviceType, location: LatLng, name: String): Device {
+        val powerSupply = PowerSupply(deviceType.powerCapacity)
+        val application = createAppEntity(deviceType)
+        val sensors = createSensorEntities(deviceType.sensors)
+        val device = Device(powerSupply, location, name, application, sensors)
+        initializeDeviceSensors(device)
+        return device
+    }
+
+    private fun initializeDeviceSensors(device: Device) {
+        for (sensor in device.sensors) {
+            sensor.device = device
+            sensor.dataSink = device
+        }
+    }
+
+    private fun findDeviceType(typeName: String): DeviceType {
+        val deviceType = config.deviceType.find { typeName == it.name }
+        requireNotNull(deviceType, { "device type name $typeName does not exist" })
+        return deviceType
+    }
+
+    private fun findSensorType(typeName: String): SensorType {
+        val sensorType = config.sensorType.find { typeName == it.name }
+        requireNotNull(sensorType, { "sensor type name $typeName does not exist" })
+        return sensorType
+    }
+
+    private fun findProtocol(name: String): NetworkProtocol {
+        val element = config.networkProtocol.find { name == it.name }
+        requireNotNull(element, { "protocol $name does not exist" })
+        return element
+    }
+
+    private fun createAppEntity(deviceType: DeviceType) : Entity {
+        return if (deviceType.application) {
+            AppEntity()
+        }
+        else {
+            NoAppEntity()
+        }
+    }
+
+    private fun createSensorEntities(sensorRefs: List<String>) : List<Sensor> {
+        val sensors = ArrayList<Sensor>(sensorRefs.size)
+        for (sensorRef in sensorRefs) {
+            val sensor = createSensorEntity(sensorRef)
+            sensors.add(sensor)
+        }
+        return sensors
+    }
+
+    private fun createSensorEntity(sensorRef: String) : Sensor {
+        val sensorType = findSensorType(sensorRef)
+        val name = sensorType.name
+        val rate = sensorType.dataRateInSeconds
+        return when (sensorType.name) {
+            "Parking" -> {
+                ParkingSensorEntity(name, rate)
+            }
+            "Localization" -> {
+                LocalizationSensorEntity(name, rate)
+            }
+            else -> {
+                throw IllegalArgumentException()
+            }
+        }
+    }
+
+
+
 
 }

@@ -1,0 +1,27 @@
+{
+  "networkProtocol": [
+  ],
+  "sensorType": [
+  ],
+  "deviceType": [
+    {
+      "name": "RadioTower",
+      "application": false,
+      "sensors": [],
+      "powerCapacity": -1.0
+    }
+  ],
+  "fixedDevices": [
+    {
+      "name": "Tower1",
+      "deviceType": "RadioTower",
+      "latitude": 3.0,
+      "longitude": 3.0
+    }
+  ],
+  "fixedConnection": [
+  ],
+  "randomNetwork": [
+  ]
+}
+

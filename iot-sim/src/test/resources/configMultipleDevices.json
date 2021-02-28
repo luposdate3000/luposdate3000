@@ -1,0 +1,83 @@
+{
+  "networkProtocol": [
+    {
+      "name": "WIFI",
+      "rangeInMeters": 50,
+      "dataRateInKbps": 54000
+    },
+    {
+      "name": "WPAN",
+      "rangeInMeters": 30,
+      "dataRateInKbps": 250
+    }
+  ],
+  "sensorType": [
+    {
+      "name": "Parking",
+      "dataRateInSeconds": 8
+    },
+    {
+      "name": "Localization",
+      "dataRateInSeconds": 60
+    }
+  ],
+  "deviceType": [
+    {
+      "name": "StandAloneParkingSensor",
+      "application": false,
+      "sensors": ["Parking"],
+      "powerCapacity": -1.0
+    },
+
+    {
+      "name": "RadioTower",
+      "application": false,
+      "sensors": [],
+      "powerCapacity": -1.0
+    },
+    {
+      "name": "Fog",
+      "application": true,
+      "sensors": [],
+      "powerCapacity": -1.0
+    }
+  ],
+  "fixedDevices": [
+    {
+      "name": "Tower1",
+      "deviceType": "RadioTower",
+      "latitude": 3.0,
+      "longitude": 3.0
+    },
+    {
+      "name": "Fog1",
+      "deviceType": "RadioTower",
+      "latitude": 3.0,
+      "longitude": 3.0
+    }
+  ],
+  "fixedConnection": [
+    {
+      "networkProtocol": "WIFI",
+      "endpointA": "Tower1",
+      "endpointB": "Fog1"
+    }
+  ],
+  "randomNetwork": [
+    {
+      "name": "garageA",
+      "dataSink": "Fog1",
+      "type": "StandAloneParkingSensor",
+      "number": "501",
+      "networkProtocol": "WPAN"
+    },
+    {
+      "name": "garageB",
+      "dataSink": "Tower1",
+      "type": "StandAloneParkingSensor",
+      "number": "10002",
+      "networkProtocol": "WIFI"
+    }
+  ]
+}
+

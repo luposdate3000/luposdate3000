@@ -1,0 +1,57 @@
+{
+  "networkProtocol": [
+    {
+      "name": "WIRE",
+      "rangeInMeters": -1,
+      "dataRateInKbps": -1
+    }
+  ],
+  "sensorType": [
+    {
+      "name": "Parking",
+      "dataRateInSeconds": 8
+    },
+    {
+      "name": "Localization",
+      "dataRateInSeconds": 60
+    }
+  ],
+  "deviceType": [
+    {
+      "name": "RadioTower",
+      "application": true,
+      "sensors": ["Parking","Localization"],
+      "powerCapacity": "70.0"
+    },
+    {
+      "name": "Fog",
+      "application": true,
+      "sensors": [],
+      "powerCapacity": -1.0
+    }
+  ],
+  "fixedDevices": [
+    {
+      "name": "Tower1",
+      "deviceType": "RadioTower",
+      "latitude": 3.0,
+      "longitude": 3.0
+    },
+    {
+      "name": "Fog1",
+      "deviceType": "Fog",
+      "latitude": 9.0,
+      "longitude": 9.0
+    }
+  ],
+  "fixedConnection": [
+    {
+      "networkProtocol": "WIRE",
+      "endpointA": "Tower1",
+      "endpointB": "Fog1"
+    }
+  ],
+  "randomNetwork": [
+  ]
+}
+
