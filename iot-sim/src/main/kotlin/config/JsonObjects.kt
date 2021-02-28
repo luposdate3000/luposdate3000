@@ -3,7 +3,7 @@ package config
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Config(
+data class JsonObjects(
         val networkProtocol: List<NetworkProtocol> = arrayListOf(),
         val sensorType: List<SensorType> = arrayListOf(),
         val deviceType: List<DeviceType> = arrayListOf(),

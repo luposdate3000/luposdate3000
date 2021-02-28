@@ -10,19 +10,27 @@ import java.lang.IllegalArgumentException
 object ConfigParser {
 
     var devices: MutableMap<String, Device> = HashMap()
-        private set;
+        private set
 
-    var jsonObjects: Config = Config()
+    var jsonObjects: JsonObjects = JsonObjects()
+        private set
+
+    var entities: MutableList<Entity> = ArrayList()
         private set;
 
     fun parse(fileName: String) {
-        devices.clear()
+        resetVariables()
         readJsonFile(fileName)
         createFixedDevices()
         createFixedConnections()
         createRandomNetworks()
     }
 
+    private fun resetVariables() {
+        devices.clear()
+        entities.clear()
+        jsonObjects = JsonObjects()
+    }
 
 
     private fun readJsonFile(fileName: String) {
@@ -135,12 +143,9 @@ object ConfigParser {
     }
 
     private fun createAppEntity(deviceType: DeviceType) : Entity {
-        return if (deviceType.application) {
-            AppEntity()
-        }
-        else {
-            NoAppEntity()
-        }
+        val entity = if (deviceType.application) AppEntity() else NoAppEntity()
+        entities.add(entity)
+        return entity
     }
 
     private fun createSensorEntities(sensorRefs: List<String>) : List<Sensor> {
@@ -148,6 +153,7 @@ object ConfigParser {
         for (sensorRef in sensorRefs) {
             val sensor = createSensorEntity(sensorRef)
             sensors.add(sensor)
+            entities.add(sensor)
         }
         return sensors
     }

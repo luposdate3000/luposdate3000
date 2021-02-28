@@ -15,8 +15,8 @@ class ConfigParserTest {
     @ValueSource(strings = ["configEmptyFile.json"])
     fun `parse empty config file`(fileName: String) {
         ConfigParser.parse(fileName)
-        val devices = ConfigParser.devices
-        Assertions.assertTrue(devices.isEmpty())
+        Assertions.assertTrue(ConfigParser.devices.isEmpty())
+        Assertions.assertTrue(ConfigParser.entities.isEmpty())
     }
 
     @ParameterizedTest
@@ -36,6 +36,7 @@ class ConfigParserTest {
         Assertions.assertTrue(devices[deviceName]!!.application is NoAppEntity)
         Assertions.assertTrue(devices[deviceName]!!.sensors.isEmpty())
         Assertions.assertTrue(devices[deviceName]!!.powerSupply.isInfinite)
+        Assertions.assertEquals(1, ConfigParser.entities.size)
     }
 
     @ParameterizedTest
@@ -44,10 +45,12 @@ class ConfigParserTest {
         ConfigParser.parse(fileName)
         val devices = ConfigParser.devices
         val deviceName = ConfigParser.jsonObjects.fixedDevices[0].name
+        val numSensors = 2
         Assertions.assertTrue(devices[deviceName]!!.application is AppEntity)
-        Assertions.assertEquals(2, devices[deviceName]!!.sensors.size)
+        Assertions.assertEquals(numSensors, devices[deviceName]!!.sensors.size)
         Assertions.assertEquals(70.0, devices[deviceName]!!.powerSupply.actualCapacity)
         Assertions.assertFalse(devices[deviceName]!!.powerSupply.isInfinite)
+        Assertions.assertEquals(1 + numSensors, ConfigParser.entities.size)
     }
 
     @ParameterizedTest
@@ -120,7 +123,10 @@ class ConfigParserTest {
         val numGarageA = 501
         val numGarageB = 10002
         val numFixed = 2
+        val numSensors = numGarageA + numGarageB
+        val expectedEntities = numSensors + numGarageA + numGarageB + numFixed
         Assertions.assertEquals(numFixed + numGarageA + numGarageB, devices.size)
+        Assertions.assertEquals(expectedEntities, ConfigParser.entities.size)
 
     }
 
