@@ -7,10 +7,13 @@ object Simulation {
     private var futureEvents: EventPriorityQueue = EventPriorityQueue()
     var clock = 0.0
         private set
+    var maxClock = Double.MAX_VALUE
+        private set
 
-    fun initialize(entities: ArrayList<Entity>) {
+    fun initialize(entities: MutableList<Entity>, maxClock: Double = Double.MAX_VALUE) {
         resetVariables()
         this.entities = entities
+        this.maxClock = maxClock
     }
 
     fun runSimulation(): Double {
@@ -36,11 +39,16 @@ object Simulation {
 
     private fun runClockTick(): Boolean {
         runAllEntities()
-        if (futureEvents.hasNext()) {
+        if (futureEvents.hasNext() && isInTime()) {
             dealWithFirstFutureEvents()
             return false
         }
         return true
+    }
+
+    private fun isInTime(): Boolean {
+        val nextEvent = futureEvents.peek()
+        return nextEvent.occurrenceTime <= maxClock
     }
 
     private fun runAllEntities() {

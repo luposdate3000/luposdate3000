@@ -332,4 +332,60 @@ class SimulationTest {
         Assertions.assertEquals(delay, eventProcessedAt)
     }
 
+    @Test
+    fun `check default end time`() {
+        Assertions.assertEquals(Double.MAX_VALUE, Simulation.maxClock)
+    }
+
+    @Test
+    fun `simulation with maxClock equals clock`() {
+        val maxClock = 0.0
+        var receivingEntity: Entity? = null
+
+        val sendingEntity = object : Entity() {
+            override fun startUpEntity() {
+                this.sendEvent(receivingEntity!!, 4.99, 0, 1)
+            }
+            override fun processEvent(event: Event) {}
+            override fun shutDownEntity() {}
+        }
+        receivingEntity = object : Entity() {
+            override fun startUpEntity(){}
+            override fun processEvent(event: Event) {}
+            override fun shutDownEntity() {}
+        }
+        Simulation.initialize(arrayListOf(receivingEntity, sendingEntity), maxClock)
+        val actualClock = Simulation.runSimulation()
+        Assertions.assertEquals(0.0, Simulation.maxClock)
+        Assertions.assertEquals(0.0, actualClock)
+    }
+
+    @Test
+    fun `recursive sending events until maxClock is reached`() {
+        val delay = 1.0
+        val maxClock = 100.0
+        var respondingEntity: Entity? = null
+
+        val sendingEntity = object : Entity() {
+            override fun startUpEntity() {
+                this.sendEvent(respondingEntity!!, delay, 0, null)
+            }
+            override fun processEvent(event: Event) {
+                this.sendEvent(event.source, delay, 0, null)
+            }
+            override fun shutDownEntity() {}
+        }
+
+        respondingEntity = object : Entity() {
+            override fun startUpEntity(){}
+            override fun processEvent(event: Event) {
+                this.sendEvent(event.source, delay, 0, null)
+            }
+            override fun shutDownEntity() {}
+        }
+        Simulation.initialize(arrayListOf(respondingEntity, sendingEntity), maxClock)
+        val endClock = Simulation.runSimulation()
+        Assertions.assertEquals(maxClock, endClock)
+    }
+
 }
