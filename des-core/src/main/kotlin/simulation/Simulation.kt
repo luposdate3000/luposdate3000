@@ -5,18 +5,18 @@ object Simulation {
 
     private var entities: MutableList<Entity> = ArrayList<Entity>()
     private var futureEvents: EventPriorityQueue = EventPriorityQueue()
-    var clock = 0.0
+    var clock: Long = 0
         private set
-    var maxClock = Double.MAX_VALUE
+    var maxClock: Long = Long.MAX_VALUE
         private set
 
-    fun initialize(entities: MutableList<Entity>, maxClock: Double = Double.MAX_VALUE) {
+    fun initialize(entities: MutableList<Entity>, maxClock: Long = Long.MAX_VALUE) {
         resetVariables()
         this.entities = entities
         this.maxClock = maxClock
     }
 
-    fun runSimulation(): Double {
+    fun runSimulation(): Long {
         startUpAllEntities()
         val simClock = run()
         finishRun()
@@ -29,7 +29,7 @@ object Simulation {
         }
     }
 
-    private fun run(): Double {
+    private fun run(): Long {
         var finished = false
         while (!finished) {
             finished = runClockTick()
@@ -69,7 +69,7 @@ object Simulation {
         return nextEvent
     }
 
-    private fun processTimeEqualEvents(time: Double) {
+    private fun processTimeEqualEvents(time: Long) {
         var nextEvent: Event
         while (futureEvents.hasNext()) {
             nextEvent = futureEvents.peek()
@@ -101,7 +101,7 @@ object Simulation {
 
     private fun resetVariables() {
         entities.clear()
-        clock = 0.0
+        clock = 0
         futureEvents.clear()
     }
 

@@ -7,7 +7,7 @@ class SimulationTest {
 
     @Test
     fun `run without entities has no effect on clock`() {
-        val startClock = 0.0
+        val startClock: Long = 0
         val endClock = Simulation.runSimulation()
         Assertions.assertEquals(startClock, endClock)
     }
@@ -17,7 +17,7 @@ class SimulationTest {
         val startClock = Simulation.clock
         Simulation.initialize(arrayListOf(EmptyEntityStub(), EmptyEntityStub()))
         val endClock = Simulation.runSimulation()
-        Assertions.assertEquals(0.0, startClock)
+        Assertions.assertEquals(0, startClock)
         Assertions.assertEquals(startClock, endClock)
     }
 
@@ -25,12 +25,12 @@ class SimulationTest {
     fun `sent data equals the received data`() {
         val eventType = 0
         val data = 5
-        val delay = 18.33
+        val delay: Long = 18
         var receivingEntity: Entity? = null
         var actualData: Int? = null
         var actualDestEntity: Entity? = null
         var actualSrcEntity: Entity? = null
-        var actualEventTime: Double? = null
+        var actualEventTime: Long? = null
         var actualEventType: Int? = null
 
         val sendingEntity = object : Entity() {
@@ -54,7 +54,7 @@ class SimulationTest {
         Simulation.initialize(arrayListOf(receivingEntity, sendingEntity))
         val endClock = Simulation.runSimulation()
         Assertions.assertEquals(delay, endClock)
-        Assertions.assertEquals(0.0, Simulation.clock)
+        Assertions.assertEquals(0, Simulation.clock)
         Assertions.assertEquals(data, actualData)
         Assertions.assertEquals(receivingEntity, actualDestEntity)
         Assertions.assertEquals(sendingEntity, actualSrcEntity)
@@ -64,13 +64,13 @@ class SimulationTest {
 
     @Test
     fun `clock equals to the time of Occurrence of the last event`() {
-        val firstDelay = 4.99
-        val secondDelay = 5.0
-        val thirdDelay = 499.1
+        val firstDelay: Long = 4
+        val secondDelay: Long = 5
+        val thirdDelay: Long = 499
         var receivingEntity: Entity? = null
-        var actualFirstClock: Double? = null
-        var actualSecondClock: Double? = null
-        var actualThirdClock: Double? = null
+        var actualFirstClock: Long? = null
+        var actualSecondClock: Long? = null
+        var actualThirdClock: Long? = null
 
         val sendingEntity = object : Entity() {
             override fun startUpEntity() {
@@ -176,8 +176,8 @@ class SimulationTest {
 
     @Test
     fun `An entity responds to an event with an event`() {
-        val firstDelay = 4.2
-        val responseDelay = 5.999
+        val firstDelay: Long = 4
+        val responseDelay: Long = 5
         var isResponseReceived = false
         var respondingEntity: Entity? = null
 
@@ -206,7 +206,7 @@ class SimulationTest {
 
     @Test
     fun `Terminated entity does not receive a message`() {
-        val delay = 4.2
+        val delay: Long = 4
         var processCounter = 0
         val expectedProcessCounter = 1
         var respondingEntity: Entity? = null
@@ -238,7 +238,7 @@ class SimulationTest {
 
     @Test
     fun `beBusy() do lead to a call of processEvent()`() {
-        val delay = 4.2
+        val delay: Long = 4
         var processCounter = 0
         val expectedProcessCounter = 1
 
@@ -259,7 +259,7 @@ class SimulationTest {
 
     @Test
     fun `state is busy until busyDuration ends`() {
-        val busyDuration = 4.2
+        val busyDuration: Long = 4
         var endState: Entity.State? = null
         var startState: Entity.State? = null
         val busyEntity = object : Entity() {
@@ -281,11 +281,11 @@ class SimulationTest {
 
     @Test
     fun `busy entity do not process while being busy`() {
-        val delay = 4.2
-        val busyDuration = 100.0
+        val delay: Long = 4
+        val busyDuration: Long = 100
         var processCounter = 0
         val eventType = 3
-        var eventProcessedAt= 0.0
+        var eventProcessedAt: Long= 0
         val expectedProcessCounter = 2
 
         val busyEntity = object : Entity() {
@@ -310,15 +310,15 @@ class SimulationTest {
 
     @Test
     fun `event is processed when delay equals clock`() {
-        val delay = 58.3
+        val delay: Long = 58
         val eventType = 3
-        var eventProcessedAt= 0.0
+        var eventProcessedAt: Long = 0
 
         val busyEntity = object : Entity() {
             override fun startUpEntity() {
                 this.sendEvent(this, delay, eventType, null)
-                this.sendEvent(this, delay - 1.0, 0, null)
-                this.sendEvent(this, delay + 1.0, 0, null)
+                this.sendEvent(this, delay - 1, 0, null)
+                this.sendEvent(this, delay + 1, 0, null)
             }
             override fun processEvent(event: Event) {
                 if(event.type == eventType) {
@@ -334,17 +334,17 @@ class SimulationTest {
 
     @Test
     fun `check default end time`() {
-        Assertions.assertEquals(Double.MAX_VALUE, Simulation.maxClock)
+        Assertions.assertEquals(Long.MAX_VALUE, Simulation.maxClock)
     }
 
     @Test
     fun `simulation with maxClock equals clock`() {
-        val maxClock = 0.0
+        val maxClock: Long = 0
         var receivingEntity: Entity? = null
 
         val sendingEntity = object : Entity() {
             override fun startUpEntity() {
-                this.sendEvent(receivingEntity!!, 4.99, 0, 1)
+                this.sendEvent(receivingEntity!!, 4, 0, 1)
             }
             override fun processEvent(event: Event) {}
             override fun shutDownEntity() {}
@@ -356,14 +356,14 @@ class SimulationTest {
         }
         Simulation.initialize(arrayListOf(receivingEntity, sendingEntity), maxClock)
         val actualClock = Simulation.runSimulation()
-        Assertions.assertEquals(0.0, Simulation.maxClock)
-        Assertions.assertEquals(0.0, actualClock)
+        Assertions.assertEquals(0, Simulation.maxClock)
+        Assertions.assertEquals(0, actualClock)
     }
 
     @Test
     fun `recursive sending events until maxClock is reached`() {
-        val delay = 1.0
-        val maxClock = 100.0
+        val delay: Long = 1
+        val maxClock: Long = 100
         var respondingEntity: Entity? = null
 
         val sendingEntity = object : Entity() {

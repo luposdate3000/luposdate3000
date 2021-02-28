@@ -1,7 +1,7 @@
 package simulation
 
 class Event(
-    val occurrenceTime: Double,
+    val occurrenceTime: Long,
     val source: Entity,
     val destination: Entity,
     val type: Int,
