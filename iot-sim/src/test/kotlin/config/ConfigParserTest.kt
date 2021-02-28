@@ -14,18 +14,22 @@ class ConfigParserTest {
     @ParameterizedTest
     @ValueSource(strings = ["configEmptyFile.json"])
     fun `parse empty config file`(fileName: String) {
-        val devices: Map<String, Device> = ConfigParser.parse(fileName)
+        ConfigParser.parse(fileName)
+        val devices = ConfigParser.devices
         Assertions.assertTrue(devices.isEmpty())
     }
 
     @ParameterizedTest
     @ValueSource(strings = ["configOneSimpleDevice.json"])
     fun `one simple device`(fileName: String) {
-        val devices: Map<String, Device> = ConfigParser.parse(fileName)
-        val deviceName = "Tower1"
-        val location = LatLng(3.0, 3.0)
+        ConfigParser.parse(fileName)
+        val devices = ConfigParser.devices
+        val deviceName = ConfigParser.jsonObjects.fixedDevices[0].name
+        val lat = ConfigParser.jsonObjects.fixedDevices[0].latitude
+        val lon = ConfigParser.jsonObjects.fixedDevices[0].longitude
+        val location = LatLng(lat, lon)
 
-        Assertions.assertEquals(1, devices.size)
+        Assertions.assertEquals(ConfigParser.jsonObjects.fixedDevices.size, devices.size)
         Assertions.assertEquals(deviceName, devices[deviceName]!!.name)
         Assertions.assertEquals(location, devices[deviceName]!!.location)
         Assertions.assertTrue(devices[deviceName]!!.connections.isEmpty())
@@ -37,8 +41,9 @@ class ConfigParserTest {
     @ParameterizedTest
     @ValueSource(strings = ["configOneComplexDevice.json"])
     fun `one application device with sensors`(fileName: String) {
-        val devices: Map<String, Device> = ConfigParser.parse(fileName)
-        val deviceName = "Tower1"
+        ConfigParser.parse(fileName)
+        val devices = ConfigParser.devices
+        val deviceName = ConfigParser.jsonObjects.fixedDevices[0].name
         Assertions.assertTrue(devices[deviceName]!!.application is AppEntity)
         Assertions.assertEquals(2, devices[deviceName]!!.sensors.size)
         Assertions.assertEquals(70.0, devices[deviceName]!!.powerSupply.actualCapacity)
@@ -48,7 +53,8 @@ class ConfigParserTest {
     @ParameterizedTest
     @ValueSource(strings = ["configOneComplexDevice.json"])
     fun `sensors know their device`(fileName: String) {
-        val devices: Map<String, Device> = ConfigParser.parse(fileName)
+        ConfigParser.parse(fileName)
+        val devices = ConfigParser.devices
         val deviceName = "Tower1"
         val device = devices[deviceName]!!
         val parkSensor = device.sensors[0] as ParkingSensorEntity
@@ -60,7 +66,8 @@ class ConfigParserTest {
     @ParameterizedTest
     @ValueSource(strings = ["configOneComplexDevice.json"])
     fun `sensors get correct values`(fileName: String) {
-        val devices: Map<String, Device> = ConfigParser.parse(fileName)
+        ConfigParser.parse(fileName)
+        val devices = ConfigParser.devices
         val deviceName = "Tower1"
         val device = devices[deviceName]!!
         val parkSensor = device.sensors[0] as ParkingSensorEntity
@@ -74,7 +81,8 @@ class ConfigParserTest {
     @ParameterizedTest
     @ValueSource(strings = ["configOneFixedConnection.json"])
     fun `two devices have a connection`(fileName: String) {
-        val devices: Map<String, Device> = ConfigParser.parse(fileName)
+        ConfigParser.parse(fileName)
+        val devices = ConfigParser.devices
         val device1 = devices["Tower1"]!!
         val device2 = devices["Fog1"]!!
         Assertions.assertEquals(1, device1.connections.size)
@@ -90,7 +98,8 @@ class ConfigParserTest {
     @ParameterizedTest
     @ValueSource(strings = ["configOneRandomNetwork.json"])
     fun `one random network`(fileName: String) {
-        val devices: Map<String, Device> = ConfigParser.parse(fileName)
+        ConfigParser.parse(fileName)
+        val devices = ConfigParser.devices
         val rootDevice = devices["Fog1"]!!
         val number = 30
         Assertions.assertEquals(number + 1, devices.size)
@@ -106,7 +115,8 @@ class ConfigParserTest {
     @ParameterizedTest
     @ValueSource(strings = ["configMultipleDevices.json"])
     fun `multiple fixed and random network`(fileName: String) {
-        val devices: Map<String, Device> = ConfigParser.parse(fileName)
+        ConfigParser.parse(fileName)
+        val devices = ConfigParser.devices
         val numGarageA = 501
         val numGarageB = 10002
         val numFixed = 2

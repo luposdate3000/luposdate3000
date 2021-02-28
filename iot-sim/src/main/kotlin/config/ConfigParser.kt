@@ -9,23 +9,25 @@ import java.lang.IllegalArgumentException
 
 object ConfigParser {
 
-    private var devices: MutableMap<String, Device> = HashMap()
-    private var config: Config = Config()
+    var devices: MutableMap<String, Device> = HashMap()
+        private set;
 
-    fun parse(fileName: String) : Map<String, Device> {
+    var jsonObjects: Config = Config()
+        private set;
+
+    fun parse(fileName: String) {
         devices.clear()
         readJsonFile(fileName)
         createFixedDevices()
         createFixedConnections()
         createRandomNetworks()
-        return devices
     }
 
 
 
     private fun readJsonFile(fileName: String) {
         val fileStr = readFileDirectlyAsText(fileName)
-        config = Json.decodeFromString(fileStr)
+        jsonObjects = Json.decodeFromString(fileStr)
     }
 
     private fun readFileDirectlyAsText(fileName: String)
@@ -41,7 +43,7 @@ object ConfigParser {
 
 
     private fun createRandomNetworks() {
-        for (network in config.randomNetwork) {
+        for (network in jsonObjects.randomNetwork) {
             createRandomNetwork(network)
         }
     }
@@ -65,14 +67,14 @@ object ConfigParser {
 
 
     private fun createFixedDevices() {
-        for (fixedDevice in config.fixedDevices) {
+        for (fixedDevice in jsonObjects.fixedDevices) {
             val createdDevice = createFixedLocatedDevice(fixedDevice)
             put(createdDevice.name, createdDevice)
         }
     }
 
     private fun createFixedConnections() {
-        for (fixedCon in config.fixedConnection) {
+        for (fixedCon in jsonObjects.fixedConnection) {
             val protocol = findProtocol(fixedCon.networkProtocol)
             val a = devices[fixedCon.endpointA]!!
             val b = devices[fixedCon.endpointB]!!
@@ -115,19 +117,19 @@ object ConfigParser {
     }
 
     private fun findDeviceType(typeName: String): DeviceType {
-        val deviceType = config.deviceType.find { typeName == it.name }
+        val deviceType = jsonObjects.deviceType.find { typeName == it.name }
         requireNotNull(deviceType, { "device type name $typeName does not exist" })
         return deviceType
     }
 
     private fun findSensorType(typeName: String): SensorType {
-        val sensorType = config.sensorType.find { typeName == it.name }
+        val sensorType = jsonObjects.sensorType.find { typeName == it.name }
         requireNotNull(sensorType, { "sensor type name $typeName does not exist" })
         return sensorType
     }
 
     private fun findProtocol(name: String): NetworkProtocol {
-        val element = config.networkProtocol.find { name == it.name }
+        val element = jsonObjects.networkProtocol.find { name == it.name }
         requireNotNull(element, { "protocol $name does not exist" })
         return element
     }
