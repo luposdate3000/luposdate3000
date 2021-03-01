@@ -130,10 +130,10 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                                 enabledRunFunc = { endpointMode == "Java_Sockets" }
                             }
                             "enabledRun=jsBrowserMode:true" -> {
-                                enabledRunFunc = { jsBrowserMode }
+                                enabledRunFunc = { jsBrowserMode && target == "JS" }
                             }
                             "enabledRun=jsBrowserMode:false" -> {
-                                enabledRunFunc = { !jsBrowserMode }
+                                enabledRunFunc = { !jsBrowserMode && target == "JS" }
                             }
                             "enabledRun=endpointMode:None" -> {
                                 enabledRunFunc = { endpointMode == "None" }

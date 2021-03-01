@@ -107,31 +107,41 @@ public class TripleStoreManagerImpl(
     }
 
     public override fun resetDefaultTripleStoreLayout() {
-        when (0) {
-            0 -> { // use partitions as default
-                defaultTripleStoreLayout = TripleStoreDescriptionFactory() //
-                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = 4, partitionColumn = 1) } //
-                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = 4, partitionColumn = 2) } //
-                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = 4, partitionColumn = 1) } //
-                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = 4, partitionColumn = 2) } //
-                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = 4, partitionColumn = 1) } //
-                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = 4, partitionColumn = 2) } //
-                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = 4, partitionColumn = 1) } //
-                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = 4, partitionColumn = 2) } //
-                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = 4, partitionColumn = 1) } //
-                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = 4, partitionColumn = 2) } //
-                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = 4, partitionColumn = 1) } //
-                    .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = 4, partitionColumn = 2) } //
-            }
-            1 -> { // use hashing as default
-                defaultTripleStoreLayout = TripleStoreDescriptionFactory() //
-                    .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SPO, partitionCount = 4) } //
-                    .addIndex { it.partitionedByKey(idx = EIndexPatternExt.S_PO, partitionCount = 4) } //
-                    .addIndex { it.partitionedByKey(idx = EIndexPatternExt.P_SO, partitionCount = 4) } //
-                    .addIndex { it.partitionedByKey(idx = EIndexPatternExt.O_SP, partitionCount = 4) } //
-                    .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SP_O, partitionCount = 4) } //
-                    .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SO_P, partitionCount = 4) } //
-                    .addIndex { it.partitionedByKey(idx = EIndexPatternExt.PO_S, partitionCount = 4) } //
+        if (partitionMode == EPartitionModeExt.None) {
+            defaultTripleStoreLayout = TripleStoreDescriptionFactory() //
+                .addIndex { it.simple(EIndexPatternExt.SPO) } //
+                .addIndex { it.simple(EIndexPatternExt.SOP) } //
+                .addIndex { it.simple(EIndexPatternExt.PSO) } //
+                .addIndex { it.simple(EIndexPatternExt.POS) } //
+                .addIndex { it.simple(EIndexPatternExt.OSP) } //
+                .addIndex { it.simple(EIndexPatternExt.OPS) } //
+        } else {
+            when (0) {
+                0 -> { // use partitions as default
+                    defaultTripleStoreLayout = TripleStoreDescriptionFactory() //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = 4, partitionColumn = 1) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SPO, partitionCount = 4, partitionColumn = 2) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = 4, partitionColumn = 1) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.SOP, partitionCount = 4, partitionColumn = 2) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = 4, partitionColumn = 1) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.PSO, partitionCount = 4, partitionColumn = 2) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = 4, partitionColumn = 1) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.POS, partitionCount = 4, partitionColumn = 2) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = 4, partitionColumn = 1) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OSP, partitionCount = 4, partitionColumn = 2) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = 4, partitionColumn = 1) } //
+                        .addIndex { it.partitionedByID(idx = EIndexPatternExt.OPS, partitionCount = 4, partitionColumn = 2) } //
+                }
+                1 -> { // use hashing as default
+                    defaultTripleStoreLayout = TripleStoreDescriptionFactory() //
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SPO, partitionCount = 4) } //
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.S_PO, partitionCount = 4) } //
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.P_SO, partitionCount = 4) } //
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.O_SP, partitionCount = 4) } //
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SP_O, partitionCount = 4) } //
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.SO_P, partitionCount = 4) } //
+                        .addIndex { it.partitionedByKey(idx = EIndexPatternExt.PO_S, partitionCount = 4) } //
+                }
             }
         }
     }
