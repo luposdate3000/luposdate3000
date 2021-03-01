@@ -134,6 +134,7 @@ public class POPDistributedSendSingle public constructor(
         }
         var p = Partition(Partition(), partitionVariable, partitionNumber, partitionCount)
         val bundle = children[0].evaluate(p)
+        println("accessing :: ${variables.map { it }} -> ${bundle.columns.keys.map { it }}")
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
         var buf = ResultSetDictionaryExt.nullValue + 1
         while (buf != ResultSetDictionaryExt.nullValue) {

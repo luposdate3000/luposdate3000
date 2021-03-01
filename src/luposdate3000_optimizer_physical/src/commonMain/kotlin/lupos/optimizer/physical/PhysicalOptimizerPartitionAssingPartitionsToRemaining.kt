@@ -53,7 +53,11 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                             println("PhysicalOptimizerPartitionAssingPartitionsToRemaining : initialize specific ${node.getUUID()}")
                             res = POPSplitPartitionFromStore(query, node.projectedVariables, partitionVariable, new_count, partitionID, node)
                             query.addPartitionOperator(res.getUUID(), partitionID)
-                            res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, partitionVariable, new_count, partitionID, res)
+                            if (node.projectedVariables.size > 0) {
+                                res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, partitionVariable, new_count, partitionID, res)
+                            } else {
+                                res = POPMergePartitionCount(query, node.projectedVariables, partitionVariable, new_count, partitionID, res)
+                            }
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             node.hasSplitFromStore = true
                             onChange()

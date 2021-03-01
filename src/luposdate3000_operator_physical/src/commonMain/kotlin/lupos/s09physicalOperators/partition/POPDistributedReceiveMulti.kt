@@ -115,8 +115,10 @@ public class POPDistributedReceiveMulti public constructor(
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = mutableListOf<String>()
         variables.addAll(projectedVariables)
-        variables.remove(partitionVariable)
-        variables.add(0, partitionVariable)
+        if (partitionVariable != "_") {
+            variables.remove(partitionVariable)
+            variables.add(0, partitionVariable)
+        }
         var buffer = IntArray(partitionCount * variables.size)
         var connections = Array<MyConnection?>(partitionCount) { null }
         var openConnections = 0
@@ -128,18 +130,19 @@ public class POPDistributedReceiveMulti public constructor(
         }
         for ((k, v) in hosts) {
             val conn = allConnections[k]!!
-            var mapping = IntArray(variables.size)
             val cnt = conn.first.readInt()
-            SanityCheck.check({ cnt == variables.size }, { "$cnt vs ${variables.size}" })
-            for (i in 0 until variables.size) {
+            var mapping = IntArray(cnt)
+            for (i in 0 until cnt) {
                 val len = conn.first.readInt()
                 val buf = ByteArray(len)
                 conn.first.read(buf, len)
                 val name = buf.decodeToString()
+                println("received column $cnt $i $uuid '$name'")
                 val j = variables.indexOf(name)
                 SanityCheck.check { j >= 0 && j < variables.size }
                 mapping[i] = j
             }
+            SanityCheck.check({ cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
             val off = openConnections * variables.size
             for (i in 0 until variables.size) {
                 buffer[off + mapping[i]] = conn.first.readInt()

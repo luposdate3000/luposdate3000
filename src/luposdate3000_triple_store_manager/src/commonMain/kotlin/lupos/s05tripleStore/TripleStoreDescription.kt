@@ -175,7 +175,7 @@ public class TripleStoreDescription(
             if (index.hasPattern(idx)) {
                 val projectedVariables = mutableListOf<String>()
                 for (param in params) {
-                    if (param is AOPVariable) {
+                    if (param is AOPVariable && param.name != "_") {
                         projectedVariables.add(param.name)
                     }
                 }

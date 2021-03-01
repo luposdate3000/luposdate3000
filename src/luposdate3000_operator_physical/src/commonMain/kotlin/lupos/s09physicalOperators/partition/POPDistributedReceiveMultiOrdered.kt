@@ -115,8 +115,10 @@ public class POPDistributedReceiveMultiOrdered public constructor(
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = mutableListOf<String>()
         variables.addAll(projectedVariables)
-        variables.remove(partitionVariable)
-        variables.add(0, partitionVariable)
+        if (partitionVariable != "_") {
+            variables.remove(partitionVariable)
+            variables.add(0, partitionVariable)
+        }
         var buffer = IntArray(partitionCount * variables.size)
         var connections = Array<MyConnection?>(partitionCount) { null }
         var openConnections = 0
