@@ -114,13 +114,16 @@ public abstract class OPBase public constructor(
     }
 
     override /*suspend*/ fun evaluateRoot(): IteratorBundle {
+        val key = "${query.getTransactionID()}"
         val node = query.initialize(this)
-        return node.evaluate(Partition())
+        val res = node.evaluate(Partition())
+        return res
     }
 
     override /*suspend*/ fun evaluateRoot(partition: Partition): IteratorBundle {
         val node = query.initialize(this)
-        return node.evaluate(partition)
+        val res = node.evaluate(partition)
+        return res
     }
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)

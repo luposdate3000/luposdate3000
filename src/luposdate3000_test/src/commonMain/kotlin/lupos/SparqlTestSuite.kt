@@ -34,6 +34,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.UnknownManifestException
 import lupos.s00misc.XMLElement
 import lupos.s00misc.XMLElementFromXML
+import lupos.s00misc.communicationHandler
 import lupos.s00misc.parseFromAny
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
@@ -483,10 +484,14 @@ public open class SparqlTestSuite {
                         val query = Query()
                         query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                         val tmp2 = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput)
+                        val key = "${query.getTransactionID()}"
+                        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                        query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
                         val tmp = tmp2.evaluateRoot()
                         tripleStoreManager.getDefaultGraph().modify(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT)
                         tripleStoreManager.commit(query)
                         query.commited = true
+                        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                     }
                     println("test InputData Graph[] ::" + xmlQueryInput.toPrettyString())
                     try {
@@ -511,9 +516,13 @@ public open class SparqlTestSuite {
                     val query = Query()
                     query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                     val tmp2 = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput)
+                    val key = "${query.getTransactionID()}"
+                    communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                    query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
                     val tmp = tmp2.evaluateRoot()
                     tripleStoreManager.getGraph(it["name"]!!).modify(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT)
                     tripleStoreManager.commit(query)
+                    communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                     query.commited = true
                     println("test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString())
                     try {

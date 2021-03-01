@@ -404,6 +404,9 @@ public object BinaryTestCase {
                                 tripleStoreManager.commit(query1)
                                 query1.commited = true
                                 val query2 = Query()
+                                val key = "${query2.getTransactionID()}"
+                                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                                query2.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
                                 val store = tripleStoreManager.getDefaultGraph()
                                 val bufS = IntArray(1048576)
                                 val bufP = IntArray(1048576)
@@ -424,6 +427,7 @@ public object BinaryTestCase {
                                     bufPos = 0
                                 }
                                 tripleStoreManager.commit(query2)
+                                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                                 val query3 = Query()
                                 val queryParam = arrayOf<IAOPBase>(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o"))
                                 val graph = tripleStoreManager.getDefaultGraph()

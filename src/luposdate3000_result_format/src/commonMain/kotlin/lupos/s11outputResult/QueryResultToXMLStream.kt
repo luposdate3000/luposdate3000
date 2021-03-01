@@ -24,6 +24,7 @@ import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.communicationHandler
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
@@ -189,6 +190,13 @@ public object QueryResultToXMLStream {
     }
 
     public /*suspend*/ operator fun invoke(rootNode: IOPBase, output: IMyOutputStream) {
+        val query = rootNode.getQuery()
+        val flag = query.getDictionaryUrl() == null
+        val key = "${query.getTransactionID()}"
+        if (flag) {
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+        }
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()
         if (rootNode is OPBaseCompound) {
@@ -253,6 +261,9 @@ public object QueryResultToXMLStream {
                 }
             }
             output.print("</sparql>\n")
+        }
+        if (flag) {
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         }
     }
 }

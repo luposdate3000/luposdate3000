@@ -32,6 +32,7 @@ import lupos.s00misc.Parallel
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
 import lupos.s00misc.xmlParser.XMLParser
+import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.tripleStoreManager
@@ -73,6 +74,16 @@ public actual object HttpEndpointLauncher {
     internal var queryMappings = mutableMapOf<String, QueryMappingContainer>()
 
     public actual /*suspend*/ fun start() {
+        fun registerDictionary(key: String): RemoteDictionaryServer {
+            val dict = RemoteDictionaryServer(ResultSetDictionary())
+            dictionaryMapping[key] = dict
+            return dict
+        }
+
+        fun removeDictionary(key: String) {
+            dictionaryMapping.remove(key)
+        }
+
         val hosturl = tripleStoreManager.getLocalhost().split(":")
         val hostname = hosturl[0]
         val port = if (hosturl.size > 1) {
@@ -156,13 +167,12 @@ public actual object HttpEndpointLauncher {
                                 }
                                 val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(params["query"]!!, false)
                                 val query = node.getQuery()
-                                val dict = RemoteDictionaryServer(query.getDictionary())
-                                query.setDictionaryServer(dict)
                                 val key = "${query.getTransactionID()}"
-                                dictionaryMapping[key] = dict
+                                val dict = registerDictionary(key)
+                                query.setDictionaryServer(dict)
                                 query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
                                 LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
-                                dictionaryMapping.remove(key)
+                                removeDictionary(key)
                                 /*Coverage Unreachable*/
                             }
                             paths["/sparql/operator"] = PathMappingHelper(true, mapOf(Pair("query", "") to ::inputElement)) {
@@ -214,6 +224,14 @@ public actual object HttpEndpointLauncher {
                             paths["/distributed/query/dictionary"] = PathMappingHelper(false, mapOf()) {
                                 val dict = dictionaryMapping[params["key"]!!]!!
                                 dict.connect(connectionInMy, connectionOutMy)
+                            }
+                            paths["/distributed/query/dictionary/register"] = PathMappingHelper(false, mapOf()) {
+                                registerDictionary(params["key"]!!)
+                                printHeaderSuccess(connectionOutMy)
+                            }
+                            paths["/distributed/query/dictionary/remove"] = PathMappingHelper(false, mapOf()) {
+                                removeDictionary(params["key"]!!)
+                                printHeaderSuccess(connectionOutMy)
                             }
                             paths["/distributed/query/execute"] = PathMappingHelper(false, mapOf()) {
                                 println("execute ... :: $hostname:$port -> ${params["key"]}")

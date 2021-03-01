@@ -19,13 +19,22 @@ package lupos.s11outputResult
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+import lupos.s00misc.communicationHandler
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s05tripleStore.tripleStoreManager
 
 public object QueryResultToXMLElement {
     public /*suspend*/ fun toXML(rootNode: IOPBase): XMLElement {
+        val query = rootNode.getQuery()
+        val flag = query.getDictionaryUrl() == null
+        val key = "${query.getTransactionID()}"
+        if (flag) {
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+        }
         val res = mutableListOf<XMLElement>()
         val nodes: Array<IOPBase>
         val columnProjectionOrder: List<List<String>>
@@ -128,11 +137,17 @@ public object QueryResultToXMLElement {
             res.add(nodeSparql)
         }
         if (res.size == 1) {
+            if (flag) {
+                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            }
             return res[0]
         }
         val compountResult = XMLElement("")
         for (r in res) {
             compountResult.addContent(r)
+        }
+        if (flag) {
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         }
         return compountResult
     }

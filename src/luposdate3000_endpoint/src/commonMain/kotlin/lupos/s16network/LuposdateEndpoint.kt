@@ -41,6 +41,7 @@ import lupos.s00misc.XMLElementFromJson
 import lupos.s00misc.XMLElementFromN3
 import lupos.s00misc.XMLElementFromTsv
 import lupos.s00misc.XMLElementFromXML
+import lupos.s00misc.communicationHandler
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
@@ -104,8 +105,11 @@ public object LuposdateEndpoint {
 
     @JsName("import_turtle_files_old")
     /*suspend*/ public fun importTurtleFilesOld(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
+        val query = Query()
+        val key = "${query.getTransactionID()}"
         try {
-            val query = Query()
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
             var counter = 0
             val store = tripleStoreManager.getDefaultGraph()
             val bufS = IntArray(1048576)
@@ -150,9 +154,11 @@ public object LuposdateEndpoint {
                 }
             }
             tripleStoreManager.commit(query)
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             e.printStackTrace()
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             throw e
         }
 /*Coverage Unreachable*/
@@ -160,8 +166,11 @@ public object LuposdateEndpoint {
 
     @JsName("import_turtle_files")
     /*suspend*/ public fun importTurtleFiles(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
+        val query = Query()
+        val key = "${query.getTransactionID()}"
         try {
-            val query = Query()
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
             var counter = 0
             val store = tripleStoreManager.getDefaultGraph()
             val bufS = IntArray(1048576)
@@ -198,8 +207,10 @@ public object LuposdateEndpoint {
                 }
             }
             tripleStoreManager.commit(query)
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             return importTurtleFilesOld(fileNames, bnodeDict)
         }
 /*Coverage Unreachable*/
@@ -212,8 +223,11 @@ public object LuposdateEndpoint {
 
     @JsName("import_turtle_string")
     /*suspend*/ public fun importTurtleString(data: String, bnodeDict: MutableMap<String, Int>): String {
+        val query = Query()
+        val key = "${query.getTransactionID()}"
         try {
-            val query = Query()
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
             var counter = 0
             val store = tripleStoreManager.getDefaultGraph()
             val bufS = IntArray(1048576)
@@ -246,9 +260,11 @@ public object LuposdateEndpoint {
                 throw e
             }
             tripleStoreManager.commit(query)
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             return "successfully imported $counter Triples"
         } catch (e: Exception) {
             e.printStackTrace()
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             throw e
         }
     }
@@ -281,8 +297,11 @@ public object LuposdateEndpoint {
 
     @JsName("import_intermediate_files_a")
     /*suspend*/ public fun importIntermediateFiles(fileNames: String, convert_to_bnodes: Boolean): String {
+        val query = Query()
+        val key = "${query.getTransactionID()}"
         try {
-            val query = Query()
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
             tripleStoreManager.resetDefaultTripleStoreLayout()
             tripleStoreManager.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
             var counter = 0L
@@ -346,9 +365,11 @@ public object LuposdateEndpoint {
                 println("imported file $fileName,$cnt,$totalTime,$dictTime,$storeTime")
             }
             tripleStoreManager.commit(query)
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             e.printStackTrace()
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             throw e
         }
 /*Coverage Unreachable*/
@@ -358,11 +379,15 @@ public object LuposdateEndpoint {
     /*suspend*/ public fun importXmlData(data: String): String {
         val query = Query()
         val import2 = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElementFromXML()(data)!!)
+        val key = "${query.getTransactionID()}"
+        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+        query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
         val import = import2.evaluateRoot()
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
         tripleStoreManager.getDefaultGraph().modify(query, dataLocal, EModifyTypeExt.INSERT)
         tripleStoreManager.commit(query)
         query.commited = true
+        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         return XMLElement("success").toString()
     }
 

@@ -17,6 +17,7 @@
 package lupos.launch.generate_binary_test_suite_multi
 
 import lupos.SparqlTestSuite
+import lupos.s00misc.Parallel
 import lupos.s00misc.SparqlTestSuiteConverter
 import lupos.s16network.HttpEndpointLauncher
 import lupos.s16network.LuposdateEndpoint
