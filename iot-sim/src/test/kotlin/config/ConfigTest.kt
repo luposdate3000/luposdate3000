@@ -57,8 +57,8 @@ class ConfigTest {
         val devices = Config.devices
         val deviceName = "Tower1"
         val device = devices[deviceName]!!
-        val parkSensor = device.sensors[0] as ParkingSensorEntity
-        val locSensor = device.sensors[1] as LocalizationSensorEntity
+        val parkSensor = device.sensors[0] as ParkingSensor
+        val locSensor = device.sensors[1] as LocalizationSensor
         Assertions.assertEquals(device, parkSensor.device)
         Assertions.assertEquals(device, locSensor.device)
     }
@@ -70,8 +70,8 @@ class ConfigTest {
         val devices = Config.devices
         val deviceName = "Tower1"
         val device = devices[deviceName]!!
-        val parkSensor = device.sensors[0] as ParkingSensorEntity
-        val locSensor = device.sensors[1] as LocalizationSensorEntity
+        val parkSensor = device.sensors[0] as ParkingSensor
+        val locSensor = device.sensors[1] as LocalizationSensor
         Assertions.assertEquals(8, parkSensor.dataRateInSeconds)
         Assertions.assertEquals(device, parkSensor.dataSink)
         Assertions.assertEquals(60, locSensor.dataRateInSeconds)

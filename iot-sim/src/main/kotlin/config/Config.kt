@@ -169,10 +169,10 @@ object Config {
         val rate = sensorType.dataRateInSeconds
         return when (sensorType.name) {
             "Parking" -> {
-                ParkingSensorEntity(name, rate, device, device)
+                ParkingSensor(name, rate, device, device)
             }
             "Localization" -> {
-                LocalizationSensorEntity(name, rate, device, device)
+                LocalizationSensor(name, rate, device, device)
             }
             else -> {
                 throw IllegalArgumentException()

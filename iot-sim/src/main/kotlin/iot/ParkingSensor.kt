@@ -2,7 +2,7 @@ package iot
 
 import simulation.Event
 
-class ParkingSensorEntity(
+class ParkingSensor(
     name: String,
     dataRateInSeconds: Int, dataSink: Device, device: Device
 ) : Sensor(name, dataRateInSeconds, dataSink, device) {

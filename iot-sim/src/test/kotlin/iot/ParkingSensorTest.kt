@@ -8,7 +8,7 @@ import simulation.Entity
 import simulation.Event
 import simulation.Simulation
 
-class ParkingSensorEntityTest {
+class ParkingSensorTest {
 
     @Test
     fun `generate every x seconds a observation`() {
