@@ -101,7 +101,7 @@ object Config {
     private fun createConnection(src: Device, dest: Device, p: NetworkProtocol) {
         val distance = src.networkCard.getDistance(dest)
         //require(distance <= p.rangeInMeters)
-        val con = Connection(p.dataRateInKbps, p.rangeInMeters.toDouble(),
+        val con = ConnectionParameter(p.dataRateInKbps, p.rangeInMeters.toDouble(),
             p.name, distance)
         src.networkCard.addDirectConnection(dest.name, con)
     }

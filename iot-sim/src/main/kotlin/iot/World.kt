@@ -2,7 +2,7 @@ package iot
 
 object World {
 
-/*    val graph: AdjacencyMatrix<Device, Connection> = AdjacencyMatrix()
+/*    val graph: AdjacencyMatrix<Device, ConnectionParameter> = AdjacencyMatrix()
 
     fun createRandomPoint(area: Area): Point = createRandomPoint(area.xLeft, area.xRight, area.yBottom, area.yTop)
 

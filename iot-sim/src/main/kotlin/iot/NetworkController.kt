@@ -5,7 +5,7 @@ import simulation.Event
 
 class NetworkController(val device: Device) : Entity() {
 
-    private var directConnections: MutableMap<String,Connection> = HashMap()
+    private var directConnections: MutableMap<String,ConnectionParameter> = HashMap()
 
 
     fun getNetworkDelay(destination: Device): Long {
@@ -44,7 +44,7 @@ class NetworkController(val device: Device) : Entity() {
     override fun shutDownEntity() {
     }
 
-    fun addDirectConnection(destAddress: String, params: Connection) {
+    fun addDirectConnection(destAddress: String, params: ConnectionParameter) {
         directConnections[destAddress] = params
     }
 

@@ -26,10 +26,10 @@ class NetworkControllerTest {
         val destAddress = "Test"
         val device = Stubs.createEmptyDevice()
         val networkCard = device.networkCard
-        val params = Connection(0, 0.0, "WIFI", 0.0)
+        val params = ConnectionParameter(0, 0.0, "WIFI", 0.0)
         networkCard.addDirectConnection(destAddress, params)
         Assertions.assertTrue(networkCard.hasDirectConnection(destAddress))
-        val retrieved: Connection = networkCard.getDirectConnection(destAddress)
+        val retrieved: ConnectionParameter = networkCard.getDirectConnection(destAddress)
         networkCard.removeDirectConnection(destAddress)
         Assertions.assertFalse(networkCard.hasDirectConnection(destAddress))
         Assertions.assertEquals(params, retrieved)
