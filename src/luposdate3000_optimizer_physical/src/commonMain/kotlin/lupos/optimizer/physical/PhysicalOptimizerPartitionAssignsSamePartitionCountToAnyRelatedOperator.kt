@@ -29,6 +29,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
+import lupos.s09physicalOperators.partition.POPSplitPartitionFromStoreCount
 
 public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperatorID, "PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator") {
     // this optimizer makes sure, that every partitioning which belongs to the same section uses the same partition count
@@ -39,6 +40,22 @@ public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOper
                     var storeNodeTmp = node.children[0]
                     while (storeNodeTmp !is POPTripleStoreIterator) {
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
+                        storeNodeTmp = storeNodeTmp.getChildren()[0]
+                    }
+                    val storeNode = storeNodeTmp as POPTripleStoreIterator
+                    val max_count = query.partitionOperatorCount[node.partitionID]
+                    println("PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator : initialize specific ${node.getUUID()}")
+                    val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
+                    query.partitionOperatorCount[node.partitionID] = new_count
+                    node.partitionCount = new_count
+                    if (new_count != max_count) {
+                        onChange()
+                    }
+                }
+                is POPSplitPartitionFromStoreCount -> {
+                    var storeNodeTmp = node.children[0]
+                    while (storeNodeTmp !is POPTripleStoreIterator) {
+// this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStoreCount
                         storeNodeTmp = storeNodeTmp.getChildren()[0]
                     }
                     val storeNode = storeNodeTmp as POPTripleStoreIterator

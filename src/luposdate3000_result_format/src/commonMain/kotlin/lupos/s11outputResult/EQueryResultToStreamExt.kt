@@ -26,6 +26,7 @@ public object EQueryResultToStreamExt {
     public const val XML_ELEMENT: EQueryResultToStream = 4
     public const val XML_STREAM: EQueryResultToStream = 5
     public const val values_size: Int = 6
+
     @JvmField
     public val names: Array<String> = arrayOf(
         "DEFAULT_STREAM",

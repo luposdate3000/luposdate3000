@@ -24,6 +24,7 @@ public object EOperatingSystemExt {
     public const val UNKNOWN: EOperatingSystem = 2
     public const val Windows: EOperatingSystem = 3
     public const val values_size: Int = 4
+
     @JvmField
     public val names: Array<String> = arrayOf(
         "JS",

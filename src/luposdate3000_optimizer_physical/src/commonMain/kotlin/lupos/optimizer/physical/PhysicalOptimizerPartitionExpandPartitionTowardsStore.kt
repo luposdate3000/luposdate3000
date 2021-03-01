@@ -27,6 +27,7 @@ import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
+import lupos.s09physicalOperators.partition.POPSplitPartitionFromStoreCount
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
@@ -64,7 +65,11 @@ public class PhysicalOptimizerPartitionExpandPartitionTowardsStore(query: Query)
                                 val new_count = c.changeToIndexWithMaximumPartitions(node.partitionCount, node.partitionVariable)
                                 c.hasSplitFromStore = true
                                 println("PhysicalOptimizerPartitionExpandPartitionTowardsStore : initialize specific ${c.getUUID()}")
-                                res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, node.partitionCount, node.partitionID, c)
+                                if (node.projectedVariables.size > 0) {
+                                    res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, node.partitionCount, node.partitionID, c)
+                                } else {
+                                    res = POPSplitPartitionFromStoreCount(query, node.projectedVariables, node.partitionVariable, node.partitionCount, node.partitionID, c)
+                                }
                                 query.removePartitionOperator(node.getUUID(), node.partitionID)
                                 query.addPartitionOperator(res.getUUID(), node.partitionID)
                                 onChange()

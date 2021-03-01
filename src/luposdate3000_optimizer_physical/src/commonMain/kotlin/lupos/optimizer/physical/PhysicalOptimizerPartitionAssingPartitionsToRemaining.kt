@@ -24,8 +24,10 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.s05tripleStore.tripleStoreManager
+import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
+import lupos.s09physicalOperators.partition.POPSplitPartitionFromStoreCount
 
 public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID, "PhysicalOptimizerPartitionAssingPartitionsToRemaining") {
     // this store introduces fixes, if the desired triple store does not participate in any partitioning at all, but it is required to do so
@@ -51,7 +53,11 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                         if (new_count > 1) {
                             val partitionID = query.getNextPartitionOperatorID()
                             println("PhysicalOptimizerPartitionAssingPartitionsToRemaining : initialize specific ${node.getUUID()}")
-                            res = POPSplitPartitionFromStore(query, node.projectedVariables, partitionVariable, new_count, partitionID, node)
+                            if (node.projectedVariables.size > 0) {
+                                res = POPSplitPartitionFromStore(query, node.projectedVariables, partitionVariable, new_count, partitionID, node)
+                            } else {
+                                res = POPSplitPartitionFromStoreCount(query, node.projectedVariables, partitionVariable, new_count, partitionID, node)
+                            }
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             if (node.projectedVariables.size > 0) {
                                 res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, partitionVariable, new_count, partitionID, res)

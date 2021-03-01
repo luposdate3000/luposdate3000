@@ -38,6 +38,7 @@ public object EIndexPatternExt {
     public const val S_OP: EIndexPattern = 16
     public const val S_PO: EIndexPattern = 17
     public const val values_size: Int = 18
+
     @JvmField
     public val names: Array<String> = arrayOf(
         "OPS",

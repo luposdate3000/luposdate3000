@@ -27,6 +27,7 @@ internal object Turtle2ParserStateExt {
     internal const val TRIPLE_END_OR_OBJECT_IRI: Turtle2ParserState = 5
     internal const val TRIPLE_END_OR_OBJECT_STRING: Turtle2ParserState = 6
     internal const val values_size: Int = 7
+
     @JvmField
     internal val names: Array<String> = arrayOf(
         "EOF",

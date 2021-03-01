@@ -18,36 +18,24 @@ package lupos.s09physicalOperators.partition
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 
-// http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
-public class POPDistributedSendSingle public constructor(
-    query: IQuery,
-    projectedVariables: List<String>,
-    @JvmField public val partitionVariable: String,
-    @JvmField public var partitionCount: Int,
-    @JvmField public var partitionID: Int,
-    child: IOPBase,
-    @JvmField public val hosts: List<String>, // key
-) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedSendSingleID, "POPDistributedSendSingle", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
-    init {
-        SanityCheck.check { projectedVariables.size > 0 }
+public class POPSplitPartitionFromStoreCount public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCount: Int, @JvmField public var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPSplitPartitionFromStoreCountID, "POPSplitPartitionFromStoreCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+    public override fun changePartitionID(idFrom: Int, idTo: Int) {
+        partitionID = idTo
     }
 
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
-            1
+            partitionCount
         } else {
-            children[0].getPartitionCount(variable)
+            1
         }
     }
 
@@ -71,7 +59,11 @@ public class POPDistributedSendSingle public constructor(
 
     private fun toXMLElementHelper2(partial: Boolean, isRoot: Boolean): XMLElement {
         val res = if (partial) {
-            XMLElement(classname).addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+            if (isRoot) {
+                XMLElement("POPDistributedSendSingleCount").addAttribute("uuid", "$uuid").addContent(childrenToXML(partial))
+            } else {
+                XMLElement("POPDistributedReceiveSingleCount").addAttribute("uuid", "$uuid")
+            }
         } else {
             super.toXMLElementHelper(partial, partial && !isRoot)
         }
@@ -81,10 +73,6 @@ public class POPDistributedSendSingle public constructor(
             res.addContent(XMLElement("partitionDistributionProvideKey").addAttribute("key", theKeyToString(theKey)))
         } else {
             res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
-            for (i in 1 until partitionCount) {
-                theKey[partitionVariable] = theKey[partitionVariable]!! + 1
-                res.addContent(XMLElement("partitionDistributionReceiveKey").addAttribute("key", theKeyToString(theKey)))
-            }
         }
         res.addAttribute("providedVariables", getProvidedVariableNames().toString())
         res.addAttribute("partitionVariable", partitionVariable)
@@ -109,44 +97,10 @@ public class POPDistributedSendSingle public constructor(
         }
     }
 
-    override fun cloneOP(): IOPBase = POPDistributedSendSingle(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), hosts)
+    override fun cloneOP(): IOPBase = POPSplitPartitionFromStoreCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP())
     override fun toSparql(): String = children[0].toSparql()
-    override fun equals(other: Any?): Boolean = other is POPDistributedSendSingle && children[0] == other.children[0] && partitionVariable == other.partitionVariable
-
+    override fun equals(other: Any?): Boolean = other is POPSplitPartitionFromStoreCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable && partitionCount == other.partitionCount
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        throw Exception("this must not be called !!")
-    }
-
-    public fun evaluate(connectionOut: IMyOutputStream) {
-        var partitionNumber = -1
-        for (k in hosts) {
-            if (k.contains(":$partitionVariable=")) {
-// dont care, if this is not directly the triple store ... .
-                partitionNumber = k.substring(k.indexOf("=") + 1).toInt()
-                break
-            }
-        }
-        SanityCheck.check { partitionNumber >= 0 && partitionNumber < partitionCount }
-        var variables = Array(projectedVariables.size) { "" }
-        var i = 0
-        connectionOut.writeInt(variables.size)
-        for (v in projectedVariables) {
-            variables[i++] = v
-            val buf = v.encodeToByteArray()
-            connectionOut.writeInt(buf.size)
-            connectionOut.write(buf)
-        }
-        var p = Partition(Partition(), partitionVariable, partitionNumber, partitionCount)
-        val bundle = children[0].evaluate(p)
-        println("accessing :: ${variables.map { it }} -> ${bundle.columns.keys.map { it }}")
-        val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
-        var buf = ResultSetDictionaryExt.nullValue + 1
-        while (buf != ResultSetDictionaryExt.nullValue) {
-            for (i in 0 until variables.size) {
-                buf = columns[i].next()
-                connectionOut.writeInt(buf)
-            }
-        }
-        connectionOut.flush()
+        return children[0].evaluate(parent)
     }
 }

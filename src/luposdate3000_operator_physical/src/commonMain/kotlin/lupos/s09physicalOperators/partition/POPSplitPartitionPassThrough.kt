@@ -19,6 +19,7 @@ package lupos.s09physicalOperators.partition
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -27,6 +28,10 @@ import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 
 public class POPSplitPartitionPassThrough public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCount: Int, @JvmField public var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPSplitPartitionPassThroughID, "POPSplitPartitionPassThrough", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+    init {
+        SanityCheck.check { projectedVariables.size > 0 }
+    }
+
     public override fun changePartitionID(idFrom: Int, idTo: Int) {
         changePartitionID(idFrom, idTo)
     }

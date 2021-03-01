@@ -969,6 +969,7 @@ fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: Strin
         out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
         out.println(" */")
         out.println("package $packageName")
+        out.println("")
         out.println("$modifier typealias $enumName = Int")
     }
     File(fileName + "Ext.kt").printWriter().use { out ->
@@ -989,13 +990,17 @@ fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: Strin
         out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
         out.println(" */")
         out.println("package $packageName")
+        out.println("")
         out.println("import kotlin.jvm.JvmField")
+        out.println("")
         out.println("$modifier object ${enumName}Ext {")
         for (i in 0 until mapping.size) {
             out.println("    $modifier const val ${mapping[i]}: $enumName = $i")
         }
         out.println("    $modifier const val values_size: Int = ${mapping.size}")
-        out.println("    @JvmField $modifier val names: Array<String> = arrayOf(")
+        out.println("")
+        out.println("    @JvmField")
+        out.println("    $modifier val names: Array<String> = arrayOf(")
         for (i in 0 until mapping.size) {
             out.println("        \"${mapping[i]}\",")
         }

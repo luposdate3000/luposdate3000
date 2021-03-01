@@ -135,6 +135,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
+import lupos.s09physicalOperators.partition.POPSplitPartitionFromStoreCount
 import lupos.s09physicalOperators.singleinput.POPBind
 import lupos.s09physicalOperators.singleinput.POPDebug
 import lupos.s09physicalOperators.singleinput.POPFilter
@@ -598,6 +599,18 @@ public object XMLElementToOPBase {
                 var storeNodeTmp = res.children[0]
                 while (storeNodeTmp !is POPTripleStoreIterator) {
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
+                    storeNodeTmp = storeNodeTmp.getChildren()[0]
+                }
+                val storeNode = storeNodeTmp as POPTripleStoreIterator
+                storeNode.hasSplitFromStore = true
+                query.addPartitionOperator(res.uuid, id)
+            }
+            "POPSplitPartitionFromStoreCount" -> {
+                val id = node.attributes["partitionID"]!!.toInt()
+                res = POPSplitPartitionFromStoreCount(query, createProjectedVariables(query, node, mapping), node.attributes["partitionVariable"]!!, node.attributes["partitionCount"]!!.toInt(), id, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
+                var storeNodeTmp = res.children[0]
+                while (storeNodeTmp !is POPTripleStoreIterator) {
+// this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStoreCount
                     storeNodeTmp = storeNodeTmp.getChildren()[0]
                 }
                 val storeNode = storeNodeTmp as POPTripleStoreIterator

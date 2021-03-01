@@ -32,6 +32,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
+import lupos.s09physicalOperators.partition.POPSplitPartitionFromStoreCount
 import lupos.s09physicalOperators.singleinput.POPBind
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPProjection
@@ -47,6 +48,28 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                     var storeNodeTmp = node.children[0]
                     while (storeNodeTmp !is POPTripleStoreIterator) {
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
+                        storeNodeTmp = storeNodeTmp.getChildren()[0]
+                    }
+                    val storeNode = storeNodeTmp
+                    val max_count = node.partitionCount
+                    println("PhysicalOptimizerPartitionExpandTowardsRoot : initialize specific ${node.getUUID()}")
+                    val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
+                    if (new_count != max_count) {
+                        val newID = query.getNextPartitionOperatorID()
+                        query.removePartitionOperator(node.getUUID(), node.partitionID)
+                        res = POPChangePartitionOrderedByIntId(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionCount, newID, node.partitionID, node)
+                        node.partitionID = newID
+                        node.partitionCount = new_count
+                        query.addPartitionOperator(node.getUUID(), node.partitionID)
+                        query.addPartitionOperator(res.getUUID(), res.partitionIDTo)
+                        query.addPartitionOperator(res.getUUID(), res.partitionIDFrom)
+                        onChange()
+                    }
+                }
+                is POPSplitPartitionFromStoreCount -> {
+                    var storeNodeTmp = node.children[0]
+                    while (storeNodeTmp !is POPTripleStoreIterator) {
+// this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStoreCount
                         storeNodeTmp = storeNodeTmp.getChildren()[0]
                     }
                     val storeNode = storeNodeTmp
@@ -332,7 +355,11 @@ public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : Optimiz
                                 println("PhysicalOptimizerPartitionExpandTowardsRoot : initialize specific b ${c.getUUID()}")
                                 val new_count = c.changeToIndexWithMaximumPartitions(node.partitionCount, node.partitionVariable)
                                 c.hasSplitFromStore = true
-                                res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)
+                                if (node.projectedVariables.size > 0) {
+                                    res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)
+                                } else {
+                                    res = POPSplitPartitionFromStoreCount(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)
+                                }
                                 query.removePartitionOperator(node.getUUID(), node.partitionID)
                                 query.addPartitionOperator(res.getUUID(), node.partitionID)
                                 onChange()

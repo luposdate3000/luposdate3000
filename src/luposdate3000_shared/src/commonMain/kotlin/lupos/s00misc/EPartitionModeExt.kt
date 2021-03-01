@@ -23,6 +23,7 @@ public object EPartitionModeExt {
     public const val Process: EPartitionMode = 1
     public const val Thread: EPartitionMode = 2
     public const val values_size: Int = 3
+
     @JvmField
     public val names: Array<String> = arrayOf(
         "None",

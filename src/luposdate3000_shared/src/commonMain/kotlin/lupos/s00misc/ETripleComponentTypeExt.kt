@@ -29,6 +29,7 @@ public object ETripleComponentTypeExt {
     public const val STRING_LANG: ETripleComponentType = 7
     public const val STRING_TYPED: ETripleComponentType = 8
     public const val values_size: Int = 9
+
     @JvmField
     public val names: Array<String> = arrayOf(
         "BLANK_NODE",

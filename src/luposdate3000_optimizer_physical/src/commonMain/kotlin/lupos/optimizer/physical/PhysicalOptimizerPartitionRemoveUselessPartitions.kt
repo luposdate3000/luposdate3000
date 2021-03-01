@@ -29,6 +29,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
+import lupos.s09physicalOperators.partition.POPSplitPartitionFromStoreCount
 
 public class PhysicalOptimizerPartitionRemoveUselessPartitions(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionRemoveUselessPartitionsID, "PhysicalOptimizerPartitionRemoveUselessPartitions") {
     // this optimizer removes useless partitioning operators
@@ -42,6 +43,21 @@ public class PhysicalOptimizerPartitionRemoveUselessPartitions(query: Query) : O
                         var storeNodeTmp = node.children[0]
                         while (storeNodeTmp !is POPTripleStoreIterator) {
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
+                            storeNodeTmp = storeNodeTmp.getChildren()[0]
+                        }
+                        val storeNode = storeNodeTmp as POPTripleStoreIterator
+                        storeNode.hasSplitFromStore = false
+                        println("PhysicalOptimizerPartitionRemoveUselessPartitions : initialize specific ${node.getUUID()}")
+                        query.removePartitionOperator(node.getUUID(), node.partitionID)
+                        onChange()
+                    }
+                }
+                is POPSplitPartitionFromStoreCount -> {
+                    if (node.partitionCount == 1) {
+                        res = node.children[0]
+                        var storeNodeTmp = node.children[0]
+                        while (storeNodeTmp !is POPTripleStoreIterator) {
+// this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStoreCount
                             storeNodeTmp = storeNodeTmp.getChildren()[0]
                         }
                         val storeNode = storeNodeTmp as POPTripleStoreIterator

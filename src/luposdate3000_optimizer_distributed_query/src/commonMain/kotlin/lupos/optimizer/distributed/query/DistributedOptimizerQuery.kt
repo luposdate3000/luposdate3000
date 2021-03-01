@@ -36,6 +36,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
+import lupos.s09physicalOperators.partition.POPSplitPartitionFromStoreCount
 import lupos.s09physicalOperators.partition.POPSplitPartitionPassThrough
 import lupos.shared.optimizer.IDistributedOptimizer
 
@@ -90,6 +91,20 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                 SanityCheck.check { !operatorgraphPartsToHostMap.contains(key) || operatorgraphPartsToHostMap[key] == target }
                 operatorgraphPartsToHostMap[key] = target
             }
+            if (node is POPSplitPartitionFromStoreCount) {
+                SanityCheck.check { allIdx.size == 1 }
+                var n: IOPBase = node
+                while (n !is POPTripleStoreIterator) {
+                    n = n.getChildren()[0]
+                }
+                var partition = Partition()
+                for (i in 0 until allNames.size) {
+                    partition = Partition(partition, allNames[i], allIdx[i], allSize[i])
+                }
+                val target = n.getDesiredHostnameFor(partition)
+                SanityCheck.check { !operatorgraphPartsToHostMap.contains(key) || operatorgraphPartsToHostMap[key] == target }
+                operatorgraphPartsToHostMap[key] = target
+            }
             operatorgraphParts[key] = xml
             query!!.allVariationsKey.clear()
         } else {
@@ -128,6 +143,9 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                 is POPSplitPartitionFromStore -> {
                     SanityCheck.check { currentPartitionsCopy[node.partitionVariable] == node.partitionCount }
                 }
+                is POPSplitPartitionFromStoreCount -> {
+                    SanityCheck.check { currentPartitionsCopy[node.partitionVariable] == node.partitionCount }
+                }
                 is POPSplitPartitionPassThrough -> {
                     SanityCheck.check { currentPartitionsCopy[node.partitionVariable] == node.partitionCount }
                 }
@@ -143,6 +161,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                 is POPChangePartitionOrderedByIntId,
                 is POPSplitPartition,
                 is POPSplitPartitionFromStore,
+                is POPSplitPartitionFromStoreCount,
                 is POPSplitPartitionPassThrough
                 -> {
                     val allNames = Array(currentPartitionsCopy.size) { "" }

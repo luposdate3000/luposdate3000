@@ -63,6 +63,7 @@ public object EOptimizerIDExt {
     public const val PhysicalOptimizerPartitionRespectMaxPartitionsID: EOptimizerID = 41
     public const val PhysicalOptimizerTripleIndexID: EOptimizerID = 42
     public const val values_size: Int = 43
+
     @JvmField
     public val names: Array<String> = arrayOf(
         "LogicalOptimizerArithmeticID",

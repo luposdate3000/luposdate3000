@@ -38,6 +38,10 @@ public class POPMergePartition public constructor(query: IQuery, projectedVariab
         partitionID = idTo
     }
 
+    init {
+        SanityCheck.check { projectedVariables.size > 0 }
+    }
+
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
             1

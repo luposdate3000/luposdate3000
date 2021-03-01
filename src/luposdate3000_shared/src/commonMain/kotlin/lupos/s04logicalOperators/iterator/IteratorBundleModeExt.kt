@@ -23,6 +23,7 @@ internal object IteratorBundleModeExt {
     internal const val COUNT: IteratorBundleMode = 1
     internal const val ROW: IteratorBundleMode = 2
     internal const val values_size: Int = 3
+
     @JvmField
     internal val names: Array<String> = arrayOf(
         "COLUMN",

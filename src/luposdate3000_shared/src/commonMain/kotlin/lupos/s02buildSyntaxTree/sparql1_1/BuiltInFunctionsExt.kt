@@ -74,6 +74,7 @@ public object BuiltInFunctionsExt {
     public const val isURI: BuiltInFunctions = 52
     public const val sameTerm: BuiltInFunctions = 53
     public const val values_size: Int = 54
+
     @JvmField
     public val names: Array<String> = arrayOf(
         "ABS",

@@ -25,6 +25,7 @@ import lupos.s09physicalOperators.partition.POPMergePartitionCount
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.s09physicalOperators.partition.POPSplitPartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
+import lupos.s09physicalOperators.partition.POPSplitPartitionFromStoreCount
 
 public abstract class OptimizerCompoundBase public constructor(query: Query, optimizerID: EOptimizerID, classname: String) : OptimizerBase(query, optimizerID, classname) {
     public abstract val childrenOptimizers: Array<Array<OptimizerBase>>
@@ -50,6 +51,11 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
                 ids.add(node.partitionID)
             }
             is POPSplitPartitionFromStore -> {
+                SanityCheck.check({ currentPartitions[node.partitionVariable] == node.partitionCount }, { "${root.toXMLElement(false).toPrettyString()}" })
+                currentPartitions[node.partitionVariable] = -node.partitionCount
+                ids.add(node.partitionID)
+            }
+            is POPSplitPartitionFromStoreCount -> {
                 SanityCheck.check({ currentPartitions[node.partitionVariable] == node.partitionCount }, { "${root.toXMLElement(false).toPrettyString()}" })
                 currentPartitions[node.partitionVariable] = -node.partitionCount
                 ids.add(node.partitionID)

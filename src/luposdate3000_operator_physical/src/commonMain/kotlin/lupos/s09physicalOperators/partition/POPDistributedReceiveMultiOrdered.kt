@@ -42,6 +42,10 @@ public class POPDistributedReceiveMultiOrdered public constructor(
     child: IOPBase,
     @JvmField public val hosts: Map<String, String>, // key -> hostname
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedReceiveMultiOrderedID, "POPDistributedReceiveMultiOrdered", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+    init {
+        SanityCheck.check { projectedVariables.size > 0 }
+    }
+
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
             1
