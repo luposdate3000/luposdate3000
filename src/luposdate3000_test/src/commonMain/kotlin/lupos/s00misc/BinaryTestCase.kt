@@ -27,12 +27,17 @@ import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s03resultRepresentation.nodeGlobalDictionary
+import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s05tripleStore.TripleStoreManager
 import lupos.s05tripleStore.tripleStoreManager
+import lupos.s09physicalOperators.POPBase
+import lupos.s09physicalOperators.partition.POPMergePartition
+import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s11outputResult.QueryResultToMemoryTable
 import lupos.s11outputResult.QueryResultToXMLStream
 
@@ -406,7 +411,7 @@ public object BinaryTestCase {
                                 var bufPos = 0
                                 for (row in tableInput.data) {
                                     if (bufPos == bufS.size) {
-                                        store.modify(query2, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                                        store.modify(query2, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
                                         bufPos = 0
                                     }
                                     bufS[bufPos] = row[0]
@@ -415,53 +420,52 @@ public object BinaryTestCase {
                                     bufPos++
                                 }
                                 if (bufPos > 0) {
-                                    store.modify(query2, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufS, bufPos)), EModifyTypeExt.INSERT)
+                                    store.modify(query2, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
                                     bufPos = 0
                                 }
                                 tripleStoreManager.commit(query2)
-/*
-TODO verify triple store input
                                 val query3 = Query()
                                 val queryParam = arrayOf<IAOPBase>(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o"))
-                                val enablesPartitions = tripleStoreManager.getDefaultGraph().getEnabledPartitions()
+                                val graph = tripleStoreManager.getDefaultGraph()
                                 var success = true
-                                for (p in enablesPartitions) {
-                                    val idx = p.index.toList().first()
+                                for (
+                                    idx in listOf(
+                                        EIndexPatternExt.SPO,
+                                        EIndexPatternExt.SOP,
+                                        EIndexPatternExt.PSO,
+                                        EIndexPatternExt.POS,
+                                        EIndexPatternExt.OSP,
+                                        EIndexPatternExt.OPS,
+                                    )
+                                ) {
+                                    val iterator = graph.getIterator(query3, queryParam, idx)
                                     var tmpTable: MemoryTable? = null
-                                    if (p.partitionCount == 1) {
-                                        val node = tripleStoreManager.getDefaultGraph().getIterator(queryParam, idx, Partition())
-                                        tmpTable = operatorGraphToTable(OPBaseCompound(query3, arrayOf(node), listOf(listOf("s", "p", "o"))))
-                                    } else {
-                                        for (value in 0 until p.partitionCount) {
-                                            val partition = Partition()
-                                            val key = EIndexPatternExt.names[idx].substring(p.column, p.column + 1).toLowerCase()
-                                            partition.limit[key] = p.partitionCount
-                                            partition.data[key] = value
-                                            val iterator = tripleStoreManager.getDefaultGraph().getIterator(queryParam, idx, partition)
-                                            iterator.hasSplitFromStore = true
-                                            val node = OPBaseCompound(
-                                                query3,
-                                                arrayOf(
-                                                    POPSplitPartitionFromStore(
-                                                        query3, listOf("s", "p", "o"), key, p.partitionCount, -1,
-                                                        iterator
-                                                    )
-                                                ),
-                                                listOf(listOf("s", "p", "o"))
-                                            )
-                                            val table = operatorGraphToTable(node, partition)
+                                    var partitionCount = 1
+                                    var partitionVariable = ""
+                                    for (variable in listOf("s", "p", "o")) {
+                                        val tmp = iterator.getPartitionCount(variable)
+                                        if (tmp > partitionCount) {
+                                            partitionCount = tmp
+                                            partitionVariable = variable
                                         }
                                     }
+                                    val node: POPBase
+                                    if (partitionCount == 1) {
+                                        node = iterator as POPBase
+                                    } else {
+                                        node = POPMergePartition(query3, listOf("s", "p", "o"), partitionVariable, partitionCount, -1, POPSplitPartitionFromStore(query3, listOf("s", "p", "o"), partitionVariable, partitionCount, -1, iterator))
+                                    }
+                                    tmpTable = operatorGraphToTable(OPBaseCompound(query3, arrayOf(node), listOf(listOf("s", "p", "o"))))
                                     if (tmpTable != null) {
-                                        success = verifyEqual(tableInput, tmpTable, mappingLiveToTarget, targetDict, targetDict2, true, queryName, query_folder, "import (${EIndexPatternExt.names[idx]} ${p.column} ${p.partitionCount})") && success
+                                        success = verifyEqual(tableInput, tmpTable, mappingLiveToTarget, targetDict, targetDict2, true, queryName, query_folder, "import (${EIndexPatternExt.names[idx]} $partitionCount)") && success
+                                        println("success $success $idx")
                                     }
                                 }
                                 if (!success) {
                                     returnValue = false
-                                    println ( "----------Failed(import)" )
+                                    println("----------Failed(import)")
                                     break@func
                                 }
-*/
                             }
                             val tableOutput = MemoryTable(variables.toTypedArray())
                             if (mode == BinaryTestCaseOutputModeExt.ASK_QUERY_RESULT) {
