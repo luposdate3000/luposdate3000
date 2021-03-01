@@ -19,7 +19,6 @@ package lupos.s09physicalOperators.partition
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
 import lupos.s04logicalOperators.IOPBase
@@ -38,15 +37,12 @@ public class POPDistributedReceiveSingleCount public constructor(
     child: IOPBase,
     @JvmField public val hosts: Map<String, String>, // key -> hostname
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedReceiveSingleCountID, "POPDistributedReceiveSingleCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
-    init {
-        SanityCheck.check { projectedVariables.size > 0 }
-    }
 
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
             1
         } else {
-            children[0].getPartitionCount(variable)
+            1
         }
     }
 
@@ -114,13 +110,12 @@ public class POPDistributedReceiveSingleCount public constructor(
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val handler = communicationHandler
-        var mapping = IntArray(variables.size)
         var count = 0
         for ((k, v) in hosts) {
             val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))
             count += conn.first.readInt()
-            conn.input.close()
-            conn.output.close()
+            conn.first.close()
+            conn.second.close()
         }
         return IteratorBundle(count)
     }

@@ -45,9 +45,9 @@ public class POPDistributedSendMulti public constructor(
 
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
-            1
+            partitionCount
         } else {
-            children[0].getPartitionCount(variable)
+            1
         }
     }
 
@@ -145,15 +145,20 @@ public class POPDistributedSendMulti public constructor(
         var p = Partition()
         val bundle = children[0].evaluate(p)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
-        var buf = ResultSetDictionaryExt.nullValue + 1
+        var buf = columns[0].next()
         while (buf != ResultSetDictionaryExt.nullValue) {
 // the partition column
-            buf = columns[0].next()
             val connectionOut = data[buf % partitionCount]
             connectionOut!!.writeInt(buf)
 // all other columns
             for (i in 1 until variables.size) {
                 buf = columns[i].next()
+                connectionOut!!.writeInt(buf)
+            }
+            buf = columns[0].next()
+        }
+        for (connectionOut in data) {
+            for (i in 0 until variables.size) {
                 connectionOut!!.writeInt(buf)
             }
         }

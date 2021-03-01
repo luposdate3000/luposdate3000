@@ -18,6 +18,7 @@ package lupos.s16network
 
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
+import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s03resultRepresentation.ValueBnode
@@ -72,15 +73,22 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
     }
 
     public override fun createValue(value: ValueDefinition): Int {
-        if (value is ValueUndef) {
-            return ResultSetDictionaryExt.undefValue
-        } else {
-            output.writeInt(1)
-            val buf = value.valueToString()!!.encodeToByteArray()
-            output.writeInt(buf.size)
-            output.write(buf, buf.size)
-            output.flush()
-            return input.readInt()
+        when (value) {
+            is ValueUndef -> {
+                return ResultSetDictionaryExt.undefValue
+            }
+            is ValueError -> {
+                return ResultSetDictionaryExt.errorValue
+            }
+            else -> {
+                output.writeInt(1)
+                SanityCheck.check({ value.valueToString() != null }, { "${value.toXMLElement(false)}" })
+                val buf = value.valueToString()!!.encodeToByteArray()
+                output.writeInt(buf.size)
+                output.write(buf, buf.size)
+                output.flush()
+                return input.readInt()
+            }
         }
     }
 

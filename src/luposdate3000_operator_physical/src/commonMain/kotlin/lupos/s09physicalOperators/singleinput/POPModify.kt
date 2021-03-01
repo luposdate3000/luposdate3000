@@ -22,6 +22,7 @@ import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
+import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -36,7 +37,24 @@ import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 
-public class POPModify public constructor(query: IQuery, projectedVariables: List<String>, insert: List<LOPTriple>, delete: List<LOPTriple>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPModifyID, "POPModify", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+public class POPModify public constructor(query: IQuery, projectedVariables: List<String>, insert: List<LOPTriple>, delete: List<LOPTriple>, child: IOPBase) :
+    POPBase(query, projectedVariables, EOperatorIDExt.POPModifyID, "POPModify", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
+        val res = super.toXMLElement(false)
+        val xmlInsert = XMLElement("insert")
+        val xmlDelete = XMLElement("delete")
+        for (m in modify) {
+            if (m.second == EModifyTypeExt.INSERT) {
+                xmlInsert.addContent(m.first.toXMLElement(false))
+            } else {
+                xmlDelete.addContent(m.first.toXMLElement(false))
+            }
+        }
+        res.addContent(xmlInsert)
+        res.addContent(xmlDelete)
+        return res
+    }
+
     override fun getPartitionCount(variable: String): Int {
         SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
         return 1

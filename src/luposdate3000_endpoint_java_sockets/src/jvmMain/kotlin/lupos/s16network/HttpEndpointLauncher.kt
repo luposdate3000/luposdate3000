@@ -39,6 +39,7 @@ import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.partition.POPDistributedSendMulti
 import lupos.s09physicalOperators.partition.POPDistributedSendSingle
+import lupos.s09physicalOperators.partition.POPDistributedSendSingleCount
 import lupos.s11outputResult.EQueryResultToStreamExt
 import java.net.InetSocketAddress
 import java.net.ServerSocket
@@ -172,7 +173,6 @@ public actual object HttpEndpointLauncher {
                                 query.setDictionaryServer(dict)
                                 query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
                                 LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
-                                println("removedFrom j")
                                 removeDictionary(key)
                                 /*Coverage Unreachable*/
                             }
@@ -243,24 +243,19 @@ public actual object HttpEndpointLauncher {
                                 if (queryXML == null) {
                                     throw Exception("this query was not registered before")
                                 } else {
-                                    println("execute a")
                                     val comm = communicationHandler
 // calculate current partition
                                     var partitionNumber: Int = 0
                                     if (queryContainer.inputStreams.size > 1) {
-                                        println("execute b")
                                         for (k in key.split(":")) {
                                             val s = queryXML.attributes["partitionVariable"] + "="
                                             if (k.startsWith(s)) {
-                                                println("'$k' :: '$s' => '${k.substring(s.length)}'")
                                                 partitionNumber = k.substring(s.length).toInt()
                                                 break
                                             }
                                         }
                                     }
-                                    println("execute c")
                                     queryContainer.instanceLock.withLock {
-                                        println("execute d")
                                         queryContainer.outputStreams[partitionNumber] = connectionOutMy
                                         queryContainer.inputStreams[partitionNumber] = connectionInMy
                                         queryContainer.connections[partitionNumber] = connection
@@ -271,13 +266,10 @@ public actual object HttpEndpointLauncher {
                                                 break
                                             }
                                         }
-                                        println("${queryContainer.outputStreams.map { it != null }} $queryXML")
                                         if (flag) {
-                                            println("execute e")
 // only launch if all receivers are started
 // init dictionary
                                             var idx = dictionaryURL.indexOf("/")
-                                            println("opening dictionary :: '${dictionaryURL.substring(0, idx)}' '${dictionaryURL.substring(idx)}'")
                                             val conn = comm.openConnection(dictionaryURL.substring(0, idx), "POST " + dictionaryURL.substring(idx) + "\n\n")
                                             val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second)
                                             val query = Query(remoteDictionary)
@@ -285,7 +277,6 @@ public actual object HttpEndpointLauncher {
 // init node
                                             var node = queryContainer.instance
                                             if (node == null) {
-                                                println("execute f")
                                                 node = XMLElementToOPBase(query, queryXML) as POPBase
                                                 queryContainer.instance = node
                                             }
@@ -293,24 +284,20 @@ public actual object HttpEndpointLauncher {
 // evaluate
                                             when (node) {
                                                 is POPDistributedSendSingle -> {
-                                                    println("execute g")
+                                                    node.evaluate(connectionOutMy)
+                                                }
+                                                is POPDistributedSendSingleCount -> {
                                                     node.evaluate(connectionOutMy)
                                                 }
                                                 is POPDistributedSendMulti -> {
-                                                    println("execute h")
                                                     node.evaluate(queryContainer.outputStreams)
                                                 }
                                                 else -> throw Exception("unexpected node '${node.classname}'")
                                             }
-                                            println("execute i")
 // release
-                                            println("execute j")
                                             remoteDictionary.close()
-                                            println("execute k")
                                             conn.first.close()
-                                            println("execute l")
                                             conn.second.close()
-                                            println("execute m")
                                             for (c in queryContainer.outputStreams) {
                                                 c!!.close()
                                             }
@@ -320,14 +307,10 @@ public actual object HttpEndpointLauncher {
                                             for (c in queryContainer.connections) {
                                                 c!!.close()
                                             }
-                                            println("execute n")
                                         }
-                                        println("execute o")
                                     }
-                                    println("execute p")
 // done
                                 }
-                                println("execute q")
                                 dontCloseSockets = true
                                 queryMappings.remove(key)
                             }
@@ -346,7 +329,6 @@ public actual object HttpEndpointLauncher {
                             paths["/distributed/graph/commit"] = PathMappingHelper(true, mapOf()) {
                                 val query = Query()
                                 val origin = params["origin"] == null || params["origin"]!!.toBoolean()
-                                println("origin $origin $params")
                                 tripleStoreManager.remoteCommit(query, origin)
                                 printHeaderSuccess(connectionOutMy)
                             }

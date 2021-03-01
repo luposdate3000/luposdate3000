@@ -25,13 +25,10 @@ public open class IteratorBundle {
     @JvmField
     internal var mode: IteratorBundleMode
 
-    @JvmField
     private var _columns: Map<String, ColumnIterator>?
 
-    @JvmField
     private var _rows: RowIterator?
 
-    @JvmField
     private var counter: Int = 0
     public fun hasColumnMode(): Boolean = mode == IteratorBundleModeExt.COLUMN
     public fun hasCountMode(): Boolean = mode == IteratorBundleModeExt.COUNT

@@ -50,7 +50,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
         return if (variable == partitionVariable) {
             1
         } else {
-            children[0].getPartitionCount(variable)
+            1
         }
     }
 
@@ -119,7 +119,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = mutableListOf<String>()
         variables.addAll(projectedVariables)
-        if (partitionVariable != "_") {
+        if (partitionVariable != "_" && variables.contains(partitionVariable)) {
             variables.remove(partitionVariable)
             variables.add(0, partitionVariable)
         }

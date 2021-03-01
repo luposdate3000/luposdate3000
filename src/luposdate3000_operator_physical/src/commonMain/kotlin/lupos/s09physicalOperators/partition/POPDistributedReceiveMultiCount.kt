@@ -44,7 +44,7 @@ public class POPDistributedReceiveMultiCount public constructor(
         return if (variable == partitionVariable) {
             1
         } else {
-            children[0].getPartitionCount(variable)
+            1
         }
     }
 

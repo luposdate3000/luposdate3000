@@ -45,9 +45,9 @@ public class POPDistributedSendSingle public constructor(
 
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
-            1
+            partitionCount
         } else {
-            children[0].getPartitionCount(variable)
+            1
         }
     }
 
@@ -119,11 +119,13 @@ public class POPDistributedSendSingle public constructor(
 
     public fun evaluate(connectionOut: IMyOutputStream) {
         var partitionNumber = -1
-        for (k in hosts) {
-            if (k.contains(":$partitionVariable=")) {
+        for (j in hosts) {
+            for (k in j.split(":")) {
+                if (k.startsWith("$partitionVariable=")) {
 // dont care, if this is not directly the triple store ... .
-                partitionNumber = k.substring(k.indexOf("=") + 1).toInt()
-                break
+                    partitionNumber = k.substring("$partitionVariable=".length).toInt()
+                    break
+                }
             }
         }
         SanityCheck.check { partitionNumber >= 0 && partitionNumber < partitionCount }

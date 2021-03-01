@@ -31,7 +31,7 @@ public class POPUnion public constructor(query: IQuery, projectedVariables: List
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-                SanityCheck.check { children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }
+                SanityCheck.check({ children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) }, { "$uuid $variable  ${children[0].getProvidedVariableNames()} ${children[1].getProvidedVariableNames()} :: ${children[0].getPartitionCount(variable)} vs ${children[1].getPartitionCount(variable)} --- ${this.toXMLElement(false).toPrettyString()}" })
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)

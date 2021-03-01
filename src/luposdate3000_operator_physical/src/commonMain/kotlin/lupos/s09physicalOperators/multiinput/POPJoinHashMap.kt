@@ -62,14 +62,6 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
 // --- obtain child columns
         val columns = LOPJoin_Helper.getColumns(children[0].getProvidedVariableNames(), children[1].getProvidedVariableNames())
-        SanityCheck {
-            for (v in children[0].getProvidedVariableNames()) {
-                getPartitionCount(v)
-            }
-            for (v in children[1].getProvidedVariableNames()) {
-                getPartitionCount(v)
-            }
-        }
         SanityCheck.check { columns[0].size != 0 }
         val childA = children[0].evaluate(parent)
         val childB = children[1].evaluate(parent)

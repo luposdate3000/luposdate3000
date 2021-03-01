@@ -38,15 +38,12 @@ public class POPDistributedSendSingleCount public constructor(
     child: IOPBase,
     @JvmField public val hosts: List<String>, // key
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedSendSingleCountID, "POPDistributedSendSingleCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
-    init {
-        SanityCheck.check { projectedVariables.size > 0 }
-    }
 
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
-            1
+            partitionCount
         } else {
-            children[0].getPartitionCount(variable)
+            1
         }
     }
 
@@ -118,17 +115,19 @@ public class POPDistributedSendSingleCount public constructor(
 
     public fun evaluate(connectionOut: IMyOutputStream) {
         var partitionNumber = -1
-        for (k in hosts) {
-            if (k.contains(":$partitionVariable=")) {
+        for (j in hosts) {
+            for (k in j.split(":")) {
+                if (k.startsWith("$partitionVariable=")) {
 // dont care, if this is not directly the triple store ... .
-                partitionNumber = k.substring(k.indexOf("=") + 1).toInt()
-                break
+                    partitionNumber = k.substring("$partitionVariable=".length).toInt()
+                    break
+                }
             }
         }
         SanityCheck.check { partitionNumber >= 0 && partitionNumber < partitionCount }
         var p = Partition(Partition(), partitionVariable, partitionNumber, partitionCount)
         val bundle = children[0].evaluate(p)
-        connectionOut.writeInt(bundle.counter)
+        connectionOut.writeInt(bundle.count())
         connectionOut.flush()
     }
 }

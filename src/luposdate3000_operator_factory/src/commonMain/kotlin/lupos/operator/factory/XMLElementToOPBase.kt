@@ -84,6 +84,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallHOURS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIRI
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsIri
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsLITERAL
+import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsNUMERIC
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLANG
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLCASE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMD5
@@ -144,6 +145,7 @@ import lupos.s09physicalOperators.singleinput.POPDebug
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPGroup
 import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
+import lupos.s09physicalOperators.singleinput.POPModify
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
@@ -186,6 +188,9 @@ public object XMLElementToOPBase {
                     }
                 }
                 res = OPBaseCompound(query, childs.toTypedArray(), cpos)
+            }
+            "AOPBuildInCallIsNUMERIC" -> {
+                res = AOPBuildInCallIsNUMERIC(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase)
             }
             "OPNothing" -> {
                 val list = mutableListOf<String>()
@@ -692,6 +697,18 @@ public object XMLElementToOPBase {
                 } else {
                     POPGroup(query, createProjectedVariables(query, node, mapping), by, bindings as POPBind, child)
                 }
+            }
+            "POPModify" -> {
+                val insert = mutableListOf<LOPTriple>()
+                for (c in node["insert"]!!.childs) {
+                    insert.add(XMLElementToOPBase(query, c, mapping) as LOPTriple)
+                }
+                val delete = mutableListOf<LOPTriple>()
+                for (c in node["delete"]!!.childs) {
+                    delete.add(XMLElementToOPBase(query, c, mapping) as LOPTriple)
+                }
+                val child = XMLElementToOPBase(query, node["children"]!!.childs[0], mapping)
+                res = POPModify(query, createProjectedVariables(query, node, mapping), insert, delete, child)
             }
             "POPFilter" -> {
                 res = POPFilter(query, createProjectedVariables(query, node, mapping), XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
