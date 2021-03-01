@@ -18,8 +18,6 @@ package lupos.s09physicalOperators.partition
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.IMyInputStream
-import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -31,7 +29,7 @@ import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 
 // http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
-public class POPDistributedReceiveMultiCount public constructor(
+public class POPDistributedReceiveSingleCount public constructor(
     query: IQuery,
     projectedVariables: List<String>,
     @JvmField public val partitionVariable: String,
@@ -39,7 +37,11 @@ public class POPDistributedReceiveMultiCount public constructor(
     @JvmField public var partitionID: Int,
     child: IOPBase,
     @JvmField public val hosts: Map<String, String>, // key -> hostname
-) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedReceiveMultiCountID, "POPDistributedReceiveMultiCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedReceiveSingleCountID, "POPDistributedReceiveSingleCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+    init {
+        SanityCheck.check { projectedVariables.size > 0 }
+    }
+
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
             1
@@ -106,25 +108,19 @@ public class POPDistributedReceiveMultiCount public constructor(
         }
     }
 
-    override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), hosts)
+    override fun cloneOP(): IOPBase = POPDistributedReceiveSingleCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), hosts)
     override fun toSparql(): String = children[0].toSparql()
-    override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
+    override fun equals(other: Any?): Boolean = other is POPDistributedReceiveSingleCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        var connections = Array<MyConnection?>(partitionCount) { null }
-        var openConnections = 0
-        SanityCheck.check { hosts.size == partitionCount }
         val handler = communicationHandler
-        val allConnections = mutableMapOf<String, Pair<IMyInputStream, IMyOutputStream>>()
-        for ((k, v) in hosts) {
-            allConnections[k] = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))
-        }
+        var mapping = IntArray(variables.size)
         var count = 0
         for ((k, v) in hosts) {
-            val conn = allConnections[k]!!
+            val conn = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))
             count += conn.first.readInt()
-            conn.first.close()
-            conn.second.close()
+            conn.input.close()
+            conn.output.close()
         }
         return IteratorBundle(count)
     }

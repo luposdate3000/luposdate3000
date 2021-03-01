@@ -18,12 +18,10 @@ package lupos.s09physicalOperators.partition
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s00misc.communicationHandler
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -31,15 +29,19 @@ import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 
 // http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/
-public class POPDistributedReceiveMultiCount public constructor(
+public class POPDistributedSendSingleCount public constructor(
     query: IQuery,
     projectedVariables: List<String>,
     @JvmField public val partitionVariable: String,
     @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
     child: IOPBase,
-    @JvmField public val hosts: Map<String, String>, // key -> hostname
-) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedReceiveMultiCountID, "POPDistributedReceiveMultiCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+    @JvmField public val hosts: List<String>, // key
+) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedSendSingleCountID, "POPDistributedSendSingleCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+    init {
+        SanityCheck.check { projectedVariables.size > 0 }
+    }
+
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
             1
@@ -106,26 +108,27 @@ public class POPDistributedReceiveMultiCount public constructor(
         }
     }
 
-    override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), hosts)
+    override fun cloneOP(): IOPBase = POPDistributedSendSingleCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), hosts)
     override fun toSparql(): String = children[0].toSparql()
-    override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
+    override fun equals(other: Any?): Boolean = other is POPDistributedSendSingleCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        var connections = Array<MyConnection?>(partitionCount) { null }
-        var openConnections = 0
-        SanityCheck.check { hosts.size == partitionCount }
-        val handler = communicationHandler
-        val allConnections = mutableMapOf<String, Pair<IMyInputStream, IMyOutputStream>>()
-        for ((k, v) in hosts) {
-            allConnections[k] = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))
+        throw Exception("this must not be called !!")
+    }
+
+    public fun evaluate(connectionOut: IMyOutputStream) {
+        var partitionNumber = -1
+        for (k in hosts) {
+            if (k.contains(":$partitionVariable=")) {
+// dont care, if this is not directly the triple store ... .
+                partitionNumber = k.substring(k.indexOf("=") + 1).toInt()
+                break
+            }
         }
-        var count = 0
-        for ((k, v) in hosts) {
-            val conn = allConnections[k]!!
-            count += conn.first.readInt()
-            conn.first.close()
-            conn.second.close()
-        }
-        return IteratorBundle(count)
+        SanityCheck.check { partitionNumber >= 0 && partitionNumber < partitionCount }
+        var p = Partition(Partition(), partitionVariable, partitionNumber, partitionCount)
+        val bundle = children[0].evaluate(p)
+        connectionOut.writeInt(bundle.counter)
+        connectionOut.flush()
     }
 }
