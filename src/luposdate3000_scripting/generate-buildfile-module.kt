@@ -341,6 +341,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
             File("src.generated").mkdirs()
             val p = Paths.get("${moduleArgs.moduleFolder}${pathSeparator}src")
+            println("basepath=$p")
             Files.walk(p, 1).forEach { it ->
                 val tmp = it.toString()
                 if (tmp.length > p.toString().length) {
@@ -359,15 +360,15 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                         }
                     } else if (f.startsWith("js")) {
                         if (enableJS) {
-                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("js.*Main", "jsMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public "), pathSeparator)
+                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("js.*Main", "jsMain"), mapOf(), pathSeparator)
                         }
                     } else if (f.startsWith("native")) {
                         if (enableNative) {
-                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("native.*Main", "nativeMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public "), pathSeparator)
+                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("native.*Main", "nativeMain"), mapOf(), pathSeparator)
                         }
                     } else if (f.startsWith(moduleArgs.platform)) {
                         if (enableNative) {
-                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("${moduleArgs.platform}.*Main", "${moduleArgs.platform}Main"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public "), pathSeparator)
+                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("${moduleArgs.platform}.*Main", "${moduleArgs.platform}Main"), mapOf(), pathSeparator)
                         }
                     }
                 }
@@ -618,25 +619,25 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 }
                 out.println("    }")
                 if (buildForIDE) {
-                    if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_Inline")) {
+                    if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
                         out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
                         out.println("    sourceSets[\"commonMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}resources\")")
                     }
                     if (enableJVM) {
-                        if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_Inline")) {
+                        if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
                             out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
                             out.println("    sourceSets[\"jvmMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}resources\")")
                         }
                     }
                     if (enableJS) {
-                        if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_Inline")) {
+                        if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
                             out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
                             out.println("    sourceSets[\"jsMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}resources\")")
                         }
                     }
                     if (enableNative) {
                         out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
-                        if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_Inline")) {
+                        if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
                             out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
                             out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}${moduleArgs.platform}Main${pathSeparatorEscaped}resources\")")
                             out.println("    sourceSets[\"${moduleArgs.platform}Main\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
@@ -746,133 +747,140 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
 // selectively copy classes which are inlined from the inline internal module ->
         val classNamesRegex = Regex("\\s*([a-zA-Z0-9_]*)")
         val classNamesFound = mutableMapOf<String, MutableSet<String>>()
-        for (f in File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src").walk()) {
-            if (f.isFile()) {
-                try {
-                    f.forEachLine { it ->
-                        var tmp = ""
-                        var idxClass = it.indexOf("class")
-                        if (idxClass >= 0) {
-                            tmp = it.substring(idxClass + 5)
-                        } else {
-                            var idxObject = it.indexOf("object")
-                            if (idxObject >= 0) {
-                                tmp = it.substring(idxObject + 6)
+        if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
+            for (f in File("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src").walk()) {
+                if (f.isFile()) {
+                    try {
+                        f.forEachLine { it ->
+                            var tmp = ""
+                            var idxClass = it.indexOf("class")
+                            if (idxClass >= 0) {
+                                tmp = it.substring(idxClass + 5)
                             } else {
-                                var idxInterface = it.indexOf("interface")
-                                if (idxInterface >= 0) {
-                                    tmp = it.substring(idxInterface + 9)
-                                }
-                            }
-                        }
-                        if (tmp.length > 0) {
-                            var tmp2 = classNamesRegex.find(tmp)!!.groupValues[1]
-                            if (tmp2.startsWith("_")) {
-                                tmp2 = tmp2.substring(1)
-                            }
-                            if (tmp2.length > 0) {
-                                val tmp3 = classNamesFound[tmp2]
-                                if (tmp3 == null) {
-                                    classNamesFound[tmp2] = mutableSetOf(f.toString())
+                                var idxObject = it.indexOf("object")
+                                if (idxObject >= 0) {
+                                    tmp = it.substring(idxObject + 6)
                                 } else {
-                                    tmp3.add(f.toString())
+                                    var idxInterface = it.indexOf("interface")
+                                    if (idxInterface >= 0) {
+                                        tmp = it.substring(idxInterface + 9)
+                                    }
+                                }
+                            }
+                            if (tmp.length > 0) {
+                                var tmp2 = classNamesRegex.find(tmp)!!.groupValues[1]
+                                if (tmp2.startsWith("_")) {
+                                    tmp2 = tmp2.substring(1)
+                                }
+                                if (tmp2.length > 0) {
+                                    val tmp3 = classNamesFound[tmp2]
+                                    if (tmp3 == null) {
+                                        classNamesFound[tmp2] = mutableSetOf(f.toString())
+                                    } else {
+                                        tmp3.add(f.toString())
+                                    }
                                 }
                             }
                         }
+                    } catch (e: Throwable) {
+                        e.printStackTrace()
                     }
-                } catch (e: Throwable) {
-                    e.printStackTrace()
+                } else {
+                    if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
+                        val f2 = File(f.toString().replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated"))
+                        f2.mkdirs()
+                    }
+                }
+            }
+            if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
+                if (copySelevtively) {
+                    var changed = true
+                    while (changed) {
+                        changed = false
+                        val classNamesUsed = mutableMapOf<String, MutableSet<String>>()
+                        for (f in File("src.generated").walk()) {
+                            if (f.isFile()) {
+                                try {
+                                    f.forEachLine { line ->
+                                        val tmpSet = mutableListOf(line)
+                                        val tmpAlias = mutableSetOf<String>()
+                                        for ((k, v) in typeAliasAll) {
+                                            if (line.indexOf(k) >= 0) {
+                                                tmpSet.add(v.second)
+                                                typeAliasUsed[k] = v
+                                                tmpAlias.add(k)
+                                            }
+                                        }
+                                        for (a in tmpAlias) {
+                                            typeAliasAll.remove(a)
+                                        }
+                                        for (it in tmpSet) {
+                                            val tmp = mutableSetOf<String>()
+                                            for ((k, v) in classNamesFound) {
+                                                if (it.indexOf(k) >= 0) {
+                                                    classNamesUsed[k] = v
+                                                    tmp.add(k)
+                                                    changed = true
+                                                }
+                                            }
+                                            for (k in tmp) {
+                                                classNamesFound.remove(k)
+                                            }
+                                        }
+                                    }
+                                } catch (e: Throwable) {
+                                    e.printStackTrace()
+                                }
+                            }
+                        }
+                        for ((k, v) in classNamesUsed) {
+                            for (fname in v) {
+                                val src = File(fname)
+                                val dest = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated"))
+                                copyFileWithReplacement(src, dest, mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"))
+                                try {
+                                    val src2 = File(fname.replace(".kt", "Alias.kt"))
+                                    val dest2 = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated").replace(".kt", "Alias.kt"))
+                                    copyFileWithReplacement(src2, dest2, mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"))
+                                } catch (e: Throwable) {
+                                }
+                            }
+                        }
+                        println(classNamesUsed.keys)
+                    }
+                } else {
+                    typeAliasUsed.putAll(typeAliasAll)
+                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src"), "src.generated", mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
                 }
             } else {
-                if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
-                    val f2 = File(f.toString().replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated"))
-                    f2.mkdirs()
+                var configPathBase = "src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleArgs.moduleFolder}${pathSeparator}src"
+                var configPath = "${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc"
+                File(configPath).mkdirs()
+                typeAliasUsed.putAll(typeAliasAll)
+                try {
+                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}commonMain"), ("${configPathBase}${pathSeparator}commonMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
+                } catch (e: Throwable) {
+                }
+                try {
+                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jvmMain"), ("${configPathBase}${pathSeparator}jvmMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
+                } catch (e: Throwable) {
+                }
+                try {
+                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jsMain"), ("${configPathBase}${pathSeparator}jsMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
+                } catch (e: Throwable) {
+                }
+                try {
+                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}nativeMain"), ("${configPathBase}${pathSeparator}nativeMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
+                } catch (e: Throwable) {
                 }
             }
         }
         var configFile: String
         if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
-            if (copySelevtively) {
-                var changed = true
-                while (changed) {
-                    changed = false
-                    val classNamesUsed = mutableMapOf<String, MutableSet<String>>()
-                    for (f in File("src.generated").walk()) {
-                        if (f.isFile()) {
-                            try {
-                                f.forEachLine { line ->
-                                    val tmpSet = mutableListOf(line)
-                                    val tmpAlias = mutableSetOf<String>()
-                                    for ((k, v) in typeAliasAll) {
-                                        if (line.indexOf(k) >= 0) {
-                                            tmpSet.add(v.second)
-                                            typeAliasUsed[k] = v
-                                            tmpAlias.add(k)
-                                        }
-                                    }
-                                    for (a in tmpAlias) {
-                                        typeAliasAll.remove(a)
-                                    }
-                                    for (it in tmpSet) {
-                                        val tmp = mutableSetOf<String>()
-                                        for ((k, v) in classNamesFound) {
-                                            if (it.indexOf(k) >= 0) {
-                                                classNamesUsed[k] = v
-                                                tmp.add(k)
-                                                changed = true
-                                            }
-                                        }
-                                        for (k in tmp) {
-                                            classNamesFound.remove(k)
-                                        }
-                                    }
-                                }
-                            } catch (e: Throwable) {
-                                e.printStackTrace()
-                            }
-                        }
-                    }
-                    for ((k, v) in classNamesUsed) {
-                        for (fname in v) {
-                            val src = File(fname)
-                            val dest = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated"))
-                            copyFileWithReplacement(src, dest, mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"))
-                            try {
-                                val src2 = File(fname.replace(".kt", "Alias.kt"))
-                                val dest2 = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated").replace(".kt", "Alias.kt"))
-                                copyFileWithReplacement(src2, dest2, mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"))
-                            } catch (e: Throwable) {
-                            }
-                        }
-                    }
-                    println(classNamesUsed.keys)
-                }
-            } else {
-                typeAliasUsed.putAll(typeAliasAll)
-                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src"), "src.generated", mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
-            }
             configFile = "src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}Config-${moduleArgs.moduleName}.kt"
         } else {
             var configPathBase = "src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleArgs.moduleFolder}${pathSeparator}src"
             var configPath = "${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc"
-            File(configPath).mkdirs()
-            typeAliasUsed.putAll(typeAliasAll)
-            try {
-                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}commonMain"), ("${configPathBase}${pathSeparator}commonMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
-            } catch (e: Throwable) {
-            }
-            try {
-                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jvmMain"), ("${configPathBase}${pathSeparator}jvmMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
-            } catch (e: Throwable) {
-            }
-            try {
-                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jsMain"), ("${configPathBase}${pathSeparator}jsMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
-            } catch (e: Throwable) {
-            }
-            try {
-                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}nativeMain"), ("${configPathBase}${pathSeparator}nativeMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
-            } catch (e: Throwable) {
-            }
             configFile = "${configPath}${pathSeparator}Config-${moduleArgs.moduleName}.kt"
         }
         println(typeAliasUsed.keys)

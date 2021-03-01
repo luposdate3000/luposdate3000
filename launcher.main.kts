@@ -38,6 +38,7 @@ import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.util.jar.JarFile
 
 var compileModuleArgs = mutableMapOf<String, MutableMap<String, String>>()
+var jsBrowserMode = true
 var releaseMode = ""
 var suspendMode = ""
 var inlineMode = ""
@@ -128,6 +129,12 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                             "enabledRun=endpointMode:Java_Sockets" -> {
                                 enabledRunFunc = { endpointMode == "Java_Sockets" }
                             }
+                            "enabledRun=jsBrowserMode:true" -> {
+                                enabledRunFunc = { jsBrowserMode }
+                            }
+                            "enabledRun=jsBrowserMode:false" -> {
+                                enabledRunFunc = { !jsBrowserMode }
+                            }
                             "enabledRun=endpointMode:None" -> {
                                 enabledRunFunc = { endpointMode == "None" }
                             }
@@ -194,7 +201,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                         .ssetCodegenKAPT(kapt)
                     )
                 val dep = mutableSetOf<String>()
-                if (name != "Luposdate3000_Shared") {
+                if (!name.startsWith("Luposdate3000_Shared")) {
                     dep.add("Luposdate3000_Shared")
                 }
                 dependencyMap[name] = dep
@@ -801,7 +808,7 @@ fun onRun() {
             File("build-cache${Platform.getPathSeparator()}node_modules").deleteRecursively()
             File("build-cache${Platform.getPathSeparator()}node_modules").mkdirs()
             class JSHelper(val path: String, val name: String)
-
+            jsBrowserMode = false
             val files = mutableListOf<JSHelper>()
             for (module in getAllModuleConfigurations()) {
                 if (module.enabledRunFunc() && module.modulePrefix != "Luposdate3000_Main") {
@@ -1117,6 +1124,7 @@ fun copyJSLibsIntoFolder(targetFolder: String) {
 }
 
 fun onSetupJS() {
+    jsBrowserMode = true
     File("build-cache${Platform.getPathSeparator()}index.html").printWriter().use { out ->
         out.println("<!DOCTYPE html>")
         out.println("<html lang=\"en\">")
@@ -1145,7 +1153,6 @@ fun onSetupJS() {
         out.println("</html>")
     }
     copyJSLibsIntoFolder("build-cache")
-    onCompile()
 }
 
 fun find(path: String, fName: String): File? {

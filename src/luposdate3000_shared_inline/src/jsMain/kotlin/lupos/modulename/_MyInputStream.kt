@@ -23,13 +23,17 @@ internal actual class _MyInputStream : IMyInputStream {
     internal val fd: Int
     internal var pos = 0
 
+    internal constructor(filename: String) {
+        this.fd = ext.fs.ExternalModule_fs.openSync(filename, "r")
+    }
+
     internal constructor(fd: Int) {
         this.fd = fd
     }
 
     public actual override fun readInt(): Int {
         val buffer = ByteArray(4)
-        val l = ext.fs.readSync(fd, buffer, 0, buffer.size, pos)
+        val l = ext.fs.ExternalModule_fs.readSync(fd, buffer, 0, buffer.size, pos)
         if (l != 4) {
             throw Exception("invalid len $l")
         }
@@ -39,7 +43,7 @@ internal actual class _MyInputStream : IMyInputStream {
 
     public actual override fun readByte(): Byte {
         val buffer = ByteArray(1)
-        val l = ext.fs.readSync(fd, buffer, 0, buffer.size, pos)
+        val l = ext.fs.ExternalModule_fs.readSync(fd, buffer, 0, buffer.size, pos)
         if (l != 1) {
             throw Exception("invalid len $l")
         }
@@ -48,7 +52,7 @@ internal actual class _MyInputStream : IMyInputStream {
     }
 
     public actual override fun read(buf: ByteArray, off: Int, len: Int): Int {
-        val l = ext.fs.readSync(fd, buf, off, len, pos)
+        val l = ext.fs.ExternalModule_fs.readSync(fd, buf, off, len, pos)
         pos += l
         return l
     }
@@ -57,7 +61,7 @@ internal actual class _MyInputStream : IMyInputStream {
         var off = 0
         var l = len
         while (l > 0) {
-            val tmp = ext.fs.readSync(fd, buf, off, len, pos)
+            val tmp = ext.fs.ExternalModule_fs.readSync(fd, buf, off, len, pos)
             if (tmp <= 0) {
                 return len - l
             }
@@ -73,6 +77,7 @@ internal actual class _MyInputStream : IMyInputStream {
     }
 
     public actual override fun close() {
+        ext.fs.ExternalModule_fs.closeSync(fd)
     }
 
     public actual override fun readLine(): String? {

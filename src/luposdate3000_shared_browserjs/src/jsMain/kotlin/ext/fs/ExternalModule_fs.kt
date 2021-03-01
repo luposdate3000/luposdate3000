@@ -14,22 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-@file:JsModule("fs")
-@file:JsNonModule
 
 package ext.fs
 
-@JsName("openSync")
-public external fun openSync(filename: String, flags: String): Int
-
-@JsName("readSync")
-public external fun readSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int
-
-@JsName("writeSync")
-public external fun writeSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int
-
-@JsName("closeSync")
-public external fun closeSync(fd: Int)
-
-@JsName("readFileSync")
-public external fun readFileSync(filename: String): ByteArray
+public object ExternalModule_fs {
+    public fun openSync(filename: String, flags: String): Int = openSync_(filename, flags)
+    public fun readSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int = readSync_(fd, buffer, offset, length, position)
+    public fun writeSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int = writeSync_(fd, buffer, offset, length, position)
+    public fun closeSync(fd: Int): Unit = closeSync_(fd)
+    public fun readFileSync(filename: String): ByteArray = readFileSync_(filename)
+}

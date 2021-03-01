@@ -45,7 +45,11 @@ internal actual class _File {
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun readAsString(): String {
-        return ext.fs.readFileSync(filename).decodeToString()
+        var res = StringBuilder()
+        forEachLine { it ->
+            res.appendLine(it)
+        }
+        return res.toString()
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -62,12 +66,12 @@ internal actual class _File {
     }
 
     internal actual inline fun forEachLine(crossinline action: (String) -> Unit) {
-        val fd = ext.fs.openSync(filename, "r")
+        val stream = MyInputStream(filename)
         val buffer = ByteArray(8192)
         var pos = 0
         val s = mutableListOf<Byte>()
         while (true) {
-            val len = ext.fs.readSync(fd, buffer, 0, buffer.size, pos)
+            val len = stream.read(buffer, buffer.size)
             if (len == 0) {
                 break
             }
@@ -83,15 +87,14 @@ internal actual class _File {
             pos += len
         }
         action(s.toByteArray().decodeToString())
-        ext.fs.closeSync(fd)
+        stream.close()
     }
 
     internal actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit): Unit = throw NotImplementedException("File", "withOutputStream not implemented")
     internal actual inline fun withInputStream(crossinline action: (IMyInputStream) -> Unit) {
-        val fd = ext.fs.openSync(filename, "r")
-        val stream = MyInputStream(fd)
+        val stream = MyInputStream(filename)
         action(stream)
-        ext.fs.closeSync(fd)
+        stream.close()
     }
 
     actual override fun equals(other: Any?): Boolean = throw NotImplementedException("File", "equals not implemented")
