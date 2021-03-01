@@ -1,6 +1,8 @@
 package config
 
 import com.javadocmd.simplelatlng.LatLng
+import com.javadocmd.simplelatlng.LatLngTool
+import com.javadocmd.simplelatlng.util.LengthUnit
 import iot.*
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
@@ -99,10 +101,9 @@ object Config {
     }
 
     private fun createConnection(src: Device, dest: Device, p: NetworkProtocol) {
-
-        //require(distance <= p.rangeInMeters)
+        val distance = LatLngTool.distance(src.location, dest.location, LengthUnit.METER)
         val con = ConnectionParameter(p.dataRateInKbps, p.rangeInMeters.toDouble(),
-            p.name, 0.0)
+            p.name, distance)
         src.networkCard.addDirectConnection(dest.name, con)
     }
 
