@@ -3,7 +3,7 @@ package iot
 import simulation.Entity
 import simulation.Event
 
-class NetworkCard(val device: Device) : Entity() {
+class NetworkController(val device: Device) : Entity() {
 
     private var directConnections: MutableMap<String,Connection> = HashMap()
 

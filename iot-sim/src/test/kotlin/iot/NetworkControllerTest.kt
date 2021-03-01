@@ -3,7 +3,7 @@ package iot
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
-class NetworkCardTest {
+class NetworkControllerTest {
 
 
     @Test
