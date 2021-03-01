@@ -415,6 +415,9 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             }
         }
         val jsDependencies = mutableSetOf<String>()
+        if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
+            jsDependencies.add("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
+        }
         if (File("${moduleArgs.moduleFolder}${pathSeparator}jsDependencies").exists()) {
             File("${moduleArgs.moduleFolder}${pathSeparator}jsDependencies").forEachLine {
                 if (it.length > 0) {

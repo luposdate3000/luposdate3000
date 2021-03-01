@@ -204,6 +204,9 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                 if (!name.startsWith("Luposdate3000_Shared")) {
                     dep.add("Luposdate3000_Shared")
                 }
+                if (!name.startsWith("Luposdate3000_Shared_")) {
+                    dep.add("Luposdate3000_Shared_BrowserJS")
+                }
                 dependencyMap[name] = dep
                 for (t in listOf("js", "jvm", "common", "native")) {
                     val f2 = File(filename + "/${t}Dependencies")
