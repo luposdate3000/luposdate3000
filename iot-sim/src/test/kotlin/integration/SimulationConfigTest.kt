@@ -1,13 +1,9 @@
 package integration;
 
-import com.javadocmd.simplelatlng.LatLng
 import config.ConfigParser
-import iot.*
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import simulation.Entity
 import simulation.Simulation
 
 class SimulationConfigTest {
@@ -38,8 +34,10 @@ class SimulationConfigTest {
     fun `message to other connected device do delay`(fileName: String) {
         ConfigParser.parse(fileName)
         val sensorDataRate = ConfigParser.jsonObjects.sensorType[0].dataRateInSeconds
-        val sendingDevice = ConfigParser.devices["garageA1"]!!
-        val receivingDevice = sendingDevice.networkCard.connections[0].destination
+        val sendingDeviceAddress = ConfigParser.jsonObjects.randomNetwork[0].name + "1"
+        val sendingDevice = ConfigParser.devices[sendingDeviceAddress]!!
+        val receivingDeviceAddress = ConfigParser.jsonObjects.randomNetwork[0].dataSink
+        val receivingDevice = ConfigParser.devices[receivingDeviceAddress]!!
         val delay = sendingDevice.networkCard.getNetworkDelay(receivingDevice)
 
         val maxClock: Long = sensorDataRate.toLong() + delay

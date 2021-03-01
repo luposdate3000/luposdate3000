@@ -8,5 +8,4 @@ data class Connection(
     val maxDistanceInMeters: Double,
     val protocolName: String,
     var distance: Double,
-    var destination: Device
 )

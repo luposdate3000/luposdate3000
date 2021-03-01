@@ -5,7 +5,8 @@ import simulation.Event
 
 class NetworkCard(val device: Device) : Entity() {
 
-    var connections: MutableList<Connection> = ArrayList()
+    private var directConnections: MutableMap<String,Connection> = HashMap()
+
 
     fun getNetworkDelay(destination: Device): Long {
         return if (destination == device) {
@@ -42,5 +43,20 @@ class NetworkCard(val device: Device) : Entity() {
 
     override fun shutDownEntity() {
     }
+
+    fun addDirectConnection(destAddress: String, params: Connection) {
+        directConnections[destAddress] = params
+    }
+
+    fun hasDirectConnection(destAddress: String)
+        = directConnections.containsKey(destAddress)
+
+    fun removeDirectConnection(destAddress: String) {
+        directConnections.remove(destAddress)
+    }
+
+    fun getDirectConnection(destAddress: String)
+        = directConnections[destAddress]!!
+
 
 }

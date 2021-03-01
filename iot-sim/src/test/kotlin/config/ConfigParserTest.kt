@@ -3,10 +3,8 @@ package config;
 import com.javadocmd.simplelatlng.LatLng
 import iot.*
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import simulation.Entity
 
 class ConfigParserTest {
 
@@ -32,7 +30,6 @@ class ConfigParserTest {
         Assertions.assertEquals(ConfigParser.jsonObjects.fixedDevices.size, devices.size)
         Assertions.assertEquals(deviceName, devices[deviceName]!!.name)
         Assertions.assertEquals(location, devices[deviceName]!!.location)
-        Assertions.assertTrue(devices[deviceName]!!.networkCard.connections.isEmpty())
         Assertions.assertNull(devices[deviceName]!!.application)
         Assertions.assertTrue(devices[deviceName]!!.sensors.isEmpty())
         Assertions.assertTrue(devices[deviceName]!!.powerSupply.isInfinite)
@@ -86,16 +83,17 @@ class ConfigParserTest {
     fun `two devices have a connection`(fileName: String) {
         ConfigParser.parse(fileName)
         val devices = ConfigParser.devices
+        val device2Address = "Fog1"
+        val device1Address = "Tower1"
         val device1 = devices["Tower1"]!!
-        val device2 = devices["Fog1"]!!
-        Assertions.assertEquals(1, device1.networkCard.connections.size)
-        Assertions.assertEquals(device2, device1.networkCard.connections[0].destination)
-        Assertions.assertEquals(-1, device1.networkCard.connections[0].dataRateInKbps)
-        Assertions.assertEquals("WIRE", device1.networkCard.connections[0].protocolName)
-        Assertions.assertEquals(1, device2.networkCard.connections.size)
-        Assertions.assertEquals(device1, device2.networkCard.connections[0].destination)
-        Assertions.assertEquals(-1, device2.networkCard.connections[0].dataRateInKbps)
-        Assertions.assertEquals("WIRE", device2.networkCard.connections[0].protocolName)
+        val device2 = devices[device2Address]!!
+        val con1 = device1.networkCard.getDirectConnection(device2Address)
+        val con2 = device2.networkCard.getDirectConnection(device1Address)
+        Assertions.assertTrue(device1.networkCard.hasDirectConnection(device2Address))
+        Assertions.assertEquals(-1, con1.dataRateInKbps)
+        Assertions.assertEquals("WIRE", con1.protocolName)
+
+        Assertions.assertEquals(con1, con2)
     }
 
     @ParameterizedTest
@@ -103,15 +101,16 @@ class ConfigParserTest {
     fun `one random network`(fileName: String) {
         ConfigParser.parse(fileName)
         val devices = ConfigParser.devices
-        val rootDevice = devices["Fog1"]!!
+        val rootDeviceAddress = "Fog1"
+        val rootDevice = devices[rootDeviceAddress]!!
+        val nic = rootDevice.networkCard
         val number = 30
         Assertions.assertEquals(number + 1, devices.size)
-        Assertions.assertEquals(number, rootDevice.networkCard.connections.size)
-        for(n in 0 until number) {
-            val other = rootDevice.networkCard.connections[n].destination
-            Assertions.assertNotNull(devices[other.name])
-            Assertions.assertEquals(1, other.networkCard.connections.size)
-            Assertions.assertEquals(rootDevice, other.networkCard.connections[0].destination)
+        for(n in 1 .. number) {
+            val otherAddress: String = ConfigParser.jsonObjects.randomNetwork[0].name + n
+            Assertions.assertTrue(nic.hasDirectConnection(otherAddress))
+            val otherNic = devices[otherAddress]!!.networkCard
+            Assertions.assertTrue(otherNic.hasDirectConnection(rootDeviceAddress))
         }
     }
 

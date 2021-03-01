@@ -19,6 +19,7 @@ class DeviceTest {
         val powerSupply = PowerSupply(-1.0)
         val device = Device(powerSupply, loc, name, app, sensors)
         Assertions.assertNotNull(device.networkCard)
+
     }
 
 }

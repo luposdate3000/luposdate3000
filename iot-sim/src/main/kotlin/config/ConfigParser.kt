@@ -102,8 +102,8 @@ object ConfigParser {
         val distance = src.networkCard.getDistance(dest)
         //require(distance <= p.rangeInMeters)
         val con = Connection(p.dataRateInKbps, p.rangeInMeters.toDouble(),
-            p.name, distance, dest)
-        src.networkCard.connections.add(con)
+            p.name, distance)
+        src.networkCard.addDirectConnection(dest.name, con)
     }
 
 
