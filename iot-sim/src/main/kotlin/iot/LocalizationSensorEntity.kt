@@ -5,7 +5,8 @@ import simulation.Event
 
 class LocalizationSensorEntity(
     name: String,
-    dataRateInSeconds: Int) : Sensor(name, dataRateInSeconds) {
+    dataRateInSeconds: Int, dataSink: Device, device: Device
+) : Sensor(name, dataRateInSeconds, dataSink, device) {
 
     override fun startUpEntity() {
 

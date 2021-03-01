@@ -64,6 +64,7 @@ object ConfigParser {
             val deviceName = network.name + i.toString()
             val location = RandomGenerator.getLocationInRangeOf(dataSink.location, protocol.rangeInMeters)
             val createdDevice = createDevice(deviceType, location, deviceName)
+            setSinkOfSensors(createdDevice.sensors, dataSink)
             put(createdDevice.name, createdDevice)
 
             //AddConnection
@@ -72,6 +73,11 @@ object ConfigParser {
         }
     }
 
+    private fun setSinkOfSensors(sensors: List<Sensor>, dataSink: Device) {
+        for (sensor in sensors) {
+            sensor.dataSink = dataSink
+        }
+    }
 
 
     private fun createFixedDevices() {
@@ -93,11 +99,11 @@ object ConfigParser {
     }
 
     private fun createConnection(src: Device, dest: Device, p: NetworkProtocol) {
-        val distance = src.getDistance(dest)
+        val distance = src.networkCard.getDistance(dest)
         //require(distance <= p.rangeInMeters)
         val con = Connection(p.dataRateInKbps, p.rangeInMeters.toDouble(),
-            p.name, 0.0, dest)
-        src.connections.add(con)
+            p.name, distance, dest)
+        src.networkCard.connections.add(con)
     }
 
 
@@ -111,13 +117,16 @@ object ConfigParser {
     private fun createDevice(deviceType: DeviceType, location: LatLng, name: String): Device {
         val powerSupply = PowerSupply(deviceType.powerCapacity)
         val application = createAppEntity(deviceType)
-        val sensors = createSensorEntities(deviceType.sensors)
-        val device = Device(powerSupply, location, name, application, sensors)
-        initializeDeviceSensors(device)
+        val device = Device(powerSupply, location, name, application)
+        val sensors = createSensorEntities(deviceType.sensors, device)
+        device.sensors.addAll(sensors)
+        entities.add(device.networkCard)
         return device
     }
 
-    private fun initializeDeviceSensors(device: Device) {
+
+
+    private fun initializeDeviceSensors(device: Device, sink: Device) {
         for (sensor in device.sensors) {
             sensor.device = device
             sensor.dataSink = device
@@ -142,32 +151,36 @@ object ConfigParser {
         return element
     }
 
-    private fun createAppEntity(deviceType: DeviceType) : Entity {
-        val entity = if (deviceType.application) AppEntity() else NoAppEntity()
-        entities.add(entity)
-        return entity
+    private fun createAppEntity(deviceType: DeviceType) : Entity? {
+        var app: Entity? = null
+        if (deviceType.application) {
+            app = AppEntity()
+            entities.add(app)
+        }
+
+        return app
     }
 
-    private fun createSensorEntities(sensorRefs: List<String>) : List<Sensor> {
+    private fun createSensorEntities(sensorRefs: List<String>, device: Device) : List<Sensor> {
         val sensors = ArrayList<Sensor>(sensorRefs.size)
         for (sensorRef in sensorRefs) {
-            val sensor = createSensorEntity(sensorRef)
+            val sensor = createSensorEntity(sensorRef, device)
             sensors.add(sensor)
             entities.add(sensor)
         }
         return sensors
     }
 
-    private fun createSensorEntity(sensorRef: String) : Sensor {
+    private fun createSensorEntity(sensorRef: String, device: Device) : Sensor {
         val sensorType = findSensorType(sensorRef)
         val name = sensorType.name
         val rate = sensorType.dataRateInSeconds
         return when (sensorType.name) {
             "Parking" -> {
-                ParkingSensorEntity(name, rate)
+                ParkingSensorEntity(name, rate, device, device)
             }
             "Localization" -> {
-                LocalizationSensorEntity(name, rate)
+                LocalizationSensorEntity(name, rate, device, device)
             }
             else -> {
                 throw IllegalArgumentException()

@@ -12,7 +12,7 @@ class ConfigParserTest {
 
 
     @ParameterizedTest
-    @ValueSource(strings = ["configEmptyFile.json"])
+    @ValueSource(strings = ["config/configEmptyFile.json"])
     fun `parse empty config file`(fileName: String) {
         ConfigParser.parse(fileName)
         Assertions.assertTrue(ConfigParser.devices.isEmpty())
@@ -20,7 +20,7 @@ class ConfigParserTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["configOneSimpleDevice.json"])
+    @ValueSource(strings = ["config/configOneSimpleDevice.json"])
     fun `one simple device`(fileName: String) {
         ConfigParser.parse(fileName)
         val devices = ConfigParser.devices
@@ -32,15 +32,15 @@ class ConfigParserTest {
         Assertions.assertEquals(ConfigParser.jsonObjects.fixedDevices.size, devices.size)
         Assertions.assertEquals(deviceName, devices[deviceName]!!.name)
         Assertions.assertEquals(location, devices[deviceName]!!.location)
-        Assertions.assertTrue(devices[deviceName]!!.connections.isEmpty())
-        Assertions.assertTrue(devices[deviceName]!!.application is NoAppEntity)
+        Assertions.assertTrue(devices[deviceName]!!.networkCard.connections.isEmpty())
+        Assertions.assertNull(devices[deviceName]!!.application)
         Assertions.assertTrue(devices[deviceName]!!.sensors.isEmpty())
         Assertions.assertTrue(devices[deviceName]!!.powerSupply.isInfinite)
         Assertions.assertEquals(1, ConfigParser.entities.size)
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["configOneComplexDevice.json"])
+    @ValueSource(strings = ["config/configOneComplexDevice.json"])
     fun `one application device with sensors`(fileName: String) {
         ConfigParser.parse(fileName)
         val devices = ConfigParser.devices
@@ -50,11 +50,11 @@ class ConfigParserTest {
         Assertions.assertEquals(numSensors, devices[deviceName]!!.sensors.size)
         Assertions.assertEquals(70.0, devices[deviceName]!!.powerSupply.actualCapacity)
         Assertions.assertFalse(devices[deviceName]!!.powerSupply.isInfinite)
-        Assertions.assertEquals(1 + numSensors, ConfigParser.entities.size)
+        Assertions.assertEquals(2 + numSensors, ConfigParser.entities.size)
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["configOneComplexDevice.json"])
+    @ValueSource(strings = ["config/configOneComplexDevice.json"])
     fun `sensors know their device`(fileName: String) {
         ConfigParser.parse(fileName)
         val devices = ConfigParser.devices
@@ -67,7 +67,7 @@ class ConfigParserTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["configOneComplexDevice.json"])
+    @ValueSource(strings = ["config/configOneComplexDevice.json"])
     fun `sensors get correct values`(fileName: String) {
         ConfigParser.parse(fileName)
         val devices = ConfigParser.devices
@@ -82,41 +82,41 @@ class ConfigParserTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["configOneFixedConnection.json"])
+    @ValueSource(strings = ["config/configOneFixedConnection.json"])
     fun `two devices have a connection`(fileName: String) {
         ConfigParser.parse(fileName)
         val devices = ConfigParser.devices
         val device1 = devices["Tower1"]!!
         val device2 = devices["Fog1"]!!
-        Assertions.assertEquals(1, device1.connections.size)
-        Assertions.assertEquals(device2, device1.connections[0].destination)
-        Assertions.assertEquals(-1, device1.connections[0].dataRateInKbps)
-        Assertions.assertEquals("WIRE", device1.connections[0].protocolName)
-        Assertions.assertEquals(1, device2.connections.size)
-        Assertions.assertEquals(device1, device2.connections[0].destination)
-        Assertions.assertEquals(-1, device2.connections[0].dataRateInKbps)
-        Assertions.assertEquals("WIRE", device2.connections[0].protocolName)
+        Assertions.assertEquals(1, device1.networkCard.connections.size)
+        Assertions.assertEquals(device2, device1.networkCard.connections[0].destination)
+        Assertions.assertEquals(-1, device1.networkCard.connections[0].dataRateInKbps)
+        Assertions.assertEquals("WIRE", device1.networkCard.connections[0].protocolName)
+        Assertions.assertEquals(1, device2.networkCard.connections.size)
+        Assertions.assertEquals(device1, device2.networkCard.connections[0].destination)
+        Assertions.assertEquals(-1, device2.networkCard.connections[0].dataRateInKbps)
+        Assertions.assertEquals("WIRE", device2.networkCard.connections[0].protocolName)
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["configOneRandomNetwork.json"])
+    @ValueSource(strings = ["config/configOneRandomNetwork.json"])
     fun `one random network`(fileName: String) {
         ConfigParser.parse(fileName)
         val devices = ConfigParser.devices
         val rootDevice = devices["Fog1"]!!
         val number = 30
         Assertions.assertEquals(number + 1, devices.size)
-        Assertions.assertEquals(number, rootDevice.connections.size)
+        Assertions.assertEquals(number, rootDevice.networkCard.connections.size)
         for(n in 0 until number) {
-            val other = rootDevice.connections[n].destination
+            val other = rootDevice.networkCard.connections[n].destination
             Assertions.assertNotNull(devices[other.name])
-            Assertions.assertEquals(1, other.connections.size)
-            Assertions.assertEquals(rootDevice, other.connections[0].destination)
+            Assertions.assertEquals(1, other.networkCard.connections.size)
+            Assertions.assertEquals(rootDevice, other.networkCard.connections[0].destination)
         }
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["configMultipleDevices.json"])
+    @ValueSource(strings = ["config/configMultipleDevices.json"])
     fun `multiple fixed and random network`(fileName: String) {
         ConfigParser.parse(fileName)
         val devices = ConfigParser.devices

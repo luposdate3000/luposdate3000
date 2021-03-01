@@ -1,3 +1,3 @@
 package iot
 
-data class ParkingObservation(val isOccupied: Boolean)
+class ParkingObservation(val isOccupied: Boolean)

@@ -1,11 +1,11 @@
 package iot
 
-import simulation.Entity
 import simulation.Event
 
 class ParkingSensorEntity(
     name: String,
-    dataRateInSeconds: Int) : Sensor(name, dataRateInSeconds) {
+    dataRateInSeconds: Int, dataSink: Device, device: Device
+) : Sensor(name, dataRateInSeconds, dataSink, device) {
 
     override fun startUpEntity() {
         observeEnvironment()
@@ -22,21 +22,21 @@ class ParkingSensorEntity(
     }
 
     private fun sendObservationToSink() {
-        val data = getObservation()
-        val delay = device!!.getNetworkDelay(dataSink!!)
-        sendEvent(dataSink!!.getMessageReceiver(), delay, 0, data)
+        val dataPackage = createNetworkPackage(createObservationData())
+        sendEvent(device!!.networkCard, 0, 0, dataPackage)
         device!!.powerSupply.decrease()
     }
 
     private fun observeEnvironment() {
-        beBusy(dataRateInSeconds.toDouble())
+        beBusy(dataRateInSeconds.toLong())
         device!!.powerSupply.decrease()
     }
 
-    private fun getObservation()
+    private fun createObservationData()
         = ParkingObservation(RandomGenerator.random.nextBoolean())
 
-
+    private fun createNetworkPackage(data: ParkingObservation)
+        = NetworkPackage(device!!, dataSink!!, data)
 
     override fun shutDownEntity() {
         terminate()
