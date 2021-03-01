@@ -162,6 +162,7 @@ public object QueryResultToMemoryTable {
             }
         }
         if (flag) {
+            println("removedFrom d")
             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         }
         return resultList

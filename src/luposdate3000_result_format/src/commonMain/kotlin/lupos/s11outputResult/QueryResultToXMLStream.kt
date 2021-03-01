@@ -263,6 +263,7 @@ public object QueryResultToXMLStream {
             output.print("</sparql>\n")
         }
         if (flag) {
+            println("removedFrom g")
             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         }
     }

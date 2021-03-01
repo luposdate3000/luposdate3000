@@ -138,6 +138,7 @@ public object QueryResultToXMLElement {
         }
         if (res.size == 1) {
             if (flag) {
+                println("removedFrom e")
                 communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             }
             return res[0]
@@ -147,6 +148,7 @@ public object QueryResultToXMLElement {
             compountResult.addContent(r)
         }
         if (flag) {
+            println("removedFrom f")
             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         }
         return compountResult

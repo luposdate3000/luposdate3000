@@ -427,6 +427,7 @@ public object BinaryTestCase {
                                     bufPos = 0
                                 }
                                 tripleStoreManager.commit(query2)
+                                println("removedFrom c")
                                 communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                                 val query3 = Query()
                                 val queryParam = arrayOf<IAOPBase>(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o"))

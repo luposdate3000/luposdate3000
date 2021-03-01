@@ -135,6 +135,7 @@ public object QueryResultToEmptyStream {
             }
         }
         if (flag) {
+            println("removedFrom i")
             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         }
     }

@@ -172,6 +172,7 @@ public actual object HttpEndpointLauncher {
                                 query.setDictionaryServer(dict)
                                 query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
                                 LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+                                println("removedFrom j")
                                 removeDictionary(key)
                                 /*Coverage Unreachable*/
                             }
@@ -225,11 +226,11 @@ public actual object HttpEndpointLauncher {
                                 val dict = dictionaryMapping[params["key"]!!]!!
                                 dict.connect(connectionInMy, connectionOutMy)
                             }
-                            paths["/distributed/query/dictionary/register"] = PathMappingHelper(false, mapOf()) {
+                            paths["/distributed/query/dictionary/register"] = PathMappingHelper(true, mapOf()) {
                                 registerDictionary(params["key"]!!)
                                 printHeaderSuccess(connectionOutMy)
                             }
-                            paths["/distributed/query/dictionary/remove"] = PathMappingHelper(false, mapOf()) {
+                            paths["/distributed/query/dictionary/remove"] = PathMappingHelper(true, mapOf()) {
                                 removeDictionary(params["key"]!!)
                                 printHeaderSuccess(connectionOutMy)
                             }

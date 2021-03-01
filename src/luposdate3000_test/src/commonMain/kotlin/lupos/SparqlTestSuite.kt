@@ -491,6 +491,7 @@ public open class SparqlTestSuite {
                         tripleStoreManager.getDefaultGraph().modify(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT)
                         tripleStoreManager.commit(query)
                         query.commited = true
+                        println("removedFrom a")
                         communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                     }
                     println("test InputData Graph[] ::" + xmlQueryInput.toPrettyString())
@@ -522,6 +523,7 @@ public open class SparqlTestSuite {
                     val tmp = tmp2.evaluateRoot()
                     tripleStoreManager.getGraph(it["name"]!!).modify(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT)
                     tripleStoreManager.commit(query)
+                    println("removedFrom b")
                     communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                     query.commited = true
                     println("test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString())

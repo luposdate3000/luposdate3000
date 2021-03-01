@@ -65,6 +65,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     }
                     val tmp2 = tmp.evaluateRoot()
                     if (flag) {
+                        println("removedFrom t")
                         communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                     }
                     SanityCheck.check { tmp2.hasCountMode() }
@@ -85,6 +86,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     }
                     val tmp2 = tmp.evaluateRoot()
                     if (flag) {
+                        println("removedFrom u")
                         communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                     }
                     val columns = tmp2.columns

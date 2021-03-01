@@ -154,10 +154,12 @@ public object LuposdateEndpoint {
                 }
             }
             tripleStoreManager.commit(query)
+            println("removedFrom k")
             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             e.printStackTrace()
+            println("removedFrom l")
             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             throw e
         }
@@ -207,9 +209,11 @@ public object LuposdateEndpoint {
                 }
             }
             tripleStoreManager.commit(query)
+            println("removedFrom m")
             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
+            println("removedFrom n")
             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             return importTurtleFilesOld(fileNames, bnodeDict)
         }
@@ -260,10 +264,12 @@ public object LuposdateEndpoint {
                 throw e
             }
             tripleStoreManager.commit(query)
+            println("removedFrom o")
             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             return "successfully imported $counter Triples"
         } catch (e: Exception) {
             e.printStackTrace()
+            println("removedFrom p")
             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             throw e
         }
@@ -365,10 +371,12 @@ public object LuposdateEndpoint {
                 println("imported file $fileName,$cnt,$totalTime,$dictTime,$storeTime")
             }
             tripleStoreManager.commit(query)
+            println("removedFrom q")
             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             e.printStackTrace()
+            println("removedFrom r")
             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             throw e
         }
@@ -387,6 +395,7 @@ public object LuposdateEndpoint {
         tripleStoreManager.getDefaultGraph().modify(query, dataLocal, EModifyTypeExt.INSERT)
         tripleStoreManager.commit(query)
         query.commited = true
+        println("removedFrom s")
         communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         return XMLElement("success").toString()
     }
