@@ -1,6 +1,6 @@
 package integration;
 
-import config.ConfigParser
+import config.Config
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
@@ -12,8 +12,8 @@ class SimulationConfigTest {
     @ParameterizedTest
     @ValueSource(strings = ["sim/EmptyFile.json"])
     fun `run simulation without entities`(fileName: String) {
-        ConfigParser.parse(fileName)
-        Simulation.initialize(ConfigParser.entities)
+        Config.parse(fileName)
+        Simulation.initialize(Config.entities)
         val endClock = Simulation.runSimulation()
         Assertions.assertEquals(0, endClock)
     }
@@ -21,10 +21,10 @@ class SimulationConfigTest {
     @ParameterizedTest
     @ValueSource(strings = ["sim/OneDeviceWithParkingSensor.json"])
     fun `message to own device do not delay`(fileName: String) {
-        ConfigParser.parse(fileName)
-        val sensorDataRate = ConfigParser.jsonObjects.sensorType[0].dataRateInSeconds
+        Config.parse(fileName)
+        val sensorDataRate = Config.jsonObjects.sensorType[0].dataRateInSeconds
         val maxClock: Long = sensorDataRate.toLong() * 2
-        Simulation.initialize(ConfigParser.entities, maxClock)
+        Simulation.initialize(Config.entities, maxClock)
         val endClock = Simulation.runSimulation()
         Assertions.assertEquals(maxClock, endClock)
     }
@@ -32,16 +32,16 @@ class SimulationConfigTest {
     @ParameterizedTest
     @ValueSource(strings = ["sim/OneRandomNetwork.json"])
     fun `message to other connected device do delay`(fileName: String) {
-        ConfigParser.parse(fileName)
-        val sensorDataRate = ConfigParser.jsonObjects.sensorType[0].dataRateInSeconds
-        val sendingDeviceAddress = ConfigParser.jsonObjects.randomNetwork[0].name + "1"
-        val sendingDevice = ConfigParser.devices[sendingDeviceAddress]!!
-        val receivingDeviceAddress = ConfigParser.jsonObjects.randomNetwork[0].dataSink
-        val receivingDevice = ConfigParser.devices[receivingDeviceAddress]!!
+        Config.parse(fileName)
+        val sensorDataRate = Config.jsonObjects.sensorType[0].dataRateInSeconds
+        val sendingDeviceAddress = Config.jsonObjects.randomNetwork[0].name + "1"
+        val sendingDevice = Config.devices[sendingDeviceAddress]!!
+        val receivingDeviceAddress = Config.jsonObjects.randomNetwork[0].dataSink
+        val receivingDevice = Config.devices[receivingDeviceAddress]!!
         val delay = sendingDevice.networkCard.getNetworkDelay(receivingDevice)
 
         val maxClock: Long = sensorDataRate.toLong() + delay
-        Simulation.initialize(ConfigParser.entities, maxClock)
+        Simulation.initialize(Config.entities, maxClock)
         val endClock = Simulation.runSimulation()
         Assertions.assertEquals(maxClock, endClock)
     }

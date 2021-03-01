@@ -7,7 +7,7 @@ import kotlinx.serialization.json.*
 import simulation.Entity
 import java.lang.IllegalArgumentException
 
-object ConfigParser {
+object Config {
 
     var devices: MutableMap<String, Device> = HashMap()
         private set
