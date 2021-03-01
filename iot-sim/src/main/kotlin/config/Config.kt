@@ -16,7 +16,7 @@ object Config {
         private set
 
     var entities: MutableList<Entity> = ArrayList()
-        private set;
+        private set
 
     fun parse(fileName: String) {
         resetVariables()
@@ -124,14 +124,6 @@ object Config {
         return device
     }
 
-
-
-    private fun initializeDeviceSensors(device: Device, sink: Device) {
-        for (sensor in device.sensors) {
-            sensor.device = device
-            sensor.dataSink = device
-        }
-    }
 
     private fun findDeviceType(typeName: String): DeviceType {
         val deviceType = jsonObjects.deviceType.find { typeName == it.name }
