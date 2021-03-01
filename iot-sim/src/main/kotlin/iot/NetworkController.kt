@@ -16,9 +16,6 @@ class NetworkController(val device: Device) : Entity() {
         }
     }
 
-    fun getDistance(destination: Device): Double {
-        return 0.0
-    }
 
     override fun startUpEntity() {
 
