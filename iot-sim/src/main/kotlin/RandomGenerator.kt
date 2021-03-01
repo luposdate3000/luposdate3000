@@ -1,4 +1,7 @@
 import com.javadocmd.simplelatlng.LatLng
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.math.sqrt
 import kotlin.random.Random
 
 object RandomGenerator {
@@ -18,7 +21,25 @@ object RandomGenerator {
         return random.nextDouble(minInclusive, maxExclusive)
     }
 
-    fun getLocationInRangeOf(location: LatLng, rangeInMeters: Int): LatLng {
-        return LatLng(0.0, 0.0) //TODO
+    //Adapted From: https://gis.stackexchange.com/questions/25877/generating-random-locations-nearby
+    fun createLocationInCircularWindow(center: LatLng, radiusInMeters: Int): LatLng {
+        val x0 = center.longitude
+        val y0 = center.latitude
+
+        // Convert radius from meters to degrees
+        val radiusInDegrees = (radiusInMeters / 111000f).toDouble()
+        val u = random.nextDouble()
+        val v = random.nextDouble()
+        val w = radiusInDegrees * sqrt(u)
+        val t = 2 * Math.PI * v
+        val x = w * cos(t)
+        val y = w * sin(t)
+
+        // Adjust the x-coordinate for the shrinking of the east-west distances
+        val newX = x / cos(Math.toRadians(y0))
+        val foundLongitude = newX + x0
+        val foundLatitude = y + y0
+        return LatLng(foundLatitude, foundLongitude)
     }
+
 }

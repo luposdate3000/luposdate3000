@@ -64,7 +64,7 @@ object Config {
         val protocol = findProtocol(network.networkProtocol)
         for (i in 1..network.number) {
             val deviceName = network.name + i.toString()
-            val location = RandomGenerator.getLocationInRangeOf(dataSink.location, protocol.rangeInMeters)
+            val location = RandomGenerator.createLocationInCircularWindow(dataSink.location, protocol.rangeInMeters)
             val createdDevice = createDevice(deviceType, location, deviceName)
             setSinkOfSensors(createdDevice.sensors, dataSink)
             put(createdDevice.name, createdDevice)

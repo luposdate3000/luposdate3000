@@ -1,3 +1,6 @@
+import com.javadocmd.simplelatlng.LatLng
+import com.javadocmd.simplelatlng.LatLngTool
+import com.javadocmd.simplelatlng.util.LengthUnit
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -52,5 +55,19 @@ class RandomGeneratorTest {
         }
     }
 
+    @ParameterizedTest
+    @CsvSource(
+        "53.83396283919661, 10.693484850649323, 40",
+        "53.83396283919661, 10.693484850649323, 0",
+        "53.83396283919661, 10.693484850649323, 1",
+        "53.83396283919661, 10.693484850649323, 1000",
+        "0.0, 0.0, 0",
+    )
+    fun `create random location within radius`(lat: Double, lng: Double, radius: Int) {
+        val center = LatLng(lat, lng)
+        val createdLoc = RandomGenerator.createLocationInCircularWindow(center, radius)
+        val distance = LatLngTool.distance(center, createdLoc, LengthUnit.METER)
+        Assertions.assertTrue(distance <= radius)
+    }
 
 }
