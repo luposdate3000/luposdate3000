@@ -17,8 +17,12 @@
 package lupos.launch.code_gen_example_kapt
 
 import lupos.s00misc.Parallel
+import lupos.s16network.HttpEndpointLauncher
 import lupos.s16network.LuposdateEndpoint
 
 internal fun mainFunc(): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
+    Parallel.launch {
+        HttpEndpointLauncher.start()
+    }
 }

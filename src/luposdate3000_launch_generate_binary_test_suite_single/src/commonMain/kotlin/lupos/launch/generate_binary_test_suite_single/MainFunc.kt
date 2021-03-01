@@ -19,12 +19,16 @@ package lupos.launch.generate_binary_test_suite_single
 import lupos.s00misc.BinaryTestCase
 import lupos.s00misc.BinaryTestCaseOutputModeExt
 import lupos.s00misc.Parallel
+import lupos.s16network.HttpEndpointLauncher
 import lupos.s16network.LuposdateEndpoint
 import kotlin.js.JsName
 
 @JsName("mainFunc")
 public fun mainFunc(query_input_file: String, query_file: String, query_output_file: String, output_folder: String, query_name: String, output_mode_tmp: String) {
     LuposdateEndpoint.initialize()
+    Parallel.launch {
+        HttpEndpointLauncher.start()
+    }
     Parallel.runBlocking {
         val tmp = BinaryTestCaseOutputModeExt.names.indexOf(output_mode_tmp)
         if (tmp < 0) {

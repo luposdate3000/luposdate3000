@@ -20,6 +20,7 @@ import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.File
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
+import lupos.s16network.HttpEndpointLauncher
 import lupos.s16network.LuposdateEndpoint
 
 internal enum class OptimizerMode {
@@ -29,6 +30,9 @@ internal enum class OptimizerMode {
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: String, numberOfTriples: String, optimizerMode: String): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
+    Parallel.launch {
+        HttpEndpointLauncher.start()
+    }
     val queryFiles2 = queryFiles.split(";")
     val minimumTime2 = minimumTime.toDouble()
     val numberOfTriples2 = numberOfTriples.toLong()

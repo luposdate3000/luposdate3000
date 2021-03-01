@@ -18,12 +18,16 @@ package lupos.launch.binary_test_suite
 
 import lupos.s00misc.BinaryTestCase
 import lupos.s00misc.Parallel
+import lupos.s16network.HttpEndpointLauncher
 import lupos.s16network.LuposdateEndpoint
 import kotlin.js.JsName
 
 @JsName("mainFunc")
 public fun mainFunc(basePath: String) {
     LuposdateEndpoint.initialize()
+    Parallel.launch {
+        HttpEndpointLauncher.start()
+    }
     Parallel.runBlocking {
         BinaryTestCase.executeAllTestCase(basePath)
     }

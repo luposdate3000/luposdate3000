@@ -22,10 +22,5 @@ import lupos.s16network.LuposdateEndpoint
 
 internal fun mainFunc(): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()
-//    Parallel.launch {
     HttpEndpointLauncher.start()
-//    }
-//    while (true) {
-//        Parallel.delay(1000)
-//    }
 }
