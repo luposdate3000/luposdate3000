@@ -10,10 +10,10 @@ class EventPriorityQueueTest {
     @Test
     fun `queue should peak() lowest time`() {
         val queue = EventPriorityQueue()
-        val e1 = Event(1, EmptyEntityStub(), EmptyEntityStub(), 0, null)
-        val e2 = Event(2, EmptyEntityStub(), EmptyEntityStub(), 0, null)
-        val e4 = Event(4, EmptyEntityStub(), EmptyEntityStub(), 0, null)
-        val e5 = Event(5, EmptyEntityStub(), EmptyEntityStub(), 0, null)
+        val e1 = Event(1, EmptyEntityStub(), EmptyEntityStub(), null)
+        val e2 = Event(2, EmptyEntityStub(), EmptyEntityStub(), null)
+        val e4 = Event(4, EmptyEntityStub(), EmptyEntityStub(), null)
+        val e5 = Event(5, EmptyEntityStub(), EmptyEntityStub(), null)
         queue.enqueue(e5)
         var head: Event = queue.peek()
         Assertions.assertEquals(e5, head)
@@ -38,7 +38,7 @@ class EventPriorityQueueTest {
     @Test
     fun `hasNext() is true`() {
         val queue = EventPriorityQueue()
-        val e1 = Event(1, EmptyEntityStub(), EmptyEntityStub(), 0, null)
+        val e1 = Event(1, EmptyEntityStub(), EmptyEntityStub(),null)
         queue.enqueue(e1)
         val isNotEmpty = queue.hasNext()
         Assertions.assertTrue(isNotEmpty)
@@ -47,11 +47,11 @@ class EventPriorityQueueTest {
     @Test
     fun `dequeue() return and remove lowest time`() {
         val queue = EventPriorityQueue()
-        val e1 = Event(1, EmptyEntityStub(), EmptyEntityStub(), 0, null)
-        val e2 = Event(2, EmptyEntityStub(), EmptyEntityStub(), 0, null)
-        val e3 = Event(2, EmptyEntityStub(), EmptyEntityStub(), 0, null)
-        val e4 = Event(4, EmptyEntityStub(), EmptyEntityStub(), 0, null)
-        val e5 = Event( 5, EmptyEntityStub(), EmptyEntityStub(), 0, null)
+        val e1 = Event(1, EmptyEntityStub(), EmptyEntityStub(),null)
+        val e2 = Event(2, EmptyEntityStub(), EmptyEntityStub(),null)
+        val e3 = Event(2, EmptyEntityStub(), EmptyEntityStub(),null)
+        val e4 = Event(4, EmptyEntityStub(), EmptyEntityStub(),null)
+        val e5 = Event( 5, EmptyEntityStub(), EmptyEntityStub(),null)
         queue.enqueue(e5)
         queue.enqueue(e3)
         queue.enqueue(e4)

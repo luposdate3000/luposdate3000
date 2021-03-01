@@ -23,7 +23,6 @@ class SimulationTest {
 
     @Test
     fun `sent data equals the received data`() {
-        val eventType = 0
         val data = 5
         val delay: Long = 18
         var receivingEntity: Entity? = null
@@ -31,11 +30,10 @@ class SimulationTest {
         var actualDestEntity: Entity? = null
         var actualSrcEntity: Entity? = null
         var actualEventTime: Long? = null
-        var actualEventType: Int? = null
 
         val sendingEntity = object : Entity() {
             override fun startUpEntity() {
-                this.sendEvent(receivingEntity!!, delay, eventType, data)
+                this.sendEvent(receivingEntity!!, delay, data)
             }
             override fun processEvent(event: Event) {}
             override fun shutDownEntity() {}
@@ -47,7 +45,6 @@ class SimulationTest {
                 actualDestEntity = event.destination
                 actualSrcEntity = event.source
                 actualEventTime = event.occurrenceTime
-                actualEventType = event.type
             }
             override fun shutDownEntity() {}
         }
@@ -59,7 +56,6 @@ class SimulationTest {
         Assertions.assertEquals(receivingEntity, actualDestEntity)
         Assertions.assertEquals(sendingEntity, actualSrcEntity)
         Assertions.assertEquals(delay, actualEventTime)
-        Assertions.assertEquals(eventType, actualEventType)
     }
 
     @Test
@@ -74,9 +70,9 @@ class SimulationTest {
 
         val sendingEntity = object : Entity() {
             override fun startUpEntity() {
-                this.sendEvent(receivingEntity!!, firstDelay, 0, 1)
-                this.sendEvent(receivingEntity!!, secondDelay, 0, 2)
-                this.sendEvent(receivingEntity!!, thirdDelay, 0, 3)
+                this.sendEvent(receivingEntity!!, firstDelay, 1)
+                this.sendEvent(receivingEntity!!, secondDelay, 2)
+                this.sendEvent(receivingEntity!!, thirdDelay, 3)
             }
             override fun processEvent(event: Event) {}
             override fun shutDownEntity() {}
@@ -183,7 +179,7 @@ class SimulationTest {
 
         val sendingEntity = object : Entity() {
             override fun startUpEntity() {
-                this.sendEvent(respondingEntity!!, firstDelay, 0, null)
+                this.sendEvent(respondingEntity!!, firstDelay,null)
             }
             override fun processEvent(event: Event) {
                isResponseReceived = event.data == 2
@@ -194,7 +190,7 @@ class SimulationTest {
         respondingEntity = object : Entity() {
             override fun startUpEntity(){}
             override fun processEvent(event: Event) {
-                this.sendEvent(event.source, responseDelay, 0, 2)
+                this.sendEvent(event.source, responseDelay,2)
             }
             override fun shutDownEntity() {}
         }
@@ -213,10 +209,10 @@ class SimulationTest {
 
         val sendingEntity = object : Entity() {
             override fun startUpEntity() {
-                this.sendEvent(respondingEntity!!, delay, 0, null)
+                this.sendEvent(respondingEntity!!, delay,null)
             }
             override fun processEvent(event: Event) {
-                this.sendEvent(event.source, delay, 0, null)
+                this.sendEvent(event.source, delay,null)
             }
             override fun shutDownEntity() {}
         }
@@ -224,7 +220,7 @@ class SimulationTest {
         respondingEntity = object : Entity() {
             override fun startUpEntity(){}
             override fun processEvent(event: Event) {
-                this.sendEvent(event.source, delay, 0, null)
+                this.sendEvent(event.source, delay,null)
                 this.terminate()
                 processCounter++
             }
@@ -290,12 +286,12 @@ class SimulationTest {
 
         val busyEntity = object : Entity() {
             override fun startUpEntity() {
-                this.sendEvent(this, delay, eventType, null)
+                this.sendEvent(this, delay, eventType)
                 this.beBusy(busyDuration)
             }
             override fun processEvent(event: Event) {
                 processCounter++
-                if(event.type == eventType) {
+                if(event.data == eventType) {
                     eventProcessedAt = Simulation.clock
                 }
             }
@@ -316,12 +312,12 @@ class SimulationTest {
 
         val busyEntity = object : Entity() {
             override fun startUpEntity() {
-                this.sendEvent(this, delay, eventType, null)
-                this.sendEvent(this, delay - 1, 0, null)
-                this.sendEvent(this, delay + 1, 0, null)
+                this.sendEvent(this, delay, eventType)
+                this.sendEvent(this, delay - 1, 0)
+                this.sendEvent(this, delay + 1, 0)
             }
             override fun processEvent(event: Event) {
-                if(event.type == eventType) {
+                if(event.data == eventType) {
                     eventProcessedAt = Simulation.clock
                 }
             }
@@ -344,7 +340,7 @@ class SimulationTest {
 
         val sendingEntity = object : Entity() {
             override fun startUpEntity() {
-                this.sendEvent(receivingEntity!!, 4, 0, 1)
+                this.sendEvent(receivingEntity!!, 4,1)
             }
             override fun processEvent(event: Event) {}
             override fun shutDownEntity() {}
@@ -368,10 +364,10 @@ class SimulationTest {
 
         val sendingEntity = object : Entity() {
             override fun startUpEntity() {
-                this.sendEvent(respondingEntity!!, delay, 0, null)
+                this.sendEvent(respondingEntity!!, delay,null)
             }
             override fun processEvent(event: Event) {
-                this.sendEvent(event.source, delay, 0, null)
+                this.sendEvent(event.source, delay,null)
             }
             override fun shutDownEntity() {}
         }
@@ -379,7 +375,7 @@ class SimulationTest {
         respondingEntity = object : Entity() {
             override fun startUpEntity(){}
             override fun processEvent(event: Event) {
-                this.sendEvent(event.source, delay, 0, null)
+                this.sendEvent(event.source, delay,null)
             }
             override fun shutDownEntity() {}
         }

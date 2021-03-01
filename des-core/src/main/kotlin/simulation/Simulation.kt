@@ -84,7 +84,7 @@ object Simulation {
 
     fun addEvent(event: Event) {
         val eventOccurringTime = clock + event.occurrenceTime
-        val timeUpdatedEvent = Event(eventOccurringTime, event.source, event.destination, event.type, event.data)
+        val timeUpdatedEvent = Event(eventOccurringTime, event.source, event.destination, event.data)
         futureEvents.enqueue(timeUpdatedEvent)
     }
 

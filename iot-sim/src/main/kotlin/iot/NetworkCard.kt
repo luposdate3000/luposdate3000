@@ -32,7 +32,7 @@ class NetworkCard(val device: Device) : Entity() {
         }
         else {
             val delay = getNetworkDelay(pck.receiver)
-            sendEvent(destination, delay, 0, pck )
+            sendEvent(destination, delay, pck )
         }
 
     }

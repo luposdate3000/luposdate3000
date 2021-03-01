@@ -23,7 +23,7 @@ class ParkingSensorEntity(
 
     private fun sendObservationToSink() {
         val dataPackage = createNetworkPackage(createObservationData())
-        sendEvent(device!!.networkCard, 0, 0, dataPackage)
+        sendEvent(device!!.networkCard, 0, dataPackage)
         device!!.powerSupply.decrease()
     }
 
