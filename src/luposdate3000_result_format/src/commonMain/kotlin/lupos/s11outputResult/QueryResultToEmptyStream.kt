@@ -97,7 +97,7 @@ public object QueryResultToEmptyStream {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
-        if (flag) {
+        if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
             query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
         }
@@ -134,8 +134,7 @@ public object QueryResultToEmptyStream {
                 }
             }
         }
-        if (flag) {
-            println("removedFrom i")
+        if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         }
     }

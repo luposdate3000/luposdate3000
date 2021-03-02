@@ -30,6 +30,7 @@ import lupos.s00misc.MyOutputStream
 import lupos.s00misc.MyStringStream
 import lupos.s00misc.Parallel
 import lupos.s00misc.XMLElement
+import lupos.s00misc.XMLElementFromXML
 import lupos.s00misc.communicationHandler
 import lupos.s00misc.xmlParser.XMLParser
 import lupos.s03resultRepresentation.ResultSetDictionary
@@ -64,6 +65,18 @@ public actual object HttpEndpointLauncher {
     }
 
     internal fun inputElement(name: String, value: String): String = "<input type=\"text\" name=\"$name\" value=\"$value\"/>"
+    internal fun selectElementEQueryResultToStreamExt(name: String, value: String): String {
+        var res = "<select name=\"$name\">"
+        for (evaluator in EQueryResultToStreamExt.names) {
+            if (value == evaluator) {
+                res += "<option selected=\"selected\">$evaluator</option>"
+            } else {
+                res += "<option>$evaluator</option>"
+            }
+        }
+        res + "</select>"
+        return res
+    }
 
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
 
@@ -146,13 +159,7 @@ public actual object HttpEndpointLauncher {
                                 true,
                                 mapOf(
                                     Pair("query", "SELECT * WHERE {?s ?p ?o . ?s ?p1 <http://localhost/vocabulary/bench/Article> . }") to ::inputElement,
-                                    Pair("evaluator", "") to { it, value ->
-                                        var res: String = "<select name=\"$it\">"
-                                        for (evaluator in EQueryResultToStreamExt.names) {
-                                            res += "<option>$evaluator</option>"
-                                        }
-                                        res + "</select>"
-                                    }
+                                    Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt,
                                 )
                             ) {
                                 val e = params["evaluator"]
@@ -172,15 +179,41 @@ public actual object HttpEndpointLauncher {
                                 val dict = registerDictionary(key)
                                 query.setDictionaryServer(dict)
                                 query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
+                                printHeaderSuccess(connectionOutMy)
                                 LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
                                 removeDictionary(key)
                                 /*Coverage Unreachable*/
                             }
-                            paths["/sparql/operator"] = PathMappingHelper(true, mapOf(Pair("query", "") to ::inputElement)) {
-                                printHeaderSuccess(connectionOutMy)
-                                connectionOutMy.print(LuposdateEndpoint.evaluateOperatorgraphxmlToResultB(params["query"]!!, true))
-                                /*Coverage Unreachable*/
-                            }
+                            paths["/sparql/operator"] =
+                                PathMappingHelper(
+                                    true,
+                                    mapOf(
+                                        Pair("query", "") to ::inputElement,
+                                        Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt,
+                                    )
+                                ) {
+                                    val e = params["evaluator"]
+                                    val evaluator = if (e == null) {
+                                        EQueryResultToStreamExt.DEFAULT_STREAM
+                                    } else {
+                                        val e2 = EQueryResultToStreamExt.names.indexOf(e)
+                                        if (e2 >= 0) {
+                                            e2
+                                        } else {
+                                            EQueryResultToStreamExt.DEFAULT_STREAM
+                                        }
+                                    }
+                                    val node = XMLElementToOPBase(q, XMLElementFromXML()(query)!!)
+                                    val query = node.getQuery()
+                                    val key = "${query.getTransactionID()}"
+                                    val dict = registerDictionary(key)
+                                    query.setDictionaryServer(dict)
+                                    query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
+                                    printHeaderSuccess(connectionOutMy)
+                                    LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+                                    removeDictionary(key)
+                                    /*Coverage Unreachable*/
+                                }
                             paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3") to ::inputElement)) {
                                 val dict = mutableMapOf<String, Int>()
                                 val dictfile = params["bnodeList"]

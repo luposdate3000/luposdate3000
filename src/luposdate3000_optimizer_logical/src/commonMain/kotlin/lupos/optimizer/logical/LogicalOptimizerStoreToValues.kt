@@ -16,6 +16,7 @@
  */
 package lupos.optimizer.logical
 
+import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.REPLACE_STORE_WITH_VALUES
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.communicationHandler
@@ -59,13 +60,12 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     val tmp = tripleStoreManager.getGraph(node.graph).getIterator(query, Array(3) { node.getChildren()[it] as IAOPBase }, idx)
                     val flag = query.getDictionaryUrl() == null
                     val key = "${query.getTransactionID()}"
-                    if (flag) {
+                    if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
                         communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
                         query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
                     }
                     val tmp2 = tmp.evaluateRoot()
-                    if (flag) {
-                        println("removedFrom t")
+                    if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
                         communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                     }
                     SanityCheck.check { tmp2.hasCountMode() }
@@ -80,13 +80,12 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     val tmp = tripleStoreManager.getGraph(node.graph).getIterator(query, Array(3) { node.getChildren()[it] as IAOPBase }, idx)
                     val flag = query.getDictionaryUrl() == null
                     val key = "${query.getTransactionID()}"
-                    if (flag) {
+                    if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
                         communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
                         query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
                     }
                     val tmp2 = tmp.evaluateRoot()
-                    if (flag) {
-                        println("removedFrom u")
+                    if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
                         communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                     }
                     val columns = tmp2.columns

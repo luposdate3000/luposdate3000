@@ -24,6 +24,7 @@ import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
+import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
@@ -108,8 +109,10 @@ public object LuposdateEndpoint {
         val query = Query()
         val key = "${query.getTransactionID()}"
         try {
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+            }
             var counter = 0
             val store = tripleStoreManager.getDefaultGraph()
             val bufS = IntArray(1048576)
@@ -154,13 +157,15 @@ public object LuposdateEndpoint {
                 }
             }
             tripleStoreManager.commit(query)
-            println("removedFrom k")
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             e.printStackTrace()
-            println("removedFrom l")
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            }
             throw e
         }
 /*Coverage Unreachable*/
@@ -171,8 +176,10 @@ public object LuposdateEndpoint {
         val query = Query()
         val key = "${query.getTransactionID()}"
         try {
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+            }
             var counter = 0
             val store = tripleStoreManager.getDefaultGraph()
             val bufS = IntArray(1048576)
@@ -209,12 +216,14 @@ public object LuposdateEndpoint {
                 }
             }
             tripleStoreManager.commit(query)
-            println("removedFrom m")
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
-            println("removedFrom n")
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            }
             return importTurtleFilesOld(fileNames, bnodeDict)
         }
 /*Coverage Unreachable*/
@@ -230,8 +239,10 @@ public object LuposdateEndpoint {
         val query = Query()
         val key = "${query.getTransactionID()}"
         try {
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+            }
             var counter = 0
             val store = tripleStoreManager.getDefaultGraph()
             val bufS = IntArray(1048576)
@@ -264,13 +275,15 @@ public object LuposdateEndpoint {
                 throw e
             }
             tripleStoreManager.commit(query)
-            println("removedFrom o")
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            }
             return "successfully imported $counter Triples"
         } catch (e: Exception) {
             e.printStackTrace()
-            println("removedFrom p")
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            }
             throw e
         }
     }
@@ -306,8 +319,10 @@ public object LuposdateEndpoint {
         val query = Query()
         val key = "${query.getTransactionID()}"
         try {
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+            }
             tripleStoreManager.resetDefaultTripleStoreLayout()
             tripleStoreManager.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
             var counter = 0L
@@ -371,13 +386,15 @@ public object LuposdateEndpoint {
                 println("imported file $fileName,$cnt,$totalTime,$dictTime,$storeTime")
             }
             tripleStoreManager.commit(query)
-            println("removedFrom q")
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             e.printStackTrace()
-            println("removedFrom r")
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            }
             throw e
         }
 /*Coverage Unreachable*/
@@ -388,15 +405,18 @@ public object LuposdateEndpoint {
         val query = Query()
         val import2 = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElementFromXML()(data)!!)
         val key = "${query.getTransactionID()}"
-        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-        query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+        if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+        }
         val import = import2.evaluateRoot()
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
         tripleStoreManager.getDefaultGraph().modify(query, dataLocal, EModifyTypeExt.INSERT)
         tripleStoreManager.commit(query)
         query.commited = true
-        println("removedFrom s")
-        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+        if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+        }
         return XMLElement("success").toString()
     }
 
@@ -445,9 +465,6 @@ public object LuposdateEndpoint {
 
     @JsName("evaluate_operatorgraph_to_result_a")
     /*suspend*/ public fun evaluateOperatorgraphToResultA(node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream): Any? {
-        output.println("HTTP/1.1 200 OK")
-        output.println("Content-Type: text/plain")
-        output.println()
         var res: Any? = null
         res = when (evaluator) {
             EQueryResultToStreamExt.DEFAULT_STREAM -> QueryResultToStream(node, output)

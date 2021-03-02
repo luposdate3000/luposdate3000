@@ -405,8 +405,10 @@ public object BinaryTestCase {
                                 query1.commited = true
                                 val query2 = Query()
                                 val key = "${query2.getTransactionID()}"
-                                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-                                query2.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+                                if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                                    communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                                    query2.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+                                }
                                 val store = tripleStoreManager.getDefaultGraph()
                                 val bufS = IntArray(1048576)
                                 val bufP = IntArray(1048576)
@@ -427,8 +429,9 @@ public object BinaryTestCase {
                                     bufPos = 0
                                 }
                                 tripleStoreManager.commit(query2)
-                                println("removedFrom c")
-                                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                                if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                                    communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                                }
                                 val graph = tripleStoreManager.getDefaultGraph()
                                 var success = true
                                 for (
@@ -444,8 +447,10 @@ public object BinaryTestCase {
                                     val query3 = Query()
                                     val queryParam = arrayOf<IAOPBase>(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o"))
                                     val key = "${query3.getTransactionID()}"
-                                    communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-                                    query3.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+                                    if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                                        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                                        query3.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+                                    }
                                     val iterator = graph.getIterator(query3, queryParam, idx)
                                     var tmpTable: MemoryTable? = null
                                     var partitionCount = 1
@@ -468,8 +473,9 @@ public object BinaryTestCase {
                                         success = verifyEqual(tableInput, tmpTable, mappingLiveToTarget, targetDict, targetDict2, true, queryName, query_folder, "import (${EIndexPatternExt.names[idx]} $partitionCount)") && success
                                         println("success $success $idx")
                                     }
-                                    println("removedFrom x")
-                                    communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                                    if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                                        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                                    }
                                 }
                                 if (!success) {
                                     returnValue = false
@@ -512,9 +518,10 @@ public object BinaryTestCase {
                             println("----------Logical Operatorgraph")
                             val query4 = Query()
                             val key4 = "${query4.getTransactionID()}"
-                            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key4"))
-                            query4.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key4")
-
+                            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key4"))
+                                query4.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key4")
+                            }
                             val lopNode = astNode.visit(OperatorGraphVisitor(query4))
                             println(lopNode.toString())
                             println("----------Logical Operatorgraph optimized")
@@ -530,28 +537,38 @@ public object BinaryTestCase {
                                 QueryResultToXMLStream(popNode, resultWriter)
                                 val query5 = Query()
                                 val key5 = "${query5.getTransactionID()}"
-                                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key5"))
-                                query5.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key5")
+                                if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                                    communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key5"))
+                                    query5.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key5")
+                                }
                                 val popOptimizer = PhysicalOptimizer(query5)
                                 val actualResult = operatorGraphToTable(popOptimizer.optimizeCall(tripleStoreManager.getDefaultGraph().getIterator(query5, arrayOf(AOPVariable(query5, "s"), AOPVariable(query5, "p"), AOPVariable(query5, "o")), EIndexPatternExt.SPO)))
                                 if (!verifyEqual(tableOutput, actualResult, mappingLiveToTarget, targetDict, targetDict2, allowOrderBy, queryName, query_folder, "result in store (SPO) is wrong")) {
                                     returnValue = false
-                                    communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key5"))
-                                    communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key4"))
+                                    if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                                        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key5"))
+                                        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key4"))
+                                    }
                                     break@func
                                 }
                                 tripleStoreManager.commit(query5)
                                 query5.commited = true
-                                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key5"))
+                                if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                                    communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key5"))
+                                }
                             } else {
                                 val actualResult = operatorGraphToTable(popNode)
                                 if (!verifyEqual(tableOutput, actualResult, mappingLiveToTarget, targetDict, targetDict2, allowOrderBy, queryName, query_folder, "query result is wrong")) {
                                     returnValue = false
-                                    communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key4"))
+                                    if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                                        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key4"))
+                                    }
                                     break@func
                                 }
                             }
-                            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key4"))
+                            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key4"))
+                            }
                             println("----------Success")
                             returnValue = true
                             break@func

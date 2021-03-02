@@ -24,6 +24,7 @@ import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
+import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.File
 import lupos.s00misc.JenaBugException
 import lupos.s00misc.Luposdate3000Exception
@@ -485,14 +486,17 @@ public open class SparqlTestSuite {
                         query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                         val tmp2 = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput)
                         val key = "${query.getTransactionID()}"
-                        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-                        query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+                        if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+                        }
                         val tmp = tmp2.evaluateRoot()
                         tripleStoreManager.getDefaultGraph().modify(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT)
                         tripleStoreManager.commit(query)
                         query.commited = true
-                        println("removedFrom a")
-                        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                        if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                        }
                     }
                     println("test InputData Graph[] ::" + xmlQueryInput.toPrettyString())
                     try {
@@ -518,13 +522,16 @@ public open class SparqlTestSuite {
                     query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                     val tmp2 = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput)
                     val key = "${query.getTransactionID()}"
-                    communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-                    query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+                    if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                        query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+                    }
                     val tmp = tmp2.evaluateRoot()
                     tripleStoreManager.getGraph(it["name"]!!).modify(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT)
                     tripleStoreManager.commit(query)
-                    println("removedFrom b")
-                    communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                    if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                    }
                     query.commited = true
                     println("test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString())
                     try {

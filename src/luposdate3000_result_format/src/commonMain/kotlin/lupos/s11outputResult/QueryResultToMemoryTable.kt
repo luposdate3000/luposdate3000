@@ -104,7 +104,7 @@ public object QueryResultToMemoryTable {
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
-        if (flag) {
+        if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
             query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
         }
@@ -161,8 +161,7 @@ public object QueryResultToMemoryTable {
                 }
             }
         }
-        if (flag) {
-            println("removedFrom d")
+        if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         }
         return resultList
