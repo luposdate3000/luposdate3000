@@ -1,37 +1,22 @@
 class AdjacencyMatrix<V, E>(private val vertices: List<V>) {
 
-    private val indices: MutableMap<V, Int> = HashMap(vertices.size)
-    private val matrix = ArrayList<ArrayList<E?>>(vertices.size)
+    private var vertexIndices: MutableMap<V, Int> = HashMap(vertices.size)
+
+    private val matrix: Array<HashMap<Int,E>> = Array(vertices.size) { HashMap() }
+
+
     init {
-        buildInitialMatrix()
+        for ((index, vertex) in vertices.withIndex()) {
+            vertexIndices[vertex] = index
+        }
     }
 
 
     fun getVerticesCount() = vertices.size
 
-    fun getIndexOf(vertex: V) = indices[vertex]!!
 
-    private fun buildInitialMatrix() {
-        for ((index, vertex) in vertices.withIndex()) {
-            indices[vertex] = index
-            addEmptyColumn()
-            addEmptyRow()
-        }
-    }
+    fun getIndexOf(vertex: V) = vertexIndices[vertex]!!
 
-    private fun addEmptyColumn() {
-        for(row in 0 until matrix.size) {
-            matrix[row].add(null)
-        }
-    }
-
-    private fun addEmptyRow() {
-        val newRow = ArrayList<E?>(vertices.size)
-        for (i in vertices.indices) {
-            newRow.add(null)
-        }
-       matrix.add(newRow)
-    }
 
     fun addUndirectedEdge(one: V, two: V, edge: E) {
         addDirectedEdge(one, two, edge)
