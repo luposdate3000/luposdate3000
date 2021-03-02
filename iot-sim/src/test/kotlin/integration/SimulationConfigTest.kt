@@ -1,4 +1,4 @@
-package integration;
+package integration
 
 import Config
 import org.junit.jupiter.api.Assertions

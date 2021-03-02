@@ -6,10 +6,13 @@ object Simulation {
     private var futureEvents: EventPriorityQueue = EventPriorityQueue()
     var clock: Long = 0
         private set
-    var maxClock: Long = Long.MAX_VALUE
+
+    private const val maxClockDefault: Long = Long.MAX_VALUE
+
+    var maxClock: Long = maxClockDefault
         private set
 
-    fun initialize(entities: MutableList<Entity>, maxClock: Long = Long.MAX_VALUE) {
+    fun initialize(entities: MutableList<Entity>, maxClock: Long = maxClockDefault) {
         resetVariables()
         Simulation.entities = entities
         Simulation.maxClock = maxClock
@@ -99,9 +102,10 @@ object Simulation {
     }
 
     private fun resetVariables() {
-        entities.clear()
+        entities = ArrayList()
         clock = 0
-        futureEvents.clear()
+        maxClock = maxClockDefault
+        futureEvents = EventPriorityQueue()
     }
 
 }

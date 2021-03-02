@@ -1,7 +1,3 @@
-import AppEntity
-import Config
-import LocalizationSensor
-import ParkingSensor
 import com.javadocmd.simplelatlng.LatLng
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.params.ParameterizedTest
@@ -88,13 +84,13 @@ class ConfigTest {
         val device1Address = "Tower1"
         val device1 = devices["Tower1"]!!
         val device2 = devices[device2Address]!!
-        val con1 = device1.networkCard.getDirectConnection(device2Address)
-        val con2 = device2.networkCard.getDirectConnection(device1Address)
-        Assertions.assertTrue(device1.networkCard.hasDirectConnection(device2Address))
-        Assertions.assertEquals(-1, con1.dataRateInKbps)
-        Assertions.assertEquals("WIRE", con1.protocolName)
-
-        Assertions.assertEquals(con1, con2)
+        val param1 = Config.graph.getEdge(device1Address, device2Address)
+        val param2 = Config.graph.getEdge(device2Address, device1Address)
+        Assertions.assertNotNull(param1)
+        Assertions.assertNotNull(param2)
+        Assertions.assertEquals(-1, param1!!.dataRateInKbps)
+        Assertions.assertEquals("WIRE", param2!!.protocolName)
+        Assertions.assertEquals(param1, param2)
     }
 
     @ParameterizedTest
@@ -103,15 +99,12 @@ class ConfigTest {
         Config.parse(fileName)
         val devices = Config.devices
         val rootDeviceAddress = "Fog1"
-        val rootDevice = devices[rootDeviceAddress]!!
-        val nic = rootDevice.networkCard
+
         val number = 30
         Assertions.assertEquals(number + 1, devices.size)
         for(n in 1 .. number) {
             val otherAddress: String = Config.jsonObjects.randomNetwork[0].name + n
-            Assertions.assertTrue(nic.hasDirectConnection(otherAddress))
-            val otherNic = devices[otherAddress]!!.networkCard
-            Assertions.assertTrue(otherNic.hasDirectConnection(rootDeviceAddress))
+            Assertions.assertNotNull(Config.graph.getEdge(rootDeviceAddress, otherAddress))
         }
     }
 

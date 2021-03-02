@@ -350,8 +350,7 @@ class SimulationTest {
         }
         Simulation.initialize(arrayListOf(receivingEntity, sendingEntity), maxClock)
         val actualClock = Simulation.runSimulation()
-        Assertions.assertEquals(0, Simulation.maxClock)
-        Assertions.assertEquals(0, actualClock)
+        Assertions.assertEquals(maxClock, actualClock)
     }
 
     @Test

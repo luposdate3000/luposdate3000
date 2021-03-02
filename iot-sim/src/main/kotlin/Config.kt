@@ -16,18 +16,32 @@ object Config {
     var entities: MutableList<Entity> = ArrayList()
         private set
 
+    var graph = AdjacencyMatrix<String, ConnectionParameter>(arrayListOf())
+        private set
+
+    private var connections: MutableList<Connection> = ArrayList()
+
+    private class Connection(
+        val src: String,
+        val dest: String,
+        val params: ConnectionParameter)
+
     fun parse(fileName: String) {
         resetVariables()
         readJsonFile(fileName)
         createFixedDevices()
         createFixedConnections()
         createRandomNetworks()
+        createGraph()
     }
 
+
     private fun resetVariables() {
-        devices.clear()
-        entities.clear()
+        devices = HashMap()
+        entities = ArrayList()
         jsonObjects = JsonObjects()
+        connections = ArrayList()
+        graph = AdjacencyMatrix(arrayListOf())
     }
 
 
@@ -64,10 +78,7 @@ object Config {
             val createdDevice = createDevice(deviceType, location, deviceName)
             setSinkOfSensors(createdDevice.sensors, dataSink)
             put(createdDevice.name, createdDevice)
-
-            //AddConnection
             createConnection(createdDevice, dataSink, protocol)
-            createConnection(dataSink, createdDevice, protocol)
         }
     }
 
@@ -91,18 +102,18 @@ object Config {
             val a = devices[fixedCon.endpointA]!!
             val b = devices[fixedCon.endpointB]!!
             createConnection(a, b, protocol)
-            createConnection(b, a, protocol)
         }
 
     }
 
     private fun createConnection(src: Device, dest: Device, p: NetworkProtocol) {
         val distance = LatLngTool.distance(src.location, dest.location, LengthUnit.METER)
-        val con = ConnectionParameter(
+        val param = ConnectionParameter(
             p.dataRateInKbps, p.rangeInMeters.toDouble(),
             p.name, distance
         )
-        src.networkCard.addDirectConnection(dest.name, con)
+        val con = Connection(src.name, dest.name, param)
+        connections.add(con)
     }
 
 
@@ -178,6 +189,15 @@ object Config {
             }
         }
     }
+
+    private fun createGraph() {
+        val keyList = ArrayList(devices.keys)
+        graph = AdjacencyMatrix(keyList)
+        for (con in connections) {
+            graph.addUndirectedEdge(con.src, con.dest, con.params)
+        }
+    }
+
 
 
 

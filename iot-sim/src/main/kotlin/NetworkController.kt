@@ -1,6 +1,7 @@
-class NetworkController(val device: Device) : Entity() {
+import Entity
+import Event
 
-    private var directConnections: MutableMap<String, ConnectionParameter> = HashMap()
+class NetworkController(val device: Device) : Entity() {
 
 
     fun getNetworkDelay(destination: Device): Long {
@@ -35,20 +36,6 @@ class NetworkController(val device: Device) : Entity() {
 
     override fun shutDownEntity() {
     }
-
-    fun addDirectConnection(destAddress: String, params: ConnectionParameter) {
-        directConnections[destAddress] = params
-    }
-
-    fun hasDirectConnection(destAddress: String)
-        = directConnections.containsKey(destAddress)
-
-    fun removeDirectConnection(destAddress: String) {
-        directConnections.remove(destAddress)
-    }
-
-    fun getDirectConnection(destAddress: String)
-        = directConnections[destAddress]!!
 
 
 }

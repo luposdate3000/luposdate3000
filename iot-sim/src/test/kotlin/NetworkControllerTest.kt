@@ -19,19 +19,6 @@ class NetworkControllerTest {
         Assertions.assertEquals(1, networkCard.getNetworkDelay(otherDevice))
     }
 
-    @Test
-    fun `add, retrieve and remove connections`() {
-        val destAddress = "Test"
-        val device = Stubs.createEmptyDevice()
-        val networkCard = device.networkCard
-        val params = ConnectionParameter(0, 0.0, "WIFI", 0.0)
-        networkCard.addDirectConnection(destAddress, params)
-        Assertions.assertTrue(networkCard.hasDirectConnection(destAddress))
-        val retrieved: ConnectionParameter = networkCard.getDirectConnection(destAddress)
-        networkCard.removeDirectConnection(destAddress)
-        Assertions.assertFalse(networkCard.hasDirectConnection(destAddress))
-        Assertions.assertEquals(params, retrieved)
-    }
 
     @Test
     fun `get next Hop of existing connection`() {
