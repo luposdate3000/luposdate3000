@@ -1,6 +1,6 @@
 package integration
 
-import iot.IDatabaseAccess
+import IDatabaseAccess
 
 class LuposdateStub : IDatabaseAccess {
     override fun start(dataDirectoryPath: String) {

@@ -1,8 +1,4 @@
 import com.javadocmd.simplelatlng.LatLng
-import iot.AppEntity
-import iot.Device
-import iot.PowerSupply
-import iot.Sensor
 
 object Stubs {
 
