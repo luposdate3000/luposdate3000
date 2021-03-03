@@ -37,7 +37,7 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
     @JvmField
     internal var state = Turtle2ParserStateExt.STATEMENT
     public abstract fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>)
-    public fun turtleDoc() {
+    public fun parse() {
         var iter = 0
         loop@ while (true) {
             iter++

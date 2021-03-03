@@ -134,7 +134,7 @@ public open class SparqlTestSuite {
     private fun readTurtleData(filename: String, consume_triple: (Long, Long, Long) -> Unit) {
         val ltit = LookAheadTokenIterator(lupos.s02buildSyntaxTree.turtle.TurtleScanner(LexerCharIterator(File(filename).readAsString())), 3)
         try {
-            TurtleParserWithDictionary(consume_triple, ltit).turtleDoc()
+            TurtleParserWithDictionary(consume_triple, ltit).parse()
         } catch (e: ParseError) {
             SanityCheck {
                 e.printStackTrace()

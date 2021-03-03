@@ -23,6 +23,7 @@ import lupos.s00misc.IMyInputStream
 import lupos.s00misc.Parallel
 import lupos.s00misc.PartitionExt
 import lupos.s00misc.SanityCheck
+import lupos.s02buildSyntaxTree.nQuads.NQuads2Parser
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 
 internal fun helperCleanString(s: String): String {
@@ -39,7 +40,7 @@ internal fun helperCleanString(s: String): String {
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     val byteBuf = ByteArray(1)
 // create chunced dictionaries
-    val dictSizeLimit = 10L * 1024L * 1024L
+    val dictSizeLimit = 1024L * 1024L * 1024L
     var dictSizeEstimated = 0L
 
     var chunc = 0
@@ -52,6 +53,21 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
 
     var cnt = 0L
     var dicttotalcnt = 0L
+    fun cmp(a: String, b: String): Int {
+        val alen = a.length
+        val blen = b.length
+        val len = if (alen < blen) {
+            alen
+        } else {
+            blen
+        }
+        for (i in 0 until len) {
+            if (a[i] != b[i]) {
+                return a[i] - b[i]
+            }
+        }
+        return alen - blen
+    }
 
     fun writeDict() {
         for (componentType in 0 until ETripleComponentTypeExt.values_size) {
@@ -59,7 +75,14 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             val size = localdict.size
             outDictionary.writeInt(componentType)
             outDictionary.writeInt(size)
-            val entries = localdict.keys.sorted()
+            val entries = localdict.keys.sortedWith { a, b ->
+                if (componentType == ETripleComponentTypeExt.IRI) {
+                    cmp(a.substring(1, a.length - 1), b.substring(1, b.length - 1))
+                } else {
+                    cmp(a, b)
+                }
+            }
+
             for (entry in entries) {
                 var value = entry
                 if (componentType == ETripleComponentTypeExt.IRI) {
@@ -77,35 +100,69 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     }
 
     val iter = File(inputFileName).openInputStream()
-    val x = object : Turtle2Parser(iter) {
-        override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
-            for (i in 0 until 3) {
-                val tripleCleaned = helperCleanString(triple[i])
-                val v = dict[tripleType[i]][tripleCleaned]
-                if (v != null) {
-                    outTriples.writeInt(v)
-                } else {
-                    val v2 = dictCounter++
-                    outTriples.writeInt(v2)
-                    dict[tripleType[i]][tripleCleaned] = v2
-                    dictSizeEstimated += tripleCleaned.length
-                    dicttotalcnt++
+    if (inputFileName.endsWith(".n3")) {
+        val x = object : Turtle2Parser(iter) {
+            override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
+                for (i in 0 until 3) {
+                    val tripleCleaned = helperCleanString(triple[i])
+                    val v = dict[tripleType[i]][tripleCleaned]
+                    if (v != null) {
+                        outTriples.writeInt(v)
+                    } else {
+                        val v2 = dictCounter++
+                        outTriples.writeInt(v2)
+                        dict[tripleType[i]][tripleCleaned] = v2
+                        dictSizeEstimated += tripleCleaned.length * 2
+                        dicttotalcnt++
+                    }
+                }
+                cnt++
+                if (cnt % 10000L == 0L) {
+                    println("$cnt :: $dictCounter :: $dictSizeEstimated(Bytes)")
+                }
+                if (dictSizeEstimated > dictSizeLimit) {
+                    writeDict()
+                    outDictionary.close()
+                    outDictionary = File("$inputFileName.$chunc.dictionary").openOutputStream(false)
+                    dictSizeEstimated = 0
+                    chunc++
                 }
             }
-            cnt++
-            if (cnt % 10000L == 0L) {
-                println("$cnt :: $dictCounter :: $dictSizeEstimated(Bytes)")
-            }
-            if (dictSizeEstimated > dictSizeLimit) {
-                writeDict()
-                outDictionary.close()
-                outDictionary = File("$inputFileName.$chunc.dictionary").openOutputStream(false)
-                dictSizeEstimated = 0
-                chunc++
+        }
+        x.parse()
+    } else if (inputFileName.endsWith(".n4")) {
+        val x = object : NQuads2Parser(iter) {
+            override fun onQuad(quad: Array<String>, quadType: Array<ETripleComponentType>) {
+                for (i in 0 until 3) {
+                    val quadCleaned = helperCleanString(quad[i])
+                    val v = dict[quadType[i]][quadCleaned]
+                    if (v != null) {
+                        outTriples.writeInt(v)
+                    } else {
+                        val v2 = dictCounter++
+                        outTriples.writeInt(v2)
+                        dict[quadType[i]][quadCleaned] = v2
+                        dictSizeEstimated += quadCleaned.length * 2
+                        dicttotalcnt++
+                    }
+                }
+                cnt++
+                if (cnt % 10000L == 0L) {
+                    println("$cnt :: $dictCounter :: $dictSizeEstimated(Bytes)")
+                }
+                if (dictSizeEstimated > dictSizeLimit) {
+                    writeDict()
+                    outDictionary.close()
+                    outDictionary = File("$inputFileName.$chunc.dictionary").openOutputStream(false)
+                    dictSizeEstimated = 0
+                    chunc++
+                }
             }
         }
+        x.parse()
+    } else {
+        throw Exception("unknown filetype $inputFileName")
     }
-    x.turtleDoc()
     writeDict()
     outDictionary.close()
     outTriples.close()
@@ -146,7 +203,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                     d.valid = true
                 }
             }
-            if (d.valid && (!currentValid || (d.headString < currentString && currentComponentType == d.componentType) || (d.componentType < currentComponentType))) {
+            if (d.valid && (!currentValid || (cmp(d.headString, currentString) < 0 && currentComponentType == d.componentType) || (d.componentType < currentComponentType))) {
                 currentString = d.headString
                 currentComponentType = d.componentType
                 currentValid = true
@@ -182,11 +239,14 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             for (i in 0L until cnt * 3) {
                 val v = inTriples.readInt()
                 val vv = mapping[v]
-                SanityCheck.check({ vv != 0 }, { "mapping missing $v" })
                 outTriples.writeInt(vv)
             }
         }
     }
+    for (i in 0 until chunc) {
+        File("$inputFileName.$i.dictionary").deleteRecursively()
+    }
+    File("$inputFileName.0.triples").deleteRecursively()
     if (false) {
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         val outputTriplesFile = File("$inputFileName.triples")

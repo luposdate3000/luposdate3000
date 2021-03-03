@@ -43,7 +43,7 @@ public class XMLElementFromN3 : XMLElementParser {
                     XMLElement.parseBindingFromString(nodeResult, triple[2], "o")
                 }
             }
-            parser.turtleDoc()
+            parser.parse()
         } catch (e: Throwable) {
             nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
             val nodeHead = XMLElement("head")
@@ -66,7 +66,7 @@ public class XMLElementFromN3 : XMLElementParser {
                 }
             }
             x.ltit = ltit
-            x.turtleDoc()
+            x.parse()
         }
         return nodeSparql
     }

@@ -146,7 +146,7 @@ public object LuposdateEndpoint {
                         }
                     }
                     x.ltit = ltit
-                    x.turtleDoc()
+                    x.parse()
                     if (bufPos > 0) {
                         store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
                         bufPos = 0
@@ -204,7 +204,7 @@ public object LuposdateEndpoint {
                             bufPos++
                         }
                     }
-                    x.turtleDoc()
+                    x.parse()
                     if (bufPos > 0) {
                         store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
                         bufPos = 0
@@ -264,7 +264,7 @@ public object LuposdateEndpoint {
                         bufPos++
                     }
                 }
-                x.turtleDoc()
+                x.parse()
                 if (bufPos > 0) {
                     store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
                     bufPos = 0

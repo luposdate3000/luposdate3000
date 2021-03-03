@@ -40,7 +40,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
     private val first_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(first)
     private val rest_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(rest)
     private val type_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(rdf + "type")
-    public fun turtleDoc() {
+    public fun parse() {
         var t1 = ltit.lookahead()
         while (t1.image == "@prefix" || t1.image == "@base" || t1.image == "PREFIX" || t1.image == "BASE" || t1 is IRI || t1 is PNAME_LN || t1 is PNAME_NS || t1 is BNODE || t1 is ANON_BNODE || t1.image == "(" || t1.image == "[") {
             statement()

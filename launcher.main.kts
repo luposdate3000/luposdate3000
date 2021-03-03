@@ -939,8 +939,41 @@ fun onGenerateParser() {
     )
     val xmlFilename = "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}xmlParser${Platform.getPathSeparator()}XMLParserGenerated.kt"
     val xmlPackage = "lupos.s00misc.xmlParser"
-    ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage,)
-    ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage,)
+    val nQuadsGeneratingArgs = arrayOf(
+        listOf("PARSER_CONTEXT"),
+        listOf("parse_dot", "DOT"),
+        listOf("parse_ws", "SKIP_WS"),
+        listOf("parse_ws_forced", "SKIP_WS_FORCED"),
+        listOf("parse_subject", "IRIREF", "BLANK_NODE_LABEL"),
+        listOf("parse_predicate", "IRIREF"),
+        listOf("parse_object", "IRIREF", "BLANK_NODE_LABEL", "STRING_LITERAL_QUOTE"),
+        listOf("parse_object_string", "IRI1", "LANGTAG", "SKIP_WS"),
+        listOf("parse_object_typed", "IRIREF"),
+        listOf("parse_graph", "IRIREF", "BLANK_NODE_LABEL", "SKIP_WS"),
+    )
+    val nQuadsGrammar = mapOf(
+        "LANGTAG" to "'@' [a-zA-Z]+ ('-' [a-zA-Z0-9]+)*",
+        "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
+        "SKIP_WS" to "[#x20#x9#xD#xA]*",
+        "IRIREF" to "'<' (IRIREF_A)* '>'",
+        "IRIREF_A" to "IRIREF_B | UCHAR",
+        "IRIREF_B" to "[^#x00-#x20<>\"{}|^`\\]",
+        "STRING_LITERAL_QUOTE" to "('\"') ([^#x22#x5C#xA#xD] | ECHAR | UCHAR)* ('\"')",
+        "ECHAR" to "('\\\\') ([tbnrf\"'\\])",
+        "UCHAR" to "(('\\\\') 'u' HEX HEX HEX HEX | ('\\\\') 'U' HEX HEX HEX HEX HEX HEX HEX HEX)",
+        "PN_CHARS_BASE" to "([A-Z] | [a-z] | [#x00C0-#x00D6] | [#x00D8-#x00F6] | [#x00F8-#x02FF] | [#x0370-#x037D] | [#x037F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#x1fffff])",
+        "PN_CHARS" to "(PN_CHARS_U | '-' | [0-9] | #x00B7 | [#x0300-#x036F] | [#x203F-#x2040])",
+        "BLANK_NODE_LABEL" to "'_' ':' (PN_CHARS_U | [0-9]) ([.]* PN_CHARS)*", // TODO this includes a trailling dot, which is wrong due to the given grammar
+        "PN_CHARS_U" to "(PN_CHARS_BASE | '_' | ':')", // Attention - this is different to turtle
+        "HEX" to "([0-9] | [A-F] | [a-f])",
+        "DOT" to "('.')",
+        "IRI1" to "('^') ('^')",
+    )
+    val nQuadsFilename = "src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}nQuads${Platform.getPathSeparator()}NQuads2ParserGenerated.kt"
+    val nQuadsPackage = "lupos.s02buildSyntaxTree.nQuads"
+//    ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage,)
+//    ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage,)
+    ParserGenerator(nQuadsGeneratingArgs, nQuadsGrammar, nQuadsFilename, nQuadsPackage,)
 }
 
 fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: String, fileName: String) {
