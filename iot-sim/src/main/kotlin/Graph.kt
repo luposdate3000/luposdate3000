@@ -1,8 +1,8 @@
-class AdjacencyMatrix<V, E>(private val vertices: List<V>) {
+class Graph<V, E>(private val vertices: List<V>) {
 
     private var vertexIndices: MutableMap<V, Int> = HashMap(vertices.size)
 
-    private val matrix: Array<HashMap<Int,E>> = Array(vertices.size) { HashMap() }
+    private val adjacencyList: Array<HashMap<Int,E>> = Array(vertices.size) { HashMap() }
 
 
     init {
@@ -26,13 +26,13 @@ class AdjacencyMatrix<V, E>(private val vertices: List<V>) {
     fun addDirectedEdge(from: V, to: V, edge: E) {
         val fromIndex = getIndexOf(from)
         val toIndex = getIndexOf(to)
-        matrix[fromIndex][toIndex] = edge
+        adjacencyList[fromIndex][toIndex] = edge
     }
 
     fun getEdge(from: V, to: V): E? {
         val fromIndex = getIndexOf(from)
         val toIndex = getIndexOf(to)
-        return matrix[fromIndex][toIndex]
+        return adjacencyList[fromIndex][toIndex]
     }
 
 }

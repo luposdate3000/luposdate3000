@@ -16,7 +16,7 @@ object Config {
     var entities: MutableList<Entity> = ArrayList()
         private set
 
-    var graph = AdjacencyMatrix<String, ConnectionParameter>(arrayListOf())
+    var graph = Graph<String, ConnectionParameter>(arrayListOf())
         private set
 
     private var connections: MutableList<Connection> = ArrayList()
@@ -41,7 +41,7 @@ object Config {
         entities = ArrayList()
         jsonObjects = JsonObjects()
         connections = ArrayList()
-        graph = AdjacencyMatrix(arrayListOf())
+        graph = Graph(arrayListOf())
     }
 
 
@@ -192,7 +192,7 @@ object Config {
 
     private fun createGraph() {
         val keyList = ArrayList(devices.keys)
-        graph = AdjacencyMatrix(keyList)
+        graph = Graph(keyList)
         for (con in connections) {
             graph.addUndirectedEdge(con.src, con.dest, con.params)
         }
