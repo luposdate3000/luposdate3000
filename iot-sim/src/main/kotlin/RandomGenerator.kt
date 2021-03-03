@@ -22,7 +22,7 @@ object RandomGenerator {
     }
 
     //Adapted From: https://gis.stackexchange.com/questions/25877/generating-random-locations-nearby
-    fun getLocationInCircularWindow(center: LatLng, radiusInMeters: Int): LatLng {
+    fun getLatLngInRadius(center: LatLng, radiusInMeters: Int): LatLng {
         val x0 = center.longitude
         val y0 = center.latitude
 
