@@ -23,7 +23,7 @@ class Graph<V, E>(private val vertices: List<V>) {
         addDirectedEdge(two, one, edge)
     }
 
-    fun addDirectedEdge(from: V, to: V, edge: E) {
+    private fun addDirectedEdge(from: V, to: V, edge: E) {
         val fromIndex = getIndexOf(from)
         val toIndex = getIndexOf(to)
         adjacencyList[fromIndex][toIndex] = edge
