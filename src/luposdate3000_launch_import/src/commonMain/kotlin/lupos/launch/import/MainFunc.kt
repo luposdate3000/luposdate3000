@@ -38,6 +38,12 @@ internal fun helperCleanString(s: String): String {
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
+    val quadMode = inputFileName.endsWith(".n4")
+    val tripleFileEnding = if (quadMode) {
+        "quads"
+    } else {
+        "triples"
+    }
     val byteBuf = ByteArray(1)
 // create chunced dictionaries
     val dictSizeLimit = 1024L * 1024L * 1024L
@@ -45,11 +51,11 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
 
     var chunc = 0
     var outDictionary = File("$inputFileName.$chunc.dictionary").openOutputStream(false)
-    var outTriples = File("$inputFileName.0.triples").openOutputStream(false)
+    var outTriples = File("$inputFileName.0.$tripleFileEnding").openOutputStream(false)
     chunc++
 
-    val dict = Array(ETripleComponentTypeExt.values_size) { mutableMapOf<String, Int>() }
-    var dictCounter = 0
+    val dict = Array(ETripleComponentTypeExt.values_size) { mutableMapOf<String, Long>() }
+    var dictCounter = 0L
 
     var cnt = 0L
     var dicttotalcnt = 0L
@@ -89,7 +95,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                     value = value.substring(1, value.length - 1)
                 }
                 val tmp = value.encodeToByteArray()
-                outDictionary.writeInt(localdict[entry]!!)
+                outDictionary.writeInt(localdict[entry]!!.toInt())
                 outDictionary.writeInt(tmp.size)
                 outDictionary.write(tmp, tmp.size)
             }
@@ -107,10 +113,10 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                     val tripleCleaned = helperCleanString(triple[i])
                     val v = dict[tripleType[i]][tripleCleaned]
                     if (v != null) {
-                        outTriples.writeInt(v)
+                        outTriples.writeInt(v.toInt())
                     } else {
                         val v2 = dictCounter++
-                        outTriples.writeInt(v2)
+                        outTriples.writeInt(v2.toInt())
                         dict[tripleType[i]][tripleCleaned] = v2
                         dictSizeEstimated += tripleCleaned.length * 2
                         dicttotalcnt++
@@ -133,14 +139,14 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     } else if (inputFileName.endsWith(".n4")) {
         val x = object : NQuads2Parser(iter) {
             override fun onQuad(quad: Array<String>, quadType: Array<ETripleComponentType>) {
-                for (i in 0 until 3) {
+                for (i in 0 until 4) {
                     val quadCleaned = helperCleanString(quad[i])
                     val v = dict[quadType[i]][quadCleaned]
                     if (v != null) {
-                        outTriples.writeInt(v)
+                        outTriples.writeInt(v.toInt())
                     } else {
                         val v2 = dictCounter++
-                        outTriples.writeInt(v2)
+                        outTriples.writeInt(v2.toInt())
                         dict[quadType[i]][quadCleaned] = v2
                         dictSizeEstimated += quadCleaned.length * 2
                         dicttotalcnt++
@@ -169,15 +175,15 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     iter.close()
 // merge dictionaries
     outDictionary = File("$inputFileName.dictionary").openOutputStream(false)
-    val mapping = IntArray(dictCounter)
+    val mapping = LongArray(dictCounter.toInt())
 
     class DictionaryHelper(val input: IMyInputStream, var componentType: Int, var remainingWithComponent: Int, var headString: String, var headValue: Int, var valid: Boolean)
 
     val dictionaries = Array(chunc) { DictionaryHelper(File("$inputFileName.$it.dictionary").openInputStream(), -1, 0, "", -1, false) }.toMutableList()
-    val dictCounterByType = IntArray(ETripleComponentTypeExt.values_size)
+    val dictCounterByType = LongArray(ETripleComponentTypeExt.values_size)
     var readtotalcnt = 0L
 
-    var currentValue = 0
+    var currentValue = 0L
     var currentValid = true
     var currentString = ""
     var currentComponentType = 0
@@ -218,7 +224,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             outDictionary.write(tmp)
             for (d in dictionaries) {
                 if (d.headString == currentString) {
-                    SanityCheck.check { mapping[d.headValue] == 0 }
+                    SanityCheck.check { mapping[d.headValue] == 0L }
                     mapping[d.headValue] = currentValue
                     d.valid = false
                 }
@@ -234,30 +240,35 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             out.println("$t=${dictCounterByType[t]}")
         }
     }
-    File("$inputFileName.triples").withOutputStream { outTriples ->
-        File("$inputFileName.0.triples").withInputStream { inTriples ->
-            for (i in 0L until cnt * 3) {
+    File("$inputFileName.$tripleFileEnding").withOutputStream { outTriples ->
+        File("$inputFileName.0.$tripleFileEnding").withInputStream { inTriples ->
+            val target = cnt * if (quadMode) {
+                4L
+            } else {
+                3L
+            }
+            for (i in 0L until target) {
                 val v = inTriples.readInt()
                 val vv = mapping[v]
-                outTriples.writeInt(vv)
+                outTriples.writeInt(vv.toInt())
             }
         }
     }
     for (i in 0 until chunc) {
         File("$inputFileName.$i.dictionary").deleteRecursively()
     }
-    File("$inputFileName.0.triples").deleteRecursively()
+    File("$inputFileName.0.$tripleFileEnding").deleteRecursively()
     if (false) {
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        val outputTriplesFile = File("$inputFileName.triples")
+        val outputTriplesFile = File("$inputFileName.$tripleFileEnding")
         val outputPartitionsFile = File("$inputFileName.partitions")
         println("partition-stats :: ")
-        val lowerBoundToAnalyse = 256
+        val lowerBoundToAnalyse = 256L
         val labels = arrayOf("s", "p", "o")
         val partitionSizes = intArrayOf(2, 4, 8, 16)
-        val tripleBuf = IntArray(3)
-        val counters = Array(3) { IntArray(dictCounter) }
-        val maxCounter = IntArray(3)
+        val tripleBuf = LongArray(3)
+        val counters = Array(3) { LongArray(dictCounter.toInt()) }
+        val maxCounter = LongArray(3)
         outputTriplesFile.withInputStream { fis ->
             for (c in 0 until cnt) {
                 for (i in 0 until 3) {
@@ -269,9 +280,9 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                 }
             }
         }
-        val estimatedPartitionSizes = Array(6) { mutableMapOf<Int, Array<IntArray>>() }
-        val minimumOccurences = IntArray(3) {
-            val tmp = maxCounter[it] / 2
+        val estimatedPartitionSizes = Array(6) { mutableMapOf<Int, Array<LongArray>>() }
+        val minimumOccurences = LongArray(3) {
+            val tmp = maxCounter[it] / 2L
             if (lowerBoundToAnalyse > tmp) {
                 lowerBoundToAnalyse
             } else {
@@ -281,22 +292,22 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         outputTriplesFile.withInputStream { fis ->
             for (c in 0 until cnt) {
                 for (i in 0 until 3) {
-                    tripleBuf[i] = fis.readInt()
+                    tripleBuf[i] = fis.readInt().toLong()
                 }
                 for (i in 0 until 3) {
                     val constantPart = tripleBuf[i]
-                    if (counters[i][constantPart] > minimumOccurences[i]) {
+                    if (counters[i][constantPart.toInt()] > minimumOccurences[i]) {
                         for (j2 in 0 until 2) {
                             val j = (i + j2 + 1) % 3
                             val partitionPart = tripleBuf[j]
                             val x = estimatedPartitionSizes[i + j2 * 3]
                             var y = x[constantPart]
                             if (y == null) {
-                                y = Array(partitionSizes.size) { IntArray(partitionSizes[it]) }
-                                x[constantPart] = y
+                                y = Array(partitionSizes.size) { LongArray(partitionSizes[it]) }
+                                x[constantPart.toInt()] = y
                             }
                             for (k in partitionSizes.indices) {
-                                y[k][PartitionExt.hashFunction(partitionPart, partitionSizes[k])]++
+                                y[k.toInt()][PartitionExt.hashFunction(partitionPart.toInt(), partitionSizes[k.toInt()])]++
                             }
                         }
                     }
@@ -309,25 +320,25 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             for (j2 in 0 until 2) {
                 val j = (i + j2 + 1) % 3
                 val x = estimatedPartitionSizes[i + j2 * 3]
-                var lastMax = -1
+                var lastMax = -1L
                 var maxPartition = partitionSizes[0]
                 for (ki in partitionSizes.indices) {
                     val k = partitionSizes[ki]
-                    var min = -1
-                    var max = 0
+                    var min = -1L
+                    var max = 0L
                     for ((xk, xv) in x) {
                         for (xx in xv[ki]) {
                             if (xx > max) {
                                 max = xx
                             }
-                            if (xx < min || min == -1) {
+                            if (xx < min || min == -1L) {
                                 min = xx
                             }
                         }
                     }
                     if (max < lowerBoundToAnalyse) {
                         break
-                    } else if (lastMax == -1) {
+                    } else if (lastMax == -1L) {
                         lastMax = max
                     } else if (max > lastMax * 0.55) {
                         break

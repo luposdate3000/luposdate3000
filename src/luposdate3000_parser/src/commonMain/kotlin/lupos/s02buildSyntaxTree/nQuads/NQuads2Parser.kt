@@ -113,6 +113,7 @@ public abstract class NQuads2Parser(input: IMyInputStream) {
             )
             parse_ws(context) {}
             parse_dot(context) {}
+            onQuad(quad, quadType)
         }
     }
 }

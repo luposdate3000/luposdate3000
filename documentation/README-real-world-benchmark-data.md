@@ -85,6 +85,7 @@ Make sure you read the following comments.
     # This one is about 600 gigabytes.
     # Make sure you have enough space available and a good enough internet connection.
     wget -i 000-CONTENTS
+    # concat everything into a *.n4 file
 }
 #yago1
 {
