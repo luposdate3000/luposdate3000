@@ -33,6 +33,5 @@ internal expect class _File(filename: String) {
     internal inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit)
     internal inline fun withInputStream(crossinline action: (IMyInputStream) -> Unit)
     internal inline fun forEachLine(crossinline action: (String) -> Unit)
-    /*suspend*/ internal inline fun forEachLineSuspended(crossinline action: /*suspend*/ (String) -> Unit)
     override fun equals(other: Any?): Boolean
 }

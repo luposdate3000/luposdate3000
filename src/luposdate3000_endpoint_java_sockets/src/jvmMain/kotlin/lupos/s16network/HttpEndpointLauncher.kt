@@ -203,8 +203,8 @@ public actual object HttpEndpointLauncher {
                                             EQueryResultToStreamExt.DEFAULT_STREAM
                                         }
                                     }
-                                    val node = XMLElementToOPBase(q, XMLElementFromXML()(query)!!)
-                                    val query = node.getQuery()
+                                    val query = Query()
+                                    val node = XMLElementToOPBase(query, XMLElementFromXML()(params["query"]!!)!!)
                                     val key = "${query.getTransactionID()}"
                                     val dict = registerDictionary(key)
                                     query.setDictionaryServer(dict)

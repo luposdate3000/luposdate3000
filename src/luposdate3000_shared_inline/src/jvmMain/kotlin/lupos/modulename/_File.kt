@@ -21,7 +21,6 @@ import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyInputStream
 import lupos.s00misc.MyOutputStream
-import lupos.s00misc.Parallel
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.FileInputStream
@@ -88,12 +87,6 @@ internal actual class _File actual constructor(@JvmField public val filename: St
 
     internal actual inline fun forEachLine(crossinline action: (String) -> Unit) = java.io.File(filename).forEachLine {
         action(it)
-    }
-
-    internal /*suspend*/ actual inline fun forEachLineSuspended(crossinline action: /*suspend*/ (String) -> Unit) = java.io.File(filename).forEachLine {
-        Parallel.runBlocking {
-            action(it)
-        }
     }
 
     actual override fun equals(other: Any?): Boolean {

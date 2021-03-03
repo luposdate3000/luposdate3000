@@ -19,6 +19,7 @@ package lupos.launch.import
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
+import lupos.s00misc.IMyInputStream
 import lupos.s00misc.Parallel
 import lupos.s00misc.PartitionExt
 import lupos.s00misc.SanityCheck
@@ -36,215 +37,310 @@ internal fun helperCleanString(s: String): String {
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
-    var cnt = 0
-    println("importing $inputFileName start")
-    val inputFile = File(inputFileName)
-    val dict = mutableMapOf<String, Int>()
-    var dictCounter = 0
-    val dictCounterByType = IntArray(ETripleComponentTypeExt.values_size)
-    val iter = inputFile.openInputStream()
-    val outputTriplesFile = File("$inputFileName.triples")
-    val outputDictionaryFile = File("$inputFileName.dictionary")
-    val outputDictionaryStatFile = File("$inputFileName.stat")
-    val outputPartitionsFile = File("$inputFileName.partitions")
     val byteBuf = ByteArray(1)
-    try {
-        outputDictionaryFile.withOutputStream { outDictionary ->
-            outputTriplesFile.withOutputStream { outTriples ->
-                val x = object : Turtle2Parser(iter) {
-                    override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
-                        for (i in 0 until 3) {
-                            val tripleCleaned = helperCleanString(triple[i])
-                            val v = dict[tripleCleaned]
-                            if (v != null) {
-                                outTriples.writeInt(v)
-                            } else {
-                                val v2 = dictCounter++
-                                dictCounterByType[tripleType[i]]++
-                                dict[tripleCleaned] = v2
-                                outTriples.writeInt(v2)
-                                var tripleCleaned2 = tripleCleaned
-                                if (tripleType[i] == ETripleComponentTypeExt.IRI) {
-                                    tripleCleaned2 = tripleCleaned.substring(1, tripleCleaned.length - 1)
-                                }
-                                val tmp = tripleCleaned2.encodeToByteArray()
-                                byteBuf[0] = tripleType[i].toByte()
-                                outDictionary.writeInt(tmp.size)
-                                outDictionary.write(byteBuf)
-                                outDictionary.write(tmp)
-                            }
-                        }
-                        cnt++
-                        if (cnt % 10000 == 0) {
-                            println("$cnt :: $dictCounter")
-                        }
-                    }
+// create chunced dictionaries
+    val dictSizeLimit = 10L * 1024L * 1024L
+    var dictSizeEstimated = 0L
+
+    var chunc = 0
+    var outDictionary = File("$inputFileName.$chunc.dictionary").openOutputStream(false)
+    var outTriples = File("$inputFileName.0.triples").openOutputStream(false)
+    chunc++
+
+    val dict = Array(ETripleComponentTypeExt.values_size) { mutableMapOf<String, Int>() }
+    var dictCounter = 0
+
+    var cnt = 0L
+    var dicttotalcnt = 0L
+
+    fun writeDict() {
+        for (componentType in 0 until ETripleComponentTypeExt.values_size) {
+            var localdict = dict[componentType]
+            val size = localdict.size
+            outDictionary.writeInt(componentType)
+            outDictionary.writeInt(size)
+            val entries = localdict.keys.sorted()
+            for (entry in entries) {
+                var value = entry
+                if (componentType == ETripleComponentTypeExt.IRI) {
+                    value = value.substring(1, value.length - 1)
                 }
-                x.turtleDoc()
+                val tmp = value.encodeToByteArray()
+                outDictionary.writeInt(localdict[entry]!!)
+                outDictionary.writeInt(tmp.size)
+                outDictionary.write(tmp, tmp.size)
+            }
+            localdict.clear()
+        }
+        outDictionary.writeInt(ETripleComponentTypeExt.values_size)
+        outDictionary.writeInt(0)
+    }
+
+    val iter = File(inputFileName).openInputStream()
+    val x = object : Turtle2Parser(iter) {
+        override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
+            for (i in 0 until 3) {
+                val tripleCleaned = helperCleanString(triple[i])
+                val v = dict[tripleType[i]][tripleCleaned]
+                if (v != null) {
+                    outTriples.writeInt(v)
+                } else {
+                    val v2 = dictCounter++
+                    outTriples.writeInt(v2)
+                    dict[tripleType[i]][tripleCleaned] = v2
+                    dictSizeEstimated += tripleCleaned.length
+                    dicttotalcnt++
+                }
+            }
+            cnt++
+            if (cnt % 10000L == 0L) {
+                println("$cnt :: $dictCounter :: $dictSizeEstimated(Bytes)")
+            }
+            if (dictSizeEstimated > dictSizeLimit) {
+                writeDict()
+                outDictionary.close()
+                outDictionary = File("$inputFileName.$chunc.dictionary").openOutputStream(false)
+                dictSizeEstimated = 0
+                chunc++
             }
         }
-    } catch (e: lupos.s02buildSyntaxTree.ParseError) {
-        println("error in file '$inputFileName'")
-        throw e
     }
-    outputDictionaryStatFile.withOutputStream { out ->
+    x.turtleDoc()
+    writeDict()
+    outDictionary.close()
+    outTriples.close()
+    iter.close()
+// merge dictionaries
+    outDictionary = File("$inputFileName.dictionary").openOutputStream(false)
+    val mapping = IntArray(dictCounter)
+
+    class DictionaryHelper(val input: IMyInputStream, var componentType: Int, var remainingWithComponent: Int, var headString: String, var headValue: Int, var valid: Boolean)
+
+    val dictionaries = Array(chunc) { DictionaryHelper(File("$inputFileName.$it.dictionary").openInputStream(), -1, 0, "", -1, false) }.toMutableList()
+    val dictCounterByType = IntArray(ETripleComponentTypeExt.values_size)
+    var readtotalcnt = 0L
+
+    var currentValue = 0
+    var currentValid = true
+    var currentString = ""
+    var currentComponentType = 0
+
+    loop@ while (currentValid) {
+        currentValid = false
+        for (di in 0 until dictionaries.size) {
+            val d = dictionaries[di]
+            if (!d.valid) {
+                while (d.remainingWithComponent == 0 && d.componentType < ETripleComponentTypeExt.values_size) {
+                    d.componentType = d.input.readInt()
+                    d.remainingWithComponent = d.input.readInt()
+                }
+                if (d.componentType < ETripleComponentTypeExt.values_size) {
+                    SanityCheck.check { d.remainingWithComponent > 0 }
+                    readtotalcnt++
+                    d.remainingWithComponent--
+                    d.headValue = d.input.readInt()
+                    val len = d.input.readInt()
+                    val buf = ByteArray(len)
+                    d.input.read(buf, len)
+                    d.headString = buf.decodeToString()
+                    d.valid = true
+                }
+            }
+            if (d.valid && (!currentValid || (d.headString < currentString && currentComponentType == d.componentType) || (d.componentType < currentComponentType))) {
+                currentString = d.headString
+                currentComponentType = d.componentType
+                currentValid = true
+            }
+        }
+        if (currentValid) {
+            dictCounterByType[currentComponentType]++
+            val tmp = currentString.encodeToByteArray()
+            byteBuf[0] = currentComponentType.toByte()
+            outDictionary.writeInt(tmp.size)
+            outDictionary.write(byteBuf, 1)
+            outDictionary.write(tmp)
+            for (d in dictionaries) {
+                if (d.headString == currentString) {
+                    SanityCheck.check { mapping[d.headValue] == 0 }
+                    mapping[d.headValue] = currentValue
+                    d.valid = false
+                }
+            }
+            currentValue++
+        }
+    }
+    SanityCheck.check { readtotalcnt == dicttotalcnt }
+    outDictionary.close()
+    File("$inputFileName.stat").withOutputStream { out ->
         out.println("total=$dictCounter")
         for (t in 0 until ETripleComponentTypeExt.values_size) {
             out.println("$t=${dictCounterByType[t]}")
         }
     }
-    println("importing $inputFileName finish with $cnt triples")
-    dict.clear()
+    File("$inputFileName.triples").withOutputStream { outTriples ->
+        File("$inputFileName.0.triples").withInputStream { inTriples ->
+            for (i in 0L until cnt * 3) {
+                val v = inTriples.readInt()
+                val vv = mapping[v]
+                SanityCheck.check({ vv != 0 }, { "mapping missing $v" })
+                outTriples.writeInt(vv)
+            }
+        }
+    }
+    if (false) {
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    println("partition-stats :: ")
-    val lowerBoundToAnalyse = 256
-    val labels = arrayOf("s", "p", "o")
-    val partitionSizes = intArrayOf(2, 4, 8, 16)
-    val tripleBuf = IntArray(3)
-    val counters = Array(3) { IntArray(dictCounter) }
-    val maxCounter = IntArray(3)
-    outputTriplesFile.withInputStream { fis ->
-        for (c in 0 until cnt) {
-            for (i in 0 until 3) {
-                val tmp = fis.readInt()
-                counters[i][tmp]++
-                if (counters[i][tmp] > maxCounter[i]) {
-                    maxCounter[i] = counters[i][tmp]
-                }
-            }
-        }
-    }
-    val estimatedPartitionSizes = Array(6) { mutableMapOf<Int, Array<IntArray>>() }
-    val minimumOccurences = IntArray(3) {
-        val tmp = maxCounter[it] / 2
-        if (lowerBoundToAnalyse > tmp) {
-            lowerBoundToAnalyse
-        } else {
-            tmp
-        }
-    }
-    outputTriplesFile.withInputStream { fis ->
-        for (c in 0 until cnt) {
-            for (i in 0 until 3) {
-                tripleBuf[i] = fis.readInt()
-            }
-            for (i in 0 until 3) {
-                val constantPart = tripleBuf[i]
-                if (counters[i][constantPart] > minimumOccurences[i]) {
-                    for (j2 in 0 until 2) {
-                        val j = (i + j2 + 1) % 3
-                        val partitionPart = tripleBuf[j]
-                        val x = estimatedPartitionSizes[i + j2 * 3]
-                        var y = x[constantPart]
-                        if (y == null) {
-                            y = Array(partitionSizes.size) { IntArray(partitionSizes[it]) }
-                            x[constantPart] = y
-                        }
-                        for (k in partitionSizes.indices) {
-                            y[k][PartitionExt.hashFunction(partitionPart, partitionSizes[k])]++
-                        }
+        val outputTriplesFile = File("$inputFileName.triples")
+        val outputPartitionsFile = File("$inputFileName.partitions")
+        println("partition-stats :: ")
+        val lowerBoundToAnalyse = 256
+        val labels = arrayOf("s", "p", "o")
+        val partitionSizes = intArrayOf(2, 4, 8, 16)
+        val tripleBuf = IntArray(3)
+        val counters = Array(3) { IntArray(dictCounter) }
+        val maxCounter = IntArray(3)
+        outputTriplesFile.withInputStream { fis ->
+            for (c in 0 until cnt) {
+                for (i in 0 until 3) {
+                    val tmp = fis.readInt()
+                    counters[i][tmp]++
+                    if (counters[i][tmp] > maxCounter[i]) {
+                        maxCounter[i] = counters[i][tmp]
                     }
                 }
             }
         }
-    }
-    val configurations1 = mutableMapOf<String, MutableSet<Int>>()
-    val configurations2 = mutableMapOf<String, MutableSet<Int>>()
-    for (i in 0 until 3) {
-        for (j2 in 0 until 2) {
-            val j = (i + j2 + 1) % 3
-            val x = estimatedPartitionSizes[i + j2 * 3]
-            var lastMax = -1
-            var maxPartition = partitionSizes[0]
-            for (ki in partitionSizes.indices) {
-                val k = partitionSizes[ki]
-                var min = -1
-                var max = 0
-                for ((xk, xv) in x) {
-                    for (xx in xv[ki]) {
-                        if (xx > max) {
-                            max = xx
-                        }
-                        if (xx < min || min == -1) {
-                            min = xx
-                        }
-                    }
-                }
-                if (max < lowerBoundToAnalyse) {
-                    break
-                } else if (lastMax == -1) {
-                    lastMax = max
-                } else if (max > lastMax * 0.55) {
-                    break
-                }
-                maxPartition = k
-            }
-            val idxName: String
-            val idxNameSecondary: String
-            when (i + j2 * 3) {
-                0 -> {
-                    idxName = "SPO"
-                    idxNameSecondary = "SOP"
-                }
-                1 -> {
-                    idxName = "POS"
-                    idxNameSecondary = "PSO"
-                }
-                2 -> {
-                    idxName = "OSP"
-                    idxNameSecondary = "OPS"
-                }
-                3 -> {
-                    idxName = "SOP"
-                    idxNameSecondary = "SPO"
-                }
-                4 -> {
-                    idxName = "PSO"
-                    idxNameSecondary = "POS"
-                }
-                5 -> {
-                    idxName = "OPS"
-                    idxNameSecondary = "OSP"
-                }
-                else -> SanityCheck.checkUnreachable()
-            }
-            if (maxPartition > 1) {
-                if (configurations1[idxName] == null) {
-                    configurations1[idxName] = mutableSetOf(maxPartition)
-                } else {
-                    configurations1[idxName]!!.add(maxPartition)
-                }
-                if (configurations2[idxNameSecondary] == null) {
-                    configurations2[idxNameSecondary] = mutableSetOf(maxPartition)
-                } else {
-                    configurations2[idxNameSecondary]!!.add(maxPartition)
-                }
-            }
-        }
-    }
-    val indicees = arrayOf("SPO", "SOP", "PSO", "POS", "OSP", "OPS")
-    outputPartitionsFile.withOutputStream { out ->
-        for (i in indicees) {
-            val t1 = configurations1[i]
-            val t2 = configurations2[i]
-            if (t1 == null && t2 == null) {
-                out.println("$i,-1,1")
-// add smalles possible partitions to the other collation orders due to currently incomplete optimizer
-                out.println("$i,1,${partitionSizes[0]}")
-                out.println("$i,2,${partitionSizes[0]}")
+        val estimatedPartitionSizes = Array(6) { mutableMapOf<Int, Array<IntArray>>() }
+        val minimumOccurences = IntArray(3) {
+            val tmp = maxCounter[it] / 2
+            if (lowerBoundToAnalyse > tmp) {
+                lowerBoundToAnalyse
             } else {
-                if (t1 == null) {
-                    out.println("$i,1,${partitionSizes[0]}")
-                } else {
-                    for (j in t1) {
-                        out.println("$i,1,$j")
+                tmp
+            }
+        }
+        outputTriplesFile.withInputStream { fis ->
+            for (c in 0 until cnt) {
+                for (i in 0 until 3) {
+                    tripleBuf[i] = fis.readInt()
+                }
+                for (i in 0 until 3) {
+                    val constantPart = tripleBuf[i]
+                    if (counters[i][constantPart] > minimumOccurences[i]) {
+                        for (j2 in 0 until 2) {
+                            val j = (i + j2 + 1) % 3
+                            val partitionPart = tripleBuf[j]
+                            val x = estimatedPartitionSizes[i + j2 * 3]
+                            var y = x[constantPart]
+                            if (y == null) {
+                                y = Array(partitionSizes.size) { IntArray(partitionSizes[it]) }
+                                x[constantPart] = y
+                            }
+                            for (k in partitionSizes.indices) {
+                                y[k][PartitionExt.hashFunction(partitionPart, partitionSizes[k])]++
+                            }
+                        }
                     }
                 }
-                if (t2 == null) {
+            }
+        }
+        val configurations1 = mutableMapOf<String, MutableSet<Int>>()
+        val configurations2 = mutableMapOf<String, MutableSet<Int>>()
+        for (i in 0 until 3) {
+            for (j2 in 0 until 2) {
+                val j = (i + j2 + 1) % 3
+                val x = estimatedPartitionSizes[i + j2 * 3]
+                var lastMax = -1
+                var maxPartition = partitionSizes[0]
+                for (ki in partitionSizes.indices) {
+                    val k = partitionSizes[ki]
+                    var min = -1
+                    var max = 0
+                    for ((xk, xv) in x) {
+                        for (xx in xv[ki]) {
+                            if (xx > max) {
+                                max = xx
+                            }
+                            if (xx < min || min == -1) {
+                                min = xx
+                            }
+                        }
+                    }
+                    if (max < lowerBoundToAnalyse) {
+                        break
+                    } else if (lastMax == -1) {
+                        lastMax = max
+                    } else if (max > lastMax * 0.55) {
+                        break
+                    }
+                    maxPartition = k
+                }
+                val idxName: String
+                val idxNameSecondary: String
+                when (i + j2 * 3) {
+                    0 -> {
+                        idxName = "SPO"
+                        idxNameSecondary = "SOP"
+                    }
+                    1 -> {
+                        idxName = "POS"
+                        idxNameSecondary = "PSO"
+                    }
+                    2 -> {
+                        idxName = "OSP"
+                        idxNameSecondary = "OPS"
+                    }
+                    3 -> {
+                        idxName = "SOP"
+                        idxNameSecondary = "SPO"
+                    }
+                    4 -> {
+                        idxName = "PSO"
+                        idxNameSecondary = "POS"
+                    }
+                    5 -> {
+                        idxName = "OPS"
+                        idxNameSecondary = "OSP"
+                    }
+                    else -> SanityCheck.checkUnreachable()
+                }
+                if (maxPartition > 1) {
+                    if (configurations1[idxName] == null) {
+                        configurations1[idxName] = mutableSetOf(maxPartition)
+                    } else {
+                        configurations1[idxName]!!.add(maxPartition)
+                    }
+                    if (configurations2[idxNameSecondary] == null) {
+                        configurations2[idxNameSecondary] = mutableSetOf(maxPartition)
+                    } else {
+                        configurations2[idxNameSecondary]!!.add(maxPartition)
+                    }
+                }
+            }
+        }
+        val indicees = arrayOf("SPO", "SOP", "PSO", "POS", "OSP", "OPS")
+        outputPartitionsFile.withOutputStream { out ->
+            for (i in indicees) {
+                val t1 = configurations1[i]
+                val t2 = configurations2[i]
+                if (t1 == null && t2 == null) {
+                    out.println("$i,-1,1")
+// add smalles possible partitions to the other collation orders due to currently incomplete optimizer
+                    out.println("$i,1,${partitionSizes[0]}")
                     out.println("$i,2,${partitionSizes[0]}")
                 } else {
-                    for (j in t2) {
-                        out.println("$i,2,$j")
+                    if (t1 == null) {
+                        out.println("$i,1,${partitionSizes[0]}")
+                    } else {
+                        for (j in t1) {
+                            out.println("$i,1,$j")
+                        }
+                    }
+                    if (t2 == null) {
+                        out.println("$i,2,${partitionSizes[0]}")
+                    } else {
+                        for (j in t2) {
+                            out.println("$i,2,$j")
+                        }
                     }
                 }
             }

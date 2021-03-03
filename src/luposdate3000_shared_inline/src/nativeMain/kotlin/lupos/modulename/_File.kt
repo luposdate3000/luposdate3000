@@ -40,7 +40,6 @@ internal actual class _File {
     internal actual inline fun withOutputStream(crossinline action: (MyPrintWriter) -> Unit): Unit = throw NotImplementedException("File", "withOutputStream not implemented")
     internal /*suspend*/ actual inline fun withOutputStream(crossinline action: /*suspend*/ (MyPrintWriter) -> Unit): Unit = throw NotImplementedException("File", "withOutputStream not implemented")
     internal actual inline fun forEachLine(crossinline action: (String) -> Unit): Unit = throw NotImplementedException("File", "forEachLine not implemented")
-    internal /*suspend*/ actual inline fun forEachLineSuspended(crossinline action: /*suspend*/ (String) -> Unit): Unit = throw NotImplementedException("File", "forEachLineSuspended not implemented")
     internal actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit): Unit = throw NotImplementedException("File", "withOutputStream not implemented")
     internal actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit): Unit = throw NotImplementedException("File", "withOutputStream not implemented")
     internal actual inline fun withInputStream(crossinline action: (IMyInputStream) -> Unit): Unit = throw NotImplementedException("File", "withInputStream not implemented")

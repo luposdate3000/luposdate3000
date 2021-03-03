@@ -59,12 +59,6 @@ internal actual class _File {
     internal actual inline fun openInputStream(): IMyInputStream = throw NotImplementedException("File", "openInputStream not implemented")
     internal actual inline fun walk(crossinline action: (String) -> Unit): Unit = throw NotImplementedException("File", "walk not implemented")
 
-    internal actual inline fun forEachLineSuspended(crossinline action: (String) -> Unit) {
-        forEachLine { it ->
-            action(it)
-        }
-    }
-
     internal actual inline fun forEachLine(crossinline action: (String) -> Unit) {
         val stream = MyInputStream(filename)
         val buffer = ByteArray(8192)

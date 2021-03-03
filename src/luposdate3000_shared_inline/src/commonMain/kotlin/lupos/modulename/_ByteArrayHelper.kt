@@ -16,20 +16,16 @@
  */
 package lupos.modulename
 
-import lupos.s00misc.SanityCheck
-
 internal object _ByteArrayHelper {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeInt1(data: ByteArray, offset: Int, value: Int) {
         data[offset] = (value and 0xFF).toByte()
-        SanityCheck.check({ value == readInt1(data, offset) }, { "$value ${readInt1(data, offset)}" })
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeInt2(data: ByteArray, offset: Int, value: Int) {
         data[offset] = ((value shr 8) and 0xFF).toByte()
         data[offset + 1] = (value and 0xFF).toByte()
-        SanityCheck.check({ value == readInt2(data, offset) }, { "$value ${readInt2(data, offset)}" })
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -37,7 +33,6 @@ internal object _ByteArrayHelper {
         data[offset] = ((value shr 16) and 0xFF).toByte()
         data[offset + 1] = ((value shr 8) and 0xFF).toByte()
         data[offset + 2] = (value and 0xFF).toByte()
-        SanityCheck.check({ value == readInt3(data, offset) }, { "$value ${readInt3(data, offset)}" })
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -46,7 +41,6 @@ internal object _ByteArrayHelper {
         data[offset + 1] = ((value shr 16) and 0xFF).toByte()
         data[offset + 2] = ((value shr 8) and 0xFF).toByte()
         data[offset + 3] = (value and 0xFF).toByte()
-        SanityCheck.check({ value == readInt4(data, offset) }, { "$value ${readInt4(data, offset)} ${data[offset].toString(16)} ${data[offset + 1].toString(16)} ${data[offset + 2].toString(16)} ${data[offset + 3].toString(16)}" })
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -79,7 +73,6 @@ internal object _ByteArrayHelper {
         data[offset + 5] = ((value shr 16) and 0xFF).toByte()
         data[offset + 6] = ((value shr 8) and 0xFF).toByte()
         data[offset + 7] = (value and 0xFF).toByte()
-        SanityCheck.check { value == readLong8(data, offset) }
     }
 
     @Suppress("NOTHING_TO_INLINE")
@@ -87,7 +80,6 @@ internal object _ByteArrayHelper {
         val v = value.toInt()
         data[offset] = ((v shr 8) and 0xFF).toByte()
         data[offset + 1] = (v and 0xFF).toByte()
-        SanityCheck.check({ v == readInt2(data, offset) }, { "$v ${readInt2(data, offset)}" })
     }
 
     @Suppress("NOTHING_TO_INLINE")

@@ -78,7 +78,7 @@ public open class SparqlTestSuite {
             val prefixes = enabledTestCases
             for (prefix in prefixes) {
                 var lastinput: String? = null
-                File(prefixDirectory + prefix + "config.csv").forEachLineSuspended { it2 ->
+                File(prefixDirectory + prefix + "config.csv").forEachLine { it2 ->
                     val line = it2.split(",")
                     if (line.size > 3) {
                         val triplesCount = line[0]
