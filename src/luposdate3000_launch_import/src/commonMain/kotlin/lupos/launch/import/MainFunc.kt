@@ -28,10 +28,14 @@ import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 
 internal fun helperCleanString(s: String): String {
     var res: String = s
-    while (true) {
-        val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res) ?: break
-        val replacement = match.value.substring(2, 6).toInt(16).toChar() + ""
-        res = res.replace(match.value, replacement)
+    try {
+        while (true) {
+            val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res) ?: break
+            val replacement = match.value.substring(2, 6).toInt(16).toChar() + ""
+            res = res.replace(match.value, replacement)
+        }
+    } catch (e: Throwable) {
+        println("error during clean :: $s")
     }
     return res
 }
