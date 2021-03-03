@@ -65,7 +65,7 @@ class RandomGeneratorTest {
     )
     fun `create random location within radius`(lat: Double, lng: Double, radius: Int) {
         val center = LatLng(lat, lng)
-        val createdLoc = RandomGenerator.createLocationInCircularWindow(center, radius)
+        val createdLoc = RandomGenerator.getLocationInCircularWindow(center, radius)
         val distance = LatLngTool.distance(center, createdLoc, LengthUnit.METER)
         Assertions.assertTrue(distance <= radius)
     }
