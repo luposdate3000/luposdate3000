@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.ValueSource
+import kotlin.random.Random
 
 class RandomGeneratorTest {
 
@@ -24,6 +25,7 @@ class RandomGeneratorTest {
         "4.43, 699.01",
     )
     fun `random double is between min and max`(min: Double, max: Double) {
+        RandomGenerator.seed = Random.nextInt()
         for(i in 1..30) {
             val actual = RandomGenerator.getDouble(min, max)
             Assertions.assertTrue(actual >= min, "actual is $actual")
@@ -64,10 +66,23 @@ class RandomGeneratorTest {
         "0.0, 0.0, 0",
     )
     fun `create random location within radius`(lat: Double, lng: Double, radius: Int) {
+        RandomGenerator.seed = Random.nextInt()
         val center = LatLng(lat, lng)
         val createdLoc = RandomGenerator.getLatLngInRadius(center, radius)
         val distance = LatLngTool.distance(center, createdLoc, LengthUnit.METER)
         Assertions.assertTrue(distance <= radius)
+    }
+
+    @Test
+    fun `get true`() {
+        RandomGenerator.seed = Random.nextInt()
+        Assertions.assertTrue(RandomGenerator.getBoolean(1.0F))
+    }
+
+    @Test
+    fun `get false`() {
+        RandomGenerator.seed = Random.nextInt()
+        Assertions.assertFalse(RandomGenerator.getBoolean(0.0F))
     }
 
 }

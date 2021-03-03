@@ -42,4 +42,7 @@ object RandomGenerator {
         return LatLng(foundLatitude, foundLongitude)
     }
 
+    fun getBoolean(probabilityOfTrue: Float)
+        = random.nextFloat() < probabilityOfTrue
+
 }
