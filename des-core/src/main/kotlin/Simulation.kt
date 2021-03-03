@@ -2,7 +2,7 @@ import java.util.*
 
 object Simulation {
 
-    private var entities: MutableList<Entity> = ArrayList<Entity>()
+    private var entities: List<Entity> = ArrayList<Entity>()
     private var futureEvents: EventPriorityQueue = EventPriorityQueue()
     var clock: Long = 0
         private set
@@ -12,7 +12,7 @@ object Simulation {
     var maxClock: Long = maxClockDefault
         private set
 
-    fun initialize(entities: MutableList<Entity>, maxClock: Long = maxClockDefault) {
+    fun initialize(entities: List<Entity>, maxClock: Long = maxClockDefault) {
         resetVariables()
         Simulation.entities = entities
         Simulation.maxClock = maxClock

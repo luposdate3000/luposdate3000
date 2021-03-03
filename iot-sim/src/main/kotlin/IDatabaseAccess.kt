@@ -4,4 +4,5 @@ interface IDatabaseAccess {
         fun activate()
         fun deactivate()
         fun close()
+        fun saveData()
 }
