@@ -5,7 +5,7 @@ object Stubs {
     fun createEmptyDevice(): Device {
         val loc = LatLng(0.0, 0.0)
         val name = ""
-        val app = AppEntity()
+        val app = Application()
         val sensors = ArrayList<Sensor>()
         val powerSupply = PowerSupply(-1.0)
         return Device(powerSupply, loc, name, app, sensors)

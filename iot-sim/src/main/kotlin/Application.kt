@@ -1,4 +1,4 @@
-class AppEntity: Entity() {
+class Application: Entity() {
 
     override fun startUpEntity() {
 

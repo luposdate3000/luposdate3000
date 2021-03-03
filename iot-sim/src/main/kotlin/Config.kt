@@ -156,7 +156,7 @@ object Config {
     private fun createAppEntity(deviceType: DeviceType) : Entity? {
         var app: Entity? = null
         if (deviceType.application) {
-            app = AppEntity()
+            app = Application()
             entities.add(app)
         }
 

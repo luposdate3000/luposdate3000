@@ -18,4 +18,8 @@ class LuposdateStub : IDatabaseAccess {
     override fun close() {
         TODO("Not yet implemented")
     }
+
+    override fun saveData(data: String) {
+        TODO("Not yet implemented")
+    }
 }

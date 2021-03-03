@@ -40,7 +40,7 @@ class ConfigTest {
         val devices = Config.devices
         val deviceName = Config.jsonObjects.fixedDevices[0].name
         val numSensors = 2
-        Assertions.assertTrue(devices[deviceName]!!.application is AppEntity)
+        Assertions.assertTrue(devices[deviceName]!!.application is Application)
         Assertions.assertEquals(numSensors, devices[deviceName]!!.sensors.size)
         Assertions.assertEquals(70.0, devices[deviceName]!!.powerSupply.actualCapacity)
         Assertions.assertFalse(devices[deviceName]!!.powerSupply.isInfinite)
@@ -79,11 +79,8 @@ class ConfigTest {
     @ValueSource(strings = ["config/configOneFixedConnection.json"])
     fun `two devices have a connection`(fileName: String) {
         Config.parse(fileName)
-        val devices = Config.devices
         val device2Address = "Fog1"
         val device1Address = "Tower1"
-        val device1 = devices["Tower1"]!!
-        val device2 = devices[device2Address]!!
         val param1 = Config.graph.getEdge(device1Address, device2Address)
         val param2 = Config.graph.getEdge(device2Address, device1Address)
         Assertions.assertNotNull(param1)
