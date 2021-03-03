@@ -1,7 +1,4 @@
-import Entity
-import Event
-
-class NetworkController(val device: Device) : Entity() {
+class NetworkCard(val device: Device) : Entity() {
 
 
     fun getNetworkDelay(destination: Device): Long {

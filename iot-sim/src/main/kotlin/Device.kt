@@ -9,6 +9,6 @@ data class Device(
     val sensors: MutableList<Sensor> = ArrayList())
 {
 
-    val networkCard = NetworkController(this)
+    val networkCard = NetworkCard(this)
 
 }

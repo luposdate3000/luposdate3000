@@ -5,7 +5,7 @@ import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 import java.lang.IllegalArgumentException
 
-object Config {
+object Configuration {
 
     var devices: MutableMap<String, Device> = HashMap()
         private set
@@ -156,7 +156,7 @@ object Config {
     private fun createAppEntity(deviceType: DeviceType) : Entity? {
         var app: Entity? = null
         if (deviceType.application) {
-            app = Application()
+            app = DatabaseApp()
             entities.add(app)
         }
 

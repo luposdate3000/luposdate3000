@@ -8,7 +8,7 @@ class DeviceTest {
     fun `new device with default variables`() {
         val loc = LatLng(0.0, 0.0)
         val name = ""
-        val app = Application()
+        val app = DatabaseApp()
         val sensors = ArrayList<Sensor>()
         val powerSupply = PowerSupply(-1.0)
         val device = Device(powerSupply, loc, name, app, sensors)
