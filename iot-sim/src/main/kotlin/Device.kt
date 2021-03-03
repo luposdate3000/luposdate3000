@@ -6,7 +6,8 @@ data class Device(
     val location: LatLng,
     val name: String,
     val application: Entity?,
-    val sensors: MutableList<Sensor> = ArrayList()) {
+    val sensors: MutableList<Sensor> = ArrayList())
+{
 
     val networkCard = NetworkController(this)
 
