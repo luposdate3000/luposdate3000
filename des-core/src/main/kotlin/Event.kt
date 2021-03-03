@@ -1,4 +1,4 @@
-class Event(
+data class Event(
     val occurrenceTime: Long,
     val source: Entity,
     val destination: Entity,
