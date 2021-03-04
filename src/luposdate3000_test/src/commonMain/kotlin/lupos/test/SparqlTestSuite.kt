@@ -14,8 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos
+package lupos.test
 
+import lupos.endpoint.LuposdateEndpoint
 import lupos.jena.JenaWrapper
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.optimizer.ast.OperatorGraphVisitor
@@ -53,7 +54,6 @@ import lupos.s05tripleStore.TripleStoreManager
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s11outputResult.QueryResultToXMLElement
-import lupos.s16network.LuposdateEndpoint
 import kotlin.jvm.JvmField
 
 public open class SparqlTestSuite {

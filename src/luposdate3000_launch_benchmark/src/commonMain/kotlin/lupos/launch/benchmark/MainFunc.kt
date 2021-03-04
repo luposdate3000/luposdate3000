@@ -16,12 +16,12 @@
  */
 package lupos.launch.benchmark
 
+import lupos.endpoint.LuposdateEndpoint
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.File
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s16network.HttpEndpointLauncher
-import lupos.s16network.LuposdateEndpoint
 
 internal enum class OptimizerMode {
     All, OnlyWith, OnlyWithout

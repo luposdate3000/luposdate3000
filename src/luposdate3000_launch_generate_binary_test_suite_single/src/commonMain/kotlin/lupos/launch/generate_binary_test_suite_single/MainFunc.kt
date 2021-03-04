@@ -16,11 +16,11 @@
  */
 package lupos.launch.generate_binary_test_suite_single
 
-import lupos.s00misc.BinaryTestCase
-import lupos.s00misc.BinaryTestCaseOutputModeExt
+import lupos.endpoint.LuposdateEndpoint
 import lupos.s00misc.Parallel
 import lupos.s16network.HttpEndpointLauncher
-import lupos.s16network.LuposdateEndpoint
+import lupos.test.BinaryTestCase
+import lupos.test.BinaryTestCaseOutputModeExt
 import kotlin.js.JsName
 
 @JsName("mainFunc")

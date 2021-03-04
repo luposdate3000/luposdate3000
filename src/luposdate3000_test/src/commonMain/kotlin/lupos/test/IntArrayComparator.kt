@@ -14,6 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s00misc
+package lupos.test
 
-public typealias BinaryTestCaseOutputMode = Int
+internal class IntArrayComparator : Comparator<IntArray> {
+    override fun compare(a: IntArray, b: IntArray): Int {
+        for (i in a.indices) {
+            if (a[i] < b[i]) {
+                return -1
+            } else if (a[i] > b[i]) {
+                return 1
+            }
+        }
+        return 0
+    }
+}
