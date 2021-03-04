@@ -23,9 +23,10 @@ public object EQueryResultToStreamExt {
     public const val EMPTYDICTIONARY_STREAM: EQueryResultToStream = 1
     public const val EMPTY_STREAM: EQueryResultToStream = 2
     public const val MEMORY_TABLE: EQueryResultToStream = 3
-    public const val XML_ELEMENT: EQueryResultToStream = 4
-    public const val XML_STREAM: EQueryResultToStream = 5
-    public const val values_size: Int = 6
+    public const val TURTLE_STREAM: EQueryResultToStream = 4
+    public const val XML_ELEMENT: EQueryResultToStream = 5
+    public const val XML_STREAM: EQueryResultToStream = 6
+    public const val values_size: Int = 7
 
     @JvmField
     public val names: Array<String> = arrayOf(
@@ -33,6 +34,7 @@ public object EQueryResultToStreamExt {
         "EMPTYDICTIONARY_STREAM",
         "EMPTY_STREAM",
         "MEMORY_TABLE",
+        "TURTLE_STREAM",
         "XML_ELEMENT",
         "XML_STREAM",
     )

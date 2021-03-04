@@ -29,15 +29,15 @@ internal actual class _MyInputStream(@JvmField internal val stream: InputStream)
     }
 
     public actual override fun read(buf: ByteArray, len: Int): Int {
-        var off = 0
+        var o = 0
         var s = len
         while (s > 0) {
-            val tmp = stream.read(buf, off, s)
+            val tmp = stream.read(buf, o, s)
             if (tmp <= 0) {
                 return len - s
             }
             s -= tmp
-            off += tmp
+            o += tmp
         }
         return len
     }
@@ -47,6 +47,9 @@ internal actual class _MyInputStream(@JvmField internal val stream: InputStream)
         var s = len
         while (s > 0) {
             val tmp = stream.read(buf, o, s)
+            if (tmp <= 0) {
+                return len - s
+            }
             s -= tmp
             o += tmp
         }
@@ -70,23 +73,19 @@ internal actual class _MyInputStream(@JvmField internal val stream: InputStream)
     public actual override fun readLine(): String? {
 // TODO this may break on utf-8
         var buf = mutableListOf<Byte>()
-// println("readLine start")
         try {
             var b = readByte()
-// println("b 0x${b.toString(16)} ''${b.toChar()}''")
             while (b != '\n'.toByte()) {
                 if (b != '\r'.toByte()) {
                     buf.add(b)
                 }
                 b = readByte()
-// println("b 0x${b.toString(16)} ''${b.toChar()}''")
             }
         } catch (e: Throwable) {
             if (buf.size == 0) {
                 return null
             }
         }
-// println("readLine end ''${buf.toByteArray().decodeToString()}''")
         return buf.toByteArray().decodeToString()
     }
 }

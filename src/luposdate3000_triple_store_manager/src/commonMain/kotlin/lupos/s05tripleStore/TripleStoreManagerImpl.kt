@@ -301,6 +301,7 @@ public class TripleStoreManagerImpl(
                 }
             }
         }
+        metadata.remove(graphName)
     }
 
     public override fun getGraphNames(): List<LuposGraphName> {

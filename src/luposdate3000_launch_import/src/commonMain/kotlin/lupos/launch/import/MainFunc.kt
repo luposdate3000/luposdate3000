@@ -241,7 +241,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     File("$inputFileName.stat").withOutputStream { out ->
         out.println("total=$dictCounter")
         for (t in 0 until ETripleComponentTypeExt.values_size) {
-            out.println("$t=${dictCounterByType[t]}")
+            out.println("${ETripleComponentTypeExt.names[t]}=${dictCounterByType[t]}")
         }
     }
     File("$inputFileName.$tripleFileEnding").withOutputStream { outTriples ->

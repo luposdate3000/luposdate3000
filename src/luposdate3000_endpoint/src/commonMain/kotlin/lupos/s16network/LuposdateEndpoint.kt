@@ -63,6 +63,7 @@ import lupos.s11outputResult.EQueryResultToStreamExt
 import lupos.s11outputResult.QueryResultToEmptyStream
 import lupos.s11outputResult.QueryResultToEmptyWithDictionaryStream
 import lupos.s11outputResult.QueryResultToMemoryTable
+import lupos.s11outputResult.QueryResultToTurtleStream
 import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s11outputResult.QueryResultToXMLStream
 import lupos.shared.optimizer.distributedOptimizerQueryFactory
@@ -294,22 +295,24 @@ public object LuposdateEndpoint {
     }
 
     public fun setEstimatedPartitionsFromFile(filename: String) {
-        tripleStoreManager.updateDefaultTripleStoreLayout { layout ->
-            val filePartitions = File("$filename")
-            try {
-                filePartitions.forEachLine {
-                    val t = it.split(",")
-                    val idx = EIndexPatternExt.names.indexOf(t[0])
-                    if (t[1] == "-1") {
-                        layout.addIndex { it.simple(idx) }
-                    } else if (t[1] == "1") {
-                        layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 1) }
-                    } else if (t[1] == "2") {
-                        layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 2) }
+        val filePartitions = File("$filename")
+        if (filePartitions.exists()) {
+            tripleStoreManager.updateDefaultTripleStoreLayout { layout ->
+                try {
+                    filePartitions.forEachLine {
+                        val t = it.split(",")
+                        val idx = EIndexPatternExt.names.indexOf(t[0])
+                        if (t[1] == "-1") {
+                            layout.addIndex { it.simple(idx) }
+                        } else if (t[1] == "1") {
+                            layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 1) }
+                        } else if (t[1] == "2") {
+                            layout.addIndex { it.partitionedByID(idx, t[2].toInt(), 2) }
+                        }
                     }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
         }
     }
@@ -469,6 +472,7 @@ public object LuposdateEndpoint {
         res = when (evaluator) {
             EQueryResultToStreamExt.DEFAULT_STREAM -> QueryResultToStream(node, output)
             EQueryResultToStreamExt.XML_STREAM -> QueryResultToXMLStream(node, output)
+            EQueryResultToStreamExt.TURTLE_STREAM -> QueryResultToTurtleStream(node, output)
             EQueryResultToStreamExt.EMPTY_STREAM -> QueryResultToEmptyStream(node, output)
             EQueryResultToStreamExt.EMPTYDICTIONARY_STREAM -> QueryResultToEmptyWithDictionaryStream(node, output)
             EQueryResultToStreamExt.MEMORY_TABLE -> QueryResultToMemoryTable(node)

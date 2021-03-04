@@ -173,6 +173,7 @@ public actual object HttpEndpointLauncher {
                                         EQueryResultToStreamExt.DEFAULT_STREAM
                                     }
                                 }
+                                println("choosen ${EQueryResultToStreamExt.names[evaluator]} ${EQueryResultToStreamExt.names.map { it }}")
                                 val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(params["query"]!!, false)
                                 val query = node.getQuery()
                                 val key = "${query.getTransactionID()}"
@@ -224,6 +225,18 @@ public actual object HttpEndpointLauncher {
                                 }
                                 printHeaderSuccess(connectionOutMy)
                                 connectionOutMy.print(LuposdateEndpoint.importTurtleFiles(params["file"]!!, dict))
+                                /*Coverage Unreachable*/
+                            }
+                            paths["/import/turtledata"] = PathMappingHelper(true, mapOf(Pair("data", "<s> <p> <o>") to ::inputElement)) {
+                                val dict = mutableMapOf<String, Int>()
+                                val dictfile = params["bnodeList"]
+                                if (dictfile != null) {
+                                    File(dictfile).forEachLine {
+                                        dict[it] = nodeGlobalDictionary.createNewBNode()
+                                    }
+                                }
+                                printHeaderSuccess(connectionOutMy)
+                                connectionOutMy.print(LuposdateEndpoint.importTurtleString(params["data"]!!, dict))
                                 /*Coverage Unreachable*/
                             }
                             paths["/import/estimatedPartitions"] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3.partitions") to ::inputElement)) {

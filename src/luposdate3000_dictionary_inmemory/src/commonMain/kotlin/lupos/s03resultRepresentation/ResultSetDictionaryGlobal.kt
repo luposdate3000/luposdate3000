@@ -166,7 +166,7 @@ public class ResultSetDictionaryGlobal {
                 if (buffer.size < length) {
                     buffer = ByteArray(length)
                 }
-                val read = dictStream.read(buffer, 0, length)
+                val read = dictStream.read(buffer, length)
                 if (read < length) {
                     throw Exception("invalid read")
                 }
