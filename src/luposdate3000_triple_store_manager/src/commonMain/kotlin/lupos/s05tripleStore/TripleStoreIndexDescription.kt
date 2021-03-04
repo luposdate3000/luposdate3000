@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s05tripleStore
 
 import lupos.s00misc.EIndexPattern
@@ -29,15 +28,10 @@ public abstract class TripleStoreIndexDescription() : ITripleStoreIndexDescripti
 
     @JvmField
     internal var tripleStoreDescription: TripleStoreDescription = TripleStoreDescriptionDummy
-
     internal abstract fun assignHosts()
-
     internal abstract fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>>
-
     internal abstract fun findPartitionFor(query: IQuery, triple: IntArray): Int
-
     internal fun hasPattern(idx: EIndexPattern): Boolean = idx_set.contains(idx)
-
     internal fun getIndexWithMaximumPartitions(max_partitions: Int?, column: Int): ITripleStoreIndexDescription {
         var count = -1
         var distributionCount = -1

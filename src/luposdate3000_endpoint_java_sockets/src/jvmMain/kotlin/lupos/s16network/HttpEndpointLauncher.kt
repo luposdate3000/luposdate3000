@@ -16,6 +16,7 @@
  */
 package lupos.s16network
 
+import lupos.endpoint.LuposdateEndpoint
 import lupos.jena.JenaWrapper
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.s00misc.EIndexPatternExt
@@ -86,7 +87,6 @@ public actual object HttpEndpointLauncher {
     }
 
     internal var queryMappings = mutableMapOf<String, QueryMappingContainer>()
-
     public actual /*suspend*/ fun start() {
         fun registerDictionary(key: String): RemoteDictionaryServer {
             val dict = RemoteDictionaryServer(ResultSetDictionary())

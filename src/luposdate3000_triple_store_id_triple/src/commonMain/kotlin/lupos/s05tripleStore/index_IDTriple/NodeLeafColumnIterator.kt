@@ -22,7 +22,6 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
 internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @JvmField var nodeid: Int, @JvmField val lock: MyReadWriteLock) : ColumnIterator() {
-
     @JvmField
     var remaining = 0
 

@@ -18,6 +18,7 @@ package lupos.s02buildSyntaxTree.nQuads
 
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.Luposdate3000Exception
+import lupos.s02buildSyntaxTree.turtle.EOF
 import kotlin.jvm.JvmField
 
 internal open class ParserException(msg: String) : Luposdate3000Exception("ParserContext", msg)
@@ -51,6 +52,7 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
 
     @JvmField
     internal var flagrN = false
+
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun clear() {
         outBuffer.clear()

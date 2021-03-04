@@ -21,10 +21,13 @@ import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyInputStream
 import lupos.s00misc.MyOutputStream
+import lupos.s02buildSyntaxTree.turtle.EOF
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.nio.file.Files
+import java.nio.file.Paths
 import kotlin.jvm.JvmField
 
 internal actual class _File actual constructor(@JvmField public val filename: String) {
@@ -57,7 +60,6 @@ internal actual class _File actual constructor(@JvmField public val filename: St
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun openOutputStream(append: Boolean): IMyOutputStream = MyOutputStream(BufferedOutputStream(FileOutputStream(filename, append)))
-
     internal actual inline fun walk(crossinline action: (String) -> Unit) {
         java.nio.file.Files.walk(java.nio.file.Paths.get(filename), 1).forEach {
             val tmp = it.toString()

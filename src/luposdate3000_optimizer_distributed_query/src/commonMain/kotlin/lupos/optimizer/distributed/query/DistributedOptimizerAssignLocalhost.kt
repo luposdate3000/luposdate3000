@@ -20,7 +20,6 @@ import lupos.s00misc.XMLElement
 import lupos.s05tripleStore.tripleStoreManager
 
 public class DistributedOptimizerAssignLocalhost() : DistributedOptimizerBase {
-
     override fun optimize(key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMapGet: (String) -> String?, keytoHostMapSet: (String, String) -> Unit, onChange: () -> Unit) {
         keytoHostMapSet(key, tripleStoreManager.getLocalhost())
         onChange()

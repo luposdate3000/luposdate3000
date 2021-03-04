@@ -48,6 +48,7 @@ import lupos.s02buildSyntaxTree.rdf.SimpleLiteral
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
+import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.TripleStoreManager
@@ -58,7 +59,6 @@ import kotlin.jvm.JvmField
 
 public open class SparqlTestSuite {
     public companion object {
-
         @JvmField
         public val filterList: MutableList<String> = mutableListOf()
 

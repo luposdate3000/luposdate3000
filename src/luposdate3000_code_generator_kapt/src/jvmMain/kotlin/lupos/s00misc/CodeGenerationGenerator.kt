@@ -15,12 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.s00misc
-// import com.squareup.kotlinpoet.*
 
 import java.io.File
-import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
-import javax.lang.model.element.*
 
 // dieses Tutorial hat mir sehr geholfen
 // https://www.kotlindevelopment.com/generateforme/

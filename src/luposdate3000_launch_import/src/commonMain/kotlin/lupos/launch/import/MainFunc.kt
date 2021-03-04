@@ -24,6 +24,7 @@ import lupos.s00misc.Parallel
 import lupos.s00misc.PartitionExt
 import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.nQuads.NQuads2Parser
+import lupos.s02buildSyntaxTree.rdf.IRI
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 
 internal fun helperCleanString(s: String): String {
@@ -52,15 +53,12 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
 // create chunced dictionaries
     val dictSizeLimit = 1024L * 1024L * 1024L
     var dictSizeEstimated = 0L
-
     var chunc = 0
     var outDictionary = File("$inputFileName.$chunc.dictionary").openOutputStream(false)
     var outTriples = File("$inputFileName.0.$tripleFileEnding").openOutputStream(false)
     chunc++
-
     val dict = Array(ETripleComponentTypeExt.values_size) { mutableMapOf<String, Long>() }
     var dictCounter = 0L
-
     var cnt = 0L
     var dicttotalcnt = 0L
     fun cmp(a: String, b: String): Int {
@@ -92,7 +90,6 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                     cmp(a, b)
                 }
             }
-
             for (entry in entries) {
                 var value = entry
                 if (componentType == ETripleComponentTypeExt.IRI) {
@@ -186,12 +183,10 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     val dictionaries = Array(chunc) { DictionaryHelper(File("$inputFileName.$it.dictionary").openInputStream(), -1, 0, "", -1, false) }.toMutableList()
     val dictCounterByType = LongArray(ETripleComponentTypeExt.values_size)
     var readtotalcnt = 0L
-
     var currentValue = 0L
     var currentValid = true
     var currentString = ""
     var currentComponentType = 0
-
     loop@ while (currentValid) {
         currentValid = false
         for (di in 0 until dictionaries.size) {

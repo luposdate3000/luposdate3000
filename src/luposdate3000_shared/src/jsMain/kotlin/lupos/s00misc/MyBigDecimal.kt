@@ -16,6 +16,10 @@
  */
 package lupos.s00misc
 
+import kotlin.math.abs
+import kotlin.math.ceil
+import kotlin.math.floor
+
 public actual class MyBigDecimal {
     internal val s: String
     internal val v: Double

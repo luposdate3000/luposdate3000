@@ -25,6 +25,7 @@ import lupos.s00misc.MyBigInteger
 import lupos.s00misc.MyOutputStream
 import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManagerExt
+import lupos.s02buildSyntaxTree.rdf.IRI
 import kotlin.jvm.JvmField
 
 public val nodeGlobalDictionary: ResultSetDictionaryGlobal = ResultSetDictionaryGlobal()

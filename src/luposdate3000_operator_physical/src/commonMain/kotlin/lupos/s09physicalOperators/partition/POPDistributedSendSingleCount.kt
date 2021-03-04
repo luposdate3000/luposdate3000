@@ -38,7 +38,6 @@ public class POPDistributedSendSingleCount public constructor(
     child: IOPBase,
     @JvmField public val hosts: List<String>, // key
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDistributedSendSingleCountID, "POPDistributedSendSingleCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
-
     override fun getPartitionCount(variable: String): Int {
         return if (variable == partitionVariable) {
             partitionCount
@@ -108,7 +107,6 @@ public class POPDistributedSendSingleCount public constructor(
     override fun cloneOP(): IOPBase = POPDistributedSendSingleCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), hosts)
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPDistributedSendSingleCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
-
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         throw Exception("this must not be called !!")
     }

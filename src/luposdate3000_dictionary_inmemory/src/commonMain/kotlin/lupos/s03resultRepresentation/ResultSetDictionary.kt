@@ -21,6 +21,7 @@ import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
 import lupos.s00misc.SanityCheck
+import lupos.s02buildSyntaxTree.rdf.IRI
 import kotlin.jvm.JvmField
 
 public class ResultSetDictionary : IResultSetDictionary {

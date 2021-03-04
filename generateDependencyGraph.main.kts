@@ -100,7 +100,6 @@ for ((k, v) in allNodes) {
         println("\\prereq ${allCoordinates[k]},${allCoordinates[d]}:")
     }
 }
-
 println("\\end{chart}")
 println("\\end{document}")
 // ---------------------------------------------

@@ -76,9 +76,7 @@ public class Query public constructor(@JvmField public var dictionary: IResultSe
     }
 
     public override fun getDictionaryUrl(): String? = dictionaryUrl
-
     override fun getDistributionKey(): Map<String, Int> = allVariationsKey
-
     override fun initialize(newroot: IOPBase): IOPBase {
         root = newroot
         transactionID = global_transactionID++

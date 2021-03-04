@@ -33,6 +33,7 @@ import lupos.s00misc.SparqlFeatureNotImplementedException
 import lupos.s00misc.UnreachableException
 import lupos.s00misc.XMLElement
 import lupos.s00misc.parseFromAny
+import lupos.s02buildSyntaxTree.rdf.IRI
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAdd
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAddition
 import lupos.s02buildSyntaxTree.sparql1_1.ASTAggregation

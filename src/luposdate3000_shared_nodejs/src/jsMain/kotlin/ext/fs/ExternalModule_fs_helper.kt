@@ -19,6 +19,8 @@
 
 package ext.fs
 
+import kotlin.js.JsName
+
 @JsName("openSync")
 public external fun openSync_(filename: String, flags: String): Int
 

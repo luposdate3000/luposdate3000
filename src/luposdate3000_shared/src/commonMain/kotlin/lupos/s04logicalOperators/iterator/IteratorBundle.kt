@@ -24,11 +24,8 @@ import kotlin.jvm.JvmField
 public open class IteratorBundle {
     @JvmField
     internal var mode: IteratorBundleMode
-
     private var _columns: Map<String, ColumnIterator>?
-
     private var _rows: RowIterator?
-
     private var counter: Int = 0
     public fun hasColumnMode(): Boolean = mode == IteratorBundleModeExt.COLUMN
     public fun hasCountMode(): Boolean = mode == IteratorBundleModeExt.COUNT

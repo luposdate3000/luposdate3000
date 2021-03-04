@@ -53,7 +53,6 @@ public class BufferManager {
 
     @JvmField
     internal val freeList = mutableListOf<Int>()
-
     /*suspend*/ private fun clearAssumeLocks() {
         counter = 0
         SanityCheck {

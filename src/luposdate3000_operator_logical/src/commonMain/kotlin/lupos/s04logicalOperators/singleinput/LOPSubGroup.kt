@@ -24,7 +24,6 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 
 public class LOPSubGroup public constructor(query: IQuery, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPSubGroupID, "LOPSubGroup", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
-
     override fun equals(other: Any?): Boolean = other is LOPSubGroup && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = LOPSubGroup(query, children[0].cloneOP())
     override /*suspend*/ fun calculateHistogram(): HistogramResult {

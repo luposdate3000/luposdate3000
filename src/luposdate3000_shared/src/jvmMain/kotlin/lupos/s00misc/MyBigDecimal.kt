@@ -19,6 +19,7 @@ package lupos.s00misc
 import java.math.BigDecimal
 import java.math.MathContext
 import java.math.RoundingMode
+import kotlin.math.abs
 
 public actual class MyBigDecimal {
     internal val s: String

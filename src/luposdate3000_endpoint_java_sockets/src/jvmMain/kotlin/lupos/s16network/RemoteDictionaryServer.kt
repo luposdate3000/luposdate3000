@@ -21,6 +21,7 @@ import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyReadWriteLock
 import lupos.s03resultRepresentation.IResultSetDictionary
 import lupos.s03resultRepresentation.ValueDefinition
+import kotlin.jvm.JvmField
 
 internal class RemoteDictionaryServer(@JvmField val dictionary: IResultSetDictionary) : IResultSetDictionary {
     @JvmField

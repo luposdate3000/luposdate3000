@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s05tripleStore
 
 import lupos.s00misc.EIndexPatternHelper
@@ -93,7 +92,6 @@ public class POPTripleStoreIterator(
 
     override fun getPartitionCount(variable: String): Int {
         var count = tripleStoreIndexDescription.getPartitionCount()
-
         if (count > 1) {
             SanityCheck.check { (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count }
             for (i in 0 until 3) {

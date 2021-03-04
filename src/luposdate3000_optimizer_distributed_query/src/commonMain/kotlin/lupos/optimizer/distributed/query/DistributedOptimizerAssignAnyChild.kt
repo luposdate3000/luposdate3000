@@ -19,7 +19,6 @@ package lupos.optimizer.distributed.query
 import lupos.s00misc.XMLElement
 
 public class DistributedOptimizerAssignAnyChild() : DistributedOptimizerBase {
-
     override fun optimize(key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMapGet: (String) -> String?, keytoHostMapSet: (String, String) -> Unit, onChange: () -> Unit) {
         for (s in dependenciesTopDown) {
             val tmp = keytoHostMapGet(s)

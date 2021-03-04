@@ -109,7 +109,6 @@ public class POPDistributedReceiveMultiCount public constructor(
     override fun cloneOP(): IOPBase = POPDistributedReceiveMultiCount(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), hosts)
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
-
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         var connections = Array<MyConnection?>(partitionCount) { null }
         var openConnections = 0

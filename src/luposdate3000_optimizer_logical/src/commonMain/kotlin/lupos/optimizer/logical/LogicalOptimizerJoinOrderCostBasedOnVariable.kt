@@ -21,7 +21,6 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 
 public object LogicalOptimizerJoinOrderCostBasedOnVariable {
-
     public /*suspend*/ fun optimize(plans: Array<LogicalOptimizerJoinOrderCostBasedOnVariable_Plan?>, target: Int, variables: List<Int>) {
         val targetInv = target.inv()
         for (a in 1 until target) {

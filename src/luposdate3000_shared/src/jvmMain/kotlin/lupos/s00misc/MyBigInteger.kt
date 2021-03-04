@@ -17,6 +17,7 @@
 package lupos.s00misc
 
 import java.math.BigInteger
+import kotlin.math.abs
 
 public actual class MyBigInteger {
     internal val s: String

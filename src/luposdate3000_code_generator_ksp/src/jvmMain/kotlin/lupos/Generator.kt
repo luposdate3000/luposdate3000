@@ -20,11 +20,6 @@ import org.jetbrains.kotlin.ksp.processing.CodeGenerator
 import org.jetbrains.kotlin.ksp.processing.KSPLogger
 import org.jetbrains.kotlin.ksp.processing.Resolver
 import org.jetbrains.kotlin.ksp.processing.SymbolProcessor
-import org.jetbrains.kotlin.ksp.symbol.*
-import org.jetbrains.kotlin.ksp.symbol.KSAnnotated
-import org.jetbrains.kotlin.ksp.symbol.KSAnnotation
-import org.jetbrains.kotlin.ksp.symbol.KSCallableReference
-import org.jetbrains.kotlin.ksp.symbol.KSClassDeclaration
 import java.io.File
 import java.io.OutputStream
 import java.io.PrintWriter
@@ -32,7 +27,6 @@ import java.io.PrintWriter
 private val mylogger = File("/tmp/code-gen-ksp.log").printWriter()
 
 public class SampleProcessor : SymbolProcessor {
-
     private lateinit var codeGenerator: CodeGenerator
     private lateinit var logger: KSPLogger
     override fun init(options: Map<String, String>, kotlinVersion: KotlinVersion, codeGenerator: CodeGenerator, logger: KSPLogger) {

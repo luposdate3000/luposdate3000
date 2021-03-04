@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s05tripleStore
 
 import lupos.s00misc.EIndexPattern
@@ -63,11 +62,8 @@ public class TripleStoreManagerImpl(
     @JvmField
     internal var keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() } // TODO initialize based on "metadata" on each restart
     internal lateinit var defaultTripleStoreLayout: TripleStoreDescriptionFactory
-
     public override fun getLocalhost(): LuposHostname = localhost
-
     public override fun getPartitionMode(): EPartitionMode = partitionMode
-
     public override fun debugAllLocalStoreContent() {
         File("${localhost.replace(":", "_")}.metadata").withOutputStream { out ->
             for ((k, v) in metadata) {

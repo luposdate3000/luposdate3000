@@ -17,6 +17,7 @@
 package lupos.modulename
 
 import lupos.s00misc.EOperatingSystemExt
+import platform.posix.getenv
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader

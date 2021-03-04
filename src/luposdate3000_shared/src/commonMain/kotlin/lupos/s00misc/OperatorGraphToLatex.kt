@@ -17,7 +17,6 @@
 package lupos.s00misc
 
 public object OperatorGraphToLatex {
-
     public operator fun invoke(inputString: String, caption: String? = null): String {
         val output = StringBuilder()
         output.append("\\documentclass[tikz,border=10pt]{standalone}\n")

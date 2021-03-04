@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s05tripleStore
 
 import lupos.s00misc.EIndexPattern
@@ -34,7 +33,6 @@ public class TripleStoreIndexDescriptionPartitionedByID(
 ) : TripleStoreIndexDescription() {
     internal val hostnames = Array<LuposHostname>(partitionCount) { "" }
     internal val keys = Array<LuposStoreKey>(partitionCount) { "" }
-
     internal override fun findPartitionFor(query: IQuery, triple: IntArray): Int {
         return triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][partitionColumn]] % partitionCount
     }

@@ -19,7 +19,6 @@ package lupos.optimizer.distributed.query
 import lupos.s00misc.XMLElement
 
 public class DistributedOptimizerAssignChild() : DistributedOptimizerBase {
-
     override fun optimize(key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMapGet: (String) -> String?, keytoHostMapSet: (String, String) -> Unit, onChange: () -> Unit) {
         if (dependenciesTopDown.size > 0) {
             var possibleHost = keytoHostMapGet(dependenciesTopDown.first())

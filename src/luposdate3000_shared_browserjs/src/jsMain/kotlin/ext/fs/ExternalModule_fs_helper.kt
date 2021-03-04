@@ -14,8 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package ext.fs
+
+import kotlin.js.JsName
 
 @JsName("openSync")
 public fun openSync_(filename: String, flags: String): Int = throw Exception("not implemented")

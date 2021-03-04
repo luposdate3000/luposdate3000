@@ -112,7 +112,6 @@ public class POPDistributedSendSingle public constructor(
     override fun cloneOP(): IOPBase = POPDistributedSendSingle(query, projectedVariables, partitionVariable, partitionCount, partitionID, children[0].cloneOP(), hosts)
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPDistributedSendSingle && children[0] == other.children[0] && partitionVariable == other.partitionVariable
-
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         throw Exception("this must not be called !!")
     }
