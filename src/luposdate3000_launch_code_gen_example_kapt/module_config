@@ -1,5 +1,4 @@
 package=Luposdate3000_Main
 name=Luposdate3000_Launch_Code_Gen_Example_KAPT
 enabled=always
-enabledRun=mainClass:Code_Gen_Example_KAPT
 codegenKAPT=true

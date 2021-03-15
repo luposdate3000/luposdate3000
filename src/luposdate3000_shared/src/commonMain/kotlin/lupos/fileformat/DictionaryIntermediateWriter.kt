@@ -25,11 +25,11 @@ public class DictionaryIntermediateWriter : DictionaryIntermediate {
         streamOut = File("$filename$filenameEnding").openOutputStream(append)
     }
 
-    public fun writeAssumeOrdered(row: DictionaryIntermediateRow) {
+    public inline fun writeAssumeOrdered(row: DictionaryIntermediateRow) {
         writeAssumeOrdered(row.type, row.id, row.value)
     }
 
-    public fun writeAssumeOrdered(type: Int, id: Int, value: String) {
+    public inline fun writeAssumeOrdered(type: Int, id: Int, value: String) {
         val tmp = value.encodeToByteArray()
         streamOut!!.writeInt(type)
         streamOut!!.writeInt(id)
@@ -37,7 +37,7 @@ public class DictionaryIntermediateWriter : DictionaryIntermediate {
         streamOut!!.write(tmp, tmp.size)
     }
 
-    public fun write(dict: Array<MutableMap<String, Long>>) {
+    public inline fun write(dict: Array<MutableMap<String, Long>>) {
         for (componentType in 0 until ETripleComponentTypeExt.values_size) {
             var localdict = dict[componentType]
             var rows = localdict.toList().map { DictionaryIntermediateRow(componentType, it.second.toInt(), it.first) }.sorted()

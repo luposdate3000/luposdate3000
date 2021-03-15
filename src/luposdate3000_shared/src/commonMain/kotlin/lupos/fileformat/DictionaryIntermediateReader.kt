@@ -33,7 +33,9 @@ public class DictionaryIntermediateReader(filename: String) : DictionaryIntermed
 
     public inline fun next(crossinline action: (type: Int, id: Int, value: String) -> Unit) {
         val type = streamIn!!.readInt()
-        if (type != ETripleComponentTypeExt.values_size) {
+        if (type == ETripleComponentTypeExt.values_size) {
+            close()
+        } else {
             val id = streamIn!!.readInt()
             val len = streamIn!!.readInt()
             val buf = ByteArray(len)
@@ -43,7 +45,7 @@ public class DictionaryIntermediateReader(filename: String) : DictionaryIntermed
         }
     }
 
-    public fun next(): DictionaryIntermediateRow? {
+    public inline fun next(): DictionaryIntermediateRow? {
         var res: DictionaryIntermediateRow? = null
         next { type, id, value ->
             res = DictionaryIntermediateRow(type, id, value)

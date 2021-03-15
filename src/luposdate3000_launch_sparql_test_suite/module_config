@@ -1,4 +1,3 @@
 package=Luposdate3000_Main
 name=Luposdate3000_Launch_Sparql_Test_Suite
 enabled=always
-enabledRun=mainClass:Sparql_Test_Suite

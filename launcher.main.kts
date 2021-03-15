@@ -56,6 +56,7 @@ var skipArgs = false
 var compileSpecific: String? = null
 var threadCount = 1
 var processUrls = ""
+var availableMainClass = mutableListOf<String>()
 
 enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, ALL_TEST, UNKNOWN }
 
@@ -144,33 +145,6 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                             "enabledRun=jenaWrapper:On" -> {
                                 enabledRunFunc = { jenaWrapper == "On" }
                             }
-                            "enabledRun=mainClass:Benchmark" -> {
-                                enabledRunFunc = { mainClass == "Benchmark" }
-                            }
-                            "enabledRun=mainClass:Binary_Test_Suite" -> {
-                                enabledRunFunc = { mainClass == "Binary_Test_Suite" }
-                            }
-                            "enabledRun=mainClass:Code_Gen_Example_KAPT" -> {
-                                enabledRunFunc = { mainClass == "Code_Gen_Example_KAPT" }
-                            }
-                            "enabledRun=mainClass:Code_Gen_Example_KSP" -> {
-                                enabledRunFunc = { mainClass == "Code_Gen_Example_KSP" }
-                            }
-                            "enabledRun=mainClass:Endpoint" -> {
-                                enabledRunFunc = { mainClass == "Endpoint" }
-                            }
-                            "enabledRun=mainClass:Generate_Binary_Test_Suite_Multi" -> {
-                                enabledRunFunc = { mainClass == "Generate_Binary_Test_Suite_Multi" }
-                            }
-                            "enabledRun=mainClass:Generate_Binary_Test_Suite_Single" -> {
-                                enabledRunFunc = { mainClass == "Generate_Binary_Test_Suite_Single" }
-                            }
-                            "enabledRun=mainClass:Import" -> {
-                                enabledRunFunc = { mainClass == "Import" }
-                            }
-                            "enabledRun=mainClass:Sparql_Test_Suite" -> {
-                                enabledRunFunc = { mainClass == "Sparql_Test_Suite" }
-                            }
                             "enabledRun=memoryMode:_Inmemory" -> {
                                 enabledRunFunc = { memoryMode == "_Inmemory" }
                             }
@@ -190,6 +164,10 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             if (name.length > 0) {
                 if (pkg == "") {
                     pkg = name
+                }
+                if (pkg == "Luposdate3000_Main") {
+                    enabledRunFunc = { mainClass == name }
+                    availableMainClass.add(name)
                 }
                 modules[name] = (
                     localArgs
@@ -480,22 +458,6 @@ val defaultParams = mutableListOf(
         )
     ),
     ParamClass(
-        "--mainClass",
-        "Endpoint",
-        mapOf(
-            "Binary_Test_Suite" to { mainClass = "Binary_Test_Suite" },
-            "Benchmark" to { mainClass = "Benchmark" },
-            "Benchmark_Fig5" to { mainClass = "Benchmark_Fig5" },
-            "Code_Gen_Example_KAPT" to { mainClass = "Code_Gen_Example_KAPT" },
-            "Code_Gen_Example_KSP" to { mainClass = "Code_Gen_Example_KSP" },
-            "Endpoint" to { mainClass = "Endpoint" },
-            "Generate_Binary_Test_Suite_Single" to { mainClass = "Generate_Binary_Test_Suite_Single" },
-            "Generate_Binary_Test_Suite_Multi" to { mainClass = "Generate_Binary_Test_Suite_Multi" },
-            "Import" to { mainClass = "Import" },
-            "Sparql_Test_Suite" to { mainClass = "Sparql_Test_Suite" },
-        )
-    ),
-    ParamClass(
         "--help",
         {
             execMode = ExecMode.HELP
@@ -614,6 +576,14 @@ fun enableParams(params: List<ParamClass>) {
 }
 enableParams(defaultParams)
 enableParams(getAllModuleSpecificParams())
+val mainclassParams = listOf(
+    ParamClass(
+        "--mainClass",
+        "Endpoint",
+        availableMainClass.map { it.substring("Luposdate3000_Launch_".length) to { mainClass = it } }.toMap()
+    ),
+)
+enableParams(mainclassParams)
 loop@ for (arg in args) {
     for (param in enabledParams) {
         if (arg.startsWith(param.name + "=")) {
@@ -673,6 +643,9 @@ fun onHelp() {
     println("Usage ./launcher.main.kts <options>")
     println("where possible options include:")
     for (param in defaultParams) {
+        param.help()
+    }
+    for (param in mainclassParams) {
         param.help()
     }
     for (param in getAllModuleSpecificParams()) {

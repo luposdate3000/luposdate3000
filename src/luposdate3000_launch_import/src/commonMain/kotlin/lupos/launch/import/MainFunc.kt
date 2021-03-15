@@ -57,7 +57,6 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     var chunc = 0
 // create chunced dictionaries
     var outTriples = File("$inputFileName.0.$tripleFileEnding").openOutputStream(false)
-    chunc++
     val dict = Array(ETripleComponentTypeExt.values_size) { mutableMapOf<String, Long>() }
     var dictCounter = 0L
     var cnt = 0L
@@ -139,6 +138,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         throw Exception("unknown filetype $inputFileName")
     }
     DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
+    chunc++
     outTriples.close()
     iter.close()
 // merge dictionaries
@@ -175,6 +175,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                 }
             }
             currentValue++
+            current = null
         }
     }
     for (d in dictionaries) {

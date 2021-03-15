@@ -30,11 +30,11 @@ public abstract class DictionaryIntermediate(internal val filename: String) {
 
     public companion object {
         internal const val filenameEnding = ".dictionary"
-        public fun delete(filename: String) {
+        public inline fun delete(filename: String) {
             File("$filename$filenameEnding").deleteRecursively()
         }
 
-        public fun encodeFromParser(value: String, type: ETripleComponentType): String {
+        public inline fun encodeFromParser(value: String, type: ETripleComponentType): String {
 // sparql -> encoding in file
             when (type) {
                 ETripleComponentTypeExt.IRI -> return encodeIri(value)
@@ -58,26 +58,26 @@ public abstract class DictionaryIntermediate(internal val filename: String) {
 
         // encode* from given values -> encoding in the file
         // decode* encoding in file -> split as expected by dictionary
-        public fun encodeIri(value: String): String = value
-        public fun decodeIri(value: String): String = value.substring(1, value.length - 1)
-        public fun encodeString(value: String): String = value
-        public fun decodeStringAsTyped(value: String): Pair<String, String> = Pair(value, "")
-        public fun encodeInteger(value: String): String = value
-        public fun decodeInteger(value: String): String = value
-        public fun encodeDecimal(value: String): String = value
-        public fun decodeDecimal(value: String): String = value
-        public fun encodeDouble(value: String): String = value
-        public fun decodeDouble(value: String): String = value
-        public fun encodeBoolean(value: String): String = value
-        public fun decodeBoolean(value: String): String = value
-        public fun encodeTyped(value: String, type: String): String = "$type^^$value"
-        public fun decodeTyped(value: String): Pair<String, String> {
+        public inline fun encodeIri(value: String): String = value
+        public inline fun decodeIri(value: String): String = value.substring(1, value.length - 1)
+        public inline fun encodeString(value: String): String = value
+        public inline fun decodeStringAsTyped(value: String): Pair<String, String> = Pair(value, "")
+        public inline fun encodeInteger(value: String): String = value
+        public inline fun decodeInteger(value: String): String = value
+        public inline fun encodeDecimal(value: String): String = value
+        public inline fun decodeDecimal(value: String): String = value
+        public inline fun encodeDouble(value: String): String = value
+        public inline fun decodeDouble(value: String): String = value
+        public inline fun encodeBoolean(value: String): String = value
+        public inline fun decodeBoolean(value: String): String = value
+        public inline fun encodeTyped(value: String, type: String): String = "$type^^$value"
+        public inline fun decodeTyped(value: String): Pair<String, String> {
             var idx = value.indexOf("^^")
             return Pair(value.substring(idx + 2), value.substring(0, idx))
         }
 
-        public fun encodeLang(value: String, lang: String): String = "$lang@$value"
-        public fun decodeLang(value: String): Pair<String, String> {
+        public inline fun encodeLang(value: String, lang: String): String = "$lang@$value"
+        public inline fun decodeLang(value: String): Pair<String, String> {
             var idx = value.indexOf("@")
             return Pair(value.substring(idx + 1), value.substring(0, idx))
         }
