@@ -362,7 +362,7 @@ public object LuposdateEndpoint {
                 }
                 nodeGlobalDictionary.prepareBulk(dictTotal, dictTyped)
                 val mapping = IntArray(dictTotal)
-                nodeGlobalDictionary.importFromDictionaryFile("$fileName.dictionary", mapping)
+                nodeGlobalDictionary.importFromDictionaryFile("$fileName", mapping)
                 val dictTime = DateHelperRelative.elapsedSeconds(startTime)
                 val cnt = fileTriples.length() / 12L
                 counter += cnt

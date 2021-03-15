@@ -19,12 +19,10 @@ package lupos.launch.import
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
-import lupos.s00misc.IMyInputStream
 import lupos.s00misc.Parallel
 import lupos.s00misc.PartitionExt
 import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.nQuads.NQuads2Parser
-import lupos.s02buildSyntaxTree.rdf.IRI
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 
 internal fun helperCleanString(s: String): String {
@@ -50,11 +48,10 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         "triples"
     }
     val byteBuf = ByteArray(1)
-// create chunced dictionaries
     val dictSizeLimit = 1024L * 1024L * 1024L
     var dictSizeEstimated = 0L
     var chunc = 0
-    var outDictionary = File("$inputFileName.$chunc.dictionary").openOutputStream(false)
+// create chunced dictionaries
     var outTriples = File("$inputFileName.0.$tripleFileEnding").openOutputStream(false)
     chunc++
     val dict = Array(ETripleComponentTypeExt.values_size) { mutableMapOf<String, Long>() }
@@ -77,41 +74,12 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         return alen - blen
     }
 
-    fun writeDict() {
-        for (componentType in 0 until ETripleComponentTypeExt.values_size) {
-            var localdict = dict[componentType]
-            val size = localdict.size
-            outDictionary.writeInt(componentType)
-            outDictionary.writeInt(size)
-            val entries = localdict.keys.sortedWith { a, b ->
-                if (componentType == ETripleComponentTypeExt.IRI) {
-                    cmp(a.substring(1, a.length - 1), b.substring(1, b.length - 1))
-                } else {
-                    cmp(a, b)
-                }
-            }
-            for (entry in entries) {
-                var value = entry
-                if (componentType == ETripleComponentTypeExt.IRI) {
-                    value = value.substring(1, value.length - 1)
-                }
-                val tmp = value.encodeToByteArray()
-                outDictionary.writeInt(localdict[entry]!!.toInt())
-                outDictionary.writeInt(tmp.size)
-                outDictionary.write(tmp, tmp.size)
-            }
-            localdict.clear()
-        }
-        outDictionary.writeInt(ETripleComponentTypeExt.values_size)
-        outDictionary.writeInt(0)
-    }
-
     val iter = File(inputFileName).openInputStream()
     if (inputFileName.endsWith(".n3")) {
         val x = object : Turtle2Parser(iter) {
             override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                 for (i in 0 until 3) {
-                    val tripleCleaned = helperCleanString(triple[i])
+                    val tripleCleaned = DictionaryIntermediate.encodeFromParser(helperCleanString(triple[i]))
                     val v = dict[tripleType[i]][tripleCleaned]
                     if (v != null) {
                         outTriples.writeInt(v.toInt())
@@ -128,9 +96,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                     println("$cnt :: $dictCounter :: $dictSizeEstimated(Bytes)")
                 }
                 if (dictSizeEstimated > dictSizeLimit) {
-                    writeDict()
-                    outDictionary.close()
-                    outDictionary = File("$inputFileName.$chunc.dictionary").openOutputStream(false)
+                    DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
                     dictSizeEstimated = 0
                     chunc++
                 }
@@ -141,7 +107,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         val x = object : NQuads2Parser(iter) {
             override fun onQuad(quad: Array<String>, quadType: Array<ETripleComponentType>) {
                 for (i in 0 until 4) {
-                    val quadCleaned = helperCleanString(quad[i])
+                    val quadCleaned = DictionaryIntermediate.encodeFromParser(helperCleanString(quad[i]))
                     val v = dict[quadType[i]][quadCleaned]
                     if (v != null) {
                         outTriples.writeInt(v.toInt())
@@ -158,9 +124,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                     println("$cnt :: $dictCounter :: $dictSizeEstimated(Bytes)")
                 }
                 if (dictSizeEstimated > dictSizeLimit) {
-                    writeDict()
-                    outDictionary.close()
-                    outDictionary = File("$inputFileName.$chunc.dictionary").openOutputStream(false)
+                    DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
                     dictSizeEstimated = 0
                     chunc++
                 }
@@ -170,68 +134,46 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     } else {
         throw Exception("unknown filetype $inputFileName")
     }
-    writeDict()
-    outDictionary.close()
+    DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
     outTriples.close()
     iter.close()
 // merge dictionaries
-    outDictionary = File("$inputFileName.dictionary").openOutputStream(false)
-    val mapping = LongArray(dictCounter.toInt())
+    val outDictionary = DictionaryIntermediateWriter("$inputFileName")
+    val mapping = IntArray(dictCounter.toInt())
 
-    class DictionaryHelper(val input: IMyInputStream, var componentType: Int, var remainingWithComponent: Int, var headString: String, var headValue: Int, var valid: Boolean)
-
-    val dictionaries = Array(chunc) { DictionaryHelper(File("$inputFileName.$it.dictionary").openInputStream(), -1, 0, "", -1, false) }.toMutableList()
+    val dictionaries = Array(chunc) { DictionaryIntermediateReader("$inputFileName.$it") }
+    val dictionariesHead = Array(chunc) { dictionaries[it].next() }
     val dictCounterByType = LongArray(ETripleComponentTypeExt.values_size)
-    var readtotalcnt = 0L
-    var currentValue = 0L
-    var currentValid = true
-    var currentString = ""
-    var currentComponentType = 0
-    loop@ while (currentValid) {
-        currentValid = false
-        for (di in 0 until dictionaries.size) {
-            val d = dictionaries[di]
-            if (!d.valid) {
-                while (d.remainingWithComponent == 0 && d.componentType < ETripleComponentTypeExt.values_size) {
-                    d.componentType = d.input.readInt()
-                    d.remainingWithComponent = d.input.readInt()
-                }
-                if (d.componentType < ETripleComponentTypeExt.values_size) {
-                    SanityCheck.check { d.remainingWithComponent > 0 }
-                    readtotalcnt++
-                    d.remainingWithComponent--
-                    d.headValue = d.input.readInt()
-                    val len = d.input.readInt()
-                    val buf = ByteArray(len)
-                    d.input.read(buf, len)
-                    d.headString = buf.decodeToString()
-                    d.valid = true
-                }
-            }
-            if (d.valid && (!currentValid || (cmp(d.headString, currentString) < 0 && currentComponentType == d.componentType) || (d.componentType < currentComponentType))) {
-                currentString = d.headString
-                currentComponentType = d.componentType
-                currentValid = true
+
+    var current: DictionaryIntermediateRow? = null
+    var currentValue = 0
+
+    var changed = true
+    loop@ while (changed) {
+        changed = false
+        for (d in dictionariesHead) {
+            if (current == null) {
+                current = d
+            } else if (d != null && d < current) {
+                current = d
             }
         }
-        if (currentValid) {
+        if (current != null) {
+            changed = true
             dictCounterByType[currentComponentType]++
-            val tmp = currentString.encodeToByteArray()
-            byteBuf[0] = currentComponentType.toByte()
-            outDictionary.writeInt(tmp.size)
-            outDictionary.write(byteBuf, 1)
-            outDictionary.write(tmp)
-            for (d in dictionaries) {
-                if (d.headString == currentString) {
-                    SanityCheck.check { mapping[d.headValue] == 0L }
-                    mapping[d.headValue] = currentValue
-                    d.valid = false
+            outDictionary.writeAssumeOrdered(current.type, currentValue, current.value)
+            for (i in 0 until chunc) {
+                if (current.compareTo(dictionariesHead[i]) == 0) {
+                    mapping[dictionariesHead[i].id] = currentValue
+                    dictionariesHead[i] = dictionaries[i].next()
                 }
             }
             currentValue++
         }
     }
-    SanityCheck.check { readtotalcnt == dicttotalcnt }
+    for (d in dictionaries) {
+        d.close()
+    }
     outDictionary.close()
     File("$inputFileName.stat").withOutputStream { out ->
         out.println("total=$dictCounter")
@@ -249,12 +191,12 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             for (i in 0L until target) {
                 val v = inTriples.readInt()
                 val vv = mapping[v]
-                outTriples.writeInt(vv.toInt())
+                outTriples.writeInt(vv)
             }
         }
     }
     for (i in 0 until chunc) {
-        File("$inputFileName.$i.dictionary").deleteRecursively()
+        DictionaryIntermediate("$inputFileName.$i").delete()
     }
     File("$inputFileName.0.$tripleFileEnding").deleteRecursively()
     if (false) {

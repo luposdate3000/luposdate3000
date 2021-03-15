@@ -107,7 +107,7 @@ public class ResultSetDictionaryGlobal {
     }
 
     public fun debugAllDictionaryContent() {
-        File("global.dictionary").withOutputStream { out ->
+        File("global.dictionary.txt").withOutputStream { out ->
             out.println("0x0 -> true")
             out.println("0x1 -> false")
             out.println("0x2 -> error")
@@ -150,31 +150,13 @@ public class ResultSetDictionaryGlobal {
 
     @Suppress("NOTHING_TO_INLINE")
     private inline fun importFromDictionaryFileH(filename: String, mapping: IntArray?) {
-        val fileDictionary = File(filename)
-        var buffer = ByteArray(0)
-        var mappingIdx = 0
-        fileDictionary.withInputStream { dictStream ->
-            while (true) {
-                var length = 0
-                try {
-                    length = dictStream.readInt()
-                } catch (e: Exception) {
-// TODO more nice end of file detection
-                    break
-                }
-                val type = dictStream.readByte().toInt()
-                if (buffer.size < length) {
-                    buffer = ByteArray(length)
-                }
-                val read = dictStream.read(buffer, length)
-                if (read < length) {
-                    throw Exception("invalid read")
-                }
-                val s = buffer.decodeToString(0, length)
-                val i = createByType(s, type)
-                if (mapping != null) {
-                    mapping[mappingIdx++] = i
-                }
+        var lastId = -1
+        DictionaryIntermediateReader(filename).readAll {
+            val i = createByType(value, type)
+            SanityCheck.check { lastId == id - 1 }
+            lastId = id
+            if (mapping != null) {
+                mapping[id] = i
             }
         }
     }
@@ -245,47 +227,43 @@ public class ResultSetDictionaryGlobal {
     public fun createByType(s: String, type: ETripleComponentType): Int {
         when (type) {
             ETripleComponentTypeExt.IRI -> {
-                return createIri(s)
+                val tmp = DictionaryIntermediate.decodeIri(s)
+                return createIri(tmp)
             }
             ETripleComponentTypeExt.BLANK_NODE -> {
                 return createNewBNode(s)
             }
             ETripleComponentTypeExt.STRING -> {
-                return createTyped(s, "")
+                val tmp = DictionaryIntermediate.decodeStringAsTyped(s)
+                return createTyped(tmp.first, tmp.second)
             }
             ETripleComponentTypeExt.INTEGER -> {
-                return createInteger(MyBigInteger(s))
+                val tmp = DictionaryIntermediate.decodeInteger(s)
+                return createInteger(MyBigInteger(tmp))
             }
             ETripleComponentTypeExt.DECIMAL -> {
-                return createDecimal(MyBigDecimal(s))
+                val tmp = DictionaryIntermediate.decodeDecimal()
+                return createDecimal(MyBigDecimal(tmp))
             }
             ETripleComponentTypeExt.DOUBLE -> {
-                return createDouble(s.toDouble())
+                val tmp = DictionaryIntermediate.decodeDouble(s)
+                return createDouble(tmp.toDouble())
             }
             ETripleComponentTypeExt.BOOLEAN -> {
-                return if (s.toLowerCase() == "true") {
+                val tmp = tmp.decodeBoolean(s)
+                return if (tmp.toLowerCase() == "true") {
                     ResultSetDictionaryExt.booleanTrueValue
                 } else {
                     ResultSetDictionaryExt.booleanFalseValue
                 }
             }
             ETripleComponentTypeExt.STRING_TYPED -> {
-                val s2 = s.split("^^")
-                var a = s2[0]
-                for (i in 1 until s2.size - 1) {
-                    a += "^^" + s2[i]
-                }
-                val b = s2[s2.size - 1]
-                return createTyped(a, b)
+                val tmp = decodeTyped(s)
+                return createTyped(tmp.first, tmp.second)
             }
             ETripleComponentTypeExt.STRING_LANG -> {
-                val s2 = s.split("@")
-                var a = s2[0]
-                for (i in 1 until s2.size - 1) {
-                    a += "@" + s2[i]
-                }
-                val b = s2[s2.size - 1]
-                return createLangTagged(a, b)
+                val tmp = decodeLang(s)
+                return createLangTagged(tmp.first, tmp.second)
             }
             else -> {
                 throw Exception("unexpected type")
