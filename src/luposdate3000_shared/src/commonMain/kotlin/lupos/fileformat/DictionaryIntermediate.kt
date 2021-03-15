@@ -17,21 +17,24 @@
 
 package lupos.fileformat
 
+import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
+import lupos.s00misc.IMyInputStream
+import lupos.s00misc.IMyOutputStream
 
-abstract class DictionaryIntermediate(val filename: String) {
-    var streamOut: IMyOutputStream?
-    var streamIn: IMyInputStream?
-    abstract fun close()
+public abstract class DictionaryIntermediate(internal val filename: String) {
+    internal var streamOut: IMyOutputStream? = null
+    internal var streamIn: IMyInputStream? = null
+    public abstract fun close()
 
-    companion object {
-        const val filenameEnding = ".dictionary"
-        fun delete() {
+    public companion object {
+        internal const val filenameEnding = ".dictionary"
+        public fun delete(filename: String) {
             File("$filename$filenameEnding").deleteRecursively()
         }
 
-        fun encodeFromParser(value: String, type: ETripleComponentType): String {
+        public fun encodeFromParser(value: String, type: ETripleComponentType): String {
 // sparql -> encoding in file
             when (type) {
                 ETripleComponentTypeExt.IRI -> return encodeIri(value)
@@ -45,7 +48,7 @@ abstract class DictionaryIntermediate(val filename: String) {
                     var idx = value.indexOf("^^")
                     return encodeTyped(value.substring(0, idx), value.substring(idx + 2))
                 }
-                ETripleComponentTypeExt.STRING_LANG -> return {
+                ETripleComponentTypeExt.STRING_LANG -> {
                     var idx = value.indexOf("@")
                     return encodeLang(value.substring(0, idx), value.substring(idx + 1))
                 }
@@ -54,27 +57,27 @@ abstract class DictionaryIntermediate(val filename: String) {
         }
 
         // encode* from given values -> encoding in the file
-// decode* encoding in file -> split as expected by dictionary
-        fun encodeIri(value: String): String = value
-        fun decodeIri(value: String): String = value.substring(1, value.length - 1)
-        fun encodeString(value: String): String = value
-        fun decodeStringAsTyped(value: String): Pair<String, String> = Pair(value, "")
-        fun encodeInteger(value: String): String = value
-        fun decodeInteger(value: String): String = value
-        fun encodeDecimal(value: String): String = value
-        fun decodeDecimal(value: String): String = value
-        fun encodeDouble(value: String): String = value
-        fun decodeDouble(value: String): String = value
-        fun encodeBoolean(value: String): String = value
-        fun decodeBoolean(value: String): String = value
-        fun encodeTyped(value: String, type: String): String = "$type^^$value"
-        fun decodeTyped(value: String): Pair<String, String> {
+        // decode* encoding in file -> split as expected by dictionary
+        public fun encodeIri(value: String): String = value
+        public fun decodeIri(value: String): String = value.substring(1, value.length - 1)
+        public fun encodeString(value: String): String = value
+        public fun decodeStringAsTyped(value: String): Pair<String, String> = Pair(value, "")
+        public fun encodeInteger(value: String): String = value
+        public fun decodeInteger(value: String): String = value
+        public fun encodeDecimal(value: String): String = value
+        public fun decodeDecimal(value: String): String = value
+        public fun encodeDouble(value: String): String = value
+        public fun decodeDouble(value: String): String = value
+        public fun encodeBoolean(value: String): String = value
+        public fun decodeBoolean(value: String): String = value
+        public fun encodeTyped(value: String, type: String): String = "$type^^$value"
+        public fun decodeTyped(value: String): Pair<String, String> {
             var idx = value.indexOf("^^")
             return Pair(value.substring(idx + 2), value.substring(0, idx))
         }
 
-        fun encodeLang(value: String, lang: String): String = "$lang@$value"
-        fun decodeLang(value: String): Pair<String, String> {
+        public fun encodeLang(value: String, lang: String): String = "$lang@$value"
+        public fun decodeLang(value: String): Pair<String, String> {
             var idx = value.indexOf("@")
             return Pair(value.substring(idx + 1), value.substring(0, idx))
         }

@@ -16,6 +16,8 @@
  */
 package lupos.s03resultRepresentation
 
+import lupos.fileformat.DictionaryIntermediate
+import lupos.fileformat.DictionaryIntermediateReader
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
@@ -151,7 +153,7 @@ public class ResultSetDictionaryGlobal {
     @Suppress("NOTHING_TO_INLINE")
     private inline fun importFromDictionaryFileH(filename: String, mapping: IntArray?) {
         var lastId = -1
-        DictionaryIntermediateReader(filename).readAll {
+        DictionaryIntermediateReader(filename).readAll { type, id, value ->
             val i = createByType(value, type)
             SanityCheck.check { lastId == id - 1 }
             lastId = id
@@ -242,7 +244,7 @@ public class ResultSetDictionaryGlobal {
                 return createInteger(MyBigInteger(tmp))
             }
             ETripleComponentTypeExt.DECIMAL -> {
-                val tmp = DictionaryIntermediate.decodeDecimal()
+                val tmp = DictionaryIntermediate.decodeDecimal(s)
                 return createDecimal(MyBigDecimal(tmp))
             }
             ETripleComponentTypeExt.DOUBLE -> {
@@ -250,7 +252,7 @@ public class ResultSetDictionaryGlobal {
                 return createDouble(tmp.toDouble())
             }
             ETripleComponentTypeExt.BOOLEAN -> {
-                val tmp = tmp.decodeBoolean(s)
+                val tmp = DictionaryIntermediate.decodeBoolean(s)
                 return if (tmp.toLowerCase() == "true") {
                     ResultSetDictionaryExt.booleanTrueValue
                 } else {
@@ -258,11 +260,11 @@ public class ResultSetDictionaryGlobal {
                 }
             }
             ETripleComponentTypeExt.STRING_TYPED -> {
-                val tmp = decodeTyped(s)
+                val tmp = DictionaryIntermediate.decodeTyped(s)
                 return createTyped(tmp.first, tmp.second)
             }
             ETripleComponentTypeExt.STRING_LANG -> {
-                val tmp = decodeLang(s)
+                val tmp = DictionaryIntermediate.decodeLang(s)
                 return createLangTagged(tmp.first, tmp.second)
             }
             else -> {

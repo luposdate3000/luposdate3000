@@ -20,19 +20,18 @@ package lupos.fileformat
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
 
-class DictionaryIntermediateReader(filename: String) : DictionaryIntermediate(filename) {
+public class DictionaryIntermediateReader(filename: String) : DictionaryIntermediate(filename) {
     init {
         streamIn = File("$filename$filenameEnding").openInputStream()
-        streamOut = null
     }
 
-    inline fun readAll(crossinline action: (type: Int, id: Int, value: String) -> Unit) {
+    public inline fun readAll(crossinline action: (type: Int, id: Int, value: String) -> Unit) {
         while (streamIn != null) {
             next(action)
         }
     }
 
-    inline fun next(crossinline action: (type: Int, id: Int, value: String) -> Unit) {
+    public inline fun next(crossinline action: (type: Int, id: Int, value: String) -> Unit) {
         val type = streamIn!!.readInt()
         if (type != ETripleComponentTypeExt.values_size) {
             val id = streamIn!!.readInt()
@@ -44,15 +43,15 @@ class DictionaryIntermediateReader(filename: String) : DictionaryIntermediate(fi
         }
     }
 
-    fun next(): DictionaryIntermediateRow? {
+    public fun next(): DictionaryIntermediateRow? {
         var res: DictionaryIntermediateRow? = null
-        next {
+        next { type, id, value ->
             res = DictionaryIntermediateRow(type, id, value)
         }
         return res
     }
 
-    override fun close() {
+    public override fun close() {
         streamIn?.close()
         streamIn = null
     }

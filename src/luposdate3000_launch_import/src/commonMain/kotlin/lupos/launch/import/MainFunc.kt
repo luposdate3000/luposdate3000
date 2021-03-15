@@ -16,6 +16,10 @@
  */
 package lupos.launch.import
 
+import lupos.fileformat.DictionaryIntermediate
+import lupos.fileformat.DictionaryIntermediateReader
+import lupos.fileformat.DictionaryIntermediateRow
+import lupos.fileformat.DictionaryIntermediateWriter
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
@@ -79,7 +83,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         val x = object : Turtle2Parser(iter) {
             override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                 for (i in 0 until 3) {
-                    val tripleCleaned = DictionaryIntermediate.encodeFromParser(helperCleanString(triple[i]))
+                    val tripleCleaned = DictionaryIntermediate.encodeFromParser(helperCleanString(triple[i]), tripleType[i])
                     val v = dict[tripleType[i]][tripleCleaned]
                     if (v != null) {
                         outTriples.writeInt(v.toInt())
@@ -107,7 +111,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         val x = object : NQuads2Parser(iter) {
             override fun onQuad(quad: Array<String>, quadType: Array<ETripleComponentType>) {
                 for (i in 0 until 4) {
-                    val quadCleaned = DictionaryIntermediate.encodeFromParser(helperCleanString(quad[i]))
+                    val quadCleaned = DictionaryIntermediate.encodeFromParser(helperCleanString(quad[i]), quadType[i])
                     val v = dict[quadType[i]][quadCleaned]
                     if (v != null) {
                         outTriples.writeInt(v.toInt())
@@ -160,12 +164,14 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         }
         if (current != null) {
             changed = true
-            dictCounterByType[currentComponentType]++
+            dictCounterByType[current.type]++
             outDictionary.writeAssumeOrdered(current.type, currentValue, current.value)
             for (i in 0 until chunc) {
-                if (current.compareTo(dictionariesHead[i]) == 0) {
-                    mapping[dictionariesHead[i].id] = currentValue
-                    dictionariesHead[i] = dictionaries[i].next()
+                if (dictionariesHead[i] != null) {
+                    if (current.compareTo(dictionariesHead[i]!!) == 0) {
+                        mapping[dictionariesHead[i]!!.id] = currentValue
+                        dictionariesHead[i] = dictionaries[i].next()
+                    }
                 }
             }
             currentValue++
@@ -196,7 +202,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         }
     }
     for (i in 0 until chunc) {
-        DictionaryIntermediate("$inputFileName.$i").delete()
+        DictionaryIntermediate.delete("$inputFileName.$i")
     }
     File("$inputFileName.0.$tripleFileEnding").deleteRecursively()
     if (false) {

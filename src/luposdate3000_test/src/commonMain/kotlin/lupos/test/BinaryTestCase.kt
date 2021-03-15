@@ -22,12 +22,14 @@ import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EPartitionModeExt
+import lupos.s00misc.File
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MAX_TRIPLES_DURING_TEST
 import lupos.s00misc.MemoryTable
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.NotImplementedException
 import lupos.s00misc.Partition
+import lupos.s00misc.UnknownDataFileException
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
 import lupos.s00misc.parseFromAny

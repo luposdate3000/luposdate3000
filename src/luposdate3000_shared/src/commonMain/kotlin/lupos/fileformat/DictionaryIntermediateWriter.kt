@@ -19,17 +19,17 @@ package lupos.fileformat
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
 
-class DictionaryIntermediateWriter(filename: String) : DictionaryIntermediate(filename) {
-    init {
-        streamIn = null
-        streamOut = File("$filename$filenameEnding").openOutputStream(false)
+public class DictionaryIntermediateWriter : DictionaryIntermediate {
+    public constructor(filename: String) : this(filename, false)
+    public constructor(filename: String, append: Boolean) : super(filename) {
+        streamOut = File("$filename$filenameEnding").openOutputStream(append)
     }
 
-    fun writeAssumeOrdered(row: DictionaryIntermediateRow) {
+    public fun writeAssumeOrdered(row: DictionaryIntermediateRow) {
         writeAssumeOrdered(row.type, row.id, row.value)
     }
 
-    fun writeAssumeOrdered(type: Int, id: Int, value: String) {
+    public fun writeAssumeOrdered(type: Int, id: Int, value: String) {
         val tmp = value.encodeToByteArray()
         streamOut!!.writeInt(type)
         streamOut!!.writeInt(id)
@@ -37,11 +37,10 @@ class DictionaryIntermediateWriter(filename: String) : DictionaryIntermediate(fi
         streamOut!!.write(tmp, tmp.size)
     }
 
-    fun write(dict: Array<Map<String, Long>>) {
+    public fun write(dict: Array<MutableMap<String, Long>>) {
         for (componentType in 0 until ETripleComponentTypeExt.values_size) {
             var localdict = dict[componentType]
-            val size = localdict.size
-            var rows = localdict.keys.flatMap { DictionaryIntermediateRow(componentType, v, k) }.sorted()
+            var rows = localdict.toList().map { DictionaryIntermediateRow(componentType, it.second.toInt(), it.first) }.sorted()
             for (row in rows) {
                 writeAssumeOrdered(row)
             }
@@ -50,7 +49,7 @@ class DictionaryIntermediateWriter(filename: String) : DictionaryIntermediate(fi
         close()
     }
 
-    override fun close() {
+    public override fun close() {
         streamOut?.writeInt(ETripleComponentTypeExt.values_size)
         streamOut?.close()
         streamOut = null

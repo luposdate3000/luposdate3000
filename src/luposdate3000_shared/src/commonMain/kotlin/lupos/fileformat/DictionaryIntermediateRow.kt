@@ -19,8 +19,8 @@ package lupos.fileformat
 
 import lupos.s00misc.ETripleComponentTypeExt
 
-class DictionaryIntermediateRow(val type: Int, val id: Int, val value: String) : Compareable<DictionaryIntermediateRow> {
-    override operator fun compareTo(other: DictionaryIntermediateRow) {
+public class DictionaryIntermediateRow(public val type: Int, public val id: Int, public val value: String) : Comparable<DictionaryIntermediateRow> {
+    public override operator fun compareTo(other: DictionaryIntermediateRow): Int {
         var res = type.compareTo(other.type)
         if (res != 0) {
             return res
