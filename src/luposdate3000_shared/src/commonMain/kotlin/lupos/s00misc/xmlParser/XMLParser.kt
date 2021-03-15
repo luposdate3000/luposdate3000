@@ -19,7 +19,6 @@ package lupos.s00misc.xmlParser
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s02buildSyntaxTree.turtle.EOF
 
 public object XMLParser {
     internal fun parse(context: ParserContext, stack: MutableList<XMLElement>): Boolean {

@@ -20,9 +20,6 @@ import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.UnexpectedToken
-import lupos.s02buildSyntaxTree.rdf.BlankNode
-import lupos.s02buildSyntaxTree.rdf.IRI
-import lupos.s02buildSyntaxTree.turtle.EOF
 import kotlin.jvm.JvmField
 
 public interface Visitor<T> {

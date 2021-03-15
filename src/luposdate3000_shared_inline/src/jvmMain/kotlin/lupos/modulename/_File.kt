@@ -21,7 +21,6 @@ import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyInputStream
 import lupos.s00misc.MyOutputStream
-import lupos.s02buildSyntaxTree.turtle.EOF
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.FileInputStream

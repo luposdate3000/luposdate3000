@@ -17,7 +17,18 @@
 package lupos.s00misc
 
 import java.io.File
+import javax.annotation.processing.AbstractProcessor
+import javax.annotation.processing.RoundEnvironment
+import javax.annotation.processing.SupportedOptions
 import javax.lang.model.SourceVersion
+import javax.lang.model.element.Element
+import javax.lang.model.element.ExecutableElement
+import javax.lang.model.element.PackageElement
+import javax.lang.model.element.Parameterizable
+import javax.lang.model.element.QualifiedNameable
+import javax.lang.model.element.TypeElement
+import javax.lang.model.element.TypeParameterElement
+import javax.lang.model.element.VariableElement
 
 // dieses Tutorial hat mir sehr geholfen
 // https://www.kotlindevelopment.com/generateforme/

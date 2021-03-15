@@ -19,8 +19,6 @@ package lupos.s02buildSyntaxTree.nQuads
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.IMyInputStream
-import lupos.s02buildSyntaxTree.rdf.IRI
-import lupos.s02buildSyntaxTree.turtle.EOF
 import kotlin.jvm.JvmField
 
 public abstract class NQuads2Parser(input: IMyInputStream) {

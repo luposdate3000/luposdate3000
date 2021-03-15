@@ -20,10 +20,6 @@ import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.UnexpectedToken
-import lupos.s02buildSyntaxTree.rdf.BlankNode
-import lupos.s02buildSyntaxTree.rdf.Dictionary
-import lupos.s02buildSyntaxTree.rdf.IRI
-import lupos.s02buildSyntaxTree.rdf.SimpleLiteral
 import kotlin.jvm.JvmField
 
 public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Long, Long, Long) -> Unit, @JvmField public val ltit: LookAheadTokenIterator) {

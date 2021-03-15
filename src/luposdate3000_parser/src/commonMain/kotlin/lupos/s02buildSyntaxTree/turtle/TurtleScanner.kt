@@ -21,7 +21,6 @@ import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.TokenIterator
 import lupos.s02buildSyntaxTree.UnexpectedEndOfFile
-import lupos.s02buildSyntaxTree.rdf.IRI
 import kotlin.jvm.JvmField
 
 public class EOF(index: Int) : Token("EOF", index)
