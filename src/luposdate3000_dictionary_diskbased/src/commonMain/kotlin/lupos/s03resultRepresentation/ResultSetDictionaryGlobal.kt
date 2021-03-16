@@ -18,46 +18,219 @@ package lupos.s03resultRepresentation
 
 import lupos.fileformat.DictionaryIntermediate
 import lupos.fileformat.DictionaryIntermediateReader
+import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
 import lupos.s00misc.SanityCheck
+import lupos.s01io.BufferManager
+import lupos.s01io.BufferManagerExt
 import kotlin.jvm.JvmField
 
 public val nodeGlobalDictionary: ResultSetDictionaryGlobal = ResultSetDictionaryGlobal()
 
 public class ResultSetDictionaryGlobal {
-    //    @JvmField
-//    internal val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("dictionary")
-    private val mappingV2I = mutableMapOf<Pair<Int, String>, Int>()
-    private val mappingI2V = mutableListOf<Pair<Int, String>>()
-    internal inline fun writeValue(value: String, type: Int): Int {
-        val v = Pair(type, value)
-        var res = mappingV2I[v]
-        if (res == null) {
-            res = mappingI2V.size
-            mappingI2V.add(v)
-            mappingV2I[v] = res
-        }
-        return res or ResultSetDictionaryShared.flaggedValueGlobal
-    }
-
-    internal inline fun hasValue(value: String, type: Int): Int? {
-        val v = Pair(type, value)
-        var res = mappingV2I[v]
-        if (res == null) {
-            return null
-        }
-        return res or ResultSetDictionaryShared.flaggedValueGlobal
-    }
-
-    internal inline fun readValue(value: Int, crossinline action: (value: String, type: Int) -> Unit) {
-        var res = mappingI2V[value and ResultSetDictionaryShared.filter2]
-        action(res.second!!, res.first!!)
-    }
+    @JvmField
+    internal val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("dictionary")
 
     @JvmField
     internal var bNodeCounter = 5
+    private var lastPage: Int = 0
+    private var lastPageBuf: ByteArray = ByteArray(0)
+    private var lastPageOffset: Int = 0
+    private var nextID = 0
+    private var mappingID2Page = IntArray(100)
+    private var mappingID2Off = IntArray(100)
+    private var mappingSorted = IntArray(100)
+
+    init {
+        bufferManager.createPage { page, id ->
+            lastPageBuf = page
+            lastPage = id
+            lastPageOffset = 4
+        }
+    }
+
+    private inline fun readString(page: Int, off: Int, crossinline action: (type: Int, s: String) -> Unit) {
+        var p = bufferManager.getPage(page)
+        var pid = page
+        val type = ByteArrayHelper.readInt4(p, off)
+        val l = ByteArrayHelper.readInt4(p, off + 4)
+        val buf = ByteArray(l)
+        var bufoff = 0
+        var toread = l
+        var pageoff = off + 8
+        while (toread > 0) {
+            var available = p.size - pageoff
+            if (available == 0) {
+                var id = ByteArrayHelper.readInt4(p, 0)
+                bufferManager.releasePage(pid)
+                p = bufferManager.getPage(id)
+                pid = id
+                pageoff = 4
+                available = p.size - pageoff
+            }
+            var len = if (available < toread) {
+                available
+            } else {
+                toread
+            }
+            p.copyInto(buf, bufoff, pageoff, pageoff + len)
+            bufoff += len
+            pageoff += len
+            toread -= len
+        }
+        bufferManager.releasePage(pid)
+        action(type, buf.decodeToString())
+    }
+
+    private inline fun writeString(type: Int, s: String, crossinline action: (page: Int, off: Int) -> Unit) {
+        if (lastPageOffset >= lastPageBuf.size - 8) {
+            bufferManager.createPage { page, id ->
+                ByteArrayHelper.writeInt4(lastPageBuf, 0, id)
+                bufferManager.releasePage(lastPage)
+                lastPageBuf = page
+                lastPage = id
+            }
+            lastPageOffset = 4
+        }
+        var resPage = lastPage
+        var resOff = lastPageOffset
+        val buf = s.encodeToByteArray()
+        ByteArrayHelper.writeInt4(lastPageBuf, lastPageOffset, type)
+        ByteArrayHelper.writeInt4(lastPageBuf, lastPageOffset + 4, buf.size)
+        lastPageOffset += 8
+        var bufoff = 0
+        var towrite = buf.size
+        while (towrite > 0) {
+            var available = lastPageBuf.size - lastPageOffset
+            if (available == 0) {
+                bufferManager.createPage { page, id ->
+                    ByteArrayHelper.writeInt4(lastPageBuf, 0, id)
+                    bufferManager.releasePage(lastPage)
+                    lastPageBuf = page
+                    lastPage = id
+                }
+                lastPageOffset = 4
+                available = lastPageBuf.size - lastPageOffset
+            }
+            var len = if (available < towrite) {
+                available
+            } else {
+                towrite
+            }
+            buf.copyInto(lastPageBuf, lastPageOffset, bufoff, bufoff + len)
+            towrite -= len
+            lastPageOffset += len
+            bufoff += len
+        }
+        action(resPage, resOff)
+    }
+
+    internal inline fun writeValue(value: String, type: Int): Int {
+        var res = 0
+        hasValue(
+            value, type, 0, nextID - 1,
+            onFound = {
+                res = it
+            },
+            onNotFound = {
+                res = nextID++
+                writeString(type, value) { page, off ->
+                    if (res >= mappingID2Page.size) {
+                        var tmp = IntArray(mappingID2Page.size * 2)
+                        mappingID2Page.copyInto(tmp)
+                        mappingID2Page = tmp
+                        tmp = IntArray(mappingID2Off.size * 2)
+                        mappingID2Off.copyInto(tmp)
+                        mappingID2Off = tmp
+                        tmp = IntArray(mappingSorted.size * 2)
+                        mappingSorted.copyInto(tmp)
+                        mappingSorted = tmp
+                    }
+                    mappingID2Page[res] = page
+                    mappingID2Off[res] = off
+                    var i = res
+                    while (i > it) {
+                        mappingSorted[i] = mappingSorted[i - 1]
+                        i--
+                    }
+                    mappingSorted[i] = res
+                }
+            }
+        )
+        return res or ResultSetDictionaryShared.flaggedValueGlobal
+    }
+
+    internal inline fun hasValue(value: String, type: Int, left: Int, right: Int, crossinline onFound: (Int/*the id to return*/) -> Unit, onNotFound: (Int/*the smallest index, which value is larger than the target*/) -> Unit) {
+        var l = left
+        var r = right
+        var loop = true
+        while (loop && r >= l) {
+            var m = (r - l) / 2 + l
+            readString(mappingID2Page[m], mappingID2Off[m]) { t, s ->
+                if (t < type) {
+                    if (m == l) {
+                        m++
+                    }
+                    l = m
+                } else if (t > type) {
+                    if (m == r) {
+                        m--
+                    }
+                    r = m
+                } else if (s < value) {
+                    if (m == l) {
+                        m++
+                    }
+                    l = m
+                } else if (s > value) {
+                    if (m == r) {
+                        m--
+                    }
+                    r = m
+                } else {
+                    loop = false
+                    onFound(m)
+                }
+            }
+        }
+        if (r < l) {
+            var res = l
+            SanityCheck {
+                if (res > left) {
+                    readString(mappingID2Page[res - 1], mappingID2Off[res - 1]) { t, s -> SanityCheck.check { t < type || (t == type && s < value) } }
+                }
+                if (res <= right) {
+                    readString(mappingID2Page[res], mappingID2Off[res]) { t, s -> SanityCheck.check { t > type || (t == type && s > value) } }
+                }
+            }
+            onNotFound(res)
+        }
+    }
+
+    internal inline fun hasValue(value: String, type: Int): Int? {
+        var res: Int? = null
+        hasValue(
+            value, type, 0, nextID - 1,
+            onFound = {
+                res = it
+            },
+            onNotFound = {
+            }
+        )
+        if (res == null) {
+            return null
+        }
+        return res!! or ResultSetDictionaryShared.flaggedValueGlobal
+    }
+
+    internal inline fun readValue(value: Int, crossinline action: (value: String, type: Int) -> Unit) {
+        val v = value and ResultSetDictionaryShared.filter2
+        readString(mappingID2Page[v], mappingID2Off[v]) { type, s ->
+            action(s, type)
+        }
+    }
 
     public fun debugAllDictionaryContent() {
     }
@@ -265,14 +438,17 @@ public class ResultSetDictionaryGlobal {
                     ETripleComponentTypeExt.DOUBLE -> res = ValueDouble(DictionaryIntermediate.decodeDouble(value).toDouble())
                     ETripleComponentTypeExt.INTEGER -> res = ValueInteger(MyBigInteger(DictionaryIntermediate.decodeInteger(value)))
                     ETripleComponentTypeExt.IRI -> res = ValueIri(DictionaryIntermediate.decodeIri(value))
-                    ETripleComponentTypeExt.STRING -> res = ValueSimpleLiteral("\"", DictionaryIntermediate.decodeString(value))
+                    ETripleComponentTypeExt.STRING -> {
+                        val tmp = DictionaryIntermediate.decodeString(value)
+                        res = ValueSimpleLiteral("\"", tmp.substring(1, tmp.length - 1))
+                    }
                     ETripleComponentTypeExt.STRING_LANG -> {
                         val tmp = DictionaryIntermediate.decodeLang(value)
-                        res = ValueLanguageTaggedLiteral("\"", tmp.first, tmp.second)
+                        res = ValueLanguageTaggedLiteral("\"", tmp.first.substring(1, tmp.first.length - 1), tmp.second)
                     }
                     ETripleComponentTypeExt.STRING_TYPED -> {
                         val tmp = DictionaryIntermediate.decodeTyped(value)
-                        res = ValueTypedLiteral("\"", tmp.first, tmp.second)
+                        res = ValueTypedLiteral("\"", tmp.first.substring(1, tmp.first.length - 1), tmp.second.substring(1, tmp.second.length - 1))
                     }
                     else -> throw Exception("unexpected type $type")
                 }
@@ -324,10 +500,13 @@ public class ResultSetDictionaryGlobal {
                     ETripleComponentTypeExt.DOUBLE -> onDouble(DictionaryIntermediate.decodeDouble(value).toDouble())
                     ETripleComponentTypeExt.INTEGER -> onInteger(DictionaryIntermediate.decodeInteger(value))
                     ETripleComponentTypeExt.IRI -> onIri(DictionaryIntermediate.decodeIri(value))
-                    ETripleComponentTypeExt.STRING -> onSimpleLiteral(DictionaryIntermediate.decodeString(value))
+                    ETripleComponentTypeExt.STRING -> {
+                        val tmp = DictionaryIntermediate.decodeString(value)
+                        onSimpleLiteral(tmp.substring(1, tmp.length - 1))
+                    }
                     ETripleComponentTypeExt.STRING_LANG -> {
                         val tmp = DictionaryIntermediate.decodeLang(value)
-                        onLanguageTaggedLiteral(tmp.first, tmp.second)
+                        onLanguageTaggedLiteral(tmp.first.substring(1, tmp.first.length - 1), tmp.second)
                     }
                     ETripleComponentTypeExt.STRING_TYPED -> {
                         val tmp = DictionaryIntermediate.decodeTyped(value)

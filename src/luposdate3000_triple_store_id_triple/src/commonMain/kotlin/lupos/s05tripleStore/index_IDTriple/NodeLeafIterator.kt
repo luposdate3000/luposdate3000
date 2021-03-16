@@ -51,8 +51,9 @@ internal class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nod
         if (remaining == 0) {
             needsReset = true
             offset = NodeLeaf.START_OFFSET
+            var nextid = NodeShared.getNextNode(node)
             NodeManager.releaseNode(nodeid)
-            nodeid = NodeShared.getNextNode(node)
+            nodeid = nextid
             if (nodeid != NodeManager.nodeNullPointer) {
                 NodeManager.getNodeLeaf(nodeid) {
                     SanityCheck.check { node != it }

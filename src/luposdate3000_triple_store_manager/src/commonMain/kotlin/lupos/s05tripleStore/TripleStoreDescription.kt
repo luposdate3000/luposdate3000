@@ -139,8 +139,8 @@ public class TripleStoreDescription(
                 conn.second.flush()
                 conn.first.close()
                 conn.second.close()
-                buf.offset = 0
             }
+            buf.offset = 0
         }
 
         val row = IntArray(3)

@@ -53,7 +53,7 @@ public object QueryResultToTurtleStream {
                 res = "\"$content\""
             },
             onTypedLiteral = { content, type ->
-                res = "\"$content\"^^<$type>"
+                res = "$content^^$type"
             },
             onDecimal = { value ->
                 res = "$value"

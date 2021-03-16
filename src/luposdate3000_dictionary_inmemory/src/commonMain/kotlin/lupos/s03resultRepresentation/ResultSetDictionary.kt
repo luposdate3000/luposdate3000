@@ -626,9 +626,9 @@ public class ResultSetDictionary : IResultSetDictionary {
                     val tmp = typedToValue[value and ResultSetDictionaryShared.filter3]
                     val idx = tmp.indexOf(">")
                     if (idx == 0) {
-                        onSimpleLiteral(tmp.substring(idx + 1, tmp.length))
+                        onSimpleLiteral(tmp.substring(idx + 2, tmp.length - 1))
                     } else {
-                        onTypedLiteral(tmp.substring(idx + 1, tmp.length), tmp.substring(0, idx))
+                        onTypedLiteral(tmp.substring(idx + 2, tmp.length - 1), tmp.substring(1, idx - 1))
                     }
                 }
                 else -> {
@@ -648,7 +648,7 @@ public class ResultSetDictionary : IResultSetDictionary {
                         else -> {
                             val tmp = langTaggedToValue[value and ResultSetDictionaryShared.filter6]
                             val idx = tmp.indexOf("@")
-                            onLanguageTaggedLiteral(tmp.substring(idx + 1, tmp.length), tmp.substring(0, idx))
+                            onLanguageTaggedLiteral(tmp.substring(idx + 2, tmp.length - 1), tmp.substring(0, idx))
                         }
                     }
                 }
