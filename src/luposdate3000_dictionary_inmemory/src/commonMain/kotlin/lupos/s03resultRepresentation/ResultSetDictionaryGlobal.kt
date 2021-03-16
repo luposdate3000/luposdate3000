@@ -365,6 +365,7 @@ public class ResultSetDictionaryGlobal {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun createTyped(content: String, type: String): Int {
+        println("createTyped($content, $type)")
         var res: Int
         when (type) {
             "http://www.w3.org/2001/XMLSchema#integer" -> {
@@ -671,9 +672,11 @@ public class ResultSetDictionaryGlobal {
                 val tmp = typedToValue[value and ResultSetDictionaryShared.filter3]
                 val idx = tmp.indexOf(">")
                 if (idx == 0) {
+                    println("onSimpleLiteral($tmp) -> ${tmp.substring(idx + 1, tmp.length)}")
                     onSimpleLiteral(tmp.substring(idx + 1, tmp.length))
                 } else {
-                    onTypedLiteral(tmp.substring(idx + 1, tmp.length), tmp.substring(0, idx))
+                    println("onTypedLiteral($tmp) -> ${Pair(tmp.substring(idx + 2, tmp.length), tmp.substring(0, idx + 1))}")
+                    onTypedLiteral(tmp.substring(idx + 2, tmp.length), tmp.substring(0, idx + 1))
                 }
             }
             else -> {

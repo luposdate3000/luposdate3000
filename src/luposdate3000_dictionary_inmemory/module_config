@@ -1,4 +1,4 @@
 package=Luposdate3000_Dictionary
 name=Luposdate3000_Dictionary_Inmemory
 enabled=always
-enabledRun=always
+enabledRun=dictionaryMode:Inmemory

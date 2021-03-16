@@ -44,6 +44,7 @@ var suspendMode = ""
 var inlineMode = ""
 var partitionMode = ""
 var memoryMode = ""
+var dictionaryMode = ""
 var proguardMode = ""
 var mainClass = ""
 var jenaWrapper = ""
@@ -127,14 +128,14 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                             "enabledRun=never" -> {
                                 enabledRunFunc = { false }
                             }
-                            "enabledRun=endpointMode:Java_Sockets" -> {
-                                enabledRunFunc = { endpointMode == "Java_Sockets" }
-                            }
                             "enabledRun=jsBrowserMode:true" -> {
                                 enabledRunFunc = { jsBrowserMode && target == "JS" }
                             }
                             "enabledRun=jsBrowserMode:false" -> {
                                 enabledRunFunc = { !jsBrowserMode && target == "JS" }
+                            }
+                            "enabledRun=endpointMode:Java_Sockets" -> {
+                                enabledRunFunc = { endpointMode == "Java_Sockets" }
                             }
                             "enabledRun=endpointMode:None" -> {
                                 enabledRunFunc = { endpointMode == "None" }
@@ -144,6 +145,12 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                             }
                             "enabledRun=jenaWrapper:On" -> {
                                 enabledRunFunc = { jenaWrapper == "On" }
+                            }
+                            "enabledRun=dictionaryMode:Inmemory" -> {
+                                enabledRunFunc = { dictionaryMode == "_Inmemory" }
+                            }
+                            "enabledRun=dictionaryMode:Diskbased" -> {
+                                enabledRunFunc = { dictionaryMode == "_Diskbased" }
                             }
                             "enabledRun=memoryMode:_Inmemory" -> {
                                 enabledRunFunc = { memoryMode == "_Inmemory" }
@@ -439,6 +446,14 @@ val defaultParams = mutableListOf(
         mapOf(
             "persistent" to { memoryMode = "_Persistent" },
             "inmemory" to { memoryMode = "_Inmemory" },
+        )
+    ),
+    ParamClass(
+        "--dictionaryMode",
+        "inmemory",
+        mapOf(
+            "diskbased" to { dictionaryMode = "_Diskbased" },
+            "inmemory" to { dictionaryMode = "_Inmemory" },
         )
     ),
     ParamClass(
@@ -774,6 +789,9 @@ fun onRun() {
         "JS" -> {
             if (memoryMode != "_Inmemory") {
                 throw Exception("JS can only use 'Inmemory' as memoryMode")
+            }
+            if (dictionaryMode != "_Inmemory") {
+                throw Exception("JS can only use 'Inmemory' as dictionaryMode")
             }
             if (jenaWrapper != "Off") {
                 throw Exception("JS can only use 'Off' as jenaWrapper")

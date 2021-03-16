@@ -73,7 +73,7 @@ public abstract class DictionaryIntermediate(internal val filename: String) {
         public inline fun decodeInteger(value: String): String = value
         public inline fun decodeDecimal(value: String): String = value
         public inline fun decodeDouble(value: String): String = value
-        public inline fun decodeBoolean(value: String): String = value
+        public inline fun decodeBoolean(value: String): String = value.toLowerCase()
         public inline fun decodeTyped(value: String): Pair<String, String> {
             var idx = value.indexOf("^^")
             return Pair(value.substring(idx + 2), value.substring(0, idx))
