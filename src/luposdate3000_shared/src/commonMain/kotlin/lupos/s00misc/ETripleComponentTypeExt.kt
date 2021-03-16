@@ -21,25 +21,33 @@ import kotlin.jvm.JvmField
 public object ETripleComponentTypeExt {
     public const val BLANK_NODE: ETripleComponentType = 0
     public const val BOOLEAN: ETripleComponentType = 1
-    public const val DECIMAL: ETripleComponentType = 2
-    public const val DOUBLE: ETripleComponentType = 3
-    public const val INTEGER: ETripleComponentType = 4
-    public const val IRI: ETripleComponentType = 5
-    public const val STRING: ETripleComponentType = 6
-    public const val STRING_LANG: ETripleComponentType = 7
-    public const val STRING_TYPED: ETripleComponentType = 8
-    public const val values_size: Int = 9
+    public const val DATE_TIME: ETripleComponentType = 2
+    public const val DECIMAL: ETripleComponentType = 3
+    public const val DOUBLE: ETripleComponentType = 4
+    public const val ERROR: ETripleComponentType = 5
+    public const val FLOAT: ETripleComponentType = 6
+    public const val INTEGER: ETripleComponentType = 7
+    public const val IRI: ETripleComponentType = 8
+    public const val STRING: ETripleComponentType = 9
+    public const val STRING_LANG: ETripleComponentType = 10
+    public const val STRING_TYPED: ETripleComponentType = 11
+    public const val UNDEF: ETripleComponentType = 12
+    public const val values_size: Int = 13
 
     @JvmField
     public val names: Array<String> = arrayOf(
         "BLANK_NODE",
         "BOOLEAN",
+        "DATE_TIME",
         "DECIMAL",
         "DOUBLE",
+        "ERROR",
+        "FLOAT",
         "INTEGER",
         "IRI",
         "STRING",
         "STRING_LANG",
         "STRING_TYPED",
+        "UNDEF",
     )
 }

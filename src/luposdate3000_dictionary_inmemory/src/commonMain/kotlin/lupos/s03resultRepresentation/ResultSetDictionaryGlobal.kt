@@ -226,7 +226,7 @@ public class ResultSetDictionaryGlobal {
         }
     }
 
-    public fun createByType(s: String, type: ETripleComponentType): Int {
+    private fun createByType(s: String, type: ETripleComponentType): Int {
         when (type) {
             ETripleComponentTypeExt.IRI -> {
                 val tmp = DictionaryIntermediate.decodeIri(s)
