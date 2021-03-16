@@ -56,27 +56,29 @@ public abstract class DictionaryIntermediate(internal val filename: String) {
             }
         }
 
-        // encode* from given values -> encoding in the file
-        // decode* encoding in file -> split as expected by dictionary
-        public inline fun encodeIri(value: String): String = value
-        public inline fun decodeIri(value: String): String = value.substring(1, value.length - 1)
-        public inline fun encodeString(value: String): String = value
-        public inline fun decodeStringAsTyped(value: String): Pair<String, String> = Pair(value, "")
+        // encode* from sparql-parser -> encoding in the file
+        public inline fun encodeIri(value: String): String = value /*input value includes '<' and '>'*/
+        public inline fun encodeString(value: String): String = value /*input value includes '"' and '"'*/
         public inline fun encodeInteger(value: String): String = value
-        public inline fun decodeInteger(value: String): String = value
         public inline fun encodeDecimal(value: String): String = value
-        public inline fun decodeDecimal(value: String): String = value
         public inline fun encodeDouble(value: String): String = value
-        public inline fun decodeDouble(value: String): String = value
         public inline fun encodeBoolean(value: String): String = value
+        public inline fun encodeTyped(value: String, type: String): String = "$type^^$value" /**/
+        public inline fun encodeLang(value: String, lang: String): String = "$lang@$value" /**/
+
+        // decode* encoding in file -> split as expected by dictionary
+        public inline fun decodeIri(value: String): String = value.substring(1, value.length - 1)
+        public inline fun decodeStringAsTyped(value: String): Pair<String, String> = Pair(value, "")
+        public inline fun decodeString(value: String): String = value
+        public inline fun decodeInteger(value: String): String = value
+        public inline fun decodeDecimal(value: String): String = value
+        public inline fun decodeDouble(value: String): String = value
         public inline fun decodeBoolean(value: String): String = value
-        public inline fun encodeTyped(value: String, type: String): String = "$type^^$value"
         public inline fun decodeTyped(value: String): Pair<String, String> {
             var idx = value.indexOf("^^")
             return Pair(value.substring(idx + 2), value.substring(0, idx))
         }
 
-        public inline fun encodeLang(value: String, lang: String): String = "$lang@$value"
         public inline fun decodeLang(value: String): Pair<String, String> {
             var idx = value.indexOf("@")
             return Pair(value.substring(idx + 1), value.substring(0, idx))

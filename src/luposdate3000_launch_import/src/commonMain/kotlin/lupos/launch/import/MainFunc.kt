@@ -78,7 +78,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     }
 
     val iter = File(inputFileName).openInputStream()
-    if (inputFileName.endsWith(".n3")) {
+    if (inputFileName.endsWith(".n3") || inputFileName.endsWith(".ttl") || inputFileName.endsWith(".nt")) {
         val x = object : Turtle2Parser(iter) {
             override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                 for (i in 0 until 3) {
@@ -183,7 +183,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     }
     outDictionary.close()
     File("$inputFileName.stat").withOutputStream { out ->
-        out.println("total=$dictCounter")
+        out.println("total=$currentValue")
         for (t in 0 until ETripleComponentTypeExt.values_size) {
             out.println("${ETripleComponentTypeExt.names[t]}=${dictCounterByType[t]}")
         }
@@ -215,7 +215,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         val labels = arrayOf("s", "p", "o")
         val partitionSizes = intArrayOf(2, 4, 8, 16)
         val tripleBuf = LongArray(3)
-        val counters = Array(3) { LongArray(dictCounter.toInt()) }
+        val counters = Array(3) { LongArray(currentValue.toInt()) }
         val maxCounter = LongArray(3)
         outputTriplesFile.withInputStream { fis ->
             for (c in 0 until cnt) {
