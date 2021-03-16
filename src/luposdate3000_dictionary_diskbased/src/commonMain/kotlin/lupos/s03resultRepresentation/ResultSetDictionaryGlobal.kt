@@ -16,12 +16,9 @@
  */
 package lupos.s03resultRepresentation
 
-import lupos.fileformat.DictionaryIntermediate
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.MyBigDecimal
-import lupos.s00misc.MyBigInteger
 import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManager
 import lupos.s01io.BufferManagerExt
@@ -195,7 +192,7 @@ public class ResultSetDictionaryGlobal {
             var res = l
             SanityCheck {
                 if (res > left) {
-                    val it = readData(mappingID2Page[res - 1], mappingID2Off[res - 1]) )
+                    val it = readData(mappingID2Page[res - 1], mappingID2Off[res - 1])
                     SanityCheck.check { cmp(it, data) < 0 }
                 }
                 if (res <= right) {
@@ -273,6 +270,4 @@ public class ResultSetDictionaryGlobal {
         val res: Int = (ResultSetDictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
         return res
     }
-
-
 }
