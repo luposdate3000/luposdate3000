@@ -25,16 +25,12 @@ import lupos.s00misc.MyBigInteger
 import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManager
 import lupos.s01io.BufferManagerExt
-import kotlin.jvm.JvmField
 
 public val nodeGlobalDictionary: ResultSetDictionaryGlobal = ResultSetDictionaryGlobal()
 
 public class ResultSetDictionaryGlobal {
-    @JvmField
-    internal val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("dictionary")
-
-    @JvmField
-    internal var bNodeCounter = 5
+    private val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("dictionary")
+    private var bNodeCounter = 5
     private var lastPage: Int = 0
     private var lastPageBuf: ByteArray = ByteArray(0)
     private var lastPageOffset: Int = 0
@@ -51,15 +47,14 @@ public class ResultSetDictionaryGlobal {
         }
     }
 
-    private inline fun readString(page: Int, off: Int, crossinline action: (type: Int, s: String) -> Unit) {
+    private inline fun readData(page: Int, off: Int): ByteArray {
         var p = bufferManager.getPage(page)
         var pid = page
-        val type = ByteArrayHelper.readInt4(p, off)
-        val l = ByteArrayHelper.readInt4(p, off + 4)
+        val l = ByteArrayHelper.readInt4(p, off)
         val buf = ByteArray(l)
         var bufoff = 0
         var toread = l
-        var pageoff = off + 8
+        var pageoff = off + 4
         while (toread > 0) {
             var available = p.size - pageoff
             if (available == 0) {
@@ -81,10 +76,10 @@ public class ResultSetDictionaryGlobal {
             toread -= len
         }
         bufferManager.releasePage(pid)
-        action(type, buf.decodeToString())
+        return buf
     }
 
-    private inline fun writeString(type: Int, s: String, crossinline action: (page: Int, off: Int) -> Unit) {
+    private inline fun writeData(data: ByteArray, crossinline action: (page: Int, off: Int) -> Unit) {
         if (lastPageOffset >= lastPageBuf.size - 8) {
             bufferManager.createPage { page, id ->
                 ByteArrayHelper.writeInt4(lastPageBuf, 0, id)
@@ -96,12 +91,10 @@ public class ResultSetDictionaryGlobal {
         }
         var resPage = lastPage
         var resOff = lastPageOffset
-        val buf = s.encodeToByteArray()
-        ByteArrayHelper.writeInt4(lastPageBuf, lastPageOffset, type)
-        ByteArrayHelper.writeInt4(lastPageBuf, lastPageOffset + 4, buf.size)
-        lastPageOffset += 8
-        var bufoff = 0
-        var towrite = buf.size
+        ByteArrayHelper.writeInt4(lastPageBuf, lastPageOffset, data.size)
+        lastPageOffset += 4
+        var dataoff = 0
+        var towrite = data.size
         while (towrite > 0) {
             var available = lastPageBuf.size - lastPageOffset
             if (available == 0) {
@@ -119,24 +112,24 @@ public class ResultSetDictionaryGlobal {
             } else {
                 towrite
             }
-            buf.copyInto(lastPageBuf, lastPageOffset, bufoff, bufoff + len)
+            data.copyInto(lastPageBuf, lastPageOffset, dataoff, dataoff + len)
             towrite -= len
             lastPageOffset += len
-            bufoff += len
+            dataoff += len
         }
         action(resPage, resOff)
     }
 
-    internal inline fun writeValue(value: String, type: Int): Int {
+    public fun createValue(data: ByteArray): Int {
         var res = 0
-        hasValue(
-            value, type, 0, nextID - 1,
+        hasData(
+            data, 0, nextID - 1,
             onFound = {
                 res = it
             },
             onNotFound = {
                 res = nextID++
-                writeString(type, value) { page, off ->
+                writeData(data) { page, off ->
                     if (res >= mappingID2Page.size) {
                         var tmp = IntArray(mappingID2Page.size * 2)
                         mappingID2Page.copyInto(tmp)
@@ -162,57 +155,62 @@ public class ResultSetDictionaryGlobal {
         return res or ResultSetDictionaryShared.flaggedValueGlobal
     }
 
-    internal inline fun hasValue(value: String, type: Int, left: Int, right: Int, crossinline onFound: (Int/*the id to return*/) -> Unit, onNotFound: (Int/*the smallest index, which value is larger than the target*/) -> Unit) {
+    fun cmp(a: ByteArray, b: ByteArray): Int {
+        var t = 0
+        if (t == 0) {
+            t = d.size - data.size
+        }
+        var i = 0
+        while (t == 0 && i < d.size) {
+            t = d[i] - data[i]
+            i++
+        }
+        return t
+    }
+
+    private inline fun hasData(data: ByteArray, left: Int, right: Int, crossinline onFound: (Int/*the id to return*/) -> Unit, onNotFound: (Int/*the smallest index, which value is larger than the target*/) -> Unit) {
         var l = left
         var r = right
         var loop = true
         while (loop && r >= l) {
             var m = (r - l) / 2 + l
-            readString(mappingID2Page[m], mappingID2Off[m]) { t, s ->
-                if (t < type) {
-                    if (m == l) {
-                        m++
-                    }
-                    l = m
-                } else if (t > type) {
-                    if (m == r) {
-                        m--
-                    }
-                    r = m
-                } else if (s < value) {
-                    if (m == l) {
-                        m++
-                    }
-                    l = m
-                } else if (s > value) {
-                    if (m == r) {
-                        m--
-                    }
-                    r = m
-                } else {
-                    loop = false
-                    onFound(m)
+            val d = readData(mappingID2Page[m], mappingID2Off[m])
+            val t = cmp(d, data)
+            if (t < 0) {
+                if (m == l) {
+                    m++
                 }
+                l = m
+            } else if (t > 0) {
+                if (m == r) {
+                    m--
+                }
+                r = m
+            } else {
+                loop = false
+                onFound(m)
             }
         }
         if (r < l) {
             var res = l
             SanityCheck {
                 if (res > left) {
-                    readString(mappingID2Page[res - 1], mappingID2Off[res - 1]) { t, s -> SanityCheck.check { t < type || (t == type && s < value) } }
+                    val it = readData(mappingID2Page[res - 1], mappingID2Off[res - 1]) )
+                    SanityCheck.check { cmp(it, data) < 0 }
                 }
                 if (res <= right) {
-                    readString(mappingID2Page[res], mappingID2Off[res]) { t, s -> SanityCheck.check { t > type || (t == type && s > value) } }
+                    val it = readData(mappingID2Page[res], mappingID2Off[res])
+                    SanityCheck.check { cmp(it, data) > 0 }
                 }
             }
             onNotFound(res)
         }
     }
 
-    internal inline fun hasValue(value: String, type: Int): Int? {
+    public fun hasValue(data: ByteArray): Int? {
         var res: Int? = null
-        hasValue(
-            value, type, 0, nextID - 1,
+        hasData(
+            data, 0, nextID - 1,
             onFound = {
                 res = it
             },
@@ -225,11 +223,9 @@ public class ResultSetDictionaryGlobal {
         return res!! or ResultSetDictionaryShared.flaggedValueGlobal
     }
 
-    internal inline fun readValue(value: Int, crossinline action: (value: String, type: Int) -> Unit) {
+    public fun getValue(value: Int): ByteArray {
         val v = value and ResultSetDictionaryShared.filter2
-        readString(mappingID2Page[v], mappingID2Off[v]) { type, s ->
-            action(s, type)
-        }
+        return readData(mappingID2Page[v], mappingID2Off[v])
     }
 
     public fun debugAllDictionaryContent() {
@@ -257,7 +253,7 @@ public class ResultSetDictionaryGlobal {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun createTyped(value: String, type: Int): Int {
+    private inline fun createTyped(value: String, type: Int): Int {
         if (type == ETripleComponentTypeExt.BLANK_NODE) {
             return createNewBNode(value)
         } else {
@@ -278,243 +274,5 @@ public class ResultSetDictionaryGlobal {
         return res
     }
 
-    public fun createValue(value: String?): Int {
-        val res = createValue(ValueDefinition(value))
-        return res
-    }
 
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline fun createValue(value: ValueDefinition): Int {
-        val res: Int
-        when (value) {
-            is ValueUndef -> {
-                res = ResultSetDictionaryExt.undefValue
-            }
-            is ValueError -> {
-                res = ResultSetDictionaryExt.errorValue
-            }
-            is ValueBnode -> {
-                res = createNewBNode(value.value)
-            }
-            is ValueBoolean -> {
-                res = if (value.value) {
-                    ResultSetDictionaryExt.booleanTrueValue
-                } else {
-                    ResultSetDictionaryExt.booleanFalseValue
-                }
-            }
-            is ValueLanguageTaggedLiteral -> {
-                val tmp = DictionaryIntermediate.encodeLang(value.content, value.language)
-                res = writeValue(tmp, ETripleComponentTypeExt.STRING_LANG)
-            }
-            is ValueSimpleLiteral -> {
-                val tmp = DictionaryIntermediate.encodeString(value.content)
-                res = writeValue(tmp, ETripleComponentTypeExt.STRING)
-            }
-            is ValueTypedLiteral -> {
-                val tmp = DictionaryIntermediate.encodeTyped(value.content, value.type_iri)
-                res = writeValue(tmp, ETripleComponentTypeExt.STRING_TYPED)
-            }
-            is ValueDecimal -> {
-                val tmp = DictionaryIntermediate.encodeDecimal(value.value.toString())
-                res = writeValue(tmp, ETripleComponentTypeExt.DECIMAL)
-            }
-            is ValueDouble -> {
-                val tmp = DictionaryIntermediate.encodeDouble(value.value.toString())
-                res = writeValue(tmp, ETripleComponentTypeExt.DOUBLE)
-            }
-            is ValueFloat -> {
-                val tmp = DictionaryIntermediate.encodeTyped("\"${value.value}\"", "<http://www.w3.org/2001/XMLSchema#float>")
-                res = writeValue(tmp, ETripleComponentTypeExt.STRING_TYPED)
-            }
-            is ValueInteger -> {
-                val tmp = DictionaryIntermediate.encodeInteger("" + value.value)
-                res = writeValue(tmp, ETripleComponentTypeExt.INTEGER)
-            }
-            is ValueIri -> {
-                val tmp = DictionaryIntermediate.encodeIri("<${value.iri}>")
-                res = writeValue(tmp, ETripleComponentTypeExt.IRI)
-            }
-            is ValueDateTime -> {
-                val tmp = value.valueToString()
-                val tmp2 = DictionaryIntermediate.encodeTyped(tmp.substring(0, tmp.length - "^^<http://www.w3.org/2001/XMLSchema#dateTime>".length), "<http://www.w3.org/2001/XMLSchema#dateTime>")
-                res = writeValue(tmp2, ETripleComponentTypeExt.STRING_TYPED)
-            }
-        }
-        SanityCheck {
-            val tmp2 = getValue(res)
-            SanityCheck.check({ (value is ValueBnode && tmp2 is ValueBnode) || (value is ValueError && tmp2 is ValueError) || tmp2 == value || (value is ValueSimpleLiteral && tmp2 is ValueTypedLiteral && tmp2.type_iri == "http://www.w3.org/2001/XMLSchema#string" && tmp2.content == value.content) }, { "$value (${value.toSparql()}) -> ${res.toString(16)} -> $tmp2 (${tmp2.toSparql()})" })
-        }
-        return res
-    }
-
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline fun hasValue(value: ValueDefinition): Int? {
-        val res: Int?
-        when (value) {
-            is ValueUndef -> {
-                res = ResultSetDictionaryExt.undefValue
-            }
-            is ValueError -> {
-                res = ResultSetDictionaryExt.errorValue
-            }
-            is ValueBnode -> {
-                res = createNewBNode(value.value)
-            }
-            is ValueBoolean -> {
-                res = if (value.value) {
-                    ResultSetDictionaryExt.booleanTrueValue
-                } else {
-                    ResultSetDictionaryExt.booleanFalseValue
-                }
-            }
-            is ValueLanguageTaggedLiteral -> {
-                val tmp = DictionaryIntermediate.encodeLang(value.content, value.language)
-                res = hasValue(tmp, ETripleComponentTypeExt.STRING_LANG)
-            }
-            is ValueSimpleLiteral -> {
-                val tmp = DictionaryIntermediate.encodeString(value.content)
-                res = hasValue(tmp, ETripleComponentTypeExt.STRING)
-            }
-            is ValueTypedLiteral -> {
-                val tmp = DictionaryIntermediate.encodeTyped(value.content, value.type_iri)
-                res = hasValue(tmp, ETripleComponentTypeExt.STRING_TYPED)
-            }
-            is ValueDecimal -> {
-                val tmp = DictionaryIntermediate.encodeDecimal(value.value.toString())
-                res = hasValue(tmp, ETripleComponentTypeExt.DECIMAL)
-            }
-            is ValueDouble -> {
-                val tmp = DictionaryIntermediate.encodeDouble(value.value.toString())
-                res = hasValue(tmp, ETripleComponentTypeExt.DOUBLE)
-            }
-            is ValueFloat -> {
-                val tmp = DictionaryIntermediate.encodeTyped("\"${value.value}\"", "<http://www.w3.org/2001/XMLSchema#float>")
-                res = hasValue(tmp, ETripleComponentTypeExt.STRING_TYPED)
-            }
-            is ValueInteger -> {
-                val tmp = DictionaryIntermediate.encodeInteger("" + value.value)
-                res = hasValue(tmp, ETripleComponentTypeExt.INTEGER)
-            }
-            is ValueIri -> {
-                val tmp = DictionaryIntermediate.encodeIri("<${value.iri}>")
-                res = hasValue(tmp, ETripleComponentTypeExt.IRI)
-            }
-            is ValueDateTime -> {
-                val tmp = value.valueToString()
-                val tmp2 = DictionaryIntermediate.encodeTyped(tmp.substring(0, tmp.length - "^^<http://www.w3.org/2001/XMLSchema#dateTime>".length), "<http://www.w3.org/2001/XMLSchema#dateTime>")
-                res = hasValue(tmp2, ETripleComponentTypeExt.STRING_TYPED)
-            }
-        }
-        return res
-    }
-
-    public fun getValue(value: Int): ValueDefinition {
-        var res: ValueDefinition
-
-        if (value and ResultSetDictionaryShared.mask2 == ResultSetDictionaryShared.flaggedValueLocalBnode) {
-            when (value) {
-                0 -> {
-                    res = ResultSetDictionaryExt.booleanTrueValue2
-                }
-                1 -> {
-                    res = ResultSetDictionaryExt.booleanFalseValue2
-                }
-                2 -> {
-                    res = ResultSetDictionaryExt.errorValue2
-                }
-                3 -> {
-                    res = ResultSetDictionaryExt.undefValue2
-                }
-                else -> {
-                    res = ValueBnode(ResultSetDictionaryShared.emptyString + value)
-                }
-            }
-        } else {
-            res = ResultSetDictionaryExt.errorValue2
-            readValue(value) { value, type ->
-                when (type) {
-                    ETripleComponentTypeExt.DECIMAL -> res = ValueDecimal(MyBigDecimal(DictionaryIntermediate.decodeDecimal(value)))
-                    ETripleComponentTypeExt.DOUBLE -> res = ValueDouble(DictionaryIntermediate.decodeDouble(value).toDouble())
-                    ETripleComponentTypeExt.INTEGER -> res = ValueInteger(MyBigInteger(DictionaryIntermediate.decodeInteger(value)))
-                    ETripleComponentTypeExt.IRI -> res = ValueIri(DictionaryIntermediate.decodeIri(value))
-                    ETripleComponentTypeExt.STRING -> {
-                        val tmp = DictionaryIntermediate.decodeString(value)
-                        res = ValueSimpleLiteral("\"", tmp.substring(1, tmp.length - 1))
-                    }
-                    ETripleComponentTypeExt.STRING_LANG -> {
-                        val tmp = DictionaryIntermediate.decodeLang(value)
-                        res = ValueLanguageTaggedLiteral("\"", tmp.first.substring(1, tmp.first.length - 1), tmp.second)
-                    }
-                    ETripleComponentTypeExt.STRING_TYPED -> {
-                        val tmp = DictionaryIntermediate.decodeTyped(value)
-                        res = ValueTypedLiteral("\"", tmp.first.substring(1, tmp.first.length - 1), tmp.second.substring(1, tmp.second.length - 1))
-                    }
-                    else -> throw Exception("unexpected type $type")
-                }
-            }
-            if (res == ResultSetDictionaryExt.errorValue2) {
-                throw Exception("action not called")
-            }
-        }
-        return res
-    }
-
-    internal inline fun getValue(
-        value: Int,
-        onBNode: (value: Int) -> Unit,
-        onBoolean: (value: Boolean) -> Unit,
-        onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
-        onSimpleLiteral: (content: String) -> Unit,
-        onTypedLiteral: (content: String, type: String) -> Unit,
-        onDecimal: (value: String) -> Unit,
-        onFloat: (value: Double) -> Unit,
-        onDouble: (value: Double) -> Unit,
-        onInteger: (value: String) -> Unit,
-        onIri: (value: String) -> Unit,
-        onError: () -> Unit,
-        onUndefined: () -> Unit
-    ) {
-        if (value and ResultSetDictionaryShared.mask2 == ResultSetDictionaryShared.flaggedValueLocalBnode) {
-            when (value) {
-                0 -> {
-                    onBoolean(true)
-                }
-                1 -> {
-                    onBoolean(false)
-                }
-                2 -> {
-                    onError()
-                }
-                3 -> {
-                    onUndefined()
-                }
-                else -> {
-                    onBNode(value)
-                }
-            }
-        } else {
-            readValue(value) { value, type ->
-                when (type) {
-                    ETripleComponentTypeExt.DECIMAL -> onDecimal(DictionaryIntermediate.decodeDecimal(value))
-                    ETripleComponentTypeExt.DOUBLE -> onDouble(DictionaryIntermediate.decodeDouble(value).toDouble())
-                    ETripleComponentTypeExt.INTEGER -> onInteger(DictionaryIntermediate.decodeInteger(value))
-                    ETripleComponentTypeExt.IRI -> onIri(DictionaryIntermediate.decodeIri(value))
-                    ETripleComponentTypeExt.STRING -> {
-                        val tmp = DictionaryIntermediate.decodeString(value)
-                        onSimpleLiteral(tmp.substring(1, tmp.length - 1))
-                    }
-                    ETripleComponentTypeExt.STRING_LANG -> {
-                        val tmp = DictionaryIntermediate.decodeLang(value)
-                        onLanguageTaggedLiteral(tmp.first.substring(1, tmp.first.length - 1), tmp.second)
-                    }
-                    ETripleComponentTypeExt.STRING_TYPED -> {
-                        val tmp = DictionaryIntermediate.decodeTyped(value)
-                        onTypedLiteral(tmp.first.substring(1, tmp.first.length - 1), tmp.second.substring(1, tmp.second.length - 1))
-                    }
-                    else -> throw Exception("unexpected type $type")
-                }
-            }
-        }
-    }
 }
