@@ -51,7 +51,7 @@ public class ResultSetDictionaryGlobal {
             val i = if (type == ETripleComponentTypeExt.BLANK_NODE) {
                 createNewBNode(value)
             } else {
-                kv.createValue(ResultSetDictionaryHelper.intermediateToByteArray(value, type))
+                kv.createValue(ResultSetDictionaryHelper.intermediateToByteArray(value, type)) or ResultSetDictionaryShared.flaggedValueGlobal
             }
             SanityCheck.check { lastId == id - 1 }
             lastId = id
@@ -75,7 +75,7 @@ public class ResultSetDictionaryGlobal {
     }
 
     public fun getValue(value: Int): ValueDefinition {
-        val tmp = kv.getValue(value)
+        val tmp = kv.getValue(value and ResultSetDictionaryShared.filter2)
         return ResultSetDictionaryHelper.byteArrayToValueDefinition(tmp)
     }
 
@@ -94,19 +94,19 @@ public class ResultSetDictionaryGlobal {
         onError: () -> Unit,
         onUndefined: () -> Unit
     ) {
-        val tmp = kv.getValue(value)
+        val tmp = kv.getValue(value and ResultSetDictionaryShared.filter2)
         ResultSetDictionaryHelper.byteArrayToCallback(value, tmp, onBNode, onBoolean, onLanguageTaggedLiteral, onSimpleLiteral, onTypedLiteral, onDecimal, onFloat, onDouble, onInteger, onIri, onError, onUndefined)
     }
 
     public fun createValue(value: String?): Int {
-        return kv.createValue(ResultSetDictionaryHelper.valueToByteArray(value))
+        return kv.createValue(ResultSetDictionaryHelper.valueToByteArray(value)) or ResultSetDictionaryShared.flaggedValueGlobal
     }
 
     internal inline fun createValue(value: ValueDefinition): Int {
-        return kv.createValue(ResultSetDictionaryHelper.valueToByteArray(value))
+        return kv.createValue(ResultSetDictionaryHelper.valueToByteArray(value)) or ResultSetDictionaryShared.flaggedValueGlobal
     }
 
     internal inline fun hasValue(value: ValueDefinition): Int? {
-        return kv.hasValue(ResultSetDictionaryHelper.valueToByteArray(value))
+        return kv.hasValue(ResultSetDictionaryHelper.valueToByteArray(value)) or ResultSetDictionaryShared.flaggedValueGlobal
     }
 }

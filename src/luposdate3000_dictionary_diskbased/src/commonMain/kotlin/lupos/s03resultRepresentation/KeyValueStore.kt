@@ -113,41 +113,6 @@ public class KeyValueStore {
         action(resPage, resOff)
     }
 
-    public fun createValue(data: ByteArray): Int {
-        var res = 0
-        hasData(
-            data, 0, nextID - 1,
-            onFound = {
-                res = it
-            },
-            onNotFound = {
-                res = nextID++
-                writeData(data) { page, off ->
-                    if (res >= mappingID2Page.size) {
-                        var tmp = IntArray(mappingID2Page.size * 2)
-                        mappingID2Page.copyInto(tmp)
-                        mappingID2Page = tmp
-                        tmp = IntArray(mappingID2Off.size * 2)
-                        mappingID2Off.copyInto(tmp)
-                        mappingID2Off = tmp
-                        tmp = IntArray(mappingSorted.size * 2)
-                        mappingSorted.copyInto(tmp)
-                        mappingSorted = tmp
-                    }
-                    mappingID2Page[res] = page
-                    mappingID2Off[res] = off
-                    var i = res
-                    while (i > it) {
-                        mappingSorted[i] = mappingSorted[i - 1]
-                        i--
-                    }
-                    mappingSorted[i] = res
-                }
-            }
-        )
-        return res or ResultSetDictionaryShared.flaggedValueGlobal
-    }
-
     private fun cmp(a: ByteArray, b: ByteArray): Int {
         var t = 0
         if (t == 0) {
@@ -200,6 +165,41 @@ public class KeyValueStore {
         }
     }
 
+    public fun createValue(data: ByteArray): Int {
+        var res = 0
+        hasData(
+            data, 0, nextID - 1,
+            onFound = {
+                res = it
+            },
+            onNotFound = {
+                res = nextID++
+                writeData(data) { page, off ->
+                    if (res >= mappingID2Page.size) {
+                        var tmp = IntArray(mappingID2Page.size * 2)
+                        mappingID2Page.copyInto(tmp)
+                        mappingID2Page = tmp
+                        tmp = IntArray(mappingID2Off.size * 2)
+                        mappingID2Off.copyInto(tmp)
+                        mappingID2Off = tmp
+                        tmp = IntArray(mappingSorted.size * 2)
+                        mappingSorted.copyInto(tmp)
+                        mappingSorted = tmp
+                    }
+                    mappingID2Page[res] = page
+                    mappingID2Off[res] = off
+                    var i = res
+                    while (i > it) {
+                        mappingSorted[i] = mappingSorted[i - 1]
+                        i--
+                    }
+                    mappingSorted[i] = res
+                }
+            }
+        )
+        return res
+    }
+
     public fun hasValue(data: ByteArray): Int? {
         var res: Int? = null
         hasData(
@@ -210,14 +210,10 @@ public class KeyValueStore {
             onNotFound = {
             }
         )
-        if (res == null) {
-            return null
-        }
-        return res!! or ResultSetDictionaryShared.flaggedValueGlobal
+        return res
     }
 
     public fun getValue(value: Int): ByteArray {
-        val v = value and ResultSetDictionaryShared.filter2
-        return readData(mappingID2Page[v], mappingID2Off[v])
+        return readData(mappingID2Page[value], mappingID2Off[value])
     }
 }
