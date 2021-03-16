@@ -131,15 +131,15 @@ public class ResultSetDictionaryGlobal {
                 }
             }
             is ValueLanguageTaggedLiteral -> {
-                val tmp = DictionaryIntermediate.encodeLang("\"${value.content}\"", value.language)
+                val tmp = DictionaryIntermediate.encodeLang(value.content, value.language)
                 res = writeValue(tmp, ETripleComponentTypeExt.STRING_LANG)
             }
             is ValueSimpleLiteral -> {
-                val tmp = DictionaryIntermediate.encodeString("\"${value.content}\"")
+                val tmp = DictionaryIntermediate.encodeString(value.content)
                 res = writeValue(tmp, ETripleComponentTypeExt.STRING)
             }
             is ValueTypedLiteral -> {
-                val tmp = DictionaryIntermediate.encodeTyped("\"${value.content}\"", "<${value.type_iri}>")
+                val tmp = DictionaryIntermediate.encodeTyped(value.content, value.type_iri)
                 res = writeValue(tmp, ETripleComponentTypeExt.STRING_TYPED)
             }
             is ValueDecimal -> {
@@ -196,15 +196,15 @@ public class ResultSetDictionaryGlobal {
                 }
             }
             is ValueLanguageTaggedLiteral -> {
-                val tmp = DictionaryIntermediate.encodeLang("\"${value.content}\"", value.language)
+                val tmp = DictionaryIntermediate.encodeLang(value.content, value.language)
                 res = hasValue(tmp, ETripleComponentTypeExt.STRING_LANG)
             }
             is ValueSimpleLiteral -> {
-                val tmp = DictionaryIntermediate.encodeString("\"${value.content}\"")
+                val tmp = DictionaryIntermediate.encodeString(value.content)
                 res = hasValue(tmp, ETripleComponentTypeExt.STRING)
             }
             is ValueTypedLiteral -> {
-                val tmp = DictionaryIntermediate.encodeTyped("\"${value.content}\"", "<${value.type_iri}>")
+                val tmp = DictionaryIntermediate.encodeTyped(value.content, value.type_iri)
                 res = hasValue(tmp, ETripleComponentTypeExt.STRING_TYPED)
             }
             is ValueDecimal -> {
@@ -331,7 +331,7 @@ public class ResultSetDictionaryGlobal {
                     }
                     ETripleComponentTypeExt.STRING_TYPED -> {
                         val tmp = DictionaryIntermediate.decodeTyped(value)
-                        onTypedLiteral(tmp.first, tmp.second)
+                        onTypedLiteral(tmp.first.substring(1, tmp.first.length - 1), tmp.second.substring(1, tmp.second.length - 1))
                     }
                     else -> throw Exception("unexpected type $type")
                 }

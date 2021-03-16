@@ -63,8 +63,8 @@ public abstract class DictionaryIntermediate(internal val filename: String) {
         public inline fun encodeDecimal(value: String): String = value
         public inline fun encodeDouble(value: String): String = value
         public inline fun encodeBoolean(value: String): String = value
-        public inline fun encodeTyped(value: String, type: String): String = "$type^^$value" /**/
-        public inline fun encodeLang(value: String, lang: String): String = "$lang@$value" /**/
+        public inline fun encodeTyped(value: String, type: String): String = "$type^^$value" /*input value includes '<' and '>' as well as '"' and '"' */
+        public inline fun encodeLang(value: String, lang: String): String = "$lang@$value" /*input value includes '"' and '"'*/
 
         // decode* encoding in file -> split as expected by dictionary
         public inline fun decodeIri(value: String): String = value.substring(1, value.length - 1)
