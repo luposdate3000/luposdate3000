@@ -21,7 +21,7 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -199,7 +199,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
         if (emptyColumnsWithJoin) {
             res = object : IteratorBundle(0) {
                 override /*suspend*/ fun hasNext2(): Boolean {
-                    return columnsOUTJ[0].next() != ResultSetDictionaryExt.nullValue
+                    return columnsOUTJ[0].next() != DictionaryExt.nullValue
                 }
 
                 override /*suspend*/ fun hasNext2Close() {
@@ -219,12 +219,12 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ internal inline fun sameElements(key: IntArray, keyCopy: IntArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<Int>>): Int {
-        SanityCheck.check { keyCopy[0] != ResultSetDictionaryExt.nullValue }
+        SanityCheck.check { keyCopy[0] != DictionaryExt.nullValue }
         for (i in 0 until columnsINJ.size) {
             if (key[i] != keyCopy[i]) {
                 /* this is an optional element without a match */
                 for (j in 0 until columnsINO.size) {
-                    data[j].add(ResultSetDictionaryExt.undefValue)
+                    data[j].add(DictionaryExt.undefValue)
                 }
                 return 1
             }
@@ -238,7 +238,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
             }
             for (i in 0 until columnsINJ.size) {
                 key[i] = columnsINJ[i].next()
-                SanityCheck.check { key[i] != ResultSetDictionaryExt.undefValue }
+                SanityCheck.check { key[i] != DictionaryExt.undefValue }
             }
             for (i in 0 until columnsINJ.size) {
                 if (key[i] != keyCopy[i]) {
@@ -251,7 +251,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ internal inline fun findNextKey(key: Array<IntArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
-        if (key[0][0] != ResultSetDictionaryExt.nullValue && key[1][0] != ResultSetDictionaryExt.nullValue) {
+        if (key[0][0] != DictionaryExt.nullValue && key[1][0] != DictionaryExt.nullValue) {
             loop@ while (true) {
                 for (i in 0 until columnsINJ[0].size) {
                     val a = key[0][i]
@@ -262,8 +262,8 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
                         }
                         for (j in 0 until columnsINJ[1].size) {
                             key[1][j] = columnsINJ[1][j].next()
-                            SanityCheck.check { key[1][j] != ResultSetDictionaryExt.undefValue }
-                            if (key[1][j] == ResultSetDictionaryExt.nullValue) {
+                            SanityCheck.check { key[1][j] != DictionaryExt.undefValue }
+                            if (key[1][j] == DictionaryExt.nullValue) {
                                 SanityCheck.check { j == 0 }
                                 break@loop
                             }
@@ -274,7 +274,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
                 break@loop
             }
         }
-        return key[0][0] == ResultSetDictionaryExt.nullValue
+        return key[0][0] == DictionaryExt.nullValue
     }
 
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("optional", "" + optional)

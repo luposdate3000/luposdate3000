@@ -16,7 +16,7 @@
  */
 package lupos.s04logicalOperators.iterator
 
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import kotlin.jvm.JvmField
 
 public class ColumnIteratorMultiIterator(@JvmField public val childs: List<ColumnIterator>) : ColumnIterator() {
@@ -43,15 +43,15 @@ public class ColumnIteratorMultiIterator(@JvmField public val childs: List<Colum
     override /*suspend*/ fun next(): Int {
         return if (label == 1) {
             var res = childs[index].next()
-            while (res == ResultSetDictionaryExt.nullValue && ++index < childs.size) {
+            while (res == DictionaryExt.nullValue && ++index < childs.size) {
                 res = childs[index].next()
             }
-            if (res == ResultSetDictionaryExt.nullValue) {
+            if (res == DictionaryExt.nullValue) {
                 _close()
             }
             res
         } else {
-            ResultSetDictionaryExt.nullValue
+            DictionaryExt.nullValue
         }
     }
 }

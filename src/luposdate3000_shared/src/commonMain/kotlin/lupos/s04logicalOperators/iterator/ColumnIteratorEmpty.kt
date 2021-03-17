@@ -16,11 +16,11 @@
  */
 package lupos.s04logicalOperators.iterator
 
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 
 public open class ColumnIteratorEmpty : ColumnIterator() {
     override /*suspend*/ fun next(): Int {
-        return ResultSetDictionaryExt.nullValue
+        return DictionaryExt.nullValue
     }
 
     override /*suspend*/ fun close() {

@@ -19,7 +19,7 @@ package lupos.s04arithmetikOperators.noinput
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
@@ -40,7 +40,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
         val tmp = row.columns[name]
         return if (tmp == null) {
             {
-                ResultSetDictionaryExt.undefValue2
+                DictionaryExt.undefValue2
             }
         } else {
             SanityCheck.check { tmp is ColumnIteratorQueue }
@@ -55,7 +55,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
         val tmp = row.columns[name]
         return if (tmp == null) {
             {
-                ResultSetDictionaryExt.undefValue
+                DictionaryExt.undefValue
             }
         } else {
             SanityCheck.check { tmp is ColumnIteratorQueue }
@@ -89,7 +89,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
 
     public override fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase {
         if (this.name == name) {
-            return AOPConstant(query, ResultSetDictionaryExt.undefValue2)
+            return AOPConstant(query, DictionaryExt.undefValue2)
         }
         for (i in this.getChildren().indices) {
             this.getChildren()[i] = this.getChildren()[i].replaceVariableWithUndef(name, existsClauses)

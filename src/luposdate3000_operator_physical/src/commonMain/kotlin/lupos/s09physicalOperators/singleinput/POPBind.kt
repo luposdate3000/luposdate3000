@@ -21,7 +21,7 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError
 import lupos.s04arithmetikOperators.AOPBase
@@ -48,7 +48,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
     }
 
     override fun toSparql(): String {
-        if (children[1] is AOPConstant && (children[1] as AOPConstant).value == ResultSetDictionaryExt.undefValue) {
+        if (children[1] is AOPConstant && (children[1] as AOPConstant).value == DictionaryExt.undefValue) {
             return children[0].toSparql()
         }
         var res = "{SELECT "
@@ -101,7 +101,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
                                 for (variableIndex2 in variablesLocal.indices) {
                                     if (boundIndex != variableIndex2) {
                                         val value = columnsIn[variableIndex2]!!.next()
-                                        if (value == ResultSetDictionaryExt.nullValue) {
+                                        if (value == DictionaryExt.nullValue) {
                                             SanityCheck.check { variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1) }
                                             for (variableIndex3 in 0 until variablesLocal.size) {
                                                 ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])

@@ -19,8 +19,8 @@ package lupos.s16network
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.IResultSetDictionary
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
+import lupos.s03resultRepresentation.IDictionary
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDateTime
@@ -37,7 +37,7 @@ import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s03resultRepresentation.ValueUndef
 import kotlin.jvm.JvmField
 
-internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream) : IResultSetDictionary {
+internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream) : IDictionary {
     public override fun valueToGlobal(value: Int): Int {
         output.writeInt(3)
         output.writeInt(value)
@@ -62,7 +62,7 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
 
     public override fun createValue(value: String?): Int {
         if (value == null) {
-            return ResultSetDictionaryExt.undefValue
+            return DictionaryExt.undefValue
         } else {
             output.writeInt(1)
             val buf = value.encodeToByteArray()
@@ -76,10 +76,10 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
     public override fun createValue(value: ValueDefinition): Int {
         when (value) {
             is ValueUndef -> {
-                return ResultSetDictionaryExt.undefValue
+                return DictionaryExt.undefValue
             }
             is ValueError -> {
-                return ResultSetDictionaryExt.errorValue
+                return DictionaryExt.errorValue
             }
             else -> {
                 output.writeInt(1)

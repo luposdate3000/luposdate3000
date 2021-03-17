@@ -24,8 +24,8 @@ import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.communicationHandler
-import lupos.s03resultRepresentation.IResultSetDictionary
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
+import lupos.s03resultRepresentation.IDictionary
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -36,12 +36,12 @@ import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
 public object QueryResultToEmptyStream {
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyOutputStream) {
+    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream) {
         val rowBuf = IntArray(variables.size)
         loop@ while (true) {
             for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
-                if (valueID == ResultSetDictionaryExt.nullValue) {
+                if (valueID == DictionaryExt.nullValue) {
                     break@loop
                 }
                 rowBuf[variableIndex] = valueID

@@ -23,7 +23,7 @@ import lupos.s00misc.ParallelCondition
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -158,7 +158,7 @@ public class POPMergePartition public constructor(query: IQuery, projectedVariab
                                         break@loop
                                     }
                                     val tmp = childIterator.next()
-                                    if (tmp == ResultSetDictionaryExt.nullValue) {
+                                    if (tmp == DictionaryExt.nullValue) {
                                         break@loop
                                     } else {
                                         ringbuffer[ringbufferWriteHead[p] + ringbufferStart[p]] = tmp
@@ -181,7 +181,7 @@ public class POPMergePartition public constructor(query: IQuery, projectedVariab
                                         break@loop
                                     }
                                     val tmp = variableMapping[0].next()
-                                    if (tmp == ResultSetDictionaryExt.nullValue) {
+                                    if (tmp == DictionaryExt.nullValue) {
                                         for (variable in 0 until variables.size) {
                                             variableMapping[variable].close()
                                         }

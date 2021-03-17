@@ -18,7 +18,7 @@ package lupos.s05tripleStore.index_IDTriple
 
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import kotlin.jvm.JvmField
 
 internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock) {
@@ -52,12 +52,12 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
                     }
                     if (value0 > prefix[0]) {
                         _close()
-                        return ResultSetDictionaryExt.nullValue
+                        return DictionaryExt.nullValue
                     } else {
                         done = value0 == prefix[0]
                         updateRemaining {
                             if (!done) {
-                                value2 = ResultSetDictionaryExt.nullValue
+                                value2 = DictionaryExt.nullValue
                             }
                             done = true
                         }
@@ -80,14 +80,14 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
                 }
                 if (value0 > prefix[0]) {
                     _close()
-                    return ResultSetDictionaryExt.nullValue
+                    return DictionaryExt.nullValue
                 } else {
                     updateRemaining()
                 }
                 return value2
             }
             else -> {
-                return ResultSetDictionaryExt.nullValue
+                return DictionaryExt.nullValue
             }
         }
     }
@@ -123,7 +123,7 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
                 if (value0 > prefix[0]) {
                     _close()
                     result[0] = 0
-                    result[1] = ResultSetDictionaryExt.nullValue
+                    result[1] = DictionaryExt.nullValue
                     return
                 }
                 if (value2 >= minValue) {
@@ -192,7 +192,7 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
                 if (value0 > prefix[0]) {
                     _close()
                     result[0] = 0
-                    result[1] = ResultSetDictionaryExt.nullValue
+                    result[1] = DictionaryExt.nullValue
                     return
                 } else {
                     updateRemaining()
@@ -205,10 +205,10 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
             }
             _close()
             result[0] = 0
-            result[1] = ResultSetDictionaryExt.nullValue
+            result[1] = DictionaryExt.nullValue
         } else {
             result[0] = 0
-            result[1] = ResultSetDictionaryExt.nullValue
+            result[1] = DictionaryExt.nullValue
         }
     }
 
@@ -279,11 +279,11 @@ internal class NodeLeafColumnIteratorPrefix12(node: ByteArray, nodeid: Int, pref
             if (value0 > prefix[0]) {
 // this must not happen?!?
                 _close()
-                return ResultSetDictionaryExt.nullValue
+                return DictionaryExt.nullValue
             }
             return value2
         } else {
-            return ResultSetDictionaryExt.nullValue
+            return DictionaryExt.nullValue
         }
     }
 }

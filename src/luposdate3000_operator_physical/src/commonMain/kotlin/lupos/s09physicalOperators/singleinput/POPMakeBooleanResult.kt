@@ -20,7 +20,7 @@ import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -53,7 +53,7 @@ public class POPMakeBooleanResult public constructor(query: IQuery, projectedVar
         } else {
             val child = children[0].evaluate(parent)
             if (variables.isNotEmpty()) {
-                flag = child.columns[variables[0]]!!.next() != ResultSetDictionaryExt.nullValue
+                flag = child.columns[variables[0]]!!.next() != DictionaryExt.nullValue
                 for (variable in variables) {
                     child.columns[variable]!!.close()
                 }

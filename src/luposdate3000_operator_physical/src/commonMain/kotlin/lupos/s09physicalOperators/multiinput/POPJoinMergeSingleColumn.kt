@@ -21,7 +21,7 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -77,7 +77,7 @@ public class POPJoinMergeSingleColumn public constructor(query: IQuery, projecte
         val outMap = mutableMapOf<String, ColumnIterator>()
         val a = child0.next()
         val b = child1.next()
-        if (a != ResultSetDictionaryExt.nullValue && b != ResultSetDictionaryExt.nullValue) {
+        if (a != DictionaryExt.nullValue && b != DictionaryExt.nullValue) {
             outMap[projectedVariables[0]] = POPJoinMergeSingleColumn_Iterator(child0, child1, a, b)
         } else {
             outMap[projectedVariables[0]] = ColumnIteratorEmpty()

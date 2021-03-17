@@ -20,7 +20,7 @@ import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.REPLACE_STORE_WITH_VALUES
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.communicationHandler
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
@@ -95,7 +95,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     val iterator = columns[variables[0]]!!
                     while (i < data.size) {
                         val t = iterator.next()
-                        if (t != ResultSetDictionaryExt.nullValue) {
+                        if (t != DictionaryExt.nullValue) {
                             data[i] = t
                             i++
                         } else {

@@ -16,7 +16,7 @@
  */
 package lupos.s04logicalOperators.iterator
 
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import kotlin.jvm.JvmField
 
 public abstract class ColumnIteratorChildIterator : ColumnIterator() {
@@ -87,7 +87,7 @@ public abstract class ColumnIteratorChildIterator : ColumnIterator() {
             1 -> {
                 while (queueRead < queueWrite) {
                     val res = queue[queueRead].next()
-                    if (res == ResultSetDictionaryExt.nullValue) {
+                    if (res == DictionaryExt.nullValue) {
                         releaseValue(queue[queueRead])
                         queueRead++
                     } else {
@@ -97,10 +97,10 @@ public abstract class ColumnIteratorChildIterator : ColumnIterator() {
                 onNoMoreElements()
                 return if (queueRead == queueWrite) {
                     onClose()
-                    ResultSetDictionaryExt.nullValue
+                    DictionaryExt.nullValue
                 } else {
                     val res = queue[queueRead].next()
-                    if (res == ResultSetDictionaryExt.nullValue) {
+                    if (res == DictionaryExt.nullValue) {
                         onClose()
                     }
                     res
@@ -109,7 +109,7 @@ public abstract class ColumnIteratorChildIterator : ColumnIterator() {
             2 -> {
                 while (queueRead < queueWrite) {
                     val res = queue[queueRead].next()
-                    if (res == ResultSetDictionaryExt.nullValue) {
+                    if (res == DictionaryExt.nullValue) {
                         releaseValue(queue[queueRead])
                         queueRead++
                     } else {
@@ -117,10 +117,10 @@ public abstract class ColumnIteratorChildIterator : ColumnIterator() {
                     }
                 }
                 onClose()
-                return ResultSetDictionaryExt.nullValue
+                return DictionaryExt.nullValue
             }
             else -> {
-                return ResultSetDictionaryExt.nullValue
+                return DictionaryExt.nullValue
             }
         }
     }

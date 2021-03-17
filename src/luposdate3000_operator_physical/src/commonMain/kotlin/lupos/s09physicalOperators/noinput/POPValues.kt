@@ -21,7 +21,7 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04logicalOperators.IQuery
@@ -54,7 +54,7 @@ public open class POPValues : POPBase {
             for (i in 0 until columns[0]!!.size) {
                 res += "("
                 for (v in variables.indices) {
-                    res += if (columns[v]!![i] == ResultSetDictionaryExt.undefValue) {
+                    res += if (columns[v]!![i] == DictionaryExt.undefValue) {
                         "UNDEF "
                     } else {
                         query.getDictionary().getValue(columns[v]!![i]).valueToString() + " "

@@ -21,7 +21,7 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.NotImplementedException
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -85,7 +85,7 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                                         for (variableIndex2 in variables.indices) {
                                             columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
                                             // point each iterator to the current value
-                                            if (columnsLocal[variableIndex2].tmp == ResultSetDictionaryExt.nullValue) {
+                                            if (columnsLocal[variableIndex2].tmp == DictionaryExt.nullValue) {
                                                 SanityCheck.check { variableIndex2 == 0 }
                                                 for (v in child.columns.values) {
                                                     v.close()
@@ -162,7 +162,7 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                                     for (variableIndex2 in variables.indices) {
                                         columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
                                         // point each iterator to the current value
-                                        if (columnsLocal[variableIndex2].tmp == ResultSetDictionaryExt.nullValue) {
+                                        if (columnsLocal[variableIndex2].tmp == DictionaryExt.nullValue) {
                                             for (v in child.columns.values) {
                                                 v.close()
                                             }

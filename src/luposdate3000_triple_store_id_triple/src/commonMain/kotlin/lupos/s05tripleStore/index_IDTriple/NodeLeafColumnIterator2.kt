@@ -18,7 +18,7 @@ package lupos.s05tripleStore.index_IDTriple
 
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import kotlin.jvm.JvmField
 
 internal class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: MyReadWriteLock) : NodeLeafColumnIterator(node, nodeid, lock) {
@@ -40,7 +40,7 @@ internal class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: MyRea
             updateRemaining()
             value
         } else {
-            ResultSetDictionaryExt.nullValue
+            DictionaryExt.nullValue
         }
     }
 
@@ -126,10 +126,10 @@ internal class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: MyRea
                 }
             }
             result[0] = 0
-            result[1] = ResultSetDictionaryExt.nullValue
+            result[1] = DictionaryExt.nullValue
         } else {
             result[0] = 0
-            result[1] = ResultSetDictionaryExt.nullValue
+            result[1] = DictionaryExt.nullValue
         }
     }
 
@@ -157,7 +157,7 @@ internal class NodeLeafColumnIterator2(node: ByteArray, nodeid: Int, lock: MyRea
             }
             return value
         } else {
-            return ResultSetDictionaryExt.nullValue
+            return DictionaryExt.nullValue
         }
     }
 }

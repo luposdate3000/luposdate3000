@@ -16,4 +16,4 @@
  */
 package lupos.s03resultRepresentation
 
-internal typealias ResultSetDictionaryExt = lupos.modulename._ResultSetDictionaryExt
+internal typealias DictionaryExt = lupos.modulename._DictionaryExt

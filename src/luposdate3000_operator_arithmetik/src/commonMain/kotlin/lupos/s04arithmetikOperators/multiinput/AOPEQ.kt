@@ -18,8 +18,8 @@ package lupos.s04arithmetikOperators.multiinput
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.Luposdate3000Exception
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
-import lupos.s03resultRepresentation.ResultSetDictionaryShared
+import lupos.s03resultRepresentation.DictionaryExt
+import lupos.s03resultRepresentation.DictionaryShared
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
@@ -33,23 +33,23 @@ public class AOPEQ public constructor(query: IQuery, childA: AOPBase, childB: AO
         val childA = (children[0] as AOPBase).evaluateID(row)
         val childB = (children[1] as AOPBase).evaluateID(row)
         return {
-            var res: ValueDefinition = ResultSetDictionaryExt.booleanTrueValue2
+            var res: ValueDefinition = DictionaryExt.booleanTrueValue2
             val a1 = childA()
             val b1 = childB()
             if (a1 != b1) {
-                if (ResultSetDictionaryShared.isGlobalBNode(a1) || ResultSetDictionaryShared.isGlobalBNode(b1)) {
-                    res = ResultSetDictionaryExt.booleanFalseValue2
+                if (DictionaryShared.isGlobalBNode(a1) || DictionaryShared.isGlobalBNode(b1)) {
+                    res = DictionaryExt.booleanFalseValue2
                 } else {
                     val a = query.getDictionary().getValue(a1)
                     val b = query.getDictionary().getValue(b1)
                     try {
                         if (a != b) {
-                            res = ResultSetDictionaryExt.booleanFalseValue2
+                            res = DictionaryExt.booleanFalseValue2
                         }
                     } catch (e: Luposdate3000Exception) {
-                        res = ResultSetDictionaryExt.errorValue2
+                        res = DictionaryExt.errorValue2
                     } catch (e: Throwable) {
-                        res = ResultSetDictionaryExt.errorValue2
+                        res = DictionaryExt.errorValue2
                         e.printStackTrace()
                     }
                 }

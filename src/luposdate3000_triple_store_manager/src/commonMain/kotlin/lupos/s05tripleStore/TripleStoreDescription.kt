@@ -24,7 +24,7 @@ import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.communicationHandler
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.noinput.IAOPConstant
@@ -148,7 +148,7 @@ public class TripleStoreDescription(
             row[0] = columns[0].next()
             row[1] = columns[1].next()
             row[2] = columns[2].next()
-            if (row[0] == ResultSetDictionaryExt.nullValue) {
+            if (row[0] == DictionaryExt.nullValue) {
                 break@loop
             }
             for (i in 0 until allBuf.size) {

@@ -22,7 +22,7 @@ import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -145,7 +145,7 @@ public class POPDistributedSendMulti public constructor(
         val bundle = children[0].evaluate(p)
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
         var buf = columns[0].next()
-        while (buf != ResultSetDictionaryExt.nullValue) {
+        while (buf != DictionaryExt.nullValue) {
 // the partition column
             val connectionOut = data[buf % partitionCount]
             connectionOut!!.writeInt(buf)

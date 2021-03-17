@@ -20,7 +20,7 @@ import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -64,7 +64,7 @@ public class POPProjection public constructor(query: IQuery, projectedVariables:
                 val column = child.columns[variables2[0]]!!
                 return object : IteratorBundle(0) {
                     override /*suspend*/ fun hasNext2(): Boolean {
-                        return column.next() != ResultSetDictionaryExt.nullValue
+                        return column.next() != DictionaryExt.nullValue
                     }
 
                     override /*suspend*/ fun hasNext2Close() {

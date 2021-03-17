@@ -23,7 +23,7 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -135,13 +135,13 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         val variables = children[0].getProvidedVariableNames()
         val child = children[0].evaluate(parent)
         val columns = Array(variables.size) { child.columns[variables[it]]!! }
-        val row = IntArray(variables.size) { ResultSetDictionaryExt.undefValue }
+        val row = IntArray(variables.size) { DictionaryExt.undefValue }
         val data = mutableMapOf<String, Array<Array<MutableList<Int>>>>()
         loop@ while (true) {
             if (variables.isNotEmpty()) {
                 for (columnIndex in variables.indices) {
                     val value = columns[columnIndex].next()
-                    if (value == ResultSetDictionaryExt.nullValue) {
+                    if (value == DictionaryExt.nullValue) {
                         SanityCheck.check { columnIndex == 0 }
                         break@loop
                     }

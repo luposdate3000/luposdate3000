@@ -17,7 +17,7 @@
 package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import kotlin.jvm.JvmField
 
 public open class RowIteratorFromColumn(@JvmField public val bundle: IteratorBundle) : RowIterator() {
@@ -34,7 +34,7 @@ public open class RowIteratorFromColumn(@JvmField public val bundle: IteratorBun
             var res = 0
             for (columnIndex in columns.indices) {
                 val tmp = iterators[columnIndex].next()
-                if (tmp == ResultSetDictionaryExt.nullValue) {
+                if (tmp == DictionaryExt.nullValue) {
                     SanityCheck.check({ columnIndex == 0 }, { "" + iterators[columnIndex] })
                     res = -1
                     close()

@@ -21,7 +21,7 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.noinput.OPNothing
@@ -91,13 +91,13 @@ public object QueryResultToXMLElement {
                             val nodeResult = XMLElement("result")
                             for (variableIndex in variables.indices) {
                                 val valueID = columns[variableIndex].next()
-                                if (valueID == ResultSetDictionaryExt.nullValue) {
+                                if (valueID == DictionaryExt.nullValue) {
                                     for (element in columns) {
                                         element.close()
                                     }
                                     break@loop
                                 }
-                                if (valueID != ResultSetDictionaryExt.undefValue && valueID != ResultSetDictionaryExt.errorValue) {
+                                if (valueID != DictionaryExt.undefValue && valueID != DictionaryExt.errorValue) {
                                     val value = node.getQuery().getDictionary().getValue(valueID).valueToString()
                                     SanityCheck.check { value != null }
                                     val nodeBinding = XMLElement("binding").addAttribute("name", variables[variableIndex])

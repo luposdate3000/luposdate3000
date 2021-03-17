@@ -21,7 +21,7 @@ import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 
-public object ResultSetDictionaryHelper {
+public object DictionaryHelper {
     public fun intermediateToByteArray(value: String, type: ETripleComponentType): ByteArray {
         val res: ByteArray
         when (type) {
@@ -198,8 +198,8 @@ public object ResultSetDictionaryHelper {
     public fun byteArrayToValueDefinition(data: ByteArray): ValueDefinition {
         val type = ByteArrayHelper.readInt4(data, 0)
         return when (type) {
-            ETripleComponentTypeExt.UNDEF -> ResultSetDictionaryExt.undefValue2
-            ETripleComponentTypeExt.ERROR -> ResultSetDictionaryExt.errorValue2
+            ETripleComponentTypeExt.UNDEF -> DictionaryExt.undefValue2
+            ETripleComponentTypeExt.ERROR -> DictionaryExt.errorValue2
             ETripleComponentTypeExt.BLANK_NODE -> {
                 val l1 = ByteArrayHelper.readInt4(data, 4)
                 val buf1 = ByteArray(l1)
@@ -208,9 +208,9 @@ public object ResultSetDictionaryHelper {
             }
             ETripleComponentTypeExt.BOOLEAN -> {
                 if (data[4] != 0.toByte()) {
-                    ResultSetDictionaryExt.booleanTrueValue2
+                    DictionaryExt.booleanTrueValue2
                 } else {
-                    ResultSetDictionaryExt.booleanFalseValue2
+                    DictionaryExt.booleanFalseValue2
                 }
             }
             ETripleComponentTypeExt.IRI -> {

@@ -29,11 +29,11 @@ import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManagerExt
 import kotlin.jvm.JvmField
 
-public val nodeGlobalDictionary: ResultSetDictionaryGlobal = ResultSetDictionaryGlobal()
+public val nodeGlobalDictionary: DictionaryGlobal = DictionaryGlobal()
 
-public class ResultSetDictionaryGlobal {
+public class DictionaryGlobal {
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun isLocalBNode(value: Int) = (value and ResultSetDictionaryShared.mask3) == ResultSetDictionaryShared.flaggedValueLocalBnode
+    internal inline fun isLocalBNode(value: Int) = (value and DictionaryShared.mask3) == DictionaryShared.flaggedValueLocalBnode
 
     @JvmField
     internal val localBnodeToInt = mutableMapOf<String, Int>()
@@ -48,19 +48,19 @@ public class ResultSetDictionaryGlobal {
     internal val iriToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    internal var iriToValue = Array(1) { ResultSetDictionaryShared.emptyString }
+    internal var iriToValue = Array(1) { DictionaryShared.emptyString }
 
     @JvmField
     internal val langTaggedToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    internal var langTaggedToValue = Array(1) { ResultSetDictionaryShared.emptyString }
+    internal var langTaggedToValue = Array(1) { DictionaryShared.emptyString }
 
     @JvmField
     internal val typedToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    internal var typedToValue = Array(1) { ResultSetDictionaryShared.emptyString }
+    internal var typedToValue = Array(1) { DictionaryShared.emptyString }
 
     @JvmField
     internal val doubleToInt = mutableMapOf<Double, Int>()
@@ -78,13 +78,13 @@ public class ResultSetDictionaryGlobal {
     internal val decimalToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    internal var decimalToValue = Array(1) { ResultSetDictionaryShared.emptyString }
+    internal var decimalToValue = Array(1) { DictionaryShared.emptyString }
 
     @JvmField
     internal val intToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    internal var intToValue = Array(1) { ResultSetDictionaryShared.emptyString }
+    internal var intToValue = Array(1) { DictionaryShared.emptyString }
 
     @JvmField
     internal var outputDictionaryFile: IMyOutputStream
@@ -116,28 +116,28 @@ public class ResultSetDictionaryGlobal {
             out.println("0x3 -> undef")
             out.println("0x4 -> null")
             for (i in 0 until iriToInt.size) {
-                out.println("0x${(i + ResultSetDictionaryShared.flaggedValueGlobalIri).toString(16)} -> ${iriToValue[i]}")
+                out.println("0x${(i + DictionaryShared.flaggedValueGlobalIri).toString(16)} -> ${iriToValue[i]}")
             }
             for (i in 0 until langTaggedToInt.size) {
-                out.println("0x${(i + ResultSetDictionaryShared.flaggedValueGlobalLangTagged).toString(16)} -> ${langTaggedToValue[i]}")
+                out.println("0x${(i + DictionaryShared.flaggedValueGlobalLangTagged).toString(16)} -> ${langTaggedToValue[i]}")
             }
             for (i in 0 until typedToInt.size) {
-                out.println("0x${(i + ResultSetDictionaryShared.flaggedValueGlobalTyped).toString(16)} -> ${typedToValue[i]}")
+                out.println("0x${(i + DictionaryShared.flaggedValueGlobalTyped).toString(16)} -> ${typedToValue[i]}")
             }
             for (i in 0 until doubleToInt.size) {
-                out.println("0x${(i + ResultSetDictionaryShared.flaggedValueGlobalDouble).toString(16)} -> ${doubleToValue[i]}")
+                out.println("0x${(i + DictionaryShared.flaggedValueGlobalDouble).toString(16)} -> ${doubleToValue[i]}")
             }
             for (i in 0 until floatToInt.size) {
-                out.println("0x${(i + ResultSetDictionaryShared.flaggedValueGlobalFloat).toString(16)} -> ${floatToValue[i]}")
+                out.println("0x${(i + DictionaryShared.flaggedValueGlobalFloat).toString(16)} -> ${floatToValue[i]}")
             }
             for (i in 0 until decimalToInt.size) {
-                out.println("0x${(i + ResultSetDictionaryShared.flaggedValueGlobalDecimal).toString(16)} -> ${decimalToValue[i]}")
+                out.println("0x${(i + DictionaryShared.flaggedValueGlobalDecimal).toString(16)} -> ${decimalToValue[i]}")
             }
             for (i in 0 until intToInt.size) {
-                out.println("0x${(i + ResultSetDictionaryShared.flaggedValueGlobalInt).toString(16)} -> ${intToValue[i]}")
+                out.println("0x${(i + DictionaryShared.flaggedValueGlobalInt).toString(16)} -> ${intToValue[i]}")
             }
             for (i in 5 until bNodeCounter) {
-                out.println("0x${(i + ResultSetDictionaryShared.flaggedValueGlobalBnode).toString(16)} -> _:$i")
+                out.println("0x${(i + DictionaryShared.flaggedValueGlobalBnode).toString(16)} -> _:$i")
             }
         }
     }
@@ -167,7 +167,7 @@ public class ResultSetDictionaryGlobal {
         for (t in 0 until ETripleComponentTypeExt.values_size) {
             when (t) {
                 ETripleComponentTypeExt.IRI -> {
-                    val tmp = Array(iriToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
+                    val tmp = Array(iriToValue.size + typed[t]) { DictionaryShared.emptyString }
                     for (i in iriToValue.indices) {
                         tmp[i] = iriToValue[i]
                     }
@@ -176,21 +176,21 @@ public class ResultSetDictionaryGlobal {
                 ETripleComponentTypeExt.BLANK_NODE -> {
                 }
                 ETripleComponentTypeExt.STRING -> {
-                    val tmp = Array(typedToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
+                    val tmp = Array(typedToValue.size + typed[t]) { DictionaryShared.emptyString }
                     for (i in typedToValue.indices) {
                         tmp[i] = typedToValue[i]
                     }
                     typedToValue = tmp
                 }
                 ETripleComponentTypeExt.INTEGER -> {
-                    val tmp = Array(intToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
+                    val tmp = Array(intToValue.size + typed[t]) { DictionaryShared.emptyString }
                     for (i in intToValue.indices) {
                         tmp[i] = intToValue[i]
                     }
                     intToValue = tmp
                 }
                 ETripleComponentTypeExt.DECIMAL -> {
-                    val tmp = Array(decimalToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
+                    val tmp = Array(decimalToValue.size + typed[t]) { DictionaryShared.emptyString }
                     for (i in decimalToValue.indices) {
                         tmp[i] = decimalToValue[i]
                     }
@@ -206,14 +206,14 @@ public class ResultSetDictionaryGlobal {
                 ETripleComponentTypeExt.BOOLEAN -> {
                 }
                 ETripleComponentTypeExt.STRING_TYPED -> {
-                    val tmp = Array(typedToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
+                    val tmp = Array(typedToValue.size + typed[t]) { DictionaryShared.emptyString }
                     for (i in typedToValue.indices) {
                         tmp[i] = typedToValue[i]
                     }
                     typedToValue = tmp
                 }
                 ETripleComponentTypeExt.STRING_LANG -> {
-                    val tmp = Array(langTaggedToValue.size + typed[t]) { ResultSetDictionaryShared.emptyString }
+                    val tmp = Array(langTaggedToValue.size + typed[t]) { DictionaryShared.emptyString }
                     for (i in langTaggedToValue.indices) {
                         tmp[i] = langTaggedToValue[i]
                     }
@@ -254,9 +254,9 @@ public class ResultSetDictionaryGlobal {
             ETripleComponentTypeExt.BOOLEAN -> {
                 val tmp = DictionaryIntermediate.decodeBoolean(s)
                 return if (tmp.toLowerCase() == "true") {
-                    ResultSetDictionaryExt.booleanTrueValue
+                    DictionaryExt.booleanTrueValue
                 } else {
-                    ResultSetDictionaryExt.booleanFalseValue
+                    DictionaryExt.booleanFalseValue
                 }
             }
             ETripleComponentTypeExt.STRING_TYPED -> {
@@ -275,15 +275,15 @@ public class ResultSetDictionaryGlobal {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun toBooleanOrError(value: Int): Int {
-        var res: Int = ResultSetDictionaryExt.errorValue
-        if (value < ResultSetDictionaryExt.undefValue && value >= 0) {
+        var res: Int = DictionaryExt.errorValue
+        if (value < DictionaryExt.undefValue && value >= 0) {
             res = value
         } else {
             try {
                 res = if (getValue(value).toBoolean()) {
-                    ResultSetDictionaryExt.booleanTrueValue
+                    DictionaryExt.booleanTrueValue
                 } else {
-                    ResultSetDictionaryExt.booleanFalseValue
+                    DictionaryExt.booleanFalseValue
                 }
             } catch (e: Throwable) {
                 e.printStackTrace()
@@ -293,13 +293,13 @@ public class ResultSetDictionaryGlobal {
     }
 
     public fun createNewBNode(value: String): Int {
-        val res: Int = (ResultSetDictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
+        val res: Int = (DictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
         appendToFile(ETripleComponentTypeExt.BLANK_NODE, value)
         return res
     }
 
     public fun createNewBNode(): Int {
-        val res: Int = (ResultSetDictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
+        val res: Int = (DictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
         appendToFile(ETripleComponentTypeExt.BLANK_NODE, "")
         return res
     }
@@ -324,7 +324,7 @@ public class ResultSetDictionaryGlobal {
             res = iriToInt.size
             iriToInt[iri] = res
             if (iriToValue.size <= res) {
-                val tmp = Array(iriToValue.size * 2) { ResultSetDictionaryShared.emptyString }
+                val tmp = Array(iriToValue.size * 2) { DictionaryShared.emptyString }
                 for (i in iriToValue.indices) {
                     tmp[i] = iriToValue[i]
                 }
@@ -332,9 +332,9 @@ public class ResultSetDictionaryGlobal {
             }
             iriToValue[res] = iri
             appendToFile(ETripleComponentTypeExt.IRI, iri)
-            res = res or ResultSetDictionaryShared.flaggedValueGlobalIri
+            res = res or DictionaryShared.flaggedValueGlobalIri
         } else {
-            res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalIri
+            res = tmp3 or DictionaryShared.flaggedValueGlobalIri
         }
         return res
     }
@@ -348,7 +348,7 @@ public class ResultSetDictionaryGlobal {
             res = langTaggedToInt.size
             langTaggedToInt[key] = res
             if (langTaggedToValue.size <= res) {
-                val tmp = Array(langTaggedToValue.size * 2) { ResultSetDictionaryShared.emptyString }
+                val tmp = Array(langTaggedToValue.size * 2) { DictionaryShared.emptyString }
                 for (i in langTaggedToValue.indices) {
                     tmp[i] = langTaggedToValue[i]
                 }
@@ -356,9 +356,9 @@ public class ResultSetDictionaryGlobal {
             }
             langTaggedToValue[res] = key
             appendToFile(ETripleComponentTypeExt.STRING_LANG, "$content@$lang")
-            res = res or ResultSetDictionaryShared.flaggedValueGlobalLangTagged
+            res = res or DictionaryShared.flaggedValueGlobalLangTagged
         } else {
-            res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalLangTagged
+            res = tmp3 or DictionaryShared.flaggedValueGlobalLangTagged
         }
         return res
     }
@@ -381,9 +381,9 @@ public class ResultSetDictionaryGlobal {
             }
             "http://www.w3.org/2001/XMLSchema#boolean" -> {
                 res = if (content == "true") {
-                    ResultSetDictionaryExt.booleanTrueValue
+                    DictionaryExt.booleanTrueValue
                 } else {
-                    ResultSetDictionaryExt.booleanFalseValue
+                    DictionaryExt.booleanFalseValue
                 }
             }
             else -> {
@@ -393,7 +393,7 @@ public class ResultSetDictionaryGlobal {
                     res = typedToInt.size
                     typedToInt[key] = res
                     if (typedToValue.size <= res) {
-                        val tmp = Array(typedToValue.size * 2) { ResultSetDictionaryShared.emptyString }
+                        val tmp = Array(typedToValue.size * 2) { DictionaryShared.emptyString }
                         for (i in typedToValue.indices) {
                             tmp[i] = typedToValue[i]
                         }
@@ -401,9 +401,9 @@ public class ResultSetDictionaryGlobal {
                     }
                     typedToValue[res] = key
                     appendToFile(ETripleComponentTypeExt.STRING_TYPED, "$content^^$type")
-                    res = res or ResultSetDictionaryShared.flaggedValueGlobalTyped
+                    res = res or DictionaryShared.flaggedValueGlobalTyped
                 } else {
-                    res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalTyped
+                    res = tmp3 or DictionaryShared.flaggedValueGlobalTyped
                 }
             }
         }
@@ -426,9 +426,9 @@ public class ResultSetDictionaryGlobal {
             }
             doubleToValue[res] = value
             appendToFile(ETripleComponentTypeExt.STRING_TYPED, "\"$value\"^^<http://www.w3.org/2001/XMLSchema#double>")
-            res = res or ResultSetDictionaryShared.flaggedValueGlobalDouble
+            res = res or DictionaryShared.flaggedValueGlobalDouble
         } else {
-            res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalDouble
+            res = tmp3 or DictionaryShared.flaggedValueGlobalDouble
         }
         return res
     }
@@ -449,9 +449,9 @@ public class ResultSetDictionaryGlobal {
             }
             floatToValue[res] = value
             appendToFile(ETripleComponentTypeExt.STRING_TYPED, "\"$value\"^^<http://www.w3.org/2001/XMLSchema#float>")
-            res = res or ResultSetDictionaryShared.flaggedValueGlobalFloat
+            res = res or DictionaryShared.flaggedValueGlobalFloat
         } else {
-            res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalFloat
+            res = tmp3 or DictionaryShared.flaggedValueGlobalFloat
         }
         return res
     }
@@ -465,7 +465,7 @@ public class ResultSetDictionaryGlobal {
             res = decimalToInt.size
             decimalToInt[value] = res
             if (decimalToValue.size <= res) {
-                val tmp = Array(decimalToValue.size * 2) { ResultSetDictionaryShared.emptyString }
+                val tmp = Array(decimalToValue.size * 2) { DictionaryShared.emptyString }
                 for (i in decimalToValue.indices) {
                     tmp[i] = decimalToValue[i]
                 }
@@ -473,9 +473,9 @@ public class ResultSetDictionaryGlobal {
             }
             decimalToValue[res] = value
             appendToFile(ETripleComponentTypeExt.STRING_TYPED, "\"$value\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
-            res = res or ResultSetDictionaryShared.flaggedValueGlobalDecimal
+            res = res or DictionaryShared.flaggedValueGlobalDecimal
         } else {
-            res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalDecimal
+            res = tmp3 or DictionaryShared.flaggedValueGlobalDecimal
         }
         return res
     }
@@ -489,7 +489,7 @@ public class ResultSetDictionaryGlobal {
             res = intToInt.size
             intToInt[value] = res
             if (intToValue.size <= res) {
-                val tmp = Array(intToValue.size * 2) { ResultSetDictionaryShared.emptyString }
+                val tmp = Array(intToValue.size * 2) { DictionaryShared.emptyString }
                 for (i in intToValue.indices) {
                     tmp[i] = intToValue[i]
                 }
@@ -497,9 +497,9 @@ public class ResultSetDictionaryGlobal {
             }
             intToValue[res] = value
             appendToFile(ETripleComponentTypeExt.STRING_TYPED, "\"$value\"^^<http://www.w3.org/2001/XMLSchema#integer>")
-            res = res or ResultSetDictionaryShared.flaggedValueGlobalInt
+            res = res or DictionaryShared.flaggedValueGlobalInt
         } else {
-            res = tmp3 or ResultSetDictionaryShared.flaggedValueGlobalInt
+            res = tmp3 or DictionaryShared.flaggedValueGlobalInt
         }
         return res
     }
@@ -514,26 +514,26 @@ public class ResultSetDictionaryGlobal {
         val res: Int
         when (value) {
             is ValueUndef -> {
-                res = ResultSetDictionaryExt.undefValue
+                res = DictionaryExt.undefValue
             }
             is ValueError -> {
-                res = ResultSetDictionaryExt.errorValue
+                res = DictionaryExt.errorValue
             }
             is ValueBnode -> {
                 res = createNewBNode(value.value)
             }
             is ValueBoolean -> {
                 res = if (value.value) {
-                    ResultSetDictionaryExt.booleanTrueValue
+                    DictionaryExt.booleanTrueValue
                 } else {
-                    ResultSetDictionaryExt.booleanFalseValue
+                    DictionaryExt.booleanFalseValue
                 }
             }
             is ValueLanguageTaggedLiteral -> {
                 res = createLangTagged(value.content, value.language)
             }
             is ValueSimpleLiteral -> {
-                res = createTyped(value.content, ResultSetDictionaryShared.emptyString)
+                res = createTyped(value.content, DictionaryShared.emptyString)
             }
             is ValueTypedLiteral -> {
                 res = createTyped(value.content, value.type_iri)
@@ -567,31 +567,31 @@ public class ResultSetDictionaryGlobal {
 
     public fun getValue(value: Int): ValueDefinition {
         val res: ValueDefinition
-        when (value and ResultSetDictionaryShared.mask3) {
-            ResultSetDictionaryShared.flaggedValueLocalIri -> {
-                res = ValueIri(iriToValue[value and ResultSetDictionaryShared.filter3])
+        when (value and DictionaryShared.mask3) {
+            DictionaryShared.flaggedValueLocalIri -> {
+                res = ValueIri(iriToValue[value and DictionaryShared.filter3])
             }
-            ResultSetDictionaryShared.flaggedValueLocalBnode -> {
-                when (value and ResultSetDictionaryShared.mask3) {
+            DictionaryShared.flaggedValueLocalBnode -> {
+                when (value and DictionaryShared.mask3) {
                     0 -> {
-                        res = ResultSetDictionaryExt.booleanTrueValue2
+                        res = DictionaryExt.booleanTrueValue2
                     }
                     1 -> {
-                        res = ResultSetDictionaryExt.booleanFalseValue2
+                        res = DictionaryExt.booleanFalseValue2
                     }
                     2 -> {
-                        res = ResultSetDictionaryExt.errorValue2
+                        res = DictionaryExt.errorValue2
                     }
                     3 -> {
-                        res = ResultSetDictionaryExt.undefValue2
+                        res = DictionaryExt.undefValue2
                     }
                     else -> {
-                        res = ValueBnode(ResultSetDictionaryShared.emptyString + value)
+                        res = ValueBnode(DictionaryShared.emptyString + value)
                     }
                 }
             }
-            ResultSetDictionaryShared.flaggedValueLocalTyped -> {
-                val tmp = typedToValue[value and ResultSetDictionaryShared.filter3]
+            DictionaryShared.flaggedValueLocalTyped -> {
+                val tmp = typedToValue[value and DictionaryShared.filter3]
                 val idx = tmp.indexOf(">")
                 val type = tmp.substring(0, idx)
                 val content = tmp.substring(idx + 1, tmp.length)
@@ -602,22 +602,22 @@ public class ResultSetDictionaryGlobal {
                 }
             }
             else -> {
-                val bit5 = value and ResultSetDictionaryShared.mask6
+                val bit5 = value and DictionaryShared.mask6
                 res = when (bit5) {
-                    ResultSetDictionaryShared.flaggedValueLocalInt -> {
-                        ValueInteger(MyBigInteger(intToValue[value and ResultSetDictionaryShared.filter6]))
+                    DictionaryShared.flaggedValueLocalInt -> {
+                        ValueInteger(MyBigInteger(intToValue[value and DictionaryShared.filter6]))
                     }
-                    ResultSetDictionaryShared.flaggedValueLocalDecimal -> {
-                        ValueDecimal(MyBigDecimal(decimalToValue[value and ResultSetDictionaryShared.filter6]))
+                    DictionaryShared.flaggedValueLocalDecimal -> {
+                        ValueDecimal(MyBigDecimal(decimalToValue[value and DictionaryShared.filter6]))
                     }
-                    ResultSetDictionaryShared.flaggedValueLocalDouble -> {
-                        ValueDouble(doubleToValue[value and ResultSetDictionaryShared.filter6])
+                    DictionaryShared.flaggedValueLocalDouble -> {
+                        ValueDouble(doubleToValue[value and DictionaryShared.filter6])
                     }
-                    ResultSetDictionaryShared.flaggedValueLocalFloat -> {
-                        ValueFloat(floatToValue[value and ResultSetDictionaryShared.filter6])
+                    DictionaryShared.flaggedValueLocalFloat -> {
+                        ValueFloat(floatToValue[value and DictionaryShared.filter6])
                     }
                     else -> {
-                        val tmp = langTaggedToValue[value and ResultSetDictionaryShared.filter6]
+                        val tmp = langTaggedToValue[value and DictionaryShared.filter6]
                         val idx = tmp.indexOf("@")
                         val lang = tmp.substring(0, idx)
                         val content = tmp.substring(idx + 1, tmp.length)
@@ -644,11 +644,11 @@ public class ResultSetDictionaryGlobal {
         onError: () -> Unit,
         onUndefined: () -> Unit
     ) {
-        when (value and ResultSetDictionaryShared.mask3) {
-            ResultSetDictionaryShared.flaggedValueLocalIri -> {
-                onIri(iriToValue[value and ResultSetDictionaryShared.filter3])
+        when (value and DictionaryShared.mask3) {
+            DictionaryShared.flaggedValueLocalIri -> {
+                onIri(iriToValue[value and DictionaryShared.filter3])
             }
-            ResultSetDictionaryShared.flaggedValueLocalBnode -> {
+            DictionaryShared.flaggedValueLocalBnode -> {
                 when (value) {
                     0 -> {
                         onBoolean(true)
@@ -667,8 +667,8 @@ public class ResultSetDictionaryGlobal {
                     }
                 }
             }
-            ResultSetDictionaryShared.flaggedValueLocalTyped -> {
-                val tmp = typedToValue[value and ResultSetDictionaryShared.filter3]
+            DictionaryShared.flaggedValueLocalTyped -> {
+                val tmp = typedToValue[value and DictionaryShared.filter3]
                 val idx = tmp.indexOf(">")
                 if (idx == 0) {
                     onSimpleLiteral(tmp.substring(idx + 2, tmp.length - 1))
@@ -677,21 +677,21 @@ public class ResultSetDictionaryGlobal {
                 }
             }
             else -> {
-                when (value and ResultSetDictionaryShared.mask6) {
-                    ResultSetDictionaryShared.flaggedValueLocalInt -> {
-                        onInteger(intToValue[value and ResultSetDictionaryShared.filter6])
+                when (value and DictionaryShared.mask6) {
+                    DictionaryShared.flaggedValueLocalInt -> {
+                        onInteger(intToValue[value and DictionaryShared.filter6])
                     }
-                    ResultSetDictionaryShared.flaggedValueLocalDecimal -> {
-                        onDecimal(decimalToValue[value and ResultSetDictionaryShared.filter6])
+                    DictionaryShared.flaggedValueLocalDecimal -> {
+                        onDecimal(decimalToValue[value and DictionaryShared.filter6])
                     }
-                    ResultSetDictionaryShared.flaggedValueLocalDouble -> {
-                        onDouble(doubleToValue[value and ResultSetDictionaryShared.filter6])
+                    DictionaryShared.flaggedValueLocalDouble -> {
+                        onDouble(doubleToValue[value and DictionaryShared.filter6])
                     }
-                    ResultSetDictionaryShared.flaggedValueLocalFloat -> {
-                        onFloat(floatToValue[value and ResultSetDictionaryShared.filter6])
+                    DictionaryShared.flaggedValueLocalFloat -> {
+                        onFloat(floatToValue[value and DictionaryShared.filter6])
                     }
                     else -> {
-                        val tmp = langTaggedToValue[value and ResultSetDictionaryShared.filter6]
+                        val tmp = langTaggedToValue[value and DictionaryShared.filter6]
                         val idx = tmp.indexOf("@")
                         onLanguageTaggedLiteral(tmp.substring(idx + 2, tmp.length - 1), tmp.substring(0, idx))
                     }
@@ -703,7 +703,7 @@ public class ResultSetDictionaryGlobal {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun valueToGlobal(value: Int): Int {
         val res: Int
-        if ((value and ResultSetDictionaryShared.mask1) == ResultSetDictionaryShared.mask1) {
+        if ((value and DictionaryShared.mask1) == DictionaryShared.mask1) {
             res = value
         } else {
             if (isLocalBNode(value)) {

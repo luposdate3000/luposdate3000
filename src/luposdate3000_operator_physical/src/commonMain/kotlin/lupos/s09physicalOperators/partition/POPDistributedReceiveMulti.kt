@@ -24,7 +24,7 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -150,7 +150,7 @@ public class POPDistributedReceiveMulti public constructor(
             for (i in 0 until variables.size) {
                 buffer[off + mapping[i]] = conn.first.readInt()
             }
-            if (buffer[off] == ResultSetDictionaryExt.nullValue) {
+            if (buffer[off] == DictionaryExt.nullValue) {
                 conn.first.close()
                 conn.second.close()
             } else {
@@ -177,7 +177,7 @@ public class POPDistributedReceiveMulti public constructor(
                 for (i in 0 until variables.size) {
                     buffer[off + connMin.mapping[i]] = connMin.input.readInt()
                 }
-                if (buffer[off] == ResultSetDictionaryExt.nullValue) {
+                if (buffer[off] == DictionaryExt.nullValue) {
                     connMin.input.close()
                     connMin.output.close()
                     val off2 = (openConnections - 1) * variables.size

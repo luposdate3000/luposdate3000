@@ -19,15 +19,15 @@ package lupos.s04logicalOperators
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.MyLock
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.IResultSetDictionary
-import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.Dictionary
+import lupos.s03resultRepresentation.IDictionary
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.shared.optimizer.distributedOptimizerQueryFactory
 import kotlin.jvm.JvmField
 
-public class Query public constructor(@JvmField public var dictionary: IResultSetDictionary, @JvmField public var transactionID: Long) : IQuery {
-    public constructor(dictionary: IResultSetDictionary) : this(dictionary, global_transactionID++)
-    public constructor() : this(ResultSetDictionary(), global_transactionID++)
+public class Query public constructor(@JvmField public var dictionary: IDictionary, @JvmField public var transactionID: Long) : IQuery {
+    public constructor(dictionary: IDictionary) : this(dictionary, global_transactionID++)
+    public constructor() : this(Dictionary(), global_transactionID++)
 
     @JvmField
     public var _workingDirectory: String = ""
@@ -71,7 +71,7 @@ public class Query public constructor(@JvmField public var dictionary: IResultSe
         this.dictionaryUrl = url
     }
 
-    public override fun setDictionaryServer(dict: IResultSetDictionary) {
+    public override fun setDictionaryServer(dict: IDictionary) {
         dictionary = dict
     }
 
@@ -144,7 +144,7 @@ public class Query public constructor(@JvmField public var dictionary: IResultSe
 
     override fun getTransactionID(): Long = transactionID
     override fun getWorkingDirectory(): String = _workingDirectory
-    override fun getDictionary(): IResultSetDictionary = dictionary
+    override fun getDictionary(): IDictionary = dictionary
     override fun checkVariableExistence(): Boolean = !dontCheckVariableExistence
     override fun setCommited() {
         commited = true

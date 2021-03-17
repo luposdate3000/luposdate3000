@@ -18,7 +18,7 @@ package lupos.s04arithmetikOperators.multiinput
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.EvaluationException
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
@@ -32,14 +32,14 @@ public class AOPLT public constructor(query: IQuery, childA: AOPBase, childB: AO
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
         return {
-            var res: ValueDefinition = ResultSetDictionaryExt.errorValue2
+            var res: ValueDefinition = DictionaryExt.errorValue2
             val a = childA()
             val b = childB()
             try {
                 res = if (a < b) {
-                    ResultSetDictionaryExt.booleanTrueValue2
+                    DictionaryExt.booleanTrueValue2
                 } else {
-                    ResultSetDictionaryExt.booleanFalseValue2
+                    DictionaryExt.booleanFalseValue2
                 }
             } catch (e: Throwable) {
                 e.printStackTrace()
@@ -52,14 +52,14 @@ public class AOPLT public constructor(query: IQuery, childA: AOPBase, childB: AO
         val childA = (children[0] as AOPBase).evaluate(row)
         val childB = (children[1] as AOPBase).evaluate(row)
         return {
-            var res: Int = ResultSetDictionaryExt.errorValue
+            var res: Int = DictionaryExt.errorValue
             val a = childA()
             val b = childB()
             try {
                 res = if (a < b) {
-                    ResultSetDictionaryExt.booleanTrueValue
+                    DictionaryExt.booleanTrueValue
                 } else {
-                    ResultSetDictionaryExt.booleanFalseValue
+                    DictionaryExt.booleanFalseValue
                 }
             } catch (e: EvaluationException) {
             } catch (e: Throwable) {

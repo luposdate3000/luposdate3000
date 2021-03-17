@@ -37,9 +37,9 @@ import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s03resultRepresentation.IResultSetDictionary
-import lupos.s03resultRepresentation.ResultSetDictionary
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.Dictionary
+import lupos.s03resultRepresentation.DictionaryExt
+import lupos.s03resultRepresentation.IDictionary
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -158,19 +158,19 @@ public object BinaryTestCase {
                 return false
             }
         }
-        val actualDict: IResultSetDictionary
+        val actualDict: IDictionary
         if (actual.query != null) {
             val q = actual.query!!
             actualDict = q.getDictionary()
         } else {
-            actualDict = ResultSetDictionary()
+            actualDict = Dictionary()
         }
-        val expectedDict: IResultSetDictionary
+        val expectedDict: IDictionary
         if (expected.query != null) {
             val q = expected.query!!
             expectedDict = q.getDictionary()
         } else {
-            expectedDict = ResultSetDictionary()
+            expectedDict = Dictionary()
         }
         for (row in actual.data) {
             val tmpRow = IntArray(columnCount) { -1 }
@@ -377,7 +377,7 @@ public object BinaryTestCase {
                             val targetDict = mutableMapOf<String, Int>()
                             val targetDict2 = Array(dictionarySize) { "" }
                             val mappingTargetToLive = IntArray(dictionarySize) { 0 }
-                            val mappingLiveToTarget = mutableMapOf(ResultSetDictionaryExt.undefValue to -1, ResultSetDictionaryExt.errorValue to -1, ResultSetDictionaryExt.nullValue to -1)
+                            val mappingLiveToTarget = mutableMapOf(DictionaryExt.undefValue to -1, DictionaryExt.errorValue to -1, DictionaryExt.nullValue to -1)
                             for (i in 0 until dictionarySize) {
                                 val len2 = targetDictionary.readInt()
                                 val buf2 = ByteArray(len2)
@@ -503,7 +503,7 @@ public object BinaryTestCase {
                                     for (j in 0 until variables.size) {
                                         val tmp = targetResult.readInt()
                                         if (tmp == -1) {
-                                            row[j] = ResultSetDictionaryExt.undefValue
+                                            row[j] = DictionaryExt.undefValue
                                         } else {
                                             row[j] = mappingTargetToLive[tmp]
                                         }

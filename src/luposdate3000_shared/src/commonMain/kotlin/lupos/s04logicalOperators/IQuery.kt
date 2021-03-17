@@ -16,10 +16,10 @@
  */
 package lupos.s04logicalOperators
 
-import lupos.s03resultRepresentation.IResultSetDictionary
+import lupos.s03resultRepresentation.IDictionary
 
 public interface IQuery {
-    public fun getDictionary(): IResultSetDictionary
+    public fun getDictionary(): IDictionary
     public fun checkVariableExistence(): Boolean
     public fun getWorkingDirectory(): String
     public fun initialize(newroot: IOPBase): IOPBase
@@ -28,5 +28,5 @@ public interface IQuery {
     public fun getDistributionKey(): Map<String, Int>
     public fun getDictionaryUrl(): String?
     public fun setDictionaryUrl(url: String)
-    public fun setDictionaryServer(dict: IResultSetDictionary)
+    public fun setDictionaryServer(dict: IDictionary)
 }

@@ -21,7 +21,7 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -68,7 +68,7 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
         SanityCheck.check { mapping.isNotEmpty() }
         for (i in mapping.indices) {
             val tmp = iterators[i].next()
-            if (tmp == ResultSetDictionaryExt.nullValue) {
+            if (tmp == DictionaryExt.nullValue) {
                 done = true
                 for (element in iterators) {
                     element.close()
@@ -88,7 +88,7 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
                     loop@ while (!t && !done) {
                         for (i in mapping.indices) {
                             val tmp = iterators[i].next()
-                            if (tmp == ResultSetDictionaryExt.nullValue) {
+                            if (tmp == DictionaryExt.nullValue) {
                                 for (element in iterators) {
                                     element.close()
                                 }

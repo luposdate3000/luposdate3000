@@ -21,7 +21,7 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -126,7 +126,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
             loopC@ while (true) {
                 for (columnIndex in 0 until columnsINBO.size) {
                     val value = columnsINBO[columnIndex].next()
-                    if (value == ResultSetDictionaryExt.nullValue) {
+                    if (value == DictionaryExt.nullValue) {
                         break@loopC
                     }
                     data[columnIndex].add(value)
@@ -160,7 +160,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                                         var done = false
                                         for (columnIndex in 0 until columnsINAO.size) {
                                             val value = columnsINAO[columnIndex].next()
-                                            if (value == ResultSetDictionaryExt.nullValue) {
+                                            if (value == DictionaryExt.nullValue) {
                                                 SanityCheck.check { columnIndex == 0 }
                                                 done = true
                                                 for (v in childA.columns.values) {
@@ -172,7 +172,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                                         }
                                         if (!done) {
                                             for (columnIndex in 0 until columnsINBO.size) {
-                                                outO[1][columnIndex].addChild(ColumnIteratorRepeatValue(1, ResultSetDictionaryExt.undefValue))
+                                                outO[1][columnIndex].addChild(ColumnIteratorRepeatValue(1, DictionaryExt.undefValue))
                                             }
                                         }
                                     },
@@ -226,7 +226,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                                     var done = false
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         val value = columnsINAO[columnIndex].next()
-                                        if (value == ResultSetDictionaryExt.nullValue) {
+                                        if (value == DictionaryExt.nullValue) {
                                             SanityCheck.check { columnIndex == 0 }
                                             done = true
                                             for (v in childA.columns.values) {

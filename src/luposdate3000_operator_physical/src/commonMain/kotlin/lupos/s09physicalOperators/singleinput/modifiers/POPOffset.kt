@@ -21,7 +21,7 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -50,11 +50,11 @@ public class POPOffset public constructor(query: IQuery, projectedVariables: Lis
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
         val columns = Array(variables.size) { child.columns[variables[it]] }
-        var tmp: Int = ResultSetDictionaryExt.nullValue
+        var tmp: Int = DictionaryExt.nullValue
         loop@ for (i in 0 until offset) {
             for (element in columns) {
                 tmp = element!!.next()
-                if (tmp == ResultSetDictionaryExt.nullValue) {
+                if (tmp == DictionaryExt.nullValue) {
                     for (element2 in columns) {
                         element2!!.close()
                     }
@@ -63,7 +63,7 @@ public class POPOffset public constructor(query: IQuery, projectedVariables: Lis
             }
         }
         for (variable in variables) {
-            if (tmp == ResultSetDictionaryExt.nullValue) {
+            if (tmp == DictionaryExt.nullValue) {
                 child.columns[variable]!!.close()
             }
             outMap[variable] = child.columns[variable]!!

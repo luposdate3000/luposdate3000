@@ -23,7 +23,7 @@ import lupos.s00misc.ITERATOR_DEBUG_MODE
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.UnreachableException
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -93,15 +93,15 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                                     return if (label != 0) {
                                         SanityCheck.println { "$uuid $k next call" }
                                         val res = v.next()
-                                        if (res == ResultSetDictionaryExt.nullValue) {
-                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} ResultSetDictionaryExt.nullValue" }
+                                        if (res == DictionaryExt.nullValue) {
+                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryExt.nullValue" }
                                         } else {
                                             counter++
                                             SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
                                         }
                                         res
                                     } else {
-                                        ResultSetDictionaryExt.nullValue
+                                        DictionaryExt.nullValue
                                     }
                                 }
 
@@ -110,15 +110,15 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                                         SanityCheck.println { "$uuid $k next call minValue SIP" }
                                         v.nextSIP(minValue, result)
                                         val res = result[1]
-                                        if (res == ResultSetDictionaryExt.nullValue) {
-                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} ResultSetDictionaryExt.nullValue" }
+                                        if (res == DictionaryExt.nullValue) {
+                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryExt.nullValue" }
                                         } else {
                                             counter++
                                             SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
                                         }
                                     } else {
                                         result[0] = 0
-                                        result[1] = ResultSetDictionaryExt.nullValue
+                                        result[1] = DictionaryExt.nullValue
                                     }
                                 }
 
@@ -126,15 +126,15 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                                     return if (label != 0) {
                                         SanityCheck.println { "$uuid $k next call skip SIP" }
                                         val res = v.skipSIP(skipCount)
-                                        if (res == ResultSetDictionaryExt.nullValue) {
-                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} ResultSetDictionaryExt.nullValue" }
+                                        if (res == DictionaryExt.nullValue) {
+                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryExt.nullValue" }
                                         } else {
                                             counter++
                                             SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
                                         }
                                         res
                                     } else {
-                                        ResultSetDictionaryExt.nullValue
+                                        DictionaryExt.nullValue
                                     }
                                 }
 
@@ -164,7 +164,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                             val res = child.rows.next()
                             iterator.buf = child.rows.buf
                             if (res < 0) {
-                                SanityCheck.println { "$uuid next return closed $counter ${parent.data} ResultSetDictionaryExt.nullValue" }
+                                SanityCheck.println { "$uuid next return closed $counter ${parent.data} DictionaryExt.nullValue" }
                             } else {
                                 counter++
                                 SanityCheck.println { "$uuid next return $counter ${parent.data} ${iterator.buf.map { it.toString(16) }}" }

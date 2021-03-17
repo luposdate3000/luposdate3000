@@ -24,7 +24,7 @@ import lupos.s00misc.Partition
 import lupos.s00misc.PartitionExt
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.PartitionHelper
@@ -188,7 +188,7 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                             } else {
                                 var q = child.buf[tmp + hashVariableIndex]
                                 var cacheSize: Int
-                                if (q == ResultSetDictionaryExt.undefValue) {
+                                if (q == DictionaryExt.undefValue) {
                                     // broadcast undef to every partition
                                     SanityCheck.println { " attention may increase result count here - this is always ok, _if there is a join afterwards immediately - otherwise probably not" }
                                     cacheSize = partitionCount

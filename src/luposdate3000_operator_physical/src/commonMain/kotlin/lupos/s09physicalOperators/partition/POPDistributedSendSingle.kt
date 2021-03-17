@@ -22,7 +22,7 @@ import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -141,8 +141,8 @@ public class POPDistributedSendSingle public constructor(
         val bundle = children[0].evaluate(p)
         println("accessing :: ${variables.map { it }} -> ${bundle.columns.keys.map { it }}")
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
-        var buf = ResultSetDictionaryExt.nullValue + 1
-        while (buf != ResultSetDictionaryExt.nullValue) {
+        var buf = DictionaryExt.nullValue + 1
+        while (buf != DictionaryExt.nullValue) {
             for (j in 0 until variables.size) {
                 buf = columns[j].next()
                 connectionOut.writeInt(buf)

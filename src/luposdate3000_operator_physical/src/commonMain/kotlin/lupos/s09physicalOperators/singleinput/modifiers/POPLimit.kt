@@ -21,7 +21,7 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -63,13 +63,13 @@ public class POPLimit public constructor(query: IQuery, projectedVariables: List
                     return if (label != 0) {
                         if (count == limit) {
                             _close()
-                            ResultSetDictionaryExt.nullValue
+                            DictionaryExt.nullValue
                         } else {
                             count++
                             iterator.next()
                         }
                     } else {
-                        ResultSetDictionaryExt.nullValue
+                        DictionaryExt.nullValue
                     }
                 }
 

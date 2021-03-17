@@ -20,7 +20,7 @@ import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
@@ -39,7 +39,7 @@ public abstract class AOPBase public constructor(
         if (enforcesBooleanOrError()) {
             val tmp = evaluateID(row)
             return {
-                tmp() == ResultSetDictionaryExt.booleanTrueValue
+                tmp() == DictionaryExt.booleanTrueValue
             }
         } else {
             val tmp = evaluate(row)

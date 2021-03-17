@@ -17,7 +17,7 @@
 package lupos.s09physicalOperators
 
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import kotlin.jvm.JvmField
 
 internal class MapKey(@JvmField val data: IntArray) {
@@ -33,7 +33,7 @@ internal class MapKey(@JvmField val data: IntArray) {
     fun equalsFuzzy(other: Any?): Boolean {
         SanityCheck.check { other is MapKey }
         for (i in data.indices) {
-            if (data[i] != ResultSetDictionaryExt.undefValue && (other as MapKey).data[i] != ResultSetDictionaryExt.undefValue && data[i] != other.data[i]) {
+            if (data[i] != DictionaryExt.undefValue && (other as MapKey).data[i] != DictionaryExt.undefValue && data[i] != other.data[i]) {
                 return false
             }
         }

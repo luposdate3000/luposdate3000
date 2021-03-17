@@ -20,9 +20,9 @@ import lupos.fileformat.DictionaryIntermediateReader
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.SanityCheck
 
-public val nodeGlobalDictionary: ResultSetDictionaryGlobal = ResultSetDictionaryGlobal()
+public val nodeGlobalDictionary: DictionaryGlobal = DictionaryGlobal()
 
-public class ResultSetDictionaryGlobal {
+public class DictionaryGlobal {
     private val kv = KeyValueStore()
     private var bNodeCounter = 5
     private var lastPage: Int = 0
@@ -51,7 +51,7 @@ public class ResultSetDictionaryGlobal {
             val i = if (type == ETripleComponentTypeExt.BLANK_NODE) {
                 createNewBNode(value)
             } else {
-                kv.createValue(ResultSetDictionaryHelper.intermediateToByteArray(value, type)) or ResultSetDictionaryShared.flaggedValueGlobal
+                kv.createValue(DictionaryHelper.intermediateToByteArray(value, type)) or DictionaryShared.flaggedValueGlobal
             }
             SanityCheck.check { lastId == id - 1 }
             lastId = id
@@ -65,18 +65,18 @@ public class ResultSetDictionaryGlobal {
     }
 
     public fun createNewBNode(value: String): Int {
-        val res: Int = (ResultSetDictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
+        val res: Int = (DictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
         return res
     }
 
     public fun createNewBNode(): Int {
-        val res: Int = (ResultSetDictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
+        val res: Int = (DictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
         return res
     }
 
     public fun getValue(value: Int): ValueDefinition {
-        val tmp = kv.getValue(value and ResultSetDictionaryShared.filter2)
-        return ResultSetDictionaryHelper.byteArrayToValueDefinition(tmp)
+        val tmp = kv.getValue(value and DictionaryShared.filter2)
+        return DictionaryHelper.byteArrayToValueDefinition(tmp)
     }
 
     internal inline fun getValue(
@@ -94,23 +94,23 @@ public class ResultSetDictionaryGlobal {
         onError: () -> Unit,
         onUndefined: () -> Unit
     ) {
-        val tmp = kv.getValue(value and ResultSetDictionaryShared.filter2)
-        ResultSetDictionaryHelper.byteArrayToCallback(value, tmp, onBNode, onBoolean, onLanguageTaggedLiteral, onSimpleLiteral, onTypedLiteral, onDecimal, onFloat, onDouble, onInteger, onIri, onError, onUndefined)
+        val tmp = kv.getValue(value and DictionaryShared.filter2)
+        DictionaryHelper.byteArrayToCallback(value, tmp, onBNode, onBoolean, onLanguageTaggedLiteral, onSimpleLiteral, onTypedLiteral, onDecimal, onFloat, onDouble, onInteger, onIri, onError, onUndefined)
     }
 
     public fun createValue(value: String?): Int {
-        return kv.createValue(ResultSetDictionaryHelper.valueToByteArray(value)) or ResultSetDictionaryShared.flaggedValueGlobal
+        return kv.createValue(DictionaryHelper.valueToByteArray(value)) or DictionaryShared.flaggedValueGlobal
     }
 
     internal inline fun createValue(value: ValueDefinition): Int {
-        return kv.createValue(ResultSetDictionaryHelper.valueToByteArray(value)) or ResultSetDictionaryShared.flaggedValueGlobal
+        return kv.createValue(DictionaryHelper.valueToByteArray(value)) or DictionaryShared.flaggedValueGlobal
     }
 
     internal inline fun hasValue(value: ValueDefinition): Int? {
-        val tmp = kv.hasValue(ResultSetDictionaryHelper.valueToByteArray(value))
+        val tmp = kv.hasValue(DictionaryHelper.valueToByteArray(value))
         if (tmp == null) {
             return null
         }
-        return tmp or ResultSetDictionaryShared.flaggedValueGlobal
+        return tmp or DictionaryShared.flaggedValueGlobal
     }
 }

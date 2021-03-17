@@ -16,7 +16,7 @@
  */
 package lupos.s04logicalOperators.iterator
 
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import kotlin.jvm.JvmField
 
 public class ColumnIteratorRepeatIterator(@JvmField public val count: Int, @JvmField public val child: ColumnIterator) : ColumnIterator() {
@@ -49,11 +49,11 @@ public class ColumnIteratorRepeatIterator(@JvmField public val count: Int, @JvmF
         when (label) {
             1 -> {
                 val tmp = child.next()
-                return if (tmp == ResultSetDictionaryExt.nullValue) {
+                return if (tmp == DictionaryExt.nullValue) {
                     child.close()
                     if (data.size == 0 || count == 1) {
                         label = 0
-                        ResultSetDictionaryExt.nullValue
+                        DictionaryExt.nullValue
                     } else {
                         index = 2
                         label = 2
@@ -76,12 +76,12 @@ public class ColumnIteratorRepeatIterator(@JvmField public val count: Int, @JvmF
                     }
                     else -> {
                         label = 0
-                        ResultSetDictionaryExt.nullValue
+                        DictionaryExt.nullValue
                     }
                 }
             }
             else -> {
-                return ResultSetDictionaryExt.nullValue
+                return DictionaryExt.nullValue
             }
         }
     }

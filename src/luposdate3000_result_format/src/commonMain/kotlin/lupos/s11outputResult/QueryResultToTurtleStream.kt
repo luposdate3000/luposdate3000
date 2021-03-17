@@ -25,8 +25,8 @@ import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.communicationHandler
-import lupos.s03resultRepresentation.IResultSetDictionary
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
+import lupos.s03resultRepresentation.IDictionary
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -36,7 +36,7 @@ import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
 public object QueryResultToTurtleStream {
-    private /*suspend*/ fun writeValue(valueID: Int, dictionary: IResultSetDictionary): String? {
+    private /*suspend*/ fun writeValue(valueID: Int, dictionary: IDictionary): String? {
         var res: String? = null
         dictionary.getValue(
             valueID,
@@ -76,7 +76,7 @@ public object QueryResultToTurtleStream {
         return res
     }
 
-    private /*suspend*/ fun writeRow(variablesIndices: IntArray, rowBuf: IntArray, dictionary: IResultSetDictionary, output: IMyOutputStream) {
+    private /*suspend*/ fun writeRow(variablesIndices: IntArray, rowBuf: IntArray, dictionary: IDictionary, output: IMyOutputStream) {
         var line = Array(3) { "" }
         for (i in 0 until 3) {
             val tmp = writeValue(rowBuf[i], dictionary)
@@ -90,14 +90,14 @@ public object QueryResultToTurtleStream {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: IMyOutputStream) {
+    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream) {
         val variablesIndices = intArrayOf(variables.indexOf("s"), variables.indexOf("p"), variables.indexOf("o"))
         val rowBuf = IntArray(variables.size)
         val resultWriter = MyPrintWriter(true)
         loop@ while (true) {
             for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
-                if (valueID == ResultSetDictionaryExt.nullValue) {
+                if (valueID == DictionaryExt.nullValue) {
                     break@loop
                 }
                 rowBuf[variableIndex] = valueID

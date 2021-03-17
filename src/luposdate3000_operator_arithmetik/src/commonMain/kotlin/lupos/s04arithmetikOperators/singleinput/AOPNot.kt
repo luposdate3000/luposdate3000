@@ -17,7 +17,7 @@
 package lupos.s04arithmetikOperators.singleinput
 
 import lupos.s00misc.EOperatorIDExt
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
@@ -34,10 +34,10 @@ public class AOPNot public constructor(query: IQuery, @JvmField public var child
             val childA = (children[0] as AOPBase).evaluateID(row)
             return {
                 val a = childA()
-                val res: ValueDefinition = if (a == ResultSetDictionaryExt.errorValue) {
-                    ResultSetDictionaryExt.errorValue2
+                val res: ValueDefinition = if (a == DictionaryExt.errorValue) {
+                    DictionaryExt.errorValue2
                 } else {
-                    ValueBoolean(a == ResultSetDictionaryExt.booleanFalseValue)
+                    ValueBoolean(a == DictionaryExt.booleanFalseValue)
                 }
                 res
             }
@@ -45,7 +45,7 @@ public class AOPNot public constructor(query: IQuery, @JvmField public var child
             val childA = (children[0] as AOPBase).evaluate(row)
             return {
                 val a = childA()
-                var res: ValueDefinition = ResultSetDictionaryExt.errorValue2
+                var res: ValueDefinition = DictionaryExt.errorValue2
                 try {
                     res = ValueBoolean(!a.toBoolean())
                 } catch (e: Throwable) {

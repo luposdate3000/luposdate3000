@@ -18,7 +18,7 @@ package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.MERGE_SORT_MIN_ROWS
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 
 public object ColumnIteratorMerge {
     public /*suspend*/ operator fun invoke(a: ColumnIterator, comparator: Comparator<Int>): ColumnIterator {
@@ -30,7 +30,7 @@ public object ColumnIteratorMerge {
             var i = 0
             while (i < buf1.size) {
                 val next = a.next()
-                if (next == ResultSetDictionaryExt.nullValue) {
+                if (next == DictionaryExt.nullValue) {
                     done = true
                     a.close()
                     break
@@ -132,7 +132,7 @@ public object ColumnIteratorMerge {
             var i = 0
             while (i < buf1.size) {
                 val next = a.next()
-                if (next == ResultSetDictionaryExt.nullValue) {
+                if (next == DictionaryExt.nullValue) {
                     done = true
                     a.close()
                     break

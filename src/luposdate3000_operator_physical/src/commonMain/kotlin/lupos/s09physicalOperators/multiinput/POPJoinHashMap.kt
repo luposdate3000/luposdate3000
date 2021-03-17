@@ -21,7 +21,7 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -117,16 +117,16 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                 0
             }
             loopB@ while (true) {
-                nextKey = IntArray(columnsINBJ.size) { ResultSetDictionaryExt.undefValue }
+                nextKey = IntArray(columnsINBJ.size) { DictionaryExt.undefValue }
                 nextMap = mapWithoutUndef
                 for (columnIndex in 0 until columnsINBJ.size) {
                     val value = columnsINBJ[columnIndex].next()
-                    if (value == ResultSetDictionaryExt.nullValue) {
+                    if (value == DictionaryExt.nullValue) {
                         nextKey = null
                         break@loopB
                     }
                     nextKey!![columnIndex] = value
-                    if (value == ResultSetDictionaryExt.undefValue) {
+                    if (value == DictionaryExt.undefValue) {
                         nextMap = mapWithUndef
                     }
                 }
@@ -198,17 +198,17 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                                     1
                                 }
                                 loopA@ while (true) {
-                                    nextKey = IntArray(columnsINAJ.size) { ResultSetDictionaryExt.undefValue }
+                                    nextKey = IntArray(columnsINAJ.size) { DictionaryExt.undefValue }
                                     nextMap = mapWithoutUndef
                                     for (columnIndex in 0 until columnsINAJ.size) {
                                         val value = columnsINAJ[columnIndex].next()
-                                        if (value == ResultSetDictionaryExt.nullValue) {
+                                        if (value == DictionaryExt.nullValue) {
                                             SanityCheck.check { columnIndex == 0 }
                                             nextKey = null
                                             break@loopA
                                         }
                                         nextKey!![columnIndex] = value
-                                        if (value == ResultSetDictionaryExt.undefValue) {
+                                        if (value == DictionaryExt.undefValue) {
                                             nextMap = mapWithUndef
                                         }
                                     }
@@ -253,7 +253,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         for (i in 0 until countA) {
                                             val tmp2 = columnsINAO[columnIndex].next()
-                                            SanityCheck.check { tmp2 != ResultSetDictionaryExt.nullValue }
+                                            SanityCheck.check { tmp2 != DictionaryExt.nullValue }
                                             dataOA[columnIndex].add(tmp2)
                                         }
                                     }
@@ -263,14 +263,14 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                                             done = true
                                             countB = 1
                                             val dataJ = IntArray(outJ.size) { currentKey!![it] }
-                                            POPJoin.crossProduct(dataOA, Array(outO[1].size) { mutableListOf(ResultSetDictionaryExt.undefValue) }, dataJ, outO[0], outO[1], outJ, countA, countB)
+                                            POPJoin.crossProduct(dataOA, Array(outO[1].size) { mutableListOf(DictionaryExt.undefValue) }, dataJ, outO[0], outO[1], outJ, countA, countB)
                                         }
                                     } else {
                                         done = true
                                         for (otherIndex in 0 until others.size) {
                                             countB = others[otherIndex].second.count
                                             val dataJ = IntArray(outJ.size) {
-                                                val res2: Int = if (currentKey!![it] != ResultSetDictionaryExt.undefValue) {
+                                                val res2: Int = if (currentKey!![it] != DictionaryExt.undefValue) {
                                                     currentKey!![it]
                                                 } else {
                                                     others[otherIndex].first.data[it]
@@ -316,7 +316,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
         if (emptyColumnsWithJoin) {
             res = object : IteratorBundle(0) {
                 override /*suspend*/ fun hasNext2(): Boolean {
-                    return outJ[0].next() != ResultSetDictionaryExt.nullValue
+                    return outJ[0].next() != DictionaryExt.nullValue
                 }
 
                 override /*suspend*/ fun hasNext2Close() {

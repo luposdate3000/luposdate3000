@@ -23,7 +23,7 @@ import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManager
 import lupos.s01io.BufferManagerExt
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
@@ -280,11 +280,11 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                         var count = 0
                         var distinct = 0
                         var lastValue = iterator.next()
-                        if (lastValue != ResultSetDictionaryExt.nullValue) {
+                        if (lastValue != DictionaryExt.nullValue) {
                             distinct++
                             count++
                             var value = iterator.next()
-                            while (value != ResultSetDictionaryExt.nullValue) {
+                            while (value != DictionaryExt.nullValue) {
                                 count++
                                 if (value != lastValue) {
                                     distinct++
@@ -298,7 +298,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                     2 -> {
                         val iterator = NodeInner.iterator2(node, filter, lock)
                         var count = 0
-                        while (iterator.next() != ResultSetDictionaryExt.nullValue) {
+                        while (iterator.next() != DictionaryExt.nullValue) {
                             count++
                         }
                         res = Pair(count, count)
@@ -360,7 +360,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             if (filter.size == 3) {
                 var count = 0
                 val it = NodeInner.iterator3(node, filter, lock)
-                while (it.next() != ResultSetDictionaryExt.nullValue) {
+                while (it.next() != DictionaryExt.nullValue) {
                     count++
                 }
                 res = IteratorBundle(count)
@@ -368,7 +368,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 if (projection[0] == "_") {
                     var count = 0
                     val it = NodeInner.iterator2(node, filter, lock)
-                    while (it.next() != ResultSetDictionaryExt.nullValue) {
+                    while (it.next() != DictionaryExt.nullValue) {
                         count++
                     }
                     res = IteratorBundle(count)
@@ -385,7 +385,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                     SanityCheck.check { projection[1] == "_" }
                     var count = 0
                     val it = NodeInner.iterator1(node, filter, lock, 1)
-                    while (it.next() != ResultSetDictionaryExt.nullValue) {
+                    while (it.next() != DictionaryExt.nullValue) {
                         count++
                     }
                     res = IteratorBundle(count)
@@ -653,7 +653,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 SanityCheck.check { tmpa == s }
             }
             val tmpa = iterator0.next()
-            SanityCheck.check { tmpa == ResultSetDictionaryExt.nullValue }
+            SanityCheck.check { tmpa == DictionaryExt.nullValue }
             SanityCheck.check { iterator0.label == 0 }
 //
             NodeManager.getNodeLeaf(firstLeaf) {
@@ -665,7 +665,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 SanityCheck.check { tmpb == s }
             }
             val tmpb = iterator1.next()
-            SanityCheck.check { tmpb == ResultSetDictionaryExt.nullValue }
+            SanityCheck.check { tmpb == DictionaryExt.nullValue }
             SanityCheck.check { iterator1.label == 0 }
 //
             NodeManager.getNodeLeaf(firstLeaf) {
@@ -677,7 +677,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 SanityCheck.check { tmpc == s }
             }
             val tmpc = iterator2.next()
-            SanityCheck.check { tmpc == ResultSetDictionaryExt.nullValue }
+            SanityCheck.check { tmpc == DictionaryExt.nullValue }
             SanityCheck.check { iterator2.label == 0 }
 //
             if (queueS.size > 0) {
@@ -710,8 +710,8 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                         SanityCheck.check { tmpf == currentP }
                         SanityCheck.check { tmpg == currentO }
                     } else {
-                        SanityCheck.check { tmpf == ResultSetDictionaryExt.nullValue }
-                        SanityCheck.check { tmpg == ResultSetDictionaryExt.nullValue }
+                        SanityCheck.check { tmpf == DictionaryExt.nullValue }
+                        SanityCheck.check { tmpg == DictionaryExt.nullValue }
                         SanityCheck.check { iterator11.label == 0 }
                         SanityCheck.check { iterator12.label == 0 }
                         NodeManager.getNodeLeaf(firstLeaf) {
@@ -734,8 +734,8 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 counters.add(count)
                 val tmpj = iterator11.next()
                 val tmpk = iterator12.next()
-                SanityCheck.check({ tmpj == ResultSetDictionaryExt.nullValue }, { "$queueS $queueP $queueO $tmpj $counters" })
-                SanityCheck.check { tmpk == ResultSetDictionaryExt.nullValue }
+                SanityCheck.check({ tmpj == DictionaryExt.nullValue }, { "$queueS $queueP $queueO $tmpj $counters" })
+                SanityCheck.check { tmpk == DictionaryExt.nullValue }
                 SanityCheck.check { iterator11.label == 0 }
                 SanityCheck.check { iterator12.label == 0 }
             }
@@ -865,7 +865,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                     if (lastS == currentS && lastP == currentP) {
                         SanityCheck.check { tmpl == currentO }
                     } else {
-                        SanityCheck.check { tmpl == ResultSetDictionaryExt.nullValue }
+                        SanityCheck.check { tmpl == DictionaryExt.nullValue }
                         SanityCheck.check { iterator22.label == 0 }
                         NodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
@@ -878,7 +878,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                     lastP = currentP
                 }
                 val tmpn = iterator22.next()
-                SanityCheck.check { tmpn == ResultSetDictionaryExt.nullValue }
+                SanityCheck.check { tmpn == DictionaryExt.nullValue }
                 SanityCheck.check { iterator22.label == 0 }
             }
             debugLock.writeLock()

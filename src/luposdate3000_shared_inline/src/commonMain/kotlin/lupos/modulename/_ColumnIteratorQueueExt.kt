@@ -16,7 +16,7 @@
  */
 package lupos.modulename
 
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 
 internal object _ColumnIteratorQueueExt {
@@ -37,7 +37,7 @@ internal object _ColumnIteratorQueueExt {
                         it.queue.removeAt(0)
                     } else {
                         onClose()
-                        ResultSetDictionaryExt.nullValue
+                        DictionaryExt.nullValue
                     }
                 } else {
                     it.queue.removeAt(0)
@@ -46,13 +46,13 @@ internal object _ColumnIteratorQueueExt {
             2 -> {
                 return if (it.queue.size == 0) {
                     onClose()
-                    ResultSetDictionaryExt.nullValue
+                    DictionaryExt.nullValue
                 } else {
                     it.queue.removeAt(0)
                 }
             }
             else -> {
-                return ResultSetDictionaryExt.nullValue
+                return DictionaryExt.nullValue
             }
         }
     }

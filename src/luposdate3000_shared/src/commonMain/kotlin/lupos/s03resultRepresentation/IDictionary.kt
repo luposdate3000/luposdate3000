@@ -16,7 +16,7 @@
  */
 package lupos.s03resultRepresentation
 
-public interface IResultSetDictionary {
+public interface IDictionary {
     public fun valueToGlobal(value: Int): Int
     public fun getValue(value: Int): ValueDefinition
     public fun createValue(value: String?): Int

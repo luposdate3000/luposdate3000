@@ -22,7 +22,7 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -144,7 +144,7 @@ public class POPDistributedReceiveSingle public constructor(
                 for (i in 0 until variables.size) {
                     iterator.buf[mapping[i]] = connection!!.input.readInt()
                 }
-                if (iterator.buf[0] == ResultSetDictionaryExt.nullValue) {
+                if (iterator.buf[0] == DictionaryExt.nullValue) {
                     connection!!.input.close()
                     connection!!.output.close()
                     connection = null

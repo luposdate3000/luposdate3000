@@ -16,7 +16,7 @@
  */
 package lupos.s04logicalOperators.iterator
 
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import kotlin.jvm.JvmField
 
 public class ColumnIteratorValue : ColumnIterator() {
@@ -31,7 +31,7 @@ public class ColumnIteratorValue : ColumnIterator() {
     }
 
     @JvmField
-    public var value: Int = ResultSetDictionaryExt.nullValue
+    public var value: Int = DictionaryExt.nullValue
 
     @JvmField
     public var done: Boolean = false
@@ -41,7 +41,7 @@ public class ColumnIteratorValue : ColumnIterator() {
 
     override /*suspend*/ fun next(): Int {
         return if (done) {
-            ResultSetDictionaryExt.nullValue
+            DictionaryExt.nullValue
         } else {
             done = true
             value

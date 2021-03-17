@@ -16,7 +16,7 @@
  */
 package lupos.s04logicalOperators.iterator
 
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import kotlin.jvm.JvmField
 
 public class ColumnIteratorMerge2(@JvmField public val a: ColumnIterator, @JvmField public val b: ColumnIterator) : ColumnIterator() {
@@ -24,10 +24,10 @@ public class ColumnIteratorMerge2(@JvmField public val a: ColumnIterator, @JvmFi
     public var label: Int = 3
 
     @JvmField
-    public var aBuf: Int = ResultSetDictionaryExt.nullValue
+    public var aBuf: Int = DictionaryExt.nullValue
 
     @JvmField
-    public var bBuf: Int = ResultSetDictionaryExt.nullValue
+    public var bBuf: Int = DictionaryExt.nullValue
     override /*suspend*/ fun close() {
         if (label != 0) {
             label = 0
@@ -37,25 +37,25 @@ public class ColumnIteratorMerge2(@JvmField public val a: ColumnIterator, @JvmFi
     }
 
     override /*suspend*/ fun next(): Int {
-        var res: Int = ResultSetDictionaryExt.nullValue
+        var res: Int = DictionaryExt.nullValue
         when (label) {
             1 -> { // call next on a, b is empty
                 res = a.next()
-                if (res == ResultSetDictionaryExt.nullValue) {
+                if (res == DictionaryExt.nullValue) {
                     a.close()
                     label = 0
                 }
             }
             2 -> { // call next on b, a is empty
                 res = b.next()
-                if (res == ResultSetDictionaryExt.nullValue) {
+                if (res == DictionaryExt.nullValue) {
                     b.close()
                     label = 0
                 }
             }
             4 -> { // call next on a, b is not empty
                 aBuf = a.next()
-                if (aBuf == ResultSetDictionaryExt.nullValue) {
+                if (aBuf == DictionaryExt.nullValue) {
                     a.close()
                     res = bBuf
                     label = 2
@@ -71,7 +71,7 @@ public class ColumnIteratorMerge2(@JvmField public val a: ColumnIterator, @JvmFi
             }
             5 -> { // call next on b, a is not empty
                 bBuf = b.next()
-                if (bBuf == ResultSetDictionaryExt.nullValue) {
+                if (bBuf == DictionaryExt.nullValue) {
                     b.close()
                     res = aBuf
                     label = 1
@@ -88,15 +88,15 @@ public class ColumnIteratorMerge2(@JvmField public val a: ColumnIterator, @JvmFi
             3 -> { // call next on both
                 aBuf = a.next()
                 bBuf = b.next()
-                if (aBuf == ResultSetDictionaryExt.nullValue && bBuf == ResultSetDictionaryExt.nullValue) {
+                if (aBuf == DictionaryExt.nullValue && bBuf == DictionaryExt.nullValue) {
                     a.close()
                     b.close()
                     label = 0
-                } else if (bBuf == ResultSetDictionaryExt.nullValue) {
+                } else if (bBuf == DictionaryExt.nullValue) {
                     b.close()
                     res = aBuf
                     label = 1
-                } else if (aBuf == ResultSetDictionaryExt.nullValue) {
+                } else if (aBuf == DictionaryExt.nullValue) {
                     a.close()
                     res = bBuf
                     label = 2

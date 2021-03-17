@@ -16,7 +16,7 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -43,8 +43,8 @@ public class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOp
         if (node is AOPBase && node !is AOPValue && node !is AOPBuildInCallNotExists && node !is AOPBuildInCallExists && node !is AOPVariable) {
             if (node.getChildren().isNotEmpty() && node.getRequiredVariableNamesRecoursive().isEmpty() && !hasAggregation(node)) {
                 var value = node.evaluateID(IteratorBundle(0))()
-                if (value == ResultSetDictionaryExt.errorValue) {
-                    value = ResultSetDictionaryExt.undefValue
+                if (value == DictionaryExt.errorValue) {
+                    value = DictionaryExt.undefValue
                 }
                 res = AOPConstant(query, value)
                 onChange()

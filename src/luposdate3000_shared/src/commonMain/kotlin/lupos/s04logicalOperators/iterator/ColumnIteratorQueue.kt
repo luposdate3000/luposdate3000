@@ -16,12 +16,12 @@
  */
 package lupos.s04logicalOperators.iterator
 
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import kotlin.jvm.JvmField
 
 public abstract class ColumnIteratorQueue : ColumnIterator() {
     @JvmField
-    public var tmp: Int = ResultSetDictionaryExt.nullValue
+    public var tmp: Int = DictionaryExt.nullValue
 
     @JvmField
     public val queue: MutableList<Int> = mutableListOf()

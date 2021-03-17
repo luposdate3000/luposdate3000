@@ -34,7 +34,7 @@ import lupos.s00misc.XMLElement
 import lupos.s00misc.XMLElementFromXML
 import lupos.s00misc.communicationHandler
 import lupos.s00misc.xmlParser.XMLParser
-import lupos.s03resultRepresentation.ResultSetDictionary
+import lupos.s03resultRepresentation.Dictionary
 import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.tripleStoreManager
@@ -89,7 +89,7 @@ public actual object HttpEndpointLauncher {
     internal var queryMappings = mutableMapOf<String, QueryMappingContainer>()
     public actual /*suspend*/ fun start() {
         fun registerDictionary(key: String): RemoteDictionaryServer {
-            val dict = RemoteDictionaryServer(ResultSetDictionary())
+            val dict = RemoteDictionaryServer(Dictionary())
             dictionaryMapping[key] = dict
             return dict
         }

@@ -17,7 +17,7 @@
 package lupos.s09physicalOperators.multiinput
 
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
 import kotlin.jvm.JvmField
@@ -115,7 +115,7 @@ internal class POPJoinMerge_Iterator(
     override /*suspend*/ fun next(): Int {
         return nextHelper(
             {
-                if (key0[0] != ResultSetDictionaryExt.nullValue && key1[0] != ResultSetDictionaryExt.nullValue) {
+                if (key0[0] != DictionaryExt.nullValue && key1[0] != DictionaryExt.nullValue) {
                     loop@ while (true) {
                         SanityCheck.check { columnsINJ0.isNotEmpty() }
 // first join column
@@ -130,8 +130,8 @@ internal class POPJoinMerge_Iterator(
                                     skipO0 += sipbuf[0]
                                     skip0++
                                     skipO0++
-                                    SanityCheck.check { key0[0] != ResultSetDictionaryExt.undefValue }
-                                    if (key0[0] == ResultSetDictionaryExt.nullValue) {
+                                    SanityCheck.check { key0[0] != DictionaryExt.undefValue }
+                                    if (key0[0] == DictionaryExt.nullValue) {
                                         __close()
                                         break@loop
                                     }
@@ -142,8 +142,8 @@ internal class POPJoinMerge_Iterator(
                                     skipO1 += sipbuf[0]
                                     skip1++
                                     skipO1++
-                                    SanityCheck.check { key1[0] != ResultSetDictionaryExt.undefValue }
-                                    if (key1[0] == ResultSetDictionaryExt.nullValue) {
+                                    SanityCheck.check { key1[0] != DictionaryExt.undefValue }
+                                    if (key1[0] == DictionaryExt.nullValue) {
                                         __close()
                                         break@loop
                                     }
@@ -153,8 +153,8 @@ internal class POPJoinMerge_Iterator(
                                 localNextJ = 1
                                 while (localNextJ < columnsINJ0.size) {
                                     key0[localNextJ] = columnsINJ0[localNextJ].skipSIP(skip0)
-                                    SanityCheck.check { key0[localNextJ] != ResultSetDictionaryExt.undefValue }
-                                    SanityCheck.check { key0[localNextJ] != ResultSetDictionaryExt.nullValue }
+                                    SanityCheck.check { key0[localNextJ] != DictionaryExt.undefValue }
+                                    SanityCheck.check { key0[localNextJ] != DictionaryExt.nullValue }
                                     localNextJ++
                                 }
                             }
@@ -162,8 +162,8 @@ internal class POPJoinMerge_Iterator(
                                 localNextJ = 1
                                 while (localNextJ < columnsINJ1.size) {
                                     key1[localNextJ] = columnsINJ1[localNextJ].skipSIP(skip1)
-                                    SanityCheck.check { key1[localNextJ] != ResultSetDictionaryExt.undefValue }
-                                    SanityCheck.check { key1[localNextJ] != ResultSetDictionaryExt.nullValue }
+                                    SanityCheck.check { key1[localNextJ] != DictionaryExt.undefValue }
+                                    SanityCheck.check { key1[localNextJ] != DictionaryExt.nullValue }
                                     localNextJ++
                                 }
                             }
@@ -176,8 +176,8 @@ internal class POPJoinMerge_Iterator(
                                 localNextJ = 0
                                 while (localNextJ < columnsINJ0.size) {
                                     key0[localNextJ] = columnsINJ0[localNextJ].next()
-                                    SanityCheck.check { key0[localNextJ] != ResultSetDictionaryExt.undefValue }
-                                    if (key0[localNextJ] == ResultSetDictionaryExt.nullValue) {
+                                    SanityCheck.check { key0[localNextJ] != DictionaryExt.undefValue }
+                                    if (key0[localNextJ] == DictionaryExt.nullValue) {
                                         SanityCheck.check { localNextJ == 0 }
                                         __close()
                                         break@loop
@@ -190,8 +190,8 @@ internal class POPJoinMerge_Iterator(
                                 localNextJ = 0
                                 while (localNextJ < columnsINJ1.size) {
                                     key1[localNextJ] = columnsINJ1[localNextJ].next()
-                                    SanityCheck.check { key1[localNextJ] != ResultSetDictionaryExt.undefValue }
-                                    if (key1[localNextJ] == ResultSetDictionaryExt.nullValue) {
+                                    SanityCheck.check { key1[localNextJ] != DictionaryExt.undefValue }
+                                    if (key1[localNextJ] == DictionaryExt.nullValue) {
                                         SanityCheck.check { localNextJ == 0 }
                                         __close()
                                         break@loop
@@ -237,7 +237,7 @@ internal class POPJoinMerge_Iterator(
                             localNextI = 0
                             while (localNextI < columnsINJ0.size) {
                                 key0[localNextI] = columnsINJ0[localNextI].next()
-                                SanityCheck.check { key0[localNextI] != ResultSetDictionaryExt.undefValue }
+                                SanityCheck.check { key0[localNextI] != DictionaryExt.undefValue }
                                 localNextI++
                             }
                             localNextI = 0
@@ -277,7 +277,7 @@ internal class POPJoinMerge_Iterator(
                             localNextI = 0
                             while (localNextI < columnsINJ1.size) {
                                 key1[localNextI] = columnsINJ1[localNextI].next()
-                                SanityCheck.check { key1[localNextI] != ResultSetDictionaryExt.undefValue }
+                                SanityCheck.check { key1[localNextI] != DictionaryExt.undefValue }
                                 localNextI++
                             }
                             localNextI = 0

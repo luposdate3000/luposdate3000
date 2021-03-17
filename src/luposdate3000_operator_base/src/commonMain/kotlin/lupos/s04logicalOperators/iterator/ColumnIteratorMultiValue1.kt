@@ -16,7 +16,7 @@
  */
 package lupos.s04logicalOperators.iterator
 
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s03resultRepresentation.DictionaryExt
 import kotlin.jvm.JvmField
 
 public class ColumnIteratorMultiValue1(@JvmField public val values: MutableList<Int>) : ColumnIterator() {
@@ -28,7 +28,7 @@ public class ColumnIteratorMultiValue1(@JvmField public val values: MutableList<
 
     public /*suspend*/ override fun next(): Int {
         return if (index == values.size) {
-            ResultSetDictionaryExt.nullValue
+            DictionaryExt.nullValue
         } else {
             values[index++]
         }

@@ -19,11 +19,11 @@ package lupos.s16network
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyReadWriteLock
-import lupos.s03resultRepresentation.IResultSetDictionary
+import lupos.s03resultRepresentation.IDictionary
 import lupos.s03resultRepresentation.ValueDefinition
 import kotlin.jvm.JvmField
 
-internal class RemoteDictionaryServer(@JvmField val dictionary: IResultSetDictionary) : IResultSetDictionary {
+internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary) : IDictionary {
     @JvmField
     internal val lock = MyReadWriteLock()
     public override fun valueToGlobal(value: Int): Int {
