@@ -107,6 +107,10 @@ public class ResultSetDictionaryGlobal {
     }
 
     internal inline fun hasValue(value: ValueDefinition): Int? {
-        return kv.hasValue(ResultSetDictionaryHelper.valueToByteArray(value)) or ResultSetDictionaryShared.flaggedValueGlobal
+        val tmp = kv.hasValue(ResultSetDictionaryHelper.valueToByteArray(value))
+        if (tmp == null) {
+            return null
+        }
+        return tmp or ResultSetDictionaryShared.flaggedValueGlobal
     }
 }
