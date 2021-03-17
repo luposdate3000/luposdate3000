@@ -20,6 +20,7 @@ import lupos.fileformat.DictionaryIntermediateReader
 import lupos.kv.KeyValueStore
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.SanityCheck
+import lupos.s03resultRepresentation.ValueDefinition
 
 public val nodeGlobalDictionary: DictionaryGlobal = DictionaryGlobal()
 

@@ -16,6 +16,8 @@
  */
 package lupos.dictionary
 
+import lupos.s03resultRepresentation.ValueDefinition
+
 public interface IDictionary {
     public fun valueToGlobal(value: Int): Int
     public fun getValue(value: Int): ValueDefinition
