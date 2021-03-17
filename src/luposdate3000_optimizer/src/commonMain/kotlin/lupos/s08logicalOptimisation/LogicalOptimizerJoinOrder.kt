@@ -136,4 +136,8 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
         }
         return res
     }
+
+    override fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase> {
+        TODO("Not yet implemented")
+    }
 }

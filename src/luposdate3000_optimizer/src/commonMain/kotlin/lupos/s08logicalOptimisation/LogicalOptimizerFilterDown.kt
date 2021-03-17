@@ -96,6 +96,11 @@ public class LogicalOptimizerFilterDown(query: Query) : OptimizerBase(query, EOp
         }
         return res
     }
+
+    override fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase> {
+        TODO("Not yet implemented")
+    }
+
     private fun addFilters(filters: MutableList<AOPBase>, filter: AOPBase) {
         if (filter is AOPAnd) {
             addFilters(filters, filter.getChildren()[0] as AOPBase)

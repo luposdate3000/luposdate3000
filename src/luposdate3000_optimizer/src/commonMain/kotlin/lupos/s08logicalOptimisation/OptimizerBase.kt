@@ -16,11 +16,11 @@
  */
 
 package lupos.s08logicalOptimisation
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOptimizerID
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
-import kotlin.jvm.JvmField
 public abstract class OptimizerBase internal constructor(@JvmField public val query: Query, @JvmField public val optimizerID: EOptimizerID) {
     public abstract val classname: String
     public abstract /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase
@@ -43,6 +43,7 @@ public abstract class OptimizerBase internal constructor(@JvmField public val qu
         }
         return optimize(node, parent, onChange)
     }
+
     public open /*suspend*/ fun optimizeCall(node: IOPBase): IOPBase {
         return optimizeCall(node, {})
     }
@@ -55,5 +56,17 @@ public abstract class OptimizerBase internal constructor(@JvmField public val qu
             res.syntaxVerifyAllVariableExists(listOf(), false)
         }
         return res
+    }
+
+    /*
+        Added by Rico
+
+        was necessary to add the optimizeCallRico
+
+     */
+    public abstract fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase>
+
+    public open /*suspend*/ fun optimizeCallRico(node: IOPBase): MutableList<IOPBase> {
+        return optimizeCallRico(node) {}
     }
 }

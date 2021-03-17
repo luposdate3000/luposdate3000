@@ -16,6 +16,7 @@
  */
 
 package lupos.s04arithmetikOperators.noinput
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -26,14 +27,19 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import kotlin.jvm.JvmField
 public class AOPVariable public constructor(query: IQuery, @JvmField public var name: String) : AOPBase(query, EOperatorIDExt.AOPVariableID, "AOPVariable", arrayOf()), IAOPVariable {
     override fun getName(): String = name
     override fun toSparql(): String = "?$name".replace("#", "LuposVariable")
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {}
     override fun getRequiredVariableNames(): List<String> = listOf(name)
     override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement().addAttribute("name", name)
-    override fun cloneOP(): IOPBase = this
+
+    //Changed by Rico
+    //
+    //  was cloneOP(): IOPBase = this before
+    //  was causing a problem in the visualization because the AOPVariable was present
+    //  in multiple places within the Operator graph (same ID for different nodes)
+    override fun cloneOP(): IOPBase = AOPVariable(query, this.getName())
     override fun equals(other: Any?): Boolean = other is AOPVariable && name == other.name
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val tmp = row.columns[name]

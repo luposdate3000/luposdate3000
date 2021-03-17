@@ -15,29 +15,45 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.s08logicalOptimisation
+/*
+    Added by Rico
+
+    Is adding a POPRico operator between every Operator for the visualization
+
+ */
+
+package lupos.s10physicalOptimisation
 import lupos.s00misc.EOptimizerIDExt
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.multiinput.AOPAnd
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.singleinput.LOPFilter
-public class LogicalOptimizerFilterSplitAND(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterSplitANDID) {
-    override val classname: String = "LogicalOptimizerFilterSplitAND"
+import lupos.s08logicalOptimisation.OptimizerBase
+import lupos.s09physicalOperators.POPBase
+import lupos.s09physicalOperators.singleinput.POPRico
+
+//TODO: PhysicalOptimizerDebugID ersetzen
+
+public class PhysicalOptimizerRico(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerDebugID) {
+
+    override val classname: String = "PhysicalOptimizerRico"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        var res: IOPBase = node
-        if (node is LOPFilter && node.dontSplitFilter == 0) {
-            val child = node.getChildren()[0]
-            val aopcompare = node.getChildren()[1]
-            if (aopcompare is AOPAnd) {
-                onChange()
-                res = LOPFilter(query, aopcompare.getChildren()[0] as AOPBase, LOPFilter(query, aopcompare.getChildren()[1] as AOPBase, child))
+        var res = node
+        when (node) {
+
+            !is POPRico -> {
+                    // this code is intended to be debugging only - even if it changes the resulting operator-graph
+                    if (node is POPBase && (parent !is POPRico)) {
+                        res = POPRico(query, node.projectedVariables, node)
+                        if (parent != null) {
+                            res.setParent(parent)
+                        }
+                        onChange()
+                    }
             }
         }
         return res
     }
 
     override fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase> {
-        TODO("Not yet implemented")
+        TODO("No implementation")
     }
 }

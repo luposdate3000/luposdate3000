@@ -16,17 +16,12 @@
  */
 
 package lupos.s09physicalOperators
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.HistogramNotImplementedException
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.VariableNotDefinedSyntaxException
-import lupos.s00misc.XMLElement
+import kotlin.jvm.JvmField
+import lupos.s00misc.*
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.OPBase
-import kotlin.jvm.JvmField
 public abstract class POPBase public constructor(
     query: IQuery,
     @JvmField public var projectedVariables: List<String>,
@@ -47,6 +42,19 @@ public abstract class POPBase public constructor(
         }
         return res
     }
+
+    //Added by Rico
+    //Setter for parent node
+    public override fun setParent(parent: IOPBase){
+        this.parentNode = parent
+    }
+
+    //Added by Rico
+    //Getter for parent node
+    public override fun getParent(): IOPBase{
+        return parentNode
+    }
+
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         for (i in 0 until childrenToVerifyCount()) {
             children[i].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)

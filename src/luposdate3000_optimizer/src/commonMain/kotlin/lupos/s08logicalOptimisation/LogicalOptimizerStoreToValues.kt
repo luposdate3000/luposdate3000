@@ -48,7 +48,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
             }
             if (node.alreadyCheckedStore != hashCode) {
                 node.alreadyCheckedStore = hashCode
-                // dont query the same statements twice ... 
+                // dont query the same statements twice ...
                 val variables = mutableListOf<String>()
                 for (c in node.getChildren()) {
                     if (c is AOPVariable) {
@@ -109,5 +109,9 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
             }
         }
         return res
+    }
+
+    override fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase> {
+        TODO("Not yet implemented")
     }
 }

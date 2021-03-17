@@ -80,6 +80,11 @@ public class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EO
         }
         return res
     }
+
+    override fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase> {
+        TODO("Not yet implemented")
+    }
+
     private fun searchForOptionalJoin(node: IOPBase, variableName: String, action: (IOPBase, Int) -> Unit) {
         for (c in node.getChildren().indices) {
             val child = node.getChildren()[c]

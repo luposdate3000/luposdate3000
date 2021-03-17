@@ -104,4 +104,8 @@ public class PhysicalOptimizerPartition6(query: Query) : OptimizerBase(query, EO
         }
         return res
     }
+
+    override fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase> {
+        TODO("Not yet implemented")
+    }
 }

@@ -34,6 +34,9 @@ public interface IOPBase {
     public fun getLatestChild(): IOPBase
     public fun getPossibleSortPriorities(): List<List<SortHelper>>
     public fun getUUID(): Long
+    //Added by Rico
+    //Setter for UUID
+    public fun setUUID(newUUID: Long)
     public fun getChildren(): Array<IOPBase>
     public fun getMySortPriority(): MutableList<SortHelper>
     public fun setMySortPriority(value: MutableList<SortHelper>)
@@ -54,4 +57,8 @@ public interface IOPBase {
     public fun getPartOfAskQuery(): Boolean
     public fun setPartOfAskQuery(value: Boolean)
     public fun setOnlyExistenceRequired(value: Boolean)
+    //Added by Rico
+    // Setter & getter for parent node
+    public fun getParent(): IOPBase
+    public fun setParent(parent: IOPBase)
 }

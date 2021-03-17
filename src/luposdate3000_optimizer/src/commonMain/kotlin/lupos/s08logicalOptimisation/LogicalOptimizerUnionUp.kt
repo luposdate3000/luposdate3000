@@ -38,4 +38,8 @@ public class LogicalOptimizerUnionUp(query: Query) : OptimizerBase(query, EOptim
         }
         return res
     }
+
+    override fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase> {
+        TODO("Not yet implemented")
+    }
 }

@@ -21,13 +21,9 @@ import lupos.s00misc.EOptimizerIDHelper
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
-import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPMergePartition
-import lupos.s09physicalOperators.partition.POPMergePartitionCount
-import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPSplitPartition
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
+import lupos.s09physicalOperators.partition.*
 import lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal
+
 public abstract class OptimizerCompoundBase internal constructor(query: Query, optimizerID: EOptimizerID) : OptimizerBase(query, optimizerID) {
     override val classname: String = "OptimizerCompoundBase"
     public abstract val childrenOptimizers: Array<Array<OptimizerBase>>
@@ -93,6 +89,7 @@ public abstract class OptimizerCompoundBase internal constructor(query: Query, o
             verifyPartitionOperators(c, allList, currentPartitions, root)
         }
     }
+
     override /*suspend*/ fun optimizeCall(node: IOPBase, onChange: () -> Unit): IOPBase {
         if (query.filtersMovedUpFromOptionals) {
             node.syntaxVerifyAllVariableExists(listOf(), true)
@@ -104,7 +101,8 @@ public abstract class OptimizerCompoundBase internal constructor(query: Query, o
             while (d) {
                 d = false
                 for (o in opt) {
-                    SanityCheck.println { "debug ${o.optimizerID}" }
+                    //SanityCheck.println { "debug ${o.optimizerID}" }
+                    //SanityCheck.println{"debug rico: " + node.toXMLElement()}
                     var c = true
                     while (c) {
                         c = false
@@ -139,4 +137,57 @@ public abstract class OptimizerCompoundBase internal constructor(query: Query, o
         }
         return tmp
     }
+
+    // Added by Rico
+    //
+    // Same as optimizeCall but is saving each step of the process in the List for
+    // the visualization
+    override /*suspend*/ fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase> {
+        if (query.filtersMovedUpFromOptionals) {
+            node.syntaxVerifyAllVariableExists(listOf(), true)
+        }
+        var tmp = node
+        var d: Boolean
+        var steps = mutableListOf<IOPBase>()
+        for (opt in childrenOptimizers) {
+            d = true
+            while (d) {
+                d = false
+                for (o in opt) {
+                    var c = true
+                    while (c) {
+                        c = false
+                        tmp = o.optimizeInternal(tmp, null) {
+                            if (EOptimizerIDHelper.repeatOnChange[o.optimizerID]) {
+                                c = true
+                                d = true
+                                onChange()
+                            }
+                        }
+                        steps.add(tmp)
+                    }
+                    SanityCheck {
+                        val allPartitionOperators = mutableMapOf<Int, MutableSet<Long>>()
+                        verifyPartitionOperators(tmp, allPartitionOperators, mutableMapOf<String, Int>(), tmp)
+                        for ((k, v1) in allPartitionOperators) {
+                            val v2 = query.partitionOperators[k]
+                            SanityCheck.check({ v1 == v2 }, { "$allPartitionOperators  <-a-> ${query.partitionOperators}\n$tmp" })
+                        }
+                        for ((k, v1) in query.partitionOperators) {
+                            val v2 = allPartitionOperators[k]
+                            SanityCheck.check({ v1 == v2 }, { "$allPartitionOperators  <-b-> ${query.partitionOperators}\n$tmp" })
+                        }
+                        if (query.filtersMovedUpFromOptionals) {
+                            tmp.syntaxVerifyAllVariableExists(listOf(), false)
+                        }
+                    }
+                }
+            }
+        }
+        if (query.filtersMovedUpFromOptionals) {
+            tmp.syntaxVerifyAllVariableExists(listOf(), false)
+        }
+        return steps
+    }
+
 }

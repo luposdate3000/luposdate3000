@@ -16,25 +16,8 @@
  */
 
 package lupos.s16network
-import lupos.s00misc.DateHelperRelative
-import lupos.s00misc.EModifyTypeExt
-import lupos.s00misc.ETripleComponentType
-import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.File
-import lupos.s00misc.IMyPrintWriter
-import lupos.s00misc.MyPrintWriter
-import lupos.s00misc.MyStringStream
-import lupos.s00misc.OperatorGraphToLatex
-import lupos.s00misc.Partition
-import lupos.s00misc.QueryResultToStream
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.UnreachableException
-import lupos.s00misc.XMLElement
-import lupos.s00misc.XMLElementFromCsv
-import lupos.s00misc.XMLElementFromJson
-import lupos.s00misc.XMLElementFromN3
-import lupos.s00misc.XMLElementFromTsv
-import lupos.s00misc.XMLElementFromXML
+import kotlin.js.JsName
+import lupos.s00misc.*
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
@@ -43,23 +26,18 @@ import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s03resultRepresentation.nodeGlobalDictionary
+import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
 import lupos.s08logicalOptimisation.LogicalOptimizer
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s10physicalOptimisation.PhysicalOptimizer
-import lupos.s11outputResult.EQueryResultToStream
-import lupos.s11outputResult.EQueryResultToStreamExt
-import lupos.s11outputResult.QueryResultToEmptyStream
-import lupos.s11outputResult.QueryResultToEmptyWithDictionaryStream
-import lupos.s11outputResult.QueryResultToMemoryTable
-import lupos.s11outputResult.QueryResultToXMLElement
-import lupos.s11outputResult.QueryResultToXMLStream
+import lupos.s11outputResult.*
 import lupos.s14endpoint.convertToOPBase
 import lupos.s15tripleStoreDistributed.DistributedTripleStore
 import lupos.s15tripleStoreDistributed.distributedTripleStore
-import kotlin.js.JsName
 /*
  * This is the interface of the database
  * Do not overload any function here - because that would yield bad function names in the exported headers.
@@ -307,10 +285,13 @@ public object LuposdateEndpoint {
     /*suspend*/ public fun evaluateSparqlToOperatorgraphA(query: String): IOPBase {
         return evaluateSparqlToOperatorgraphB(query, false)
     }
+
+    //Changed by Rico:
+    //Added the traverseNetwork call for changing the UUIDs for visualiziation
     @JsName("evaluate_sparql_to_operatorgraph_b")
     /*suspend*/ public fun evaluateSparqlToOperatorgraphB(query: String, logOperatorGraph: Boolean): IOPBase {
         val q = Query()
-//        var timer = DateHelperRelative.markNow()
+        //        var timer = DateHelperRelative.markNow()
         SanityCheck.println { "----------String Query" }
         SanityCheck.println { query }
         SanityCheck.println { "----------Abstract Syntax Tree" }
@@ -319,24 +300,29 @@ public object LuposdateEndpoint {
         val ltit = LookAheadTokenIterator(tit, 3)
         val parser = SPARQLParser(ltit)
         val astNode = parser.expr()
-// println("timer #401 ${DateHelperRelative.elapsedSeconds(timer)}")
-//        timer = DateHelperRelative.markNow()
+        // println("timer #401 ${DateHelperRelative.elapsedSeconds(timer)}")
+        //        timer = DateHelperRelative.markNow()
         SanityCheck.println { astNode }
         SanityCheck.println { "----------Logical Operator Graph" }
         val lopNode = astNode.visit(OperatorGraphVisitor(q))
-// println("timer #402 ${DateHelperRelative.elapsedSeconds(timer)}")
-//        timer = DateHelperRelative.markNow()
+        // println("timer #402 ${DateHelperRelative.elapsedSeconds(timer)}")
+        //        timer = DateHelperRelative.markNow()
         SanityCheck.println { lopNode }
         SanityCheck.println { "----------Logical Operator Graph optimized" }
         val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
-// println("timer #403 ${DateHelperRelative.elapsedSeconds(timer)}")
-//        timer = DateHelperRelative.markNow()
+        // println("timer #403 ${DateHelperRelative.elapsedSeconds(timer)}")
+        //        timer = DateHelperRelative.markNow()
         SanityCheck.println { lopNode2 }
         SanityCheck.println { "----------Physical Operator Graph" }
         val popOptimizer = PhysicalOptimizer(q)
         val popNode = popOptimizer.optimizeCall(lopNode2)
-// println("timer #404 ${DateHelperRelative.elapsedSeconds(timer)}")
-//        timer = DateHelperRelative.markNow()
+
+        //Calling traverseNetwork function to change the UUIDs via DFS
+        var hashMap2:HashMap<IOPBase,Int> = HashMap()
+        hashMap2 = traverseNetwork(popNode, hashMap2)
+
+        // println("timer #404 ${DateHelperRelative.elapsedSeconds(timer)}")
+        //        timer = DateHelperRelative.markNow()
         SanityCheck.println { popNode }
         if (logOperatorGraph) {
             println("----------")
@@ -346,20 +332,25 @@ public object LuposdateEndpoint {
             println("<<<<<<<<<<")
             println(OperatorGraphToLatex(popNode.toXMLElement().toString(), ""))
         }
-// println("timer #406 ${DateHelperRelative.elapsedSeconds(timer)}")
+        // println("timer #406 ${DateHelperRelative.elapsedSeconds(timer)}")
         return popNode
     }
     @JsName("evaluate_operatorgraph_to_result")
     /*suspend*/ public fun evaluateOperatorgraphToResult(node: IOPBase, output: IMyPrintWriter) {
         evaluateOperatorgraphToResultA(node, output, EQueryResultToStreamExt.DEFAULT_STREAM)
     }
+
+    //Changed by Rico:
+    //Added the traverseNetwork call for changing the UUIDs for visualiziation
     @JsName("evaluate_operatorgraph_to_result_a")
     /*suspend*/ public fun evaluateOperatorgraphToResultA(node: IOPBase, output: IMyPrintWriter, evaluator: EQueryResultToStream): Any? {
-// var timer = DateHelperRelative.markNow()
+    // var timer = DateHelperRelative.markNow()
         output.println("HTTP/1.1 200 OK")
         output.println("Content-Type: text/plain")
         output.println()
         node.getQuery().reset()
+        var hashMap:HashMap<IOPBase,Int> = HashMap() //define empty hashmap
+        traverseNetwork(node, hashMap)
         var res: Any? = null
         res = when (evaluator) {
             EQueryResultToStreamExt.DEFAULT_STREAM -> QueryResultToStream(node, output)
@@ -372,7 +363,7 @@ public object LuposdateEndpoint {
         }
         distributedTripleStore.commit(node.getQuery())
         node.getQuery().setCommited()
-// println("timer #407 ${DateHelperRelative.elapsedSeconds(timer)}")
+        // println("timer #407 ${DateHelperRelative.elapsedSeconds(timer)}")
         return res
     }
     @JsName("evaluate_sparql_to_result_b")
@@ -392,10 +383,10 @@ public object LuposdateEndpoint {
     }
     @JsName("evaluate_sparql_to_result_d")
     /*suspend*/ public fun evaluateSparqlToResultD(query: String, output: IMyPrintWriter, logOperatorGraph: Boolean) {
-// var timer = DateHelperRelative.markNow()
+    // var timer = DateHelperRelative.markNow()
         val node = evaluateSparqlToOperatorgraphB(query, logOperatorGraph)
         evaluateOperatorgraphToResult(node, output)
-// println("timer #408 ${DateHelperRelative.elapsedSeconds(timer)}")
+    // println("timer #408 ${DateHelperRelative.elapsedSeconds(timer)}")
     }
     @JsName("evaluate_operatorgraphXML_to_result_a")
     /*suspend*/ public fun evaluateOperatorgraphxmlToResultA(query: String): String {
@@ -437,5 +428,179 @@ public object LuposdateEndpoint {
     }
     init {
         initialize()
+    }
+
+    //
+    // -- Code added by Rico für visualiziation
+    //
+
+    // Function by Rico
+    // Optimising the physical operator graph and is returning each step of the process for visualisation
+    @JsName("getOptimizedStepsPhysical")
+    public fun getOptimizedStepsPhysical(query: String): Array<String>{
+        val q = Query()
+        val lcit = LexerCharIterator(query)
+        val tit = TokenIteratorSPARQLParser(lcit)
+        val ltit = LookAheadTokenIterator(tit, 3)
+        val parser = SPARQLParser(ltit)
+        val astNode = parser.expr()
+        val lopNode = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
+        val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode) //Log Operatorgraph Optimized
+        val popOptimizer = PhysicalOptimizer(q)
+        //Variation of normal optimizeCall function with the change that it returns
+        //an array of solutions (steps of optimization)
+        val tmp = popOptimizer.optimizeCallRico(lopNode2) //Physical Operatorgraph
+
+        var result = mutableListOf<String>()
+        //Change the UUIDs in each step beginning from 1 via DFS.
+        for (i in tmp){
+            var hashMap:HashMap<IOPBase,Int> = HashMap()
+            traverseNetwork(i, hashMap)
+            result.add(getJsonData(i))
+        }
+        return result.toTypedArray()
+    }
+
+    //Function by Rico
+    // Optimising the logical operator graph and is returning each step of the process for visualisation
+    @JsName("getOptimizedStepsLogical")
+    public fun getOptimizedStepsLogical(query: String): Array<String>{
+        val q = Query()
+        val lcit = LexerCharIterator(query)
+        val tit = TokenIteratorSPARQLParser(lcit)
+        val ltit = LookAheadTokenIterator(tit, 3)
+        val parser = SPARQLParser(ltit)
+        val astNode = parser.expr()
+        val lopNode = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
+        var tmp = LogicalOptimizer(q).optimizeCallRico(lopNode) //Log Operatorgraph Optimized
+        var result = mutableListOf<String>()
+        //Change the UUIDs in each step beginning from 1 via DFS.
+        for (i in tmp){
+            var hashMap:HashMap<IOPBase,Int> = HashMap()
+            traverseNetwork(i, hashMap)
+            result.add(getJsonData(i))
+        }
+        return result.toTypedArray()
+    }
+
+    //Input: (Sub)-Tree of the Query
+    //Output: Node and Edge Information as String for each node of the tree
+    //
+    //Receives a node as IOPBase and calls sub methods to determine the Node and
+    //Edge data as strings which are needed for the visualization framework.
+    private fun getJsonData(baum: IOPBase): String{
+        var x = baum
+        //Calling traverseNetwork method to change the UUIDs via DFS.
+        var hashMap:HashMap<IOPBase,Int> = HashMap() //define empty hashmap
+        hashMap = traverseNetwork(x, hashMap)
+
+        //Sub-String creation for all Node Data
+        var node = "["
+        node+= createNodeJson(x, hashMap)
+        node=node.subSequence(0, node.length-1).toString()
+        node+="]"
+
+        //Sub-String creation for all Edge Data
+        var edge = "["
+            for (i in x.getChildren()) {
+                edge += createEdgeJson(i, hashMap[x], hashMap)
+            }
+
+        edge=edge.subSequence(0, edge.length-1).toString()
+        edge+="]"
+
+        //"SPLITHERE" will be the marker to split the node data from the edge data
+        //in the visualization code
+        return node+"SPLITHERE"+edge
+    }
+
+    //Input: (Sub)-Tree as IOPBase, Hashmap
+    //Output: New Hashmap
+    //
+    //Method checks if an node is already included
+    // -> yes: cloning operator to avoid ID duplicate in the visualization and
+    // -> no: adding node to the hashmap and reassigning the UUID based on the size of the
+    //          hashmap, which results in an DFS like reassignment of the UUIDs.
+    private fun traverseNetwork(teilbaum: IOPBase, hash: HashMap<IOPBase, Int>): HashMap<IOPBase, Int>{
+            var hashMap : HashMap<IOPBase, Int> = hash
+            var x = teilbaum
+            // Node already included (node is multiple times within the tree)
+            if(hash.containsKey(x)){
+                var tmp = x.cloneOP()
+                hash.put(tmp, hash.size + 1)
+                hash[tmp]?.let { tmp.setUUID(it.toLong()) }
+                if(tmp.getChildren().isNotEmpty()){
+                    for (i in tmp.getChildren()){
+                        hashMap = traverseNetwork(i, hash)
+                    }
+                }
+            //Node not included
+            }else{
+                hash.put(x, hash.size + 1)
+                hash[x]?.let { x.setUUID(it.toLong()) }
+                if(x.getChildren().isNotEmpty()){
+                    for (i in x.getChildren()){
+                        hashMap = traverseNetwork(i, hash)
+                    }
+                }
+           }
+            return hashMap
+    }
+
+    //Input: (Sub)-Tree as IOPBase, UUID from the node that is connection to this node, hashmap
+    //Output: Edge information as string needed for visualization framework
+    //
+    //Outputs a string that creates an Edge in the visualization framework
+    private fun createEdgeJson(teilbaum: IOPBase, uuid: Int?, hash: HashMap<IOPBase, Int>): String {
+        var x = teilbaum
+        var hashMap: HashMap<IOPBase, Int> = hash
+        var toId = uuid //UUID of the node that is connected to this node (x)
+        var result = String()
+            result += "{\"from\": ${hashMap[x]}, \"to\": $toId,\"width\":1},"
+            if (x.getChildren().isNotEmpty()) {
+                for (i in x.getChildren()) {
+                    result += createEdgeJson(i, hashMap[x], hashMap)
+                }
+            }
+            return result
+    }
+
+    //Input: (Sub)-Tree as IOPBase,  hashmap
+    //Output: Node information as string needed for visualization framework
+    //
+    //Outputs a string that creates a Node in the visualization framework
+    private fun createNodeJson(teilbaum: IOPBase, hash: HashMap<IOPBase, Int>): String{
+        var x = teilbaum
+        var hashMap: HashMap<IOPBase, Int> = hash
+        var result = String()
+        var label = String()
+            try {
+                // AOPVariable and AOPConstant have a different structure as IOPBase
+                // -> Different variables are containing the needed information for visualization
+                if(x is AOPVariable) {
+                    label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
+                        "?"+x.getName().replace("\n", "").replace("\"", "\\\"")
+                    }\""
+                }else if(x is AOPConstant){
+                    label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
+                        x.toSparql().replace("\n", "").replace("\"", "\\\"")
+                    }\""
+                // In general: All IOPBase nodes
+                }else{
+                    label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
+                        x.getProvidedVariableNames().toString().replace("\n", "").replace("\"", "\\\"")
+                    }\""
+                }
+                // In case getProvidedVariableNames is not defined for a given operator.
+            } catch (e: Exception) {
+                label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\""
+            }
+            result += "{\"id\": ${hashMap[x]}, $label},"
+            if (x.getChildren().isNotEmpty()) {
+                for (i in x.getChildren()) {
+                    result += createNodeJson(i, hashMap)
+                }
+            }
+            return result
     }
 }

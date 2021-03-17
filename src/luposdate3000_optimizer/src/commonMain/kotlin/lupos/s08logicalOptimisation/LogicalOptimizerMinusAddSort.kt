@@ -41,4 +41,8 @@ public class LogicalOptimizerMinusAddSort(query: Query) : OptimizerBase(query, E
         }
         return res
     }
+
+    override fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase> {
+        TODO("Not yet implemented")
+    }
 }

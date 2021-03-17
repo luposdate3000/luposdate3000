@@ -47,7 +47,17 @@ public class PhysicalOptimizer public constructor(query: Query) : OptimizerCompo
             PhysicalOptimizerPartition6(query), //
         ),
         arrayOf(
-            PhysicalOptimizerDebug(query)
-        )
+        /*
+            Changed by Rico:
+
+            Added the PhysicalOptimizerRico, which is adding a POPRico Operator between
+            every operator (like POPDebug) which is needed for the visualization of the
+            operator graph
+
+         */
+
+            //PhysicalOptimizerDebug(query)
+            PhysicalOptimizerRico(query),//
+        ),
     )
 }

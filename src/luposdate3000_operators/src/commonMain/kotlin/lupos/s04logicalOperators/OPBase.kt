@@ -16,20 +16,8 @@
  */
 
 package lupos.s04logicalOperators
-import lupos.s00misc.BugException
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.ESortTypeExt
-import lupos.s00misc.EvaluateNotImplementedException
-import lupos.s00misc.HistogramNotImplementedException
-import lupos.s00misc.Parallel
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.SortHelper
-import lupos.s00misc.ToSparqlNotImplementedException
-import lupos.s00misc.VariableNotDefinedSyntaxException
-import lupos.s00misc.XMLElement
+import kotlin.jvm.JvmField
+import lupos.s00misc.*
 import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -38,14 +26,9 @@ import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallExists
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s04logicalOperators.singleinput.LOPFilter
-import lupos.s04logicalOperators.singleinput.LOPNOOP
-import lupos.s04logicalOperators.singleinput.LOPProjection
-import lupos.s04logicalOperators.singleinput.LOPSort
+import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 import lupos.s09physicalOperators.singleinput.POPSort
-import kotlin.jvm.JvmField
 public abstract class OPBase public constructor(@JvmField public val query: IQuery, @JvmField public val operatorID: EOperatorID, @JvmField public val classname: String, @JvmField public val children: Array<IOPBase>, private val sortPriority: ESortPriority) : IOPBase {
     override fun getClassname(): String = classname
     @JvmField
@@ -56,8 +39,13 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
     /*partOfAskQuery :: if_ true, prefer join with store, otherwiese perform fast-sort followed by reduced everywhere*/
     @JvmField
     public var alreadyCheckedStore: Long = -1L
+    //Added by Rico
+    //Containing the parent Node of a node
+    public var parentNode: IOPBase = this
+    //Changed by Rico.
+    //Making the UUID changeable
     @JvmField
-    public val uuid: Long = global_uuid++
+    public var uuid: Long = global_uuid++
     @JvmField
     public var sortPrioritiesInitialized: Boolean = false
     @JvmField
@@ -80,6 +68,21 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
     }
     override fun setMySortPriority(value: MutableList<SortHelper>) {
         mySortPriority = value
+    }
+    //Added by Rico:
+    //Setter for the parent node
+    public override fun setParent(parent: IOPBase){
+        this.parentNode = parent
+    }
+    //Added by Rico:
+    //Getter for the parent node
+    public override fun getParent(): IOPBase{
+        return parentNode
+    }
+    //Added by Rico:
+    //Setter for the UUID
+    public override fun setUUID(newUUID:Long){
+        this.uuid = newUUID
     }
     override fun getQuery(): IQuery = query
     override fun getSortPriorities(): MutableList<List<SortHelper>> = sortPriorities

@@ -16,6 +16,7 @@
  */
 
 package lupos.s04arithmetikOperators.noinput
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueBnode
@@ -24,7 +25,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import kotlin.jvm.JvmField
+
 public class AOPConstant : AOPBase, IAOPConstant {
     @JvmField
     public val value: Int
@@ -55,5 +56,11 @@ public class AOPConstant : AOPBase, IAOPConstant {
             value
         }
     }
-    override fun cloneOP(): IOPBase = this
+
+    //Changed by Rico
+    //
+    //  was cloneOP(): IOPBase = this before
+    //  was causing a problem in the visualization because the AOPConstant was present
+    //  in multiple places within the Operator graph (same ID for different nodes)
+    override fun cloneOP(): IOPBase = AOPConstant(query, value)
 }
