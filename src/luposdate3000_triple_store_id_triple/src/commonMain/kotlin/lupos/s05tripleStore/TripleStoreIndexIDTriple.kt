@@ -16,6 +16,7 @@
  */
 package lupos.s05tripleStore
 
+import lupos.dictionary.DictionaryExt
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ETripleIndexTypeExt
 import lupos.s00misc.MyReadWriteLock
@@ -23,7 +24,6 @@ import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
 import lupos.s01io.BufferManager
 import lupos.s01io.BufferManagerExt
-import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty

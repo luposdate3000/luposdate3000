@@ -16,6 +16,7 @@
  */
 package lupos.s05tripleStore
 
+import lupos.dictionary.DictionaryExt
 import lupos.s00misc.BugException
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
@@ -24,7 +25,6 @@ import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.communicationHandler
-import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.noinput.IAOPConstant

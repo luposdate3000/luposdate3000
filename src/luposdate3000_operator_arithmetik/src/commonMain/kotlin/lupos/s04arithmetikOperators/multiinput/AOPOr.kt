@@ -16,8 +16,8 @@
  */
 package lupos.s04arithmetikOperators.multiinput
 
+import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EOperatorIDExt
-import lupos.s03resultRepresentation.DictionaryExt
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase

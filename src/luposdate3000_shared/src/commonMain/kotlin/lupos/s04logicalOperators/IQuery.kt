@@ -16,7 +16,7 @@
  */
 package lupos.s04logicalOperators
 
-import lupos.s03resultRepresentation.IDictionary
+import lupos.dictionary.IDictionary
 
 public interface IQuery {
     public fun getDictionary(): IDictionary

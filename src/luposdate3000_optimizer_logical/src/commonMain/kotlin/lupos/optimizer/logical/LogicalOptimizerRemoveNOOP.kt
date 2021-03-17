@@ -16,7 +16,7 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s03resultRepresentation.DictionaryExt
+import lupos.dictionary.DictionaryExt
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query

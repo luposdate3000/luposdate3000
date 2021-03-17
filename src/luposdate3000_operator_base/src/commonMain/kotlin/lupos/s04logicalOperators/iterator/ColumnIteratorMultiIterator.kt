@@ -16,7 +16,7 @@
  */
 package lupos.s04logicalOperators.iterator
 
-import lupos.s03resultRepresentation.DictionaryExt
+import lupos.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
 
 public class ColumnIteratorMultiIterator(@JvmField public val childs: List<ColumnIterator>) : ColumnIterator() {

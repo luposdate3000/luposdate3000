@@ -16,10 +16,10 @@
  */
 package lupos.s04arithmetikOperators.multiinput
 
+import lupos.dictionary.DictionaryExt
+import lupos.dictionary.DictionaryShared
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.Luposdate3000Exception
-import lupos.s03resultRepresentation.DictionaryExt
-import lupos.s03resultRepresentation.DictionaryShared
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase

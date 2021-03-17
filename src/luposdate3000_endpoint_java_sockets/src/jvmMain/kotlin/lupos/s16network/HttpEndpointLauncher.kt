@@ -16,6 +16,8 @@
  */
 package lupos.s16network
 
+import lupos.dictionary.Dictionary
+import lupos.dictionary.nodeGlobalDictionary
 import lupos.endpoint.LuposdateEndpoint
 import lupos.jena.JenaWrapper
 import lupos.operator.factory.XMLElementToOPBase
@@ -34,8 +36,6 @@ import lupos.s00misc.XMLElement
 import lupos.s00misc.XMLElementFromXML
 import lupos.s00misc.communicationHandler
 import lupos.s00misc.xmlParser.XMLParser
-import lupos.s03resultRepresentation.Dictionary
-import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase

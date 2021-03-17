@@ -16,7 +16,7 @@
  */
 package lupos.modulename
 
-import lupos.s03resultRepresentation.DictionaryExt
+import lupos.dictionary.DictionaryExt
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 
 internal object _ColumnIteratorQueueExt {

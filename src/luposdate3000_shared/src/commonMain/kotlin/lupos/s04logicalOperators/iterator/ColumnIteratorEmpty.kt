@@ -16,7 +16,7 @@
  */
 package lupos.s04logicalOperators.iterator
 
-import lupos.s03resultRepresentation.DictionaryExt
+import lupos.dictionary.DictionaryExt
 
 public open class ColumnIteratorEmpty : ColumnIterator() {
     override /*suspend*/ fun next(): Int {

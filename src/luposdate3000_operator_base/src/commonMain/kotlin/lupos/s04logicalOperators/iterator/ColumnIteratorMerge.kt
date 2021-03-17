@@ -16,9 +16,9 @@
  */
 package lupos.s04logicalOperators.iterator
 
+import lupos.dictionary.DictionaryExt
 import lupos.s00misc.MERGE_SORT_MIN_ROWS
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.DictionaryExt
 
 public object ColumnIteratorMerge {
     public /*suspend*/ operator fun invoke(a: ColumnIterator, comparator: Comparator<Int>): ColumnIterator {

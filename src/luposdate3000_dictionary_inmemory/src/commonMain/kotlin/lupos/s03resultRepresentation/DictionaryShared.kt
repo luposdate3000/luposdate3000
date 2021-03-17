@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s03resultRepresentation
+package lupos.dictionary
 
 public object DictionaryShared {
     /*to most significant bit leads to signed errors because toInt sadly performs a whole reencoding of the int and stores it completely different*/

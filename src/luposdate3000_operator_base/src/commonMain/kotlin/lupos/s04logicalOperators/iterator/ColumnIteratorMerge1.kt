@@ -16,7 +16,7 @@
  */
 package lupos.s04logicalOperators.iterator
 
-import lupos.s03resultRepresentation.DictionaryExt
+import lupos.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
 
 public class ColumnIteratorMerge1(@JvmField public val a: ColumnIterator, @JvmField public val b: ColumnIterator, @JvmField public val comparator: Comparator<Int>) : ColumnIterator() {

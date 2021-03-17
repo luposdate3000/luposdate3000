@@ -16,7 +16,7 @@
  */
 package lupos.s09physicalOperators.multiinput
 
-import lupos.s03resultRepresentation.DictionaryExt
+import lupos.dictionary.DictionaryExt
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 

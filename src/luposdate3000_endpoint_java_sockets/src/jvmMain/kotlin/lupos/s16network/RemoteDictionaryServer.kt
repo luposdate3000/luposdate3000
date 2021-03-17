@@ -16,10 +16,10 @@
  */
 package lupos.s16network
 
+import lupos.dictionary.IDictionary
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyReadWriteLock
-import lupos.s03resultRepresentation.IDictionary
 import lupos.s03resultRepresentation.ValueDefinition
 import kotlin.jvm.JvmField
 

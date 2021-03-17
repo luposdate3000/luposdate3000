@@ -16,11 +16,11 @@
  */
 package lupos.s04logicalOperators
 
+import lupos.dictionary.Dictionary
+import lupos.dictionary.IDictionary
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.MyLock
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.Dictionary
-import lupos.s03resultRepresentation.IDictionary
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.shared.optimizer.distributedOptimizerQueryFactory
 import kotlin.jvm.JvmField

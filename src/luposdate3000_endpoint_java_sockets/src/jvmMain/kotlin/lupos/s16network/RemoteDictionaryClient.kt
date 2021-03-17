@@ -16,11 +16,11 @@
  */
 package lupos.s16network
 
+import lupos.dictionary.DictionaryExt
+import lupos.dictionary.IDictionary
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.DictionaryExt
-import lupos.s03resultRepresentation.IDictionary
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDateTime

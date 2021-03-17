@@ -16,6 +16,10 @@
  */
 package lupos.test
 
+import lupos.dictionary.Dictionary
+import lupos.dictionary.DictionaryExt
+import lupos.dictionary.IDictionary
+import lupos.dictionary.nodeGlobalDictionary
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
@@ -37,10 +41,6 @@ import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s03resultRepresentation.Dictionary
-import lupos.s03resultRepresentation.DictionaryExt
-import lupos.s03resultRepresentation.IDictionary
-import lupos.s03resultRepresentation.nodeGlobalDictionary
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase

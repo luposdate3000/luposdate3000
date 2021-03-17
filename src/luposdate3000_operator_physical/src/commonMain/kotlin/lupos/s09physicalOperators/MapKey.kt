@@ -16,8 +16,8 @@
  */
 package lupos.s09physicalOperators
 
+import lupos.dictionary.DictionaryExt
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.DictionaryExt
 import kotlin.jvm.JvmField
 
 internal class MapKey(@JvmField val data: IntArray) {
