@@ -707,7 +707,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("    for (f in configurations.getByName(\"jvmCompileClasspath\").resolve()) {")
                     out.println("        libraryjars(files(\"\$f\"))")
                     out.println("    }")
-                    out.println("    printusage()")
+                    out.println("    printusage(\"usage.pro\")")
                     out.println("    forceprocessing()")
                     out.println("    optimizationpasses(5)")
                     out.println("    allowaccessmodification()")
