@@ -187,7 +187,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
             }
         }
         if (row.isNotEmpty()) {
-            for ((n, closeIndex) in child.columns) {
+            for (closeIndex in child.columns.values) {
                 closeIndex.close()
             }
         } else {

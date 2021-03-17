@@ -421,7 +421,7 @@ public actual object HttpEndpointLauncher {
                                         val formId = k.replace("/", "_")
                                         connectionOutMy.println("       $('#$formId').on(\"submit\", function(event) {")
                                         connectionOutMy.println("           var formData = {")
-                                        for ((p, q) in v.params) {
+                                        for (p in v.params.keys) {
                                             connectionOutMy.println("               '${p.first}': $('#$formId [name=${p.first}]').val(),")
                                         }
                                         connectionOutMy.println("           };")

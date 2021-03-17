@@ -138,7 +138,6 @@ private fun myPrintKSClassifierReference(indention: String, node: KSClassifierRe
 }
 
 private fun myPrintKSFile(indention: String, node: KSFile) {
-    val myindent = indention + "  "
     myPrintKSDeclarationContainer(indention, node)
     myPrintKSAnnotated(indention, node)
     mylogger.println("LuposdateCodeGen ::$indention packageName ${node.packageName.asString()}")
@@ -154,7 +153,6 @@ private fun myPrintKSDeclarationContainer(indention: String, node: KSDeclaration
 }
 
 private fun myPrintKSDynamicReference(indention: String, node: KSDynamicReference) {
-    val myindent = indention + "  "
     myPrintKSReferenceElement(indention, node)
 }
 
@@ -245,7 +243,6 @@ private fun myPrintKSTypeParameter(indention: String, node: KSTypeParameter) {
 }
 
 private fun myPrintKSExpectActual(indention: String, node: KSExpectActual) {
-    val myindent = indention + "  "
     mylogger.println("LuposdateCodeGen ::$indention isActual ${node.isActual}")
     mylogger.println("LuposdateCodeGen ::$indention isExpect ${node.isExpect}")
 }
@@ -265,7 +262,6 @@ private fun myPrintKSDeclaration(indention: String, node: KSDeclaration) {
 }
 
 private fun myPrintKSPropertyAccessor(indention: String, node: KSPropertyAccessor) {
-    val myindent = indention + "  "
     myPrintKSAnnotated(indention, node)
     myPrintKSModifierListOwner(indention, node)
 //    mylogger.println("LuposdateCodeGen ::$indention receiver")
@@ -293,7 +289,6 @@ private fun myPrintKSTypeArgument(indention: String, node: KSTypeArgument) {
 }
 
 private fun myPrintKSValueArgument(indention: String, node: KSValueArgument) {
-    val myindent = indention + "  "
     myPrintKSAnnotated(indention, node)
     mylogger.println("LuposdateCodeGen ::$indention name ${node.name?.asString()}")
     mylogger.println("LuposdateCodeGen ::$indention isSpread ${node.isSpread}")
@@ -301,7 +296,6 @@ private fun myPrintKSValueArgument(indention: String, node: KSValueArgument) {
 }
 
 private fun myPrintKSModifierListOwner(indention: String, node: KSModifierListOwner) {
-    val myindent = indention + "  "
     mylogger.println("LuposdateCodeGen ::$indention modifiers ${node.modifiers}")
 }
 

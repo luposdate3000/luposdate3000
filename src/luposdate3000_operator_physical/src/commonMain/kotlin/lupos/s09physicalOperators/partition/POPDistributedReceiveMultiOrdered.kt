@@ -131,7 +131,7 @@ public class POPDistributedReceiveMultiOrdered public constructor(
         for ((k, v) in hosts) {
             allConnections[k] = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))
         }
-        for ((k, v) in hosts) {
+        for (k in hosts.keys) {
             val conn = allConnections[k]!!
             var mapping = IntArray(variables.size)
             val cnt = conn.first.readInt()

@@ -19,7 +19,6 @@ package lupos.s09physicalOperators.partition
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.ESortTypeExt
-import lupos.s00misc.MyLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelCondition
 import lupos.s00misc.Partition
@@ -149,7 +148,6 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
         val ringbufferStart = IntArray(partitionCountSrc) { it * elementsPerRing } // constant
         val ringbufferReadHead = IntArray(partitionCountSrc) { 0 } // owned by read-thread - no locking required
         val ringbufferWriteHead = IntArray(partitionCountSrc) { 0 } // owned by write thread - no locking required
-        val continuationLock = MyLock()
         val ringbufferWriterContinuation = Array(partitionCountSrc) { Parallel.createCondition() }
         val ringbufferReaderContinuation: ParallelCondition = Parallel.createCondition()
         val writerFinished = IntArray(partitionCountSrc) { 0 } // writer changes to 1 if finished

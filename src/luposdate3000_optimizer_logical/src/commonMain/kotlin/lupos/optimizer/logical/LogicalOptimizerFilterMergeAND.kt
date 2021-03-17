@@ -54,7 +54,6 @@ public class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query,
                     SanityCheck.check { c is AOPAnd }
                     val d = c.getChildren()[1] as AOPBase
                     SanityCheck.check { d is AOPBuildInCallCOALESCE }
-                    val e = d.getChildren()[0] as AOPBase // original-filter
                     if (a is AOPBuildInCallBOUND) {
                         // TODO check if that bound is one of the options for this optional block
                         res = LOPFilter(query, c, child.getChildren()[0])

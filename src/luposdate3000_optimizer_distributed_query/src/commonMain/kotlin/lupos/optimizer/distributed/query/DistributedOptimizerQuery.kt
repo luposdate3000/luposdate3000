@@ -255,7 +255,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                 }
             }
 // publish the query to the other database instances
-            for ((k, v) in operatorgraphParts) {
+            for (k in operatorgraphParts.keys) {
                 println("$k -> ${operatorgraphPartsToHostMap[k]}")
             }
             var res: XMLElement? = null

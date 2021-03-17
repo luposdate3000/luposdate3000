@@ -146,7 +146,7 @@ public object QueryResultToEmptyWithDictionaryStream {
         for (i in nodes.indices) {
             val node = nodes[i]
             if (node is OPNothing) {
-                val variables = node.getProvidedVariableNames()
+                node.getProvidedVariableNames()
             } else {
                 val columnNames: List<String>
                 if (columnProjectionOrder[i].isNotEmpty()) {
@@ -158,7 +158,7 @@ public object QueryResultToEmptyWithDictionaryStream {
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
                     val child = node.evaluateRoot()
-                    val value = node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next())
+                    node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next())
                     child.columns["?boolean"]!!.close()
                 } else {
                     if (variables.isEmpty()) {

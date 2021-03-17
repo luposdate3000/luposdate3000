@@ -110,8 +110,6 @@ public class POPDistributedReceiveMultiCount public constructor(
     override fun toSparql(): String = children[0].toSparql()
     override fun equals(other: Any?): Boolean = other is POPDistributedReceiveMultiCount && children[0] == other.children[0] && partitionVariable == other.partitionVariable
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        var connections = Array<MyConnection?>(partitionCount) { null }
-        var openConnections = 0
         SanityCheck.check { hosts.size == partitionCount }
         val handler = communicationHandler
         val allConnections = mutableMapOf<String, Pair<IMyInputStream, IMyOutputStream>>()
@@ -119,7 +117,7 @@ public class POPDistributedReceiveMultiCount public constructor(
             allConnections[k] = handler.openConnection(v, "/distributed/query/execute", mapOf("key" to k, "dictionaryURL" to query.getDictionaryUrl()!!))
         }
         var count = 0
-        for ((k, v) in hosts) {
+        for (k in hosts.keys) {
             val conn = allConnections[k]!!
             count += conn.first.readInt()
             conn.first.close()

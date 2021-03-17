@@ -114,7 +114,6 @@ public abstract class OPBase public constructor(
     }
 
     override /*suspend*/ fun evaluateRoot(): IteratorBundle {
-        val key = "${query.getTransactionID()}"
         val node = query.initialize(this)
         val res = node.evaluate(Partition())
         return res

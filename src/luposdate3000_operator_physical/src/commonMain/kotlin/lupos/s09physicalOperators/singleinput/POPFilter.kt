@@ -69,7 +69,7 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                     /*suspend*/ inline fun __close() {
                         if (label != 0) {
                             ColumnIteratorQueueExt._close(this)
-                            for ((k, v) in child.columns) {
+                            for (v in child.columns.values) {
                                 v.close()
                             }
                         }
@@ -87,7 +87,7 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                                             // point each iterator to the current value
                                             if (columnsLocal[variableIndex2].tmp == ResultSetDictionaryExt.nullValue) {
                                                 SanityCheck.check { variableIndex2 == 0 }
-                                                for ((k, v) in child.columns) {
+                                                for (v in child.columns.values) {
                                                     v.close()
                                                 }
                                                 for (variableIndex3 in 0 until variables.size) {
@@ -109,7 +109,7 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                                         }
                                     }
                                 } catch (e: NotImplementedException) {
-                                    for ((k, v) in child.columns) {
+                                    for (v in child.columns.values) {
                                         v.close()
                                     }
                                     throw e
@@ -149,7 +149,7 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                 } else {
                     res = object : IteratorBundle(0) {
                         override /*suspend*/ fun hasNext2Close() {
-                            for ((k, v) in child.columns) {
+                            for (v in child.columns.values) {
                                 v.close()
                             }
                         }
@@ -163,7 +163,7 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                                         columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
                                         // point each iterator to the current value
                                         if (columnsLocal[variableIndex2].tmp == ResultSetDictionaryExt.nullValue) {
-                                            for ((k, v) in child.columns) {
+                                            for (v in child.columns.values) {
                                                 v.close()
                                             }
                                             SanityCheck.check { variableIndex2 == 0 }
@@ -183,7 +183,7 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                                     }
                                 }
                             } catch (e: NotImplementedException) {
-                                for ((k, v) in child.columns) {
+                                for (v in child.columns.values) {
                                     v.close()
                                 }
                                 throw e
@@ -196,7 +196,7 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                 res = IteratorBundle(outMap)
             }
         } catch (e: NotImplementedException) {
-            for ((k, v) in child.columns) {
+            for (v in child.columns.values) {
                 v.close()
             }
             throw e

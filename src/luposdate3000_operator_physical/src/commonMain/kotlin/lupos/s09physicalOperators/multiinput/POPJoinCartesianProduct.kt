@@ -80,7 +80,6 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
         val outO = Array(2) { mutableListOf<ColumnIteratorChildIterator>() } // only in one of the childs
         val outMap = mutableMapOf<String, ColumnIterator>()
         val res: IteratorBundle?
-        var t: ColumnIteratorChildIterator
         for (name in columns[1]) {
             columnsINAO.add(childA.columns[name]!!)
         }
@@ -100,7 +99,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                     outMap[columns[2][columnIndex]] = ColumnIteratorRepeatIterator(childA.count(), columnsINBO[columnIndex])
                 }
             } else {
-                for ((k, v) in childB.columns) {
+                for (v in childB.columns.values) {
                     v.close()
                 }
                 for (columnIndex in 0 until columnsINBO.size) {
@@ -114,7 +113,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                     outMap[columns[1][columnIndex]] = ColumnIteratorRepeatIterator(childB.count(), columnsINAO[columnIndex])
                 }
             } else {
-                for ((k, v) in childA.columns) {
+                for (v in childA.columns.values) {
                     v.close()
                 }
                 for (columnIndex in 0 until columnsINAO.size) {
@@ -133,7 +132,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                     data[columnIndex].add(value)
                 }
             }
-            for ((k, v) in childB.columns) {
+            for (v in childB.columns.values) {
                 v.close()
             }
             count = data[0].size
@@ -149,7 +148,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                             /*suspend*/ inline fun __close() {
                                 if (label != 0) {
                                     _close()
-                                    for ((k, v) in childA.columns) {
+                                    for (v in childA.columns.values) {
                                         v.close()
                                     }
                                 }
@@ -164,7 +163,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                                             if (value == ResultSetDictionaryExt.nullValue) {
                                                 SanityCheck.check { columnIndex == 0 }
                                                 done = true
-                                                for ((k, v) in childA.columns) {
+                                                for (v in childA.columns.values) {
                                                     v.close()
                                                 }
                                                 break
@@ -190,7 +189,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                         }
                     }
                 } else {
-                    for ((k, v) in childA.columns) {
+                    for (v in childA.columns.values) {
                         v.close()
                     }
                     for (i in 0 until columns[1].size + columns[2].size) {
@@ -215,7 +214,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                         /*suspend*/ inline fun __close() {
                             if (label != 0) {
                                 _close()
-                                for ((k, v) in childA.columns) {
+                                for (v in childA.columns.values) {
                                     v.close()
                                 }
                             }
@@ -230,7 +229,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
                                         if (value == ResultSetDictionaryExt.nullValue) {
                                             SanityCheck.check { columnIndex == 0 }
                                             done = true
-                                            for ((k, v) in childA.columns) {
+                                            for (v in childA.columns.values) {
                                                 v.close()
                                             }
                                             break

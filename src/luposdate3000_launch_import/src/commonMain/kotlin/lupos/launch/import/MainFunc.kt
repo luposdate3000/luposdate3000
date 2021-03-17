@@ -51,7 +51,6 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     } else {
         "triples"
     }
-    val byteBuf = ByteArray(1)
     val dictSizeLimit = 1024L * 1024L * 1024L
     var dictSizeEstimated = 0L
     var chunc = 0
@@ -212,7 +211,6 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         val outputPartitionsFile = File("$inputFileName.partitions")
         println("partition-stats :: ")
         val lowerBoundToAnalyse = 256L
-        val labels = arrayOf("s", "p", "o")
         val partitionSizes = intArrayOf(2, 4, 8, 16)
         val tripleBuf = LongArray(3)
         val counters = Array(3) { LongArray(currentValue.toInt()) }
@@ -266,7 +264,6 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         val configurations2 = mutableMapOf<String, MutableSet<Int>>()
         for (i in 0 until 3) {
             for (j2 in 0 until 2) {
-                val j = (i + j2 + 1) % 3
                 val x = estimatedPartitionSizes[i + j2 * 3]
                 var lastMax = -1L
                 var maxPartition = partitionSizes[0]
@@ -274,7 +271,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                     val k = partitionSizes[ki]
                     var min = -1L
                     var max = 0L
-                    for ((xk, xv) in x) {
+                    for (xv in x.values) {
                         for (xx in xv[ki]) {
                             if (xx > max) {
                                 max = xx

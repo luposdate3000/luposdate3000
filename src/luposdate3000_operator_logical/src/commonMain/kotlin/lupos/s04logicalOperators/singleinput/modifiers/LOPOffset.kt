@@ -38,7 +38,7 @@ public class LOPOffset public constructor(query: IQuery, @JvmField public val of
         res.count = childHistogram.count - offset
         if (res.count < 0) {
             res.count = 0
-            for ((k, v) in childHistogram.values) {
+            for (k in childHistogram.values.keys) {
                 res.values[k] = 0
             }
         } else {

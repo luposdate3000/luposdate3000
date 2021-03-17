@@ -149,7 +149,6 @@ public class POPJoinWithStore public constructor(query: IQuery, projectedVariabl
         for (i in 0 until columnsINAJ.size) {
             valuesAJ[i] = columnsINAJ[i].next()
         }
-        val theuuid = uuid
         if (valuesAJ[0] != ResultSetDictionaryExt.nullValue) {
 // there is at least one value in A
             for (i in 0 until indicesINBJ.size) {

@@ -120,7 +120,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                             onChange()
                         }
                     }
-                    for ((k, v) in columns) {
+                    for (v in columns.values) {
                         v.close()
                     }
                 }

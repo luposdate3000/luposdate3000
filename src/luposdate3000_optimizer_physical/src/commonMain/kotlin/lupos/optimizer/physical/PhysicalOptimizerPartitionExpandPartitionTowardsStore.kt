@@ -66,9 +66,9 @@ public class PhysicalOptimizerPartitionExpandPartitionTowardsStore(query: Query)
                                 c.hasSplitFromStore = true
                                 println("PhysicalOptimizerPartitionExpandPartitionTowardsStore : initialize specific ${c.getUUID()}")
                                 if (node.projectedVariables.size > 0) {
-                                    res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, node.partitionCount, node.partitionID, c)
+                                    res = POPSplitPartitionFromStore(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)
                                 } else {
-                                    res = POPSplitPartitionFromStoreCount(query, node.projectedVariables, node.partitionVariable, node.partitionCount, node.partitionID, c)
+                                    res = POPSplitPartitionFromStoreCount(query, node.projectedVariables, node.partitionVariable, new_count, node.partitionID, c)
                                 }
                                 query.removePartitionOperator(node.getUUID(), node.partitionID)
                                 query.addPartitionOperator(res.getUUID(), node.partitionID)

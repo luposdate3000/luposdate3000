@@ -243,10 +243,10 @@ public class XMLElement(tag: String) {
             val myRemaining = mutableListOf<XMLElement>()
             val otherRemaining = mutableListOf<XMLElement>()
             if (biginput) {
-                for ((k, v) in myMap) {
+                for (v in myMap.values) {
                     myRemaining.addAll(v)
                 }
-                for ((k, v) in otherMap) {
+                for (v in otherMap.values) {
                     otherRemaining.addAll(v)
                 }
             } else {

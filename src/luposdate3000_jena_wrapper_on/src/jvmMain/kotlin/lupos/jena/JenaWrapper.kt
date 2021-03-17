@@ -100,7 +100,7 @@ public object JenaWrapper {
             if (logging) {
                 val plan = QueryExecutionFactory.createPlan(query, dataset.asDatasetGraph(), null)
                 val op = plan.op
-                val op2 = Optimize.optimize(op, qexec.context)
+                Optimize.optimize(op, qexec.context)
             }
         } catch (e: Throwable) {
             e.printStackTrace()

@@ -57,7 +57,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                         throw e
                     }
                     val columnMode = mutableListOf<String>()
-                    for ((k, v) in child.columns) {
+                    for (k in child.columns.keys) {
                         columnMode.add(k)
                     }
                     SanityCheck.check { columnMode.containsAll(target) }

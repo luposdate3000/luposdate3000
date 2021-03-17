@@ -179,7 +179,7 @@ public open class SparqlTestSuite {
                 // follow list of entries:
                 listMembers(data, it2) { it3 ->
                     // for_ printing out the name:
-                    val name = data.sp(it3, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name"))
+//                    val name = data.sp(it3, Dictionary.IRI("http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#name"))
                     numberOfTests++
                     if (!testOneEntry(data, it3, newprefix)) {
                         numberOfErrors++
@@ -547,6 +547,7 @@ public open class SparqlTestSuite {
                         ignoreJena = true
                     }
                 }
+/*
                 if (services != null) {
                     for (s in services) {
                         val n = s["name"]!!
@@ -555,6 +556,7 @@ public open class SparqlTestSuite {
 // TODO
                     }
                 }
+*/
             } else {
                 if (MAX_TRIPLES_DURING_TEST in 1 until lastTripleCount) {
                     println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
