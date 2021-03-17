@@ -26,7 +26,7 @@ public class BufferManager {
     @JvmField
     public val name: String
 
-    internal constructor(name: String) {
+    public constructor(name: String) {
         this.name = name
     }
 
