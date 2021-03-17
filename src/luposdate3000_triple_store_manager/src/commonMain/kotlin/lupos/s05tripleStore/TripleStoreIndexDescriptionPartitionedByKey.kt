@@ -80,7 +80,7 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
 
     init {
         when (idx) {
-            EIndexPatternExt.SPO, EIndexPatternExt.SOP, EIndexPatternExt.PSO, EIndexPatternExt.POS, EIndexPatternExt.OPS, EIndexPatternExt.OPS -> {
+            EIndexPatternExt.SPO, EIndexPatternExt.SOP, EIndexPatternExt.PSO, EIndexPatternExt.POS, EIndexPatternExt.OPS, EIndexPatternExt.OSP -> {
                 idx_set = intArrayOf(EIndexPatternExt.SPO, EIndexPatternExt.SOP, EIndexPatternExt.PSO, EIndexPatternExt.POS, EIndexPatternExt.OPS, EIndexPatternExt.OPS)
                 key_size = 3
             }

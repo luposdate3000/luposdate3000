@@ -127,7 +127,7 @@ public class POPDistributedSendMulti public constructor(
         val buf2 = partitionVariable.encodeToByteArray()
         for (connectionOut in data) {
             connectionOut!!.writeInt(buf2.size)
-            connectionOut!!.write(buf2)
+            connectionOut.write(buf2)
         }
 // all other columns
         for (v in projectedVariables) {
@@ -136,7 +136,7 @@ public class POPDistributedSendMulti public constructor(
                 val buf = v.encodeToByteArray()
                 for (connectionOut in data) {
                     connectionOut!!.writeInt(buf.size)
-                    connectionOut!!.write(buf)
+                    connectionOut.write(buf)
                 }
             }
         }
@@ -150,14 +150,14 @@ public class POPDistributedSendMulti public constructor(
             val connectionOut = data[buf % partitionCount]
             connectionOut!!.writeInt(buf)
 // all other columns
-            for (i in 1 until variables.size) {
-                buf = columns[i].next()
-                connectionOut!!.writeInt(buf)
+            for (j in 1 until variables.size) {
+                buf = columns[j].next()
+                connectionOut.writeInt(buf)
             }
             buf = columns[0].next()
         }
         for (connectionOut in data) {
-            for (i in 0 until variables.size) {
+            for (j in 0 until variables.size) {
                 connectionOut!!.writeInt(buf)
             }
         }

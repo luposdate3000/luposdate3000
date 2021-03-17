@@ -427,8 +427,8 @@ public class ResultSetDictionary : IResultSetDictionary {
                 res = createIri(value.iri)
             }
             is ValueDateTime -> {
-                val tmp = value.valueToString()
-                res = createTyped(tmp.substring(1, tmp.length - 1 - "^^<http://www.w3.org/2001/XMLSchema#dateTime>".length), "http://www.w3.org/2001/XMLSchema#dateTime")
+                val tmp2 = value.valueToString()
+                res = createTyped(tmp2.substring(1, tmp2.length - 1 - "^^<http://www.w3.org/2001/XMLSchema#dateTime>".length), "http://www.w3.org/2001/XMLSchema#dateTime")
             }
         }
         SanityCheck {

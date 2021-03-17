@@ -42,7 +42,7 @@ public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOper
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
                         storeNodeTmp = storeNodeTmp.getChildren()[0]
                     }
-                    val storeNode = storeNodeTmp as POPTripleStoreIterator
+                    val storeNode = storeNodeTmp
                     val max_count = query.partitionOperatorCount[node.partitionID]
                     println("PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator : initialize specific ${node.getUUID()}")
                     val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)
@@ -58,7 +58,7 @@ public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOper
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStoreCount
                         storeNodeTmp = storeNodeTmp.getChildren()[0]
                     }
-                    val storeNode = storeNodeTmp as POPTripleStoreIterator
+                    val storeNode = storeNodeTmp
                     val max_count = query.partitionOperatorCount[node.partitionID]
                     println("PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator : initialize specific ${node.getUUID()}")
                     val new_count = storeNode.changeToIndexWithMaximumPartitions(max_count, node.partitionVariable)

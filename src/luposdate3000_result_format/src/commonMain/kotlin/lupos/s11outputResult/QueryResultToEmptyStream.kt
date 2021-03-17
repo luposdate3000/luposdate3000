@@ -102,7 +102,7 @@ public object QueryResultToEmptyStream {
             query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
         }
         val nodes: Array<IOPBase>
-        var columnProjectionOrder = listOf<List<String>>()
+        var columnProjectionOrder: List<List<String>>
         if (rootNode is OPBaseCompound) {
             nodes = Array(rootNode.children.size) { rootNode.children[it] }
             columnProjectionOrder = rootNode.columnProjectionOrder

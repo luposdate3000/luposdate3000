@@ -197,7 +197,6 @@ internal inline fun parse_ws(
         onSKIP_WS()
         return
     }
-    throw ParserExceptionUnexpectedChar(context)
 }
 
 internal inline fun parse_element_start(
@@ -560,7 +559,6 @@ internal inline fun parse_content_or_child(
             }
         }
     }
-    throw ParserExceptionUnexpectedChar(context)
 }
 
 @Suppress("NOTHING_TO_INLINE")

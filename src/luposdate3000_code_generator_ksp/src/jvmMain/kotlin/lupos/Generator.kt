@@ -73,8 +73,8 @@ public class SampleProcessor : SymbolProcessor {
         out.println("actual public  fun abc():String=\"abc-string\"")
         out.close()
         val files = resolver.getAllFiles()
-        files.forEach { file ->
-            printAll("", file)
+        files.forEach { file2 ->
+            printAll("", file2)
         }
     }
 

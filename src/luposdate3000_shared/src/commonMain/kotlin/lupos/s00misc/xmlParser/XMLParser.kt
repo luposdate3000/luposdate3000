@@ -46,53 +46,51 @@ public object XMLParser {
             },
             onTAG = {
                 val element = XMLElement(context.getValue())
-                if (element != null) {
-                    var loop = true
-                    while (loop) {
-                        parse_ws(context, {})
-                        parse_attribute_or_close_tag(
-                            context,
-                            onATTRIBUTE_NAME = {
-                                var attributeName = context.getValue()
-                                parse_attribute_assinment(context, {})
-                                parse_attribute_value(
-                                    context,
-                                    onATTRIBUTE_VALUE = {
-                                        val attributeValue = context.getValue()
-                                        element.addAttribute(attributeName, attributeValue.substring(1, attributeValue.length - 1))
-                                    }
-                                )
-                            },
-                            onELEMENT_CLOSE_IMMEDIATELY = {
-                                loop = false
-                                stack[stack.size - 1].addContent(element)
-                                parse_ws(context, {})
-                                if (context.c != ParserContext.EOF) {
+                var loop = true
+                while (loop) {
+                    parse_ws(context, {})
+                    parse_attribute_or_close_tag(
+                        context,
+                        onATTRIBUTE_NAME = {
+                            var attributeName = context.getValue()
+                            parse_attribute_assinment(context, {})
+                            parse_attribute_value(
+                                context,
+                                onATTRIBUTE_VALUE = {
+                                    val attributeValue = context.getValue()
+                                    element.addAttribute(attributeName, attributeValue.substring(1, attributeValue.length - 1))
+                                }
+                            )
+                        },
+                        onELEMENT_CLOSE_IMMEDIATELY = {
+                            loop = false
+                            stack[stack.size - 1].addContent(element)
+                            parse_ws(context, {})
+                            if (context.c != ParserContext.EOF) {
+                                parse_element_start(context, {})
+                                res = true
+                            }
+                        },
+                        onELEMENT_CLOSE_LATER = {
+                            loop = false
+                            stack[stack.size - 1].addContent(element)
+                            stack.add(element)
+                            var content = ""
+                            parse_ws(context, { content = context.getValue() })
+                            parse_content_or_child(
+                                context,
+                                onELEMENT_CONTENT = {
+                                    content += context.getValue()
+                                    element.addContent(content)
                                     parse_element_start(context, {})
                                     res = true
+                                },
+                                onELEMENT_START = {
+                                    res = true
                                 }
-                            },
-                            onELEMENT_CLOSE_LATER = {
-                                loop = false
-                                stack[stack.size - 1].addContent(element)
-                                stack.add(element)
-                                var content = ""
-                                parse_ws(context, { content = context.getValue() })
-                                parse_content_or_child(
-                                    context,
-                                    onELEMENT_CONTENT = {
-                                        content += context.getValue()
-                                        element.addContent(content)
-                                        parse_element_start(context, {})
-                                        res = true
-                                    },
-                                    onELEMENT_START = {
-                                        res = true
-                                    }
-                                )
-                            }
-                        )
-                    }
+                            )
+                        }
+                    )
                 }
             }
         )

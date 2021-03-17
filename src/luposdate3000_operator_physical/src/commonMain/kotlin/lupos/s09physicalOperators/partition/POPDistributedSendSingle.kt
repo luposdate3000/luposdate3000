@@ -143,8 +143,8 @@ public class POPDistributedSendSingle public constructor(
         val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
         var buf = ResultSetDictionaryExt.nullValue + 1
         while (buf != ResultSetDictionaryExt.nullValue) {
-            for (i in 0 until variables.size) {
-                buf = columns[i].next()
+            for (j in 0 until variables.size) {
+                buf = columns[j].next()
                 connectionOut.writeInt(buf)
             }
         }

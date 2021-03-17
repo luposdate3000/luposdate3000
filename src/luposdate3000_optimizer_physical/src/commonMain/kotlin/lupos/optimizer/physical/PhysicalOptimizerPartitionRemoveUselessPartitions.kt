@@ -45,7 +45,7 @@ public class PhysicalOptimizerPartitionRemoveUselessPartitions(query: Query) : O
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
                             storeNodeTmp = storeNodeTmp.getChildren()[0]
                         }
-                        val storeNode = storeNodeTmp as POPTripleStoreIterator
+                        val storeNode = storeNodeTmp
                         storeNode.hasSplitFromStore = false
                         println("PhysicalOptimizerPartitionRemoveUselessPartitions : initialize specific ${node.getUUID()}")
                         query.removePartitionOperator(node.getUUID(), node.partitionID)
@@ -60,7 +60,7 @@ public class PhysicalOptimizerPartitionRemoveUselessPartitions(query: Query) : O
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStoreCount
                             storeNodeTmp = storeNodeTmp.getChildren()[0]
                         }
-                        val storeNode = storeNodeTmp as POPTripleStoreIterator
+                        val storeNode = storeNodeTmp
                         storeNode.hasSplitFromStore = false
                         println("PhysicalOptimizerPartitionRemoveUselessPartitions : initialize specific ${node.getUUID()}")
                         query.removePartitionOperator(node.getUUID(), node.partitionID)

@@ -43,7 +43,7 @@ internal actual class _MyOutputStream : IMyOutputStream {
 
     public actual override fun close() {
         it!!.flush()
-        it!!.close()
+        it.close()
     }
 
     public actual override fun flush(): Unit = it!!.flush()

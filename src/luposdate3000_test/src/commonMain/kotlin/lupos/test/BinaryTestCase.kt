@@ -440,7 +440,6 @@ public object BinaryTestCase {
                                 }
                                 if (bufPos > 0) {
                                     store.modify(query2, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
-                                    bufPos = 0
                                 }
                                 tripleStoreManager.commit(query2)
                                 if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
@@ -460,13 +459,13 @@ public object BinaryTestCase {
                                 ) {
                                     val query3 = Query()
                                     val queryParam = arrayOf<IAOPBase>(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o"))
-                                    val key = "${query3.getTransactionID()}"
+                                    val key2 = "${query3.getTransactionID()}"
                                     if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                                        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-                                        query3.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+                                        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key2"))
+                                        query3.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key2")
                                     }
                                     val iterator = graph.getIterator(query3, queryParam, idx)
-                                    var tmpTable: MemoryTable? = null
+                                    var tmpTable: MemoryTable?
                                     var partitionCount = 1
                                     var partitionVariable = ""
                                     for (variable in listOf("s", "p", "o")) {
@@ -483,12 +482,10 @@ public object BinaryTestCase {
                                         node = POPMergePartition(query3, listOf("s", "p", "o"), partitionVariable, partitionCount, -1, POPSplitPartitionFromStore(query3, listOf("s", "p", "o"), partitionVariable, partitionCount, -1, iterator))
                                     }
                                     tmpTable = operatorGraphToTable(OPBaseCompound(query3, arrayOf(node), listOf(listOf("s", "p", "o"))))
-                                    if (tmpTable != null) {
-                                        success = verifyEqual(tableInput, tmpTable, mappingLiveToTarget, targetDict, targetDict2, true, queryName, query_folder, "import (${EIndexPatternExt.names[idx]} $partitionCount)") && success
-                                        println("success $success $idx")
-                                    }
+                                    success = verifyEqual(tableInput, tmpTable, mappingLiveToTarget, targetDict, targetDict2, true, queryName, query_folder, "import (${EIndexPatternExt.names[idx]} $partitionCount)") && success
+                                    println("success $success $idx")
                                     if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                                        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                                        communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key2"))
                                     }
                                 }
                                 if (!success) {
@@ -555,8 +552,8 @@ public object BinaryTestCase {
                                     communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key5"))
                                     query5.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key5")
                                 }
-                                val popOptimizer = PhysicalOptimizer(query5)
-                                val actualResult = operatorGraphToTable(popOptimizer.optimizeCall(tripleStoreManager.getDefaultGraph().getIterator(query5, arrayOf(AOPVariable(query5, "s"), AOPVariable(query5, "p"), AOPVariable(query5, "o")), EIndexPatternExt.SPO)))
+                                val popOptimizer2 = PhysicalOptimizer(query5)
+                                val actualResult = operatorGraphToTable(popOptimizer2.optimizeCall(tripleStoreManager.getDefaultGraph().getIterator(query5, arrayOf(AOPVariable(query5, "s"), AOPVariable(query5, "p"), AOPVariable(query5, "o")), EIndexPatternExt.SPO)))
                                 if (!verifyEqual(tableOutput, actualResult, mappingLiveToTarget, targetDict, targetDict2, allowOrderBy, queryName, query_folder, "result in store (SPO) is wrong")) {
                                     returnValue = false
                                     if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {

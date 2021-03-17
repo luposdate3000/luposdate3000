@@ -220,7 +220,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
 
     public override fun optimize(query: IQuery): IOPBase {
         this.query = query as Query
-        val root = query!!.root!!
+        val root = query.root!!
         if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
             operatorgraphParts.clear()
 // assign host to root node

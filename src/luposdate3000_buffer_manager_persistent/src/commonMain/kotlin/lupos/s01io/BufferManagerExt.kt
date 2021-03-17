@@ -35,7 +35,7 @@ public object BufferManagerExt {
     @JvmField
     public val initializedFromDisk: Boolean = File(bufferPrefix).exists()
     public fun getBuffermanager(name: String): BufferManager {
-        var res: BufferManager? = null
+        var res: BufferManager?
         managerListLock.withWriteLock {
             res = managerList[name]
             if (res == null) {

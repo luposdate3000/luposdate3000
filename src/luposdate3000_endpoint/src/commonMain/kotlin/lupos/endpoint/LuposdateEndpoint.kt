@@ -469,8 +469,7 @@ public object LuposdateEndpoint {
 
     @JsName("evaluate_operatorgraph_to_result_a")
     /*suspend*/ public fun evaluateOperatorgraphToResultA(node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream): Any? {
-        var res: Any? = null
-        res = when (evaluator) {
+        var res = when (evaluator) {
             EQueryResultToStreamExt.DEFAULT_STREAM -> QueryResultToStream(node, output)
             EQueryResultToStreamExt.XML_STREAM -> QueryResultToXMLStream(node, output)
             EQueryResultToStreamExt.TURTLE_STREAM -> QueryResultToTurtleStream(node, output)

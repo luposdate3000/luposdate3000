@@ -27,7 +27,7 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IResultSetDictio
     @JvmField
     internal val lock = MyReadWriteLock()
     public override fun valueToGlobal(value: Int): Int {
-        var res: Int? = null
+        var res: Int?
         lock.withWriteLock {
             res = dictionary.valueToGlobal(value)
         }
@@ -35,7 +35,7 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IResultSetDictio
     }
 
     public override fun getValue(value: Int): ValueDefinition {
-        var res: ValueDefinition? = null
+        var res: ValueDefinition?
         lock.withReadLock {
             res = dictionary.getValue(value)
         }
@@ -43,7 +43,7 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IResultSetDictio
     }
 
     public override fun createValue(value: String?): Int {
-        var res: Int? = null
+        var res: Int?
         lock.withWriteLock {
             res = dictionary.createValue(value)
         }
@@ -51,7 +51,7 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IResultSetDictio
     }
 
     public override fun createValue(value: ValueDefinition): Int {
-        var res: Int? = null
+        var res: Int?
         lock.withWriteLock {
             res = dictionary.createValue(value)
         }
@@ -59,7 +59,7 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IResultSetDictio
     }
 
     public override fun toBooleanOrError(value: Int): Int {
-        var res: Int? = null
+        var res: Int?
         lock.withWriteLock {
             res = dictionary.toBooleanOrError(value)
         }

@@ -286,73 +286,69 @@ public actual object HttpEndpointLauncher {
                                 val queryContainer = queryMappings[key]!!
                                 var queryXML = queryContainer.xml
                                 var dictionaryURL = params["dictionaryURL"]!!
-                                if (queryXML == null) {
-                                    throw Exception("this query was not registered before")
-                                } else {
-                                    val comm = communicationHandler
+                                val comm = communicationHandler
 // calculate current partition
-                                    var partitionNumber: Int = 0
-                                    if (queryContainer.inputStreams.size > 1) {
-                                        for (k in key.split(":")) {
-                                            val s = queryXML.attributes["partitionVariable"] + "="
-                                            if (k.startsWith(s)) {
-                                                partitionNumber = k.substring(s.length).toInt()
-                                                break
-                                            }
+                                var partitionNumber: Int = 0
+                                if (queryContainer.inputStreams.size > 1) {
+                                    for (k in key.split(":")) {
+                                        val s = queryXML.attributes["partitionVariable"] + "="
+                                        if (k.startsWith(s)) {
+                                            partitionNumber = k.substring(s.length).toInt()
+                                            break
                                         }
                                     }
-                                    queryContainer.instanceLock.withLock {
-                                        queryContainer.outputStreams[partitionNumber] = connectionOutMy
-                                        queryContainer.inputStreams[partitionNumber] = connectionInMy
-                                        queryContainer.connections[partitionNumber] = connection
-                                        var flag = true
-                                        for (c in queryContainer.outputStreams) {
-                                            if (c == null) {
-                                                flag = false
-                                                break
-                                            }
+                                }
+                                queryContainer.instanceLock.withLock {
+                                    queryContainer.outputStreams[partitionNumber] = connectionOutMy
+                                    queryContainer.inputStreams[partitionNumber] = connectionInMy
+                                    queryContainer.connections[partitionNumber] = connection
+                                    var flag = true
+                                    for (c in queryContainer.outputStreams) {
+                                        if (c == null) {
+                                            flag = false
+                                            break
                                         }
-                                        if (flag) {
+                                    }
+                                    if (flag) {
 // only launch if all receivers are started
 // init dictionary
-                                            var idx = dictionaryURL.indexOf("/")
-                                            val conn = comm.openConnection(dictionaryURL.substring(0, idx), "POST " + dictionaryURL.substring(idx) + "\n\n")
-                                            val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second)
-                                            val query = Query(remoteDictionary)
-                                            query.setDictionaryUrl(dictionaryURL)
+                                        var idx2 = dictionaryURL.indexOf("/")
+                                        val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n")
+                                        val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second)
+                                        val query = Query(remoteDictionary)
+                                        query.setDictionaryUrl(dictionaryURL)
 // init node
-                                            var node = queryContainer.instance
-                                            if (node == null) {
-                                                node = XMLElementToOPBase(query, queryXML) as POPBase
-                                                queryContainer.instance = node
-                                            }
-                                            query.root = node
+                                        var node = queryContainer.instance
+                                        if (node == null) {
+                                            node = XMLElementToOPBase(query, queryXML) as POPBase
+                                            queryContainer.instance = node
+                                        }
+                                        query.root = node
 // evaluate
-                                            when (node) {
-                                                is POPDistributedSendSingle -> {
-                                                    node.evaluate(connectionOutMy)
-                                                }
-                                                is POPDistributedSendSingleCount -> {
-                                                    node.evaluate(connectionOutMy)
-                                                }
-                                                is POPDistributedSendMulti -> {
-                                                    node.evaluate(queryContainer.outputStreams)
-                                                }
-                                                else -> throw Exception("unexpected node '${node.classname}'")
+                                        when (node) {
+                                            is POPDistributedSendSingle -> {
+                                                node.evaluate(connectionOutMy)
                                             }
+                                            is POPDistributedSendSingleCount -> {
+                                                node.evaluate(connectionOutMy)
+                                            }
+                                            is POPDistributedSendMulti -> {
+                                                node.evaluate(queryContainer.outputStreams)
+                                            }
+                                            else -> throw Exception("unexpected node '${node.classname}'")
+                                        }
 // release
-                                            remoteDictionary.close()
-                                            conn.first.close()
-                                            conn.second.close()
-                                            for (c in queryContainer.outputStreams) {
-                                                c!!.close()
-                                            }
-                                            for (c in queryContainer.inputStreams) {
-                                                c!!.close()
-                                            }
-                                            for (c in queryContainer.connections) {
-                                                c!!.close()
-                                            }
+                                        remoteDictionary.close()
+                                        conn.first.close()
+                                        conn.second.close()
+                                        for (c in queryContainer.outputStreams) {
+                                            c!!.close()
+                                        }
+                                        for (c in queryContainer.inputStreams) {
+                                            c!!.close()
+                                        }
+                                        for (c in queryContainer.connections) {
+                                            c!!.close()
                                         }
                                     }
 // done
@@ -393,9 +389,9 @@ public actual object HttpEndpointLauncher {
                             paths["/distributed/graph/modify"] = PathMappingHelper(false, mapOf()) {
                                 val query = Query()
                                 val key = params["key"]!!
-                                val idx = EIndexPatternExt.names.indexOf(params["idx"]!!)
+                                val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
                                 val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
-                                tripleStoreManager.remoteModify(query, key, mode, idx, connectionInMy)
+                                tripleStoreManager.remoteModify(query, key, mode, idx2, connectionInMy)
                             }
                             paths["/debugGlobalDictionary"] = PathMappingHelper(false, mapOf()) {
                                 nodeGlobalDictionary.debugAllDictionaryContent()
@@ -464,7 +460,7 @@ public actual object HttpEndpointLauncher {
                             } else {
                                 if (actionHelper.addPostParams && isPost) {
                                     val buf = ByteArray(contentLength!!)
-                                    connectionInMy.read(buf, contentLength!!)
+                                    connectionInMy.read(buf, contentLength)
                                     val content = buf.decodeToString()
                                     extractParamsFromString(content.toString(), params)
                                 }
@@ -474,14 +470,11 @@ public actual object HttpEndpointLauncher {
                             System.err.println("start error ...")
                             e.printStackTrace()
                             System.err.println("finish error ...")
-                            val connectionOutMy = connectionOutMy
-                            if (connectionOutMy != null) {
-                                connectionOutMy.println("HTTP/1.1 500 Internal Server Error")
-                                connectionOutMy.println()
-                            }
+                            connectionOutMy.println("HTTP/1.1 500 Internal Server Error")
+                            connectionOutMy.println()
                         } finally {
                             if (!dontCloseSockets) {
-                                connectionOutMy?.close()
+                                connectionOutMy.close()
                                 connectionInMy.close()
                                 connection?.close()
                             }

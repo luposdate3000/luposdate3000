@@ -666,7 +666,7 @@ public object XMLElementToOPBase {
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStore
                     storeNodeTmp = storeNodeTmp.getChildren()[0]
                 }
-                val storeNode = storeNodeTmp as POPTripleStoreIterator
+                val storeNode = storeNodeTmp
                 storeNode.hasSplitFromStore = true
                 query.addPartitionOperator(res.uuid, id)
             }
@@ -678,7 +678,7 @@ public object XMLElementToOPBase {
 // this is POPDebug or something similar with is not affecting the calculation - otherwise this node wont be POPSplitPartitionFromStoreCount
                     storeNodeTmp = storeNodeTmp.getChildren()[0]
                 }
-                val storeNode = storeNodeTmp as POPTripleStoreIterator
+                val storeNode = storeNodeTmp
                 storeNode.hasSplitFromStore = true
                 query.addPartitionOperator(res.uuid, id)
             }

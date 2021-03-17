@@ -36,7 +36,7 @@ public class AOPBuildInCallCEIL public constructor(query: IQuery, child: AOPBase
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         return {
-            var res: ValueDefinition = ValueError()
+            var res: ValueDefinition
             val a = childA()
             try {
                 when (a) {
