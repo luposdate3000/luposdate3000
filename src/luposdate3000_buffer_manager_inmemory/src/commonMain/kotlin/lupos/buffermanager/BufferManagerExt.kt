@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s01io
+package lupos.buffermanager
 
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Platform

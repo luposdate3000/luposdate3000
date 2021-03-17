@@ -16,6 +16,8 @@
  */
 package lupos.s05tripleStore
 
+import lupos.buffermanager.BufferManager
+import lupos.buffermanager.BufferManagerExt
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EIndexPatternHelper
@@ -28,8 +30,6 @@ import lupos.s00misc.IMyInputStream
 import lupos.s00misc.Platform
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
-import lupos.s01io.BufferManager
-import lupos.s01io.BufferManagerExt
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.Query
 import kotlin.jvm.JvmField

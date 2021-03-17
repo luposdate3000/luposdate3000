@@ -1,4 +1,0 @@
-package=Luposdate3000_Dictionary
-name=Luposdate3000_Dictionary_Diskbased
-enabled=always
-enabledRun=dictionaryMode:Diskbased

@@ -16,6 +16,7 @@
  */
 package lupos.dictionary
 
+import lupos.buffermanager.BufferManagerExt
 import lupos.fileformat.DictionaryIntermediate
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.s00misc.ETripleComponentType
@@ -26,7 +27,6 @@ import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
 import lupos.s00misc.MyOutputStream
 import lupos.s00misc.SanityCheck
-import lupos.s01io.BufferManagerExt
 import kotlin.jvm.JvmField
 
 public val nodeGlobalDictionary: DictionaryGlobal = DictionaryGlobal()

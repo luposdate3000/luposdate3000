@@ -17,6 +17,7 @@
 package lupos.dictionary
 
 import lupos.fileformat.DictionaryIntermediateReader
+import lupos.kv.KeyValueStore
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.SanityCheck
 

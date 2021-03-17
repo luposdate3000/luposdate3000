@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.dictionary
+package lupos.kv
 
+import lupos.buffermanager.BufferManager
+import lupos.buffermanager.BufferManagerExt
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.SanityCheck
-import lupos.s01io.BufferManager
-import lupos.s01io.BufferManagerExt
 
 public class KeyValueStore {
     private val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("KeyValueStore")

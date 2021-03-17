@@ -149,8 +149,8 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                             "enabledRun=dictionaryMode:Inmemory" -> {
                                 enabledRunFunc = { dictionaryMode == "_Inmemory" }
                             }
-                            "enabledRun=dictionaryMode:Diskbased" -> {
-                                enabledRunFunc = { dictionaryMode == "_Diskbased" }
+                            "enabledRun=dictionaryMode:KV" -> {
+                                enabledRunFunc = { dictionaryMode == "_KV" }
                             }
                             "enabledRun=memoryMode:_Inmemory" -> {
                                 enabledRunFunc = { memoryMode == "_Inmemory" }
@@ -452,7 +452,7 @@ val defaultParams = mutableListOf(
         "--dictionaryMode",
         "inmemory",
         mapOf(
-            "diskbased" to { dictionaryMode = "_Diskbased" },
+            "KV" to { dictionaryMode = "_KV" },
             "inmemory" to { dictionaryMode = "_Inmemory" },
         )
     ),
