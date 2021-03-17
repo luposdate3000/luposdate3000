@@ -153,7 +153,7 @@ public class Query public constructor(@JvmField public var dictionary: IResultSe
     public fun getUniqueVariableName(): String = "#+${generatedNameCounter++}"
     public fun isGeneratedVariableName(name: String): Boolean = name.startsWith('#')
     public /*suspend*/ fun getPartitionHelper(uuid: Long): PartitionHelper {
-        var res: PartitionHelper?
+        var res: PartitionHelper? = null
         partitionsLock.withLock {
             res = partitions[uuid]
             if (res == null) {
