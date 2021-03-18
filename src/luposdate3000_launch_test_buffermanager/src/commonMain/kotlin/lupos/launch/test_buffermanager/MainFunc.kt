@@ -18,25 +18,42 @@ package lupos.launch.test_buffermanager
 
 import lupos.buffermanager.BufferManager
 import lupos.s00misc.ByteArrayHelper
+import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
 import kotlin.math.abs
-import kotlin.random.Random
 
-private val verbose = true
+private val verbose = false
+
+private class MyRandom(var seed: Long) {
+    val bits = 32
+    fun nextInt(): Int {
+        seed = (seed * 0x5DEECE66DL + 0xBL) and ((1L shl 48) - 1)
+        return (seed shr (48 - bits)).toInt()
+    }
+}
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
-    var seed = 0
+    var seed = 0L
     var dataoff: Int = 0
     try {
-        seed = arg.toInt()
-// randomized testing
+        val data = IntArray(65536)
+        seed = arg.toLong()
+        // randomized testing
         var tests = 0
-        val random = Random(seed)
+        var errors = 0
+        val timer = DateHelperRelative.markNow()
+        val random = MyRandom(seed)
+        Parallel.launch {
+            while (true) {
+                val time = DateHelperRelative.elapsedSeconds(timer)
+                println("tests $tests, errors $errors testsPerSecond ${tests / time}")
+                Parallel.delay(1000)
+            }
+        }
         while (true) {
-            val cnt = random.nextInt(0, 65536)
-            val data = IntArray(cnt)
+            val cnt = abs(random.nextInt() % data.size)
             for (i in 0 until cnt) {
                 val tmp = random.nextInt()
                 data[i] = tmp
@@ -51,8 +68,9 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
             }
             try {
                 dataoff = 0
-                executeTest(nextRandom = { data[dataoff++] }, hasNextRandom = { dataoff < data.size })
+                executeTest(nextRandom = { data[dataoff++] }, hasNextRandom = { dataoff < cnt })
             } catch (e: Throwable) {
+                errors++
                 File("erroredTests").mkdirs()
                 println("errored $tests :: $dataoff $testCase")
                 File("erroredTests/$testCase").withOutputStream {
