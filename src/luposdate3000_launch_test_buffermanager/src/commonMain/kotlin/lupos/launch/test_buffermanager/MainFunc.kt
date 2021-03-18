@@ -39,7 +39,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
                 executeTest(data)
             } catch (e: Throwable) {
                 File("erroredTests").mkdirs()
-                File("erroredTests/${data.contentHashCode()}.test_buffermanager.data").withOutputStream {
+                File("erroredTests/test_buffermanager_${data.contentHashCode().toString(16)}.data").withOutputStream {
                     for (i in 0 until data.size) {
                         it.writeInt(data[i])
                     }
