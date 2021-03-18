@@ -14,20 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import lupos.launch.display_dictionary_contents.mainFunc
+import lupos.launch.test_buffermanager.mainFunc
+import kotlin.js.JsName
 
+@JsName("main")
 public fun main(args: Array<String>) {
     var flag = false
-    var inputFileName: String = ""
+    var seedString: String = ""
     for (a in args) {
-        if (a.startsWith("--inputFileName=")) {
-            inputFileName = a.substring(16)
+        if (a.startsWith("--seedString=")) {
+            seedString = a.substring(13)
             flag = true
             break
         }
     }
     if (!flag) {
-        throw Exception("the option '--inputFileName' is missing on the arguments list")
+        throw Exception("the option '--seedString' is missing on the arguments list")
     }
-    mainFunc(inputFileName)
+    mainFunc(seedString)
 }
