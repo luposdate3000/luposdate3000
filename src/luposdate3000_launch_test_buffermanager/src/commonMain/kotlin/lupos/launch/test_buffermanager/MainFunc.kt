@@ -107,13 +107,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
         }
         var flag = true
         try {
-            SanityCheck {
-                SanityCheck.printing = false
-            }
             bufferManager.releasePage(pageid)
-            SanityCheck {
-                SanityCheck.printing = true
-            }
         } catch (e: Throwable) {
             flag = false
         }
@@ -150,13 +144,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
         }
         var flag = true
         try {
-            SanityCheck {
-                SanityCheck.printing = false
-            }
             bufferManager.getPage(pageid)
-            SanityCheck {
-                SanityCheck.printing = true
-            }
         } catch (e: Throwable) {
             flag = false
         }
@@ -202,13 +190,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
         }
         var flag = true
         try {
-            SanityCheck {
-                SanityCheck.printing = false
-            }
             bufferManager.deletePage(pageid)
-            SanityCheck {
-                SanityCheck.printing = true
-            }
         } catch (e: Throwable) {
             flag = false
         }
@@ -310,7 +292,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
     ids.putAll(mappedPagesCtr)
     for ((k, v) in ids) {
         for (i in 0 until v) {
-            testReleasePageOk(v)
+            testReleasePageOk(k)
         }
     }
     for (pageid in pageIds) {
@@ -321,13 +303,10 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
         }
         bufferManager.deletePage(pageid)
     }
-    if (pageIds.size > 0) {
+    if (mappedPages.size != 0) {
         throw Exception("")
     }
-    if (mappedPages.size > 0) {
-        throw Exception("")
-    }
-    if (mappedPagesCtr.size > 0) {
+    if (mappedPagesCtr.size != 0) {
         throw Exception("")
     }
 }
