@@ -22,6 +22,8 @@ import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
 import kotlin.math.abs
+import kotlin.math.min
+import kotlin.math.pow
 
 private val verbose = false
 
@@ -53,7 +55,8 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
             }
         }
         while (true) {
-            val cnt = abs(random.nextInt() % data.size)
+            val maxlen = min((tests + 2).toDouble().pow(1.0 / 2.0).toInt(), data.size)
+            val cnt = abs(random.nextInt() % maxlen)
             for (i in 0 until cnt) {
                 val tmp = random.nextInt()
                 data[i] = tmp
