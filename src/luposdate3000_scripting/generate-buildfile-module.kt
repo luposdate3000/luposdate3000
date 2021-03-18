@@ -687,18 +687,17 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("    mainClass.set(\"MainKt\")")
                     out.println("}")
                 }
-                if (enableJVM && !onWindows) {
-                    out.println("tasks.register(\"mydependencies\") {")
-                    out.println("    dependsOn(\"build\")")
-                    out.println("    File(\"external_jar_dependencies\").printWriter().use { out ->")
-                    out.println("        for (f in configurations.getByName(\"jvmRuntimeClasspath\").resolve()) {")
-                    out.println("            if (!\"\$f\".contains(\"luposdate3000\")) {")
-                    out.println("                out.println(\"\$f\")")
-                    out.println("            }")
-                    out.println("        }")
-                    out.println("    }")
-                }
-                if (!inWindows) {
+                out.println("tasks.register(\"mydependencies\") {")
+                out.println("    dependsOn(\"build\")")
+                out.println("    File(\"external_jar_dependencies\").printWriter().use { out ->")
+                out.println("        for (f in configurations.getByName(\"jvmRuntimeClasspath\").resolve()) {")
+                out.println("            if (!\"\$f\".contains(\"luposdate3000\")) {")
+                out.println("                out.println(\"\$f\")")
+                out.println("            }")
+                out.println("        }")
+                out.println("    }")
+                out.println("}")
+                if (!onWindows) {
                     out.println("tasks.register<proguard.gradle.ProGuardTask>(\"proguard\") {")
                     out.println("    dependsOn(\"mydependencies\")")
                     out.println("    injars(\"build/libs/${moduleArgs.moduleName}-jvm-0.0.1.jar\")")
