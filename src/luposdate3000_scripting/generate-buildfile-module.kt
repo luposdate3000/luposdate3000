@@ -687,7 +687,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("    mainClass.set(\"MainKt\")")
                     out.println("}")
                 }
-                if (enableJVM) {
+                if (enableJVM && !onWindows) {
                     out.println("tasks.register<proguard.gradle.ProGuardTask>(\"proguard\") {")
                     out.println("    dependsOn(\"build\")")
                     out.println("    injars(\"build/libs/${moduleArgs.moduleName}-jvm-0.0.1.jar\")")
@@ -949,7 +949,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 File("$path${pathSeparator}gradle").copyRecursively(File("$path${pathSeparator}src.generated${pathSeparator}gradle"))
                 File("gradlew.bat").copyTo(File("src.generated${pathSeparator}gradlew.bat"))
                 if (enableJVM) {
-                    runCommand(listOf("gradlew.bat", "proguard"), File("$path${pathSeparator}src.generated"))
+                    runCommand(listOf("gradlew.bat", "build"), File("$path${pathSeparator}src.generated"))
                 } else {
                     runCommand(listOf("gradlew.bat", "build"), File("$path${pathSeparator}src.generated"))
                 }
@@ -996,7 +996,9 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             if (enableJVM) {
                 try {
                     Files.copy(Paths.get(buildFolder + "${pathSeparator}libs${pathSeparator}${moduleArgs.moduleName}-jvm-0.0.1.jar"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm.jar"), StandardCopyOption.REPLACE_EXISTING)
-                    Files.copy(Paths.get(buildFolder + "${pathSeparator}libs${pathSeparator}${moduleArgs.moduleName}-jvm-0.0.1-pro.jar"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm-pro.jar"), StandardCopyOption.REPLACE_EXISTING)
+                    if (!onWindows) {
+                        Files.copy(Paths.get(buildFolder + "${pathSeparator}libs${pathSeparator}${moduleArgs.moduleName}-jvm-0.0.1-pro.jar"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm-pro.jar"), StandardCopyOption.REPLACE_EXISTING)
+                    }
                     Files.copy(Paths.get("$srcFolder${pathSeparator}external_jar_dependencies"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm.classpath"), StandardCopyOption.REPLACE_EXISTING)
                 } catch (e: Throwable) {
                     e.printStackTrace()
