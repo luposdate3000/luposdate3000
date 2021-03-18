@@ -735,9 +735,6 @@ fun onRun() {
     File("log").mkdirs()
     when (target) {
         "JVM", "All" -> {
-            if (onWindows && proguardMode != "") {
-                throw Exception("Windows does not support proguard")
-            }
             val jarsLuposdate3000 = mutableListOf<String>()
             for (module in getAllModuleConfigurations()) {
                 if (module.enabledRunFunc()) {
