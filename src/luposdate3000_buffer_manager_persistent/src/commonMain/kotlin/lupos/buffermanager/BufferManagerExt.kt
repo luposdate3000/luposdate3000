@@ -26,14 +26,15 @@ public object BufferManagerExt {
     public const val fileEndingFree: String = ".datafree"
 
     @JvmField
+    public var allowInitFromDisk: Boolean = true
+
+    @JvmField
     public // dont put const val here, because it wont work when exchanging the modules
     val isInMemoryOnly: Boolean = false
 
     @JvmField
     public var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
 
-    @JvmField
-    public val initializedFromDisk: Boolean = File(bufferPrefix).exists()
     public fun getBuffermanager(name: String): BufferManager {
         var res: BufferManager? = null
         managerListLock.withWriteLock {

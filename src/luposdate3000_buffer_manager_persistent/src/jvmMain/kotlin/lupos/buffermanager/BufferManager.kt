@@ -17,6 +17,7 @@
 package lupos.buffermanager
 
 import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
+import lupos.s00misc.File
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import java.io.RandomAccessFile
@@ -103,7 +104,7 @@ public actual class BufferManager internal actual constructor(
                 SanityCheck.check { openPagesRefcounters[v] > 0 }
                 SanityCheck.check { k < counter }
                 for (i in 0 until freeArrayLength) {
-                    SanityCheck { freeArray[i] != k }
+                    SanityCheck.check { freeArray[i] != k }
                 }
             }
         }
@@ -131,7 +132,7 @@ public actual class BufferManager internal actual constructor(
             localSanityCheck()
             SanityCheck.check { pageid < counter }
             for (i in 0 until freeArrayLength) {
-                SanityCheck { freeArray[i] != pageid }
+                SanityCheck.check { freeArray[i] != pageid }
             }
             SanityCheck.check { openPagesMapping[pageid] != null }
             val openId = openPagesMapping[pageid]!!
@@ -159,7 +160,7 @@ public actual class BufferManager internal actual constructor(
             localSanityCheck()
             SanityCheck.check { pageid < counter }
             for (i in 0 until freeArrayLength) {
-                SanityCheck { freeArray[i] != pageid }
+                SanityCheck.check { freeArray[i] != pageid }
             }
             SanityCheck.check { openPagesMapping[pageid] != null }
             val openId = openPagesMapping[pageid]!!
@@ -192,8 +193,9 @@ public actual class BufferManager internal actual constructor(
         lock.withWriteLock {
             localSanityCheck()
             SanityCheck.check { pageid < counter }
+            SanityCheck.check { pageid >= 0 }
             for (i in 0 until freeArrayLength) {
-                SanityCheck { freeArray[i] != pageid }
+                SanityCheck.check { freeArray[i] != pageid }
             }
             openId = openPagesMapping[pageid]
             if (openId != null) {
@@ -227,7 +229,7 @@ public actual class BufferManager internal actual constructor(
             }
             SanityCheck.check { pageid < counter }
             for (i in 0 until freeArrayLength) {
-                SanityCheck { freeArray[i] != pageid }
+                SanityCheck.check { freeArray[i] != pageid }
             }
             val openId = findNextOpenID()
             SanityCheck.check { !openPagesMapping.values.contains(openId) }
@@ -242,7 +244,7 @@ public actual class BufferManager internal actual constructor(
         localSanityCheck()
         SanityCheck.check { pageid < counter }
         for (i in 0 until freeArrayLength) {
-            SanityCheck { freeArray[i] != pageid }
+            SanityCheck.check { freeArray[i] != pageid }
         }
         SanityCheck.check { openPagesMapping[pageid] != null }
         val openId = openPagesMapping[pageid]!!
@@ -255,19 +257,20 @@ public actual class BufferManager internal actual constructor(
             freeArray = arr
         }
         freeArray[freeArrayLength] = pageid
-        freelistfile.seek(freelistfileOffsetFreeLen)
-        freelistfile.writeInt(freeArrayLength)
         freelistfile.seek(freelistfileOffsetData + 4 * freeArrayLength)
         freelistfile.writeInt(pageid)
         freeArrayLength++
+        freelistfile.seek(freelistfileOffsetFreeLen)
+        freelistfile.writeInt(freeArrayLength)
         SanityCheck.check { !openPagesMapping.values.contains(openId) }
         localSanityCheck()
     }
 
     init {
+        val flag = BufferManagerExt.allowInitFromDisk && File(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEnding).exists()
         datafile = RandomAccessFile(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEnding, "rw")
         freelistfile = RandomAccessFile(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEndingFree, "rw")
-        if (BufferManagerExt.initializedFromDisk) {
+        if (flag) {
             datafilelength = datafile.length()
             freelistfile.seek(freelistfileOffsetFreeLen)
             freeArrayLength = freelistfile.readInt()

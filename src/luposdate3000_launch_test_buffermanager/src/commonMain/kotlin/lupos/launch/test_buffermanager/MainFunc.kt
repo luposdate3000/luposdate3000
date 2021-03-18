@@ -17,6 +17,7 @@
 package lupos.launch.test_buffermanager
 
 import lupos.buffermanager.BufferManager
+import lupos.buffermanager.BufferManagerExt
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.File
@@ -37,6 +38,12 @@ private class MyRandom(var seed: Long) {
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
+/*
+ if arg is an long, than random tests are executed
+ otherwise it is assumed, that arg is a filename, which is then used as input data
+ */
+    BufferManagerExt.allowInitFromDisk = false
+    File(BufferManagerExt.bufferPrefix).mkdirs()
     var seed = 0L
     var dataoff: Int = 0
     try {
@@ -73,6 +80,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
                 dataoff = 0
                 executeTest(nextRandom = { data[dataoff++] }, hasNextRandom = { dataoff < cnt })
             } catch (e: Throwable) {
+                e.printStackTrace()
                 errors++
                 File("erroredTests").mkdirs()
                 println("errored $tests :: $dataoff $testCase")
@@ -99,8 +107,13 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
-    val bufferManager = BufferManager("")
-
+    var bufferManager2: BufferManager? = null
+    try {
+        bufferManager2 = BufferManager("")
+    } catch (e: Throwable) {
+        return
+    }
+    val bufferManager = bufferManager2!!
     val pageIds = mutableListOf<Int>()
     val mappedPages = mutableMapOf<Int, ByteArray>()
     val mappedPagesCtr = mutableMapOf<Int, Int>()

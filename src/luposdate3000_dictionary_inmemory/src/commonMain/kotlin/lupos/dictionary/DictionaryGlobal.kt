@@ -112,11 +112,12 @@ public class DictionaryGlobal {
     init {
         outputDictionaryFile = MyOutputStream()
         if (!BufferManagerExt.isInMemoryOnly) {
-            outputDictionaryFile = if (BufferManagerExt.initializedFromDisk) {
-                importFromDictionaryFile(BufferManagerExt.bufferPrefix + "dictionary.data")
-                File(BufferManagerExt.bufferPrefix + "dictionary.data").openOutputStream(true)
+            val filename = BufferManagerExt.bufferPrefix + "dictionary.data"
+            outputDictionaryFile = if (File(filename).exists()) {
+                importFromDictionaryFile(filename)
+                File(filename).openOutputStream(true)
             } else {
-                File(BufferManagerExt.bufferPrefix + "dictionary.data").openOutputStream(false)
+                File(filename).openOutputStream(false)
             }
         }
         initializationphase = false
