@@ -20,31 +20,48 @@ import lupos.buffermanager.BufferManager
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
+import kotlin.math.abs
 import kotlin.random.Random
+
+private val verbose = true
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
     var seed = 0
+    var dataoff: Int = 0
     try {
         seed = arg.toInt()
 // randomized testing
+        var tests = 0
         val random = Random(seed)
         while (true) {
             val cnt = random.nextInt(0, 65536)
             val data = IntArray(cnt)
             for (i in 0 until cnt) {
-                data[i] = random.nextInt()
+                val tmp = random.nextInt()
+                data[i] = tmp
+            }
+            var tmp = data.contentHashCode()
+            if (tmp < 0) {
+                tmp = -tmp
+            }
+            var testCase = "test_buffermanager_${tmp.toString(16)}.data"
+            if (verbose) {
+                println("case $tests :: $cnt $testCase")
             }
             try {
-                executeTest(data)
+                dataoff = 0
+                executeTest(nextRandom = { data[dataoff++] }, hasNextRandom = { dataoff < data.size })
             } catch (e: Throwable) {
                 File("erroredTests").mkdirs()
-                File("erroredTests/test_buffermanager_${data.contentHashCode().toString(16)}.data").withOutputStream {
-                    for (i in 0 until data.size) {
+                println("errored $tests :: $dataoff $testCase")
+                File("erroredTests/$testCase").withOutputStream {
+                    for (i in 0 until dataoff) {
                         it.writeInt(data[i])
                     }
                 }
             }
+            tests++
         }
     } catch (e: Throwable) {
 // verification of single testcase
@@ -55,11 +72,12 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
                 data[i] = it.readInt()
             }
         }
-        executeTest(data)
+        var dataoff = 0
+        executeTest(nextRandom = { data[dataoff++] }, hasNextRandom = { dataoff < data.size })
     }
 }
 
-private fun executeTest(data: IntArray) {
+private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
     val bufferManager = BufferManager("")
 
     val pageIds = mutableListOf<Int>()
@@ -67,6 +85,9 @@ private fun executeTest(data: IntArray) {
     val mappedPagesCtr = mutableMapOf<Int, Int>()
 
     fun testReleasePageOk(pageid: Int) {
+        if (verbose) {
+            println("testReleasePageOk $pageid")
+        }
         bufferManager.releasePage(pageid)
         val cnt = mappedPagesCtr[pageid]
         if (cnt == null) {
@@ -81,9 +102,18 @@ private fun executeTest(data: IntArray) {
     }
 
     fun testReleasePageFail(pageid: Int) {
+        if (verbose) {
+            println("testReleasePageFail $pageid")
+        }
         var flag = true
         try {
+            SanityCheck {
+                SanityCheck.printing = false
+            }
             bufferManager.releasePage(pageid)
+            SanityCheck {
+                SanityCheck.printing = true
+            }
         } catch (e: Throwable) {
             flag = false
         }
@@ -93,6 +123,9 @@ private fun executeTest(data: IntArray) {
     }
 
     fun testGetPageOk(pageid: Int) {
+        if (verbose) {
+            println("testGetPageOk $pageid")
+        }
         val page = bufferManager.getPage(pageid)
         val id = ByteArrayHelper.readInt4(page, 0)
         if (id != pageid) {
@@ -112,9 +145,18 @@ private fun executeTest(data: IntArray) {
     }
 
     fun testGetPageFail(pageid: Int) {
+        if (verbose) {
+            println("testGetPageFail $pageid")
+        }
         var flag = true
         try {
+            SanityCheck {
+                SanityCheck.printing = false
+            }
             bufferManager.getPage(pageid)
+            SanityCheck {
+                SanityCheck.printing = true
+            }
         } catch (e: Throwable) {
             flag = false
         }
@@ -125,6 +167,9 @@ private fun executeTest(data: IntArray) {
 
     fun testCreateNewPageOk() {
         bufferManager.createPage { page, pageid ->
+            if (verbose) {
+                println("testCreateNewPageOk $pageid")
+            }
             ByteArrayHelper.writeInt4(page, 0, pageid)
             if (pageIds.contains(pageid)) {
                 throw Exception("")
@@ -142,6 +187,9 @@ private fun executeTest(data: IntArray) {
     }
 
     fun testDeletePageOk(pageid: Int) {
+        if (verbose) {
+            println("testDeletePageOk $pageid")
+        }
         bufferManager.deletePage(pageid)
         mappedPagesCtr.remove(pageid)
         mappedPages.remove(pageid)
@@ -149,9 +197,18 @@ private fun executeTest(data: IntArray) {
     }
 
     fun testDeletePageFail(pageid: Int) {
+        if (verbose) {
+            println("testDeletePageFail $pageid")
+        }
         var flag = true
         try {
+            SanityCheck {
+                SanityCheck.printing = false
+            }
             bufferManager.deletePage(pageid)
+            SanityCheck {
+                SanityCheck.printing = true
+            }
         } catch (e: Throwable) {
             flag = false
         }
@@ -164,7 +221,7 @@ private fun executeTest(data: IntArray) {
         val ids = mutableListOf<Int>()
         ids.addAll(mappedPages.keys)
         if (ids.size > 0) {
-            val pageid = ids[rng % ids.size]
+            val pageid = ids[abs(rng % ids.size)]
             action(pageid)
         }
     }
@@ -174,7 +231,7 @@ private fun executeTest(data: IntArray) {
         ids.addAll(pageIds)
         ids.removeAll(mappedPages.keys)
         if (ids.size > 0) {
-            val pageid = ids[rng % ids.size]
+            val pageid = ids[abs(rng % ids.size)]
             action(pageid)
         }
     }
@@ -183,14 +240,14 @@ private fun executeTest(data: IntArray) {
         val ids = MutableList<Int>(1000) { it }
         ids.removeAll(pageIds)
         if (ids.size > 0) {
-            val pageid = ids[rng % ids.size]
+            val pageid = ids[abs(rng % ids.size)]
             action(pageid)
         }
     }
 
     fun getPageID_Existing(rng: Int, action: (Int) -> Unit) {
         if (pageIds.size > 0) {
-            val pageid = pageIds[rng % pageIds.size]
+            val pageid = pageIds[abs(rng % pageIds.size)]
             action(pageid)
         }
     }
@@ -203,7 +260,7 @@ private fun executeTest(data: IntArray) {
             }
         }
         if (ids.size > 0) {
-            val pageid = ids[rng % ids.size]
+            val pageid = ids[abs(rng % ids.size)]
             action(pageid)
         }
     }
@@ -216,21 +273,17 @@ private fun executeTest(data: IntArray) {
             }
         }
         if (ids.size > 0) {
-            val pageid = ids[rng % ids.size]
+            val pageid = ids[abs(rng % ids.size)]
             action(pageid)
         }
     }
     testCreateNewPageOk()
-    var dataoff = 0
-    while (true) {
-        if (dataoff == data.size) {
+    while (hasNextRandom()) {
+        val mode = abs(nextRandom() % 10)
+        if (!hasNextRandom()) {
             break
         }
-        val mode = data[dataoff++] % 10
-        if (dataoff == data.size) {
-            break
-        }
-        val rng = data[dataoff++]
+        val rng = nextRandom()
         when (mode) {
             0 -> getPageID_Existing_Mapped(rng) { testReleasePageOk(it) }
             1 -> getPageID_Existing_NotMapped(rng) { testReleasePageFail(it) }

@@ -20,16 +20,16 @@ import kotlin.js.JsName
 @JsName("main")
 public fun main(args: Array<String>) {
     var flag = false
-    var seedString: String = ""
+    var arg: String = ""
     for (a in args) {
-        if (a.startsWith("--seedString=")) {
-            seedString = a.substring(13)
+        if (a.startsWith("--arg=")) {
+            arg = a.substring(6)
             flag = true
             break
         }
     }
     if (!flag) {
-        throw Exception("the option '--seedString' is missing on the arguments list")
+        throw Exception("the option '--arg' is missing on the arguments list")
     }
-    mainFunc(seedString)
+    mainFunc(arg)
 }

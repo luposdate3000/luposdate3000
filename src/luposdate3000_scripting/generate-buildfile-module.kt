@@ -160,7 +160,14 @@ class CreateModuleArgs() {
     }
 
     fun ssetArgs2(args: MutableMap<String, MutableMap<String, String>>): CreateModuleArgs {
-        val arg = args[moduleName]
+        var arg = args["Luposdate3000_Shared_Inline"]
+        if (arg != null) {
+            val res = clone()
+            res.args = mutableMapOf()
+            res.args.putAll(this.args)
+            res.args.putAll(arg)
+        }
+        arg = args[moduleName]
         if (arg != null) {
             val res = clone()
             res.args = mutableMapOf()
@@ -896,20 +903,22 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             for ((k, v) in typeAliasUsed) {
                 out.println("internal typealias ${v.first} = ${v.second}")
             }
-            if (File("${moduleArgs.moduleFolder}${pathSeparator}configOptions").exists()) {
-                File("${moduleArgs.moduleFolder}${pathSeparator}configOptions").forEachLine {
-                    val opt = it.split(",")
-                    if (opt.size == 4) {
-                        var value = opt[3]
-                        val v = remainingArgs[opt[0]]
-                        if (v != null) {
-                            value = v
-                            remainingArgs.remove(opt[0])
-                        }
-                        if (opt[1] == "typealias") {
-                            out.println("public ${opt[1]} ${opt[0]} = $value")
-                        } else {
-                            out.println("${opt[1]} ${opt[0]}: ${opt[2]} = $value")
+            for (f in listOf("${moduleArgs.moduleFolder}${pathSeparator}configOptions", "src${pathSeparator}luposdate3000_shared_inline${pathSeparator}configOptions")) {
+                if (File(f).exists()) {
+                    File(f).forEachLine {
+                        val opt = it.split(",")
+                        if (opt.size == 4) {
+                            var value = opt[3]
+                            val v = remainingArgs[opt[0]]
+                            if (v != null) {
+                                value = v
+                                remainingArgs.remove(opt[0])
+                            }
+                            if (opt[1] == "typealias") {
+                                out.println("public ${opt[1]} ${opt[0]} = $value")
+                            } else {
+                                out.println("${opt[1]} ${opt[0]}: ${opt[2]} = $value")
+                            }
                         }
                     }
                 }
