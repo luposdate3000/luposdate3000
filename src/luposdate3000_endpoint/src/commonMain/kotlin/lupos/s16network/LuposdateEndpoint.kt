@@ -26,8 +26,6 @@ import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s03resultRepresentation.nodeGlobalDictionary
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s06buildOperatorGraph.OperatorGraphVisitor
@@ -318,8 +316,7 @@ public object LuposdateEndpoint {
         val popNode = popOptimizer.optimizeCall(lopNode2)
 
         //Calling traverseNetwork function to change the UUIDs via DFS
-        var hashMap2:HashMap<IOPBase,Int> = HashMap()
-        hashMap2 = traverseNetwork(popNode, hashMap2)
+        EndpointExtendedVisualize().traverseNetwork(popNode, mutableMapOf<IOPBase, Int>())
 
         // println("timer #404 ${DateHelperRelative.elapsedSeconds(timer)}")
         //        timer = DateHelperRelative.markNow()
@@ -349,8 +346,7 @@ public object LuposdateEndpoint {
         output.println("Content-Type: text/plain")
         output.println()
         node.getQuery().reset()
-        var hashMap:HashMap<IOPBase,Int> = HashMap() //define empty hashmap
-        traverseNetwork(node, hashMap)
+        EndpointExtendedVisualize().traverseNetwork(node, mutableMapOf<IOPBase, Int>())
         var res: Any? = null
         res = when (evaluator) {
             EQueryResultToStreamExt.DEFAULT_STREAM -> QueryResultToStream(node, output)
@@ -428,179 +424,5 @@ public object LuposdateEndpoint {
     }
     init {
         initialize()
-    }
-
-    //
-    // -- Code added by Rico für visualiziation
-    //
-
-    // Function by Rico
-    // Optimising the physical operator graph and is returning each step of the process for visualisation
-    @JsName("getOptimizedStepsPhysical")
-    public fun getOptimizedStepsPhysical(query: String): Array<String>{
-        val q = Query()
-        val lcit = LexerCharIterator(query)
-        val tit = TokenIteratorSPARQLParser(lcit)
-        val ltit = LookAheadTokenIterator(tit, 3)
-        val parser = SPARQLParser(ltit)
-        val astNode = parser.expr()
-        val lopNode = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
-        val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode) //Log Operatorgraph Optimized
-        val popOptimizer = PhysicalOptimizer(q)
-        //Variation of normal optimizeCall function with the change that it returns
-        //an array of solutions (steps of optimization)
-        val tmp = popOptimizer.optimizeCallRico(lopNode2) //Physical Operatorgraph
-
-        var result = mutableListOf<String>()
-        //Change the UUIDs in each step beginning from 1 via DFS.
-        for (i in tmp){
-            var hashMap:HashMap<IOPBase,Int> = HashMap()
-            traverseNetwork(i, hashMap)
-            result.add(getJsonData(i))
-        }
-        return result.toTypedArray()
-    }
-
-    //Function by Rico
-    // Optimising the logical operator graph and is returning each step of the process for visualisation
-    @JsName("getOptimizedStepsLogical")
-    public fun getOptimizedStepsLogical(query: String): Array<String>{
-        val q = Query()
-        val lcit = LexerCharIterator(query)
-        val tit = TokenIteratorSPARQLParser(lcit)
-        val ltit = LookAheadTokenIterator(tit, 3)
-        val parser = SPARQLParser(ltit)
-        val astNode = parser.expr()
-        val lopNode = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
-        var tmp = LogicalOptimizer(q).optimizeCallRico(lopNode) //Log Operatorgraph Optimized
-        var result = mutableListOf<String>()
-        //Change the UUIDs in each step beginning from 1 via DFS.
-        for (i in tmp){
-            var hashMap:HashMap<IOPBase,Int> = HashMap()
-            traverseNetwork(i, hashMap)
-            result.add(getJsonData(i))
-        }
-        return result.toTypedArray()
-    }
-
-    //Input: (Sub)-Tree of the Query
-    //Output: Node and Edge Information as String for each node of the tree
-    //
-    //Receives a node as IOPBase and calls sub methods to determine the Node and
-    //Edge data as strings which are needed for the visualization framework.
-    private fun getJsonData(baum: IOPBase): String{
-        var x = baum
-        //Calling traverseNetwork method to change the UUIDs via DFS.
-        var hashMap:HashMap<IOPBase,Int> = HashMap() //define empty hashmap
-        hashMap = traverseNetwork(x, hashMap)
-
-        //Sub-String creation for all Node Data
-        var node = "["
-        node+= createNodeJson(x, hashMap)
-        node=node.subSequence(0, node.length-1).toString()
-        node+="]"
-
-        //Sub-String creation for all Edge Data
-        var edge = "["
-            for (i in x.getChildren()) {
-                edge += createEdgeJson(i, hashMap[x], hashMap)
-            }
-
-        edge=edge.subSequence(0, edge.length-1).toString()
-        edge+="]"
-
-        //"SPLITHERE" will be the marker to split the node data from the edge data
-        //in the visualization code
-        return node+"SPLITHERE"+edge
-    }
-
-    //Input: (Sub)-Tree as IOPBase, Hashmap
-    //Output: New Hashmap
-    //
-    //Method checks if an node is already included
-    // -> yes: cloning operator to avoid ID duplicate in the visualization and
-    // -> no: adding node to the hashmap and reassigning the UUID based on the size of the
-    //          hashmap, which results in an DFS like reassignment of the UUIDs.
-    private fun traverseNetwork(teilbaum: IOPBase, hash: HashMap<IOPBase, Int>): HashMap<IOPBase, Int>{
-            var hashMap : HashMap<IOPBase, Int> = hash
-            var x = teilbaum
-            // Node already included (node is multiple times within the tree)
-            if(hash.containsKey(x)){
-                var tmp = x.cloneOP()
-                hash.put(tmp, hash.size + 1)
-                hash[tmp]?.let { tmp.setUUID(it.toLong()) }
-                if(tmp.getChildren().isNotEmpty()){
-                    for (i in tmp.getChildren()){
-                        hashMap = traverseNetwork(i, hash)
-                    }
-                }
-            //Node not included
-            }else{
-                hash.put(x, hash.size + 1)
-                hash[x]?.let { x.setUUID(it.toLong()) }
-                if(x.getChildren().isNotEmpty()){
-                    for (i in x.getChildren()){
-                        hashMap = traverseNetwork(i, hash)
-                    }
-                }
-           }
-            return hashMap
-    }
-
-    //Input: (Sub)-Tree as IOPBase, UUID from the node that is connection to this node, hashmap
-    //Output: Edge information as string needed for visualization framework
-    //
-    //Outputs a string that creates an Edge in the visualization framework
-    private fun createEdgeJson(teilbaum: IOPBase, uuid: Int?, hash: HashMap<IOPBase, Int>): String {
-        var x = teilbaum
-        var hashMap: HashMap<IOPBase, Int> = hash
-        var toId = uuid //UUID of the node that is connected to this node (x)
-        var result = String()
-            result += "{\"from\": ${hashMap[x]}, \"to\": $toId,\"width\":1},"
-            if (x.getChildren().isNotEmpty()) {
-                for (i in x.getChildren()) {
-                    result += createEdgeJson(i, hashMap[x], hashMap)
-                }
-            }
-            return result
-    }
-
-    //Input: (Sub)-Tree as IOPBase,  hashmap
-    //Output: Node information as string needed for visualization framework
-    //
-    //Outputs a string that creates a Node in the visualization framework
-    private fun createNodeJson(teilbaum: IOPBase, hash: HashMap<IOPBase, Int>): String{
-        var x = teilbaum
-        var hashMap: HashMap<IOPBase, Int> = hash
-        var result = String()
-        var label = String()
-            try {
-                // AOPVariable and AOPConstant have a different structure as IOPBase
-                // -> Different variables are containing the needed information for visualization
-                if(x is AOPVariable) {
-                    label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
-                        "?"+x.getName().replace("\n", "").replace("\"", "\\\"")
-                    }\""
-                }else if(x is AOPConstant){
-                    label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
-                        x.toSparql().replace("\n", "").replace("\"", "\\\"")
-                    }\""
-                // In general: All IOPBase nodes
-                }else{
-                    label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
-                        x.getProvidedVariableNames().toString().replace("\n", "").replace("\"", "\\\"")
-                    }\""
-                }
-                // In case getProvidedVariableNames is not defined for a given operator.
-            } catch (e: Exception) {
-                label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\""
-            }
-            result += "{\"id\": ${hashMap[x]}, $label},"
-            if (x.getChildren().isNotEmpty()) {
-                for (i in x.getChildren()) {
-                    result += createNodeJson(i, hashMap)
-                }
-            }
-            return result
     }
 }

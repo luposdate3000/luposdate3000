@@ -164,7 +164,8 @@ public abstract class OptimizerCompoundBase internal constructor(query: Query, o
                                 onChange()
                             }
                         }
-                        steps.add(tmp)
+                        var tmp2 = tmp.cloneOP()
+                        steps.add(tmp2)
                     }
                     SanityCheck {
                         val allPartitionOperators = mutableMapOf<Int, MutableSet<Long>>()

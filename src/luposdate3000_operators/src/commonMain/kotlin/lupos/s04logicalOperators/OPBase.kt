@@ -39,13 +39,13 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
     /*partOfAskQuery :: if_ true, prefer join with store, otherwiese perform fast-sort followed by reduced everywhere*/
     @JvmField
     public var alreadyCheckedStore: Long = -1L
-    //Added by Rico
     //Containing the parent Node of a node
     public var parentNode: IOPBase = this
-    //Changed by Rico.
     //Making the UUID changeable
     @JvmField
-    public var uuid: Long = global_uuid++
+    public var visualUUID: Long = global_uuid++
+    @JvmField
+    public val uuid: Long = global_uuid++
     @JvmField
     public var sortPrioritiesInitialized: Boolean = false
     @JvmField
@@ -69,24 +69,22 @@ public abstract class OPBase public constructor(@JvmField public val query: IQue
     override fun setMySortPriority(value: MutableList<SortHelper>) {
         mySortPriority = value
     }
-    //Added by Rico:
     //Setter for the parent node
     public override fun setParent(parent: IOPBase){
         this.parentNode = parent
     }
-    //Added by Rico:
     //Getter for the parent node
     public override fun getParent(): IOPBase{
         return parentNode
     }
-    //Added by Rico:
     //Setter for the UUID
-    public override fun setUUID(newUUID:Long){
-        this.uuid = newUUID
+    public override fun setVisualUUID(newUUID:Long){
+        this.visualUUID = newUUID
     }
     override fun getQuery(): IQuery = query
     override fun getSortPriorities(): MutableList<List<SortHelper>> = sortPriorities
     override fun getUUID(): Long = uuid
+    override fun getVisualUUUID(): Long = visualUUID
     override fun getChildren(): Array<IOPBase> = children
     override fun getMySortPriority(): MutableList<SortHelper> = mySortPriority
     public abstract /*suspend*/ fun calculateHistogram(): HistogramResult

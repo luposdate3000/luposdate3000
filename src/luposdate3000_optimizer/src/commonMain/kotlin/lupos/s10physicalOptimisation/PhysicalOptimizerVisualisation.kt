@@ -28,21 +28,21 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s08logicalOptimisation.OptimizerBase
 import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.singleinput.POPRico
+import lupos.s09physicalOperators.singleinput.POPVisualisation
 
 //TODO: PhysicalOptimizerDebugID ersetzen
 
-public class PhysicalOptimizerRico(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerDebugID) {
+public class PhysicalOptimizerVisualisation(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerDebugID) {
 
-    override val classname: String = "PhysicalOptimizerRico"
+    override val classname: String = "PhysicalOptimizerVisualisation"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         when (node) {
 
-            !is POPRico -> {
+            !is POPVisualisation -> {
                     // this code is intended to be debugging only - even if it changes the resulting operator-graph
-                    if (node is POPBase && (parent !is POPRico)) {
-                        res = POPRico(query, node.projectedVariables, node)
+                    if (node is POPBase && (parent !is POPVisualisation)) {
+                        res = POPVisualisation(query, node.projectedVariables, node)
                         if (parent != null) {
                             res.setParent(parent)
                         }

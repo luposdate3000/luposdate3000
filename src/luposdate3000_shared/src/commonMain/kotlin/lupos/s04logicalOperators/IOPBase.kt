@@ -34,9 +34,6 @@ public interface IOPBase {
     public fun getLatestChild(): IOPBase
     public fun getPossibleSortPriorities(): List<List<SortHelper>>
     public fun getUUID(): Long
-    //Added by Rico
-    //Setter for UUID
-    public fun setUUID(newUUID: Long)
     public fun getChildren(): Array<IOPBase>
     public fun getMySortPriority(): MutableList<SortHelper>
     public fun setMySortPriority(value: MutableList<SortHelper>)
@@ -61,4 +58,6 @@ public interface IOPBase {
     // Setter & getter for parent node
     public fun getParent(): IOPBase
     public fun setParent(parent: IOPBase)
+    public fun getVisualUUUID(): Long
+    public fun setVisualUUID(newUUID: Long)
 }

@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* Operator by Rico
+/*
 
  Needed for the visualization process
  Will be added between each operator during the optimization process and will send
@@ -34,10 +34,10 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s09physicalOperators.POPBase
 
-public class POPRico public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPDebugID, "POPRico", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
+public class POPVisualisation public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPDebugID, "POPVisualisation", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = getChildren()[0].getPartitionCount(variable)
-    override fun equals(other: Any?): Boolean = other is POPRico && getChildren()[0] == other.getChildren()[0]
-    override fun cloneOP(): IOPBase = POPRico(query, projectedVariables, getChildren()[0].cloneOP())
+    override fun equals(other: Any?): Boolean = other is POPVisualisation && getChildren()[0] == other.getChildren()[0]
+    override fun cloneOP(): IOPBase = POPVisualisation(query, projectedVariables, getChildren()[0].cloneOP())
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> = getChildren()[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> =
@@ -57,7 +57,7 @@ public class POPRico public constructor(query: IQuery, projectedVariables: List<
         iterator.columns = child.rows.columns
         iterator.next = {
             println("$uuid next call")
-            var test = Rico()
+            var visual = Visualisation()
             var res = child.rows.next()
             iterator.buf = child.rows.buf
             if (res < 0) {
@@ -72,11 +72,10 @@ public class POPRico public constructor(query: IQuery, projectedVariables: List<
                         "?" + this.projectedVariables[j] + " = " + query.getDictionary().getValue(iterator.buf[res + j])
                             .valueToString();
                     string?.let {
-                        test.sendData(
-                            getParent().getUUID(), getChildren()[0].getUUID(), iterator.buf[res + j],
+                        visual.sendData(
+                            getParent().getVisualUUUID(), getChildren()[0].getVisualUUUID(), iterator.buf[res + j],
                             it
                         )
-                        println("" + getUUID() + " parent: " + getParent().getUUID())
                     }
                 }
             }

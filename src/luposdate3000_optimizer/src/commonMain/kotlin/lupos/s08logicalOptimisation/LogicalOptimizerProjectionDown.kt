@@ -28,8 +28,18 @@ import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s04logicalOperators.noinput.LOPValues
-import lupos.s04logicalOperators.singleinput.*
-import lupos.s04logicalOperators.singleinput.modifiers.*
+import lupos.s04logicalOperators.singleinput.LOPBind
+import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.s04logicalOperators.singleinput.LOPGroup
+import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
+import lupos.s04logicalOperators.singleinput.LOPProjection
+import lupos.s04logicalOperators.singleinput.LOPSort
+import lupos.s04logicalOperators.singleinput.LOPSubGroup
+import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
+import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
+import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
+import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
+import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
 public class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerProjectionDownID) {
     override val classname: String = "LogicalOptimizerProjectionDown"
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

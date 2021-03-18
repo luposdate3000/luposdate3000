@@ -48,16 +48,13 @@ public class PhysicalOptimizer public constructor(query: Query) : OptimizerCompo
         ),
         arrayOf(
         /*
-            Changed by Rico:
-
-            Added the PhysicalOptimizerRico, which is adding a POPRico Operator between
+            Added the PhysicalOptimizerVisualisation which is adding a POPVisualisation Operator between
             every operator (like POPDebug) which is needed for the visualization of the
             operator graph
-
          */
 
             //PhysicalOptimizerDebug(query)
-            PhysicalOptimizerRico(query),//
+            PhysicalOptimizerVisualisation(query),//
         ),
     )
 }
