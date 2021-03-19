@@ -18,37 +18,70 @@ package lupos.kv
 
 import lupos.ProguardTestAnnotation
 import lupos.buffermanager.BufferManager
-import lupos.buffermanager.BufferManagerExt
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.SanityCheck
 
 public class KeyValueStore {
+    private val rootPageID: Int
+    private val rootPage: ByteArray
     private val bufferManager: BufferManager
-    private var bNodeCounter = 5
-    private var lastPage: Int = 0
-    private var lastPageBuf: ByteArray = ByteArray(0)
-    private var lastPageOffset: Int = 0
-    private var nextID = 0
-    private var mappingID2Page = IntArray(100)
-    private var mappingID2Off = IntArray(100)
-    private var mappingSorted = IntArray(100)
+    private var lastPage: Int
+    private var lastPageBuf: ByteArray
+    private var lastPageOffset: Int
+    private var nextID: Int
+    private var mappingID2Page: IntArrayOnBufferManager
+    private var mappingID2Off: IntArrayOnBufferManager
+    private var mappingSorted: IntArrayOnBufferManager
 
-    public constructor() : this(BufferManagerExt.getBuffermanager("KeyValueStore"))
-
-    @ProguardTestAnnotation
-    public constructor(bufferManager: BufferManager) {
+    public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
-        bufferManager.createPage { page, id ->
-            lastPageBuf = page
-            lastPage = id
-            lastPageOffset = 4
+        this.rootPageID = rootPageID
+        rootPage = bufferManager.getPage(rootPageID)
+        if (initFromRootPage) {
+            lastPage = ByteArrayHelper.readInt4(rootPage, 0)
+            lastPageBuf = bufferManager.getPage(lastPage)
+            lastPageOffset = ByteArrayHelper.readInt4(rootPage, 4)
+            nextID = ByteArrayHelper.readInt4(rootPage, 8)
+            var id1 = ByteArrayHelper.readInt4(rootPage, 12)
+            var id2 = ByteArrayHelper.readInt4(rootPage, 16)
+            var id3 = ByteArrayHelper.readInt4(rootPage, 20)
+            mappingID2Page = IntArrayOnBufferManager(bufferManager, id1, initFromRootPage)
+            mappingID2Off = IntArrayOnBufferManager(bufferManager, id2, initFromRootPage)
+            mappingSorted = IntArrayOnBufferManager(bufferManager, id3, initFromRootPage)
+        } else {
+            lastPageBuf = ByteArray(0)
+            lastPage = 0
+            lastPageOffset = 0
+            bufferManager.createPage { page, id ->
+                lastPageBuf = page
+                lastPage = id
+                lastPageOffset = 4
+            }
+            ByteArrayHelper.writeInt4(rootPage, 0, lastPage)
+            ByteArrayHelper.writeInt4(rootPage, 4, lastPageOffset)
+            nextID = 0
+            ByteArrayHelper.writeInt4(rootPage, 8, nextID)
+            var id1 = 0
+            var id2 = 0
+            var id3 = 0
+            bufferManager.createPage { page, id -> id1 = id }
+            bufferManager.createPage { page, id -> id2 = id }
+            bufferManager.createPage { page, id -> id3 = id }
+            bufferManager.releasePage(id1)
+            bufferManager.releasePage(id3)
+            bufferManager.releasePage(id4)
+            mappingID2Page = IntArrayOnBufferManager(bufferManager, id1, initFromRootPage)
+            mappingID2Off = IntArrayOnBufferManager(bufferManager, id2, initFromRootPage)
+            mappingSorted = IntArrayOnBufferManager(bufferManager, id3, initFromRootPage)
+            ByteArrayHelper.writeInt4(rootPage, 12, id1)
+            ByteArrayHelper.writeInt4(rootPage, 16, id2)
+            ByteArrayHelper.writeInt4(rootPage, 20, id3)
         }
     }
 
     @ProguardTestAnnotation
     public fun close() {
         bufferManager.releasePage(lastPage)
-        bufferManager.close()
     }
 
     private inline fun readData(page: Int, off: Int): ByteArray {
@@ -90,13 +123,16 @@ public class KeyValueStore {
                 bufferManager.releasePage(lastPage)
                 lastPageBuf = page
                 lastPage = id
+                ByteArrayHelper.writeInt4(rootPage, 0, lastPage)
             }
             lastPageOffset = 4
+            ByteArrayHelper.writeInt4(rootPage, 4, lastPageOffset)
         }
         var resPage = lastPage
         var resOff = lastPageOffset
         ByteArrayHelper.writeInt4(lastPageBuf, lastPageOffset, data.size)
         lastPageOffset += 4
+        ByteArrayHelper.writeInt4(rootPage, 4, lastPageOffset)
         var dataoff = 0
         var towrite = data.size
         while (towrite > 0) {
@@ -107,8 +143,10 @@ public class KeyValueStore {
                     bufferManager.releasePage(lastPage)
                     lastPageBuf = page
                     lastPage = id
+                    ByteArrayHelper.writeInt4(rootPage, 0, lastPage)
                 }
                 lastPageOffset = 4
+                ByteArrayHelper.writeInt4(rootPage, 4, lastPageOffset)
                 available = lastPageBuf.size - lastPageOffset
             }
             var len = if (available < towrite) {
@@ -119,6 +157,7 @@ public class KeyValueStore {
             data.copyInto(lastPageBuf, lastPageOffset, dataoff, dataoff + len)
             towrite -= len
             lastPageOffset += len
+            ByteArrayHelper.writeInt4(rootPage, 4, lastPageOffset)
             dataoff += len
         }
         action(resPage, resOff)
@@ -199,6 +238,7 @@ public class KeyValueStore {
             },
             onNotFound = {
                 res = nextID++
+                ByteArrayHelper.writeInt4(rootPage, 8, nextID)
                 writeData(data) { page, off ->
                     if (res >= mappingID2Page.size) {
                         var tmp = IntArray(mappingID2Page.size * 2)
