@@ -260,7 +260,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
         testGetValueOk(values[v], k)
     }
     kv.close()
-    kv = KeyValueStore(bufferManager, rootPage, false)
+    kv = KeyValueStore(bufferManager, rootPage, true)
     for ((k, v) in mapping) {
         testGetValueOk(values[v], k)
     }

@@ -81,7 +81,11 @@ public class KeyValueStore {
 
     @ProguardTestAnnotation
     public fun close() {
+        mappingID2Page.close()
+        mappingID2Off.close()
+        mappingSorted.close()
         bufferManager.releasePage(lastPage)
+        bufferManager.releasePage(rootPageID)
     }
 
     private inline fun readData(page: Int, off: Int): ByteArray {
@@ -241,9 +245,9 @@ public class KeyValueStore {
                 ByteArrayHelper.writeInt4(rootPage, 8, nextID)
                 writeData(data) { page, off ->
                     if (res >= mappingID2Page.size) {
-                        mappingID2Page.setSize(res + 1)
-                        mappingID2Off.setSize(res + 1)
-                        mappingSorted.setSize(res + 1)
+                        mappingID2Page.setSize(res + 1, false)
+                        mappingID2Off.setSize(res + 1, false)
+                        mappingSorted.setSize(res + 1, false)
                     }
                     mappingID2Page[res] = page
                     mappingID2Off[res] = off

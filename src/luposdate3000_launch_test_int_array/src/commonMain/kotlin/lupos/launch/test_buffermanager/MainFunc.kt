@@ -26,6 +26,7 @@ import kotlin.math.min
 import kotlin.math.pow
 
 private val verbose = false
+private val maxSize = 1000000
 
 private class MyRandom(var seed: Long) {
     val bits = 32
@@ -69,7 +70,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
             if (tmp < 0) {
                 tmp = -tmp
             }
-            var testCase = "test_kv_${tmp.toString(16)}.data"
+            var testCase = "test_int_array_${tmp.toString(16)}.data"
             if (verbose) {
                 println("case $tests :: $cnt $testCase")
             }
@@ -106,7 +107,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
     var bufferManager = BufferManager()
     var dataSize = 0
-    val data = IntArray(1000000)
+    val data = IntArray(maxSize)
     var rootPage = -1
     bufferManager.createPage { page, pageid ->
         rootPage = pageid
@@ -115,10 +116,14 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
     var arr = IntArrayOnBufferManager(bufferManager, rootPage, false)
 
     fun testSetSizeOk(size: Int) {
-        if (verbose) {
-            println("testSetSizeOk $size")
-        }
+        var oldSize = dataSize
         dataSize = abs(size % data.size)
+        for (i in oldSize until dataSize) {
+            data[i] = 0
+        }
+        if (verbose) {
+            println("testSetSizeOk $dataSize")
+        }
         arr.setSize(dataSize)
     }
 
@@ -152,7 +157,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
         val a = data[idx]
         val b = arr[idx]
         if (a != b) {
-            throw Exception("")
+            throw Exception("$a $b")
         }
     }
 
@@ -173,7 +178,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
 
     fun getValidIndex(rng: Int, action: (Int) -> Unit) {
         if (dataSize > 0) {
-            action(rng % dataSize)
+            action(abs(rng % dataSize))
         }
     }
 

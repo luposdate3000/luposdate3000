@@ -43,6 +43,10 @@ public class IntArrayOnBufferManager {
     }
 
     public fun setSize(size: Int) {
+        setSize(size, true)
+    }
+
+    public fun setSize(size: Int, clean: Boolean) {
         val capacity = ((size + valuesPerPage - 1) / valuesPerPage) * valuesPerPage
         var previousDataPages = (this.capacity + valuesPerPage - 1) / valuesPerPage
         var newDataPages = (capacity + valuesPerPage - 1) / valuesPerPage
@@ -67,29 +71,34 @@ public class IntArrayOnBufferManager {
                 val offC2 = offB2 / valuesPerPage
                 val pageC = rootPage
                 val pageBId = ByteArrayHelper.readInt4(pageC, offC1 * 4)
-                val pageB = if (pid != pageBId) {
+                if (pid != pageBId) {
                     if (pid != -1) {
                         bufferManager.releasePage(pid)
                     }
                     pid = pageBId
-                    bufferManager.getPage(pageBId)
-                } else {
-                    p!!
+                    p = bufferManager.getPage(pageBId)
                 }
+                val pageB = p!!
                 var id = -1
                 bufferManager.createPage { page, pageid ->
                     id = pageid
                 }
-                ByteArrayHelper.writeInt4(pageB, offB1, id)
                 bufferManager.releasePage(id)
+                ByteArrayHelper.writeInt4(pageB, offB1 * 4, id)
+            }
+            if (pid != -1) {
+                bufferManager.releasePage(pid)
             }
             this.capacity = capacity
             ByteArrayHelper.writeInt4(rootPage, rootPage.size - 4, capacity)
         }
-        for (i in _size until size) {
-            set(i, 0)
-        }
+        var tmp = _size
         _size = size
+        if (clean) {
+            for (i in tmp until size) {
+                set(i, 0)
+            }
+        }
         ByteArrayHelper.writeInt4(rootPage, rootPage.size - 8, size)
     }
 
@@ -107,6 +116,7 @@ public class IntArrayOnBufferManager {
         val pageAId = ByteArrayHelper.readInt4(pageB, offB1 * 4)
         bufferManager.releasePage(pageBId)
         val pageA = bufferManager.getPage(pageAId)
+// println("$idx -> root@$offC1 $pageBId@$offB1 -> $pageAId@$offA1")
         action(offA1 * 4, pageA)
         bufferManager.releasePage(pageAId)
     }

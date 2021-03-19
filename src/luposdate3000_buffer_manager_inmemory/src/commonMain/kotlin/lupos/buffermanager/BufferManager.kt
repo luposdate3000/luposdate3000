@@ -132,9 +132,13 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
     @ProguardTestAnnotation
     public fun close() {
         SanityCheck {
+            val allErrors = mutableMapOf<Int, Int>()
             for (i in 0 until counter) {
-                SanityCheck.check { allPagesRefcounters[i] == 0 }
+                if (allPagesRefcounters[i] != 0) {
+                    allErrors[i] = allPagesRefcounters[i]
+                }
             }
+            SanityCheck.check({ allErrors.size == 0 }, { "$allErrors" })
         }
     }
 }
