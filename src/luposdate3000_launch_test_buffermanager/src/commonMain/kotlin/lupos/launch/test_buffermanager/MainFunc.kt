@@ -42,7 +42,6 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
  if arg is an long, than random tests are executed
  otherwise it is assumed, that arg is a filename, which is then used as input data
  */
-    BufferManagerExt.allowInitFromDisk = false
     File(BufferManagerExt.bufferPrefix).mkdirs()
     var seed = 0L
     var dataoff: Int = 0
@@ -107,13 +106,8 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
-    var bufferManager2: BufferManager? = null
-    try {
-        bufferManager2 = BufferManager("")
-    } catch (e: Throwable) {
-        return
-    }
-    val bufferManager = bufferManager2!!
+    BufferManagerExt.allowInitFromDisk = false
+    var bufferManager = BufferManager()
     val pageIds = mutableListOf<Int>()
     val mappedPages = mutableMapOf<Int, ByteArray>()
     val mappedPagesCtr = mutableMapOf<Int, Int>()
@@ -335,6 +329,19 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
         if (id != pageid) {
             throw Exception("")
         }
+        bufferManager.releasePage(pageid)
+    }
+    if (!BufferManagerExt.isInMemoryOnly) {
+        BufferManagerExt.allowInitFromDisk = true
+        bufferManager.close()
+        bufferManager = BufferManager()
+    }
+    for (pageid in pageIds) {
+        val page = bufferManager.getPage(pageid)
+        val id = ByteArrayHelper.readInt4(page, 0)
+        if (id != pageid) {
+            throw Exception("")
+        }
         bufferManager.deletePage(pageid)
     }
     if (mappedPages.size != 0) {
@@ -343,4 +350,5 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
     if (mappedPagesCtr.size != 0) {
         throw Exception("")
     }
+    bufferManager.close()
 }

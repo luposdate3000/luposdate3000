@@ -16,19 +16,16 @@
  */
 package lupos.buffermanager
 
+import lupos.ProguardTestAnnotation
 import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.s00misc.BUFFER_MANAGER_USE_FREE_LIST
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
 
-public class BufferManager {
-    @JvmField
-    public val name: String
-
-    public constructor(name: String) {
-        this.name = name
-    }
+public class BufferManager internal constructor(@JvmField public val name: String) {
+    @ProguardTestAnnotation
+    public constructor() : this("")
 
     /*
      * each type safe page-manager safes to its own store
@@ -39,20 +36,15 @@ public class BufferManager {
      * - temporary result rows (currently not implemented)
      * additionally this should make it more easy to exchange this with on disk storage
      */
-    @JvmField
-    internal var allPages = Array(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
+    private var allPages = Array(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
 
-    @JvmField
-    internal var allPagesRefcounters = IntArray(100)
+    private var allPagesRefcounters = IntArray(100)
 
-    @JvmField
-    internal var counter = 0
+    private var counter = 0
 
-    @JvmField
-    internal val lock = MyReadWriteLock()
+    private val lock = MyReadWriteLock()
 
-    @JvmField
-    internal val freeList = mutableListOf<Int>()
+    private val freeList = mutableListOf<Int>()
     /*suspend*/ private fun clearAssumeLocks() {
         counter = 0
         SanityCheck {
@@ -106,13 +98,8 @@ public class BufferManager {
                     }
                     res
                 }
-                val tmp2 = IntArray(size) {
-                    if (it < counter) {
-                        allPagesRefcounters[it]
-                    } else {
-                        0
-                    }
-                }
+                val tmp2 = IntArray(size)
+                allPagesRefcounters.copyInto(tmp2)
                 allPages = tmp
                 allPagesRefcounters = tmp2
             }
@@ -138,6 +125,15 @@ public class BufferManager {
         } else {
             if (counter == 0) {
                 clearAssumeLocks()
+            }
+        }
+    }
+
+    @ProguardTestAnnotation
+    public fun close() {
+        SanityCheck {
+            for (i in 0 until counter) {
+                SanityCheck.check { allPagesRefcounters[i] == 0 }
             }
         }
     }
