@@ -178,8 +178,6 @@ public class KeyValueStore {
                     SanityCheck.check { cmp(it, data) > 0 }
                 }
             }
-            val res2 = mappingSorted[res]
-            // println("onNotFound(#$res id:$res2)")
             onNotFound(res)
         }
     }
