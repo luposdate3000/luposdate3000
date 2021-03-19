@@ -928,14 +928,6 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         lock.writeUnlock()
     }
 
-    override fun insert(a: Int, b: Int, c: Int) {
-        SanityCheck.checkUnreachable()
-    }
-
-    override fun remove(a: Int, b: Int, c: Int) {
-        SanityCheck.checkUnreachable()
-    }
-
     override /*suspend*/ fun clear() {
         flushContinueWithWriteLock()
         if (root != NodeManager.nodeNullPointer) {
