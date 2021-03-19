@@ -24,18 +24,21 @@ import lupos.s00misc.SanityCheck
 internal class IntArrayOnBufferManager {
     private val bufferManager: BufferManager
     private val rootPageID: Int
-    private val valuesPerPage = rootPage.size / 4
+    private val valuesPerPage: Int
     private val rootPage: ByteArray
     private var capacity: Int = 0
-    private var size: Int = 0
+    private var _size: Int = 0
+    public val size: Int
+        get() = _size
 
     public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
         rootPage = bufferManager.getPage(rootPageID)
+        valuesPerPage = rootPage.size / 4
         if (initFromRootPage) {
             capacity = ByteArrayHelper.readInt4(rootPage, rootPage.size - 4)
-            size = ByteArrayHelper.readInt4(rootPage, rootPage.size - 8)
+            _size = ByteArrayHelper.readInt4(rootPage, rootPage.size - 8)
         }
     }
 
@@ -83,16 +86,16 @@ internal class IntArrayOnBufferManager {
             this.capacity = capacity
             ByteArrayHelper.writeInt4(rootPage, rootPage.size - 4, capacity)
         }
-        for (i in this.size until size) {
+        for (i in _size until size) {
             set(i, 0)
         }
-        this.size = size
+        _size = size
         ByteArrayHelper.writeInt4(rootPage, rootPage.size - 8, size)
     }
 
     private inline fun idxToPage(idx: Int, crossinline action: (Int, ByteArray) -> Unit) {
-        val offA1 = i % valuesPerPage
-        val offA2 = i / valuesPerPage
+        val offA1 = idx % valuesPerPage
+        val offA2 = idx / valuesPerPage
         val offB1 = offA2 % valuesPerPage
         val offB2 = offA2 / valuesPerPage
         val offC1 = offB2 % valuesPerPage
@@ -110,15 +113,17 @@ internal class IntArrayOnBufferManager {
 
     public operator fun get(idx: Int): Int {
         SanityCheck.check { idx >= 0 }
-        SanityCheck.check { idx < size }
+        SanityCheck.check { idx < _size }
+        var res: Int = 0
         idxToPage(idx) { off, page ->
-            ByteArrayHelper.readInt4(page, off)
+            res = ByteArrayHelper.readInt4(page, off)
         }
+        return res
     }
 
     public operator fun set(idx: Int, value: Int) {
         SanityCheck.check { idx >= 0 }
-        SanityCheck.check { idx < size }
+        SanityCheck.check { idx < _size }
         idxToPage(idx) { off, page ->
             ByteArrayHelper.writeInt4(page, off, value)
         }

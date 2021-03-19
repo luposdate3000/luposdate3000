@@ -68,8 +68,8 @@ public class KeyValueStore {
             bufferManager.createPage { page, id -> id2 = id }
             bufferManager.createPage { page, id -> id3 = id }
             bufferManager.releasePage(id1)
+            bufferManager.releasePage(id2)
             bufferManager.releasePage(id3)
-            bufferManager.releasePage(id4)
             mappingID2Page = IntArrayOnBufferManager(bufferManager, id1, initFromRootPage)
             mappingID2Off = IntArrayOnBufferManager(bufferManager, id2, initFromRootPage)
             mappingSorted = IntArrayOnBufferManager(bufferManager, id3, initFromRootPage)
@@ -241,15 +241,9 @@ public class KeyValueStore {
                 ByteArrayHelper.writeInt4(rootPage, 8, nextID)
                 writeData(data) { page, off ->
                     if (res >= mappingID2Page.size) {
-                        var tmp = IntArray(mappingID2Page.size * 2)
-                        mappingID2Page.copyInto(tmp)
-                        mappingID2Page = tmp
-                        tmp = IntArray(mappingID2Off.size * 2)
-                        mappingID2Off.copyInto(tmp)
-                        mappingID2Off = tmp
-                        tmp = IntArray(mappingSorted.size * 2)
-                        mappingSorted.copyInto(tmp)
-                        mappingSorted = tmp
+                        mappingID2Page.setSize(res + 1)
+                        mappingID2Off.setSize(res + 1)
+                        mappingSorted.setSize(res + 1)
                     }
                     mappingID2Page[res] = page
                     mappingID2Off[res] = off
