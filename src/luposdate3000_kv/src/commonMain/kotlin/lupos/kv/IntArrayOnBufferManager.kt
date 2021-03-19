@@ -21,7 +21,7 @@ import lupos.buffermanager.BufferManager
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.SanityCheck
 
-internal class IntArrayOnBufferManager {
+public class IntArrayOnBufferManager {
     private val bufferManager: BufferManager
     private val rootPageID: Int
     private val valuesPerPage: Int
@@ -130,7 +130,7 @@ internal class IntArrayOnBufferManager {
     }
 
     @ProguardTestAnnotation
-    internal fun close() {
+    public fun close() {
         bufferManager.releasePage(rootPageID)
     }
 }

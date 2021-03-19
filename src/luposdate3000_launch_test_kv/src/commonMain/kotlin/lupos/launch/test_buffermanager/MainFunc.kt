@@ -111,7 +111,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
     bufferManager.createPage { page, pageid ->
         rootPage = pageid
     }
-    bufferManager.releasePage(pageid)
+    bufferManager.releasePage(rootPage)
     var kv = KeyValueStore(bufferManager, rootPage, false)
 
     val values = mutableListOf<ByteArray>()

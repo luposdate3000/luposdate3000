@@ -22,11 +22,10 @@ import kotlin.jvm.JvmField
 
 public object BufferManagerExt {
     @JvmField
-    public // dont put const val here, because it wont work when exchanging the modules
-    val isInMemoryOnly: Boolean = true
+    public val isInMemoryOnly: Boolean = true
 
     @JvmField
-    public var allowInitFromDisk: Boolean = true
+    public var allowInitFromDisk: Boolean = false
 
     public fun getBuffermanager(name: String): BufferManager {
         var res: BufferManager? = null
