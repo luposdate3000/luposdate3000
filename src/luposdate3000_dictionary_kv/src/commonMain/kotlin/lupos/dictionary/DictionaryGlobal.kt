@@ -16,6 +16,7 @@
  */
 package lupos.dictionary
 
+import lupos.ProguardTestAnnotation
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.kv.KeyValueStore
 import lupos.s00misc.ETripleComponentTypeExt
@@ -25,7 +26,7 @@ import lupos.s03resultRepresentation.ValueDefinition
 public val nodeGlobalDictionary: DictionaryGlobal = DictionaryGlobal()
 
 public class DictionaryGlobal {
-    private val kv = KeyValueStore()
+    private val kv: KeyValueStore
     private var bNodeCounter = 5
     private var lastPage: Int = 0
     private var lastPageBuf: ByteArray = ByteArray(0)
@@ -34,6 +35,15 @@ public class DictionaryGlobal {
     private var mappingID2Page = IntArray(100)
     private var mappingID2Off = IntArray(100)
     private var mappingSorted = IntArray(100)
+
+    public constructor() {
+        kv = KeyValueStore()
+    }
+
+    @ProguardTestAnnotation
+    public constructor(bufferManager: BufferManager) {
+        kv = KeyValueStore(bufferManager)
+    }
 
     public fun debugAllDictionaryContent() {
     }

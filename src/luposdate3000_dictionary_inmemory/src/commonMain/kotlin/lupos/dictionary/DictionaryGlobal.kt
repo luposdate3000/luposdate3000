@@ -109,7 +109,7 @@ public class DictionaryGlobal {
     @JvmField
     internal val byteBuf = ByteArray(1)
 
-    init {
+    public constructor() {
         outputDictionaryFile = MyOutputStream()
         if (!BufferManagerExt.isInMemoryOnly) {
             val filename = BufferManagerExt.bufferPrefix + "dictionary.data"
@@ -122,6 +122,9 @@ public class DictionaryGlobal {
         }
         initializationphase = false
     }
+
+    @ProguardTestAnnotation
+    public constructor(bufferManager: BufferManager) : this()
 
     public fun debugAllDictionaryContent() {
         File("global.dictionary.txt").withOutputStream { out ->
