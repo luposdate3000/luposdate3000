@@ -14,28 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos
+import lupos.launch.test_kv.mainFunc
+import kotlin.js.JsName
 
-@Target(
-    AnnotationTarget.ANNOTATION_CLASS,
-    AnnotationTarget.CLASS,
-    AnnotationTarget.CONSTRUCTOR,
-    AnnotationTarget.FIELD,
-    AnnotationTarget.FILE,
-    AnnotationTarget.FUNCTION,
-    AnnotationTarget.LOCAL_VARIABLE,
-    AnnotationTarget.PROPERTY,
-    AnnotationTarget.PROPERTY_GETTER,
-    AnnotationTarget.PROPERTY_SETTER,
-    AnnotationTarget.TYPE,
-    AnnotationTarget.TYPEALIAS,
-    AnnotationTarget.TYPE_PARAMETER,
-    AnnotationTarget.VALUE_PARAMETER
-)
-
-/*
- * this indicates that the target is only public because of testing
- * if the testing functionality is not wanted, change the target to private
- */
-@Retention(AnnotationRetention.BINARY)
-public annotation class ProguardTestAnnotation
+@JsName("main")
+public fun main(args: Array<String>) {
+    var flag = false
+    var arg: String = ""
+    for (a in args) {
+        if (a.startsWith("--arg=")) {
+            arg = a.substring(6)
+            flag = true
+            break
+        }
+    }
+    if (!flag) {
+        throw Exception("the option '--arg' is missing on the arguments list")
+    }
+    mainFunc(arg)
+}

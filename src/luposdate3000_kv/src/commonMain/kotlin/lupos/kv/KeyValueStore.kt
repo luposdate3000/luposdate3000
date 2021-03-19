@@ -16,13 +16,14 @@
  */
 package lupos.kv
 
+import lupos.ProguardTestAnnotation
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.SanityCheck
 
 public class KeyValueStore {
-    private val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("KeyValueStore")
+    private val bufferManager: BufferManager
     private var bNodeCounter = 5
     private var lastPage: Int = 0
     private var lastPageBuf: ByteArray = ByteArray(0)
@@ -32,12 +33,22 @@ public class KeyValueStore {
     private var mappingID2Off = IntArray(100)
     private var mappingSorted = IntArray(100)
 
-    init {
+    public constructor() : this(BufferManagerExt.getBuffermanager("KeyValueStore"))
+
+    @ProguardTestAnnotation
+    public constructor(bufferManager: BufferManager) {
+        this.bufferManager = bufferManager
         bufferManager.createPage { page, id ->
             lastPageBuf = page
             lastPage = id
             lastPageOffset = 4
         }
+    }
+
+    @ProguardTestAnnotation
+    public fun close() {
+        bufferManager.releasePage(lastPage)
+        bufferManager.close()
     }
 
     private inline fun readData(page: Int, off: Int): ByteArray {
@@ -214,6 +225,8 @@ public class KeyValueStore {
     }
 
     public fun getValue(value: Int): ByteArray {
+        SanityCheck.check { value < nextID }
+        SanityCheck.check { value >= 0 }
         return readData(mappingID2Page[value], mappingID2Off[value])
     }
 }
