@@ -19,6 +19,7 @@ package lupos.dictionary
 import lupos.ProguardTestAnnotation
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.kv.KeyValueStore
+import lupos.s00misc.BufferManager
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueDefinition

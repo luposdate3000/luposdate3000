@@ -107,7 +107,12 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
     var bufferManager = BufferManager()
-    var kv = KeyValueStore(bufferManager)
+    var rootPage = -1
+    bufferManager.createPage { page, pageid ->
+        rootPage = pageid
+    }
+    bufferManager.releasePage(pageid)
+    var kv = KeyValueStore(bufferManager, rootPage, false)
 
     val values = mutableListOf<ByteArray>()
     val mapping = mutableMapOf<Int, Int>() // kv.id -> values.idx
@@ -251,7 +256,14 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
             5 -> getNotExistingKey(rng) { k -> testGetValueFail(k) }
         }
     }
-
+    for ((k, v) in mapping) {
+        testGetValueOk(values[v], k)
+    }
+    kv.close()
+    kv = KeyValueStore(bufferManager, rootPage, false)
+    for ((k, v) in mapping) {
+        testGetValueOk(values[v], k)
+    }
     kv.close()
     bufferManager.close()
 }

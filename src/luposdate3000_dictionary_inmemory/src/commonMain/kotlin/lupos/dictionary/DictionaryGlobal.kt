@@ -16,9 +16,11 @@
  */
 package lupos.dictionary
 
+import lupos.ProguardTestAnnotation
 import lupos.buffermanager.BufferManagerExt
 import lupos.fileformat.DictionaryIntermediate
 import lupos.fileformat.DictionaryIntermediateReader
+import lupos.s00misc.BufferManager
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File

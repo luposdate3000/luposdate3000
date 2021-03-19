@@ -110,6 +110,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
     bufferManager.createPage { page, pageid ->
         rootPage = pageid
     }
+    bufferManager.releasePage(pageid)
     var arr = IntArrayOnBufferManager(bufferManager, rootPage, false)
 
     fun testSetSizeOk(size: Int) {
@@ -204,16 +205,12 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
         }
     }
     for (i in 0 until dataSize) {
-        if (data[i] != arr[i]) {
-            throw Exception("")
-        }
+        testGetOk(i)
     }
     arr.close()
     arr = IntArrayOnBufferManager(bufferManager, rootPage, true)
     for (i in 0 until dataSize) {
-        if (data[i] != arr[i]) {
-            throw Exception("")
-        }
+        testGetOk(i)
     }
     arr.close()
     bufferManager.close()
