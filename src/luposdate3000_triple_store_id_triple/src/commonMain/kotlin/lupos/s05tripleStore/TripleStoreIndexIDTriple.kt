@@ -50,10 +50,10 @@ import kotlin.jvm.JvmField
 
 public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex(store_root_page_id_) {
     @JvmField
+
     internal val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
 
-    @JvmField
-    public var firstLeaf_: Int = NodeManager.nodeNullPointer
+    private var firstLeaf_: Int = NodeManager.nodeNullPointer
     private var firstLeaf: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
@@ -64,8 +64,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         }
         get() = firstLeaf_
 
-    @JvmField
-    public var root_: Int = NodeManager.nodeNullPointer
+    private var root_: Int = NodeManager.nodeNullPointer
     private var root: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
@@ -76,8 +75,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         }
         get() = root_
 
-    @JvmField
-    public var countPrimary_: Int = 0
+    private var countPrimary_: Int = 0
     private var countPrimary: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
@@ -88,8 +86,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         }
         get() = countPrimary_
 
-    @JvmField
-    public var distinctPrimary_: Int = 0
+    private var distinctPrimary_: Int = 0
     private var distinctPrimary: Int
         set(value) {
             val rootPage = bufferManager.getPage(store_root_page_id)
@@ -100,31 +97,23 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         }
         get() = distinctPrimary_
 
-    @JvmField
-    public var rootNode: ByteArray? = null
+    private var rootNode: ByteArray? = null
 
-    @JvmField
-    public var pendingImport: MutableList<Int?> = mutableListOf()
+    private var pendingImport: MutableList<Int?> = mutableListOf()
 
     @JvmField
     internal var lock = MyReadWriteLock()
 
-    @JvmField
-    public var cachedHistograms1Size: Int = 0
+    private var cachedHistograms1Size: Int = 0
 
-    @JvmField
-    public var cachedHistograms1Cursor: Int = 0
+    private var cachedHistograms1Cursor: Int = 0
 
-    @JvmField
     public val cachedHistograms1: IntArray = IntArray(300)
 
-    @JvmField
-    public var cachedHistograms2Size: Int = 0
+    private var cachedHistograms2Size: Int = 0
 
-    @JvmField
-    public var cachedHistograms2Cursor: Int = 0
+    private var cachedHistograms2Cursor: Int = 0
 
-    @JvmField
     public val cachedHistograms2: IntArray = IntArray(400)
 
     init {
@@ -156,8 +145,8 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         bufferManager.releasePage(store_root_page_id)
     }
 
-    internal companion object {
-        @JvmField
+    private companion object {
+
         var debugLock = MyReadWriteLock()
     }
 
