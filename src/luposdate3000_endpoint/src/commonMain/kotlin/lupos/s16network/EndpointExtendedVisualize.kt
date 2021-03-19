@@ -27,10 +27,8 @@ public class EndpointExtendedVisualize {
         val lopNode = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
         val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode) //Log Operatorgraph Optimized
         val popOptimizer = PhysicalOptimizer(q)
-        //Variation of normal optimizeCall function with the change that it returns
-        //an array of solutions (steps of optimization)
-        val tmp = popOptimizer.optimizeCallRico(lopNode2) //Physical Operatorgraph
-
+        var tmp = mutableListOf<IOPBase>()
+        val tmp2 = popOptimizer.optimizeCall(lopNode2,{},{tmp.add(it.cloneOP())}) //Physical Operatorgraph
         var result = mutableListOf<String>()
         //Change the UUIDs in each step beginning from 1 via DFS.
         for (i in tmp){
@@ -51,7 +49,8 @@ public class EndpointExtendedVisualize {
         val parser = SPARQLParser(ltit)
         val astNode = parser.expr()
         val lopNode = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
-        var tmp = LogicalOptimizer(q).optimizeCallRico(lopNode) //Log Operatorgraph Optimized
+        var tmp = mutableListOf<IOPBase>()
+        var tmp2 = LogicalOptimizer(q).optimizeCall(lopNode,{},{tmp.add(it.cloneOP())}) //Log Operatorgraph Optimized
         var result = mutableListOf<String>()
         //Change the UUIDs in each step beginning from 1 via DFS.
         for (i in tmp){

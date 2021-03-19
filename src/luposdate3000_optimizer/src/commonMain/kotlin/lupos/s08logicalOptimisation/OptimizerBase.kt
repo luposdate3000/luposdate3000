@@ -45,9 +45,9 @@ public abstract class OptimizerBase internal constructor(@JvmField public val qu
     }
 
     public open /*suspend*/ fun optimizeCall(node: IOPBase): IOPBase {
-        return optimizeCall(node, {})
+        return optimizeCall(node, {}, {})
     }
-    public open /*suspend*/ fun optimizeCall(node: IOPBase, onChange: () -> Unit): IOPBase {
+    public open /*suspend*/ fun optimizeCall(node: IOPBase, onChange: () -> Unit, nextStep: (IOPBase) -> Unit): IOPBase {
         if (query.filtersMovedUpFromOptionals) {
             node.syntaxVerifyAllVariableExists(listOf(), true)
         }
@@ -56,17 +56,5 @@ public abstract class OptimizerBase internal constructor(@JvmField public val qu
             res.syntaxVerifyAllVariableExists(listOf(), false)
         }
         return res
-    }
-
-    /*
-        Added by Rico
-
-        was necessary to add the optimizeCallRico
-
-     */
-    public abstract fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase>
-
-    public open /*suspend*/ fun optimizeCallRico(node: IOPBase): MutableList<IOPBase> {
-        return optimizeCallRico(node) {}
     }
 }

@@ -42,7 +42,4 @@ public class LogicalOptimizerRemoveBindVariable(query: Query) : OptimizerBase(qu
         return node
     }
 
-    override fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase> {
-        TODO("Not yet implemented")
-    }
 }

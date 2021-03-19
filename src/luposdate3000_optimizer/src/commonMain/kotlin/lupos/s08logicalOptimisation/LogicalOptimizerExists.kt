@@ -57,7 +57,4 @@ public class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimi
         return node
     }
 
-    override fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase> {
-        TODO("Not yet implemented")
-    }
 }

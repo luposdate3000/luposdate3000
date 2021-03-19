@@ -284,7 +284,6 @@ public object LuposdateEndpoint {
         return evaluateSparqlToOperatorgraphB(query, false)
     }
 
-    //Changed by Rico:
     //Added the traverseNetwork call for changing the UUIDs for visualiziation
     @JsName("evaluate_sparql_to_operatorgraph_b")
     /*suspend*/ public fun evaluateSparqlToOperatorgraphB(query: String, logOperatorGraph: Boolean): IOPBase {
@@ -316,6 +315,7 @@ public object LuposdateEndpoint {
         val popNode = popOptimizer.optimizeCall(lopNode2)
 
         //Calling traverseNetwork function to change the UUIDs via DFS
+        //TODO rausnehmen
         EndpointExtendedVisualize().traverseNetwork(popNode, mutableMapOf<IOPBase, Int>())
 
         // println("timer #404 ${DateHelperRelative.elapsedSeconds(timer)}")
@@ -346,6 +346,7 @@ public object LuposdateEndpoint {
         output.println("Content-Type: text/plain")
         output.println()
         node.getQuery().reset()
+        //TODO Auslagern
         EndpointExtendedVisualize().traverseNetwork(node, mutableMapOf<IOPBase, Int>())
         var res: Any? = null
         res = when (evaluator) {

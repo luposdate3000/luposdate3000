@@ -27,18 +27,8 @@ import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import lupos.s04logicalOperators.multiinput.LOPMinus
 import lupos.s04logicalOperators.multiinput.LOPUnion
-import lupos.s04logicalOperators.noinput.LOPGraphOperation
-import lupos.s04logicalOperators.noinput.LOPModifyData
-import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.noinput.LOPValues
-import lupos.s04logicalOperators.noinput.OPEmptyRow
-import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s04logicalOperators.singleinput.LOPFilter
-import lupos.s04logicalOperators.singleinput.LOPGroup
-import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
-import lupos.s04logicalOperators.singleinput.LOPModify
-import lupos.s04logicalOperators.singleinput.LOPProjection
-import lupos.s04logicalOperators.singleinput.LOPSort
+import lupos.s04logicalOperators.noinput.*
+import lupos.s04logicalOperators.singleinput.*
 import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
 import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
@@ -52,13 +42,7 @@ import lupos.s09physicalOperators.noinput.POPEmptyRow
 import lupos.s09physicalOperators.noinput.POPGraphOperation
 import lupos.s09physicalOperators.noinput.POPModifyData
 import lupos.s09physicalOperators.noinput.POPValues
-import lupos.s09physicalOperators.singleinput.POPBind
-import lupos.s09physicalOperators.singleinput.POPFilter
-import lupos.s09physicalOperators.singleinput.POPGroup
-import lupos.s09physicalOperators.singleinput.POPMakeBooleanResult
-import lupos.s09physicalOperators.singleinput.POPModify
-import lupos.s09physicalOperators.singleinput.POPProjection
-import lupos.s09physicalOperators.singleinput.POPSort
+import lupos.s09physicalOperators.singleinput.*
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
@@ -239,9 +223,5 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
             }
         }
         return res
-    }
-
-    override fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase> {
-        TODO("Not yet implemented")
     }
 }

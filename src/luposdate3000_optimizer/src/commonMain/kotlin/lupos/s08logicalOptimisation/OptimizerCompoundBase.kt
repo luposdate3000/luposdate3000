@@ -90,7 +90,7 @@ public abstract class OptimizerCompoundBase internal constructor(query: Query, o
         }
     }
 
-    override /*suspend*/ fun optimizeCall(node: IOPBase, onChange: () -> Unit): IOPBase {
+    override /*suspend*/ fun optimizeCall(node: IOPBase, onChange: () -> Unit, nextStep: (IOPBase) -> Unit): IOPBase {
         if (query.filtersMovedUpFromOptionals) {
             node.syntaxVerifyAllVariableExists(listOf(), true)
         }
@@ -113,6 +113,7 @@ public abstract class OptimizerCompoundBase internal constructor(query: Query, o
                                 onChange()
                             }
                         }
+                        nextStep(tmp)
                     }
                     SanityCheck {
                         val allPartitionOperators = mutableMapOf<Int, MutableSet<Long>>()
@@ -136,59 +137,6 @@ public abstract class OptimizerCompoundBase internal constructor(query: Query, o
             tmp.syntaxVerifyAllVariableExists(listOf(), false)
         }
         return tmp
-    }
-
-    // Added by Rico
-    //
-    // Same as optimizeCall but is saving each step of the process in the List for
-    // the visualization
-    override /*suspend*/ fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase> {
-        if (query.filtersMovedUpFromOptionals) {
-            node.syntaxVerifyAllVariableExists(listOf(), true)
-        }
-        var tmp = node
-        var d: Boolean
-        var steps = mutableListOf<IOPBase>()
-        for (opt in childrenOptimizers) {
-            d = true
-            while (d) {
-                d = false
-                for (o in opt) {
-                    var c = true
-                    while (c) {
-                        c = false
-                        tmp = o.optimizeInternal(tmp, null) {
-                            if (EOptimizerIDHelper.repeatOnChange[o.optimizerID]) {
-                                c = true
-                                d = true
-                                onChange()
-                            }
-                        }
-                        var tmp2 = tmp.cloneOP()
-                        steps.add(tmp2)
-                    }
-                    SanityCheck {
-                        val allPartitionOperators = mutableMapOf<Int, MutableSet<Long>>()
-                        verifyPartitionOperators(tmp, allPartitionOperators, mutableMapOf<String, Int>(), tmp)
-                        for ((k, v1) in allPartitionOperators) {
-                            val v2 = query.partitionOperators[k]
-                            SanityCheck.check({ v1 == v2 }, { "$allPartitionOperators  <-a-> ${query.partitionOperators}\n$tmp" })
-                        }
-                        for ((k, v1) in query.partitionOperators) {
-                            val v2 = allPartitionOperators[k]
-                            SanityCheck.check({ v1 == v2 }, { "$allPartitionOperators  <-b-> ${query.partitionOperators}\n$tmp" })
-                        }
-                        if (query.filtersMovedUpFromOptionals) {
-                            tmp.syntaxVerifyAllVariableExists(listOf(), false)
-                        }
-                    }
-                }
-            }
-        }
-        if (query.filtersMovedUpFromOptionals) {
-            tmp.syntaxVerifyAllVariableExists(listOf(), false)
-        }
-        return steps
     }
 
 }

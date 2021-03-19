@@ -41,7 +41,4 @@ public class LogicalOptimizerBindToFilter(query: Query) : OptimizerBase(query, E
         return node
     }
 
-    override fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase> {
-        TODO("Not yet implemented")
-    }
 }

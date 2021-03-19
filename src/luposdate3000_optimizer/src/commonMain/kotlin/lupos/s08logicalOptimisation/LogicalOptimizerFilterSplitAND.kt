@@ -37,7 +37,4 @@ public class LogicalOptimizerFilterSplitAND(query: Query) : OptimizerBase(query,
         return res
     }
 
-    override fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase> {
-        TODO("Not yet implemented")
-    }
 }

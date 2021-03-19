@@ -27,7 +27,4 @@ public class LogicalOptimizerFilterOptionalStep2(query: Query) : OptimizerBase(q
         return node
     }
 
-    override fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase> {
-        TODO("Not yet implemented")
-    }
 }

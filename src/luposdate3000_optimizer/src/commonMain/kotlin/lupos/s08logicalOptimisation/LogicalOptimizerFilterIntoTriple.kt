@@ -54,7 +54,4 @@ public class LogicalOptimizerFilterIntoTriple(query: Query) : OptimizerBase(quer
         return res
     }
 
-    override fun optimizeCallRico(node: IOPBase, onChange: () -> Unit): MutableList<IOPBase> {
-        TODO("Not yet implemented")
-    }
 }
