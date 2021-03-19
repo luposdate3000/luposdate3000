@@ -25,10 +25,9 @@ import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.pow
 
-private val verbose = true
+private val verbose = false
 
-// private val maxSize=16384
-private val maxSize = 30
+private val maxSize = 16384
 
 private class MyRandom(var seed: Long) {
     val bits = 32
@@ -152,7 +151,13 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
                 }
             }
         }
-        usedGenerators[len]!!.add(seed)
+        if (len == 0) {
+            for (i in 0 until 256) {
+                usedGenerators[len]!!.add(i)
+            }
+        } else {
+            usedGenerators[len]!!.add(seed)
+        }
         action(ByteArray(len) { (it + seed).toByte() })
     }
 

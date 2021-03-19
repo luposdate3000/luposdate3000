@@ -138,13 +138,16 @@ public class KeyValueStore {
     }
 
     private inline fun hasData(data: ByteArray, left: Int, right: Int, crossinline onFound: (Int/*the id to return*/) -> Unit, onNotFound: (Int/*the smallest index, which value is larger than the target*/) -> Unit) {
+        // println("hasData $left $right")
         var l = left
         var r = right
         var loop = true
         while (loop && r >= l) {
             var m = (r - l) / 2 + l
-            val d = readData(mappingID2Page[m], mappingID2Off[m])
+            val m2 = mappingSorted[m]
+            val d = readData(mappingID2Page[m2], mappingID2Off[m2])
             val t = cmp(d, data)
+            // println("readData #$m id:$m2 ($t) ${d.map{it}}")
             if (t < 0) {
                 if (m == l) {
                     m++
@@ -157,22 +160,35 @@ public class KeyValueStore {
                 r = m
             } else {
                 loop = false
-                onFound(m)
+                // println("onFound(#$m id:$m2)")
+                onFound(m2)
             }
         }
         if (r < l) {
             var res = l
             SanityCheck {
                 if (res > left) {
-                    val it = readData(mappingID2Page[res - 1], mappingID2Off[res - 1])
+                    val res2 = mappingSorted[res - 1]
+                    val it = readData(mappingID2Page[res2], mappingID2Off[res2])
                     SanityCheck.check { cmp(it, data) < 0 }
                 }
                 if (res <= right) {
-                    val it = readData(mappingID2Page[res], mappingID2Off[res])
+                    val res2 = mappingSorted[res]
+                    val it = readData(mappingID2Page[res2], mappingID2Off[res2])
                     SanityCheck.check { cmp(it, data) > 0 }
                 }
             }
+            val res2 = mappingSorted[res]
+            // println("onNotFound(#$res id:$res2)")
             onNotFound(res)
+        }
+    }
+
+    private fun printAllData() {
+        for (j in 0 until nextID) {
+            val i = mappingSorted[j]
+            val data = readData(mappingID2Page[i], mappingID2Off[i])
+            // println("map #$j id:$i -> ${data.map{it}}")
         }
     }
 
@@ -208,6 +224,7 @@ public class KeyValueStore {
                 }
             }
         )
+        printAllData()
         return res
     }
 
