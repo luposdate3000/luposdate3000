@@ -77,7 +77,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
             }
             try {
                 dataoff = 0
-                executeTest(nextRandom = { data[dataoff++] }, hasNextRandom = { dataoff < cnt })
+                executeTest(nextRandom = { data[dataoff++] }, hasNextRandom = { cnt - dataoff })
             } catch (e: Throwable) {
                 e.printStackTrace()
                 errors++
@@ -101,11 +101,11 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
             }
         }
         var dataoff = 0
-        executeTest(nextRandom = { data[dataoff++] }, hasNextRandom = { dataoff < data.size })
+        executeTest(nextRandom = { data[dataoff++] }, hasNextRandom = { data.size - dataoff })
     }
 }
 
-private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
+private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
     val pageIds = mutableListOf<Int>()
@@ -288,11 +288,8 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
         }
     }
     testCreateNewPageOk()
-    while (hasNextRandom()) {
+    while (hasNextRandom() >= 2) {
         val mode = abs(nextRandom() % 10)
-        if (!hasNextRandom()) {
-            break
-        }
         val rng = nextRandom()
         when (mode) {
             0 -> getPageID_Existing_Mapped(rng) { testReleasePageOk(it) }

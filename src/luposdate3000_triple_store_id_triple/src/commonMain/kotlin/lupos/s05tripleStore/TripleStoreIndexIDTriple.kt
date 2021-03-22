@@ -950,11 +950,11 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun delete() {
         clear()
+        bufferManager.getPage(rootPageID)
         bufferManager.deletePage(rootPageID)
     }
 
     override fun close() {
         flush()
-        bufferManager.releasePage(rootPageID)
     }
 }

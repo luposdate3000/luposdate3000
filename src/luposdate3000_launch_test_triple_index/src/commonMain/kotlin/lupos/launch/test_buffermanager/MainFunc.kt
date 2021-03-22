@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.launch.test_kv
+package lupos.launch.test_triple_index
 
 import lupos.buffermanager.BufferManager
 import lupos.dictionary.DictionaryExt
@@ -79,7 +79,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
             }
             try {
                 dataoff = 0
-                executeTest(nextRandom = { data[dataoff++] }, hasNextRandom = { dataoff < cnt })
+                executeTest(nextRandom = { data[dataoff++] }, hasNextRandom = { cnt - dataoff })
             } catch (e: Throwable) {
                 e.printStackTrace()
                 errors++
@@ -103,11 +103,11 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
             }
         }
         var dataoff = 0
-        executeTest(nextRandom = { data[dataoff++] }, hasNextRandom = { dataoff < data.size })
+        executeTest(nextRandom = { data[dataoff++] }, hasNextRandom = { data.size - dataoff })
     }
 }
 
-private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
+private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     var bufferManager = BufferManager()
     var rootPage = -1
     bufferManager.createPage { page, pageid ->
@@ -252,6 +252,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
                 }
             }
             listIdx++
+            value = iter.next()
         }
         if (listIdx < list.size) {
             throw Exception("")
@@ -270,6 +271,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
                 }
             }
             listIdx++
+            value = iter.next()
         }
         if (listIdx < list.size) {
             throw Exception("")
@@ -288,6 +290,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
                 }
             }
             listIdx++
+            value = iter.next()
         }
         if (listIdx < list.size) {
             throw Exception("")
@@ -476,15 +479,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
             }
         }
     }
-    while (hasNextRandom()) {
+    while (hasNextRandom() >= 3) {
         val mode = abs(nextRandom() % 38)
-        if (!hasNextRandom()) {
-            break
-        }
         prepareInsert(nextRandom())
-        if (!hasNextRandom()) {
-            break
-        }
         val rng = nextRandom()
         when (mode) {
             0 -> prepareDelete(rng)
