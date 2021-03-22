@@ -1026,5 +1026,8 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun close() {
         flush()
+        if (root != NodeManager.nodeNullPointer) {
+            nodeManager.releaseNode(root)
+        }
     }
 }
