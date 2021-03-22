@@ -14,13 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s04logicalOperators.iterator
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+
+import lupos.dictionary.DictionaryExt
+
 public open class ColumnIteratorEmpty : ColumnIterator() {
     override /*suspend*/ fun next(): Int {
-        return ResultSetDictionaryExt.nullValue
+        return DictionaryExt.nullValue
     }
+
     override /*suspend*/ fun close() {
     }
 }

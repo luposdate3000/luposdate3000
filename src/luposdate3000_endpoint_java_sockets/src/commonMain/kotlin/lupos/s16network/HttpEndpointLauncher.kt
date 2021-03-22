@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s16network
+
 @OptIn(ExperimentalStdlibApi::class)
 public expect object HttpEndpointLauncher {
-    /*suspend*/ public fun start(hostname: String = "localhost", port: Int = 80)
+    /*suspend*/ public fun start()
 }

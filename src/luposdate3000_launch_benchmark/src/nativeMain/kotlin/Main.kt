@@ -14,5 +14,68 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+import lupos.launch.benchmark.mainFunc
 
-public fun main(args: Array<String>): Unit = mainFunc(args)
+public fun main(args: Array<String>) {
+    var flag = false
+    var datasourceFiles: String = ""
+    for (a in args) {
+        if (a.startsWith("--datasourceFiles=")) {
+            datasourceFiles = a.substring(18)
+            flag = true
+            break
+        }
+    }
+    if (!flag) {
+        throw Exception("the option '--datasourceFiles' is missing on the arguments list")
+    }
+    flag = false
+    var queryFiles: String = ""
+    for (a in args) {
+        if (a.startsWith("--queryFiles=")) {
+            queryFiles = a.substring(13)
+            flag = true
+            break
+        }
+    }
+    if (!flag) {
+        throw Exception("the option '--queryFiles' is missing on the arguments list")
+    }
+    flag = false
+    var minimumTime: String = ""
+    for (a in args) {
+        if (a.startsWith("--minimumTime=")) {
+            minimumTime = a.substring(14)
+            flag = true
+            break
+        }
+    }
+    if (!flag) {
+        throw Exception("the option '--minimumTime' is missing on the arguments list")
+    }
+    flag = false
+    var numberOfTriples: String = ""
+    for (a in args) {
+        if (a.startsWith("--numberOfTriples=")) {
+            numberOfTriples = a.substring(18)
+            flag = true
+            break
+        }
+    }
+    if (!flag) {
+        throw Exception("the option '--numberOfTriples' is missing on the arguments list")
+    }
+    flag = false
+    var optimizerMode: String = ""
+    for (a in args) {
+        if (a.startsWith("--optimizerMode=")) {
+            optimizerMode = a.substring(16)
+            flag = true
+            break
+        }
+    }
+    if (!flag) {
+        throw Exception("the option '--optimizerMode' is missing on the arguments list")
+    }
+    mainFunc(datasourceFiles, queryFiles, minimumTime, numberOfTriples, optimizerMode)
+}

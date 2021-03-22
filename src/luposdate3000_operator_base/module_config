@@ -1,0 +1,4 @@
+package=Luposdate3000_Operator_Base
+name=Luposdate3000_Operator_Base
+enabled=always
+enabledRun=always

@@ -14,5 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+import lupos.launch.sparql_test_suite.mainFunc
+import kotlin.js.JsName
 
-public fun main(args: Array<String>): Unit = mainFunc(args)
+@JsName("main")
+public fun main(args: Array<String>) {
+    var flag = false
+    mainFunc()
+}

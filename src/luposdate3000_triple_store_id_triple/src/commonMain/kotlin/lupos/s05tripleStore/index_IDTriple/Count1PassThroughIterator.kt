@@ -14,16 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s05tripleStore.index_IDTriple
+
 import kotlin.jvm.JvmField
+
 internal class Count1PassThroughIterator(@JvmField val a: TripleIterator) : TripleIterator() {
     @JvmField
     var distinct = 0
+
     @JvmField
     var count = 0
+
     @JvmField
     var flag = 0
+
     init {
         if (a.hasNext()) {
             a.next()
@@ -32,6 +36,7 @@ internal class Count1PassThroughIterator(@JvmField val a: TripleIterator) : Trip
             flag = 1
         }
     }
+
     override fun hasNext() = flag != 0
     override fun next(component: Int): Int {
         value[0] = a.value[0]

@@ -14,16 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s02buildSyntaxTree.turtle
+
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.UnexpectedToken
 import kotlin.jvm.JvmField
+
 public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Long, Long, Long) -> Unit, @JvmField public val ltit: LookAheadTokenIterator) {
     // for storing the prefixes...
     private val prefixes = mutableMapOf<String, String>()
+
     // some constants used for typed literals
     private val xsd = "http://www.w3.org/2001/XMLSchema#"
     private val xsd_boolean = xsd + "boolean"
@@ -32,13 +34,13 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
     private val xsd_double = xsd + "double"
     private val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     private val nil = rdf + "nil"
-    public val first: String = rdf + "first"
+    private val first: String = rdf + "first"
     private val rest = rdf + "rest"
     private val nil_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(nil)
     private val first_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(first)
     private val rest_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(rest)
     private val type_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(rdf + "type")
-    public fun turtleDoc() {
+    public fun parse() {
         var t1 = ltit.lookahead()
         while (t1.image == "@prefix" || t1.image == "@base" || t1.image == "PREFIX" || t1.image == "BASE" || t1 is IRI || t1 is PNAME_LN || t1 is PNAME_NS || t1 is BNODE || t1 is ANON_BNODE || t1.image == "(" || t1.image == "[") {
             statement()
@@ -49,6 +51,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
             throw UnexpectedToken(token, arrayOf("EOF"), ltit)
         }
     }
+
     private fun statement() {
         val token: Token
         val t2 = ltit.lookahead()
@@ -68,6 +71,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
             }
         }
     }
+
     private fun directive() {
         var token: Token
         val t3 = ltit.lookahead()
@@ -89,6 +93,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
             }
         }
     }
+
     private fun prefixID() {
         var token: Token = ltit.nextToken()
         if (token.image != "@prefix") {
@@ -109,6 +114,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
             throw UnexpectedToken(token, arrayOf("."), ltit)
         }
     }
+
     private fun base() {
         var token: Token = ltit.nextToken()
         if (token.image != "@base") {
@@ -124,6 +130,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
             throw UnexpectedToken(token, arrayOf("."), ltit)
         }
     }
+
     private fun sparqlBase() {
         var token: Token = ltit.nextToken()
         if (token.image != "BASE") {
@@ -135,6 +142,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
         }
         prefixes[""] = token.content
     }
+
     private fun sparqlPrefix() {
         var token: Token = ltit.nextToken()
         if (token.image != "PREFIX") {
@@ -151,6 +159,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
         }
         prefixes[key] = token.content
     }
+
     private fun triples() {
         var token: Token
         val t5 = ltit.lookahead()
@@ -171,6 +180,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
             }
         }
     }
+
     private fun predicateObjectList(s: Long) {
         var token: Token
         val p = verb()
@@ -189,6 +199,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
             t7 = ltit.lookahead()
         }
     }
+
     private fun objectList(s: Long, p: Long) {
         var token: Token
         val o = triple_object()
@@ -204,6 +215,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
             t8 = ltit.lookahead()
         }
     }
+
     private fun verb(): Long {
         val token: Token
         val t9 = ltit.lookahead()
@@ -227,6 +239,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
             }
         }
     }
+
     private fun subject(): Long {
         var token: Token
         val result: Long
@@ -247,10 +260,12 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
         }
         return result
     }
+
     private fun predicate(): Long {
         var token: Token
         return iri()
     }
+
     private fun triple_object(): Long {
         var token: Token
         val result: Long
@@ -277,6 +292,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
         }
         return result
     }
+
     private fun literal(): Long {
         var token: Token
         val result: Long
@@ -297,6 +313,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
         }
         return result
     }
+
     private fun blankNodePropertyList(): Long {
         val result = lupos.s02buildSyntaxTree.rdf.Dictionary.BlankNode()
         var token: Token = ltit.nextToken()
@@ -310,6 +327,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
         }
         return result
     }
+
     private fun collection(): Long {
         var first = nil_iri
         var current = nil_iri
@@ -339,6 +357,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
         }
         return first
     }
+
     private fun NumericLiteral(): Long {
         val token: Token
         when (val t14 = ltit.lookahead()) {
@@ -368,6 +387,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
             }
         }
     }
+
     private fun RDFLiteral(): Long {
         var token: Token
         token = ltit.nextToken()
@@ -402,6 +422,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
         }
         return lupos.s02buildSyntaxTree.rdf.Dictionary.SimpleLiteral(content, delimiter)
     }
+
     private fun BooleanLiteral(): Long {
         val token: Token
         val t17 = ltit.lookahead()
@@ -429,6 +450,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
             }
         }
     }
+
     public fun iri(): Long {
         val token: Token
         val iri: String
@@ -457,6 +479,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
         }
         return lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(iri)
     }
+
     private fun iri_string(): String {
         val token: Token
         val iri: String
@@ -485,6 +508,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
         }
         return iri
     }
+
     private fun PrefixedName(): String {
         val token: Token
         when (val t20 = ltit.lookahead()) {
@@ -509,6 +533,7 @@ public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Lo
             }
         }
     }
+
     private fun BlankNode(): Long {
         val token: Token
         when (val t21 = ltit.lookahead()) {

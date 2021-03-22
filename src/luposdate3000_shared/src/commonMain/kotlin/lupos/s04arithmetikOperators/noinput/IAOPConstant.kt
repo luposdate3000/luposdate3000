@@ -14,9 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s04arithmetikOperators.noinput
+
 import lupos.s04arithmetikOperators.IAOPBase
+
 public interface IAOPConstant : IAOPBase {
     public fun getValue(): Int
 }

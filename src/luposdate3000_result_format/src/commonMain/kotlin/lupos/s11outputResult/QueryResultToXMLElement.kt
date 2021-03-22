@@ -14,17 +14,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s11outputResult
+
+import lupos.dictionary.DictionaryExt
+import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s00misc.communicationHandler
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s05tripleStore.tripleStoreManager
+
 public object QueryResultToXMLElement {
     public /*suspend*/ fun toXML(rootNode: IOPBase): XMLElement {
+        val query = rootNode.getQuery()
+        val flag = query.getDictionaryUrl() == null
+        val key = "${query.getTransactionID()}"
+        if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+        }
         val res = mutableListOf<XMLElement>()
         val nodes: Array<IOPBase>
         val columnProjectionOrder: List<List<String>>
@@ -54,7 +65,7 @@ public object QueryResultToXMLElement {
                 } else {
                     columnNames = node.getProvidedVariableNames()
                 }
-                val child = node.evaluate(Partition())
+                val child = node.evaluateRoot(Partition())
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
                     val value = node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next()).valueToString()!!
@@ -80,13 +91,13 @@ public object QueryResultToXMLElement {
                             val nodeResult = XMLElement("result")
                             for (variableIndex in variables.indices) {
                                 val valueID = columns[variableIndex].next()
-                                if (valueID == ResultSetDictionaryExt.nullValue) {
+                                if (valueID == DictionaryExt.nullValue) {
                                     for (element in columns) {
                                         element.close()
                                     }
                                     break@loop
                                 }
-                                if (valueID != ResultSetDictionaryExt.undefValue && valueID != ResultSetDictionaryExt.errorValue) {
+                                if (valueID != DictionaryExt.undefValue && valueID != DictionaryExt.errorValue) {
                                     val value = node.getQuery().getDictionary().getValue(valueID).valueToString()
                                     SanityCheck.check { value != null }
                                     val nodeBinding = XMLElement("binding").addAttribute("name", variables[variableIndex])
@@ -127,11 +138,17 @@ public object QueryResultToXMLElement {
             res.add(nodeSparql)
         }
         if (res.size == 1) {
+            if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            }
             return res[0]
         }
         val compountResult = XMLElement("")
         for (r in res) {
             compountResult.addContent(r)
+        }
+        if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         }
         return compountResult
     }

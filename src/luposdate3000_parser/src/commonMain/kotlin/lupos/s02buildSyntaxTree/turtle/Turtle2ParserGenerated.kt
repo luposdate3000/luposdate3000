@@ -14,11 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s02buildSyntaxTree.turtle
+
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.Luposdate3000Exception
 import kotlin.jvm.JvmField
+
 internal open class ParserException(msg: String) : Luposdate3000Exception("ParserContext", msg)
 internal class ParserExceptionEOF : ParserException("EOF")
 internal class ParserExceptionUnexpectedChar(context: ParserContext) : ParserException("unexpected char 0x${context.c.toString(16)} at ${context.line}:${context.column}")
@@ -26,28 +27,41 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
     internal companion object {
         const val EOF = 0x7fffffff
     }
+
     @JvmField
     internal var c: Int = 0
+
     @JvmField
     internal var line = 1
+
     @JvmField
     internal var column = 0
+
     @JvmField
     internal val outBuffer = StringBuilder()
+
     @JvmField
     internal val inBuf = ByteArray(8192)
+
     @JvmField
     internal var inBufPosition = 0
+
     @JvmField
     internal var inBufSize = 0
+
     @JvmField
     internal var flagrN = false
-    @Suppress("NOTHING_TO_INLINE") internal inline fun clear() {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun clear() {
         outBuffer.clear()
     }
-    @Suppress("NOTHING_TO_INLINE") internal inline fun getValue(): String {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun getValue(): String {
         return outBuffer.toString()
     }
+
     fun append() {
         if (c <= 0xd7ff || (c in 0xe000..0xffff)) {
             outBuffer.append(c.toChar())
@@ -59,6 +73,7 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             next()
         }
     }
+
     fun next() {
         if (inBufPosition >= inBufSize) {
             if (c == EOF) {
@@ -157,10 +172,12 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
             column++
         }
     }
+
     init {
         next()
     }
 }
+
 internal inline fun parse_dot(
     context: ParserContext,
     crossinline onDOT: () -> Unit
@@ -181,13 +198,16 @@ internal inline fun parse_dot(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_dot_helper_0(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_dot_helper_0(c: Int): Int {
     if (c == 0x2e) {
         return 0
     } else {
         return 1
     }
 }
+
 internal inline fun parse_ws(
     context: ParserContext,
     crossinline onSKIP_WS: () -> Unit
@@ -209,6 +229,7 @@ internal inline fun parse_ws(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
+
 internal inline fun parse_ws_forced(
     context: ParserContext,
     crossinline onSKIP_WS_FORCED: () -> Unit
@@ -239,16 +260,18 @@ internal inline fun parse_ws_forced(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_ws_forced_helper_0(c: Int): Int {
-    if (c <0x9) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_ws_forced_helper_0(c: Int): Int {
+    if (c < 0x9) {
         return 1
     } else if (c <= 0xa) {
         return 0
-    } else if (c <0xd) {
+    } else if (c < 0xd) {
         return 1
     } else if (c <= 0xd) {
         return 0
-    } else if (c <0x20) {
+    } else if (c < 0x20) {
         return 1
     } else if (c <= 0x20) {
         return 0
@@ -256,6 +279,7 @@ internal inline fun parse_ws_forced(
         return 1
     }
 }
+
 internal inline fun parse_statement(
     context: ParserContext,
     crossinline onBASE: () -> Unit,
@@ -687,82 +711,83 @@ internal inline fun parse_statement(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
+
 private fun parse_statement_helper_0(c: Int): Int {
-    if (c <0x3a) {
+    if (c < 0x3a) {
         return 7
     } else if (c <= 0x3a) {
         return 5
-    } else if (c <0x3c) {
+    } else if (c < 0x3c) {
         return 7
     } else if (c <= 0x3c) {
         return 3
-    } else if (c <0x40) {
+    } else if (c < 0x40) {
         return 7
     } else if (c <= 0x40) {
         return 2
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 7
     } else if (c <= 0x5a) {
         return 4
     } else if (c <= 0x42) {
         return 0
-    } else if (c <0x50) {
+    } else if (c < 0x50) {
         return 7
     } else if (c <= 0x50) {
         return 1
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 7
     } else if (c <= 0x5f) {
         return 6
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 7
     } else if (c <= 0x7a) {
         return 4
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 7
     } else if (c <= 0xd6) {
         return 4
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 7
     } else if (c <= 0xf6) {
         return 4
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 7
     } else if (c <= 0x2ff) {
         return 4
-    } else if (c <0x370) {
+    } else if (c < 0x370) {
         return 7
     } else if (c <= 0x37d) {
         return 4
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 7
     } else if (c <= 0x1fff) {
         return 4
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 7
     } else if (c <= 0x200d) {
         return 4
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 7
     } else if (c <= 0x218f) {
         return 4
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 7
     } else if (c <= 0x2fef) {
         return 4
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 7
     } else if (c <= 0xd7ff) {
         return 4
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 7
     } else if (c <= 0xfdcf) {
         return 4
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 7
     } else if (c <= 0xfffd) {
         return 4
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 7
     } else if (c <= 0x1fffff) {
         return 4
@@ -770,61 +795,77 @@ private fun parse_statement_helper_0(c: Int): Int {
         return 7
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_1(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_1(c: Int): Int {
     if (c == 0x41) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_2(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_2(c: Int): Int {
     if (c == 0x53) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_3(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_3(c: Int): Int {
     if (c == 0x45) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_4(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_4(c: Int): Int {
     if (c == 0x52) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_5(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_5(c: Int): Int {
     if (c == 0x46) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_6(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_6(c: Int): Int {
     if (c == 0x49) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_7(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_7(c: Int): Int {
     if (c == 0x58) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_8(c: Int): Int {
-    if (c <0x62) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_8(c: Int): Int {
+    if (c < 0x62) {
         return 2
     } else if (c <= 0x62) {
         return 0
-    } else if (c <0x70) {
+    } else if (c < 0x70) {
         return 2
     } else if (c <= 0x70) {
         return 1
@@ -832,89 +873,104 @@ private fun parse_statement_helper_0(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_9(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_9(c: Int): Int {
     if (c == 0x61) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_10(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_10(c: Int): Int {
     if (c == 0x73) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_11(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_11(c: Int): Int {
     if (c == 0x65) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_12(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_12(c: Int): Int {
     if (c == 0x72) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_13(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_13(c: Int): Int {
     if (c == 0x66) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_14(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_14(c: Int): Int {
     if (c == 0x69) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_15(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_15(c: Int): Int {
     if (c == 0x78) {
         return 0
     } else {
         return 1
     }
 }
+
 private fun parse_statement_helper_16(c: Int): Int {
-    if (c <0x21) {
+    if (c < 0x21) {
         return 2
     } else if (c <= 0x21) {
         return 0
-    } else if (c <0x23) {
+    } else if (c < 0x23) {
         return 2
     } else if (c <= 0x3b) {
         return 0
-    } else if (c <0x3d) {
+    } else if (c < 0x3d) {
         return 2
     } else if (c <= 0x3d) {
         return 0
-    } else if (c <0x3f) {
+    } else if (c < 0x3f) {
         return 2
     } else if (c <= 0x5b) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 2
     } else if (c <= 0x5c) {
         return 1
-    } else if (c <0x5d) {
+    } else if (c < 0x5d) {
         return 2
     } else if (c <= 0x5d) {
         return 0
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 2
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 2
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0x7e) {
+    } else if (c < 0x7e) {
         return 2
     } else if (c <= 0x1fffff) {
         return 0
@@ -922,12 +978,14 @@ private fun parse_statement_helper_16(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_17(c: Int): Int {
-    if (c <0x55) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_17(c: Int): Int {
+    if (c < 0x55) {
         return 2
     } else if (c <= 0x55) {
         return 1
-    } else if (c <0x75) {
+    } else if (c < 0x75) {
         return 2
     } else if (c <= 0x75) {
         return 0
@@ -935,16 +993,18 @@ private fun parse_statement_helper_16(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_18(c: Int): Int {
-    if (c <0x30) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_18(c: Int): Int {
+    if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x46) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x66) {
         return 0
@@ -952,83 +1012,86 @@ private fun parse_statement_helper_16(c: Int): Int {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_19(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_19(c: Int): Int {
     if (c == 0x3e) {
         return 0
     } else {
         return 1
     }
 }
+
 private fun parse_statement_helper_20(c: Int): Int {
-    if (c <0x2d) {
+    if (c < 0x2d) {
         return 1
     } else if (c <= 0x2d) {
         return 0
-    } else if (c <0x30) {
+    } else if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0xb7) {
+    } else if (c < 0xb7) {
         return 1
     } else if (c <= 0xb7) {
         return 0
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 1
     } else if (c <= 0xd6) {
         return 0
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 1
     } else if (c <= 0xf6) {
         return 0
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 1
     } else if (c <= 0x37d) {
         return 0
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 1
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 1
     } else if (c <= 0x200d) {
         return 0
-    } else if (c <0x203f) {
+    } else if (c < 0x203f) {
         return 1
     } else if (c <= 0x2040) {
         return 0
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 1
     } else if (c <= 0x218f) {
         return 0
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 1
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 1
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 1
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 1
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 1
     } else if (c <= 0x1fffff) {
         return 0
@@ -1036,75 +1099,78 @@ private fun parse_statement_helper_20(c: Int): Int {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_statement_helper_21(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_statement_helper_21(c: Int): Int {
     if (c == 0x3a) {
         return 0
     } else {
         return 1
     }
 }
+
 private fun parse_statement_helper_22(c: Int): Int {
-    if (c <0x30) {
+    if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 1
     } else if (c <= 0xd6) {
         return 0
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 1
     } else if (c <= 0xf6) {
         return 0
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 1
     } else if (c <= 0x2ff) {
         return 0
-    } else if (c <0x370) {
+    } else if (c < 0x370) {
         return 1
     } else if (c <= 0x37d) {
         return 0
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 1
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 1
     } else if (c <= 0x200d) {
         return 0
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 1
     } else if (c <= 0x218f) {
         return 0
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 1
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 1
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 1
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 1
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 1
     } else if (c <= 0x1fffff) {
         return 0
@@ -1112,6 +1178,7 @@ private fun parse_statement_helper_22(c: Int): Int {
         return 1
     }
 }
+
 internal inline fun parse_base(
     context: ParserContext,
     crossinline onIRIREF: () -> Unit
@@ -1278,47 +1345,50 @@ internal inline fun parse_base(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_base_helper_0(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_base_helper_0(c: Int): Int {
     if (c == 0x3c) {
         return 0
     } else {
         return 1
     }
 }
+
 private fun parse_base_helper_1(c: Int): Int {
-    if (c <0x21) {
+    if (c < 0x21) {
         return 2
     } else if (c <= 0x21) {
         return 0
-    } else if (c <0x23) {
+    } else if (c < 0x23) {
         return 2
     } else if (c <= 0x3b) {
         return 0
-    } else if (c <0x3d) {
+    } else if (c < 0x3d) {
         return 2
     } else if (c <= 0x3d) {
         return 0
-    } else if (c <0x3f) {
+    } else if (c < 0x3f) {
         return 2
     } else if (c <= 0x5b) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 2
     } else if (c <= 0x5c) {
         return 1
-    } else if (c <0x5d) {
+    } else if (c < 0x5d) {
         return 2
     } else if (c <= 0x5d) {
         return 0
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 2
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 2
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0x7e) {
+    } else if (c < 0x7e) {
         return 2
     } else if (c <= 0x1fffff) {
         return 0
@@ -1326,12 +1396,14 @@ private fun parse_base_helper_1(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_base_helper_2(c: Int): Int {
-    if (c <0x55) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_base_helper_2(c: Int): Int {
+    if (c < 0x55) {
         return 2
     } else if (c <= 0x55) {
         return 1
-    } else if (c <0x75) {
+    } else if (c < 0x75) {
         return 2
     } else if (c <= 0x75) {
         return 0
@@ -1339,16 +1411,18 @@ private fun parse_base_helper_1(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_base_helper_3(c: Int): Int {
-    if (c <0x30) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_base_helper_3(c: Int): Int {
+    if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x46) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x66) {
         return 0
@@ -1356,13 +1430,16 @@ private fun parse_base_helper_1(c: Int): Int {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_base_helper_4(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_base_helper_4(c: Int): Int {
     if (c == 0x3e) {
         return 0
     } else {
         return 1
     }
 }
+
 internal inline fun parse_prefix(
     context: ParserContext,
     crossinline onPNAME_NS: () -> Unit
@@ -1419,64 +1496,65 @@ internal inline fun parse_prefix(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
+
 private fun parse_prefix_helper_0(c: Int): Int {
-    if (c <0x3a) {
+    if (c < 0x3a) {
         return 2
     } else if (c <= 0x3a) {
         return 1
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 2
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 2
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 2
     } else if (c <= 0xd6) {
         return 0
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 2
     } else if (c <= 0xf6) {
         return 0
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 2
     } else if (c <= 0x2ff) {
         return 0
-    } else if (c <0x370) {
+    } else if (c < 0x370) {
         return 2
     } else if (c <= 0x37d) {
         return 0
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 2
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 2
     } else if (c <= 0x200d) {
         return 0
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 2
     } else if (c <= 0x218f) {
         return 0
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 2
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 2
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 2
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 2
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 2
     } else if (c <= 0x1fffff) {
         return 0
@@ -1484,76 +1562,77 @@ private fun parse_prefix_helper_0(c: Int): Int {
         return 2
     }
 }
+
 private fun parse_prefix_helper_1(c: Int): Int {
-    if (c <0x2d) {
+    if (c < 0x2d) {
         return 1
     } else if (c <= 0x2d) {
         return 0
-    } else if (c <0x30) {
+    } else if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0xb7) {
+    } else if (c < 0xb7) {
         return 1
     } else if (c <= 0xb7) {
         return 0
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 1
     } else if (c <= 0xd6) {
         return 0
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 1
     } else if (c <= 0xf6) {
         return 0
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 1
     } else if (c <= 0x37d) {
         return 0
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 1
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 1
     } else if (c <= 0x200d) {
         return 0
-    } else if (c <0x203f) {
+    } else if (c < 0x203f) {
         return 1
     } else if (c <= 0x2040) {
         return 0
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 1
     } else if (c <= 0x218f) {
         return 0
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 1
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 1
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 1
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 1
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 1
     } else if (c <= 0x1fffff) {
         return 0
@@ -1561,13 +1640,16 @@ private fun parse_prefix_helper_1(c: Int): Int {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_prefix_helper_2(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_prefix_helper_2(c: Int): Int {
     if (c == 0x3a) {
         return 0
     } else {
         return 1
     }
 }
+
 internal inline fun parse_prefix2(
     context: ParserContext,
     crossinline onIRIREF: () -> Unit
@@ -1734,47 +1816,50 @@ internal inline fun parse_prefix2(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_prefix2_helper_0(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_prefix2_helper_0(c: Int): Int {
     if (c == 0x3c) {
         return 0
     } else {
         return 1
     }
 }
+
 private fun parse_prefix2_helper_1(c: Int): Int {
-    if (c <0x21) {
+    if (c < 0x21) {
         return 2
     } else if (c <= 0x21) {
         return 0
-    } else if (c <0x23) {
+    } else if (c < 0x23) {
         return 2
     } else if (c <= 0x3b) {
         return 0
-    } else if (c <0x3d) {
+    } else if (c < 0x3d) {
         return 2
     } else if (c <= 0x3d) {
         return 0
-    } else if (c <0x3f) {
+    } else if (c < 0x3f) {
         return 2
     } else if (c <= 0x5b) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 2
     } else if (c <= 0x5c) {
         return 1
-    } else if (c <0x5d) {
+    } else if (c < 0x5d) {
         return 2
     } else if (c <= 0x5d) {
         return 0
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 2
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 2
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0x7e) {
+    } else if (c < 0x7e) {
         return 2
     } else if (c <= 0x1fffff) {
         return 0
@@ -1782,12 +1867,14 @@ private fun parse_prefix2_helper_1(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_prefix2_helper_2(c: Int): Int {
-    if (c <0x55) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_prefix2_helper_2(c: Int): Int {
+    if (c < 0x55) {
         return 2
     } else if (c <= 0x55) {
         return 1
-    } else if (c <0x75) {
+    } else if (c < 0x75) {
         return 2
     } else if (c <= 0x75) {
         return 0
@@ -1795,16 +1882,18 @@ private fun parse_prefix2_helper_1(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_prefix2_helper_3(c: Int): Int {
-    if (c <0x30) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_prefix2_helper_3(c: Int): Int {
+    if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x46) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x66) {
         return 0
@@ -1812,13 +1901,16 @@ private fun parse_prefix2_helper_1(c: Int): Int {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_prefix2_helper_4(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_prefix2_helper_4(c: Int): Int {
     if (c == 0x3e) {
         return 0
     } else {
         return 1
     }
 }
+
 internal inline fun parse_predicate(
     context: ParserContext,
     crossinline onVERB1: () -> Unit,
@@ -2033,70 +2125,71 @@ internal inline fun parse_predicate(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
+
 private fun parse_predicate_helper_0(c: Int): Int {
-    if (c <0x3a) {
+    if (c < 0x3a) {
         return 4
     } else if (c <= 0x3a) {
         return 3
-    } else if (c <0x3c) {
+    } else if (c < 0x3c) {
         return 4
     } else if (c <= 0x3c) {
         return 1
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 4
     } else if (c <= 0x5a) {
         return 2
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 4
     } else if (c <= 0x61) {
         return 0
     } else if (c <= 0x7a) {
         return 2
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 4
     } else if (c <= 0xd6) {
         return 2
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 4
     } else if (c <= 0xf6) {
         return 2
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 4
     } else if (c <= 0x2ff) {
         return 2
-    } else if (c <0x370) {
+    } else if (c < 0x370) {
         return 4
     } else if (c <= 0x37d) {
         return 2
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 4
     } else if (c <= 0x1fff) {
         return 2
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 4
     } else if (c <= 0x200d) {
         return 2
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 4
     } else if (c <= 0x218f) {
         return 2
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 4
     } else if (c <= 0x2fef) {
         return 2
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 4
     } else if (c <= 0xd7ff) {
         return 2
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 4
     } else if (c <= 0xfdcf) {
         return 2
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 4
     } else if (c <= 0xfffd) {
         return 2
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 4
     } else if (c <= 0x1fffff) {
         return 2
@@ -2104,40 +2197,41 @@ private fun parse_predicate_helper_0(c: Int): Int {
         return 4
     }
 }
+
 private fun parse_predicate_helper_1(c: Int): Int {
-    if (c <0x21) {
+    if (c < 0x21) {
         return 2
     } else if (c <= 0x21) {
         return 0
-    } else if (c <0x23) {
+    } else if (c < 0x23) {
         return 2
     } else if (c <= 0x3b) {
         return 0
-    } else if (c <0x3d) {
+    } else if (c < 0x3d) {
         return 2
     } else if (c <= 0x3d) {
         return 0
-    } else if (c <0x3f) {
+    } else if (c < 0x3f) {
         return 2
     } else if (c <= 0x5b) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 2
     } else if (c <= 0x5c) {
         return 1
-    } else if (c <0x5d) {
+    } else if (c < 0x5d) {
         return 2
     } else if (c <= 0x5d) {
         return 0
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 2
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 2
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0x7e) {
+    } else if (c < 0x7e) {
         return 2
     } else if (c <= 0x1fffff) {
         return 0
@@ -2145,12 +2239,14 @@ private fun parse_predicate_helper_1(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_predicate_helper_2(c: Int): Int {
-    if (c <0x55) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_predicate_helper_2(c: Int): Int {
+    if (c < 0x55) {
         return 2
     } else if (c <= 0x55) {
         return 1
-    } else if (c <0x75) {
+    } else if (c < 0x75) {
         return 2
     } else if (c <= 0x75) {
         return 0
@@ -2158,16 +2254,18 @@ private fun parse_predicate_helper_1(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_predicate_helper_3(c: Int): Int {
-    if (c <0x30) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_predicate_helper_3(c: Int): Int {
+    if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x46) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x66) {
         return 0
@@ -2175,83 +2273,86 @@ private fun parse_predicate_helper_1(c: Int): Int {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_predicate_helper_4(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_predicate_helper_4(c: Int): Int {
     if (c == 0x3e) {
         return 0
     } else {
         return 1
     }
 }
+
 private fun parse_predicate_helper_5(c: Int): Int {
-    if (c <0x2d) {
+    if (c < 0x2d) {
         return 1
     } else if (c <= 0x2d) {
         return 0
-    } else if (c <0x30) {
+    } else if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0xb7) {
+    } else if (c < 0xb7) {
         return 1
     } else if (c <= 0xb7) {
         return 0
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 1
     } else if (c <= 0xd6) {
         return 0
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 1
     } else if (c <= 0xf6) {
         return 0
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 1
     } else if (c <= 0x37d) {
         return 0
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 1
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 1
     } else if (c <= 0x200d) {
         return 0
-    } else if (c <0x203f) {
+    } else if (c < 0x203f) {
         return 1
     } else if (c <= 0x2040) {
         return 0
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 1
     } else if (c <= 0x218f) {
         return 0
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 1
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 1
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 1
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 1
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 1
     } else if (c <= 0x1fffff) {
         return 0
@@ -2259,13 +2360,16 @@ private fun parse_predicate_helper_5(c: Int): Int {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_predicate_helper_6(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_predicate_helper_6(c: Int): Int {
     if (c == 0x3a) {
         return 0
     } else {
         return 1
     }
 }
+
 internal inline fun parse_obj(
     context: ParserContext,
     crossinline onIRIREF: () -> Unit,
@@ -5534,98 +5638,99 @@ internal inline fun parse_obj(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
+
 private fun parse_obj_helper_0(c: Int): Int {
-    if (c <0x22) {
+    if (c < 0x22) {
         return 10
     } else if (c <= 0x22) {
         return 4
-    } else if (c <0x27) {
+    } else if (c < 0x27) {
         return 10
     } else if (c <= 0x27) {
         return 5
-    } else if (c <0x2b) {
+    } else if (c < 0x2b) {
         return 10
     } else if (c <= 0x2b) {
         return 7
-    } else if (c <0x2d) {
+    } else if (c < 0x2d) {
         return 10
     } else if (c <= 0x2d) {
         return 7
-    } else if (c <0x2e) {
+    } else if (c < 0x2e) {
         return 10
     } else if (c <= 0x2e) {
         return 8
-    } else if (c <0x30) {
+    } else if (c < 0x30) {
         return 10
     } else if (c <= 0x39) {
         return 6
-    } else if (c <0x3a) {
+    } else if (c < 0x3a) {
         return 10
     } else if (c <= 0x3a) {
         return 2
-    } else if (c <0x3c) {
+    } else if (c < 0x3c) {
         return 10
     } else if (c <= 0x3c) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 10
     } else if (c <= 0x5a) {
         return 1
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 10
     } else if (c <= 0x5f) {
         return 3
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 10
     } else if (c <= 0x7a) {
         return 1
     } else if (c <= 0x74) {
         return 9
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 10
     } else if (c <= 0xd6) {
         return 1
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 10
     } else if (c <= 0xf6) {
         return 1
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 10
     } else if (c <= 0x2ff) {
         return 1
-    } else if (c <0x370) {
+    } else if (c < 0x370) {
         return 10
     } else if (c <= 0x37d) {
         return 1
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 10
     } else if (c <= 0x1fff) {
         return 1
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 10
     } else if (c <= 0x200d) {
         return 1
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 10
     } else if (c <= 0x218f) {
         return 1
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 10
     } else if (c <= 0x2fef) {
         return 1
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 10
     } else if (c <= 0xd7ff) {
         return 1
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 10
     } else if (c <= 0xfdcf) {
         return 1
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 10
     } else if (c <= 0xfffd) {
         return 1
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 10
     } else if (c <= 0x1fffff) {
         return 1
@@ -5633,40 +5738,41 @@ private fun parse_obj_helper_0(c: Int): Int {
         return 10
     }
 }
+
 private fun parse_obj_helper_1(c: Int): Int {
-    if (c <0x21) {
+    if (c < 0x21) {
         return 2
     } else if (c <= 0x21) {
         return 0
-    } else if (c <0x23) {
+    } else if (c < 0x23) {
         return 2
     } else if (c <= 0x3b) {
         return 0
-    } else if (c <0x3d) {
+    } else if (c < 0x3d) {
         return 2
     } else if (c <= 0x3d) {
         return 0
-    } else if (c <0x3f) {
+    } else if (c < 0x3f) {
         return 2
     } else if (c <= 0x5b) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 2
     } else if (c <= 0x5c) {
         return 1
-    } else if (c <0x5d) {
+    } else if (c < 0x5d) {
         return 2
     } else if (c <= 0x5d) {
         return 0
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 2
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 2
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0x7e) {
+    } else if (c < 0x7e) {
         return 2
     } else if (c <= 0x1fffff) {
         return 0
@@ -5674,12 +5780,14 @@ private fun parse_obj_helper_1(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_2(c: Int): Int {
-    if (c <0x55) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_2(c: Int): Int {
+    if (c < 0x55) {
         return 2
     } else if (c <= 0x55) {
         return 1
-    } else if (c <0x75) {
+    } else if (c < 0x75) {
         return 2
     } else if (c <= 0x75) {
         return 0
@@ -5687,16 +5795,18 @@ private fun parse_obj_helper_1(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_3(c: Int): Int {
-    if (c <0x30) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_3(c: Int): Int {
+    if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x46) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x66) {
         return 0
@@ -5704,83 +5814,86 @@ private fun parse_obj_helper_1(c: Int): Int {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_4(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_4(c: Int): Int {
     if (c == 0x3e) {
         return 0
     } else {
         return 1
     }
 }
+
 private fun parse_obj_helper_5(c: Int): Int {
-    if (c <0x2d) {
+    if (c < 0x2d) {
         return 1
     } else if (c <= 0x2d) {
         return 0
-    } else if (c <0x30) {
+    } else if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0xb7) {
+    } else if (c < 0xb7) {
         return 1
     } else if (c <= 0xb7) {
         return 0
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 1
     } else if (c <= 0xd6) {
         return 0
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 1
     } else if (c <= 0xf6) {
         return 0
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 1
     } else if (c <= 0x37d) {
         return 0
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 1
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 1
     } else if (c <= 0x200d) {
         return 0
-    } else if (c <0x203f) {
+    } else if (c < 0x203f) {
         return 1
     } else if (c <= 0x2040) {
         return 0
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 1
     } else if (c <= 0x218f) {
         return 0
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 1
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 1
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 1
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 1
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 1
     } else if (c <= 0x1fffff) {
         return 0
@@ -5788,75 +5901,78 @@ private fun parse_obj_helper_5(c: Int): Int {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_6(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_6(c: Int): Int {
     if (c == 0x3a) {
         return 0
     } else {
         return 1
     }
 }
+
 private fun parse_obj_helper_7(c: Int): Int {
-    if (c <0x30) {
+    if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 1
     } else if (c <= 0xd6) {
         return 0
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 1
     } else if (c <= 0xf6) {
         return 0
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 1
     } else if (c <= 0x2ff) {
         return 0
-    } else if (c <0x370) {
+    } else if (c < 0x370) {
         return 1
     } else if (c <= 0x37d) {
         return 0
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 1
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 1
     } else if (c <= 0x200d) {
         return 0
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 1
     } else if (c <= 0x218f) {
         return 0
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 1
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 1
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 1
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 1
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 1
     } else if (c <= 0x1fffff) {
         return 0
@@ -5864,30 +5980,31 @@ private fun parse_obj_helper_7(c: Int): Int {
         return 1
     }
 }
+
 private fun parse_obj_helper_8(c: Int): Int {
     if (c <= 0x9) {
         return 0
-    } else if (c <0xb) {
+    } else if (c < 0xb) {
         return 3
     } else if (c <= 0xc) {
         return 0
-    } else if (c <0xe) {
+    } else if (c < 0xe) {
         return 3
     } else if (c <= 0x21) {
         return 0
-    } else if (c <0x22) {
+    } else if (c < 0x22) {
         return 3
     } else if (c <= 0x22) {
         return 2
-    } else if (c <0x23) {
+    } else if (c < 0x23) {
         return 3
     } else if (c <= 0x5b) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 1
-    } else if (c <0x5d) {
+    } else if (c < 0x5d) {
         return 3
     } else if (c <= 0x1fffff) {
         return 0
@@ -5895,26 +6012,27 @@ private fun parse_obj_helper_8(c: Int): Int {
         return 3
     }
 }
+
 private fun parse_obj_helper_9(c: Int): Int {
     if (c <= 0x9) {
         return 0
-    } else if (c <0xb) {
+    } else if (c < 0xb) {
         return 2
     } else if (c <= 0xc) {
         return 0
-    } else if (c <0xe) {
+    } else if (c < 0xe) {
         return 2
     } else if (c <= 0x21) {
         return 0
-    } else if (c <0x23) {
+    } else if (c < 0x23) {
         return 2
     } else if (c <= 0x5b) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 2
     } else if (c <= 0x5c) {
         return 1
-    } else if (c <0x5d) {
+    } else if (c < 0x5d) {
         return 2
     } else if (c <= 0x1fffff) {
         return 0
@@ -5922,44 +6040,45 @@ private fun parse_obj_helper_9(c: Int): Int {
         return 2
     }
 }
+
 private fun parse_obj_helper_10(c: Int): Int {
-    if (c <0x22) {
+    if (c < 0x22) {
         return 3
     } else if (c <= 0x22) {
         return 0
-    } else if (c <0x27) {
+    } else if (c < 0x27) {
         return 3
     } else if (c <= 0x27) {
         return 0
-    } else if (c <0x55) {
+    } else if (c < 0x55) {
         return 3
     } else if (c <= 0x55) {
         return 2
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 0
-    } else if (c <0x62) {
+    } else if (c < 0x62) {
         return 3
     } else if (c <= 0x62) {
         return 0
-    } else if (c <0x66) {
+    } else if (c < 0x66) {
         return 3
     } else if (c <= 0x66) {
         return 0
-    } else if (c <0x6e) {
+    } else if (c < 0x6e) {
         return 3
     } else if (c <= 0x6e) {
         return 0
-    } else if (c <0x72) {
+    } else if (c < 0x72) {
         return 3
     } else if (c <= 0x72) {
         return 0
-    } else if (c <0x74) {
+    } else if (c < 0x74) {
         return 3
     } else if (c <= 0x74) {
         return 0
-    } else if (c <0x75) {
+    } else if (c < 0x75) {
         return 3
     } else if (c <= 0x75) {
         return 1
@@ -5967,29 +6086,32 @@ private fun parse_obj_helper_10(c: Int): Int {
         return 3
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_11(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_11(c: Int): Int {
     if (c == 0x22) {
         return 0
     } else {
         return 1
     }
 }
+
 private fun parse_obj_helper_12(c: Int): Int {
     if (c <= 0x21) {
         return 0
-    } else if (c <0x22) {
+    } else if (c < 0x22) {
         return 3
     } else if (c <= 0x22) {
         return 2
-    } else if (c <0x23) {
+    } else if (c < 0x23) {
         return 3
     } else if (c <= 0x5b) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 1
-    } else if (c <0x5d) {
+    } else if (c < 0x5d) {
         return 3
     } else if (c <= 0x1fffff) {
         return 0
@@ -5997,30 +6119,31 @@ private fun parse_obj_helper_12(c: Int): Int {
         return 3
     }
 }
+
 private fun parse_obj_helper_13(c: Int): Int {
     if (c <= 0x9) {
         return 0
-    } else if (c <0xb) {
+    } else if (c < 0xb) {
         return 3
     } else if (c <= 0xc) {
         return 0
-    } else if (c <0xe) {
+    } else if (c < 0xe) {
         return 3
     } else if (c <= 0x26) {
         return 0
-    } else if (c <0x27) {
+    } else if (c < 0x27) {
         return 3
     } else if (c <= 0x27) {
         return 2
-    } else if (c <0x28) {
+    } else if (c < 0x28) {
         return 3
     } else if (c <= 0x5b) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 1
-    } else if (c <0x5d) {
+    } else if (c < 0x5d) {
         return 3
     } else if (c <= 0x1fffff) {
         return 0
@@ -6028,26 +6151,27 @@ private fun parse_obj_helper_13(c: Int): Int {
         return 3
     }
 }
+
 private fun parse_obj_helper_14(c: Int): Int {
     if (c <= 0x9) {
         return 0
-    } else if (c <0xb) {
+    } else if (c < 0xb) {
         return 2
     } else if (c <= 0xc) {
         return 0
-    } else if (c <0xe) {
+    } else if (c < 0xe) {
         return 2
     } else if (c <= 0x26) {
         return 0
-    } else if (c <0x28) {
+    } else if (c < 0x28) {
         return 2
     } else if (c <= 0x5b) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 2
     } else if (c <= 0x5c) {
         return 1
-    } else if (c <0x5d) {
+    } else if (c < 0x5d) {
         return 2
     } else if (c <= 0x1fffff) {
         return 0
@@ -6055,29 +6179,32 @@ private fun parse_obj_helper_14(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_15(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_15(c: Int): Int {
     if (c == 0x27) {
         return 0
     } else {
         return 1
     }
 }
+
 private fun parse_obj_helper_16(c: Int): Int {
     if (c <= 0x26) {
         return 0
-    } else if (c <0x27) {
+    } else if (c < 0x27) {
         return 3
     } else if (c <= 0x27) {
         return 2
-    } else if (c <0x28) {
+    } else if (c < 0x28) {
         return 3
     } else if (c <= 0x5b) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 1
-    } else if (c <0x5d) {
+    } else if (c < 0x5d) {
         return 3
     } else if (c <= 0x1fffff) {
         return 0
@@ -6085,16 +6212,18 @@ private fun parse_obj_helper_16(c: Int): Int {
         return 3
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_17(c: Int): Int {
-    if (c <0x2e) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_17(c: Int): Int {
+    if (c < 0x2e) {
         return 2
     } else if (c <= 0x2e) {
         return 0
-    } else if (c <0x45) {
+    } else if (c < 0x45) {
         return 2
     } else if (c <= 0x45) {
         return 1
-    } else if (c <0x65) {
+    } else if (c < 0x65) {
         return 2
     } else if (c <= 0x65) {
         return 1
@@ -6102,16 +6231,18 @@ private fun parse_obj_helper_16(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_18(c: Int): Int {
-    if (c <0x30) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_18(c: Int): Int {
+    if (c < 0x30) {
         return 2
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x45) {
+    } else if (c < 0x45) {
         return 2
     } else if (c <= 0x45) {
         return 1
-    } else if (c <0x65) {
+    } else if (c < 0x65) {
         return 2
     } else if (c <= 0x65) {
         return 1
@@ -6119,12 +6250,14 @@ private fun parse_obj_helper_16(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_19(c: Int): Int {
-    if (c <0x45) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_19(c: Int): Int {
+    if (c < 0x45) {
         return 1
     } else if (c <= 0x45) {
         return 0
-    } else if (c <0x65) {
+    } else if (c < 0x65) {
         return 1
     } else if (c <= 0x65) {
         return 0
@@ -6132,16 +6265,18 @@ private fun parse_obj_helper_16(c: Int): Int {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_20(c: Int): Int {
-    if (c <0x2b) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_20(c: Int): Int {
+    if (c < 0x2b) {
         return 2
     } else if (c <= 0x2b) {
         return 1
-    } else if (c <0x2d) {
+    } else if (c < 0x2d) {
         return 2
     } else if (c <= 0x2d) {
         return 1
-    } else if (c <0x30) {
+    } else if (c < 0x30) {
         return 2
     } else if (c <= 0x39) {
         return 0
@@ -6149,8 +6284,10 @@ private fun parse_obj_helper_16(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_21(c: Int): Int {
-    if (c <0x30) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_21(c: Int): Int {
+    if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
@@ -6158,12 +6295,14 @@ private fun parse_obj_helper_16(c: Int): Int {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_22(c: Int): Int {
-    if (c <0x2e) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_22(c: Int): Int {
+    if (c < 0x2e) {
         return 2
     } else if (c <= 0x2e) {
         return 1
-    } else if (c <0x30) {
+    } else if (c < 0x30) {
         return 2
     } else if (c <= 0x39) {
         return 0
@@ -6171,55 +6310,70 @@ private fun parse_obj_helper_16(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_23(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_23(c: Int): Int {
     if (c == 0x72) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_24(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_24(c: Int): Int {
     if (c == 0x75) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_25(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_25(c: Int): Int {
     if (c == 0x65) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_26(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_26(c: Int): Int {
     if (c == 0x66) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_27(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_27(c: Int): Int {
     if (c == 0x61) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_28(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_28(c: Int): Int {
     if (c == 0x6c) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_obj_helper_29(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_obj_helper_29(c: Int): Int {
     if (c == 0x73) {
         return 0
     } else {
         return 1
     }
 }
+
 internal inline fun parse_triple_end(
     context: ParserContext,
     crossinline onPREDICATE_LIST1: () -> Unit,
@@ -6252,16 +6406,18 @@ internal inline fun parse_triple_end(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_helper_0(c: Int): Int {
-    if (c <0x2c) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_triple_end_helper_0(c: Int): Int {
+    if (c < 0x2c) {
         return 3
     } else if (c <= 0x2c) {
         return 1
-    } else if (c <0x2e) {
+    } else if (c < 0x2e) {
         return 3
     } else if (c <= 0x2e) {
         return 2
-    } else if (c <0x3b) {
+    } else if (c < 0x3b) {
         return 3
     } else if (c <= 0x3b) {
         return 0
@@ -6269,6 +6425,7 @@ internal inline fun parse_triple_end(
         return 3
     }
 }
+
 internal inline fun parse_triple_end_or_object_iri(
     context: ParserContext,
     crossinline onPN_LOCAL: () -> Unit,
@@ -6531,100 +6688,101 @@ internal inline fun parse_triple_end_or_object_iri(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
+
 private fun parse_triple_end_or_object_iri_helper_0(c: Int): Int {
-    if (c <0x9) {
+    if (c < 0x9) {
         return 7
     } else if (c <= 0xa) {
         return 6
-    } else if (c <0xd) {
+    } else if (c < 0xd) {
         return 7
     } else if (c <= 0xd) {
         return 6
-    } else if (c <0x20) {
+    } else if (c < 0x20) {
         return 7
     } else if (c <= 0x20) {
         return 6
-    } else if (c <0x25) {
+    } else if (c < 0x25) {
         return 7
     } else if (c <= 0x25) {
         return 1
-    } else if (c <0x2c) {
+    } else if (c < 0x2c) {
         return 7
     } else if (c <= 0x2c) {
         return 4
-    } else if (c <0x2e) {
+    } else if (c < 0x2e) {
         return 7
     } else if (c <= 0x2e) {
         return 5
-    } else if (c <0x30) {
+    } else if (c < 0x30) {
         return 7
     } else if (c <= 0x3a) {
         return 0
-    } else if (c <0x3b) {
+    } else if (c < 0x3b) {
         return 7
     } else if (c <= 0x3b) {
         return 3
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 7
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 7
     } else if (c <= 0x5c) {
         return 2
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 7
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 7
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 7
     } else if (c <= 0xd6) {
         return 0
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 7
     } else if (c <= 0xf6) {
         return 0
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 7
     } else if (c <= 0x2ff) {
         return 0
-    } else if (c <0x370) {
+    } else if (c < 0x370) {
         return 7
     } else if (c <= 0x37d) {
         return 0
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 7
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 7
     } else if (c <= 0x200d) {
         return 0
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 7
     } else if (c <= 0x218f) {
         return 0
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 7
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 7
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 7
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 7
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 7
     } else if (c <= 0x1fffff) {
         return 0
@@ -6632,84 +6790,85 @@ private fun parse_triple_end_or_object_iri_helper_0(c: Int): Int {
         return 7
     }
 }
+
 private fun parse_triple_end_or_object_iri_helper_1(c: Int): Int {
-    if (c <0x25) {
+    if (c < 0x25) {
         return 3
     } else if (c <= 0x25) {
         return 1
-    } else if (c <0x2d) {
+    } else if (c < 0x2d) {
         return 3
     } else if (c <= 0x2d) {
         return 0
-    } else if (c <0x30) {
+    } else if (c < 0x30) {
         return 3
     } else if (c <= 0x3a) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 3
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 2
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 3
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 3
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0xb7) {
+    } else if (c < 0xb7) {
         return 3
     } else if (c <= 0xb7) {
         return 0
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 3
     } else if (c <= 0xd6) {
         return 0
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 3
     } else if (c <= 0xf6) {
         return 0
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 3
     } else if (c <= 0x37d) {
         return 0
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 3
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 3
     } else if (c <= 0x200d) {
         return 0
-    } else if (c <0x203f) {
+    } else if (c < 0x203f) {
         return 3
     } else if (c <= 0x2040) {
         return 0
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 3
     } else if (c <= 0x218f) {
         return 0
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 3
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 3
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 3
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 3
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 3
     } else if (c <= 0x1fffff) {
         return 0
@@ -6717,16 +6876,18 @@ private fun parse_triple_end_or_object_iri_helper_1(c: Int): Int {
         return 3
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_iri_helper_2(c: Int): Int {
-    if (c <0x30) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_triple_end_or_object_iri_helper_2(c: Int): Int {
+    if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x46) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x66) {
         return 0
@@ -6734,32 +6895,33 @@ private fun parse_triple_end_or_object_iri_helper_1(c: Int): Int {
         return 1
     }
 }
+
 private fun parse_triple_end_or_object_iri_helper_3(c: Int): Int {
-    if (c <0x21) {
+    if (c < 0x21) {
         return 1
     } else if (c <= 0x21) {
         return 0
-    } else if (c <0x23) {
+    } else if (c < 0x23) {
         return 1
     } else if (c <= 0x2f) {
         return 0
-    } else if (c <0x3b) {
+    } else if (c < 0x3b) {
         return 1
     } else if (c <= 0x3b) {
         return 0
-    } else if (c <0x3d) {
+    } else if (c < 0x3d) {
         return 1
     } else if (c <= 0x3d) {
         return 0
-    } else if (c <0x3f) {
+    } else if (c < 0x3f) {
         return 1
     } else if (c <= 0x40) {
         return 0
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x7e) {
+    } else if (c < 0x7e) {
         return 1
     } else if (c <= 0x7e) {
         return 0
@@ -6767,6 +6929,7 @@ private fun parse_triple_end_or_object_iri_helper_3(c: Int): Int {
         return 1
     }
 }
+
 internal inline fun parse_triple_end_or_object_string(
     context: ParserContext,
     crossinline onLANGTAG: () -> Unit,
@@ -6886,36 +7049,37 @@ internal inline fun parse_triple_end_or_object_string(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
+
 private fun parse_triple_end_or_object_string_helper_0(c: Int): Int {
-    if (c <0x9) {
+    if (c < 0x9) {
         return 6
     } else if (c <= 0xa) {
         return 5
-    } else if (c <0xd) {
+    } else if (c < 0xd) {
         return 6
     } else if (c <= 0xd) {
         return 5
-    } else if (c <0x20) {
+    } else if (c < 0x20) {
         return 6
     } else if (c <= 0x20) {
         return 5
-    } else if (c <0x2c) {
+    } else if (c < 0x2c) {
         return 6
     } else if (c <= 0x2c) {
         return 3
-    } else if (c <0x2e) {
+    } else if (c < 0x2e) {
         return 6
     } else if (c <= 0x2e) {
         return 4
-    } else if (c <0x3b) {
+    } else if (c < 0x3b) {
         return 6
     } else if (c <= 0x3b) {
         return 2
-    } else if (c <0x40) {
+    } else if (c < 0x40) {
         return 6
     } else if (c <= 0x40) {
         return 0
-    } else if (c <0x5e) {
+    } else if (c < 0x5e) {
         return 6
     } else if (c <= 0x5e) {
         return 1
@@ -6923,12 +7087,14 @@ private fun parse_triple_end_or_object_string_helper_0(c: Int): Int {
         return 6
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_helper_1(c: Int): Int {
-    if (c <0x41) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_triple_end_or_object_string_helper_1(c: Int): Int {
+    if (c < 0x41) {
         return 1
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x7a) {
         return 0
@@ -6936,23 +7102,27 @@ private fun parse_triple_end_or_object_string_helper_0(c: Int): Int {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_helper_2(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_triple_end_or_object_string_helper_2(c: Int): Int {
     if (c == 0x2d) {
         return 0
     } else {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_helper_3(c: Int): Int {
-    if (c <0x30) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_triple_end_or_object_string_helper_3(c: Int): Int {
+    if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x7a) {
         return 0
@@ -6960,13 +7130,16 @@ private fun parse_triple_end_or_object_string_helper_0(c: Int): Int {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_helper_4(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_triple_end_or_object_string_helper_4(c: Int): Int {
     if (c == 0x5e) {
         return 0
     } else {
         return 1
     }
 }
+
 internal inline fun parse_triple_end_or_object_string_typed(
     context: ParserContext,
     crossinline onIRIREF: () -> Unit,
@@ -7175,68 +7348,69 @@ internal inline fun parse_triple_end_or_object_string_typed(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
+
 private fun parse_triple_end_or_object_string_typed_helper_0(c: Int): Int {
-    if (c <0x3a) {
+    if (c < 0x3a) {
         return 3
     } else if (c <= 0x3a) {
         return 2
-    } else if (c <0x3c) {
+    } else if (c < 0x3c) {
         return 3
     } else if (c <= 0x3c) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 3
     } else if (c <= 0x5a) {
         return 1
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 3
     } else if (c <= 0x7a) {
         return 1
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 3
     } else if (c <= 0xd6) {
         return 1
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 3
     } else if (c <= 0xf6) {
         return 1
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 3
     } else if (c <= 0x2ff) {
         return 1
-    } else if (c <0x370) {
+    } else if (c < 0x370) {
         return 3
     } else if (c <= 0x37d) {
         return 1
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 3
     } else if (c <= 0x1fff) {
         return 1
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 3
     } else if (c <= 0x200d) {
         return 1
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 3
     } else if (c <= 0x218f) {
         return 1
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 3
     } else if (c <= 0x2fef) {
         return 1
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 3
     } else if (c <= 0xd7ff) {
         return 1
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 3
     } else if (c <= 0xfdcf) {
         return 1
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 3
     } else if (c <= 0xfffd) {
         return 1
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 3
     } else if (c <= 0x1fffff) {
         return 1
@@ -7244,40 +7418,41 @@ private fun parse_triple_end_or_object_string_typed_helper_0(c: Int): Int {
         return 3
     }
 }
+
 private fun parse_triple_end_or_object_string_typed_helper_1(c: Int): Int {
-    if (c <0x21) {
+    if (c < 0x21) {
         return 2
     } else if (c <= 0x21) {
         return 0
-    } else if (c <0x23) {
+    } else if (c < 0x23) {
         return 2
     } else if (c <= 0x3b) {
         return 0
-    } else if (c <0x3d) {
+    } else if (c < 0x3d) {
         return 2
     } else if (c <= 0x3d) {
         return 0
-    } else if (c <0x3f) {
+    } else if (c < 0x3f) {
         return 2
     } else if (c <= 0x5b) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 2
     } else if (c <= 0x5c) {
         return 1
-    } else if (c <0x5d) {
+    } else if (c < 0x5d) {
         return 2
     } else if (c <= 0x5d) {
         return 0
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 2
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 2
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0x7e) {
+    } else if (c < 0x7e) {
         return 2
     } else if (c <= 0x1fffff) {
         return 0
@@ -7285,12 +7460,14 @@ private fun parse_triple_end_or_object_string_typed_helper_1(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_typed_helper_2(c: Int): Int {
-    if (c <0x55) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_triple_end_or_object_string_typed_helper_2(c: Int): Int {
+    if (c < 0x55) {
         return 2
     } else if (c <= 0x55) {
         return 1
-    } else if (c <0x75) {
+    } else if (c < 0x75) {
         return 2
     } else if (c <= 0x75) {
         return 0
@@ -7298,16 +7475,18 @@ private fun parse_triple_end_or_object_string_typed_helper_1(c: Int): Int {
         return 2
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_typed_helper_3(c: Int): Int {
-    if (c <0x30) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_triple_end_or_object_string_typed_helper_3(c: Int): Int {
+    if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x46) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x66) {
         return 0
@@ -7315,83 +7494,86 @@ private fun parse_triple_end_or_object_string_typed_helper_1(c: Int): Int {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_typed_helper_4(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_triple_end_or_object_string_typed_helper_4(c: Int): Int {
     if (c == 0x3e) {
         return 0
     } else {
         return 1
     }
 }
+
 private fun parse_triple_end_or_object_string_typed_helper_5(c: Int): Int {
-    if (c <0x2d) {
+    if (c < 0x2d) {
         return 1
     } else if (c <= 0x2d) {
         return 0
-    } else if (c <0x30) {
+    } else if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0xb7) {
+    } else if (c < 0xb7) {
         return 1
     } else if (c <= 0xb7) {
         return 0
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 1
     } else if (c <= 0xd6) {
         return 0
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 1
     } else if (c <= 0xf6) {
         return 0
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 1
     } else if (c <= 0x37d) {
         return 0
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 1
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 1
     } else if (c <= 0x200d) {
         return 0
-    } else if (c <0x203f) {
+    } else if (c < 0x203f) {
         return 1
     } else if (c <= 0x2040) {
         return 0
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 1
     } else if (c <= 0x218f) {
         return 0
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 1
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 1
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 1
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 1
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 1
     } else if (c <= 0x1fffff) {
         return 0
@@ -7399,13 +7581,16 @@ private fun parse_triple_end_or_object_string_typed_helper_5(c: Int): Int {
         return 1
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_typed_helper_6(c: Int): Int {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_triple_end_or_object_string_typed_helper_6(c: Int): Int {
     if (c == 0x3a) {
         return 0
     } else {
         return 1
     }
 }
+
 internal inline fun parse_triple_end_or_object_string_typed_iri(
     context: ParserContext,
     crossinline onPN_LOCAL: () -> Unit,
@@ -7668,100 +7853,101 @@ internal inline fun parse_triple_end_or_object_string_typed_iri(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
+
 private fun parse_triple_end_or_object_string_typed_iri_helper_0(c: Int): Int {
-    if (c <0x9) {
+    if (c < 0x9) {
         return 7
     } else if (c <= 0xa) {
         return 6
-    } else if (c <0xd) {
+    } else if (c < 0xd) {
         return 7
     } else if (c <= 0xd) {
         return 6
-    } else if (c <0x20) {
+    } else if (c < 0x20) {
         return 7
     } else if (c <= 0x20) {
         return 6
-    } else if (c <0x25) {
+    } else if (c < 0x25) {
         return 7
     } else if (c <= 0x25) {
         return 1
-    } else if (c <0x2c) {
+    } else if (c < 0x2c) {
         return 7
     } else if (c <= 0x2c) {
         return 4
-    } else if (c <0x2e) {
+    } else if (c < 0x2e) {
         return 7
     } else if (c <= 0x2e) {
         return 5
-    } else if (c <0x30) {
+    } else if (c < 0x30) {
         return 7
     } else if (c <= 0x3a) {
         return 0
-    } else if (c <0x3b) {
+    } else if (c < 0x3b) {
         return 7
     } else if (c <= 0x3b) {
         return 3
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 7
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 7
     } else if (c <= 0x5c) {
         return 2
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 7
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 7
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 7
     } else if (c <= 0xd6) {
         return 0
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 7
     } else if (c <= 0xf6) {
         return 0
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 7
     } else if (c <= 0x2ff) {
         return 0
-    } else if (c <0x370) {
+    } else if (c < 0x370) {
         return 7
     } else if (c <= 0x37d) {
         return 0
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 7
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 7
     } else if (c <= 0x200d) {
         return 0
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 7
     } else if (c <= 0x218f) {
         return 0
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 7
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 7
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 7
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 7
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 7
     } else if (c <= 0x1fffff) {
         return 0
@@ -7769,84 +7955,85 @@ private fun parse_triple_end_or_object_string_typed_iri_helper_0(c: Int): Int {
         return 7
     }
 }
+
 private fun parse_triple_end_or_object_string_typed_iri_helper_1(c: Int): Int {
-    if (c <0x25) {
+    if (c < 0x25) {
         return 3
     } else if (c <= 0x25) {
         return 1
-    } else if (c <0x2d) {
+    } else if (c < 0x2d) {
         return 3
     } else if (c <= 0x2d) {
         return 0
-    } else if (c <0x30) {
+    } else if (c < 0x30) {
         return 3
     } else if (c <= 0x3a) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 3
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 2
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 3
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 3
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0xb7) {
+    } else if (c < 0xb7) {
         return 3
     } else if (c <= 0xb7) {
         return 0
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 3
     } else if (c <= 0xd6) {
         return 0
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 3
     } else if (c <= 0xf6) {
         return 0
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 3
     } else if (c <= 0x37d) {
         return 0
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 3
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 3
     } else if (c <= 0x200d) {
         return 0
-    } else if (c <0x203f) {
+    } else if (c < 0x203f) {
         return 3
     } else if (c <= 0x2040) {
         return 0
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 3
     } else if (c <= 0x218f) {
         return 0
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 3
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 3
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 3
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 3
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 3
     } else if (c <= 0x1fffff) {
         return 0
@@ -7854,16 +8041,18 @@ private fun parse_triple_end_or_object_string_typed_iri_helper_1(c: Int): Int {
         return 3
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_triple_end_or_object_string_typed_iri_helper_2(c: Int): Int {
-    if (c <0x30) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_triple_end_or_object_string_typed_iri_helper_2(c: Int): Int {
+    if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x46) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x66) {
         return 0
@@ -7871,32 +8060,33 @@ private fun parse_triple_end_or_object_string_typed_iri_helper_1(c: Int): Int {
         return 1
     }
 }
+
 private fun parse_triple_end_or_object_string_typed_iri_helper_3(c: Int): Int {
-    if (c <0x21) {
+    if (c < 0x21) {
         return 1
     } else if (c <= 0x21) {
         return 0
-    } else if (c <0x23) {
+    } else if (c < 0x23) {
         return 1
     } else if (c <= 0x2f) {
         return 0
-    } else if (c <0x3b) {
+    } else if (c < 0x3b) {
         return 1
     } else if (c <= 0x3b) {
         return 0
-    } else if (c <0x3d) {
+    } else if (c < 0x3d) {
         return 1
     } else if (c <= 0x3d) {
         return 0
-    } else if (c <0x3f) {
+    } else if (c < 0x3f) {
         return 1
     } else if (c <= 0x40) {
         return 0
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x7e) {
+    } else if (c < 0x7e) {
         return 1
     } else if (c <= 0x7e) {
         return 0
@@ -7904,6 +8094,7 @@ private fun parse_triple_end_or_object_string_typed_iri_helper_3(c: Int): Int {
         return 1
     }
 }
+
 internal inline fun parse_subject_iri_or_ws(
     context: ParserContext,
     crossinline onPN_LOCAL: () -> Unit,
@@ -8148,88 +8339,89 @@ internal inline fun parse_subject_iri_or_ws(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
+
 private fun parse_subject_iri_or_ws_helper_0(c: Int): Int {
-    if (c <0x9) {
+    if (c < 0x9) {
         return 4
     } else if (c <= 0xa) {
         return 3
-    } else if (c <0xd) {
+    } else if (c < 0xd) {
         return 4
     } else if (c <= 0xd) {
         return 3
-    } else if (c <0x20) {
+    } else if (c < 0x20) {
         return 4
     } else if (c <= 0x20) {
         return 3
-    } else if (c <0x25) {
+    } else if (c < 0x25) {
         return 4
     } else if (c <= 0x25) {
         return 1
-    } else if (c <0x30) {
+    } else if (c < 0x30) {
         return 4
     } else if (c <= 0x3a) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 4
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 4
     } else if (c <= 0x5c) {
         return 2
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 4
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 4
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 4
     } else if (c <= 0xd6) {
         return 0
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 4
     } else if (c <= 0xf6) {
         return 0
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 4
     } else if (c <= 0x2ff) {
         return 0
-    } else if (c <0x370) {
+    } else if (c < 0x370) {
         return 4
     } else if (c <= 0x37d) {
         return 0
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 4
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 4
     } else if (c <= 0x200d) {
         return 0
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 4
     } else if (c <= 0x218f) {
         return 0
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 4
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 4
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 4
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 4
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 4
     } else if (c <= 0x1fffff) {
         return 0
@@ -8237,84 +8429,85 @@ private fun parse_subject_iri_or_ws_helper_0(c: Int): Int {
         return 4
     }
 }
+
 private fun parse_subject_iri_or_ws_helper_1(c: Int): Int {
-    if (c <0x25) {
+    if (c < 0x25) {
         return 3
     } else if (c <= 0x25) {
         return 1
-    } else if (c <0x2d) {
+    } else if (c < 0x2d) {
         return 3
     } else if (c <= 0x2d) {
         return 0
-    } else if (c <0x30) {
+    } else if (c < 0x30) {
         return 3
     } else if (c <= 0x3a) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 3
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 2
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 3
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 3
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0xb7) {
+    } else if (c < 0xb7) {
         return 3
     } else if (c <= 0xb7) {
         return 0
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 3
     } else if (c <= 0xd6) {
         return 0
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 3
     } else if (c <= 0xf6) {
         return 0
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 3
     } else if (c <= 0x37d) {
         return 0
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 3
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 3
     } else if (c <= 0x200d) {
         return 0
-    } else if (c <0x203f) {
+    } else if (c < 0x203f) {
         return 3
     } else if (c <= 0x2040) {
         return 0
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 3
     } else if (c <= 0x218f) {
         return 0
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 3
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 3
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 3
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 3
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 3
     } else if (c <= 0x1fffff) {
         return 0
@@ -8322,16 +8515,18 @@ private fun parse_subject_iri_or_ws_helper_1(c: Int): Int {
         return 3
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_subject_iri_or_ws_helper_2(c: Int): Int {
-    if (c <0x30) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_subject_iri_or_ws_helper_2(c: Int): Int {
+    if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x46) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x66) {
         return 0
@@ -8339,32 +8534,33 @@ private fun parse_subject_iri_or_ws_helper_1(c: Int): Int {
         return 1
     }
 }
+
 private fun parse_subject_iri_or_ws_helper_3(c: Int): Int {
-    if (c <0x21) {
+    if (c < 0x21) {
         return 1
     } else if (c <= 0x21) {
         return 0
-    } else if (c <0x23) {
+    } else if (c < 0x23) {
         return 1
     } else if (c <= 0x2f) {
         return 0
-    } else if (c <0x3b) {
+    } else if (c < 0x3b) {
         return 1
     } else if (c <= 0x3b) {
         return 0
-    } else if (c <0x3d) {
+    } else if (c < 0x3d) {
         return 1
     } else if (c <= 0x3d) {
         return 0
-    } else if (c <0x3f) {
+    } else if (c < 0x3f) {
         return 1
     } else if (c <= 0x40) {
         return 0
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x7e) {
+    } else if (c < 0x7e) {
         return 1
     } else if (c <= 0x7e) {
         return 0
@@ -8372,6 +8568,7 @@ private fun parse_subject_iri_or_ws_helper_3(c: Int): Int {
         return 1
     }
 }
+
 internal inline fun parse_predicate_iri_or_ws(
     context: ParserContext,
     crossinline onPN_LOCAL: () -> Unit,
@@ -8616,88 +8813,89 @@ internal inline fun parse_predicate_iri_or_ws(
     }
     throw ParserExceptionUnexpectedChar(context)
 }
+
 private fun parse_predicate_iri_or_ws_helper_0(c: Int): Int {
-    if (c <0x9) {
+    if (c < 0x9) {
         return 4
     } else if (c <= 0xa) {
         return 3
-    } else if (c <0xd) {
+    } else if (c < 0xd) {
         return 4
     } else if (c <= 0xd) {
         return 3
-    } else if (c <0x20) {
+    } else if (c < 0x20) {
         return 4
     } else if (c <= 0x20) {
         return 3
-    } else if (c <0x25) {
+    } else if (c < 0x25) {
         return 4
     } else if (c <= 0x25) {
         return 1
-    } else if (c <0x30) {
+    } else if (c < 0x30) {
         return 4
     } else if (c <= 0x3a) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 4
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 4
     } else if (c <= 0x5c) {
         return 2
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 4
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 4
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 4
     } else if (c <= 0xd6) {
         return 0
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 4
     } else if (c <= 0xf6) {
         return 0
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 4
     } else if (c <= 0x2ff) {
         return 0
-    } else if (c <0x370) {
+    } else if (c < 0x370) {
         return 4
     } else if (c <= 0x37d) {
         return 0
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 4
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 4
     } else if (c <= 0x200d) {
         return 0
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 4
     } else if (c <= 0x218f) {
         return 0
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 4
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 4
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 4
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 4
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 4
     } else if (c <= 0x1fffff) {
         return 0
@@ -8705,84 +8903,85 @@ private fun parse_predicate_iri_or_ws_helper_0(c: Int): Int {
         return 4
     }
 }
+
 private fun parse_predicate_iri_or_ws_helper_1(c: Int): Int {
-    if (c <0x25) {
+    if (c < 0x25) {
         return 3
     } else if (c <= 0x25) {
         return 1
-    } else if (c <0x2d) {
+    } else if (c < 0x2d) {
         return 3
     } else if (c <= 0x2d) {
         return 0
-    } else if (c <0x30) {
+    } else if (c < 0x30) {
         return 3
     } else if (c <= 0x3a) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 3
     } else if (c <= 0x5a) {
         return 0
-    } else if (c <0x5c) {
+    } else if (c < 0x5c) {
         return 3
     } else if (c <= 0x5c) {
         return 2
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 3
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 3
     } else if (c <= 0x7a) {
         return 0
-    } else if (c <0xb7) {
+    } else if (c < 0xb7) {
         return 3
     } else if (c <= 0xb7) {
         return 0
-    } else if (c <0xc0) {
+    } else if (c < 0xc0) {
         return 3
     } else if (c <= 0xd6) {
         return 0
-    } else if (c <0xd8) {
+    } else if (c < 0xd8) {
         return 3
     } else if (c <= 0xf6) {
         return 0
-    } else if (c <0xf8) {
+    } else if (c < 0xf8) {
         return 3
     } else if (c <= 0x37d) {
         return 0
-    } else if (c <0x37f) {
+    } else if (c < 0x37f) {
         return 3
     } else if (c <= 0x1fff) {
         return 0
-    } else if (c <0x200c) {
+    } else if (c < 0x200c) {
         return 3
     } else if (c <= 0x200d) {
         return 0
-    } else if (c <0x203f) {
+    } else if (c < 0x203f) {
         return 3
     } else if (c <= 0x2040) {
         return 0
-    } else if (c <0x2070) {
+    } else if (c < 0x2070) {
         return 3
     } else if (c <= 0x218f) {
         return 0
-    } else if (c <0x2c00) {
+    } else if (c < 0x2c00) {
         return 3
     } else if (c <= 0x2fef) {
         return 0
-    } else if (c <0x3001) {
+    } else if (c < 0x3001) {
         return 3
     } else if (c <= 0xd7ff) {
         return 0
-    } else if (c <0xf900) {
+    } else if (c < 0xf900) {
         return 3
     } else if (c <= 0xfdcf) {
         return 0
-    } else if (c <0xfdf0) {
+    } else if (c < 0xfdf0) {
         return 3
     } else if (c <= 0xfffd) {
         return 0
-    } else if (c <0x10000) {
+    } else if (c < 0x10000) {
         return 3
     } else if (c <= 0x1fffff) {
         return 0
@@ -8790,16 +8989,18 @@ private fun parse_predicate_iri_or_ws_helper_1(c: Int): Int {
         return 3
     }
 }
-@Suppress("NOTHING_TO_INLINE") private inline fun parse_predicate_iri_or_ws_helper_2(c: Int): Int {
-    if (c <0x30) {
+
+@Suppress("NOTHING_TO_INLINE")
+private inline fun parse_predicate_iri_or_ws_helper_2(c: Int): Int {
+    if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
         return 0
-    } else if (c <0x41) {
+    } else if (c < 0x41) {
         return 1
     } else if (c <= 0x46) {
         return 0
-    } else if (c <0x61) {
+    } else if (c < 0x61) {
         return 1
     } else if (c <= 0x66) {
         return 0
@@ -8807,32 +9008,33 @@ private fun parse_predicate_iri_or_ws_helper_1(c: Int): Int {
         return 1
     }
 }
+
 private fun parse_predicate_iri_or_ws_helper_3(c: Int): Int {
-    if (c <0x21) {
+    if (c < 0x21) {
         return 1
     } else if (c <= 0x21) {
         return 0
-    } else if (c <0x23) {
+    } else if (c < 0x23) {
         return 1
     } else if (c <= 0x2f) {
         return 0
-    } else if (c <0x3b) {
+    } else if (c < 0x3b) {
         return 1
     } else if (c <= 0x3b) {
         return 0
-    } else if (c <0x3d) {
+    } else if (c < 0x3d) {
         return 1
     } else if (c <= 0x3d) {
         return 0
-    } else if (c <0x3f) {
+    } else if (c < 0x3f) {
         return 1
     } else if (c <= 0x40) {
         return 0
-    } else if (c <0x5f) {
+    } else if (c < 0x5f) {
         return 1
     } else if (c <= 0x5f) {
         return 0
-    } else if (c <0x7e) {
+    } else if (c < 0x7e) {
         return 1
     } else if (c <= 0x7e) {
         return 0

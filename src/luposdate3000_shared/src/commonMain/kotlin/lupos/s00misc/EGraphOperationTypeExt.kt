@@ -14,9 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
+
 public object EGraphOperationTypeExt {
     public const val ADD: EGraphOperationType = 0
     public const val CLEAR: EGraphOperationType = 1
@@ -26,7 +27,9 @@ public object EGraphOperationTypeExt {
     public const val LOAD: EGraphOperationType = 5
     public const val MOVE: EGraphOperationType = 6
     public const val values_size: Int = 7
-    @JvmField public val names: Array<String> = arrayOf(
+
+    @JvmField
+    public val names: Array<String> = arrayOf(
         "ADD",
         "CLEAR",
         "COPY",

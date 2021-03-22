@@ -1,0 +1,4 @@
+package=Luposdate3000_Endpoint_Launcher
+name=Luposdate3000_Endpoint_Java_Sockets
+enabled=always
+enabledRun=endpointMode:Java_Sockets

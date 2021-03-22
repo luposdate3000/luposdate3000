@@ -14,17 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
+
 public object MyPrintWriterModeExt {
     public const val BUFFER: MyPrintWriterMode = 0
-    public const val FILE: MyPrintWriterMode = 1
-    public const val NONE: MyPrintWriterMode = 2
-    public const val values_size: Int = 3
-    @JvmField public val names: Array<String> = arrayOf(
+    public const val NONE: MyPrintWriterMode = 1
+    public const val values_size: Int = 2
+
+    @JvmField
+    public val names: Array<String> = arrayOf(
         "BUFFER",
-        "FILE",
         "NONE",
     )
 }

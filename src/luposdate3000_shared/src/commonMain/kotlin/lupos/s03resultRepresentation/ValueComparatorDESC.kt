@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s03resultRepresentation
+
 import lupos.s00misc.EvaluationException
-import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
+
 public class ValueComparatorDESC(@JvmField public val query: IQuery) : Comparator<Int> {
     override fun compare(a: Int, b: Int): Int {
         val a1 = query.getDictionary().getValue(a)
@@ -49,7 +49,6 @@ public class ValueComparatorDESC(@JvmField public val query: IQuery) : Comparato
             val sB = b1.valueToString()!!
             return sB.compareTo(sA)
         } catch (e: Throwable) {
-            SanityCheck.println { "TODO exception 46" }
             e.printStackTrace()
             return 0
         }

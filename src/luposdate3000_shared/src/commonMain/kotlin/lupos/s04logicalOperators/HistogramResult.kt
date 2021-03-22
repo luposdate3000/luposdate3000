@@ -14,10 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s04logicalOperators
+
 import kotlin.jvm.JvmField
+
 public class HistogramResult {
-    @JvmField public var values: MutableMap<String, Int> = mutableMapOf()
-    @JvmField public var count: Int = 0
+    @JvmField
+    public var values: MutableMap<String, Int> = mutableMapOf()
+
+    @JvmField
+    public var count: Int = 0
 }

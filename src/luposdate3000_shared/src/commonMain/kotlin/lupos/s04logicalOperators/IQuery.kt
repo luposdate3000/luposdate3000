@@ -14,15 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s04logicalOperators
-import lupos.s03resultRepresentation.IResultSetDictionary
+
+import lupos.dictionary.IDictionary
+
 public interface IQuery {
-    public fun getDictionary(): IResultSetDictionary
+    public fun getDictionary(): IDictionary
     public fun checkVariableExistence(): Boolean
     public fun getWorkingDirectory(): String
-    public fun setWorkingDirectory(value: String)
-    public fun reset()
+    public fun initialize(newroot: IOPBase): IOPBase
     public fun setCommited()
     public fun getTransactionID(): Long
+    public fun getDistributionKey(): Map<String, Int>
+    public fun getDictionaryUrl(): String?
+    public fun setDictionaryUrl(url: String)
+    public fun setDictionaryServer(dict: IDictionary)
 }

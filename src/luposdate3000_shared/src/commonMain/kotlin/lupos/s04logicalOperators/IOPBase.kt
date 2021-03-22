@@ -14,14 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s04logicalOperators
+
 import lupos.s00misc.Partition
 import lupos.s00misc.SortHelper
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.iterator.IteratorBundle
+
 public interface IOPBase {
-    public fun replaceVariableWithAnother(node: IOPBase, name: String, name2: String): IOPBase
+    public fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase
+    public fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase
+    public fun replaceVariableWithAnother(name: String, name2: String): IOPBase
     public fun getClassname(): String
     public fun toSparql(): String
     /*suspend*/ public fun evaluate(parent: Partition): IteratorBundle
@@ -30,7 +33,8 @@ public interface IOPBase {
     public fun getRequiredVariableNamesRecoursive(): List<String>
     public fun getRequiredVariableNames(): List<String>
     public fun getProvidedVariableNames(): List<String>
-    /*suspend*/ public fun toXMLElement(): XMLElement
+    /*suspend*/ public fun toXMLElementRoot(partial: Boolean): XMLElement
+    /*suspend*/ public fun toXMLElement(partial: Boolean): XMLElement
     public fun getLatestChild(): IOPBase
     public fun getPossibleSortPriorities(): List<List<SortHelper>>
     public fun getUUID(): Long
@@ -51,13 +55,14 @@ public interface IOPBase {
     public fun initializeSortPriorities(onChange: () -> Unit): Boolean
     public fun getSortPrioritiesInitialized(): Boolean
     public fun getOnlyExistenceRequired(): Boolean
-    public fun getPartOfAskQuery(): Boolean
     public fun setPartOfAskQuery(value: Boolean)
     public fun setOnlyExistenceRequired(value: Boolean)
-    //Added by Rico
-    // Setter & getter for parent node
     public fun getParent(): IOPBase
     public fun setParent(parent: IOPBase)
     public fun getVisualUUUID(): Long
     public fun setVisualUUID(newUUID: Long)
+    public /*suspend*/ fun evaluateRoot(): IteratorBundle
+    public /*suspend*/ fun evaluateRoot(partition: Partition): IteratorBundle
+    public fun changePartitionID(idFrom: Int, idTo: Int)
+    public fun replaceVariableWithConstant(name: String, value: Int): IOPBase
 }

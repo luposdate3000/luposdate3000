@@ -14,12 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s05tripleStore.index_IDTriple
+
+import lupos.dictionary.DictionaryExt
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
+
 internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyReadWriteLock) : NodeLeafColumnIterator(node, nodeid, lock) {
     @JvmField
     var value = 0
@@ -39,9 +40,10 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
             updateRemaining()
             value
         } else {
-            ResultSetDictionaryExt.nullValue
+            DictionaryExt.nullValue
         }
     }
+
     override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
         if (label == 3) {
             label = 1
@@ -124,12 +126,13 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
                 }
             }
             result[0] = 0
-            result[1] = ResultSetDictionaryExt.nullValue
+            result[1] = DictionaryExt.nullValue
         } else {
             result[0] = 0
-            result[1] = ResultSetDictionaryExt.nullValue
+            result[1] = DictionaryExt.nullValue
         }
     }
+
     override /*suspend*/ fun skipSIP(skipCount: Int): Int {
         if (label == 3) {
             label = 1
@@ -154,7 +157,7 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
             }
             return value
         } else {
-            return ResultSetDictionaryExt.nullValue
+            return DictionaryExt.nullValue
         }
     }
 }

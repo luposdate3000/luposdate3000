@@ -14,32 +14,38 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s11outputResult
+
+import lupos.dictionary.DictionaryExt
+import lupos.dictionary.IDictionary
+import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.MemoryTable
 import lupos.s00misc.MyLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.IResultSetDictionary
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+import lupos.s00misc.communicationHandler
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.noinput.OPNothing
+import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
+
 public object QueryResultToMemoryTable {
-    private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IResultSetDictionary, output: MemoryTable) {
+    private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IDictionary, output: MemoryTable) {
         output.data.add(IntArray(variables.size) { rowBuf[it] })
     }
-    @Suppress("NOTHING_TO_INLINE") /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IResultSetDictionary, lock: MyLock?, output: MemoryTable) {
+
+    @Suppress("NOTHING_TO_INLINE")
+    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: MemoryTable) {
         val rowBuf = IntArray(variables.size)
         loop@ while (true) {
             for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
-                if (valueID == ResultSetDictionaryExt.nullValue) {
+                if (valueID == DictionaryExt.nullValue) {
                     break@loop
                 }
                 rowBuf[variableIndex] = valueID
@@ -52,8 +58,9 @@ public object QueryResultToMemoryTable {
             element.close()
         }
     }
+
     private /*suspend*/ fun writeNodeResult(variables: Array<String>, node: IOPBase, output: MemoryTable, parent: Partition) {
-        if ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1)) {
+        if ((tripleStoreManager.getPartitionMode() == EPartitionModeExt.Thread) && ((node is POPMergePartition && node.partitionCount > 1) || (node is POPMergePartitionOrderedByIntId && node.partitionCount > 1))) {
             var partitionCount = 0
             var partitionVariable = ""
             if (node is POPMergePartition) {
@@ -69,7 +76,8 @@ public object QueryResultToMemoryTable {
             for (p in 0 until partitionCount) {
                 jobs[p] = Parallel.launch {
                     try {
-                        val child = node.getChildren()[0].evaluate(Partition(parent, partitionVariable, p, partitionCount))
+                        val child2 = node.getChildren()[0]
+                        val child = child2.evaluateRoot(Partition(parent, partitionVariable, p, partitionCount))
                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
                         writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
                     } catch (e: Throwable) {
@@ -86,12 +94,20 @@ public object QueryResultToMemoryTable {
                 }
             }
         } else {
-            val child = node.evaluate(parent)
+            val child = node.evaluateRoot(parent)
             val columns = variables.map { child.columns[it]!! }.toTypedArray()
             writeAllRows(variables, columns, node.getQuery().getDictionary(), null, output)
         }
     }
+
     public /*suspend*/ operator fun invoke(rootNode: IOPBase, partition: Partition = Partition()): List<MemoryTable> {
+        val query = rootNode.getQuery()
+        val flag = query.getDictionaryUrl() == null
+        val key = "${query.getTransactionID()}"
+        if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+            query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
+        }
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()
         if (rootNode is OPBaseCompound) {
@@ -120,7 +136,7 @@ public object QueryResultToMemoryTable {
                 }
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
-                    val child = node.evaluate(partition)
+                    val child = node.evaluateRoot(partition)
                     val value = node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next())
                     val res = MemoryTable(Array(0) { "" })
                     res.query = rootNode.getQuery()
@@ -129,7 +145,7 @@ public object QueryResultToMemoryTable {
                     child.columns["?boolean"]!!.close()
                 } else {
                     if (variables.isEmpty()) {
-                        val child = node.evaluate(partition)
+                        val child = node.evaluateRoot(partition)
                         val res = MemoryTable(Array(0) { "" })
                         res.query = rootNode.getQuery()
                         for (j in 0 until child.count()) {
@@ -144,6 +160,9 @@ public object QueryResultToMemoryTable {
                     }
                 }
             }
+        }
+        if (flag && tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
         }
         return resultList
     }

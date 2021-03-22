@@ -14,9 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s16network
+
 public object HttpEndpointLauncher {
-    public fun start(hostname: String = "localhost", port: Int = 80) {
-    }
+    public fun start() {}
 }

@@ -14,10 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s00misc
+
+import kotlin.jvm.JvmField
+
 /* explicitly storing the classname has the advantage, that the classname is accessible in native code too, and not just via reflection */
-public abstract class Luposdate3000Exception public constructor(public val classname: String, msg: String) : Exception(msg)
+public abstract class Luposdate3000Exception public constructor(@JvmField public val classname: String, msg: String) : Exception(msg)
+
 // not implemented exceptions --->>>
 public open class NotImplementedException public constructor(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
 public class HistogramNotImplementedException public constructor(classname: String) : NotImplementedException("HistogramNotImplementedException", "Histograms not implemented in '$classname'.")
@@ -31,6 +34,7 @@ public class UnknownManifestException public constructor(classname: String, msg:
 public class DirectoryCompareNotImplementedException public constructor() : NotImplementedException("DirectoryCompareNotImplementedException", "Comparing directories is not implemented")
 public class GraphVarHistogramsNotImplementedException public constructor() : NotImplementedException("GraphVarHistogramsNotImplementedException", "histograms for triples using graph variable not implemented.")
 public class TriplePatternsContainingTheSameVariableTwiceNotImplementedException public constructor() : NotImplementedException("TriplePatternsContainingTheSameVariableTwiceNotImplementedException", "triple pattern currently must not contain the same variable twice.")
+
 // syntax exceptions --->>>
 public abstract class SyntaxException public constructor(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
 public class RecoursiveVariableDefinitionSyntaxException public constructor(name: String) : SyntaxException("RecoursiveVariableDefinitionSyntaxException", "Recoursive variable definition not allowed '$name'.")
@@ -41,6 +45,7 @@ public class GroupByClauseNotUsedException public constructor() : SyntaxExceptio
 public class GroupByColumnMissing public constructor(name: String) : SyntaxException("GroupByColumnMissing", "Group By requires the column '$name', which does not exist within this GroupBy-Clause.")
 public class GroupByDuplicateColumnException public constructor() : SyntaxException("GroupByDuplicateColumnException", "no duplicate columns allowed in group-by.")
 public class XMLNotParseableException public constructor() : SyntaxException("XMLNotParseableException", "Xml is not parseable.")
+
 // evaluation exceptions --->>>
 public abstract class EvaluationException public constructor(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
 public class DatasetImportFailedException public constructor(file: String) : EvaluationException("DatasetImportFailedException", "importing the dataset '$file' failed")
@@ -79,8 +84,10 @@ public class GraphNameNotExistsDuringDeleteException public constructor(name: St
 public class GraphNameNotFoundException public constructor(name: String) : EvaluationException("GraphNameNotFoundException", "The graph '$name' does not exist.")
 public class UnreachableException public constructor() : EvaluationException("UnreachableException", "This should be unreachable.")
 public class EmptyResultException public constructor() : EvaluationException("EmptyResultException", "")
+
 // known bugs --->>>
 public class BugException public constructor(classname: String, bugname: String) : Luposdate3000Exception("BugException", "class '$classname' has bug '$bugname'.")
 // used to indicate, that intentionally every exception is caught here
 public typealias DontCareWhichException = Throwable
+
 public class JenaBugException public constructor(bugname: String) : Luposdate3000Exception("JenaBugException", "Jena has bug: '$bugname'")

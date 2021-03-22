@@ -14,22 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s05tripleStore.index_IDTriple
+
+import lupos.dictionary.DictionaryExt
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
+
 internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock) {
     @JvmField
     var value0 = 0
+
     @JvmField
     var value1 = 0
+
     @JvmField
     var value2 = 0
+
     init {
         label = 3
     }
+
     override /*suspend*/ fun next(): Int {
         if (label == 3) {
             label = 2
@@ -52,12 +57,12 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
                     }
                     if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1])) {
                         _close()
-                        return ResultSetDictionaryExt.nullValue
+                        return DictionaryExt.nullValue
                     } else {
                         done = value0 == prefix[0] && value1 == prefix[1]
                         updateRemaining {
                             if (!done) {
-                                value2 = ResultSetDictionaryExt.nullValue
+                                value2 = DictionaryExt.nullValue
                             }
                             done = true
                         }
@@ -82,17 +87,18 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
                 }
                 if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1])) {
                     _close()
-                    return ResultSetDictionaryExt.nullValue
+                    return DictionaryExt.nullValue
                 } else {
                     updateRemaining()
                 }
                 return value2
             }
             else -> {
-                return ResultSetDictionaryExt.nullValue
+                return DictionaryExt.nullValue
             }
         }
     }
+
     override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
         if (label == 3) {
             label = 2
@@ -126,7 +132,7 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
                 if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1])) {
                     _close()
                     result[0] = 0
-                    result[1] = ResultSetDictionaryExt.nullValue
+                    result[1] = DictionaryExt.nullValue
                     return
                 }
                 if (value2 >= minValue) {
@@ -200,7 +206,7 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
                 if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1])) {
                     _close()
                     result[0] = 0
-                    result[1] = ResultSetDictionaryExt.nullValue
+                    result[1] = DictionaryExt.nullValue
                     return
                 } else {
                     updateRemaining()
@@ -213,12 +219,13 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
             }
             _close()
             result[0] = 0
-            result[1] = ResultSetDictionaryExt.nullValue
+            result[1] = DictionaryExt.nullValue
         } else {
             result[0] = 0
-            result[1] = ResultSetDictionaryExt.nullValue
+            result[1] = DictionaryExt.nullValue
         }
     }
+
     override /*suspend*/ fun skipSIP(skipCount: Int): Int {
         if (label == 3) {
             label = 2
@@ -288,11 +295,11 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
             if (value0 > prefix[0] || (value0 == prefix[0] && value1 > prefix[1])) {
 // this must not happen?!?
                 _close()
-                return ResultSetDictionaryExt.nullValue
+                return DictionaryExt.nullValue
             }
             return value2
         } else {
-            return ResultSetDictionaryExt.nullValue
+            return DictionaryExt.nullValue
         }
     }
 }

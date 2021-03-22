@@ -1,0 +1,4 @@
+package=Luposdate3000_Code_Generator_KSP
+name=Luposdate3000_Code_Generator_KSP
+enabled=always
+enabledRun=never

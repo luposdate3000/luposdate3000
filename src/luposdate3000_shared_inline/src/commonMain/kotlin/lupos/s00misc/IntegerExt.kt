@@ -14,8 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package lupos.s00misc
 
-package lupos.modulename
-internal expect object _IntegerExt {
-    internal inline fun numberOfLeadingZeros(value: Int): Int
-}
+internal typealias IntegerExt = lupos.modulename._IntegerExt

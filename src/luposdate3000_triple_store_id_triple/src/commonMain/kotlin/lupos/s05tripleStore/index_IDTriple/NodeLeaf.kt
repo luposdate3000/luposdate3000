@@ -14,24 +14,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s05tripleStore.index_IDTriple
+
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator
+
 internal object NodeLeaf {
     const val START_OFFSET = 12
-    @Suppress("NOTHING_TO_INLINE") internal inline fun getFirstTriple(node: ByteArray, b: IntArray) {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun getFirstTriple(node: ByteArray, b: IntArray) {
         NodeShared.readTriple111(node, START_OFFSET, 0, 0, 0) { v0, v1, v2 ->
             b[0] = v0
             b[1] = v1
             b[2] = v2
         }
     }
-    @Suppress("NOTHING_TO_INLINE") internal inline fun iterator(node: ByteArray, nodeid: Int): TripleIterator {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun iterator(node: ByteArray, nodeid: Int): TripleIterator {
         return NodeLeafIterator(node, nodeid)
     }
-    @Suppress("NOTHING_TO_INLINE") /*suspend*/ internal inline fun iterator(node: ByteArray, nodeid: Int, lock: MyReadWriteLock, component: Int): ColumnIterator {
+
+    @Suppress("NOTHING_TO_INLINE")
+    /*suspend*/ internal inline fun iterator(node: ByteArray, nodeid: Int, lock: MyReadWriteLock, component: Int): ColumnIterator {
         return when (component) {
             0 -> {
                 NodeLeafColumnIterator0(node, nodeid, lock)
@@ -47,13 +54,19 @@ internal object NodeLeaf {
             }
         }
     }
-    @Suppress("NOTHING_TO_INLINE") /*suspend*/ internal inline fun iterator3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
+
+    @Suppress("NOTHING_TO_INLINE")
+    /*suspend*/ internal inline fun iterator3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         return NodeLeafColumnIteratorPrefix3(node, nodeid, prefix, lock)
     }
-    @Suppress("NOTHING_TO_INLINE") /*suspend*/ internal inline fun iterator2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
+
+    @Suppress("NOTHING_TO_INLINE")
+    /*suspend*/ internal inline fun iterator2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
         return NodeLeafColumnIteratorPrefix22(node, nodeid, prefix, lock)
     }
-    @Suppress("NOTHING_TO_INLINE") /*suspend*/ internal inline fun iterator1(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
+
+    @Suppress("NOTHING_TO_INLINE")
+    /*suspend*/ internal inline fun iterator1(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
         return when (component) {
             1 -> {
                 NodeLeafColumnIteratorPrefix11(node, nodeid, prefix, lock)
@@ -66,7 +79,9 @@ internal object NodeLeaf {
             }
         }
     }
-    @Suppress("NOTHING_TO_INLINE") internal inline fun initializeWith(node: ByteArray, nodeid: Int, iterator: TripleIterator) {
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun initializeWith(node: ByteArray, nodeid: Int, iterator: TripleIterator) {
         SanityCheck.check { iterator.hasNext() }
         var writtenTriples: MutableList<Int>? = null
         SanityCheck {
@@ -83,9 +98,6 @@ internal object NodeLeaf {
                 writtenTriples!!.add(tripleCurrent[1])
                 writtenTriples!!.add(tripleCurrent[2])
             }
-// if(nodeid>7000&&nodeid<8000){
-// println("node $nodeid :: write $offset $triples A")
-// }
             offset += NodeShared.writeTriple(node, offset, tripleLast, tripleCurrent)
             triples++
         }

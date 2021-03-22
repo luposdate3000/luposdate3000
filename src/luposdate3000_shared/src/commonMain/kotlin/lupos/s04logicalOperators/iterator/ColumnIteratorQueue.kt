@@ -14,15 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s04logicalOperators.iterator
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
+
+import lupos.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
+
 public abstract class ColumnIteratorQueue : ColumnIterator() {
     @JvmField
-    public var tmp: Int = ResultSetDictionaryExt.nullValue
+    public var tmp: Int = DictionaryExt.nullValue
+
     @JvmField
     public val queue: MutableList<Int> = mutableListOf()
+
     @JvmField
     public var label: Int = 1
 }

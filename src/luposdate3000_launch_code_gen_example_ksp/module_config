@@ -1,0 +1,4 @@
+package=Luposdate3000_Main
+name=Luposdate3000_Launch_Code_Gen_Example_KSP
+enabled=always
+codegenKSP=true

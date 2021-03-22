@@ -4,9 +4,9 @@
 
 1. Start with SPARQL-String
 2. Convert the String to Operator-AST - see Folder [sparql1_1](../src/luposdate3000_parser/src/commonMain/kotlin/lupos/s02buildSyntaxTree/sparql1_1)
-3. Convert the Operator-AST to Logical-Operatorgraph - see File [OperatorGraphVisitor.kt](../src/luposdate3000_optimizer/src/commonMain/kotlin/lupos/s06buildOperatorGraph/OperatorGraphVisitor.kt)
-4. Optimize Logical-Operatorgraph - see Folder [s08logicalOptimisation](../src/luposdate3000_optimizer/src/commonMain/kotlin/lupos/s08logicalOptimisation/)
-5. Convert Logical-Operatorgraph to Physical-Operatorgraph and optimize it - see Folder [s10physicalOptimisation](../src/luposdate3000_optimizer/src/commonMain/kotlin/lupos/s10physicalOptimisation/)
+3. Convert the Operator-AST to Logical-Operatorgraph - see File [OperatorGraphVisitor.kt](../src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/s06buildOperatorGraph/OperatorGraphVisitor.kt)
+4. Optimize Logical-Operatorgraph - see Folder [s08logicalOptimisation](../src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/s08logicalOptimisation/)
+5. Convert Logical-Operatorgraph to Physical-Operatorgraph and optimize it - see Folder [s10physicalOptimisation](../src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/s10physicalOptimisation/)
 6. Finally evaluate the Physical Operatorgraph (and convert the output to text) - see Folder [s11outputResult](../src/luposdate3000_result_format/src/commonMain/kotlin/lupos/s11outputResult/)
 7. The Physical Operators are first converted their final Iterator-representation
 8. The iterators.next function is called until it returns the No-More-Elements-ID

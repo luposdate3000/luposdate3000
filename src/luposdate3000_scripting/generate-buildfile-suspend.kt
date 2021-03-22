@@ -14,13 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
+
 enum class SuspendMode {
     Enable, Disable
 }
+
 val regexEnableSuspend = "/\\*suspend\\*/ ".toRegex()
 val regexDisableSuspend = "(^|[^a-zA-Z])suspend ".toRegex()
 public fun applySuspendEnable() {
@@ -31,6 +32,7 @@ public fun applySuspendEnable() {
         }
     }
 }
+
 public fun applySuspendDisable() {
     Files.walk(Paths.get("src.generated")).forEach { it ->
         val tmp = it.toString()
@@ -39,6 +41,7 @@ public fun applySuspendDisable() {
         }
     }
 }
+
 public fun applySuspend(f: String, suspendMode: SuspendMode) {
     val fileSource = File(f)
     val fileTarget = File(f + ".tmp")

@@ -14,14 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s00misc
+
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
-import kotlin.jvm.JvmField
+
 public class XMLElementFromN3 : XMLElementParser {
     override operator fun invoke(data: String): XMLElement {
         var nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
@@ -33,23 +33,7 @@ public class XMLElementFromN3 : XMLElementParser {
             nodeHead.addContent(XMLElement("variable").addAttribute("name", "s"))
             nodeHead.addContent(XMLElement("variable").addAttribute("name", "p"))
             nodeHead.addContent(XMLElement("variable").addAttribute("name", "o"))
-            val inputstream = object : IMyInputStream {
-                @JvmField
-                val dataBytes = data.encodeToByteArray()
-                @JvmField
-                var offset = 0
-                override fun read(buf: ByteArray): Int {
-                    var len = buf.size
-                    if (dataBytes.size - offset < len) {
-                        len = dataBytes.size - offset
-                    }
-                    if (len > 0) {
-                        dataBytes.copyInto(buf, 0, offset, offset + len)
-                        offset += len
-                    }
-                    return len
-                }
-            }
+            val inputstream = MyStringStream(data)
             val parser = object : Turtle2Parser(inputstream) {
                 override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                     val nodeResult = XMLElement("result")
@@ -59,7 +43,7 @@ public class XMLElementFromN3 : XMLElementParser {
                     XMLElement.parseBindingFromString(nodeResult, triple[2], "o")
                 }
             }
-            parser.turtleDoc()
+            parser.parse()
         } catch (e: Throwable) {
             nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
             val nodeHead = XMLElement("head")
@@ -82,7 +66,7 @@ public class XMLElementFromN3 : XMLElementParser {
                 }
             }
             x.ltit = ltit
-            x.turtleDoc()
+            x.parse()
         }
         return nodeSparql
     }

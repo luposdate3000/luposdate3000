@@ -1,0 +1,3 @@
+package=Luposdate3000_Main
+name=Luposdate3000_Launch_Endpoint
+enabled=always

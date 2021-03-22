@@ -14,14 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s00misc
+
 import kotlin.jvm.JvmField
+
 public object ETripleIndexTypeExt {
     public const val ID_TRIPLE: ETripleIndexType = 0
     public const val PARTITION: ETripleIndexType = 1
     public const val values_size: Int = 2
-    @JvmField public val names: Array<String> = arrayOf(
+
+    @JvmField
+    public val names: Array<String> = arrayOf(
         "ID_TRIPLE",
         "PARTITION",
     )

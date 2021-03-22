@@ -14,14 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s04logicalOperators.iterator
+
+import lupos.dictionary.DictionaryExt
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
+
 public open class RowIteratorFromColumn(@JvmField public val bundle: IteratorBundle) : RowIterator() {
     @JvmField
     public var iterators: Array<ColumnIterator>
+
     init {
         SanityCheck.check { bundle.hasColumnMode() }
         val keys = bundle.columns.keys.toList()
@@ -32,7 +34,7 @@ public open class RowIteratorFromColumn(@JvmField public val bundle: IteratorBun
             var res = 0
             for (columnIndex in columns.indices) {
                 val tmp = iterators[columnIndex].next()
-                if (tmp == ResultSetDictionaryExt.nullValue) {
+                if (tmp == DictionaryExt.nullValue) {
                     SanityCheck.check({ columnIndex == 0 }, { "" + iterators[columnIndex] })
                     res = -1
                     close()

@@ -14,21 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package lupos.s00misc
 
-package lupos.modulename
-import lupos.s00misc.IMyPrintWriter
-internal expect class _MyPrintWriter(hasBuffer: Boolean = true) : IMyPrintWriter {
-    override fun clearBuffer()
-    override fun toString(): String
-    override fun println(x: String)
-    override fun print(x: String)
-    override fun println(x: Boolean)
-    override fun print(x: Boolean)
-    override fun println(x: Int)
-    override fun print(x: Int)
-    override fun println(x: Double)
-    override fun print(x: Double)
-    override fun println()
-    override fun close()
-    override fun flush()
-}
+internal typealias MyPrintWriter = lupos.modulename._MyPrintWriter

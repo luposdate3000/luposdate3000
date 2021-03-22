@@ -1,0 +1,4 @@
+package=Luposdate3000_Buffer_Manager
+name=Luposdate3000_Buffer_Manager_Persistent
+enabled=always
+enabledRun=memoryMode:_Persistent

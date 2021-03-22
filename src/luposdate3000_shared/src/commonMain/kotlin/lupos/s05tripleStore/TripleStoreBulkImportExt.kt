@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s05tripleStore
+
 public object TripleStoreBulkImportExt {
     private fun mergeSort(source: IntArray, target: IntArray, off: Int, mid: Int, count: Int, orderBy: IntArray) {
         // assuming that "off .. off + count / 2" and "off + count / 2 .. off + count" are sorted
@@ -60,6 +60,7 @@ public object TripleStoreBulkImportExt {
             target[c++] = source[b++]
         }
     }
+
     public fun sortUsingBuffers(firstIdx: Int, dataIdxA: Int, dataIdxB: Int, data: Array<IntArray>, total: Int, order: IntArray) {
         /*in the first step the data is moved into dataIdxB*/
         var off: Int

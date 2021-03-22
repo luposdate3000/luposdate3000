@@ -14,20 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 package lupos.s05tripleStore.index_IDTriple
+
+import lupos.dictionary.DictionaryExt
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ResultSetDictionaryExt
 import kotlin.jvm.JvmField
+
 internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock) {
     @JvmField
     var value0 = 0
+
     @JvmField
     var value1 = 0
+
     init {
         label = 3
     }
+
     override /*suspend*/ fun next(): Int {
         if (label == 3) {
             label = 2
@@ -42,19 +46,18 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                         value0 = 0
                         value1 = 0
                     }
-// println("node $nodeid :: read $offset $remaining A")
                     offset += NodeShared.readTriple110(node, offset, value0, value1) { v0, v1 ->
                         value0 = v0
                         value1 = v1
                     }
                     if (value0 > prefix[0]) {
                         _close()
-                        return ResultSetDictionaryExt.nullValue
+                        return DictionaryExt.nullValue
                     } else {
                         done = value0 == prefix[0]
                         updateRemaining {
                             if (!done) {
-                                value1 = ResultSetDictionaryExt.nullValue
+                                value1 = DictionaryExt.nullValue
                             }
                             done = true
                         }
@@ -71,24 +74,24 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                     value0 = 0
                     value1 = 0
                 }
-// println("node $nodeid :: read $offset $remaining B")
                 offset += NodeShared.readTriple110(node, offset, value0, value1) { v0, v1 ->
                     value0 = v0
                     value1 = v1
                 }
                 if (value0 > prefix[0]) {
                     _close()
-                    return ResultSetDictionaryExt.nullValue
+                    return DictionaryExt.nullValue
                 } else {
                     updateRemaining()
                 }
                 return value1
             }
             else -> {
-                return ResultSetDictionaryExt.nullValue
+                return DictionaryExt.nullValue
             }
         }
     }
+
     override /*suspend*/ fun nextSIP(minValue: Int, result: IntArray) {
         if (label == 3) {
             label = 2
@@ -113,7 +116,6 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
             }
             while (remaining > 0) {
                 counter++
-// println("node $nodeid :: read $offset $remaining C")
                 offset += NodeShared.readTriple110(node, offset, value0, value1) { v0, v1 ->
                     value0 = v0
                     value1 = v1
@@ -121,7 +123,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 if (value0 > prefix[0]) {
                     _close()
                     result[0] = 0
-                    result[1] = ResultSetDictionaryExt.nullValue
+                    result[1] = DictionaryExt.nullValue
                     return
                 }
                 if (value1 >= minValue) {
@@ -147,7 +149,6 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 val remainingTmp = NodeShared.getTripleCount(nodeTmp)
                 SanityCheck.check { remainingTmp > 0 }
                 var offsetTmp = NodeLeaf.START_OFFSET
-// println("node $nodeid :: read $offset_tmp $remaining_tmp D")
                 offsetTmp += NodeShared.readTriple110(nodeTmp, offsetTmp, 0, 0) { v0, v1 ->
                     value0Tmp = v0
                     value1Tmp = v1
@@ -165,7 +166,6 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 value0 = value0Tmp
                 value1 = value1Tmp
                 offset = offsetTmp
-// println("node $nodeid :: init $offset $remaining A")
                 needsReset = false
                 usedNextPage = true
                 nodeidTmp = NodeShared.getNextNode(node)
@@ -185,7 +185,6 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                     value0 = 0
                     value1 = 0
                 }
-// println("node $nodeid :: read $offset $remaining E")
                 offset += NodeShared.readTriple110(node, offset, value0, value1) { v0, v1 ->
                     value0 = v0
                     value1 = v1
@@ -193,7 +192,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 if (value0 > prefix[0]) {
                     _close()
                     result[0] = 0
-                    result[1] = ResultSetDictionaryExt.nullValue
+                    result[1] = DictionaryExt.nullValue
                     return
                 } else {
                     updateRemaining()
@@ -206,12 +205,13 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
             }
             _close()
             result[0] = 0
-            result[1] = ResultSetDictionaryExt.nullValue
+            result[1] = DictionaryExt.nullValue
         } else {
             result[0] = 0
-            result[1] = ResultSetDictionaryExt.nullValue
+            result[1] = DictionaryExt.nullValue
         }
     }
+
     override /*suspend*/ fun skipSIP(skipCount: Int): Int {
         if (label == 3) {
             label = 2
@@ -242,7 +242,6 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 remaining = NodeShared.getTripleCount(node)
                 needsReset = true
                 offset = NodeLeaf.START_OFFSET
-                // println("node $nodeid :: init $offset $remaining B")
                 SanityCheck.check { remaining > 0 }
                 SanityCheck.check { label != 0 }
             }
@@ -255,7 +254,6 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
             SanityCheck.check { remaining >= 0 }
             SanityCheck.check { toSkip > 0 }
             while (toSkip > 0) {
-                // println("node $nodeid :: read $offset $remaining F")
                 offset += NodeShared.readTriple110(node, offset, value0, value1) { v0, v1 ->
                     value0 = v0
                     value1 = v1
@@ -281,11 +279,11 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
             if (value0 > prefix[0]) {
 // this must not happen?!?
                 _close()
-                return ResultSetDictionaryExt.nullValue
+                return DictionaryExt.nullValue
             }
             return value1
         } else {
-            return ResultSetDictionaryExt.nullValue
+            return DictionaryExt.nullValue
         }
     }
 }
