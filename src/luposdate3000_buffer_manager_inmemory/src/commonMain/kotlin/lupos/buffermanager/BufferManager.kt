@@ -76,6 +76,8 @@ public class BufferManager {
     public fun getPage(pageid: Int): ByteArray {
         // no locking required, assuming an assignment to 'allPages' is atomic
         SanityCheck {
+            SanityCheck.check { pageid < counter }
+            SanityCheck.check { pageid >= 0 }
             if (BUFFER_MANAGER_USE_FREE_LIST) {
                 SanityCheck.check { !freeList.contains(pageid) }
             }
