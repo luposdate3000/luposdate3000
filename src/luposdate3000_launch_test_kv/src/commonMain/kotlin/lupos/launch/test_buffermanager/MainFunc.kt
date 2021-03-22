@@ -264,6 +264,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
     for ((k, v) in mapping) {
         testGetValueOk(values[v], k)
     }
-    kv.close()
+    kv.delete()
+    if (bufferManager.getNumberOfAllocatedPages() != 0) {
+        throw Exception("")
+    }
     bufferManager.close()
 }

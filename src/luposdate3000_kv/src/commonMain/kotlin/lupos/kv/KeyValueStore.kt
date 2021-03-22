@@ -80,12 +80,31 @@ public class KeyValueStore {
     }
 
     @ProguardTestAnnotation
+    public fun delete() {
+        bufferManager.releasePage(lastPage)
+        var lastID = -1
+        for (i in 0 until nextID) {
+            val pageid = mappingID2Page[i]
+            if (pageid != lastID) {
+                bufferManager.getPage(pageid)
+                bufferManager.deletePage(pageid)
+                lastID = pageid
+            }
+        }
+        SanityCheck.check { lastID == lastPage }
+        mappingID2Page.delete()
+        mappingID2Off.delete()
+        mappingSorted.delete()
+        bufferManager.deletePage(rootPageID)
+    }
+
+    @ProguardTestAnnotation
     public fun close() {
         mappingID2Page.close()
         mappingID2Off.close()
         mappingSorted.close()
-        bufferManager.releasePage(lastPage)
         bufferManager.releasePage(rootPageID)
+        bufferManager.releasePage(lastPage)
     }
 
     private inline fun readData(page: Int, off: Int): ByteArray {

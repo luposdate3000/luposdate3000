@@ -143,4 +143,23 @@ public class MyIntArray {
     public fun close() {
         bufferManager.releasePage(rootPageID)
     }
+
+    @ProguardTestAnnotation
+    public fun delete() {
+        val dataPages = (capacity + valuesPerPage - 1) / valuesPerPage
+        val innerPages = (dataPages + valuesPerPage - 1) / valuesPerPage
+        for (i in 0 until innerPages) {
+            val pageid = ByteArrayHelper.readInt4(rootPage, i * 4)
+            val page = bufferManager.getPage(pageid)
+            for (j in 0 until valuesPerPage) {
+                if (i * valuesPerPage + j < dataPages) {
+                    val pageid2 = ByteArrayHelper.readInt4(page, j * 4)
+                    bufferManager.getPage(pageid2)
+                    bufferManager.deletePage(pageid2)
+                }
+            }
+            bufferManager.deletePage(pageid)
+        }
+        bufferManager.deletePage(rootPageID)
+    }
 }

@@ -218,6 +218,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
     for (i in 0 until dataSize) {
         testGetOk(i)
     }
-    arr.close()
+    arr.delete()
+    if (bufferManager.getNumberOfAllocatedPages() != 0) {
+        throw Exception("")
+    }
     bufferManager.close()
 }
