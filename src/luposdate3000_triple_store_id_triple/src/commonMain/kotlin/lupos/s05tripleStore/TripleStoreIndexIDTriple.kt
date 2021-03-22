@@ -948,8 +948,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         lock.writeUnlock()
     }
 
-    override fun deleteIndex() {
+    override fun delete() {
         clear()
         bufferManager.deletePage(rootPageID)
+    }
+
+    override fun close() {
+        flush()
+        bufferManager.releasePage(rootPageID)
     }
 }

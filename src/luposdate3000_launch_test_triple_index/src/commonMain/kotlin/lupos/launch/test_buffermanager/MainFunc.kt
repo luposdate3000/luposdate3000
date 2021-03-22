@@ -17,10 +17,12 @@
 package lupos.launch.test_kv
 
 import lupos.buffermanager.BufferManager
-import lupos.kv.KeyValueStore
+import lupos.dictionary.DictionaryExt
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
+import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s05tripleStore.TripleStoreIndex
 import lupos.s05tripleStore.TripleStoreIndexIDTriple
 import kotlin.math.abs
@@ -112,159 +114,426 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
         rootPage = pageid
     }
     bufferManager.releasePage(rootPage)
-    val index: TripleStoreIndex = TripleStoreIndexIDTriple()
-
-    val values = mutableListOf<ByteArray>()
-    val mapping = mutableMapOf<Int, Int>() // kv.id -> values.idx
-
-    var usedGenerators = mutableMapOf<Int, MutableSet<Int>>() // len -> seed
-
-    fun getExistingData(rng: Int, action: (ByteArray, Int) -> Unit) {
-        val ids = mutableListOf<Int>()
-        ids.addAll(mapping.keys)
-        if (ids.size > 0) {
-            val key = ids[abs(rng % ids.size)]
-            action(values[mapping[key]!!], key)
+    val order = intArrayOf(0, 1, 2)
+    var index: TripleStoreIndex = TripleStoreIndexIDTriple(bufferManager, rootPage, false)
+    val dataBuffer = mutableSetOf<Int>() // 2Bytes S, 1 Byte P, 1 Byte O -> this allows fast and easy sorting
+    val insertBuffer = IntArray(3000)
+    var insertBufferSize = 0
+    val deleteBuffer = IntArray(3000)
+    var deleteBufferSize = 0
+    fun mergeSPO(s: Int, p: Int, o: Int): Int = (s and 0x8fff0000.toInt()) + ((p and 0x8f000000.toInt()) shr 16) + ((o and 0x8f000000.toInt()) shr 24)
+    fun splitSPO(v: Int, action: (Int, Int, Int) -> Unit) = action(v and 0x8fff0000.toInt(), (v and 0x00008f00.toInt()) shl 16, (v and 0x0000008f.toInt()) shl 24)
+    fun filterArrToFun(filter: IntArray): (Int) -> Boolean {
+        var res: (Int) -> Boolean = { true }
+        when (filter.size) {
+            1 -> {
+                res = { it ->
+                    var x = true
+                    splitSPO(it) { s, p, o ->
+                        x = s == filter[0]
+                    }
+                    x
+                }
+            }
+            2 -> {
+                res = { it ->
+                    var x = true
+                    splitSPO(it) { s, p, o ->
+                        x = s == filter[0] && p == filter[1]
+                    }
+                    x
+                }
+            }
+            3 -> {
+                res = { it ->
+                    var x = true
+                    splitSPO(it) { s, p, o ->
+                        x = s == filter[0] && p == filter[1] && o == filter[2]
+                    }
+                    x
+                }
+            }
         }
+        return res
     }
 
-    fun getNotExistingKey(rng: Int, action: (Int) -> Unit) {
-        val ids = MutableList<Int>(1000) { it }
-        ids.removeAll(mapping.keys)
-        if (ids.size > 0) {
-            val key = ids[abs(rng % ids.size)]
-            action(key)
+    fun testInsertOk() {
+        var i = 0
+        while (i < insertBufferSize) {
+            dataBuffer.add(mergeSPO(insertBuffer[i + 0], insertBuffer[i + 1], insertBuffer[i + 2]))
+            i += 3
         }
+        index.insertAsBulk(insertBuffer, order, insertBufferSize)
+        insertBufferSize = 0
     }
 
-    fun getNotExistingData(rng: Int, action: (ByteArray) -> Unit) {
-        var len = abs(rng / 256) % maxSize
-        var seed = abs(rng % 256)
-        if (usedGenerators[len] == null) {
-            usedGenerators[len] = mutableSetOf<Int>()
+    fun prepareInsert(rng: Int) {
+        if (insertBufferSize + 3 > insertBuffer.size) {
+            testInsertOk()
+        }
+        var myRng = abs(rng)
+        var myS = 0
+        var myP = 0
+        var myO = 0
+        splitSPO(myRng) { s, p, o ->
+            myS = s
+            myP = p
+            myO = o
+        }
+        myRng = mergeSPO(myS, myP, myO)
+        splitSPO(myRng) { s, p, o ->
+            if (myS != s || myP != p || myO != o) {
+                throw Exception("")
+            }
+        }
+        insertBuffer[insertBufferSize++] = myS
+        insertBuffer[insertBufferSize++] = myP
+        insertBuffer[insertBufferSize++] = myO
+    }
+
+    fun testDeleteOk() {
+        var i = 0
+        while (i < deleteBufferSize) {
+            dataBuffer.remove(mergeSPO(deleteBuffer[i + 0], deleteBuffer[i + 1], deleteBuffer[i + 2]))
+            i += 3
+        }
+        index.removeAsBulk(deleteBuffer, order, deleteBufferSize)
+        deleteBufferSize = 0
+    }
+
+    fun prepareDelete(rng: Int) {
+        if (deleteBufferSize + 3 > deleteBuffer.size) {
+            testDeleteOk()
+        }
+        var myRng = if (rng == 0) {
+            1
+        } else if (rng < 0) {
+            -rng
         } else {
-            while (usedGenerators[len]!!.contains(seed)) {
-                if (seed < 255) {
-                    seed++
-                } else {
-                    len = (len + 1) % maxSize
-                    seed = 0
-                    if (usedGenerators[len] == null) {
-                        usedGenerators[len] = mutableSetOf<Int>()
-                        break
+            rng
+        }
+        var myS = 0
+        var myP = 0
+        var myO = 0
+        splitSPO(myRng) { s, p, o ->
+            myS = s
+            myP = p
+            myO = o
+        }
+        myRng = mergeSPO(myS, myP, myO)
+        splitSPO(myRng) { s, p, o ->
+            if (myS != s || myP != p || myO != o) {
+                throw Exception("")
+            }
+        }
+        deleteBuffer[deleteBufferSize++] = myS
+        deleteBuffer[deleteBufferSize++] = myP
+        deleteBuffer[deleteBufferSize++] = myO
+    }
+
+    fun testFlushOk() {
+        index.flush()
+    }
+
+    fun testClearOk() {
+        dataBuffer.clear()
+        index.clear()
+    }
+
+    fun verifyS(bundle: IteratorBundle, filter: IntArray) {
+        val iter = bundle.columns["s"]!!
+        val list = dataBuffer.filter(filterArrToFun(filter)).sorted()
+        var listIdx = 0
+        var value = iter.next()
+        while (value != DictionaryExt.nullValue) {
+            splitSPO(list[listIdx]) { s, p, o ->
+                if (s != value) {
+                    throw Exception("")
+                }
+            }
+            listIdx++
+        }
+        if (listIdx < list.size) {
+            throw Exception("")
+        }
+    }
+
+    fun verifyP(bundle: IteratorBundle, filter: IntArray) {
+        val iter = bundle.columns["p"]!!
+        val list = dataBuffer.filter(filterArrToFun(filter)).sorted()
+        var listIdx = 0
+        var value = iter.next()
+        while (value != DictionaryExt.nullValue) {
+            splitSPO(list[listIdx]) { s, p, o ->
+                if (p != value) {
+                    throw Exception("")
+                }
+            }
+            listIdx++
+        }
+        if (listIdx < list.size) {
+            throw Exception("")
+        }
+    }
+
+    fun verifyO(bundle: IteratorBundle, filter: IntArray) {
+        val iter = bundle.columns["o"]!!
+        val list = dataBuffer.filter(filterArrToFun(filter)).sorted()
+        var listIdx = 0
+        var value = iter.next()
+        while (value != DictionaryExt.nullValue) {
+            splitSPO(list[listIdx]) { s, p, o ->
+                if (o != value) {
+                    throw Exception("")
+                }
+            }
+            listIdx++
+        }
+        if (listIdx < list.size) {
+            throw Exception("")
+        }
+    }
+
+    fun verifyCount(bundle: IteratorBundle, filter: IntArray) {
+        if (bundle.count() != dataBuffer.filter(filterArrToFun(filter)).size) {
+            throw Exception("")
+        }
+    }
+
+    fun trimListToFilter(filter: Int, list: List<String>): List<String> {
+        when (filter) {
+            1 -> return listOf(list[1], list[2])
+            2 -> return listOf(list[2])
+            3 -> return listOf()
+            else -> return list
+        }
+    }
+
+    fun testGetIterator_sxx_Ok(filter: IntArray) {
+        val query = Query()
+        val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("s", "_", "_")))
+        when (filter.size) {
+            0 -> {
+                if (bundle.columns.size != 1) {
+                    throw Exception("")
+                }
+                verifyS(bundle, filter)
+            }
+            1, 2, 3 -> verifyCount(bundle, filter)
+        }
+    }
+
+    fun testGetIterator_xpx_Ok(filter: IntArray) {
+        val query = Query()
+        val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("_", "p", "_")))
+        when (filter.size) {
+            0, 1 -> {
+                if (bundle.columns.size != 1) {
+                    throw Exception("")
+                }
+                verifyP(bundle, filter)
+            }
+            2, 3 -> verifyCount(bundle, filter)
+        }
+    }
+
+    fun testGetIterator_xxo_Ok(filter: IntArray) {
+        val query = Query()
+        val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("_", "_", "o")))
+        when (filter.size) {
+            0, 1, 2 -> {
+                if (bundle.columns.size != 1) {
+                    throw Exception("")
+                }
+                verifyO(bundle, filter)
+            }
+            3 -> verifyCount(bundle, filter)
+        }
+    }
+
+    fun testGetIterator_spx_Ok(filter: IntArray) {
+        val query = Query()
+        val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("s", "p", "_")))
+        when (filter.size) {
+            0 -> {
+                if (bundle.columns.size != 2) {
+                    throw Exception("")
+                }
+                verifyS(bundle, filter)
+                verifyP(bundle, filter)
+            }
+            1 -> {
+                if (bundle.columns.size != 1) {
+                    throw Exception("")
+                }
+                verifyP(bundle, filter)
+            }
+            2, 3 -> verifyCount(bundle, filter)
+        }
+    }
+
+    fun testGetIterator_xpo_Ok(filter: IntArray) {
+        val query = Query()
+        val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("_", "p", "o")))
+        when (filter.size) {
+            0, 1 -> {
+                if (bundle.columns.size != 2) {
+                    throw Exception("")
+                }
+                verifyP(bundle, filter)
+                verifyO(bundle, filter)
+            }
+            2 -> {
+                if (bundle.columns.size != 1) {
+                    throw Exception("")
+                }
+                verifyO(bundle, filter)
+            }
+            3 -> verifyCount(bundle, filter)
+        }
+    }
+
+    fun testGetIterator_sxo_Ok(filter: IntArray) {
+        val query = Query()
+        val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("s", "_", "o")))
+        when (filter.size) {
+            0 -> {
+                if (bundle.columns.size != 2) {
+                    throw Exception("")
+                }
+                verifyS(bundle, filter)
+                verifyO(bundle, filter)
+            }
+            1, 2 -> {
+                if (bundle.columns.size != 1) {
+                    throw Exception("")
+                }
+                verifyO(bundle, filter)
+            }
+            3 -> verifyCount(bundle, filter)
+        }
+    }
+
+    fun testGetIterator_spo_Ok(filter: IntArray) {
+        val query = Query()
+        val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("s", "p", "o")))
+        when (filter.size) {
+            0 -> {
+                if (bundle.columns.size != 3) {
+                    throw Exception("")
+                }
+                verifyS(bundle, filter)
+                verifyP(bundle, filter)
+                verifyO(bundle, filter)
+            }
+            1 -> {
+                if (bundle.columns.size != 2) {
+                    throw Exception("")
+                }
+                verifyP(bundle, filter)
+                verifyO(bundle, filter)
+            }
+            2 -> {
+                if (bundle.columns.size != 1) {
+                    throw Exception("")
+                }
+                verifyO(bundle, filter)
+            }
+            3 -> verifyCount(bundle, filter)
+        }
+    }
+
+    fun testGetIterator_xxx_Ok(filter: IntArray) {
+        val query = Query()
+        val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("_", "_", "_")))
+        verifyCount(bundle, filter)
+    }
+
+    fun getFilter(mode: Int, rng: Int, action: (IntArray) -> Unit) {
+        if (dataBuffer.size == 0) {
+            action(intArrayOf())
+        } else {
+            val tmp = dataBuffer.toList()[abs(rng) % dataBuffer.size]
+            when (mode) {
+                0 -> {
+                    action(intArrayOf())
+                }
+                1 -> {
+                    splitSPO(tmp) { s, p, o ->
+                        action(intArrayOf(s))
+                    }
+                }
+                2 -> {
+                    splitSPO(tmp) { s, p, o ->
+                        action(intArrayOf(s, p))
+                    }
+                }
+                3 -> {
+                    splitSPO(tmp) { s, p, o ->
+                        action(intArrayOf(s, p, o))
                     }
                 }
             }
         }
-        if (len == 0) {
-            for (i in 0 until 256) {
-                usedGenerators[len]!!.add(i)
-            }
-        } else {
-            usedGenerators[len]!!.add(seed)
-        }
-        action(ByteArray(len) { (it + seed).toByte() })
     }
-
-    fun testCreateValueExistingOk(data: ByteArray, targetKey: Int) {
-        if (verbose) {
-            println("testCreateValueExistingOk $targetKey ${data.map { it }}")
-        }
-        val key = kv.createValue(data)
-        if (mapping[key] != targetKey) {
-            throw Exception("")
-        }
-    }
-
-    fun testCreateValueNotExistingOk(data: ByteArray) {
-        val key = kv.createValue(data)
-        if (verbose) {
-            println("testCreateValueNotExistingOk $key ${data.map { it }}")
-        }
-        if (mapping[key] != null) {
-            throw Exception("")
-        }
-        mapping[key] = values.size
-        values.add(data)
-    }
-
-    fun testHasValueExistingOk(data: ByteArray, targetKey: Int) {
-        if (verbose) {
-            println("testHasValueYesOk $targetKey ${data.map { it }}")
-        }
-        val res = kv.hasValue(data)
-        if (res != targetKey) {
-            throw Exception("$res $targetKey")
-        }
-    }
-
-    fun testHasValueNotExistingOk(data: ByteArray) {
-        if (verbose) {
-            println("testHasValueNoOk ${data.map { it }}")
-        }
-        val res = kv.hasValue(data)
-        if (res != null) {
-            throw Exception("")
-        }
-    }
-
-    fun testGetValueOk(data: ByteArray, key: Int) {
-        if (verbose) {
-            println("testGetValueOk $key ${data.map { it }}")
-        }
-        val value = kv.getValue(key)
-        val target = values[mapping[key]!!]
-        if (value.size != target.size) {
-            throw Exception("")
-        }
-        for (i in 0 until value.size) {
-            if (value[i] != target[i]) {
-                throw Exception("")
-            }
-        }
-    }
-
-    fun testGetValueFail(key: Int) {
-        if (verbose) {
-            println("testGetValueFail $key")
-        }
-        var flag = true
-        try {
-            kv.getValue(key)
-        } catch (e: Throwable) {
-            flag = false
-        }
-        if (flag) {
-            throw Exception("")
-        }
-    }
-
     while (hasNextRandom()) {
-        val mode = abs(nextRandom() % 6)
+        val mode = abs(nextRandom() % 38)
+        if (!hasNextRandom()) {
+            break
+        }
+        prepareInsert(nextRandom())
         if (!hasNextRandom()) {
             break
         }
         val rng = nextRandom()
         when (mode) {
-            0 -> getExistingData(rng) { v, k -> testCreateValueExistingOk(v, k) }
-            1 -> getNotExistingData(rng) { v -> testCreateValueNotExistingOk(v) }
-
-            2 -> getExistingData(rng) { v, k -> testHasValueExistingOk(v, k) }
-            3 -> getNotExistingData(rng) { v -> testHasValueNotExistingOk(v) }
-
-            4 -> getExistingData(rng) { v, k -> testGetValueOk(v, k) }
-            5 -> getNotExistingKey(rng) { k -> testGetValueFail(k) }
+            0 -> prepareDelete(rng)
+            1 -> testDeleteOk()
+            2 -> prepareInsert(rng)
+            3 -> testInsertOk()
+            4 -> testFlushOk()
+            5 -> testClearOk()
+            6 -> getFilter(0, rng) { testGetIterator_sxx_Ok(it) }
+            7 -> getFilter(0, rng) { testGetIterator_xpx_Ok(it) }
+            8 -> getFilter(0, rng) { testGetIterator_xxo_Ok(it) }
+            9 -> getFilter(0, rng) { testGetIterator_spx_Ok(it) }
+            10 -> getFilter(0, rng) { testGetIterator_xpo_Ok(it) }
+            11 -> getFilter(0, rng) { testGetIterator_sxo_Ok(it) }
+            12 -> getFilter(0, rng) { testGetIterator_spo_Ok(it) }
+            13 -> getFilter(0, rng) { testGetIterator_xxx_Ok(it) }
+            14 -> getFilter(1, rng) { testGetIterator_sxx_Ok(it) }
+            15 -> getFilter(1, rng) { testGetIterator_xpx_Ok(it) }
+            16 -> getFilter(1, rng) { testGetIterator_xxo_Ok(it) }
+            17 -> getFilter(1, rng) { testGetIterator_spx_Ok(it) }
+            18 -> getFilter(1, rng) { testGetIterator_xpo_Ok(it) }
+            19 -> getFilter(1, rng) { testGetIterator_sxo_Ok(it) }
+            20 -> getFilter(1, rng) { testGetIterator_spo_Ok(it) }
+            21 -> getFilter(1, rng) { testGetIterator_xxx_Ok(it) }
+            22 -> getFilter(2, rng) { testGetIterator_sxx_Ok(it) }
+            23 -> getFilter(2, rng) { testGetIterator_xpx_Ok(it) }
+            24 -> getFilter(2, rng) { testGetIterator_xxo_Ok(it) }
+            25 -> getFilter(2, rng) { testGetIterator_spx_Ok(it) }
+            26 -> getFilter(2, rng) { testGetIterator_xpo_Ok(it) }
+            27 -> getFilter(2, rng) { testGetIterator_sxo_Ok(it) }
+            28 -> getFilter(2, rng) { testGetIterator_spo_Ok(it) }
+            29 -> getFilter(2, rng) { testGetIterator_xxx_Ok(it) }
+            30 -> getFilter(3, rng) { testGetIterator_sxx_Ok(it) }
+            31 -> getFilter(3, rng) { testGetIterator_xpx_Ok(it) }
+            32 -> getFilter(3, rng) { testGetIterator_xxo_Ok(it) }
+            33 -> getFilter(3, rng) { testGetIterator_spx_Ok(it) }
+            34 -> getFilter(3, rng) { testGetIterator_xpo_Ok(it) }
+            35 -> getFilter(3, rng) { testGetIterator_sxo_Ok(it) }
+            36 -> getFilter(3, rng) { testGetIterator_spo_Ok(it) }
+            37 -> getFilter(3, rng) { testGetIterator_xxx_Ok(it) }
         }
     }
-    for ((k, v) in mapping) {
-        testGetValueOk(values[v], k)
-    }
-    kv.close()
-    kv = KeyValueStore(bufferManager, rootPage, true)
-    for ((k, v) in mapping) {
-        testGetValueOk(values[v], k)
-    }
-    kv.delete()
+    testDeleteOk()
+    testInsertOk()
+    getFilter(0, 0) { testGetIterator_spo_Ok(it) }
+    index.close()
+    index = TripleStoreIndexIDTriple(bufferManager, rootPage, true)
+    getFilter(0, 0) { testGetIterator_spo_Ok(it) }
+    index.delete()
     if (bufferManager.getNumberOfAllocatedPages() != 0) {
         throw Exception("")
     }

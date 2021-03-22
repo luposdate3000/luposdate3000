@@ -279,7 +279,7 @@ public class TripleStoreManagerImpl(
             for (index in graph.indices) {
                 for (store in index.getAllLocations()) {
                     if (store.first == localhost) {
-                        localStores[store.second]!!.deleteIndex()
+                        localStores[store.second]!!.delete()
                         localStores.remove(store.second)
                     } else {
                         if (origin) {

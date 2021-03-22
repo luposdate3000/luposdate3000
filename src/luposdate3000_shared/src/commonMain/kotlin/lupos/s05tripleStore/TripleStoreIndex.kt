@@ -16,15 +16,19 @@
  */
 package lupos.s05tripleStore
 
+import lupos.ProguardTestAnnotation
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 public interface TripleStoreIndex {
-    public fun deleteIndex()
+    public fun delete()
     public fun getIterator(query: IQuery, filter: IntArray, projection: List<String>): IteratorBundle
     public fun clear()
     public fun flush()
     public fun getHistogram(query: IQuery, filter: IntArray): Pair<Int, Int>
     public fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int)
     public fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int)
+
+    @ProguardTestAnnotation
+    public fun close()
 }
