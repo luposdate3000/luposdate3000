@@ -948,6 +948,11 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
+        SanityCheck {
+            for (i in 0 until dataSize / 3) {
+                println("insertAsBulk (${data[i * 3 + order[0]].toString(16).padStart(8, '0')},${data[i * 3 + order[1]].toString(16).padStart(8, '0')},${data[i * 3 + order[2]].toString(16).padStart(8, '0')})")
+            }
+        }
         flushContinueWithWriteLock()
         val d = arrayOf(data, IntArray(dataSize))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
@@ -976,6 +981,11 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
+        SanityCheck {
+            for (i in 0 until dataSize / 3) {
+                println("removeAsBulk (0x${data[i * 3 + order[0]].toString(16).padStart(8, '0')},0x${data[i * 3 + order[1]].toString(16).padStart(8, '0')},0x${data[i * 3 + order[2]].toString(16).padStart(8, '0')})")
+            }
+        }
         flushContinueWithWriteLock()
         val d = arrayOf(data, IntArray(dataSize))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)

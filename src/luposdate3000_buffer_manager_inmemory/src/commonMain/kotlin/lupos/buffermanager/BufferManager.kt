@@ -72,7 +72,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
                     tmp[i] = allPagesRefcounters[i]
                 }
             }
-            println("getNumberOfReferencedPages = $tmp")
+            SanityCheck.println_buffermanager { "getNumberOfReferencedPages = $tmp" }
         }
         return res
     }

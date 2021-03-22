@@ -75,7 +75,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
             if (tmp < 0) {
                 tmp = -tmp
             }
-            var testCase = "test_triple_index_${tmp.toString(16)}.data"
+            var testCase = "test_triple_index_${tmp.toString(16).padStart(8, '0')}.data"
             if (verbose) {
                 println("case $tests :: $cnt $testCase")
             }
@@ -125,8 +125,8 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     var insertBufferSize = 0
     val deleteBuffer = IntArray(3000)
     var deleteBufferSize = 0
-    fun mergeSPO(s: Int, p: Int, o: Int): Int = (s and 0x8fff0000.toInt()) + ((p and 0x8f000000.toInt()) shr 16) + ((o and 0x8f000000.toInt()) shr 24)
-    fun splitSPO(v: Int, action: (Int, Int, Int) -> Unit) = action(v and 0x8fff0000.toInt(), (v and 0x00008f00.toInt()) shl 16, (v and 0x0000008f.toInt()) shl 24)
+    fun mergeSPO(s: Int, p: Int, o: Int): Int = (s and 0x7fff0000.toInt()) or ((p and 0x7f000000.toInt()) shr 16) or ((o and 0x7f000000.toInt()) shr 24)
+    fun splitSPO(v: Int, action: (Int, Int, Int) -> Unit) = action(v and 0x7fff0000.toInt(), (v and 0x00007f00.toInt()) shl 16, (v and 0x0000007f.toInt()) shl 24)
     fun filterArrToFun(filter: IntArray): (Int) -> Boolean {
         var res: (Int) -> Boolean = { true }
         when (filter.size) {
@@ -163,11 +163,13 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
 
     fun testInsertOk() {
         if (verbose) {
-            println("testInsertOk ${insertBuffer.take(insertBufferSize)}")
+            println("testInsertOk ${insertBuffer.take(insertBufferSize).map { "0x${it.toString(16).padStart(8, '0')}" }}")
         }
         var i = 0
         while (i < insertBufferSize) {
-            dataBuffer.add(mergeSPO(insertBuffer[i + 0], insertBuffer[i + 1], insertBuffer[i + 2]))
+            val tmp = mergeSPO(insertBuffer[i + 0], insertBuffer[i + 1], insertBuffer[i + 2])
+            val x = dataBuffer.add(tmp)
+            println("dataBuffer.add(0x${insertBuffer[i + 0].toString(16).padStart(8, '0')},0x${insertBuffer[i + 1].toString(16).padStart(8, '0')},0x${insertBuffer[i + 2].toString(16).padStart(8, '0')}) -> $x")
             i += 3
         }
         index.insertAsBulk(insertBuffer, order, insertBufferSize)
@@ -175,9 +177,6 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun prepareInsert(rng: Int) {
-        if (verbose) {
-            println("prepareInsert $rng")
-        }
         if (insertBufferSize + 3 > insertBuffer.size) {
             testInsertOk()
         }
@@ -191,9 +190,12 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
             myO = o
         }
         myRng = mergeSPO(myS, myP, myO)
+        if (verbose) {
+            println("prepareInsert $myRng")
+        }
         splitSPO(myRng) { s, p, o ->
             if (myS != s || myP != p || myO != o) {
-                throw Exception("")
+                throw Exception("0b${myS.toString(2)} 0b${s.toString(2)} : 0b${myP.toString(2)} 0b${p.toString(2)} : 0b${myO.toString(2)} 0b${o.toString(2)} : $myRng")
             }
         }
         insertBuffer[insertBufferSize++] = myS
@@ -203,11 +205,13 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
 
     fun testDeleteOk() {
         if (verbose) {
-            println("testDeleteOk ${deleteBuffer.take(deleteBufferSize)}")
+            println("testDeleteOk ${deleteBuffer.take(deleteBufferSize).map { "0x${it.toString(16).padStart(8, '0')}" }}")
         }
         var i = 0
         while (i < deleteBufferSize) {
-            dataBuffer.remove(mergeSPO(deleteBuffer[i + 0], deleteBuffer[i + 1], deleteBuffer[i + 2]))
+            val tmp = mergeSPO(deleteBuffer[i + 0], deleteBuffer[i + 1], deleteBuffer[i + 2])
+            val x = dataBuffer.remove(tmp)
+            println("dataBuffer.remove(0x${deleteBuffer[i + 0].toString(16).padStart(8, '0')},0x${deleteBuffer[i + 1].toString(16).padStart(8, '0')},0x${deleteBuffer[i + 2].toString(16).padStart(8, '0')}) -> $x")
             i += 3
         }
         index.removeAsBulk(deleteBuffer, order, deleteBufferSize)
@@ -262,26 +266,65 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         index.clear()
     }
 
+    fun verifyH(a: List<Int>, b: List<Int>) {
+        var ai = 0
+        var bi = 0
+        var flag = a.size != b.size
+        if (!flag) {
+            var i = 0
+            while (!flag && i < a.size) {
+                flag = a[i] != b[i]
+                i++
+            }
+        }
+        while (bi < b.size && ai < a.size) {
+            if (b[bi] < a[ai]) {
+                println("null       != 0x${b[bi].toString(16).padStart(8, '0')}")
+                bi++
+            } else if (b[bi] > a[ai]) {
+                println("0x${a[ai].toString(16).padStart(8, '0')} != null      ")
+                ai++
+            } else {
+                if (flag) {
+                    println("0x${a[ai].toString(16).padStart(8, '0')} != 0x${b[bi].toString(16).padStart(8, '0')}")
+                }
+                ai++
+                bi++
+            }
+        }
+        while (bi < b.size) {
+            println("null       != 0x${b[bi].toString(16).padStart(8, '0')}")
+            bi++
+        }
+        while (ai < a.size) {
+            println("0x${a[ai].toString(16).padStart(8, '0')} != null      ")
+            ai++
+        }
+        if (flag) {
+            println("actual != target")
+            throw Exception("")
+        }
+    }
+
     fun verifyS(bundle: IteratorBundle, filter: IntArray) {
         if (verbose) {
             println("verifyS")
         }
         val iter = bundle.columns["s"]!!
-        val list = dataBuffer.filter(filterArrToFun(filter)).sorted()
-        var listIdx = 0
+        val target = dataBuffer.filter(filterArrToFun(filter)).sorted().map {
+            var res = 0
+            splitSPO(it) { s, p, o ->
+                res = s
+            }
+            res
+        }
+        val actual = mutableListOf<Int>()
         var value = iter.next()
         while (value != DictionaryExt.nullValue) {
-            splitSPO(list[listIdx]) { s, p, o ->
-                if (s != value) {
-                    throw Exception("")
-                }
-            }
-            listIdx++
+            actual.add(value)
             value = iter.next()
         }
-        if (listIdx < list.size) {
-            throw Exception("")
-        }
+        verifyH(actual, target)
     }
 
     fun verifyP(bundle: IteratorBundle, filter: IntArray) {
@@ -289,21 +332,20 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
             println("verifyP")
         }
         val iter = bundle.columns["p"]!!
-        val list = dataBuffer.filter(filterArrToFun(filter)).sorted()
-        var listIdx = 0
+        val target = dataBuffer.filter(filterArrToFun(filter)).sorted().map {
+            var res = 0
+            splitSPO(it) { s, p, o ->
+                res = p
+            }
+            res
+        }
+        val actual = mutableListOf<Int>()
         var value = iter.next()
         while (value != DictionaryExt.nullValue) {
-            splitSPO(list[listIdx]) { s, p, o ->
-                if (p != value) {
-                    throw Exception("")
-                }
-            }
-            listIdx++
+            actual.add(value)
             value = iter.next()
         }
-        if (listIdx < list.size) {
-            throw Exception("")
-        }
+        verifyH(actual, target)
     }
 
     fun verifyO(bundle: IteratorBundle, filter: IntArray) {
@@ -311,21 +353,20 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
             println("verifyO")
         }
         val iter = bundle.columns["o"]!!
-        val list = dataBuffer.filter(filterArrToFun(filter)).sorted()
-        var listIdx = 0
+        val target = dataBuffer.filter(filterArrToFun(filter)).sorted().map {
+            var res = 0
+            splitSPO(it) { s, p, o ->
+                res = o
+            }
+            res
+        }
+        val actual = mutableListOf<Int>()
         var value = iter.next()
         while (value != DictionaryExt.nullValue) {
-            splitSPO(list[listIdx]) { s, p, o ->
-                if (o != value) {
-                    throw Exception("")
-                }
-            }
-            listIdx++
+            actual.add(value)
             value = iter.next()
         }
-        if (listIdx < list.size) {
-            throw Exception("")
-        }
+        verifyH(actual, target)
     }
 
     fun verifyCount(bundle: IteratorBundle, filter: IntArray) {
@@ -363,40 +404,6 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         }
     }
 
-    fun testGetIterator_xpx_Ok(filter: IntArray) {
-        if (verbose) {
-            println("testGetIterator_xpx_Ok ${filter.map { it }}")
-        }
-        val query = Query()
-        val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("_", "p", "_")))
-        when (filter.size) {
-            0, 1 -> {
-                if (bundle.columns.size != 1) {
-                    throw Exception("")
-                }
-                verifyP(bundle, filter)
-            }
-            2, 3 -> verifyCount(bundle, filter)
-        }
-    }
-
-    fun testGetIterator_xxo_Ok(filter: IntArray) {
-        if (verbose) {
-            println("testGetIterator_xxo_Ok ${filter.map { it }}")
-        }
-        val query = Query()
-        val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("_", "_", "o")))
-        when (filter.size) {
-            0, 1, 2 -> {
-                if (bundle.columns.size != 1) {
-                    throw Exception("")
-                }
-                verifyO(bundle, filter)
-            }
-            3 -> verifyCount(bundle, filter)
-        }
-    }
-
     fun testGetIterator_spx_Ok(filter: IntArray) {
         if (verbose) {
             println("testGetIterator_spx_Ok ${filter.map { it }}")
@@ -418,54 +425,6 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
                 verifyP(bundle, filter)
             }
             2, 3 -> verifyCount(bundle, filter)
-        }
-    }
-
-    fun testGetIterator_xpo_Ok(filter: IntArray) {
-        if (verbose) {
-            println("testGetIterator_xpo_Ok ${filter.map { it }}")
-        }
-        val query = Query()
-        val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("_", "p", "o")))
-        when (filter.size) {
-            0, 1 -> {
-                if (bundle.columns.size != 2) {
-                    throw Exception("")
-                }
-                verifyP(bundle, filter)
-                verifyO(bundle, filter)
-            }
-            2 -> {
-                if (bundle.columns.size != 1) {
-                    throw Exception("")
-                }
-                verifyO(bundle, filter)
-            }
-            3 -> verifyCount(bundle, filter)
-        }
-    }
-
-    fun testGetIterator_sxo_Ok(filter: IntArray) {
-        if (verbose) {
-            println("testGetIterator_sxo_Ok ${filter.map { it }}")
-        }
-        val query = Query()
-        val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("s", "_", "o")))
-        when (filter.size) {
-            0 -> {
-                if (bundle.columns.size != 2) {
-                    throw Exception("")
-                }
-                verifyS(bundle, filter)
-                verifyO(bundle, filter)
-            }
-            1, 2 -> {
-                if (bundle.columns.size != 1) {
-                    throw Exception("")
-                }
-                verifyO(bundle, filter)
-            }
-            3 -> verifyCount(bundle, filter)
         }
     }
 
@@ -538,7 +497,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         }
     }
     while (hasNextRandom() >= 3) {
-        val mode = abs(nextRandom() % 38)
+        val mode = abs(nextRandom() % 22)
         prepareInsert(nextRandom())
         val rng = nextRandom()
         when (mode) {
@@ -549,37 +508,21 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
             4 -> testFlushOk()
             5 -> testClearOk()
             6 -> getFilter(0, rng) { testGetIterator_sxx_Ok(it) }
-            7 -> getFilter(0, rng) { testGetIterator_xpx_Ok(it) }
-            8 -> getFilter(0, rng) { testGetIterator_xxo_Ok(it) }
-            9 -> getFilter(0, rng) { testGetIterator_spx_Ok(it) }
-            10 -> getFilter(0, rng) { testGetIterator_xpo_Ok(it) }
-            11 -> getFilter(0, rng) { testGetIterator_sxo_Ok(it) }
-            12 -> getFilter(0, rng) { testGetIterator_spo_Ok(it) }
-            13 -> getFilter(0, rng) { testGetIterator_xxx_Ok(it) }
-            14 -> getFilter(1, rng) { testGetIterator_sxx_Ok(it) }
-            15 -> getFilter(1, rng) { testGetIterator_xpx_Ok(it) }
-            16 -> getFilter(1, rng) { testGetIterator_xxo_Ok(it) }
-            17 -> getFilter(1, rng) { testGetIterator_spx_Ok(it) }
-            18 -> getFilter(1, rng) { testGetIterator_xpo_Ok(it) }
-            19 -> getFilter(1, rng) { testGetIterator_sxo_Ok(it) }
-            20 -> getFilter(1, rng) { testGetIterator_spo_Ok(it) }
-            21 -> getFilter(1, rng) { testGetIterator_xxx_Ok(it) }
-            22 -> getFilter(2, rng) { testGetIterator_sxx_Ok(it) }
-            23 -> getFilter(2, rng) { testGetIterator_xpx_Ok(it) }
-            24 -> getFilter(2, rng) { testGetIterator_xxo_Ok(it) }
-            25 -> getFilter(2, rng) { testGetIterator_spx_Ok(it) }
-            26 -> getFilter(2, rng) { testGetIterator_xpo_Ok(it) }
-            27 -> getFilter(2, rng) { testGetIterator_sxo_Ok(it) }
-            28 -> getFilter(2, rng) { testGetIterator_spo_Ok(it) }
-            29 -> getFilter(2, rng) { testGetIterator_xxx_Ok(it) }
-            30 -> getFilter(3, rng) { testGetIterator_sxx_Ok(it) }
-            31 -> getFilter(3, rng) { testGetIterator_xpx_Ok(it) }
-            32 -> getFilter(3, rng) { testGetIterator_xxo_Ok(it) }
-            33 -> getFilter(3, rng) { testGetIterator_spx_Ok(it) }
-            34 -> getFilter(3, rng) { testGetIterator_xpo_Ok(it) }
-            35 -> getFilter(3, rng) { testGetIterator_sxo_Ok(it) }
-            36 -> getFilter(3, rng) { testGetIterator_spo_Ok(it) }
-            37 -> getFilter(3, rng) { testGetIterator_xxx_Ok(it) }
+            7 -> getFilter(0, rng) { testGetIterator_spx_Ok(it) }
+            8 -> getFilter(0, rng) { testGetIterator_spo_Ok(it) }
+            9 -> getFilter(0, rng) { testGetIterator_xxx_Ok(it) }
+            10 -> getFilter(1, rng) { testGetIterator_sxx_Ok(it) }
+            11 -> getFilter(1, rng) { testGetIterator_spx_Ok(it) }
+            12 -> getFilter(1, rng) { testGetIterator_spo_Ok(it) }
+            13 -> getFilter(1, rng) { testGetIterator_xxx_Ok(it) }
+            14 -> getFilter(2, rng) { testGetIterator_sxx_Ok(it) }
+            15 -> getFilter(2, rng) { testGetIterator_spx_Ok(it) }
+            16 -> getFilter(2, rng) { testGetIterator_spo_Ok(it) }
+            17 -> getFilter(2, rng) { testGetIterator_xxx_Ok(it) }
+            18 -> getFilter(3, rng) { testGetIterator_sxx_Ok(it) }
+            19 -> getFilter(3, rng) { testGetIterator_spx_Ok(it) }
+            20 -> getFilter(3, rng) { testGetIterator_spo_Ok(it) }
+            21 -> getFilter(3, rng) { testGetIterator_xxx_Ok(it) }
         }
     }
     testDeleteOk()
