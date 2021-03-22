@@ -48,9 +48,10 @@ import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 import kotlin.jvm.JvmField
 
-public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex(store_root_page_id_) {
-    @JvmField
+public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex {
+    private val store_root_page_id = store_root_page_id_
 
+    @JvmField
     internal val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
 
     private var firstLeaf_: Int = NodeManager.nodeNullPointer
@@ -108,13 +109,13 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
 
     private var cachedHistograms1Cursor: Int = 0
 
-    public val cachedHistograms1: IntArray = IntArray(300)
+    private val cachedHistograms1: IntArray = IntArray(300)
 
     private var cachedHistograms2Size: Int = 0
 
     private var cachedHistograms2Cursor: Int = 0
 
-    public val cachedHistograms2: IntArray = IntArray(400)
+    private val cachedHistograms2: IntArray = IntArray(400)
 
     init {
         val rootPage = bufferManager.getPage(store_root_page_id)
@@ -232,7 +233,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         }
     }
 
-    override /*suspend*/ fun getHistogram(query: IQuery, filter: IntArray): Pair<Int, Int> {
+    override fun getHistogram(query: IQuery, filter: IntArray): Pair<Int, Int> {
 /*
         var variableCount = 0
         val filter2 = mutableListOf<Int>()
@@ -308,7 +309,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         return res
     }
 
-    override /*suspend*/ fun getIterator(query: IQuery, filter: IntArray, projection: List<String>): IteratorBundle {
+    override fun getIterator(query: IQuery, filter: IntArray, projection: List<String>): IteratorBundle {
 /*
  val filter2 = mutableListOf<Int>()
  val projection = mutableListOf<String>()
@@ -402,7 +403,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         return res
     }
 
-    private /*suspend*/ fun importHelper(a: Int, b: Int): Int {
+    private fun importHelper(a: Int, b: Int): Int {
         var nodeA: ByteArray? = null
         var nodeB: ByteArray? = null
         NodeManager.getNodeLeaf(a) {
@@ -417,7 +418,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         return res
     }
 
-    private /*suspend*/ fun importHelper(iterator: TripleIterator): Int {
+    private fun importHelper(iterator: TripleIterator): Int {
         var res = NodeManager.nodeNullPointer
         var node2: ByteArray? = null
         NodeManager.allocateNodeLeaf { n, i ->
@@ -442,7 +443,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         return res
     }
 
-    override /*suspend*/ fun flush() {
+    override fun flush() {
         if (pendingImport.size > 0) {
             lock.writeLock()
             flushAssumeLocks()
@@ -451,13 +452,13 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun flushContinueWithWriteLock() {
+    private inline fun flushContinueWithWriteLock() {
         lock.writeLock()
         flushAssumeLocks()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun flushContinueWithReadLock() {
+    private inline fun flushContinueWithReadLock() {
         var hasLock = false
         while (pendingImport.size > 0) {
             if (lock.tryWriteLock()) {
@@ -476,7 +477,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         }
     }
 
-    private /*suspend*/ fun flushAssumeLocks() {
+    private fun flushAssumeLocks() {
         if (pendingImport.size > 0) {
             // check again, that there is something to be done ... this may be changed, because there could be someone _else beforehand, holding exactly this lock ... .
             var j = 1
@@ -520,7 +521,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         }
     }
 
-    private /*suspend*/ fun rebuildData(_iterator: TripleIterator) {
+    private fun rebuildData(_iterator: TripleIterator) {
 // assuming to have write-lock
         var iterator: TripleIterator = Count1PassThroughIterator(DistinctIterator(_iterator))
         SanityCheck {
@@ -876,7 +877,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
 //
     }
 
-    override /*suspend*/ fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
+    override fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
         flushContinueWithWriteLock()
         val d = arrayOf(data, IntArray(dataSize))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
@@ -902,7 +903,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         lock.writeUnlock()
     }
 
-    override /*suspend*/ fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
+    override fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
         flushContinueWithWriteLock()
         val d = arrayOf(data, IntArray(dataSize))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
@@ -928,7 +929,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         lock.writeUnlock()
     }
 
-    override /*suspend*/ fun clear() {
+    override fun clear() {
         flushContinueWithWriteLock()
         if (root != NodeManager.nodeNullPointer) {
             NodeManager.freeNodeAndAllRelated(root)
@@ -938,5 +939,10 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         rootNode = null
         clearCachedHistogram()
         lock.writeUnlock()
+    }
+
+    override fun deleteIndex() {
+        clear()
+        bufferManager.deletePage(store_root_page_id)
     }
 }

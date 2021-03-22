@@ -16,16 +16,15 @@
  */
 package lupos.s05tripleStore
 
-import lupos.s00misc.HistogramNotImplementedException
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import kotlin.jvm.JvmField
 
-public abstract class TripleStoreIndex(@JvmField public val store_root_page_id: Int) {
-    public /*suspend*/ abstract fun getIterator(query: IQuery, filter: IntArray, projection: List<String>): IteratorBundle
-    public /*suspend*/ abstract fun clear()
-    public /*suspend*/ abstract fun flush()
-    public /*suspend*/ open fun getHistogram(query: IQuery, filter: IntArray): Pair<Int, Int> = throw HistogramNotImplementedException("TripleStoreIndex")
-    public /*suspend*/ abstract fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int)
-    public /*suspend*/ abstract fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int)
+public interface TripleStoreIndex {
+    public fun deleteIndex()
+    public fun getIterator(query: IQuery, filter: IntArray, projection: List<String>): IteratorBundle
+    public fun clear()
+    public fun flush()
+    public fun getHistogram(query: IQuery, filter: IntArray): Pair<Int, Int>
+    public fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int)
+    public fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int)
 }
