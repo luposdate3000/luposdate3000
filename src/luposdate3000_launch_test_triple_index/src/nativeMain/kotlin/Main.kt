@@ -14,9 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s05tripleStore.index_IDTriple
+import lupos.launch.test_kv.mainFunc
 
-import lupos.s00misc.MyReadWriteLock
-import kotlin.jvm.JvmField
-
-internal abstract class NodeLeafColumnIteratorPrefix(node: ByteArray, nodeid: Int, @JvmField val prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager) : NodeLeafColumnIterator(node, nodeid, lock, nodeManager)
+public fun main(args: Array<String>) {
+    var flag = false
+    var arg: String = ""
+    for (a in args) {
+        if (a.startsWith("--arg=")) {
+            arg = a.substring(6)
+            flag = true
+            break
+        }
+    }
+    if (!flag) {
+        throw Exception("the option '--arg' is missing on the arguments list")
+    }
+    mainFunc(arg)
+}

@@ -16,17 +16,17 @@
  */
 package lupos.s05tripleStore.index_IDTriple
 
-import lupos.buffermanager.BufferManagerExt
+import lupos.buffermanager.BufferManager
 import lupos.s00misc.SanityCheck
-import kotlin.jvm.JvmField
 
-internal object NodeManager {
-    const val nodeTypeLeaf = 1
-    const val nodeTypeInner = 2
-    const val nodeNullPointer = -1
+internal class NodeManager(bufferManager: BufferManager) {
+    private val bufferManager: BufferManager = bufferManager
 
-    @JvmField
-    val bufferManager = BufferManagerExt.getBuffermanager("triples")
+    public companion object {
+        const val nodeTypeLeaf = 1
+        const val nodeTypeInner = 2
+        const val nodeNullPointer = -1
+    }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun releaseNode(nodeid: Int) {

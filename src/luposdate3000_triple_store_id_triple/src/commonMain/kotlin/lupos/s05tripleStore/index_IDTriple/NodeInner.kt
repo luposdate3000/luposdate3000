@@ -26,13 +26,13 @@ internal object NodeInner {
     const val MAX_POINTER_SIZE = 4
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getFirstTriple(data: ByteArray, b: IntArray) {
+    internal inline fun getFirstTriple(data: ByteArray, b: IntArray, nodeManager: NodeManager) {
         var node = data
         var done = false
         var nodeid = getFirstChild(node)
         while (!done) {
             var nextnodeid = nodeid
-            NodeManager.getNodeAny(
+            nodeManager.getNodeAny(
                 nodeid,
                 {
                     NodeLeaf.getFirstTriple(it, b)
@@ -43,7 +43,7 @@ internal object NodeInner {
                     nextnodeid = getFirstChild(node)
                 }
             )
-            NodeManager.releaseNode(nodeid)
+            nodeManager.releaseNode(nodeid)
             nodeid = nextnodeid
         }
     }
@@ -70,22 +70,22 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun iterator(_node: ByteArray): TripleIterator {
+    internal inline fun iterator(_node: ByteArray, nodeManager: NodeManager): TripleIterator {
         var iterator: TripleIterator? = null
         var node = _node
         while (true) {
             val nodeid = getFirstChild(node)
-            NodeManager.getNodeAny(
+            nodeManager.getNodeAny(
                 nodeid,
                 {
-                    iterator = NodeLeaf.iterator(it, nodeid)
+                    iterator = NodeLeaf.iterator(it, nodeid, nodeManager)
                 },
                 {
                     node = it
                 }
             )
             if (iterator == null) {
-                NodeManager.releaseNode(nodeid)
+                nodeManager.releaseNode(nodeid)
             } else {
                 break
             }
@@ -94,22 +94,22 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator(_node: ByteArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
+    /*suspend*/ internal inline fun iterator(_node: ByteArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
         var iterator: ColumnIterator? = null
         var node = _node
         while (true) {
             val nodeid = getFirstChild(node)
-            NodeManager.getNodeAnySuspended(
+            nodeManager.getNodeAnySuspended(
                 nodeid,
                 {
-                    iterator = NodeLeaf.iterator(it, nodeid, lock, component)
+                    iterator = NodeLeaf.iterator(it, nodeid, lock, component, nodeManager)
                 },
                 {
                     node = it
                 }
             )
             if (iterator == null) {
-                NodeManager.releaseNode(nodeid)
+                nodeManager.releaseNode(nodeid)
             } else {
                 break
             }
@@ -157,7 +157,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator3(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
+    /*suspend*/ internal inline fun iterator3(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -169,10 +169,10 @@ internal object NodeInner {
                 },
                 { it ->
                     nodeid = it
-                    NodeManager.getNodeAnySuspended(
+                    nodeManager.getNodeAnySuspended(
                         it,
                         { node ->
-                            iterator = NodeLeaf.iterator3(node, it, prefix, lock)
+                            iterator = NodeLeaf.iterator3(node, it, prefix, lock, nodeManager)
                         },
                         {
                             node = it
@@ -181,7 +181,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
-                NodeManager.releaseNode(nodeid)
+                nodeManager.releaseNode(nodeid)
             } else {
                 break
             }
@@ -190,7 +190,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator2(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
+    /*suspend*/ internal inline fun iterator2(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -202,10 +202,10 @@ internal object NodeInner {
                 },
                 { it ->
                     nodeid = it
-                    NodeManager.getNodeAnySuspended(
+                    nodeManager.getNodeAnySuspended(
                         it,
                         { node ->
-                            iterator = NodeLeaf.iterator2(node, it, prefix, lock)
+                            iterator = NodeLeaf.iterator2(node, it, prefix, lock, nodeManager)
                         },
                         {
                             node = it
@@ -214,7 +214,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
-                NodeManager.releaseNode(nodeid)
+                nodeManager.releaseNode(nodeid)
             } else {
                 break
             }
@@ -223,7 +223,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator1(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
+    /*suspend*/ internal inline fun iterator1(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -235,10 +235,10 @@ internal object NodeInner {
                 },
                 { it ->
                     nodeid = it
-                    NodeManager.getNodeAnySuspended(
+                    nodeManager.getNodeAnySuspended(
                         it,
                         { node ->
-                            iterator = NodeLeaf.iterator1(node, it, prefix, lock, component)
+                            iterator = NodeLeaf.iterator1(node, it, prefix, lock, component, nodeManager)
                         },
                         {
                             node = it
@@ -247,7 +247,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
-                NodeManager.releaseNode(nodeid)
+                nodeManager.releaseNode(nodeid)
             } else {
                 break
             }
@@ -256,7 +256,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun initializeWith(node: ByteArray, nodeid: Int, childs: MutableList<Int>) {
+    internal inline fun initializeWith(node: ByteArray, nodeid: Int, childs: MutableList<Int>, nodeManager: NodeManager) {
         SanityCheck.check { childs.size > 0 }
         var writtenHeaders: MutableList<Int>? = null
         var writtenTriples: MutableList<Int>? = null
@@ -276,16 +276,16 @@ internal object NodeInner {
         setFirstChild(node, current)
         while (childs.size > 0 && offset < offsetEnd) {
             current = childs.removeAt(0)
-            NodeManager.getNodeAny(
+            nodeManager.getNodeAny(
                 current,
                 {
                     NodeLeaf.getFirstTriple(it, tripleCurrent)
                 },
                 {
-                    getFirstTriple(it, tripleCurrent)
+                    getFirstTriple(it, tripleCurrent, nodeManager)
                 }
             )
-            NodeManager.releaseNode(current)
+            nodeManager.releaseNode(current)
             SanityCheck {
                 writtenHeaders!!.add(current)
                 writtenTriples!!.add(tripleCurrent[0])

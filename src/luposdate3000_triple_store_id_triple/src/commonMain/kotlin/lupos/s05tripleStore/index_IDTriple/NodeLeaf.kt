@@ -33,21 +33,21 @@ internal object NodeLeaf {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun iterator(node: ByteArray, nodeid: Int): TripleIterator {
-        return NodeLeafIterator(node, nodeid)
+    internal inline fun iterator(node: ByteArray, nodeid: Int, nodeManager: NodeManager): TripleIterator {
+        return NodeLeafIterator(node, nodeid, nodeManager)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator(node: ByteArray, nodeid: Int, lock: MyReadWriteLock, component: Int): ColumnIterator {
+    /*suspend*/ internal inline fun iterator(node: ByteArray, nodeid: Int, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
         return when (component) {
             0 -> {
-                NodeLeafColumnIterator0(node, nodeid, lock)
+                NodeLeafColumnIterator0(node, nodeid, lock, nodeManager)
             }
             1 -> {
-                NodeLeafColumnIterator1(node, nodeid, lock)
+                NodeLeafColumnIterator1(node, nodeid, lock, nodeManager)
             }
             2 -> {
-                NodeLeafColumnIterator2(node, nodeid, lock)
+                NodeLeafColumnIterator2(node, nodeid, lock, nodeManager)
             }
             else -> {
                 SanityCheck.checkUnreachable()
@@ -56,23 +56,23 @@ internal object NodeLeaf {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
-        return NodeLeafColumnIteratorPrefix3(node, nodeid, prefix, lock)
+    /*suspend*/ internal inline fun iterator3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
+        return NodeLeafColumnIteratorPrefix3(node, nodeid, prefix, lock, nodeManager)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock): ColumnIterator {
-        return NodeLeafColumnIteratorPrefix22(node, nodeid, prefix, lock)
+    /*suspend*/ internal inline fun iterator2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
+        return NodeLeafColumnIteratorPrefix22(node, nodeid, prefix, lock, nodeManager)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator1(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, component: Int): ColumnIterator {
+    /*suspend*/ internal inline fun iterator1(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
         return when (component) {
             1 -> {
-                NodeLeafColumnIteratorPrefix11(node, nodeid, prefix, lock)
+                NodeLeafColumnIteratorPrefix11(node, nodeid, prefix, lock, nodeManager)
             }
             2 -> {
-                NodeLeafColumnIteratorPrefix12(node, nodeid, prefix, lock)
+                NodeLeafColumnIteratorPrefix12(node, nodeid, prefix, lock, nodeManager)
             }
             else -> {
                 SanityCheck.checkUnreachable()

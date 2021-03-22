@@ -16,6 +16,7 @@
  */
 package lupos.s05tripleStore
 
+import lupos.ProguardTestAnnotation
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.dictionary.DictionaryExt
@@ -48,53 +49,88 @@ import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 import kotlin.jvm.JvmField
 
-public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex {
-    private val store_root_page_id = store_root_page_id_
+public class TripleStoreIndexIDTriple : TripleStoreIndex {
+    private val bufferManager: BufferManager
+    private val rootPageID: Int
 
-    @JvmField
-    internal val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
+    public constructor(rootPageID: Int, initFromRootPage: Boolean) : this(BufferManagerExt.getBuffermanager("stores"), rootPageID, initFromRootPage)
+
+    @ProguardTestAnnotation
+    public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
+        this.bufferManager = bufferManager
+        this.rootPageID = rootPageID
+        nodeManager = NodeManager(bufferManager)
+        val rootPage = bufferManager.getPage(rootPageID)
+        if (initFromRootPage) {
+            root = ByteArrayHelper.readInt4(rootPage, 4)
+            countPrimary = ByteArrayHelper.readInt4(rootPage, 8)
+            distinctPrimary = ByteArrayHelper.readInt4(rootPage, 12)
+            firstLeaf = ByteArrayHelper.readInt4(rootPage, 16)
+            if (root != NodeManager.nodeNullPointer) {
+                nodeManager.getNodeAny(
+                    root,
+                    {
+                        SanityCheck.checkUnreachable()
+                    },
+                    {
+                        rootNode = it
+                    }
+                )
+            }
+        } else {
+            ByteArrayHelper.writeInt4(rootPage, 0, ETripleIndexTypeExt.ID_TRIPLE)
+            ByteArrayHelper.writeInt4(rootPage, 4, root)
+            ByteArrayHelper.writeInt4(rootPage, 8, countPrimary)
+            ByteArrayHelper.writeInt4(rootPage, 12, distinctPrimary)
+            ByteArrayHelper.writeInt4(rootPage, 16, firstLeaf)
+            bufferManager.flushPage(rootPageID)
+        }
+        bufferManager.releasePage(rootPageID)
+    }
+
+    private val nodeManager: NodeManager
 
     private var firstLeaf_: Int = NodeManager.nodeNullPointer
     private var firstLeaf: Int
         set(value) {
-            val rootPage = bufferManager.getPage(store_root_page_id)
+            val rootPage = bufferManager.getPage(rootPageID)
             ByteArrayHelper.writeInt4(rootPage, 16, value)
             firstLeaf_ = value
-            bufferManager.flushPage(store_root_page_id)
-            bufferManager.releasePage(store_root_page_id)
+            bufferManager.flushPage(rootPageID)
+            bufferManager.releasePage(rootPageID)
         }
         get() = firstLeaf_
 
     private var root_: Int = NodeManager.nodeNullPointer
     private var root: Int
         set(value) {
-            val rootPage = bufferManager.getPage(store_root_page_id)
+            val rootPage = bufferManager.getPage(rootPageID)
             ByteArrayHelper.writeInt4(rootPage, 4, value)
             root_ = value
-            bufferManager.flushPage(store_root_page_id)
-            bufferManager.releasePage(store_root_page_id)
+            bufferManager.flushPage(rootPageID)
+            bufferManager.releasePage(rootPageID)
         }
         get() = root_
 
     private var countPrimary_: Int = 0
     private var countPrimary: Int
         set(value) {
-            val rootPage = bufferManager.getPage(store_root_page_id)
+            val rootPage = bufferManager.getPage(rootPageID)
             ByteArrayHelper.writeInt4(rootPage, 8, value)
             countPrimary_ = value
-            bufferManager.flushPage(store_root_page_id)
-            bufferManager.releasePage(store_root_page_id)
+            bufferManager.flushPage(rootPageID)
+            bufferManager.releasePage(rootPageID)
         }
         get() = countPrimary_
 
     private var distinctPrimary_: Int = 0
     private var distinctPrimary: Int
         set(value) {
-            val rootPage = bufferManager.getPage(store_root_page_id)
+            val rootPage = bufferManager.getPage(rootPageID)
             ByteArrayHelper.writeInt4(rootPage, 12, value)
             distinctPrimary_ = value
-            bufferManager.flushPage(store_root_page_id)
-            bufferManager.releasePage(store_root_page_id)
+            bufferManager.flushPage(rootPageID)
+            bufferManager.releasePage(rootPageID)
         }
         get() = distinctPrimary_
 
@@ -116,35 +152,6 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
     private var cachedHistograms2Cursor: Int = 0
 
     private val cachedHistograms2: IntArray = IntArray(400)
-
-    init {
-        val rootPage = bufferManager.getPage(store_root_page_id)
-        if (store_root_page_init) {
-            root = ByteArrayHelper.readInt4(rootPage, 4)
-            countPrimary = ByteArrayHelper.readInt4(rootPage, 8)
-            distinctPrimary = ByteArrayHelper.readInt4(rootPage, 12)
-            firstLeaf = ByteArrayHelper.readInt4(rootPage, 16)
-            if (root != NodeManager.nodeNullPointer) {
-                NodeManager.getNodeAny(
-                    root,
-                    {
-                        SanityCheck.checkUnreachable()
-                    },
-                    {
-                        rootNode = it
-                    }
-                )
-            }
-        } else {
-            ByteArrayHelper.writeInt4(rootPage, 0, ETripleIndexTypeExt.ID_TRIPLE)
-            ByteArrayHelper.writeInt4(rootPage, 4, root)
-            ByteArrayHelper.writeInt4(rootPage, 8, countPrimary)
-            ByteArrayHelper.writeInt4(rootPage, 12, distinctPrimary)
-            ByteArrayHelper.writeInt4(rootPage, 16, firstLeaf)
-            bufferManager.flushPage(store_root_page_id)
-        }
-        bufferManager.releasePage(store_root_page_id)
-    }
 
     private companion object {
 
@@ -266,7 +273,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                         res = Pair(countPrimary, distinctPrimary)
                     }
                     1 -> {
-                        val iterator = NodeInner.iterator1(node, filter, lock, 1)
+                        val iterator = NodeInner.iterator1(node, filter, lock, 1, nodeManager)
                         var count = 0
                         var distinct = 0
                         var lastValue = iterator.next()
@@ -286,7 +293,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                         res = Pair(count, distinct)
                     }
                     2 -> {
-                        val iterator = NodeInner.iterator2(node, filter, lock)
+                        val iterator = NodeInner.iterator2(node, filter, lock, nodeManager)
                         var count = 0
                         while (iterator.next() != DictionaryExt.nullValue) {
                             count++
@@ -349,7 +356,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         if (node != null) {
             if (filter.size == 3) {
                 var count = 0
-                val it = NodeInner.iterator3(node, filter, lock)
+                val it = NodeInner.iterator3(node, filter, lock, nodeManager)
                 while (it.next() != DictionaryExt.nullValue) {
                     count++
                 }
@@ -357,24 +364,24 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             } else if (filter.size == 2) {
                 if (projection[0] == "_") {
                     var count = 0
-                    val it = NodeInner.iterator2(node, filter, lock)
+                    val it = NodeInner.iterator2(node, filter, lock, nodeManager)
                     while (it.next() != DictionaryExt.nullValue) {
                         count++
                     }
                     res = IteratorBundle(count)
                 } else {
-                    columns[projection[0]] = NodeInner.iterator2(node, filter, lock)
+                    columns[projection[0]] = NodeInner.iterator2(node, filter, lock, nodeManager)
                 }
             } else if (filter.size == 1) {
                 if (projection[0] != "_") {
-                    columns[projection[0]] = NodeInner.iterator1(node, filter, lock, 1)
+                    columns[projection[0]] = NodeInner.iterator1(node, filter, lock, 1, nodeManager)
                     if (projection[1] != "_") {
-                        columns[projection[1]] = NodeInner.iterator1(node, filter, lock, 2)
+                        columns[projection[1]] = NodeInner.iterator1(node, filter, lock, 2, nodeManager)
                     }
                 } else {
                     SanityCheck.check { projection[1] == "_" }
                     var count = 0
-                    val it = NodeInner.iterator1(node, filter, lock, 1)
+                    val it = NodeInner.iterator1(node, filter, lock, 1, nodeManager)
                     while (it.next() != DictionaryExt.nullValue) {
                         count++
                     }
@@ -383,11 +390,11 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             } else {
                 SanityCheck.check { filter.isEmpty() }
                 if (projection[0] != "_") {
-                    columns[projection[0]] = NodeInner.iterator(node, lock, 0)
+                    columns[projection[0]] = NodeInner.iterator(node, lock, 0, nodeManager)
                     if (projection[1] != "_") {
-                        columns[projection[1]] = NodeInner.iterator(node, lock, 1)
+                        columns[projection[1]] = NodeInner.iterator(node, lock, 1, nodeManager)
                         if (projection[2] != "_") {
-                            columns[projection[2]] = NodeInner.iterator(node, lock, 2)
+                            columns[projection[2]] = NodeInner.iterator(node, lock, 2, nodeManager)
                         }
                     } else {
                         SanityCheck.check { projection[2] == "_" }
@@ -406,22 +413,22 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
     private fun importHelper(a: Int, b: Int): Int {
         var nodeA: ByteArray? = null
         var nodeB: ByteArray? = null
-        NodeManager.getNodeLeaf(a) {
+        nodeManager.getNodeLeaf(a) {
             nodeA = it
         }
-        NodeManager.getNodeLeaf(b) {
+        nodeManager.getNodeLeaf(b) {
             nodeB = it
         }
-        val res = importHelper(MergeIterator(NodeLeaf.iterator(nodeA!!, a), NodeLeaf.iterator(nodeB!!, b)))
-        NodeManager.freeAllLeaves(a)
-        NodeManager.freeAllLeaves(b)
+        val res = importHelper(MergeIterator(NodeLeaf.iterator(nodeA!!, a, nodeManager), NodeLeaf.iterator(nodeB!!, b, nodeManager)))
+        nodeManager.freeAllLeaves(a)
+        nodeManager.freeAllLeaves(b)
         return res
     }
 
     private fun importHelper(iterator: TripleIterator): Int {
         var res = NodeManager.nodeNullPointer
         var node2: ByteArray? = null
-        NodeManager.allocateNodeLeaf { n, i ->
+        nodeManager.allocateNodeLeaf { n, i ->
             res = i
             node2 = n
         }
@@ -429,17 +436,17 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         var node = node2!!
         NodeLeaf.initializeWith(node, nodeid, iterator)
         while (iterator.hasNext()) {
-            NodeManager.allocateNodeLeaf { n, i ->
+            nodeManager.allocateNodeLeaf { n, i ->
                 NodeShared.setNextNode(node, i)
-                NodeManager.flushNode(nodeid)
-                NodeManager.releaseNode(nodeid)
+                nodeManager.flushNode(nodeid)
+                nodeManager.releaseNode(nodeid)
                 nodeid = i
                 node = n
             }
             NodeLeaf.initializeWith(node, nodeid, iterator)
         }
-        NodeManager.flushNode(nodeid)
-        NodeManager.releaseNode(nodeid)
+        nodeManager.flushNode(nodeid)
+        nodeManager.releaseNode(nodeid)
         return res
     }
 
@@ -495,7 +502,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             val firstLeaf2 = pendingImport[pendingImport.size - 1]!!
             var node: ByteArray? = null
             var flag = false
-            NodeManager.getNodeAny(
+            nodeManager.getNodeAny(
                 firstLeaf2,
                 {
                     flag = true
@@ -512,11 +519,11 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             root = NodeManager.nodeNullPointer
             firstLeaf = NodeManager.nodeNullPointer
             if (flag) {
-                rebuildData(NodeLeaf.iterator(node!!, firstLeaf2))
+                rebuildData(NodeLeaf.iterator(node!!, firstLeaf2, nodeManager))
             } else {
-                rebuildData(NodeInner.iterator(node!!))
+                rebuildData(NodeInner.iterator(node!!, nodeManager))
             }
-            NodeManager.freeAllLeaves(firstLeaf2)
+            nodeManager.freeAllLeaves(firstLeaf2)
             pendingImport.clear()
         }
     }
@@ -530,7 +537,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Int>()
             var node2: ByteArray? = null
-            NodeManager.allocateNodeLeaf { n, i ->
+            nodeManager.allocateNodeLeaf { n, i ->
                 firstLeaf = i
                 node2 = n
                 currentLayer.add(i)
@@ -539,10 +546,10 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             var nodeid = firstLeaf
             NodeLeaf.initializeWith(node, nodeid, iterator)
             while (iterator.hasNext()) {
-                NodeManager.allocateNodeLeaf { n, i ->
+                nodeManager.allocateNodeLeaf { n, i ->
                     NodeShared.setNextNode(node, i)
-                    NodeManager.flushNode(nodeid)
-                    NodeManager.releaseNode(nodeid)
+                    nodeManager.flushNode(nodeid)
+                    nodeManager.releaseNode(nodeid)
                     nodeid = i
                     node = n
                     currentLayer.add(i)
@@ -555,22 +562,22 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 while (currentLayer.size > 1) {
                     val tmp = mutableListOf<Int>()
                     var prev2: ByteArray? = null
-                    NodeManager.allocateNodeInner { n, i ->
-                        NodeManager.flushNode(nodeid)
-                        NodeManager.releaseNode(nodeid)
+                    nodeManager.allocateNodeInner { n, i ->
+                        nodeManager.flushNode(nodeid)
+                        nodeManager.releaseNode(nodeid)
                         nodeid = i
                         tmp.add(i)
-                        NodeInner.initializeWith(n, i, currentLayer)
+                        NodeInner.initializeWith(n, i, currentLayer, nodeManager)
                         prev2 = n
                     }
                     var prev = prev2!!
                     while (currentLayer.size > 0) {
-                        NodeManager.allocateNodeInner { n, i ->
-                            NodeManager.flushNode(nodeid)
-                            NodeManager.releaseNode(nodeid)
+                        nodeManager.allocateNodeInner { n, i ->
+                            nodeManager.flushNode(nodeid)
+                            nodeManager.releaseNode(nodeid)
                             nodeid = i
                             tmp.add(i)
-                            NodeInner.initializeWith(n, i, currentLayer)
+                            NodeInner.initializeWith(n, i, currentLayer, nodeManager)
                             NodeShared.setNextNode(prev, i)
                             prev = n
                         }
@@ -579,11 +586,11 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 }
             }
             rebuildDataPart1()
-            NodeManager.flushNode(nodeid)
-            NodeManager.releaseNode(nodeid)
+            nodeManager.flushNode(nodeid)
+            nodeManager.releaseNode(nodeid)
             var rootNodeIsLeaf = false
             SanityCheck.check { rootNode == null }
-            NodeManager.getNodeAny(
+            nodeManager.getNodeAny(
                 currentLayer[0],
                 {
                     rootNodeIsLeaf = true
@@ -594,13 +601,13 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 }
             )
             if (rootNodeIsLeaf) {
-                NodeManager.flushNode(nodeid)
-                NodeManager.releaseNode(nodeid)
-                NodeManager.allocateNodeInner { n, i ->
-                    NodeInner.initializeWith(n, i, mutableListOf(currentLayer[0]))
+                nodeManager.flushNode(nodeid)
+                nodeManager.releaseNode(nodeid)
+                nodeManager.allocateNodeInner { n, i ->
+                    NodeInner.initializeWith(n, i, mutableListOf(currentLayer[0]), nodeManager)
                     rootNode = n
                     root = i
-                    NodeManager.flushNode(root)
+                    nodeManager.flushNode(root)
                 }
             }
         } else {
@@ -634,10 +641,10 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             val queueO = iterator.queueO
             var myleaf = ByteArray(0)
 //
-            NodeManager.getNodeLeaf(firstLeaf) {
+            nodeManager.getNodeLeaf(firstLeaf) {
                 myleaf = it
             }
-            val iterator0 = NodeLeafColumnIterator0(myleaf, firstLeaf, debugLock)
+            val iterator0 = NodeLeafColumnIterator0(myleaf, firstLeaf, debugLock, nodeManager)
             for (s in queueS) {
                 val tmpa = iterator0.next()
                 SanityCheck.check { tmpa == s }
@@ -646,10 +653,10 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             SanityCheck.check { tmpa == DictionaryExt.nullValue }
             SanityCheck.check { iterator0.label == 0 }
 //
-            NodeManager.getNodeLeaf(firstLeaf) {
+            nodeManager.getNodeLeaf(firstLeaf) {
                 myleaf = it
             }
-            val iterator1 = NodeLeafColumnIterator1(myleaf, firstLeaf, debugLock)
+            val iterator1 = NodeLeafColumnIterator1(myleaf, firstLeaf, debugLock, nodeManager)
             for (s in queueP) {
                 val tmpb = iterator1.next()
                 SanityCheck.check { tmpb == s }
@@ -658,10 +665,10 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             SanityCheck.check { tmpb == DictionaryExt.nullValue }
             SanityCheck.check { iterator1.label == 0 }
 //
-            NodeManager.getNodeLeaf(firstLeaf) {
+            nodeManager.getNodeLeaf(firstLeaf) {
                 myleaf = it
             }
-            val iterator2 = NodeLeafColumnIterator2(myleaf, firstLeaf, debugLock)
+            val iterator2 = NodeLeafColumnIterator2(myleaf, firstLeaf, debugLock, nodeManager)
             for (s in queueO) {
                 val tmpc = iterator2.next()
                 SanityCheck.check { tmpc == s }
@@ -674,14 +681,14 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 val iteratorS = queueS.iterator()
                 val iteratorP = queueP.iterator()
                 val iteratorO = queueO.iterator()
-                NodeManager.getNodeLeaf(firstLeaf) {
+                nodeManager.getNodeLeaf(firstLeaf) {
                     myleaf = it
                 }
-                var iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                NodeManager.getNodeLeaf(firstLeaf) {
+                var iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock, nodeManager)
+                nodeManager.getNodeLeaf(firstLeaf) {
                     myleaf = it
                 }
-                var iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
+                var iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock, nodeManager)
                 var lastS = iteratorS.next()
                 val tmpd = iterator11.next()
                 SanityCheck.check { tmpd == iteratorP.next() }
@@ -704,14 +711,14 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                         SanityCheck.check { tmpg == DictionaryExt.nullValue }
                         SanityCheck.check { iterator11.label == 0 }
                         SanityCheck.check { iterator12.label == 0 }
-                        NodeManager.getNodeLeaf(firstLeaf) {
+                        nodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
-                        iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(currentS), debugLock)
-                        NodeManager.getNodeLeaf(firstLeaf) {
+                        iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(currentS), debugLock, nodeManager)
+                        nodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
-                        iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(currentS), debugLock)
+                        iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(currentS), debugLock, nodeManager)
                         val tmph = iterator11.next()
                         val tmpi = iterator12.next()
                         SanityCheck.check { tmph == currentP }
@@ -733,14 +740,14 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 val iteratorS = queueS.iterator()
                 val iteratorP = queueP.iterator()
                 val iteratorO = queueO.iterator()
-                NodeManager.getNodeLeaf(firstLeaf) {
+                nodeManager.getNodeLeaf(firstLeaf) {
                     myleaf = it
                 }
-                var iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                NodeManager.getNodeLeaf(firstLeaf) {
+                var iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock, nodeManager)
+                nodeManager.getNodeLeaf(firstLeaf) {
                     myleaf = it
                 }
-                var iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
+                var iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock, nodeManager)
                 var lastS = iteratorS.next()
                 val tmpd = iterator11.skipSIP(0)
                 SanityCheck.check { tmpd == iteratorP.next() }
@@ -760,15 +767,15 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                         SanityCheck.check { tmpg == currentO }
                     } else {
                         iterator11.close()
-                        NodeManager.getNodeLeaf(firstLeaf) {
+                        nodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
-                        iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(currentS), debugLock)
+                        iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(currentS), debugLock, nodeManager)
                         iterator12.close()
-                        NodeManager.getNodeLeaf(firstLeaf) {
+                        nodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
-                        iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(currentS), debugLock)
+                        iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(currentS), debugLock, nodeManager)
                         val tmph = iterator11.skipSIP(0)
                         val tmpi = iterator12.skipSIP(0)
                         SanityCheck.check { tmph == currentP }
@@ -786,14 +793,14 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 val iteratorS = queueS.iterator()
                 val iteratorP = queueP.iterator()
                 val iteratorO = queueO.iterator()
-                NodeManager.getNodeLeaf(firstLeaf) {
+                nodeManager.getNodeLeaf(firstLeaf) {
                     myleaf = it
                 }
-                var iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                NodeManager.getNodeLeaf(firstLeaf) {
+                var iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock, nodeManager)
+                nodeManager.getNodeLeaf(firstLeaf) {
                     myleaf = it
                 }
-                var iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
+                var iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock, nodeManager)
                 var skipping = 1
                 var lastS = iteratorS.next()
                 iteratorP.next()
@@ -819,15 +826,15 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                     if (lastS != currentS) {
                         lastresetIdx = idx
                         iterator11.close()
-                        NodeManager.getNodeLeaf(firstLeaf) {
+                        nodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
-                        iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(currentS), debugLock)
+                        iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(currentS), debugLock, nodeManager)
                         iterator12.close()
-                        NodeManager.getNodeLeaf(firstLeaf) {
+                        nodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
-                        iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(currentS), debugLock)
+                        iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(currentS), debugLock, nodeManager)
                         skipping = 1
                     }
                     lastS = currentS
@@ -839,10 +846,10 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 val iteratorS = queueS.iterator()
                 val iteratorP = queueP.iterator()
                 val iteratorO = queueO.iterator()
-                NodeManager.getNodeLeaf(firstLeaf) {
+                nodeManager.getNodeLeaf(firstLeaf) {
                     myleaf = it
                 }
-                var iterator22 = NodeLeafColumnIteratorPrefix22(myleaf, firstLeaf, intArrayOf(queueS[0], queueP[0]), debugLock)
+                var iterator22 = NodeLeafColumnIteratorPrefix22(myleaf, firstLeaf, intArrayOf(queueS[0], queueP[0]), debugLock, nodeManager)
                 var lastS = iteratorS.next()
                 var lastP = iteratorP.next()
                 val tmpo = iterator22.next()
@@ -857,10 +864,10 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                     } else {
                         SanityCheck.check { tmpl == DictionaryExt.nullValue }
                         SanityCheck.check { iterator22.label == 0 }
-                        NodeManager.getNodeLeaf(firstLeaf) {
+                        nodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
-                        iterator22 = NodeLeafColumnIteratorPrefix22(myleaf, firstLeaf, intArrayOf(currentS, currentP), debugLock)
+                        iterator22 = NodeLeafColumnIteratorPrefix22(myleaf, firstLeaf, intArrayOf(currentS, currentP), debugLock, nodeManager)
                         val tmpm = iterator22.next()
                         SanityCheck.check { tmpm == currentO }
                     }
@@ -886,8 +893,8 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         if (firstLeaf == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
         } else {
-            NodeManager.getNodeLeaf(firstLeaf) {
-                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf)
+            nodeManager.getNodeLeaf(firstLeaf) {
+                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf, nodeManager)
             }
         }
         val iteratorStore = iteratorStore2!!
@@ -898,7 +905,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         firstLeaf = NodeManager.nodeNullPointer
         rebuildData(iterator)
         if (oldroot != NodeManager.nodeNullPointer) {
-            NodeManager.freeNodeAndAllRelated(oldroot)
+            nodeManager.freeNodeAndAllRelated(oldroot)
         }
         lock.writeUnlock()
     }
@@ -912,8 +919,8 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         if (firstLeaf == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
         } else {
-            NodeManager.getNodeLeaf(firstLeaf) {
-                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf)
+            nodeManager.getNodeLeaf(firstLeaf) {
+                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf, nodeManager)
             }
         }
         val iteratorStore = iteratorStore2!!
@@ -924,7 +931,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         firstLeaf = NodeManager.nodeNullPointer
         rebuildData(iterator)
         if (oldroot != NodeManager.nodeNullPointer) {
-            NodeManager.freeNodeAndAllRelated(oldroot)
+            nodeManager.freeNodeAndAllRelated(oldroot)
         }
         lock.writeUnlock()
     }
@@ -932,7 +939,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
     override fun clear() {
         flushContinueWithWriteLock()
         if (root != NodeManager.nodeNullPointer) {
-            NodeManager.freeNodeAndAllRelated(root)
+            nodeManager.freeNodeAndAllRelated(root)
             root = NodeManager.nodeNullPointer
         }
         firstLeaf = NodeManager.nodeNullPointer
@@ -943,6 +950,6 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
 
     override fun deleteIndex() {
         clear()
-        bufferManager.deletePage(store_root_page_id)
+        bufferManager.deletePage(rootPageID)
     }
 }
