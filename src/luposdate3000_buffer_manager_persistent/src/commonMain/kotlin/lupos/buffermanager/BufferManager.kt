@@ -20,6 +20,7 @@ import lupos.ProguardTestAnnotation
 
 public expect class BufferManager {
     internal constructor(name: String)
+
     @ProguardTestAnnotation
     public constructor()
 
@@ -31,4 +32,7 @@ public expect class BufferManager {
 
     @ProguardTestAnnotation
     public fun close()
+
+    @ProguardTestAnnotation
+    public fun getNumberOfAllocatedPages(): Int
 }

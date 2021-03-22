@@ -21,7 +21,7 @@ import lupos.buffermanager.BufferManager
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.SanityCheck
 
-public class IntArrayOnBufferManager {
+public class MyIntArray {
     private val bufferManager: BufferManager
     private val rootPageID: Int
     private val valuesPerPage: Int

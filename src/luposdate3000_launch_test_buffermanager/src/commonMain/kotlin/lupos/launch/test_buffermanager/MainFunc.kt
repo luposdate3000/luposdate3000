@@ -309,6 +309,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
             8 -> getPageID_Existing_MultiMapped(rng) { testDeletePageFail(it) }
             9 -> getPageID_NotExisting(rng) { testDeletePageFail(it) }
         }
+        if (bufferManager.getNumberOfAllocatedPages() != pageIds.size) {
+            throw Exception("")
+        }
         for ((k, v) in mappedPages) {
             val id = ByteArrayHelper.readInt4(v, 0)
             if (id != k) {
@@ -336,6 +339,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
         bufferManager.close()
         bufferManager = BufferManager()
     }
+    if (bufferManager.getNumberOfAllocatedPages() != pageIds.size) {
+        throw Exception("")
+    }
     for (pageid in pageIds) {
         val page = bufferManager.getPage(pageid)
         val id = ByteArrayHelper.readInt4(page, 0)
@@ -343,6 +349,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
             throw Exception("")
         }
         bufferManager.deletePage(pageid)
+    }
+    if (bufferManager.getNumberOfAllocatedPages() != 0) {
+        throw Exception("")
     }
     if (mappedPages.size != 0) {
         throw Exception("")

@@ -17,7 +17,7 @@
 package lupos.launch.test_int_array
 
 import lupos.buffermanager.BufferManager
-import lupos.kv.IntArrayOnBufferManager
+import lupos.kv.MyIntArray
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
@@ -113,7 +113,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
         rootPage = pageid
     }
     bufferManager.releasePage(rootPage)
-    var arr = IntArrayOnBufferManager(bufferManager, rootPage, false)
+    var arr = MyIntArray(bufferManager, rootPage, false)
 
     fun testSetSizeOk(size: Int) {
         var oldSize = dataSize
@@ -214,7 +214,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Boolean) {
         testGetOk(i)
     }
     arr.close()
-    arr = IntArrayOnBufferManager(bufferManager, rootPage, true)
+    arr = MyIntArray(bufferManager, rootPage, true)
     for (i in 0 until dataSize) {
         testGetOk(i)
     }

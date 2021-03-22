@@ -29,9 +29,9 @@ public class KeyValueStore {
     private var lastPageBuf: ByteArray
     private var lastPageOffset: Int
     private var nextID: Int
-    private var mappingID2Page: IntArrayOnBufferManager
-    private var mappingID2Off: IntArrayOnBufferManager
-    private var mappingSorted: IntArrayOnBufferManager
+    private var mappingID2Page: MyIntArray
+    private var mappingID2Off: MyIntArray
+    private var mappingSorted: MyIntArray
 
     public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
@@ -45,9 +45,9 @@ public class KeyValueStore {
             var id1 = ByteArrayHelper.readInt4(rootPage, 12)
             var id2 = ByteArrayHelper.readInt4(rootPage, 16)
             var id3 = ByteArrayHelper.readInt4(rootPage, 20)
-            mappingID2Page = IntArrayOnBufferManager(bufferManager, id1, initFromRootPage)
-            mappingID2Off = IntArrayOnBufferManager(bufferManager, id2, initFromRootPage)
-            mappingSorted = IntArrayOnBufferManager(bufferManager, id3, initFromRootPage)
+            mappingID2Page = MyIntArray(bufferManager, id1, initFromRootPage)
+            mappingID2Off = MyIntArray(bufferManager, id2, initFromRootPage)
+            mappingSorted = MyIntArray(bufferManager, id3, initFromRootPage)
         } else {
             lastPageBuf = ByteArray(0)
             lastPage = 0
@@ -70,9 +70,9 @@ public class KeyValueStore {
             bufferManager.releasePage(id1)
             bufferManager.releasePage(id2)
             bufferManager.releasePage(id3)
-            mappingID2Page = IntArrayOnBufferManager(bufferManager, id1, initFromRootPage)
-            mappingID2Off = IntArrayOnBufferManager(bufferManager, id2, initFromRootPage)
-            mappingSorted = IntArrayOnBufferManager(bufferManager, id3, initFromRootPage)
+            mappingID2Page = MyIntArray(bufferManager, id1, initFromRootPage)
+            mappingID2Off = MyIntArray(bufferManager, id2, initFromRootPage)
+            mappingSorted = MyIntArray(bufferManager, id3, initFromRootPage)
             ByteArrayHelper.writeInt4(rootPage, 12, id1)
             ByteArrayHelper.writeInt4(rootPage, 16, id2)
             ByteArrayHelper.writeInt4(rootPage, 20, id3)

@@ -59,6 +59,9 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
         }
     }
 
+    @ProguardTestAnnotation
+    public fun getNumberOfAllocatedPages(): Int = counter - freeList.size
+
     public fun flushPage(pageid: Int) {}
     public fun releasePage(pageid: Int) {
         SanityCheck.check({ allPagesRefcounters[pageid] > 0 }, { "Failed requirement pageid = $pageid" })
