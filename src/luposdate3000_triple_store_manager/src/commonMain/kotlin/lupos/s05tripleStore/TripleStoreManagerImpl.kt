@@ -198,7 +198,7 @@ public class TripleStoreManagerImpl(
                 if (store.first == localhost) {
                     var page: Int = 0
                     bufferManager.createPage { byteArray, pageid ->
-                        println("page[$pageid] : $SOURCE_FILE")
+                        SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
                         page = pageid
                     }
                     println("allocated store-root page :: $page")

@@ -110,9 +110,10 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     var bufferManager = BufferManager()
     var rootPage = -1
     bufferManager.createPage { page, pageid ->
-        println("page[$pageid] : $SOURCE_FILE")
+        SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
         rootPage = pageid
     }
+    SanityCheck.println_buffermanager { "BufferManager.releasePage($rootPage) : $SOURCE_FILE" }
     bufferManager.releasePage(rootPage)
     var kv = KeyValueStore(bufferManager, rootPage, false)
 

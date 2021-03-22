@@ -35,6 +35,7 @@ public class MyIntArray {
     public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
+        SanityCheck.println_buffermanager { "BufferManager.getPage($rootPageID) : $SOURCE_FILE" }
         rootPage = bufferManager.getPage(rootPageID)
         valuesPerPage = rootPage.size / 4
         if (initFromRootPage) {
@@ -57,10 +58,11 @@ public class MyIntArray {
             for (i in previousInnerPages until newInnerPages) {
                 var id = 0
                 bufferManager.createPage { page, pageid ->
-                    println("page[$pageid] : $SOURCE_FILE")
+                    SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
                     id = pageid
                     ByteArrayHelper.writeInt4(rootPage, i * 4, pageid)
                 }
+                SanityCheck.println_buffermanager { "BufferManager.releasePage($id) : $SOURCE_FILE" }
                 bufferManager.releasePage(id)
             }
             var pid = -1
@@ -75,21 +77,25 @@ public class MyIntArray {
                 val pageBId = ByteArrayHelper.readInt4(pageC, offC1 * 4)
                 if (pid != pageBId) {
                     if (pid != -1) {
+                        SanityCheck.println_buffermanager { "BufferManager.releasePage($pid) : $SOURCE_FILE" }
                         bufferManager.releasePage(pid)
                     }
                     pid = pageBId
+                    SanityCheck.println_buffermanager { "BufferManager.getPage($pageBId) : $SOURCE_FILE" }
                     p = bufferManager.getPage(pageBId)
                 }
                 val pageB = p!!
                 var id = -1
                 bufferManager.createPage { page, pageid ->
-                    println("page[$pageid] : $SOURCE_FILE")
+                    SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
                     id = pageid
                 }
+                SanityCheck.println_buffermanager { "BufferManager.releasePage($id) : $SOURCE_FILE" }
                 bufferManager.releasePage(id)
                 ByteArrayHelper.writeInt4(pageB, offB1 * 4, id)
             }
             if (pid != -1) {
+                SanityCheck.println_buffermanager { "BufferManager.releasePage($pid) : $SOURCE_FILE" }
                 bufferManager.releasePage(pid)
             }
             this.capacity = capacity
@@ -115,12 +121,16 @@ public class MyIntArray {
         SanityCheck.check { offC2 == 0 }
         val pageC = rootPage
         val pageBId = ByteArrayHelper.readInt4(pageC, offC1 * 4)
+        SanityCheck.println_buffermanager { "BufferManager.getPage($pageBId) : $SOURCE_FILE" }
         val pageB = bufferManager.getPage(pageBId)
         val pageAId = ByteArrayHelper.readInt4(pageB, offB1 * 4)
+        SanityCheck.println_buffermanager { "BufferManager.releasePage($pageBId) : $SOURCE_FILE" }
         bufferManager.releasePage(pageBId)
+        SanityCheck.println_buffermanager { "BufferManager.getPage($pageAId) : $SOURCE_FILE" }
         val pageA = bufferManager.getPage(pageAId)
 // println("$idx -> root@$offC1 $pageBId@$offB1 -> $pageAId@$offA1")
         action(offA1 * 4, pageA)
+        SanityCheck.println_buffermanager { "BufferManager.releasePage($pageAId) : $SOURCE_FILE" }
         bufferManager.releasePage(pageAId)
     }
 
@@ -144,6 +154,7 @@ public class MyIntArray {
 
     @ProguardTestAnnotation
     public fun close() {
+        SanityCheck.println_buffermanager { "BufferManager.releasePage($rootPageID) : $SOURCE_FILE" }
         bufferManager.releasePage(rootPageID)
     }
 
@@ -153,16 +164,21 @@ public class MyIntArray {
         val innerPages = (dataPages + valuesPerPage - 1) / valuesPerPage
         for (i in 0 until innerPages) {
             val pageid = ByteArrayHelper.readInt4(rootPage, i * 4)
+            SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $SOURCE_FILE" }
             val page = bufferManager.getPage(pageid)
             for (j in 0 until valuesPerPage) {
                 if (i * valuesPerPage + j < dataPages) {
                     val pageid2 = ByteArrayHelper.readInt4(page, j * 4)
+                    SanityCheck.println_buffermanager { "BufferManager.getPage($pageid2) : $SOURCE_FILE" }
                     bufferManager.getPage(pageid2)
+                    SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid2) : $SOURCE_FILE" }
                     bufferManager.deletePage(pageid2)
                 }
             }
+            SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $SOURCE_FILE" }
             bufferManager.deletePage(pageid)
         }
+        SanityCheck.println_buffermanager { "BufferManager.deletePage($rootPageID) : $SOURCE_FILE" }
         bufferManager.deletePage(rootPageID)
     }
 }

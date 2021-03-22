@@ -117,6 +117,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         if (verbose) {
             println("testReleasePageOk $pageid")
         }
+        SanityCheck.println_buffermanager { "BufferManager.releasePage($pageid) : $SOURCE_FILE" }
         bufferManager.releasePage(pageid)
         val cnt = mappedPagesCtr[pageid]
         if (cnt == null) {
@@ -136,6 +137,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         }
         var flag = true
         try {
+            SanityCheck.println_buffermanager { "BufferManager.releasePage($pageid) : $SOURCE_FILE" }
             bufferManager.releasePage(pageid)
         } catch (e: Throwable) {
             flag = false
@@ -149,6 +151,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         if (verbose) {
             println("testGetPageOk $pageid")
         }
+        SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $SOURCE_FILE" }
         val page = bufferManager.getPage(pageid)
         val id = ByteArrayHelper.readInt4(page, 0)
         if (id != pageid) {
@@ -173,6 +176,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         }
         var flag = true
         try {
+            SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $SOURCE_FILE" }
             bufferManager.getPage(pageid)
         } catch (e: Throwable) {
             flag = false
@@ -184,7 +188,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
 
     fun testCreateNewPageOk() {
         bufferManager.createPage { page, pageid ->
-            println("page[$pageid] : $SOURCE_FILE")
+            SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
             if (verbose) {
                 println("testCreateNewPageOk $pageid")
             }
@@ -208,6 +212,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         if (verbose) {
             println("testDeletePageOk $pageid")
         }
+        SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $SOURCE_FILE" }
         bufferManager.deletePage(pageid)
         mappedPagesCtr.remove(pageid)
         mappedPages.remove(pageid)
@@ -220,6 +225,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         }
         var flag = true
         try {
+            SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $SOURCE_FILE" }
             bufferManager.deletePage(pageid)
         } catch (e: Throwable) {
             flag = false
@@ -329,11 +335,13 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         throw Exception("")
     }
     for (pageid in pageIds) {
+        SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $SOURCE_FILE" }
         val page = bufferManager.getPage(pageid)
         val id = ByteArrayHelper.readInt4(page, 0)
         if (id != pageid) {
             throw Exception("")
         }
+        SanityCheck.println_buffermanager { "BufferManager.releasePage($pageid) : $SOURCE_FILE" }
         bufferManager.releasePage(pageid)
     }
     if (bufferManager.getNumberOfReferencedPages() != 0) {
@@ -351,11 +359,13 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         throw Exception("")
     }
     for (pageid in pageIds) {
+        SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $SOURCE_FILE" }
         val page = bufferManager.getPage(pageid)
         val id = ByteArrayHelper.readInt4(page, 0)
         if (id != pageid) {
             throw Exception("")
         }
+        SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $SOURCE_FILE" }
         bufferManager.deletePage(pageid)
     }
     if (bufferManager.getNumberOfReferencedPages() != 0) {

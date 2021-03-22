@@ -112,9 +112,10 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     var bufferManager = BufferManager()
     var rootPage = -1
     bufferManager.createPage { page, pageid ->
-        println("page[$pageid] : $SOURCE_FILE")
+        SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
         rootPage = pageid
     }
+    SanityCheck.println_buffermanager { "BufferManager.releasePage($rootPage) : $SOURCE_FILE" }
     bufferManager.releasePage(rootPage)
     val order = intArrayOf(0, 1, 2)
     var index: TripleStoreIndex = TripleStoreIndexIDTriple(bufferManager, rootPage, false)

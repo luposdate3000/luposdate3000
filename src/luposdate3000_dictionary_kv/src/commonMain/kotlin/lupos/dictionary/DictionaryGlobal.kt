@@ -46,11 +46,12 @@ public class DictionaryGlobal {
             file.withInputStream {
                 rootPageID = it.readInt()
             }
+            SanityCheck.println_buffermanager { "BufferManager.getPage($rootPageID) : $SOURCE_FILE" }
             rootPage = bufferManager.getPage(rootPageID)
         } else {
             var p: ByteArray? = null
             bufferManager.createPage { page, pageid ->
-                println("page[$pageid] : $SOURCE_FILE")
+                SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
                 p = page
                 rootPageID = pageid
             }
@@ -67,9 +68,10 @@ public class DictionaryGlobal {
         } else {
             ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
             bufferManager.createPage { page, pageid ->
-                println("page[$pageid] : $SOURCE_FILE")
+                SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
                 kvPage = pageid
             }
+            SanityCheck.println_buffermanager { "BufferManager.releasePage($kvPage) : $SOURCE_FILE" }
             bufferManager.releasePage(kvPage)
         }
         kv = KeyValueStore(bufferManager, kvPage, initFromRootPage)
@@ -79,6 +81,7 @@ public class DictionaryGlobal {
     public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
+        SanityCheck.println_buffermanager { "BufferManager.getPage($rootPageID) : $SOURCE_FILE" }
         rootPage = bufferManager.getPage(rootPageID)
         var kvPage = 0
         if (initFromRootPage) {
@@ -87,9 +90,10 @@ public class DictionaryGlobal {
         } else {
             ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
             bufferManager.createPage { page, pageid ->
-                println("page[$pageid] : $SOURCE_FILE")
+                SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
                 kvPage = pageid
             }
+            SanityCheck.println_buffermanager { "BufferManager.releasePage($kvPage) : $SOURCE_FILE" }
             bufferManager.releasePage(kvPage)
         }
         kv = KeyValueStore(bufferManager, kvPage, initFromRootPage)

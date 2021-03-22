@@ -60,6 +60,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
         nodeManager = NodeManager(bufferManager)
+        SanityCheck.println_buffermanager { "BufferManager.getPage($rootPageID) : $SOURCE_FILE" }
         val rootPage = bufferManager.getPage(rootPageID)
         if (initFromRootPage) {
             root = ByteArrayHelper.readInt4(rootPage, 4)
@@ -83,8 +84,10 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             ByteArrayHelper.writeInt4(rootPage, 8, countPrimary)
             ByteArrayHelper.writeInt4(rootPage, 12, distinctPrimary)
             ByteArrayHelper.writeInt4(rootPage, 16, firstLeaf)
+            SanityCheck.println_buffermanager { "BufferManager.flushPage($rootPageID) : $SOURCE_FILE" }
             bufferManager.flushPage(rootPageID)
         }
+        SanityCheck.println_buffermanager { "BufferManager.releasePage($rootPageID) : $SOURCE_FILE" }
         bufferManager.releasePage(rootPageID)
     }
 
@@ -93,10 +96,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     private var firstLeaf_: Int = NodeManager.nodeNullPointer
     private var firstLeaf: Int
         set(value) {
+            SanityCheck.println_buffermanager { "BufferManager.getPage($rootPageID) : $SOURCE_FILE" }
             val rootPage = bufferManager.getPage(rootPageID)
             ByteArrayHelper.writeInt4(rootPage, 16, value)
             firstLeaf_ = value
+            SanityCheck.println_buffermanager { "BufferManager.flushPage($rootPageID) : $SOURCE_FILE" }
             bufferManager.flushPage(rootPageID)
+            SanityCheck.println_buffermanager { "BufferManager.releasePage($rootPageID) : $SOURCE_FILE" }
             bufferManager.releasePage(rootPageID)
         }
         get() = firstLeaf_
@@ -104,10 +110,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     private var root_: Int = NodeManager.nodeNullPointer
     private var root: Int
         set(value) {
+            SanityCheck.println_buffermanager { "BufferManager.getPage($rootPageID) : $SOURCE_FILE" }
             val rootPage = bufferManager.getPage(rootPageID)
             ByteArrayHelper.writeInt4(rootPage, 4, value)
             root_ = value
+            SanityCheck.println_buffermanager { "BufferManager.flushPage($rootPageID) : $SOURCE_FILE" }
             bufferManager.flushPage(rootPageID)
+            SanityCheck.println_buffermanager { "BufferManager.releasePage($rootPageID) : $SOURCE_FILE" }
             bufferManager.releasePage(rootPageID)
         }
         get() = root_
@@ -115,10 +124,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     private var countPrimary_: Int = 0
     private var countPrimary: Int
         set(value) {
+            SanityCheck.println_buffermanager { "BufferManager.getPage($rootPageID) : $SOURCE_FILE" }
             val rootPage = bufferManager.getPage(rootPageID)
             ByteArrayHelper.writeInt4(rootPage, 8, value)
             countPrimary_ = value
+            SanityCheck.println_buffermanager { "BufferManager.flushPage($rootPageID) : $SOURCE_FILE" }
             bufferManager.flushPage(rootPageID)
+            SanityCheck.println_buffermanager { "BufferManager.releasePage($rootPageID) : $SOURCE_FILE" }
             bufferManager.releasePage(rootPageID)
         }
         get() = countPrimary_
@@ -126,10 +138,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     private var distinctPrimary_: Int = 0
     private var distinctPrimary: Int
         set(value) {
+            SanityCheck.println_buffermanager { "BufferManager.getPage($rootPageID) : $SOURCE_FILE" }
             val rootPage = bufferManager.getPage(rootPageID)
             ByteArrayHelper.writeInt4(rootPage, 12, value)
             distinctPrimary_ = value
+            SanityCheck.println_buffermanager { "BufferManager.flushPage($rootPageID) : $SOURCE_FILE" }
             bufferManager.flushPage(rootPageID)
+            SanityCheck.println_buffermanager { "BufferManager.releasePage($rootPageID) : $SOURCE_FILE" }
             bufferManager.releasePage(rootPageID)
         }
         get() = distinctPrimary_
@@ -950,7 +965,9 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun delete() {
         clear()
+        SanityCheck.println_buffermanager { "BufferManager.getPage($rootPageID) : $SOURCE_FILE" }
         bufferManager.getPage(rootPageID)
+        SanityCheck.println_buffermanager { "BufferManager.deletePage($rootPageID) : $SOURCE_FILE" }
         bufferManager.deletePage(rootPageID)
     }
 
