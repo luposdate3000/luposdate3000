@@ -822,13 +822,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                         SanityCheck.check { tmpg == currentO }
                     } else {
                         iterator11.close()
-                        SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($fistLeaf) : $SOURCE_FILE" }
+                        SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($firstLeaf) : $SOURCE_FILE" }
                         nodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
                         iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(currentS), debugLock, nodeManager)
                         iterator12.close()
-                        SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($fistLeaf) : $SOURCE_FILE" }
+                        SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($firstLeaf) : $SOURCE_FILE" }
                         nodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
@@ -850,12 +850,12 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                 val iteratorS = queueS.iterator()
                 val iteratorP = queueP.iterator()
                 val iteratorO = queueO.iterator()
-                SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($fistLeaf) : $SOURCE_FILE" }
+                SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($firstLeaf) : $SOURCE_FILE" }
                 nodeManager.getNodeLeaf(firstLeaf) {
                     myleaf = it
                 }
                 var iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock, nodeManager)
-                SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($fistLeaf) : $SOURCE_FILE" }
+                SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($firstLeaf) : $SOURCE_FILE" }
                 nodeManager.getNodeLeaf(firstLeaf) {
                     myleaf = it
                 }
@@ -885,13 +885,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     if (lastS != currentS) {
                         lastresetIdx = idx
                         iterator11.close()
-                        SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($fistLeaf) : $SOURCE_FILE" }
+                        SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($firstLeaf) : $SOURCE_FILE" }
                         nodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
                         iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(currentS), debugLock, nodeManager)
                         iterator12.close()
-                        SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($fistLeaf) : $SOURCE_FILE" }
+                        SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($firstLeaf) : $SOURCE_FILE" }
                         nodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
@@ -907,7 +907,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                 val iteratorS = queueS.iterator()
                 val iteratorP = queueP.iterator()
                 val iteratorO = queueO.iterator()
-                SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($fistLeaf) : $SOURCE_FILE" }
+                SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($firstLeaf) : $SOURCE_FILE" }
                 nodeManager.getNodeLeaf(firstLeaf) {
                     myleaf = it
                 }
@@ -926,7 +926,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     } else {
                         SanityCheck.check { tmpl == DictionaryExt.nullValue }
                         SanityCheck.check { iterator22.label == 0 }
-                        SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($fistLeaf) : $SOURCE_FILE" }
+                        SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($firstLeaf) : $SOURCE_FILE" }
                         nodeManager.getNodeLeaf(firstLeaf) {
                             myleaf = it
                         }
@@ -956,7 +956,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         if (firstLeaf == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
         } else {
-            SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($fistLeaf) : $SOURCE_FILE" }
+            SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($firstLeaf) : $SOURCE_FILE" }
             nodeManager.getNodeLeaf(firstLeaf) {
                 iteratorStore2 = NodeLeaf.iterator(it, firstLeaf, nodeManager)
             }
@@ -984,7 +984,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         if (firstLeaf == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
         } else {
-            SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($fistLeaf) : $SOURCE_FILE" }
+            SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($firstLeaf) : $SOURCE_FILE" }
             nodeManager.getNodeLeaf(firstLeaf) {
                 iteratorStore2 = NodeLeaf.iterator(it, firstLeaf, nodeManager)
             }

@@ -116,7 +116,7 @@ public class KeyValueStore {
         SanityCheck.check { pageid == lastPage }
         SanityCheck.println_buffermanager { "BufferManager.getPage($lastPage) : $SOURCE_FILE" }
         bufferManager.getPage(lastPage)
-        SanityCheck.println_buffermanager { "BufferManager.deletePage($lastpage) : $SOURCE_FILE" }
+        SanityCheck.println_buffermanager { "BufferManager.deletePage($lastPage) : $SOURCE_FILE" }
         bufferManager.deletePage(lastPage)
         mappingID2Page.delete()
         mappingID2Off.delete()

@@ -17,6 +17,7 @@
 package lupos.modulename
 
 import lupos.s00misc.UnreachableException
+import kotlin.contracts.InvocationKind.AT_MOST_ONCE
 import kotlin.contracts.contract
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
@@ -46,7 +47,6 @@ internal object SanityCheckOn {
     }
 
     internal inline operator fun invoke(crossinline action: () -> Unit) {
-        contract { callsInPlace(action, AT_MOST_ONCE) }
         try {
             action()
         } catch (e: Throwable) {
@@ -72,7 +72,7 @@ internal object SanityCheckOn {
     }
 
     internal inline fun <T> helper(crossinline action: () -> T): T? {
-        contract { callsInPlace(s, AT_MOST_ONCE) }
+        contract { callsInPlace(action, AT_MOST_ONCE) }
         return action()
     }
 

@@ -17,7 +17,10 @@
 package lupos.modulename
 
 import lupos.s00misc.UnreachableException
+import kotlin.contracts.InvocationKind.AT_MOST_ONCE
+import kotlin.contracts.contract
 
+@OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal object SanityCheckOff {
     internal inline fun println_buffermanager(crossinline s: () -> Any?) {
         contract { callsInPlace(s, AT_MOST_ONCE) }
@@ -32,7 +35,6 @@ internal object SanityCheckOff {
     }
 
     internal inline operator fun invoke(crossinline action: () -> Unit) {
-        contract { callsInPlace(action, AT_MOST_ONCE) }
     }
 
     /*suspend*/ internal inline fun suspended(crossinline action: /*suspend*/ () -> Unit) {

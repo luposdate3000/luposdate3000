@@ -29,6 +29,7 @@ import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.File
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.Platform
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
 import lupos.s04logicalOperators.IQuery
