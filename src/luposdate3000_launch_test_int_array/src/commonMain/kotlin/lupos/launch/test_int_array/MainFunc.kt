@@ -16,6 +16,7 @@
  */
 package lupos.launch.test_int_array
 
+import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.kv.MyIntArray
 import lupos.s00misc.DateHelperRelative
@@ -110,6 +111,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     val data = IntArray(maxSize)
     var rootPage = -1
     bufferManager.createPage { page, pageid ->
+        println("page[$pageid] : $SOURCE_FILE")
         rootPage = pageid
     }
     bufferManager.releasePage(rootPage)
@@ -208,11 +210,17 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         testGetOk(i)
     }
     arr.close()
+    if (bufferManager.getNumberOfReferencedPages() != 0) {
+        throw Exception("")
+    }
     arr = MyIntArray(bufferManager, rootPage, true)
     for (i in 0 until dataSize) {
         testGetOk(i)
     }
     arr.delete()
+    if (bufferManager.getNumberOfReferencedPages() != 0) {
+        throw Exception("")
+    }
     if (bufferManager.getNumberOfAllocatedPages() != 0) {
         throw Exception("")
     }

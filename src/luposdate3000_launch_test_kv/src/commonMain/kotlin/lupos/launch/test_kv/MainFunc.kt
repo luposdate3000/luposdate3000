@@ -16,6 +16,7 @@
  */
 package lupos.launch.test_kv
 
+import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.kv.KeyValueStore
 import lupos.s00misc.DateHelperRelative
@@ -109,6 +110,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     var bufferManager = BufferManager()
     var rootPage = -1
     bufferManager.createPage { page, pageid ->
+        println("page[$pageid] : $SOURCE_FILE")
         rootPage = pageid
     }
     bufferManager.releasePage(rootPage)
@@ -257,11 +259,17 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         testGetValueOk(values[v], k)
     }
     kv.close()
+    if (bufferManager.getNumberOfReferencedPages() != 0) {
+        throw Exception("")
+    }
     kv = KeyValueStore(bufferManager, rootPage, true)
     for ((k, v) in mapping) {
         testGetValueOk(values[v], k)
     }
     kv.delete()
+    if (bufferManager.getNumberOfReferencedPages() != 0) {
+        throw Exception("")
+    }
     if (bufferManager.getNumberOfAllocatedPages() != 0) {
         throw Exception("")
     }

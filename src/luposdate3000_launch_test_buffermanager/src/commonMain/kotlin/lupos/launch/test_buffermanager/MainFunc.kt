@@ -16,6 +16,7 @@
  */
 package lupos.launch.test_buffermanager
 
+import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.s00misc.ByteArrayHelper
@@ -183,6 +184,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
 
     fun testCreateNewPageOk() {
         bufferManager.createPage { page, pageid ->
+            println("page[$pageid] : $SOURCE_FILE")
             if (verbose) {
                 println("testCreateNewPageOk $pageid")
             }
@@ -323,6 +325,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
             testReleasePageOk(k)
         }
     }
+    if (bufferManager.getNumberOfReferencedPages() != 0) {
+        throw Exception("")
+    }
     for (pageid in pageIds) {
         val page = bufferManager.getPage(pageid)
         val id = ByteArrayHelper.readInt4(page, 0)
@@ -331,10 +336,16 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         }
         bufferManager.releasePage(pageid)
     }
+    if (bufferManager.getNumberOfReferencedPages() != 0) {
+        throw Exception("")
+    }
     if (!BufferManagerExt.isInMemoryOnly) {
         BufferManagerExt.allowInitFromDisk = true
         bufferManager.close()
         bufferManager = BufferManager()
+    }
+    if (bufferManager.getNumberOfReferencedPages() != 0) {
+        throw Exception("")
     }
     if (bufferManager.getNumberOfAllocatedPages() != pageIds.size) {
         throw Exception("")
@@ -346,6 +357,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
             throw Exception("")
         }
         bufferManager.deletePage(pageid)
+    }
+    if (bufferManager.getNumberOfReferencedPages() != 0) {
+        throw Exception("")
     }
     if (bufferManager.getNumberOfAllocatedPages() != 0) {
         throw Exception("")

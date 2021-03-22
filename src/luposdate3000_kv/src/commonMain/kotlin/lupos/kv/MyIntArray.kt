@@ -17,6 +17,7 @@
 package lupos.kv
 
 import lupos.ProguardTestAnnotation
+import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.SanityCheck
@@ -56,6 +57,7 @@ public class MyIntArray {
             for (i in previousInnerPages until newInnerPages) {
                 var id = 0
                 bufferManager.createPage { page, pageid ->
+                    println("page[$pageid] : $SOURCE_FILE")
                     id = pageid
                     ByteArrayHelper.writeInt4(rootPage, i * 4, pageid)
                 }
@@ -81,6 +83,7 @@ public class MyIntArray {
                 val pageB = p!!
                 var id = -1
                 bufferManager.createPage { page, pageid ->
+                    println("page[$pageid] : $SOURCE_FILE")
                     id = pageid
                 }
                 bufferManager.releasePage(id)

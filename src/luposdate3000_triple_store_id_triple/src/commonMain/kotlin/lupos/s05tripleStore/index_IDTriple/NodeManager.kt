@@ -16,6 +16,7 @@
  */
 package lupos.s05tripleStore.index_IDTriple
 
+import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.s00misc.SanityCheck
 
@@ -76,9 +77,10 @@ internal class NodeManager(bufferManager: BufferManager) {
     internal inline /*suspend*/ fun allocateNodeLeaf(crossinline action: /*suspend*/ (ByteArray, Int) -> Unit) {
         var node: ByteArray? = null
         var nodeid = -1
-        bufferManager.createPage { p, i ->
+        bufferManager.createPage { p, pageid ->
+            println("page[$pageid] : $SOURCE_FILE")
             node = p
-            nodeid = i
+            nodeid = pageid
         }
         NodeShared.setNodeType(node!!, nodeTypeLeaf)
         NodeShared.setNextNode(node!!, nodeNullPointer)
@@ -89,9 +91,10 @@ internal class NodeManager(bufferManager: BufferManager) {
     internal inline /*suspend*/ fun allocateNodeInner(crossinline action: /*suspend*/ (ByteArray, Int) -> Unit) {
         var node: ByteArray? = null
         var nodeid = -1
-        bufferManager.createPage { p, i ->
+        bufferManager.createPage { p, pageid ->
+            println("page[$pageid] : $SOURCE_FILE")
             node = p
-            nodeid = i
+            nodeid = pageid
         }
         NodeShared.setNodeType(node!!, nodeTypeInner)
         NodeShared.setNextNode(node!!, nodeNullPointer)

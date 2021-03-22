@@ -16,6 +16,7 @@
  */
 package lupos.launch.test_triple_index
 
+import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.DateHelperRelative
@@ -29,7 +30,7 @@ import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.pow
 
-private val verbose = false
+private val verbose = true
 
 private class MyRandom(var seed: Long) {
     val bits = 32
@@ -111,6 +112,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     var bufferManager = BufferManager()
     var rootPage = -1
     bufferManager.createPage { page, pageid ->
+        println("page[$pageid] : $SOURCE_FILE")
         rootPage = pageid
     }
     bufferManager.releasePage(rootPage)
@@ -158,6 +160,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun testInsertOk() {
+        if (verbose) {
+            println("testInsertOk ${insertBuffer.take(insertBufferSize)}")
+        }
         var i = 0
         while (i < insertBufferSize) {
             dataBuffer.add(mergeSPO(insertBuffer[i + 0], insertBuffer[i + 1], insertBuffer[i + 2]))
@@ -168,6 +173,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun prepareInsert(rng: Int) {
+        if (verbose) {
+            println("prepareInsert $rng")
+        }
         if (insertBufferSize + 3 > insertBuffer.size) {
             testInsertOk()
         }
@@ -192,6 +200,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun testDeleteOk() {
+        if (verbose) {
+            println("testDeleteOk ${deleteBuffer.take(deleteBufferSize)}")
+        }
         var i = 0
         while (i < deleteBufferSize) {
             dataBuffer.remove(mergeSPO(deleteBuffer[i + 0], deleteBuffer[i + 1], deleteBuffer[i + 2]))
@@ -202,6 +213,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun prepareDelete(rng: Int) {
+        if (verbose) {
+            println("prepareDelete $rng")
+        }
         if (deleteBufferSize + 3 > deleteBuffer.size) {
             testDeleteOk()
         }
@@ -232,15 +246,24 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun testFlushOk() {
+        if (verbose) {
+            println("testFlushOk")
+        }
         index.flush()
     }
 
     fun testClearOk() {
+        if (verbose) {
+            println("testClearOk")
+        }
         dataBuffer.clear()
         index.clear()
     }
 
     fun verifyS(bundle: IteratorBundle, filter: IntArray) {
+        if (verbose) {
+            println("verifyS")
+        }
         val iter = bundle.columns["s"]!!
         val list = dataBuffer.filter(filterArrToFun(filter)).sorted()
         var listIdx = 0
@@ -260,6 +283,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun verifyP(bundle: IteratorBundle, filter: IntArray) {
+        if (verbose) {
+            println("verifyP")
+        }
         val iter = bundle.columns["p"]!!
         val list = dataBuffer.filter(filterArrToFun(filter)).sorted()
         var listIdx = 0
@@ -279,6 +305,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun verifyO(bundle: IteratorBundle, filter: IntArray) {
+        if (verbose) {
+            println("verifyO")
+        }
         val iter = bundle.columns["o"]!!
         val list = dataBuffer.filter(filterArrToFun(filter)).sorted()
         var listIdx = 0
@@ -298,6 +327,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun verifyCount(bundle: IteratorBundle, filter: IntArray) {
+        if (verbose) {
+            println("verifyCount")
+        }
         if (bundle.count() != dataBuffer.filter(filterArrToFun(filter)).size) {
             throw Exception("")
         }
@@ -313,6 +345,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun testGetIterator_sxx_Ok(filter: IntArray) {
+        if (verbose) {
+            println("testGetIterator_sxx_Ok ${filter.map { it }}")
+        }
         val query = Query()
         val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("s", "_", "_")))
         when (filter.size) {
@@ -327,6 +362,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun testGetIterator_xpx_Ok(filter: IntArray) {
+        if (verbose) {
+            println("testGetIterator_xpx_Ok ${filter.map { it }}")
+        }
         val query = Query()
         val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("_", "p", "_")))
         when (filter.size) {
@@ -341,6 +379,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun testGetIterator_xxo_Ok(filter: IntArray) {
+        if (verbose) {
+            println("testGetIterator_xxo_Ok ${filter.map { it }}")
+        }
         val query = Query()
         val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("_", "_", "o")))
         when (filter.size) {
@@ -355,6 +396,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun testGetIterator_spx_Ok(filter: IntArray) {
+        if (verbose) {
+            println("testGetIterator_spx_Ok ${filter.map { it }}")
+        }
         val query = Query()
         val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("s", "p", "_")))
         when (filter.size) {
@@ -376,6 +420,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun testGetIterator_xpo_Ok(filter: IntArray) {
+        if (verbose) {
+            println("testGetIterator_xpo_Ok ${filter.map { it }}")
+        }
         val query = Query()
         val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("_", "p", "o")))
         when (filter.size) {
@@ -397,6 +444,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun testGetIterator_sxo_Ok(filter: IntArray) {
+        if (verbose) {
+            println("testGetIterator_sxo_Ok ${filter.map { it }}")
+        }
         val query = Query()
         val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("s", "_", "o")))
         when (filter.size) {
@@ -418,6 +468,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun testGetIterator_spo_Ok(filter: IntArray) {
+        if (verbose) {
+            println("testGetIterator_spo_Ok ${filter.map { it }}")
+        }
         val query = Query()
         val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("s", "p", "o")))
         when (filter.size) {
@@ -447,6 +500,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun testGetIterator_xxx_Ok(filter: IntArray) {
+        if (verbose) {
+            println("testGetIterator_xxx_Ok ${filter.map { it }}")
+        }
         val query = Query()
         val bundle = index.getIterator(query, filter, trimListToFilter(filter.size, listOf("_", "_", "_")))
         verifyCount(bundle, filter)
@@ -528,9 +584,15 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     testInsertOk()
     getFilter(0, 0) { testGetIterator_spo_Ok(it) }
     index.close()
+    if (bufferManager.getNumberOfReferencedPages() != 0) {
+        throw Exception("")
+    }
     index = TripleStoreIndexIDTriple(bufferManager, rootPage, true)
     getFilter(0, 0) { testGetIterator_spo_Ok(it) }
     index.delete()
+    if (bufferManager.getNumberOfReferencedPages() != 0) {
+        throw Exception("")
+    }
     if (bufferManager.getNumberOfAllocatedPages() != 0) {
         throw Exception("")
     }

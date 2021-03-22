@@ -17,6 +17,7 @@
 package lupos.kv
 
 import lupos.ProguardTestAnnotation
+import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.SanityCheck
@@ -52,9 +53,10 @@ public class KeyValueStore {
             lastPageBuf = ByteArray(0)
             lastPage = 0
             lastPageOffset = 0
-            bufferManager.createPage { page, id ->
+            bufferManager.createPage { page, pageid ->
+                println("page[$pageid] : $SOURCE_FILE")
                 lastPageBuf = page
-                lastPage = id
+                lastPage = pageid
                 lastPageOffset = 4
             }
             ByteArrayHelper.writeInt4(rootPage, 0, lastPage)
@@ -64,9 +66,18 @@ public class KeyValueStore {
             var id1 = 0
             var id2 = 0
             var id3 = 0
-            bufferManager.createPage { page, id -> id1 = id }
-            bufferManager.createPage { page, id -> id2 = id }
-            bufferManager.createPage { page, id -> id3 = id }
+            bufferManager.createPage { page, pageid ->
+                println("page[$pageid] : $SOURCE_FILE")
+                id1 = pageid
+            }
+            bufferManager.createPage { page, pageid ->
+                println("page[$pageid] : $SOURCE_FILE")
+                id2 = pageid
+            }
+            bufferManager.createPage { page, pageid ->
+                println("page[$pageid] : $SOURCE_FILE")
+                id3 = pageid
+            }
             bufferManager.releasePage(id1)
             bufferManager.releasePage(id2)
             bufferManager.releasePage(id3)
@@ -146,11 +157,12 @@ public class KeyValueStore {
 
     private inline fun writeData(data: ByteArray, crossinline action: (page: Int, off: Int) -> Unit) {
         if (lastPageOffset >= lastPageBuf.size - 8) {
-            bufferManager.createPage { page, id ->
-                ByteArrayHelper.writeInt4(lastPageBuf, 0, id)
+            bufferManager.createPage { page, pageid ->
+                println("page[$pageid] : $SOURCE_FILE")
+                ByteArrayHelper.writeInt4(lastPageBuf, 0, pageid)
                 bufferManager.releasePage(lastPage)
                 lastPageBuf = page
-                lastPage = id
+                lastPage = pageid
                 ByteArrayHelper.writeInt4(rootPage, 0, lastPage)
             }
             lastPageOffset = 4
@@ -166,11 +178,12 @@ public class KeyValueStore {
         while (towrite > 0) {
             var available = lastPageBuf.size - lastPageOffset
             if (available == 0) {
-                bufferManager.createPage { page, id ->
-                    ByteArrayHelper.writeInt4(lastPageBuf, 0, id)
+                bufferManager.createPage { page, pageid ->
+                    println("page[$pageid] : $SOURCE_FILE")
+                    ByteArrayHelper.writeInt4(lastPageBuf, 0, pageid)
                     bufferManager.releasePage(lastPage)
                     lastPageBuf = page
-                    lastPage = id
+                    lastPage = pageid
                     ByteArrayHelper.writeInt4(rootPage, 0, lastPage)
                 }
                 lastPageOffset = 4

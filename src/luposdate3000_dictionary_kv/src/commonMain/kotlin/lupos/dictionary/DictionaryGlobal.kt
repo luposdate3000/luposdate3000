@@ -17,6 +17,7 @@
 package lupos.dictionary
 
 import lupos.ProguardTestAnnotation
+import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.fileformat.DictionaryIntermediateReader
@@ -48,9 +49,10 @@ public class DictionaryGlobal {
             rootPage = bufferManager.getPage(rootPageID)
         } else {
             var p: ByteArray? = null
-            bufferManager.createPage { page, id ->
+            bufferManager.createPage { page, pageid ->
+                println("page[$pageid] : $SOURCE_FILE")
                 p = page
-                rootPageID = id
+                rootPageID = pageid
             }
             this.rootPage = p!!
             file.withOutputStream {
@@ -64,8 +66,9 @@ public class DictionaryGlobal {
             kvPage = ByteArrayHelper.readInt4(rootPage, 4)
         } else {
             ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
-            bufferManager.createPage { page, id ->
-                kvPage = id
+            bufferManager.createPage { page, pageid ->
+                println("page[$pageid] : $SOURCE_FILE")
+                kvPage = pageid
             }
             bufferManager.releasePage(kvPage)
         }
@@ -83,8 +86,9 @@ public class DictionaryGlobal {
             kvPage = ByteArrayHelper.readInt4(rootPage, 4)
         } else {
             ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
-            bufferManager.createPage { page, id ->
-                kvPage = id
+            bufferManager.createPage { page, pageid ->
+                println("page[$pageid] : $SOURCE_FILE")
+                kvPage = pageid
             }
             bufferManager.releasePage(kvPage)
         }

@@ -282,6 +282,9 @@ public actual class BufferManager internal actual constructor(@JvmField public v
     @ProguardTestAnnotation
     public actual fun getNumberOfAllocatedPages(): Int = counter - freeArrayLength
 
+    @ProguardTestAnnotation
+    public actual fun getNumberOfReferencedPages(): Int = openPagesRefcounters.sum()
+
     init {
         val flag = BufferManagerExt.allowInitFromDisk && File(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEnding).exists()
         datafile = RandomAccessFile(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEnding, "rw")

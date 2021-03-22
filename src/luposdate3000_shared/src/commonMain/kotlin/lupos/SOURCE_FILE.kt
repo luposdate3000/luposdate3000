@@ -14,28 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.buffermanager
+package lupos
 
-import lupos.ProguardTestAnnotation
-
-public expect class BufferManager {
-    internal constructor(name: String)
-
-    @ProguardTestAnnotation
-    public constructor()
-
-    public fun releasePage(pageid: Int)
-    public fun getPage(pageid: Int): ByteArray
-    /*suspend*/ public fun createPage(action: (ByteArray, Int) -> Unit)
-    /*suspend*/ public fun deletePage(pageid: Int)
-    public fun flushPage(pageid: Int)
-
-    @ProguardTestAnnotation
-    public fun close()
-
-    @ProguardTestAnnotation
-    public fun getNumberOfAllocatedPages(): Int
-
-    @ProguardTestAnnotation
-    public fun getNumberOfReferencedPages(): Int
-}
+public const val SOURCE_FILE: String = "src/luposdate3000_shared/src/commonMain/kotlin/lupos/SOURCE_FILE.kt"

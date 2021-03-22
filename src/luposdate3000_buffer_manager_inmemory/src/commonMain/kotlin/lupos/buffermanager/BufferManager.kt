@@ -49,7 +49,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
         counter = 0
         SanityCheck {
             for (i in 0 until counter) {
-                SanityCheck.check({ allPagesRefcounters[i] == 0 }, { "Failed requirement pageid = $i" })
+                SanityCheck.check({ allPagesRefcounters[i] == 0 }, { "Failed requirement allPagesRefcounters[$i] = ${allPagesRefcounters[i]} == 0" })
             }
         }
         allPages = Array(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
@@ -62,17 +62,32 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
     @ProguardTestAnnotation
     public fun getNumberOfAllocatedPages(): Int = counter - freeList.size
 
+    @ProguardTestAnnotation
+    public fun getNumberOfReferencedPages(): Int {
+        val res = allPagesRefcounters.sum()
+        SanityCheck {
+            val tmp = mutableMapOf<Int, Int>()
+            for (i in 0 until counter) {
+                if (allPagesRefcounters[i] != 0) {
+                    tmp[i] = allPagesRefcounters[i]
+                }
+            }
+            println("getNumberOfReferencedPages = $tmp")
+        }
+        return res
+    }
+
     public fun flushPage(pageid: Int) {}
     public fun releasePage(pageid: Int) {
-        SanityCheck.check({ allPagesRefcounters[pageid] > 0 }, { "Failed requirement pageid = $pageid" })
+        SanityCheck.check({ allPagesRefcounters[pageid] > 0 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} > 0" })
         allPagesRefcounters[pageid]--
     }
 
     public fun getPage(pageid: Int): ByteArray {
         // no locking required, assuming an assignment to 'allPages' is atomic
         SanityCheck {
-            SanityCheck.check { pageid < counter }
-            SanityCheck.check { pageid >= 0 }
+            SanityCheck.check({ pageid < counter }, { "$pageid < $counter" })
+            SanityCheck.check({ pageid >= 0 }, { "$pageid >= 0" })
             if (BUFFER_MANAGER_USE_FREE_LIST) {
                 SanityCheck.check { !freeList.contains(pageid) }
             }
@@ -118,7 +133,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
                 SanityCheck.check { !freeList.contains(pageid) }
             }
         }
-        SanityCheck.check({ allPagesRefcounters[pageid] == 1 }, { "Failed requirement pageid = $pageid" })
+        SanityCheck.check({ allPagesRefcounters[pageid] == 1 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} == 1" })
         allPagesRefcounters[pageid] = 0
         if (BUFFER_MANAGER_USE_FREE_LIST) {
             freeList.add(pageid)
