@@ -16,6 +16,7 @@
  */
 package lupos.s05tripleStore.index_IDTriple
 
+import lupos.SOURCE_FILE
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -46,11 +47,13 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
 /* "__init" was never called*/
             label = 0
             if (nodeid != NodeManager.nodeNullPointer) {
+                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
                 nodeManager.releaseNode(nodeid)
             }
         } else if (label != 0) {
             label = 0
             if (nodeid != NodeManager.nodeNullPointer) {
+                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
                 nodeManager.releaseNode(nodeid)
             }
             lock.readUnlock()
@@ -67,9 +70,11 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
         if (remaining == 0) {
             needsReset = true
             offset = NodeLeaf.START_OFFSET
+            SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
             nodeManager.releaseNode(nodeid)
             nodeid = NodeShared.getNextNode(node)
             if (nodeid != NodeManager.nodeNullPointer) {
+                SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($nodeid) : $SOURCE_FILE" }
                 nodeManager.getNodeLeaf(nodeid) {
                     SanityCheck.check { node != it }
                     node = it

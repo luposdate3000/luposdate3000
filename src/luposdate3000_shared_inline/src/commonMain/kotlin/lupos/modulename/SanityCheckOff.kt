@@ -23,6 +23,10 @@ internal object SanityCheckOff {
         contract { callsInPlace(s, AT_MOST_ONCE) }
     }
 
+    internal inline fun println_nodemanager(crossinline s: () -> Any?) {
+        contract { callsInPlace(s, AT_MOST_ONCE) }
+    }
+
     internal inline fun println(crossinline s: () -> Any?) {
         contract { callsInPlace(s, AT_MOST_ONCE) }
     }

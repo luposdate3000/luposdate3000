@@ -115,7 +115,9 @@ internal class NodeManager(bufferManager: BufferManager) {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline /*suspend*/ fun freeNodeAndAllRelated(nodeid: Int) {
+        SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
         releaseNode(nodeid)
+        SanityCheck.println_nodemanager { "NodeManager.freeNodeAndAllRelatedInternal($nodeid) : $SOURCE_FILE" }
         freeNodeAndAllRelatedInternal(nodeid)
     }
 
@@ -132,9 +134,11 @@ internal class NodeManager(bufferManager: BufferManager) {
             )
             if (node != null) {
                 NodeInner.forEachChild(node!!) {
+                    SanityCheck.println_nodemanager { "NodeManager.freeNodeAndAllRelatedInternal($it) : $SOURCE_FILE" }
                     freeNodeAndAllRelatedInternal(it)
                 }
             }
+            SanityCheck.println_nodemanager { "NodeManager.freeNode($nodeid) : $SOURCE_FILE" }
             freeNode(nodeid)
         }
     }
@@ -148,6 +152,7 @@ internal class NodeManager(bufferManager: BufferManager) {
                 val tmp = NodeShared.getNextNode(node)
                 pageid = tmp
             }
+            SanityCheck.println_nodemanager { "NodeManager.freeNode($id) : $SOURCE_FILE" }
             freeNode(id)
         }
     }

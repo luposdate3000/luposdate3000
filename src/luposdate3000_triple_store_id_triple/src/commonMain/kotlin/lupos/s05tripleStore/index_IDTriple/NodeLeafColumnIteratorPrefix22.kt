@@ -16,6 +16,7 @@
  */
 package lupos.s05tripleStore.index_IDTriple
 
+import lupos.SOURCE_FILE
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
@@ -152,6 +153,7 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
             var usedNextPage = false
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
+                SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($nodeidTmp) : $SOURCE_FILE" }
                 nodeManager.getNodeLeaf(nodeidTmp) {
                     SanityCheck.check { node != it }
                     nodeTmp = it
@@ -166,9 +168,11 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
                 }
                 if (value0Tmp > prefix[0] || (value0Tmp == prefix[0] && value1Tmp > prefix[1]) || value2Tmp >= minValue) {
                     // dont accidentially skip some results at the end of this page
+                    SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeidTmp) : $SOURCE_FILE" }
                     nodeManager.releaseNode(nodeidTmp)
                     break
                 }
+                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
                 nodeManager.releaseNode(nodeid)
                 counter += remaining
                 remaining = remainingTmp
@@ -247,11 +251,13 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
                 toSkip -= remaining
                 val nodeidTmp = NodeShared.getNextNode(node)
                 SanityCheck.check { nodeidTmp != NodeManager.nodeNullPointer }
+                SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($nodeidTmp) : $SOURCE_FILE" }
                 nodeManager.getNodeLeaf(nodeidTmp) {
                     SanityCheck.check { node != it }
                     node = it
                 }
                 remaining = NodeShared.getTripleCount(node)
+                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
                 nodeManager.releaseNode(nodeid)
                 nodeid = nodeidTmp
                 needsReset = true
@@ -279,11 +285,13 @@ internal class NodeLeafColumnIteratorPrefix22(node: ByteArray, nodeid: Int, pref
             if (remaining == 0) {
                 val nodeidTmp = NodeShared.getNextNode(node)
                 if (nodeidTmp != NodeManager.nodeNullPointer) {
+                    SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($nodeidTmp) : $SOURCE_FILE" }
                     nodeManager.getNodeLeaf(nodeidTmp) {
                         SanityCheck.check { node != it }
                         node = it
                     }
                     remaining = NodeShared.getTripleCount(node)
+                    SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
                     nodeManager.releaseNode(nodeid)
                     nodeid = nodeidTmp
                     needsReset = true

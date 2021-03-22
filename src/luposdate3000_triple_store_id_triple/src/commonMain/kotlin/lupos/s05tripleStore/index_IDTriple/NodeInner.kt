@@ -16,6 +16,7 @@
  */
 package lupos.s05tripleStore.index_IDTriple
 
+import lupos.SOURCE_FILE
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
@@ -43,6 +44,7 @@ internal object NodeInner {
                     nextnodeid = getFirstChild(node)
                 }
             )
+            SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
             nodeManager.releaseNode(nodeid)
             nodeid = nextnodeid
         }
@@ -85,6 +87,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
+                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
                 nodeManager.releaseNode(nodeid)
             } else {
                 break
@@ -109,6 +112,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
+                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
                 nodeManager.releaseNode(nodeid)
             } else {
                 break
@@ -181,6 +185,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
+                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
                 nodeManager.releaseNode(nodeid)
             } else {
                 break
@@ -214,6 +219,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
+                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
                 nodeManager.releaseNode(nodeid)
             } else {
                 break
@@ -247,6 +253,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
+                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
                 nodeManager.releaseNode(nodeid)
             } else {
                 break
@@ -285,6 +292,7 @@ internal object NodeInner {
                     getFirstTriple(it, tripleCurrent, nodeManager)
                 }
             )
+            SanityCheck.println_nodemanager { "NodeManager.releaseNode($current) : $SOURCE_FILE" }
             nodeManager.releaseNode(current)
             SanityCheck {
                 writtenHeaders!!.add(current)

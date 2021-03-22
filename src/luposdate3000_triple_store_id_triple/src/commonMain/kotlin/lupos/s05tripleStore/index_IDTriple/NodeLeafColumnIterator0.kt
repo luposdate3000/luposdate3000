@@ -16,6 +16,7 @@
  */
 package lupos.s05tripleStore.index_IDTriple
 
+import lupos.SOURCE_FILE
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
@@ -76,6 +77,7 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
             var usedNextPage = false
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
+                SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($nodeidTmp) : $SOURCE_FILE" }
                 nodeManager.getNodeLeaf(nodeidTmp) {
                     SanityCheck.check { node != it }
                     nodeTmp = it
@@ -88,9 +90,11 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
                 }
                 if (valueTmp >= minValue) {
                     // dont accidentially skip some results at the end of this page
+                    SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeidTmp) : $SOURCE_FILE" }
                     nodeManager.releaseNode(nodeidTmp)
                     break
                 }
+                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
                 nodeManager.releaseNode(nodeid)
                 counter += remaining
                 remaining = remainingTmp
