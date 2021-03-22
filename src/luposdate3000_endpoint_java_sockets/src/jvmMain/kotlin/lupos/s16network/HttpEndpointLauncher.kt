@@ -145,7 +145,7 @@ public actual object HttpEndpointLauncher {
                             }
                             println("$hostname:$port path : '$path'")
                             val paths = mutableMapOf<String, PathMappingHelper>()
-                            paths["/sparql/jenaquery"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE {?s <p> ?o . ?s ?p <o>}") to ::inputElement)) {
+                            paths["/sparql/jenaquery"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement)) {
                                 printHeaderSuccess(connectionOutMy)
                                 connectionOutMy.print(JenaWrapper.execQuery(params["query"]!!))
                                 /*Coverage Unreachable*/
@@ -158,7 +158,7 @@ public actual object HttpEndpointLauncher {
                             paths["/sparql/query"] = PathMappingHelper(
                                 true,
                                 mapOf(
-                                    Pair("query", "SELECT * WHERE {?s ?p ?o . ?s ?p1 <http://localhost/vocabulary/bench/Article> . }") to ::inputElement,
+                                    Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement,
                                     Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt,
                                 )
                             ) {

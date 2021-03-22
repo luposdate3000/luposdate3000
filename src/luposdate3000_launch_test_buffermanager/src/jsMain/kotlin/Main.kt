@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 import lupos.launch.test_buffermanager.mainFunc
+import kotlin.js.JsName
 
+@JsName("main")
 public fun main(args: Array<String>) {
     var flag = false
     var arg: String = ""

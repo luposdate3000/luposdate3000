@@ -26,7 +26,8 @@ public object BufferManagerExt {
     val isInMemoryOnly: Boolean = true
 
     @JvmField
-    public val initializedFromDisk: Boolean = false
+    public var allowInitFromDisk: Boolean = true
+
     public fun getBuffermanager(name: String): BufferManager {
         var res: BufferManager? = null
         managerListLock.withWriteLock {

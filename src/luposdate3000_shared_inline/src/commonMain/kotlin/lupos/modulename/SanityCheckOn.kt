@@ -22,17 +22,22 @@ import kotlin.contracts.contract
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal object SanityCheckOn {
+    val SANITYCHECK_PRINTING = false
     internal inline fun println(crossinline s: () -> Any?) {
         contract { callsInPlace(s, EXACTLY_ONCE) }
-        println(s())
+        if (SANITYCHECK_PRINTING) {
+            println(s())
+        }
     }
 
     internal inline operator fun invoke(crossinline action: () -> Unit) {
         try {
             action()
         } catch (e: Throwable) {
-            println("Exception during SanityCheck.invoke")
-            e.printStackTrace()
+            if (SANITYCHECK_PRINTING) {
+                println("Exception during SanityCheck.invoke")
+                e.printStackTrace()
+            }
             throw e
         }
     }
@@ -42,8 +47,10 @@ internal object SanityCheckOn {
         try {
             action()
         } catch (e: Throwable) {
-            println("Exception during SanityCheck.suspended")
-            e.printStackTrace()
+            if (SANITYCHECK_PRINTING) {
+                println("Exception during SanityCheck.suspended")
+                e.printStackTrace()
+            }
             throw e
         }
     }
@@ -60,8 +67,10 @@ internal object SanityCheckOn {
                 throw Exception("SanityCheck failed :: " + msg())
             }
         } catch (e: Throwable) {
-            println("Exception during SanityCheck.check")
-            e.printStackTrace()
+            if (SANITYCHECK_PRINTING) {
+                println("Exception during SanityCheck.check")
+                e.printStackTrace()
+            }
             throw e
         }
     }
@@ -73,8 +82,10 @@ internal object SanityCheckOn {
                 throw Exception("SanityCheck failed")
             }
         } catch (e: Throwable) {
-            println("Exception during SanityCheck.check")
-            e.printStackTrace()
+            if (SANITYCHECK_PRINTING) {
+                println("Exception during SanityCheck.check")
+                e.printStackTrace()
+            }
             throw e
         }
     }

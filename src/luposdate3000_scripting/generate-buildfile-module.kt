@@ -160,7 +160,14 @@ class CreateModuleArgs() {
     }
 
     fun ssetArgs2(args: MutableMap<String, MutableMap<String, String>>): CreateModuleArgs {
-        val arg = args[moduleName]
+        var arg = args["Luposdate3000_Shared_Inline"]
+        if (arg != null) {
+            val res = clone()
+            res.args = mutableMapOf()
+            res.args.putAll(this.args)
+            res.args.putAll(arg)
+        }
+        arg = args[moduleName]
         if (arg != null) {
             val res = clone()
             res.args = mutableMapOf()
@@ -680,9 +687,19 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("    mainClass.set(\"MainKt\")")
                     out.println("}")
                 }
-                if (enableJVM) {
+                out.println("tasks.register(\"mydependencies\") {")
+                out.println("    dependsOn(\"build\")")
+                out.println("    File(\"external_jar_dependencies\").printWriter().use { out ->")
+                out.println("        for (f in configurations.getByName(\"jvmRuntimeClasspath\").resolve()) {")
+                out.println("            if (!\"\$f\".contains(\"luposdate3000\")) {")
+                out.println("                out.println(\"\$f\")")
+                out.println("            }")
+                out.println("        }")
+                out.println("    }")
+                out.println("}")
+                if (!onWindows) {
                     out.println("tasks.register<proguard.gradle.ProGuardTask>(\"proguard\") {")
-                    out.println("    dependsOn(\"build\")")
+                    out.println("    dependsOn(\"mydependencies\")")
                     out.println("    injars(\"build/libs/${moduleArgs.moduleName}-jvm-0.0.1.jar\")")
                     out.println("    outjars(\"build/libs/${moduleArgs.moduleName}-jvm-0.0.1-pro.jar\")")
                     out.println("    val javaHome = System.getProperty(\"java.home\")")
@@ -896,20 +913,22 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             for ((k, v) in typeAliasUsed) {
                 out.println("internal typealias ${v.first} = ${v.second}")
             }
-            if (File("${moduleArgs.moduleFolder}${pathSeparator}configOptions").exists()) {
-                File("${moduleArgs.moduleFolder}${pathSeparator}configOptions").forEachLine {
-                    val opt = it.split(",")
-                    if (opt.size == 4) {
-                        var value = opt[3]
-                        val v = remainingArgs[opt[0]]
-                        if (v != null) {
-                            value = v
-                            remainingArgs.remove(opt[0])
-                        }
-                        if (opt[1] == "typealias") {
-                            out.println("public ${opt[1]} ${opt[0]} = $value")
-                        } else {
-                            out.println("${opt[1]} ${opt[0]}: ${opt[2]} = $value")
+            for (f in listOf("${moduleArgs.moduleFolder}${pathSeparator}configOptions", "src${pathSeparator}luposdate3000_shared_inline${pathSeparator}configOptions")) {
+                if (File(f).exists()) {
+                    File(f).forEachLine {
+                        val opt = it.split(",")
+                        if (opt.size == 4) {
+                            var value = opt[3]
+                            val v = remainingArgs[opt[0]]
+                            if (v != null) {
+                                value = v
+                                remainingArgs.remove(opt[0])
+                            }
+                            if (opt[1] == "typealias") {
+                                out.println("public ${opt[1]} ${opt[0]} = $value")
+                            } else {
+                                out.println("${opt[1]} ${opt[0]}: ${opt[2]} = $value")
+                            }
                         }
                     }
                 }
@@ -940,7 +959,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 File("$path${pathSeparator}gradle").copyRecursively(File("$path${pathSeparator}src.generated${pathSeparator}gradle"))
                 File("gradlew.bat").copyTo(File("src.generated${pathSeparator}gradlew.bat"))
                 if (enableJVM) {
-                    runCommand(listOf("gradlew.bat", "proguard"), File("$path${pathSeparator}src.generated"))
+                    runCommand(listOf("gradlew.bat", "mydependencies"), File("$path${pathSeparator}src.generated"))
                 } else {
                     runCommand(listOf("gradlew.bat", "build"), File("$path${pathSeparator}src.generated"))
                 }
@@ -987,7 +1006,9 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             if (enableJVM) {
                 try {
                     Files.copy(Paths.get(buildFolder + "${pathSeparator}libs${pathSeparator}${moduleArgs.moduleName}-jvm-0.0.1.jar"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm.jar"), StandardCopyOption.REPLACE_EXISTING)
-                    Files.copy(Paths.get(buildFolder + "${pathSeparator}libs${pathSeparator}${moduleArgs.moduleName}-jvm-0.0.1-pro.jar"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm-pro.jar"), StandardCopyOption.REPLACE_EXISTING)
+                    if (!onWindows) {
+                        Files.copy(Paths.get(buildFolder + "${pathSeparator}libs${pathSeparator}${moduleArgs.moduleName}-jvm-0.0.1-pro.jar"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm-pro.jar"), StandardCopyOption.REPLACE_EXISTING)
+                    }
                     Files.copy(Paths.get("$srcFolder${pathSeparator}external_jar_dependencies"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm.classpath"), StandardCopyOption.REPLACE_EXISTING)
                 } catch (e: Throwable) {
                     e.printStackTrace()
