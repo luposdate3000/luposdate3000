@@ -82,16 +82,21 @@ public class KeyValueStore {
     @ProguardTestAnnotation
     public fun delete() {
         bufferManager.releasePage(lastPage)
-        var lastID = -1
-        for (i in 0 until nextID) {
-            val pageid = mappingID2Page[i]
-            if (pageid != lastID) {
-                bufferManager.getPage(pageid)
+        var pageid = -1
+        if (nextID == 0) {
+            pageid = lastPage
+        } else {
+            pageid = mappingID2Page[0]
+            while (pageid != lastPage) {
+                val page = bufferManager.getPage(pageid)
+                var nextPage = ByteArrayHelper.readInt4(page, 0)
                 bufferManager.deletePage(pageid)
-                lastID = pageid
+                pageid = nextPage
             }
         }
-        SanityCheck.check { lastID == lastPage }
+        SanityCheck.check { pageid == lastPage }
+        bufferManager.getPage(lastPage)
+        bufferManager.deletePage(lastPage)
         mappingID2Page.delete()
         mappingID2Off.delete()
         mappingSorted.delete()
