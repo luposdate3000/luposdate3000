@@ -182,7 +182,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         if (insertBufferSize + 3 > insertBuffer.size) {
             testInsertOk()
         }
-        var myRng = abs(rng)
+        var myRng = abs(rng % 2147483647) // prevent sign extension - and mapping from "-2147483648" to itself
         var myS = 0
         var myP = 0
         var myO = 0
@@ -477,7 +477,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         if (dataBuffer.size == 0) {
             action(intArrayOf())
         } else {
-            val tmp = dataBuffer.toList()[abs(rng) % dataBuffer.size]
+            val tmp = dataBuffer.toList()[abs(rng % dataBuffer.size)]
             when (mode) {
                 0 -> {
                     action(intArrayOf())
