@@ -23,7 +23,7 @@ import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.pow
 
-public class AflCore(private val testname: String, private val maxlen_multiplicator: Int, private val executeTest: (() -> Int, () -> Int) -> Unit) {
+public class AflCore(private val testname: String, private val maxlen_multiplicator: Double, private val executeTest: (() -> Int, () -> Int) -> Unit) {
     private class MyRandom(var seed: Long) {
         val bits = 32
         fun nextInt(): Int {
@@ -47,18 +47,25 @@ public class AflCore(private val testname: String, private val maxlen_multiplica
             var errors = 0
             val timer = DateHelperRelative.markNow()
             val random = MyRandom(seed)
-            fun getMaxLen(): Int = min((tests + 2).toDouble().pow(1.0 / 2.0).toInt() * maxlen_multiplicator, data.size)
+            fun getMaxLen(): Int = min(((tests + 2).toDouble().pow(1.0 / 2.0) * maxlen_multiplicator).toInt(), data.size)
             Parallel.launch {
+                var lastTests = 0
                 while (true) {
-                    val time = DateHelperRelative.elapsedSeconds(timer)
-                    println("tests $tests, errors $errors testsPerSecond ${tests / time} maxlen ${getMaxLen()}")
+                    val mytests = tests
+                    if (lastTests != mytests) {
+                        lastTests = mytests
+                        val time = DateHelperRelative.elapsedSeconds(timer)
+                        println("tests $mytests, errors $errors testsPerSecond ${tests / time} maxlen ${getMaxLen()}")
+                    }
                     Parallel.delay(1000)
                 }
             }
             while (true) {
                 val maxlen = getMaxLen()
                 val cnt = abs(random.nextInt() % maxlen)
-                for (i in 0 until cnt) {
+                data[0] = maxlen
+                data[1] = cnt
+                for (i in 2 until cnt) {
                     val tmp = random.nextInt()
                     data[i] = tmp
                 }

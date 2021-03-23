@@ -29,7 +29,7 @@ private val verbose = false
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
-    AflCore("buffermanager", 1, ::executeTest)(arg)
+    AflCore("buffermanager", 1.0, ::executeTest)(arg)
 }
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {

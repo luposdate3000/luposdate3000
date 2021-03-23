@@ -552,7 +552,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     private fun rebuildData(_iterator: TripleIterator) {
 // assuming to have write-lock
-        var iterator: TripleIterator = Count1PassThroughIterator(DistinctIterator(_iterator))
+        var iterator = Count1PassThroughIterator(DistinctIterator(_iterator))
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Int>()
             var node2: ByteArray? = null
@@ -653,8 +653,8 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             root = NodeManager.nodeNullPointer
             firstLeaf = NodeManager.nodeNullPointer
         }
-        countPrimary = (iterator as Count1PassThroughIterator).count
-        distinctPrimary = (iterator as Count1PassThroughIterator).distinct
+        countPrimary = iterator.count
+        distinctPrimary = iterator.distinct
         clearCachedHistogram()
     }
 

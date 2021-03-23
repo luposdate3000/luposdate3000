@@ -29,7 +29,7 @@ private val maxSize = 1000000
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
-    AflCore("int_array", 1, ::executeTest)(arg)
+    AflCore("int_array", 1.0, ::executeTest)(arg)
 }
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
