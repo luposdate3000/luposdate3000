@@ -17,7 +17,6 @@
 package lupos.dictionary
 
 import lupos.ProguardTestAnnotation
-import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.fileformat.DictionaryIntermediateReader
@@ -46,10 +45,10 @@ public class DictionaryGlobal {
             file.withInputStream {
                 rootPageID = it.readInt()
             }
-            rootPage = bufferManager.getPage(SOURCE_FILE, rootPageID)
+            rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
         } else {
             var p: ByteArray? = null
-            bufferManager.createPage(SOURCE_FILE) { page, pageid ->
+            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
                 p = page
                 rootPageID = pageid
             }
@@ -65,10 +64,10 @@ public class DictionaryGlobal {
             kvPage = ByteArrayHelper.readInt4(rootPage, 4)
         } else {
             ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
-            bufferManager.createPage(SOURCE_FILE) { page, pageid ->
+            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
                 kvPage = pageid
             }
-            bufferManager.releasePage(SOURCE_FILE, kvPage)
+            bufferManager.releasePage(lupos.SOURCE_FILE, kvPage)
         }
         kv = KeyValueStore(bufferManager, kvPage, initFromRootPage)
     }
@@ -77,17 +76,17 @@ public class DictionaryGlobal {
     public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
-        rootPage = bufferManager.getPage(SOURCE_FILE, rootPageID)
+        rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
         var kvPage = 0
         if (initFromRootPage) {
             bNodeCounter = ByteArrayHelper.readInt4(rootPage, 0)
             kvPage = ByteArrayHelper.readInt4(rootPage, 4)
         } else {
             ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
-            bufferManager.createPage(SOURCE_FILE) { page, pageid ->
+            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
                 kvPage = pageid
             }
-            bufferManager.releasePage(SOURCE_FILE, kvPage)
+            bufferManager.releasePage(lupos.SOURCE_FILE, kvPage)
         }
         kv = KeyValueStore(bufferManager, kvPage, initFromRootPage)
     }

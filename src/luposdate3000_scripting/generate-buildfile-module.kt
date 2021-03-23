@@ -70,8 +70,6 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<Stri
         var line = 0
         src.forEachLine { it ->
             var s = it
-            s = s.replace("${'$'}SOURCE_FILE", "${src.getAbsolutePath()}:$line")
-            s = s.replace("${'$'}{SOURCE_FILE}", "${src.getAbsolutePath()}:$line")
             for ((k, v) in replacement) {
                 s = s.replace(k, v)
                 if (k.startsWith(" ")) {
@@ -80,6 +78,9 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<Stri
                     }
                 }
             }
+            s = s.replace("${'$'}lupos.SOURCE_FILE", "${src.getAbsolutePath()}:$line")
+            s = s.replace("${'$'}{lupos.SOURCE_FILE}", "${src.getAbsolutePath()}:$line")
+            s = s.replace("lupos.SOURCE_FILE", "\"${src.getAbsolutePath()}:$line\"")
             out.println(s)
             line++
         }

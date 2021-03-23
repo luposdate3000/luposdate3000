@@ -16,7 +16,6 @@
  */
 package lupos.launch.test_int_array
 
-import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.kv.MyIntArray
 import lupos.s00misc.Parallel
@@ -36,10 +35,10 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     var dataSize = 0
     val data = IntArray(maxSize)
     var rootPage = -1
-    bufferManager.createPage(SOURCE_FILE) { page, pageid ->
+    bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
         rootPage = pageid
     }
-    bufferManager.releasePage(SOURCE_FILE, rootPage)
+    bufferManager.releasePage(lupos.SOURCE_FILE, rootPage)
     var arr = MyIntArray(bufferManager, rootPage, false)
 
     fun testSetSizeOk(size: Int) {

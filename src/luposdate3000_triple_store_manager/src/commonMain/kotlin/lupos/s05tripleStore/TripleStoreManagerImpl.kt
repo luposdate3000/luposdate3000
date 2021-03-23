@@ -16,7 +16,6 @@
  */
 package lupos.s05tripleStore
 
-import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.s00misc.EIndexPattern
@@ -197,10 +196,11 @@ public class TripleStoreManagerImpl(
             for (store in index.getAllLocations()) {
                 if (store.first == localhost) {
                     var page: Int = 0
-                    bufferManager.createPage { SOURCE_FILE, byteArray, pageid ->
+                    bufferManager.createPage {
+                        lupos.SOURCE_FILE, byteArray, pageid ->
                         page = pageid
                     }
-                    bufferManager.releasePage(SOURCE_FILE, page)
+                    bufferManager.releasePage(lupos.SOURCE_FILE, page)
                     println("allocated store-root page :: $page")
                     localStores[store.second] = TripleStoreIndexIDTriple(page, false)
                 }

@@ -16,7 +16,6 @@
  */
 package lupos.s05tripleStore.index_IDTriple
 
-import lupos.SOURCE_FILE
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
 
@@ -53,10 +52,10 @@ internal class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nod
             needsReset = true
             offset = NodeLeaf.START_OFFSET
             var nextid = NodeShared.getNextNode(node)
-            nodeManager.releaseNode(SOURCE_FILE, nodeid)
+            nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
             nodeid = nextid
             if (nodeid != NodeManager.nodeNullPointer) {
-                nodeManager.getNodeLeaf(SOURCE_FILE, nodeid) {
+                nodeManager.getNodeLeaf(lupos.SOURCE_FILE, nodeid) {
                     SanityCheck.check { node != it }
                     node = it
                     remaining = NodeShared.getTripleCount(node)

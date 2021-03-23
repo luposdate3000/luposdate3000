@@ -16,7 +16,6 @@
  */
 package lupos.launch.test_kv
 
-import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.kv.KeyValueStore
 import lupos.s00misc.Parallel
@@ -35,10 +34,10 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     var bufferManager = BufferManager()
     var rootPage = -1
-    bufferManager.createPage(SOURCE_FILE) { page, pageid ->
+    bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
         rootPage = pageid
     }
-    bufferManager.releasePage(SOURCE_FILE, rootPage)
+    bufferManager.releasePage(lupos.SOURCE_FILE, rootPage)
     var kv = KeyValueStore(bufferManager, rootPage, false)
 
     val values = mutableListOf<ByteArray>()

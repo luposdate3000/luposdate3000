@@ -16,7 +16,6 @@
  */
 package lupos.launch.test_buffermanager
 
-import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.s00misc.ByteArrayHelper
@@ -42,7 +41,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         if (verbose) {
             println("testReleasePageOk $pageid")
         }
-        bufferManager.releasePage(SOURCE_FILE, pageid)
+        bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
         val cnt = mappedPagesCtr[pageid]
         if (cnt == null) {
             throw Exception("")
@@ -61,7 +60,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         }
         var flag = true
         try {
-            bufferManager.releasePage(SOURCE_FILE, pageid)
+            bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
         } catch (e: Throwable) {
             flag = false
         }
@@ -74,7 +73,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         if (verbose) {
             println("testGetPageOk $pageid")
         }
-        val page = bufferManager.getPage(SOURCE_FILE, pageid)
+        val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
         val id = ByteArrayHelper.readInt4(page, 0)
         if (id != pageid) {
             throw Exception("")
@@ -98,7 +97,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         }
         var flag = true
         try {
-            bufferManager.getPage(SOURCE_FILE, pageid)
+            bufferManager.getPage(lupos.SOURCE_FILE, pageid)
         } catch (e: Throwable) {
             flag = false
         }
@@ -108,7 +107,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun testCreateNewPageOk() {
-        bufferManager.createPage(SOURCE_FILE) { page, pageid ->
+        bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
             if (verbose) {
                 println("testCreateNewPageOk $pageid")
             }
@@ -132,7 +131,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         if (verbose) {
             println("testDeletePageOk $pageid")
         }
-        bufferManager.deletePage(SOURCE_FILE, pageid)
+        bufferManager.deletePage(lupos.SOURCE_FILE, pageid)
         mappedPagesCtr.remove(pageid)
         mappedPages.remove(pageid)
         pageIds.remove(pageid)
@@ -144,7 +143,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         }
         var flag = true
         try {
-            bufferManager.deletePage(SOURCE_FILE, pageid)
+            bufferManager.deletePage(lupos.SOURCE_FILE, pageid)
         } catch (e: Throwable) {
             flag = false
         }
@@ -253,12 +252,12 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         throw Exception("")
     }
     for (pageid in pageIds) {
-        val page = bufferManager.getPage(SOURCE_FILE, pageid)
+        val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
         val id = ByteArrayHelper.readInt4(page, 0)
         if (id != pageid) {
             throw Exception("")
         }
-        bufferManager.releasePage(SOURCE_FILE, pageid)
+        bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
     }
     if (bufferManager.getNumberOfReferencedPages() != 0) {
         throw Exception("")
@@ -275,12 +274,12 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         throw Exception("")
     }
     for (pageid in pageIds) {
-        val page = bufferManager.getPage(SOURCE_FILE, pageid)
+        val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
         val id = ByteArrayHelper.readInt4(page, 0)
         if (id != pageid) {
             throw Exception("")
         }
-        bufferManager.deletePage(SOURCE_FILE, pageid)
+        bufferManager.deletePage(lupos.SOURCE_FILE, pageid)
     }
     if (bufferManager.getNumberOfReferencedPages() != 0) {
         throw Exception("")

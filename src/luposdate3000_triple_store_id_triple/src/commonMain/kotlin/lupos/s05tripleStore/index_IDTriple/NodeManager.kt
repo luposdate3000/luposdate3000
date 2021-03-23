@@ -16,7 +16,6 @@
  */
 package lupos.s05tripleStore.index_IDTriple
 
-import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.s00misc.SanityCheck
 
@@ -32,24 +31,24 @@ internal class NodeManager(bufferManager: BufferManager) {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun releaseNode(call_location: String, nodeid: Int) {
         SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $call_location" }
-        bufferManager.releasePage(SOURCE_FILE, nodeid)
+        bufferManager.releasePage(lupos.SOURCE_FILE, nodeid)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun flushNode(call_location: String, nodeid: Int) {
         SanityCheck.println_nodemanager { "NodeManager.flushNode($nodeid) : $call_location" }
-        bufferManager.flushPage(SOURCE_FILE, nodeid)
+        bufferManager.flushPage(lupos.SOURCE_FILE, nodeid)
     }
 
     internal inline fun getNodeLeaf(call_location: String, nodeid: Int, crossinline actionLeaf: (ByteArray) -> Unit) {
         SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($nodeid) : $call_location" }
-        val node = bufferManager.getPage(SOURCE_FILE, nodeid)
+        val node = bufferManager.getPage(lupos.SOURCE_FILE, nodeid)
         actionLeaf(node)
     }
 
     internal inline fun getNodeAny(call_location: String, nodeid: Int, crossinline actionLeaf: (ByteArray) -> Unit, crossinline actionInner: (ByteArray) -> Unit) {
         SanityCheck.println_nodemanager { "NodeManager.getNodeAny($nodeid) : $call_location" }
-        val node = bufferManager.getPage(SOURCE_FILE, nodeid)
+        val node = bufferManager.getPage(lupos.SOURCE_FILE, nodeid)
         when (NodeShared.getNodeType(node)) {
             nodeTypeInner -> {
                 actionInner(node)
@@ -65,7 +64,7 @@ internal class NodeManager(bufferManager: BufferManager) {
 
     /*suspend*/ internal inline fun getNodeAnySuspended(call_location: String, nodeid: Int, crossinline actionLeaf: /*suspend*/ (ByteArray) -> Unit, crossinline actionInner: /*suspend*/ (ByteArray) -> Unit) {
         SanityCheck.println_nodemanager { "NodeManager.getNodeAnySuspended($nodeid) : $call_location" }
-        val node = bufferManager.getPage(SOURCE_FILE, nodeid)
+        val node = bufferManager.getPage(lupos.SOURCE_FILE, nodeid)
         when (NodeShared.getNodeType(node)) {
             nodeTypeInner -> {
                 actionInner(node)
@@ -82,7 +81,7 @@ internal class NodeManager(bufferManager: BufferManager) {
     internal inline /*suspend*/ fun allocateNodeLeaf(call_location: String, crossinline action: /*suspend*/ (ByteArray, Int) -> Unit) {
         var node: ByteArray? = null
         var nodeid = -1
-        bufferManager.createPage(SOURCE_FILE) { p, pageid ->
+        bufferManager.createPage(lupos.SOURCE_FILE) { p, pageid ->
             node = p
             nodeid = pageid
         }
@@ -96,7 +95,7 @@ internal class NodeManager(bufferManager: BufferManager) {
     internal inline /*suspend*/ fun allocateNodeInner(call_location: String, crossinline action: /*suspend*/ (ByteArray, Int) -> Unit) {
         var node: ByteArray? = null
         var nodeid = -1
-        bufferManager.createPage(SOURCE_FILE) { p, pageid ->
+        bufferManager.createPage(lupos.SOURCE_FILE) { p, pageid ->
             node = p
             nodeid = pageid
         }
@@ -110,14 +109,14 @@ internal class NodeManager(bufferManager: BufferManager) {
     @Suppress("NOTHING_TO_INLINE")
     internal inline /*suspend*/ fun freeNode(call_location: String, nodeid: Int) {
         SanityCheck.println_nodemanager { "NodeManager.freeNode($nodeid) : $call_location" }
-        bufferManager.deletePage(SOURCE_FILE, nodeid)
+        bufferManager.deletePage(lupos.SOURCE_FILE, nodeid)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline /*suspend*/ fun freeNodeAndAllRelated(call_location: String, nodeid: Int) {
         SanityCheck.println_nodemanager { "NodeManager.freeNodeAndAllRelated($nodeid) : $call_location" }
-        releaseNode(SOURCE_FILE, nodeid)
-        freeNodeAndAllRelatedInternal(SOURCE_FILE, nodeid)
+        releaseNode(lupos.SOURCE_FILE, nodeid)
+        freeNodeAndAllRelatedInternal(lupos.SOURCE_FILE, nodeid)
     }
 
     /*suspend*/ private fun freeNodeAndAllRelatedInternal(call_location: String, nodeid: Int) {
@@ -125,6 +124,7 @@ internal class NodeManager(bufferManager: BufferManager) {
         if (nodeid != nodeNullPointer) {
             var node: ByteArray? = null
             getNodeAny(
+                lupos.SOURCE_FILE,
                 nodeid,
                 {
                 },
@@ -134,10 +134,10 @@ internal class NodeManager(bufferManager: BufferManager) {
             )
             if (node != null) {
                 NodeInner.forEachChild(node!!) {
-                    freeNodeAndAllRelatedInternal(SOURCE_FILE, it)
+                    freeNodeAndAllRelatedInternal(lupos.SOURCE_FILE, it)
                 }
             }
-            freeNode(SOURCE_FILE, nodeid)
+            freeNode(lupos.SOURCE_FILE, nodeid)
         }
     }
 
@@ -147,11 +147,11 @@ internal class NodeManager(bufferManager: BufferManager) {
         var pageid = nodeid
         while (pageid != nodeNullPointer) {
             val id = pageid
-            getNodeLeaf(pageid) { node ->
+            getNodeLeaf(lupos.SOURCE_FILE, pageid) { node ->
                 val tmp = NodeShared.getNextNode(node)
                 pageid = tmp
             }
-            freeNode(SOURCE_FILE, id)
+            freeNode(lupos.SOURCE_FILE, id)
         }
     }
 }

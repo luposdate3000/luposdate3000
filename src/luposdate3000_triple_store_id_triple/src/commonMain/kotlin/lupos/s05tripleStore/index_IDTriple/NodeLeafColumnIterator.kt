@@ -16,7 +16,6 @@
  */
 package lupos.s05tripleStore.index_IDTriple
 
-import lupos.SOURCE_FILE
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -47,12 +46,12 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
 /* "__init" was never called*/
             label = 0
             if (nodeid != NodeManager.nodeNullPointer) {
-                nodeManager.releaseNode(SOURCE_FILE, nodeid)
+                nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
             }
         } else if (label != 0) {
             label = 0
             if (nodeid != NodeManager.nodeNullPointer) {
-                nodeManager.releaseNode(SOURCE_FILE, nodeid)
+                nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
             }
             lock.readUnlock()
         }
@@ -68,10 +67,10 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: ByteArray, @J
         if (remaining == 0) {
             needsReset = true
             offset = NodeLeaf.START_OFFSET
-            nodeManager.releaseNode(SOURCE_FILE, nodeid)
+            nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
             nodeid = NodeShared.getNextNode(node)
             if (nodeid != NodeManager.nodeNullPointer) {
-                nodeManager.getNodeLeaf(SOURCE_FILE, nodeid) {
+                nodeManager.getNodeLeaf(lupos.SOURCE_FILE, nodeid) {
                     SanityCheck.check { node != it }
                     node = it
                 }

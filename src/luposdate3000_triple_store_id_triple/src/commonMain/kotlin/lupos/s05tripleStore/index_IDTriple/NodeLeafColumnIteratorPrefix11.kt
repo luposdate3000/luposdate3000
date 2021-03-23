@@ -16,7 +16,6 @@
  */
 package lupos.s05tripleStore.index_IDTriple
 
-import lupos.SOURCE_FILE
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
@@ -143,7 +142,7 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
             var usedNextPage = false
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
-                nodeManager.getNodeLeaf(SOURCE_FILE, nodeidTmp) {
+                nodeManager.getNodeLeaf(lupos.SOURCE_FILE, nodeidTmp) {
                     SanityCheck.check { node != it }
                     nodeTmp = it
                 }
@@ -156,10 +155,10 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 }
                 if (value0Tmp > prefix[0] || value1Tmp >= minValue) {
                     // dont accidentially skip some results at the end of this page
-                    nodeManager.releaseNode(SOURCE_FILE, nodeidTmp)
+                    nodeManager.releaseNode(lupos.SOURCE_FILE, nodeidTmp)
                     break
                 }
-                nodeManager.releaseNode(SOURCE_FILE, nodeid)
+                nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
                 counter += remaining
                 remaining = remainingTmp
                 nodeid = nodeidTmp
@@ -234,11 +233,11 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
                 toSkip -= remaining
                 val nodeidTmp = NodeShared.getNextNode(node)
                 SanityCheck.check { nodeidTmp != NodeManager.nodeNullPointer }
-                nodeManager.getNodeLeaf(SOURCE_FILE, nodeidTmp) {
+                nodeManager.getNodeLeaf(lupos.SOURCE_FILE, nodeidTmp) {
                     SanityCheck.check { node != it }
                     node = it
                 }
-                nodeManager.releaseNode(SOURCE_FILE, nodeid)
+                nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
                 nodeid = nodeidTmp
                 remaining = NodeShared.getTripleCount(node)
                 needsReset = true
@@ -264,11 +263,11 @@ internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, pref
             if (remaining == 0) {
                 val nodeidTmp = NodeShared.getNextNode(node)
                 if (nodeidTmp != NodeManager.nodeNullPointer) {
-                    nodeManager.getNodeLeaf(SOURCE_FILE, nodeidTmp) {
+                    nodeManager.getNodeLeaf(lupos.SOURCE_FILE, nodeidTmp) {
                         SanityCheck.check { node != it }
                         node = it
                     }
-                    nodeManager.releaseNode(SOURCE_FILE, nodeid)
+                    nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
                     nodeid = nodeidTmp
                     needsReset = true
                     remaining = NodeShared.getTripleCount(node)

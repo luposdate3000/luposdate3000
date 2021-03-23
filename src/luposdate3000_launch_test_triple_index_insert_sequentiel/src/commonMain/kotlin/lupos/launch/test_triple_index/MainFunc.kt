@@ -16,7 +16,6 @@
  */
 package lupos.launch.test_triple_index_insert_sequentiel
 
-import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.Parallel
@@ -40,10 +39,10 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     var maxClearCalls = 10
     var bufferManager = BufferManager()
     var rootPage = -1
-    bufferManager.createPage(SOURCE_FILE) { page, pageid ->
+    bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
         rootPage = pageid
     }
-    bufferManager.releasePage(SOURCE_FILE, rootPage)
+    bufferManager.releasePage(lupos.SOURCE_FILE, rootPage)
     val order = intArrayOf(0, 1, 2)
     var index: TripleStoreIndex = TripleStoreIndexIDTriple(bufferManager, rootPage, false)
     var counterBuf = 0 // all s are '0' and p are '1', objects count from 0 until '$counter'

@@ -17,7 +17,6 @@
 package lupos.kv
 
 import lupos.ProguardTestAnnotation
-import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.SanityCheck
@@ -35,7 +34,7 @@ public class MyIntArray {
     public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
-        rootPage = bufferManager.getPage(SOURCE_FILE, rootPageID)
+        rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
         valuesPerPage = rootPage.size / 4
         if (initFromRootPage) {
             capacity = ByteArrayHelper.readInt4(rootPage, rootPage.size - 4)
@@ -56,11 +55,11 @@ public class MyIntArray {
             var newInnerPages = (newDataPages + valuesPerPage - 1) / valuesPerPage
             for (i in previousInnerPages until newInnerPages) {
                 var id = 0
-                bufferManager.createPage(SOURCE_FILE) { page, pageid ->
+                bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
                     id = pageid
                     ByteArrayHelper.writeInt4(rootPage, i * 4, pageid)
                 }
-                bufferManager.releasePage(SOURCE_FILE, id)
+                bufferManager.releasePage(lupos.SOURCE_FILE, id)
             }
             var pid = -1
             var p: ByteArray? = null
@@ -74,21 +73,21 @@ public class MyIntArray {
                 val pageBId = ByteArrayHelper.readInt4(pageC, offC1 * 4)
                 if (pid != pageBId) {
                     if (pid != -1) {
-                        bufferManager.releasePage(SOURCE_FILE, pid)
+                        bufferManager.releasePage(lupos.SOURCE_FILE, pid)
                     }
                     pid = pageBId
-                    p = bufferManager.getPage(SOURCE_FILE, pageBId)
+                    p = bufferManager.getPage(lupos.SOURCE_FILE, pageBId)
                 }
                 val pageB = p!!
                 var id = -1
-                bufferManager.createPage(SOURCE_FILE) { page, pageid ->
+                bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
                     id = pageid
                 }
-                bufferManager.releasePage(SOURCE_FILE, id)
+                bufferManager.releasePage(lupos.SOURCE_FILE, id)
                 ByteArrayHelper.writeInt4(pageB, offB1 * 4, id)
             }
             if (pid != -1) {
-                bufferManager.releasePage(SOURCE_FILE, pid)
+                bufferManager.releasePage(lupos.SOURCE_FILE, pid)
             }
             this.capacity = capacity
             ByteArrayHelper.writeInt4(rootPage, rootPage.size - 4, capacity)
@@ -113,13 +112,13 @@ public class MyIntArray {
         SanityCheck.check { offC2 == 0 }
         val pageC = rootPage
         val pageBId = ByteArrayHelper.readInt4(pageC, offC1 * 4)
-        val pageB = bufferManager.getPage(SOURCE_FILE, pageBId)
+        val pageB = bufferManager.getPage(lupos.SOURCE_FILE, pageBId)
         val pageAId = ByteArrayHelper.readInt4(pageB, offB1 * 4)
-        bufferManager.releasePage(SOURCE_FILE, pageBId)
-        val pageA = bufferManager.getPage(SOURCE_FILE, pageAId)
+        bufferManager.releasePage(lupos.SOURCE_FILE, pageBId)
+        val pageA = bufferManager.getPage(lupos.SOURCE_FILE, pageAId)
 // println("$idx -> root@$offC1 $pageBId@$offB1 -> $pageAId@$offA1")
         action(offA1 * 4, pageA)
-        bufferManager.releasePage(SOURCE_FILE, pageAId)
+        bufferManager.releasePage(lupos.SOURCE_FILE, pageAId)
     }
 
     public operator fun get(idx: Int): Int {
@@ -142,7 +141,7 @@ public class MyIntArray {
 
     @ProguardTestAnnotation
     public fun close() {
-        bufferManager.releasePage(SOURCE_FILE, rootPageID)
+        bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
     }
 
     @ProguardTestAnnotation
@@ -151,16 +150,16 @@ public class MyIntArray {
         val innerPages = (dataPages + valuesPerPage - 1) / valuesPerPage
         for (i in 0 until innerPages) {
             val pageid = ByteArrayHelper.readInt4(rootPage, i * 4)
-            val page = bufferManager.getPage(SOURCE_FILE, pageid)
+            val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
             for (j in 0 until valuesPerPage) {
                 if (i * valuesPerPage + j < dataPages) {
                     val pageid2 = ByteArrayHelper.readInt4(page, j * 4)
-                    bufferManager.getPage(SOURCE_FILE, pageid2)
-                    bufferManager.deletePage(SOURCE_FILE, pageid2)
+                    bufferManager.getPage(lupos.SOURCE_FILE, pageid2)
+                    bufferManager.deletePage(lupos.SOURCE_FILE, pageid2)
                 }
             }
-            bufferManager.deletePage(SOURCE_FILE, pageid)
+            bufferManager.deletePage(lupos.SOURCE_FILE, pageid)
         }
-        bufferManager.deletePage(SOURCE_FILE, rootPageID)
+        bufferManager.deletePage(lupos.SOURCE_FILE, rootPageID)
     }
 }
