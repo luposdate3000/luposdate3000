@@ -37,12 +37,10 @@ public class KeyValueStore {
     public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
-        SanityCheck.println_buffermanager { "BufferManager.getPage($rootPageID) : $SOURCE_FILE" }
-        rootPage = bufferManager.getPage(rootPageID)
+        rootPage = bufferManager.getPage(SOURCE_FILE, rootPageID)
         if (initFromRootPage) {
             lastPage = ByteArrayHelper.readInt4(rootPage, 0)
-            SanityCheck.println_buffermanager { "BufferManager.getPage($lastPage) : $SOURCE_FILE" }
-            lastPageBuf = bufferManager.getPage(lastPage)
+            lastPageBuf = bufferManager.getPage(SOURCE_FILE, lastPage)
             lastPageOffset = ByteArrayHelper.readInt4(rootPage, 4)
             nextID = ByteArrayHelper.readInt4(rootPage, 8)
             var id1 = ByteArrayHelper.readInt4(rootPage, 12)
@@ -55,8 +53,7 @@ public class KeyValueStore {
             lastPageBuf = ByteArray(0)
             lastPage = 0
             lastPageOffset = 0
-            bufferManager.createPage { page, pageid ->
-                SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
+            bufferManager.createPage(SOURCE_FILE) { page, pageid ->
                 lastPageBuf = page
                 lastPage = pageid
                 lastPageOffset = 4
@@ -68,24 +65,18 @@ public class KeyValueStore {
             var id1 = 0
             var id2 = 0
             var id3 = 0
-            bufferManager.createPage { page, pageid ->
-                SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
+            bufferManager.createPage(SOURCE_FILE) { page, pageid ->
                 id1 = pageid
             }
-            bufferManager.createPage { page, pageid ->
-                SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
+            bufferManager.createPage(SOURCE_FILE) { page, pageid ->
                 id2 = pageid
             }
-            bufferManager.createPage { page, pageid ->
-                SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
+            bufferManager.createPage(SOURCE_FILE) { page, pageid ->
                 id3 = pageid
             }
-            SanityCheck.println_buffermanager { "BufferManager.releasePage($id1) : $SOURCE_FILE" }
-            bufferManager.releasePage(id1)
-            SanityCheck.println_buffermanager { "BufferManager.releasePage($id2) : $SOURCE_FILE" }
-            bufferManager.releasePage(id2)
-            SanityCheck.println_buffermanager { "BufferManager.releasePage($id3) : $SOURCE_FILE" }
-            bufferManager.releasePage(id3)
+            bufferManager.releasePage(SOURCE_FILE, id1)
+            bufferManager.releasePage(SOURCE_FILE, id2)
+            bufferManager.releasePage(SOURCE_FILE, id3)
             mappingID2Page = MyIntArray(bufferManager, id1, initFromRootPage)
             mappingID2Off = MyIntArray(bufferManager, id2, initFromRootPage)
             mappingSorted = MyIntArray(bufferManager, id3, initFromRootPage)
@@ -97,32 +88,26 @@ public class KeyValueStore {
 
     @ProguardTestAnnotation
     public fun delete() {
-        SanityCheck.println_buffermanager { "BufferManager.releasePage($lastPage) : $SOURCE_FILE" }
-        bufferManager.releasePage(lastPage)
+        bufferManager.releasePage(SOURCE_FILE, lastPage)
         var pageid = -1
         if (nextID == 0) {
             pageid = lastPage
         } else {
             pageid = mappingID2Page[0]
             while (pageid != lastPage) {
-                SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $SOURCE_FILE" }
-                val page = bufferManager.getPage(pageid)
+                val page = bufferManager.getPage(SOURCE_FILE, pageid)
                 var nextPage = ByteArrayHelper.readInt4(page, 0)
-                SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $SOURCE_FILE" }
-                bufferManager.deletePage(pageid)
+                bufferManager.deletePage(SOURCE_FILE, pageid)
                 pageid = nextPage
             }
         }
         SanityCheck.check { pageid == lastPage }
-        SanityCheck.println_buffermanager { "BufferManager.getPage($lastPage) : $SOURCE_FILE" }
-        bufferManager.getPage(lastPage)
-        SanityCheck.println_buffermanager { "BufferManager.deletePage($lastPage) : $SOURCE_FILE" }
-        bufferManager.deletePage(lastPage)
+        bufferManager.getPage(SOURCE_FILE, lastPage)
+        bufferManager.deletePage(SOURCE_FILE, lastPage)
         mappingID2Page.delete()
         mappingID2Off.delete()
         mappingSorted.delete()
-        SanityCheck.println_buffermanager { "BufferManager.deletePage($rootPageID) : $SOURCE_FILE" }
-        bufferManager.deletePage(rootPageID)
+        bufferManager.deletePage(SOURCE_FILE, rootPageID)
     }
 
     @ProguardTestAnnotation
@@ -130,15 +115,12 @@ public class KeyValueStore {
         mappingID2Page.close()
         mappingID2Off.close()
         mappingSorted.close()
-        SanityCheck.println_buffermanager { "BufferManager.releasePage($rootPageID) : $SOURCE_FILE" }
-        bufferManager.releasePage(rootPageID)
-        SanityCheck.println_buffermanager { "BufferManager.releasePage($lastPage) : $SOURCE_FILE" }
-        bufferManager.releasePage(lastPage)
+        bufferManager.releasePage(SOURCE_FILE, rootPageID)
+        bufferManager.releasePage(SOURCE_FILE, lastPage)
     }
 
     private inline fun readData(page: Int, off: Int): ByteArray {
-        SanityCheck.println_buffermanager { "BufferManager.getPage($page) : $SOURCE_FILE" }
-        var p = bufferManager.getPage(page)
+        var p = bufferManager.getPage(SOURCE_FILE, page)
         var pid = page
         val l = ByteArrayHelper.readInt4(p, off)
         val buf = ByteArray(l)
@@ -149,10 +131,8 @@ public class KeyValueStore {
             var available = p.size - pageoff
             if (available == 0) {
                 var id = ByteArrayHelper.readInt4(p, 0)
-                SanityCheck.println_buffermanager { "BufferManager.releasePage($pid) : $SOURCE_FILE" }
-                bufferManager.releasePage(pid)
-                SanityCheck.println_buffermanager { "BufferManager.getPage($id) : $SOURCE_FILE" }
-                p = bufferManager.getPage(id)
+                bufferManager.releasePage(SOURCE_FILE, pid)
+                p = bufferManager.getPage(SOURCE_FILE, id)
                 pid = id
                 pageoff = 4
                 available = p.size - pageoff
@@ -167,18 +147,15 @@ public class KeyValueStore {
             pageoff += len
             toread -= len
         }
-        SanityCheck.println_buffermanager { "BufferManager.releasePage($pid) : $SOURCE_FILE" }
-        bufferManager.releasePage(pid)
+        bufferManager.releasePage(SOURCE_FILE, pid)
         return buf
     }
 
     private inline fun writeData(data: ByteArray, crossinline action: (page: Int, off: Int) -> Unit) {
         if (lastPageOffset >= lastPageBuf.size - 8) {
-            bufferManager.createPage { page, pageid ->
-                SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
+            bufferManager.createPage(SOURCE_FILE) { page, pageid ->
                 ByteArrayHelper.writeInt4(lastPageBuf, 0, pageid)
-                SanityCheck.println_buffermanager { "BufferManager.releasePage($lastPage) : $SOURCE_FILE" }
-                bufferManager.releasePage(lastPage)
+                bufferManager.releasePage(SOURCE_FILE, lastPage)
                 lastPageBuf = page
                 lastPage = pageid
                 ByteArrayHelper.writeInt4(rootPage, 0, lastPage)
@@ -196,11 +173,9 @@ public class KeyValueStore {
         while (towrite > 0) {
             var available = lastPageBuf.size - lastPageOffset
             if (available == 0) {
-                bufferManager.createPage { page, pageid ->
-                    SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
+                bufferManager.createPage(SOURCE_FILE) { page, pageid ->
                     ByteArrayHelper.writeInt4(lastPageBuf, 0, pageid)
-                    SanityCheck.println_buffermanager { "BufferManager.releasePage($lastPage) : $SOURCE_FILE" }
-                    bufferManager.releasePage(lastPage)
+                    bufferManager.releasePage(SOURCE_FILE, lastPage)
                     lastPageBuf = page
                     lastPage = pageid
                     ByteArrayHelper.writeInt4(rootPage, 0, lastPage)

@@ -30,26 +30,26 @@ internal class NodeManager(bufferManager: BufferManager) {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun releaseNode(nodeid: Int) {
-        SanityCheck.println_buffermanager { "BufferManager.releasePage($nodeid) : $SOURCE_FILE" }
-        bufferManager.releasePage(nodeid)
+    internal inline fun releaseNode(call_location: String, nodeid: Int) {
+        SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $call_location" }
+        bufferManager.releasePage(SOURCE_FILE, nodeid)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun flushNode(nodeid: Int) {
-        SanityCheck.println_buffermanager { "BufferManager.flushPage($nodeid) : $SOURCE_FILE" }
-        bufferManager.flushPage(nodeid)
+    internal inline fun flushNode(call_location: String, nodeid: Int) {
+        SanityCheck.println_nodemanager { "NodeManager.flushNode($nodeid) : $call_location" }
+        bufferManager.flushPage(SOURCE_FILE, nodeid)
     }
 
-    internal inline fun getNodeLeaf(nodeid: Int, crossinline actionLeaf: (ByteArray) -> Unit) {
-        SanityCheck.println_buffermanager { "BufferManager.getPage($nodeid) : $SOURCE_FILE" }
-        val node = bufferManager.getPage(nodeid)
+    internal inline fun getNodeLeaf(call_location: String, nodeid: Int, crossinline actionLeaf: (ByteArray) -> Unit) {
+        SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($nodeid) : $call_location" }
+        val node = bufferManager.getPage(SOURCE_FILE, nodeid)
         actionLeaf(node)
     }
 
-    internal inline fun getNodeAny(nodeid: Int, crossinline actionLeaf: (ByteArray) -> Unit, crossinline actionInner: (ByteArray) -> Unit) {
-        SanityCheck.println_buffermanager { "BufferManager.getPage($nodeid) : $SOURCE_FILE" }
-        val node = bufferManager.getPage(nodeid)
+    internal inline fun getNodeAny(call_location: String, nodeid: Int, crossinline actionLeaf: (ByteArray) -> Unit, crossinline actionInner: (ByteArray) -> Unit) {
+        SanityCheck.println_nodemanager { "NodeManager.getNodeAny($nodeid) : $call_location" }
+        val node = bufferManager.getPage(SOURCE_FILE, nodeid)
         when (NodeShared.getNodeType(node)) {
             nodeTypeInner -> {
                 actionInner(node)
@@ -63,9 +63,9 @@ internal class NodeManager(bufferManager: BufferManager) {
         }
     }
 
-    /*suspend*/ internal inline fun getNodeAnySuspended(nodeid: Int, crossinline actionLeaf: /*suspend*/ (ByteArray) -> Unit, crossinline actionInner: /*suspend*/ (ByteArray) -> Unit) {
-        SanityCheck.println_buffermanager { "BufferManager.getPage($nodeid) : $SOURCE_FILE" }
-        val node = bufferManager.getPage(nodeid)
+    /*suspend*/ internal inline fun getNodeAnySuspended(call_location: String, nodeid: Int, crossinline actionLeaf: /*suspend*/ (ByteArray) -> Unit, crossinline actionInner: /*suspend*/ (ByteArray) -> Unit) {
+        SanityCheck.println_nodemanager { "NodeManager.getNodeAnySuspended($nodeid) : $call_location" }
+        val node = bufferManager.getPage(SOURCE_FILE, nodeid)
         when (NodeShared.getNodeType(node)) {
             nodeTypeInner -> {
                 actionInner(node)
@@ -79,49 +79,49 @@ internal class NodeManager(bufferManager: BufferManager) {
         }
     }
 
-    internal inline /*suspend*/ fun allocateNodeLeaf(crossinline action: /*suspend*/ (ByteArray, Int) -> Unit) {
+    internal inline /*suspend*/ fun allocateNodeLeaf(call_location: String, crossinline action: /*suspend*/ (ByteArray, Int) -> Unit) {
         var node: ByteArray? = null
         var nodeid = -1
-        bufferManager.createPage { p, pageid ->
-            SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
+        bufferManager.createPage(SOURCE_FILE) { p, pageid ->
             node = p
             nodeid = pageid
         }
         NodeShared.setNodeType(node!!, nodeTypeLeaf)
         NodeShared.setNextNode(node!!, nodeNullPointer)
         NodeShared.setTripleCount(node!!, 0)
+        SanityCheck.println_nodemanager { "NodeManager.allocateNodeLeaf($nodeid) : $call_location" }
         action(node!!, nodeid)
     }
 
-    internal inline /*suspend*/ fun allocateNodeInner(crossinline action: /*suspend*/ (ByteArray, Int) -> Unit) {
+    internal inline /*suspend*/ fun allocateNodeInner(call_location: String, crossinline action: /*suspend*/ (ByteArray, Int) -> Unit) {
         var node: ByteArray? = null
         var nodeid = -1
-        bufferManager.createPage { p, pageid ->
-            SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
+        bufferManager.createPage(SOURCE_FILE) { p, pageid ->
             node = p
             nodeid = pageid
         }
         NodeShared.setNodeType(node!!, nodeTypeInner)
         NodeShared.setNextNode(node!!, nodeNullPointer)
         NodeShared.setTripleCount(node!!, 0)
+        SanityCheck.println_nodemanager { "NodeManager.allocateNodeInner($nodeid) : $call_location" }
         action(node!!, nodeid)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline /*suspend*/ fun freeNode(nodeid: Int) {
-        SanityCheck.println_buffermanager { "BufferManager.deletePage($nodeid) : $SOURCE_FILE" }
-        bufferManager.deletePage(nodeid)
+    internal inline /*suspend*/ fun freeNode(call_location: String, nodeid: Int) {
+        SanityCheck.println_nodemanager { "NodeManager.freeNode($nodeid) : $call_location" }
+        bufferManager.deletePage(SOURCE_FILE, nodeid)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline /*suspend*/ fun freeNodeAndAllRelated(nodeid: Int) {
-        SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
-        releaseNode(nodeid)
-        SanityCheck.println_nodemanager { "NodeManager.freeNodeAndAllRelatedInternal($nodeid) : $SOURCE_FILE" }
-        freeNodeAndAllRelatedInternal(nodeid)
+    internal inline /*suspend*/ fun freeNodeAndAllRelated(call_location: String, nodeid: Int) {
+        SanityCheck.println_nodemanager { "NodeManager.freeNodeAndAllRelated($nodeid) : $call_location" }
+        releaseNode(SOURCE_FILE, nodeid)
+        freeNodeAndAllRelatedInternal(SOURCE_FILE, nodeid)
     }
 
-    /*suspend*/ private fun freeNodeAndAllRelatedInternal(nodeid: Int) {
+    /*suspend*/ private fun freeNodeAndAllRelatedInternal(call_location: String, nodeid: Int) {
+        SanityCheck.println_nodemanager { "NodeManager.freeNodeAndAllRelatedInternal($nodeid) : $call_location" }
         if (nodeid != nodeNullPointer) {
             var node: ByteArray? = null
             getNodeAny(
@@ -134,17 +134,16 @@ internal class NodeManager(bufferManager: BufferManager) {
             )
             if (node != null) {
                 NodeInner.forEachChild(node!!) {
-                    SanityCheck.println_nodemanager { "NodeManager.freeNodeAndAllRelatedInternal($it) : $SOURCE_FILE" }
-                    freeNodeAndAllRelatedInternal(it)
+                    freeNodeAndAllRelatedInternal(SOURCE_FILE, it)
                 }
             }
-            SanityCheck.println_nodemanager { "NodeManager.freeNode($nodeid) : $SOURCE_FILE" }
-            freeNode(nodeid)
+            freeNode(SOURCE_FILE, nodeid)
         }
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun freeAllLeaves(nodeid: Int) {
+    /*suspend*/ internal inline fun freeAllLeaves(call_location: String, nodeid: Int) {
+        SanityCheck.println_nodemanager { "NodeManager.freeAllLeaves($nodeid) : $call_location" }
         var pageid = nodeid
         while (pageid != nodeNullPointer) {
             val id = pageid
@@ -152,8 +151,7 @@ internal class NodeManager(bufferManager: BufferManager) {
                 val tmp = NodeShared.getNextNode(node)
                 pageid = tmp
             }
-            SanityCheck.println_nodemanager { "NodeManager.freeNode($id) : $SOURCE_FILE" }
-            freeNode(id)
+            freeNode(SOURCE_FILE, id)
         }
     }
 }

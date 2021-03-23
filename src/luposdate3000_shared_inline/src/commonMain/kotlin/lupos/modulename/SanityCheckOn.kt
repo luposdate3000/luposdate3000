@@ -23,8 +23,8 @@ import kotlin.contracts.contract
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal object SanityCheckOn {
     val SANITYCHECK_PRINTING = false
-    val SANITYCHECK_PRINTING_NODEMANAGER = false
-    val SANITYCHECK_PRINTING_BUFFERMANAGER = false
+    val SANITYCHECK_PRINTING_NODEMANAGER = true
+    val SANITYCHECK_PRINTING_BUFFERMANAGER = true
     internal inline fun println_buffermanager(crossinline s: () -> Any?) {
         contract { callsInPlace(s, AT_MOST_ONCE) }
         if (SANITYCHECK_PRINTING_BUFFERMANAGER) {

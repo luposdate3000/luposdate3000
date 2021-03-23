@@ -77,8 +77,7 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
             var usedNextPage = false
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
-                SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($nodeidTmp) : $SOURCE_FILE" }
-                nodeManager.getNodeLeaf(nodeidTmp) {
+                nodeManager.getNodeLeaf(SOURCE_FILE, nodeidTmp) {
                     SanityCheck.check { node != it }
                     nodeTmp = it
                 }
@@ -90,12 +89,10 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
                 }
                 if (valueTmp >= minValue) {
                     // dont accidentially skip some results at the end of this page
-                    SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeidTmp) : $SOURCE_FILE" }
-                    nodeManager.releaseNode(nodeidTmp)
+                    nodeManager.releaseNode(SOURCE_FILE, nodeidTmp)
                     break
                 }
-                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
-                nodeManager.releaseNode(nodeid)
+                nodeManager.releaseNode(SOURCE_FILE, nodeid)
                 counter += remaining
                 remaining = remainingTmp
                 nodeid = nodeidTmp

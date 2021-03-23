@@ -29,7 +29,6 @@ import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.File
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.Platform
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
 import lupos.s04logicalOperators.IQuery
@@ -198,10 +197,10 @@ public class TripleStoreManagerImpl(
             for (store in index.getAllLocations()) {
                 if (store.first == localhost) {
                     var page: Int = 0
-                    bufferManager.createPage { byteArray, pageid ->
-                        SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
+                    bufferManager.createPage { SOURCE_FILE, byteArray, pageid ->
                         page = pageid
                     }
+                    bufferManager.releasePage(SOURCE_FILE, page)
                     println("allocated store-root page :: $page")
                     localStores[store.second] = TripleStoreIndexIDTriple(page, false)
                 }

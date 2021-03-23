@@ -24,11 +24,11 @@ public expect class BufferManager {
     @ProguardTestAnnotation
     public constructor()
 
-    public fun releasePage(pageid: Int)
-    public fun getPage(pageid: Int): ByteArray
-    /*suspend*/ public fun createPage(action: (ByteArray, Int) -> Unit)
-    /*suspend*/ public fun deletePage(pageid: Int)
-    public fun flushPage(pageid: Int)
+    public fun releasePage(call_location: String, pageid: Int)
+    public fun getPage(call_location: String, pageid: Int): ByteArray
+    /*suspend*/ public fun createPage(call_location: String, action: (ByteArray, Int) -> Unit)
+    /*suspend*/ public fun deletePage(call_location: String, pageid: Int)
+    public fun flushPage(call_location: String, pageid: Int)
 
     @ProguardTestAnnotation
     public fun close()

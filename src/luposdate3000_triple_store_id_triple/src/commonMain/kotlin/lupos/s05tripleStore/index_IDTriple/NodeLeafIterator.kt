@@ -53,12 +53,10 @@ internal class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nod
             needsReset = true
             offset = NodeLeaf.START_OFFSET
             var nextid = NodeShared.getNextNode(node)
-            SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
-            nodeManager.releaseNode(nodeid)
+            nodeManager.releaseNode(SOURCE_FILE, nodeid)
             nodeid = nextid
             if (nodeid != NodeManager.nodeNullPointer) {
-                SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($nodeid) : $SOURCE_FILE" }
-                nodeManager.getNodeLeaf(nodeid) {
+                nodeManager.getNodeLeaf(SOURCE_FILE, nodeid) {
                     SanityCheck.check { node != it }
                     node = it
                     remaining = NodeShared.getTripleCount(node)

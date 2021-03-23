@@ -20,7 +20,6 @@ import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.Parallel
-import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s05tripleStore.TripleStoreIndex
@@ -41,12 +40,10 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     var maxClearCalls = 10
     var bufferManager = BufferManager()
     var rootPage = -1
-    bufferManager.createPage { page, pageid ->
-        SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
+    bufferManager.createPage { SOURCE_FILE, page, pageid ->
         rootPage = pageid
     }
-    SanityCheck.println_buffermanager { "BufferManager.releasePage($rootPage) : $SOURCE_FILE" }
-    bufferManager.releasePage(rootPage)
+    bufferManager.releasePage(SOURCE_FILE, rootPage)
     val order = intArrayOf(0, 1, 2)
     var index: TripleStoreIndex = TripleStoreIndexIDTriple(bufferManager, rootPage, false)
     val dataBuffer = mutableSetOf<Int>() // 2Bytes S, 1 Byte P, 1 Byte O -> this allows fast and easy sorting

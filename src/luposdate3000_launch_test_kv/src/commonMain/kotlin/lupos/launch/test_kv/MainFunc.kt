@@ -20,7 +20,6 @@ import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.kv.KeyValueStore
 import lupos.s00misc.Parallel
-import lupos.s00misc.SanityCheck
 import lupos.test.AflCore
 import kotlin.math.abs
 
@@ -36,12 +35,10 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     var bufferManager = BufferManager()
     var rootPage = -1
-    bufferManager.createPage { page, pageid ->
-        SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
+    bufferManager.createPage(SOURCE_FILE) { page, pageid ->
         rootPage = pageid
     }
-    SanityCheck.println_buffermanager { "BufferManager.releasePage($rootPage) : $SOURCE_FILE" }
-    bufferManager.releasePage(rootPage)
+    bufferManager.releasePage(SOURCE_FILE, rootPage)
     var kv = KeyValueStore(bufferManager, rootPage, false)
 
     val values = mutableListOf<ByteArray>()

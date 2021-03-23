@@ -54,16 +54,15 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
         nodeManager = NodeManager(bufferManager)
-        SanityCheck.println_buffermanager { "BufferManager.getPage($rootPageID) : $SOURCE_FILE" }
-        val rootPage = bufferManager.getPage(rootPageID)
+        val rootPage = bufferManager.getPage(SOURCE_FILE, rootPageID)
         if (initFromRootPage) {
             root = ByteArrayHelper.readInt4(rootPage, 4)
             countPrimary = ByteArrayHelper.readInt4(rootPage, 8)
             distinctPrimary = ByteArrayHelper.readInt4(rootPage, 12)
             firstLeaf = ByteArrayHelper.readInt4(rootPage, 16)
             if (root != NodeManager.nodeNullPointer) {
-                SanityCheck.println_nodemanager { "NodeManager.getNodeAny($root) : $SOURCE_FILE" }
                 nodeManager.getNodeAny(
+                    SOURCE_FILE,
                     root,
                     {
                         SanityCheck.checkUnreachable()
@@ -79,11 +78,9 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             ByteArrayHelper.writeInt4(rootPage, 8, countPrimary)
             ByteArrayHelper.writeInt4(rootPage, 12, distinctPrimary)
             ByteArrayHelper.writeInt4(rootPage, 16, firstLeaf)
-            SanityCheck.println_buffermanager { "BufferManager.flushPage($rootPageID) : $SOURCE_FILE" }
-            bufferManager.flushPage(rootPageID)
+            bufferManager.flushPage(SOURCE_FILE, rootPageID)
         }
-        SanityCheck.println_buffermanager { "BufferManager.releasePage($rootPageID) : $SOURCE_FILE" }
-        bufferManager.releasePage(rootPageID)
+        bufferManager.releasePage(SOURCE_FILE, rootPageID)
     }
 
     private val nodeManager: NodeManager
@@ -91,56 +88,44 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     private var firstLeaf_: Int = NodeManager.nodeNullPointer
     private var firstLeaf: Int
         set(value) {
-            SanityCheck.println_buffermanager { "BufferManager.getPage($rootPageID) : $SOURCE_FILE" }
-            val rootPage = bufferManager.getPage(rootPageID)
+            val rootPage = bufferManager.getPage(SOURCE_FILE, rootPageID)
             ByteArrayHelper.writeInt4(rootPage, 16, value)
             firstLeaf_ = value
-            SanityCheck.println_buffermanager { "BufferManager.flushPage($rootPageID) : $SOURCE_FILE" }
-            bufferManager.flushPage(rootPageID)
-            SanityCheck.println_buffermanager { "BufferManager.releasePage($rootPageID) : $SOURCE_FILE" }
-            bufferManager.releasePage(rootPageID)
+            bufferManager.flushPage(SOURCE_FILE, rootPageID)
+            bufferManager.releasePage(SOURCE_FILE, rootPageID)
         }
         get() = firstLeaf_
 
     private var root_: Int = NodeManager.nodeNullPointer
     private var root: Int
         set(value) {
-            SanityCheck.println_buffermanager { "BufferManager.getPage($rootPageID) : $SOURCE_FILE" }
-            val rootPage = bufferManager.getPage(rootPageID)
+            val rootPage = bufferManager.getPage(SOURCE_FILE, rootPageID)
             ByteArrayHelper.writeInt4(rootPage, 4, value)
             root_ = value
-            SanityCheck.println_buffermanager { "BufferManager.flushPage($rootPageID) : $SOURCE_FILE" }
-            bufferManager.flushPage(rootPageID)
-            SanityCheck.println_buffermanager { "BufferManager.releasePage($rootPageID) : $SOURCE_FILE" }
-            bufferManager.releasePage(rootPageID)
+            bufferManager.flushPage(SOURCE_FILE, rootPageID)
+            bufferManager.releasePage(SOURCE_FILE, rootPageID)
         }
         get() = root_
 
     private var countPrimary_: Int = 0
     private var countPrimary: Int
         set(value) {
-            SanityCheck.println_buffermanager { "BufferManager.getPage($rootPageID) : $SOURCE_FILE" }
-            val rootPage = bufferManager.getPage(rootPageID)
+            val rootPage = bufferManager.getPage(SOURCE_FILE, rootPageID)
             ByteArrayHelper.writeInt4(rootPage, 8, value)
             countPrimary_ = value
-            SanityCheck.println_buffermanager { "BufferManager.flushPage($rootPageID) : $SOURCE_FILE" }
-            bufferManager.flushPage(rootPageID)
-            SanityCheck.println_buffermanager { "BufferManager.releasePage($rootPageID) : $SOURCE_FILE" }
-            bufferManager.releasePage(rootPageID)
+            bufferManager.flushPage(SOURCE_FILE, rootPageID)
+            bufferManager.releasePage(SOURCE_FILE, rootPageID)
         }
         get() = countPrimary_
 
     private var distinctPrimary_: Int = 0
     private var distinctPrimary: Int
         set(value) {
-            SanityCheck.println_buffermanager { "BufferManager.getPage($rootPageID) : $SOURCE_FILE" }
-            val rootPage = bufferManager.getPage(rootPageID)
+            val rootPage = bufferManager.getPage(SOURCE_FILE, rootPageID)
             ByteArrayHelper.writeInt4(rootPage, 12, value)
             distinctPrimary_ = value
-            SanityCheck.println_buffermanager { "BufferManager.flushPage($rootPageID) : $SOURCE_FILE" }
-            bufferManager.flushPage(rootPageID)
-            SanityCheck.println_buffermanager { "BufferManager.releasePage($rootPageID) : $SOURCE_FILE" }
-            bufferManager.releasePage(rootPageID)
+            bufferManager.flushPage(SOURCE_FILE, rootPageID)
+            bufferManager.releasePage(SOURCE_FILE, rootPageID)
         }
         get() = distinctPrimary_
 
@@ -423,27 +408,22 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     private fun importHelper(a: Int, b: Int): Int {
         var nodeA: ByteArray? = null
         var nodeB: ByteArray? = null
-        SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($a) : $SOURCE_FILE" }
-        nodeManager.getNodeLeaf(a) {
+        nodeManager.getNodeLeaf(SOURCE_FILE, a) {
             nodeA = it
         }
-        SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($b) : $SOURCE_FILE" }
-        nodeManager.getNodeLeaf(b) {
+        nodeManager.getNodeLeaf(SOURCE_FILE, b) {
             nodeB = it
         }
         val res = importHelper(MergeIterator(NodeLeaf.iterator(nodeA!!, a, nodeManager), NodeLeaf.iterator(nodeB!!, b, nodeManager)))
-        SanityCheck.println_nodemanager { "NodeManager.freeAllLeaves($a) : $SOURCE_FILE" }
-        nodeManager.freeAllLeaves(a)
-        SanityCheck.println_nodemanager { "NodeManager.freeAllLeaves($b) : $SOURCE_FILE" }
-        nodeManager.freeAllLeaves(b)
+        nodeManager.freeAllLeaves(SOURCE_FILE, a)
+        nodeManager.freeAllLeaves(SOURCE_FILE, b)
         return res
     }
 
     private fun importHelper(iterator: TripleIterator): Int {
         var res = NodeManager.nodeNullPointer
         var node2: ByteArray? = null
-        nodeManager.allocateNodeLeaf { n, i ->
-            SanityCheck.println_nodemanager { "NodeManager.allocateNodeLeaf($i) : $SOURCE_FILE" }
+        nodeManager.allocateNodeLeaf(SOURCE_FILE) { n, i ->
             res = i
             node2 = n
         }
@@ -451,22 +431,17 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         var node = node2!!
         NodeLeaf.initializeWith(node, nodeid, iterator)
         while (iterator.hasNext()) {
-            nodeManager.allocateNodeLeaf { n, i ->
-                SanityCheck.println_nodemanager { "NodeManager.allocateNodeLeaf($i) : $SOURCE_FILE" }
+            nodeManager.allocateNodeLeaf(SOURCE_FILE) { n, i ->
                 NodeShared.setNextNode(node, i)
-                SanityCheck.println_nodemanager { "NodeManager.flushNode($nodeid) : $SOURCE_FILE" }
-                nodeManager.flushNode(nodeid)
-                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
-                nodeManager.releaseNode(nodeid)
+                nodeManager.flushNode(SOURCE_FILE, nodeid)
+                nodeManager.releaseNode(SOURCE_FILE, nodeid)
                 nodeid = i
                 node = n
             }
             NodeLeaf.initializeWith(node, nodeid, iterator)
         }
-        SanityCheck.println_nodemanager { "NodeManager.flushNode($nodeid) : $SOURCE_FILE" }
-        nodeManager.flushNode(nodeid)
-        SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
-        nodeManager.releaseNode(nodeid)
+        nodeManager.flushNode(SOURCE_FILE, nodeid)
+        nodeManager.releaseNode(SOURCE_FILE, nodeid)
         return res
     }
 
@@ -522,8 +497,8 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             val firstLeaf2 = pendingImport[pendingImport.size - 1]!!
             var node: ByteArray? = null
             var flag = false
-            SanityCheck.println_nodemanager { "NodeManager.getNodeAny($firstLeaf2) : $SOURCE_FILE" }
             nodeManager.getNodeAny(
+                SOURCE_FILE,
                 firstLeaf2,
                 {
                     flag = true
@@ -544,8 +519,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             } else {
                 rebuildData(NodeInner.iterator(node!!, nodeManager))
             }
-            SanityCheck.println_nodemanager { "NodeManager.freeAllLeaves($firstLeaf2) : $SOURCE_FILE" }
-            nodeManager.freeAllLeaves(firstLeaf2)
+            nodeManager.freeAllLeaves(SOURCE_FILE, firstLeaf2)
             pendingImport.clear()
         }
     }
@@ -556,8 +530,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Int>()
             var node2: ByteArray? = null
-            nodeManager.allocateNodeLeaf { n, i ->
-                SanityCheck.println_nodemanager { "NodeManager.allocateNodeLeaf($i) : $SOURCE_FILE" }
+            nodeManager.allocateNodeLeaf(SOURCE_FILE) { n, i ->
                 firstLeaf = i
                 node2 = n
                 currentLayer.add(i)
@@ -566,13 +539,10 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             var nodeid = firstLeaf
             NodeLeaf.initializeWith(node, nodeid, iterator)
             while (iterator.hasNext()) {
-                nodeManager.allocateNodeLeaf { n, i ->
-                    SanityCheck.println_nodemanager { "NodeManager.allocateNodeLeaf($i) : $SOURCE_FILE" }
+                nodeManager.allocateNodeLeaf(SOURCE_FILE) { n, i ->
                     NodeShared.setNextNode(node, i)
-                    SanityCheck.println_nodemanager { "NodeManager.flushNode($nodeid) : $SOURCE_FILE" }
-                    nodeManager.flushNode(nodeid)
-                    SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
-                    nodeManager.releaseNode(nodeid)
+                    nodeManager.flushNode(SOURCE_FILE, nodeid)
+                    nodeManager.releaseNode(SOURCE_FILE, nodeid)
                     nodeid = i
                     node = n
                     currentLayer.add(i)
@@ -585,12 +555,9 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                 while (currentLayer.size > 1) {
                     val tmp = mutableListOf<Int>()
                     var prev2: ByteArray? = null
-                    nodeManager.allocateNodeInner { n, i ->
-                        SanityCheck.println_nodemanager { "NodeManager.allocateNodeInner($i) : $SOURCE_FILE" }
-                        SanityCheck.println_nodemanager { "NodeManager.flushNode($nodeid) : $SOURCE_FILE" }
-                        nodeManager.flushNode(nodeid)
-                        SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
-                        nodeManager.releaseNode(nodeid)
+                    nodeManager.allocateNodeInner(SOURCE_FILE) { n, i ->
+                        nodeManager.flushNode(SOURCE_FILE, nodeid)
+                        nodeManager.releaseNode(SOURCE_FILE, nodeid)
                         nodeid = i
                         tmp.add(i)
                         NodeInner.initializeWith(n, i, currentLayer, nodeManager)
@@ -598,12 +565,9 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     }
                     var prev = prev2!!
                     while (currentLayer.size > 0) {
-                        nodeManager.allocateNodeInner { n, i ->
-                            SanityCheck.println_nodemanager { "NodeManager.allocateNodeInner($i) : $SOURCE_FILE" }
-                            SanityCheck.println_nodemanager { "NodeManager.flushNode($nodeid) : $SOURCE_FILE" }
-                            nodeManager.flushNode(nodeid)
-                            SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
-                            nodeManager.releaseNode(nodeid)
+                        nodeManager.allocateNodeInner(SOURCE_FILE) { n, i ->
+                            nodeManager.flushNode(SOURCE_FILE, nodeid)
+                            nodeManager.releaseNode(SOURCE_FILE, nodeid)
                             nodeid = i
                             tmp.add(i)
                             NodeInner.initializeWith(n, i, currentLayer, nodeManager)
@@ -615,14 +579,12 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                 }
             }
             rebuildDataPart1()
-            SanityCheck.println_nodemanager { "NodeManager.flushNode($nodeid) : $SOURCE_FILE" }
-            nodeManager.flushNode(nodeid)
-            SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
-            nodeManager.releaseNode(nodeid)
+            nodeManager.flushNode(SOURCE_FILE, nodeid)
+            nodeManager.releaseNode(SOURCE_FILE, nodeid)
             var rootNodeIsLeaf = false
             SanityCheck.check { rootNode == null }
-            SanityCheck.println_nodemanager { "NodeManager.getNodeAny(${currentLayer[0]}) : $SOURCE_FILE" }
             nodeManager.getNodeAny(
+                SOURCE_FILE,
                 currentLayer[0],
                 {
                     rootNodeIsLeaf = true
@@ -633,17 +595,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                 }
             )
             if (rootNodeIsLeaf) {
-                SanityCheck.println_nodemanager { "NodeManager.flushNode($nodeid) : $SOURCE_FILE" }
-                nodeManager.flushNode(nodeid)
-                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
-                nodeManager.releaseNode(nodeid)
-                nodeManager.allocateNodeInner { n, i ->
-                    SanityCheck.println_nodemanager { "NodeManager.allocateNodeInner($i) : $SOURCE_FILE" }
+                nodeManager.flushNode(SOURCE_FILE, nodeid)
+                nodeManager.releaseNode(SOURCE_FILE, nodeid)
+                nodeManager.allocateNodeInner(SOURCE_FILE) { n, i ->
                     NodeInner.initializeWith(n, i, mutableListOf(currentLayer[0]), nodeManager)
                     rootNode = n
                     root = i
-                    SanityCheck.println_nodemanager { "NodeManager.flushNode($root) : $SOURCE_FILE" }
-                    nodeManager.flushNode(root)
+                    nodeManager.flushNode(SOURCE_FILE, root)
                 }
             }
         } else {
@@ -672,8 +630,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         if (firstLeaf == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
         } else {
-            SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($firstLeaf) : $SOURCE_FILE" }
-            nodeManager.getNodeLeaf(firstLeaf) {
+            nodeManager.getNodeLeaf(SOURCE_FILE, firstLeaf) {
                 iteratorStore2 = NodeLeaf.iterator(it, firstLeaf, nodeManager)
             }
         }
@@ -685,8 +642,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         firstLeaf = NodeManager.nodeNullPointer
         rebuildData(iterator)
         if (oldroot != NodeManager.nodeNullPointer) {
-            SanityCheck.println_nodemanager { "NodeManager.freeNodeAndAllRelated($oldroot) : $SOURCE_FILE" }
-            nodeManager.freeNodeAndAllRelated(oldroot)
+            nodeManager.freeNodeAndAllRelated(SOURCE_FILE, oldroot)
         }
         lock.writeUnlock()
     }
@@ -705,8 +661,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         if (firstLeaf == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
         } else {
-            SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($firstLeaf) : $SOURCE_FILE" }
-            nodeManager.getNodeLeaf(firstLeaf) {
+            nodeManager.getNodeLeaf(SOURCE_FILE, firstLeaf) {
                 iteratorStore2 = NodeLeaf.iterator(it, firstLeaf, nodeManager)
             }
         }
@@ -718,8 +673,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         firstLeaf = NodeManager.nodeNullPointer
         rebuildData(iterator)
         if (oldroot != NodeManager.nodeNullPointer) {
-            SanityCheck.println_nodemanager { "NodeManager.freeNodeAndAllRelated($oldroot) : $SOURCE_FILE" }
-            nodeManager.freeNodeAndAllRelated(oldroot)
+            nodeManager.freeNodeAndAllRelated(SOURCE_FILE, oldroot)
         }
         lock.writeUnlock()
     }
@@ -727,8 +681,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     override fun clear() {
         flushContinueWithWriteLock()
         if (root != NodeManager.nodeNullPointer) {
-            SanityCheck.println_nodemanager { "NodeManager.freeNodeAndAllRelated($root) : $SOURCE_FILE" }
-            nodeManager.freeNodeAndAllRelated(root)
+            nodeManager.freeNodeAndAllRelated(SOURCE_FILE, root)
             root = NodeManager.nodeNullPointer
         }
         firstLeaf = NodeManager.nodeNullPointer
@@ -739,10 +692,8 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun delete() {
         clear()
-        SanityCheck.println_buffermanager { "BufferManager.getPage($rootPageID) : $SOURCE_FILE" }
-        bufferManager.getPage(rootPageID)
-        SanityCheck.println_buffermanager { "BufferManager.deletePage($rootPageID) : $SOURCE_FILE" }
-        bufferManager.deletePage(rootPageID)
+        bufferManager.getPage(SOURCE_FILE, rootPageID)
+        bufferManager.deletePage(SOURCE_FILE, rootPageID)
     }
 
     override fun close() {

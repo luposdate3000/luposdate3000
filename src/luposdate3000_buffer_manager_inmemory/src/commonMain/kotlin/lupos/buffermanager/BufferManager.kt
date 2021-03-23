@@ -77,13 +77,18 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
         return res
     }
 
-    public fun flushPage(pageid: Int) {}
-    public fun releasePage(pageid: Int) {
+    public fun flushPage(call_location: String, pageid: Int) {
+        SanityCheck.println_buffermanager { "BufferManager.flushPage($pageid) : $call_location" }
+    }
+
+    public fun releasePage(call_location: String, pageid: Int) {
+        SanityCheck.println_buffermanager { "BufferManager.releasePage($pageid) : $call_location" }
         SanityCheck.check({ allPagesRefcounters[pageid] > 0 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} > 0" })
         allPagesRefcounters[pageid]--
     }
 
-    public fun getPage(pageid: Int): ByteArray {
+    public fun getPage(call_location: String, pageid: Int): ByteArray {
+        SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $call_location" }
         // no locking required, assuming an assignment to 'allPages' is atomic
         SanityCheck {
             SanityCheck.check({ pageid < counter }, { "$pageid < $counter" })
@@ -96,7 +101,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
         return allPages[pageid]
     }
 
-    public /*suspend*/ fun createPage(action: (ByteArray, Int) -> Unit): Unit = lock.withWriteLock {
+    public /*suspend*/ fun createPage(call_location: String, action: (ByteArray, Int) -> Unit): Unit = lock.withWriteLock {
         val pageid: Int
         if (freeList.size > 0 && BUFFER_MANAGER_USE_FREE_LIST) {
             pageid = freeList.removeAt(0)
@@ -124,10 +129,12 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
             pageid = counter++
         }
         allPagesRefcounters[pageid]++
+        SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $call_location" }
         action(allPages[pageid], pageid)
     }
 
-    public /*suspend*/ fun deletePage(pageid: Int): Unit = lock.withWriteLock {
+    public /*suspend*/ fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
+        SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $call_location" }
         SanityCheck {
             if (BUFFER_MANAGER_USE_FREE_LIST) {
                 SanityCheck.check { !freeList.contains(pageid) }

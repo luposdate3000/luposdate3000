@@ -44,8 +44,7 @@ internal object NodeInner {
                     nextnodeid = getFirstChild(node)
                 }
             )
-            SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
-            nodeManager.releaseNode(nodeid)
+            nodeManager.releaseNode(SOURCE_FILE, nodeid)
             nodeid = nextnodeid
         }
     }
@@ -87,8 +86,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
-                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
-                nodeManager.releaseNode(nodeid)
+                nodeManager.releaseNode(SOURCE_FILE, nodeid)
             } else {
                 break
             }
@@ -112,8 +110,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
-                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
-                nodeManager.releaseNode(nodeid)
+                nodeManager.releaseNode(SOURCE_FILE, nodeid)
             } else {
                 break
             }
@@ -185,8 +182,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
-                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
-                nodeManager.releaseNode(nodeid)
+                nodeManager.releaseNode(SOURCE_FILE, nodeid)
             } else {
                 break
             }
@@ -219,8 +215,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
-                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
-                nodeManager.releaseNode(nodeid)
+                nodeManager.releaseNode(SOURCE_FILE, nodeid)
             } else {
                 break
             }
@@ -253,8 +248,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
-                SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $SOURCE_FILE" }
-                nodeManager.releaseNode(nodeid)
+                nodeManager.releaseNode(SOURCE_FILE, nodeid)
             } else {
                 break
             }
@@ -292,8 +286,7 @@ internal object NodeInner {
                     getFirstTriple(it, tripleCurrent, nodeManager)
                 }
             )
-            SanityCheck.println_nodemanager { "NodeManager.releaseNode($current) : $SOURCE_FILE" }
-            nodeManager.releaseNode(current)
+            nodeManager.releaseNode(SOURCE_FILE, current)
             SanityCheck {
                 writtenHeaders!!.add(current)
                 writtenTriples!!.add(tripleCurrent[0])

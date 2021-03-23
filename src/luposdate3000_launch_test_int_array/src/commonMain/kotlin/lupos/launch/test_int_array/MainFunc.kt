@@ -20,7 +20,6 @@ import lupos.SOURCE_FILE
 import lupos.buffermanager.BufferManager
 import lupos.kv.MyIntArray
 import lupos.s00misc.Parallel
-import lupos.s00misc.SanityCheck
 import lupos.test.AflCore
 import kotlin.math.abs
 
@@ -37,12 +36,10 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     var dataSize = 0
     val data = IntArray(maxSize)
     var rootPage = -1
-    bufferManager.createPage { page, pageid ->
-        SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
+    bufferManager.createPage(SOURCE_FILE) { page, pageid ->
         rootPage = pageid
     }
-    SanityCheck.println_buffermanager { "BufferManager.releasePage($rootPage) : $SOURCE_FILE" }
-    bufferManager.releasePage(rootPage)
+    bufferManager.releasePage(SOURCE_FILE, rootPage)
     var arr = MyIntArray(bufferManager, rootPage, false)
 
     fun testSetSizeOk(size: Int) {

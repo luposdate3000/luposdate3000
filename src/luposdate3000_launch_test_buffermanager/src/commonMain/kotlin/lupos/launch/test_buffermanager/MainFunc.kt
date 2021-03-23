@@ -21,7 +21,6 @@ import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.Parallel
-import lupos.s00misc.SanityCheck
 import lupos.test.AflCore
 import kotlin.math.abs
 
@@ -43,8 +42,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         if (verbose) {
             println("testReleasePageOk $pageid")
         }
-        SanityCheck.println_buffermanager { "BufferManager.releasePage($pageid) : $SOURCE_FILE" }
-        bufferManager.releasePage(pageid)
+        bufferManager.releasePage(SOURCE_FILE, pageid)
         val cnt = mappedPagesCtr[pageid]
         if (cnt == null) {
             throw Exception("")
@@ -63,8 +61,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         }
         var flag = true
         try {
-            SanityCheck.println_buffermanager { "BufferManager.releasePage($pageid) : $SOURCE_FILE" }
-            bufferManager.releasePage(pageid)
+            bufferManager.releasePage(SOURCE_FILE, pageid)
         } catch (e: Throwable) {
             flag = false
         }
@@ -77,8 +74,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         if (verbose) {
             println("testGetPageOk $pageid")
         }
-        SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $SOURCE_FILE" }
-        val page = bufferManager.getPage(pageid)
+        val page = bufferManager.getPage(SOURCE_FILE, pageid)
         val id = ByteArrayHelper.readInt4(page, 0)
         if (id != pageid) {
             throw Exception("")
@@ -102,8 +98,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         }
         var flag = true
         try {
-            SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $SOURCE_FILE" }
-            bufferManager.getPage(pageid)
+            bufferManager.getPage(SOURCE_FILE, pageid)
         } catch (e: Throwable) {
             flag = false
         }
@@ -113,8 +108,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
 
     fun testCreateNewPageOk() {
-        bufferManager.createPage { page, pageid ->
-            SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $SOURCE_FILE" }
+        bufferManager.createPage(SOURCE_FILE) { page, pageid ->
             if (verbose) {
                 println("testCreateNewPageOk $pageid")
             }
@@ -138,8 +132,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         if (verbose) {
             println("testDeletePageOk $pageid")
         }
-        SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $SOURCE_FILE" }
-        bufferManager.deletePage(pageid)
+        bufferManager.deletePage(SOURCE_FILE, pageid)
         mappedPagesCtr.remove(pageid)
         mappedPages.remove(pageid)
         pageIds.remove(pageid)
@@ -151,8 +144,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         }
         var flag = true
         try {
-            SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $SOURCE_FILE" }
-            bufferManager.deletePage(pageid)
+            bufferManager.deletePage(SOURCE_FILE, pageid)
         } catch (e: Throwable) {
             flag = false
         }
@@ -261,14 +253,12 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         throw Exception("")
     }
     for (pageid in pageIds) {
-        SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $SOURCE_FILE" }
-        val page = bufferManager.getPage(pageid)
+        val page = bufferManager.getPage(SOURCE_FILE, pageid)
         val id = ByteArrayHelper.readInt4(page, 0)
         if (id != pageid) {
             throw Exception("")
         }
-        SanityCheck.println_buffermanager { "BufferManager.releasePage($pageid) : $SOURCE_FILE" }
-        bufferManager.releasePage(pageid)
+        bufferManager.releasePage(SOURCE_FILE, pageid)
     }
     if (bufferManager.getNumberOfReferencedPages() != 0) {
         throw Exception("")
@@ -285,14 +275,12 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         throw Exception("")
     }
     for (pageid in pageIds) {
-        SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $SOURCE_FILE" }
-        val page = bufferManager.getPage(pageid)
+        val page = bufferManager.getPage(SOURCE_FILE, pageid)
         val id = ByteArrayHelper.readInt4(page, 0)
         if (id != pageid) {
             throw Exception("")
         }
-        SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $SOURCE_FILE" }
-        bufferManager.deletePage(pageid)
+        bufferManager.deletePage(SOURCE_FILE, pageid)
     }
     if (bufferManager.getNumberOfReferencedPages() != 0) {
         throw Exception("")

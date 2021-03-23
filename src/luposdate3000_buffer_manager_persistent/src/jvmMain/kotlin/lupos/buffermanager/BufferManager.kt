@@ -122,7 +122,8 @@ public actual class BufferManager internal actual constructor(@JvmField public v
         return openId
     }
 
-    public actual fun flushPage(pageid: Int) {
+    public actual fun flushPage(call_location: String, pageid: Int) {
+        SanityCheck.println_buffermanager { "BufferManager.flushPage($pageid) : $call_location" }
         SanityCheck.check { !closed }
         lock.withWriteLock {
             localSanityCheck()
@@ -151,7 +152,8 @@ public actual class BufferManager internal actual constructor(@JvmField public v
         }
     }
 
-    public actual fun releasePage(pageid: Int) {
+    public actual fun releasePage(call_location: String, pageid: Int) {
+        SanityCheck.println_buffermanager { "BufferManager.releasePage($pageid) : $call_location" }
         SanityCheck.check { !closed }
         lock.withWriteLock {
             localSanityCheck()
@@ -185,7 +187,8 @@ public actual class BufferManager internal actual constructor(@JvmField public v
         }
     }
 
-    public actual fun getPage(pageid: Int): ByteArray {
+    public actual fun getPage(call_location: String, pageid: Int): ByteArray {
+        SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $call_location" }
         SanityCheck.check { !closed }
         var openId: Int?
         lock.withWriteLock {
@@ -210,7 +213,7 @@ public actual class BufferManager internal actual constructor(@JvmField public v
         return openPages[openId!!]
     }
 
-    public actual /*suspend*/ fun createPage(action: (ByteArray, Int) -> Unit) {
+    public actual /*suspend*/ fun createPage(call_location: String, action: (ByteArray, Int) -> Unit) {
         contract { callsInPlace(action, EXACTLY_ONCE) }
         SanityCheck.check { !closed }
         lock.withWriteLock {
@@ -234,12 +237,14 @@ public actual class BufferManager internal actual constructor(@JvmField public v
             SanityCheck.check { !openPagesMapping.values.contains(openId) }
             openPagesMapping[pageid] = openId
             Arrays.fill(openPages[openId], 0)
+            SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $call_location" }
             action(openPages[openId], pageid)
             localSanityCheck()
         }
     }
 
-    public actual /*suspend*/ fun deletePage(pageid: Int): Unit = lock.withWriteLock {
+    public actual /*suspend*/ fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
+        SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $call_location" }
         SanityCheck.check { !closed }
         localSanityCheck()
         SanityCheck.check { pageid < counter }
