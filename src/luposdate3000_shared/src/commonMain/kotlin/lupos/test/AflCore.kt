@@ -38,11 +38,10 @@ public class AflCore(private val testname: String, private val maxlen_multiplica
  if arg is an long, than random tests are executed
  otherwise it is assumed, that arg is a filename, which is then used as input data
  */
-        var seed = 0L
-        var dataoff: Int = 0
         try {
+            val seed = arg.toLong()
             val data = IntArray(1 shl 24)
-            seed = arg.toLong()
+            var dataoff: Int = 0
             // randomized testing
             var tests = 0
             var errors = 0
