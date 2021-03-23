@@ -240,7 +240,7 @@ public class DictionaryGlobal {
                     langTaggedToValue = tmp
                 }
                 else -> {
-                    throw Exception("unexpected type")
+                    throw Exception("unexpected type ${ETripleComponentTypeExt.names[t]}")
                 }
             }
         }
