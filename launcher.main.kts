@@ -805,7 +805,7 @@ fun onRun() {
             val dependencies = mutableListOf<String>()
             val scripts = mutableListOf<String>()
             for (module in getAllModuleConfigurations()) {
-                if (module.enabledRunFunc() && module.modulePrefix != "Luposdate3000_Main") {
+                if (module.enabledRunFunc()) {
                     val s: String
                     if (module.modulePrefix == module.moduleName) {
                         s = "bin$appendix/${module.modulePrefix}.js"
@@ -841,14 +841,17 @@ fun onRun() {
                 }
             }
             for (s in scripts) {
-                Files.copy(File(s).toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${File(s).getName()}").toPath(), REPLACE_EXISTING)
-                Files.copy(File("$s.map").toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${File(s).getName()}.map").toPath(), REPLACE_EXISTING)
+                Files.copy(File("build-cache${Platform.getPathSeparator()}$s").toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${File(s).getName()}").toPath(), REPLACE_EXISTING)
+                Files.copy(File("build-cache${Platform.getPathSeparator()}$s.map").toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${File(s).getName()}.map").toPath(), REPLACE_EXISTING)
             }
             File("build-cache${Platform.getPathSeparator()}nodeJsMain.js").printWriter().use { out ->
                 out.println("var mainLauncher = require(\"Luposdate3000_Main.js\")")
                 out.println("mainLauncher.mainFunc(process.argv.slice(2))")
             }
-            val p = ProcessBuilder("node", "build-cache${Platform.getPathSeparator()}nodeJsMain.js")
+            val cmd = mutableListOf("node", "build-cache${Platform.getPathSeparator()}nodeJsMain.js")
+            cmd.addAll(runArgs)
+            println(cmd)
+            val p = ProcessBuilder(cmd)
                 .redirectOutput(Redirect.INHERIT)
                 .redirectError(Redirect.INHERIT)
                 .start()
