@@ -39,8 +39,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     var maxClearCalls = 10
     var bufferManager = BufferManager()
     var rootPage = -1
-    bufferManager.createPage {
-        lupos.SOURCE_FILE, page, pageid ->
+    bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
         rootPage = pageid
     }
     bufferManager.releasePage(lupos.SOURCE_FILE, rootPage)

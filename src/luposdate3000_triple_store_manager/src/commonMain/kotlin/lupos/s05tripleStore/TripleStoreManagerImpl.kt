@@ -196,8 +196,7 @@ public class TripleStoreManagerImpl(
             for (store in index.getAllLocations()) {
                 if (store.first == localhost) {
                     var page: Int = 0
-                    bufferManager.createPage {
-                        lupos.SOURCE_FILE, byteArray, pageid ->
+                    bufferManager.createPage(lupos.SOURCE_FILE) { byteArray, pageid ->
                         page = pageid
                     }
                     bufferManager.releasePage(lupos.SOURCE_FILE, page)
