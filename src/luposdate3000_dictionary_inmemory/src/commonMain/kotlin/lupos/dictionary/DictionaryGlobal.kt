@@ -193,8 +193,6 @@ public class DictionaryGlobal {
                     }
                     iriToValue = tmp
                 }
-                ETripleComponentTypeExt.BLANK_NODE -> {
-                }
                 ETripleComponentTypeExt.STRING -> {
                     val tmp = Array(typedToValue.size + typed[t]) { DictionaryShared.emptyString }
                     for (i in typedToValue.indices) {
@@ -238,6 +236,12 @@ public class DictionaryGlobal {
                         tmp[i] = langTaggedToValue[i]
                     }
                     langTaggedToValue = tmp
+                }
+                ETripleComponentTypeExt.DATE_TIME,
+                ETripleComponentTypeExt.ERROR,
+                ETripleComponentTypeExt.FLOAT,
+                ETripleComponentTypeExt.UNDEF,
+                ETripleComponentTypeExt.BLANK_NODE -> {
                 }
                 else -> {
                     throw Exception("unexpected type ${ETripleComponentTypeExt.names[t]}")
@@ -287,8 +291,11 @@ public class DictionaryGlobal {
                 val tmp = DictionaryIntermediate.decodeLang(s)
                 return createLangTagged(tmp.first, tmp.second)
             }
+            ETripleComponentTypeExt.ERROR -> {
+                return DictionaryExt.errorValue
+            }
             else -> {
-                throw Exception("unexpected type")
+                throw Exception("unexpected type ${ETripleComponentTypeExt.names[type]}")
             }
         }
     }

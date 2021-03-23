@@ -78,9 +78,9 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<Stri
                     }
                 }
             }
-            s = s.replace("${'$'}lupos.SOURCE_FILE", "${src.getAbsolutePath()}:$line")
-            s = s.replace("${'$'}{lupos.SOURCE_FILE}", "${src.getAbsolutePath()}:$line")
-            s = s.replace("lupos.SOURCE_FILE", "\"${src.getAbsolutePath()}:$line\"")
+            s = s.replace("${'$'}lupos.SOURCE_FILE", "${src.getAbsolutePath().replace("\\", "\\\\")}:$line")
+            s = s.replace("${'$'}{lupos.SOURCE_FILE}", "${src.getAbsolutePath().replace("\\", "\\\\")}:$line")
+            s = s.replace("lupos.SOURCE_FILE", "\"${src.getAbsolutePath().replace("\\", "\\\\")}:$line\"")
             out.println(s)
             line++
         }
