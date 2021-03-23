@@ -174,6 +174,7 @@ public class DictionaryGlobal {
     private inline fun importFromDictionaryFileH(filename: String, mapping: IntArray?) {
         var lastId = -1
         DictionaryIntermediateReader(filename).readAll { type, id, value ->
+            println("id $id $type $value")
             val i = createByType(value, type)
             SanityCheck.check { lastId == id - 1 }
             lastId = id
