@@ -16,7 +16,6 @@
  */
 package lupos.dictionary
 
-import lupos.fileformat.DictionaryIntermediate
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
@@ -36,58 +35,6 @@ import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s03resultRepresentation.ValueUndef
 
 public object DictionaryHelper {
-    public fun intermediateToByteArray(value: String, type: ETripleComponentType): ByteArray {
-        val res: ByteArray
-        when (type) {
-            ETripleComponentTypeExt.ERROR -> {
-                res = ByteArray(4)
-                ByteArrayHelper.writeInt4(res, 0, ETripleComponentTypeExt.ERROR)
-            }
-            ETripleComponentTypeExt.IRI -> {
-                val buf1 = value.encodeToByteArray()
-                res = ByteArray(8 + buf1.size)
-                ByteArrayHelper.writeInt4(res, 0, ETripleComponentTypeExt.IRI)
-                ByteArrayHelper.writeInt4(res, 4, buf1.size)
-                buf1.copyInto(res, 8)
-            }
-            ETripleComponentTypeExt.STRING -> {
-                val tmp = DictionaryIntermediate.decodeString(value)
-                val buf1 = tmp.substring(1, tmp.length).encodeToByteArray()
-                res = ByteArray(8 + buf1.size)
-                ByteArrayHelper.writeInt4(res, 0, ETripleComponentTypeExt.STRING)
-                ByteArrayHelper.writeInt4(res, 4, buf1.size)
-                buf1.copyInto(res, 8)
-            }
-            ETripleComponentTypeExt.STRING_LANG -> {
-                val tmp = DictionaryIntermediate.decodeLang(value)
-                val buf1 = tmp.first.substring(1, tmp.first.length - 1).encodeToByteArray()
-                val buf2 = tmp.second.encodeToByteArray()
-                res = ByteArray(12 + buf1.size + buf2.size)
-                ByteArrayHelper.writeInt4(res, 0, ETripleComponentTypeExt.STRING_LANG)
-                ByteArrayHelper.writeInt4(res, 4, buf1.size)
-                ByteArrayHelper.writeInt4(res, 8, buf2.size)
-                buf1.copyInto(res, 12)
-                buf2.copyInto(res, 12 + buf1.size)
-            }
-            ETripleComponentTypeExt.STRING_TYPED -> {
-                val tmp = DictionaryIntermediate.decodeTyped(value)
-                val buf1 = tmp.first.substring(1, tmp.first.length - 1).encodeToByteArray()
-                val buf2 = tmp.second.substring(1, tmp.second.length - 1).encodeToByteArray()
-                res = ByteArray(12 + buf1.size + buf2.size)
-                ByteArrayHelper.writeInt4(res, 0, ETripleComponentTypeExt.STRING_TYPED)
-                ByteArrayHelper.writeInt4(res, 4, buf1.size)
-                ByteArrayHelper.writeInt4(res, 8, buf2.size)
-                buf1.copyInto(res, 12)
-                buf2.copyInto(res, 12 + buf1.size)
-            }
-            ETripleComponentTypeExt.UNDEF -> {
-                res = ByteArray(4)
-                ByteArrayHelper.writeInt4(res, 0, ETripleComponentTypeExt.UNDEF)
-            }
-            else -> throw Exception("unreachable $type")
-        }
-        return res
-    }
 
     public fun valueToByteArray(value: String?): ByteArray {
         return valueToByteArray(ValueDefinition(value))

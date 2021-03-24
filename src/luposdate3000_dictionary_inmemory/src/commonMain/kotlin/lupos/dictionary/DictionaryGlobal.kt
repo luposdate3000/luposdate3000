@@ -19,7 +19,6 @@ package lupos.dictionary
 import lupos.ProguardTestAnnotation
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
-import lupos.fileformat.DictionaryIntermediate
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
@@ -247,56 +246,6 @@ public class DictionaryGlobal {
                 else -> {
                     throw Exception("unexpected type ${ETripleComponentTypeExt.names[t]}")
                 }
-            }
-        }
-    }
-
-    private fun createByType(s: String, type: ETripleComponentType): Int {
-        when (type) {
-            ETripleComponentTypeExt.IRI -> {
-                val tmp = DictionaryIntermediate.decodeIri(s)
-                return createIri(tmp)
-            }
-            ETripleComponentTypeExt.BLANK_NODE -> {
-                return createNewBNode(s)
-            }
-            ETripleComponentTypeExt.STRING -> {
-                val tmp = DictionaryIntermediate.decodeStringAsTyped(s)
-                return createTyped(tmp.first, tmp.second)
-            }
-            ETripleComponentTypeExt.INTEGER -> {
-                val tmp = DictionaryIntermediate.decodeInteger(s)
-                return createInteger(MyBigInteger(tmp))
-            }
-            ETripleComponentTypeExt.DECIMAL -> {
-                val tmp = DictionaryIntermediate.decodeDecimal(s)
-                return createDecimal(MyBigDecimal(tmp))
-            }
-            ETripleComponentTypeExt.DOUBLE -> {
-                val tmp = DictionaryIntermediate.decodeDouble(s)
-                return createDouble(tmp.toDouble())
-            }
-            ETripleComponentTypeExt.BOOLEAN -> {
-                val tmp = DictionaryIntermediate.decodeBoolean(s)
-                return if (tmp.toLowerCase() == "true") {
-                    DictionaryExt.booleanTrueValue
-                } else {
-                    DictionaryExt.booleanFalseValue
-                }
-            }
-            ETripleComponentTypeExt.STRING_TYPED -> {
-                val tmp = DictionaryIntermediate.decodeTyped(s)
-                return createTyped(tmp.first, tmp.second)
-            }
-            ETripleComponentTypeExt.STRING_LANG -> {
-                val tmp = DictionaryIntermediate.decodeLang(s)
-                return createLangTagged(tmp.first, tmp.second)
-            }
-            ETripleComponentTypeExt.ERROR -> {
-                return DictionaryExt.errorValue
-            }
-            else -> {
-                throw Exception("unexpected type ${ETripleComponentTypeExt.names[type]}")
             }
         }
     }

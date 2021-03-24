@@ -16,7 +16,6 @@
  */
 package lupos.dictionary
 
-import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
@@ -154,50 +153,6 @@ public class Dictionary : IDictionary {
                 }
             }
         }
-    }
-
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline fun createByType(s: String, type: ETripleComponentType): Int {
-        var res: Int
-        when (type) {
-            ETripleComponentTypeExt.IRI -> {
-                res = createIri(s)
-            }
-            ETripleComponentTypeExt.BLANK_NODE -> {
-                res = createNewBNode(s)
-            }
-            ETripleComponentTypeExt.STRING -> {
-                res = createTyped(s, "")
-            }
-            ETripleComponentTypeExt.INTEGER -> {
-                res = createInteger(MyBigInteger(s))
-            }
-            ETripleComponentTypeExt.DECIMAL -> {
-                res = createDecimal(MyBigDecimal(s))
-            }
-            ETripleComponentTypeExt.DOUBLE -> {
-                res = createDouble(s.toDouble())
-            }
-            ETripleComponentTypeExt.BOOLEAN -> {
-                res = if (s.toLowerCase() == "true") {
-                    DictionaryExt.booleanTrueValue
-                } else {
-                    DictionaryExt.booleanFalseValue
-                }
-            }
-            ETripleComponentTypeExt.STRING_TYPED -> {
-                val s2 = s.split("^^")
-                res = createTyped(s2[0], s2[1])
-            }
-            ETripleComponentTypeExt.STRING_LANG -> {
-                val s2 = s.split("@")
-                res = createLangTagged(s2[0], s2[1])
-            }
-            else -> {
-                throw Exception("unexpected type")
-            }
-        }
-        return res
     }
 
     @Suppress("NOTHING_TO_INLINE")
