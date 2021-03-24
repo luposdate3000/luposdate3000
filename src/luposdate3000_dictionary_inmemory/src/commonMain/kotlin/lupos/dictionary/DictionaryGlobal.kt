@@ -161,8 +161,8 @@ public class DictionaryGlobal {
         }
     }
 
-    public fun importFromDictionaryFile(filename: String, mapping: IntArray) {
-        importFromDictionaryFileH(filename, mapping)
+    public fun importFromDictionaryFile(filename: String, mapping: IntArray): IntArray {
+        return importFromDictionaryFileH(filename, mapping)!!
     }
 
     public fun importFromDictionaryFile(filename: String) {
@@ -170,17 +170,28 @@ public class DictionaryGlobal {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun importFromDictionaryFileH(filename: String, mapping: IntArray?) {
+    private inline fun importFromDictionaryFileH(filename: String, mapping: IntArray?): IntArray? {
+        var mymapping = mapping
         var lastId = -1
         DictionaryIntermediateReader(filename).readAll { id, data ->
             val value = DictionaryHelper.byteArrayToValueDefinition(data)
             val i = createValue(value)
             SanityCheck.check { lastId == id - 1 }
             lastId = id
-            if (mapping != null) {
-                mapping[id] = i
+            if (mymapping != null) {
+                if (mymapping!!.size <= id) {
+                    var newSize = 1
+                    while (newSize <= id) {
+                        newSize = newSize * 2
+                    }
+                    val tmp = mymapping!!
+                    mymapping = IntArray(newSize)
+                    tmp.copyInto(mymapping!!)
+                }
+                mymapping!![id] = i
             }
         }
+        return mymapping
     }
 
     public fun prepareBulk(total: Int, typed: IntArray) {

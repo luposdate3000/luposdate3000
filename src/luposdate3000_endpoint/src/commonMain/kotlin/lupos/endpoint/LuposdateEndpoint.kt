@@ -344,8 +344,7 @@ public object LuposdateEndpoint {
                 }
                 val fileTriples = File("$fileName.triples")
                 var dictTotal = 0
-                val mapping = IntArray(dictTotal)
-                nodeGlobalDictionary.importFromDictionaryFile("$fileName", mapping)
+                val mapping = nodeGlobalDictionary.importFromDictionaryFile("$fileName", IntArray(0))
                 val dictTime = DateHelperRelative.elapsedSeconds(startTime)
                 val cnt = fileTriples.length() / 12L
                 counter += cnt
