@@ -16,7 +16,6 @@
  */
 package lupos.buffermanager
 
-import lupos.ArrayAllocatorByteArray
 import lupos.ProguardTestAnnotation
 import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.s00misc.File
@@ -57,7 +56,7 @@ public actual class BufferManager internal actual constructor(@JvmField public v
      */
     private val lock = MyReadWriteLock()
 
-    private var openPages = ArrayAllocatorByteArray(cacheSize) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
+    private var openPages = Array<ByteArray>(cacheSize) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
 
     private var openPagesRefcounters = IntArray(cacheSize)
 

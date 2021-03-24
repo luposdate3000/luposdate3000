@@ -19,8 +19,3 @@ package lupos.s04arithmetikOperators
 import lupos.s04logicalOperators.IOPBase
 
 public interface IAOPBase : IOPBase
-
-public fun ArrayAllocatorIAOPBase(size: Int, initializer: (Int) -> IAOPBase): Array<IAOPBase> {
-    val res = Array(size, initializer)
-    return res
-}

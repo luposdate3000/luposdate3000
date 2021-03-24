@@ -37,7 +37,6 @@ import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.ArrayAllocatorAOPBase
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
@@ -407,14 +406,14 @@ public object XMLElementToOPBase {
                         childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
                     }
                 }
-                res = AOPAggregationCOUNT(query, node.attributes["distinct"]!!.toBoolean(), ArrayAllocatorAOPBase(childs.size) { childs[it] })
+                res = AOPAggregationCOUNT(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
             }
             "AOPAggregationSAMPLE" -> {
                 val childs = mutableListOf<AOPBase>()
                 for (c in node["children"]!!.childs) {
                     childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
                 }
-                res = AOPAggregationSAMPLE(query, node.attributes["distinct"]!!.toBoolean(), ArrayAllocatorAOPBase(childs.size) { childs[it] })
+                res = AOPAggregationSAMPLE(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
             }
             "AOPConstant" -> {
                 res = XMLElementToOPBase(query, node["value"]!!.childs.first(), mapping)
@@ -424,28 +423,28 @@ public object XMLElementToOPBase {
                 for (c in node["children"]!!.childs) {
                     childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
                 }
-                res = AOPAggregationAVG(query, node.attributes["distinct"]!!.toBoolean(), ArrayAllocatorAOPBase(childs.size) { childs[it] })
+                res = AOPAggregationAVG(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
             }
             "AOPAggregationSUM" -> {
                 val childs = mutableListOf<AOPBase>()
                 for (c in node["children"]!!.childs) {
                     childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
                 }
-                res = AOPAggregationSUM(query, node.attributes["distinct"]!!.toBoolean(), ArrayAllocatorAOPBase(childs.size) { childs[it] })
+                res = AOPAggregationSUM(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
             }
             "AOPAggregationMIN" -> {
                 val childs = mutableListOf<AOPBase>()
                 for (c in node["children"]!!.childs) {
                     childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
                 }
-                res = AOPAggregationMIN(query, node.attributes["distinct"]!!.toBoolean(), ArrayAllocatorAOPBase(childs.size) { childs[it] })
+                res = AOPAggregationMIN(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
             }
             "AOPAggregationMAX" -> {
                 val childs = mutableListOf<AOPBase>()
                 for (c in node["children"]!!.childs) {
                     childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
                 }
-                res = AOPAggregationMAX(query, node.attributes["distinct"]!!.toBoolean(), ArrayAllocatorAOPBase(childs.size) { childs[it] })
+                res = AOPAggregationMAX(query, node.attributes["distinct"]!!.toBoolean(), Array<AOPBase>(childs.size) { childs[it] })
             }
             "AOPGT" -> {
                 res = AOPGT(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)

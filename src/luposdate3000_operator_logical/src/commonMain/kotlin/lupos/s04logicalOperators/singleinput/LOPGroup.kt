@@ -16,7 +16,6 @@
  */
 package lupos.s04logicalOperators.singleinput
 
-import lupos.ArrayAllocatorString
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.GroupByColumnMissing
@@ -121,7 +120,7 @@ public class LOPGroup public constructor(query: IQuery, @JvmField public var by:
     }
 
     override fun getProvidedVariableNames(): List<String> {
-        return (bindings.map { it.first } + ArrayAllocatorString(by.size) { by[it].name }).distinct()
+        return (bindings.map { it.first } + Array<String>(by.size) { by[it].name }).distinct()
     }
 
     override fun getRequiredVariableNames(): List<String> {

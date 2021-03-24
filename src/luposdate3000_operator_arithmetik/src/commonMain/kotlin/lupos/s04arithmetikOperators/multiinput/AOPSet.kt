@@ -20,12 +20,11 @@ import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.SparqlFeatureNotImplementedException
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04logicalOperators.ArrayAllocatorIOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPSet public constructor(query: IQuery, childs: List<AOPBase>) : AOPBase(query, EOperatorIDExt.AOPSetID, "AOPSet", ArrayAllocatorIOPBase(childs.size) { childs[it] }) {
+public class AOPSet public constructor(query: IQuery, childs: List<AOPBase>) : AOPBase(query, EOperatorIDExt.AOPSetID, "AOPSet", Array<IOPBase>(childs.size) { childs[it] }) {
     override fun toSparql(): String {
         var res = ""
         res += "("

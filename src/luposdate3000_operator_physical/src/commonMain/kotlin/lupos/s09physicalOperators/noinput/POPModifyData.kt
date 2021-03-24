@@ -16,7 +16,6 @@
  */
 package lupos.s09physicalOperators.noinput
 
-import lupos.ArrayAllocatorMutableListInt
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EOperatorIDExt
@@ -30,7 +29,6 @@ import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.ArrayAllocatorColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
@@ -89,7 +87,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
             for (i in 0 until 3) {
                 var tmp = iteratorDataMap[t.graph]
                 if (tmp == null) {
-                    tmp = ArrayAllocatorMutableListInt(3) { mutableListOf() }
+                    tmp = Array<MutableList<Int>>(3) { mutableListOf() }
                     iteratorDataMap[t.graph] = tmp
                 }
                 tmp[i].add((t.children[i] as AOPConstant).value)
@@ -97,7 +95,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
         }
         for ((graph, iteratorData) in iteratorDataMap) {
             val graphLocal = tripleStoreManager.getGraph(graph)
-            graphLocal.modify(query, ArrayAllocatorColumnIterator(3) { ColumnIteratorMultiValue(iteratorData[it]) }, type)
+            graphLocal.modify(query, Array<ColumnIterator>(3) { ColumnIteratorMultiValue(iteratorData[it]) }, type)
         }
         return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, query.getDictionary().createValue(ValueBoolean(true)))))
     }

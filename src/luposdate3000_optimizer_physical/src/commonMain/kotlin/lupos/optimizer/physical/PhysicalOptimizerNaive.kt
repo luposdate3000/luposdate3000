@@ -20,7 +20,6 @@ import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.s00misc.EIndexPatternExt
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.ArrayAllocatorIAOPBase
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
@@ -221,7 +220,7 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                     res.sortPrioritiesInitialized = node.sortPrioritiesInitialized
                 }
                 is LOPTriple -> {
-                    res = tripleStoreManager.getGraph(node.graph).getIterator(query, ArrayAllocatorIAOPBase(3) { node.getChildren()[it] as IAOPBase }, EIndexPatternExt.SPO)
+                    res = tripleStoreManager.getGraph(node.graph).getIterator(query, Array<IAOPBase>(3) { node.getChildren()[it] as IAOPBase }, EIndexPatternExt.SPO)
                 }
                 is OPEmptyRow -> {
                     res = POPEmptyRow(query, projectedVariables)

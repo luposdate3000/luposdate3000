@@ -16,7 +16,6 @@
  */
 package lupos.s11outputResult
 
-import lupos.ArrayAllocatorString
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.IDictionary
 import lupos.s00misc.EPartitionModeExt
@@ -28,7 +27,6 @@ import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.communicationHandler
-import lupos.s04logicalOperators.ArrayAllocatorIOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -79,7 +77,7 @@ public object QueryResultToTurtleStream {
     }
 
     private /*suspend*/ fun writeRow(variablesIndices: IntArray, rowBuf: IntArray, dictionary: IDictionary, output: IMyOutputStream) {
-        var line = ArrayAllocatorString(3) { "" }
+        var line = Array<String>(3) { "" }
         for (i in 0 until 3) {
             val tmp = writeValue(rowBuf[i], dictionary)
             if (tmp == null) {
@@ -167,7 +165,7 @@ public object QueryResultToTurtleStream {
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()
         if (rootNode is OPBaseCompound) {
-            nodes = ArrayAllocatorIOPBase(rootNode.children.size) { rootNode.children[it] }
+            nodes = Array<IOPBase>(rootNode.children.size) { rootNode.children[it] }
             columnProjectionOrder = rootNode.columnProjectionOrder
         } else {
             nodes = arrayOf(rootNode)

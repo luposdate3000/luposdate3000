@@ -16,7 +16,6 @@
  */
 package lupos.s09physicalOperators.singleinput
 
-import lupos.ArrayAllocatorString
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.ESortTypeExt
@@ -45,7 +44,7 @@ public class POPSort public constructor(query: IQuery, projectedVariables: List<
     override fun cloneOP(): IOPBase = POPSort(query, projectedVariables, sortBy, sortOrder, children[0].cloneOP())
     override fun getRequiredVariableNames(): List<String> = sortBy.map { it.name }
     override fun toSparql(): String {
-        val variables = ArrayAllocatorString(sortBy.size) { sortBy[it].name }
+        val variables = Array<String>(sortBy.size) { sortBy[it].name }
         val child = children[0]
         SanityCheck.check { child !is POPSort }
         val sparql = child.toSparql()

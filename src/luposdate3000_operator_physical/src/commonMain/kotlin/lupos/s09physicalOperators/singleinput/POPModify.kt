@@ -39,10 +39,6 @@ import kotlin.jvm.JvmField
 
 public class POPModify public constructor(query: IQuery, projectedVariables: List<String>, insert: List<LOPTriple>, delete: List<LOPTriple>, child: IOPBase) :
     POPBase(query, projectedVariables, EOperatorIDExt.POPModifyID, "POPModify", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
-    public fun ArrayAllocatorPairLOPTripleEModifyType(size: Int, initializer: (Int) -> Pair<LOPTriple, EModifyType>): Array<Pair<LOPTriple, EModifyType>> {
-        val res = Array(size, initializer)
-        return res
-    }
 
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         val res = super.toXMLElement(false)
@@ -66,7 +62,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
     }
 
     @JvmField
-    public val modify: Array<Pair<LOPTriple, EModifyType>> = ArrayAllocatorPairLOPTripleEModifyType(insert.size + delete.size) {
+    public val modify: Array<Pair<LOPTriple, EModifyType>> = Array(insert.size + delete.size) {
         if (it < insert.size) {
             Pair(insert[it], EModifyTypeExt.INSERT)
         } else {

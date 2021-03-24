@@ -16,7 +16,6 @@
  */
 package lupos.s09physicalOperators.partition
 
-import lupos.ArrayAllocatorString
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -129,7 +128,7 @@ public class POPDistributedSendSingle public constructor(
             }
         }
         SanityCheck.check { partitionNumber >= 0 && partitionNumber < partitionCount }
-        var variables = ArrayAllocatorString(projectedVariables.size) { "" }
+        var variables = Array<String>(projectedVariables.size) { "" }
         var i = 0
         connectionOut.writeInt(variables.size)
         for (v in projectedVariables) {

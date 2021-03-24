@@ -75,8 +75,3 @@ public abstract class AOPBase public constructor(
     override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()
     override /*suspend*/ fun calculateHistogram(): HistogramResult = SanityCheck.checkUnreachable()
 }
-
-public fun ArrayAllocatorAOPBase(size: Int, initializer: (Int) -> AOPBase): Array<AOPBase> {
-    val res = Array(size, initializer)
-    return res
-}

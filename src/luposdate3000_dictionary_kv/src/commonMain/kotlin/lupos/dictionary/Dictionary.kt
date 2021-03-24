@@ -16,7 +16,6 @@
  */
 package lupos.dictionary
 
-import lupos.ArrayAllocatorString
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
@@ -54,19 +53,19 @@ public class Dictionary : IDictionary {
     internal val iriToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    internal var iriToValue = ArrayAllocatorString(1) { DictionaryShared.emptyString }
+    internal var iriToValue = Array<String>(1) { DictionaryShared.emptyString }
 
     @JvmField
     internal val langTaggedToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    internal var langTaggedToValue = ArrayAllocatorString(1) { DictionaryShared.emptyString }
+    internal var langTaggedToValue = Array<String>(1) { DictionaryShared.emptyString }
 
     @JvmField
     internal val typedToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    internal var typedToValue = ArrayAllocatorString(1) { DictionaryShared.emptyString }
+    internal var typedToValue = Array<String>(1) { DictionaryShared.emptyString }
 
     @JvmField
     internal val doubleToInt = mutableMapOf<Double, Int>()
@@ -84,20 +83,20 @@ public class Dictionary : IDictionary {
     internal val decimalToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    internal var decimalToValue = ArrayAllocatorString(1) { DictionaryShared.emptyString }
+    internal var decimalToValue = Array<String>(1) { DictionaryShared.emptyString }
 
     @JvmField
     internal val intToInt = mutableMapOf<String, Int>()
 
     @JvmField
-    internal var intToValue = ArrayAllocatorString(1) { DictionaryShared.emptyString }
+    internal var intToValue = Array<String>(1) { DictionaryShared.emptyString }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun prepareBulk(total: Int, typed: IntArray) {
         for (t in 0 until ETripleComponentTypeExt.values_size) {
             when (t) {
                 ETripleComponentTypeExt.IRI -> {
-                    val tmp = ArrayAllocatorString(iriToValue.size + typed[t]) { DictionaryShared.emptyString }
+                    val tmp = Array<String>(iriToValue.size + typed[t]) { DictionaryShared.emptyString }
                     for (i in iriToValue.indices) {
                         tmp[i] = iriToValue[i]
                     }
@@ -106,21 +105,21 @@ public class Dictionary : IDictionary {
                 ETripleComponentTypeExt.BLANK_NODE -> {
                 }
                 ETripleComponentTypeExt.STRING -> {
-                    val tmp = ArrayAllocatorString(typedToValue.size + typed[t]) { DictionaryShared.emptyString }
+                    val tmp = Array<String>(typedToValue.size + typed[t]) { DictionaryShared.emptyString }
                     for (i in typedToValue.indices) {
                         tmp[i] = typedToValue[i]
                     }
                     typedToValue = tmp
                 }
                 ETripleComponentTypeExt.INTEGER -> {
-                    val tmp = ArrayAllocatorString(intToValue.size + typed[t]) { DictionaryShared.emptyString }
+                    val tmp = Array<String>(intToValue.size + typed[t]) { DictionaryShared.emptyString }
                     for (i in intToValue.indices) {
                         tmp[i] = intToValue[i]
                     }
                     intToValue = tmp
                 }
                 ETripleComponentTypeExt.DECIMAL -> {
-                    val tmp = ArrayAllocatorString(decimalToValue.size + typed[t]) { DictionaryShared.emptyString }
+                    val tmp = Array<String>(decimalToValue.size + typed[t]) { DictionaryShared.emptyString }
                     for (i in decimalToValue.indices) {
                         tmp[i] = decimalToValue[i]
                     }
@@ -136,14 +135,14 @@ public class Dictionary : IDictionary {
                 ETripleComponentTypeExt.BOOLEAN -> {
                 }
                 ETripleComponentTypeExt.STRING_TYPED -> {
-                    val tmp = ArrayAllocatorString(typedToValue.size + typed[t]) { DictionaryShared.emptyString }
+                    val tmp = Array<String>(typedToValue.size + typed[t]) { DictionaryShared.emptyString }
                     for (i in typedToValue.indices) {
                         tmp[i] = typedToValue[i]
                     }
                     typedToValue = tmp
                 }
                 ETripleComponentTypeExt.STRING_LANG -> {
-                    val tmp = ArrayAllocatorString(langTaggedToValue.size + typed[t]) { DictionaryShared.emptyString }
+                    val tmp = Array<String>(langTaggedToValue.size + typed[t]) { DictionaryShared.emptyString }
                     for (i in langTaggedToValue.indices) {
                         tmp[i] = langTaggedToValue[i]
                     }
@@ -168,13 +167,13 @@ public class Dictionary : IDictionary {
         floatToInt.clear()
         decimalToInt.clear()
         intToInt.clear()
-        iriToValue = ArrayAllocatorString(1) { DictionaryShared.emptyString }
-        langTaggedToValue = ArrayAllocatorString(1) { DictionaryShared.emptyString }
-        typedToValue = ArrayAllocatorString(1) { DictionaryShared.emptyString }
+        iriToValue = Array<String>(1) { DictionaryShared.emptyString }
+        langTaggedToValue = Array<String>(1) { DictionaryShared.emptyString }
+        typedToValue = Array<String>(1) { DictionaryShared.emptyString }
         doubleToValue = DoubleArray(1) { 0.0 }
         floatToValue = DoubleArray(1) { 0.0 }
-        decimalToValue = ArrayAllocatorString(1) { DictionaryShared.emptyString }
-        intToValue = ArrayAllocatorString(1) { DictionaryShared.emptyString }
+        decimalToValue = Array<String>(1) { DictionaryShared.emptyString }
+        intToValue = Array<String>(1) { DictionaryShared.emptyString }
     }
 
     override fun toBooleanOrError(value: Int): Int {
@@ -216,7 +215,7 @@ public class Dictionary : IDictionary {
             res = iriToInt.size
             iriToInt[iri] = res
             if (iriToValue.size <= res) {
-                val tmp2 = ArrayAllocatorString(iriToValue.size * 2) { DictionaryShared.emptyString }
+                val tmp2 = Array<String>(iriToValue.size * 2) { DictionaryShared.emptyString }
                 for (i in iriToValue.indices) {
                     tmp2[i] = iriToValue[i]
                 }
@@ -239,7 +238,7 @@ public class Dictionary : IDictionary {
             res = langTaggedToInt.size
             langTaggedToInt[key] = res
             if (langTaggedToValue.size <= res) {
-                val tmp2 = ArrayAllocatorString(langTaggedToValue.size * 2) { DictionaryShared.emptyString }
+                val tmp2 = Array<String>(langTaggedToValue.size * 2) { DictionaryShared.emptyString }
                 for (i in langTaggedToValue.indices) {
                     tmp2[i] = langTaggedToValue[i]
                 }
@@ -283,7 +282,7 @@ public class Dictionary : IDictionary {
                     res = typedToInt.size
                     typedToInt[key] = res
                     if (typedToValue.size <= res) {
-                        val tmp2 = ArrayAllocatorString(typedToValue.size * 2) { DictionaryShared.emptyString }
+                        val tmp2 = Array<String>(typedToValue.size * 2) { DictionaryShared.emptyString }
                         for (i in typedToValue.indices) {
                             tmp2[i] = typedToValue[i]
                         }
@@ -352,7 +351,7 @@ public class Dictionary : IDictionary {
             res = decimalToInt.size
             decimalToInt[value] = res
             if (decimalToValue.size <= res) {
-                val tmp2 = ArrayAllocatorString(decimalToValue.size * 2) { DictionaryShared.emptyString }
+                val tmp2 = Array<String>(decimalToValue.size * 2) { DictionaryShared.emptyString }
                 for (i in decimalToValue.indices) {
                     tmp2[i] = decimalToValue[i]
                 }
@@ -375,7 +374,7 @@ public class Dictionary : IDictionary {
             res = intToInt.size
             intToInt[value] = res
             if (intToValue.size <= res) {
-                val tmp2 = ArrayAllocatorString(intToValue.size * 2) { DictionaryShared.emptyString }
+                val tmp2 = Array<String>(intToValue.size * 2) { DictionaryShared.emptyString }
                 for (i in intToValue.indices) {
                     tmp2[i] = intToValue[i]
                 }

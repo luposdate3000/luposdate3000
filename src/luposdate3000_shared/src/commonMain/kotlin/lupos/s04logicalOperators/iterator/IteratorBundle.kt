@@ -113,8 +113,3 @@ public open class IteratorBundle {
         }
     }
 }
-
-public fun ArrayAllocatorIteratorBundle(size: Int, initializer: (Int) -> IteratorBundle): Array<IteratorBundle> {
-    val res = Array(size, initializer)
-    return res
-}

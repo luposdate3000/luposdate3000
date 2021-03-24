@@ -62,8 +62,3 @@ public interface IOPBase {
     public fun changePartitionID(idFrom: Int, idTo: Int)
     public fun replaceVariableWithConstant(name: String, value: Int): IOPBase
 }
-
-public fun ArrayAllocatorIOPBase(size: Int, initializer: (Int) -> IOPBase): Array<IOPBase> {
-    val res = Array(size, initializer)
-    return res
-}

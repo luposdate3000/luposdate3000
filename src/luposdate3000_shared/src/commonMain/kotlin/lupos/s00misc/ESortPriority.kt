@@ -17,8 +17,3 @@
 package lupos.s00misc
 
 public typealias ESortPriority = Int
-
-public fun ArrayAllocatorESortPriority(size: Int, initializer: (Int) -> ESortPriority): Array<ESortPriority> {
-    val res = Array(size, initializer)
-    return res
-}

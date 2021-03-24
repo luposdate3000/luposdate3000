@@ -16,7 +16,6 @@
  */
 package lupos.optimizer.distributed.query
 
-import lupos.ArrayAllocatorString
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
@@ -163,7 +162,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                 is POPSplitPartitionFromStoreCount,
                 is POPSplitPartitionPassThrough
                 -> {
-                    val allNames = ArrayAllocatorString(currentPartitionsCopy.size) { "" }
+                    val allNames = Array<String>(currentPartitionsCopy.size) { "" }
                     val allSize = IntArray(currentPartitionsCopy.size)
                     var i = 0
                     for ((k, v) in currentPartitionsCopy) {

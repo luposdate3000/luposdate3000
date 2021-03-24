@@ -16,7 +16,6 @@
  */
 package lupos.s09physicalOperators.partition
 
-import lupos.ArrayAllocatorString
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -118,7 +117,7 @@ public class POPDistributedSendMulti public constructor(
     }
 
     public fun evaluate(data: Array<IMyOutputStream?>) {
-        var variables = ArrayAllocatorString(projectedVariables.size) { "" }
+        var variables = Array<String>(projectedVariables.size) { "" }
         var i = 0
         for (connectionOut in data) {
             connectionOut!!.writeInt(variables.size)

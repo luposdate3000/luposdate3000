@@ -16,12 +16,11 @@
  */
 package lupos.s00misc
 
-import lupos.ArrayAllocatorIntArray
 import kotlin.jvm.JvmField
 
 public object EIndexPatternHelper {
     @JvmField
-    public val keyIndices: Array<IntArray> = ArrayAllocatorIntArray(EIndexPatternExt.values_size) {
+    public val keyIndices: Array<IntArray> = Array<IntArray>(EIndexPatternExt.values_size) {
         when (it) {
             EIndexPatternExt.S_PO -> intArrayOf(0)
             EIndexPatternExt.SP_O -> intArrayOf(0, 1)
@@ -46,7 +45,7 @@ public object EIndexPatternHelper {
     }
 
     @JvmField
-    public val valueIndices: Array<IntArray> = ArrayAllocatorIntArray(EIndexPatternExt.values_size) {
+    public val valueIndices: Array<IntArray> = Array<IntArray>(EIndexPatternExt.values_size) {
         when (it) {
             EIndexPatternExt.S_PO -> intArrayOf(1, 2)
             EIndexPatternExt.SP_O -> intArrayOf(2)
@@ -71,7 +70,7 @@ public object EIndexPatternHelper {
     }
 
     @JvmField
-    public val tripleIndicees: Array<IntArray> = ArrayAllocatorIntArray(EIndexPatternExt.values_size) {
+    public val tripleIndicees: Array<IntArray> = Array<IntArray>(EIndexPatternExt.values_size) {
         when (it) {
             EIndexPatternExt.S_PO -> intArrayOf(0, 1, 2)
             EIndexPatternExt.SP_O -> intArrayOf(0, 1, 2)

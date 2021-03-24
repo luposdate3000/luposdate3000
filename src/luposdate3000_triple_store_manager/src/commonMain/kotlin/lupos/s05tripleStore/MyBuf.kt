@@ -28,13 +28,3 @@ internal class MyBuf {
     @JvmField
     internal var buf = IntArray(size)
 }
-
-internal fun ArrayAllocatorArrayMyBuf(size: Int, initializer: (Int) -> Array<MyBuf>): Array<Array<MyBuf>> {
-    val res = Array(size, initializer)
-    return res
-}
-
-internal fun ArrayAllocatorMyBuf(size: Int, initializer: (Int) -> MyBuf): Array<MyBuf> {
-    val res = Array(size, initializer)
-    return res
-}

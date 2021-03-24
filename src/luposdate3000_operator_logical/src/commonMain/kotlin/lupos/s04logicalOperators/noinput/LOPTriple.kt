@@ -24,7 +24,6 @@ import lupos.s00misc.GraphVarHistogramsNotImplementedException
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.ArrayAllocatorIAOPBase
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -126,7 +125,7 @@ public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBas
         val res = HistogramResult()
         res.count = -1
         for (v in getProvidedVariableNames()) {
-            val params = ArrayAllocatorIAOPBase(3) {
+            val params = Array<IAOPBase>(3) {
                 var t = children[it]
                 if (t is AOPVariable && t.name != v) {
                     t = AOPVariable(query, "_")

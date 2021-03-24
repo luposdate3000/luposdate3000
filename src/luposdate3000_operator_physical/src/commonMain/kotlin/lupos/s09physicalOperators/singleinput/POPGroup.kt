@@ -16,7 +16,6 @@
  */
 package lupos.s09physicalOperators.singleinput
 
-import lupos.ArrayAllocatorString
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -189,7 +188,7 @@ public class POPGroup : POPBase {
         for (b in bindings) {
             aggregations.addAll(getAggregations(b.second))
         }
-        val keyColumnNames = ArrayAllocatorString(by.size) { by[it].name }
+        val keyColumnNames = Array<String>(by.size) { by[it].name }
         if (keyColumnNames.size != keyColumnNames.distinct().size) {
             throw GroupByDuplicateColumnException()
         }

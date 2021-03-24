@@ -16,7 +16,6 @@
  */
 package lupos.s09physicalOperators.multiinput
 
-import lupos.ArrayAllocatorIntArray
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -35,10 +34,10 @@ internal class POPJoinMerge_Iterator(
     @JvmField val key1: IntArray
 ) : ColumnIteratorChildIterator() {
     @JvmField
-    val data0 = ArrayAllocatorIntArray(columnsINO0.size) { IntArray(100) }
+    val data0 = Array<IntArray>(columnsINO0.size) { IntArray(100) }
 
     @JvmField
-    val data1 = ArrayAllocatorIntArray(columnsINO1.size) { IntArray(100) }
+    val data1 = Array<IntArray>(columnsINO1.size) { IntArray(100) }
 
     @JvmField
     var localNextI = 0

@@ -24,15 +24,13 @@ import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.ArrayAllocatorAOPBase
-import lupos.s04logicalOperators.ArrayAllocatorIOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
-public class AOPAggregationMAX public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationMAXID, "AOPAggregationMAX", ArrayAllocatorIOPBase(childs.size) { childs[it] }) {
+public class AOPAggregationMAX public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationMAXID, "AOPAggregationMAX", Array<IOPBase>(childs.size) { childs[it] }) {
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
         if (distinct) {
@@ -71,5 +69,5 @@ public class AOPAggregationMAX public constructor(query: IQuery, @JvmField publi
         }
     }
 
-    override fun cloneOP(): IOPBase = AOPAggregationMAX(query, distinct, ArrayAllocatorAOPBase(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP(): IOPBase = AOPAggregationMAX(query, distinct, Array<AOPBase>(children.size) { (children[it].cloneOP()) as AOPBase })
 }
