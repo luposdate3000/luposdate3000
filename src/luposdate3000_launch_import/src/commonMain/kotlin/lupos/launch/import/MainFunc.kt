@@ -20,6 +20,7 @@ import lupos.fileformat.DictionaryIntermediate
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.fileformat.DictionaryIntermediateRow
 import lupos.fileformat.DictionaryIntermediateWriter
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
@@ -154,7 +155,8 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     val mapping = IntArray(dictCounter.toInt())
 
     val dictionaries = Array(chunc) { DictionaryIntermediateReader("$inputFileName.$it") }
-    val dictionariesHead = Array(chunc) { dictionaries[it].next() }
+    val dictionariesHeadBuffer = Array(chunc) { ByteArrayWrapper() }
+    val dictionariesHead = Array(chunc) { dictionaries[it].next(dictionariesHeadBuffer[it]) }
 
     var current: DictionaryIntermediateRow? = null
     var currentValue = 0
@@ -176,7 +178,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                 if (dictionariesHead[i] != null) {
                     if (current.compareTo(dictionariesHead[i]!!) == 0) {
                         mapping[dictionariesHead[i]!!.id] = currentValue
-                        dictionariesHead[i] = dictionaries[i].next()
+                        dictionariesHead[i] = dictionaries[i].next(dictionariesHeadBuffer[i])
                     }
                 }
             }

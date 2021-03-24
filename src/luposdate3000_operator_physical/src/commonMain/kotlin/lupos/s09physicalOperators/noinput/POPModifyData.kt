@@ -95,7 +95,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
         }
         for ((graph, iteratorData) in iteratorDataMap) {
             val graphLocal = tripleStoreManager.getGraph(graph)
-            graphLocal.modify(query, Array<ColumnIterator>(3) { ColumnIteratorMultiValue(iteratorData[it]) }, type)
+            graphLocal.modify(query, Array(3) { ColumnIteratorMultiValue(iteratorData[it]) }, type)
         }
         return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, query.getDictionary().createValue(ValueBoolean(true)))))
     }

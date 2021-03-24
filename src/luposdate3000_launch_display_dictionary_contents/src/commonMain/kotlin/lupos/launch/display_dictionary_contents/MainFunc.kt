@@ -18,12 +18,14 @@ package lupos.launch.display_dictionary_contents
 
 import lupos.dictionary.DictionaryHelper
 import lupos.fileformat.DictionaryIntermediateReader
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.Parallel
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
-    DictionaryIntermediateReader(inputFileName).readAll { id, data ->
-        val value = DictionaryHelper.byteArrayToValueDefinition(data)
+    val buffer = ByteArrayWrapper()
+    DictionaryIntermediateReader(inputFileName).readAll(buffer) { id ->
+        val value = DictionaryHelper.byteArrayToValueDefinition(buffer)
         println("$id :: ${value.valueToString()}")
     }
 }

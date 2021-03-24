@@ -22,6 +22,7 @@ import lupos.buffermanager.BufferManagerExt
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.kv.KeyValueStore
 import lupos.s00misc.ByteArrayHelper
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
@@ -123,13 +124,14 @@ public class DictionaryGlobal {
         counters[2]++
         var mymapping = mapping
         var lastId = -1
-        DictionaryIntermediateReader(filename).readAll { id, data ->
+        val buffer = ByteArrayWrapper()
+        DictionaryIntermediateReader(filename).readAll(buffer) { id ->
             counters[3]++
-            val type = DictionaryHelper.byteArrayToType(data)
+            val type = DictionaryHelper.byteArrayToType(buffer)
             val i = if (type == ETripleComponentTypeExt.BLANK_NODE) {
                 createNewBNode()
             } else {
-                kv.createValue(data) or DictionaryShared.flaggedValueGlobal
+                kv.createValue(buffer) or DictionaryShared.flaggedValueGlobal
             }
             SanityCheck.check { lastId == id - 1 }
             lastId = id
@@ -168,9 +170,10 @@ public class DictionaryGlobal {
     }
 
     public fun getValue(value: Int): ValueDefinition {
+        val buffer = ByteArrayWrapper()
         counters[7]++
-        val tmp = kv.getValue(value and DictionaryShared.filter2)
-        return DictionaryHelper.byteArrayToValueDefinition(tmp)
+        kv.getValue(buffer, value and DictionaryShared.filter2)
+        return DictionaryHelper.byteArrayToValueDefinition(buffer)
     }
 
     internal inline fun getValue(
@@ -189,23 +192,30 @@ public class DictionaryGlobal {
         onUndefined: () -> Unit
     ) {
         counters[8]++
-        val tmp = kv.getValue(value and DictionaryShared.filter2)
-        DictionaryHelper.byteArrayToCallback(value, tmp, onBNode, onBoolean, onLanguageTaggedLiteral, onSimpleLiteral, onTypedLiteral, onDecimal, onFloat, onDouble, onInteger, onIri, onError, onUndefined)
+        val buffer = ByteArrayWrapper()
+        kv.getValue(buffer, value and DictionaryShared.filter2)
+        DictionaryHelper.byteArrayToCallback(value, buffer, onBNode, onBoolean, onLanguageTaggedLiteral, onSimpleLiteral, onTypedLiteral, onDecimal, onFloat, onDouble, onInteger, onIri, onError, onUndefined)
     }
 
     public fun createValue(value: String?): Int {
         counters[9]++
-        return kv.createValue(DictionaryHelper.valueToByteArray(value)) or DictionaryShared.flaggedValueGlobal
+        val buffer = ByteArrayWrapper()
+        DictionaryHelper.valueToByteArray(buffer, value)
+        return kv.createValue(buffer) or DictionaryShared.flaggedValueGlobal
     }
 
     internal inline fun createValue(value: ValueDefinition): Int {
         counters[10]++
-        return kv.createValue(DictionaryHelper.valueToByteArray(value)) or DictionaryShared.flaggedValueGlobal
+        val buffer = ByteArrayWrapper()
+        DictionaryHelper.valueToByteArray(buffer, value)
+        return kv.createValue(buffer) or DictionaryShared.flaggedValueGlobal
     }
 
     internal inline fun hasValue(value: ValueDefinition): Int? {
         counters[11]++
-        val tmp = kv.hasValue(DictionaryHelper.valueToByteArray(value))
+        val buffer = ByteArrayWrapper()
+        DictionaryHelper.valueToByteArray(buffer, value)
+        val tmp = kv.hasValue(buffer)
         if (tmp == null) {
             return null
         }

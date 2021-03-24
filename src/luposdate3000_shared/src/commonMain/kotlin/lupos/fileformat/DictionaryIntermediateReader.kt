@@ -17,6 +17,7 @@
 
 package lupos.fileformat
 
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.File
 
 public class DictionaryIntermediateReader(filename: String) : DictionaryIntermediate(filename) {
@@ -24,28 +25,28 @@ public class DictionaryIntermediateReader(filename: String) : DictionaryIntermed
         streamIn = File("$filename$filenameEnding").openInputStream()
     }
 
-    public inline fun readAll(crossinline action: (id: Int, data: ByteArray) -> Unit) {
+    public inline fun readAll(buffer: ByteArrayWrapper, crossinline action: (id: Int) -> Unit) {
         while (streamIn != null) {
-            next(action)
+            next(buffer, action)
         }
     }
 
-    public inline fun next(crossinline action: (id: Int, data: ByteArray) -> Unit) {
+    public inline fun next(buffer: ByteArrayWrapper, crossinline action: (id: Int) -> Unit) {
         val id = streamIn!!.readInt()
         if (id < 0) {
             close()
         } else {
             val len = streamIn!!.readInt()
-            val buf = ByteArray(len)
-            streamIn!!.read(buf, len)
-            action(id, buf)
+            buffer.setSize(len)
+            streamIn!!.read(buffer.getBuf(), len)
+            action(id)
         }
     }
 
-    public inline fun next(): DictionaryIntermediateRow? {
+    public inline fun next(buffer: ByteArrayWrapper): DictionaryIntermediateRow? {
         var res: DictionaryIntermediateRow? = null
-        next { id, data ->
-            res = DictionaryIntermediateRow(id, data)
+        next(buffer) { id ->
+            res = DictionaryIntermediateRow(id, buffer)
         }
         return res
     }

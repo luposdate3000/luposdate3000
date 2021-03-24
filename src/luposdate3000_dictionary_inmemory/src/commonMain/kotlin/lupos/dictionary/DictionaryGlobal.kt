@@ -20,6 +20,7 @@ import lupos.ProguardTestAnnotation
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.fileformat.DictionaryIntermediateReader
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
@@ -173,8 +174,9 @@ public class DictionaryGlobal {
     private inline fun importFromDictionaryFileH(filename: String, mapping: IntArray?): IntArray? {
         var mymapping = mapping
         var lastId = -1
-        DictionaryIntermediateReader(filename).readAll { id, data ->
-            val value = DictionaryHelper.byteArrayToValueDefinition(data)
+        val buffer = ByteArrayWrapper()
+        DictionaryIntermediateReader(filename).readAll(buffer) { id ->
+            val value = DictionaryHelper.byteArrayToValueDefinition(buffer)
             val i = createValue(value)
             SanityCheck.check { lastId == id - 1 }
             lastId = id

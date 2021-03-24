@@ -20,6 +20,7 @@ import lupos.ProguardTestAnnotation
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.MyIntArray
 import lupos.s00misc.ByteArrayHelper
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
 
@@ -103,7 +104,6 @@ public class KeyValueStore {
     @ProguardTestAnnotation
     public fun delete() {
         counters[0]++
-
         var id1 = ByteArrayHelper.readInt4(rootPage, 12)
         var id2 = ByteArrayHelper.readInt4(rootPage, 16)
         var id3 = ByteArrayHelper.readInt4(rootPage, 20)
@@ -145,12 +145,12 @@ public class KeyValueStore {
         bufferManager.releasePage(lupos.SOURCE_FILE, lastPage)
     }
 
-    private inline fun readData(page: Int, off: Int): ByteArray {
+    private inline fun readData(data: ByteArrayWrapper, page: Int, off: Int) {
         counters[2]++
         var p = bufferManager.getPage(lupos.SOURCE_FILE, page)
         var pid = page
         val l = ByteArrayHelper.readInt4(p, off)
-        val buf = ByteArray(l)
+        data.setSize(l)
         var bufoff = 0
         var toread = l
         var pageoff = off + 4
@@ -170,16 +170,15 @@ public class KeyValueStore {
             } else {
                 toread
             }
-            p.copyInto(buf, bufoff, pageoff, pageoff + len)
+            p.copyInto(data.getBuf(), bufoff, pageoff, pageoff + len)
             bufoff += len
             pageoff += len
             toread -= len
         }
         bufferManager.releasePage(lupos.SOURCE_FILE, pid)
-        return buf
     }
 
-    private inline fun writeData(data: ByteArray, crossinline action: (page: Int, off: Int) -> Unit) {
+    private inline fun writeData(data: ByteArrayWrapper, crossinline action: (page: Int, off: Int) -> Unit) {
         counters[4]++
         if (lastPageOffset >= lastPageBuf.size - 8) {
             bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
@@ -194,11 +193,11 @@ public class KeyValueStore {
         }
         var resPage = lastPage
         var resOff = lastPageOffset
-        ByteArrayHelper.writeInt4(lastPageBuf, lastPageOffset, data.size)
+        ByteArrayHelper.writeInt4(lastPageBuf, lastPageOffset, data.getSize())
         lastPageOffset += 4
         ByteArrayHelper.writeInt4(rootPage, 4, lastPageOffset)
         var dataoff = 0
-        var towrite = data.size
+        var towrite = data.getSize()
         while (towrite > 0) {
             counters[5]++
             var available = lastPageBuf.size - lastPageOffset
@@ -219,7 +218,7 @@ public class KeyValueStore {
             } else {
                 towrite
             }
-            data.copyInto(lastPageBuf, lastPageOffset, dataoff, dataoff + len)
+            data.getBuf().copyInto(lastPageBuf, lastPageOffset, dataoff, dataoff + len)
             towrite -= len
             lastPageOffset += len
             ByteArrayHelper.writeInt4(rootPage, 4, lastPageOffset)
@@ -228,46 +227,32 @@ public class KeyValueStore {
         action(resPage, resOff)
     }
 
-    private fun cmp(a: ByteArray, b: ByteArray): Int {
+    private fun cmp(a: ByteArrayWrapper, b: ByteArrayWrapper): Int {
         counters[6]++
         var t = 0
         if (t == 0) {
-            t = a.size - b.size
+            t = a.getSize() - b.getSize()
         }
         var i = 0
-        while (t == 0 && i < a.size) {
-            t = a[i] - b[i]
+        while (t == 0 && i < a.getSize()) {
+            t = a.getBuf()[i] - b.getBuf()[i]
             i++
         }
         return t
     }
 
-    private inline fun hasData(data: ByteArray, left: Int, right: Int, crossinline onFound: (Int/*the id to return*/) -> Unit, onNotFound: (Int/*the smallest index, which value is larger than the target*/) -> Unit) {
+    private inline fun hasData(data: ByteArrayWrapper, left: Int, right: Int, crossinline onFound: (Int/*the id to return*/) -> Unit, onNotFound: (Int/*the smallest index, which value is larger than the target*/) -> Unit) {
+        val d = ByteArrayWrapper()
         counters[7]++
         // println("hasData $left $right")
         var l = left
         var r = right
         var loop = true
-/*
-SanityCheck.check{l<=r}
-if(right>0){
-val m2=mappingSorted[right]
-val d=readData(mappingID2Page[m2], mappingID2Off[m2])
-val t = cmp(d, data)
-if(t==0){
-onFound(m2)
-loop=false
-}else if(t<0){
-onNotFound(right)
-loop=false
-}
-}
-*/
         while (loop && r >= l) {
             counters[8]++
             var m = (r - l) / 2 + l
             val m2 = mappingSorted[m]
-            val d = readData(mappingID2Page[m2], mappingID2Off[m2])
+            readData(d, mappingID2Page[m2], mappingID2Off[m2])
             val t = cmp(d, data)
             // println("readData #$m id:$m2 ($t) ${d.map{it}}")
             if (t < 0) {
@@ -291,20 +276,20 @@ loop=false
             SanityCheck {
                 if (res > left) {
                     val res2 = mappingSorted[res - 1]
-                    val it = readData(mappingID2Page[res2], mappingID2Off[res2])
-                    SanityCheck.check { cmp(it, data) < 0 }
+                    readData(d, mappingID2Page[res2], mappingID2Off[res2])
+                    SanityCheck.check { cmp(d, data) < 0 }
                 }
                 if (res <= right) {
                     val res2 = mappingSorted[res]
-                    val it = readData(mappingID2Page[res2], mappingID2Off[res2])
-                    SanityCheck.check { cmp(it, data) > 0 }
+                    readData(d, mappingID2Page[res2], mappingID2Off[res2])
+                    SanityCheck.check { cmp(d, data) > 0 }
                 }
             }
             onNotFound(res)
         }
     }
 
-    public fun createValue(data: ByteArray): Int {
+    public fun createValue(data: ByteArrayWrapper): Int {
         counters[9]++
         var res = 0
         hasData(
@@ -335,7 +320,7 @@ loop=false
         return res
     }
 
-    public fun hasValue(data: ByteArray): Int? {
+    public fun hasValue(data: ByteArrayWrapper): Int? {
         counters[10]++
         var res: Int? = null
         hasData(
@@ -349,10 +334,10 @@ loop=false
         return res
     }
 
-    public fun getValue(value: Int): ByteArray {
+    public fun getValue(data: ByteArrayWrapper, value: Int) {
         counters[11]++
         SanityCheck.check { value < nextID }
         SanityCheck.check { value >= 0 }
-        return readData(mappingID2Page[value], mappingID2Off[value])
+        readData(data, mappingID2Page[value], mappingID2Off[value])
     }
 }

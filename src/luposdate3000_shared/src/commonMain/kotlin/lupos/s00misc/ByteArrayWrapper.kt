@@ -14,19 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package lupos.s00misc
 
-package lupos.fileformat
-
-import lupos.s00misc.ByteArrayWrapper
-
-public class DictionaryIntermediateRow(public val id: Int, public val data: ByteArrayWrapper) : Comparable<DictionaryIntermediateRow> {
-    public override operator fun compareTo(other: DictionaryIntermediateRow): Int {
-        var res = data.getSize() - other.data.getSize()
-        var i = 0
-        while (i < data.getSize() && res == 0) {
-            res = data.getBuf()[i] - other.data.getBuf()[i]
-            i++
+public class ByteArrayWrapper {
+    private var buf = ByteArray(0)
+    private var size = 0
+    public fun setSize(c: Int) {
+        if (c > buf.size) {
+            size = c
+            buf = ByteArray(c)
         }
-        return res
     }
+
+    public fun getSize(): Int = size
+    public fun getBuf(): ByteArray = buf
 }
