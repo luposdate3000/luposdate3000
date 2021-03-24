@@ -17,7 +17,6 @@
 package lupos.s04logicalOperators.iterator
 
 import lupos.dictionary.DictionaryExt
-import lupos.s04logicalOperators.ArrayAllocatorColumnIterator
 import kotlin.jvm.JvmField
 
 public abstract class ColumnIteratorChildIterator : ColumnIterator() {
