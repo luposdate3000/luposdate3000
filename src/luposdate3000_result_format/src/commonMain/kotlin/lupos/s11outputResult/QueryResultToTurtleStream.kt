@@ -77,7 +77,7 @@ public object QueryResultToTurtleStream {
     }
 
     private /*suspend*/ fun writeRow(variablesIndices: IntArray, rowBuf: IntArray, dictionary: IDictionary, output: IMyOutputStream) {
-        var line = Array(3) { "" }
+        var line = ArrayAllocatorString(3) { "" }
         for (i in 0 until 3) {
             val tmp = writeValue(rowBuf[i], dictionary)
             if (tmp == null) {
@@ -165,7 +165,7 @@ public object QueryResultToTurtleStream {
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()
         if (rootNode is OPBaseCompound) {
-            nodes = Array(rootNode.children.size) { rootNode.children[it] }
+            nodes = ArrayAllocatorIOPBase(rootNode.children.size) { rootNode.children[it] }
             columnProjectionOrder = rootNode.columnProjectionOrder
         } else {
             nodes = arrayOf(rootNode)

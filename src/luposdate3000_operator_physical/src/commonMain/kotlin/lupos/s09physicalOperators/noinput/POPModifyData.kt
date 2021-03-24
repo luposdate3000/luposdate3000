@@ -87,7 +87,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
             for (i in 0 until 3) {
                 var tmp = iteratorDataMap[t.graph]
                 if (tmp == null) {
-                    tmp = Array(3) { mutableListOf() }
+                    tmp = ArrayAllocatorMutableListInt(3) { mutableListOf() }
                     iteratorDataMap[t.graph] = tmp
                 }
                 tmp[i].add((t.children[i] as AOPConstant).value)
@@ -95,7 +95,7 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
         }
         for ((graph, iteratorData) in iteratorDataMap) {
             val graphLocal = tripleStoreManager.getGraph(graph)
-            graphLocal.modify(query, Array(3) { ColumnIteratorMultiValue(iteratorData[it]) }, type)
+            graphLocal.modify(query, ArrayAllocatorColumnIterator(3) { ColumnIteratorMultiValue(iteratorData[it]) }, type)
         }
         return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, query.getDictionary().createValue(ValueBoolean(true)))))
     }

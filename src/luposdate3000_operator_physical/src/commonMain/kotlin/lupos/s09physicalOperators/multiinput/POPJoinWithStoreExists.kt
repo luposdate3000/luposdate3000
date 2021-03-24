@@ -50,7 +50,7 @@ public class POPJoinWithStoreExists public constructor(query: IQuery, projectedV
         SanityCheck.check { projectedVariables.isEmpty() }
         val childAv = children[0].evaluate(parent)
         val iteratorsHelper = mutableListOf<ColumnIterator>()
-        val params = Array(3) { childB.children[it] as IAOPBase }
+        val params = ArrayAllocatorIAOPBase(3) { childB.children[it] as IAOPBase }
         var res = IteratorBundle(0)
         val mappingHelper = mutableListOf<Int>()
         for (i in 0 until 3) {

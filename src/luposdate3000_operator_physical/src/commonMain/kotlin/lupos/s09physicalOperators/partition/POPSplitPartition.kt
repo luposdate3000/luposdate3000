@@ -137,7 +137,7 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
             }
             var error: Throwable? = null
             if (iterators == null) {
-                iterators = Array(partitionCount) { IteratorBundle(0) }
+                iterators = ArrayAllocatorIteratorBundle(partitionCount) { IteratorBundle(0) }
                 val variables = getProvidedVariableNames()
                 val variables0 = children[0].getProvidedVariableNames()
                 SanityCheck.check { variables0.containsAll(variables) }
@@ -148,7 +148,7 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                 val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } // constant
                 val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required
                 val ringbufferWriteHead = IntArray(partitionCount) { 0 } // owned by write thread - no locking required
-                val ringbufferReaderContinuation = Array(partitionCount) { Parallel.createCondition() }
+                val ringbufferReaderContinuation = ArrayAllocator(partitionCount) { Parallel.createCondition() }
                 val ringbufferWriterContinuation: ParallelCondition = Parallel.createCondition()
                 val readerFinished = IntArray(partitionCount) { 0 } // writer changes to 1 if finished
                 var writerFinished = 0

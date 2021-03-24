@@ -39,6 +39,11 @@ import kotlin.jvm.JvmField
 
 public class POPModify public constructor(query: IQuery, projectedVariables: List<String>, insert: List<LOPTriple>, delete: List<LOPTriple>, child: IOPBase) :
     POPBase(query, projectedVariables, EOperatorIDExt.POPModifyID, "POPModify", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+    public fun ArrayAllocatorPairLOPTripleEModifyType(size: Int, initializer: (Int) -> Pair<LOPTriple, EModifyType>): Array<Pair<LOPTriple, EModifyType>> {
+        val res = Array(size, initializer)
+        return res
+    }
+
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
         val res = super.toXMLElement(false)
         val xmlInsert = XMLElement("insert")
@@ -61,7 +66,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
     }
 
     @JvmField
-    public val modify: Array<Pair<LOPTriple, EModifyType>> = Array(insert.size + delete.size) {
+    public val modify: Array<Pair<LOPTriple, EModifyType>> = ArrayAllocatorPairLOPTripleEModifyType(insert.size + delete.size) {
         if (it < insert.size) {
             Pair(insert[it], EModifyTypeExt.INSERT)
         } else {
@@ -134,7 +139,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = children[0].getProvidedVariableNames()
         val child = children[0].evaluate(parent)
-        val columns = Array(variables.size) { child.columns[variables[it]]!! }
+        val columns = ArrayAllocator(variables.size) { child.columns[variables[it]]!! }
         val row = IntArray(variables.size) { DictionaryExt.undefValue }
         val data = mutableMapOf<String, Array<Array<MutableList<Int>>>>()
         loop@ while (true) {
@@ -167,7 +172,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
                     first.graph
                 }
                 if (data[graphName] == null) {
-                    data[graphName] = Array(EModifyTypeExt.values_size) { Array(3) { mutableListOf() } }
+                    data[graphName] = ArrayAllocator(EModifyTypeExt.values_size) { ArrayAllocator(3) { mutableListOf() } }
                 }
                 val target = data[graphName]!![second]
                 loop2@ for (columnIndex in 0 until 3) {
@@ -197,7 +202,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
             val store = tripleStoreManager.getGraph(graphName)
             for (type in 0 until EModifyTypeExt.values_size) {
                 if (iterator[type][0].size > 0) {
-                    store.modify(query, Array(3) { ColumnIteratorMultiValue(iterator[type][it]) }, type)
+                    store.modify(query, ArrayAllocator(3) { ColumnIteratorMultiValue(iterator[type][it]) }, type)
                 }
             }
         }

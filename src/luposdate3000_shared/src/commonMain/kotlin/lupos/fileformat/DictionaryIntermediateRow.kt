@@ -28,3 +28,8 @@ public class DictionaryIntermediateRow(public val id: Int, public val data: Byte
         return res
     }
 }
+
+public fun ArrayAllocatorDictionaryIntermediateRow(size: Int, initializer: (Int) -> DictionaryIntermediateRow): Array<DictionaryIntermediateRow> {
+    val res = Array(size, initializer)
+    return res
+}

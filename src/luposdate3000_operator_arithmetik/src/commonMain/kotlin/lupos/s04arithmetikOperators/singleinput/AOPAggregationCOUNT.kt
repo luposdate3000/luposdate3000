@@ -29,7 +29,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
-public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationCOUNTID, "AOPAggregationCOUNT", Array(childs.size) { childs[it] }) {
+public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationCOUNTID, "AOPAggregationCOUNT", ArrayAllocatorIOPBase(childs.size) { childs[it] }) {
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("distinct", "" + distinct)
     override fun toSparql(): String {
         var res = "COUNT("
@@ -59,5 +59,5 @@ public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField pub
         }
     }
 
-    override fun cloneOP(): IOPBase = AOPAggregationCOUNT(query, distinct, Array(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP(): IOPBase = AOPAggregationCOUNT(query, distinct, ArrayAllocatorIOPBase(children.size) { (children[it].cloneOP()) as AOPBase })
 }

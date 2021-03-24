@@ -20,11 +20,12 @@ import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04logicalOperators.ArrayAllocatorIOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPValue public constructor(query: IQuery, childs: List<AOPConstant>) : AOPBase(query, EOperatorIDExt.AOPValueID, "AOPValue", Array(childs.size) { childs[it] }) {
+public class AOPValue public constructor(query: IQuery, childs: List<AOPConstant>) : AOPBase(query, EOperatorIDExt.AOPValueID, "AOPValue", ArrayAllocatorIOPBase(childs.size) { childs[it] }) {
     override fun toSparql(): String {
         var res = ""
         res += "("

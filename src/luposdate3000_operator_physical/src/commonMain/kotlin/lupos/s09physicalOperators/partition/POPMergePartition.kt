@@ -167,7 +167,7 @@ public class POPMergePartition public constructor(query: IQuery, projectedVariab
                                     }
                                 }
                             } else {
-                                val variableMapping = Array(variables.size) { child[variables[it]]!! }
+                                val variableMapping = ArrayAllocator(variables.size) { child[variables[it]]!! }
                                 loop@ while (readerFinished == 0) {
                                     val t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                     while (ringbufferReadHead[p] == t && readerFinished == 0) {

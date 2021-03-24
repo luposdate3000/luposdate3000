@@ -128,7 +128,7 @@ public class POPDistributedSendSingle public constructor(
             }
         }
         SanityCheck.check { partitionNumber >= 0 && partitionNumber < partitionCount }
-        var variables = Array(projectedVariables.size) { "" }
+        var variables = ArrayAllocatorString(projectedVariables.size) { "" }
         var i = 0
         connectionOut.writeInt(variables.size)
         for (v in projectedVariables) {
@@ -140,7 +140,7 @@ public class POPDistributedSendSingle public constructor(
         var p = Partition(Partition(), partitionVariable, partitionNumber, partitionCount)
         val bundle = children[0].evaluate(p)
         println("accessing :: ${variables.map { it }} -> ${bundle.columns.keys.map { it }}")
-        val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
+        val columns = ArrayAllocator(variables.size) { bundle.columns[variables[it]]!! }
         var buf = DictionaryExt.nullValue + 1
         while (buf != DictionaryExt.nullValue) {
             for (j in 0 until variables.size) {

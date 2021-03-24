@@ -36,7 +36,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
      * - temporary result rows (currently not implemented)
      * additionally this should make it more easy to exchange this with on disk storage
      */
-    private var allPages = Array(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
+    private var allPages = ArrayAllocatorByteArray(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
 
     private var allPagesRefcounters = IntArray(100)
 
@@ -52,7 +52,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
                 SanityCheck.check({ allPagesRefcounters[i] == 0 }, { "Failed requirement allPagesRefcounters[$i] = ${allPagesRefcounters[i]} == 0" })
             }
         }
-        allPages = Array(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
+        allPages = ArrayAllocatorByteArray(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
         allPagesRefcounters = IntArray(100)
         if (BUFFER_MANAGER_USE_FREE_LIST) {
             freeList.clear()
@@ -113,7 +113,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
                 } else if (counter > 1000) {
                     size = counter + 1000
                 }
-                val tmp = Array(size) {
+                val tmp = ArrayAllocatorByteArray(size) {
                     val res: ByteArray = if (it < counter) {
                         allPages[it]
                     } else {

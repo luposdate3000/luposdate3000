@@ -406,14 +406,14 @@ public object XMLElementToOPBase {
                         childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
                     }
                 }
-                res = AOPAggregationCOUNT(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+                res = AOPAggregationCOUNT(query, node.attributes["distinct"]!!.toBoolean(), ArrayAllocatorIOPBase(childs.size) { childs[it] })
             }
             "AOPAggregationSAMPLE" -> {
                 val childs = mutableListOf<AOPBase>()
                 for (c in node["children"]!!.childs) {
                     childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
                 }
-                res = AOPAggregationSAMPLE(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+                res = AOPAggregationSAMPLE(query, node.attributes["distinct"]!!.toBoolean(), ArrayAllocatorIOPBase(childs.size) { childs[it] })
             }
             "AOPConstant" -> {
                 res = XMLElementToOPBase(query, node["value"]!!.childs.first(), mapping)
@@ -423,28 +423,28 @@ public object XMLElementToOPBase {
                 for (c in node["children"]!!.childs) {
                     childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
                 }
-                res = AOPAggregationAVG(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+                res = AOPAggregationAVG(query, node.attributes["distinct"]!!.toBoolean(), ArrayAllocatorIOPBase(childs.size) { childs[it] })
             }
             "AOPAggregationSUM" -> {
                 val childs = mutableListOf<AOPBase>()
                 for (c in node["children"]!!.childs) {
                     childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
                 }
-                res = AOPAggregationSUM(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+                res = AOPAggregationSUM(query, node.attributes["distinct"]!!.toBoolean(), ArrayAllocatorIOPBase(childs.size) { childs[it] })
             }
             "AOPAggregationMIN" -> {
                 val childs = mutableListOf<AOPBase>()
                 for (c in node["children"]!!.childs) {
                     childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
                 }
-                res = AOPAggregationMIN(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+                res = AOPAggregationMIN(query, node.attributes["distinct"]!!.toBoolean(), ArrayAllocatorIOPBase(childs.size) { childs[it] })
             }
             "AOPAggregationMAX" -> {
                 val childs = mutableListOf<AOPBase>()
                 for (c in node["children"]!!.childs) {
                     childs.add(XMLElementToOPBase(query, c, mapping) as AOPBase)
                 }
-                res = AOPAggregationMAX(query, node.attributes["distinct"]!!.toBoolean(), Array(childs.size) { childs[it] })
+                res = AOPAggregationMAX(query, node.attributes["distinct"]!!.toBoolean(), ArrayAllocatorIOPBase(childs.size) { childs[it] })
             }
             "AOPGT" -> {
                 res = AOPGT(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
@@ -473,7 +473,7 @@ public object XMLElementToOPBase {
             "POPSort" -> {
                 val child = XMLElementToOPBase(query, node["children"]!!.childs[0], mapping)
                 val xmlby = node["by"]!!
-                val sortBy = Array(xmlby.childs.size) { createAOPVariable(query, mapping, xmlby.childs[it].attributes["name"]!!) }
+                val sortBy = ArrayAllocator(xmlby.childs.size) { createAOPVariable(query, mapping, xmlby.childs[it].attributes["name"]!!) }
                 res = POPSort(query, createProjectedVariables(query, node, mapping), sortBy, node.attributes["order"] == "ASC", child)
             }
             "POPProjection" -> {

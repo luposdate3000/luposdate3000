@@ -70,7 +70,7 @@ public class LogicalOptimizerJoinOrderCostBasedOnVariable_Plan : Comparable<Logi
         } else {
             depthA + 1
         }
-        this.variables = Array(allVariables.size) { va[it] + vb[it] }
+        this.variables = ArrayAllocator(allVariables.size) { va[it] + vb[it] }
         var c = 0
         for (i in variables.indices) {
             val t = va[i] + vb[i]

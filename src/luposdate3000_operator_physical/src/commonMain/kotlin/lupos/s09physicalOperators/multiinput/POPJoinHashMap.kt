@@ -68,7 +68,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
         val columnsINBO = mutableListOf<ColumnIterator>() // only in childB
         val columnsINAJ = mutableListOf<ColumnIterator>() // join columnA
         val columnsINBJ = mutableListOf<ColumnIterator>() // join columnB
-        val outO = Array(2) { mutableListOf<ColumnIteratorChildIterator>() } // only in one of the childs
+        val outO = ArrayAllocator(2) { mutableListOf<ColumnIteratorChildIterator>() } // only in one of the childs
         val outJ = mutableListOf<ColumnIteratorChildIterator>()
         val outIterators = mutableListOf<Pair<String, Int>>() // J,O0,O1,J-but-not-outmap
         val outIteratorsAllocated = mutableListOf<ColumnIteratorChildIterator>()
@@ -249,7 +249,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                                             }
                                         }
                                     }
-                                    val dataOA = Array(columnsINAO.size) { mutableListOf<Int>() }
+                                    val dataOA = ArrayAllocator(columnsINAO.size) { mutableListOf<Int>() }
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         for (i in 0 until countA) {
                                             val tmp2 = columnsINAO[columnIndex].next()
@@ -263,7 +263,7 @@ public class POPJoinHashMap public constructor(query: IQuery, projectedVariables
                                             done = true
                                             countB = 1
                                             val dataJ = IntArray(outJ.size) { currentKey!![it] }
-                                            POPJoin.crossProduct(dataOA, Array(outO[1].size) { mutableListOf(DictionaryExt.undefValue) }, dataJ, outO[0], outO[1], outJ, countA, countB)
+                                            POPJoin.crossProduct(dataOA, ArrayAllocator(outO[1].size) { mutableListOf(DictionaryExt.undefValue) }, dataJ, outO[0], outO[1], outJ, countA, countB)
                                         }
                                     } else {
                                         done = true

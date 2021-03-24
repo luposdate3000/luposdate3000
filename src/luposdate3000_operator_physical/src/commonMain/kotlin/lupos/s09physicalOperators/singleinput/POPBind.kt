@@ -86,7 +86,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
                 }
             }
             SanityCheck.check { boundIndex != -1 }
-            val columnsIn = Array(variablesLocal.size) { child.columns[variablesLocal[it]] }
+            val columnsIn = ArrayAllocator(variablesLocal.size) { child.columns[variablesLocal[it]] }
             for (variableIndex in variablesLocal.indices) {
                 columnsLocal[variableIndex] = object : ColumnIteratorQueue() {
                     override /*suspend*/ fun close() {

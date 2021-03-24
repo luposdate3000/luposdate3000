@@ -31,3 +31,8 @@ public abstract class ColumnIterator {
         return next()
     }
 }
+
+public fun ArrayAllocatorColumnIterator(size: Int, initializer: (Int) -> ColumnIterator): Array<ColumnIterator> {
+    val res = Array(size, initializer)
+    return res
+}

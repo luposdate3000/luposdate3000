@@ -220,7 +220,7 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                     res.sortPrioritiesInitialized = node.sortPrioritiesInitialized
                 }
                 is LOPTriple -> {
-                    res = tripleStoreManager.getGraph(node.graph).getIterator(query, Array(3) { node.getChildren()[it] as IAOPBase }, EIndexPatternExt.SPO)
+                    res = tripleStoreManager.getGraph(node.graph).getIterator(query, ArrayAllocatorIAOPBase(3) { node.getChildren()[it] as IAOPBase }, EIndexPatternExt.SPO)
                 }
                 is OPEmptyRow -> {
                     res = POPEmptyRow(query, projectedVariables)

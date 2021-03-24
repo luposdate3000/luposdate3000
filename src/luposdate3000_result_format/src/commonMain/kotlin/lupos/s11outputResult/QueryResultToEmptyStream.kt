@@ -104,7 +104,7 @@ public object QueryResultToEmptyStream {
         val nodes: Array<IOPBase>
         var columnProjectionOrder: List<List<String>>
         if (rootNode is OPBaseCompound) {
-            nodes = Array(rootNode.children.size) { rootNode.children[it] }
+            nodes = ArrayAllocatorIOPBase(rootNode.children.size) { rootNode.children[it] }
             columnProjectionOrder = rootNode.columnProjectionOrder
         } else {
             nodes = arrayOf(rootNode)

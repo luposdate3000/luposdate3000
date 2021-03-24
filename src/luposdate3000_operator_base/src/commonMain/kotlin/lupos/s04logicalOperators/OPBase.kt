@@ -285,7 +285,7 @@ public abstract class OPBase public constructor(
         } else if (sortPriority == ESortPriorityExt.SORT) {
             throw Exception("this should be overriden by the corresponding clazz")
         } else if (sortPriority == ESortPriorityExt.JOIN) {
-            val resTmp = Array(2) { mutableListOf<List<SortHelper>>() }
+            val resTmp = ArrayAllocator(2) { mutableListOf<List<SortHelper>>() }
             val childA = children[0]
             val childB = children[1]
             val columns = LOPJoin_Helper.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())

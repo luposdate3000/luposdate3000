@@ -162,7 +162,7 @@ public class DistributedOptimizerQuery() : IDistributedOptimizer {
                 is POPSplitPartitionFromStoreCount,
                 is POPSplitPartitionPassThrough
                 -> {
-                    val allNames = Array(currentPartitionsCopy.size) { "" }
+                    val allNames = ArrayAllocatorString(currentPartitionsCopy.size) { "" }
                     val allSize = IntArray(currentPartitionsCopy.size)
                     var i = 0
                     for ((k, v) in currentPartitionsCopy) {

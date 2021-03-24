@@ -111,7 +111,7 @@ public class TripleStoreDescription(
     }
 
     public override fun modify(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType) {
-        val allBuf = Array(indices.size) { index -> Array(indices[index].getAllLocations().size) { MyBuf() } }
+        val allBuf = ArrayAllocatorArrayMyBuf(indices.size) { index -> ArrayAllocatorMyBuf(indices[index].getAllLocations().size) { MyBuf() } }
         inline fun mySend(i: Int, j: Int) {
             val buf = allBuf[i][j]
             val index = indices[i]

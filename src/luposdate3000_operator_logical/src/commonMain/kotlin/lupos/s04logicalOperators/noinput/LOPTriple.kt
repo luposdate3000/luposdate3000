@@ -125,12 +125,11 @@ public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBas
         val res = HistogramResult()
         res.count = -1
         for (v in getProvidedVariableNames()) {
-            val params = Array(3) {
+            val params = ArrayAllocatorIAOPBase(3) {
                 var t = children[it]
                 if (t is AOPVariable && t.name != v) {
                     t = AOPVariable(query, "_")
                 }
-                t as IAOPBase
             }
             val idx = getIndex(params.map { it }.toTypedArray(), listOf())
             val store = tripleStoreManager.getGraph(graph)

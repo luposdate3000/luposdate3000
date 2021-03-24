@@ -21,7 +21,7 @@ import lupos.s04logicalOperators.HistogramResult
 public object LOPJoin_Helper {
     public fun getColumns(columnsA: List<String>, columnsB: List<String>): Array<MutableList<String>> {
         /*result array indices 0:Join,1:AOnly,2:BOnly*/
-        val res = Array(3) { mutableListOf<String>() }
+        val res = ArrayAllocatorMutableListString(3) { mutableListOf<String>() }
         res[2].addAll(columnsB)
         for (name in columnsA) {
             if (res[2].contains(name)) {

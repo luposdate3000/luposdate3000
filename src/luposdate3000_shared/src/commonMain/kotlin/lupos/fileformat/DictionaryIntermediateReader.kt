@@ -55,3 +55,8 @@ public class DictionaryIntermediateReader(filename: String) : DictionaryIntermed
         streamIn = null
     }
 }
+
+public fun ArrayAllocatorDictionaryIntermediateReader(size: Int, initializer: (Int) -> DictionaryIntermediateReader): Array<DictionaryIntermediateReader> {
+    val res = Array(size, initializer)
+    return res
+}

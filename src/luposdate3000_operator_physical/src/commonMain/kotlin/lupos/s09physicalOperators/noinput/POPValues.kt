@@ -49,7 +49,7 @@ public open class POPValues : POPBase {
             res += "$v "
         }
         res += ") {"
-        val columns = Array(variables.size) { data[variables[it]] }
+        val columns = ArrayAllocator(variables.size) { data[variables[it]] }
         if (columns.isNotEmpty()) {
             for (i in 0 until columns[0]!!.size) {
                 res += "("
@@ -85,8 +85,8 @@ public open class POPValues : POPBase {
                 if (data[v]!!.size != other.data[v]!!.size) {
                     return false
                 }
-                val columns1 = Array(variables.size) { data[variables[it]] }
-                val columns2 = Array(variables.size) { other.data[variables[it]] }
+                val columns1 = ArrayAllocator(variables.size) { data[variables[it]] }
+                val columns2 = ArrayAllocator(variables.size) { other.data[variables[it]] }
                 for (vIndex in variables.indices) {
                     for (i in 0 until columns1[0]!!.size) {
                         if (columns1[vIndex]!![i] != columns2[vIndex]!![i]) {
@@ -115,7 +115,7 @@ public open class POPValues : POPBase {
 
     public constructor(query: IQuery, projectedVariables: List<String>, v: List<String>, d: MutableList<List<String?>>) : super(query, projectedVariables, EOperatorIDExt.POPValuesID, "POPValues", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
         variables = v
-        val columns = Array(variables.size) { mutableListOf<Int>() }
+        val columns = ArrayAllocator(variables.size) { mutableListOf<Int>() }
         data = mutableMapOf()
         if (projectedVariables.isEmpty()) {
             rows = d.size
@@ -149,7 +149,7 @@ public open class POPValues : POPBase {
                 tmpVariables.add(name.name)
             }
             variables = tmpVariables
-            val columns = Array(variables.size) { mutableListOf<Int>() }
+            val columns = ArrayAllocator(variables.size) { mutableListOf<Int>() }
             data = mutableMapOf()
             for (variableIndex in variables.indices) {
                 data[variables[variableIndex]] = columns[variableIndex]
@@ -189,7 +189,7 @@ public open class POPValues : POPBase {
         for (variable in variables) {
             xmlvariables.addContent(XMLElement("variable").addAttribute("name", variable))
         }
-        val columns = Array(variables.size) { data[variables[it]] }
+        val columns = ArrayAllocator(variables.size) { data[variables[it]] }
         if (columns.isNotEmpty()) {
             for (i in 0 until columns[0]!!.size) {
                 val b = XMLElement("binding")

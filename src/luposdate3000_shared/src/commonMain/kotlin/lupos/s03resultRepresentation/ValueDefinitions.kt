@@ -50,6 +50,11 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import kotlin.jvm.JvmField
 
+public fun ArrayAllocatorFuncValueDefinition(size: Int, initializer: (Int) -> () -> ValueDefinition): Array<() -> ValueDefinition> {
+    val res = Array(size, initializer)
+    return res
+}
+
 public sealed class ValueDefinition : Comparable<ValueDefinition> {
     public /*suspend*/ abstract fun toXMLElement(partial: Boolean): XMLElement
     public abstract fun valueToString(): String?

@@ -148,7 +148,7 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
         val ringbufferStart = IntArray(partitionCountSrc) { it * elementsPerRing } // constant
         val ringbufferReadHead = IntArray(partitionCountSrc) { 0 } // owned by read-thread - no locking required
         val ringbufferWriteHead = IntArray(partitionCountSrc) { 0 } // owned by write thread - no locking required
-        val ringbufferWriterContinuation = Array(partitionCountSrc) { Parallel.createCondition() }
+        val ringbufferWriterContinuation = ArrayAllocator(partitionCountSrc) { Parallel.createCondition() }
         val ringbufferReaderContinuation: ParallelCondition = Parallel.createCondition()
         val writerFinished = IntArray(partitionCountSrc) { 0 } // writer changes to 1 if finished
         var readerFinished = 0
@@ -182,7 +182,7 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
                                 }
                             }
                         } else {
-                            val variableMapping = Array(variables.size) { child[variables[it]]!! }
+                            val variableMapping = ArrayAllocator(variables.size) { child[variables[it]]!! }
                             loop@ while (readerFinished == 0) {
                                 val t = (ringbufferWriteHead[p1] + variables.size) % elementsPerRing
                                 while (ringbufferReadHead[p1] == t && readerFinished == 0) {

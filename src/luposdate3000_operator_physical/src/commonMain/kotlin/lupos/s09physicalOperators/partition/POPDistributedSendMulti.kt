@@ -117,7 +117,7 @@ public class POPDistributedSendMulti public constructor(
     }
 
     public fun evaluate(data: Array<IMyOutputStream?>) {
-        var variables = Array(projectedVariables.size) { "" }
+        var variables = ArrayAllocatorString(projectedVariables.size) { "" }
         var i = 0
         for (connectionOut in data) {
             connectionOut!!.writeInt(variables.size)
@@ -143,7 +143,7 @@ public class POPDistributedSendMulti public constructor(
         SanityCheck.check { i == variables.size }
         var p = Partition()
         val bundle = children[0].evaluate(p)
-        val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
+        val columns = ArrayAllocator(variables.size) { bundle.columns[variables[it]]!! }
         var buf = columns[0].next()
         while (buf != DictionaryExt.nullValue) {
 // the partition column

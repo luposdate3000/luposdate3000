@@ -56,7 +56,7 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
         val child = children[0].evaluate(parent)
         val res: IteratorBundle
         try {
-            val columnsIn = Array(variables.size) { child.columns[variables[it]] }
+            val columnsIn = ArrayAllocator(variables.size) { child.columns[variables[it]] }
             val columnsOut = mutableListOf<ColumnIteratorQueue>()
             val columnsLocal = mutableListOf<ColumnIteratorQueue>()
             for (i in variables.indices) {

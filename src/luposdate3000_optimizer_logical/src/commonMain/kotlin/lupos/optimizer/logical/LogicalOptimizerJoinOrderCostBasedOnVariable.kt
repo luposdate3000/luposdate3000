@@ -72,7 +72,7 @@ public object LogicalOptimizerJoinOrderCostBasedOnVariable {
                 }
             }
             for (i in allChilds.indices) {
-                val variables = Array(allVariables.size) { 0 }
+                val variables = ArrayAllocatorInt(allVariables.size) { 0 }
                 val tmp = allChilds[i].getProvidedVariableNames()
                 for (t in tmp) {
                     SanityCheck.check { allVariables.contains(t) }

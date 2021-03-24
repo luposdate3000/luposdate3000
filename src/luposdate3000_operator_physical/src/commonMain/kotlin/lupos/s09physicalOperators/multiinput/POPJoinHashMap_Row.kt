@@ -17,6 +17,6 @@
 package lupos.s09physicalOperators.multiinput
 
 internal class POPJoinHashMap_Row(columns: Int) {
-    val columns = Array(columns) { mutableListOf<Int>() }
+    val columns = ArrayAllocatorMutableListInt(columns) { mutableListOf<Int>() }
     var count = 0
 }

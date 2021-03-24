@@ -153,8 +153,8 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     val outDictionary = DictionaryIntermediateWriter("$inputFileName")
     val mapping = IntArray(dictCounter.toInt())
 
-    val dictionaries = Array(chunc) { DictionaryIntermediateReader("$inputFileName.$it") }
-    val dictionariesHead = Array(chunc) { dictionaries[it].next() }
+    val dictionaries = ArrayAllocatorDictionaryIntermediateReader(chunc) { DictionaryIntermediateReader("$inputFileName.$it") }
+    val dictionariesHead = ArrayAllocatorDictionaryIntermediateRow(chunc) { dictionaries[it].next() }
 
     var current: DictionaryIntermediateRow? = null
     var currentValue = 0
@@ -214,7 +214,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         val lowerBoundToAnalyse = 256L
         val partitionSizes = intArrayOf(2, 4, 8, 16)
         val tripleBuf = LongArray(3)
-        val counters = Array(3) { LongArray(currentValue.toInt()) }
+        val counters = ArrayAllocatorLongArray(3) { LongArray(currentValue.toInt()) }
         val maxCounter = LongArray(3)
         outputTriplesFile.withInputStream { fis ->
             for (c in 0 until cnt) {
@@ -227,7 +227,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                 }
             }
         }
-        val estimatedPartitionSizes = Array(6) { mutableMapOf<Int, Array<LongArray>>() }
+        val estimatedPartitionSizes = arrayOf(mutableMapOf<Int, Array<LongArray>>(), mutableMapOf<Int, Array<LongArray>>(), mutableMapOf<Int, Array<LongArray>>(), mutableMapOf<Int, Array<LongArray>>(), mutableMapOf<Int, Array<LongArray>>(), mutableMapOf<Int, Array<LongArray>>())
         val minimumOccurences = LongArray(3) {
             val tmp = maxCounter[it] / 2L
             if (lowerBoundToAnalyse > tmp) {
@@ -250,7 +250,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                             val x = estimatedPartitionSizes[i + j2 * 3]
                             var y = x[constantPart]
                             if (y == null) {
-                                y = Array(partitionSizes.size) { LongArray(partitionSizes[it]) }
+                                y = ArrayAllocatorLongArray(partitionSizes.size) { LongArray(partitionSizes[it]) }
                                 x[constantPart.toInt()] = y
                             }
                             for (k in partitionSizes.indices) {

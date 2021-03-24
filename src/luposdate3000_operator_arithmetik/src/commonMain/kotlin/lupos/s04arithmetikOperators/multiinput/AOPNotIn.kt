@@ -32,7 +32,7 @@ public class AOPNotIn public constructor(query: IQuery, childA: AOPBase, childB:
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluate(row)
         SanityCheck.check { children[1] is AOPSet }
-        val childsB = Array(children[1].getChildren().size) { (children[1].getChildren()[it] as AOPBase).evaluate(row) }
+        val childsB = ArrayAllocatorFuncValueDefinition(children[1].getChildren().size) { (children[1].getChildren()[it] as AOPBase).evaluate(row) }
         return {
             var res: ValueDefinition = ValueError()
             val a = childA()

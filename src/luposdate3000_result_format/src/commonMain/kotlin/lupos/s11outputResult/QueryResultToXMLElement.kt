@@ -40,7 +40,7 @@ public object QueryResultToXMLElement {
         val nodes: Array<IOPBase>
         val columnProjectionOrder: List<List<String>>
         if (rootNode is OPBaseCompound) {
-            nodes = Array(rootNode.children.size) { rootNode.children[it] }
+            nodes = ArrayAllocatorIOPBase(rootNode.children.size) { rootNode.children[it] }
             columnProjectionOrder = rootNode.columnProjectionOrder
         } else {
             nodes = arrayOf(rootNode)

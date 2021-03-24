@@ -111,7 +111,7 @@ public object QueryResultToMemoryTable {
         val nodes: Array<IOPBase>
         var columnProjectionOrder = listOf<List<String>>()
         if (rootNode is OPBaseCompound) {
-            nodes = Array(rootNode.children.size) { rootNode.children[it] }
+            nodes = ArrayAllocatorIOPBase(rootNode.children.size) { rootNode.children[it] }
             columnProjectionOrder = rootNode.columnProjectionOrder
         } else {
             nodes = arrayOf(rootNode)

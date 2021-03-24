@@ -375,7 +375,7 @@ public object BinaryTestCase {
                                 break@func
                             }
                             val targetDict = mutableMapOf<String, Int>()
-                            val targetDict2 = Array(dictionarySize) { "" }
+                            val targetDict2 = ArrayAllocatorString(dictionarySize) { "" }
                             val mappingTargetToLive = IntArray(dictionarySize) { 0 }
                             val mappingLiveToTarget = mutableMapOf(DictionaryExt.undefValue to -1, DictionaryExt.errorValue to -1, DictionaryExt.nullValue to -1)
                             for (i in 0 until dictionarySize) {

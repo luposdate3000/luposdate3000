@@ -1315,22 +1315,22 @@ return tmp
     override fun visit(node: ASTAggregation, childrenValues: List<IOPBase>): IOPBase {
         when (node.type) {
             AggregationExt.COUNT -> {
-                return AOPAggregationCOUNT(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+                return AOPAggregationCOUNT(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] })
             }
             AggregationExt.MIN -> {
-                return AOPAggregationMIN(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+                return AOPAggregationMIN(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] })
             }
             AggregationExt.MAX -> {
-                return AOPAggregationMAX(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+                return AOPAggregationMAX(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] })
             }
             AggregationExt.SAMPLE -> {
-                return AOPAggregationSAMPLE(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+                return AOPAggregationSAMPLE(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] })
             }
             AggregationExt.AVG -> {
-                return AOPAggregationAVG(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+                return AOPAggregationAVG(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] })
             }
             AggregationExt.SUM -> {
-                return AOPAggregationSUM(query, node.distinct, Array(childrenValues.size) { childrenValues[it] as AOPBase })
+                return AOPAggregationSUM(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] })
             }
             AggregationExt.GROUP_CONCAT -> {
                 throw SparqlFeatureNotImplementedException("AggregationExt.GROUP_CONCAT")

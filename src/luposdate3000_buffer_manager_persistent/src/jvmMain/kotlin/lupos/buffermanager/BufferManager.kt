@@ -56,7 +56,7 @@ public actual class BufferManager internal actual constructor(@JvmField public v
      */
     private val lock = MyReadWriteLock()
 
-    private var openPages = Array(cacheSize) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
+    private var openPages = ArrayAllocatorByteArray(cacheSize) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
 
     private var openPagesRefcounters = IntArray(cacheSize)
 

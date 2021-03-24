@@ -17,3 +17,8 @@
 package lupos.s05tripleStore
 
 public typealias LuposStoreKey = String
+
+public fun ArrayAllocatorMutableListLuposStoreKey(size: Int, initializer: (Int) -> MutableList<LuposStoreKey>): Array<MutableList<LuposStoreKey>> {
+    val res = Array(size, initializer)
+    return res
+}
