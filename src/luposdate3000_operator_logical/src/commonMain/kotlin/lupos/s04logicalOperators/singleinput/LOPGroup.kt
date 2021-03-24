@@ -16,6 +16,7 @@
  */
 package lupos.s04logicalOperators.singleinput
 
+import lupos.ArrayAllocatorString
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.GroupByColumnMissing

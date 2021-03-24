@@ -16,6 +16,7 @@
  */
 package lupos.s09physicalOperators.noinput
 
+import lupos.ArrayAllocatorMutableListInt
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EOperatorIDExt
@@ -27,6 +28,7 @@ import lupos.s00misc.UnreachableException
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
+import lupos.s04logicalOperators.ArrayAllocatorColumnIterator
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue

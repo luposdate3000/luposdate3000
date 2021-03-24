@@ -23,6 +23,7 @@ import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueInteger
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04logicalOperators.ArrayAllocatorIOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate

@@ -16,6 +16,7 @@
  */
 package lupos.s04logicalOperators.noinput
 
+import lupos.s00misc.ArrayAllocatorESortPriority
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.XMLElement

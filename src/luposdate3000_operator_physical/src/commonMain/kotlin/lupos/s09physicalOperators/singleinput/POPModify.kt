@@ -16,6 +16,7 @@
  */
 package lupos.s09physicalOperators.singleinput
 
+import lupos.ArrayAllocator
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt

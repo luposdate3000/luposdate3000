@@ -16,6 +16,7 @@
  */
 package lupos.s04logicalOperators.multiinput
 
+import lupos.ArrayAllocatorMutableListString
 import lupos.s04logicalOperators.HistogramResult
 
 public object LOPJoin_Helper {

@@ -16,6 +16,7 @@
  */
 package lupos.operator.factory
 
+import lupos.ArrayAllocator
 import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger
@@ -105,6 +106,7 @@ import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallDouble
 import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallFloat
 import lupos.s04arithmetikOperators.singleinput.AOPFunctionCallString
 import lupos.s04arithmetikOperators.singleinput.AOPNot
+import lupos.s04logicalOperators.ArrayAllocatorIOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query

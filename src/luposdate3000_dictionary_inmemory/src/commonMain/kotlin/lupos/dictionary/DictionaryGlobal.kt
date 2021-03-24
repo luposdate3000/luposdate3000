@@ -16,6 +16,7 @@
  */
 package lupos.dictionary
 
+import lupos.ArrayAllocatorString
 import lupos.ProguardTestAnnotation
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt

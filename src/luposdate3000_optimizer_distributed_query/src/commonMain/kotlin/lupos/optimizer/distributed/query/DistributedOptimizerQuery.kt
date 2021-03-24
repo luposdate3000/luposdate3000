@@ -16,6 +16,7 @@
  */
 package lupos.optimizer.distributed.query
 
+import lupos.ArrayAllocatorString
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition

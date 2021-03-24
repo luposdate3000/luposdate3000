@@ -16,6 +16,7 @@
  */
 package lupos.s09physicalOperators.partition
 
+import lupos.ArrayAllocator
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt

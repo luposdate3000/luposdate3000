@@ -16,6 +16,7 @@
  */
 package lupos.dictionary
 
+import lupos.ArrayAllocatorString
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.MyBigInteger

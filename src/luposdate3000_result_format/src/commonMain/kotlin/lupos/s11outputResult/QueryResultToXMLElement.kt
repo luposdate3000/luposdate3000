@@ -22,6 +22,7 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
+import lupos.s04logicalOperators.ArrayAllocatorIOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.noinput.OPNothing

@@ -16,6 +16,7 @@
  */
 package lupos.buffermanager
 
+import lupos.ArrayAllocatorByteArray
 import lupos.ProguardTestAnnotation
 import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.s00misc.BUFFER_MANAGER_USE_FREE_LIST

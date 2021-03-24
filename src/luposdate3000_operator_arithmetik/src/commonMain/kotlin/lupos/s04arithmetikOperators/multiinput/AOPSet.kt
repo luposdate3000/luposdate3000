@@ -20,6 +20,7 @@ import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.SparqlFeatureNotImplementedException
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04logicalOperators.ArrayAllocatorIOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle

@@ -16,6 +16,7 @@
  */
 package lupos.test
 
+import lupos.ArrayAllocatorString
 import lupos.dictionary.Dictionary
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.IDictionary

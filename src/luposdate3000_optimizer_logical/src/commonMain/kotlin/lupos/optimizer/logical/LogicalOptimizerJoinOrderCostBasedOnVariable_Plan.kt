@@ -16,6 +16,7 @@
  */
 package lupos.optimizer.logical
 
+import lupos.ArrayAllocator
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import kotlin.jvm.JvmField

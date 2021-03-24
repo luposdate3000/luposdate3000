@@ -16,6 +16,7 @@
  */
 package lupos.optimizer.logical
 
+import lupos.ArrayAllocatorInt
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin

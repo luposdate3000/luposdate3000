@@ -16,6 +16,9 @@
  */
 package lupos.launch.import
 
+import lupos.ArrayAllocatorLongArray
+import lupos.fileformat.ArrayAllocatorDictionaryIntermediateReader
+import lupos.fileformat.ArrayAllocatorDictionaryIntermediateRow
 import lupos.fileformat.DictionaryIntermediate
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.fileformat.DictionaryIntermediateRow
