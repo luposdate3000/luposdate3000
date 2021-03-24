@@ -24,6 +24,7 @@ import kotlin.jvm.JvmField
 public object BufferManagerExt {
     public const val fileEnding: String = ".data"
     public const val fileEndingFree: String = ".datafree"
+    public const val fileEndingIntArray: String = ".intarray"
 
     @JvmField
     public var allowInitFromDisk: Boolean = true

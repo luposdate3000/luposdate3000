@@ -24,6 +24,7 @@ import lupos.kv.KeyValueStore
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
+import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueDefinition
 
@@ -35,6 +36,19 @@ public class DictionaryGlobal {
     private var bNodeCounter = 5
     private val rootPageID: Int
     private val rootPage: ByteArray
+
+    private val counters = IntArray(12)
+
+    init {
+        SanityCheck {
+            Parallel.launch {
+                while (true) {
+                    println("GlobalDictionary.counters ${counters.map { it }}")
+                    Parallel.delay(1000)
+                }
+            }
+        }
+    }
 
     public constructor() {
         bufferManager = BufferManagerExt.getBuffermanager("dictionary")
@@ -95,18 +109,22 @@ public class DictionaryGlobal {
     }
 
     public fun importFromDictionaryFile(filename: String, mapping: IntArray): IntArray {
+        counters[0]++
         return importFromDictionaryFileH(filename, mapping)!!
     }
 
     public fun importFromDictionaryFile(filename: String) {
+        counters[1]++
         importFromDictionaryFileH(filename, null)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     private inline fun importFromDictionaryFileH(filename: String, mapping: IntArray?): IntArray? {
+        counters[2]++
         var mymapping = mapping
         var lastId = -1
         DictionaryIntermediateReader(filename).readAll { id, data ->
+            counters[3]++
             val type = DictionaryHelper.byteArrayToType(data)
             val i = if (type == ETripleComponentTypeExt.BLANK_NODE) {
                 createNewBNode()
@@ -132,21 +150,25 @@ public class DictionaryGlobal {
     }
 
     public fun prepareBulk(total: Int, typed: IntArray) {
+        counters[4]++
     }
 
     public fun createNewBNode(value: String): Int {
+        counters[5]++
         val res: Int = (DictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
         ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
         return res
     }
 
     public fun createNewBNode(): Int {
+        counters[6]++
         val res: Int = (DictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
         ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
         return res
     }
 
     public fun getValue(value: Int): ValueDefinition {
+        counters[7]++
         val tmp = kv.getValue(value and DictionaryShared.filter2)
         return DictionaryHelper.byteArrayToValueDefinition(tmp)
     }
@@ -166,19 +188,23 @@ public class DictionaryGlobal {
         onError: () -> Unit,
         onUndefined: () -> Unit
     ) {
+        counters[8]++
         val tmp = kv.getValue(value and DictionaryShared.filter2)
         DictionaryHelper.byteArrayToCallback(value, tmp, onBNode, onBoolean, onLanguageTaggedLiteral, onSimpleLiteral, onTypedLiteral, onDecimal, onFloat, onDouble, onInteger, onIri, onError, onUndefined)
     }
 
     public fun createValue(value: String?): Int {
+        counters[9]++
         return kv.createValue(DictionaryHelper.valueToByteArray(value)) or DictionaryShared.flaggedValueGlobal
     }
 
     internal inline fun createValue(value: ValueDefinition): Int {
+        counters[10]++
         return kv.createValue(DictionaryHelper.valueToByteArray(value)) or DictionaryShared.flaggedValueGlobal
     }
 
     internal inline fun hasValue(value: ValueDefinition): Int? {
+        counters[11]++
         val tmp = kv.hasValue(DictionaryHelper.valueToByteArray(value))
         if (tmp == null) {
             return null
