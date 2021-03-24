@@ -60,7 +60,7 @@ public class TripleStoreManagerImpl(
     internal val metadata = mutableMapOf<LuposGraphName, TripleStoreDescription>()
 
     @JvmField
-    internal var keysOnHostname = ArrayAllocatorMutableListLuposStoreKey(hostnames.size) { mutableListOf<LuposStoreKey>() } // TODO initialize based on "metadata" on each restart
+    internal var keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() } // TODO initialize based on "metadata" on each restart
     internal lateinit var defaultTripleStoreLayout: TripleStoreDescriptionFactory
     public override fun getLocalhost(): LuposHostname = localhost
     public override fun getPartitionMode(): EPartitionMode = partitionMode

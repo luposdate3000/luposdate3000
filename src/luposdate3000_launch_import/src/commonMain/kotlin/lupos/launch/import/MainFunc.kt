@@ -16,9 +16,6 @@
  */
 package lupos.launch.import
 
-import lupos.ArrayAllocatorLongArray
-import lupos.fileformat.ArrayAllocatorDictionaryIntermediateReader
-import lupos.fileformat.ArrayAllocatorDictionaryIntermediateRow_
 import lupos.fileformat.DictionaryIntermediate
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.fileformat.DictionaryIntermediateRow
@@ -156,8 +153,8 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     val outDictionary = DictionaryIntermediateWriter("$inputFileName")
     val mapping = IntArray(dictCounter.toInt())
 
-    val dictionaries = ArrayAllocatorDictionaryIntermediateReader(chunc) { DictionaryIntermediateReader("$inputFileName.$it") }
-    val dictionariesHead = ArrayAllocatorDictionaryIntermediateRow_(chunc) { dictionaries[it].next() }
+    val dictionaries = Array(chunc) { DictionaryIntermediateReader("$inputFileName.$it") }
+    val dictionariesHead = Array(chunc) { dictionaries[it].next() }
 
     var current: DictionaryIntermediateRow? = null
     var currentValue = 0
@@ -217,7 +214,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         val lowerBoundToAnalyse = 256L
         val partitionSizes = intArrayOf(2, 4, 8, 16)
         val tripleBuf = LongArray(3)
-        val counters = ArrayAllocatorLongArray(3) { LongArray(currentValue.toInt()) }
+        val counters = Array(3) { LongArray(currentValue.toInt()) }
         val maxCounter = LongArray(3)
         outputTriplesFile.withInputStream { fis ->
             for (c in 0 until cnt) {
@@ -253,7 +250,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                             val x = estimatedPartitionSizes[i + j2 * 3]
                             var y = x[constantPart]
                             if (y == null) {
-                                y = ArrayAllocatorLongArray(partitionSizes.size) { LongArray(partitionSizes[it]) }
+                                y = Array(partitionSizes.size) { LongArray(partitionSizes[it]) }
                                 x[constantPart.toInt()] = y
                             }
                             for (k in partitionSizes.indices) {
