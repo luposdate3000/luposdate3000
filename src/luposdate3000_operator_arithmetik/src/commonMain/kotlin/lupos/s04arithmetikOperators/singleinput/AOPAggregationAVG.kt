@@ -29,6 +29,7 @@ import lupos.s03resultRepresentation.ValueInteger
 import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.ArrayAllocatorAOPBase
 import lupos.s04logicalOperators.ArrayAllocatorIOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -107,5 +108,5 @@ public class AOPAggregationAVG public constructor(query: IQuery, @JvmField publi
         }
     }
 
-    override fun cloneOP(): IOPBase = AOPAggregationAVG(query, distinct, ArrayAllocatorIOPBase(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP(): IOPBase = AOPAggregationAVG(query, distinct, ArrayAllocatorAOPBase(children.size) { (children[it].cloneOP()) as AOPBase })
 }

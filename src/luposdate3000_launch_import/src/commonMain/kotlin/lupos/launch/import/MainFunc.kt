@@ -18,7 +18,7 @@ package lupos.launch.import
 
 import lupos.ArrayAllocatorLongArray
 import lupos.fileformat.ArrayAllocatorDictionaryIntermediateReader
-import lupos.fileformat.ArrayAllocatorDictionaryIntermediateRow
+import lupos.fileformat.ArrayAllocatorDictionaryIntermediateRow_
 import lupos.fileformat.DictionaryIntermediate
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.fileformat.DictionaryIntermediateRow
@@ -157,7 +157,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     val mapping = IntArray(dictCounter.toInt())
 
     val dictionaries = ArrayAllocatorDictionaryIntermediateReader(chunc) { DictionaryIntermediateReader("$inputFileName.$it") }
-    val dictionariesHead = ArrayAllocatorDictionaryIntermediateRow(chunc) { dictionaries[it].next() }
+    val dictionariesHead = ArrayAllocatorDictionaryIntermediateRow_(chunc) { dictionaries[it].next() }
 
     var current: DictionaryIntermediateRow? = null
     var currentValue = 0

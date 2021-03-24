@@ -23,6 +23,7 @@ import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueInteger
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.ArrayAllocatorAOPBase
 import lupos.s04logicalOperators.ArrayAllocatorIOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -60,5 +61,5 @@ public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField pub
         }
     }
 
-    override fun cloneOP(): IOPBase = AOPAggregationCOUNT(query, distinct, ArrayAllocatorIOPBase(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP(): IOPBase = AOPAggregationCOUNT(query, distinct, ArrayAllocatorAOPBase(children.size) { (children[it].cloneOP()) as AOPBase })
 }

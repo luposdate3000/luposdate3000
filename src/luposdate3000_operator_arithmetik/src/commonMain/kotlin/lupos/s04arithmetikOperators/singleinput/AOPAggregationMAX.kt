@@ -24,6 +24,7 @@ import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.ArrayAllocatorAOPBase
 import lupos.s04logicalOperators.ArrayAllocatorIOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -70,5 +71,5 @@ public class AOPAggregationMAX public constructor(query: IQuery, @JvmField publi
         }
     }
 
-    override fun cloneOP(): IOPBase = AOPAggregationMAX(query, distinct, ArrayAllocatorIOPBase(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP(): IOPBase = AOPAggregationMAX(query, distinct, ArrayAllocatorAOPBase(children.size) { (children[it].cloneOP()) as AOPBase })
 }

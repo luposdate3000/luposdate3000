@@ -31,6 +31,7 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.ArrayAllocatorColumnIterator
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
+import lupos.s04logicalOperators.iterator.ArrayAllocatorColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
 import lupos.s04logicalOperators.iterator.IteratorBundle

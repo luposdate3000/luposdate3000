@@ -21,6 +21,7 @@ import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.ArrayAllocatorAOPBase
 import lupos.s04logicalOperators.ArrayAllocatorIOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -57,5 +58,5 @@ public class AOPAggregationSAMPLE public constructor(query: IQuery, @JvmField pu
         }
     }
 
-    override fun cloneOP(): IOPBase = AOPAggregationSAMPLE(query, distinct, ArrayAllocatorIOPBase(children.size) { (children[it].cloneOP()) as AOPBase })
+    override fun cloneOP(): IOPBase = AOPAggregationSAMPLE(query, distinct, ArrayAllocatorAOPBase(children.size) { (children[it].cloneOP()) as AOPBase })
 }

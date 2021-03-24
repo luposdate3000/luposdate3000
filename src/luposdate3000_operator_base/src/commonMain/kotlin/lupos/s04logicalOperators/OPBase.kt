@@ -16,7 +16,6 @@
  */
 package lupos.s04logicalOperators
 
-import lupos.ArrayAllocator
 import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -286,7 +285,7 @@ public abstract class OPBase public constructor(
         } else if (sortPriority == ESortPriorityExt.SORT) {
             throw Exception("this should be overriden by the corresponding clazz")
         } else if (sortPriority == ESortPriorityExt.JOIN) {
-            val resTmp = ArrayAllocator(2) { mutableListOf<List<SortHelper>>() }
+            val resTmp = arrayOf(mutableListOf<List<SortHelper>>(), mutableListOf<List<SortHelper>>())
             val childA = children[0]
             val childB = children[1]
             val columns = LOPJoin_Helper.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
