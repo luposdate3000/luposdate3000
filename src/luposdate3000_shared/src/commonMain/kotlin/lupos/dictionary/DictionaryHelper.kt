@@ -158,7 +158,7 @@ public object DictionaryHelper {
 
     public fun byteArrayToType(data: ByteArray): ETripleComponentType = ByteArrayHelper.readInt4(data, 0)
     public fun byteArrayToValueDefinition(data: ByteArray): ValueDefinition {
-        val type = ByteArrayHelper.readInt4(data, 0)
+        val type = byteArrayToType(data)
         return when (type) {
             ETripleComponentTypeExt.UNDEF -> DictionaryExt.undefValue2
             ETripleComponentTypeExt.ERROR -> DictionaryExt.errorValue2
