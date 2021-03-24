@@ -19,3 +19,5 @@ src/xxx_generated_xxx/
 tmp
 tmpparams
 x
+afl.*.log
+erroredTests

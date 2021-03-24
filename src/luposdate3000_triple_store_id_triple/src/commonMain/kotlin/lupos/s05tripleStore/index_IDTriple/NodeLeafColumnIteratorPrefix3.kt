@@ -20,7 +20,7 @@ import lupos.dictionary.DictionaryExt
 import lupos.s00misc.MyReadWriteLock
 import kotlin.jvm.JvmField
 
-internal class NodeLeafColumnIteratorPrefix3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock) {
+internal class NodeLeafColumnIteratorPrefix3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock, nodeManager) {
     @JvmField
     var value0 = 0
 

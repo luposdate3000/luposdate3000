@@ -21,7 +21,7 @@ import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
 
-internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyReadWriteLock) : NodeLeafColumnIterator(node, nodeid, lock) {
+internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyReadWriteLock, nodeManager: NodeManager) : NodeLeafColumnIterator(node, nodeid, lock, nodeManager) {
     @JvmField
     var value = 0
     override /*suspend*/ fun next(): Int {
@@ -76,7 +76,7 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
             var usedNextPage = false
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
-                NodeManager.getNodeLeaf(nodeidTmp) {
+                nodeManager.getNodeLeaf(lupos.SOURCE_FILE, nodeidTmp) {
                     SanityCheck.check { node != it }
                     nodeTmp = it
                 }
@@ -88,10 +88,10 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
                 }
                 if (valueTmp >= minValue) {
                     // dont accidentially skip some results at the end of this page
-                    NodeManager.releaseNode(nodeidTmp)
+                    nodeManager.releaseNode(lupos.SOURCE_FILE, nodeidTmp)
                     break
                 }
-                NodeManager.releaseNode(nodeid)
+                nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
                 counter += remaining
                 remaining = remainingTmp
                 nodeid = nodeidTmp

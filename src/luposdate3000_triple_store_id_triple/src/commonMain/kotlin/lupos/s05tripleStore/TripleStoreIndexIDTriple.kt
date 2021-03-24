@@ -16,6 +16,7 @@
  */
 package lupos.s05tripleStore
 
+import lupos.ProguardTestAnnotation
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.dictionary.DictionaryExt
@@ -30,112 +31,37 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s05tripleStore.index_IDTriple.BulkImportIterator
 import lupos.s05tripleStore.index_IDTriple.Count1PassThroughIterator
-import lupos.s05tripleStore.index_IDTriple.DebugPassThroughIterator
 import lupos.s05tripleStore.index_IDTriple.DistinctIterator
 import lupos.s05tripleStore.index_IDTriple.EmptyIterator
 import lupos.s05tripleStore.index_IDTriple.MergeIterator
 import lupos.s05tripleStore.index_IDTriple.MinusIterator
 import lupos.s05tripleStore.index_IDTriple.NodeInner
 import lupos.s05tripleStore.index_IDTriple.NodeLeaf
-import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIterator0
-import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIterator1
-import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIterator2
-import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIteratorPrefix11
-import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIteratorPrefix12
-import lupos.s05tripleStore.index_IDTriple.NodeLeafColumnIteratorPrefix22
 import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 import kotlin.jvm.JvmField
 
-public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: Int, store_root_page_init: Boolean) : TripleStoreIndex(store_root_page_id_) {
-    @JvmField
-    internal val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
+public class TripleStoreIndexIDTriple : TripleStoreIndex {
+    private val bufferManager: BufferManager
+    private val rootPageID: Int
 
-    @JvmField
-    public var firstLeaf_: Int = NodeManager.nodeNullPointer
-    private var firstLeaf: Int
-        set(value) {
-            val rootPage = bufferManager.getPage(store_root_page_id)
-            ByteArrayHelper.writeInt4(rootPage, 16, value)
-            firstLeaf_ = value
-            bufferManager.flushPage(store_root_page_id)
-            bufferManager.releasePage(store_root_page_id)
-        }
-        get() = firstLeaf_
+    public constructor(rootPageID: Int, initFromRootPage: Boolean) : this(BufferManagerExt.getBuffermanager("stores"), rootPageID, initFromRootPage)
 
-    @JvmField
-    public var root_: Int = NodeManager.nodeNullPointer
-    private var root: Int
-        set(value) {
-            val rootPage = bufferManager.getPage(store_root_page_id)
-            ByteArrayHelper.writeInt4(rootPage, 4, value)
-            root_ = value
-            bufferManager.flushPage(store_root_page_id)
-            bufferManager.releasePage(store_root_page_id)
-        }
-        get() = root_
-
-    @JvmField
-    public var countPrimary_: Int = 0
-    private var countPrimary: Int
-        set(value) {
-            val rootPage = bufferManager.getPage(store_root_page_id)
-            ByteArrayHelper.writeInt4(rootPage, 8, value)
-            countPrimary_ = value
-            bufferManager.flushPage(store_root_page_id)
-            bufferManager.releasePage(store_root_page_id)
-        }
-        get() = countPrimary_
-
-    @JvmField
-    public var distinctPrimary_: Int = 0
-    private var distinctPrimary: Int
-        set(value) {
-            val rootPage = bufferManager.getPage(store_root_page_id)
-            ByteArrayHelper.writeInt4(rootPage, 12, value)
-            distinctPrimary_ = value
-            bufferManager.flushPage(store_root_page_id)
-            bufferManager.releasePage(store_root_page_id)
-        }
-        get() = distinctPrimary_
-
-    @JvmField
-    public var rootNode: ByteArray? = null
-
-    @JvmField
-    public var pendingImport: MutableList<Int?> = mutableListOf()
-
-    @JvmField
-    internal var lock = MyReadWriteLock()
-
-    @JvmField
-    public var cachedHistograms1Size: Int = 0
-
-    @JvmField
-    public var cachedHistograms1Cursor: Int = 0
-
-    @JvmField
-    public val cachedHistograms1: IntArray = IntArray(300)
-
-    @JvmField
-    public var cachedHistograms2Size: Int = 0
-
-    @JvmField
-    public var cachedHistograms2Cursor: Int = 0
-
-    @JvmField
-    public val cachedHistograms2: IntArray = IntArray(400)
-
-    init {
-        val rootPage = bufferManager.getPage(store_root_page_id)
-        if (store_root_page_init) {
+    @ProguardTestAnnotation
+    public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
+        this.bufferManager = bufferManager
+        this.rootPageID = rootPageID
+        nodeManager = NodeManager(bufferManager)
+        val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
+        if (initFromRootPage) {
             root = ByteArrayHelper.readInt4(rootPage, 4)
             countPrimary = ByteArrayHelper.readInt4(rootPage, 8)
             distinctPrimary = ByteArrayHelper.readInt4(rootPage, 12)
             firstLeaf = ByteArrayHelper.readInt4(rootPage, 16)
             if (root != NodeManager.nodeNullPointer) {
-                NodeManager.getNodeAny(
+                nodeManager.getNodeAny(
+                    lupos.SOURCE_FILE,
                     root,
                     {
                         SanityCheck.checkUnreachable()
@@ -151,13 +77,78 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             ByteArrayHelper.writeInt4(rootPage, 8, countPrimary)
             ByteArrayHelper.writeInt4(rootPage, 12, distinctPrimary)
             ByteArrayHelper.writeInt4(rootPage, 16, firstLeaf)
-            bufferManager.flushPage(store_root_page_id)
+            bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
         }
-        bufferManager.releasePage(store_root_page_id)
+        bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
     }
 
-    internal companion object {
-        @JvmField
+    private val nodeManager: NodeManager
+
+    private var firstLeaf_: Int = NodeManager.nodeNullPointer
+    private var firstLeaf: Int
+        set(value) {
+            val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
+            ByteArrayHelper.writeInt4(rootPage, 16, value)
+            firstLeaf_ = value
+            bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
+            bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
+        }
+        get() = firstLeaf_
+
+    private var root_: Int = NodeManager.nodeNullPointer
+    private var root: Int
+        set(value) {
+            val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
+            ByteArrayHelper.writeInt4(rootPage, 4, value)
+            root_ = value
+            bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
+            bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
+        }
+        get() = root_
+
+    private var countPrimary_: Int = 0
+    private var countPrimary: Int
+        set(value) {
+            val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
+            ByteArrayHelper.writeInt4(rootPage, 8, value)
+            countPrimary_ = value
+            bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
+            bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
+        }
+        get() = countPrimary_
+
+    private var distinctPrimary_: Int = 0
+    private var distinctPrimary: Int
+        set(value) {
+            val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
+            ByteArrayHelper.writeInt4(rootPage, 12, value)
+            distinctPrimary_ = value
+            bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
+            bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
+        }
+        get() = distinctPrimary_
+
+    private var rootNode: ByteArray? = null
+
+    private var pendingImport: MutableList<Int?> = mutableListOf()
+
+    @JvmField
+    internal var lock = MyReadWriteLock()
+
+    private var cachedHistograms1Size: Int = 0
+
+    private var cachedHistograms1Cursor: Int = 0
+
+    private val cachedHistograms1: IntArray = IntArray(300)
+
+    private var cachedHistograms2Size: Int = 0
+
+    private var cachedHistograms2Cursor: Int = 0
+
+    private val cachedHistograms2: IntArray = IntArray(400)
+
+    private companion object {
+
         var debugLock = MyReadWriteLock()
     }
 
@@ -243,7 +234,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         }
     }
 
-    override /*suspend*/ fun getHistogram(query: IQuery, filter: IntArray): Pair<Int, Int> {
+    override fun getHistogram(query: IQuery, filter: IntArray): Pair<Int, Int> {
 /*
         var variableCount = 0
         val filter2 = mutableListOf<Int>()
@@ -276,7 +267,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                         res = Pair(countPrimary, distinctPrimary)
                     }
                     1 -> {
-                        val iterator = NodeInner.iterator1(node, filter, lock, 1)
+                        val iterator = NodeInner.iterator1(node, filter, lock, 1, nodeManager)
                         var count = 0
                         var distinct = 0
                         var lastValue = iterator.next()
@@ -296,7 +287,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                         res = Pair(count, distinct)
                     }
                     2 -> {
-                        val iterator = NodeInner.iterator2(node, filter, lock)
+                        val iterator = NodeInner.iterator2(node, filter, lock, nodeManager)
                         var count = 0
                         while (iterator.next() != DictionaryExt.nullValue) {
                             count++
@@ -319,7 +310,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         return res
     }
 
-    override /*suspend*/ fun getIterator(query: IQuery, filter: IntArray, projection: List<String>): IteratorBundle {
+    override fun getIterator(query: IQuery, filter: IntArray, projection: List<String>): IteratorBundle {
 /*
  val filter2 = mutableListOf<Int>()
  val projection = mutableListOf<String>()
@@ -359,7 +350,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         if (node != null) {
             if (filter.size == 3) {
                 var count = 0
-                val it = NodeInner.iterator3(node, filter, lock)
+                val it = NodeInner.iterator3(node, filter, lock, nodeManager)
                 while (it.next() != DictionaryExt.nullValue) {
                     count++
                 }
@@ -367,24 +358,24 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             } else if (filter.size == 2) {
                 if (projection[0] == "_") {
                     var count = 0
-                    val it = NodeInner.iterator2(node, filter, lock)
+                    val it = NodeInner.iterator2(node, filter, lock, nodeManager)
                     while (it.next() != DictionaryExt.nullValue) {
                         count++
                     }
                     res = IteratorBundle(count)
                 } else {
-                    columns[projection[0]] = NodeInner.iterator2(node, filter, lock)
+                    columns[projection[0]] = NodeInner.iterator2(node, filter, lock, nodeManager)
                 }
             } else if (filter.size == 1) {
                 if (projection[0] != "_") {
-                    columns[projection[0]] = NodeInner.iterator1(node, filter, lock, 1)
+                    columns[projection[0]] = NodeInner.iterator1(node, filter, lock, 1, nodeManager)
                     if (projection[1] != "_") {
-                        columns[projection[1]] = NodeInner.iterator1(node, filter, lock, 2)
+                        columns[projection[1]] = NodeInner.iterator1(node, filter, lock, 2, nodeManager)
                     }
                 } else {
                     SanityCheck.check { projection[1] == "_" }
                     var count = 0
-                    val it = NodeInner.iterator1(node, filter, lock, 1)
+                    val it = NodeInner.iterator1(node, filter, lock, 1, nodeManager)
                     while (it.next() != DictionaryExt.nullValue) {
                         count++
                     }
@@ -393,11 +384,11 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             } else {
                 SanityCheck.check { filter.isEmpty() }
                 if (projection[0] != "_") {
-                    columns[projection[0]] = NodeInner.iterator(node, lock, 0)
+                    columns[projection[0]] = NodeInner.iterator(node, lock, 0, nodeManager)
                     if (projection[1] != "_") {
-                        columns[projection[1]] = NodeInner.iterator(node, lock, 1)
+                        columns[projection[1]] = NodeInner.iterator(node, lock, 1, nodeManager)
                         if (projection[2] != "_") {
-                            columns[projection[2]] = NodeInner.iterator(node, lock, 2)
+                            columns[projection[2]] = NodeInner.iterator(node, lock, 2, nodeManager)
                         }
                     } else {
                         SanityCheck.check { projection[2] == "_" }
@@ -413,25 +404,25 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         return res
     }
 
-    private /*suspend*/ fun importHelper(a: Int, b: Int): Int {
+    private fun importHelper(a: Int, b: Int): Int {
         var nodeA: ByteArray? = null
         var nodeB: ByteArray? = null
-        NodeManager.getNodeLeaf(a) {
+        nodeManager.getNodeLeaf(lupos.SOURCE_FILE, a) {
             nodeA = it
         }
-        NodeManager.getNodeLeaf(b) {
+        nodeManager.getNodeLeaf(lupos.SOURCE_FILE, b) {
             nodeB = it
         }
-        val res = importHelper(MergeIterator(NodeLeaf.iterator(nodeA!!, a), NodeLeaf.iterator(nodeB!!, b)))
-        NodeManager.freeAllLeaves(a)
-        NodeManager.freeAllLeaves(b)
+        val res = importHelper(MergeIterator(NodeLeaf.iterator(nodeA!!, a, nodeManager), NodeLeaf.iterator(nodeB!!, b, nodeManager)))
+        nodeManager.freeAllLeaves(lupos.SOURCE_FILE, a)
+        nodeManager.freeAllLeaves(lupos.SOURCE_FILE, b)
         return res
     }
 
-    private /*suspend*/ fun importHelper(iterator: TripleIterator): Int {
+    private fun importHelper(iterator: TripleIterator): Int {
         var res = NodeManager.nodeNullPointer
         var node2: ByteArray? = null
-        NodeManager.allocateNodeLeaf { n, i ->
+        nodeManager.allocateNodeLeaf(lupos.SOURCE_FILE) { n, i ->
             res = i
             node2 = n
         }
@@ -439,21 +430,21 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         var node = node2!!
         NodeLeaf.initializeWith(node, nodeid, iterator)
         while (iterator.hasNext()) {
-            NodeManager.allocateNodeLeaf { n, i ->
+            nodeManager.allocateNodeLeaf(lupos.SOURCE_FILE) { n, i ->
                 NodeShared.setNextNode(node, i)
-                NodeManager.flushNode(nodeid)
-                NodeManager.releaseNode(nodeid)
+                nodeManager.flushNode(lupos.SOURCE_FILE, nodeid)
+                nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
                 nodeid = i
                 node = n
             }
             NodeLeaf.initializeWith(node, nodeid, iterator)
         }
-        NodeManager.flushNode(nodeid)
-        NodeManager.releaseNode(nodeid)
+        nodeManager.flushNode(lupos.SOURCE_FILE, nodeid)
+        nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
         return res
     }
 
-    override /*suspend*/ fun flush() {
+    override fun flush() {
         if (pendingImport.size > 0) {
             lock.writeLock()
             flushAssumeLocks()
@@ -462,13 +453,13 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun flushContinueWithWriteLock() {
+    private inline fun flushContinueWithWriteLock() {
         lock.writeLock()
         flushAssumeLocks()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun flushContinueWithReadLock() {
+    private inline fun flushContinueWithReadLock() {
         var hasLock = false
         while (pendingImport.size > 0) {
             if (lock.tryWriteLock()) {
@@ -487,7 +478,7 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         }
     }
 
-    private /*suspend*/ fun flushAssumeLocks() {
+    private fun flushAssumeLocks() {
         if (pendingImport.size > 0) {
             // check again, that there is something to be done ... this may be changed, because there could be someone _else beforehand, holding exactly this lock ... .
             var j = 1
@@ -505,7 +496,8 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             val firstLeaf2 = pendingImport[pendingImport.size - 1]!!
             var node: ByteArray? = null
             var flag = false
-            NodeManager.getNodeAny(
+            nodeManager.getNodeAny(
+                lupos.SOURCE_FILE,
                 firstLeaf2,
                 {
                     flag = true
@@ -522,25 +514,22 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             root = NodeManager.nodeNullPointer
             firstLeaf = NodeManager.nodeNullPointer
             if (flag) {
-                rebuildData(NodeLeaf.iterator(node!!, firstLeaf2))
+                rebuildData(NodeLeaf.iterator(node!!, firstLeaf2, nodeManager))
             } else {
-                rebuildData(NodeInner.iterator(node!!))
+                rebuildData(NodeInner.iterator(node!!, nodeManager))
             }
-            NodeManager.freeAllLeaves(firstLeaf2)
+            nodeManager.freeAllLeaves(lupos.SOURCE_FILE, firstLeaf2)
             pendingImport.clear()
         }
     }
 
-    private /*suspend*/ fun rebuildData(_iterator: TripleIterator) {
+    private fun rebuildData(_iterator: TripleIterator) {
 // assuming to have write-lock
-        var iterator: TripleIterator = Count1PassThroughIterator(DistinctIterator(_iterator))
-        SanityCheck {
-            iterator = DebugPassThroughIterator(iterator)
-        }
+        var iterator = Count1PassThroughIterator(DistinctIterator(_iterator))
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Int>()
             var node2: ByteArray? = null
-            NodeManager.allocateNodeLeaf { n, i ->
+            nodeManager.allocateNodeLeaf(lupos.SOURCE_FILE) { n, i ->
                 firstLeaf = i
                 node2 = n
                 currentLayer.add(i)
@@ -549,10 +538,10 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             var nodeid = firstLeaf
             NodeLeaf.initializeWith(node, nodeid, iterator)
             while (iterator.hasNext()) {
-                NodeManager.allocateNodeLeaf { n, i ->
+                nodeManager.allocateNodeLeaf(lupos.SOURCE_FILE) { n, i ->
                     NodeShared.setNextNode(node, i)
-                    NodeManager.flushNode(nodeid)
-                    NodeManager.releaseNode(nodeid)
+                    nodeManager.flushNode(lupos.SOURCE_FILE, nodeid)
+                    nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
                     nodeid = i
                     node = n
                     currentLayer.add(i)
@@ -565,22 +554,22 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 while (currentLayer.size > 1) {
                     val tmp = mutableListOf<Int>()
                     var prev2: ByteArray? = null
-                    NodeManager.allocateNodeInner { n, i ->
-                        NodeManager.flushNode(nodeid)
-                        NodeManager.releaseNode(nodeid)
+                    nodeManager.allocateNodeInner(lupos.SOURCE_FILE) { n, i ->
+                        nodeManager.flushNode(lupos.SOURCE_FILE, nodeid)
+                        nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
                         nodeid = i
                         tmp.add(i)
-                        NodeInner.initializeWith(n, i, currentLayer)
+                        NodeInner.initializeWith(n, i, currentLayer, nodeManager)
                         prev2 = n
                     }
                     var prev = prev2!!
                     while (currentLayer.size > 0) {
-                        NodeManager.allocateNodeInner { n, i ->
-                            NodeManager.flushNode(nodeid)
-                            NodeManager.releaseNode(nodeid)
+                        nodeManager.allocateNodeInner(lupos.SOURCE_FILE) { n, i ->
+                            nodeManager.flushNode(lupos.SOURCE_FILE, nodeid)
+                            nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
                             nodeid = i
                             tmp.add(i)
-                            NodeInner.initializeWith(n, i, currentLayer)
+                            NodeInner.initializeWith(n, i, currentLayer, nodeManager)
                             NodeShared.setNextNode(prev, i)
                             prev = n
                         }
@@ -589,11 +578,12 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 }
             }
             rebuildDataPart1()
-            NodeManager.flushNode(nodeid)
-            NodeManager.releaseNode(nodeid)
+            nodeManager.flushNode(lupos.SOURCE_FILE, nodeid)
+            nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
             var rootNodeIsLeaf = false
             SanityCheck.check { rootNode == null }
-            NodeManager.getNodeAny(
+            nodeManager.getNodeAny(
+                lupos.SOURCE_FILE,
                 currentLayer[0],
                 {
                     rootNodeIsLeaf = true
@@ -604,13 +594,13 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
                 }
             )
             if (rootNodeIsLeaf) {
-                NodeManager.flushNode(nodeid)
-                NodeManager.releaseNode(nodeid)
-                NodeManager.allocateNodeInner { n, i ->
-                    NodeInner.initializeWith(n, i, mutableListOf(currentLayer[0]))
+                nodeManager.flushNode(lupos.SOURCE_FILE, nodeid)
+                nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
+                nodeManager.allocateNodeInner(lupos.SOURCE_FILE) { n, i ->
+                    NodeInner.initializeWith(n, i, mutableListOf(currentLayer[0]), nodeManager)
                     rootNode = n
                     root = i
-                    NodeManager.flushNode(root)
+                    nodeManager.flushNode(lupos.SOURCE_FILE, root)
                 }
             }
         } else {
@@ -620,274 +610,17 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
             root = NodeManager.nodeNullPointer
             firstLeaf = NodeManager.nodeNullPointer
         }
-        SanityCheck.suspended {
-            rebuildDataSanity(iterator)
-            iterator = (iterator as DebugPassThroughIterator).a
-        }
-        countPrimary = (iterator as Count1PassThroughIterator).count
-        distinctPrimary = (iterator as Count1PassThroughIterator).distinct
+        countPrimary = iterator.count
+        distinctPrimary = iterator.distinct
         clearCachedHistogram()
     }
 
-    private fun rebuildDataSanity(iterator: TripleIterator) {
-// work around the crossinline here, because the method would be too large
-        rebuildDataSanity2(iterator)
-    }
-
-    private fun rebuildDataSanity2(iterator: TripleIterator) {
-        val tripleStoreSanityEnabled = false
-        if (firstLeaf != NodeManager.nodeNullPointer && tripleStoreSanityEnabled) {
-            debugLock.writeLock()
-            debugLock.writeUnlock()
-            val queueS = (iterator as DebugPassThroughIterator).queueS
-            val queueP = iterator.queueP
-            val queueO = iterator.queueO
-            var myleaf = ByteArray(0)
-//
-            NodeManager.getNodeLeaf(firstLeaf) {
-                myleaf = it
+    override fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
+        SanityCheck {
+            for (i in 0 until dataSize / 3) {
+                // println("insertAsBulk (${data[i * 3 + order[0]].toString(16).padStart(8, '0')},${data[i * 3 + order[1]].toString(16).padStart(8, '0')},${data[i * 3 + order[2]].toString(16).padStart(8, '0')})")
             }
-            val iterator0 = NodeLeafColumnIterator0(myleaf, firstLeaf, debugLock)
-            for (s in queueS) {
-                val tmpa = iterator0.next()
-                SanityCheck.check { tmpa == s }
-            }
-            val tmpa = iterator0.next()
-            SanityCheck.check { tmpa == DictionaryExt.nullValue }
-            SanityCheck.check { iterator0.label == 0 }
-//
-            NodeManager.getNodeLeaf(firstLeaf) {
-                myleaf = it
-            }
-            val iterator1 = NodeLeafColumnIterator1(myleaf, firstLeaf, debugLock)
-            for (s in queueP) {
-                val tmpb = iterator1.next()
-                SanityCheck.check { tmpb == s }
-            }
-            val tmpb = iterator1.next()
-            SanityCheck.check { tmpb == DictionaryExt.nullValue }
-            SanityCheck.check { iterator1.label == 0 }
-//
-            NodeManager.getNodeLeaf(firstLeaf) {
-                myleaf = it
-            }
-            val iterator2 = NodeLeafColumnIterator2(myleaf, firstLeaf, debugLock)
-            for (s in queueO) {
-                val tmpc = iterator2.next()
-                SanityCheck.check { tmpc == s }
-            }
-            val tmpc = iterator2.next()
-            SanityCheck.check { tmpc == DictionaryExt.nullValue }
-            SanityCheck.check { iterator2.label == 0 }
-//
-            if (queueS.size > 0) {
-                val iteratorS = queueS.iterator()
-                val iteratorP = queueP.iterator()
-                val iteratorO = queueO.iterator()
-                NodeManager.getNodeLeaf(firstLeaf) {
-                    myleaf = it
-                }
-                var iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                NodeManager.getNodeLeaf(firstLeaf) {
-                    myleaf = it
-                }
-                var iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                var lastS = iteratorS.next()
-                val tmpd = iterator11.next()
-                SanityCheck.check { tmpd == iteratorP.next() }
-                val tmpe = iterator12.next()
-                SanityCheck.check({ tmpe == iteratorO.next() }, { "$queueS $queueP $queueO $tmpe" })
-                var count = 1
-                val counters = mutableListOf<Int>()
-                while (iteratorS.hasNext()) {
-                    val currentS = iteratorS.next()
-                    val currentP = iteratorP.next()
-                    val currentO = iteratorO.next()
-                    val tmpf = iterator11.next()
-                    val tmpg = iterator12.next()
-                    count++
-                    if (lastS == currentS) {
-                        SanityCheck.check { tmpf == currentP }
-                        SanityCheck.check { tmpg == currentO }
-                    } else {
-                        SanityCheck.check { tmpf == DictionaryExt.nullValue }
-                        SanityCheck.check { tmpg == DictionaryExt.nullValue }
-                        SanityCheck.check { iterator11.label == 0 }
-                        SanityCheck.check { iterator12.label == 0 }
-                        NodeManager.getNodeLeaf(firstLeaf) {
-                            myleaf = it
-                        }
-                        iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(currentS), debugLock)
-                        NodeManager.getNodeLeaf(firstLeaf) {
-                            myleaf = it
-                        }
-                        iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(currentS), debugLock)
-                        val tmph = iterator11.next()
-                        val tmpi = iterator12.next()
-                        SanityCheck.check { tmph == currentP }
-                        SanityCheck.check { tmpi == currentO }
-                        counters.add(count)
-                        count = 1
-                    }
-                    lastS = currentS
-                }
-                counters.add(count)
-                val tmpj = iterator11.next()
-                val tmpk = iterator12.next()
-                SanityCheck.check({ tmpj == DictionaryExt.nullValue }, { "$queueS $queueP $queueO $tmpj $counters" })
-                SanityCheck.check { tmpk == DictionaryExt.nullValue }
-                SanityCheck.check { iterator11.label == 0 }
-                SanityCheck.check { iterator12.label == 0 }
-            }
-            if (queueS.size > 0) {
-                val iteratorS = queueS.iterator()
-                val iteratorP = queueP.iterator()
-                val iteratorO = queueO.iterator()
-                NodeManager.getNodeLeaf(firstLeaf) {
-                    myleaf = it
-                }
-                var iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                NodeManager.getNodeLeaf(firstLeaf) {
-                    myleaf = it
-                }
-                var iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                var lastS = iteratorS.next()
-                val tmpd = iterator11.skipSIP(0)
-                SanityCheck.check { tmpd == iteratorP.next() }
-                val tmpe = iterator12.skipSIP(0)
-                SanityCheck.check({ tmpe == iteratorO.next() }, { "$queueS $queueP $queueO $tmpe" })
-                var count = 1
-                val counters = mutableListOf<Int>()
-                while (iteratorS.hasNext()) {
-                    val currentS = iteratorS.next()
-                    val currentP = iteratorP.next()
-                    val currentO = iteratorO.next()
-                    count++
-                    if (lastS == currentS) {
-                        val tmpf = iterator11.skipSIP(0)
-                        val tmpg = iterator12.skipSIP(0)
-                        SanityCheck.check { tmpf == currentP }
-                        SanityCheck.check { tmpg == currentO }
-                    } else {
-                        iterator11.close()
-                        NodeManager.getNodeLeaf(firstLeaf) {
-                            myleaf = it
-                        }
-                        iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(currentS), debugLock)
-                        iterator12.close()
-                        NodeManager.getNodeLeaf(firstLeaf) {
-                            myleaf = it
-                        }
-                        iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(currentS), debugLock)
-                        val tmph = iterator11.skipSIP(0)
-                        val tmpi = iterator12.skipSIP(0)
-                        SanityCheck.check { tmph == currentP }
-                        SanityCheck.check { tmpi == currentO }
-                        counters.add(count)
-                        count = 1
-                    }
-                    lastS = currentS
-                }
-                counters.add(count)
-                iterator11.close()
-                iterator12.close()
-            }
-            if (queueS.size > 0) {
-                val iteratorS = queueS.iterator()
-                val iteratorP = queueP.iterator()
-                val iteratorO = queueO.iterator()
-                NodeManager.getNodeLeaf(firstLeaf) {
-                    myleaf = it
-                }
-                var iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                NodeManager.getNodeLeaf(firstLeaf) {
-                    myleaf = it
-                }
-                var iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(queueS[0]), debugLock)
-                var skipping = 1
-                var lastS = iteratorS.next()
-                iteratorP.next()
-                iteratorO.next()
-                var idx = 0
-                var lastresetIdx = 0
-                while (iteratorS.hasNext()) {
-                    idx++
-                    val currentS = iteratorS.next()
-                    val currentP = iteratorP.next()
-                    val currentO = iteratorO.next()
-                    skipping = if (skipping == 0) {
-                        1
-                    } else {
-                        if (lastS == currentS) {
-                            val tmpf = iterator11.skipSIP(1)
-                            val tmpg = iterator12.skipSIP(1)
-                            SanityCheck.check({ tmpg == currentO }, { "1_2 $queueS $queueP $queueO $tmpg $idx $lastresetIdx $currentO" })
-                            SanityCheck.check({ tmpf == currentP }, { "1_1 $queueS $queueP $queueO $tmpf $idx $lastresetIdx $currentP" }) // error is here xxxx
-                        }
-                        0
-                    }
-                    if (lastS != currentS) {
-                        lastresetIdx = idx
-                        iterator11.close()
-                        NodeManager.getNodeLeaf(firstLeaf) {
-                            myleaf = it
-                        }
-                        iterator11 = NodeLeafColumnIteratorPrefix11(myleaf, firstLeaf, intArrayOf(currentS), debugLock)
-                        iterator12.close()
-                        NodeManager.getNodeLeaf(firstLeaf) {
-                            myleaf = it
-                        }
-                        iterator12 = NodeLeafColumnIteratorPrefix12(myleaf, firstLeaf, intArrayOf(currentS), debugLock)
-                        skipping = 1
-                    }
-                    lastS = currentS
-                }
-                iterator11.close()
-                iterator12.close()
-            }
-            if (queueS.size > 0) {
-                val iteratorS = queueS.iterator()
-                val iteratorP = queueP.iterator()
-                val iteratorO = queueO.iterator()
-                NodeManager.getNodeLeaf(firstLeaf) {
-                    myleaf = it
-                }
-                var iterator22 = NodeLeafColumnIteratorPrefix22(myleaf, firstLeaf, intArrayOf(queueS[0], queueP[0]), debugLock)
-                var lastS = iteratorS.next()
-                var lastP = iteratorP.next()
-                val tmpo = iterator22.next()
-                SanityCheck.check({ tmpo == iteratorO.next() }, { "$queueS $queueP $queueO $tmpo" })
-                while (iteratorS.hasNext()) {
-                    val currentS = iteratorS.next()
-                    val currentP = iteratorP.next()
-                    val currentO = iteratorO.next()
-                    val tmpl = iterator22.next()
-                    if (lastS == currentS && lastP == currentP) {
-                        SanityCheck.check { tmpl == currentO }
-                    } else {
-                        SanityCheck.check { tmpl == DictionaryExt.nullValue }
-                        SanityCheck.check { iterator22.label == 0 }
-                        NodeManager.getNodeLeaf(firstLeaf) {
-                            myleaf = it
-                        }
-                        iterator22 = NodeLeafColumnIteratorPrefix22(myleaf, firstLeaf, intArrayOf(currentS, currentP), debugLock)
-                        val tmpm = iterator22.next()
-                        SanityCheck.check { tmpm == currentO }
-                    }
-                    lastS = currentS
-                    lastP = currentP
-                }
-                val tmpn = iterator22.next()
-                SanityCheck.check { tmpn == DictionaryExt.nullValue }
-                SanityCheck.check { iterator22.label == 0 }
-            }
-            debugLock.writeLock()
-            debugLock.writeUnlock()
         }
-//
-    }
-
-    override /*suspend*/ fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
         flushContinueWithWriteLock()
         val d = arrayOf(data, IntArray(dataSize))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
@@ -896,8 +629,8 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         if (firstLeaf == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
         } else {
-            NodeManager.getNodeLeaf(firstLeaf) {
-                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf)
+            nodeManager.getNodeLeaf(lupos.SOURCE_FILE, firstLeaf) {
+                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf, nodeManager)
             }
         }
         val iteratorStore = iteratorStore2!!
@@ -908,12 +641,17 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         firstLeaf = NodeManager.nodeNullPointer
         rebuildData(iterator)
         if (oldroot != NodeManager.nodeNullPointer) {
-            NodeManager.freeNodeAndAllRelated(oldroot)
+            nodeManager.freeNodeAndAllRelated(lupos.SOURCE_FILE, oldroot)
         }
         lock.writeUnlock()
     }
 
-    override /*suspend*/ fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
+    override fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int) {
+        SanityCheck {
+            for (i in 0 until dataSize / 3) {
+                // println("removeAsBulk (0x${data[i * 3 + order[0]].toString(16).padStart(8, '0')},0x${data[i * 3 + order[1]].toString(16).padStart(8, '0')},0x${data[i * 3 + order[2]].toString(16).padStart(8, '0')})")
+            }
+        }
         flushContinueWithWriteLock()
         val d = arrayOf(data, IntArray(dataSize))
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
@@ -922,8 +660,8 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         if (firstLeaf == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
         } else {
-            NodeManager.getNodeLeaf(firstLeaf) {
-                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf)
+            nodeManager.getNodeLeaf(lupos.SOURCE_FILE, firstLeaf) {
+                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf, nodeManager)
             }
         }
         val iteratorStore = iteratorStore2!!
@@ -934,28 +672,33 @@ public class TripleStoreIndexIDTriple public constructor(store_root_page_id_: In
         firstLeaf = NodeManager.nodeNullPointer
         rebuildData(iterator)
         if (oldroot != NodeManager.nodeNullPointer) {
-            NodeManager.freeNodeAndAllRelated(oldroot)
+            nodeManager.freeNodeAndAllRelated(lupos.SOURCE_FILE, oldroot)
         }
         lock.writeUnlock()
     }
 
-    override fun insert(a: Int, b: Int, c: Int) {
-        SanityCheck.checkUnreachable()
-    }
-
-    override fun remove(a: Int, b: Int, c: Int) {
-        SanityCheck.checkUnreachable()
-    }
-
-    override /*suspend*/ fun clear() {
+    override fun clear() {
         flushContinueWithWriteLock()
         if (root != NodeManager.nodeNullPointer) {
-            NodeManager.freeNodeAndAllRelated(root)
+            nodeManager.freeNodeAndAllRelated(lupos.SOURCE_FILE, root)
             root = NodeManager.nodeNullPointer
         }
         firstLeaf = NodeManager.nodeNullPointer
         rootNode = null
         clearCachedHistogram()
         lock.writeUnlock()
+    }
+
+    override fun delete() {
+        clear()
+        bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
+        bufferManager.deletePage(lupos.SOURCE_FILE, rootPageID)
+    }
+
+    override fun close() {
+        flush()
+        if (root != NodeManager.nodeNullPointer) {
+            nodeManager.releaseNode(lupos.SOURCE_FILE, root)
+        }
     }
 }

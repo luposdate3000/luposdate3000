@@ -16,6 +16,8 @@
  */
 package lupos.dictionary
 
+import lupos.ProguardTestAnnotation
+import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.fileformat.DictionaryIntermediate
 import lupos.fileformat.DictionaryIntermediateReader
@@ -109,7 +111,7 @@ public class DictionaryGlobal {
     @JvmField
     internal val byteBuf = ByteArray(1)
 
-    init {
+    public constructor() {
         outputDictionaryFile = MyOutputStream()
         if (!BufferManagerExt.isInMemoryOnly) {
             val filename = BufferManagerExt.bufferPrefix + "dictionary.data"
@@ -122,6 +124,9 @@ public class DictionaryGlobal {
         }
         initializationphase = false
     }
+
+    @ProguardTestAnnotation
+    public constructor(bufferManager: BufferManager) : this()
 
     public fun debugAllDictionaryContent() {
         File("global.dictionary.txt").withOutputStream { out ->
@@ -169,6 +174,7 @@ public class DictionaryGlobal {
     private inline fun importFromDictionaryFileH(filename: String, mapping: IntArray?) {
         var lastId = -1
         DictionaryIntermediateReader(filename).readAll { type, id, value ->
+            println("id $id $type $value")
             val i = createByType(value, type)
             SanityCheck.check { lastId == id - 1 }
             lastId = id
@@ -187,8 +193,6 @@ public class DictionaryGlobal {
                         tmp[i] = iriToValue[i]
                     }
                     iriToValue = tmp
-                }
-                ETripleComponentTypeExt.BLANK_NODE -> {
                 }
                 ETripleComponentTypeExt.STRING -> {
                     val tmp = Array(typedToValue.size + typed[t]) { DictionaryShared.emptyString }
@@ -234,8 +238,14 @@ public class DictionaryGlobal {
                     }
                     langTaggedToValue = tmp
                 }
+                ETripleComponentTypeExt.DATE_TIME,
+                ETripleComponentTypeExt.ERROR,
+                ETripleComponentTypeExt.FLOAT,
+                ETripleComponentTypeExt.UNDEF,
+                ETripleComponentTypeExt.BLANK_NODE -> {
+                }
                 else -> {
-                    throw Exception("unexpected type")
+                    throw Exception("unexpected type ${ETripleComponentTypeExt.names[t]}")
                 }
             }
         }
@@ -282,8 +292,11 @@ public class DictionaryGlobal {
                 val tmp = DictionaryIntermediate.decodeLang(s)
                 return createLangTagged(tmp.first, tmp.second)
             }
+            ETripleComponentTypeExt.ERROR -> {
+                return DictionaryExt.errorValue
+            }
             else -> {
-                throw Exception("unexpected type")
+                throw Exception("unexpected type ${ETripleComponentTypeExt.names[type]}")
             }
         }
     }

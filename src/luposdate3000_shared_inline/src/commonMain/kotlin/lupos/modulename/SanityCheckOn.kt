@@ -17,14 +17,30 @@
 package lupos.modulename
 
 import lupos.s00misc.UnreachableException
-import kotlin.contracts.InvocationKind.EXACTLY_ONCE
+import kotlin.contracts.InvocationKind.AT_MOST_ONCE
 import kotlin.contracts.contract
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal object SanityCheckOn {
     val SANITYCHECK_PRINTING = false
+    val SANITYCHECK_PRINTING_NODEMANAGER = false
+    val SANITYCHECK_PRINTING_BUFFERMANAGER = false
+    internal inline fun println_buffermanager(crossinline s: () -> Any?) {
+        contract { callsInPlace(s, AT_MOST_ONCE) }
+        if (SANITYCHECK_PRINTING_BUFFERMANAGER) {
+            println(s())
+        }
+    }
+
+    internal inline fun println_nodemanager(crossinline s: () -> Any?) {
+        contract { callsInPlace(s, AT_MOST_ONCE) }
+        if (SANITYCHECK_PRINTING_NODEMANAGER) {
+            println(s())
+        }
+    }
+
     internal inline fun println(crossinline s: () -> Any?) {
-        contract { callsInPlace(s, EXACTLY_ONCE) }
+        contract { callsInPlace(s, AT_MOST_ONCE) }
         if (SANITYCHECK_PRINTING) {
             println(s())
         }
@@ -43,7 +59,7 @@ internal object SanityCheckOn {
     }
 
     /*suspend*/ internal inline fun suspended(crossinline action: /*suspend*/ () -> Unit) {
-        contract { callsInPlace(action, EXACTLY_ONCE) }
+        contract { callsInPlace(action, AT_MOST_ONCE) }
         try {
             action()
         } catch (e: Throwable) {
@@ -56,12 +72,12 @@ internal object SanityCheckOn {
     }
 
     internal inline fun <T> helper(crossinline action: () -> T): T? {
-        contract { callsInPlace(action, EXACTLY_ONCE) }
+        contract { callsInPlace(action, AT_MOST_ONCE) }
         return action()
     }
 
     internal inline fun check(crossinline value: () -> Boolean, crossinline msg: () -> String) {
-        contract { callsInPlace(value, EXACTLY_ONCE) }
+        contract { callsInPlace(value, AT_MOST_ONCE) }
         try {
             if (!value()) {
                 throw Exception("SanityCheck failed :: " + msg())
@@ -76,7 +92,7 @@ internal object SanityCheckOn {
     }
 
     internal inline fun check(crossinline value: () -> Boolean) {
-        contract { callsInPlace(value, EXACTLY_ONCE) }
+        contract { callsInPlace(value, AT_MOST_ONCE) }
         try {
             if (!value()) {
                 throw Exception("SanityCheck failed")

@@ -67,6 +67,7 @@ private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, a
 
 private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<String, String>) {
     dest.printWriter().use { out ->
+        var line = 0
         src.forEachLine { it ->
             var s = it
             for ((k, v) in replacement) {
@@ -77,7 +78,11 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<Stri
                     }
                 }
             }
+            s = s.replace("${'$'}lupos.SOURCE_FILE", "${src.getAbsolutePath().replace("\\", "\\\\")}:$line")
+            s = s.replace("${'$'}{lupos.SOURCE_FILE}", "${src.getAbsolutePath().replace("\\", "\\\\")}:$line")
+            s = s.replace("lupos.SOURCE_FILE", "\"${src.getAbsolutePath().replace("\\", "\\\\")}:$line\"")
             out.println(s)
+            line++
         }
     }
 }
@@ -461,9 +466,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("    }")
                 out.println("    dependencies {")
                 out.println("        classpath(\"org.jetbrains.kotlin:kotlin-gradle-plugin:${compilerVersion}\")")
-                if (enableJVM) {
-                    out.println("        classpath(\"com.guardsquare:proguard-gradle:7.0.1\")")
-                }
+                out.println("        classpath(\"com.guardsquare:proguard-gradle:7.0.1\")")
                 out.println("    }")
                 out.println("}")
                 if (buildForIDE) {
@@ -689,13 +692,24 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 }
                 out.println("tasks.register(\"mydependencies\") {")
                 out.println("    dependsOn(\"build\")")
-                out.println("    File(\"external_jar_dependencies\").printWriter().use { out ->")
-                out.println("        for (f in configurations.getByName(\"jvmRuntimeClasspath\").resolve()) {")
-                out.println("            if (!\"\$f\".contains(\"luposdate3000\")) {")
-                out.println("                out.println(\"\$f\")")
-                out.println("            }")
-                out.println("        }")
-                out.println("    }")
+                if (enableJVM) {
+                    out.println("    File(\"external_jvm_dependencies\").printWriter().use { out ->")
+                    out.println("        for (f in configurations.getByName(\"jvmRuntimeClasspath\").resolve()) {")
+                    out.println("            if (!\"\$f\".contains(\"luposdate3000\")) {")
+                    out.println("                out.println(\"\$f\")")
+                    out.println("            }")
+                    out.println("        }")
+                    out.println("    }")
+                }
+                if (enableJS) {
+                    out.println("    File(\"external_js_dependencies\").printWriter().use { out ->")
+                    out.println("        for (f in configurations.getByName(\"jsRuntimeClasspath\").resolve()) {")
+                    out.println("            if (!\"\$f\".contains(\"luposdate3000\")) {")
+                    out.println("                out.println(\"\$f\")")
+                    out.println("            }")
+                    out.println("        }")
+                    out.println("    }")
+                }
                 out.println("}")
                 if (!onWindows) {
                     out.println("tasks.register<proguard.gradle.ProGuardTask>(\"proguard\") {")
@@ -714,7 +728,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("            \"\$javaHome/jmods/java.base.jmod\"")
                     out.println("        )")
                     out.println("    }")
-                    out.println("    File(\"external_jar_dependencies\").printWriter().use { out ->")
+                    out.println("    File(\"external_jvm_dependencies\").printWriter().use { out ->")
                     out.println("        for (f in configurations.getByName(\"jvmRuntimeClasspath\").resolve()) {")
                     out.println("            if (!\"\$f\".contains(\"luposdate3000\")) {")
                     out.println("                out.println(\"\$f\")")
@@ -961,14 +975,14 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 if (enableJVM) {
                     runCommand(listOf("gradlew.bat", "mydependencies"), File("$path${pathSeparator}src.generated"))
                 } else {
-                    runCommand(listOf("gradlew.bat", "build"), File("$path${pathSeparator}src.generated"))
+                    runCommand(listOf("gradlew.bat", "mydependencies"), File("$path${pathSeparator}src.generated"))
                 }
                 runCommand(listOf("gradlew.bat", "publishToMavenLocal"), File("$path${pathSeparator}src.generated"))
             } else if (onLinux) {
                 if (enableJVM) {
                     runCommand(listOf("../gradlew", "proguard"), File("src.generated"))
                 } else {
-                    runCommand(listOf("../gradlew", "build"), File("src.generated"))
+                    runCommand(listOf("../gradlew", "mydependencies"), File("src.generated"))
                 }
                 runCommand(listOf("../gradlew", "publishToMavenLocal"), File("src.generated"))
             }
@@ -1009,7 +1023,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     if (!onWindows) {
                         Files.copy(Paths.get(buildFolder + "${pathSeparator}libs${pathSeparator}${moduleArgs.moduleName}-jvm-0.0.1-pro.jar"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm-pro.jar"), StandardCopyOption.REPLACE_EXISTING)
                     }
-                    Files.copy(Paths.get("$srcFolder${pathSeparator}external_jar_dependencies"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm.classpath"), StandardCopyOption.REPLACE_EXISTING)
+                    Files.copy(Paths.get("$srcFolder${pathSeparator}external_jvm_dependencies"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm.classpath"), StandardCopyOption.REPLACE_EXISTING)
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }
@@ -1026,6 +1040,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     } catch (e: Throwable) {
                         e.printStackTrace()
                     }
+                    Files.copy(Paths.get("$srcFolder${pathSeparator}external_js_dependencies"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-js.classpath"), StandardCopyOption.REPLACE_EXISTING)
                 } else {
                     File("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}").mkdirs()
                     try {
@@ -1038,6 +1053,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     } catch (e: Throwable) {
                         e.printStackTrace()
                     }
+                    Files.copy(Paths.get("$srcFolder${pathSeparator}external_js_dependencies"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}${pathSeparator}${moduleArgs.modulePrefix}-js.classpath"), StandardCopyOption.REPLACE_EXISTING)
                 }
             }
             if (enableNative) {

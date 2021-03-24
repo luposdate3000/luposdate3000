@@ -17,14 +17,42 @@
 package lupos.modulename
 
 import lupos.s00misc.UnreachableException
+import kotlin.contracts.InvocationKind.AT_MOST_ONCE
+import kotlin.contracts.contract
 
+@OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal object SanityCheckOff {
-    internal inline fun println(crossinline s: () -> Any?) {}
-    internal inline operator fun invoke(crossinline action: () -> Unit) {}
-    /*suspend*/ internal inline fun suspended(crossinline action: /*suspend*/ () -> Unit) {}
-    internal inline fun <T> helper(crossinline action: () -> Unit): T? = null
-    internal inline fun check(crossinline value: () -> Boolean, crossinline msg: () -> String) {}
-    internal inline fun check(crossinline value: () -> Boolean) {}
+    internal inline fun println_buffermanager(crossinline s: () -> Any?) {
+        contract { callsInPlace(s, AT_MOST_ONCE) }
+    }
+
+    internal inline fun println_nodemanager(crossinline s: () -> Any?) {
+        contract { callsInPlace(s, AT_MOST_ONCE) }
+    }
+
+    internal inline fun println(crossinline s: () -> Any?) {
+        contract { callsInPlace(s, AT_MOST_ONCE) }
+    }
+
+    internal inline operator fun invoke(crossinline action: () -> Unit) {
+    }
+
+    /*suspend*/ internal inline fun suspended(crossinline action: /*suspend*/ () -> Unit) {
+        contract { callsInPlace(action, AT_MOST_ONCE) }
+    }
+
+    internal inline fun <T> helper(crossinline action: () -> Unit): T? {
+        contract { callsInPlace(action, AT_MOST_ONCE) }
+        return null
+    }
+
+    internal inline fun check(crossinline value: () -> Boolean, crossinline msg: () -> String) {
+        contract { callsInPlace(value, AT_MOST_ONCE) }
+    }
+
+    internal inline fun check(crossinline value: () -> Boolean) {
+        contract { callsInPlace(value, AT_MOST_ONCE) }
+    }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun checkUnreachable(): Nothing = throw UnreachableException()

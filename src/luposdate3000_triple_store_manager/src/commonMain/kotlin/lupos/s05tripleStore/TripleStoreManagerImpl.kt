@@ -196,9 +196,10 @@ public class TripleStoreManagerImpl(
             for (store in index.getAllLocations()) {
                 if (store.first == localhost) {
                     var page: Int = 0
-                    bufferManager.createPage { byteArray, pageid ->
+                    bufferManager.createPage(lupos.SOURCE_FILE) { byteArray, pageid ->
                         page = pageid
                     }
+                    bufferManager.releasePage(lupos.SOURCE_FILE, page)
                     println("allocated store-root page :: $page")
                     localStores[store.second] = TripleStoreIndexIDTriple(page, false)
                 }
@@ -279,9 +280,7 @@ public class TripleStoreManagerImpl(
             for (index in graph.indices) {
                 for (store in index.getAllLocations()) {
                     if (store.first == localhost) {
-                        localStores[store.second]!!.clear()
-                        val page = localStores[store.second]!!.store_root_page_id
-                        bufferManager.deletePage(page)
+                        localStores[store.second]!!.delete()
                         localStores.remove(store.second)
                     } else {
                         if (origin) {
