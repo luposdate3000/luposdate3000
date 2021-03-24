@@ -16,7 +16,6 @@
  */
 package lupos.s09physicalOperators.singleinput.modifiers
 
-import lupos.ArrayAllocator
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -50,7 +49,7 @@ public class POPOffset public constructor(query: IQuery, projectedVariables: Lis
         val variables = getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
-        val columns = ArrayAllocator(variables.size) { child.columns[variables[it]] }
+        val columns = Array(variables.size) { child.columns[variables[it]] }
         var tmp: Int = DictionaryExt.nullValue
         loop@ for (i in 0 until offset) {
             for (element in columns) {

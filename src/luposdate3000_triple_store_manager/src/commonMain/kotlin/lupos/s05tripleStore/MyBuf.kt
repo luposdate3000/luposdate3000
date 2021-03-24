@@ -29,12 +29,12 @@ internal class MyBuf {
     internal var buf = IntArray(size)
 }
 
-public fun ArrayAllocatorArrayMyBuf(size: Int, initializer: (Int) -> Array<MyBuf>): Array<Array<MyBuf>> {
+internal fun ArrayAllocatorArrayMyBuf(size: Int, initializer: (Int) -> Array<MyBuf>): Array<Array<MyBuf>> {
     val res = Array(size, initializer)
     return res
 }
 
-public fun ArrayAllocatorMyBuf(size: Int, initializer: (Int) -> MyBuf): Array<MyBuf> {
+internal fun ArrayAllocatorMyBuf(size: Int, initializer: (Int) -> MyBuf): Array<MyBuf> {
     val res = Array(size, initializer)
     return res
 }

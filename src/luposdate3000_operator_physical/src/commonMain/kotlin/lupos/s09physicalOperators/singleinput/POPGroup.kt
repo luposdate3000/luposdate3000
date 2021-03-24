@@ -16,7 +16,6 @@
  */
 package lupos.s09physicalOperators.singleinput
 
-import lupos.ArrayAllocator
 import lupos.ArrayAllocatorString
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EOperatorIDExt
@@ -194,14 +193,14 @@ public class POPGroup : POPBase {
         if (keyColumnNames.size != keyColumnNames.distinct().size) {
             throw GroupByDuplicateColumnException()
         }
-        val keyColumns: Array<ColumnIterator> = ArrayAllocator(keyColumnNames.size) { child.columns[keyColumnNames[it]]!! }
+        val keyColumns: Array<ColumnIterator> = Array(keyColumnNames.size) { child.columns[keyColumnNames[it]]!! }
         val valueColumnNames = mutableListOf<String>()
         for (name in localVariables) {
             if (!keyColumnNames.contains(name)) {
                 valueColumnNames.add(name)
             }
         }
-        val valueColumns = ArrayAllocator(valueColumnNames.size) { child.columns[valueColumnNames[it]]!! }
+        val valueColumns = Array(valueColumnNames.size) { child.columns[valueColumnNames[it]]!! }
         if (keyColumnNames.isEmpty()) {
             val localMap = mutableMapOf<String, ColumnIterator>()
             val localColumns = Array<ColumnIteratorQueue>(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
@@ -209,7 +208,7 @@ public class POPGroup : POPBase {
                 localMap[valueColumnNames[columnIndex]] = localColumns[columnIndex]
             }
             val row = IteratorBundle(localMap)
-            val localAggregations = ArrayAllocator(aggregations.size) {
+            val localAggregations = Array(aggregations.size) {
                 val tmp = aggregations[it].createIterator(row)
                 localMap["#" + aggregations[it].uuid] = tmp
                 tmp
@@ -294,7 +293,7 @@ public class POPGroup : POPBase {
                     }
                 } else {
                     val localMap = mutableMapOf<String, ColumnIterator>()
-                    var localRowColumns = ArrayAllocator(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
+                    var localRowColumns = Array(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
                     for (columnIndex in keyColumnNames.indices) {
                         val tmp = ColumnIteratorQueueEmpty()
                         tmp.tmp = currentKey[columnIndex]
@@ -304,7 +303,7 @@ public class POPGroup : POPBase {
                         localMap[valueColumnNames[columnIndex]] = localRowColumns[columnIndex]
                     }
                     var localRowIterators = IteratorBundle(localMap)
-                    var localRowAggregates = ArrayAllocator(aggregations.size) {
+                    var localRowAggregates = Array(aggregations.size) {
                         val tmp = aggregations[it].createIterator(localRowIterators)
                         localMap["#" + aggregations[it].uuid] = tmp
                         tmp
@@ -391,7 +390,7 @@ public class POPGroup : POPBase {
                                                     }
                                                 }
                                                 localMap.clear()
-                                                localRowColumns = ArrayAllocator(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
+                                                localRowColumns = Array(valueColumnNames.size) { ColumnIteratorQueueEmpty() }
                                                 for (columnIndex in keyColumnNames.indices) {
                                                     val tmp = ColumnIteratorQueueEmpty()
                                                     tmp.tmp = currentKey[columnIndex]
@@ -401,7 +400,7 @@ public class POPGroup : POPBase {
                                                     localMap[valueColumnNames[columnIndex]] = localRowColumns[columnIndex]
                                                 }
                                                 localRowIterators = IteratorBundle(localMap)
-                                                localRowAggregates = ArrayAllocator(aggregations.size) {
+                                                localRowAggregates = Array(aggregations.size) {
                                                     val tmp = aggregations[it].createIterator(localRowIterators)
                                                     localMap["#" + aggregations[it].uuid] = tmp
                                                     tmp
@@ -499,7 +498,7 @@ public class POPGroup : POPBase {
                                 localMap[valueColumnNames[columnIndex]] = localColumns[columnIndex]
                             }
                             val row = IteratorBundle(localMap)
-                            val localAggregations = ArrayAllocator(aggregations.size) {
+                            val localAggregations = Array(aggregations.size) {
                                 val tmp = aggregations[it].createIterator(row)
                                 localMap["#" + aggregations[it].uuid] = tmp
                                 tmp
@@ -522,8 +521,8 @@ public class POPGroup : POPBase {
                             outMap[first] = ColumnIteratorRepeatValue(1, DictionaryExt.undefValue)
                         }
                     } else {
-                        val outKeys = ArrayAllocator(keyColumnNames.size) { mutableListOf<Int>() }
-                        val outValues = ArrayAllocator(bindings.size) { mutableListOf<Int>() }
+                        val outKeys = Array(keyColumnNames.size) { mutableListOf<Int>() }
+                        val outValues = Array(bindings.size) { mutableListOf<Int>() }
                         for ((k, v) in map) {
                             for (columnIndex in keyColumnNames.indices) {
                                 outKeys[columnIndex].add(k.data[columnIndex])

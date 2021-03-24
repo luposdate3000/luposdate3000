@@ -16,7 +16,6 @@
  */
 package lupos.s09physicalOperators.multiinput
 
-import lupos.ArrayAllocator
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -69,10 +68,10 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
         }
         SanityCheck.check { optional }
 // setup columns
-        val child = ArrayAllocator(2) { children[it].evaluate(parent) }
-        val columnsINO = ArrayAllocator(2) { mutableListOf<ColumnIterator>() }
-        val columnsINJ = ArrayAllocator(2) { mutableListOf<ColumnIterator>() }
-        val columnsOUT = ArrayAllocator(2) { mutableListOf<ColumnIteratorChildIterator>() }
+        val child = Array(2) { children[it].evaluate(parent) }
+        val columnsINO = Array(2) { mutableListOf<ColumnIterator>() }
+        val columnsINJ = Array(2) { mutableListOf<ColumnIterator>() }
+        val columnsOUT = Array(2) { mutableListOf<ColumnIteratorChildIterator>() }
         val columnsOUTJ = mutableListOf<ColumnIteratorChildIterator>()
         val outIterators = mutableListOf<Pair<String, Int>>() // J,O0,O1,J-ohne-Map
         val outIteratorsAllocated = mutableListOf<ColumnIteratorChildIterator>()
@@ -107,7 +106,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))
         }
-        val key = ArrayAllocator(2) { i -> IntArray(columnsINJ[i].size) { columnsINJ[i][it].next() } }
+        val key = Array(2) { i -> IntArray(columnsINJ[i].size) { columnsINJ[i][it].next() } }
         var done = findNextKey(key, columnsINJ, columnsINO)
         if (done) {
             for (closeIndex2 in 0 until 2) {
@@ -153,7 +152,7 @@ public class POPJoinMergeOptional public constructor(query: IQuery, projectedVar
                                 for (i in 0 until columnsINJ[0].size) {
                                     keyCopy[i] = key[0][i]
                                 }
-                                val data = ArrayAllocator(2) { ArrayAllocator(columnsINO[it].size) { mutableListOf<Int>() } }
+                                val data = Array(2) { Array(columnsINO[it].size) { mutableListOf<Int>() } }
                                 val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
                                 val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
                                 done = findNextKey(key, columnsINJ, columnsINO)

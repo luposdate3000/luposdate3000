@@ -16,7 +16,6 @@
  */
 package lupos.s09physicalOperators.singleinput
 
-import lupos.ArrayAllocator
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -87,7 +86,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
                 }
             }
             SanityCheck.check { boundIndex != -1 }
-            val columnsIn = ArrayAllocator(variablesLocal.size) { child.columns[variablesLocal[it]] }
+            val columnsIn = Array(variablesLocal.size) { child.columns[variablesLocal[it]] }
             for (variableIndex in variablesLocal.indices) {
                 columnsLocal[variableIndex] = object : ColumnIteratorQueue() {
                     override /*suspend*/ fun close() {

@@ -16,7 +16,6 @@
  */
 package lupos.s09physicalOperators.singleinput
 
-import lupos.ArrayAllocator
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
@@ -140,7 +139,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
         val variables = children[0].getProvidedVariableNames()
         val child = children[0].evaluate(parent)
-        val columns = ArrayAllocator(variables.size) { child.columns[variables[it]]!! }
+        val columns = Array(variables.size) { child.columns[variables[it]]!! }
         val row = IntArray(variables.size) { DictionaryExt.undefValue }
         val data = mutableMapOf<String, Array<Array<MutableList<Int>>>>()
         loop@ while (true) {
@@ -173,7 +172,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
                     first.graph
                 }
                 if (data[graphName] == null) {
-                    data[graphName] = ArrayAllocator(EModifyTypeExt.values_size) { ArrayAllocator(3) { mutableListOf() } }
+                    data[graphName] = Array(EModifyTypeExt.values_size) { Array(3) { mutableListOf() } }
                 }
                 val target = data[graphName]!![second]
                 loop2@ for (columnIndex in 0 until 3) {
@@ -203,7 +202,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
             val store = tripleStoreManager.getGraph(graphName)
             for (type in 0 until EModifyTypeExt.values_size) {
                 if (iterator[type][0].size > 0) {
-                    store.modify(query, ArrayAllocator(3) { ColumnIteratorMultiValue(iterator[type][it]) }, type)
+                    store.modify(query, Array(3) { ColumnIteratorMultiValue(iterator[type][it]) }, type)
                 }
             }
         }

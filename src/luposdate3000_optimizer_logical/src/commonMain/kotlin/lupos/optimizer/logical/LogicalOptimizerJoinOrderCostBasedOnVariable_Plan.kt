@@ -16,7 +16,6 @@
  */
 package lupos.optimizer.logical
 
-import lupos.ArrayAllocator
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
 import kotlin.jvm.JvmField
@@ -71,7 +70,7 @@ public class LogicalOptimizerJoinOrderCostBasedOnVariable_Plan : Comparable<Logi
         } else {
             depthA + 1
         }
-        this.variables = ArrayAllocator(allVariables.size) { va[it] + vb[it] }
+        this.variables = Array(allVariables.size) { va[it] + vb[it] }
         var c = 0
         for (i in variables.indices) {
             val t = va[i] + vb[i]

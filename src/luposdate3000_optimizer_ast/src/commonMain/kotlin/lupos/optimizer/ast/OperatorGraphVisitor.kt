@@ -1316,22 +1316,22 @@ return tmp
     override fun visit(node: ASTAggregation, childrenValues: List<IOPBase>): IOPBase {
         when (node.type) {
             AggregationExt.COUNT -> {
-                return AOPAggregationCOUNT(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] })
+                return AOPAggregationCOUNT(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] as AOPBase })
             }
             AggregationExt.MIN -> {
-                return AOPAggregationMIN(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] })
+                return AOPAggregationMIN(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] as AOPBase })
             }
             AggregationExt.MAX -> {
-                return AOPAggregationMAX(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] })
+                return AOPAggregationMAX(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] as AOPBase })
             }
             AggregationExt.SAMPLE -> {
-                return AOPAggregationSAMPLE(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] })
+                return AOPAggregationSAMPLE(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] as AOPBase })
             }
             AggregationExt.AVG -> {
-                return AOPAggregationAVG(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] })
+                return AOPAggregationAVG(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] as AOPBase })
             }
             AggregationExt.SUM -> {
-                return AOPAggregationSUM(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] })
+                return AOPAggregationSUM(query, node.distinct, ArrayAllocatorAOPBase(childrenValues.size) { childrenValues[it] as AOPBase })
             }
             AggregationExt.GROUP_CONCAT -> {
                 throw SparqlFeatureNotImplementedException("AggregationExt.GROUP_CONCAT")

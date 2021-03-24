@@ -16,7 +16,6 @@
  */
 package lupos.s09physicalOperators.multiinput
 
-import lupos.ArrayAllocator
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -78,7 +77,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
         val childB = children[1].evaluate(parent)
         val columnsINAO = mutableListOf<ColumnIterator>() // only in childA
         val columnsINBO = mutableListOf<ColumnIterator>() // only in childB
-        val outO = ArrayAllocator(2) { mutableListOf<ColumnIteratorChildIterator>() } // only in one of the childs
+        val outO = Array(2) { mutableListOf<ColumnIteratorChildIterator>() } // only in one of the childs
         val outMap = mutableMapOf<String, ColumnIterator>()
         val res: IteratorBundle?
         for (name in columns[1]) {
@@ -123,7 +122,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
             }
             res = IteratorBundle(outMap)
         } else {
-            val data = ArrayAllocator(columnsINBO.size) { mutableListOf<Int>() }
+            val data = Array(columnsINBO.size) { mutableListOf<Int>() }
             loopC@ while (true) {
                 for (columnIndex in 0 until columnsINBO.size) {
                     val value = columnsINBO[columnIndex].next()

@@ -16,7 +16,6 @@
  */
 package lupos.s09physicalOperators.partition
 
-import lupos.ArrayAllocator
 import lupos.ArrayAllocatorString
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EOperatorIDExt
@@ -145,7 +144,7 @@ public class POPDistributedSendMulti public constructor(
         SanityCheck.check { i == variables.size }
         var p = Partition()
         val bundle = children[0].evaluate(p)
-        val columns = ArrayAllocator(variables.size) { bundle.columns[variables[it]]!! }
+        val columns = Array(variables.size) { bundle.columns[variables[it]]!! }
         var buf = columns[0].next()
         while (buf != DictionaryExt.nullValue) {
 // the partition column

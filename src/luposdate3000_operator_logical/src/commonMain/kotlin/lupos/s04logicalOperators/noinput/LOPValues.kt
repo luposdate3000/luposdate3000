@@ -16,20 +16,20 @@
  */
 package lupos.s04logicalOperators.noinput
 
-import lupos.s00misc.ArrayAllocatorESortPriority
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPValue
 import lupos.s04arithmetikOperators.noinput.AOPVariable
+import lupos.s04logicalOperators.ArrayAllocatorIOPBase
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import kotlin.jvm.JvmField
 
-public class LOPValues public constructor(query: IQuery, @JvmField public val variables: List<AOPVariable>, values: List<AOPValue>) : LOPBase(query, EOperatorIDExt.LOPValuesID, "LOPValues", ArrayAllocatorESortPriority(values.size) { values[it] }, ESortPriorityExt.PREVENT_ANY) {
+public class LOPValues public constructor(query: IQuery, @JvmField public val variables: List<AOPVariable>, values: List<AOPValue>) : LOPBase(query, EOperatorIDExt.LOPValuesID, "LOPValues", ArrayAllocatorIOPBase(values.size) { values[it] }, ESortPriorityExt.PREVENT_ANY) {
     override fun getProvidedVariableNames(): List<String> {
         return MutableList(variables.size) { variables[it].name }.distinct()
     }

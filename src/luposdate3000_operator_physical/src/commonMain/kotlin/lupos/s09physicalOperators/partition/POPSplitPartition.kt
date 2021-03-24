@@ -16,7 +16,6 @@
  */
 package lupos.s09physicalOperators.partition
 
-import lupos.ArrayAllocator
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -26,7 +25,6 @@ import lupos.s00misc.Partition
 import lupos.s00misc.PartitionExt
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s04logicalOperators.ArrayAllocatorIteratorBundle
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.PartitionHelper
@@ -139,7 +137,7 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
             }
             var error: Throwable? = null
             if (iterators == null) {
-                iterators = ArrayAllocatorIteratorBundle(partitionCount) { IteratorBundle(0) }
+                iterators = Array(partitionCount) { IteratorBundle(0) }
                 val variables = getProvidedVariableNames()
                 val variables0 = children[0].getProvidedVariableNames()
                 SanityCheck.check { variables0.containsAll(variables) }
@@ -150,7 +148,7 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                 val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } // constant
                 val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required
                 val ringbufferWriteHead = IntArray(partitionCount) { 0 } // owned by write thread - no locking required
-                val ringbufferReaderContinuation = ArrayAllocator(partitionCount) { Parallel.createCondition() }
+                val ringbufferReaderContinuation = Array(partitionCount) { Parallel.createCondition() }
                 val ringbufferWriterContinuation: ParallelCondition = Parallel.createCondition()
                 val readerFinished = IntArray(partitionCount) { 0 } // writer changes to 1 if finished
                 var writerFinished = 0

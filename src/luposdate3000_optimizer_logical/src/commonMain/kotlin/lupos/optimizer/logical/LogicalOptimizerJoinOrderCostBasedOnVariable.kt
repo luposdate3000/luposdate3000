@@ -16,7 +16,6 @@
  */
 package lupos.optimizer.logical
 
-import lupos.ArrayAllocatorInt
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
@@ -73,7 +72,7 @@ public object LogicalOptimizerJoinOrderCostBasedOnVariable {
                 }
             }
             for (i in allChilds.indices) {
-                val variables = ArrayAllocatorInt(allVariables.size) { 0 }
+                val variables = Array(allVariables.size) { 0 }
                 val tmp = allChilds[i].getProvidedVariableNames()
                 for (t in tmp) {
                     SanityCheck.check { allVariables.contains(t) }

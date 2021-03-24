@@ -16,7 +16,6 @@
  */
 package lupos.s09physicalOperators.partition
 
-import lupos.ArrayAllocator
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -168,7 +167,7 @@ public class POPMergePartition public constructor(query: IQuery, projectedVariab
                                     }
                                 }
                             } else {
-                                val variableMapping = ArrayAllocator(variables.size) { child[variables[it]]!! }
+                                val variableMapping = Array(variables.size) { child[variables[it]]!! }
                                 loop@ while (readerFinished == 0) {
                                     val t = (ringbufferWriteHead[p] + variables.size) % elementsPerRing
                                     while (ringbufferReadHead[p] == t && readerFinished == 0) {
