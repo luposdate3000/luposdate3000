@@ -801,28 +801,57 @@ fun onRun() {
             }
             File("build-cache${Platform.getPathSeparator()}node_modules").deleteRecursively()
             File("build-cache${Platform.getPathSeparator()}node_modules").mkdirs()
-            class JSHelper(val path: String, val name: String)
             jsBrowserMode = false
-            val files = mutableListOf<JSHelper>()
+            val dependencies = mutableListOf<String>()
+            val scripts = mutableListOf<String>()
             for (module in getAllModuleConfigurations()) {
-                if (module.enabledRunFunc() && module.modulePrefix != "Luposdate3000_Main") {
+                if (module.enabledRunFunc()) {
+                    val s: String
                     if (module.modulePrefix == module.moduleName) {
-                        files.add(JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix", "${module.modulePrefix}.js"))
+                        s = "bin$appendix/${module.modulePrefix}.js"
                     } else {
-                        files.add(JSHelper("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}${module.moduleName}", "${module.modulePrefix}.js"))
+                        s = "bin$appendix/${module.moduleName}/${module.modulePrefix}.js"
+                    }
+                    File("build-cache/${s.substring(0, s.length - 3)}-js.classpath").forEachLine { it ->
+                        if (!dependencies.contains(it)) {
+                            dependencies.add(it)
+                        }
+                    }
+                    if (!scripts.contains(s)) {
+                        scripts.add(s)
                     }
                 }
             }
-            for (f in files) {
-                Files.copy(File(f.path + Platform.getPathSeparator() + f.name).toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${f.name}").toPath(), REPLACE_EXISTING)
-                Files.copy(File(f.path + Platform.getPathSeparator() + f.name + ".map").toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${f.name}.map").toPath(), REPLACE_EXISTING)
+            for (s in dependencies) {
+                if (s.endsWith(".js")) {
+                    Files.copy(File(s).toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${File(s).getName()}").toPath(), REPLACE_EXISTING)
+                    Files.copy(File("$s.map").toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${File(s).getName()}.map").toPath(), REPLACE_EXISTING)
+                } else if (s.endsWith(".jar")) {
+                    val f = JarFile(File(s))
+                    for (e in f.entries()) {
+                        val name = e.getName()
+                        if (name.endsWith(".js.map")) {
+                            copyFromJar(f.getInputStream(e), "build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}$name")
+                        } else if (name.endsWith(".js") && !name.endsWith("meta.js")) {
+                            copyFromJar(f.getInputStream(e), "build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}$name")
+                        }
+                    }
+                } else {
+                    throw Exception("unknown dependency '$s'")
+                }
             }
-            copyJSLibsIntoFolder("build-cache${Platform.getPathSeparator()}node_modules")
+            for (s in scripts) {
+                Files.copy(File("build-cache${Platform.getPathSeparator()}$s").toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${File(s).getName()}").toPath(), REPLACE_EXISTING)
+                Files.copy(File("build-cache${Platform.getPathSeparator()}$s.map").toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${File(s).getName()}.map").toPath(), REPLACE_EXISTING)
+            }
             File("build-cache${Platform.getPathSeparator()}nodeJsMain.js").printWriter().use { out ->
                 out.println("var mainLauncher = require(\"Luposdate3000_Main.js\")")
                 out.println("mainLauncher.mainFunc(process.argv.slice(2))")
             }
-            val p = ProcessBuilder("node", "build-cache${Platform.getPathSeparator()}nodeJsMain.js")
+            val cmd = mutableListOf("node", "build-cache${Platform.getPathSeparator()}nodeJsMain.js")
+            cmd.addAll(runArgs)
+            println(cmd)
+            val p = ProcessBuilder(cmd)
                 .redirectOutput(Redirect.INHERIT)
                 .redirectError(Redirect.INHERIT)
                 .start()
@@ -1142,6 +1171,7 @@ fun copyFromJar(source: InputStream, dest: String) {
 }
 
 fun copyJSLibsIntoFolder(targetFolder: String) {
+    throw Exception("remove this")
     val jsStdlib = JarFile(File("${Platform.getMavenCache()}${Platform.getPathSeparator()}org${Platform.getPathSeparator()}jetbrains${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}kotlin-stdlib-js${Platform.getPathSeparator()}$compilerVersion${Platform.getPathSeparator()}kotlin-stdlib-js-$compilerVersion.jar"))
     copyFromJar(jsStdlib.getInputStream(jsStdlib.getEntry("kotlin.js")), "${targetFolder}${Platform.getPathSeparator()}kotlin.js")
     copyFromJar(jsStdlib.getInputStream(jsStdlib.getEntry("kotlin.js.map")), "${targetFolder}${Platform.getPathSeparator()}kotlin.js.map")
@@ -1158,28 +1188,57 @@ fun onSetupJS() {
         out.println("<head>")
         out.println("    <meta charset=\"utf-8\">")
         out.println("    <title>Luposdate3000</title>")
-        out.println("    <script src=\"kotlin.js\"></script>")
-        out.println("    <script src=\"krypto-root-krypto.js\"></script>")
+        val dependencies = mutableListOf<String>()
+        val scripts = mutableListOf<String>()
         for (module in getAllModuleConfigurations()) {
             if (module.enabledRunFunc() && module.modulePrefix != "Luposdate3000_Main") {
+                val s: String
                 if (module.modulePrefix == module.moduleName) {
-                    out.println("    <script src=\"bin$appendix/${module.modulePrefix}.js\"></script>")
+                    s = "bin$appendix/${module.modulePrefix}.js"
                 } else {
-                    out.println("    <script src=\"bin$appendix/${module.moduleName}/${module.modulePrefix}.js\"></script>")
+                    s = "bin$appendix/${module.moduleName}/${module.modulePrefix}.js"
+                }
+                File("build-cache/${s.substring(0, s.length - 3)}-js.classpath").forEachLine { it ->
+                    if (!dependencies.contains(it)) {
+                        dependencies.add(it)
+                    }
+                }
+                if (!scripts.contains(s)) {
+                    scripts.add(s)
                 }
             }
+        }
+        for (s in dependencies) {
+            if (s.endsWith(".js")) {
+                out.println("    <script src=\"$s\"></script>")
+            } else if (s.endsWith(".jar")) {
+                val f = JarFile(File(s))
+                for (e in f.entries()) {
+                    val name = e.getName()
+                    if (name.endsWith(".js.map")) {
+                        copyFromJar(f.getInputStream(e), "build-cache/$name")
+                    } else if (name.endsWith(".js") && !name.endsWith("meta.js")) {
+                        copyFromJar(f.getInputStream(e), "build-cache/$name")
+                        out.println("    <script src=\"$name\"></script>")
+                    }
+                }
+            } else {
+                throw Exception("unknown dependency '$s'")
+            }
+        }
+        for (s in scripts) {
+            out.println("    <script src=\"$s\"></script>")
         }
         out.println("</head>")
         out.println("<body>")
         out.println("<script>")
-        out.println("Luposdate3000_Endpoint.lupos.s16network.LuposdateEndpoint.initialize()")
-        out.println("console.log(Luposdate3000_Endpoint.lupos.s16network.LuposdateEndpoint.evaluate_sparql_to_result_b(\"INSERT DATA { <s> <p> <o> } \"))")
-        out.println("console.log(Luposdate3000_Endpoint.lupos.s16network.LuposdateEndpoint.evaluate_sparql_to_result_b(\"SELECT (5 as ?x) ?s {?s ?p ?o .}\"))")
+        out.println("Luposdate3000_Endpoint.lupos.endpoint.LuposdateEndpoint.initialize()")
+        out.println("console.log(Luposdate3000_Endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(\"INSERT DATA { <s> <p> <o> } \"))")
+        out.println("console.log(Luposdate3000_Endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(\"SELECT (5 as ?x) ?s {?s ?p ?o .}\"))")
         out.println("</script>")
         out.println("</body>")
         out.println("</html>")
     }
-    copyJSLibsIntoFolder("build-cache")
 }
 
 fun find(path: String, fName: String): File? {

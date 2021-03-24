@@ -16,19 +16,16 @@
  */
 package lupos.buffermanager
 
+import lupos.ProguardTestAnnotation
 import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.s00misc.BUFFER_MANAGER_USE_FREE_LIST
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
 
-public class BufferManager {
-    @JvmField
-    public val name: String
-
-    public constructor(name: String) {
-        this.name = name
-    }
+public class BufferManager internal constructor(@JvmField public val name: String) {
+    @ProguardTestAnnotation
+    public constructor() : this("")
 
     /*
      * each type safe page-manager safes to its own store
@@ -39,25 +36,20 @@ public class BufferManager {
      * - temporary result rows (currently not implemented)
      * additionally this should make it more easy to exchange this with on disk storage
      */
-    @JvmField
-    internal var allPages = Array(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
+    private var allPages = Array(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
 
-    @JvmField
-    internal var allPagesRefcounters = IntArray(100)
+    private var allPagesRefcounters = IntArray(100)
 
-    @JvmField
-    internal var counter = 0
+    private var counter = 0
 
-    @JvmField
-    internal val lock = MyReadWriteLock()
+    private val lock = MyReadWriteLock()
 
-    @JvmField
-    internal val freeList = mutableListOf<Int>()
+    private val freeList = mutableListOf<Int>()
     /*suspend*/ private fun clearAssumeLocks() {
         counter = 0
         SanityCheck {
             for (i in 0 until counter) {
-                SanityCheck.check({ allPagesRefcounters[i] == 0 }, { "Failed requirement pageid = $i" })
+                SanityCheck.check({ allPagesRefcounters[i] == 0 }, { "Failed requirement allPagesRefcounters[$i] = ${allPagesRefcounters[i]} == 0" })
             }
         }
         allPages = Array(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
@@ -67,17 +59,40 @@ public class BufferManager {
         }
     }
 
-    public fun flushPage(pageid: Int) {}
-    public fun releasePage(pageid: Int) {
-        SanityCheck.check({ allPagesRefcounters[pageid] > 0 }, { "Failed requirement pageid = $pageid" })
+    @ProguardTestAnnotation
+    public fun getNumberOfAllocatedPages(): Int = counter - freeList.size
+
+    @ProguardTestAnnotation
+    public fun getNumberOfReferencedPages(): Int {
+        val res = allPagesRefcounters.sum()
+        SanityCheck {
+            val tmp = mutableMapOf<Int, Int>()
+            for (i in 0 until counter) {
+                if (allPagesRefcounters[i] != 0) {
+                    tmp[i] = allPagesRefcounters[i]
+                }
+            }
+            SanityCheck.println_buffermanager { "getNumberOfReferencedPages = $tmp" }
+        }
+        return res
+    }
+
+    public fun flushPage(call_location: String, pageid: Int) {
+        SanityCheck.println_buffermanager { "BufferManager.flushPage($pageid) : $call_location" }
+    }
+
+    public fun releasePage(call_location: String, pageid: Int) {
+        SanityCheck.println_buffermanager { "BufferManager.releasePage($pageid) : $call_location" }
+        SanityCheck.check({ allPagesRefcounters[pageid] > 0 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} > 0" })
         allPagesRefcounters[pageid]--
     }
 
-    public fun getPage(pageid: Int): ByteArray {
+    public fun getPage(call_location: String, pageid: Int): ByteArray {
+        SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $call_location" }
         // no locking required, assuming an assignment to 'allPages' is atomic
         SanityCheck {
-            SanityCheck.check { pageid < counter }
-            SanityCheck.check { pageid >= 0 }
+            SanityCheck.check({ pageid < counter }, { "$pageid < $counter" })
+            SanityCheck.check({ pageid >= 0 }, { "$pageid >= 0" })
             if (BUFFER_MANAGER_USE_FREE_LIST) {
                 SanityCheck.check { !freeList.contains(pageid) }
             }
@@ -86,7 +101,7 @@ public class BufferManager {
         return allPages[pageid]
     }
 
-    public /*suspend*/ fun createPage(action: (ByteArray, Int) -> Unit): Unit = lock.withWriteLock {
+    public /*suspend*/ fun createPage(call_location: String, action: (ByteArray, Int) -> Unit): Unit = lock.withWriteLock {
         val pageid: Int
         if (freeList.size > 0 && BUFFER_MANAGER_USE_FREE_LIST) {
             pageid = freeList.removeAt(0)
@@ -106,29 +121,26 @@ public class BufferManager {
                     }
                     res
                 }
-                val tmp2 = IntArray(size) {
-                    if (it < counter) {
-                        allPagesRefcounters[it]
-                    } else {
-                        0
-                    }
-                }
+                val tmp2 = IntArray(size)
+                allPagesRefcounters.copyInto(tmp2)
                 allPages = tmp
                 allPagesRefcounters = tmp2
             }
             pageid = counter++
         }
         allPagesRefcounters[pageid]++
+        SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $call_location" }
         action(allPages[pageid], pageid)
     }
 
-    public /*suspend*/ fun deletePage(pageid: Int): Unit = lock.withWriteLock {
+    public /*suspend*/ fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
+        SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $call_location" }
         SanityCheck {
             if (BUFFER_MANAGER_USE_FREE_LIST) {
                 SanityCheck.check { !freeList.contains(pageid) }
             }
         }
-        SanityCheck.check({ allPagesRefcounters[pageid] == 1 }, { "Failed requirement pageid = $pageid" })
+        SanityCheck.check({ allPagesRefcounters[pageid] == 1 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} == 1" })
         allPagesRefcounters[pageid] = 0
         if (BUFFER_MANAGER_USE_FREE_LIST) {
             freeList.add(pageid)
@@ -139,6 +151,19 @@ public class BufferManager {
             if (counter == 0) {
                 clearAssumeLocks()
             }
+        }
+    }
+
+    @ProguardTestAnnotation
+    public fun close() {
+        SanityCheck {
+            val allErrors = mutableMapOf<Int, Int>()
+            for (i in 0 until counter) {
+                if (allPagesRefcounters[i] != 0) {
+                    allErrors[i] = allPagesRefcounters[i]
+                }
+            }
+            SanityCheck.check({ allErrors.size == 0 }, { "$allErrors" })
         }
     }
 }

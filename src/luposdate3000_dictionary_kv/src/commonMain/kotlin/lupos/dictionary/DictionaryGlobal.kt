@@ -16,24 +16,80 @@
  */
 package lupos.dictionary
 
+import lupos.ProguardTestAnnotation
+import lupos.buffermanager.BufferManager
+import lupos.buffermanager.BufferManagerExt
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.kv.KeyValueStore
+import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ETripleComponentTypeExt
+import lupos.s00misc.File
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueDefinition
 
 public val nodeGlobalDictionary: DictionaryGlobal = DictionaryGlobal()
 
 public class DictionaryGlobal {
-    private val kv = KeyValueStore()
+    private val bufferManager: BufferManager
+    private val kv: KeyValueStore
     private var bNodeCounter = 5
-    private var lastPage: Int = 0
-    private var lastPageBuf: ByteArray = ByteArray(0)
-    private var lastPageOffset: Int = 0
-    private var nextID = 0
-    private var mappingID2Page = IntArray(100)
-    private var mappingID2Off = IntArray(100)
-    private var mappingSorted = IntArray(100)
+    private val rootPageID: Int
+    private val rootPage: ByteArray
+
+    public constructor() {
+        bufferManager = BufferManagerExt.getBuffermanager("dictionary")
+        val file = File(BufferManagerExt.bufferPrefix + "dict.page")
+        var rootPageID = 0
+        var initFromRootPage = file.exists()
+        if (initFromRootPage) {
+            file.withInputStream {
+                rootPageID = it.readInt()
+            }
+            rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
+        } else {
+            var p: ByteArray? = null
+            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
+                p = page
+                rootPageID = pageid
+            }
+            this.rootPage = p!!
+            file.withOutputStream {
+                it.writeInt(rootPageID)
+            }
+        }
+        this.rootPageID = rootPageID
+        var kvPage = 0
+        if (initFromRootPage) {
+            bNodeCounter = ByteArrayHelper.readInt4(rootPage, 0)
+            kvPage = ByteArrayHelper.readInt4(rootPage, 4)
+        } else {
+            ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
+            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
+                kvPage = pageid
+            }
+            bufferManager.releasePage(lupos.SOURCE_FILE, kvPage)
+        }
+        kv = KeyValueStore(bufferManager, kvPage, initFromRootPage)
+    }
+
+    @ProguardTestAnnotation
+    public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
+        this.bufferManager = bufferManager
+        this.rootPageID = rootPageID
+        rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
+        var kvPage = 0
+        if (initFromRootPage) {
+            bNodeCounter = ByteArrayHelper.readInt4(rootPage, 0)
+            kvPage = ByteArrayHelper.readInt4(rootPage, 4)
+        } else {
+            ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
+            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
+                kvPage = pageid
+            }
+            bufferManager.releasePage(lupos.SOURCE_FILE, kvPage)
+        }
+        kv = KeyValueStore(bufferManager, kvPage, initFromRootPage)
+    }
 
     public fun debugAllDictionaryContent() {
     }
@@ -68,11 +124,13 @@ public class DictionaryGlobal {
 
     public fun createNewBNode(value: String): Int {
         val res: Int = (DictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
+        ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
         return res
     }
 
     public fun createNewBNode(): Int {
         val res: Int = (DictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
+        ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
         return res
     }
 

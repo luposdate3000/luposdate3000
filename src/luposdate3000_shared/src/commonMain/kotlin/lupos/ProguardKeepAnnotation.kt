@@ -32,5 +32,8 @@ package lupos
     AnnotationTarget.TYPE_PARAMETER,
     AnnotationTarget.VALUE_PARAMETER
 )
+/*
+ * this indicates that the target should remain in the shrinked binary
+ */
 @Retention(AnnotationRetention.BINARY)
 public annotation class ProguardKeepAnnotation
