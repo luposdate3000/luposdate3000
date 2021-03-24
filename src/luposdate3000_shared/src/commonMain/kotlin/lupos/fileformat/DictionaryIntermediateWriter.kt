@@ -16,7 +16,7 @@
  */
 package lupos.fileformat
 
-import lupos.s00misc.ETripleComponentTypeExt
+import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.File
 
 public class DictionaryIntermediateWriter : DictionaryIntermediate {
@@ -26,31 +26,25 @@ public class DictionaryIntermediateWriter : DictionaryIntermediate {
     }
 
     public inline fun writeAssumeOrdered(row: DictionaryIntermediateRow) {
-        writeAssumeOrdered(row.type, row.id, row.value)
+        writeAssumeOrdered(row.id, row.data)
     }
 
-    public inline fun writeAssumeOrdered(type: Int, id: Int, value: String) {
-        val tmp = value.encodeToByteArray()
-        streamOut!!.writeInt(type)
+    public inline fun writeAssumeOrdered(id: Int, data: ByteArray) {
         streamOut!!.writeInt(id)
-        streamOut!!.writeInt(tmp.size)
-        streamOut!!.write(tmp, tmp.size)
+        streamOut!!.writeInt(data.size)
+        streamOut!!.write(data, data.size)
     }
 
-    public inline fun write(dict: Array<MutableMap<String, Long>>) {
-        for (componentType in 0 until ETripleComponentTypeExt.values_size) {
-            var localdict = dict[componentType]
-            var rows = localdict.toList().map { DictionaryIntermediateRow(componentType, it.second.toInt(), it.first) }.sorted()
-            for (row in rows) {
-                writeAssumeOrdered(row)
-            }
-            localdict.clear()
+    public inline fun write(dict: MutableMap<String, Int>) {
+        for ((k, v) in dict) {
+            writeAssumeOrdered(v, DictionaryHelper.valueToByteArray(k))
         }
+        dict.clear()
         close()
     }
 
     public override fun close() {
-        streamOut?.writeInt(ETripleComponentTypeExt.values_size)
+        streamOut?.writeInt(-1)
         streamOut?.close()
         streamOut = null
     }

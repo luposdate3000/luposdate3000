@@ -17,32 +17,14 @@
 
 package lupos.fileformat
 
-import lupos.s00misc.ETripleComponentTypeExt
-
-public class DictionaryIntermediateRow(public val type: Int, public val id: Int, public val value: String) : Comparable<DictionaryIntermediateRow> {
+public class DictionaryIntermediateRow(public val id: Int, public val data: ByteArray) : Comparable<DictionaryIntermediateRow> {
     public override operator fun compareTo(other: DictionaryIntermediateRow): Int {
-        var res = type.compareTo(other.type)
-        if (res != 0) {
-            return res
+        var res = data.size - other.data.size
+        var i = 0
+        while (i < data.size && res == 0) {
+            res = data[i] - other.data[i]
+            i++
         }
-        var a = value
-        var b = other.value
-        if (type == ETripleComponentTypeExt.IRI) {
-            a = value.substring(1, value.length - 1)
-            b = other.value.substring(1, other.value.length - 1)
-        }
-        val alen = a.length
-        val blen = b.length
-        val len = if (alen < blen) {
-            alen
-        } else {
-            blen
-        }
-        for (i in 0 until len) {
-            if (a[i] != b[i]) {
-                return a[i] - b[i]
-            }
-        }
-        return alen - blen
+        return res
     }
 }

@@ -209,6 +209,7 @@ public object DictionaryHelper {
         return res
     }
 
+    public fun byteArrayToType(data: ByteArray): ETripleComponentType = ByteArrayHelper.readInt4(data, 0)
     public fun byteArrayToValueDefinition(data: ByteArray): ValueDefinition {
         val type = ByteArrayHelper.readInt4(data, 0)
         return when (type) {

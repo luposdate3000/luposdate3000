@@ -173,8 +173,9 @@ public class DictionaryGlobal {
     @Suppress("NOTHING_TO_INLINE")
     private inline fun importFromDictionaryFileH(filename: String, mapping: IntArray?) {
         var lastId = -1
-        DictionaryIntermediateReader(filename).readAll { type, id, value ->
-            val i = createByType(value, type)
+        DictionaryIntermediateReader(filename).readAll { id, data ->
+            val value = DictionaryHelper.byteArrayToValueDefinition(data)
+            val i = createValue(value)
             SanityCheck.check { lastId == id - 1 }
             lastId = id
             if (mapping != null) {

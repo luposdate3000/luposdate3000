@@ -27,7 +27,6 @@ import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.ETripleComponentType
-import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyPrintWriter
@@ -344,23 +343,7 @@ public object LuposdateEndpoint {
                     tripleStoreManager.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
                 }
                 val fileTriples = File("$fileName.triples")
-                val fileDictionaryStat = File("$fileName.stat")
                 var dictTotal = 0
-                val dictTyped = IntArray(ETripleComponentTypeExt.values_size)
-                dictTyped[ETripleComponentTypeExt.BLANK_NODE] = 0
-                fileDictionaryStat.forEachLine {
-                    val p = it.split("=")
-                    if (p[0] == "total") {
-                        dictTotal = p[1].toInt()
-                    } else {
-                        if (convert_to_bnodes) {
-                            dictTyped[ETripleComponentTypeExt.BLANK_NODE] = dictTyped[ETripleComponentTypeExt.BLANK_NODE] + p[1].toInt()
-                        } else {
-                            dictTyped[ETripleComponentTypeExt.names.indexOf(p[0])] = p[1].toInt()
-                        }
-                    }
-                }
-                nodeGlobalDictionary.prepareBulk(dictTotal, dictTyped)
                 val mapping = IntArray(dictTotal)
                 nodeGlobalDictionary.importFromDictionaryFile("$fileName", mapping)
                 val dictTime = DateHelperRelative.elapsedSeconds(startTime)

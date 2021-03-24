@@ -105,11 +105,12 @@ public class DictionaryGlobal {
     @Suppress("NOTHING_TO_INLINE")
     private inline fun importFromDictionaryFileH(filename: String, mapping: IntArray?) {
         var lastId = -1
-        DictionaryIntermediateReader(filename).readAll { type, id, value ->
+        DictionaryIntermediateReader(filename).readAll { id, data ->
+            val type = DictionaryHelper.byteArrayToType(data)
             val i = if (type == ETripleComponentTypeExt.BLANK_NODE) {
-                createNewBNode(value)
+                createNewBNode()
             } else {
-                kv.createValue(DictionaryHelper.intermediateToByteArray(value, type)) or DictionaryShared.flaggedValueGlobal
+                kv.createValue(data) or DictionaryShared.flaggedValueGlobal
             }
             SanityCheck.check { lastId == id - 1 }
             lastId = id

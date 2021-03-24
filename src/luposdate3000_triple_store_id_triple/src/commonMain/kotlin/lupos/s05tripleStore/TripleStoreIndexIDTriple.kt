@@ -235,28 +235,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun getHistogram(query: IQuery, filter: IntArray): Pair<Int, Int> {
-/*
-        var variableCount = 0
-        val filter2 = mutableListOf<Int>()
-        for (ii in 0 until 3) {
-            val i = EIndexPatternHelper.tripleIndicees[idx][ii]
-            val param = params[i]
-            if (param is IAOPConstant) {
-                SanityCheck.check { filter2.size == ii }
-                filter2.add(query.getDictionary().valueToGlobal(param.getValue()))
-            } else if (param is IAOPVariable) {
-                if (param.getName() != "_") {
-                    variableCount++
-                }
-            } else {
-                SanityCheck.checkUnreachable()
-            }
-        }
-        if (variableCount != 1) {
-            throw BugException("TripleStoreFeature", "Filter can not be calculated using multipe variables at once. ${params.map { it.toSparql() }}")
-        }
-        val filter= IntArray(filter2.size) { filter2[it] }
-*/
         var res: Pair<Int, Int>? = checkForCachedHistogram(filter)
         if (res == null) {
             lock.readLock()
@@ -311,26 +289,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun getIterator(query: IQuery, filter: IntArray, projection: List<String>): IteratorBundle {
-/*
- val filter2 = mutableListOf<Int>()
- val projection = mutableListOf<String>()
- for (ii in 0 until 3) {
-     val i = EIndexPatternHelper.tripleIndicees[idx][ii]
-     when (val param = params[i]) {
-         is IAOPConstant -> {
-             SanityCheck.check { filter2.size == ii }
-             filter2.add(query.getDictionary().valueToGlobal(param.getValue()))
-         }
-         is IAOPVariable -> {
-             projection.add(param.getName())
-         }
-         else -> {
-             SanityCheck.checkUnreachable()
-         }
-     }
- }
-        val filter = IntArray(filter2.size) { filter2[it] }
-*/
         var res: IteratorBundle
         SanityCheck.check { filter.size in 0..3 }
         SanityCheck.check { projection.size + filter.size == 3 }

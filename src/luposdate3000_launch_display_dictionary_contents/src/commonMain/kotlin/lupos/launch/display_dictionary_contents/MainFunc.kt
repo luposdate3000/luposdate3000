@@ -16,25 +16,14 @@
  */
 package lupos.launch.display_dictionary_contents
 
-import lupos.fileformat.DictionaryIntermediate
+import lupos.dictionary.DictionaryHelper
 import lupos.fileformat.DictionaryIntermediateReader
-import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.Parallel
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
-    DictionaryIntermediateReader(inputFileName).readAll { type, id, value ->
-        when (type) {
-            ETripleComponentTypeExt.IRI -> println("$id :=: $type : ${DictionaryIntermediate.decodeIri(value)}")
-            ETripleComponentTypeExt.BLANK_NODE -> println("$id :=: $type : $value")
-            ETripleComponentTypeExt.STRING -> println("$id :=: $type : ${DictionaryIntermediate.decodeString(value)}")
-            ETripleComponentTypeExt.INTEGER -> println("$id :=: $type : ${DictionaryIntermediate.decodeInteger(value)}")
-            ETripleComponentTypeExt.DECIMAL -> println("$id :=: $type : ${DictionaryIntermediate.decodeDecimal(value)}")
-            ETripleComponentTypeExt.DOUBLE -> println("$id :=: $type : ${DictionaryIntermediate.decodeDouble(value)}")
-            ETripleComponentTypeExt.BOOLEAN -> println("$id :=: $type : ${DictionaryIntermediate.decodeBoolean(value)}")
-            ETripleComponentTypeExt.STRING_TYPED -> println("$id :=: $type : ${DictionaryIntermediate.decodeTyped(value)}")
-            ETripleComponentTypeExt.STRING_LANG -> println("$id :=: $type : ${DictionaryIntermediate.decodeLang(value)}")
-            else -> throw Exception("unrechable")
-        }
+    DictionaryIntermediateReader(inputFileName).readAll { id, data ->
+        val value = DictionaryHelper.byteArrayToValueDefinition(data)
+        println("id :: ${value.valueToString()}")
     }
 }

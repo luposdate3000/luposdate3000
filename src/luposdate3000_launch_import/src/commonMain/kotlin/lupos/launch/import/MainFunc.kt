@@ -28,6 +28,7 @@ import lupos.s00misc.PartitionExt
 import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.nQuads.NQuads2Parser
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
+import lupos.s03resultRepresentation.ValueDefinition
 
 internal fun helperCleanString(s: String): String {
     var res: String = s
@@ -56,7 +57,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     var chunc = 0
 // create chunced dictionaries
     var outTriples = File("$inputFileName.0.$tripleFileEnding").openOutputStream(false)
-    val dict = Array(ETripleComponentTypeExt.values_size) { mutableMapOf<String, Long>() }
+    val dict = mutableMapOf<String, Int>()
     var dictCounter = 0L
     var cnt = 0L
     var dicttotalcnt = 0L
@@ -81,14 +82,18 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         val x = object : Turtle2Parser(iter) {
             override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
                 for (i in 0 until 3) {
-                    val tripleCleaned = DictionaryIntermediate.encodeFromParser(helperCleanString(triple[i]), tripleType[i])
-                    val v = dict[tripleType[i]][tripleCleaned]
+                    val tripleCleaned = if (tripleType[i] == ETripleComponentTypeExt.BLANK_NODE) {
+                        triple[i]
+                    } else {
+                        ValueDefinition(helperCleanString(triple[i])).valueToString()!!
+                    }
+                    val v = dict[tripleCleaned]
                     if (v != null) {
                         outTriples.writeInt(v.toInt())
                     } else {
                         val v2 = dictCounter++
                         outTriples.writeInt(v2.toInt())
-                        dict[tripleType[i]][tripleCleaned] = v2
+                        dict[tripleCleaned] = v2.toInt()
                         dictSizeEstimated += tripleCleaned.length * 2
                         dicttotalcnt++
                     }
@@ -109,14 +114,18 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         val x = object : NQuads2Parser(iter) {
             override fun onQuad(quad: Array<String>, quadType: Array<ETripleComponentType>) {
                 for (i in 0 until 4) {
-                    val quadCleaned = DictionaryIntermediate.encodeFromParser(helperCleanString(quad[i]), quadType[i])
-                    val v = dict[quadType[i]][quadCleaned]
+                    val quadCleaned = if (quadType[i] == ETripleComponentTypeExt.BLANK_NODE) {
+                        quad[i]
+                    } else {
+                        ValueDefinition(helperCleanString(quad[i])).valueToString()!!
+                    }
+                    val v = dict[quadCleaned]
                     if (v != null) {
                         outTriples.writeInt(v.toInt())
                     } else {
                         val v2 = dictCounter++
                         outTriples.writeInt(v2.toInt())
-                        dict[quadType[i]][quadCleaned] = v2
+                        dict[quadCleaned] = v2.toInt()
                         dictSizeEstimated += quadCleaned.length * 2
                         dicttotalcnt++
                     }
@@ -146,7 +155,6 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
 
     val dictionaries = Array(chunc) { DictionaryIntermediateReader("$inputFileName.$it") }
     val dictionariesHead = Array(chunc) { dictionaries[it].next() }
-    val dictCounterByType = LongArray(ETripleComponentTypeExt.values_size)
 
     var current: DictionaryIntermediateRow? = null
     var currentValue = 0
@@ -163,8 +171,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         }
         if (current != null) {
             changed = true
-            dictCounterByType[current.type]++
-            outDictionary.writeAssumeOrdered(current.type, currentValue, current.value)
+            outDictionary.writeAssumeOrdered(currentValue, current.data)
             for (i in 0 until chunc) {
                 if (dictionariesHead[i] != null) {
                     if (current.compareTo(dictionariesHead[i]!!) == 0) {
@@ -181,12 +188,6 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         d.close()
     }
     outDictionary.close()
-    File("$inputFileName.stat").withOutputStream { out ->
-        out.println("total=$currentValue")
-        for (t in 0 until ETripleComponentTypeExt.values_size) {
-            out.println("${ETripleComponentTypeExt.names[t]}=${dictCounterByType[t]}")
-        }
-    }
     File("$inputFileName.$tripleFileEnding").withOutputStream { outTriples ->
         File("$inputFileName.0.$tripleFileEnding").withInputStream { inTriples ->
             val target = cnt * if (quadMode) {
