@@ -103,6 +103,16 @@ public class KeyValueStore {
     @ProguardTestAnnotation
     public fun delete() {
         counters[0]++
+
+        var id1 = ByteArrayHelper.readInt4(rootPage, 12)
+        var id2 = ByteArrayHelper.readInt4(rootPage, 16)
+        var id3 = ByteArrayHelper.readInt4(rootPage, 20)
+        bufferManager.getPage(lupos.SOURCE_FILE, id1)
+        bufferManager.deletePage(lupos.SOURCE_FILE, id1)
+        bufferManager.getPage(lupos.SOURCE_FILE, id2)
+        bufferManager.deletePage(lupos.SOURCE_FILE, id2)
+        bufferManager.getPage(lupos.SOURCE_FILE, id3)
+        bufferManager.deletePage(lupos.SOURCE_FILE, id3)
         bufferManager.releasePage(lupos.SOURCE_FILE, lastPage)
         var pageid = -1
         if (nextID == 0) {

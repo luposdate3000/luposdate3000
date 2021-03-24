@@ -17,7 +17,7 @@
 package lupos.launch.test_int_array
 
 import lupos.buffermanager.BufferManager
-import lupos.kv.MyIntArray
+import lupos.buffermanager.MyIntArray
 import lupos.s00misc.Parallel
 import lupos.test.AflCore
 import kotlin.math.abs
