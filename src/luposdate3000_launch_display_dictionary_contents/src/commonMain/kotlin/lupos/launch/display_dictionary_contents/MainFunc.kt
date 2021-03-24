@@ -24,6 +24,6 @@ import lupos.s00misc.Parallel
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     DictionaryIntermediateReader(inputFileName).readAll { id, data ->
         val value = DictionaryHelper.byteArrayToValueDefinition(data)
-        println("id :: ${value.valueToString()}")
+        println("$id :: ${value.valueToString()}")
     }
 }

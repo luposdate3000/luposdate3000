@@ -36,8 +36,9 @@ public class DictionaryIntermediateWriter : DictionaryIntermediate {
     }
 
     public inline fun write(dict: MutableMap<String, Int>) {
-        for ((k, v) in dict) {
-            writeAssumeOrdered(v, DictionaryHelper.valueToByteArray(k))
+        val rows = dict.toList().map { DictionaryIntermediateRow(it.second, DictionaryHelper.valueToByteArray(it.first)) }.sorted()
+        for (row in rows) {
+            writeAssumeOrdered(row)
         }
         dict.clear()
         close()
