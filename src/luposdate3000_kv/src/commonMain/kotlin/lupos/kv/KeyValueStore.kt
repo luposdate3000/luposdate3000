@@ -21,7 +21,6 @@ import lupos.buffermanager.BufferManager
 import lupos.buffermanager.MyIntArray
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
 
 public class KeyValueStore {
@@ -35,19 +34,6 @@ public class KeyValueStore {
     private var mappingID2Page: MyIntArray
     private var mappingID2Off: MyIntArray
     private var mappingSorted: MyIntArray
-
-    private val counters = IntArray(12)
-
-    init {
-        SanityCheck {
-            Parallel.launch {
-                while (true) {
-                    println("KeyValueStore.counters ${counters.map { it }}")
-                    Parallel.delay(1000)
-                }
-            }
-        }
-    }
 
     public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
@@ -103,7 +89,6 @@ public class KeyValueStore {
 
     @ProguardTestAnnotation
     public fun delete() {
-        counters[0]++
         var id1 = ByteArrayHelper.readInt4(rootPage, 12)
         var id2 = ByteArrayHelper.readInt4(rootPage, 16)
         var id3 = ByteArrayHelper.readInt4(rootPage, 20)
@@ -137,7 +122,6 @@ public class KeyValueStore {
 
     @ProguardTestAnnotation
     public fun close() {
-        counters[1]++
         mappingID2Page.close()
         mappingID2Off.close()
         mappingSorted.close()
@@ -146,7 +130,6 @@ public class KeyValueStore {
     }
 
     private inline fun readData(data: ByteArrayWrapper, page: Int, off: Int) {
-        counters[2]++
         var p = bufferManager.getPage(lupos.SOURCE_FILE, page)
         var pid = page
         val l = ByteArrayHelper.readInt4(p, off)
@@ -155,7 +138,6 @@ public class KeyValueStore {
         var toread = l
         var pageoff = off + 4
         while (toread > 0) {
-            counters[3]++
             var available = p.size - pageoff
             if (available == 0) {
                 var id = ByteArrayHelper.readInt4(p, 0)
@@ -179,7 +161,6 @@ public class KeyValueStore {
     }
 
     private inline fun writeData(data: ByteArrayWrapper, crossinline action: (page: Int, off: Int) -> Unit) {
-        counters[4]++
         if (lastPageOffset >= lastPageBuf.size - 8) {
             bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
                 ByteArrayHelper.writeInt4(lastPageBuf, 0, pageid)
@@ -199,7 +180,6 @@ public class KeyValueStore {
         var dataoff = 0
         var towrite = data.getSize()
         while (towrite > 0) {
-            counters[5]++
             var available = lastPageBuf.size - lastPageOffset
             if (available == 0) {
                 bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
@@ -228,7 +208,6 @@ public class KeyValueStore {
     }
 
     private fun cmp(a: ByteArrayWrapper, b: ByteArrayWrapper): Int {
-        counters[6]++
         var t = 0
         if (t == 0) {
             t = a.getSize() - b.getSize()
@@ -243,13 +222,11 @@ public class KeyValueStore {
 
     private inline fun hasData(data: ByteArrayWrapper, left: Int, right: Int, crossinline onFound: (Int/*the id to return*/) -> Unit, onNotFound: (Int/*the smallest index, which value is larger than the target*/) -> Unit) {
         val d = ByteArrayWrapper()
-        counters[7]++
         // println("hasData $left $right")
         var l = left
         var r = right
         var loop = true
         while (loop && r >= l) {
-            counters[8]++
             var m = (r - l) / 2 + l
             val m2 = mappingSorted[m]
             readData(d, mappingID2Page[m2], mappingID2Off[m2])
@@ -290,7 +267,6 @@ public class KeyValueStore {
     }
 
     public fun createValue(data: ByteArrayWrapper): Int {
-        counters[9]++
         var res = 0
         hasData(
             data, 0, nextID - 1,
@@ -321,7 +297,6 @@ public class KeyValueStore {
     }
 
     public fun hasValue(data: ByteArrayWrapper): Int? {
-        counters[10]++
         var res: Int? = null
         hasData(
             data, 0, nextID - 1,
@@ -335,7 +310,6 @@ public class KeyValueStore {
     }
 
     public fun getValue(data: ByteArrayWrapper, value: Int) {
-        counters[11]++
         SanityCheck.check { value < nextID }
         SanityCheck.check { value >= 0 }
         readData(data, mappingID2Page[value], mappingID2Off[value])
