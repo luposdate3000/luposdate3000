@@ -16,6 +16,8 @@
  */
 package lupos.endpoint
 
+import lupos.dictionary.DictionaryFactory
+import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.nodeGlobalDictionary
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.optimizer.ast.OperatorGraphVisitor
@@ -344,7 +346,7 @@ public object LuposdateEndpoint {
                 }
                 val fileTriples = File("$fileName.triples")
                 var dictTotal = 0
-                val mapping = nodeGlobalDictionary.importFromDictionaryFile("$fileName", IntArray(0))
+                val mapping = nodeGlobalDictionary.importFromDictionaryFile("$fileName")
                 val dictTime = DateHelperRelative.elapsedSeconds(startTime)
                 val cnt = fileTriples.length() / 12L
                 counter += cnt

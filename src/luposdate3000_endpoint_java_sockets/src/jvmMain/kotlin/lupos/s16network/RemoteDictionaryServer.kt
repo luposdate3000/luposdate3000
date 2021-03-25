@@ -87,6 +87,7 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary) : I
     }
 
     public fun connect(input: IMyInputStream, output: IMyOutputStream) {
+        var buffer = ByteArrayWrapper()
         loop@ while (true) {
             val mode = input.readInt()
             when (mode) {
@@ -119,6 +120,13 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary) : I
                 4 -> {
                     val value = input.readInt()
                     output.writeInt(toBooleanOrError(value))
+                }
+                5 -> {
+                    val len = input.readInt()
+                    buffer.setSize(len)
+                    input.read(buffer.getBuf(), len)
+                    val res = createValue(buffer)
+                    output.writeInt(res)
                 }
             }
             output.flush()

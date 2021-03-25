@@ -16,8 +16,9 @@
  */
 package lupos.test
 
-import lupos.dictionary.Dictionary
 import lupos.dictionary.DictionaryExt
+import lupos.dictionary.DictionaryFactory
+import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
 import lupos.dictionary.nodeGlobalDictionary
 import lupos.optimizer.ast.OperatorGraphVisitor
@@ -163,14 +164,14 @@ public object BinaryTestCase {
             val q = actual.query!!
             actualDict = q.getDictionary()
         } else {
-            actualDict = Dictionary()
+            actualDict = DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true)
         }
         val expectedDict: IDictionary
         if (expected.query != null) {
             val q = expected.query!!
             expectedDict = q.getDictionary()
         } else {
-            expectedDict = Dictionary()
+            expectedDict = DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true)
         }
         for (row in actual.data) {
             val tmpRow = IntArray(columnCount) { -1 }

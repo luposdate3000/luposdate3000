@@ -17,6 +17,12 @@
 package lupos.s00misc
 
 public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
+    public constructor()
+    public constructor(b: ByteArray) {
+        size = b.size
+        buf = b
+    }
+
     private var buf = ByteArray(0)
     private var size = 0
     public fun setSize(c: Int) {
@@ -38,8 +44,8 @@ public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
         return res
     }
 
-    override fun equals(other: ByteArrayWrapper): Boolean {
-        return compareTo(other) == 0
+    override fun equals(other: Any?): Boolean {
+        return other is ByteArrayWrapper && compareTo(other) == 0
     }
 
     override fun hashCode(): Int {
@@ -48,5 +54,10 @@ public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
             res = (res shl 1) + buf[i]
         }
         return res
+    }
+
+    public fun copyInto(other: ByteArrayWrapper) {
+        other.setSize(size)
+        buf.copyInto(other.buf, 0, 0, size)
     }
 }

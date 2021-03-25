@@ -16,7 +16,8 @@
  */
 package lupos.s04logicalOperators
 
-import lupos.dictionary.Dictionary
+import lupos.dictionary.DictionaryFactory
+import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.MyLock
@@ -27,7 +28,7 @@ import kotlin.jvm.JvmField
 
 public class Query public constructor(@JvmField public var dictionary: IDictionary, @JvmField public var transactionID: Long) : IQuery {
     public constructor(dictionary: IDictionary) : this(dictionary, global_transactionID++)
-    public constructor() : this(Dictionary(), global_transactionID++)
+    public constructor() : this(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true), global_transactionID++)
 
     @JvmField
     public var _workingDirectory: String = ""

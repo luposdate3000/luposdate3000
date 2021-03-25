@@ -17,7 +17,6 @@
 package lupos.s04arithmetikOperators.multiinput
 
 import lupos.dictionary.DictionaryExt
-import lupos.dictionary.DictionaryShared
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.Luposdate3000Exception
 import lupos.s03resultRepresentation.ValueDefinition
@@ -37,7 +36,7 @@ public class AOPEQ public constructor(query: IQuery, childA: AOPBase, childB: AO
             val a1 = childA()
             val b1 = childB()
             if (a1 != b1) {
-                if (DictionaryShared.isGlobalBNode(a1) || DictionaryShared.isGlobalBNode(b1)) {
+                if (query.getDictionary().isBnode(a1) || query.getDictionary().isBnode(b1)) {
                     res = DictionaryExt.booleanFalseValue2
                 } else {
                     val a = query.getDictionary().getValue(a1)

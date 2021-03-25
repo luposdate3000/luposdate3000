@@ -17,11 +17,9 @@
 package lupos.dictionary
 
 import lupos.fileformat.DictionaryIntermediateReader
-import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ValueDefinition
 
 public class DictionaryInMemory : ADictionary {
     private var dataI2V = Array<ByteArrayWrapper>(1) { ByteArrayWrapper() }
@@ -43,9 +41,9 @@ public class DictionaryInMemory : ADictionary {
             val i = if (type == ETripleComponentTypeExt.BLANK_NODE) {
                 createNewBNode()
             } else {
-                var res = kv.createValue(buffer)
+                var res = createValue(buffer)
                 if (isLocal) {
-                    res = res or DictionaryShared.flagLocal
+                    res = res or ADictionary.flagLocal
                 }
                 res
             }
@@ -66,41 +64,25 @@ public class DictionaryInMemory : ADictionary {
     }
 
     public override fun createNewBNode(): Int {
-        val res: Int = bNodeCounter++ or DictionaryShared.flagBNode
+        var res: Int = bNodeCounter++ or ADictionary.flagBNode
         if (isLocal) {
-            res = res or DictionaryShared.flagLocal
+            res = res or ADictionary.flagLocal
         }
-        ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
         return res
     }
 
-    public override fun getValue(value: Int): ValueDefinition {
-        val buffer = dataI2V(value and DictionaryShared.noFlags)!!
-        return DictionaryHelper.byteArrayToValueDefinition(buffer)
+    public override fun getValue(buffer: ByteArrayWrapper, value: Int) {
+        val buf = dataI2V[value and ADictionary.noFlags]!!
+        buf.copyInto(buffer)
     }
 
-    public override fun getValue(
-        value: Int,
-        onBNode: (value: Int) -> Unit,
-        onBoolean: (value: Boolean) -> Unit,
-        onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
-        onSimpleLiteral: (content: String) -> Unit,
-        onTypedLiteral: (content: String, type: String) -> Unit,
-        onDecimal: (value: String) -> Unit,
-        onFloat: (value: Double) -> Unit,
-        onDouble: (value: Double) -> Unit,
-        onInteger: (value: String) -> Unit,
-        onIri: (value: String) -> Unit,
-        onError: () -> Unit,
-        onUndefined: () -> Unit
-    ) {
-        val buffer = dataI2V(value and DictionaryShared.noFlags)!!
-        DictionaryHelper.byteArrayToCallback(value, buffer, onBNode, onBoolean, onLanguageTaggedLiteral, onSimpleLiteral, onTypedLiteral, onDecimal, onFloat, onDouble, onInteger, onIri, onError, onUndefined)
-    }
-
-    public override fun createValue(value: String?): Int {
-        val buffer = ByteArrayWrapper()
-        DictionaryHelper.valueToByteArray(buffer, value)
+    public override fun createValue(buffer: ByteArrayWrapper): Int {
+        if (isLocal) {
+            val tmp = nodeGlobalDictionary.hasValue(buffer)
+            if (tmp != null) {
+                return tmp
+            }
+        }
         var res = dataV2I[buffer]
         if (res == null) {
             res = dataV2I.size
@@ -112,39 +94,24 @@ public class DictionaryInMemory : ADictionary {
             }
         }
         if (isLocal) {
-            res = res or DictionaryShared.flagLocal
+            res = res or ADictionary.flagLocal
         }
         return res
     }
 
-    internal override inline fun createValue(value: ValueDefinition): Int {
-        val buffer = ByteArrayWrapper()
-        DictionaryHelper.valueToByteArray(buffer, value)
-        var res = dataV2I[buffer]
-        if (res == null) {
-            res = dataV2I.size
-            dataV2I[buffer] = res
-            if (dataI2V.size <= res) {
-                val tmp = dataI2V
-                dataI2V = Array<ByteArrayWrapper>(dataI2V.size * 2) { buffer }
-                tmp.copyInto(dataI2V)
+    public override fun hasValue(buffer: ByteArrayWrapper): Int? {
+        if (isLocal) {
+            val tmp = nodeGlobalDictionary.hasValue(buffer)
+            if (tmp != null) {
+                return tmp
             }
         }
-        if (isLocal) {
-            res = res or DictionaryShared.flagLocal
-        }
-        return res
-    }
-
-    internal inline fun hasValue(value: ValueDefinition): Int? {
-        val buffer = ByteArrayWrapper()
-        DictionaryHelper.valueToByteArray(buffer, value)
         var res = dataV2I[buffer]
         if (res == null) {
             return null
         }
         if (isLocal) {
-            res = res or DictionaryShared.flagLocal
+            res = res or ADictionary.flagLocal
         }
         return res
     }

@@ -18,6 +18,7 @@ package lupos.launch.test_kv
 
 import lupos.buffermanager.BufferManager
 import lupos.kv.KeyValueStore
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.Parallel
 import lupos.test.AflCore
 import kotlin.math.abs
@@ -96,14 +97,14 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         if (verbose) {
             println("testCreateValueExistingOk $targetKey ${data.map { it }}")
         }
-        val key = kv.createValue(data)
+        val key = kv.createValue(ByteArrayWrapper(data))
         if (mapping[key] != targetKey) {
             throw Exception("")
         }
     }
 
     fun testCreateValueNotExistingOk(data: ByteArray) {
-        val key = kv.createValue(data)
+        val key = kv.createValue(ByteArrayWrapper(data))
         if (verbose) {
             println("testCreateValueNotExistingOk $key ${data.map { it }}")
         }
@@ -118,7 +119,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         if (verbose) {
             println("testHasValueYesOk $targetKey ${data.map { it }}")
         }
-        val res = kv.hasValue(data)
+        val res = kv.hasValue(ByteArrayWrapper(data))
         if (res != targetKey) {
             throw Exception("$res $targetKey")
         }
@@ -128,7 +129,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         if (verbose) {
             println("testHasValueNoOk ${data.map { it }}")
         }
-        val res = kv.hasValue(data)
+        val res = kv.hasValue(ByteArrayWrapper(data))
         if (res != null) {
             throw Exception("")
         }
@@ -138,13 +139,14 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         if (verbose) {
             println("testGetValueOk $key ${data.map { it }}")
         }
-        val value = kv.getValue(key)
+        val value = ByteArrayWrapper()
+        kv.getValue(value, key)
         val target = values[mapping[key]!!]
-        if (value.size != target.size) {
+        if (value.getSize() != target.size) {
             throw Exception("")
         }
-        for (i in 0 until value.size) {
-            if (value[i] != target[i]) {
+        for (i in 0 until value.getSize()) {
+            if (value.getBuf()[i] != target[i]) {
                 throw Exception("")
             }
         }
@@ -156,7 +158,8 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         }
         var flag = true
         try {
-            kv.getValue(key)
+            val buffer = ByteArrayWrapper()
+            kv.getValue(buffer, key)
         } catch (e: Throwable) {
             flag = false
         }

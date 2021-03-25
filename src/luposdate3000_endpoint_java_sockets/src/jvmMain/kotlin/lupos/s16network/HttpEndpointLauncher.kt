@@ -16,7 +16,8 @@
  */
 package lupos.s16network
 
-import lupos.dictionary.Dictionary
+import lupos.dictionary.DictionaryFactory
+import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.nodeGlobalDictionary
 import lupos.endpoint.LuposdateEndpoint
 import lupos.jena.JenaWrapper
@@ -89,7 +90,7 @@ public actual object HttpEndpointLauncher {
     internal var queryMappings = mutableMapOf<String, QueryMappingContainer>()
     public actual /*suspend*/ fun start() {
         fun registerDictionary(key: String): RemoteDictionaryServer {
-            val dict = RemoteDictionaryServer(Dictionary())
+            val dict = RemoteDictionaryServer(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true))
             dictionaryMapping[key] = dict
             return dict
         }
@@ -392,10 +393,6 @@ public actual object HttpEndpointLauncher {
                                 val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
                                 val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
                                 tripleStoreManager.remoteModify(query, key, mode, idx2, connectionInMy)
-                            }
-                            paths["/debugGlobalDictionary"] = PathMappingHelper(false, mapOf()) {
-                                nodeGlobalDictionary.debugAllDictionaryContent()
-                                printHeaderSuccess(connectionOutMy)
                             }
                             paths["/debugLocalStore"] = PathMappingHelper(false, mapOf()) {
                                 tripleStoreManager.debugAllLocalStoreContent()

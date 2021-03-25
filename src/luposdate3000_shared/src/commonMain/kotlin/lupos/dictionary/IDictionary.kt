@@ -16,6 +16,7 @@
  */
 package lupos.dictionary
 
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s03resultRepresentation.ValueDefinition
 
 public interface IDictionary {
@@ -24,6 +25,7 @@ public interface IDictionary {
 
     public fun createNewBNode(): Int
 
+    public fun getValue(buffer: ByteArrayWrapper, value: Int)
     public fun getValue(value: Int): ValueDefinition
     public fun getValue(
         value: Int,
@@ -41,11 +43,16 @@ public interface IDictionary {
         onUndefined: () -> Unit
     )
 
+    public fun hasValue(value: ValueDefinition): Int?
+    public fun hasValue(buffer: ByteArrayWrapper): Int?
+
+    public fun createValue(buffer: ByteArrayWrapper): Int
     public fun createValue(value: String?): Int
     public fun createValue(value: ValueDefinition): Int
 
     public fun valueToGlobal(value: Int): Int
     public fun toBooleanOrError(value: Int): Int
+    public fun isBnode(value: Int): Boolean
 }
 
 public var nodeGlobalDictionary: IDictionary = object : IDictionary {
@@ -72,4 +79,9 @@ public var nodeGlobalDictionary: IDictionary = object : IDictionary {
     public override fun createValue(value: ValueDefinition): Int = throw Exception("not implemented")
     public override fun valueToGlobal(value: Int): Int = throw Exception("not implemented")
     public override fun toBooleanOrError(value: Int): Int = throw Exception("not implemented")
+    public override fun hasValue(buffer: ByteArrayWrapper): Int? = throw Exception("not implemented")
+    public override fun createValue(buffer: ByteArrayWrapper): Int = throw Exception("not implemented")
+    public override fun hasValue(value: ValueDefinition): Int? = throw Exception("not implemented")
+    public override fun isBnode(value: Int): Boolean = throw Exception("not implemented")
+    public override fun getValue(buffer: ByteArrayWrapper, value: Int) = throw Exception("not implemented")
 }

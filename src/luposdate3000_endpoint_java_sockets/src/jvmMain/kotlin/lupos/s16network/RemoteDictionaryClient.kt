@@ -60,6 +60,14 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         }
     }
 
+    override fun createValue(buffer: ByteArrayWrapper): Int {
+        output.writeInt(5)
+        output.writeInt(buffer.getSize())
+        output.write(buffer.getBuf(), buffer.geSize())
+        output.flush()
+        return input.readInt()
+    }
+
     public override fun createValue(value: String?): Int {
         if (value == null) {
             return DictionaryExt.undefValue

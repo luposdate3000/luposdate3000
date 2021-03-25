@@ -16,9 +16,9 @@
  */
 package lupos.dictionary
 
-object DictionaryFactory {
-    public fun createDictionary(type: EDictionaryType, isLocal: Boolean) {
-        when (type) {
+public object DictionaryFactory {
+    public fun createDictionary(type: EDictionaryType, isLocal: Boolean): IDictionary {
+        return when (type) {
             EDictionaryTypeExt.InMemory -> DictionaryInMemory(isLocal)
             EDictionaryTypeExt.KV -> DictionaryKV(isLocal)
             else -> throw Exception("unreachable")
