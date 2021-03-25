@@ -16,28 +16,14 @@
  */
 package lupos.s16network
 
+import lupos.dictionary.ADictionary
 import lupos.dictionary.DictionaryExt
-import lupos.dictionary.IDictionary
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
-import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ValueBnode
-import lupos.s03resultRepresentation.ValueBoolean
-import lupos.s03resultRepresentation.ValueDateTime
-import lupos.s03resultRepresentation.ValueDecimal
-import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s03resultRepresentation.ValueDouble
-import lupos.s03resultRepresentation.ValueError
-import lupos.s03resultRepresentation.ValueFloat
-import lupos.s03resultRepresentation.ValueInteger
-import lupos.s03resultRepresentation.ValueIri
-import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
-import lupos.s03resultRepresentation.ValueSimpleLiteral
-import lupos.s03resultRepresentation.ValueTypedLiteral
-import lupos.s03resultRepresentation.ValueUndef
 import kotlin.jvm.JvmField
 
-internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream) : IDictionary {
+internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream) : ADictionary() {
     public override fun valueToGlobal(value: Int): Int {
         output.writeInt(3)
         output.writeInt(value)
@@ -45,113 +31,40 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         return input.readInt()
     }
 
-    public override fun getValue(value: Int): ValueDefinition {
-        output.writeInt(2)
-        output.writeInt(value)
+    override fun importFromDictionaryFile(filename: String): IntArray = throw Exception("not implemented")
+    override fun createNewBNode(): Int {
+        output.writeInt(1)
         output.flush()
-        val len = input.readInt()
-        if (len == -1) {
-            return ValueUndef()
-        } else {
-            val buf = ByteArray(len)
-            input.read(buf, len)
-            val str = buf.decodeToString()
-            return ValueDefinition(str)
+        return input.readInt()
+    }
+
+    override fun hasValue(buffer: ByteArrayWrapper): Int? {
+        output.writeInt(2)
+        output.writeInt(buffer.getSize())
+        output.write(buffer.getBuf(), buffer.getSize())
+        output.flush()
+        var res = input.readInt()
+        if (res == DictionaryExt.nullValue) {
+            return null
         }
+        return res
     }
 
     override fun createValue(buffer: ByteArrayWrapper): Int {
         output.writeInt(5)
         output.writeInt(buffer.getSize())
-        output.write(buffer.getBuf(), buffer.geSize())
+        output.write(buffer.getBuf(), buffer.getSize())
         output.flush()
         return input.readInt()
     }
 
-    public override fun createValue(value: String?): Int {
-        if (value == null) {
-            return DictionaryExt.undefValue
-        } else {
-            output.writeInt(1)
-            val buf = value.encodeToByteArray()
-            output.writeInt(buf.size)
-            output.write(buf, buf.size)
-            output.flush()
-            return input.readInt()
-        }
-    }
-
-    public override fun createValue(value: ValueDefinition): Int {
-        when (value) {
-            is ValueUndef -> {
-                return DictionaryExt.undefValue
-            }
-            is ValueError -> {
-                return DictionaryExt.errorValue
-            }
-            else -> {
-                output.writeInt(1)
-                SanityCheck.check({ value.valueToString() != null }, { "${value.toXMLElement(false)}" })
-                val buf = value.valueToString()!!.encodeToByteArray()
-                output.writeInt(buf.size)
-                output.write(buf, buf.size)
-                output.flush()
-                return input.readInt()
-            }
-        }
-    }
-
-    public override fun toBooleanOrError(value: Int): Int {
-        output.writeInt(4)
-        output.writeInt(value)
-        output.flush()
-        return input.readInt()
-    }
-
-    public override fun getValue(
-        value: Int,
-        onBNode: (value: Int) -> Unit,
-        onBoolean: (value: Boolean) -> Unit,
-        onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
-        onSimpleLiteral: (content: String) -> Unit,
-        onTypedLiteral: (content: String, type: String) -> Unit,
-        onDecimal: (value: String) -> Unit,
-        onFloat: (value: Double) -> Unit,
-        onDouble: (value: Double) -> Unit,
-        onInteger: (value: String) -> Unit,
-        onIri: (value: String) -> Unit,
-        onError: () -> Unit,
-        onUndefined: () -> Unit
-    ) {
-        output.writeInt(2)
+    override fun getValue(buffer: ByteArrayWrapper, value: Int) {
+        output.writeInt(6)
         output.writeInt(value)
         output.flush()
         val len = input.readInt()
-        if (len == -1) {
-            onUndefined()
-        } else {
-            val buf = ByteArray(len)
-            input.read(buf, len)
-            val str = buf.decodeToString()
-            val v = ValueDefinition(str)
-            when (v) {
-                is ValueBnode -> onBNode(value)
-                is ValueBoolean -> onBoolean(v.value)
-                is ValueError -> onError()
-                is ValueLanguageTaggedLiteral -> onLanguageTaggedLiteral(v.content, v.language)
-                is ValueSimpleLiteral -> onSimpleLiteral(v.content)
-                is ValueTypedLiteral -> onTypedLiteral(v.content, v.type_iri)
-                is ValueDecimal -> onDecimal(v.value.toString())
-                is ValueDouble -> onDouble(v.value)
-                is ValueFloat -> onFloat(v.value)
-                is ValueInteger -> onInteger(v.value.toString())
-                is ValueIri -> onIri(v.iri)
-                is ValueDateTime -> {
-                    val idx = str.lastIndexOf("^^")
-                    onTypedLiteral(str.substring(1, idx - 1), str.substring(idx + 3, str.length - 1))
-                }
-            }
-        }
+        buffer.setSize(len)
+        input.read(buffer.getBuf(), len)
     }
 
     public fun close() {
