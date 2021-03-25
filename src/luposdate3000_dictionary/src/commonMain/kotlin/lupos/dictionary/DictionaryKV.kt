@@ -25,33 +25,19 @@ import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
-import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueDefinition
 
-public val nodeGlobalDictionary: DictionaryGlobal = DictionaryGlobal()
-
-public class DictionaryGlobal {
+public class DictionaryKV : ADictionary {
     private val bufferManager: BufferManager
     private val kv: KeyValueStore
     private var bNodeCounter = 5
     private val rootPageID: Int
     private val rootPage: ByteArray
+    private val isLocal: Boolean
 
-    private val counters = IntArray(12)
-
-    init {
-        SanityCheck {
-            Parallel.launch {
-                while (true) {
-                    println("GlobalDictionary.counters ${counters.map { it }}")
-                    Parallel.delay(1000)
-                }
-            }
-        }
-    }
-
-    public constructor() {
+    internal constructor(isLocal: Boolean) : super() {
+        this.isLocal = isLocal
         bufferManager = BufferManagerExt.getBuffermanager("dictionary")
         val file = File(BufferManagerExt.bufferPrefix + "dict.page")
         var rootPageID = 0
@@ -88,7 +74,8 @@ public class DictionaryGlobal {
     }
 
     @ProguardTestAnnotation
-    public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
+    internal constructor(isLocal: Boolean, bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) : super() {
+        this.isLocal = isLocal
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
         rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
@@ -106,77 +93,54 @@ public class DictionaryGlobal {
         kv = KeyValueStore(bufferManager, kvPage, initFromRootPage)
     }
 
-    public fun debugAllDictionaryContent() {
-    }
-
-    public fun importFromDictionaryFile(filename: String, mapping: IntArray): IntArray {
-        counters[0]++
-        return importFromDictionaryFileH(filename, mapping)!!
-    }
-
-    public fun importFromDictionaryFile(filename: String) {
-        counters[1]++
-        importFromDictionaryFileH(filename, null)
-    }
-
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun importFromDictionaryFileH(filename: String, mapping: IntArray?): IntArray? {
-        counters[2]++
-        var mymapping = mapping
+    public override fun importFromDictionaryFile(filename: String): IntArray {
+        var mymapping = IntArray(0)
         var lastId = -1
         val buffer = ByteArrayWrapper()
         DictionaryIntermediateReader(filename).readAll(buffer) { id ->
-            counters[3]++
             val type = DictionaryHelper.byteArrayToType(buffer)
             val i = if (type == ETripleComponentTypeExt.BLANK_NODE) {
                 createNewBNode()
             } else {
-                kv.createValue(buffer) or DictionaryShared.flaggedValueGlobal
+                var res = kv.createValue(buffer)
+                if (isLocal) {
+                    res = res or DictionaryShared.flagLocal
+                }
+                res
             }
             SanityCheck.check { lastId == id - 1 }
             lastId = id
-            if (mymapping != null) {
-                if (mymapping!!.size <= id) {
-                    var newSize = 1
-                    while (newSize <= id) {
-                        newSize = newSize * 2
-                    }
-                    val tmp = mymapping!!
-                    mymapping = IntArray(newSize)
-                    tmp.copyInto(mymapping!!)
+            if (mymapping.size <= id) {
+                var newSize = 1
+                while (newSize <= id) {
+                    newSize = newSize * 2
                 }
-                mymapping!![id] = i
+                val tmp = mymapping
+                mymapping = IntArray(newSize)
+                tmp.copyInto(mymapping)
             }
+            mymapping[id] = i
         }
         return mymapping
     }
 
-    public fun prepareBulk(total: Int, typed: IntArray) {
-        counters[4]++
-    }
-
-    public fun createNewBNode(value: String): Int {
-        counters[5]++
-        val res: Int = (DictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
+    public override fun createNewBNode(): Int {
+        val res: Int = bNodeCounter++ or DictionaryShared.flagBNode
+        if (isLocal) {
+            res = res or DictionaryShared.flagLocal
+        }
         ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
         return res
     }
 
-    public fun createNewBNode(): Int {
-        counters[6]++
-        val res: Int = (DictionaryShared.flaggedValueGlobalBnode or (bNodeCounter++))
-        ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
-        return res
-    }
-
-    public fun getValue(value: Int): ValueDefinition {
+    public override fun getValue(value: Int): ValueDefinition {
         val buffer = ByteArrayWrapper()
-        counters[7]++
-        kv.getValue(buffer, value and DictionaryShared.filter2)
+        kv.getValue(buffer, value and DictionaryShared.noFlags)
         return DictionaryHelper.byteArrayToValueDefinition(buffer)
     }
 
-    internal inline fun getValue(
+    public override fun getValue(
         value: Int,
         onBNode: (value: Int) -> Unit,
         onBoolean: (value: Boolean) -> Unit,
@@ -191,34 +155,41 @@ public class DictionaryGlobal {
         onError: () -> Unit,
         onUndefined: () -> Unit
     ) {
-        counters[8]++
         val buffer = ByteArrayWrapper()
-        kv.getValue(buffer, value and DictionaryShared.filter2)
+        kv.getValue(buffer, value and DictionaryShared.noFlags)
         DictionaryHelper.byteArrayToCallback(value, buffer, onBNode, onBoolean, onLanguageTaggedLiteral, onSimpleLiteral, onTypedLiteral, onDecimal, onFloat, onDouble, onInteger, onIri, onError, onUndefined)
     }
 
-    public fun createValue(value: String?): Int {
-        counters[9]++
+    public override fun createValue(value: String?): Int {
         val buffer = ByteArrayWrapper()
         DictionaryHelper.valueToByteArray(buffer, value)
-        return kv.createValue(buffer) or DictionaryShared.flaggedValueGlobal
+        var res = kv.createValue(buffer)
+        if (isLocal) {
+            res = res or DictionaryShared.flagLocal
+        }
+        return res
     }
 
-    internal inline fun createValue(value: ValueDefinition): Int {
-        counters[10]++
+    internal override inline fun createValue(value: ValueDefinition): Int {
         val buffer = ByteArrayWrapper()
         DictionaryHelper.valueToByteArray(buffer, value)
-        return kv.createValue(buffer) or DictionaryShared.flaggedValueGlobal
+        var res = kv.createValue(buffer)
+        if (isLocal) {
+            res = res or DictionaryShared.flagLocal
+        }
+        return res
     }
 
     internal inline fun hasValue(value: ValueDefinition): Int? {
-        counters[11]++
         val buffer = ByteArrayWrapper()
         DictionaryHelper.valueToByteArray(buffer, value)
-        val tmp = kv.hasValue(buffer)
-        if (tmp == null) {
+        val res = kv.hasValue(buffer)
+        if (res == null) {
             return null
         }
-        return tmp or DictionaryShared.flaggedValueGlobal
+        if (isLocal) {
+            res = res or DictionaryShared.flagLocal
+        }
+        return res
     }
 }

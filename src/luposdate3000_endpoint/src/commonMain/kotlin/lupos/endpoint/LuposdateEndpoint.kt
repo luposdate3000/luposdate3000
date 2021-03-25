@@ -521,6 +521,7 @@ public object LuposdateEndpoint {
     public fun initialize() {
         if (!initialized) {
             initialized = true
+            nodeGlobalDictionary = DictionaryFactory.createDictionary(EDictionaryTypeExt.KV, false)
             val hostnames = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80")!!.split(",").toTypedArray()
             val localhost = hostnames[Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()]
             tripleStoreManager = TripleStoreManagerImpl(hostnames, localhost)

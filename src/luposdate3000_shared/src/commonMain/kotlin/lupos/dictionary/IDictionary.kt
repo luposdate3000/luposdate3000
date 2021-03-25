@@ -19,11 +19,12 @@ package lupos.dictionary
 import lupos.s03resultRepresentation.ValueDefinition
 
 public interface IDictionary {
-    public fun valueToGlobal(value: Int): Int
+
+    public fun importFromDictionaryFile(filename: String): IntArray
+
+    public fun createNewBNode(): Int
+
     public fun getValue(value: Int): ValueDefinition
-    public fun createValue(value: String?): Int
-    public fun createValue(value: ValueDefinition): Int
-    public fun toBooleanOrError(value: Int): Int
     public fun getValue(
         value: Int,
         onBNode: (value: Int) -> Unit,
@@ -39,4 +40,36 @@ public interface IDictionary {
         onError: () -> Unit,
         onUndefined: () -> Unit
     )
+
+    public fun createValue(value: String?): Int
+    public fun createValue(value: ValueDefinition): Int
+
+    public fun valueToGlobal(value: Int): Int
+    public fun toBooleanOrError(value: Int): Int
+}
+
+public var nodeGlobalDictionary: IDictionary = object : IDictionary {
+    public override fun importFromDictionaryFile(filename: String): IntArray = throw Exception("not implemented")
+    public override fun createNewBNode(): Int = throw Exception("not implemented")
+    public override fun getValue(value: Int): ValueDefinition = throw Exception("not implemented")
+    public override fun getValue(
+        value: Int,
+        onBNode: (value: Int) -> Unit,
+        onBoolean: (value: Boolean) -> Unit,
+        onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
+        onSimpleLiteral: (content: String) -> Unit,
+        onTypedLiteral: (content: String, type: String) -> Unit,
+        onDecimal: (value: String) -> Unit,
+        onFloat: (value: Double) -> Unit,
+        onDouble: (value: Double) -> Unit,
+        onInteger: (value: String) -> Unit,
+        onIri: (value: String) -> Unit,
+        onError: () -> Unit,
+        onUndefined: () -> Unit
+    ) = throw Exception("not implemented")
+
+    public override fun createValue(value: String?): Int = throw Exception("not implemented")
+    public override fun createValue(value: ValueDefinition): Int = throw Exception("not implemented")
+    public override fun valueToGlobal(value: Int): Int = throw Exception("not implemented")
+    public override fun toBooleanOrError(value: Int): Int = throw Exception("not implemented")
 }

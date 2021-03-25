@@ -16,7 +16,7 @@
  */
 package lupos.s00misc
 
-public class ByteArrayWrapper {
+public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
     private var buf = ByteArray(0)
     private var size = 0
     public fun setSize(c: Int) {
@@ -28,4 +28,25 @@ public class ByteArrayWrapper {
 
     public fun getSize(): Int = size
     public fun getBuf(): ByteArray = buf
+    override fun compareTo(other: ByteArrayWrapper): Int {
+        var res = size - other.size
+        var i = 0
+        while (i < size && res == 0) {
+            res = buf[i] - other.buf[i]
+            i++
+        }
+        return res
+    }
+
+    override fun equals(other: ByteArrayWrapper): Boolean {
+        return compareTo(other) == 0
+    }
+
+    override fun hashCode(): Int {
+        var res = size
+        for (i in 0 until size) {
+            res = (res shl 1) + buf[i]
+        }
+        return res
+    }
 }

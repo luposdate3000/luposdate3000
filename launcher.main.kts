@@ -986,8 +986,8 @@ fun onGenerateParser() {
     )
     val nQuadsFilename = "src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}nQuads${Platform.getPathSeparator()}NQuads2ParserGenerated.kt"
     val nQuadsPackage = "lupos.s02buildSyntaxTree.nQuads"
-//    ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage,)
-//    ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage,)
+    ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage,)
+    ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage,)
     ParserGenerator(nQuadsGeneratingArgs, nQuadsGrammar, nQuadsFilename, nQuadsPackage,)
 }
 
@@ -1080,6 +1080,7 @@ fun onGenerateEnums() {
         listOf("EOperatingSystem", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EOperatingSystem"),
         listOf("EIndexPattern", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EIndexPattern"),
         listOf("EPartitionMode", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EPartitionMode"),
+        listOf("EDictionaryType", "lupos.dictionary", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}dictionary${Platform.getPathSeparator()}EDictionaryType"),
     )
     for (args in turtleGeneratingArgs) {
         onGenerateEnumsHelper(args[0], args[1], args[2], args[3])

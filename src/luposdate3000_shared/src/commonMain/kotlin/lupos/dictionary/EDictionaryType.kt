@@ -14,13 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package lupos.dictionary
 
-package lupos.fileformat
-
-import lupos.s00misc.ByteArrayWrapper
-
-public class DictionaryIntermediateRow(public val id: Int, public val data: ByteArrayWrapper) : Comparable<DictionaryIntermediateRow> {
-    public override operator fun compareTo(other: DictionaryIntermediateRow): Int {
-        return data.compareTo(other.data)
-    }
-}
+public typealias EDictionaryType = Int
