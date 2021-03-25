@@ -17,7 +17,9 @@
 package lupos.s11outputResult
 
 import lupos.dictionary.DictionaryExt
+import lupos.dictionary.DictionaryHelper
 import lupos.dictionary.IDictionary
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.MemoryTable
 import lupos.s00misc.MyLock
@@ -137,7 +139,9 @@ public object QueryResultToMemoryTable {
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
                     val child = node.evaluateRoot(partition)
-                    val value = node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next())
+                    val buffer = ByteArrayWrapper()
+                    query.getDictionary().getValue(buffer, child.columns["?boolean"]!!.next())
+                    val value = DictionaryHelper.byteArrayToValueDefinition(buffer)
                     val res = MemoryTable(Array(0) { "" })
                     res.query = rootNode.getQuery()
                     res.booleanResult = value.toBoolean()

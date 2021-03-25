@@ -17,7 +17,6 @@
 package lupos.dictionary
 
 import lupos.s00misc.ByteArrayWrapper
-import lupos.s03resultRepresentation.ValueDefinition
 
 public interface IDictionary {
 
@@ -26,30 +25,8 @@ public interface IDictionary {
     public fun createNewBNode(): Int
 
     public fun getValue(buffer: ByteArrayWrapper, value: Int)
-    public fun getValue(value: Int): ValueDefinition
-    public fun getValue(
-        value: Int,
-        onBNode: (value: Int) -> Unit,
-        onBoolean: (value: Boolean) -> Unit,
-        onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
-        onSimpleLiteral: (content: String) -> Unit,
-        onTypedLiteral: (content: String, type: String) -> Unit,
-        onDecimal: (value: String) -> Unit,
-        onFloat: (value: Double) -> Unit,
-        onDouble: (value: Double) -> Unit,
-        onInteger: (value: String) -> Unit,
-        onIri: (value: String) -> Unit,
-        onError: () -> Unit,
-        onUndefined: () -> Unit
-    )
-
-    public fun hasValue(value: ValueDefinition): Int?
     public fun hasValue(buffer: ByteArrayWrapper): Int?
-
     public fun createValue(buffer: ByteArrayWrapper): Int
-    public fun createValue(value: String?): Int
-    public fun createValue(value: ValueDefinition): Int
-
     public fun valueToGlobal(value: Int): Int
     public fun toBooleanOrError(value: Int): Int
     public fun isBnode(value: Int): Boolean
@@ -58,30 +35,10 @@ public interface IDictionary {
 public var nodeGlobalDictionary: IDictionary = object : IDictionary {
     public override fun importFromDictionaryFile(filename: String): IntArray = throw Exception("not implemented")
     public override fun createNewBNode(): Int = throw Exception("not implemented")
-    public override fun getValue(value: Int): ValueDefinition = throw Exception("not implemented")
-    public override fun getValue(
-        value: Int,
-        onBNode: (value: Int) -> Unit,
-        onBoolean: (value: Boolean) -> Unit,
-        onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
-        onSimpleLiteral: (content: String) -> Unit,
-        onTypedLiteral: (content: String, type: String) -> Unit,
-        onDecimal: (value: String) -> Unit,
-        onFloat: (value: Double) -> Unit,
-        onDouble: (value: Double) -> Unit,
-        onInteger: (value: String) -> Unit,
-        onIri: (value: String) -> Unit,
-        onError: () -> Unit,
-        onUndefined: () -> Unit
-    ) = throw Exception("not implemented")
-
-    public override fun createValue(value: String?): Int = throw Exception("not implemented")
-    public override fun createValue(value: ValueDefinition): Int = throw Exception("not implemented")
     public override fun valueToGlobal(value: Int): Int = throw Exception("not implemented")
     public override fun toBooleanOrError(value: Int): Int = throw Exception("not implemented")
     public override fun hasValue(buffer: ByteArrayWrapper): Int? = throw Exception("not implemented")
     public override fun createValue(buffer: ByteArrayWrapper): Int = throw Exception("not implemented")
-    public override fun hasValue(value: ValueDefinition): Int? = throw Exception("not implemented")
     public override fun isBnode(value: Int): Boolean = throw Exception("not implemented")
     public override fun getValue(buffer: ByteArrayWrapper, value: Int) = throw Exception("not implemented")
 }

@@ -16,6 +16,7 @@
  */
 package lupos.s09physicalOperators.noinput
 
+import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EOperatorIDExt
@@ -25,7 +26,6 @@ import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.UnreachableException
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -97,6 +97,6 @@ public class POPModifyData public constructor(query: IQuery, projectedVariables:
             val graphLocal = tripleStoreManager.getGraph(graph)
             graphLocal.modify(query, Array(3) { ColumnIteratorMultiValue(iteratorData[it]) }, type)
         }
-        return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, query.getDictionary().createValue(ValueBoolean(true)))))
+        return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, DictionaryExt.booleanTrueValue)))
     }
 }

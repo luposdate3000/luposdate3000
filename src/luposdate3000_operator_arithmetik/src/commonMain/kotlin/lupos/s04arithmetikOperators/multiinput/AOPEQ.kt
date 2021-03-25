@@ -17,6 +17,8 @@
 package lupos.s04arithmetikOperators.multiinput
 
 import lupos.dictionary.DictionaryExt
+import lupos.dictionary.DictionaryHelper
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.Luposdate3000Exception
 import lupos.s03resultRepresentation.ValueDefinition
@@ -31,6 +33,7 @@ public class AOPEQ public constructor(query: IQuery, childA: AOPBase, childB: AO
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val childA = (children[0] as AOPBase).evaluateID(row)
         val childB = (children[1] as AOPBase).evaluateID(row)
+        val buffer = ByteArrayWrapper()
         return {
             var res: ValueDefinition = DictionaryExt.booleanTrueValue2
             val a1 = childA()
@@ -39,8 +42,10 @@ public class AOPEQ public constructor(query: IQuery, childA: AOPBase, childB: AO
                 if (query.getDictionary().isBnode(a1) || query.getDictionary().isBnode(b1)) {
                     res = DictionaryExt.booleanFalseValue2
                 } else {
-                    val a = query.getDictionary().getValue(a1)
-                    val b = query.getDictionary().getValue(b1)
+                    query.getDictionary().getValue(buffer, a1)
+                    val a = DictionaryHelper.byteArrayToValueDefinition(buffer)
+                    query.getDictionary().getValue(buffer, b1)
+                    val b = DictionaryHelper.byteArrayToValueDefinition(buffer)
                     try {
                         if (a != b) {
                             res = DictionaryExt.booleanFalseValue2

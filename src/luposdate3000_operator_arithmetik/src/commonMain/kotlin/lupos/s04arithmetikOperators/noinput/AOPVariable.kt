@@ -17,6 +17,8 @@
 package lupos.s04arithmetikOperators.noinput
 
 import lupos.dictionary.DictionaryExt
+import lupos.dictionary.DictionaryHelper
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
@@ -37,6 +39,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
     override fun cloneOP(): IOPBase = this
     override fun equals(other: Any?): Boolean = other is AOPVariable && name == other.name
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+        val buffer = ByteArrayWrapper()
         val tmp = row.columns[name]
         return if (tmp == null) {
             {
@@ -46,7 +49,8 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
             SanityCheck.check { tmp is ColumnIteratorQueue }
             val column = tmp as ColumnIteratorQueue
             {
-                query.getDictionary().getValue(column.tmp)
+                query.getDictionary().getValue(buffer, column.tmp)
+                DictionaryHelper.byteArrayToValueDefinition(buffer)
             }
         }
     }

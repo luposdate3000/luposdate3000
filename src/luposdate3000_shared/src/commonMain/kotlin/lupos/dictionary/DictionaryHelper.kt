@@ -36,7 +36,28 @@ import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s03resultRepresentation.ValueUndef
 
 public object DictionaryHelper {
-
+    /* encoding ::
+     *
+     * ETripleComponentTypeExt.UNDEF
+     * ETripleComponentTypeExt.ERROR
+     * ETripleComponentTypeExt.BLANK_NODE
+     * -> size=8
+     *  -> ID
+     * -> size > 8
+     *  -> string.len followed by string.content
+     * ETripleComponentTypeExt.BOOLEAN
+     * -> false if byte equals 0
+     * ETripleComponentTypeExt.IRI
+     * -> string
+     * ETripleComponentTypeExt.STRING
+     * -> string
+     * ETripleComponentTypeExt.STRING_LANG
+     * -> last 4 bytes specify lang.length
+     * -> languageString followed by 0 followed by contentString
+     * ETripleComponentTypeExt.STRING_TYPED
+     * -> last 4 bytes specify type.length
+     * -> typeString followed by 0 followed by contentString
+     */
     public fun valueToByteArray(buffer: ByteArrayWrapper, value: String?) {
         valueToByteArray(buffer, ValueDefinition(value))
     }
@@ -69,88 +90,86 @@ public object DictionaryHelper {
             }
             is ValueIri -> {
                 val buf1 = value.iri.encodeToByteArray()
-                buffer.setSize(8 + buf1.size)
+                buffer.setSize(4 + buf1.size)
                 ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.IRI)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 4, buf1.size)
-                buf1.copyInto(buffer.getBuf(), 8)
+                buf1.copyInto(buffer.getBuf(), 4)
             }
             is ValueLanguageTaggedLiteral -> {
-                val buf1 = value.content.encodeToByteArray()
-                val buf2 = value.language.encodeToByteArray()
-                buffer.setSize(12 + buf1.size + buf2.size)
+                val buf1 = value.language.encodeToByteArray()
+                val buf2 = value.content.encodeToByteArray()
+                buffer.setSize(9 + buf1.size + buf2.size)
                 ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.STRING_LANG)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 4, buf1.size)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 8, buf2.size)
-                buf1.copyInto(buffer.getBuf(), 12)
-                buf2.copyInto(buffer.getBuf(), 12 + buf1.size)
+                ByteArrayHelper.writeInt4(buffer.getBuf(), 5 + buf1.size + buf2.size, buf1.size)
+                buf1.copyInto(buffer.getBuf(), 4)
+                buffer.getBuf()[4 + buf1.size] = 0
+                buf2.copyInto(buffer.getBuf(), 5 + buf1.size)
             }
             is ValueSimpleLiteral -> {
                 val buf1 = value.content.encodeToByteArray()
-                buffer.setSize(8 + buf1.size)
+                buffer.setSize(4 + buf1.size)
                 ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.STRING)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 4, buf1.size)
-                buf1.copyInto(buffer.getBuf(), 8)
+                buf1.copyInto(buffer.getBuf(), 4)
             }
             is ValueTypedLiteral -> {
-                val buf1 = value.content.encodeToByteArray()
-                val buf2 = value.type_iri.encodeToByteArray()
-                buffer.setSize(12 + buf1.size + buf2.size)
+                val buf1 = value.type_iri.encodeToByteArray()
+                val buf2 = value.content.encodeToByteArray()
+                buffer.setSize(9 + buf1.size + buf2.size)
                 ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.STRING_TYPED)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 4, buf1.size)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 8, buf2.size)
-                buf1.copyInto(buffer.getBuf(), 12)
-                buf2.copyInto(buffer.getBuf(), 12 + buf1.size)
+                ByteArrayHelper.writeInt4(buffer.getBuf(), 5 + buf1.size + buf2.size, buf1.size)
+                buf1.copyInto(buffer.getBuf(), 4)
+                buffer.getBuf()[4 + buf1.size] = 0
+                buf2.copyInto(buffer.getBuf(), 5 + buf1.size)
             }
             is ValueDecimal -> {
-                val buf1 = value.value.toString().encodeToByteArray()
-                val buf2 = "http://www.w3.org/2001/XMLSchema#decimal".encodeToByteArray()
-                buffer.setSize(12 + buf1.size + buf2.size)
+                val buf1 = "http://www.w3.org/2001/XMLSchema#decimal".encodeToByteArray()
+                val buf2 = value.value.toString().encodeToByteArray()
+                buffer.setSize(9 + buf1.size + buf2.size)
                 ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.STRING_TYPED)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 4, buf1.size)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 8, buf2.size)
-                buf1.copyInto(buffer.getBuf(), 12)
-                buf2.copyInto(buffer.getBuf(), 12 + buf1.size)
+                ByteArrayHelper.writeInt4(buffer.getBuf(), 5 + buf1.size + buf2.size, buf1.size)
+                buf1.copyInto(buffer.getBuf(), 4)
+                buffer.getBuf()[4 + buf1.size] = 0
+                buf2.copyInto(buffer.getBuf(), 5 + buf1.size)
             }
             is ValueDouble -> {
-                val buf1 = value.value.toString().encodeToByteArray()
-                val buf2 = "http://www.w3.org/2001/XMLSchema#double".encodeToByteArray()
-                buffer.setSize(12 + buf1.size + buf2.size)
+                val buf1 = "http://www.w3.org/2001/XMLSchema#double".encodeToByteArray()
+                val buf2 = value.value.toString().encodeToByteArray()
+                buffer.setSize(9 + buf1.size + buf2.size)
                 ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.STRING_TYPED)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 4, buf1.size)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 8, buf2.size)
-                buf1.copyInto(buffer.getBuf(), 12)
-                buf2.copyInto(buffer.getBuf(), 12 + buf1.size)
+                ByteArrayHelper.writeInt4(buffer.getBuf(), 5 + buf1.size + buf2.size, buf1.size)
+                buf1.copyInto(buffer.getBuf(), 4)
+                buffer.getBuf()[4 + buf1.size] = 0
+                buf2.copyInto(buffer.getBuf(), 5 + buf1.size)
             }
             is ValueFloat -> {
-                val buf1 = value.value.toString().encodeToByteArray()
-                val buf2 = "http://www.w3.org/2001/XMLSchema#float".encodeToByteArray()
-                buffer.setSize(12 + buf1.size + buf2.size)
+                val buf1 = "http://www.w3.org/2001/XMLSchema#float".encodeToByteArray()
+                val buf2 = value.value.toString().encodeToByteArray()
+                buffer.setSize(9 + buf1.size + buf2.size)
                 ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.STRING_TYPED)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 4, buf1.size)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 8, buf2.size)
-                buf1.copyInto(buffer.getBuf(), 12)
-                buf2.copyInto(buffer.getBuf(), 12 + buf1.size)
+                ByteArrayHelper.writeInt4(buffer.getBuf(), 5 + buf1.size + buf2.size, buf1.size)
+                buf1.copyInto(buffer.getBuf(), 4)
+                buffer.getBuf()[4 + buf1.size] = 0
+                buf2.copyInto(buffer.getBuf(), 5 + buf1.size)
             }
             is ValueInteger -> {
-                val buf1 = value.value.toString().encodeToByteArray()
-                val buf2 = "http://www.w3.org/2001/XMLSchema#integer".encodeToByteArray()
-                buffer.setSize(12 + buf1.size + buf2.size)
+                val buf1 = "http://www.w3.org/2001/XMLSchema#integer".encodeToByteArray()
+                val buf2 = value.value.toString().encodeToByteArray()
+                buffer.setSize(9 + buf1.size + buf2.size)
                 ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.STRING_TYPED)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 4, buf1.size)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 8, buf2.size)
-                buf1.copyInto(buffer.getBuf(), 12)
-                buf2.copyInto(buffer.getBuf(), 12 + buf1.size)
+                ByteArrayHelper.writeInt4(buffer.getBuf(), 5 + buf1.size + buf2.size, buf1.size)
+                buf1.copyInto(buffer.getBuf(), 4)
+                buffer.getBuf()[4 + buf1.size] = 0
+                buf2.copyInto(buffer.getBuf(), 5 + buf1.size)
             }
             is ValueDateTime -> {
                 val s = value.valueToString()
-                val buf1 = s.substring(1, s.length - "http://www.w3.org/2001/XMLSchema#dateTime".length - 5).encodeToByteArray()
-                val buf2 = "http://www.w3.org/2001/XMLSchema#dateTime".encodeToByteArray()
-                buffer.setSize(12 + buf1.size + buf2.size)
+                val buf1 = "http://www.w3.org/2001/XMLSchema#dateTime".encodeToByteArray()
+                val buf2 = s.substring(1, s.length - "http://www.w3.org/2001/XMLSchema#dateTime".length - 5).encodeToByteArray()
+                buffer.setSize(9 + buf1.size + buf2.size)
                 ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.STRING_TYPED)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 4, buf1.size)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 8, buf2.size)
-                buf1.copyInto(buffer.getBuf(), 12)
-                buf2.copyInto(buffer.getBuf(), 12 + buf1.size)
+                ByteArrayHelper.writeInt4(buffer.getBuf(), 5 + buf1.size + buf2.size, buf1.size)
+                buf1.copyInto(buffer.getBuf(), 4)
+                buffer.getBuf()[4 + buf1.size] = 0
+                buf2.copyInto(buffer.getBuf(), 5 + buf1.size)
             }
         }
     }
@@ -162,10 +181,14 @@ public object DictionaryHelper {
             ETripleComponentTypeExt.UNDEF -> DictionaryExt.undefValue2
             ETripleComponentTypeExt.ERROR -> DictionaryExt.errorValue2
             ETripleComponentTypeExt.BLANK_NODE -> {
-                val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
-                val buf1 = ByteArray(l1)
-                buffer.getBuf().copyInto(buf1, 0, 8, 8 + l1)
-                ValueBnode(buf1.decodeToString())
+                if (buffer.getSize() == 8) {
+                    ValueBnode(ByteArrayHelper.readInt4(buffer.getBuf(), 4).toString())
+                } else {
+                    val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
+                    val buf1 = ByteArray(l1)
+                    buffer.getBuf().copyInto(buf1, 0, 8, 8 + l1)
+                    ValueBnode(buf1.decodeToString())
+                }
             }
             ETripleComponentTypeExt.BOOLEAN -> {
                 if (buffer.getBuf()[4] != 0.toByte()) {
@@ -175,41 +198,40 @@ public object DictionaryHelper {
                 }
             }
             ETripleComponentTypeExt.IRI -> {
-                val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
+                val l1 = buffer.getSize() - 4
                 val buf1 = ByteArray(l1)
-                buffer.getBuf().copyInto(buf1, 0, 8, 8 + l1)
+                buffer.getBuf().copyInto(buf1, 0, 4, 4 + l1)
                 ValueIri(buf1.decodeToString())
             }
             ETripleComponentTypeExt.STRING -> {
-                val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
+                val l1 = buffer.getSize() - 4
                 val buf1 = ByteArray(l1)
-                buffer.getBuf().copyInto(buf1, 0, 8, 8 + l1)
+                buffer.getBuf().copyInto(buf1, 0, 4, 4 + l1)
                 ValueSimpleLiteral("\"", buf1.decodeToString())
             }
             ETripleComponentTypeExt.STRING_LANG -> {
-                val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
-                val l2 = ByteArrayHelper.readInt4(buffer.getBuf(), 8)
+                val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), buffer.getSize() - 4)
+                val l2 = buffer.getSize() - 4 - l1
                 val buf1 = ByteArray(l1)
                 val buf2 = ByteArray(l2)
-                buffer.getBuf().copyInto(buf1, 0, 12, 12 + l1)
-                buffer.getBuf().copyInto(buf2, 0, 12 + l1, 12 + l1 + l2)
-                ValueLanguageTaggedLiteral("\"", buf1.decodeToString(), buf2.decodeToString())
+                buffer.getBuf().copyInto(buf1, 0, 4, 4 + l1)
+                buffer.getBuf().copyInto(buf2, 0, 5 + l1, 5 + l1 + l2)
+                ValueLanguageTaggedLiteral("\"", buf2.decodeToString(), buf1.decodeToString())
             }
             ETripleComponentTypeExt.STRING_TYPED -> {
-                val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
-                val l2 = ByteArrayHelper.readInt4(buffer.getBuf(), 8)
+                val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), buffer.getSize() - 4)
+                val l2 = buffer.getSize() - 4 - l1
                 val buf1 = ByteArray(l1)
                 val buf2 = ByteArray(l2)
-                buffer.getBuf().copyInto(buf1, 0, 12, 12 + l1)
-                buffer.getBuf().copyInto(buf2, 0, 12 + l1, 12 + l1 + l2)
-                ValueTypedLiteral("\"", buf1.decodeToString(), buf2.decodeToString())
+                buffer.getBuf().copyInto(buf1, 0, 4, 4 + l1)
+                buffer.getBuf().copyInto(buf2, 0, 5 + l1, 5 + l1 + l2)
+                ValueTypedLiteral("\"", buf2.decodeToString(), buf1.decodeToString())
             }
             else -> throw Exception("unreachable $type")
         }
     }
 
     public fun byteArrayToCallback(
-        value: Int,
         buffer: ByteArrayWrapper,
         onBNode: (value: Int) -> Unit,
         onBoolean: (value: Boolean) -> Unit,
@@ -228,38 +250,111 @@ public object DictionaryHelper {
         when (type) {
             ETripleComponentTypeExt.UNDEF -> onUndefined()
             ETripleComponentTypeExt.ERROR -> onError()
-            ETripleComponentTypeExt.BLANK_NODE -> onBNode(value)
+            ETripleComponentTypeExt.BLANK_NODE -> onBNode(ByteArrayHelper.readInt4(buffer.getBuf(), 4))
             ETripleComponentTypeExt.BOOLEAN -> onBoolean(buffer.getBuf()[4] != 0.toByte())
             ETripleComponentTypeExt.IRI -> {
-                val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
+                val l1 = buffer.getSize() - 4
                 val buf1 = ByteArray(l1)
-                buffer.getBuf().copyInto(buf1, 0, 8, 8 + l1)
+                buffer.getBuf().copyInto(buf1, 0, 4, 4 + l1)
                 onIri(buf1.decodeToString())
             }
             ETripleComponentTypeExt.STRING -> {
-                val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
+                val l1 = buffer.getSize() - 4
                 val buf1 = ByteArray(l1)
-                buffer.getBuf().copyInto(buf1, 0, 8, 8 + l1)
+                buffer.getBuf().copyInto(buf1, 0, 4, 4 + l1)
                 onSimpleLiteral(buf1.decodeToString())
             }
             ETripleComponentTypeExt.STRING_LANG -> {
-                val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
-                val l2 = ByteArrayHelper.readInt4(buffer.getBuf(), 8)
+                val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), buffer.getSize() - 4)
+                val l2 = buffer.getSize() - 4 - l1
                 val buf1 = ByteArray(l1)
                 val buf2 = ByteArray(l2)
-                buffer.getBuf().copyInto(buf1, 0, 12, 12 + l1)
-                buffer.getBuf().copyInto(buf2, 0, 12 + l1, 12 + l1 + l2)
-                onLanguageTaggedLiteral(buf1.decodeToString(), buf2.decodeToString())
+                buffer.getBuf().copyInto(buf1, 0, 4, 4 + l1)
+                buffer.getBuf().copyInto(buf2, 0, 5 + l1, 5 + l1 + l2)
+                onLanguageTaggedLiteral(buf2.decodeToString(), buf1.decodeToString())
             }
             ETripleComponentTypeExt.STRING_TYPED -> {
-                val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
-                val l2 = ByteArrayHelper.readInt4(buffer.getBuf(), 8)
+                val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), buffer.getSize() - 4)
+                val l2 = buffer.getSize() - 4 - l1
                 val buf1 = ByteArray(l1)
                 val buf2 = ByteArray(l2)
-                buffer.getBuf().copyInto(buf1, 0, 12, 12 + l1)
-                buffer.getBuf().copyInto(buf2, 0, 12 + l1, 12 + l1 + l2)
-                onTypedLiteral(buf1.decodeToString(), buf2.decodeToString())
+                buffer.getBuf().copyInto(buf1, 0, 4, 4 + l1)
+                buffer.getBuf().copyInto(buf2, 0, 5 + l1, 5 + l1 + l2)
+                onTypedLiteral(buf2.decodeToString(), buf1.decodeToString())
             }
         }
+    }
+
+    public fun byteArrayAnyToBooleanID(buffer: ByteArrayWrapper): Int {
+        val type = byteArrayToType(buffer)
+        if (type == ETripleComponentTypeExt.BOOLEAN) {
+            if (buffer.getBuf()[4] != 0.toByte()) {
+                return DictionaryExt.booleanTrueValue
+            } else {
+                DictionaryExt.booleanFalseValue
+            }
+        }
+        return DictionaryExt.errorValue
+    }
+
+    public fun byteArrayCompareAny(a: ByteArrayWrapper, b: ByteArrayWrapper): Int {
+        val typeA = byteArrayToType(a)
+        val typeB = byteArrayToType(b)
+        if (typeA != typeB) {
+            if (typeA == ETripleComponentTypeExt.UNDEF) {
+                return -1
+            } else if (typeB == ETripleComponentTypeExt.UNDEF) {
+                return 1
+            } else if (typeA == ETripleComponentTypeExt.ERROR) {
+                return -1
+            } else if (typeB == ETripleComponentTypeExt.ERROR) {
+                return 1
+            } else if (typeA == ETripleComponentTypeExt.BLANK_NODE) {
+                return -1
+            } else if (typeB == ETripleComponentTypeExt.BLANK_NODE) {
+                return 1
+            } else if (typeA == ETripleComponentTypeExt.IRI) {
+                return -1
+            } else if (typeB == ETripleComponentTypeExt.IRI) {
+                return 1
+            } else if (typeA == ETripleComponentTypeExt.STRING) {
+                return -1
+            } else if (typeB == ETripleComponentTypeExt.STRING) {
+                return 1
+            } else {
+                return typeA - typeB
+            }
+        } else {
+            if (typeA == ETripleComponentTypeExt.UNDEF || typeA == ETripleComponentTypeExt.ERROR) {
+                return 0
+            } else if (typeA == ETripleComponentTypeExt.BLANK_NODE) {
+                if (a.getSize() == 8 && b.getSize() == 8) {
+                    return ByteArrayHelper.readInt4(a.getBuf(), 4) - ByteArrayHelper.readInt4(b.getBuf(), 4)
+                } else {
+                    return a.compareTo(b)
+                }
+            } else if (typeA == ETripleComponentTypeExt.BOOLEAN) {
+                return a.getBuf()[4] - b.getBuf()[4]
+            } else if (typeA == ETripleComponentTypeExt.DATE_TIME) {
+            } else if (typeA == ETripleComponentTypeExt.DECIMAL) {
+            } else if (typeA == ETripleComponentTypeExt.DOUBLE) {
+            } else if (typeA == ETripleComponentTypeExt.FLOAT) {
+            } else if (typeA == ETripleComponentTypeExt.INTEGER) {
+            } else if (typeA == ETripleComponentTypeExt.STRING_LANG || typeA == ETripleComponentTypeExt.STRING_TYPED || typeA == ETripleComponentTypeExt.IRI || typeA == ETripleComponentTypeExt.STRING) {
+                val lenA = a.getSize()
+                val lenB = b.getSize()
+                var i = 4
+                var res = 0
+                while (i < lenA && i < lenB && res == 0) {
+                    res = a.getBuf()[i] - b.getBuf()[i]
+                    i++
+                }
+                if (res == 0) {
+                    res = lenA - lenB
+                }
+                return res
+            }
+        }
+        throw Exception("can not compare $typeA $typeB")
     }
 }

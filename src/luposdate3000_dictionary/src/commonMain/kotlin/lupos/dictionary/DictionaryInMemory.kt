@@ -17,6 +17,7 @@
 package lupos.dictionary
 
 import lupos.fileformat.DictionaryIntermediateReader
+import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.SanityCheck
@@ -72,8 +73,14 @@ public class DictionaryInMemory : ADictionary {
     }
 
     public override fun getValue(buffer: ByteArrayWrapper, value: Int) {
-        val buf = dataI2V[value and ADictionary.noFlags]!!
-        buf.copyInto(buffer)
+        if ((value and ADictionary.flagBNode) == ADictionary.flagBNode) {
+            buffer.setSize(8)
+            ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.BLANK_NODE)
+            ByteArrayHelper.writeInt4(buffer.getBuf(), 4, value and ADictionary.noFlags)
+        } else {
+            val buf = dataI2V[value and ADictionary.noFlags]!!
+            buf.copyInto(buffer)
+        }
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): Int {

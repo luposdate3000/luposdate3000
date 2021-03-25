@@ -17,6 +17,8 @@
 package lupos.s09physicalOperators.singleinput
 
 import lupos.dictionary.DictionaryExt
+import lupos.dictionary.DictionaryHelper
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.GroupByColumnMissing
@@ -181,6 +183,7 @@ public class POPGroup : POPBase {
     }
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
+        val buffer = ByteArrayWrapper()
         val localVariables = children[0].getProvidedVariableNames()
         val outMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
@@ -240,8 +243,7 @@ public class POPGroup : POPBase {
             for (columnIndex in 0 until bindings.size) {
                 val columnName = bindings[columnIndex].first
                 if (projectedVariables.contains(columnName)) {
-                    val valueraw = bindings[columnIndex].second.evaluate(localRow.iterators)()
-                    val value = query.getDictionary().createValue(valueraw)
+                    val value = bindings[columnIndex].second.evaluateID(localRow.iterators)()
                     outMap[columnName] = ColumnIteratorRepeatValue(1, value)
                 }
             }
@@ -361,7 +363,7 @@ public class POPGroup : POPBase {
                                                     }
                                                     for (columnIndex2 in 0 until bindings.size) {
                                                         if (projectedVariables.contains(bindings[columnIndex2].first)) {
-                                                            output[columnIndex2 + keyColumnNames.size].queue.add(query.getDictionary().createValue(bindings[columnIndex2].second.evaluate(localRowIterators)()))
+                                                            output[columnIndex2 + keyColumnNames.size].queue.add(bindings[columnIndex2].second.evaluateID(localRowIterators)())
                                                         }
                                                     }
                                                     for (outIndex2 in 0 until output.size) {
@@ -385,7 +387,7 @@ public class POPGroup : POPBase {
                                                 }
                                                 for (columnIndex in 0 until bindings.size) {
                                                     if (projectedVariables.contains(bindings[columnIndex].first)) {
-                                                        output[columnIndex + keyColumnNames.size].queue.add(query.getDictionary().createValue(bindings[columnIndex].second.evaluate(localRowIterators)()))
+                                                        output[columnIndex + keyColumnNames.size].queue.add(bindings[columnIndex].second.evaluateID(localRowIterators)())
                                                     }
                                                 }
                                                 localMap.clear()
@@ -460,7 +462,8 @@ public class POPGroup : POPBase {
                     val dict = query.getDictionary()
                     for ((k, v) in map) {
                         arrK[i] = k
-                        arrV[i] = dict.createValue(ValueInteger(MyBigInteger(v)))
+                        DictionaryHelper.valueToByteArray(buffer, ValueInteger(MyBigInteger(v)))
+                        arrV[i] = dict.createValue(buffer)
                         i++
                     }
                     outMap[keyColumnNames[0]] = ColumnIteratorMultiValue(arrK, arrK.size)
@@ -527,7 +530,7 @@ public class POPGroup : POPBase {
                                 outKeys[columnIndex].add(k.data[columnIndex])
                             }
                             for (columnIndex in 0 until bindings.size) {
-                                outValues[columnIndex].add(query.getDictionary().createValue(bindings[columnIndex].second.evaluate(v.iterators)()))
+                                outValues[columnIndex].add(bindings[columnIndex].second.evaluateID(v.iterators)())
                             }
                         }
                         for (columnIndex in keyColumnNames.indices) {

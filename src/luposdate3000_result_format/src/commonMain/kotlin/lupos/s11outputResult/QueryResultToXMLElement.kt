@@ -17,6 +17,8 @@
 package lupos.s11outputResult
 
 import lupos.dictionary.DictionaryExt
+import lupos.dictionary.DictionaryHelper
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
@@ -29,6 +31,7 @@ import lupos.s05tripleStore.tripleStoreManager
 
 public object QueryResultToXMLElement {
     public /*suspend*/ fun toXML(rootNode: IOPBase): XMLElement {
+        val buffer = ByteArrayWrapper()
         val query = rootNode.getQuery()
         val flag = query.getDictionaryUrl() == null
         val key = "${query.getTransactionID()}"
@@ -68,7 +71,8 @@ public object QueryResultToXMLElement {
                 val child = node.evaluateRoot(Partition())
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
-                    val value = node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next()).valueToString()!!
+                    query.getDictionary().getValue(buffer, child.columns["?boolean"]!!.next())
+                    val value = DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString()!!
                     val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
                     SanityCheck.check { value.endsWith("\"^^<$datatype>") }
                     nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<$datatype>").length)))
@@ -98,7 +102,8 @@ public object QueryResultToXMLElement {
                                     break@loop
                                 }
                                 if (valueID != DictionaryExt.undefValue && valueID != DictionaryExt.errorValue) {
-                                    val value = node.getQuery().getDictionary().getValue(valueID).valueToString()
+                                    query.getDictionary().getValue(buffer, valueID)
+                                    val value = DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString()
                                     SanityCheck.check { value != null }
                                     val nodeBinding = XMLElement("binding").addAttribute("name", variables[variableIndex])
                                     if (value!!.length > 1) {

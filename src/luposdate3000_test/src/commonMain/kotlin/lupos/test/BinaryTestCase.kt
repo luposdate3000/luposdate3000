@@ -18,12 +18,14 @@ package lupos.test
 
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryFactory
+import lupos.dictionary.DictionaryHelper
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
 import lupos.dictionary.nodeGlobalDictionary
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EPartitionModeExt
@@ -139,6 +141,7 @@ public object BinaryTestCase {
     }
 
     private fun verifyEqual(expected: MemoryTable, actual: MemoryTable, mapping_live_to_target: Map<Int, Int>, dict: Map<String, Int>, dict2: Array<String>, allowOrderBy: Boolean, out: MyPrintWriter): Boolean {
+        val buffer = ByteArrayWrapper()
         if (expected.booleanResult != null) {
             if (expected.booleanResult != actual.booleanResult) {
                 out.println("invalid result to ask query expected:${expected.booleanResult} found:${actual.booleanResult}")
@@ -177,11 +180,17 @@ public object BinaryTestCase {
             val tmpRow = IntArray(columnCount) { -1 }
             for ((i, col) in row.withIndex()) {
                 val m = mapping_live_to_target[col]
-                val value = actualDict.getValue(col).valueToString()
+                actualDict.getValue(buffer, col)
+                val value = DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString()
                 if (m == null) {
                     if (value != null && !value.startsWith("_:")) {
                         out.println("found wrong $value")
-                        out.println("row :: ${row.map { actualDict.getValue(it).valueToString() }}")
+                        out.println(
+                            "row :: ${row.map {
+                                actualDict.getValue(buffer, it)
+                                DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString()
+                            }}"
+                        )
                         out.println("dict :: $dict")
                         out.println("missing value in dictionary")
                     }
@@ -201,11 +210,17 @@ public object BinaryTestCase {
             val tmpRow = IntArray(columnCount) { -1 }
             for ((i, col) in row.withIndex()) {
                 val m = mapping_live_to_target[col]
-                val value = expectedDict.getValue(col).valueToString()
+                expectedDict.getValue(buffer, col)
+                val value = DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString()
                 if (m == null) {
                     if (value != null && !value.startsWith("_:")) {
                         out.println("found wrong $value")
-                        out.println("row :: ${row.map { expectedDict.getValue(it).valueToString() }}")
+                        out.println(
+                            "row :: ${row.map {
+                                expectedDict.getValue(buffer, it)
+                                DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString()
+                            }}"
+                        )
                         out.println("dict :: $dict")
                         out.println("missing value in dictionary")
                     }
@@ -328,6 +343,7 @@ public object BinaryTestCase {
     )
 
     public fun executeTestCase(query_folder: String): Boolean {
+        val buffer = ByteArrayWrapper()
         println("executeTestCase $query_folder")
         var returnValue = true
         File("$query_folder/query.stat").withInputStream { targetStat ->
@@ -395,7 +411,8 @@ public object BinaryTestCase {
                                 }
                                 targetDict[s] = i
                                 targetDict2[i] = s
-                                val tmp = nodeGlobalDictionary.createValue(s)
+                                DictionaryHelper.valueToByteArray(buffer, s)
+                                val tmp = nodeGlobalDictionary.createValue(buffer)
                                 mappingTargetToLive[i] = tmp
                                 mappingLiveToTarget[tmp] = i
                             }

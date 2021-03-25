@@ -22,8 +22,6 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s03resultRepresentation.ValueError
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -74,10 +72,10 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
         val localMap = mutableMapOf<String, ColumnIterator>()
         val child = children[0].evaluate(parent)
         val columnsLocal = Array<ColumnIteratorQueue>(variablesLocal.size) { ColumnIteratorQueueEmpty() }
-        var expression: () -> ValueDefinition = { ValueError() }
+        var expression: () -> Int = { DictionaryExt.errorValue }
         val columnsOut = Array<ColumnIteratorQueue>(variablesOut.size) { ColumnIteratorQueueEmpty() }
         if (variablesLocal.size == 1 && children[0].getProvidedVariableNames().isEmpty()) {
-            outMap[name.name] = ColumnIteratorRepeatValue(child.count(), query.getDictionary().createValue(expression()))
+            outMap[name.name] = ColumnIteratorRepeatValue(child.count(), expression())
         } else {
             var boundIndex = -1
             for (variableIndex in variablesLocal.indices) {
@@ -119,7 +117,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
                                     }
                                 }
                                 if (!done) {
-                                    columnsLocal[boundIndex].tmp = query.getDictionary().createValue(expression())
+                                    columnsLocal[boundIndex].tmp = expression()
                                     for (variableIndex2 in columnsOut.indices) {
                                         columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp)
                                     }
@@ -140,7 +138,7 @@ public class POPBind public constructor(query: IQuery, projectedVariables: List<
         for (it in variablesOut.indices) {
             columnsOut[it] = localMap[variablesOut[it]] as ColumnIteratorQueue
         }
-        expression = (children[1] as AOPBase).evaluate(IteratorBundle(localMap))
+        expression = (children[1] as AOPBase).evaluateID(IteratorBundle(localMap))
         SanityCheck.check { variablesLocal.isNotEmpty() }
         return IteratorBundle(outMap)
     }

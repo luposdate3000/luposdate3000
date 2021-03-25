@@ -17,6 +17,8 @@
 package lupos.s09physicalOperators.singleinput
 
 import lupos.dictionary.DictionaryExt
+import lupos.dictionary.DictionaryHelper
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EOperatorIDExt
@@ -24,7 +26,6 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
@@ -138,6 +139,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         val columns = Array(variables.size) { child.columns[variables[it]]!! }
         val row = IntArray(variables.size) { DictionaryExt.undefValue }
         val data = mutableMapOf<String, Array<Array<MutableList<Int>>>>()
+        val buffer = ByteArrayWrapper()
         loop@ while (true) {
             if (variables.isNotEmpty()) {
                 for (columnIndex in variables.indices) {
@@ -163,7 +165,8 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
                     }
                 }
                 val graphName: String = if (first.graphVar) {
-                    query.getDictionary().getValue(row[graphVarIdx]).valueToString()!!
+                    query.getDictionary().getValue(buffer, row[graphVarIdx])
+                    DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString()!!
                 } else {
                     first.graph
                 }
@@ -202,6 +205,6 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
                 }
             }
         }
-        return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, query.getDictionary().createValue(ValueBoolean(true)))))
+        return IteratorBundle(mapOf("?success" to ColumnIteratorRepeatValue(1, DictionaryExt.booleanTrueValue)))
     }
 }

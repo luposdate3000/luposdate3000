@@ -17,6 +17,8 @@
 package lupos.s09physicalOperators.noinput
 
 import lupos.dictionary.DictionaryExt
+import lupos.dictionary.DictionaryHelper
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
@@ -44,6 +46,7 @@ public open class POPValues : POPBase {
     @JvmField
     public val rows: Int
     override fun toSparql(): String {
+        val buffer = ByteArrayWrapper()
         var res = "VALUES("
         for (v in variables) {
             res += "$v "
@@ -57,7 +60,8 @@ public open class POPValues : POPBase {
                     res += if (columns[v]!![i] == DictionaryExt.undefValue) {
                         "UNDEF "
                     } else {
-                        query.getDictionary().getValue(columns[v]!![i]).valueToString() + " "
+                        query.getDictionary().getValue(buffer, columns[v]!![i])
+                        DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString() + " "
                     }
                 }
                 res += ")"
@@ -117,6 +121,7 @@ public open class POPValues : POPBase {
         variables = v
         val columns = Array(variables.size) { mutableListOf<Int>() }
         data = mutableMapOf()
+        val buffer = ByteArrayWrapper()
         if (projectedVariables.isEmpty()) {
             rows = d.size
         } else {
@@ -125,7 +130,8 @@ public open class POPValues : POPBase {
             }
             d.forEach {
                 for (variableIndex in variables.indices) {
-                    columns[variableIndex].add(query.getDictionary().createValue(it[variableIndex]))
+                    DictionaryHelper.valueToByteArray(buffer, it[variableIndex]!!)
+                    columns[variableIndex].add(query.getDictionary().createValue(buffer))
                 }
             }
             rows = -1
@@ -190,12 +196,14 @@ public open class POPValues : POPBase {
             xmlvariables.addContent(XMLElement("variable").addAttribute("name", variable))
         }
         val columns = Array(variables.size) { data[variables[it]] }
+        val buffer = ByteArrayWrapper()
         if (columns.isNotEmpty()) {
             for (i in 0 until columns[0]!!.size) {
                 val b = XMLElement("binding")
                 bindings.addContent(b)
                 for (variableIndex in variables.indices) {
-                    val value = query.getDictionary().getValue(columns[variableIndex]!![i]).valueToString()
+                    query.getDictionary().getValue(buffer, columns[variableIndex]!![i])
+                    val value = DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString()
                     if (value != null) {
                         b.addContent(XMLElement("value").addAttribute("name", variables[variableIndex]).addAttribute("content", value))
                     } else {

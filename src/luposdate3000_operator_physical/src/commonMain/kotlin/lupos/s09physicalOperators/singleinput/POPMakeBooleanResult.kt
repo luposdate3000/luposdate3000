@@ -21,7 +21,6 @@ import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -62,7 +61,12 @@ public class POPMakeBooleanResult public constructor(query: IQuery, projectedVar
                 child.hasNext2Close()
             }
         }
-        outMap["?boolean"] = ColumnIteratorRepeatValue(1, query.getDictionary().createValue(ValueBoolean(flag)))
+        val value = if (flag) {
+            DictionaryExt.booleanTrueValue
+        } else {
+            DictionaryExt.booleanFalseValue
+        }
+        outMap["?boolean"] = ColumnIteratorRepeatValue(1, value)
         return IteratorBundle(outMap)
     }
 }

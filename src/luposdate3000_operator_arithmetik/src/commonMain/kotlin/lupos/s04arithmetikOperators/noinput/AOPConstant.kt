@@ -16,6 +16,8 @@
  */
 package lupos.s04arithmetikOperators.noinput
 
+import lupos.dictionary.DictionaryHelper
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueBnode
@@ -32,7 +34,9 @@ public class AOPConstant : AOPBase, IAOPConstant {
     override fun getValue(): Int = value
 
     public constructor(query: IQuery, value2: ValueDefinition) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
-        value = query.getDictionary().createValue(value2)
+        val buffer = ByteArrayWrapper()
+        DictionaryHelper.valueToByteArray(buffer, value2)
+        value = query.getDictionary().createValue(buffer)
     }
 
     public constructor(query: IQuery, value2: Int) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
@@ -40,7 +44,9 @@ public class AOPConstant : AOPBase, IAOPConstant {
     }
 
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
-        val tmp = query.getDictionary().getValue(value)
+        val buffer = ByteArrayWrapper()
+        query.getDictionary().getValue(buffer, value)
+        val tmp = DictionaryHelper.byteArrayToValueDefinition(buffer)
         return if (tmp is ValueBnode) {
             XMLElement("ValueBnode").addAttribute("dictvalue", "" + value)
         } else {
@@ -48,11 +54,18 @@ public class AOPConstant : AOPBase, IAOPConstant {
         }
     }
 
-    override fun toSparql(): String = query.getDictionary().getValue(value).valueToString() ?: ""
+    override fun toSparql(): String {
+        val buffer = ByteArrayWrapper()
+        query.getDictionary().getValue(buffer, value)
+        return DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString() ?: ""
+    }
+
     override fun equals(other: Any?): Boolean = other is AOPConstant && value == other.value
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+        val buffer = ByteArrayWrapper()
+        query.getDictionary().getValue(buffer, value)
         return {
-            query.getDictionary().getValue(value)
+            DictionaryHelper.byteArrayToValueDefinition(buffer)
         }
     }
 

@@ -18,6 +18,7 @@ package lupos.s11outputResult
 
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.IDictionary
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyLock
@@ -35,42 +36,20 @@ import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
 public object QueryResultToEmptyWithDictionaryStream {
-    private /*suspend*/ fun writeValue(valueID: Int, columnName: String, dictionary: IDictionary, output: IMyOutputStream) {
-        dictionary.getValue(
-            valueID,
-            { value ->
-            },
-            { value ->
-            },
-            { content, lang ->
-            },
-            { content ->
-            },
-            { content, type ->
-            },
-            { value ->
-            },
-            { value ->
-            },
-            { value ->
-            },
-            { value ->
-            },
-            { value ->
-            },
-            {}, {}
-        )
+    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, columnName: String, dictionary: IDictionary, output: IMyOutputStream) {
+        dictionary.getValue(buffer, valueID)
     }
 
-    private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IDictionary, output: IMyOutputStream) {
+    private /*suspend*/ fun writeRow(buffer: ByteArrayWrapper, variables: Array<String>, rowBuf: IntArray, dictionary: IDictionary, output: IMyOutputStream) {
         for (variableIndex in variables.indices) {
-            writeValue(rowBuf[variableIndex], variables[variableIndex], dictionary, output)
+            writeValue(buffer, rowBuf[variableIndex], variables[variableIndex], dictionary, output)
         }
     }
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream) {
         val rowBuf = IntArray(variables.size)
+        val buffer = ByteArrayWrapper()
         loop@ while (true) {
             for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
@@ -79,7 +58,7 @@ public object QueryResultToEmptyWithDictionaryStream {
                 }
                 rowBuf[variableIndex] = valueID
             }
-            writeRow(variables, rowBuf, dictionary, output)
+            writeRow(buffer, variables, rowBuf, dictionary, output)
         }
         for (element in columns) {
             element.close()
@@ -158,7 +137,8 @@ public object QueryResultToEmptyWithDictionaryStream {
                 val variables = columnNames.toTypedArray()
                 if (variables.size == 1 && variables[0] == "?boolean") {
                     val child = node.evaluateRoot()
-                    node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next())
+                    val buffer = ByteArrayWrapper()
+                    query.getDictionary().getValue(buffer, child.columns["?boolean"]!!.next())
                     child.columns["?boolean"]!!.close()
                 } else {
                     if (variables.isEmpty()) {

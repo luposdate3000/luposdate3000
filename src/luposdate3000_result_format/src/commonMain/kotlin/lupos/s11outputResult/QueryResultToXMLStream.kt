@@ -17,7 +17,9 @@
 package lupos.s11outputResult
 
 import lupos.dictionary.DictionaryExt
+import lupos.dictionary.DictionaryHelper
 import lupos.dictionary.IDictionary
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyLock
@@ -36,9 +38,10 @@ import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
 public object QueryResultToXMLStream {
-    private /*suspend*/ fun writeValue(valueID: Int, columnName: String, dictionary: IDictionary, output: IMyOutputStream) {
-        dictionary.getValue(
-            valueID,
+    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, columnName: String, dictionary: IDictionary, output: IMyOutputStream) {
+        dictionary.getValue(buffer, valueID)
+        DictionaryHelper.byteArrayToCallback(
+            buffer,
             { value ->
                 output.print("   <binding name=\"")
                 output.print(columnName)
@@ -117,10 +120,10 @@ public object QueryResultToXMLStream {
         )
     }
 
-    private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IDictionary, output: IMyOutputStream) {
+    private /*suspend*/ fun writeRow(buffer: ByteArrayWrapper, variables: Array<String>, rowBuf: IntArray, dictionary: IDictionary, output: IMyOutputStream) {
         output.print("  <result>\n")
         for (variableIndex in variables.indices) {
-            writeValue(rowBuf[variableIndex], variables[variableIndex], dictionary, output)
+            writeValue(buffer, rowBuf[variableIndex], variables[variableIndex], dictionary, output)
         }
         output.print("  </result>\n")
     }
@@ -129,6 +132,7 @@ public object QueryResultToXMLStream {
     /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream) {
         val rowBuf = IntArray(variables.size)
         val resultWriter = MyPrintWriter(true)
+        val buffer = ByteArrayWrapper()
         loop@ while (true) {
             for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
@@ -137,7 +141,7 @@ public object QueryResultToXMLStream {
                 }
                 rowBuf[variableIndex] = valueID
             }
-            writeRow(variables, rowBuf, dictionary, resultWriter)
+            writeRow(buffer, variables, rowBuf, dictionary, resultWriter)
             lock?.lock()
             output.print(resultWriter.toString())
             lock?.unlock()
@@ -234,9 +238,10 @@ public object QueryResultToXMLStream {
                 if (variables.size == 1 && variables[0] == "?boolean") {
                     val child = node.evaluateRoot(Partition())
                     output.print(" <head/>\n")
-                    val value = node.getQuery().getDictionary().getValue(child.columns["?boolean"]!!.next())
+                    val buffer = ByteArrayWrapper()
+                    query.getDictionary().getValue(buffer, child.columns["?boolean"]!!.next())
                     output.print(" <boolean>")
-                    output.print(value.toBoolean())
+                    output.print(DictionaryHelper.byteArrayAnyToBooleanID(buffer) == DictionaryExt.booleanTrueValue)
                     output.print("</boolean>\n")
                     child.columns["?boolean"]!!.close()
                 } else {

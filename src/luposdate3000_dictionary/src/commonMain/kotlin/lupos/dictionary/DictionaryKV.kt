@@ -134,7 +134,13 @@ public class DictionaryKV : ADictionary {
     }
 
     public override fun getValue(buffer: ByteArrayWrapper, value: Int) {
-        kv.getValue(buffer, value and ADictionary.noFlags)
+        if ((value and ADictionary.flagBNode) == ADictionary.flagBNode) {
+            buffer.setSize(8)
+            ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.BLANK_NODE)
+            ByteArrayHelper.writeInt4(buffer.getBuf(), 4, value and ADictionary.noFlags)
+        } else {
+            kv.getValue(buffer, value and ADictionary.noFlags)
+        }
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): Int {

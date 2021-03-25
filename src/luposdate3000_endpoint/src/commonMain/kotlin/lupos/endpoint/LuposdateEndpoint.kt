@@ -17,6 +17,7 @@
 package lupos.endpoint
 
 import lupos.dictionary.DictionaryFactory
+import lupos.dictionary.DictionaryHelper
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.nodeGlobalDictionary
 import lupos.operator.factory.XMLElementToOPBase
@@ -24,6 +25,7 @@ import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.distributed.query.DistributedOptimizerQuery
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
@@ -101,7 +103,9 @@ public object LuposdateEndpoint {
                 dict[v2] = res
             }
         } else {
-            res = nodeGlobalDictionary.createValue(v2)
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.valueToByteArray(buffer, v2)
+            res = nodeGlobalDictionary.createValue(buffer)
         }
         return res
 /*Coverage Unreachable*/

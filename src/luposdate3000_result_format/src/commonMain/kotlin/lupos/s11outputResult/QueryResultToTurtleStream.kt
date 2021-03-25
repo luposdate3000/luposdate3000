@@ -17,7 +17,9 @@
 package lupos.s11outputResult
 
 import lupos.dictionary.DictionaryExt
+import lupos.dictionary.DictionaryHelper
 import lupos.dictionary.IDictionary
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyLock
@@ -36,10 +38,11 @@ import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 
 public object QueryResultToTurtleStream {
-    private /*suspend*/ fun writeValue(valueID: Int, dictionary: IDictionary): String? {
+    private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, dictionary: IDictionary): String? {
         var res: String? = null
-        dictionary.getValue(
-            valueID,
+        dictionary.getValue(buffer, valueID)
+        DictionaryHelper.byteArrayToCallback(
+            buffer,
             onBNode = { value ->
                 res = "_:$value"
             },
@@ -76,10 +79,10 @@ public object QueryResultToTurtleStream {
         return res
     }
 
-    private /*suspend*/ fun writeRow(variablesIndices: IntArray, rowBuf: IntArray, dictionary: IDictionary, output: IMyOutputStream) {
+    private /*suspend*/ fun writeRow(buffer: ByteArrayWrapper, variablesIndices: IntArray, rowBuf: IntArray, dictionary: IDictionary, output: IMyOutputStream) {
         var line = Array<String>(3) { "" }
         for (i in 0 until 3) {
-            val tmp = writeValue(rowBuf[i], dictionary)
+            val tmp = writeValue(buffer, rowBuf[i], dictionary)
             if (tmp == null) {
                 return
             } else {
@@ -94,6 +97,7 @@ public object QueryResultToTurtleStream {
         val variablesIndices = intArrayOf(variables.indexOf("s"), variables.indexOf("p"), variables.indexOf("o"))
         val rowBuf = IntArray(variables.size)
         val resultWriter = MyPrintWriter(true)
+        val buffer = ByteArrayWrapper()
         loop@ while (true) {
             for (variableIndex in variables.indices) {
                 val valueID = columns[variableIndex].next()
@@ -102,7 +106,7 @@ public object QueryResultToTurtleStream {
                 }
                 rowBuf[variableIndex] = valueID
             }
-            writeRow(variablesIndices, rowBuf, dictionary, resultWriter)
+            writeRow(buffer, variablesIndices, rowBuf, dictionary, resultWriter)
             lock?.lock()
             output.print(resultWriter.toString())
             lock?.unlock()

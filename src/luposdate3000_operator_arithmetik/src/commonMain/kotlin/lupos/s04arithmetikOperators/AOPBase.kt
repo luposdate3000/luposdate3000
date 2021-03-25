@@ -17,6 +17,8 @@
 package lupos.s04arithmetikOperators
 
 import lupos.dictionary.DictionaryExt
+import lupos.dictionary.DictionaryHelper
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.EvaluationException
@@ -60,14 +62,18 @@ public abstract class AOPBase public constructor(
     }
 
     public open fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+        val buffer = ByteArrayWrapper()
         return {
-            query.getDictionary().getValue(evaluateID(row)())
+            query.getDictionary().getValue(buffer, evaluateID(row)())
+            DictionaryHelper.byteArrayToValueDefinition(buffer)
         }
     }
 
     public open fun evaluateID(row: IteratorBundle): () -> Int {
+        val buffer = ByteArrayWrapper()
         return {
-            query.getDictionary().createValue(evaluate(row)())
+            DictionaryHelper.valueToByteArray(buffer, evaluate(row)())
+            query.getDictionary().createValue(buffer)
         }
     }
 

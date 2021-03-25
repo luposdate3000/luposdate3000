@@ -16,6 +16,8 @@
  */
 package lupos.s09physicalOperators.noinput
 
+import lupos.dictionary.DictionaryHelper
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery
 
@@ -36,8 +38,10 @@ public abstract class POPValuesImportBase public constructor(query: IQuery, proj
 
     public fun addRow(values: Array<String?>) {
         SanityCheck.check { values.size == variables.size }
+        val buffer = ByteArrayWrapper()
         for (i in variables.indices) {
-            data[variables[i]]!!.add(query.getDictionary().createValue(cleanString(values[i])))
+            DictionaryHelper.valueToByteArray(buffer, cleanString(values[i]))
+            data[variables[i]]!!.add(query.getDictionary().createValue(buffer))
         }
     }
 }

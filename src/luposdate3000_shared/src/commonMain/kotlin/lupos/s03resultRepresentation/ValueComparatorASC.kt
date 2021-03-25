@@ -16,42 +16,18 @@
  */
 package lupos.s03resultRepresentation
 
-import lupos.s00misc.EvaluationException
+import lupos.dictionary.DictionaryHelper
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
 
 public class ValueComparatorASC(@JvmField public val query: IQuery) : Comparator<Int> {
+    private var bufferA = ByteArrayWrapper()
+    private var bufferB = ByteArrayWrapper()
     override fun compare(a: Int, b: Int): Int {
-        val a1 = query.getDictionary().getValue(a)
-        val b1 = query.getDictionary().getValue(b)
-        try {
-            return a1.compareTo(b1)
-        } catch (e: EvaluationException) {
-            if (a1 is ValueUndef || a1 is ValueError) {
-                return -1
-            }
-            if (b1 is ValueUndef || b1 is ValueError) {
-                return +1
-            }
-            if (a1 is ValueBnode) {
-                return -1
-            }
-            if (b1 is ValueBnode) {
-                return +1
-            }
-            if (a1 is ValueIri) {
-                return -1
-            }
-            if (b1 is ValueIri) {
-                return +1
-            }
-            val sA = a1.valueToString()!!
-            val sB = b1.valueToString()!!
-            return sA.compareTo(sB)
-        } catch (e: Throwable) {
-            e.printStackTrace()
-            return 0
-        }
+        query.getDictionary().getValue(bufferA, a)
+        query.getDictionary().getValue(bufferB, b)
+        return DictionaryHelper.byteArrayCompareAny(bufferA, bufferB)
 /*Coverage Unreachable*/
     }
 }
