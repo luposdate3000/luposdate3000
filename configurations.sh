@@ -10,7 +10,7 @@ for jena in On
 do
 cat <<EOT > config.pro
 -injars ./Luposdate3000_Buffer_Manager_${buffermanager}-jvm.jar
--injars ./Luposdate3000_Dictionary_Inmemory-jvm.jar
+-injars ./Luposdate3000_Dictionary-jvm.jar
 -injars ./Luposdate3000_Endpoint_${endpoint_launcher}-jvm.jar
 -injars ./Luposdate3000_Endpoint-jvm.jar
 -injars ./Luposdate3000_Jena_Wrapper_${jena}-jvm.jar

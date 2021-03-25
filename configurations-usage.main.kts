@@ -22,11 +22,10 @@ val modulenames = listOf(
     "Luposdate3000_Jena_Wrapper_On",
     "Luposdate3000_Endpoint_Java_Sockets",
     "Luposdate3000_Endpoint",
-    "Luposdate3000_Dictionary_Inmemory",
+    "Luposdate3000_Dictionary",
     "Luposdate3000_Buffer_Manager_Inmemory",
 )
 
-// $Luposdate3000_Dictionary_Inmemory
 fun process(str: String) {
     if (str.endsWith("annotations()") || str.contains('$')) {
         return
