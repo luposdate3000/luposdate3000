@@ -26,8 +26,8 @@ import kotlin.math.abs
 
 private val verbose = false
 
-private val maxSize = 16
-// private val maxSize = 16384
+// private val maxSize = 16
+private val maxSize = 16384
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
