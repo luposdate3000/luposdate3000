@@ -200,63 +200,44 @@ public class KeyValueStore {
         action(resPage, resOff)
     }
 
-    private fun cmp(a: ByteArrayWrapper, b: ByteArrayWrapper): Int {
-        var t = 0
-        if (t == 0) {
-            t = a.getSize() - b.getSize()
-        }
-        var i = 0
-        while (t == 0 && i < a.getSize()) {
-            t = a.getBuf()[i] - b.getBuf()[i]
-            i++
-        }
-        return t
-    }
-
     private inline fun hasData(data: ByteArrayWrapper, left: Int, right: Int, crossinline onFound: (Int/*the id to return*/) -> Unit, onNotFound: (Int/*the smallest index, which value is larger than the target*/) -> Unit) {
         val d = ByteArrayWrapper()
-        // println("hasData $left $right")
         var l = left
         var r = right
-        var loop = true
-        while (loop && r >= l) {
-            var m = (r - l) / 2 + l
+        var m = (r - l) / 2 + l
+        while (r >= l) {
+            m = (r - l) / 2 + l
             val m2 = mappingSorted[m]
             readData(d, mappingID2Page[m2], mappingID2Off[m2])
-            val t = cmp(d, data)
-            // println("readData #$m id:$m2 ($t) ${d.map{it}}")
+            val t = d.compareTo(data)
             if (t < 0) {
                 if (m == l) {
                     m++
                 }
                 l = m
             } else if (t > 0) {
-                if (m == r) {
-                    m--
+                if (m == l) {
+                    break
                 }
                 r = m
             } else {
-                loop = false
-                // println("onFound(#$m id:$m2)")
                 onFound(m2)
+                return
             }
         }
-        if (r < l) {
-            var res = l
-            SanityCheck {
-                if (res > left) {
-                    val res2 = mappingSorted[res - 1]
-                    readData(d, mappingID2Page[res2], mappingID2Off[res2])
-                    SanityCheck.check { cmp(d, data) < 0 }
-                }
-                if (res <= right) {
-                    val res2 = mappingSorted[res]
-                    readData(d, mappingID2Page[res2], mappingID2Off[res2])
-                    SanityCheck.check { cmp(d, data) > 0 }
-                }
+        SanityCheck {
+            if (m > left) {
+                val m2 = mappingSorted[m - 1]
+                readData(d, mappingID2Page[m2], mappingID2Off[m2])
+                SanityCheck.check({ d.compareTo(data) < 0 }, { "$l $r $m $left $right ${d.getBuf().map { it }.subList(0, d.getSize())} ${data.getBuf().map { it }.subList(0, data.getSize())}" })
             }
-            onNotFound(res)
+            if (m <= right) {
+                val m2 = mappingSorted[m]
+                readData(d, mappingID2Page[m2], mappingID2Off[m2])
+                SanityCheck.check({ d.compareTo(data) > 0 }, { "$l $r $m $left $right ${d.getBuf().map { it }.subList(0, d.getSize())} ${data.getBuf().map { it }.subList(0, data.getSize())}" })
+            }
         }
+        onNotFound(m)
     }
 
     public fun createValue(data: ByteArrayWrapper): Int {

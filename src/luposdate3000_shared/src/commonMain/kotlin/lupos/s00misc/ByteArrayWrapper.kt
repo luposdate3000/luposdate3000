@@ -26,8 +26,8 @@ public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
     private var buf = ByteArray(0)
     private var size = 0
     public fun setSize(c: Int) {
+        size = c
         if (c > buf.size) {
-            size = c
             buf = ByteArray(c)
         }
     }
@@ -35,11 +35,14 @@ public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
     public fun getSize(): Int = size
     public fun getBuf(): ByteArray = buf
     override fun compareTo(other: ByteArrayWrapper): Int {
-        var res = size - other.size
+        var res = 0
         var i = 0
-        while (i < size && res == 0) {
+        while (i < size && i < other.size && res == 0) {
             res = buf[i] - other.buf[i]
             i++
+        }
+        if (res == 0) {
+            res = size - other.size
         }
         return res
     }
