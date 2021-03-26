@@ -17,6 +17,7 @@
 package lupos.launch.test_int_array
 
 import lupos.buffermanager.BufferManager
+import lupos.buffermanager.BufferManagerExt
 import lupos.buffermanager.MyIntArray
 import lupos.s00misc.Parallel
 import lupos.test.AflCore
@@ -27,10 +28,11 @@ private val maxSize = 1000000
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
-    AflCore("int_array", 1.0, ::executeTest)(arg)
+    AflCore("int_array.${BufferManagerExt.isInMemoryOnly}", 1.0, ::executeTest)(arg)
 }
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
+    BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
     var dataSize = 0
     val data = IntArray(maxSize)
@@ -133,11 +135,13 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     for (i in 0 until dataSize) {
         testGetOk(i)
     }
-    arr.close()
-    if (bufferManager.getNumberOfReferencedPages() != 0) {
-        throw Exception("")
+    if (!BufferManagerExt.isInMemoryOnly) {
+        arr.close()
+        if (bufferManager.getNumberOfReferencedPages() != 0) {
+            throw Exception("")
+        }
+        arr = MyIntArray(bufferManager, rootPage, true)
     }
-    arr = MyIntArray(bufferManager, rootPage, true)
     for (i in 0 until dataSize) {
         testGetOk(i)
     }
@@ -146,7 +150,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         throw Exception("")
     }
     if (bufferManager.getNumberOfAllocatedPages() != 0) {
-        throw Exception("")
+        throw Exception("${bufferManager.getNumberOfAllocatedPages()}")
     }
     bufferManager.close()
 }

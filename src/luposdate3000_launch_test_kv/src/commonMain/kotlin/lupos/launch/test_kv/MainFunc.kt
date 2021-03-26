@@ -17,6 +17,7 @@
 package lupos.launch.test_kv
 
 import lupos.buffermanager.BufferManager
+import lupos.buffermanager.BufferManagerExt
 import lupos.kv.KeyValueStore
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.Parallel
@@ -29,10 +30,11 @@ private val maxSize = 16384
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
-    AflCore("kv", 1.0, ::executeTest)(arg)
+    AflCore("kv.${BufferManagerExt.isInMemoryOnly}", 1.0, ::executeTest)(arg)
 }
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
+    BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
     var rootPage = -1
     bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
@@ -185,11 +187,13 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     for ((k, v) in mapping) {
         testGetValueOk(values[v], k)
     }
-    kv.close()
-    if (bufferManager.getNumberOfReferencedPages() != 0) {
-        throw Exception("")
+    if (!BufferManagerExt.isInMemoryOnly) {
+        kv.close()
+        if (bufferManager.getNumberOfReferencedPages() != 0) {
+            throw Exception("")
+        }
+        kv = KeyValueStore(bufferManager, rootPage, true)
     }
-    kv = KeyValueStore(bufferManager, rootPage, true)
     for ((k, v) in mapping) {
         testGetValueOk(values[v], k)
     }

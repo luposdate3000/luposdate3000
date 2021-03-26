@@ -23,8 +23,13 @@ import kotlin.jvm.JvmField
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 public class MyIntArray internal constructor(@JvmField private val filename: String, initialize: Boolean) {
+    private var bufferManager: BufferManager? = null
+    private var bufferManagerPage: Int? = null
 
-    public constructor(bufferManager: BufferManager, id: Int, initialize: Boolean) : this("", initialize)
+    public constructor(bufferManager: BufferManager, id: Int, initialize: Boolean) : this("", initialize) {
+        this.bufferManager = bufferManager
+        this.bufferManagerPage = id
+    }
 
     @ProguardTestAnnotation
     private var closed = false
@@ -55,35 +60,47 @@ public class MyIntArray internal constructor(@JvmField private val filename: Str
 
     public fun setSize(size: Int, clean: Boolean) {
         SanityCheck.check { !closed }
-        lock.withWriteLock {
-            var newData = IntArray(size)
-            if (data.size < newData.size) {
-                data.copyInto(newData)
-            } else {
-                data.copyInto(newData, 0, 0, newData.size)
+        if (size != data.size) {
+            lock.withWriteLock {
+                var newData = IntArray(size)
+                if (data.size < newData.size) {
+                    data.copyInto(newData)
+                } else {
+                    data.copyInto(newData, 0, 0, newData.size)
+                }
+                data = newData
             }
-            data = newData
         }
     }
 
     public fun setSize(size: Int) {
         SanityCheck.check { !closed }
-        lock.withWriteLock {
-            var newData = IntArray(size)
-            if (data.size < newData.size) {
-                data.copyInto(newData)
-            } else {
-                data.copyInto(newData, 0, 0, newData.size)
+        if (size != data.size) {
+            lock.withWriteLock {
+                var newData = IntArray(size)
+                if (data.size < newData.size) {
+                    data.copyInto(newData)
+                } else {
+                    data.copyInto(newData, 0, 0, newData.size)
+                }
+                data = newData
             }
-            data = newData
         }
     }
 
     public fun close() {
+        SanityCheck.check { !closed }
         closed = true
     }
 
     public fun delete() {
+        SanityCheck.check { !closed }
         close()
+        if (bufferManagerPage != null) {
+            bufferManager?.getPage(lupos.SOURCE_FILE, bufferManagerPage!!)
+            bufferManager?.deletePage(lupos.SOURCE_FILE, bufferManagerPage!!)
+            bufferManager = null
+            bufferManagerPage = null
+        }
     }
 }

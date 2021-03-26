@@ -17,6 +17,7 @@
 package lupos.launch.test_triple_index
 
 import lupos.buffermanager.BufferManager
+import lupos.buffermanager.BufferManagerExt
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.Parallel
 import lupos.s04logicalOperators.Query
@@ -32,11 +33,12 @@ private var totalinserts = 0L
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
-    AflCore("triple_index", 10000.0, ::executeTest)(arg)
+    AflCore("triple_index.${BufferManagerExt.isInMemoryOnly}", 10000.0, ::executeTest)(arg)
 }
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     var maxClearCalls = 10
+    BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
     var rootPage = -1
     bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->

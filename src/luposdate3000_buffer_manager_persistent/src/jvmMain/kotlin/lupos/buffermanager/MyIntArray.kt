@@ -25,7 +25,13 @@ import kotlin.jvm.JvmField
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 public actual class MyIntArray internal actual constructor(@JvmField private val filename: String, initialize: Boolean) {
-    public actual constructor(bufferManager: BufferManager, id: Int, initialize: Boolean) : this(BufferManagerExt.bufferPrefix + bufferManager.name + "." + id + BufferManagerExt.fileEndingIntArray, initialize)
+    private var bufferManager: BufferManager? = null
+    private var bufferManagerPage: Int? = null
+
+    public actual constructor(bufferManager: BufferManager, id: Int, initialize: Boolean) : this(BufferManagerExt.bufferPrefix + bufferManager.name + "." + id + BufferManagerExt.fileEndingIntArray, initialize) {
+        this.bufferManager = bufferManager
+        this.bufferManagerPage = id
+    }
 
     @ProguardTestAnnotation
     private var closed = false
@@ -37,6 +43,8 @@ public actual class MyIntArray internal actual constructor(@JvmField private val
     init {
         if (initialize) {
             _size = datafile.readInt()
+        } else {
+            datafile.writeInt(0)
         }
     }
 
@@ -64,35 +72,47 @@ public actual class MyIntArray internal actual constructor(@JvmField private val
 
     public actual fun setSize(size: Int, clean: Boolean) {
         SanityCheck.check { !closed }
-        if (clean) {
-            datafile.seek(_size * 4 + 4L)
-            for (i in _size until size) {
-                datafile.writeInt(0)
+        if (size != _size) {
+            if (clean) {
+                datafile.seek(_size * 4 + 4L)
+                for (i in _size until size) {
+                    datafile.writeInt(0)
+                }
             }
+            _size = size
+            datafile.seek(0)
+            datafile.writeInt(size)
         }
-        _size = size
-        datafile.seek(0)
-        datafile.writeInt(size)
     }
 
     public actual fun setSize(size: Int) {
         SanityCheck.check { !closed }
-        datafile.seek(_size * 4 + 4L)
-        for (i in _size until size) {
-            datafile.writeInt(0)
+        if (size != _size) {
+            datafile.seek(_size * 4 + 4L)
+            for (i in _size until size) {
+                datafile.writeInt(0)
+            }
+            _size = size
+            datafile.seek(0L)
+            datafile.writeInt(size)
         }
-        _size = size
-        datafile.seek(0L)
-        datafile.writeInt(size)
     }
 
     public actual fun close() {
+        SanityCheck.check { !closed }
         closed = true
         datafile.close()
     }
 
     public actual fun delete() {
+        SanityCheck.check { !closed }
         close()
+        if (bufferManagerPage != null) {
+            bufferManager?.getPage(lupos.SOURCE_FILE, bufferManagerPage!!)
+            bufferManager?.deletePage(lupos.SOURCE_FILE, bufferManagerPage!!)
+            bufferManager = null
+            bufferManagerPage = null
+        }
         File(filename).deleteRecursively()
     }
 }
