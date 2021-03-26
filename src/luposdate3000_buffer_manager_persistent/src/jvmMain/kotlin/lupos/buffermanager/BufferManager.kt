@@ -272,6 +272,9 @@ public actual class BufferManager internal actual constructor(@JvmField public v
         SanityCheck.check { openPagesRefcounters[openId] == 1 }
         SanityCheck.check { openPages[openId!!].getPageID() != pageid }
         openPages[openId!!].setPageID(-1)
+        SanityCheck {
+            openPages[openId!!] = createBufferManagerPage()
+        }
         openPagesRefcounters[openId]--
         openPagesMapping.remove(pageid)
         if (freeArrayLength >= freeArray.size) {
