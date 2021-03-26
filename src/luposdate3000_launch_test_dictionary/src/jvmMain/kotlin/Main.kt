@@ -14,21 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.dictionary
+import lupos.launch.test_dictionary.mainFunc
 
-import lupos.buffermanager.BufferManager
-import lupos.buffermanager.BufferManagerExt
-
-public object DictionaryFactory {
-    public fun createDictionary(type: EDictionaryType, isLocal: Boolean): IDictionary {
-        return createDictionary(type, isLocal, BufferManagerExt.getBuffermanager("dictionary"))
-    }
-
-    public fun createDictionary(type: EDictionaryType, isLocal: Boolean, bufferManager: BufferManager): IDictionary {
-        return when (type) {
-            EDictionaryTypeExt.InMemory -> DictionaryInMemory(isLocal, bufferManager)
-            EDictionaryTypeExt.KV -> DictionaryKV(isLocal, bufferManager)
-            else -> throw Exception("unreachable")
+public fun main(args: Array<String>) {
+    var flag = false
+    var arg: String = ""
+    for (a in args) {
+        if (a.startsWith("--arg=")) {
+            arg = a.substring(6)
+            flag = true
+            break
         }
     }
+    if (!flag) {
+        throw Exception("the option '--arg' is missing on the arguments list")
+    }
+    mainFunc(arg)
 }

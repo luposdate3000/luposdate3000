@@ -16,7 +16,6 @@
  */
 package lupos.dictionary
 
-import lupos.ProguardTestAnnotation
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.buffermanager.BufferManagerPage
@@ -35,10 +34,20 @@ public class DictionaryKV : ADictionary {
     private val rootPageID: Int
     private val rootPage: BufferManagerPage
     private val isLocal: Boolean
+    public override fun close() {
+    }
 
-    internal constructor(isLocal: Boolean) : super() {
+    public override fun delete() {
+        close()
+        File(BufferManagerExt.bufferPrefix + "dict.page").deleteRecursively()
+    }
+
+    public override fun isInmemoryOnly(): Boolean = false
+
+    internal constructor(isLocal: Boolean, bufferManager: BufferManager) : super() {
         this.isLocal = isLocal
-        bufferManager = BufferManagerExt.getBuffermanager("dictionary")
+        SanityCheck.check { !isLocal }
+        this.bufferManager = bufferManager
         val file = File(BufferManagerExt.bufferPrefix + "dict.page")
         var rootPageID = 0
         var initFromRootPage = file.exists()
@@ -59,26 +68,6 @@ public class DictionaryKV : ADictionary {
             }
         }
         this.rootPageID = rootPageID
-        var kvPage = 0
-        if (initFromRootPage) {
-            bNodeCounter = rootPage.readInt4(0)
-            kvPage = rootPage.readInt4(4)
-        } else {
-            rootPage.writeInt4(0, bNodeCounter)
-            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-                kvPage = pageid
-            }
-            bufferManager.releasePage(lupos.SOURCE_FILE, kvPage)
-        }
-        kv = KeyValueStore(bufferManager, kvPage, initFromRootPage)
-    }
-
-    @ProguardTestAnnotation
-    internal constructor(isLocal: Boolean, bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) : super() {
-        this.isLocal = isLocal
-        this.bufferManager = bufferManager
-        this.rootPageID = rootPageID
-        rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
         var kvPage = 0
         if (initFromRootPage) {
             bNodeCounter = rootPage.readInt4(0)

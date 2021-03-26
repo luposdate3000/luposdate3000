@@ -16,6 +16,7 @@
  */
 package lupos.dictionary
 
+import lupos.buffermanager.BufferManager
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ByteArrayWrapper
@@ -28,8 +29,16 @@ public class DictionaryInMemory : ADictionary {
     private var bNodeCounter = 5
     private val isLocal: Boolean
 
-    internal constructor(isLocal: Boolean) : super() {
+    internal constructor(isLocal: Boolean, bufferManager: BufferManager) : super() {
         this.isLocal = isLocal
+    }
+
+    public override fun isInmemoryOnly(): Boolean = true
+    public override fun close() {
+    }
+
+    public override fun delete() {
+        close()
     }
 
     @Suppress("NOTHING_TO_INLINE")
