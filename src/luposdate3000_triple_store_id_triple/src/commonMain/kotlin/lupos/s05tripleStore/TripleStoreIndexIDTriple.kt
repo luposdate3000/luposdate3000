@@ -19,8 +19,8 @@ package lupos.s05tripleStore
 import lupos.ProguardTestAnnotation
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
+import lupos.buffermanager.BufferManagerPage
 import lupos.dictionary.DictionaryExt
-import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ETripleIndexTypeExt
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Parallel
@@ -55,10 +55,10 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         nodeManager = NodeManager(bufferManager)
         val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
         if (initFromRootPage) {
-            root = ByteArrayHelper.readInt4(rootPage, 4)
-            countPrimary = ByteArrayHelper.readInt4(rootPage, 8)
-            distinctPrimary = ByteArrayHelper.readInt4(rootPage, 12)
-            firstLeaf = ByteArrayHelper.readInt4(rootPage, 16)
+            root = rootPage.readInt4(4)
+            countPrimary = rootPage.readInt4(8)
+            distinctPrimary = rootPage.readInt4(12)
+            firstLeaf = rootPage.readInt4(16)
             if (root != NodeManager.nodeNullPointer) {
                 nodeManager.getNodeAny(
                     lupos.SOURCE_FILE,
@@ -72,11 +72,11 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                 )
             }
         } else {
-            ByteArrayHelper.writeInt4(rootPage, 0, ETripleIndexTypeExt.ID_TRIPLE)
-            ByteArrayHelper.writeInt4(rootPage, 4, root)
-            ByteArrayHelper.writeInt4(rootPage, 8, countPrimary)
-            ByteArrayHelper.writeInt4(rootPage, 12, distinctPrimary)
-            ByteArrayHelper.writeInt4(rootPage, 16, firstLeaf)
+            rootPage.writeInt4(0, ETripleIndexTypeExt.ID_TRIPLE)
+            rootPage.writeInt4(4, root)
+            rootPage.writeInt4(8, countPrimary)
+            rootPage.writeInt4(12, distinctPrimary)
+            rootPage.writeInt4(16, firstLeaf)
             bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
         }
         bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
@@ -88,7 +88,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     private var firstLeaf: Int
         set(value) {
             val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
-            ByteArrayHelper.writeInt4(rootPage, 16, value)
+            rootPage.writeInt4(16, value)
             firstLeaf_ = value
             bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
             bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
@@ -99,7 +99,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     private var root: Int
         set(value) {
             val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
-            ByteArrayHelper.writeInt4(rootPage, 4, value)
+            rootPage.writeInt4(4, value)
             root_ = value
             bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
             bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
@@ -110,7 +110,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     private var countPrimary: Int
         set(value) {
             val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
-            ByteArrayHelper.writeInt4(rootPage, 8, value)
+            rootPage.writeInt4(8, value)
             countPrimary_ = value
             bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
             bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
@@ -121,14 +121,14 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     private var distinctPrimary: Int
         set(value) {
             val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
-            ByteArrayHelper.writeInt4(rootPage, 12, value)
+            rootPage.writeInt4(12, value)
             distinctPrimary_ = value
             bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
             bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
         }
         get() = distinctPrimary_
 
-    private var rootNode: ByteArray? = null
+    private var rootNode: BufferManagerPage? = null
 
     private var pendingImport: MutableList<Int?> = mutableListOf()
 
@@ -363,8 +363,8 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     private fun importHelper(a: Int, b: Int): Int {
-        var nodeA: ByteArray? = null
-        var nodeB: ByteArray? = null
+        var nodeA: BufferManagerPage? = null
+        var nodeB: BufferManagerPage? = null
         nodeManager.getNodeLeaf(lupos.SOURCE_FILE, a) {
             nodeA = it
         }
@@ -379,7 +379,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     private fun importHelper(iterator: TripleIterator): Int {
         var res = NodeManager.nodeNullPointer
-        var node2: ByteArray? = null
+        var node2: BufferManagerPage? = null
         nodeManager.allocateNodeLeaf(lupos.SOURCE_FILE) { n, i ->
             res = i
             node2 = n
@@ -452,7 +452,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             }
             SanityCheck.check { pendingImport.size > 0 }
             val firstLeaf2 = pendingImport[pendingImport.size - 1]!!
-            var node: ByteArray? = null
+            var node: BufferManagerPage? = null
             var flag = false
             nodeManager.getNodeAny(
                 lupos.SOURCE_FILE,
@@ -486,7 +486,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         var iterator = Count1PassThroughIterator(DistinctIterator(_iterator))
         if (iterator.hasNext()) {
             var currentLayer = mutableListOf<Int>()
-            var node2: ByteArray? = null
+            var node2: BufferManagerPage? = null
             nodeManager.allocateNodeLeaf(lupos.SOURCE_FILE) { n, i ->
                 firstLeaf = i
                 node2 = n
@@ -511,7 +511,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 // work around the crossinline here, because the method would be too large
                 while (currentLayer.size > 1) {
                     val tmp = mutableListOf<Int>()
-                    var prev2: ByteArray? = null
+                    var prev2: BufferManagerPage? = null
                     nodeManager.allocateNodeInner(lupos.SOURCE_FILE) { n, i ->
                         nodeManager.flushNode(lupos.SOURCE_FILE, nodeid)
                         nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)

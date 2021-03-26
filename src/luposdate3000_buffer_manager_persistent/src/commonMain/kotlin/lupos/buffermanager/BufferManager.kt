@@ -25,8 +25,8 @@ public expect class BufferManager {
     public constructor()
 
     public fun releasePage(call_location: String, pageid: Int)
-    public fun getPage(call_location: String, pageid: Int): ByteArray
-    /*suspend*/ public fun createPage(call_location: String, action: (ByteArray, Int) -> Unit)
+    public fun getPage(call_location: String, pageid: Int): BufferManagerPage
+    /*suspend*/ public fun createPage(call_location: String, action: (BufferManagerPage, Int) -> Unit)
     /*suspend*/ public fun deletePage(call_location: String, pageid: Int)
     public fun flushPage(call_location: String, pageid: Int)
 

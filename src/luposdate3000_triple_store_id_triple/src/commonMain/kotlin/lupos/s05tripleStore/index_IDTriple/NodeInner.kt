@@ -16,7 +16,7 @@
  */
 package lupos.s05tripleStore.index_IDTriple
 
-import lupos.s00misc.ByteArrayHelper
+import lupos.buffermanager.BufferManagerPage
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -26,7 +26,7 @@ internal object NodeInner {
     const val MAX_POINTER_SIZE = 4
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getFirstTriple(data: ByteArray, b: IntArray, nodeManager: NodeManager) {
+    internal inline fun getFirstTriple(data: BufferManagerPage, b: IntArray, nodeManager: NodeManager) {
         var node = data
         var done = false
         var nodeid = getFirstChild(node)
@@ -50,28 +50,28 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun setFirstChild(data: ByteArray, node: Int) {
-        ByteArrayHelper.writeInt4(data, 12, node)
+    internal inline fun setFirstChild(node: BufferManagerPage, data: Int) {
+        node.writeInt4(12, data)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getFirstChild(data: ByteArray): Int {
-        return ByteArrayHelper.readInt4(data, 12)
+    internal inline fun getFirstChild(node: BufferManagerPage): Int {
+        return node.readInt4(12)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeChildPointer(node: ByteArray, offset: Int, pointer: Int): Int {
-        ByteArrayHelper.writeInt4(node, offset, pointer)
+    internal inline fun writeChildPointer(node: BufferManagerPage, offset: Int, pointer: Int): Int {
+        node.writeInt4(offset, pointer)
         return 4
     }
 
-    internal inline fun readChildPointer(node: ByteArray, offset: Int, crossinline action: (pointer: Int) -> Unit): Int {
-        action(ByteArrayHelper.readInt4(node, offset))
+    internal inline fun readChildPointer(node: BufferManagerPage, offset: Int, crossinline action: (pointer: Int) -> Unit): Int {
+        action(node.readInt4(offset))
         return 4
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun iterator(_node: ByteArray, nodeManager: NodeManager): TripleIterator {
+    internal inline fun iterator(_node: BufferManagerPage, nodeManager: NodeManager): TripleIterator {
         var iterator: TripleIterator? = null
         var node = _node
         while (true) {
@@ -96,7 +96,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator(_node: ByteArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
+    /*suspend*/ internal inline fun iterator(_node: BufferManagerPage, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
         var iterator: ColumnIterator? = null
         var node = _node
         while (true) {
@@ -120,7 +120,7 @@ internal object NodeInner {
         return iterator!!
     }
 
-    internal inline /*suspend*/ fun forEachChild(node: ByteArray, crossinline action: /*suspend*/ (Int) -> Unit) {
+    internal inline /*suspend*/ fun forEachChild(node: BufferManagerPage, crossinline action: /*suspend*/ (Int) -> Unit) {
         var remaining = NodeShared.getTripleCount(node)
         var offset = START_OFFSET
         var lastChildPointer = getFirstChild(node)
@@ -135,7 +135,7 @@ internal object NodeInner {
         }
     }
 
-    /*suspend*/ internal inline fun findIteratorN(node: ByteArray, crossinline checkTooSmall: /*suspend*/ (value0: Int, value1: Int, value2: Int) -> Boolean, crossinline action: /*suspend*/ (Int) -> Unit) {
+    /*suspend*/ internal inline fun findIteratorN(node: BufferManagerPage, crossinline checkTooSmall: /*suspend*/ (value0: Int, value1: Int, value2: Int) -> Boolean, crossinline action: /*suspend*/ (Int) -> Unit) {
         var remaining = NodeShared.getTripleCount(node)
         var offset = START_OFFSET
         var value0 = 0
@@ -160,7 +160,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator3(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
+    /*suspend*/ internal inline fun iterator3(_node: BufferManagerPage, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -194,7 +194,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator2(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
+    /*suspend*/ internal inline fun iterator2(_node: BufferManagerPage, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -228,7 +228,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator1(_node: ByteArray, prefix: IntArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
+    /*suspend*/ internal inline fun iterator1(_node: BufferManagerPage, prefix: IntArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -262,7 +262,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun initializeWith(node: ByteArray, nodeid: Int, childs: MutableList<Int>, nodeManager: NodeManager) {
+    internal inline fun initializeWith(node: BufferManagerPage, nodeid: Int, childs: MutableList<Int>, nodeManager: NodeManager) {
         SanityCheck.check { childs.size > 0 }
         var writtenHeaders: MutableList<Int>? = null
         var writtenTriples: MutableList<Int>? = null
@@ -271,7 +271,7 @@ internal object NodeInner {
             writtenTriples = mutableListOf()
         }
         var offset = START_OFFSET
-        val offsetEnd = node.size - START_OFFSET - MAX_POINTER_SIZE
+        val offsetEnd = lupos.buffermanager.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - START_OFFSET - MAX_POINTER_SIZE
         var triples = 0
         val tripleLast = IntArray(3)
         val tripleCurrent = IntArray(3)

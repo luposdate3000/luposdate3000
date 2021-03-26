@@ -19,6 +19,7 @@ package lupos.dictionary
 import lupos.ProguardTestAnnotation
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
+import lupos.buffermanager.BufferManagerPage
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.kv.KeyValueStore
 import lupos.s00misc.ByteArrayHelper
@@ -32,7 +33,7 @@ public class DictionaryKV : ADictionary {
     private val kv: KeyValueStore
     private var bNodeCounter = 5
     private val rootPageID: Int
-    private val rootPage: ByteArray
+    private val rootPage: BufferManagerPage
     private val isLocal: Boolean
 
     internal constructor(isLocal: Boolean) : super() {
@@ -47,7 +48,7 @@ public class DictionaryKV : ADictionary {
             }
             rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
         } else {
-            var p: ByteArray? = null
+            var p: BufferManagerPage? = null
             bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
                 p = page
                 rootPageID = pageid
@@ -60,10 +61,10 @@ public class DictionaryKV : ADictionary {
         this.rootPageID = rootPageID
         var kvPage = 0
         if (initFromRootPage) {
-            bNodeCounter = ByteArrayHelper.readInt4(rootPage, 0)
-            kvPage = ByteArrayHelper.readInt4(rootPage, 4)
+            bNodeCounter = rootPage.readInt4(0)
+            kvPage = rootPage.readInt4(4)
         } else {
-            ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
+            rootPage.writeInt4(0, bNodeCounter)
             bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
                 kvPage = pageid
             }
@@ -80,10 +81,10 @@ public class DictionaryKV : ADictionary {
         rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
         var kvPage = 0
         if (initFromRootPage) {
-            bNodeCounter = ByteArrayHelper.readInt4(rootPage, 0)
-            kvPage = ByteArrayHelper.readInt4(rootPage, 4)
+            bNodeCounter = rootPage.readInt4(0)
+            kvPage = rootPage.readInt4(4)
         } else {
-            ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
+            rootPage.writeInt4(0, bNodeCounter)
             bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
                 kvPage = pageid
             }
@@ -129,7 +130,7 @@ public class DictionaryKV : ADictionary {
         if (isLocal) {
             res = res or ADictionary.flagLocal
         }
-        ByteArrayHelper.writeInt4(rootPage, 0, bNodeCounter)
+        rootPage.writeInt4(0, bNodeCounter)
         return res
     }
 

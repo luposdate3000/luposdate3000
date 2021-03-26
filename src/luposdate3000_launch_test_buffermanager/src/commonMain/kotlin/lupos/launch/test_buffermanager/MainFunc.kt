@@ -18,7 +18,7 @@ package lupos.launch.test_buffermanager
 
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
-import lupos.s00misc.ByteArrayHelper
+import lupos.buffermanager.BufferManagerPage
 import lupos.s00misc.Parallel
 import lupos.test.AflCore
 import kotlin.math.abs
@@ -34,7 +34,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
     val pageIds = mutableListOf<Int>()
-    val mappedPages = mutableMapOf<Int, ByteArray>()
+    val mappedPages = mutableMapOf<Int, BufferManagerPage>()
     val mappedPagesCtr = mutableMapOf<Int, Int>()
 
     fun testReleasePageOk(pageid: Int) {
@@ -74,7 +74,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
             println("testGetPageOk $pageid")
         }
         val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-        val id = ByteArrayHelper.readInt4(page, 0)
+        val id = page.readInt4(0)
         if (id != pageid) {
             throw Exception("")
         }
@@ -111,7 +111,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
             if (verbose) {
                 println("testCreateNewPageOk $pageid")
             }
-            ByteArrayHelper.writeInt4(page, 0, pageid)
+            page.writeInt4(0, pageid)
             if (pageIds.contains(pageid)) {
                 throw Exception("")
             }
@@ -235,7 +235,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
             throw Exception("")
         }
         for ((k, v) in mappedPages) {
-            val id = ByteArrayHelper.readInt4(v, 0)
+            val id = v.readInt4(0)
             if (id != k) {
                 throw Exception("")
             }
@@ -253,7 +253,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
     for (pageid in pageIds) {
         val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-        val id = ByteArrayHelper.readInt4(page, 0)
+        val id = page.readInt4(0)
         if (id != pageid) {
             throw Exception("")
         }
@@ -275,7 +275,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     }
     for (pageid in pageIds) {
         val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-        val id = ByteArrayHelper.readInt4(page, 0)
+        val id = page.readInt4(0)
         if (id != pageid) {
             throw Exception("")
         }

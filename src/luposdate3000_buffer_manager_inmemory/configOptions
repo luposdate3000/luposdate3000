@@ -1,2 +1,1 @@
-BUFFER_MANAGER_PAGE_SIZE_IN_BYTES,const internal val,Long,8192L
 BUFFER_MANAGER_USE_FREE_LIST,const internal val,Boolean,true

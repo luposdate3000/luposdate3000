@@ -16,11 +16,12 @@
  */
 package lupos.s05tripleStore.index_IDTriple
 
+import lupos.buffermanager.BufferManagerPage
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.MyReadWriteLock
 import kotlin.jvm.JvmField
 
-internal class NodeLeafColumnIteratorPrefix3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock, nodeManager) {
+internal class NodeLeafColumnIteratorPrefix3(node: BufferManagerPage, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock, nodeManager) {
     @JvmField
     var value0 = 0
 

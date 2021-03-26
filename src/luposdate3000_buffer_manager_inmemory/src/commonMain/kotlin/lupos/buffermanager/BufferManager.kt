@@ -17,7 +17,6 @@
 package lupos.buffermanager
 
 import lupos.ProguardTestAnnotation
-import lupos.s00misc.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.s00misc.BUFFER_MANAGER_USE_FREE_LIST
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
@@ -36,7 +35,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
      * - temporary result rows (currently not implemented)
      * additionally this should make it more easy to exchange this with on disk storage
      */
-    private var allPages = Array<ByteArray>(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
+    private var allPages = Array<BufferManagerPage>(100) { createBufferManagerPage() }
 
     private var allPagesRefcounters = IntArray(100)
 
@@ -52,7 +51,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
                 SanityCheck.check({ allPagesRefcounters[i] == 0 }, { "Failed requirement allPagesRefcounters[$i] = ${allPagesRefcounters[i]} == 0" })
             }
         }
-        allPages = Array<ByteArray>(100) { ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt()) }
+        allPages = Array<BufferManagerPage>(100) { createBufferManagerPage() }
         allPagesRefcounters = IntArray(100)
         if (BUFFER_MANAGER_USE_FREE_LIST) {
             freeList.clear()
@@ -87,7 +86,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
         allPagesRefcounters[pageid]--
     }
 
-    public fun getPage(call_location: String, pageid: Int): ByteArray {
+    public fun getPage(call_location: String, pageid: Int): BufferManagerPage {
         SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $call_location" }
         // no locking required, assuming an assignment to 'allPages' is atomic
         SanityCheck {
@@ -97,11 +96,12 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
                 SanityCheck.check { !freeList.contains(pageid) }
             }
         }
+        SanityCheck.check { allPages[pageid].getPageID() == pageid }
         allPagesRefcounters[pageid]++
         return allPages[pageid]
     }
 
-    public /*suspend*/ fun createPage(call_location: String, action: (ByteArray, Int) -> Unit): Unit = lock.withWriteLock {
+    public /*suspend*/ fun createPage(call_location: String, action: (BufferManagerPage, Int) -> Unit): Unit = lock.withWriteLock {
         val pageid: Int
         if (freeList.size > 0 && BUFFER_MANAGER_USE_FREE_LIST) {
             pageid = freeList.removeAt(0)
@@ -113,11 +113,11 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
                 } else if (counter > 1000) {
                     size = counter + 1000
                 }
-                val tmp = Array<ByteArray>(size) {
-                    val res: ByteArray = if (it < counter) {
+                val tmp = Array<BufferManagerPage>(size) {
+                    val res: BufferManagerPage = if (it < counter) {
                         allPages[it]
                     } else {
-                        ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt())
+                        createBufferManagerPage()
                     }
                     res
                 }
@@ -130,6 +130,8 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
         }
         allPagesRefcounters[pageid]++
         SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $call_location" }
+        SanityCheck.check { allPages[pageid].getPageID() == -1 }
+        allPages[pageid].setPageID(pageid)
         action(allPages[pageid], pageid)
     }
 
@@ -142,6 +144,8 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
         }
         SanityCheck.check({ allPagesRefcounters[pageid] == 1 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} == 1" })
         allPagesRefcounters[pageid] = 0
+        SanityCheck.check { allPages[pageid].getPageID() == pageid }
+        allPages[pageid].setPageID(-1)
         if (BUFFER_MANAGER_USE_FREE_LIST) {
             freeList.add(pageid)
             if (freeList.size == counter) {

@@ -512,6 +512,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("            it.kotlinOptions {")
                 out.println("                freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
                 out.println("                freeCompilerArgs += \"-Xnew-inference\"")
+                out.println("                freeCompilerArgs += \"-Xinline-classes\"")
                 out.println("            }")
                 out.println("        }")
                 out.println("    }")
