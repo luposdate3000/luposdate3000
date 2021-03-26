@@ -130,7 +130,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
         }
         allPagesRefcounters[pageid]++
         SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $call_location" }
-        SanityCheck.check { allPages[pageid].getPageID() == -1 }
+        SanityCheck.check({ allPages[pageid].getPageID() == -1 }, { "${allPages[pageid].getPageID()}" })
         allPages[pageid].setPageID(pageid)
         action(allPages[pageid], pageid)
     }
@@ -146,6 +146,9 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
         allPagesRefcounters[pageid] = 0
         SanityCheck.check { allPages[pageid].getPageID() == pageid }
         allPages[pageid].setPageID(-1)
+        SanityCheck {
+            allPages[pageid] = createBufferManagerPage()
+        }
         if (BUFFER_MANAGER_USE_FREE_LIST) {
             freeList.add(pageid)
             if (freeList.size == counter) {

@@ -23,14 +23,35 @@ public fun createBufferManagerPage(): BufferManagerPage {
     return BufferManagerPage(ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES + 4))
 }
 
-public inline class BufferManagerPage internal constructor(public val data: ByteArray) {
+public inline class BufferManagerPage internal constructor(private val data: ByteArray) {
+    init {
+        setPageID(-1)
+    }
+
+    public inline fun getData(): ByteArray {
+        return data
+    }
+
+    public inline fun copyInto(destination: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int) {
+        SanityCheck.check { getPageID() != -1 }
+        data.copyInto(destination, destinationOffset, startIndex, endIndex)
+    }
+
+    public inline fun copyFrom(source: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int) {
+        SanityCheck.check { getPageID() != -1 }
+        source.copyInto(data, destinationOffset, startIndex, endIndex)
+    }
+
     public inline fun getPageID(): Int {
-        return readInt4(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+        return (((data[BUFFER_MANAGER_PAGE_SIZE_IN_BYTES].toInt() and 0xFF) shl 24) or ((data[BUFFER_MANAGER_PAGE_SIZE_IN_BYTES + 1].toInt() and 0xFF) shl 16) or ((data[BUFFER_MANAGER_PAGE_SIZE_IN_BYTES + 2].toInt() and 0xFF) shl 8) or ((data[BUFFER_MANAGER_PAGE_SIZE_IN_BYTES + 3].toInt() and 0xFF)))
     }
 
     public inline fun setPageID(value: Int) {
         SanityCheck.check { value == -1 || getPageID() == -1 }
-        writeInt4(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES, value)
+        data[BUFFER_MANAGER_PAGE_SIZE_IN_BYTES] = ((value shr 24) and 0xFF).toByte()
+        data[BUFFER_MANAGER_PAGE_SIZE_IN_BYTES + 1] = ((value shr 16) and 0xFF).toByte()
+        data[BUFFER_MANAGER_PAGE_SIZE_IN_BYTES + 2] = ((value shr 8) and 0xFF).toByte()
+        data[BUFFER_MANAGER_PAGE_SIZE_IN_BYTES + 3] = (value and 0xFF).toByte()
     }
 
     @Suppress("NOTHING_TO_INLINE")

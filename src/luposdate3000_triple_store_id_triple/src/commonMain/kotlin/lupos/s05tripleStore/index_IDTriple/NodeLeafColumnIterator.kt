@@ -68,8 +68,9 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: BufferManager
         if (remaining == 0) {
             needsReset = true
             offset = NodeLeaf.START_OFFSET
+            val nextnodeid = NodeShared.getNextNode(node)
             nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
-            nodeid = NodeShared.getNextNode(node)
+            nodeid = nextnodeid
             if (nodeid != NodeManager.nodeNullPointer) {
                 nodeManager.getNodeLeaf(lupos.SOURCE_FILE, nodeid) {
                     SanityCheck.check { node != it }

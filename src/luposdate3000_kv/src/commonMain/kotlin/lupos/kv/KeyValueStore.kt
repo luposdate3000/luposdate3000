@@ -145,7 +145,7 @@ public class KeyValueStore {
             } else {
                 toread
             }
-            p.data.copyInto(data.getBuf(), bufoff, pageoff, pageoff + len)
+            p.copyInto(data.getBuf(), bufoff, pageoff, pageoff + len)
             bufoff += len
             pageoff += len
             toread -= len
@@ -191,7 +191,7 @@ public class KeyValueStore {
             } else {
                 towrite
             }
-            data.getBuf().copyInto(lastPageBuf.data, lastPageOffset, dataoff, dataoff + len)
+            lastPageBuf.copyFrom(data.getBuf(), lastPageOffset, dataoff, dataoff + len)
             towrite -= len
             lastPageOffset += len
             rootPage.writeInt4(4, lastPageOffset)
