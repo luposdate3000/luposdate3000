@@ -33,40 +33,23 @@ public class DictionaryKV : ADictionary {
     private var bNodeCounter = 5
     private val rootPageID: Int
     private val rootPage: BufferManagerPage
-    private val isLocal: Boolean
+    private val isLocal: Boolean = false
     public override fun close() {
+        kv.close()
+        bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
     }
 
     public override fun delete() {
-        close()
+        kv.delete()
+        bufferManager.deletePage(lupos.SOURCE_FILE, rootPageID)
         File(BufferManagerExt.bufferPrefix + "dict.page").deleteRecursively()
     }
 
     public override fun isInmemoryOnly(): Boolean = false
 
-    internal constructor(isLocal: Boolean, bufferManager: BufferManager) : super() {
-        this.isLocal = isLocal
-        SanityCheck.check { !isLocal }
+    internal constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) : super() {
         this.bufferManager = bufferManager
-        val file = File(BufferManagerExt.bufferPrefix + "dict.page")
-        var rootPageID = 0
-        var initFromRootPage = file.exists()
-        if (initFromRootPage) {
-            file.withInputStream {
-                rootPageID = it.readInt()
-            }
-            rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
-        } else {
-            var p: BufferManagerPage? = null
-            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-                p = page
-                rootPageID = pageid
-            }
-            this.rootPage = p!!
-            file.withOutputStream {
-                it.writeInt(rootPageID)
-            }
-        }
+        rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
         this.rootPageID = rootPageID
         var kvPage = 0
         if (initFromRootPage) {

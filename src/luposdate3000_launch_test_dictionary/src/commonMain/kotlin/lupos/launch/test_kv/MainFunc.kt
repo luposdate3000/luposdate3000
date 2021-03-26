@@ -16,7 +16,11 @@
  */
 package lupos.launch.test_dictionary
 
+import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
+import lupos.dictionary.DictionaryFactory
+import lupos.dictionary.EDictionaryTypeExt
+import lupos.dictionary.IDictionary
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.Parallel
 import lupos.test.AflCore
@@ -34,21 +38,27 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     BufferManagerExt.allowInitFromDisk = false
+    var bufferManager = BufferManager()
     if (hasNextRandom() > 1) {
-        val dictType = abs(nextRandom() % EDictionaryTypeExt.count)
+        val dictType = abs(nextRandom() % EDictionaryTypeExt.values_size)
         val isLocal = abs(nextRandom() % 2) == 0
-        var dict: IDictionary = nodeglobalDictionary
-        val forbiddenDictionary = (dictType == EDictionaryTypeExt.KV && isLocal)
-        try {
-            dict = DictionaryFactory.createDictionary(dictType, isLocal, bufferManager)
-        } catch (e: Throwable) {
-            if (!forbiddenDictionary) {
-                throw Exception("")
+        var rootPage = -1
+        fun createDict(initFromRootPage: Boolean): IDictionary {
+            when (dictType) {
+                EDictionaryTypeExt.KV -> {
+                    if (rootPage == -1) {
+                        bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
+                            rootPage = pageid
+                        }
+                        bufferManager.releasePage(lupos.SOURCE_FILE, rootPage)
+                    }
+                    return DictionaryFactory.createDictionary(dictType, false, bufferManager, rootPage, initFromRootPage)
+                }
+                else -> return DictionaryFactory.createDictionary(dictType, isLocal, bufferManager, -1, false)
             }
         }
-        if (forbiddenDictionary) {
-            throw Exception("")
-        }
+
+        var dict = createDict(false)
         val values = mutableListOf<ByteArray>()
         val mapping = mutableMapOf<Int, Int>()
 
@@ -193,12 +203,12 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         for ((k, v) in mapping) {
             testGetValueOk(values[v], k)
         }
-        if (!dict.isInmemoryOnly()) {
+        if (!dict.isInmemoryOnly() && !BufferManagerExt.isInMemoryOnly) {
             dict.close()
             if (bufferManager.getNumberOfReferencedPages() != 0) {
                 throw Exception("")
             }
-            dict = DictionaryFactory.createDictionary(dictType, isLocal, bufferManager)
+            dict = createDict(true)
         }
         for ((k, v) in mapping) {
             testGetValueOk(values[v], k)
