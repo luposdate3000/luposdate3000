@@ -158,6 +158,7 @@ public object DictionaryHelper {
 
     public inline fun typedToByteArray(buffer: ByteArrayWrapper, content: String, type: String) {
         when (type) {
+            "http://www.w3.org/2001/XMLSchema#string" -> stringToByteArray(buffer, content)
             "http://www.w3.org/2001/XMLSchema#integer" -> integerToByteArray(buffer, content)
             "http://www.w3.org/2001/XMLSchema#decimal" -> decimalToByteArray(buffer, content)
             "http://www.w3.org/2001/XMLSchema#double" -> doubleToByteArray(buffer, content.toDouble())

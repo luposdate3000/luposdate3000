@@ -138,6 +138,9 @@ fun generateInstantiatedString(str: String): GenerateFunc = { indention, _, outp
 public class MyOperator(
     public val name: String,
     public val type: OperatorType,
+    public val imports: MutableSet<String> = mutableSetOf(),
+    public val additionalParametersName: Array<String> = arrayOf(),
+    public val additionalParametersDefinition: Array<String> = arrayOf(),
     public val implementations: Array<MyOperatorPart>,
     public val generateInstantiatedOther: GenerateFuncOtherInstantiated,
     public val generateIDOther: GenerateFuncOther,
@@ -224,16 +227,17 @@ public class MyOperator(
         var clazz = StringBuilder()
         clazz.appendLine("package lupos.s04arithmetikOperators.generated")
         clazz.appendLine("")
-        var imports = mutableSetOf<String>()
+        var imports2 = mutableSetOf<String>()
+        imports2.addAll(imports)
         var target = StringBuilder()
         var globalVariables = mutableSetOf<String>()
-        generate("            ", EParamRepresentation.ID, Array(implementations[0].childrenTypes.size) { "childIn$it" }, "res", "tmp", imports, target, globalVariables)
-        imports.add("lupos.s04arithmetikOperators.AOPBase")
-        imports.add("lupos.s04logicalOperators.IQuery")
-        imports.add("lupos.s04logicalOperators.iterator.IteratorBundle")
-        imports.add("lupos.s04logicalOperators.IOPBase")
-        imports.add("lupos.s00misc.EOperatorIDExt")
-        for (i in imports.toList().sorted()) {
+        generate("            ", EParamRepresentation.ID, Array(implementations[0].childrenTypes.size) { "childIn$it" }, "res", "tmp", imports2, target, globalVariables)
+        imports2.add("lupos.s04arithmetikOperators.AOPBase")
+        imports2.add("lupos.s04logicalOperators.IQuery")
+        imports2.add("lupos.s04logicalOperators.iterator.IteratorBundle")
+        imports2.add("lupos.s04logicalOperators.IOPBase")
+        imports2.add("lupos.s00misc.EOperatorIDExt")
+        for (i in imports2.toList().sorted()) {
             clazz.appendLine("import $i")
         }
         clazz.appendLine("")
@@ -255,6 +259,10 @@ public class MyOperator(
             line2 += "children[$i].toSparql()"
             line3 += " && children[$i] == other.children[$i]"
             line4 += ", children[$i].cloneOP() as AOPBase"
+        }
+        for (i in 0 until additionalParametersDefinition.size) {
+            line0 += " ${additionalParametersDefinition[i]},"
+            line4 += ", ${additionalParametersName[i]}"
         }
         line0 += (") : AOPBase(")
         line0 += ("query, ")
@@ -608,6 +616,42 @@ public val operators = listOf(
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
     ),
+    MyOperator(
+        name = "IRI",
+        type = OperatorType.BuildInCall,
+        additionalParametersDefinition = arrayOf("@JvmField public var prefix: String"),
+        imports = mutableSetOf("kotlin.jvm.JvmField"),
+        additionalParametersName = arrayOf("prefix"),
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.IRI),
+                resultType = ETripleComponentTypeExt.IRI,
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _ ->
+                    target.appendLine("${indention}val $outputName = ${inputNames[0]}")
+                },
+                generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables ->
+                    imports.add("lupos.s00misc.ByteArrayWrapper")
+                    globalVariables.add("val $outputName = ByteArrayWrapper()")
+                    target.appendLine("${indention}${inputNames[0]}.copyInto($outputName)")
+                }
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
+                resultType = ETripleComponentTypeExt.IRI,
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _ ->
+                    target.appendLine("${indention}val $outputName = if(prefix.length > 0 && !prefix.endsWith('/')) {")
+                    target.appendLine("$indention    \"\$prefix/\$${inputNames[0]}\"")
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    \"\$prefix\$${inputNames[0]}\"")
+                    target.appendLine("$indention}")
+                },
+                generateByteArrayWrapper = null,
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
 )
 
 public val converters = listOf(
@@ -694,6 +738,15 @@ public val converters = listOf(
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.STRING,
+        inputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
+        outputRepresentation = EParamRepresentation.INSTANTIATED,
+        generate = { indention, inputName, outputName, imports, target, _ ->
+            imports.add("lupos.dictionary.DictionaryHelper")
+            target.appendLine("${indention}val $outputName = DictionaryHelper.byteArrayToString($inputName)")
+        }
+    ),
+    MyRepresentationConversionFunction(
+        type = ETripleComponentTypeExt.STRING,
         inputRepresentation = EParamRepresentation.INSTANTIATED,
         outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
@@ -701,6 +754,17 @@ public val converters = listOf(
             imports.add("lupos.dictionary.DictionaryHelper")
             globalVariables.add("val $outputName = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.stringToByteArray($outputName, $inputName)")
+        }
+    ),
+    MyRepresentationConversionFunction(
+        type = ETripleComponentTypeExt.IRI,
+        inputRepresentation = EParamRepresentation.INSTANTIATED,
+        outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
+        generate = { indention, inputName, outputName, imports, target, globalVariables ->
+            imports.add("lupos.s00misc.ByteArrayWrapper")
+            imports.add("lupos.dictionary.DictionaryHelper")
+            globalVariables.add("val $outputName = ByteArrayWrapper()")
+            target.appendLine("${indention}DictionaryHelper.iriToByteArray($outputName, $inputName)")
         }
     ),
     MyRepresentationConversionFunction(
