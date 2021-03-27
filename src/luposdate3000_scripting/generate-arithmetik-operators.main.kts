@@ -21,27 +21,27 @@
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 
-internal enum class OperatorType {
+public enum class OperatorType {
     BuildInCall,
     Function,
 }
 
-internal enum class EParamRepresentation {
+public enum class EParamRepresentation {
     ID, // represented as dictionary key
     BYTEARRAYWRAPPER, // represented as ByteArrayWrapper
     INSTANTIATED, // represented as the parsed Type itself
 }
 
-internal class MyOperator(
-    internal val name: String,
-    internal val type: OperatorType,
-    internal val implementations: Array<MyOperatorPart>,
+public class MyOperator(
+    public val name: String,
+    public val type: OperatorType,
+    public val implementations: Array<MyOperatorPart>,
 ) {
-    internal fun generate(representation: EParamRepresentation, imports: MutableSet<String>, target: StringBuilder) {
+    public fun generate(representation: EParamRepresentation, imports: MutableSet<String>, target: StringBuilder) {
         generate(representation, Array(implementations[0].childrenTypes.size) { "children[$it]" }, "res", "tmp", imports, target)
     }
 
-    internal fun generate(representation: EParamRepresentation, inputNames: Array<String>, outputName: String, prefix: String, imports: MutableSet<String>, target: StringBuilder) {
+    public fun generate(representation: EParamRepresentation, inputNames: Array<String>, outputName: String, prefix: String, imports: MutableSet<String>, target: StringBuilder) {
         if (representation == EParamRepresentation.INSTANTIATED) {
             throw Exception("there is no need to combine functions here")
         }
@@ -51,18 +51,18 @@ internal class MyOperator(
             for (i in 0 until inputNames.size) {
                 myInputNames[i] = "${prefix}_${prefix_counter++}"
                 imports.add("lupos.s00misc.ByteArrayWrapper")
-                target.appendln("val ${myInputNames[i]} = ByteArrayWrapper()")
-                target.appendln("query.getDictionary().getValue(${myInputNames[i]}, ${inputNames[i]})")
+                target.appendLine("val ${myInputNames[i]} = ByteArrayWrapper()")
+                target.appendLine("query.getDictionary().getValue(${myInputNames[i]}, ${inputNames[i]})")
             }
         }
         var typeNames = Array<String>(inputNames.size) { "${prefix}_${prefix_counter++}" }
         for (i in 0 until inputNames.size) {
-            target.appendln("val ${typeNames[i]} = DictionaryHelper.byteArrayToType(${myInputNames[i]}")
+            target.appendLine("val ${typeNames[i]} = DictionaryHelper.byteArrayToType(${myInputNames[i]}")
         }
         var myOutputName = "${prefix}_${prefix_counter++}"
         var first = true
         for (implementation in implementations) {
-            var cond = ""
+            var cond: String
             if (first) {
                 cond = "if ("
             } else {
@@ -79,7 +79,7 @@ internal class MyOperator(
                 cond += "${typeNames[i]} == ETripleComponentTypeExt.${ETripleComponentTypeExt.names[implementation.childrenTypes[i]]}"
             }
             cond += ") {"
-            target.appendln(cond)
+            target.appendLine(cond)
             var myInputInstances = Array(inputNames.size) { "${prefix}_${prefix_counter++}" }
             var myOutputInstance = "${prefix}_${prefix_counter++}"
             for (i in 0 until inputNames.size) {
@@ -90,17 +90,17 @@ internal class MyOperator(
             val converter = getRepresentationConversionFunction(implementation.resultType, EParamRepresentation.INSTANTIATED, EParamRepresentation.BYTEARRAYWRAPPER)
             converter.generate(myOutputInstance, myOutputName, imports, target)
         }
-        target.appendln("}")
+        target.appendLine("}")
         if (representation == EParamRepresentation.ID) {
-            target.appendln("val $outputName = query.getDictionary().createValue($myOutputName)")
+            target.appendLine("val $outputName = query.getDictionary().createValue($myOutputName)")
         }
     }
 }
 
-internal class MyOperatorPart(
-    internal val childrenTypes: Array<ETripleComponentType>,
-    internal val resultType: ETripleComponentType,
-    internal val generate: (
+public class MyOperatorPart(
+    public val childrenTypes: Array<ETripleComponentType>,
+    public val resultType: ETripleComponentType,
+    public val generate: (
         Array<String>, // inputNames
         String, // outputName
         String, // prefix (for intermediates)
@@ -109,11 +109,11 @@ internal class MyOperatorPart(
     ) -> Unit
 )
 
-internal class MyRepresentationConversionFunction(
-    internal val type: ETripleComponentType,
-    internal val inputRepresentation: EParamRepresentation,
-    internal val outputRepresentation: EParamRepresentation,
-    internal val generate: (
+public class MyRepresentationConversionFunction(
+    public val type: ETripleComponentType,
+    public val inputRepresentation: EParamRepresentation,
+    public val outputRepresentation: EParamRepresentation,
+    public val generate: (
         String, // inputName
         String, // outputName
         MutableSet<String>, // imports
@@ -121,7 +121,7 @@ internal class MyRepresentationConversionFunction(
     ) -> Unit
 )
 
-internal val operators = listOf(
+public val operators = listOf(
     MyOperator(
         name = "ABS",
         type = OperatorType.BuildInCall,
@@ -130,41 +130,41 @@ internal val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                 resultType = ETripleComponentTypeExt.INTEGER,
                 generate = { inputNames, outputName, prefix, imports, target ->
-                    target.appendln("val $outputName = ${inputNames[0]}.abs()")
+                    target.appendLine("val $outputName = ${inputNames[0]}.abs()")
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                 resultType = ETripleComponentTypeExt.DECIMAL,
                 generate = { inputNames, outputName, prefix, imports, target ->
-                    target.appendln("val $outputName = ${inputNames[0]}.abs()")
+                    target.appendLine("val $outputName = ${inputNames[0]}.abs()")
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
                 resultType = ETripleComponentTypeExt.DOUBLE,
                 generate = { inputNames, outputName, prefix, imports, target ->
-                    target.appendln("val $outputName = abs(${inputNames[0]})")
+                    target.appendLine("val $outputName = abs(${inputNames[0]})")
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
                 resultType = ETripleComponentTypeExt.FLOAT,
                 generate = { inputNames, outputName, prefix, imports, target ->
-                    target.appendln("val $outputName = abs(${inputNames[0]})")
+                    target.appendLine("val $outputName = abs(${inputNames[0]})")
                 },
             ),
         ),
     ),
 )
-internal val converters = listOf(
+public val converters = listOf(
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.INTEGER,
         inputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { inputName, outputName, imports, target ->
             imports.add("lupos.dictionary.DictionaryHelper")
-            target.appendln("val $outputName = MyBigInteger(DictionaryHelper.byteArrayToInteger($inputName))")
+            target.appendLine("val $outputName = MyBigInteger(DictionaryHelper.byteArrayToInteger($inputName))")
         }
     ),
     MyRepresentationConversionFunction(
@@ -174,13 +174,13 @@ internal val converters = listOf(
         generate = { inputName, outputName, imports, target ->
             imports.add("lupos.s00misc.ByteArrayWrapper")
             imports.add("lupos.dictionary.DictionaryHelper")
-            target.appendln("val $outputName = ByteArrayWrapper()")
-            target.appendln("DictionaryHelper.integerToByteArray($outputName, $inputName.toString())")
+            target.appendLine("val $outputName = ByteArrayWrapper()")
+            target.appendLine("DictionaryHelper.integerToByteArray($outputName, $inputName.toString())")
         }
     ),
 )
 
-internal fun getRepresentationConversionFunction(type: ETripleComponentType, inputRepresentation: EParamRepresentation, outputRepresentation: EParamRepresentation): MyRepresentationConversionFunction {
+fun getRepresentationConversionFunction(type: ETripleComponentType, inputRepresentation: EParamRepresentation, outputRepresentation: EParamRepresentation): MyRepresentationConversionFunction {
     for (converter in converters) {
         if (converter.type == type && converter.inputRepresentation == inputRepresentation && converter.outputRepresentation == outputRepresentation) {
             return converter
@@ -188,7 +188,6 @@ internal fun getRepresentationConversionFunction(type: ETripleComponentType, inp
     }
     throw Exception("not found ${ETripleComponentTypeExt.names[type]} $inputRepresentation $outputRepresentation")
 }
-
 for (operator in operators) {
     println("${operator.name} --------- ")
     var imports = mutableSetOf<String>()
