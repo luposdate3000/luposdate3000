@@ -26,6 +26,12 @@ import lupos.s00misc.MyReadWriteLock
 import kotlin.jvm.JvmField
 
 internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary) : ADictionary() {
+    public override fun delete() {
+    }
+
+    public override fun close() {
+    }
+
     @JvmField
     internal val lock = MyReadWriteLock()
     public override fun valueToGlobal(value: Int): Int {

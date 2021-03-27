@@ -24,6 +24,9 @@ import lupos.s00misc.IMyOutputStream
 import kotlin.jvm.JvmField
 
 internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream) : ADictionary() {
+    public override fun delete() {
+    }
+
     public override fun valueToGlobal(value: Int): Int {
         output.writeInt(3)
         output.writeInt(value)
@@ -67,7 +70,7 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         input.read(buffer.getBuf(), len)
     }
 
-    public fun close() {
+    public override fun close() {
         output.writeInt(0)
         output.flush()
         output.close()

@@ -114,11 +114,7 @@ public class MyOperator(
 
     public fun generateAOP(): StringBuilder {
         var clazz = StringBuilder()
-        when (implementations[0].childrenTypes.size) {
-            0 -> clazz.appendLine("package lupos.s04arithmetikOperators.noinput")
-            1 -> clazz.appendLine("package lupos.s04arithmetikOperators.singleinput")
-            else -> clazz.appendLine("package lupos.s04arithmetikOperators.multiinput")
-        }
+        clazz.appendLine("package lupos.s04arithmetikOperators.generated")
         var imports = mutableSetOf<String>()
         var target = StringBuilder()
         var globalVariables = mutableSetOf<String>()
@@ -340,13 +336,7 @@ fun getRepresentationConversionFunction(type: ETripleComponentType, inputReprese
     throw Exception("not found ${ETripleComponentTypeExt.names[type]} $inputRepresentation $outputRepresentation")
 }
 for (operator in operators) {
-    var foldername: String = ""
-    when (operator.implementations[0].childrenTypes.size) {
-        0 -> foldername = "noinput"
-        1 -> foldername = "singleinput"
-        else -> foldername = "multiinput"
-    }
-    File("src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/s04arithmetikOperators/$foldername/AOP${operator.type}${operator.name}.kt").printWriter().use { out ->
+    File("src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/s04arithmetikOperators/generated/AOP${operator.type}${operator.name}.kt").printWriter().use { out ->
         out.println("/*")
         out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
         out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
