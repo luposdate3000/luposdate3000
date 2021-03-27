@@ -32,12 +32,43 @@ public enum class EParamRepresentation {
     BYTEARRAYWRAPPER, // represented as ByteArrayWrapper
     INSTANTIATED, // represented as the parsed Type itself
 }
+typealias GenerateFunc = (
+    String, // indention
+    Array<String>, // inputNames
+    String, // outputName
+    String, // prefix (for intermediates)
+    MutableSet<String>, // imports
+    StringBuilder, // target
+    MutableSet<String>, // globalVariables
+) -> Unit
+
+typealias GenerateFuncOther = (
+    String, // indention
+    String, // outputName
+    String, // prefix (for intermediates)
+    MutableSet<String>, // imports
+    StringBuilder, // target
+    MutableSet<String>, // globalVariables
+) -> Unit
 
 public class MyOperator(
     public val name: String,
     public val type: OperatorType,
     public val implementations: Array<MyOperatorPart>,
+    public val generateOtherID: GenerateFuncOther,
+    public val generateOtherByteArrayWrapper: GenerateFuncOther,
 ) {
+    public companion object {
+        public val generateOtherByteArrayWrapperDefault: GenerateFuncOther = { indention, outputName, prefix, imports, target, globalVariables ->
+            imports.add("lupos.dictionary.DictionaryHelper")
+            target.appendLine("${indention}DictionaryHelper.errorToByteArray($outputName)")
+        }
+        public val generateOtherIDDefault: GenerateFuncOther = { indention, outputName, prefix, imports, target, globalVariables ->
+            imports.add("lupos.dictionary.DictionaryExt")
+            target.appendLine("$indention$outputName = DictionaryExt.errorValue")
+        }
+    }
+
     public fun generate(indention: String, representation: EParamRepresentation, imports: MutableSet<String>, target: StringBuilder, globalVariables: MutableSet<String>) {
         generate(indention, representation, Array(implementations[0].childrenTypes.size) { "children[$it]" }, "res", "tmp", imports, target, globalVariables)
     }
@@ -94,7 +125,7 @@ public class MyOperator(
                 val converter = getRepresentationConversionFunction(implementation.childrenTypes[i], EParamRepresentation.BYTEARRAYWRAPPER, EParamRepresentation.INSTANTIATED)
                 converter.generate(indention + "    ", myInputNames[i], myInputInstances[i], imports, target, globalVariables)
             }
-            implementation.generate(indention + "    ", myInputInstances, myOutputInstance, "${prefix}_${prefix_counter++}", imports, target, globalVariables)
+            implementation.generateInstantiated(indention + "    ", myInputInstances, myOutputInstance, "${prefix}_${prefix_counter++}", imports, target, globalVariables)
             val converter = getRepresentationConversionFunction(implementation.resultType, EParamRepresentation.INSTANTIATED, EParamRepresentation.BYTEARRAYWRAPPER)
             converter.generate(indention + "    ", myOutputInstance, myOutputName, imports, target, globalVariables)
             if (representation == EParamRepresentation.ID) {
@@ -103,11 +134,9 @@ public class MyOperator(
         }
         target.appendLine("$indention} else {")
         if (representation == EParamRepresentation.ID) {
-            imports.add("lupos.dictionary.DictionaryExt")
-            target.appendLine("$indention    $outputName = DictionaryExt.errorValue")
+            generateOtherID(indention + "    ", outputName, "${prefix}_${prefix_counter++}", imports, target, globalVariables)
         } else {
-            imports.add("lupos.dictionary.DictionaryHelper")
-            target.appendLine("$indention    DictionaryHelper.errorToByteArray($outputName)")
+            generateOtherByteArrayWrapper(indention + "    ", outputName, "${prefix}_${prefix_counter++}", imports, target, globalVariables)
         }
         target.appendLine("$indention}")
     }
@@ -124,7 +153,7 @@ public class MyOperator(
         imports.add("lupos.s04logicalOperators.iterator.IteratorBundle")
         imports.add("lupos.s04logicalOperators.IOPBase")
         imports.add("lupos.s00misc.EOperatorIDExt")
-        for (i in imports) {
+        for (i in imports.toList().sorted()) {
             clazz.appendLine("import $i")
         }
         var line0 = ""
@@ -135,11 +164,13 @@ public class MyOperator(
         var line3 = ""
         var line4 = ""
         for (i in 0 until implementations[0].childrenTypes.size) {
-            line0 += ("child$i: AOPBase, ")
-            line += "child$i, "
             if (i > 0) {
                 line2 += ", "
+                line += " "
+                line0 += " "
             }
+            line += "child$i,"
+            line0 += "child$i: AOPBase,"
             line2 += "children[$i].toSparql()"
             line3 += " && children[$i] == other.children[$i]"
             line4 += ", children[$i].cloneOP() as AOPBase"
@@ -163,7 +194,7 @@ public class MyOperator(
             clazz.appendLine("        val child$i = (children[$i] as AOPBase).evaluateID(row)")
         }
         clazz.appendLine("        return {")
-        clazz.appendLine("            var res:Int")
+        clazz.appendLine("            var res: Int")
         for (i in 0 until implementations[0].childrenTypes.size) {
             clazz.appendLine("            val childIn$i = child$i()")
         }
@@ -179,15 +210,7 @@ public class MyOperator(
 public class MyOperatorPart(
     public val childrenTypes: Array<ETripleComponentType>,
     public val resultType: ETripleComponentType,
-    public val generate: (
-        String, // indention
-        Array<String>, // inputNames
-        String, // outputName
-        String, // prefix (for intermediates)
-        MutableSet<String>, // imports
-        StringBuilder, // target
-        MutableSet<String>, // globalVariables
-    ) -> Unit
+    public val generateInstantiated: GenerateFunc,
 )
 
 public class MyRepresentationConversionFunction(
@@ -212,21 +235,21 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                 resultType = ETripleComponentTypeExt.INTEGER,
-                generate = { indention, inputNames, outputName, prefix, imports, target, globalVariables ->
+                generateInstantiated = { indention, inputNames, outputName, prefix, imports, target, globalVariables ->
                     target.appendLine("${indention}val $outputName = ${inputNames[0]}.abs()")
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                 resultType = ETripleComponentTypeExt.DECIMAL,
-                generate = { indention, inputNames, outputName, prefix, imports, target, globalVariables ->
+                generateInstantiated = { indention, inputNames, outputName, prefix, imports, target, globalVariables ->
                     target.appendLine("${indention}val $outputName = ${inputNames[0]}.abs()")
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
                 resultType = ETripleComponentTypeExt.DOUBLE,
-                generate = { indention, inputNames, outputName, prefix, imports, target, globalVariables ->
+                generateInstantiated = { indention, inputNames, outputName, prefix, imports, target, globalVariables ->
                     imports.add("kotlin.math.abs")
                     target.appendLine("${indention}val $outputName = abs(${inputNames[0]})")
                 },
@@ -234,12 +257,14 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
                 resultType = ETripleComponentTypeExt.FLOAT,
-                generate = { indention, inputNames, outputName, prefix, imports, target, globalVariables ->
+                generateInstantiated = { indention, inputNames, outputName, prefix, imports, target, globalVariables ->
                     imports.add("kotlin.math.abs")
                     target.appendLine("${indention}val $outputName = abs(${inputNames[0]})")
                 },
             ),
         ),
+        generateOtherID = MyOperator.generateOtherIDDefault,
+        generateOtherByteArrayWrapper = MyOperator.generateOtherByteArrayWrapperDefault,
     ),
 )
 public val converters = listOf(
