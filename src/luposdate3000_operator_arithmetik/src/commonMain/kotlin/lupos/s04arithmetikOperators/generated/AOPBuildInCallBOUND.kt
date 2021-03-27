@@ -40,12 +40,10 @@ public class AOPBuildInCallBOUND public constructor(query: IQuery, child0: AOPBa
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1 = DictionaryHelper.byteArrayToType(tmp_0)
             if (tmp_1 == ETripleComponentTypeExt.ERROR) {
-                tmp_4 = false
-                DictionaryHelper.booleanToByteArray(tmp_2, tmp_4)
+                DictionaryHelper.booleanToByteArray(tmp_2, false)
                 res = query.getDictionary().createValue(tmp_2)
             } else if (tmp_1 == ETripleComponentTypeExt.UNDEF) {
-                tmp_7 = false
-                DictionaryHelper.booleanToByteArray(tmp_2, tmp_7)
+                DictionaryHelper.booleanToByteArray(tmp_2, false)
                 res = query.getDictionary().createValue(tmp_2)
             } else {
                 res = DictionaryExt.trueValue
