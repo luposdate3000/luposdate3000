@@ -37,29 +37,35 @@ public class MyOperator(
     public val type: OperatorType,
     public val implementations: Array<MyOperatorPart>,
 ) {
-    public fun generate(representation: EParamRepresentation, imports: MutableSet<String>, target: StringBuilder) {
-        generate(representation, Array(implementations[0].childrenTypes.size) { "children[$it]" }, "res", "tmp", imports, target)
+    public fun generate(indention: String, representation: EParamRepresentation, imports: MutableSet<String>, target: StringBuilder, globalVariables: MutableSet<String>) {
+        generate(indention, representation, Array(implementations[0].childrenTypes.size) { "children[$it]" }, "res", "tmp", imports, target, globalVariables)
     }
 
-    public fun generate(representation: EParamRepresentation, inputNames: Array<String>, outputName: String, prefix: String, imports: MutableSet<String>, target: StringBuilder) {
+    public fun generate(indention: String, representation: EParamRepresentation, inputNames: Array<String>, outputName: String, prefix: String, imports: MutableSet<String>, target: StringBuilder, globalVariables: MutableSet<String>) {
         if (representation == EParamRepresentation.INSTANTIATED) {
             throw Exception("there is no need to combine functions here")
         }
         var myInputNames = Array<String>(inputNames.size) { inputNames[it] }
         var prefix_counter = 0
         if (representation == EParamRepresentation.ID) {
+            globalVariables.add("var $outputName : Int")
             for (i in 0 until inputNames.size) {
                 myInputNames[i] = "${prefix}_${prefix_counter++}"
                 imports.add("lupos.s00misc.ByteArrayWrapper")
-                target.appendLine("val ${myInputNames[i]} = ByteArrayWrapper()")
-                target.appendLine("query.getDictionary().getValue(${myInputNames[i]}, ${inputNames[i]})")
+                globalVariables.add("val ${myInputNames[i]} = ByteArrayWrapper()")
+                target.appendLine("${indention}query.getDictionary().getValue(${myInputNames[i]}, ${inputNames[i]})")
             }
+        } else {
+            globalVariables.add("val $outputName = ByteArrayWrapper()")
         }
         var typeNames = Array<String>(inputNames.size) { "${prefix}_${prefix_counter++}" }
         for (i in 0 until inputNames.size) {
-            target.appendLine("val ${typeNames[i]} = DictionaryHelper.byteArrayToType(${myInputNames[i]}")
+            target.appendLine("${indention}val ${typeNames[i]} = DictionaryHelper.byteArrayToType(${myInputNames[i]})")
         }
-        var myOutputName = "${prefix}_${prefix_counter++}"
+        var myOutputName = outputName
+        if (representation == EParamRepresentation.ID) {
+            myOutputName = "${prefix}_${prefix_counter++}"
+        }
         var first = true
         for (implementation in implementations) {
             var cond: String
@@ -84,16 +90,19 @@ public class MyOperator(
             var myOutputInstance = "${prefix}_${prefix_counter++}"
             for (i in 0 until inputNames.size) {
                 val converter = getRepresentationConversionFunction(implementation.childrenTypes[i], EParamRepresentation.BYTEARRAYWRAPPER, EParamRepresentation.INSTANTIATED)
-                converter.generate(myInputNames[i], myInputInstances[i], imports, target)
+                converter.generate(indention + "    ", myInputNames[i], myInputInstances[i], imports, target, globalVariables)
             }
-            implementation.generate(myInputInstances, myOutputInstance, "${prefix}_${prefix_counter++}", imports, target)
+            implementation.generate(indention + "    ", myInputInstances, myOutputInstance, "${prefix}_${prefix_counter++}", imports, target, globalVariables)
             val converter = getRepresentationConversionFunction(implementation.resultType, EParamRepresentation.INSTANTIATED, EParamRepresentation.BYTEARRAYWRAPPER)
-            converter.generate(myOutputInstance, myOutputName, imports, target)
+            converter.generate(indention + "    ", myOutputInstance, myOutputName, imports, target, globalVariables)
+            if (representation == EParamRepresentation.ID) {
+                target.appendLine("$indention    $outputName = query.getDictionary().createValue($myOutputName)")
+            }
         }
-        target.appendLine("}")
-        if (representation == EParamRepresentation.ID) {
-            target.appendLine("val $outputName = query.getDictionary().createValue($myOutputName)")
-        }
+        target.appendLine("$indention} else {")
+        imports.add("lupos.dictionary.DictionaryExt")
+        target.appendLine("$indention    $outputName = DictionaryExt.errorValue")
+        target.appendLine("$indention}")
     }
 }
 
@@ -101,11 +110,13 @@ public class MyOperatorPart(
     public val childrenTypes: Array<ETripleComponentType>,
     public val resultType: ETripleComponentType,
     public val generate: (
+        String, // indention
         Array<String>, // inputNames
         String, // outputName
         String, // prefix (for intermediates)
         MutableSet<String>, // imports
         StringBuilder, // target
+        MutableSet<String>, // globalVariables
     ) -> Unit
 )
 
@@ -114,10 +125,12 @@ public class MyRepresentationConversionFunction(
     public val inputRepresentation: EParamRepresentation,
     public val outputRepresentation: EParamRepresentation,
     public val generate: (
+        String, // indention
         String, // inputName
         String, // outputName
         MutableSet<String>, // imports
         StringBuilder, // target
+        MutableSet<String>, // globalVariables
     ) -> Unit
 )
 
@@ -129,29 +142,29 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                 resultType = ETripleComponentTypeExt.INTEGER,
-                generate = { inputNames, outputName, prefix, imports, target ->
-                    target.appendLine("val $outputName = ${inputNames[0]}.abs()")
+                generate = { indention, inputNames, outputName, prefix, imports, target, globalVariables ->
+                    target.appendLine("${indention}val $outputName = ${inputNames[0]}.abs()")
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                 resultType = ETripleComponentTypeExt.DECIMAL,
-                generate = { inputNames, outputName, prefix, imports, target ->
-                    target.appendLine("val $outputName = ${inputNames[0]}.abs()")
+                generate = { indention, inputNames, outputName, prefix, imports, target, globalVariables ->
+                    target.appendLine("${indention}val $outputName = ${inputNames[0]}.abs()")
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
                 resultType = ETripleComponentTypeExt.DOUBLE,
-                generate = { inputNames, outputName, prefix, imports, target ->
-                    target.appendLine("val $outputName = abs(${inputNames[0]})")
+                generate = { indention, inputNames, outputName, prefix, imports, target, globalVariables ->
+                    target.appendLine("${indention}val $outputName = abs(${inputNames[0]})")
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
                 resultType = ETripleComponentTypeExt.FLOAT,
-                generate = { inputNames, outputName, prefix, imports, target ->
-                    target.appendLine("val $outputName = abs(${inputNames[0]})")
+                generate = { indention, inputNames, outputName, prefix, imports, target, globalVariables ->
+                    target.appendLine("${indention}val $outputName = abs(${inputNames[0]})")
                 },
             ),
         ),
@@ -162,20 +175,82 @@ public val converters = listOf(
         type = ETripleComponentTypeExt.INTEGER,
         inputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
         outputRepresentation = EParamRepresentation.INSTANTIATED,
-        generate = { inputName, outputName, imports, target ->
+        generate = { indention, inputName, outputName, imports, target, globalVariables ->
             imports.add("lupos.dictionary.DictionaryHelper")
-            target.appendLine("val $outputName = MyBigInteger(DictionaryHelper.byteArrayToInteger($inputName))")
+            imports.add("lupos.s00misc.MyBigInteger")
+            target.appendLine("${indention}val $outputName = MyBigInteger(DictionaryHelper.byteArrayToInteger($inputName))")
         }
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.INTEGER,
         inputRepresentation = EParamRepresentation.INSTANTIATED,
         outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
-        generate = { inputName, outputName, imports, target ->
+        generate = { indention, inputName, outputName, imports, target, globalVariables ->
             imports.add("lupos.s00misc.ByteArrayWrapper")
             imports.add("lupos.dictionary.DictionaryHelper")
-            target.appendLine("val $outputName = ByteArrayWrapper()")
-            target.appendLine("DictionaryHelper.integerToByteArray($outputName, $inputName.toString())")
+            globalVariables.add("val $outputName = ByteArrayWrapper()")
+            target.appendLine("${indention}DictionaryHelper.integerToByteArray($outputName, $inputName.toString())")
+        }
+    ),
+    MyRepresentationConversionFunction(
+        type = ETripleComponentTypeExt.DECIMAL,
+        inputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
+        outputRepresentation = EParamRepresentation.INSTANTIATED,
+        generate = { indention, inputName, outputName, imports, target, globalVariables ->
+            imports.add("lupos.dictionary.DictionaryHelper")
+            imports.add("lupos.s00misc.MyBigDecimal")
+            target.appendLine("${indention}val $outputName = MyBigDecimal(DictionaryHelper.byteArrayToDecimal($inputName))")
+        }
+    ),
+    MyRepresentationConversionFunction(
+        type = ETripleComponentTypeExt.DECIMAL,
+        inputRepresentation = EParamRepresentation.INSTANTIATED,
+        outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
+        generate = { indention, inputName, outputName, imports, target, globalVariables ->
+            imports.add("lupos.s00misc.ByteArrayWrapper")
+            imports.add("lupos.dictionary.DictionaryHelper")
+            globalVariables.add("val $outputName = ByteArrayWrapper()")
+            target.appendLine("${indention}DictionaryHelper.decimalToByteArray($outputName, $inputName.toString())")
+        }
+    ),
+    MyRepresentationConversionFunction(
+        type = ETripleComponentTypeExt.DOUBLE,
+        inputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
+        outputRepresentation = EParamRepresentation.INSTANTIATED,
+        generate = { indention, inputName, outputName, imports, target, globalVariables ->
+            imports.add("lupos.dictionary.DictionaryHelper")
+            target.appendLine("${indention}val $outputName = DictionaryHelper.byteArrayToDouble($inputName)")
+        }
+    ),
+    MyRepresentationConversionFunction(
+        type = ETripleComponentTypeExt.DOUBLE,
+        inputRepresentation = EParamRepresentation.INSTANTIATED,
+        outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
+        generate = { indention, inputName, outputName, imports, target, globalVariables ->
+            imports.add("lupos.s00misc.ByteArrayWrapper")
+            imports.add("lupos.dictionary.DictionaryHelper")
+            globalVariables.add("val $outputName = ByteArrayWrapper()")
+            target.appendLine("${indention}DictionaryHelper.doubleToByteArray($outputName, $inputName.toString())")
+        }
+    ),
+    MyRepresentationConversionFunction(
+        type = ETripleComponentTypeExt.FLOAT,
+        inputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
+        outputRepresentation = EParamRepresentation.INSTANTIATED,
+        generate = { indention, inputName, outputName, imports, target, globalVariables ->
+            imports.add("lupos.dictionary.DictionaryHelper")
+            target.appendLine("${indention}val $outputName = DictionaryHelper.byteArrayToFloat($inputName)")
+        }
+    ),
+    MyRepresentationConversionFunction(
+        type = ETripleComponentTypeExt.FLOAT,
+        inputRepresentation = EParamRepresentation.INSTANTIATED,
+        outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
+        generate = { indention, inputName, outputName, imports, target, globalVariables ->
+            imports.add("lupos.s00misc.ByteArrayWrapper")
+            imports.add("lupos.dictionary.DictionaryHelper")
+            globalVariables.add("val $outputName = ByteArrayWrapper()")
+            target.appendLine("${indention}DictionaryHelper.floatToByteArray($outputName, $inputName.toString())")
         }
     ),
 )
@@ -188,13 +263,19 @@ fun getRepresentationConversionFunction(type: ETripleComponentType, inputReprese
     }
     throw Exception("not found ${ETripleComponentTypeExt.names[type]} $inputRepresentation $outputRepresentation")
 }
-for (operator in operators) {
-    println("${operator.name} --------- ")
-    var imports = mutableSetOf<String>()
-    var target = StringBuilder()
-    operator.generate(EParamRepresentation.ID, imports, target)
-    for (i in imports) {
-        println("import $i")
+for (resultType in arrayOf(EParamRepresentation.ID, EParamRepresentation.BYTEARRAYWRAPPER)) {
+    for (operator in operators) {
+        println("${operator.name} --------- ")
+        var imports = mutableSetOf<String>()
+        var target = StringBuilder()
+        var globalVariables = mutableSetOf<String>()
+        operator.generate("", resultType, imports, target, globalVariables)
+        for (i in imports) {
+            println("import $i")
+        }
+        for (v in globalVariables) {
+            println("import $v")
+        }
+        print(target.toString())
     }
-    print(target.toString())
 }

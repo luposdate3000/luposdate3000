@@ -59,6 +59,8 @@ public object DictionaryHelper {
      * -> IEEE 754 floating-point "double format" bit layout, preserving Not-a-Number (NaN) values.
      * ETripleComponentTypeExt.INTEGER
      * ETripleComponentTypeExt.DECIMAL
+     * ETripleComponentTypeExt.FLOAT
+     * -> IEEE 754 floating-point "double format" bit layout, preserving Not-a-Number (NaN) values.
      */
     public inline fun booleanToByteArray(buffer: ByteArrayWrapper, value: Boolean) {
         buffer.setSize(5)
@@ -112,6 +114,16 @@ public object DictionaryHelper {
         return ByteArrayHelper.readDouble8(buffer.getBuf(), 4)
     }
 
+    public inline fun floatToByteArray(buffer: ByteArrayWrapper, value: Double) {
+        buffer.setSize(12)
+        ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.FLOAT)
+        ByteArrayHelper.writeDouble8(buffer.getBuf(), 4, value)
+    }
+
+    public inline fun byteArrayToFloat(buffer: ByteArrayWrapper): Double {
+        return ByteArrayHelper.readDouble8(buffer.getBuf(), 4)
+    }
+
     public inline fun langToByteArray(buffer: ByteArrayWrapper, content: String, lang: String) {
         val buf1 = lang.encodeToByteArray()
         val buf2 = content.encodeToByteArray()
@@ -143,6 +155,7 @@ public object DictionaryHelper {
             "http://www.w3.org/2001/XMLSchema#integer" -> integerToByteArray(buffer, content)
             "http://www.w3.org/2001/XMLSchema#decimal" -> decimalToByteArray(buffer, content)
             "http://www.w3.org/2001/XMLSchema#double" -> doubleToByteArray(buffer, content.toDouble())
+            "http://www.w3.org/2001/XMLSchema#float" -> floatToByteArray(buffer, content.toDouble())
             "http://www.w3.org/2001/XMLSchema#boolean" -> booleanToByteArray(buffer, content.toLowerCase() == "true")
             else -> {
                 val buf1 = type.encodeToByteArray()
@@ -312,6 +325,7 @@ public object DictionaryHelper {
                 }
             }
             ETripleComponentTypeExt.DOUBLE -> ValueDouble(byteArrayToDouble(buffer))
+            ETripleComponentTypeExt.FLOAT -> ValueFloat(byteArrayToDouble(buffer))
             ETripleComponentTypeExt.INTEGER -> ValueInteger(MyBigInteger(byteArrayToInteger(buffer)))
             ETripleComponentTypeExt.DECIMAL -> ValueDecimal(MyBigDecimal(byteArrayToDecimal(buffer)))
             ETripleComponentTypeExt.IRI -> ValueIri(byteArrayToIri(buffer))
@@ -339,6 +353,7 @@ public object DictionaryHelper {
     ) {
         val type = ByteArrayHelper.readInt4(buffer.getBuf(), 0)
         when (type) {
+            ETripleComponentTypeExt.FLOAT -> onFloat(byteArrayToDouble(buffer))
             ETripleComponentTypeExt.DOUBLE -> onDouble(byteArrayToDouble(buffer))
             ETripleComponentTypeExt.INTEGER -> onInteger(byteArrayToInteger(buffer))
             ETripleComponentTypeExt.DECIMAL -> onDecimal(byteArrayToDecimal(buffer))
