@@ -60,28 +60,78 @@ typealias GenerateFuncOtherInstantiated = (
     MutableSet<String>, // globalVariables
 ) -> ETripleComponentType
 
+public val generateInstantiatedError: GenerateFuncOtherInstantiated = { _, _, _, _, _, _ ->
+    ETripleComponentTypeExt.ERROR
+}
+public val generateByteArrayWrapperError: GenerateFuncOther = { indention, outputName, _, imports, target, _ ->
+    imports.add("lupos.dictionary.DictionaryHelper")
+    target.appendLine("${indention}DictionaryHelper.errorToByteArray($outputName)")
+}
+public val generateIDError: GenerateFuncOther = { indention, outputName, _, imports, target, _ ->
+    imports.add("lupos.dictionary.DictionaryExt")
+    target.appendLine("$indention$outputName = DictionaryExt.errorValue")
+}
+public val generateInstantiatedFalse: GenerateFuncOtherInstantiated = { indention, outputName, _, _, target, _ ->
+    target.appendLine("$indention$outputName = false")
+    ETripleComponentTypeExt.BOOLEAN
+}
+public val generateByteArrayWrapperFalse: GenerateFuncOther = { indention, outputName, _, imports, target, _ ->
+    imports.add("lupos.dictionary.DictionaryHelper")
+    target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName,false)")
+}
+public val generateIDFalse: GenerateFuncOther = { indention, outputName, _, imports, target, _ ->
+    imports.add("lupos.dictionary.DictionaryExt")
+    target.appendLine("$indention$outputName = DictionaryExt.booleanFalseValue")
+}
+public val generateInstantiatedTrue: GenerateFuncOtherInstantiated = { indention, outputName, _, _, target, _ ->
+    target.appendLine("$indention$outputName = true")
+    ETripleComponentTypeExt.BOOLEAN
+}
+public val generateByteArrayWrapperTrue: GenerateFuncOther = { indention, outputName, _, imports, target, _ ->
+    imports.add("lupos.dictionary.DictionaryHelper")
+    target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName,true)")
+}
+public val generateIDTrue: GenerateFuncOther = { indention, outputName, _, imports, target, _ ->
+    imports.add("lupos.dictionary.DictionaryExt")
+    target.appendLine("$indention$outputName = DictionaryExt.booleanTrueValue")
+}
+public val generateInstantiatedError2: GenerateFunc = { _, _, _, _, _, _, _ ->
+}
+public val generateByteArrayWrapperError2: GenerateFunc = { indention, _, outputName, _, imports, target, globalVariables ->
+    imports.add("lupos.s00misc.ByteArrayWrapper")
+    imports.add("lupos.dictionary.DictionaryHelper")
+    globalVariables.add("val $outputName = ByteArrayWrapper()")
+    target.appendLine("${indention}DictionaryHelper.errorToByteArray($outputName)")
+}
+public val generateInstantiatedTrue2: GenerateFunc = { indention, _, outputName, _, _, target, _ ->
+    target.appendLine("$indention$outputName = true")
+}
+
+public val generateByteArrayWrapperTrue2: GenerateFunc = { indention, _, outputName, _, imports, target, globalVariables ->
+    imports.add("lupos.s00misc.ByteArrayWrapper")
+    imports.add("lupos.dictionary.DictionaryHelper")
+    globalVariables.add("val $outputName = ByteArrayWrapper()")
+    target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName,true)")
+}
+public val generateInstantiatedFalse2: GenerateFunc = { indention, _, outputName, _, _, target, _ ->
+    target.appendLine("$indention$outputName = false")
+}
+
+public val generateByteArrayWrapperFalse2: GenerateFunc = { indention, _, outputName, _, imports, target, globalVariables ->
+    imports.add("lupos.s00misc.ByteArrayWrapper")
+    imports.add("lupos.dictionary.DictionaryHelper")
+    globalVariables.add("val $outputName = ByteArrayWrapper()")
+    target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName,false)")
+}
+
 public class MyOperator(
     public val name: String,
     public val type: OperatorType,
     public val implementations: Array<MyOperatorPart>,
-    public val generateOtherInstantiated: GenerateFuncOtherInstantiated,
-    public val generateOtherID: GenerateFuncOther,
-    public val generateOtherByteArrayWrapper: GenerateFuncOther,
+    public val generateInstantiatedOther: GenerateFuncOtherInstantiated,
+    public val generateIDOther: GenerateFuncOther,
+    public val generateByteArrayWrapperOther: GenerateFuncOther,
 ) {
-    public companion object {
-        public val generateOtherInstantiatedDefault: GenerateFuncOtherInstantiated = { _, _, _, _, _, _ ->
-            ETripleComponentTypeExt.ERROR
-        }
-        public val generateOtherByteArrayWrapperDefault: GenerateFuncOther = { indention, outputName, _, imports, target, _ ->
-            imports.add("lupos.dictionary.DictionaryHelper")
-            target.appendLine("${indention}DictionaryHelper.errorToByteArray($outputName)")
-        }
-        public val generateOtherIDDefault: GenerateFuncOther = { indention, outputName, _, imports, target, _ ->
-            imports.add("lupos.dictionary.DictionaryExt")
-            target.appendLine("$indention$outputName = DictionaryExt.errorValue")
-        }
-    }
-
     public fun generate(indention: String, representation: EParamRepresentation, imports: MutableSet<String>, target: StringBuilder, globalVariables: MutableSet<String>) {
         generate(indention, representation, Array(implementations[0].childrenTypes.size) { "children[$it]" }, "res", "tmp", imports, target, globalVariables)
     }
@@ -152,9 +202,9 @@ public class MyOperator(
         }
         target.appendLine("$indention} else {")
         if (representation == EParamRepresentation.ID) {
-            generateOtherID(indention + "    ", outputName, "${prefix}_${prefix_counter++}", imports, target, globalVariables)
+            generateIDOther(indention + "    ", outputName, "${prefix}_${prefix_counter++}", imports, target, globalVariables)
         } else {
-            generateOtherByteArrayWrapper(indention + "    ", outputName, "${prefix}_${prefix_counter++}", imports, target, globalVariables)
+            generateByteArrayWrapperOther(indention + "    ", outputName, "${prefix}_${prefix_counter++}", imports, target, globalVariables)
         }
         target.appendLine("$indention}")
     }
@@ -162,6 +212,7 @@ public class MyOperator(
     public fun generateAOP(): StringBuilder {
         var clazz = StringBuilder()
         clazz.appendLine("package lupos.s04arithmetikOperators.generated")
+        clazz.appendLine("")
         var imports = mutableSetOf<String>()
         var target = StringBuilder()
         var globalVariables = mutableSetOf<String>()
@@ -174,6 +225,7 @@ public class MyOperator(
         for (i in imports.toList().sorted()) {
             clazz.appendLine("import $i")
         }
+        clazz.appendLine("")
         var line0 = ""
         line0 += ("public class AOP$type$name public constructor(")
         line0 += ("query: IQuery, ")
@@ -230,7 +282,6 @@ public class MyOperatorPart(
     public val resultType: ETripleComponentType,
     public val generateInstantiated: GenerateFunc,
     public val generateByteArrayWrapper: GenerateFunc?,
-    public val generateID: GenerateFunc?,
 )
 
 public class MyRepresentationConversionFunction(
@@ -259,7 +310,6 @@ public val operators = listOf(
                     target.appendLine("${indention}val $outputName = ${inputNames[0]}.abs()")
                 },
                 generateByteArrayWrapper = null,
-                generateID = null,
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
@@ -268,7 +318,6 @@ public val operators = listOf(
                     target.appendLine("${indention}val $outputName = ${inputNames[0]}.abs()")
                 },
                 generateByteArrayWrapper = null,
-                generateID = null,
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
@@ -278,7 +327,6 @@ public val operators = listOf(
                     target.appendLine("${indention}val $outputName = abs(${inputNames[0]})")
                 },
                 generateByteArrayWrapper = null,
-                generateID = null,
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
@@ -288,12 +336,11 @@ public val operators = listOf(
                     target.appendLine("${indention}val $outputName = abs(${inputNames[0]})")
                 },
                 generateByteArrayWrapper = null,
-                generateID = null,
             ),
         ),
-        generateOtherInstantiated = MyOperator.generateOtherInstantiatedDefault,
-        generateOtherID = MyOperator.generateOtherIDDefault,
-        generateOtherByteArrayWrapper = MyOperator.generateOtherByteArrayWrapperDefault,
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
     ),
     MyOperator(
         name = "BOUND",
@@ -302,52 +349,49 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.ERROR),
                 resultType = ETripleComponentTypeExt.BOOLEAN,
-                generateInstantiated = { indention, _, outputName, _, _, target, _ ->
-                    target.appendLine("$indention$outputName = false")
-                },
-                generateByteArrayWrapper = { indention, _, outputName, _, imports, target, globalVariables ->
-                    imports.add("lupos.s00misc.ByteArrayWrapper")
-                    imports.add("lupos.dictionary.DictionaryHelper")
-                    globalVariables.add("val $outputName = ByteArrayWrapper()")
-                    target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName, false)")
-                },
-                generateID = { indention, _, outputName, _, imports, target, _ ->
-                    imports.add("lupos.dictionary.DictionaryExt")
-                    target.appendLine("$indention$outputName = DictionaryExt.falseValue")
-                },
+                generateInstantiated = generateInstantiatedFalse2,
+                generateByteArrayWrapper = generateByteArrayWrapperFalse2,
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.UNDEF),
                 resultType = ETripleComponentTypeExt.BOOLEAN,
-                generateInstantiated = { indention, _, outputName, _, _, target, _ ->
-                    target.appendLine("$indention$outputName = false")
-                },
-                generateByteArrayWrapper = { indention, _, outputName, _, imports, target, globalVariables ->
-                    imports.add("lupos.s00misc.ByteArrayWrapper")
-                    imports.add("lupos.dictionary.DictionaryHelper")
-                    globalVariables.add("val $outputName = ByteArrayWrapper()")
-                    target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName, false)")
-                },
-                generateID = { indention, _, outputName, _, imports, target, _ ->
-                    imports.add("lupos.dictionary.DictionaryExt")
-                    target.appendLine("$indention$outputName = DictionaryExt.falseValue")
-                },
+                generateInstantiated = generateInstantiatedFalse2,
+                generateByteArrayWrapper = generateByteArrayWrapperFalse2,
             ),
         ),
-        generateOtherInstantiated = { indention, outputName, _, _, target, _ ->
-            target.appendLine("$indention$outputName = true")
-            ETripleComponentTypeExt.BOOLEAN
-        },
-        generateOtherID = { indention, outputName, _, imports, target, _ ->
-            imports.add("lupos.dictionary.DictionaryExt")
-            target.appendLine("$indention$outputName = DictionaryExt.trueValue")
-        },
-        generateOtherByteArrayWrapper = { indention, outputName, _, imports, target, _ ->
-            imports.add("lupos.dictionary.DictionaryHelper")
-            target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName,true)")
-        },
+        generateInstantiatedOther = generateInstantiatedTrue,
+        generateIDOther = generateIDTrue,
+        generateByteArrayWrapperOther = generateByteArrayWrapperTrue,
+    ),
+    MyOperator(
+        name = "IsIri",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.ERROR),
+                resultType = ETripleComponentTypeExt.ERROR,
+                generateInstantiated = generateInstantiatedError2,
+                generateByteArrayWrapper = generateByteArrayWrapperError2,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.UNDEF),
+                resultType = ETripleComponentTypeExt.ERROR,
+                generateInstantiated = generateInstantiatedError2,
+                generateByteArrayWrapper = generateByteArrayWrapperError2,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.IRI),
+                resultType = ETripleComponentTypeExt.BOOLEAN,
+                generateInstantiated = generateInstantiatedTrue2,
+                generateByteArrayWrapper = generateByteArrayWrapperTrue2,
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedFalse,
+        generateIDOther = generateIDFalse,
+        generateByteArrayWrapperOther = generateByteArrayWrapperFalse,
     ),
 )
+
 public val converters = listOf(
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.INTEGER,

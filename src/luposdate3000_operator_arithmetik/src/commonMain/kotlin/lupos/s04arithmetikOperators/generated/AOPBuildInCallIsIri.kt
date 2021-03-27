@@ -26,10 +26,10 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPBuildInCallBOUND public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallBOUNDID, "AOPBuildInCallBOUND", arrayOf(child0,)) {
-    override fun toSparql(): String = "BOUND(${children[0].toSparql()})"
-    override fun equals(other: Any?): Boolean = other is AOPBuildInCallBOUND && children[0] == other.children[0]
-    override fun cloneOP(): IOPBase = AOPBuildInCallBOUND(query, children[0].cloneOP() as AOPBase)
+public class AOPBuildInCallIsIri public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallIsIriID, "AOPBuildInCallIsIri", arrayOf(child0,)) {
+    override fun toSparql(): String = "IsIri(${children[0].toSparql()})"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallIsIri && children[0] == other.children[0]
+    override fun cloneOP(): IOPBase = AOPBuildInCallIsIri(query, children[0].cloneOP() as AOPBase)
     override fun evaluateID(row: IteratorBundle): () -> Int {
         val tmp_0 = ByteArrayWrapper()
         val tmp_2 = ByteArrayWrapper()
@@ -40,13 +40,16 @@ public class AOPBuildInCallBOUND public constructor(query: IQuery, child0: AOPBa
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1 = DictionaryHelper.byteArrayToType(tmp_0)
             if (tmp_1 == ETripleComponentTypeExt.ERROR) {
-                DictionaryHelper.booleanToByteArray(tmp_2, false)
+                DictionaryHelper.errorToByteArray(tmp_2)
                 res = query.getDictionary().createValue(tmp_2)
             } else if (tmp_1 == ETripleComponentTypeExt.UNDEF) {
-                DictionaryHelper.booleanToByteArray(tmp_2, false)
+                DictionaryHelper.errorToByteArray(tmp_2)
+                res = query.getDictionary().createValue(tmp_2)
+            } else if (tmp_1 == ETripleComponentTypeExt.IRI) {
+                DictionaryHelper.booleanToByteArray(tmp_2, true)
                 res = query.getDictionary().createValue(tmp_2)
             } else {
-                res = DictionaryExt.booleanTrueValue
+                res = DictionaryExt.booleanFalseValue
             }
             res
         }
