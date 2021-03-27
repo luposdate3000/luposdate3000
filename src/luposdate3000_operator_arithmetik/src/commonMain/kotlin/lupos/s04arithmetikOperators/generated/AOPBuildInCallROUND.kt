@@ -27,10 +27,10 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPBuildInCallRound public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallRoundID, "AOPBuildInCallRound", arrayOf(child0,)) {
-    override fun toSparql(): String = "Round(${children[0].toSparql()})"
-    override fun equals(other: Any?): Boolean = other is AOPBuildInCallRound && children[0] == other.children[0]
-    override fun cloneOP(): IOPBase = AOPBuildInCallRound(query, children[0].cloneOP() as AOPBase)
+public class AOPBuildInCallROUND public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallROUNDID, "AOPBuildInCallROUND", arrayOf(child0,)) {
+    override fun toSparql(): String = "ROUND(${children[0].toSparql()})"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallROUND && children[0] == other.children[0]
+    override fun cloneOP(): IOPBase = AOPBuildInCallROUND(query, children[0].cloneOP() as AOPBase)
     override fun evaluateID(row: IteratorBundle): () -> Int {
         val tmp_0 = ByteArrayWrapper()
         val tmp_2 = ByteArrayWrapper()

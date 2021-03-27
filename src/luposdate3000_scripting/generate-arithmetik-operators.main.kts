@@ -343,7 +343,7 @@ public val operators = listOf(
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
     ),
     MyOperator(
-        name = "Round",
+        name = "ROUND",
         type = OperatorType.BuildInCall,
         implementations = arrayOf(
             MyOperatorPart(
