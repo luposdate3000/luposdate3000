@@ -26,12 +26,12 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import kotlin.math.roundToInt
+import kotlin.math.ceil
 
-public class AOPBuildInCallROUND public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallROUNDID, "AOPBuildInCallROUND", arrayOf(child0,)) {
-    override fun toSparql(): String = "ROUND(${children[0].toSparql()})"
-    override fun equals(other: Any?): Boolean = other is AOPBuildInCallROUND && children[0] == other.children[0]
-    override fun cloneOP(): IOPBase = AOPBuildInCallROUND(query, children[0].cloneOP() as AOPBase)
+public class AOPBuildInCallCEIL public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallCEILID, "AOPBuildInCallCEIL", arrayOf(child0,)) {
+    override fun toSparql(): String = "CEIL(${children[0].toSparql()})"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallCEIL && children[0] == other.children[0]
+    override fun cloneOP(): IOPBase = AOPBuildInCallCEIL(query, children[0].cloneOP() as AOPBase)
     override fun evaluateID(row: IteratorBundle): () -> Int {
         val tmp_0 = ByteArrayWrapper()
         val tmp_2 = ByteArrayWrapper()
@@ -46,17 +46,17 @@ public class AOPBuildInCallROUND public constructor(query: IQuery, child0: AOPBa
                 res = query.getDictionary().createValue(tmp_2)
             } else if (tmp_1 == ETripleComponentTypeExt.DECIMAL) {
                 val tmp_4 = MyBigDecimal(DictionaryHelper.byteArrayToDecimal(tmp_0))
-                val tmp_5 = tmp_4.round()
+                val tmp_5 = tmp_4.ceil()
                 DictionaryHelper.decimalToByteArray(tmp_2, tmp_5.toString())
                 res = query.getDictionary().createValue(tmp_2)
             } else if (tmp_1 == ETripleComponentTypeExt.DOUBLE) {
                 val tmp_7 = DictionaryHelper.byteArrayToDouble(tmp_0)
-                val tmp_8 = tmp_7.roundToInt().toDouble()
+                val tmp_8 = ceil(tmp_7)
                 DictionaryHelper.doubleToByteArray(tmp_2, tmp_8)
                 res = query.getDictionary().createValue(tmp_2)
             } else if (tmp_1 == ETripleComponentTypeExt.FLOAT) {
                 val tmp_10 = DictionaryHelper.byteArrayToFloat(tmp_0)
-                val tmp_11 = tmp_10.roundToInt().toDouble()
+                val tmp_11 = ceil(tmp_10)
                 DictionaryHelper.floatToByteArray(tmp_2, tmp_11)
                 res = query.getDictionary().createValue(tmp_2)
             } else {

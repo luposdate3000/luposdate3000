@@ -77,7 +77,7 @@ public val generateInstantiatedFalse: GenerateFuncOtherInstantiated = { indentio
 }
 public val generateByteArrayWrapperFalse: GenerateFuncOther = { indention, outputName, _, imports, target, _ ->
     imports.add("lupos.dictionary.DictionaryHelper")
-    target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName,false)")
+    target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName, false)")
 }
 public val generateIDFalse: GenerateFuncOther = { indention, outputName, _, imports, target, _ ->
     imports.add("lupos.dictionary.DictionaryExt")
@@ -89,7 +89,7 @@ public val generateInstantiatedTrue: GenerateFuncOtherInstantiated = { indention
 }
 public val generateByteArrayWrapperTrue: GenerateFuncOther = { indention, outputName, _, imports, target, _ ->
     imports.add("lupos.dictionary.DictionaryHelper")
-    target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName,true)")
+    target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName, true)")
 }
 public val generateIDTrue: GenerateFuncOther = { indention, outputName, _, imports, target, _ ->
     imports.add("lupos.dictionary.DictionaryExt")
@@ -111,7 +111,7 @@ public val generateByteArrayWrapperTrue2: GenerateFunc = { indention, _, outputN
     imports.add("lupos.s00misc.ByteArrayWrapper")
     imports.add("lupos.dictionary.DictionaryHelper")
     globalVariables.add("val $outputName = ByteArrayWrapper()")
-    target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName,true)")
+    target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName, true)")
 }
 public val generateInstantiatedFalse2: GenerateFunc = { indention, _, outputName, _, _, target, _ ->
     target.appendLine("$indention$outputName = false")
@@ -121,7 +121,7 @@ public val generateByteArrayWrapperFalse2: GenerateFunc = { indention, _, output
     imports.add("lupos.s00misc.ByteArrayWrapper")
     imports.add("lupos.dictionary.DictionaryHelper")
     globalVariables.add("val $outputName = ByteArrayWrapper()")
-    target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName,false)")
+    target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName, false)")
 }
 
 public class MyOperator(
@@ -370,8 +370,8 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
                 resultType = ETripleComponentTypeExt.DOUBLE,
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _ ->
-                    imports.add("kotlin.math.abs")
-                    target.appendLine("${indention}val $outputName = ${inputNames[0]}.roundToInt()")
+                    imports.add("kotlin.math.roundToInt")
+                    target.appendLine("${indention}val $outputName = ${inputNames[0]}.roundToInt().toDouble()")
                 },
                 generateByteArrayWrapper = null,
             ),
@@ -379,8 +379,102 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
                 resultType = ETripleComponentTypeExt.FLOAT,
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _ ->
-                    imports.add("kotlin.math.abs")
-                    target.appendLine("${indention}val $outputName = ${inputNames[0]}.roundToInt()")
+                    imports.add("kotlin.math.roundToInt")
+                    target.appendLine("${indention}val $outputName = ${inputNames[0]}.roundToInt().toDouble()")
+                },
+                generateByteArrayWrapper = null,
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "FLOOR",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
+                resultType = ETripleComponentTypeExt.INTEGER,
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _ ->
+                    target.appendLine("${indention}val $outputName = ${inputNames[0]}")
+                },
+                generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables ->
+                    imports.add("lupos.s00misc.ByteArrayWrapper")
+                    globalVariables.add("val $outputName = ByteArrayWrapper()")
+                    target.appendLine("${indention}${inputNames[0]}.copyInto($outputName)")
+                }
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
+                resultType = ETripleComponentTypeExt.DECIMAL,
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _ ->
+                    target.appendLine("${indention}val $outputName = ${inputNames[0]}.floor()")
+                },
+                generateByteArrayWrapper = null,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
+                resultType = ETripleComponentTypeExt.DOUBLE,
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _ ->
+                    imports.add("kotlin.math.floor")
+                    target.appendLine("${indention}val $outputName = floor(${inputNames[0]})")
+                },
+                generateByteArrayWrapper = null,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
+                resultType = ETripleComponentTypeExt.FLOAT,
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _ ->
+                    imports.add("kotlin.math.floor")
+                    target.appendLine("${indention}val $outputName = floor(${inputNames[0]})")
+                },
+                generateByteArrayWrapper = null,
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "CEIL",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
+                resultType = ETripleComponentTypeExt.INTEGER,
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _ ->
+                    target.appendLine("${indention}val $outputName = ${inputNames[0]}")
+                },
+                generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables ->
+                    imports.add("lupos.s00misc.ByteArrayWrapper")
+                    globalVariables.add("val $outputName = ByteArrayWrapper()")
+                    target.appendLine("${indention}${inputNames[0]}.copyInto($outputName)")
+                }
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
+                resultType = ETripleComponentTypeExt.DECIMAL,
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _ ->
+                    target.appendLine("${indention}val $outputName = ${inputNames[0]}.ceil()")
+                },
+                generateByteArrayWrapper = null,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
+                resultType = ETripleComponentTypeExt.DOUBLE,
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _ ->
+                    imports.add("kotlin.math.ceil")
+                    target.appendLine("${indention}val $outputName = ceil(${inputNames[0]})")
+                },
+                generateByteArrayWrapper = null,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
+                resultType = ETripleComponentTypeExt.FLOAT,
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _ ->
+                    imports.add("kotlin.math.ceil")
+                    target.appendLine("${indention}val $outputName = ceil(${inputNames[0]})")
                 },
                 generateByteArrayWrapper = null,
             ),
