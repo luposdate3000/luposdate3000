@@ -124,6 +124,17 @@ public val generateByteArrayWrapperFalse2: GenerateFunc = { indention, _, output
     target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName, false)")
 }
 
+fun generateByteArrayWrapperString(str: String): GenerateFunc = { indention, _, outputName, _, imports, target, globalVariables ->
+    imports.add("lupos.s00misc.ByteArrayWrapper")
+    imports.add("lupos.dictionary.DictionaryHelper")
+    globalVariables.add("val $outputName = ByteArrayWrapper()")
+    target.appendLine("${indention}DictionaryHelper.stringToByteArray($outputName, \"$str\")")
+}
+
+fun generateInstantiatedString(str: String): GenerateFunc = { indention, _, outputName, _, _, target, _ ->
+    target.appendLine("$indention$outputName = \"$str\"")
+}
+
 public class MyOperator(
     public val name: String,
     public val type: OperatorType,
@@ -531,6 +542,72 @@ public val operators = listOf(
         generateIDOther = generateIDFalse,
         generateByteArrayWrapperOther = generateByteArrayWrapperFalse,
     ),
+    MyOperator(
+        name = "DATATYPE",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
+                resultType = ETripleComponentTypeExt.STRING,
+                generateInstantiated = generateInstantiatedString("http://www.w3.org/2001/XMLSchema#boolean"),
+                generateByteArrayWrapper = generateByteArrayWrapperString("http://www.w3.org/2001/XMLSchema#boolean"),
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
+                resultType = ETripleComponentTypeExt.STRING,
+                generateInstantiated = generateInstantiatedString("http://www.w3.org/2001/XMLSchema#integer"),
+                generateByteArrayWrapper = generateByteArrayWrapperString("http://www.w3.org/2001/XMLSchema#integer"),
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
+                resultType = ETripleComponentTypeExt.STRING,
+                generateInstantiated = generateInstantiatedString("http://www.w3.org/2001/XMLSchema#double"),
+                generateByteArrayWrapper = generateByteArrayWrapperString("http://www.w3.org/2001/XMLSchema#double"),
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
+                resultType = ETripleComponentTypeExt.STRING,
+                generateInstantiated = generateInstantiatedString("http://www.w3.org/2001/XMLSchema#decimal"),
+                generateByteArrayWrapper = generateByteArrayWrapperString("http://www.w3.org/2001/XMLSchema#decimal"),
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
+                resultType = ETripleComponentTypeExt.STRING,
+                generateInstantiated = generateInstantiatedString("http://www.w3.org/2001/XMLSchema#float"),
+                generateByteArrayWrapper = generateByteArrayWrapperString("http://www.w3.org/2001/XMLSchema#float"),
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
+                resultType = ETripleComponentTypeExt.STRING,
+                generateInstantiated = generateInstantiatedString("http://www.w3.org/2001/XMLSchema#string"),
+                generateByteArrayWrapper = generateByteArrayWrapperString("http://www.w3.org/2001/XMLSchema#string"),
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
+                resultType = ETripleComponentTypeExt.STRING,
+                generateInstantiated = generateInstantiatedString("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"),
+                generateByteArrayWrapper = generateByteArrayWrapperString("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"),
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
+                resultType = ETripleComponentTypeExt.STRING,
+                generateInstantiated = generateInstantiatedString("http://www.w3.org/2001/XMLSchema#dateTime"),
+                generateByteArrayWrapper = generateByteArrayWrapperString("http://www.w3.org/2001/XMLSchema#dateTime"),
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
+                resultType = ETripleComponentTypeExt.STRING,
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _ ->
+                    target.appendLine("${indention}val $outputName = ${inputNames[0]}_type")
+                },
+                generateByteArrayWrapper = null
+            ),
+
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
 )
 
 public val converters = listOf(
@@ -603,6 +680,27 @@ public val converters = listOf(
         generate = { indention, inputName, outputName, imports, target, _ ->
             imports.add("lupos.dictionary.DictionaryHelper")
             target.appendLine("${indention}val $outputName = DictionaryHelper.byteArrayToFloat($inputName)")
+        }
+    ),
+    MyRepresentationConversionFunction(
+        type = ETripleComponentTypeExt.STRING_TYPED,
+        inputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
+        outputRepresentation = EParamRepresentation.INSTANTIATED,
+        generate = { indention, inputName, outputName, imports, target, _ ->
+            imports.add("lupos.dictionary.DictionaryHelper")
+            target.appendLine("${indention}val ${outputName}_content = DictionaryHelper.byteArrayToTyped_Content($inputName)")
+            target.appendLine("${indention}val ${outputName}_type = DictionaryHelper.byteArrayToTyped_Type($inputName)")
+        }
+    ),
+    MyRepresentationConversionFunction(
+        type = ETripleComponentTypeExt.STRING,
+        inputRepresentation = EParamRepresentation.INSTANTIATED,
+        outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
+        generate = { indention, inputName, outputName, imports, target, globalVariables ->
+            imports.add("lupos.s00misc.ByteArrayWrapper")
+            imports.add("lupos.dictionary.DictionaryHelper")
+            globalVariables.add("val $outputName = ByteArrayWrapper()")
+            target.appendLine("${indention}DictionaryHelper.stringToByteArray($outputName, $inputName)")
         }
     ),
     MyRepresentationConversionFunction(

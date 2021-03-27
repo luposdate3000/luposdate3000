@@ -238,6 +238,13 @@ public object DictionaryHelper {
         return buf.decodeToString()
     }
 
+    public inline fun stringToByteArray(buffer: ByteArrayWrapper, value: String) {
+        val buf1 = value.encodeToByteArray()
+        buffer.setSize(4 + buf1.size)
+        ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.STRING)
+        buf1.copyInto(buffer.getBuf(), 4)
+    }
+
     public inline fun valueToByteArray(buffer: ByteArrayWrapper, value: String?) {
         if (value == null || value.isEmpty()) {
             buffer.setSize(4)
@@ -284,10 +291,7 @@ public object DictionaryHelper {
                 return
             }
         }
-        val buf1 = removeQuotesFromString(value).encodeToByteArray()
-        buffer.setSize(4 + buf1.size)
-        ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.STRING)
-        buf1.copyInto(buffer.getBuf(), 4)
+        stringToByteArray(buffer, removeQuotesFromString(value))
     }
 
     public inline fun removeQuotesFromString(s: String): String {
