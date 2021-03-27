@@ -85,7 +85,7 @@ public class MyOperator(
                 cond += "${typeNames[i]} == ETripleComponentTypeExt.${ETripleComponentTypeExt.names[implementation.childrenTypes[i]]}"
             }
             cond += ") {"
-            target.appendLine(cond)
+            target.appendLine(indention + cond)
             var myInputInstances = Array(inputNames.size) { "${prefix}_${prefix_counter++}" }
             var myOutputInstance = "${prefix}_${prefix_counter++}"
             for (i in 0 until inputNames.size) {
@@ -108,6 +108,56 @@ public class MyOperator(
             target.appendLine("$indention    DictionaryHelper.errorToByteArray($outputName)")
         }
         target.appendLine("$indention}")
+    }
+
+    public fun generateAOP(): StringBuilder {
+        var clazz = StringBuilder()
+        clazz.appendLine("package lupos.s04arithmetikOperators")
+        var imports = mutableSetOf<String>()
+        var target = StringBuilder()
+        var globalVariables = mutableSetOf<String>()
+        generate("            ", EParamRepresentation.ID, Array(implementations[0].childrenTypes.size) { "childIn$it" }, "res", "tmp", imports, target, globalVariables)
+        for (i in imports) {
+            clazz.appendLine("import $i")
+        }
+        clazz.appendLine("public class AOPBuildInCall$name public constructor(")
+        clazz.appendLine("    query: IQuery,")
+        var line = ""
+        var line2 = ""
+        var line3 = ""
+        for (i in 0 until implementations[0].childrenTypes.size) {
+            clazz.appendLine("    child$i: AOPBase,")
+            line += "child$i,"
+            if (i > 0) {
+                line2 += ", "
+            }
+            line2 += "children[$i].toSparql()"
+            line3 += " && children[$i] == other.children[$i]"
+        }
+        clazz.appendLine(") : AOPBase(")
+        clazz.appendLine("    query,")
+        clazz.appendLine("    EOperatorIDExt.AOPBuildInCall${name}ID,")
+        clazz.appendLine("    \"AOPBuildInCall${name}\",")
+        clazz.appendLine("    arrayOf($line)) {")
+        clazz.appendLine("    override fun toSparql(): String = \"$name(\${$line2})\"")
+        clazz.appendLine("    override fun equals(other: Any?): Boolean = other is AOPBuildInCall$name$line3")
+        clazz.appendLine("    override fun evaluateID(row: IteratorBundle): () -> Int {")
+        for (v in globalVariables) {
+            clazz.appendLine("        $v")
+        }
+        for (i in 0 until implementations[0].childrenTypes.size) {
+            clazz.appendLine("        val child$i = (children[$i] as AOPBase).evaluate(row)")
+        }
+        clazz.appendLine("        return {")
+        for (i in 0 until implementations[0].childrenTypes.size) {
+            clazz.appendLine("            val childIn$i = child$i()")
+        }
+        clazz.append(target.toString())
+        clazz.appendLine("            res")
+        clazz.appendLine("        }")
+        clazz.appendLine("    }")
+        clazz.appendLine("}")
+        return clazz
     }
 }
 
@@ -279,8 +329,11 @@ for (resultType in arrayOf(EParamRepresentation.ID, EParamRepresentation.BYTEARR
             println("import $i")
         }
         for (v in globalVariables) {
-            println("import $v")
+            println("$v")
         }
         print(target.toString())
     }
+}
+for (operator in operators) {
+    println(operator.generateAOP().toString())
 }
