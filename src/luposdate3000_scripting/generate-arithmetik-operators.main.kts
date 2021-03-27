@@ -20,6 +20,7 @@
 
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
+import java.io.File
 
 public enum class OperatorType {
     BuildInCall,
@@ -82,6 +83,7 @@ public class MyOperator(
                     cond += " && "
                 }
                 firstCond = false
+                imports.add("lupos.s00misc.ETripleComponentTypeExt")
                 cond += "${typeNames[i]} == ETripleComponentTypeExt.${ETripleComponentTypeExt.names[implementation.childrenTypes[i]]}"
             }
             cond += ") {"
@@ -154,7 +156,7 @@ public class MyOperator(
         clazz.appendLine(line0)
         clazz.appendLine("    override fun toSparql(): String = \"$name(\${$line2})\"")
         clazz.appendLine("    override fun equals(other: Any?): Boolean = other is AOP$type$name$line3")
-        clazz.appendLine("    override fun cloneOP(): IOPBase = AOP$name(query$line4)")
+        clazz.appendLine("    override fun cloneOP(): IOPBase = AOP$type$name(query$line4)")
         clazz.appendLine("    override fun evaluateID(row: IteratorBundle): () -> Int {")
         for (v in globalVariables) {
             if (!v.contains(" res ")) {
@@ -162,7 +164,7 @@ public class MyOperator(
             }
         }
         for (i in 0 until implementations[0].childrenTypes.size) {
-            clazz.appendLine("        val child$i = (children[$i] as AOPBase).evaluate(row)")
+            clazz.appendLine("        val child$i = (children[$i] as AOPBase).evaluateID(row)")
         }
         clazz.appendLine("        return {")
         clazz.appendLine("            var res:Int")
@@ -229,6 +231,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
                 resultType = ETripleComponentTypeExt.DOUBLE,
                 generate = { indention, inputNames, outputName, prefix, imports, target, globalVariables ->
+                    imports.add("kotlin.math.abs")
                     target.appendLine("${indention}val $outputName = abs(${inputNames[0]})")
                 },
             ),
@@ -236,6 +239,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
                 resultType = ETripleComponentTypeExt.FLOAT,
                 generate = { indention, inputNames, outputName, prefix, imports, target, globalVariables ->
+                    imports.add("kotlin.math.abs")
                     target.appendLine("${indention}val $outputName = abs(${inputNames[0]})")
                 },
             ),
@@ -302,7 +306,7 @@ public val converters = listOf(
             imports.add("lupos.s00misc.ByteArrayWrapper")
             imports.add("lupos.dictionary.DictionaryHelper")
             globalVariables.add("val $outputName = ByteArrayWrapper()")
-            target.appendLine("${indention}DictionaryHelper.doubleToByteArray($outputName, $inputName.toString())")
+            target.appendLine("${indention}DictionaryHelper.doubleToByteArray($outputName, $inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -322,7 +326,7 @@ public val converters = listOf(
             imports.add("lupos.s00misc.ByteArrayWrapper")
             imports.add("lupos.dictionary.DictionaryHelper")
             globalVariables.add("val $outputName = ByteArrayWrapper()")
-            target.appendLine("${indention}DictionaryHelper.floatToByteArray($outputName, $inputName.toString())")
+            target.appendLine("${indention}DictionaryHelper.floatToByteArray($outputName, $inputName)")
         }
     ),
 )
@@ -336,13 +340,13 @@ fun getRepresentationConversionFunction(type: ETripleComponentType, inputReprese
     throw Exception("not found ${ETripleComponentTypeExt.names[type]} $inputRepresentation $outputRepresentation")
 }
 for (operator in operators) {
-    val foldername: String
-    when (implementations[0].childrenTypes.size) {
+    var foldername: String = ""
+    when (operator.implementations[0].childrenTypes.size) {
         0 -> foldername = "noinput"
         1 -> foldername = "singleinput"
         else -> foldername = "multiinput"
     }
-    File("src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/s04arithmetikOperators/$foldername/AOP${operator.type}${operator.name}.kt").printWriter { out ->
+    File("src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/s04arithmetikOperators/$foldername/AOP${operator.type}${operator.name}.kt").printWriter().use { out ->
         out.println("/*")
         out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
         out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")

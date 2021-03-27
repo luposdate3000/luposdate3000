@@ -27,6 +27,7 @@ import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueDouble
+import lupos.s03resultRepresentation.ValueFloat
 import lupos.s03resultRepresentation.ValueInteger
 import lupos.s03resultRepresentation.ValueIri
 import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
@@ -349,7 +350,7 @@ public object DictionaryHelper {
         crossinline onSimpleLiteral: (content: String) -> Unit,
         crossinline onTypedLiteral: (content: String, type: String) -> Unit,
         crossinline onDecimal: (value: String) -> Unit,
-        crossinline onFloat: (value: String) -> Unit,
+        crossinline onFloat: (value: Double) -> Unit,
         crossinline onDouble: (value: Double) -> Unit,
         crossinline onInteger: (value: String) -> Unit,
         crossinline onIri: (value: String) -> Unit,

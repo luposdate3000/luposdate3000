@@ -16,43 +16,56 @@
  */
 package lupos.s04arithmetikOperators.singleinput
 
+import lupos.dictionary.DictionaryExt
+import lupos.dictionary.DictionaryHelper
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
-import lupos.s03resultRepresentation.ValueDecimal
-import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s03resultRepresentation.ValueDouble
-import lupos.s03resultRepresentation.ValueError
-import lupos.s03resultRepresentation.ValueFloat
-import lupos.s03resultRepresentation.ValueInteger
+import lupos.s00misc.ETripleComponentTypeExt
+import lupos.s00misc.MyBigDecimal
+import lupos.s00misc.MyBigInteger
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.math.abs
 
-public class AOPBuildInCallABS public constructor(query: IQuery, child: AOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallABSID, "AOPBuildInCallABS", arrayOf(child)) {
-    override fun toSparql(): String = "ABS(" + children[0].toSparql() + ")"
+public class AOPBuildInCallABS public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallABSID, "AOPBuildInCallABS", arrayOf(child0,)) {
+    override fun toSparql(): String = "ABS(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallABS && children[0] == other.children[0]
-    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
-        val childA = (children[0] as AOPBase).evaluate(row)
+    override fun cloneOP(): IOPBase = AOPBuildInCallABS(query, children[0].cloneOP() as AOPBase)
+    override fun evaluateID(row: IteratorBundle): () -> Int {
+        val tmp_0 = ByteArrayWrapper()
+        val tmp_2 = ByteArrayWrapper()
+        val child0 = (children[0] as AOPBase).evaluateID(row)
         return {
-            var res: ValueDefinition = ValueError()
-            when (val a = childA()) {
-                is ValueDouble -> {
-                    res = ValueDouble(abs(a.value))
-                }
-                is ValueFloat -> {
-                    res = ValueFloat(abs(a.value))
-                }
-                is ValueDecimal -> {
-                    res = ValueDecimal(a.value.abs())
-                }
-                is ValueInteger -> {
-                    res = ValueInteger(a.value.abs())
-                }
+            var res: Int
+            val childIn0 = child0()
+            query.getDictionary().getValue(tmp_0, childIn0)
+            val tmp_1 = DictionaryHelper.byteArrayToType(tmp_0)
+            if (tmp_1 == ETripleComponentTypeExt.INTEGER) {
+                val tmp_3 = MyBigInteger(DictionaryHelper.byteArrayToInteger(tmp_0))
+                val tmp_4 = tmp_3.abs()
+                DictionaryHelper.integerToByteArray(tmp_2, tmp_4.toString())
+                res = query.getDictionary().createValue(tmp_2)
+            } else if (tmp_1 == ETripleComponentTypeExt.DECIMAL) {
+                val tmp_6 = MyBigDecimal(DictionaryHelper.byteArrayToDecimal(tmp_0))
+                val tmp_7 = tmp_6.abs()
+                DictionaryHelper.decimalToByteArray(tmp_2, tmp_7.toString())
+                res = query.getDictionary().createValue(tmp_2)
+            } else if (tmp_1 == ETripleComponentTypeExt.DOUBLE) {
+                val tmp_9 = DictionaryHelper.byteArrayToDouble(tmp_0)
+                val tmp_10 = abs(tmp_9)
+                DictionaryHelper.doubleToByteArray(tmp_2, tmp_10)
+                res = query.getDictionary().createValue(tmp_2)
+            } else if (tmp_1 == ETripleComponentTypeExt.FLOAT) {
+                val tmp_12 = DictionaryHelper.byteArrayToFloat(tmp_0)
+                val tmp_13 = abs(tmp_12)
+                DictionaryHelper.floatToByteArray(tmp_2, tmp_13)
+                res = query.getDictionary().createValue(tmp_2)
+            } else {
+                res = DictionaryExt.errorValue
             }
             res
         }
     }
-
-    override fun cloneOP(): IOPBase = AOPBuildInCallABS(query, children[0].cloneOP() as AOPBase)
 }
