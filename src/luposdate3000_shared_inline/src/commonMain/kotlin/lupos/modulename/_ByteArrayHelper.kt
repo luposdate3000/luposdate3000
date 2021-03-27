@@ -16,120 +16,52 @@
  */
 package lupos.modulename
 
-internal object _ByteArrayHelper {
+internal expect object _ByteArrayHelper {
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeInt1(data: ByteArray, offset: Int, value: Int) {
-        data[offset] = (value and 0xFF).toByte()
-    }
+    internal inline fun writeInt1(data: ByteArray, offset: Int, value: Int)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeInt2(data: ByteArray, offset: Int, value: Int) {
-        data[offset] = ((value shr 8) and 0xFF).toByte()
-        data[offset + 1] = (value and 0xFF).toByte()
-    }
+    internal inline fun writeInt2(data: ByteArray, offset: Int, value: Int)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeInt3(data: ByteArray, offset: Int, value: Int) {
-        data[offset] = ((value shr 16) and 0xFF).toByte()
-        data[offset + 1] = ((value shr 8) and 0xFF).toByte()
-        data[offset + 2] = (value and 0xFF).toByte()
-    }
+    internal inline fun writeInt3(data: ByteArray, offset: Int, value: Int)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeInt4(data: ByteArray, offset: Int, value: Int) {
-        data[offset] = ((value shr 24) and 0xFF).toByte()
-        data[offset + 1] = ((value shr 16) and 0xFF).toByte()
-        data[offset + 2] = ((value shr 8) and 0xFF).toByte()
-        data[offset + 3] = (value and 0xFF).toByte()
-    }
+    internal inline fun writeInt4(data: ByteArray, offset: Int, value: Int)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeIntX(data: ByteArray, offset: Int, value: Int, count: Int) {
-        when (count) {
-            0 -> {
-            }
-            1 -> {
-                writeInt1(data, offset, value)
-            }
-            2 -> {
-                writeInt2(data, offset, value)
-            }
-            3 -> {
-                writeInt3(data, offset, value)
-            }
-            else -> {
-                writeInt4(data, offset, value)
-            }
-        }
-    }
+    internal inline fun writeIntX(data: ByteArray, offset: Int, value: Int, count: Int)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeLong8(data: ByteArray, offset: Int, value: Long) {
-        data[offset] = ((value shr 56) and 0xFF).toByte()
-        data[offset + 1] = ((value shr 48) and 0xFF).toByte()
-        data[offset + 2] = ((value shr 40) and 0xFF).toByte()
-        data[offset + 3] = ((value shr 32) and 0xFF).toByte()
-        data[offset + 4] = ((value shr 24) and 0xFF).toByte()
-        data[offset + 5] = ((value shr 16) and 0xFF).toByte()
-        data[offset + 6] = ((value shr 8) and 0xFF).toByte()
-        data[offset + 7] = (value and 0xFF).toByte()
-    }
+    internal inline fun writeLong8(data: ByteArray, offset: Int, value: Long)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeChar(data: ByteArray, offset: Int, value: Char) {
-        val v = value.toInt()
-        data[offset] = ((v shr 8) and 0xFF).toByte()
-        data[offset + 1] = (v and 0xFF).toByte()
-    }
+    internal inline fun writeDouble8(data: ByteArray, offset: Int, value: Double)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readLong8(data: ByteArray, offset: Int): Long {
-        return (((data[offset].toLong() and 0xFF) shl 56) or ((data[offset + 1].toLong() and 0xFF) shl 48) or ((data[offset + 2].toLong() and 0xFF) shl 40) or ((data[offset + 3].toLong() and 0xFF) shl 32) or ((data[offset + 4].toLong() and 0xFF) shl 24) or ((data[offset + 5].toLong() and 0xFF) shl 16) or ((data[offset + 6].toLong() and 0xFF) shl 8) or ((data[offset + 7].toLong() and 0xFF)))
-    }
+    internal inline fun writeChar(data: ByteArray, offset: Int, value: Char)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readInt4(data: ByteArray, offset: Int): Int {
-        return (((data[offset].toInt() and 0xFF) shl 24) or ((data[offset + 1].toInt() and 0xFF) shl 16) or ((data[offset + 2].toInt() and 0xFF) shl 8) or ((data[offset + 3].toInt() and 0xFF)))
-    }
+    internal inline fun readLong8(data: ByteArray, offset: Int): Long
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readInt3(data: ByteArray, offset: Int): Int {
-        return (((data[offset].toInt() and 0xFF) shl 16) or ((data[offset + 1].toInt() and 0xFF) shl 8) or ((data[offset + 2].toInt() and 0xFF)))
-    }
+    internal inline fun readDouble8(data: ByteArray, offset: Int): Double
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readInt2(data: ByteArray, offset: Int): Int {
-        return (((data[offset].toInt() and 0xFF) shl 8) or ((data[offset + 1].toInt() and 0xFF)))
-    }
+    internal inline fun readInt4(data: ByteArray, offset: Int): Int
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readInt1(data: ByteArray, offset: Int): Int {
-        return (data[offset].toInt() and 0xFF)
-    }
+    internal inline fun readInt3(data: ByteArray, offset: Int): Int
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readIntX(data: ByteArray, offset: Int, count: Int): Int {
-        when (count) {
-            0 -> {
-                return 0
-            }
-            1 -> {
-                return readInt1(data, offset)
-            }
-            2 -> {
-                return readInt2(data, offset)
-            }
-            3 -> {
-                return readInt3(data, offset)
-            }
-            else -> {
-                return readInt4(data, offset)
-            }
-        }
-    }
+    internal inline fun readInt2(data: ByteArray, offset: Int): Int
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readChar(data: ByteArray, offset: Int): Char {
-        return (((data[offset].toInt() and 0xFF) shl 8) or ((data[offset + 1].toInt() and 0xFF))).toChar()
-    }
+    internal inline fun readInt1(data: ByteArray, offset: Int): Int
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readIntX(data: ByteArray, offset: Int, count: Int): Int
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal inline fun readChar(data: ByteArray, offset: Int): Char
 }
