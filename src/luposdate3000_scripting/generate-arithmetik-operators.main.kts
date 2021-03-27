@@ -100,8 +100,13 @@ public class MyOperator(
             }
         }
         target.appendLine("$indention} else {")
-        imports.add("lupos.dictionary.DictionaryExt")
-        target.appendLine("$indention    $outputName = DictionaryExt.errorValue")
+        if (representation == EParamRepresentation.ID) {
+            imports.add("lupos.dictionary.DictionaryExt")
+            target.appendLine("$indention    $outputName = DictionaryExt.errorValue")
+        } else {
+            imports.add("lupos.dictionary.DictionaryHelper")
+            target.appendLine("$indention    DictionaryHelper.errorToByteArray($outputName)")
+        }
         target.appendLine("$indention}")
     }
 }

@@ -62,6 +62,11 @@ public object DictionaryHelper {
      * ETripleComponentTypeExt.FLOAT
      * -> IEEE 754 floating-point "double format" bit layout, preserving Not-a-Number (NaN) values.
      */
+    public inline fun errorToByteArray(buffer: ByteArrayWrapper) {
+        buffer.setSize(4)
+        ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.ERROR)
+    }
+
     public inline fun booleanToByteArray(buffer: ByteArrayWrapper, value: Boolean) {
         buffer.setSize(5)
         ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.BOOLEAN)
