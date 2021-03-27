@@ -343,6 +343,53 @@ public val operators = listOf(
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
     ),
     MyOperator(
+        name = "Round",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
+                resultType = ETripleComponentTypeExt.INTEGER,
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _ ->
+                    target.appendLine("${indention}val $outputName = ${inputNames[0]}")
+                },
+                generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables ->
+                    imports.add("lupos.s00misc.ByteArrayWrapper")
+                    globalVariables.add("val $outputName = ByteArrayWrapper()")
+                    target.appendLine("${indention}${inputNames[0]}.copyInto($outputName)")
+                }
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
+                resultType = ETripleComponentTypeExt.DECIMAL,
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _ ->
+                    target.appendLine("${indention}val $outputName = ${inputNames[0]}.round()")
+                },
+                generateByteArrayWrapper = null,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
+                resultType = ETripleComponentTypeExt.DOUBLE,
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _ ->
+                    imports.add("kotlin.math.abs")
+                    target.appendLine("${indention}val $outputName = ${inputNames[0]}.roundToInt()")
+                },
+                generateByteArrayWrapper = null,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
+                resultType = ETripleComponentTypeExt.FLOAT,
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _ ->
+                    imports.add("kotlin.math.abs")
+                    target.appendLine("${indention}val $outputName = ${inputNames[0]}.roundToInt()")
+                },
+                generateByteArrayWrapper = null,
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
         name = "BOUND",
         type = OperatorType.BuildInCall,
         implementations = arrayOf(
