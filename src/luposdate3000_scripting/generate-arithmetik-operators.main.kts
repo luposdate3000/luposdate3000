@@ -587,7 +587,7 @@ public val operators = listOf(
         generateByteArrayWrapperOther = generateByteArrayWrapperFalse,
     ),
     MyOperator(
-        name = "IsLiteral",
+        name = "IsLITERAL",
         type = OperatorType.BuildInCall,
         implementations = arrayOf(
             MyOperatorPart(
@@ -620,7 +620,7 @@ public val operators = listOf(
         generateByteArrayWrapperOther = generateByteArrayWrapperTrue,
     ),
     MyOperator(
-        name = "IsNumeric",
+        name = "IsNUMERIC",
         type = OperatorType.BuildInCall,
         implementations = arrayOf(
             MyOperatorPart(
@@ -753,7 +753,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
                 resultType = ETripleComponentTypeExt.IRI,
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _ ->
-                    target.appendLine("${indention}val $outputName = if(prefix.length > 0 && !prefix.endsWith('/')) {")
+                    target.appendLine("${indention}val $outputName = if (prefix.length > 0 && !prefix.endsWith('/')) {")
                     target.appendLine("$indention    \"\$prefix/\$${inputNames[0]}\"")
                     target.appendLine("$indention} else {")
                     target.appendLine("$indention    \"\$prefix\$${inputNames[0]}\"")

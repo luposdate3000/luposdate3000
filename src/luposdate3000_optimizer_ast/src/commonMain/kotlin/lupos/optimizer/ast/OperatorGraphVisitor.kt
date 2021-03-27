@@ -138,6 +138,17 @@ import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s03resultRepresentation.ValueUndef
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.generated.AOPBuildInCallABS
+import lupos.s04arithmetikOperators.generated.AOPBuildInCallBOUND
+import lupos.s04arithmetikOperators.generated.AOPBuildInCallCEIL
+import lupos.s04arithmetikOperators.generated.AOPBuildInCallDATATYPE
+import lupos.s04arithmetikOperators.generated.AOPBuildInCallFLOOR
+import lupos.s04arithmetikOperators.generated.AOPBuildInCallIRI
+import lupos.s04arithmetikOperators.generated.AOPBuildInCallIsIri
+import lupos.s04arithmetikOperators.generated.AOPBuildInCallIsLITERAL
+import lupos.s04arithmetikOperators.generated.AOPBuildInCallIsNUMERIC
+import lupos.s04arithmetikOperators.generated.AOPBuildInCallROUND
+import lupos.s04arithmetikOperators.generated.AOPBuildInCallSTRLEN
 import lupos.s04arithmetikOperators.multiinput.AOPAddition
 import lupos.s04arithmetikOperators.multiinput.AOPAnd
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
@@ -176,31 +187,20 @@ import lupos.s04arithmetikOperators.singleinput.AOPAggregationMAX
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationMIN
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationSAMPLE
 import lupos.s04arithmetikOperators.singleinput.AOPAggregationSUM
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallABS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBNODE1
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallBOUND
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallCEIL
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDATATYPE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallDAY
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallExists
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallFLOOR
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallHOURS
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIRI
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsIri
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsLITERAL
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallIsNUMERIC
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLANG
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallLCASE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMD5
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMINUTES
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallMONTH
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallNotExists
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallROUND
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSECONDS
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA1
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSHA256
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTR
-import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallSTRLEN
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTIMEZONE
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallTZ
 import lupos.s04arithmetikOperators.singleinput.AOPBuildInCallUCASE
@@ -1146,7 +1146,7 @@ return tmp
             }
             BuiltInFunctionsExt.IRI -> {
                 SanityCheck.check { childrenValues.size == 1 }
-                return AOPBuildInCallIRI(query, childrenValues[0] as AOPBase)
+                return AOPBuildInCallIRI(query, childrenValues[0] as AOPBase, "")
             }
             BuiltInFunctionsExt.URI -> {
                 SanityCheck.check { childrenValues.size == 1 }

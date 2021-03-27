@@ -26,10 +26,10 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPBuildInCallIsLiteral public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallIsLiteralID, "AOPBuildInCallIsLiteral", arrayOf(child0,)) {
-    override fun toSparql(): String = "IsLiteral(${children[0].toSparql()})"
-    override fun equals(other: Any?): Boolean = other is AOPBuildInCallIsLiteral && children[0] == other.children[0]
-    override fun cloneOP(): IOPBase = AOPBuildInCallIsLiteral(query, children[0].cloneOP() as AOPBase)
+public class AOPBuildInCallIsLITERAL public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallIsLITERALID, "AOPBuildInCallIsLITERAL", arrayOf(child0,)) {
+    override fun toSparql(): String = "IsLITERAL(${children[0].toSparql()})"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallIsLITERAL && children[0] == other.children[0]
+    override fun cloneOP(): IOPBase = AOPBuildInCallIsLITERAL(query, children[0].cloneOP() as AOPBase)
     override fun evaluateID(row: IteratorBundle): () -> Int {
         val tmp_0 = ByteArrayWrapper()
         val tmp_2 = ByteArrayWrapper()
