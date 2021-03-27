@@ -120,35 +120,43 @@ public class MyOperator(
         for (i in imports) {
             clazz.appendLine("import $i")
         }
-        clazz.appendLine("public class AOPBuildInCall$name public constructor(")
-        clazz.appendLine("    query: IQuery,")
+        var line0 = ""
+        line0 += ("public class AOPBuildInCall$name public constructor(")
+        line0 += ("query: IQuery, ")
         var line = ""
         var line2 = ""
         var line3 = ""
+        var line4 = ""
         for (i in 0 until implementations[0].childrenTypes.size) {
-            clazz.appendLine("    child$i: AOPBase,")
-            line += "child$i,"
+            line0 += ("child$i: AOPBase, ")
+            line += "child$i, "
             if (i > 0) {
                 line2 += ", "
             }
             line2 += "children[$i].toSparql()"
             line3 += " && children[$i] == other.children[$i]"
+            line4 += ", children[$i].cloneOP() as AOPBase"
         }
-        clazz.appendLine(") : AOPBase(")
-        clazz.appendLine("    query,")
-        clazz.appendLine("    EOperatorIDExt.AOPBuildInCall${name}ID,")
-        clazz.appendLine("    \"AOPBuildInCall${name}\",")
-        clazz.appendLine("    arrayOf($line)) {")
+        line0 += (") : AOPBase(")
+        line0 += ("query, ")
+        line0 += ("EOperatorIDExt.AOPBuildInCall${name}ID, ")
+        line0 += ("\"AOPBuildInCall${name}\", ")
+        line0 += ("arrayOf($line)) {")
+        clazz.appendLine(line0)
         clazz.appendLine("    override fun toSparql(): String = \"$name(\${$line2})\"")
         clazz.appendLine("    override fun equals(other: Any?): Boolean = other is AOPBuildInCall$name$line3")
+        clazz.appendLine("    override fun cloneOP(): IOPBase = AOP$name(query$line4)")
         clazz.appendLine("    override fun evaluateID(row: IteratorBundle): () -> Int {")
         for (v in globalVariables) {
-            clazz.appendLine("        $v")
+            if (!v.contains(" res ")) {
+                clazz.appendLine("        $v")
+            }
         }
         for (i in 0 until implementations[0].childrenTypes.size) {
             clazz.appendLine("        val child$i = (children[$i] as AOPBase).evaluate(row)")
         }
         clazz.appendLine("        return {")
+        clazz.appendLine("            var res:Int")
         for (i in 0 until implementations[0].childrenTypes.size) {
             clazz.appendLine("            val childIn$i = child$i()")
         }
