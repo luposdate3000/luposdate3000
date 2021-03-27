@@ -18,15 +18,17 @@ package lupos.launch.test_dictionary
 
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
+import lupos.dictionary.ADictionary
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
+import lupos.dictionary.nodeGlobalDictionary
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.Parallel
 import lupos.test.AflCore
 import kotlin.math.abs
 
-private val verbose = false
+private val verbose = true
 
 // private val maxSize = 16
 private val maxSize = 16384
@@ -42,6 +44,18 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
     if (hasNextRandom() > 1) {
         val dictType = abs(nextRandom() % EDictionaryTypeExt.values_size)
         val isLocal = abs(nextRandom() % 2) == 0
+        if (isLocal) {
+            nodeGlobalDictionary = object : ADictionary() {
+                override fun close() {}
+                override fun delete() {}
+                override fun createNewBNode(): Int = throw Exception("not implemented")
+                override fun createValue(buffer: ByteArrayWrapper): Int = throw Exception("not implemented")
+                override fun getValue(buffer: ByteArrayWrapper, value: Int) = throw Exception("not implemented")
+                override fun hasValue(buffer: ByteArrayWrapper): Int? = null
+                override fun importFromDictionaryFile(filename: String): IntArray = throw Exception("not implemented")
+                override fun isInmemoryOnly(): Boolean = true
+            }
+        }
         var rootPage = -1
         fun createDict(initFromRootPage: Boolean): IDictionary {
             when (dictType) {
@@ -57,10 +71,11 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
                 else -> return DictionaryFactory.createDictionary(dictType, isLocal, bufferManager, -1, false)
             }
         }
+        println("executeTest $isLocal ${EDictionaryTypeExt.names[dictType]}--------------------------------------")
 
         var dict = createDict(false)
         val values = mutableListOf<ByteArray>()
-        val mapping = mutableMapOf<Int, Int>()
+        val mapping = mutableMapOf<Int, Int>() // dict.id -> values.index
 
         var usedGenerators = mutableMapOf<Int, MutableSet<Int>>() // len -> seed
 
@@ -75,7 +90,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
 
         fun getNotExistingKey(rng: Int, action: (Int) -> Unit) {
             val ids = MutableList<Int>(1000) { it }
-            ids.removeAll(mapping.keys)
+            ids.removeAll(mapping.values)
             if (ids.size > 0) {
                 val key = ids[abs(rng % ids.size)]
                 action(key)
@@ -116,8 +131,8 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
                 println("testCreateValueExistingOk $targetKey ${data.map { it }}")
             }
             val key = dict.createValue(ByteArrayWrapper(data))
-            if (mapping[key] != targetKey) {
-                throw Exception("")
+            if (key != targetKey) {
+                throw Exception("${key.toString(2)} ${targetKey!!.toString(2)}")
             }
         }
 
@@ -161,7 +176,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
             dict.getValue(value, key)
             val target = values[mapping[key]!!]
             if (value.getSize() != target.size) {
-                throw Exception("")
+                throw Exception("${value.getSize()} ${target.size}")
             }
             for (i in 0 until value.getSize()) {
                 if (value.getBuf()[i] != target[i]) {

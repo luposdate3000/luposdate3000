@@ -101,7 +101,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
             println("testCreateValueExistingOk $targetKey ${data.map { it }}")
         }
         val key = kv.createValue(ByteArrayWrapper(data))
-        if (mapping[key] != targetKey) {
+        if (key != targetKey) {
             throw Exception("")
         }
     }

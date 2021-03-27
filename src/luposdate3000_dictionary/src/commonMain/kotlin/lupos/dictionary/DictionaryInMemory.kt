@@ -101,12 +101,15 @@ public class DictionaryInMemory : ADictionary {
         var res = dataV2I[buffer]
         if (res == null) {
             res = dataV2I.size
-            dataV2I[buffer] = res
+            val bufferCopy = ByteArrayWrapper()
+            buffer.copyInto(bufferCopy)
+            dataV2I[bufferCopy] = res
             if (dataI2V.size <= res) {
                 val tmp = dataI2V
-                dataI2V = Array<ByteArrayWrapper>(dataI2V.size * 2) { buffer }
+                dataI2V = Array<ByteArrayWrapper>(dataI2V.size * 2) { bufferCopy }
                 tmp.copyInto(dataI2V)
             }
+            dataI2V[res] = bufferCopy
         }
         if (isLocal) {
             res = res or ADictionary.flagLocal
