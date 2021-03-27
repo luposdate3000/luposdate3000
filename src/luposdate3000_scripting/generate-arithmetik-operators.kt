@@ -14,24 +14,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-private enum class OperatorType {
+import lupos.s00misc.ETripleComponentType
+import lupos.s00misc.ETripleComponentTypeExt
+
+internal enum class OperatorType {
     BuildInCall,
     Function,
 }
 
-private enum class EParamRepresentation {
+internal enum class EParamRepresentation {
     ID, // represented as dictionary key
     BYTEARRAYWRAPPER, // represented as ByteArrayWrapper
     INSTANTIATED, // represented as the parsed Type itself
 }
 
 internal class MyOperator(
-    private val name: String,
-    private val type: OperatorType,
-    private val implementations: Array<MyOperatorPart>,
+    internal val name: String,
+    internal val type: OperatorType,
+    internal val implementations: Array<MyOperatorPart>,
 ) {
+    internal fun generate(representation: EParamRepresentation, imports: MutableSet<String>, target: StringBuilder) {
+        generate(representation, Array(implementations[0].childrenTypes.size) { "children[$it]" }, "res", "tmp", imports, target)
+    }
+
     internal fun generate(representation: EParamRepresentation, inputNames: Array<String>, outputName: String, prefix: String, imports: MutableSet<String>, target: StringBuilder) {
-        if (representation == INSTANTIATED) {
+        if (representation == EParamRepresentation.INSTANTIATED) {
             throw Exception("there is no need to combine functions here")
         }
         var myInputNames = Array<String>(inputNames.size) { inputNames[it] }
@@ -65,7 +72,7 @@ internal class MyOperator(
                     cond += " && "
                 }
                 firstCond = false
-                cond += "${typeNames[i]} == ETripleComponentType.${ETripleComponentType.names[implementation.childrenTypes[i]]}"
+                cond += "${typeNames[i]} == ETripleComponentTypeExt.${ETripleComponentTypeExt.names[implementation.childrenTypes[i]]}"
             }
             cond += ") {"
             target.appendln(cond)
@@ -87,9 +94,9 @@ internal class MyOperator(
 }
 
 internal class MyOperatorPart(
-    private val childrenTypes: Array<ETripleComponentType>,
-    private val resultType: ETripleComponentType,
-    private val generate: (
+    internal val childrenTypes: Array<ETripleComponentType>,
+    internal val resultType: ETripleComponentType,
+    internal val generate: (
         Array<String>, // inputNames
         String, // outputName
         String, // prefix (for intermediates)
@@ -99,10 +106,10 @@ internal class MyOperatorPart(
 )
 
 internal class MyRepresentationConversionFunction(
-    type: ETripleComponentType,
-    inputRepresentation: EParamRepresentation,
-    outputRepresentation: EParamRepresentation,
-    generate: (
+    internal val type: ETripleComponentType,
+    internal val inputRepresentation: EParamRepresentation,
+    internal val outputRepresentation: EParamRepresentation,
+    internal val generate: (
         String, // inputName
         String, // outputName
         MutableSet<String>, // imports
@@ -110,7 +117,7 @@ internal class MyRepresentationConversionFunction(
     ) -> Unit
 )
 
-val operators = listOf(
+internal val operators = listOf(
     MyOperator(
         name = "ABS",
         type = OperatorType.BuildInCall,
@@ -146,7 +153,7 @@ val operators = listOf(
         ),
     ),
 )
-val converters = listOf(
+internal val converters = listOf(
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.INTEGER,
         inputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
@@ -169,11 +176,11 @@ val converters = listOf(
     ),
 )
 
-private fun getRepresentationConversionFunction(type: ETripleComponentType, inputRepresentation: EParamRepresentation, outputRepresentation: EParamRepresentation): MyRepresentationConversionFunction {
+internal fun getRepresentationConversionFunction(type: ETripleComponentType, inputRepresentation: EParamRepresentation, outputRepresentation: EParamRepresentation): MyRepresentationConversionFunction {
     for (converter in converters) {
         if (converter.type == type && converter.inputRepresentation == inputRepresentation && converter.outputRepresentation == outputRepresentation) {
             return converter
         }
     }
-    throw Exception("not found $type $inputRepresentation $outputRepresentation")
+    throw Exception("not found ${ETripleComponentTypeExt.names[type]} $inputRepresentation $outputRepresentation")
 }
