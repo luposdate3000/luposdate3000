@@ -524,6 +524,42 @@ public val operators = listOf(
         generateByteArrayWrapperOther = generateByteArrayWrapperTrue,
     ),
     MyOperator(
+        name = "STRLEN",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
+                resultType = ETripleComponentTypeExt.INTEGER,
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _ ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName = MyBigInteger(${inputNames[0]}.length)")
+                },
+                generateByteArrayWrapper = null,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
+                resultType = ETripleComponentTypeExt.INTEGER,
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _ ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName = MyBigInteger(${inputNames[0]}_content.length)")
+                },
+                generateByteArrayWrapper = null,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
+                resultType = ETripleComponentTypeExt.INTEGER,
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _ ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName = MyBigInteger(${inputNames[0]}_content.length)")
+                },
+                generateByteArrayWrapper = null,
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
         name = "IsIri",
         type = OperatorType.BuildInCall,
         implementations = arrayOf(
@@ -541,6 +577,84 @@ public val operators = listOf(
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.IRI),
+                resultType = ETripleComponentTypeExt.BOOLEAN,
+                generateInstantiated = generateInstantiatedTrue2,
+                generateByteArrayWrapper = generateByteArrayWrapperTrue2,
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedFalse,
+        generateIDOther = generateIDFalse,
+        generateByteArrayWrapperOther = generateByteArrayWrapperFalse,
+    ),
+    MyOperator(
+        name = "IsLiteral",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.ERROR),
+                resultType = ETripleComponentTypeExt.ERROR,
+                generateInstantiated = generateInstantiatedError2,
+                generateByteArrayWrapper = generateByteArrayWrapperError2,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.UNDEF),
+                resultType = ETripleComponentTypeExt.ERROR,
+                generateInstantiated = generateInstantiatedError2,
+                generateByteArrayWrapper = generateByteArrayWrapperError2,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.IRI),
+                resultType = ETripleComponentTypeExt.BOOLEAN,
+                generateInstantiated = generateInstantiatedFalse2,
+                generateByteArrayWrapper = generateByteArrayWrapperFalse2,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.BLANK_NODE),
+                resultType = ETripleComponentTypeExt.BOOLEAN,
+                generateInstantiated = generateInstantiatedFalse2,
+                generateByteArrayWrapper = generateByteArrayWrapperFalse2,
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedTrue,
+        generateIDOther = generateIDTrue,
+        generateByteArrayWrapperOther = generateByteArrayWrapperTrue,
+    ),
+    MyOperator(
+        name = "IsNumeric",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.ERROR),
+                resultType = ETripleComponentTypeExt.ERROR,
+                generateInstantiated = generateInstantiatedError2,
+                generateByteArrayWrapper = generateByteArrayWrapperError2,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.UNDEF),
+                resultType = ETripleComponentTypeExt.ERROR,
+                generateInstantiated = generateInstantiatedError2,
+                generateByteArrayWrapper = generateByteArrayWrapperError2,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
+                resultType = ETripleComponentTypeExt.BOOLEAN,
+                generateInstantiated = generateInstantiatedTrue2,
+                generateByteArrayWrapper = generateByteArrayWrapperTrue2,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
+                resultType = ETripleComponentTypeExt.BOOLEAN,
+                generateInstantiated = generateInstantiatedTrue2,
+                generateByteArrayWrapper = generateByteArrayWrapperTrue2,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
+                resultType = ETripleComponentTypeExt.BOOLEAN,
+                generateInstantiated = generateInstantiatedTrue2,
+                generateByteArrayWrapper = generateByteArrayWrapperTrue2,
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
                 resultType = ETripleComponentTypeExt.BOOLEAN,
                 generateInstantiated = generateInstantiatedTrue2,
                 generateByteArrayWrapper = generateByteArrayWrapperTrue2,
@@ -734,6 +848,16 @@ public val converters = listOf(
             imports.add("lupos.dictionary.DictionaryHelper")
             target.appendLine("${indention}val ${outputName}_content = DictionaryHelper.byteArrayToTyped_Content($inputName)")
             target.appendLine("${indention}val ${outputName}_type = DictionaryHelper.byteArrayToTyped_Type($inputName)")
+        }
+    ),
+    MyRepresentationConversionFunction(
+        type = ETripleComponentTypeExt.STRING_LANG,
+        inputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
+        outputRepresentation = EParamRepresentation.INSTANTIATED,
+        generate = { indention, inputName, outputName, imports, target, _ ->
+            imports.add("lupos.dictionary.DictionaryHelper")
+            target.appendLine("${indention}val ${outputName}_content = DictionaryHelper.byteArrayToLang_Content($inputName)")
+            target.appendLine("${indention}val ${outputName}_lang = DictionaryHelper.byteArrayToLang_Lang($inputName)")
         }
     ),
     MyRepresentationConversionFunction(
