@@ -112,16 +112,25 @@ public class MyOperator(
 
     public fun generateAOP(): StringBuilder {
         var clazz = StringBuilder()
-        clazz.appendLine("package lupos.s04arithmetikOperators")
+        when (implementations[0].childrenTypes.size) {
+            0 -> clazz.appendLine("package lupos.s04arithmetikOperators.noinput")
+            1 -> clazz.appendLine("package lupos.s04arithmetikOperators.singleinput")
+            else -> clazz.appendLine("package lupos.s04arithmetikOperators.multiinput")
+        }
         var imports = mutableSetOf<String>()
         var target = StringBuilder()
         var globalVariables = mutableSetOf<String>()
         generate("            ", EParamRepresentation.ID, Array(implementations[0].childrenTypes.size) { "childIn$it" }, "res", "tmp", imports, target, globalVariables)
+        imports.add("lupos.s04arithmetikOperators.AOPBase")
+        imports.add("lupos.s04logicalOperators.IQuery")
+        imports.add("lupos.s04logicalOperators.iterator.IteratorBundle")
+        imports.add("lupos.s04logicalOperators.IOPBase")
+        imports.add("lupos.s00misc.EOperatorIDExt")
         for (i in imports) {
             clazz.appendLine("import $i")
         }
         var line0 = ""
-        line0 += ("public class AOPBuildInCall$name public constructor(")
+        line0 += ("public class AOP$type$name public constructor(")
         line0 += ("query: IQuery, ")
         var line = ""
         var line2 = ""
@@ -139,12 +148,12 @@ public class MyOperator(
         }
         line0 += (") : AOPBase(")
         line0 += ("query, ")
-        line0 += ("EOperatorIDExt.AOPBuildInCall${name}ID, ")
-        line0 += ("\"AOPBuildInCall${name}\", ")
+        line0 += ("EOperatorIDExt.AOP$type${name}ID, ")
+        line0 += ("\"AOP$type${name}\", ")
         line0 += ("arrayOf($line)) {")
         clazz.appendLine(line0)
         clazz.appendLine("    override fun toSparql(): String = \"$name(\${$line2})\"")
-        clazz.appendLine("    override fun equals(other: Any?): Boolean = other is AOPBuildInCall$name$line3")
+        clazz.appendLine("    override fun equals(other: Any?): Boolean = other is AOP$type$name$line3")
         clazz.appendLine("    override fun cloneOP(): IOPBase = AOP$name(query$line4)")
         clazz.appendLine("    override fun evaluateID(row: IteratorBundle): () -> Int {")
         for (v in globalVariables) {
@@ -326,22 +335,30 @@ fun getRepresentationConversionFunction(type: ETripleComponentType, inputReprese
     }
     throw Exception("not found ${ETripleComponentTypeExt.names[type]} $inputRepresentation $outputRepresentation")
 }
-for (resultType in arrayOf(EParamRepresentation.ID, EParamRepresentation.BYTEARRAYWRAPPER)) {
-    for (operator in operators) {
-        println("${operator.name} --------- ")
-        var imports = mutableSetOf<String>()
-        var target = StringBuilder()
-        var globalVariables = mutableSetOf<String>()
-        operator.generate("", resultType, imports, target, globalVariables)
-        for (i in imports) {
-            println("import $i")
-        }
-        for (v in globalVariables) {
-            println("$v")
-        }
-        print(target.toString())
-    }
-}
 for (operator in operators) {
-    println(operator.generateAOP().toString())
+    val foldername: String
+    when (implementations[0].childrenTypes.size) {
+        0 -> foldername = "noinput"
+        1 -> foldername = "singleinput"
+        else -> foldername = "multiinput"
+    }
+    File("src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/s04arithmetikOperators/$foldername/AOP${operator.type}${operator.name}.kt").printWriter { out ->
+        out.println("/*")
+        out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
+        out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
+        out.println(" *")
+        out.println(" * This program is free software: you can redistribute it and/or modify")
+        out.println(" * it under the terms of the GNU General Public License as published by")
+        out.println(" * the Free Software Foundation, version 3.")
+        out.println(" *")
+        out.println(" * This program is distributed in the hope that it will be useful, but")
+        out.println(" * WITHOUT ANY WARRANTY; without even the implied warranty of")
+        out.println(" * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU")
+        out.println(" * General Public License for more details.")
+        out.println(" *")
+        out.println(" * You should have received a copy of the GNU General Public License")
+        out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
+        out.println(" */")
+        out.println(operator.generateAOP().toString())
+    }
 }
