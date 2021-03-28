@@ -42,25 +42,25 @@ public class AOPBuildInCallABS public constructor(query: IQuery, child0: AOPBase
             val childIn0 = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1 = DictionaryHelper.byteArrayToType(tmp_0)
-            if (tmp_1 == ETripleComponentTypeExt.INTEGER) {
-                val tmp_3 = MyBigInteger(DictionaryHelper.byteArrayToInteger(tmp_0))
+            if (tmp_1 == ETripleComponentTypeExt.DECIMAL) {
+                val tmp_3 = MyBigDecimal(DictionaryHelper.byteArrayToDecimal(tmp_0))
                 val tmp_4 = tmp_3.abs()
-                DictionaryHelper.integerToByteArray(tmp_2, tmp_4.toString())
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.DECIMAL) {
-                val tmp_6 = MyBigDecimal(DictionaryHelper.byteArrayToDecimal(tmp_0))
-                val tmp_7 = tmp_6.abs()
-                DictionaryHelper.decimalToByteArray(tmp_2, tmp_7.toString())
+                DictionaryHelper.decimalToByteArray(tmp_2, tmp_4.toString())
                 res = query.getDictionary().createValue(tmp_2)
             } else if (tmp_1 == ETripleComponentTypeExt.DOUBLE) {
-                val tmp_9 = DictionaryHelper.byteArrayToDouble(tmp_0)
-                val tmp_10 = abs(tmp_9)
-                DictionaryHelper.doubleToByteArray(tmp_2, tmp_10)
+                val tmp_6 = DictionaryHelper.byteArrayToDouble(tmp_0)
+                val tmp_7 = abs(tmp_6)
+                DictionaryHelper.doubleToByteArray(tmp_2, tmp_7)
                 res = query.getDictionary().createValue(tmp_2)
             } else if (tmp_1 == ETripleComponentTypeExt.FLOAT) {
-                val tmp_12 = DictionaryHelper.byteArrayToFloat(tmp_0)
-                val tmp_13 = abs(tmp_12)
-                DictionaryHelper.floatToByteArray(tmp_2, tmp_13)
+                val tmp_9 = DictionaryHelper.byteArrayToFloat(tmp_0)
+                val tmp_10 = abs(tmp_9)
+                DictionaryHelper.floatToByteArray(tmp_2, tmp_10)
+                res = query.getDictionary().createValue(tmp_2)
+            } else if (tmp_1 == ETripleComponentTypeExt.INTEGER) {
+                val tmp_12 = MyBigInteger(DictionaryHelper.byteArrayToInteger(tmp_0))
+                val tmp_13 = tmp_12.abs()
+                DictionaryHelper.integerToByteArray(tmp_2, tmp_13.toString())
                 res = query.getDictionary().createValue(tmp_2)
             } else {
                 res = DictionaryExt.errorValue

@@ -41,23 +41,23 @@ public class AOPBuildInCallFLOOR public constructor(query: IQuery, child0: AOPBa
             val childIn0 = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1 = DictionaryHelper.byteArrayToType(tmp_0)
-            if (tmp_1 == ETripleComponentTypeExt.INTEGER) {
-                tmp_0.copyInto(tmp_2)
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.DECIMAL) {
-                val tmp_4 = MyBigDecimal(DictionaryHelper.byteArrayToDecimal(tmp_0))
-                val tmp_5 = tmp_4.floor()
-                DictionaryHelper.decimalToByteArray(tmp_2, tmp_5.toString())
+            if (tmp_1 == ETripleComponentTypeExt.DECIMAL) {
+                val tmp_3 = MyBigDecimal(DictionaryHelper.byteArrayToDecimal(tmp_0))
+                val tmp_4 = tmp_3.floor()
+                DictionaryHelper.decimalToByteArray(tmp_2, tmp_4.toString())
                 res = query.getDictionary().createValue(tmp_2)
             } else if (tmp_1 == ETripleComponentTypeExt.DOUBLE) {
-                val tmp_7 = DictionaryHelper.byteArrayToDouble(tmp_0)
-                val tmp_8 = floor(tmp_7)
-                DictionaryHelper.doubleToByteArray(tmp_2, tmp_8)
+                val tmp_6 = DictionaryHelper.byteArrayToDouble(tmp_0)
+                val tmp_7 = floor(tmp_6)
+                DictionaryHelper.doubleToByteArray(tmp_2, tmp_7)
                 res = query.getDictionary().createValue(tmp_2)
             } else if (tmp_1 == ETripleComponentTypeExt.FLOAT) {
-                val tmp_10 = DictionaryHelper.byteArrayToFloat(tmp_0)
-                val tmp_11 = floor(tmp_10)
-                DictionaryHelper.floatToByteArray(tmp_2, tmp_11)
+                val tmp_9 = DictionaryHelper.byteArrayToFloat(tmp_0)
+                val tmp_10 = floor(tmp_9)
+                DictionaryHelper.floatToByteArray(tmp_2, tmp_10)
+                res = query.getDictionary().createValue(tmp_2)
+            } else if (tmp_1 == ETripleComponentTypeExt.INTEGER) {
+                tmp_0.copyInto(tmp_2)
                 res = query.getDictionary().createValue(tmp_2)
             } else {
                 res = DictionaryExt.errorValue

@@ -192,6 +192,7 @@ public class MyOperator(
             myOutputName = "${prefix}_${prefix_counter++}"
         }
         var first = true
+        implementations.sort()
         for (implementation in implementations) {
             val generateByteArrayWrapper = implementation.generateByteArrayWrapper
             var cond: String
@@ -311,7 +312,7 @@ public class MyOperator(
         clazz.appendLine("            res")
         clazz.appendLine("        }")
         clazz.appendLine("    }")
-        clazz.appendLine("}")
+        clazz.append("}")
         return clazz
     }
 }
@@ -320,7 +321,17 @@ public class MyOperatorPart(
     public val childrenTypes: Array<ETripleComponentType>,
     public val generateInstantiated: GenerateFunc,
     public val generateByteArrayWrapper: GenerateFunc?,
-)
+) : Comparable<MyOperatorPart> {
+    public override fun compareTo(other: MyOperatorPart): Int {
+        var res = 0
+        var i = 0
+        while (i < childrenTypes.size && res == 0) {
+            res = childrenTypes[i] - other.childrenTypes[i]
+            i++
+        }
+        return res
+    }
+}
 
 public class MyRepresentationConversionFunction(
     public val type: ETripleComponentType,
@@ -764,7 +775,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}if (${inputNames[0]}_type==\"http://www.w3.org/2001/XMLSchema#string\") {")
+                    target.appendLine("${indention}if (${inputNames[0]}_type == \"http://www.w3.org/2001/XMLSchema#string\") {")
                     target.appendLine("$indention    val $outputName = if (prefix.length > 0 && !prefix.endsWith('/')) {")
                     target.appendLine("$indention        \"\$prefix/\$${inputNames[0]}_content\"")
                     target.appendLine("$indention    } else {")

@@ -42,26 +42,26 @@ public class AOPBuildInCallDATATYPE public constructor(query: IQuery, child0: AO
             if (tmp_1 == ETripleComponentTypeExt.BOOLEAN) {
                 DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#boolean")
                 res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.INTEGER) {
-                DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#integer")
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.DOUBLE) {
-                DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#double")
+            } else if (tmp_1 == ETripleComponentTypeExt.DATE_TIME) {
+                DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#dateTime")
                 res = query.getDictionary().createValue(tmp_2)
             } else if (tmp_1 == ETripleComponentTypeExt.DECIMAL) {
                 DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#decimal")
                 res = query.getDictionary().createValue(tmp_2)
+            } else if (tmp_1 == ETripleComponentTypeExt.DOUBLE) {
+                DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#double")
+                res = query.getDictionary().createValue(tmp_2)
             } else if (tmp_1 == ETripleComponentTypeExt.FLOAT) {
                 DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#float")
+                res = query.getDictionary().createValue(tmp_2)
+            } else if (tmp_1 == ETripleComponentTypeExt.INTEGER) {
+                DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#integer")
                 res = query.getDictionary().createValue(tmp_2)
             } else if (tmp_1 == ETripleComponentTypeExt.STRING) {
                 DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#string")
                 res = query.getDictionary().createValue(tmp_2)
             } else if (tmp_1 == ETripleComponentTypeExt.STRING_LANG) {
                 DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString")
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.DATE_TIME) {
-                DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#dateTime")
                 res = query.getDictionary().createValue(tmp_2)
             } else if (tmp_1 == ETripleComponentTypeExt.STRING_TYPED) {
                 val tmp_11_content = DictionaryHelper.byteArrayToTyped_Content(tmp_0)

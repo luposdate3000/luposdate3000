@@ -39,17 +39,17 @@ public class AOPBuildInCallIsLITERAL public constructor(query: IQuery, child0: A
             val childIn0 = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1 = DictionaryHelper.byteArrayToType(tmp_0)
-            if (tmp_1 == ETripleComponentTypeExt.ERROR) {
-                DictionaryHelper.errorToByteArray(tmp_2)
+            if (tmp_1 == ETripleComponentTypeExt.BLANK_NODE) {
+                DictionaryHelper.booleanToByteArray(tmp_2, false)
                 res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.UNDEF) {
+            } else if (tmp_1 == ETripleComponentTypeExt.ERROR) {
                 DictionaryHelper.errorToByteArray(tmp_2)
                 res = query.getDictionary().createValue(tmp_2)
             } else if (tmp_1 == ETripleComponentTypeExt.IRI) {
                 DictionaryHelper.booleanToByteArray(tmp_2, false)
                 res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.BLANK_NODE) {
-                DictionaryHelper.booleanToByteArray(tmp_2, false)
+            } else if (tmp_1 == ETripleComponentTypeExt.UNDEF) {
+                DictionaryHelper.errorToByteArray(tmp_2)
                 res = query.getDictionary().createValue(tmp_2)
             } else {
                 res = DictionaryExt.booleanTrueValue
