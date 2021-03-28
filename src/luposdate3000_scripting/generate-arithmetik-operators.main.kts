@@ -1287,6 +1287,270 @@ public val operators = listOf(
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
     ),
     MyOperator(
+        name = "STRAFTER",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]})")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val $outputName: String = ${inputNames[0]}.substring(${prefix}_idx + ${inputNames[1]}.length, ${inputNames[0]}.length)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]}_content)")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val $outputName: String = ${inputNames[0]}.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}.length)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]}_content)")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val $outputName: String = ${inputNames[0]}.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}.length)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]})")
+                    target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}.length, ${inputNames[0]}_content.length)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]}_content)")
+                    target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}_content.length)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]}_content)")
+                    target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}_content.length)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]})")
+                    target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}.length, ${inputNames[0]}_content.length)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]}_content)")
+                    target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}_content.length)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]}_content)")
+                    target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content.substring(${prefix}_idx + ${inputNames[1]}_content.length, ${inputNames[0]}_content.length)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                    target.appendLine("$indention}")
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "STRBEFORE",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]})")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val $outputName: String = ${inputNames[0]}.substring(0, ${prefix}_idx)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]}_content)")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val $outputName: String = ${inputNames[0]}.substring(0,${prefix}_idx)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}.indexOf(${inputNames[1]}_content)")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val $outputName: String = ${inputNames[0]}.substring(0,${prefix}_idx)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]})")
+                    target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_contentsubstring(0,${prefix}_idx)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]}_content)")
+                    target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_contentsubstring(0,${prefix}_idx)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]}_content)")
+                    target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_contentsubstring(0,${prefix}_idx)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]})")
+                    target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_contentsubstring(0,${prefix}_idx)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]}_content)")
+                    target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_contentsubstring(0,${prefix}_idx)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, prefix, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${prefix}_idx: Int = ${inputNames[0]}_content.indexOf(${inputNames[1]}_content)")
+                    target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
+                    target.appendLine("${indention}if (${prefix}_idx >= 0) {")
+                    target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_contentsubstring(0,${prefix}_idx)")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val ${outputName}_content: String = \"\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                    target.appendLine("$indention}")
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
         name = "STRENDS",
         type = OperatorType.BuildInCall,
         implementations = arrayOf(
