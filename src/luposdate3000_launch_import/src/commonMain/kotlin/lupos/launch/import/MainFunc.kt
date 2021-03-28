@@ -21,15 +21,12 @@ import lupos.fileformat.DictionaryIntermediateReader
 import lupos.fileformat.DictionaryIntermediateRow
 import lupos.fileformat.DictionaryIntermediateWriter
 import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.ETripleComponentType
-import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
 import lupos.s00misc.PartitionExt
 import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.nQuads.NQuads2Parser
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
-import lupos.s03resultRepresentation.ValueDefinition
 
 internal fun helperCleanString(s: String): String {
     var res: String = s
@@ -58,7 +55,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     var chunc = 0
 // create chunced dictionaries
     var outTriples = File("$inputFileName.0.$tripleFileEnding").openOutputStream(false)
-    val dict = mutableMapOf<String, Int>()
+    val dict = mutableMapOf<ByteArrayWrapper, Int>()
     var dictCounter = 0L
     var cnt = 0L
     var dicttotalcnt = 0L
@@ -81,21 +78,19 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     val iter = File(inputFileName).openInputStream()
     if (inputFileName.endsWith(".n3") || inputFileName.endsWith(".ttl") || inputFileName.endsWith(".nt")) {
         val x = object : Turtle2Parser(iter) {
-            override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
+            override fun onTriple() {
                 for (i in 0 until 3) {
-                    val tripleCleaned = if (tripleType[i] == ETripleComponentTypeExt.BLANK_NODE) {
-                        triple[i]
-                    } else {
-                        ValueDefinition(helperCleanString(triple[i])).valueToString()!!
-                    }
+                    val tripleCleaned = triple[i]
                     val v = dict[tripleCleaned]
                     if (v != null) {
                         outTriples.writeInt(v.toInt())
                     } else {
                         val v2 = dictCounter++
                         outTriples.writeInt(v2.toInt())
-                        dict[tripleCleaned] = v2.toInt()
-                        dictSizeEstimated += tripleCleaned.length * 2
+                        val buf = ByteArrayWrapper()
+                        tripleCleaned.copyInto(buf)
+                        dict[buf] = v2.toInt()
+                        dictSizeEstimated += tripleCleaned.getSize() * 2
                         dicttotalcnt++
                     }
                 }
@@ -113,21 +108,19 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         x.parse()
     } else if (inputFileName.endsWith(".n4")) {
         val x = object : NQuads2Parser(iter) {
-            override fun onQuad(quad: Array<String>, quadType: Array<ETripleComponentType>) {
+            override fun onQuad() {
                 for (i in 0 until 4) {
-                    val quadCleaned = if (quadType[i] == ETripleComponentTypeExt.BLANK_NODE) {
-                        quad[i]
-                    } else {
-                        ValueDefinition(helperCleanString(quad[i])).valueToString()!!
-                    }
+                    val quadCleaned = quad[i]
                     val v = dict[quadCleaned]
                     if (v != null) {
                         outTriples.writeInt(v.toInt())
                     } else {
                         val v2 = dictCounter++
                         outTriples.writeInt(v2.toInt())
-                        dict[quadCleaned] = v2.toInt()
-                        dictSizeEstimated += quadCleaned.length * 2
+                        val buf = ByteArrayWrapper()
+                        quadCleaned.copyInto(buf)
+                        dict[buf] = v2.toInt()
+                        dictSizeEstimated += quadCleaned.getSize() * 2
                         dicttotalcnt++
                     }
                 }

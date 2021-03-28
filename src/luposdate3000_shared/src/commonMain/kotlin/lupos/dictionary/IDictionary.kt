@@ -36,6 +36,7 @@ public interface IDictionary {
 public var nodeGlobalDictionary: IDictionary = object : IDictionary {
     public override fun importFromDictionaryFile(filename: String): IntArray = throw Exception("not implemented")
     public override fun createNewBNode(): Int = throw Exception("not implemented")
+    public override fun createNewBNode(s: String): Int = throw Exception("not implemented")
     public override fun valueToGlobal(value: Int): Int = throw Exception("not implemented")
     public override fun toBooleanOrError(value: Int): Int = throw Exception("not implemented")
     public override fun hasValue(buffer: ByteArrayWrapper): Int? = throw Exception("not implemented")

@@ -335,7 +335,7 @@ public object DictionaryHelper {
         return when (type) {
             ETripleComponentTypeExt.UNDEF -> DictionaryExt.undefValue2
             ETripleComponentTypeExt.ERROR -> DictionaryExt.errorValue2
-            ETripleComponentTypeExt.BLANK_NODE -> ValueBnode(byteArrayToBnode(buffer))
+            ETripleComponentTypeExt.BLANK_NODE -> ValueBnode("" + byteArrayToBnode(buffer))
             ETripleComponentTypeExt.BOOLEAN -> {
                 if (byteArrayToBoolean(buffer)) {
                     DictionaryExt.booleanTrueValue2
@@ -357,7 +357,7 @@ public object DictionaryHelper {
 
     public inline fun byteArrayToCallback(
         buffer: ByteArrayWrapper,
-        crossinline onBNode: (value: String) -> Unit,
+        crossinline onBNode: (value: Int) -> Unit,
         crossinline onBoolean: (value: Boolean) -> Unit,
         crossinline onLanguageTaggedLiteral: (content: String, lang: String) -> Unit,
         crossinline onSimpleLiteral: (content: String) -> Unit,

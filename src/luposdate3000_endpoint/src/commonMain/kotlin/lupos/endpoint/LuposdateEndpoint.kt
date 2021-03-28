@@ -30,7 +30,7 @@ import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.ETripleComponentType
+import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyPrintWriter
@@ -111,8 +111,24 @@ public object LuposdateEndpoint {
 /*Coverage Unreachable*/
     }
 
+    internal fun helperImportRaw(dict: MutableMap<String, Int>, v: ByteArrayWrapper): Int {
+        val type = DictionaryHelper.byteArrayToType(v)
+        if (type == ETripleComponentTypeExt.BLANK_NODE) {
+            val tmp = DictionaryHelper.byteArrayToBnodeIntermediate(v)
+            var res = dict[tmp]
+            if (res != null) {
+                return res
+            }
+            res = nodeGlobalDictionary.createNewBNode()
+            dict[tmp] = res
+            return res
+        } else {
+            return nodeGlobalDictionary.createValue(v)
+        }
+    }
+
     @JsName("import_turtle_files_old")
-    /*suspend*/ public fun importTurtleFilesOld(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
+/*suspend*/ public fun importTurtleFilesOld(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
         val query = Query()
         val key = "${query.getTransactionID()}"
         try {
@@ -199,7 +215,7 @@ public object LuposdateEndpoint {
                 val iter = f.openInputStream()
                 try {
                     val x = object : Turtle2Parser(iter) {
-                        override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
+                        override fun onTriple() {
                             counter++
                             if (bufPos == bufS.size) {
                                 store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
@@ -259,7 +275,7 @@ public object LuposdateEndpoint {
             val iter = MyStringStream(data)
             try {
                 val x = object : Turtle2Parser(iter) {
-                    override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
+                    override fun onTriple() {
                         counter++
                         if (bufPos == bufS.size) {
                             store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)

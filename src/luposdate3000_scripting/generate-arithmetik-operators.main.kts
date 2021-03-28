@@ -237,7 +237,10 @@ public class MyOperator(
             }
             createWhenStatements(commonOperatorTypes, implementation.childrenTypes.size)
             if (generateByteArrayWrapper != null) {
-                generateByteArrayWrapper(localindention, myInputNames, myOutputName, "${prefix}_${prefix_counter++}", imports, target, globalVariables) { _, _ ->
+                generateByteArrayWrapper(localindention, myInputNames, myOutputName, "${prefix}_${prefix_counter++}", imports, target, globalVariables) { indention2, _ ->
+                    if (representation == EParamRepresentation.ID) {
+                        target.appendLine("$indention2$outputName = query.getDictionary().createValue($myOutputName)")
+                    }
                 }
             } else {
                 var myInputInstances = Array(inputNames.size) { "${prefix}_${prefix_counter++}" }

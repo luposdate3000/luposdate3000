@@ -26,6 +26,7 @@ import lupos.s00misc.MyReadWriteLock
 import kotlin.jvm.JvmField
 
 internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary) : ADictionary() {
+    public override fun isInmemoryOnly(): Boolean = true
     public override fun delete() {
     }
 

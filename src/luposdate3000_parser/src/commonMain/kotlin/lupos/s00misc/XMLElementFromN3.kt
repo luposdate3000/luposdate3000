@@ -35,12 +35,12 @@ public class XMLElementFromN3 : XMLElementParser {
             nodeHead.addContent(XMLElement("variable").addAttribute("name", "o"))
             val inputstream = MyStringStream(data)
             val parser = object : Turtle2Parser(inputstream) {
-                override fun onTriple(triple: Array<String>, tripleType: Array<ETripleComponentType>) {
+                override fun onTriple() {
                     val nodeResult = XMLElement("result")
                     nodeResults.addContent(nodeResult)
-                    XMLElement.parseBindingFromString(nodeResult, triple[0], "s")
-                    XMLElement.parseBindingFromString(nodeResult, triple[1], "p")
-                    XMLElement.parseBindingFromString(nodeResult, triple[2], "o")
+                    XMLElement.parseBindingFromByteArrayWrapper(nodeResult, triple[0], "s")
+                    XMLElement.parseBindingFromByteArrayWrapper(nodeResult, triple[1], "p")
+                    XMLElement.parseBindingFromByteArrayWrapper(nodeResult, triple[2], "o")
                 }
             }
             parser.parse()

@@ -16,6 +16,7 @@
  */
 package lupos.s00misc
 
+import lupos.dictionary.DictionaryHelper
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 
@@ -63,6 +64,22 @@ public class XMLElement(tag: String) {
                     nodeBinding.addContent(literal)
                 }
                 nodeResult.addContent(nodeBinding)
+            }
+        }
+
+        public fun parseBindingFromByteArrayWrapper(nodeResult: XMLElement, value: ByteArrayWrapper, name: String) {
+            val nodeBinding = XMLElement("binding").addAttribute("name", name)
+            val type = DictionaryHelper.byteArrayToType(value)
+            when (type) {
+                ETripleComponentTypeExt.STRING_TYPED -> nodeBinding.addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToTyped_Content(value)).addAttribute("datatype", DictionaryHelper.byteArrayToTyped_Type(value)))
+                ETripleComponentTypeExt.STRING_LANG -> nodeBinding.addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToLang_Content(value)).addAttribute("xml:lang", DictionaryHelper.byteArrayToLang_Lang(value)))
+                ETripleComponentTypeExt.STRING -> nodeBinding.addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToString(value)))
+                ETripleComponentTypeExt.IRI -> nodeBinding.addContent(XMLElement("uri").addContentClean(DictionaryHelper.byteArrayToIri(value)))
+                ETripleComponentTypeExt.BLANK_NODE -> nodeBinding.addContent(XMLElement("bnode").addContentClean(DictionaryHelper.byteArrayToBnodeIntermediate(value)))
+                ETripleComponentTypeExt.INTEGER -> nodeBinding.addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToInteger(value)).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#integer"))
+                ETripleComponentTypeExt.DECIMAL -> nodeBinding.addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToDecimal(value)).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#decimal"))
+                ETripleComponentTypeExt.DOUBLE -> nodeBinding.addContent(XMLElement("literal").addContentClean("" + DictionaryHelper.byteArrayToDouble(value)).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#double"))
+                ETripleComponentTypeExt.FLOAT -> nodeBinding.addContent(XMLElement("literal").addContentClean("" + DictionaryHelper.byteArrayToFloat(value)).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#float"))
             }
         }
     }

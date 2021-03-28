@@ -16,7 +16,6 @@
  */
 package lupos.fileformat
 
-import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.File
 
@@ -36,11 +35,9 @@ public class DictionaryIntermediateWriter : DictionaryIntermediate {
         streamOut!!.write(data.getBuf(), data.getSize())
     }
 
-    public inline fun write(dict: MutableMap<String, Int>) {
+    public inline fun write(dict: MutableMap<ByteArrayWrapper, Int>) {
         val rows = dict.toList().map {
-            val buf = ByteArrayWrapper()
-            DictionaryHelper.valueToByteArray(buf, it.first)
-            DictionaryIntermediateRow(it.second, buf)
+            DictionaryIntermediateRow(it.second, it.first)
         }.sorted()
         for (row in rows) {
             writeAssumeOrdered(row)

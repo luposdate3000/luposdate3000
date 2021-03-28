@@ -21,7 +21,7 @@ import lupos.s00misc.ByteArrayWrapper
 public abstract class ADictionary : IDictionary {
     private val bnodeMapToGlobal = mutableMapOf<Int, Int>()
     private val bnodeMapLocal = mutableMapOf<String, Int>()
-    public fun createNewBNode(s: String): Int {
+    public override fun createNewBNode(s: String): Int {
         var res = bnodeMapLocal[s]
         if (res != null) {
             return res

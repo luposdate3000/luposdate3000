@@ -24,6 +24,7 @@ import lupos.s00misc.IMyOutputStream
 import kotlin.jvm.JvmField
 
 internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream) : ADictionary() {
+    public override fun isInmemoryOnly(): Boolean = true
     public override fun delete() {
     }
 

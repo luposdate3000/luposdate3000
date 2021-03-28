@@ -16,8 +16,8 @@
  */
 package lupos.s02buildSyntaxTree.nQuads
 
-import lupos.s00misc.ETripleComponentType
-import lupos.s00misc.ETripleComponentTypeExt
+import lupos.dictionary.DictionaryHelper
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.IMyInputStream
 import kotlin.jvm.JvmField
 
@@ -26,11 +26,9 @@ public abstract class NQuads2Parser(input: IMyInputStream) {
     internal val context = ParserContext(input)
 
     @JvmField
-    internal val quad = Array(4) { "" }
+    public val quad: Array<ByteArrayWrapper> = Array(4) { ByteArrayWrapper() }
 
-    @JvmField
-    internal val quadType = Array(4) { ETripleComponentTypeExt.IRI }
-    public abstract fun onQuad(quad: Array<String>, quadType: Array<ETripleComponentType>)
+    public abstract fun onQuad()
     public fun parse() {
         loop@ while (true) {
             parse_ws(context) {}
@@ -40,33 +38,28 @@ public abstract class NQuads2Parser(input: IMyInputStream) {
             parse_subject(
                 context,
                 onIRIREF = {
-                    quad[0] = context.getValue()
-                    quadType[0] = ETripleComponentTypeExt.IRI
+                    DictionaryHelper.iriToByteArray(quad[0], context.getValue())
                 },
                 onBLANK_NODE_LABEL = {
-                    quad[0] = context.getValue()
-                    quadType[0] = ETripleComponentTypeExt.BLANK_NODE
+                    DictionaryHelper.bnodeToByteArray(quad[0], context.getValue())
                 },
             )
             parse_ws_forced(context) {}
             parse_predicate(
                 context,
                 onIRIREF = {
-                    quad[1] = context.getValue()
-                    quadType[1] = ETripleComponentTypeExt.IRI
+                    DictionaryHelper.iriToByteArray(quad[1], context.getValue())
                 },
             )
             parse_ws_forced(context) {}
             parse_object(
                 context,
                 onIRIREF = {
-                    quad[2] = context.getValue()
-                    quadType[2] = ETripleComponentTypeExt.IRI
+                    DictionaryHelper.iriToByteArray(quad[2], context.getValue())
                     parse_ws_forced(context) {}
                 },
                 onBLANK_NODE_LABEL = {
-                    quad[2] = context.getValue()
-                    quadType[2] = ETripleComponentTypeExt.BLANK_NODE
+                    DictionaryHelper.bnodeToByteArray(quad[2], context.getValue())
                     parse_ws_forced(context) {}
                 },
                 onSTRING_LITERAL_QUOTE = {
@@ -77,20 +70,17 @@ public abstract class NQuads2Parser(input: IMyInputStream) {
                             parse_object_typed(
                                 context,
                                 onIRIREF = {
-                                    quad[2] = s + "^^" + context.getValue()
-                                    quadType[2] = ETripleComponentTypeExt.STRING_TYPED
+                                    DictionaryHelper.typedToByteArray(quad[2], s, context.getValue())
                                     parse_ws_forced(context) {}
                                 }
                             )
                         },
                         onLANGTAG = {
-                            quad[2] = s + context.getValue()
-                            quadType[2] = ETripleComponentTypeExt.STRING
+                            DictionaryHelper.langToByteArray(quad[2], s, context.getValue())
                             parse_ws_forced(context) {}
                         },
                         onSKIP_WS = {
-                            quad[2] = s
-                            quadType[2] = ETripleComponentTypeExt.STRING
+                            DictionaryHelper.stringToByteArray(quad[2], s)
                         },
                     )
                 }
@@ -98,21 +88,18 @@ public abstract class NQuads2Parser(input: IMyInputStream) {
             parse_graph(
                 context,
                 onIRIREF = {
-                    quad[3] = context.getValue()
-                    quadType[3] = ETripleComponentTypeExt.IRI
+                    DictionaryHelper.iriToByteArray(quad[3], context.getValue())
                 },
                 onBLANK_NODE_LABEL = {
-                    quad[3] = context.getValue()
-                    quadType[3] = ETripleComponentTypeExt.BLANK_NODE
+                    DictionaryHelper.bnodeToByteArray(quad[3], context.getValue())
                 },
                 onSKIP_WS = {
-                    quad[3] = "<>"
-                    quadType[3] = ETripleComponentTypeExt.IRI
+                    DictionaryHelper.iriToByteArray(quad[3], "")
                 },
             )
             parse_ws(context) {}
             parse_dot(context) {}
-            onQuad(quad, quadType)
+            onQuad()
         }
     }
 }
