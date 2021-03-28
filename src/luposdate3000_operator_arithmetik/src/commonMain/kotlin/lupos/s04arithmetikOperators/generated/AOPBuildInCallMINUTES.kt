@@ -23,16 +23,16 @@ import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.MyBigDecimal
+import lupos.s00misc.MyBigInteger
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import kotlin.math.ceil
 
-public class AOPBuildInCallCEIL public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallCEILID, "AOPBuildInCallCEIL", arrayOf(child0,)) {
-    override fun toSparql(): String = "CEIL(${children[0].toSparql()})"
-    override fun equals(other: Any?): Boolean = other is AOPBuildInCallCEIL && children[0] == other.children[0]
-    override fun cloneOP(): IOPBase = AOPBuildInCallCEIL(query, children[0].cloneOP() as AOPBase)
+public class AOPBuildInCallMINUTES public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallMINUTESID, "AOPBuildInCallMINUTES", arrayOf(child0,)) {
+    override fun toSparql(): String = "MINUTES(${children[0].toSparql()})"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallMINUTES && children[0] == other.children[0]
+    override fun cloneOP(): IOPBase = AOPBuildInCallMINUTES(query, children[0].cloneOP() as AOPBase)
     override fun evaluateID(row: IteratorBundle): () -> Int {
         val tmp_0: ByteArrayWrapper = ByteArrayWrapper()
         val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
@@ -43,26 +43,17 @@ public class AOPBuildInCallCEIL public constructor(query: IQuery, child0: AOPBas
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
-                ETripleComponentTypeExt.DECIMAL -> {
-                    val tmp_3: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
-                    val tmp_4: MyBigDecimal = tmp_3.ceil()
-                    DictionaryHelper.decimalToByteArray(tmp_2, tmp_4.toString())
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.DOUBLE -> {
-                    val tmp_6: Double = DictionaryHelper.byteArrayToDouble(tmp_0)
-                    val tmp_7: Double = ceil(tmp_6)
-                    DictionaryHelper.doubleToByteArray(tmp_2, tmp_7)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.FLOAT -> {
-                    val tmp_9: Double = DictionaryHelper.byteArrayToFloat(tmp_0)
-                    val tmp_10: Double = ceil(tmp_9)
-                    DictionaryHelper.floatToByteArray(tmp_2, tmp_10)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.INTEGER -> {
-                    tmp_0.copyInto(tmp_2)
+                ETripleComponentTypeExt.DATE_TIME -> {
+                    val tmp_3_year: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Year(tmp_0)
+                    val tmp_3_month: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Month(tmp_0)
+                    val tmp_3_day: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Day(tmp_0)
+                    val tmp_3_hours: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Hours(tmp_0)
+                    val tmp_3_minutes: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Minutes(tmp_0)
+                    val tmp_3_seconds: MyBigDecimal = DictionaryHelper.byteArrayToDateTime_Seconds(tmp_0)
+                    val tmp_3_tz: String = DictionaryHelper.byteArrayToDateTime_TZ(tmp_0)
+                    val tmp_3_timezone: String = DictionaryHelper.byteArrayToDateTime_TimeZone(tmp_0)
+                    val tmp_4: MyBigInteger = tmp_3_minutes
+                    DictionaryHelper.integerToByteArray(tmp_2, tmp_4.toString())
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {

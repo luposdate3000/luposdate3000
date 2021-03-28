@@ -59,13 +59,264 @@ public object DictionaryHelper {
      * ETripleComponentTypeExt.DOUBLE
      * -> IEEE 754 floating-point "double format" bit layout, preserving Not-a-Number (NaN) values.
      * ETripleComponentTypeExt.INTEGER
+     * -> string
      * ETripleComponentTypeExt.DECIMAL
+     * -> string
      * ETripleComponentTypeExt.FLOAT
      * -> IEEE 754 floating-point "double format" bit layout, preserving Not-a-Number (NaN) values.
+     * ETripleComponentTypeExt.DATE_TIME
+     * -> year.length
+     * -> year.string
+     * -> month.Int
+     * -> day.Int
+     * -> hours.Int
+     * -> minutes.Int
+     * -> seconds.string
+     * -> timezoneHours.Int
+     * -> timezoneMinutes.Int
      */
     public inline fun errorToByteArray(buffer: ByteArrayWrapper) {
         buffer.setSize(4)
         ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.ERROR)
+    }
+
+    public inline fun dateTimeToByteArray(buffer: ByteArrayWrapper, str: String) {
+        val year: String
+        val month: Int
+        val day: Int
+        val hours: Int
+        val minutes: Int
+        val seconds: String
+        val timezoneHours: Int
+        val timezoneMinutes: Int
+        var idx = 0
+        var idx2 = str.indexOf('-', 2)
+        if (idx2 < idx) {
+            idx2 = str.length - 1
+        }
+        if (idx2 > idx) {
+            year = str.substring(idx + 1, idx2)
+            idx = idx2
+            idx2 = str.indexOf('-', idx + 1)
+            if (idx2 < idx) {
+                idx2 = str.length - 1
+            }
+            if (idx2 > idx) {
+                month = str.substring(idx + 1, idx2).toInt()
+                idx = idx2
+                idx2 = str.indexOf('T', idx + 1)
+                if (idx2 < idx) {
+                    idx2 = str.length - 1
+                }
+                if (idx2 > idx) {
+                    day = str.substring(idx + 1, idx2).toInt()
+                    idx = idx2
+                    idx2 = str.indexOf(':', idx + 1)
+                    if (idx2 < idx) {
+                        idx2 = str.length - 1
+                    }
+                    if (idx2 > idx) {
+                        hours = str.substring(idx + 1, idx2).toInt()
+                        idx = idx2
+                        idx2 = str.indexOf(':', idx + 1)
+                        if (idx2 < idx) {
+                            idx2 = str.length - 1
+                        }
+                        if (idx2 > idx) {
+                            minutes = str.substring(idx + 1, idx2).toInt()
+                            idx = idx2
+                            val idxa = str.indexOf('Z', idx + 1)
+                            val idxb = str.indexOf('+', idx + 1)
+                            val idxc = str.indexOf('-', idx + 1)
+                            if (idxa > idx) {
+                                seconds = str.substring(idx + 1, idxa)
+                                timezoneHours = 0
+                                timezoneMinutes = 0
+                            } else if (idxb > idx) {
+                                seconds = str.substring(idx + 1, idxb)
+                                idx = idxb
+                                idx2 = str.indexOf(':', idx + 1)
+                                if (idx2 > idx) {
+                                    timezoneHours = str.substring(idx + 1, idx2).toInt()
+                                    timezoneMinutes = str.substring(idx2 + 1, str.length - 1).toInt()
+                                } else {
+                                    timezoneHours = -1
+                                    timezoneMinutes = -1
+                                }
+                            } else if (idxc > idx) {
+                                seconds = str.substring(idx + 1, idxc)
+                                idx = idxc
+                                idx2 = str.indexOf(':', idx + 1)
+                                if (idx2 > idx) {
+                                    timezoneHours = str.substring(idx + 1, idx2).toInt()
+                                    timezoneMinutes = str.substring(idx2 + 1, str.length - 1).toInt()
+                                } else {
+                                    timezoneHours = -1
+                                    timezoneMinutes = -1
+                                }
+                            } else {
+                                seconds = str.substring(idx + 1, str.length - 1)
+                                timezoneHours = -1
+                                timezoneMinutes = -1
+                            }
+                        } else {
+                            minutes = 0
+                            seconds = "0.0"
+                            timezoneHours = -1
+                            timezoneMinutes = -1
+                        }
+                    } else {
+                        hours = 0
+                        minutes = 0
+                        seconds = "0.0"
+                        timezoneHours = -1
+                        timezoneMinutes = -1
+                    }
+                } else {
+                    day = 0
+                    hours = 0
+                    minutes = 0
+                    seconds = "0.0"
+                    timezoneHours = -1
+                    timezoneMinutes = -1
+                }
+            } else {
+                month = 0
+                day = 0
+                hours = 0
+                minutes = 0
+                seconds = "0.0"
+                timezoneHours = -1
+                timezoneMinutes = -1
+            }
+        } else {
+            year = "0"
+            month = 0
+            day = 0
+            hours = 0
+            minutes = 0
+            seconds = "0.0"
+            timezoneHours = -1
+            timezoneMinutes = -1
+        }
+        dateTimeToByteArray(buffer, year, month, day, hours, minutes, seconds, timezoneHours, timezoneMinutes)
+    }
+
+    public inline fun dateTimeToByteArray(buffer: ByteArrayWrapper, year: String, month: Int, day: Int, hours: Int, minutes: Int, seconds: String, timezoneHours: Int, timezoneMinutes: Int) {
+        val buf1 = year.encodeToByteArray()
+        val buf2 = seconds.encodeToByteArray()
+        val l1 = buf1.size
+        val l2 = buf2.size
+        buffer.setSize(32 + l1 + l2)
+        ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.DATE_TIME)
+        ByteArrayHelper.writeInt4(buffer.getBuf(), 4, l1)
+        buf1.copyInto(buffer.getBuf(), 8)
+        ByteArrayHelper.writeInt4(buffer.getBuf(), 8 + l1, month)
+        ByteArrayHelper.writeInt4(buffer.getBuf(), 12 + l1, day)
+        ByteArrayHelper.writeInt4(buffer.getBuf(), 16 + l1, hours)
+        ByteArrayHelper.writeInt4(buffer.getBuf(), 20 + l1, minutes)
+        buf2.copyInto(buffer.getBuf(), 24 + l1)
+        ByteArrayHelper.writeInt4(buffer.getBuf(), 24 + l1 + l2, timezoneHours)
+        ByteArrayHelper.writeInt4(buffer.getBuf(), 28 + l1 + l2, timezoneMinutes)
+    }
+
+    public inline fun byteArrayToDateTime_Year(buffer: ByteArrayWrapper): MyBigInteger {
+        val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
+        val l2 = buffer.getSize() - 32 - l1
+        val buf = ByteArray(l1)
+        buffer.getBuf().copyInto(buf, 0, 8, 8 + l1)
+        val year = buf.decodeToString()
+        return MyBigInteger(year)
+    }
+
+    public inline fun byteArrayToDateTime_Month(buffer: ByteArrayWrapper): MyBigInteger {
+        val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
+        val month = ByteArrayHelper.readInt4(buffer.getBuf(), 8 + l1)
+        return MyBigInteger(month)
+    }
+
+    public inline fun byteArrayToDateTime_Day(buffer: ByteArrayWrapper): MyBigInteger {
+        val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
+        val day = ByteArrayHelper.readInt4(buffer.getBuf(), 12 + l1)
+        return MyBigInteger(day)
+    }
+
+    public inline fun byteArrayToDateTime_Hours(buffer: ByteArrayWrapper): MyBigInteger {
+        val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
+        val hours = ByteArrayHelper.readInt4(buffer.getBuf(), 16 + l1)
+        return MyBigInteger(hours)
+    }
+
+    public inline fun byteArrayToDateTime_Minutes(buffer: ByteArrayWrapper): MyBigInteger {
+        val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
+        val minutes = ByteArrayHelper.readInt4(buffer.getBuf(), 20 + l1)
+        return MyBigInteger(minutes)
+    }
+
+    public inline fun byteArrayToDateTime_Seconds(buffer: ByteArrayWrapper): MyBigDecimal {
+        val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
+        val l2 = buffer.getSize() - 32 - l1
+        val buf = ByteArray(l2)
+        buffer.getBuf().copyInto(buf, 0, 24 + l1, 24 + l1 + l2)
+        val seconds = buf.decodeToString()
+        return MyBigDecimal(seconds)
+    }
+
+    public inline fun byteArrayToDateTime(buffer: ByteArrayWrapper): String {
+        val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
+        val l2 = buffer.getSize() - 32 - l1
+        val buf1 = ByteArray(l1)
+        val buf2 = ByteArray(l2)
+        buffer.getBuf().copyInto(buf1, 0, 8, 8 + l1)
+        buffer.getBuf().copyInto(buf2, 0, 24 + l1, 24 + l1 + l2)
+        val year = buf1.decodeToString()
+        val month = ByteArrayHelper.readInt4(buffer.getBuf(), 8 + l1)
+        val day = ByteArrayHelper.readInt4(buffer.getBuf(), 12 + l1)
+        val hours = ByteArrayHelper.readInt4(buffer.getBuf(), 16 + l1)
+        val minutes = ByteArrayHelper.readInt4(buffer.getBuf(), 20 + l1)
+        val seconds = buf2.decodeToString()
+        val timezoneHours = ByteArrayHelper.readInt4(buffer.getBuf(), 24 + l1 + l2)
+        val timezoneMinutes = ByteArrayHelper.readInt4(buffer.getBuf(), 28 + l1 + l2)
+        val secondsString2 = seconds.toString().split(".")
+        var secondsString = secondsString2[0].padStart(2, '0')
+        if (secondsString2.size > 1 && secondsString2[1] != "0") {
+            secondsString += "." + secondsString2[1]
+        }
+        return if (timezoneHours == -1 && timezoneMinutes == -1) {
+            "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsString}\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+        } else if (timezoneHours == 0 && timezoneMinutes == 0) {
+            "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsString}Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+        } else {
+            "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:$secondsString-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+        }
+    }
+
+    public inline fun byteArrayToDateTime_TZ(buffer: ByteArrayWrapper): String {
+        val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
+        val l2 = buffer.getSize() - 32 - l1
+        val timezoneHours = ByteArrayHelper.readInt4(buffer.getBuf(), 24 + l1 + l2)
+        val timezoneMinutes = ByteArrayHelper.readInt4(buffer.getBuf(), 28 + l1 + l2)
+        if (timezoneHours == 0 && timezoneMinutes == 0) {
+            return "Z"
+        }
+        if (timezoneHours == -1 && timezoneMinutes == -1) {
+            return ""
+        }
+        return "-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}"
+    }
+
+    public inline fun byteArrayToDateTime_TimeZone(buffer: ByteArrayWrapper): String {
+        val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
+        val l2 = buffer.getSize() - 32 - l1
+        val timezoneHours = ByteArrayHelper.readInt4(buffer.getBuf(), 24 + l1 + l2)
+        val timezoneMinutes = ByteArrayHelper.readInt4(buffer.getBuf(), 28 + l1 + l2)
+        if (timezoneHours == 0 && timezoneMinutes == 0) {
+            return "\"PT0S\"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>"
+        }
+        if (timezoneHours >= 0 && timezoneMinutes == 0) {
+            return "\"-PT${timezoneHours}H\"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>"
+        }
+        return ""
     }
 
     public inline fun booleanToByteArray(buffer: ByteArrayWrapper, value: Boolean) {
@@ -89,11 +340,18 @@ public object DictionaryHelper {
         buf1.copyInto(buffer.getBuf(), 4)
     }
 
-    public inline fun byteArrayToInteger(buffer: ByteArrayWrapper): String {
+    public inline fun byteArrayToInteger_S(buffer: ByteArrayWrapper): String {
         val l1 = buffer.getSize() - 4
         val buf = ByteArray(l1)
         buffer.getBuf().copyInto(buf, 0, 4, 4 + l1)
         return buf.decodeToString()
+    }
+
+    public inline fun byteArrayToInteger_I(buffer: ByteArrayWrapper): MyBigInteger {
+        val l1 = buffer.getSize() - 4
+        val buf = ByteArray(l1)
+        buffer.getBuf().copyInto(buf, 0, 4, 4 + l1)
+        return MyBigInteger(buf.decodeToString())
     }
 
     public inline fun decimalToByteArray(buffer: ByteArrayWrapper, value: String) {
@@ -103,7 +361,14 @@ public object DictionaryHelper {
         buf1.copyInto(buffer.getBuf(), 4)
     }
 
-    public inline fun byteArrayToDecimal(buffer: ByteArrayWrapper): String {
+    public inline fun byteArrayToDecimal_I(buffer: ByteArrayWrapper): MyBigDecimal {
+        val l1 = buffer.getSize() - 4
+        val buf = ByteArray(l1)
+        buffer.getBuf().copyInto(buf, 0, 4, 4 + l1)
+        return MyBigDecimal(buf.decodeToString())
+    }
+
+    public inline fun byteArrayToDecimal_S(buffer: ByteArrayWrapper): String {
         val l1 = buffer.getSize() - 4
         val buf = ByteArray(l1)
         buffer.getBuf().copyInto(buf, 0, 4, 4 + l1)
@@ -163,6 +428,7 @@ public object DictionaryHelper {
             "http://www.w3.org/2001/XMLSchema#double" -> doubleToByteArray(buffer, content.toDouble())
             "http://www.w3.org/2001/XMLSchema#float" -> floatToByteArray(buffer, content.toDouble())
             "http://www.w3.org/2001/XMLSchema#boolean" -> booleanToByteArray(buffer, content.toLowerCase() == "true")
+            "http://www.w3.org/2001/XMLSchema#dateTime" -> dateTimeToByteArray(buffer, content)
             else -> {
                 val buf1 = type.encodeToByteArray()
                 val buf2 = content.encodeToByteArray()
@@ -207,7 +473,7 @@ public object DictionaryHelper {
         ByteArrayHelper.writeInt4(buffer.getBuf(), 4, value)
     }
 
-    public inline fun byteArrayToBnode(buffer: ByteArrayWrapper): Int {
+    public inline fun byteArrayToBnode_I(buffer: ByteArrayWrapper): Int {
         if (buffer.getSize() == 8) {
             return ByteArrayHelper.readInt4(buffer.getBuf(), 4)
         } else {
@@ -215,7 +481,7 @@ public object DictionaryHelper {
         }
     }
 
-    public inline fun byteArrayToBnodeIntermediate(buffer: ByteArrayWrapper): String {
+    public inline fun byteArrayToBnode_S(buffer: ByteArrayWrapper): String {
         if (buffer.getSize() == 8) {
             throw Exception("this is not ready to be used as import value")
         } else {
@@ -335,7 +601,7 @@ public object DictionaryHelper {
         return when (type) {
             ETripleComponentTypeExt.UNDEF -> DictionaryExt.undefValue2
             ETripleComponentTypeExt.ERROR -> DictionaryExt.errorValue2
-            ETripleComponentTypeExt.BLANK_NODE -> ValueBnode("" + byteArrayToBnode(buffer))
+            ETripleComponentTypeExt.BLANK_NODE -> ValueBnode("" + byteArrayToBnode_I(buffer))
             ETripleComponentTypeExt.BOOLEAN -> {
                 if (byteArrayToBoolean(buffer)) {
                     DictionaryExt.booleanTrueValue2
@@ -345,8 +611,8 @@ public object DictionaryHelper {
             }
             ETripleComponentTypeExt.DOUBLE -> ValueDouble(byteArrayToDouble(buffer))
             ETripleComponentTypeExt.FLOAT -> ValueFloat(byteArrayToDouble(buffer))
-            ETripleComponentTypeExt.INTEGER -> ValueInteger(MyBigInteger(byteArrayToInteger(buffer)))
-            ETripleComponentTypeExt.DECIMAL -> ValueDecimal(MyBigDecimal(byteArrayToDecimal(buffer)))
+            ETripleComponentTypeExt.INTEGER -> ValueInteger(byteArrayToInteger_I(buffer))
+            ETripleComponentTypeExt.DECIMAL -> ValueDecimal(byteArrayToDecimal_I(buffer))
             ETripleComponentTypeExt.IRI -> ValueIri(byteArrayToIri(buffer))
             ETripleComponentTypeExt.STRING -> ValueSimpleLiteral("\"", byteArrayToString(buffer))
             ETripleComponentTypeExt.STRING_LANG -> ValueLanguageTaggedLiteral("\"", byteArrayToLang_Content(buffer), byteArrayToLang_Lang(buffer))
@@ -374,16 +640,18 @@ public object DictionaryHelper {
         when (type) {
             ETripleComponentTypeExt.FLOAT -> onFloat(byteArrayToDouble(buffer))
             ETripleComponentTypeExt.DOUBLE -> onDouble(byteArrayToDouble(buffer))
-            ETripleComponentTypeExt.INTEGER -> onInteger(byteArrayToInteger(buffer))
-            ETripleComponentTypeExt.DECIMAL -> onDecimal(byteArrayToDecimal(buffer))
+            ETripleComponentTypeExt.INTEGER -> onInteger(byteArrayToInteger_S(buffer))
+            ETripleComponentTypeExt.DECIMAL -> onDecimal(byteArrayToDecimal_S(buffer))
             ETripleComponentTypeExt.UNDEF -> onUndefined()
             ETripleComponentTypeExt.ERROR -> onError()
-            ETripleComponentTypeExt.BLANK_NODE -> onBNode(byteArrayToBnode(buffer))
+            ETripleComponentTypeExt.BLANK_NODE -> onBNode(byteArrayToBnode_I(buffer))
             ETripleComponentTypeExt.BOOLEAN -> onBoolean(byteArrayToBoolean(buffer))
             ETripleComponentTypeExt.IRI -> onIri(byteArrayToIri(buffer))
             ETripleComponentTypeExt.STRING -> onSimpleLiteral(byteArrayToString(buffer))
             ETripleComponentTypeExt.STRING_LANG -> onLanguageTaggedLiteral(byteArrayToLang_Content(buffer), byteArrayToLang_Lang(buffer))
             ETripleComponentTypeExt.STRING_TYPED -> onTypedLiteral(byteArrayToTyped_Content(buffer), byteArrayToTyped_Type(buffer))
+            ETripleComponentTypeExt.DATE_TIME -> onTypedLiteral(byteArrayToDateTime(buffer), "http://www.w3.org/2001/XMLSchema#dateTime")
+            else -> throw Exception("unreachable $type")
         }
     }
 

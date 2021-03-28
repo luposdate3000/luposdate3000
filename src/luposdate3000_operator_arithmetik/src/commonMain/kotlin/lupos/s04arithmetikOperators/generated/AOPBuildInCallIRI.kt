@@ -20,6 +20,7 @@ import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
@@ -32,22 +33,22 @@ public class AOPBuildInCallIRI public constructor(query: IQuery, child0: AOPBase
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallIRI && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallIRI(query, children[0].cloneOP() as AOPBase, prefix)
     override fun evaluateID(row: IteratorBundle): () -> Int {
-        val tmp_0 = ByteArrayWrapper()
-        val tmp_2 = ByteArrayWrapper()
-        val child0 = (children[0] as AOPBase).evaluateID(row)
+        val tmp_0: ByteArrayWrapper = ByteArrayWrapper()
+        val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
+        val child0: () -> Int = (children[0] as AOPBase).evaluateID(row)
         return {
             var res: Int
-            val childIn0 = child0()
+            val childIn0: Int = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
-            val tmp_1 = DictionaryHelper.byteArrayToType(tmp_0)
+            val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
                 ETripleComponentTypeExt.IRI -> {
                     tmp_0.copyInto(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING -> {
-                    val tmp_4 = DictionaryHelper.byteArrayToString(tmp_0)
-                    val tmp_5 = if (prefix.length > 0 && !prefix.endsWith('/')) {
+                    val tmp_4: String = DictionaryHelper.byteArrayToString(tmp_0)
+                    val tmp_5: String = if (prefix.length > 0 && !prefix.endsWith('/')) {
                         "$prefix/$tmp_4"
                     } else {
                         "$prefix$tmp_4"
@@ -56,10 +57,10 @@ public class AOPBuildInCallIRI public constructor(query: IQuery, child0: AOPBase
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING_TYPED -> {
-                    val tmp_7_content = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
-                    val tmp_7_type = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
+                    val tmp_7_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
+                    val tmp_7_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
                     if (tmp_7_type == "http://www.w3.org/2001/XMLSchema#string") {
-                        val tmp_8 = if (prefix.length > 0 && !prefix.endsWith('/')) {
+                        val tmp_8: String = if (prefix.length > 0 && !prefix.endsWith('/')) {
                             "$prefix/$tmp_7_content"
                         } else {
                             "$prefix$tmp_7_content"

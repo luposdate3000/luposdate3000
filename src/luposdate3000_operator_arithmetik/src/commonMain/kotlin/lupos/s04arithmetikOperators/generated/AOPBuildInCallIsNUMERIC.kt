@@ -20,6 +20,7 @@ import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
@@ -31,14 +32,14 @@ public class AOPBuildInCallIsNUMERIC public constructor(query: IQuery, child0: A
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallIsNUMERIC && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallIsNUMERIC(query, children[0].cloneOP() as AOPBase)
     override fun evaluateID(row: IteratorBundle): () -> Int {
-        val tmp_0 = ByteArrayWrapper()
-        val tmp_2 = ByteArrayWrapper()
-        val child0 = (children[0] as AOPBase).evaluateID(row)
+        val tmp_0: ByteArrayWrapper = ByteArrayWrapper()
+        val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
+        val child0: () -> Int = (children[0] as AOPBase).evaluateID(row)
         return {
             var res: Int
-            val childIn0 = child0()
+            val childIn0: Int = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
-            val tmp_1 = DictionaryHelper.byteArrayToType(tmp_0)
+            val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
                 ETripleComponentTypeExt.DECIMAL -> {
                     DictionaryHelper.booleanToByteArray(tmp_2, true)

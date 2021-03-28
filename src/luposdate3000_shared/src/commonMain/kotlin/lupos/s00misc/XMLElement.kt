@@ -75,9 +75,9 @@ public class XMLElement(tag: String) {
                 ETripleComponentTypeExt.STRING_LANG -> nodeBinding.addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToLang_Content(value)).addAttribute("xml:lang", DictionaryHelper.byteArrayToLang_Lang(value)))
                 ETripleComponentTypeExt.STRING -> nodeBinding.addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToString(value)))
                 ETripleComponentTypeExt.IRI -> nodeBinding.addContent(XMLElement("uri").addContentClean(DictionaryHelper.byteArrayToIri(value)))
-                ETripleComponentTypeExt.BLANK_NODE -> nodeBinding.addContent(XMLElement("bnode").addContentClean(DictionaryHelper.byteArrayToBnodeIntermediate(value)))
-                ETripleComponentTypeExt.INTEGER -> nodeBinding.addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToInteger(value)).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#integer"))
-                ETripleComponentTypeExt.DECIMAL -> nodeBinding.addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToDecimal(value)).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#decimal"))
+                ETripleComponentTypeExt.BLANK_NODE -> nodeBinding.addContent(XMLElement("bnode").addContentClean(DictionaryHelper.byteArrayToBnode_S(value)))
+                ETripleComponentTypeExt.INTEGER -> nodeBinding.addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToInteger_S(value)).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#integer"))
+                ETripleComponentTypeExt.DECIMAL -> nodeBinding.addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToDecimal_S(value)).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#decimal"))
                 ETripleComponentTypeExt.DOUBLE -> nodeBinding.addContent(XMLElement("literal").addContentClean("" + DictionaryHelper.byteArrayToDouble(value)).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#double"))
                 ETripleComponentTypeExt.FLOAT -> nodeBinding.addContent(XMLElement("literal").addContentClean("" + DictionaryHelper.byteArrayToFloat(value)).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#float"))
             }

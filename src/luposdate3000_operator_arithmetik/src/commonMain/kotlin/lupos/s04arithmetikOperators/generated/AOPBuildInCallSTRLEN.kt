@@ -20,6 +20,7 @@ import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.MyBigInteger
 import lupos.s04arithmetikOperators.AOPBase
@@ -32,32 +33,32 @@ public class AOPBuildInCallSTRLEN public constructor(query: IQuery, child0: AOPB
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallSTRLEN && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallSTRLEN(query, children[0].cloneOP() as AOPBase)
     override fun evaluateID(row: IteratorBundle): () -> Int {
-        val tmp_0 = ByteArrayWrapper()
-        val tmp_2 = ByteArrayWrapper()
-        val child0 = (children[0] as AOPBase).evaluateID(row)
+        val tmp_0: ByteArrayWrapper = ByteArrayWrapper()
+        val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
+        val child0: () -> Int = (children[0] as AOPBase).evaluateID(row)
         return {
             var res: Int
-            val childIn0 = child0()
+            val childIn0: Int = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
-            val tmp_1 = DictionaryHelper.byteArrayToType(tmp_0)
+            val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
                 ETripleComponentTypeExt.STRING -> {
-                    val tmp_3 = DictionaryHelper.byteArrayToString(tmp_0)
-                    val tmp_4 = MyBigInteger(tmp_3.length)
+                    val tmp_3: String = DictionaryHelper.byteArrayToString(tmp_0)
+                    val tmp_4: MyBigInteger = MyBigInteger(tmp_3.length)
                     DictionaryHelper.integerToByteArray(tmp_2, tmp_4.toString())
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING_LANG -> {
-                    val tmp_6_content = DictionaryHelper.byteArrayToLang_Content(tmp_0)
-                    val tmp_6_lang = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
-                    val tmp_7 = MyBigInteger(tmp_6_content.length)
+                    val tmp_6_content: String = DictionaryHelper.byteArrayToLang_Content(tmp_0)
+                    val tmp_6_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
+                    val tmp_7: MyBigInteger = MyBigInteger(tmp_6_content.length)
                     DictionaryHelper.integerToByteArray(tmp_2, tmp_7.toString())
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING_TYPED -> {
-                    val tmp_9_content = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
-                    val tmp_9_type = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
-                    val tmp_10 = MyBigInteger(tmp_9_content.length)
+                    val tmp_9_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
+                    val tmp_9_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
+                    val tmp_10: MyBigInteger = MyBigInteger(tmp_9_content.length)
                     DictionaryHelper.integerToByteArray(tmp_2, tmp_10.toString())
                     res = query.getDictionary().createValue(tmp_2)
                 }
