@@ -106,7 +106,7 @@ public class AOPBuildInCallSTRBEFORE public constructor(query: IQuery, child0: A
                             val tmp_21_idx: Int = tmp_18_content.indexOf(tmp_19)
                             val tmp_20_lang: String = tmp_18_lang
                             if (tmp_21_idx >= 0) {
-                                val tmp_20_content: String = tmp_18_contentsubstring(0, tmp_21_idx)
+                                val tmp_20_content: String = tmp_18_content.substring(0, tmp_21_idx)
                                 DictionaryHelper.langToByteArray(tmp_4, tmp_20_content, tmp_20_lang)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
@@ -123,7 +123,7 @@ public class AOPBuildInCallSTRBEFORE public constructor(query: IQuery, child0: A
                             val tmp_25_idx: Int = tmp_22_content.indexOf(tmp_23_content)
                             val tmp_24_lang: String = tmp_22_lang
                             if (tmp_25_idx >= 0) {
-                                val tmp_24_content: String = tmp_22_contentsubstring(0, tmp_25_idx)
+                                val tmp_24_content: String = tmp_22_content.substring(0, tmp_25_idx)
                                 DictionaryHelper.langToByteArray(tmp_4, tmp_24_content, tmp_24_lang)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
@@ -140,7 +140,7 @@ public class AOPBuildInCallSTRBEFORE public constructor(query: IQuery, child0: A
                             val tmp_29_idx: Int = tmp_26_content.indexOf(tmp_27_content)
                             val tmp_28_lang: String = tmp_26_lang
                             if (tmp_29_idx >= 0) {
-                                val tmp_28_content: String = tmp_26_contentsubstring(0, tmp_29_idx)
+                                val tmp_28_content: String = tmp_26_content.substring(0, tmp_29_idx)
                                 DictionaryHelper.langToByteArray(tmp_4, tmp_28_content, tmp_28_lang)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
@@ -163,7 +163,7 @@ public class AOPBuildInCallSTRBEFORE public constructor(query: IQuery, child0: A
                             val tmp_34_idx: Int = tmp_31_content.indexOf(tmp_32)
                             val tmp_33_type: String = tmp_31_type
                             if (tmp_34_idx >= 0) {
-                                val tmp_33_content: String = tmp_31_contentsubstring(0, tmp_34_idx)
+                                val tmp_33_content: String = tmp_31_content.substring(0, tmp_34_idx)
                                 DictionaryHelper.langToByteArray(tmp_4, tmp_33_content, tmp_33_type)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
@@ -180,7 +180,7 @@ public class AOPBuildInCallSTRBEFORE public constructor(query: IQuery, child0: A
                             val tmp_38_idx: Int = tmp_35_content.indexOf(tmp_36_content)
                             val tmp_37_type: String = tmp_35_type
                             if (tmp_38_idx >= 0) {
-                                val tmp_37_content: String = tmp_35_contentsubstring(0, tmp_38_idx)
+                                val tmp_37_content: String = tmp_35_content.substring(0, tmp_38_idx)
                                 DictionaryHelper.langToByteArray(tmp_4, tmp_37_content, tmp_37_type)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
@@ -197,7 +197,7 @@ public class AOPBuildInCallSTRBEFORE public constructor(query: IQuery, child0: A
                             val tmp_42_idx: Int = tmp_39_content.indexOf(tmp_40_content)
                             val tmp_41_type: String = tmp_39_type
                             if (tmp_42_idx >= 0) {
-                                val tmp_41_content: String = tmp_39_contentsubstring(0, tmp_42_idx)
+                                val tmp_41_content: String = tmp_39_content.substring(0, tmp_42_idx)
                                 DictionaryHelper.langToByteArray(tmp_4, tmp_41_content, tmp_41_type)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
