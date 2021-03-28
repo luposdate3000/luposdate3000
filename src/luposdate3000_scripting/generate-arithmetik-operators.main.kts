@@ -811,6 +811,97 @@ public val operators = listOf(
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
     ),
     MyOperator(
+        name = "String",
+        functionname = "<http://www.w3.org/2001/XMLSchema#string>",
+        type = OperatorType.FunctionCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}")
+                    target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                    onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content")
+                    target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                    onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content")
+                    target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                    onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}.toString()")
+                    target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                    onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}.toString()")
+                    target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                    onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}.toString()")
+                    target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                    onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}.toString()")
+                    target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                    onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}.toString()")
+                    target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                    onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_str")
+                    target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                    onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
         name = "UCASE",
         type = OperatorType.BuildInCall,
         implementations = arrayOf(
@@ -918,6 +1009,89 @@ public val operators = listOf(
                     target.appendLine("${indention}try {")
                     target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}_content.toDouble()")
                     onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+                    target.appendLine("$indention} catch (e: Throwable) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention}")
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "Float",
+        functionname = "<http://www.w3.org/2001/XMLSchema#float>",
+        type = OperatorType.FunctionCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}")
+                    onResult(indention, ETripleComponentTypeExt.FLOAT)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}")
+                    onResult(indention, ETripleComponentTypeExt.FLOAT)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.toDouble()")
+                    onResult(indention, ETripleComponentTypeExt.FLOAT)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.toDouble()")
+                    onResult(indention, ETripleComponentTypeExt.FLOAT)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Double = if (${inputNames[0]}) {")
+                    target.appendLine("$indention    1.0")
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    0.0")
+                    target.appendLine("$indention}")
+                    onResult(indention, ETripleComponentTypeExt.FLOAT)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}try {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.toDouble()")
+                    onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
+                    target.appendLine("$indention} catch (e: Throwable) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}try {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}_content.toDouble()")
+                    onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
+                    target.appendLine("$indention} catch (e: Throwable) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}try {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}_content.toDouble()")
+                    onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
                     target.appendLine("$indention} catch (e: Throwable) {")
                     onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
                     target.appendLine("$indention}")
@@ -1062,6 +1236,247 @@ public val operators = listOf(
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
     ),
+    MyOperator(
+        name = "STRDT",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.IRI),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}")
+                    target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[1]}")
+                    onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "STRLANG",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}")
+                    target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[1]}")
+                    onResult(indention, ETripleComponentTypeExt.STRING_LANG)
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "LANGMATCHES",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]} == ${inputNames[1]}")
+                    onResult(indention, ETripleComponentTypeExt.BOOLEAN)
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "STRENDS",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}.endsWith(${inputNames[1]})")
+                    onResult(indention, ETripleComponentTypeExt.BOOLEAN)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}_content.endsWith(${inputNames[1]})")
+                    onResult(indention, ETripleComponentTypeExt.BOOLEAN)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}_content.endsWith(${inputNames[1]})")
+                    onResult(indention, ETripleComponentTypeExt.BOOLEAN)
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "STRSTARTS",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}.startsWith(${inputNames[1]})")
+                    onResult(indention, ETripleComponentTypeExt.BOOLEAN)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}_content.startsWith(${inputNames[1]})")
+                    onResult(indention, ETripleComponentTypeExt.BOOLEAN)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}_content.startsWith(${inputNames[1]})")
+                    onResult(indention, ETripleComponentTypeExt.BOOLEAN)
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "CONTAINS",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}.contains(${inputNames[1]})")
+                    onResult(indention, ETripleComponentTypeExt.BOOLEAN)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}_content.contains(${inputNames[1]})")
+                    onResult(indention, ETripleComponentTypeExt.BOOLEAN)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]}_content.contains(${inputNames[1]})")
+                    onResult(indention, ETripleComponentTypeExt.BOOLEAN)
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "CONCAT",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]} + ${inputNames[1]}")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]} + ${inputNames[1]}_content")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_content + ${inputNames[1]}")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]} + ${inputNames[1]}_content")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_content + ${inputNames[1]}")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_content + ${inputNames[1]}_content")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_content + ${inputNames[1]}_content")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}if (${inputNames[0]}_lang == ${inputNames[1]}_lang) {")
+                    target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content + ${inputNames[1]}_content")
+                    target.appendLine("$indention    val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_LANG)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: String = ${inputNames[0]}_content + ${inputNames[1]}_content")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}if (${inputNames[0]}_type == \"http://www.w3.org/2001/XMLSchema#string\" && ${inputNames[1]}_type == \"http://www.w3.org/2001/XMLSchema#string\") {")
+                    target.appendLine("$indention    val ${outputName}_content: String = ${inputNames[0]}_content + ${inputNames[1]}_content")
+                    target.appendLine("$indention    val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING_TYPED)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: String = ${inputNames[0]}_content + ${inputNames[1]}_content")
+                    onResult(indention + "    ", ETripleComponentTypeExt.STRING)
+                    target.appendLine("$indention}")
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "Not",
+        type = OperatorType.Basic,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Boolean = !${inputNames[0]}")
+                    onResult(indention, ETripleComponentTypeExt.BOOLEAN)
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+
     MyOperator(
         name = "MD5",
         type = OperatorType.BuildInCall,
