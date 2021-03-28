@@ -605,6 +605,76 @@ public val operators = listOf(
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
     ),
     MyOperator(
+        name = "LCASE",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toLowerCase()")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content.toLowerCase()")
+                    target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
+                    onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content.toLowerCase()")
+                    target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                    onResult(indention, ETripleComponentTypeExt.STRING_LANG)
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "UCASE",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toUpperCase()")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content.toUpperCase()")
+                    target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
+                    onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content.toUpperCase()")
+                    target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
+                    onResult(indention, ETripleComponentTypeExt.STRING_LANG)
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
         name = "DAY",
         type = OperatorType.BuildInCall,
         implementations = arrayOf(
@@ -1468,6 +1538,29 @@ public val converters = listOf(
             target.appendLine("${indention}DictionaryHelper.stringToByteArray($outputName, $inputName)")
         }
     ),
+    MyRepresentationConversionFunction(
+        type = ETripleComponentTypeExt.STRING_LANG,
+        inputRepresentation = EParamRepresentation.INSTANTIATED,
+        outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
+        generate = { indention, inputName, outputName, imports, target, globalVariables ->
+            imports.add("lupos.s00misc.ByteArrayWrapper")
+            imports.add("lupos.dictionary.DictionaryHelper")
+            globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
+            target.appendLine("${indention}DictionaryHelper.langToByteArray($outputName, ${inputName}_content, ${inputName}_lang)")
+        }
+    ),
+    MyRepresentationConversionFunction(
+        type = ETripleComponentTypeExt.STRING_TYPED,
+        inputRepresentation = EParamRepresentation.INSTANTIATED,
+        outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
+        generate = { indention, inputName, outputName, imports, target, globalVariables ->
+            imports.add("lupos.s00misc.ByteArrayWrapper")
+            imports.add("lupos.dictionary.DictionaryHelper")
+            globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
+            target.appendLine("${indention}DictionaryHelper.langToByteArray($outputName, ${inputName}_content, ${inputName}_type)")
+        }
+    ),
+
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.IRI,
         inputRepresentation = EParamRepresentation.INSTANTIATED,
