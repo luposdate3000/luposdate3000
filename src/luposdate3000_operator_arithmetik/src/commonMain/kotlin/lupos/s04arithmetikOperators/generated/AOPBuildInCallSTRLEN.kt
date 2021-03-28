@@ -40,25 +40,30 @@ public class AOPBuildInCallSTRLEN public constructor(query: IQuery, child0: AOPB
             val childIn0 = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1 = DictionaryHelper.byteArrayToType(tmp_0)
-            if (tmp_1 == ETripleComponentTypeExt.STRING) {
-                val tmp_3 = DictionaryHelper.byteArrayToString(tmp_0)
-                val tmp_4 = MyBigInteger(tmp_3.length)
-                DictionaryHelper.integerToByteArray(tmp_2, tmp_4.toString())
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.STRING_LANG) {
-                val tmp_6_content = DictionaryHelper.byteArrayToLang_Content(tmp_0)
-                val tmp_6_lang = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
-                val tmp_7 = MyBigInteger(tmp_6_content.length)
-                DictionaryHelper.integerToByteArray(tmp_2, tmp_7.toString())
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.STRING_TYPED) {
-                val tmp_9_content = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
-                val tmp_9_type = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
-                val tmp_10 = MyBigInteger(tmp_9_content.length)
-                DictionaryHelper.integerToByteArray(tmp_2, tmp_10.toString())
-                res = query.getDictionary().createValue(tmp_2)
-            } else {
-                res = DictionaryExt.errorValue
+            when (tmp_1) {
+                ETripleComponentTypeExt.STRING -> {
+                    val tmp_3 = DictionaryHelper.byteArrayToString(tmp_0)
+                    val tmp_4 = MyBigInteger(tmp_3.length)
+                    DictionaryHelper.integerToByteArray(tmp_2, tmp_4.toString())
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.STRING_LANG -> {
+                    val tmp_6_content = DictionaryHelper.byteArrayToLang_Content(tmp_0)
+                    val tmp_6_lang = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
+                    val tmp_7 = MyBigInteger(tmp_6_content.length)
+                    DictionaryHelper.integerToByteArray(tmp_2, tmp_7.toString())
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.STRING_TYPED -> {
+                    val tmp_9_content = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
+                    val tmp_9_type = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
+                    val tmp_10 = MyBigInteger(tmp_9_content.length)
+                    DictionaryHelper.integerToByteArray(tmp_2, tmp_10.toString())
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                else -> {
+                    res = DictionaryExt.errorValue
+                }
             }
             res
         }

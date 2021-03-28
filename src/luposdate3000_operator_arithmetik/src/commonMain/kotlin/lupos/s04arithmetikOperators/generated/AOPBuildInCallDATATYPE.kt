@@ -39,38 +39,49 @@ public class AOPBuildInCallDATATYPE public constructor(query: IQuery, child0: AO
             val childIn0 = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1 = DictionaryHelper.byteArrayToType(tmp_0)
-            if (tmp_1 == ETripleComponentTypeExt.BOOLEAN) {
-                DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#boolean")
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.DATE_TIME) {
-                DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#dateTime")
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.DECIMAL) {
-                DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#decimal")
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.DOUBLE) {
-                DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#double")
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.FLOAT) {
-                DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#float")
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.INTEGER) {
-                DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#integer")
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.STRING) {
-                DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#string")
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.STRING_LANG) {
-                DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString")
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.STRING_TYPED) {
-                val tmp_11_content = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
-                val tmp_11_type = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
-                val tmp_12 = tmp_11_type
-                DictionaryHelper.stringToByteArray(tmp_2, tmp_12)
-                res = query.getDictionary().createValue(tmp_2)
-            } else {
-                res = DictionaryExt.errorValue
+            when (tmp_1) {
+                ETripleComponentTypeExt.BOOLEAN -> {
+                    DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#boolean")
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.DATE_TIME -> {
+                    DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#dateTime")
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.DECIMAL -> {
+                    DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#decimal")
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.DOUBLE -> {
+                    DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#double")
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.FLOAT -> {
+                    DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#float")
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.INTEGER -> {
+                    DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#integer")
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.STRING -> {
+                    DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#string")
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.STRING_LANG -> {
+                    DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString")
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.STRING_TYPED -> {
+                    val tmp_11_content = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
+                    val tmp_11_type = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
+                    val tmp_12 = tmp_11_type
+                    DictionaryHelper.stringToByteArray(tmp_2, tmp_12)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                else -> {
+                    res = DictionaryExt.errorValue
+                }
             }
             res
         }

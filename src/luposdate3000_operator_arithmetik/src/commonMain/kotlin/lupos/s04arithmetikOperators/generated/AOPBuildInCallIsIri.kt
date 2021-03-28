@@ -39,17 +39,22 @@ public class AOPBuildInCallIsIri public constructor(query: IQuery, child0: AOPBa
             val childIn0 = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1 = DictionaryHelper.byteArrayToType(tmp_0)
-            if (tmp_1 == ETripleComponentTypeExt.ERROR) {
-                DictionaryHelper.errorToByteArray(tmp_2)
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.IRI) {
-                DictionaryHelper.booleanToByteArray(tmp_2, true)
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.UNDEF) {
-                DictionaryHelper.errorToByteArray(tmp_2)
-                res = query.getDictionary().createValue(tmp_2)
-            } else {
-                res = DictionaryExt.booleanFalseValue
+            when (tmp_1) {
+                ETripleComponentTypeExt.ERROR -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.IRI -> {
+                    DictionaryHelper.booleanToByteArray(tmp_2, true)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.UNDEF -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                else -> {
+                    res = DictionaryExt.booleanFalseValue
+                }
             }
             res
         }

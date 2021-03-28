@@ -40,34 +40,39 @@ public class AOPBuildInCallIRI public constructor(query: IQuery, child0: AOPBase
             val childIn0 = child0()
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1 = DictionaryHelper.byteArrayToType(tmp_0)
-            if (tmp_1 == ETripleComponentTypeExt.IRI) {
-                tmp_0.copyInto(tmp_2)
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.STRING) {
-                val tmp_4 = DictionaryHelper.byteArrayToString(tmp_0)
-                val tmp_5 = if (prefix.length > 0 && !prefix.endsWith('/')) {
-                    "$prefix/$tmp_4"
-                } else {
-                    "$prefix$tmp_4"
+            when (tmp_1) {
+                ETripleComponentTypeExt.IRI -> {
+                    tmp_0.copyInto(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
                 }
-                DictionaryHelper.iriToByteArray(tmp_2, tmp_5)
-                res = query.getDictionary().createValue(tmp_2)
-            } else if (tmp_1 == ETripleComponentTypeExt.STRING_TYPED) {
-                val tmp_7_content = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
-                val tmp_7_type = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
-                if (tmp_7_type == "http://www.w3.org/2001/XMLSchema#string") {
-                    val tmp_8 = if (prefix.length > 0 && !prefix.endsWith('/')) {
-                        "$prefix/$tmp_7_content"
+                ETripleComponentTypeExt.STRING -> {
+                    val tmp_4 = DictionaryHelper.byteArrayToString(tmp_0)
+                    val tmp_5 = if (prefix.length > 0 && !prefix.endsWith('/')) {
+                        "$prefix/$tmp_4"
                     } else {
-                        "$prefix$tmp_7_content"
+                        "$prefix$tmp_4"
                     }
-                    DictionaryHelper.iriToByteArray(tmp_2, tmp_8)
-                } else {
-                    DictionaryHelper.errorToByteArray(tmp_2)
+                    DictionaryHelper.iriToByteArray(tmp_2, tmp_5)
+                    res = query.getDictionary().createValue(tmp_2)
                 }
-                res = query.getDictionary().createValue(tmp_2)
-            } else {
-                res = DictionaryExt.errorValue
+                ETripleComponentTypeExt.STRING_TYPED -> {
+                    val tmp_7_content = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
+                    val tmp_7_type = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
+                    if (tmp_7_type == "http://www.w3.org/2001/XMLSchema#string") {
+                        val tmp_8 = if (prefix.length > 0 && !prefix.endsWith('/')) {
+                            "$prefix/$tmp_7_content"
+                        } else {
+                            "$prefix$tmp_7_content"
+                        }
+                        DictionaryHelper.iriToByteArray(tmp_2, tmp_8)
+                    } else {
+                        DictionaryHelper.errorToByteArray(tmp_2)
+                    }
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                else -> {
+                    res = DictionaryExt.errorValue
+                }
             }
             res
         }
