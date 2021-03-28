@@ -44,6 +44,7 @@ public class AOPBuildInCallHOURS public constructor(query: IQuery, child0: AOPBa
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
                 ETripleComponentTypeExt.DATE_TIME -> {
+                    val tmp_3_str: String = DictionaryHelper.byteArrayToDateTime(tmp_0)
                     val tmp_3_year: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Year(tmp_0)
                     val tmp_3_month: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Month(tmp_0)
                     val tmp_3_day: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Day(tmp_0)

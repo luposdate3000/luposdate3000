@@ -19,20 +19,19 @@ package lupos.s04arithmetikOperators.generated
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
+import lupos.s00misc.Crypto
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.MyBigDecimal
-import lupos.s00misc.MyBigInteger
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPBuildInCallSECONDS public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallSECONDSID, "AOPBuildInCallSECONDS", arrayOf(child0,)) {
-    override fun toSparql(): String = "SECONDS(${children[0].toSparql()})"
-    override fun equals(other: Any?): Boolean = other is AOPBuildInCallSECONDS && children[0] == other.children[0]
-    override fun cloneOP(): IOPBase = AOPBuildInCallSECONDS(query, children[0].cloneOP() as AOPBase)
+public class AOPBuildInCallMD5 public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallMD5ID, "AOPBuildInCallMD5", arrayOf(child0,)) {
+    override fun toSparql(): String = "MD5(${children[0].toSparql()})"
+    override fun equals(other: Any?): Boolean = other is AOPBuildInCallMD5 && children[0] == other.children[0]
+    override fun cloneOP(): IOPBase = AOPBuildInCallMD5(query, children[0].cloneOP() as AOPBase)
     override fun evaluateID(row: IteratorBundle): () -> Int {
         val tmp_0: ByteArrayWrapper = ByteArrayWrapper()
         val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
@@ -43,18 +42,24 @@ public class AOPBuildInCallSECONDS public constructor(query: IQuery, child0: AOP
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
-                ETripleComponentTypeExt.DATE_TIME -> {
-                    val tmp_3_str: String = DictionaryHelper.byteArrayToDateTime(tmp_0)
-                    val tmp_3_year: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Year(tmp_0)
-                    val tmp_3_month: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Month(tmp_0)
-                    val tmp_3_day: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Day(tmp_0)
-                    val tmp_3_hours: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Hours(tmp_0)
-                    val tmp_3_minutes: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Minutes(tmp_0)
-                    val tmp_3_seconds: MyBigDecimal = DictionaryHelper.byteArrayToDateTime_Seconds(tmp_0)
-                    val tmp_3_tz: String = DictionaryHelper.byteArrayToDateTime_TZ(tmp_0)
-                    val tmp_3_timezone: String = DictionaryHelper.byteArrayToDateTime_TimeZone(tmp_0)
-                    val tmp_4: MyBigDecimal = tmp_3_seconds
-                    DictionaryHelper.decimalToByteArray(tmp_2, tmp_4.toString())
+                ETripleComponentTypeExt.STRING -> {
+                    val tmp_3: String = DictionaryHelper.byteArrayToString(tmp_0)
+                    val tmp_4: String = Crypto.md5(tmp_3)
+                    DictionaryHelper.stringToByteArray(tmp_2, tmp_4)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.STRING_LANG -> {
+                    val tmp_6_content: String = DictionaryHelper.byteArrayToLang_Content(tmp_0)
+                    val tmp_6_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
+                    val tmp_7: String = Crypto.md5(tmp_6_content)
+                    DictionaryHelper.stringToByteArray(tmp_2, tmp_7)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.STRING_TYPED -> {
+                    val tmp_9_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
+                    val tmp_9_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
+                    val tmp_10: String = Crypto.md5(tmp_9_content)
+                    DictionaryHelper.stringToByteArray(tmp_2, tmp_10)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {

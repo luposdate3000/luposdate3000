@@ -24,7 +24,7 @@ import java.io.File
 
 public enum class OperatorType(val str: String) {
     BuildInCall("BuildInCall"),
-    Function("Function"),
+    FunctionCall("FunctionCall"),
     Basic(""),
 }
 
@@ -154,6 +154,7 @@ fun generateInstantiatedString(str: String): GenerateFunc = { indention, _, outp
 
 public class MyOperator(
     public val name: String,
+    public val functionname: String = name,
     public val type: OperatorType,
     public val imports: MutableSet<String> = mutableSetOf(),
     public val additionalParametersName: Array<String> = arrayOf(),
@@ -313,7 +314,7 @@ public class MyOperator(
         line0 += ("\"AOP${type.str}${name}\", ")
         line0 += ("arrayOf($line)) {")
         clazz.appendLine(line0)
-        clazz.appendLine("    override fun toSparql(): String = \"$name($line2)\"")
+        clazz.appendLine("    override fun toSparql(): String = \"$functionname($line2)\"")
         clazz.appendLine("    override fun equals(other: Any?): Boolean = other is AOP${type.str}$name$line3")
         clazz.appendLine("    override fun cloneOP(): IOPBase = AOP${type.str}$name(query$line4)")
         clazz.appendLine("    override fun evaluateID(row: IteratorBundle): () -> Int {")
@@ -640,6 +641,176 @@ public val operators = listOf(
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
     ),
     MyOperator(
+        name = "LANG",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, _, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = \"\"")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, _, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = \"\"")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
+                generateInstantiated = { indention, _, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = \"\"")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
+                generateInstantiated = { indention, _, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = \"\"")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
+                generateInstantiated = { indention, _, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = \"\"")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
+                generateInstantiated = { indention, _, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = \"\"")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
+                generateInstantiated = { indention, _, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = \"\"")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
+                generateInstantiated = { indention, _, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = \"\"")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_lang")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "STR",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.IRI),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_content")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_content")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toString()")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toString()")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toString()")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toString()")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toString()")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_str")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
         name = "UCASE",
         type = OperatorType.BuildInCall,
         implementations = arrayOf(
@@ -667,6 +838,89 @@ public val operators = listOf(
                     target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content.toUpperCase()")
                     target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
                     onResult(indention, ETripleComponentTypeExt.STRING_LANG)
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "Double",
+        functionname = "<http://www.w3.org/2001/XMLSchema#double>",
+        type = OperatorType.FunctionCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.MyBigInteger")
+                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}")
+                    onResult(indention, ETripleComponentTypeExt.DOUBLE)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}")
+                    onResult(indention, ETripleComponentTypeExt.DOUBLE)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.toDouble()")
+                    onResult(indention, ETripleComponentTypeExt.DOUBLE)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.toDouble()")
+                    onResult(indention, ETripleComponentTypeExt.DOUBLE)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Double = if(${inputNames[0]}) {")
+                    target.appendLine("$indention    1.0")
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    0.0")
+                    target.appendLine("$indention}")
+                    onResult(indention, ETripleComponentTypeExt.DOUBLE)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}try {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.toDouble()")
+                    onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+                    target.appendLine("$indention} catch (e: Throwable) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}try {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}_content.toDouble()")
+                    onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+                    target.appendLine("$indention} catch (e: Throwable) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}try {")
+                    target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}_content.toDouble()")
+                    onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+                    target.appendLine("$indention} catch (e: Throwable) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention}")
                 },
             ),
         ),
@@ -808,7 +1062,105 @@ public val operators = listOf(
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
     ),
-
+    MyOperator(
+        name = "MD5",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.Crypto")
+                    target.appendLine("${indention}val $outputName: String = Crypto.md5(${inputNames[0]})")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.Crypto")
+                    target.appendLine("${indention}val $outputName: String = Crypto.md5(${inputNames[0]}_content)")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.Crypto")
+                    target.appendLine("${indention}val $outputName: String = Crypto.md5(${inputNames[0]}_content)")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "SHA1",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.Crypto")
+                    target.appendLine("${indention}val $outputName: String = Crypto.sha1(${inputNames[0]})")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.Crypto")
+                    target.appendLine("${indention}val $outputName: String = Crypto.sha1(${inputNames[0]}_content)")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.Crypto")
+                    target.appendLine("${indention}val $outputName: String = Crypto.sha1(${inputNames[0]}_content)")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "SHA256",
+        type = OperatorType.BuildInCall,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.Crypto")
+                    target.appendLine("${indention}val $outputName: String = Crypto.sha256(${inputNames[0]})")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.Crypto")
+                    target.appendLine("${indention}val $outputName: String = Crypto.sha256(${inputNames[0]}_content)")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
+                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                    imports.add("lupos.s00misc.Crypto")
+                    target.appendLine("${indention}val $outputName: String = Crypto.sha256(${inputNames[0]}_content)")
+                    onResult(indention, ETripleComponentTypeExt.STRING)
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
     MyOperator(
         name = "IsIri",
         type = OperatorType.BuildInCall,
@@ -1053,6 +1405,57 @@ public val operators = listOf(
     ),
     MyOperator(
         name = "IRI",
+        type = OperatorType.BuildInCall,
+        additionalParametersDefinition = arrayOf("@JvmField public var prefix: String"),
+        imports = mutableSetOf("kotlin.jvm.JvmField"),
+        additionalParametersName = arrayOf("prefix"),
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.IRI),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}")
+                    onResult(indention, ETripleComponentTypeExt.IRI)
+                },
+                generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
+                    imports.add("lupos.s00misc.ByteArrayWrapper")
+                    globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
+                    target.appendLine("${indention}${inputNames[0]}.copyInto($outputName)")
+                    onResult(indention, ETripleComponentTypeExt.IRI)
+                }
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: String = if (prefix.length > 0 && !prefix.endsWith('/')) {")
+                    target.appendLine("$indention    \"\$prefix/\$${inputNames[0]}\"")
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    \"\$prefix\$${inputNames[0]}\"")
+                    target.appendLine("$indention}")
+                    onResult(indention, ETripleComponentTypeExt.IRI)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}if (${inputNames[0]}_type == \"http://www.w3.org/2001/XMLSchema#string\") {")
+                    target.appendLine("$indention    val $outputName: String = if (prefix.length > 0 && !prefix.endsWith('/')) {")
+                    target.appendLine("$indention        \"\$prefix/\$${inputNames[0]}_content\"")
+                    target.appendLine("$indention    } else {")
+                    target.appendLine("$indention        \"\$prefix\$${inputNames[0]}_content\"")
+                    target.appendLine("$indention    }")
+                    onResult("$indention    ", ETripleComponentTypeExt.IRI)
+                    target.appendLine("$indention} else {")
+                    onResult("$indention    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention}")
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "URI",
         type = OperatorType.BuildInCall,
         additionalParametersDefinition = arrayOf("@JvmField public var prefix: String"),
         imports = mutableSetOf("kotlin.jvm.JvmField"),
@@ -1627,6 +2030,7 @@ public val converters = listOf(
             imports.add("lupos.dictionary.DictionaryHelper")
             imports.add("lupos.s00misc.MyBigInteger")
             imports.add("lupos.s00misc.MyBigDecimal")
+            target.appendLine("${indention}val ${outputName}_str: String = DictionaryHelper.byteArrayToDateTime($inputName)")
             target.appendLine("${indention}val ${outputName}_year: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Year($inputName)")
             target.appendLine("${indention}val ${outputName}_month: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Month($inputName)")
             target.appendLine("${indention}val ${outputName}_day: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Day($inputName)")
