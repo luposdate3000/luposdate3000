@@ -882,7 +882,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName: Double = if(${inputNames[0]}) {")
+                    target.appendLine("${indention}val $outputName: Double = if (${inputNames[0]}) {")
                     target.appendLine("$indention    1.0")
                     target.appendLine("$indention} else {")
                     target.appendLine("$indention    0.0")
