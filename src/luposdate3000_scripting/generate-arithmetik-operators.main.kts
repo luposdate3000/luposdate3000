@@ -110,7 +110,7 @@ public val generateInstantiatedError2: GenerateFunc = { indention, _, _, _, _, _
 public val generateByteArrayWrapperError2: GenerateFunc = { indention, _, outputName, _, imports, target, globalVariables, onResult ->
     imports.add("lupos.s00misc.ByteArrayWrapper")
     imports.add("lupos.dictionary.DictionaryHelper")
-    globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+    globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
     target.appendLine("${indention}DictionaryHelper.errorToByteArray($outputName)")
     onResult(indention, ETripleComponentTypeExt.ERROR)
 }
@@ -122,7 +122,7 @@ public val generateInstantiatedTrue2: GenerateFunc = { indention, _, outputName,
 public val generateByteArrayWrapperTrue2: GenerateFunc = { indention, _, outputName, _, imports, target, globalVariables, onResult ->
     imports.add("lupos.s00misc.ByteArrayWrapper")
     imports.add("lupos.dictionary.DictionaryHelper")
-    globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+    globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
     target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName, true)")
     onResult(indention, ETripleComponentTypeExt.BOOLEAN)
 }
@@ -134,7 +134,7 @@ public val generateInstantiatedFalse2: GenerateFunc = { indention, _, outputName
 public val generateByteArrayWrapperFalse2: GenerateFunc = { indention, _, outputName, _, imports, target, globalVariables, onResult ->
     imports.add("lupos.s00misc.ByteArrayWrapper")
     imports.add("lupos.dictionary.DictionaryHelper")
-    globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+    globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
     target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName, false)")
     onResult(indention, ETripleComponentTypeExt.BOOLEAN)
 }
@@ -142,7 +142,7 @@ public val generateByteArrayWrapperFalse2: GenerateFunc = { indention, _, output
 fun generateByteArrayWrapperString(str: String): GenerateFunc = { indention, _, outputName, _, imports, target, globalVariables, onResult ->
     imports.add("lupos.s00misc.ByteArrayWrapper")
     imports.add("lupos.dictionary.DictionaryHelper")
-    globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+    globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
     target.appendLine("${indention}DictionaryHelper.stringToByteArray($outputName, \"$str\")")
     onResult(indention, ETripleComponentTypeExt.STRING)
 }
@@ -174,20 +174,20 @@ public class MyOperator(
         var myInputNames = Array<String>(inputNames.size) { inputNames[it] }
         var prefix_counter = 0
         if (representation == EParamRepresentation.ID) {
-            globalVariables.add("var $outputName : Int")
+            globalVariables.add("var $outputName: Int")
             for (i in 0 until inputNames.size) {
                 myInputNames[i] = "${prefix}_${prefix_counter++}"
                 imports.add("lupos.s00misc.ByteArrayWrapper")
-                globalVariables.add("val ${myInputNames[i]} : ByteArrayWrapper = ByteArrayWrapper()")
+                globalVariables.add("val ${myInputNames[i]}: ByteArrayWrapper = ByteArrayWrapper()")
                 target.appendLine("${indention}query.getDictionary().getValue(${myInputNames[i]}, ${inputNames[i]})")
             }
         } else {
-            globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+            globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
         }
         var typeNames = Array<String>(inputNames.size) { "${prefix}_${prefix_counter++}" }
         imports.add("lupos.s00misc.ETripleComponentType")
         for (i in 0 until inputNames.size) {
-            target.appendLine("${indention}val ${typeNames[i]} : ETripleComponentType = DictionaryHelper.byteArrayToType(${myInputNames[i]})")
+            target.appendLine("${indention}val ${typeNames[i]}: ETripleComponentType = DictionaryHelper.byteArrayToType(${myInputNames[i]})")
         }
         var myOutputName = outputName
         if (representation == EParamRepresentation.ID) {
@@ -318,17 +318,17 @@ public class MyOperator(
         clazz.appendLine("    override fun cloneOP(): IOPBase = AOP${type.str}$name(query$line4)")
         clazz.appendLine("    override fun evaluateID(row: IteratorBundle): () -> Int {")
         for (v in globalVariables) {
-            if (!v.contains(" res ")) {
+            if (!v.contains(" res: ")) {
                 clazz.appendLine("        $v")
             }
         }
         for (i in 0 until implementations[0].childrenTypes.size) {
-            clazz.appendLine("        val child$i : () -> Int = (children[$i] as AOPBase).evaluateID(row)")
+            clazz.appendLine("        val child$i: () -> Int = (children[$i] as AOPBase).evaluateID(row)")
         }
         clazz.appendLine("        return {")
         clazz.appendLine("            var res: Int")
         for (i in 0 until implementations[0].childrenTypes.size) {
-            clazz.appendLine("            val childIn$i : Int = child$i()")
+            clazz.appendLine("            val childIn$i: Int = child$i()")
         }
         clazz.append(target.toString())
         clazz.appendLine("            res")
@@ -378,7 +378,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigInteger")
-                    target.appendLine("${indention}val $outputName : MyBigInteger = ${inputNames[0]}.abs()")
+                    target.appendLine("${indention}val $outputName: MyBigInteger = ${inputNames[0]}.abs()")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
             ),
@@ -386,7 +386,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigDecimal")
-                    target.appendLine("${indention}val $outputName : MyBigDecimal = ${inputNames[0]}.abs()")
+                    target.appendLine("${indention}val $outputName: MyBigDecimal = ${inputNames[0]}.abs()")
                     onResult(indention, ETripleComponentTypeExt.DECIMAL)
                 },
             ),
@@ -394,7 +394,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("kotlin.math.abs")
-                    target.appendLine("${indention}val $outputName : Double = abs(${inputNames[0]})")
+                    target.appendLine("${indention}val $outputName: Double = abs(${inputNames[0]})")
                     onResult(indention, ETripleComponentTypeExt.DOUBLE)
                 },
             ),
@@ -402,7 +402,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("kotlin.math.abs")
-                    target.appendLine("${indention}val $outputName : Double = abs(${inputNames[0]})")
+                    target.appendLine("${indention}val $outputName: Double = abs(${inputNames[0]})")
                     onResult(indention, ETripleComponentTypeExt.FLOAT)
                 },
             ),
@@ -419,12 +419,12 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigInteger")
-                    target.appendLine("${indention}val $outputName : MyBigInteger = ${inputNames[0]}")
+                    target.appendLine("${indention}val $outputName: MyBigInteger = ${inputNames[0]}")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
                 generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
                     imports.add("lupos.s00misc.ByteArrayWrapper")
-                    globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+                    globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
                     target.appendLine("${indention}${inputNames[0]}.copyInto($outputName)")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 }
@@ -433,7 +433,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigDecimal")
-                    target.appendLine("${indention}val $outputName : MyBigDecimal = ${inputNames[0]}.round()")
+                    target.appendLine("${indention}val $outputName: MyBigDecimal = ${inputNames[0]}.round()")
                     onResult(indention, ETripleComponentTypeExt.DECIMAL)
                 },
             ),
@@ -441,7 +441,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("kotlin.math.roundToInt")
-                    target.appendLine("${indention}val $outputName : Double = ${inputNames[0]}.roundToInt().toDouble()")
+                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.roundToInt().toDouble()")
                     onResult(indention, ETripleComponentTypeExt.DOUBLE)
                 },
             ),
@@ -449,7 +449,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("kotlin.math.roundToInt")
-                    target.appendLine("${indention}val $outputName : Double = ${inputNames[0]}.roundToInt().toDouble()")
+                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.roundToInt().toDouble()")
                     onResult(indention, ETripleComponentTypeExt.FLOAT)
                 },
             ),
@@ -466,12 +466,12 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigInteger")
-                    target.appendLine("${indention}val $outputName : MyBigInteger = ${inputNames[0]}")
+                    target.appendLine("${indention}val $outputName: MyBigInteger = ${inputNames[0]}")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
                 generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
                     imports.add("lupos.s00misc.ByteArrayWrapper")
-                    globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+                    globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
                     target.appendLine("${indention}${inputNames[0]}.copyInto($outputName)")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 }
@@ -480,7 +480,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigDecimal")
-                    target.appendLine("${indention}val $outputName : MyBigDecimal = ${inputNames[0]}.floor()")
+                    target.appendLine("${indention}val $outputName: MyBigDecimal = ${inputNames[0]}.floor()")
                     onResult(indention, ETripleComponentTypeExt.DECIMAL)
                 },
             ),
@@ -488,7 +488,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("kotlin.math.floor")
-                    target.appendLine("${indention}val $outputName : Double = floor(${inputNames[0]})")
+                    target.appendLine("${indention}val $outputName: Double = floor(${inputNames[0]})")
                     onResult(indention, ETripleComponentTypeExt.DOUBLE)
                 },
             ),
@@ -496,7 +496,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("kotlin.math.floor")
-                    target.appendLine("${indention}val $outputName : Double = floor(${inputNames[0]})")
+                    target.appendLine("${indention}val $outputName: Double = floor(${inputNames[0]})")
                     onResult(indention, ETripleComponentTypeExt.FLOAT)
                 },
             ),
@@ -513,12 +513,12 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigInteger")
-                    target.appendLine("${indention}val $outputName : MyBigInteger = ${inputNames[0]}")
+                    target.appendLine("${indention}val $outputName: MyBigInteger = ${inputNames[0]}")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
                 generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
                     imports.add("lupos.s00misc.ByteArrayWrapper")
-                    globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+                    globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
                     target.appendLine("${indention}${inputNames[0]}.copyInto($outputName)")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 }
@@ -527,7 +527,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigDecimal")
-                    target.appendLine("${indention}val $outputName : MyBigDecimal = ${inputNames[0]}.ceil()")
+                    target.appendLine("${indention}val $outputName: MyBigDecimal = ${inputNames[0]}.ceil()")
                     onResult(indention, ETripleComponentTypeExt.DECIMAL)
                 },
             ),
@@ -535,7 +535,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("kotlin.math.ceil")
-                    target.appendLine("${indention}val $outputName : Double = ceil(${inputNames[0]})")
+                    target.appendLine("${indention}val $outputName: Double = ceil(${inputNames[0]})")
                     onResult(indention, ETripleComponentTypeExt.DOUBLE)
                 },
             ),
@@ -543,7 +543,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("kotlin.math.ceil")
-                    target.appendLine("${indention}val $outputName : Double = ceil(${inputNames[0]})")
+                    target.appendLine("${indention}val $outputName: Double = ceil(${inputNames[0]})")
                     onResult(indention, ETripleComponentTypeExt.FLOAT)
                 },
             ),
@@ -579,7 +579,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigInteger")
-                    target.appendLine("${indention}val $outputName : MyBigInteger = MyBigInteger(${inputNames[0]}.length)")
+                    target.appendLine("${indention}val $outputName: MyBigInteger = MyBigInteger(${inputNames[0]}.length)")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
             ),
@@ -587,7 +587,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigInteger")
-                    target.appendLine("${indention}val $outputName : MyBigInteger = MyBigInteger(${inputNames[0]}_content.length)")
+                    target.appendLine("${indention}val $outputName: MyBigInteger = MyBigInteger(${inputNames[0]}_content.length)")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
             ),
@@ -595,7 +595,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigInteger")
-                    target.appendLine("${indention}val $outputName : MyBigInteger = MyBigInteger(${inputNames[0]}_content.length)")
+                    target.appendLine("${indention}val $outputName: MyBigInteger = MyBigInteger(${inputNames[0]}_content.length)")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
             ),
@@ -612,7 +612,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigInteger")
-                    target.appendLine("${indention}val $outputName : MyBigInteger = ${inputNames[0]}_day")
+                    target.appendLine("${indention}val $outputName: MyBigInteger = ${inputNames[0]}_day")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
             ),
@@ -629,7 +629,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigInteger")
-                    target.appendLine("${indention}val $outputName : MyBigInteger = ${inputNames[0]}_month")
+                    target.appendLine("${indention}val $outputName: MyBigInteger = ${inputNames[0]}_month")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
             ),
@@ -646,7 +646,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigInteger")
-                    target.appendLine("${indention}val $outputName : MyBigInteger = ${inputNames[0]}_hours")
+                    target.appendLine("${indention}val $outputName: MyBigInteger = ${inputNames[0]}_hours")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
             ),
@@ -663,7 +663,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigInteger")
-                    target.appendLine("${indention}val $outputName : MyBigInteger = ${inputNames[0]}_minutes")
+                    target.appendLine("${indention}val $outputName: MyBigInteger = ${inputNames[0]}_minutes")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
             ),
@@ -680,7 +680,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigInteger")
-                    target.appendLine("${indention}val $outputName : MyBigInteger = ${inputNames[0]}_year")
+                    target.appendLine("${indention}val $outputName: MyBigInteger = ${inputNames[0]}_year")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
             ),
@@ -697,7 +697,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigDecimal")
-                    target.appendLine("${indention}val $outputName : MyBigDecimal = ${inputNames[0]}_seconds")
+                    target.appendLine("${indention}val $outputName: MyBigDecimal = ${inputNames[0]}_seconds")
                     onResult(indention, ETripleComponentTypeExt.DECIMAL)
                 },
             ),
@@ -713,7 +713,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName : String = ${inputNames[0]}_tz")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_tz")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
             ),
@@ -729,7 +729,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName : String = ${inputNames[0]}_timezone")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_timezone")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
             ),
@@ -799,84 +799,84 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.ERROR),
                 generateInstantiated = { indention, _, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName : Int = query.getDictionary().createNewBNode(\"ERROR_ERROR\")")
+                    target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"ERROR_ERROR\")")
                     onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.UNDEF),
                 generateInstantiated = { indention, _, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName : Int = query.getDictionary().createNewBNode(\"UNDEF_UNDEF\")")
+                    target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"UNDEF_UNDEF\")")
                     onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.BLANK_NODE),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName : Int = query.getDictionary().createNewBNode(\"BLANK_NODE_\${${inputNames[0]}}\")")
+                    target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"BLANK_NODE_\${${inputNames[0]}}\")")
                     onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName : Int = query.getDictionary().createNewBNode(\"BOOLEAN_\${${inputNames[0]}}\")")
+                    target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"BOOLEAN_\${${inputNames[0]}}\")")
                     onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName : Int = query.getDictionary().createNewBNode(\"DECIMAL_\${${inputNames[0]}.toString()}\")")
+                    target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"DECIMAL_\${${inputNames[0]}.toString()}\")")
                     onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName : Int = query.getDictionary().createNewBNode(\"DOUBLE_\${${inputNames[0]}.toString()}\")")
+                    target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"DOUBLE_\${${inputNames[0]}.toString()}\")")
                     onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName : Int = query.getDictionary().createNewBNode(\"FLOAT_\${${inputNames[0]}.toString()}\")")
+                    target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"FLOAT_\${${inputNames[0]}.toString()}\")")
                     onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName : Int = query.getDictionary().createNewBNode(\"INTEGER_\${${inputNames[0]}.toString()}\")")
+                    target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"INTEGER_\${${inputNames[0]}.toString()}\")")
                     onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.IRI),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName : Int = query.getDictionary().createNewBNode(\"IRI_\${${inputNames[0]}.toString()}\")")
+                    target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"IRI_\${${inputNames[0]}.toString()}\")")
                     onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName : Int = query.getDictionary().createNewBNode(\"STRING_\${${inputNames[0]}.toString()}\")")
+                    target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"STRING_\${${inputNames[0]}.toString()}\")")
                     onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName : Int = query.getDictionary().createNewBNode(\"STRING_LANG_\${${inputNames[0]}_content.toString()}_\${${inputNames[0]}_lang.toString()}\")")
+                    target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"STRING_LANG_\${${inputNames[0]}_content.toString()}_\${${inputNames[0]}_lang.toString()}\")")
                     onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName : Int = query.getDictionary().createNewBNode(\"STRING_TYPED_\${${inputNames[0]}_content.toString()}_\${${inputNames[0]}_type.toString()}\")")
+                    target.appendLine("${indention}val $outputName: Int = query.getDictionary().createNewBNode(\"STRING_TYPED_\${${inputNames[0]}_content.toString()}_\${${inputNames[0]}_type.toString()}\")")
                     onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                 },
             ),
@@ -971,7 +971,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName : String = ${inputNames[0]}_type")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_type")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
             ),
@@ -991,12 +991,12 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.IRI),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName : String = ${inputNames[0]}")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}")
                     onResult(indention, ETripleComponentTypeExt.IRI)
                 },
                 generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
                     imports.add("lupos.s00misc.ByteArrayWrapper")
-                    globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+                    globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
                     target.appendLine("${indention}${inputNames[0]}.copyInto($outputName)")
                     onResult(indention, ETripleComponentTypeExt.IRI)
                 }
@@ -1004,7 +1004,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName : String = if (prefix.length > 0 && !prefix.endsWith('/')) {")
+                    target.appendLine("${indention}val $outputName: String = if (prefix.length > 0 && !prefix.endsWith('/')) {")
                     target.appendLine("$indention    \"\$prefix/\$${inputNames[0]}\"")
                     target.appendLine("$indention} else {")
                     target.appendLine("$indention    \"\$prefix\$${inputNames[0]}\"")
@@ -1016,7 +1016,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
                     target.appendLine("${indention}if (${inputNames[0]}_type == \"http://www.w3.org/2001/XMLSchema#string\") {")
-                    target.appendLine("$indention    val $outputName : String = if (prefix.length > 0 && !prefix.endsWith('/')) {")
+                    target.appendLine("$indention    val $outputName: String = if (prefix.length > 0 && !prefix.endsWith('/')) {")
                     target.appendLine("$indention        \"\$prefix/\$${inputNames[0]}_content\"")
                     target.appendLine("$indention    } else {")
                     target.appendLine("$indention        \"\$prefix\$${inputNames[0]}_content\"")
@@ -1048,7 +1048,7 @@ public val operators = listOf(
                         imports.add("lupos.s00misc.MyBigDecimal")
                         onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName : MyBigDecimal = ${inputNames[0]}.toMyBigDecimal() / ${inputNames[1]}.toMyBigDecimal()")
+                        target.appendLine("$indention    val $outputName: MyBigDecimal = ${inputNames[0]}.toMyBigDecimal() / ${inputNames[1]}.toMyBigDecimal()")
                         onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
                         target.appendLine("$indention}")
                     },
@@ -1076,7 +1076,7 @@ public val operators = listOf(
                         imports.add("lupos.s00misc.MyBigDecimal")
                         onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName : MyBigInteger = ${inputNames[0]} + ${inputNames[1]}")
+                        target.appendLine("$indention    val $outputName: MyBigInteger = ${inputNames[0]} + ${inputNames[1]}")
                         onResult(indention + "    ", ETripleComponentTypeExt.INTEGER)
                         target.appendLine("$indention}")
                     },
@@ -1104,7 +1104,7 @@ public val operators = listOf(
                         imports.add("lupos.s00misc.MyBigDecimal")
                         onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName : MyBigInteger = ${inputNames[0]} - ${inputNames[1]}")
+                        target.appendLine("$indention    val $outputName: MyBigInteger = ${inputNames[0]} - ${inputNames[1]}")
                         onResult(indention + "    ", ETripleComponentTypeExt.INTEGER)
                         target.appendLine("$indention}")
                     },
@@ -1132,7 +1132,7 @@ public val operators = listOf(
                         imports.add("lupos.s00misc.MyBigDecimal")
                         onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName : MyBigInteger = ${inputNames[0]} * ${inputNames[1]}")
+                        target.appendLine("$indention    val $outputName: MyBigInteger = ${inputNames[0]} * ${inputNames[1]}")
                         onResult(indention + "    ", ETripleComponentTypeExt.INTEGER)
                         target.appendLine("$indention}")
                     },
@@ -1155,7 +1155,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == MyBigInteger(\"0\")) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName : MyBigDecimal = ${inputNames[0]} $operator ${inputNames[1]}.toMyBigDecimal()")
+            target.appendLine("$indention    val $outputName: MyBigDecimal = ${inputNames[0]} $operator ${inputNames[1]}.toMyBigDecimal()")
             onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
             target.appendLine("$indention}")
         },
@@ -1167,7 +1167,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == MyBigInteger(\"0\")) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName : Double = ${inputNames[0]} $operator ${inputNames[1]}.toDouble()")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.toDouble()")
             onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
             target.appendLine("$indention}")
         },
@@ -1179,7 +1179,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == MyBigInteger(\"0\")) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName : Double = ${inputNames[0]} $operator ${inputNames[1]}.toDouble()")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.toDouble()")
             onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
             target.appendLine("$indention}")
         },
@@ -1191,7 +1191,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == MyBigDecimal(\"0.0\")) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName : MyBigDecimal = ${inputNames[0]}.toMyBigDecimal() $operator ${inputNames[1]}")
+            target.appendLine("$indention    val $outputName: MyBigDecimal = ${inputNames[0]}.toMyBigDecimal() $operator ${inputNames[1]}")
             onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
             target.appendLine("$indention}")
         },
@@ -1203,7 +1203,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == MyBigDecimal(\"0.0\")) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName : MyBigDecimal = ${inputNames[0]} $operator ${inputNames[1]}")
+            target.appendLine("$indention    val $outputName: MyBigDecimal = ${inputNames[0]} $operator ${inputNames[1]}")
             onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
             target.appendLine("$indention}")
         },
@@ -1215,7 +1215,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == MyBigDecimal(\"0.0\")) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName : Double = ${inputNames[0]} $operator ${inputNames[1]}.toDouble()")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.toDouble()")
             onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
             target.appendLine("$indention}")
         },
@@ -1227,7 +1227,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == MyBigDecimal(\"0.0\")) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName : Double = ${inputNames[0]} $operator ${inputNames[1]}.toDouble()")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.toDouble()")
             onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
             target.appendLine("$indention}")
         },
@@ -1238,7 +1238,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName : Double = ${inputNames[0]}.toDouble() $operator ${inputNames[1]}")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.toDouble() $operator ${inputNames[1]}")
             onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
             target.appendLine("$indention}")
         },
@@ -1249,7 +1249,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName : Double = ${inputNames[0]}.toDouble() $operator ${inputNames[1]}")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.toDouble() $operator ${inputNames[1]}")
             onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
             target.appendLine("$indention}")
         },
@@ -1260,7 +1260,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName : Double = ${inputNames[0]} $operator ${inputNames[1]}")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}")
             onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
             target.appendLine("$indention}")
         },
@@ -1271,7 +1271,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName : Double = ${inputNames[0]} $operator ${inputNames[1]}")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}")
             onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
             target.appendLine("$indention}")
         },
@@ -1282,7 +1282,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName : Double = ${inputNames[0]}.toDouble() $operator ${inputNames[1]}")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.toDouble() $operator ${inputNames[1]}")
             onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
             target.appendLine("$indention}")
         },
@@ -1293,7 +1293,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName : Double = ${inputNames[0]}.toDouble() $operator ${inputNames[1]}")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.toDouble() $operator ${inputNames[1]}")
             onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
             target.appendLine("$indention}")
         },
@@ -1304,7 +1304,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName : Double = ${inputNames[0]} $operator ${inputNames[1]}")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}")
             onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
             target.appendLine("$indention}")
         },
@@ -1315,7 +1315,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName : Double = ${inputNames[0]} $operator ${inputNames[1]}")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}")
             onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
             target.appendLine("$indention}")
         },
@@ -1330,7 +1330,7 @@ public val converters = listOf(
         generate = { indention, inputName, outputName, imports, target, _ ->
             imports.add("lupos.dictionary.DictionaryHelper")
             imports.add("lupos.s00misc.MyBigInteger")
-            target.appendLine("${indention}val $outputName : MyBigInteger = DictionaryHelper.byteArrayToInteger_I($inputName)")
+            target.appendLine("${indention}val $outputName: MyBigInteger = DictionaryHelper.byteArrayToInteger_I($inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -1340,7 +1340,7 @@ public val converters = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
             imports.add("lupos.s00misc.ByteArrayWrapper")
             imports.add("lupos.dictionary.DictionaryHelper")
-            globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+            globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.integerToByteArray($outputName, $inputName.toString())")
         }
     ),
@@ -1351,7 +1351,7 @@ public val converters = listOf(
         generate = { indention, inputName, outputName, imports, target, _ ->
             imports.add("lupos.dictionary.DictionaryHelper")
             imports.add("lupos.s00misc.MyBigDecimal")
-            target.appendLine("${indention}val $outputName : MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I($inputName)")
+            target.appendLine("${indention}val $outputName: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I($inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -1361,7 +1361,7 @@ public val converters = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
             imports.add("lupos.s00misc.ByteArrayWrapper")
             imports.add("lupos.dictionary.DictionaryHelper")
-            globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+            globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.decimalToByteArray($outputName, $inputName.toString())")
         }
     ),
@@ -1371,7 +1371,7 @@ public val converters = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _ ->
             imports.add("lupos.dictionary.DictionaryHelper")
-            target.appendLine("${indention}val $outputName : Double = DictionaryHelper.byteArrayToDouble($inputName)")
+            target.appendLine("${indention}val $outputName: Double = DictionaryHelper.byteArrayToDouble($inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -1381,7 +1381,7 @@ public val converters = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
             imports.add("lupos.s00misc.ByteArrayWrapper")
             imports.add("lupos.dictionary.DictionaryHelper")
-            globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+            globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.doubleToByteArray($outputName, $inputName)")
         }
     ),
@@ -1391,7 +1391,7 @@ public val converters = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _ ->
             imports.add("lupos.dictionary.DictionaryHelper")
-            target.appendLine("${indention}val $outputName : Double = DictionaryHelper.byteArrayToFloat($inputName)")
+            target.appendLine("${indention}val $outputName: Double = DictionaryHelper.byteArrayToFloat($inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -1400,8 +1400,8 @@ public val converters = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _ ->
             imports.add("lupos.dictionary.DictionaryHelper")
-            target.appendLine("${indention}val ${outputName}_content : String = DictionaryHelper.byteArrayToTyped_Content($inputName)")
-            target.appendLine("${indention}val ${outputName}_type : String = DictionaryHelper.byteArrayToTyped_Type($inputName)")
+            target.appendLine("${indention}val ${outputName}_content: String = DictionaryHelper.byteArrayToTyped_Content($inputName)")
+            target.appendLine("${indention}val ${outputName}_type: String = DictionaryHelper.byteArrayToTyped_Type($inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -1410,8 +1410,8 @@ public val converters = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _ ->
             imports.add("lupos.dictionary.DictionaryHelper")
-            target.appendLine("${indention}val ${outputName}_content : String = DictionaryHelper.byteArrayToLang_Content($inputName)")
-            target.appendLine("${indention}val ${outputName}_lang : String = DictionaryHelper.byteArrayToLang_Lang($inputName)")
+            target.appendLine("${indention}val ${outputName}_content: String = DictionaryHelper.byteArrayToLang_Content($inputName)")
+            target.appendLine("${indention}val ${outputName}_lang: String = DictionaryHelper.byteArrayToLang_Lang($inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -1420,7 +1420,7 @@ public val converters = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _ ->
             imports.add("lupos.dictionary.DictionaryHelper")
-            target.appendLine("${indention}val $outputName : String = DictionaryHelper.byteArrayToIri($inputName)")
+            target.appendLine("${indention}val $outputName: String = DictionaryHelper.byteArrayToIri($inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -1429,7 +1429,7 @@ public val converters = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _ ->
             imports.add("lupos.dictionary.DictionaryHelper")
-            target.appendLine("${indention}val $outputName : String = DictionaryHelper.byteArrayToString($inputName)")
+            target.appendLine("${indention}val $outputName: String = DictionaryHelper.byteArrayToString($inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -1438,7 +1438,7 @@ public val converters = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _ ->
             imports.add("lupos.dictionary.DictionaryHelper")
-            target.appendLine("${indention}val $outputName : Int = DictionaryHelper.byteArrayToBnode_I($inputName)")
+            target.appendLine("${indention}val $outputName: Int = DictionaryHelper.byteArrayToBnode_I($inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -1447,7 +1447,7 @@ public val converters = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _ ->
             imports.add("lupos.dictionary.DictionaryHelper")
-            target.appendLine("${indention}val $outputName : Boolean = DictionaryHelper.byteArrayToBoolean($inputName)")
+            target.appendLine("${indention}val $outputName: Boolean = DictionaryHelper.byteArrayToBoolean($inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -1457,7 +1457,7 @@ public val converters = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
             imports.add("lupos.s00misc.ByteArrayWrapper")
             imports.add("lupos.dictionary.DictionaryHelper")
-            globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+            globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.bnodeToByteArray($outputName, $inputName)")
         }
     ),
@@ -1468,7 +1468,7 @@ public val converters = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
             imports.add("lupos.s00misc.ByteArrayWrapper")
             imports.add("lupos.dictionary.DictionaryHelper")
-            globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+            globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.stringToByteArray($outputName, $inputName)")
         }
     ),
@@ -1479,7 +1479,7 @@ public val converters = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
             imports.add("lupos.s00misc.ByteArrayWrapper")
             imports.add("lupos.dictionary.DictionaryHelper")
-            globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+            globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.iriToByteArray($outputName, $inputName)")
         }
     ),
@@ -1490,7 +1490,7 @@ public val converters = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
             imports.add("lupos.s00misc.ByteArrayWrapper")
             imports.add("lupos.dictionary.DictionaryHelper")
-            globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+            globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.floatToByteArray($outputName, $inputName)")
         }
     ),
@@ -1515,7 +1515,7 @@ public val converters = listOf(
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
             imports.add("lupos.s00misc.ByteArrayWrapper")
             imports.add("lupos.dictionary.DictionaryHelper")
-            globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+            globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName, $inputName)")
         }
     ),
@@ -1526,7 +1526,7 @@ public val converters = listOf(
         generate = { indention, _, outputName, imports, target, globalVariables ->
             imports.add("lupos.s00misc.ByteArrayWrapper")
             imports.add("lupos.dictionary.DictionaryHelper")
-            globalVariables.add("val $outputName : ByteArrayWrapper = ByteArrayWrapper()")
+            globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.errorToByteArray($outputName)")
         }
     ),
@@ -1538,14 +1538,14 @@ public val converters = listOf(
             imports.add("lupos.dictionary.DictionaryHelper")
             imports.add("lupos.s00misc.MyBigInteger")
             imports.add("lupos.s00misc.MyBigDecimal")
-            target.appendLine("${indention}val ${outputName}_year : MyBigInteger = DictionaryHelper.byteArrayToDateTime_Year($inputName)")
-            target.appendLine("${indention}val ${outputName}_month : MyBigInteger = DictionaryHelper.byteArrayToDateTime_Month($inputName)")
-            target.appendLine("${indention}val ${outputName}_day : MyBigInteger = DictionaryHelper.byteArrayToDateTime_Day($inputName)")
-            target.appendLine("${indention}val ${outputName}_hours : MyBigInteger = DictionaryHelper.byteArrayToDateTime_Hours($inputName)")
-            target.appendLine("${indention}val ${outputName}_minutes : MyBigInteger = DictionaryHelper.byteArrayToDateTime_Minutes($inputName)")
-            target.appendLine("${indention}val ${outputName}_seconds : MyBigDecimal = DictionaryHelper.byteArrayToDateTime_Seconds($inputName)")
-            target.appendLine("${indention}val ${outputName}_tz : String = DictionaryHelper.byteArrayToDateTime_TZ($inputName)")
-            target.appendLine("${indention}val ${outputName}_timezone : String = DictionaryHelper.byteArrayToDateTime_TimeZone($inputName)")
+            target.appendLine("${indention}val ${outputName}_year: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Year($inputName)")
+            target.appendLine("${indention}val ${outputName}_month: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Month($inputName)")
+            target.appendLine("${indention}val ${outputName}_day: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Day($inputName)")
+            target.appendLine("${indention}val ${outputName}_hours: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Hours($inputName)")
+            target.appendLine("${indention}val ${outputName}_minutes: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Minutes($inputName)")
+            target.appendLine("${indention}val ${outputName}_seconds: MyBigDecimal = DictionaryHelper.byteArrayToDateTime_Seconds($inputName)")
+            target.appendLine("${indention}val ${outputName}_tz: String = DictionaryHelper.byteArrayToDateTime_TZ($inputName)")
+            target.appendLine("${indention}val ${outputName}_timezone: String = DictionaryHelper.byteArrayToDateTime_TimeZone($inputName)")
         }
     ),
 )
