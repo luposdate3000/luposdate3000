@@ -1740,7 +1740,82 @@ public val operators = listOf(
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
     ),
-
+    MyOperator(
+        name = "And",
+        type = OperatorType.Basic,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.BOOLEAN),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]} && ${inputNames[1]}")
+                    onResult(indention, ETripleComponentTypeExt.BOOLEAN)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}if (${inputNames[0]}) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: Boolean = false")
+                    onResult(indention + "    ", ETripleComponentTypeExt.BOOLEAN)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.BOOLEAN),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}if (${inputNames[1]}) {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention} else {")
+                    target.appendLine("$indention    val $outputName: Boolean = false")
+                    onResult(indention + "    ", ETripleComponentTypeExt.BOOLEAN)
+                    target.appendLine("$indention}")
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+    MyOperator(
+        name = "Or",
+        type = OperatorType.Basic,
+        implementations = arrayOf(
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.BOOLEAN),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}val $outputName: Boolean = ${inputNames[0]} || ${inputNames[1]}")
+                    onResult(indention, ETripleComponentTypeExt.BOOLEAN)
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}if (${inputNames[0]}) {")
+                    target.appendLine("$indention    val $outputName: Boolean = true")
+                    onResult(indention + "    ", ETripleComponentTypeExt.BOOLEAN)
+                    target.appendLine("$indention} else {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention}")
+                },
+            ),
+            MyOperatorPart(
+                childrenTypes = arrayOf(ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.BOOLEAN),
+                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+                    target.appendLine("${indention}if (${inputNames[1]}) {")
+                    target.appendLine("$indention    val $outputName: Boolean = true")
+                    onResult(indention + "    ", ETripleComponentTypeExt.BOOLEAN)
+                    target.appendLine("$indention} else {")
+                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                    target.appendLine("$indention}")
+                },
+            ),
+        ),
+        generateInstantiatedOther = generateInstantiatedError,
+        generateIDOther = generateIDError,
+        generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
     MyOperator(
         name = "MD5",
         type = OperatorType.BuildInCall,
