@@ -1035,7 +1035,6 @@ public val operators = listOf(
     MyOperator(
         name = "Division",
         type = OperatorType.Basic,
-        imports = mutableSetOf("kotlin.jvm.JvmField"),
         additionalParametersName = arrayOf("prefix"),
         implementations = {
             val res = mutableListOf<MyOperatorPart>()
@@ -1063,7 +1062,6 @@ public val operators = listOf(
     MyOperator(
         name = "Addition",
         type = OperatorType.Basic,
-        imports = mutableSetOf("kotlin.jvm.JvmField"),
         additionalParametersName = arrayOf("prefix"),
         implementations = {
             val res = mutableListOf<MyOperatorPart>()
@@ -1091,7 +1089,6 @@ public val operators = listOf(
     MyOperator(
         name = "Subtraction",
         type = OperatorType.Basic,
-        imports = mutableSetOf("kotlin.jvm.JvmField"),
         additionalParametersName = arrayOf("prefix"),
         implementations = {
             val res = mutableListOf<MyOperatorPart>()
@@ -1119,7 +1116,6 @@ public val operators = listOf(
     MyOperator(
         name = "Multiplication",
         type = OperatorType.Basic,
-        imports = mutableSetOf("kotlin.jvm.JvmField"),
         additionalParametersName = arrayOf("prefix"),
         implementations = {
             val res = mutableListOf<MyOperatorPart>()
