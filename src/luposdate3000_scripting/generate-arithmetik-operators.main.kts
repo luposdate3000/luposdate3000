@@ -793,195 +793,203 @@ public val operators = listOf(
         type = OperatorType.Basic,
         imports = mutableSetOf("kotlin.jvm.JvmField"),
         additionalParametersName = arrayOf("prefix"),
-        implementations = arrayOf(
-            MyOperatorPart(
-                childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.INTEGER),
-                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    target.appendLine("${indention}if (${inputNames[1]} == MyBigInteger(\"0\")) {")
-                    imports.add("lupos.s00misc.MyBigDecimal")
-                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                    target.appendLine("$indention} else {")
-                    target.appendLine("$indention    val $outputName = ${inputNames[0]}.toMyBigDecimal() / ${inputNames[1]}.toMyBigDecimal()")
-                    onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
-                    target.appendLine("$indention}")
-                },
-            ),
-            MyOperatorPart(
-                childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.INTEGER),
-                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("lupos.s00misc.MyBigInteger")
-                    target.appendLine("${indention}if (${inputNames[1]} == MyBigInteger(\"0\")) {")
-                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                    target.appendLine("$indention} else {")
-                    target.appendLine("$indention    val $outputName = ${inputNames[0]} / ${inputNames[1]}.toMyBigDecimal()")
-                    onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
-                    target.appendLine("$indention}")
-                },
-            ),
-            MyOperatorPart(
-                childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER),
-                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("lupos.s00misc.MyBigInteger")
-                    target.appendLine("${indention}if (${inputNames[1]} == MyBigInteger(\"0\")) {")
-                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                    target.appendLine("$indention} else {")
-                    target.appendLine("$indention    val $outputName = ${inputNames[0]} / ${inputNames[1]}.toDouble()")
-                    onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
-                    target.appendLine("$indention}")
-                },
-            ),
-            MyOperatorPart(
-                childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.INTEGER),
-                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("lupos.s00misc.MyBigInteger")
-                    target.appendLine("${indention}if (${inputNames[1]} == MyBigInteger(\"0\")) {")
-                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                    target.appendLine("$indention} else {")
-                    target.appendLine("$indention    val $outputName = ${inputNames[0]} / ${inputNames[1]}.toDouble()")
-                    onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                    target.appendLine("$indention}")
-                },
-            ),
-            MyOperatorPart(
-                childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.DECIMAL),
-                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("lupos.s00misc.MyBigDecimal")
-                    target.appendLine("${indention}if (${inputNames[1]} == MyBigDecimal(\"0.0\")) {")
-                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                    target.appendLine("$indention} else {")
-                    target.appendLine("$indention    val $outputName = ${inputNames[0]}.toMyBigDecimal() / ${inputNames[1]}")
-                    onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
-                    target.appendLine("$indention}")
-                },
-            ),
-            MyOperatorPart(
-                childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DECIMAL),
-                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("lupos.s00misc.MyBigDecimal")
-                    target.appendLine("${indention}if (${inputNames[1]} == MyBigDecimal(\"0.0\")) {")
-                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                    target.appendLine("$indention} else {")
-                    target.appendLine("$indention    val $outputName = ${inputNames[0]} / ${inputNames[1]}")
-                    onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
-                    target.appendLine("$indention}")
-                },
-            ),
-            MyOperatorPart(
-                childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.DECIMAL),
-                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("lupos.s00misc.MyBigDecimal")
-                    target.appendLine("${indention}if (${inputNames[1]} == MyBigDecimal(\"0.0\")) {")
-                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                    target.appendLine("$indention} else {")
-                    target.appendLine("$indention    val $outputName = ${inputNames[0]} / ${inputNames[1]}.toDouble()")
-                    onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
-                    target.appendLine("$indention}")
-                },
-            ),
-            MyOperatorPart(
-                childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.DECIMAL),
-                generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("lupos.s00misc.MyBigDecimal")
-                    target.appendLine("${indention}if (${inputNames[1]} == MyBigDecimal(\"0.0\")) {")
-                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                    target.appendLine("$indention} else {")
-                    target.appendLine("$indention    val $outputName = ${inputNames[0]} / ${inputNames[1]}.toDouble()")
-                    onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                    target.appendLine("$indention}")
-                },
-            ),
-            MyOperatorPart(
-                childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.FLOAT),
-                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
-                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                    target.appendLine("$indention} else {")
-                    target.appendLine("$indention    val $outputName = ${inputNames[0]}.toDouble() / ${inputNames[1]}")
-                    onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
-                    target.appendLine("$indention}")
-                },
-            ),
-            MyOperatorPart(
-                childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.FLOAT),
-                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
-                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                    target.appendLine("$indention} else {")
-                    target.appendLine("$indention    val $outputName = ${inputNames[0]}.toDouble() / ${inputNames[1]}")
-                    onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
-                    target.appendLine("$indention}")
-                },
-            ),
-            MyOperatorPart(
-                childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.FLOAT),
-                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
-                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                    target.appendLine("$indention} else {")
-                    target.appendLine("$indention    val $outputName = ${inputNames[0]} / ${inputNames[1]}")
-                    onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
-                    target.appendLine("$indention}")
-                },
-            ),
-            MyOperatorPart(
-                childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.FLOAT),
-                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
-                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                    target.appendLine("$indention} else {")
-                    target.appendLine("$indention    val $outputName = ${inputNames[0]} / ${inputNames[1]}")
-                    onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                    target.appendLine("$indention}")
-                },
-            ),
-            MyOperatorPart(
-                childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.DOUBLE),
-                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
-                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                    target.appendLine("$indention} else {")
-                    target.appendLine("$indention    val $outputName = ${inputNames[0]}.toDouble() / ${inputNames[1]}")
-                    onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                    target.appendLine("$indention}")
-                },
-            ),
-            MyOperatorPart(
-                childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE),
-                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
-                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                    target.appendLine("$indention} else {")
-                    target.appendLine("$indention    val $outputName = ${inputNames[0]}.toDouble() / ${inputNames[1]}")
-                    onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                    target.appendLine("$indention}")
-                },
-            ),
-            MyOperatorPart(
-                childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.DOUBLE),
-                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
-                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                    target.appendLine("$indention} else {")
-                    target.appendLine("$indention    val $outputName = ${inputNames[0]} / ${inputNames[1]}")
-                    onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                    target.appendLine("$indention}")
-                },
-            ),
-            MyOperatorPart(
-                childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.DOUBLE),
-                generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
-                    onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                    target.appendLine("$indention} else {")
-                    target.appendLine("$indention    val $outputName = ${inputNames[0]} / ${inputNames[1]}")
-                    onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
-                    target.appendLine("$indention}")
-                },
-            ),
-        ),
+        implementations = {
+            val res = mutableListOf<MyOperatorPart>()
+            res.addAll(generateBinaryOperatorStub("/"))
+            res.add(
+                MyOperatorPart(
+                    childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.INTEGER),
+                    generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+                        target.appendLine("${indention}if (${inputNames[1]} == MyBigInteger(\"0\")) {")
+                        imports.add("lupos.s00misc.MyBigDecimal")
+                        onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+                        target.appendLine("$indention} else {")
+                        target.appendLine("$indention    val $outputName = ${inputNames[0]}.toMyBigDecimal() / ${inputNames[1]}.toMyBigDecimal()")
+                        onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
+                        target.appendLine("$indention}")
+                    },
+                ),
+            )
+            res
+        }().toTypedArray(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
+    ),
+)
+
+fun generateBinaryOperatorStub(operator: String): Array<MyOperatorPart> = arrayOf(
+    MyOperatorPart(
+        childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.INTEGER),
+        generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+            imports.add("lupos.s00misc.MyBigInteger")
+            target.appendLine("${indention}if (${inputNames[1]} == MyBigInteger(\"0\")) {")
+            onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+            target.appendLine("$indention} else {")
+            target.appendLine("$indention    val $outputName = ${inputNames[0]} $operator ${inputNames[1]}.toMyBigDecimal()")
+            onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
+            target.appendLine("$indention}")
+        },
+    ),
+    MyOperatorPart(
+        childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER),
+        generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+            imports.add("lupos.s00misc.MyBigInteger")
+            target.appendLine("${indention}if (${inputNames[1]} == MyBigInteger(\"0\")) {")
+            onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+            target.appendLine("$indention} else {")
+            target.appendLine("$indention    val $outputName = ${inputNames[0]} $operator ${inputNames[1]}.toDouble()")
+            onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
+            target.appendLine("$indention}")
+        },
+    ),
+    MyOperatorPart(
+        childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.INTEGER),
+        generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+            imports.add("lupos.s00misc.MyBigInteger")
+            target.appendLine("${indention}if (${inputNames[1]} == MyBigInteger(\"0\")) {")
+            onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+            target.appendLine("$indention} else {")
+            target.appendLine("$indention    val $outputName = ${inputNames[0]} $operator ${inputNames[1]}.toDouble()")
+            onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+            target.appendLine("$indention}")
+        },
+    ),
+    MyOperatorPart(
+        childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.DECIMAL),
+        generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+            imports.add("lupos.s00misc.MyBigDecimal")
+            target.appendLine("${indention}if (${inputNames[1]} == MyBigDecimal(\"0.0\")) {")
+            onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+            target.appendLine("$indention} else {")
+            target.appendLine("$indention    val $outputName = ${inputNames[0]}.toMyBigDecimal() $operator ${inputNames[1]}")
+            onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
+            target.appendLine("$indention}")
+        },
+    ),
+    MyOperatorPart(
+        childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DECIMAL),
+        generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+            imports.add("lupos.s00misc.MyBigDecimal")
+            target.appendLine("${indention}if (${inputNames[1]} == MyBigDecimal(\"0.0\")) {")
+            onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+            target.appendLine("$indention} else {")
+            target.appendLine("$indention    val $outputName = ${inputNames[0]} $operator ${inputNames[1]}")
+            onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
+            target.appendLine("$indention}")
+        },
+    ),
+    MyOperatorPart(
+        childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.DECIMAL),
+        generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+            imports.add("lupos.s00misc.MyBigDecimal")
+            target.appendLine("${indention}if (${inputNames[1]} == MyBigDecimal(\"0.0\")) {")
+            onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+            target.appendLine("$indention} else {")
+            target.appendLine("$indention    val $outputName = ${inputNames[0]} $operator ${inputNames[1]}.toDouble()")
+            onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
+            target.appendLine("$indention}")
+        },
+    ),
+    MyOperatorPart(
+        childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.DECIMAL),
+        generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
+            imports.add("lupos.s00misc.MyBigDecimal")
+            target.appendLine("${indention}if (${inputNames[1]} == MyBigDecimal(\"0.0\")) {")
+            onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+            target.appendLine("$indention} else {")
+            target.appendLine("$indention    val $outputName = ${inputNames[0]} $operator ${inputNames[1]}.toDouble()")
+            onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+            target.appendLine("$indention}")
+        },
+    ),
+    MyOperatorPart(
+        childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.FLOAT),
+        generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+            target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
+            onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+            target.appendLine("$indention} else {")
+            target.appendLine("$indention    val $outputName = ${inputNames[0]}.toDouble() $operator ${inputNames[1]}")
+            onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
+            target.appendLine("$indention}")
+        },
+    ),
+    MyOperatorPart(
+        childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.FLOAT),
+        generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+            target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
+            onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+            target.appendLine("$indention} else {")
+            target.appendLine("$indention    val $outputName = ${inputNames[0]}.toDouble() $operator ${inputNames[1]}")
+            onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
+            target.appendLine("$indention}")
+        },
+    ),
+    MyOperatorPart(
+        childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.FLOAT),
+        generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+            target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
+            onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+            target.appendLine("$indention} else {")
+            target.appendLine("$indention    val $outputName = ${inputNames[0]} $operator ${inputNames[1]}")
+            onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
+            target.appendLine("$indention}")
+        },
+    ),
+    MyOperatorPart(
+        childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.FLOAT),
+        generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+            target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
+            onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+            target.appendLine("$indention} else {")
+            target.appendLine("$indention    val $outputName = ${inputNames[0]} $operator ${inputNames[1]}")
+            onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+            target.appendLine("$indention}")
+        },
+    ),
+    MyOperatorPart(
+        childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.DOUBLE),
+        generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+            target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
+            onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+            target.appendLine("$indention} else {")
+            target.appendLine("$indention    val $outputName = ${inputNames[0]}.toDouble() $operator ${inputNames[1]}")
+            onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+            target.appendLine("$indention}")
+        },
+    ),
+    MyOperatorPart(
+        childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE),
+        generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+            target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
+            onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+            target.appendLine("$indention} else {")
+            target.appendLine("$indention    val $outputName = ${inputNames[0]}.toDouble() $operator ${inputNames[1]}")
+            onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+            target.appendLine("$indention}")
+        },
+    ),
+    MyOperatorPart(
+        childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.DOUBLE),
+        generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+            target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
+            onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+            target.appendLine("$indention} else {")
+            target.appendLine("$indention    val $outputName = ${inputNames[0]} $operator ${inputNames[1]}")
+            onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+            target.appendLine("$indention}")
+        },
+    ),
+    MyOperatorPart(
+        childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.DOUBLE),
+        generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
+            target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
+            onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
+            target.appendLine("$indention} else {")
+            target.appendLine("$indention    val $outputName = ${inputNames[0]} $operator ${inputNames[1]}")
+            onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
+            target.appendLine("$indention}")
+        },
     ),
 )
 
