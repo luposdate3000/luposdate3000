@@ -20,6 +20,16 @@ import lupos.s00misc.ByteArrayWrapper
 
 public abstract class ADictionary : IDictionary {
     private val bnodeMapToGlobal = mutableMapOf<Int, Int>()
+    private val bnodeMapLocal = mutableMapOf<String, Int>()
+    public fun createNewBNode(s: String): Int {
+        var res = bnodeMapLocal[s]
+        if (res != null) {
+            return res
+        }
+        res = createNewBNode()
+        bnodeMapLocal[s] = res
+        return res
+    }
 
     internal companion object {
         internal const val flagLocal = 0x40000000

@@ -43,7 +43,6 @@ public class AOPBuildInCallIRI public constructor(query: IQuery, child0: AOPBase
             when (tmp_1) {
                 ETripleComponentTypeExt.IRI -> {
                     tmp_0.copyInto(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING -> {
                     val tmp_4 = DictionaryHelper.byteArrayToString(tmp_0)
@@ -65,10 +64,11 @@ public class AOPBuildInCallIRI public constructor(query: IQuery, child0: AOPBase
                             "$prefix$tmp_7_content"
                         }
                         DictionaryHelper.iriToByteArray(tmp_2, tmp_8)
+                        res = query.getDictionary().createValue(tmp_2)
                     } else {
                         DictionaryHelper.errorToByteArray(tmp_2)
+                        res = query.getDictionary().createValue(tmp_2)
                     }
-                    res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {
                     res = DictionaryExt.errorValue

@@ -117,6 +117,7 @@ public class DictionaryKV : ADictionary {
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): Int {
+        SanityCheck.check { DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE }
         var res = kv.createValue(buffer)
         if (isLocal) {
             res = res or ADictionary.flagLocal
@@ -125,6 +126,7 @@ public class DictionaryKV : ADictionary {
     }
 
     public override fun hasValue(buffer: ByteArrayWrapper): Int? {
+        SanityCheck.check { DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE }
         if (isLocal) {
             val tmp = nodeGlobalDictionary.hasValue(buffer)
             if (tmp != null) {

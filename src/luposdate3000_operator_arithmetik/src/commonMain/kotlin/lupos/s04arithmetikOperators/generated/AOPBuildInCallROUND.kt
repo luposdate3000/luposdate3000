@@ -62,7 +62,6 @@ public class AOPBuildInCallROUND public constructor(query: IQuery, child0: AOPBa
                 }
                 ETripleComponentTypeExt.INTEGER -> {
                     tmp_0.copyInto(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {
                     res = DictionaryExt.errorValue

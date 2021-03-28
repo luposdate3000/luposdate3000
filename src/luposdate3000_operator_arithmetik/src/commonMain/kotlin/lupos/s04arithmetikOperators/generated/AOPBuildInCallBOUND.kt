@@ -42,11 +42,9 @@ public class AOPBuildInCallBOUND public constructor(query: IQuery, child0: AOPBa
             when (tmp_1) {
                 ETripleComponentTypeExt.ERROR -> {
                     DictionaryHelper.booleanToByteArray(tmp_2, false)
-                    res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.UNDEF -> {
                     DictionaryHelper.booleanToByteArray(tmp_2, false)
-                    res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {
                     res = DictionaryExt.booleanTrueValue

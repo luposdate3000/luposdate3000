@@ -42,15 +42,12 @@ public class AOPBuildInCallIsIri public constructor(query: IQuery, child0: AOPBa
             when (tmp_1) {
                 ETripleComponentTypeExt.ERROR -> {
                     DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.IRI -> {
                     DictionaryHelper.booleanToByteArray(tmp_2, true)
-                    res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.UNDEF -> {
                     DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {
                     res = DictionaryExt.booleanFalseValue

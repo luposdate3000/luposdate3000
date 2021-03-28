@@ -21,6 +21,7 @@ import lupos.s00misc.ByteArrayWrapper
 public interface IDictionary {
     public fun importFromDictionaryFile(filename: String): IntArray
     public fun createNewBNode(): Int
+    public fun createNewBNode(s: String): Int
     public fun getValue(buffer: ByteArrayWrapper, value: Int)
     public fun hasValue(buffer: ByteArrayWrapper): Int?
     public fun createValue(buffer: ByteArrayWrapper): Int

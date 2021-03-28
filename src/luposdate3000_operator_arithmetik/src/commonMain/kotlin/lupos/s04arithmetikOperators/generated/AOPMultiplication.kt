@@ -28,10 +28,10 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPDivision public constructor(query: IQuery, child0: AOPBase, child1: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPDivisionID, "AOPDivision", arrayOf(child0, child1,)) {
-    override fun toSparql(): String = "Division(${children[0].toSparql()}, ${children[1].toSparql()})"
-    override fun equals(other: Any?): Boolean = other is AOPDivision && children[0] == other.children[0] && children[1] == other.children[1]
-    override fun cloneOP(): IOPBase = AOPDivision(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
+public class AOPMultiplication public constructor(query: IQuery, child0: AOPBase, child1: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPMultiplicationID, "AOPMultiplication", arrayOf(child0, child1,)) {
+    override fun toSparql(): String = "Multiplication(${children[0].toSparql()}, ${children[1].toSparql()})"
+    override fun equals(other: Any?): Boolean = other is AOPMultiplication && children[0] == other.children[0] && children[1] == other.children[1]
+    override fun cloneOP(): IOPBase = AOPMultiplication(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
     override fun evaluateID(row: IteratorBundle): () -> Int {
         val tmp_0 = ByteArrayWrapper()
         val tmp_1 = ByteArrayWrapper()
@@ -56,7 +56,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_7 = tmp_5 / tmp_6
+                                val tmp_7 = tmp_5 * tmp_6
                                 DictionaryHelper.decimalToByteArray(tmp_4, tmp_7.toString())
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -68,7 +68,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_11 = tmp_9.toDouble() / tmp_10
+                                val tmp_11 = tmp_9.toDouble() * tmp_10
                                 DictionaryHelper.doubleToByteArray(tmp_4, tmp_11)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -80,7 +80,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_15 = tmp_13.toDouble() / tmp_14
+                                val tmp_15 = tmp_13.toDouble() * tmp_14
                                 DictionaryHelper.floatToByteArray(tmp_4, tmp_15)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -92,7 +92,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_19 = tmp_17 / tmp_18.toMyBigDecimal()
+                                val tmp_19 = tmp_17 * tmp_18.toMyBigDecimal()
                                 DictionaryHelper.decimalToByteArray(tmp_4, tmp_19.toString())
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -111,7 +111,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_24 = tmp_22 / tmp_23.toDouble()
+                                val tmp_24 = tmp_22 * tmp_23.toDouble()
                                 DictionaryHelper.doubleToByteArray(tmp_4, tmp_24)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -123,7 +123,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_28 = tmp_26 / tmp_27
+                                val tmp_28 = tmp_26 * tmp_27
                                 DictionaryHelper.doubleToByteArray(tmp_4, tmp_28)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -135,7 +135,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_32 = tmp_30 / tmp_31
+                                val tmp_32 = tmp_30 * tmp_31
                                 DictionaryHelper.doubleToByteArray(tmp_4, tmp_32)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -147,7 +147,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_36 = tmp_34 / tmp_35.toDouble()
+                                val tmp_36 = tmp_34 * tmp_35.toDouble()
                                 DictionaryHelper.doubleToByteArray(tmp_4, tmp_36)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -166,7 +166,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_41 = tmp_39 / tmp_40.toDouble()
+                                val tmp_41 = tmp_39 * tmp_40.toDouble()
                                 DictionaryHelper.floatToByteArray(tmp_4, tmp_41)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -178,7 +178,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_45 = tmp_43 / tmp_44
+                                val tmp_45 = tmp_43 * tmp_44
                                 DictionaryHelper.doubleToByteArray(tmp_4, tmp_45)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -190,7 +190,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_49 = tmp_47 / tmp_48
+                                val tmp_49 = tmp_47 * tmp_48
                                 DictionaryHelper.floatToByteArray(tmp_4, tmp_49)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -202,7 +202,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_53 = tmp_51 / tmp_52.toDouble()
+                                val tmp_53 = tmp_51 * tmp_52.toDouble()
                                 DictionaryHelper.floatToByteArray(tmp_4, tmp_53)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -221,7 +221,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_58 = tmp_56.toMyBigDecimal() / tmp_57
+                                val tmp_58 = tmp_56.toMyBigDecimal() * tmp_57
                                 DictionaryHelper.decimalToByteArray(tmp_4, tmp_58.toString())
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -233,7 +233,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_62 = tmp_60.toDouble() / tmp_61
+                                val tmp_62 = tmp_60.toDouble() * tmp_61
                                 DictionaryHelper.doubleToByteArray(tmp_4, tmp_62)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -245,7 +245,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_66 = tmp_64.toDouble() / tmp_65
+                                val tmp_66 = tmp_64.toDouble() * tmp_65
                                 DictionaryHelper.floatToByteArray(tmp_4, tmp_66)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -257,7 +257,7 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_70 = tmp_68.toMyBigDecimal() / tmp_69.toMyBigDecimal()
+                                val tmp_70 = tmp_68 * tmp_69
                                 DictionaryHelper.decimalToByteArray(tmp_4, tmp_70.toString())
                                 res = query.getDictionary().createValue(tmp_4)
                             }

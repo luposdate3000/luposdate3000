@@ -42,7 +42,7 @@ public object DictionaryHelper {
      * ETripleComponentTypeExt.BLANK_NODE
      * -> size=8
      *  -> int.ID
-     * -> size > 8
+     * -> size > 8 !!!! this is only used in intermediate file format
      *  -> string.len followed by string.content
      * ETripleComponentTypeExt.BOOLEAN
      * -> false if byte equals 0
@@ -192,6 +192,7 @@ public object DictionaryHelper {
     }
 
     public inline fun bnodeToByteArray(buffer: ByteArrayWrapper, value: String) {
+        SanityCheck.check { value.length > 0 }
         val buf1 = value.encodeToByteArray()
         buffer.setSize(8 + buf1.size)
         ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.BLANK_NODE)
@@ -206,9 +207,17 @@ public object DictionaryHelper {
         ByteArrayHelper.writeInt4(buffer.getBuf(), 4, value)
     }
 
-    public inline fun byteArrayToBnode(buffer: ByteArrayWrapper): String {
+    public inline fun byteArrayToBnode(buffer: ByteArrayWrapper): Int {
         if (buffer.getSize() == 8) {
-            return ByteArrayHelper.readInt4(buffer.getBuf(), 4).toString()
+            return ByteArrayHelper.readInt4(buffer.getBuf(), 4)
+        } else {
+            throw Exception("this is not ready to be used as instanciated value")
+        }
+    }
+
+    public inline fun byteArrayToBnodeIntermediate(buffer: ByteArrayWrapper): String {
+        if (buffer.getSize() == 8) {
+            throw Exception("this is not ready to be used as import value")
         } else {
             val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
             val buf = ByteArray(l1)

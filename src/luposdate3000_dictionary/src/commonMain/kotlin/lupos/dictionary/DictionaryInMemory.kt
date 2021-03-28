@@ -92,6 +92,7 @@ public class DictionaryInMemory : ADictionary {
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): Int {
+        SanityCheck.check { DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE }
         if (isLocal) {
             val tmp = nodeGlobalDictionary.hasValue(buffer)
             if (tmp != null) {
@@ -118,6 +119,7 @@ public class DictionaryInMemory : ADictionary {
     }
 
     public override fun hasValue(buffer: ByteArrayWrapper): Int? {
+        SanityCheck.check { DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE }
         if (isLocal) {
             val tmp = nodeGlobalDictionary.hasValue(buffer)
             if (tmp != null) {
