@@ -53,6 +53,7 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
         rowMode = child.rows.columns.toMutableList()
         rowMode.containsAll(target)
         target.containsAll(rowMode)
+        //Map Column Iterator
         val iterator = RowIterator()
         var counter = 0
         iterator.columns = child.rows.columns
@@ -68,6 +69,7 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
                 //visualization framework.
                 counter++
                 println { "$uuid next return $counter ${parent.data} ${iterator.buf.map { it.toString(16) }}" }
+                //Columns auf ein mal senden
                 for (j in 0..iterator.columns.size - 1) {
                     var string =
                         "?" + this.projectedVariables[j] + " = " + query.getDictionary().getValue(iterator.buf[res + j])

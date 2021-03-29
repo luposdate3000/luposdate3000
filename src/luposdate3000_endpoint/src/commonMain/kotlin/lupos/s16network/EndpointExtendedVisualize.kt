@@ -1,6 +1,9 @@
 package lupos.s16network
 
 import kotlin.js.JsName
+import lupos.optimizer.ast.OperatorGraphVisitor
+import lupos.optimizer.logical.LogicalOptimizer
+import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
@@ -9,9 +12,6 @@ import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
-import lupos.s06buildOperatorGraph.OperatorGraphVisitor
-import lupos.s08logicalOptimisation.LogicalOptimizer
-import lupos.s10physicalOptimisation.PhysicalOptimizer
 
 public class EndpointExtendedVisualize {
 

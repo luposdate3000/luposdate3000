@@ -1,13 +1,3 @@
-/*
-    Added by Rico
-
-    receiveAnimation(..) is a method in the .js file of the visualization and is needed
-    for sending the data between the operators to the visualization framework for
-    the animation.
-
- */
-
-
 package lupos.s09physicalOperators.singleinput
 
 public actual class Visualisation actual constructor() {

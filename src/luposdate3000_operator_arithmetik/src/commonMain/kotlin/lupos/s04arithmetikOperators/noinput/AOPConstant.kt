@@ -16,6 +16,7 @@
  */
 package lupos.s04arithmetikOperators.noinput
 
+import kotlin.jvm.JvmField
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueBnode
@@ -24,18 +25,27 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import kotlin.jvm.JvmField
 
 public class AOPConstant : AOPBase, IAOPConstant {
     @JvmField
     public val value: Int
     override fun getValue(): Int = value
 
-    public constructor(query: IQuery, value2: ValueDefinition) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
+    public constructor(query: IQuery, value2: ValueDefinition) : super(
+        query,
+        EOperatorIDExt.AOPConstantID,
+        "AOPConstant",
+        arrayOf()
+    ) {
         value = query.getDictionary().createValue(value2)
     }
 
-    public constructor(query: IQuery, value2: Int) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
+    public constructor(query: IQuery, value2: Int) : super(
+        query,
+        EOperatorIDExt.AOPConstantID,
+        "AOPConstant",
+        arrayOf()
+    ) {
         value = value2
     }
 
@@ -63,3 +73,4 @@ public class AOPConstant : AOPBase, IAOPConstant {
     }
 
     override fun cloneOP(): IOPBase = AOPConstant(query, value)
+}

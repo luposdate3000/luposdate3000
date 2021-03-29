@@ -22,7 +22,8 @@
 
  */
 
-package lupos.s10physicalOptimisation
+
+package lupos.optimizer.physical
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.s04logicalOperators.IOPBase

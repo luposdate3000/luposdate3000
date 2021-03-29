@@ -16,25 +16,12 @@
  */
 package lupos.s04logicalOperators
 
-import lupos.s00misc.BugException
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.ESortTypeExt
-import lupos.s00misc.EvaluateNotImplementedException
-import lupos.s00misc.HistogramNotImplementedException
-import lupos.s00misc.Parallel
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.SortHelper
-import lupos.s00misc.ToSparqlNotImplementedException
-import lupos.s00misc.VariableNotDefinedSyntaxException
-import lupos.s00misc.XMLElement
+import kotlin.jvm.JvmField
+import lupos.s00misc.*
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin_Helper
 import lupos.s04logicalOperators.singleinput.LOPNOOP
-import kotlin.jvm.JvmField
 
 public abstract class OPBase public constructor(
     @JvmField public val query: IQuery,
@@ -55,16 +42,12 @@ public abstract class OPBase public constructor(
     /*partOfAskQuery :: if_ true, prefer join with store, otherwiese perform fast-sort followed by reduced everywhere*/
     @JvmField
     public var alreadyCheckedStore: Long = -1L
-<<<<<<< HEAD:src/luposdate3000_operators/src/commonMain/kotlin/lupos/s04logicalOperators/OPBase.kt
-    //Containing the parent Node of a node
+   //Containing the parent Node of a node
     public var parentNode: IOPBase = this
     //Making the UUID changeable
     @JvmField
     public var visualUUID: Long = global_uuid++
-=======
-
->>>>>>> master:src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/s04logicalOperators/OPBase.kt
-    @JvmField
+   @JvmField
     public val uuid: Long = global_uuid++
 
     @JvmField
@@ -95,7 +78,6 @@ public abstract class OPBase public constructor(
     override fun setMySortPriority(value: MutableList<SortHelper>) {
         mySortPriority = value
     }
-<<<<<<< HEAD:src/luposdate3000_operators/src/commonMain/kotlin/lupos/s04logicalOperators/OPBase.kt
     //Setter for the parent node
     public override fun setParent(parent: IOPBase){
         this.parentNode = parent
@@ -108,9 +90,6 @@ public abstract class OPBase public constructor(
     public override fun setVisualUUID(newUUID:Long){
         this.visualUUID = newUUID
     }
-=======
-
->>>>>>> master:src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/s04logicalOperators/OPBase.kt
     override fun getQuery(): IQuery = query
     override fun getSortPriorities(): MutableList<List<SortHelper>> = sortPriorities
     override fun getUUID(): Long = uuid
