@@ -16,6 +16,8 @@
  */
 package lupos.modulename
 
+import lupos.dictionary.DictionaryHelper
+import lupos.s00misc.ByteArrayWrapper
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueUndef
@@ -39,4 +41,23 @@ internal object _DictionaryExt {
 
     @JvmField
     val undefValue2 = ValueUndef()
+
+    @JvmField
+    val booleanTrueValue3 = ByteArrayWrapper()
+
+    @JvmField
+    val booleanFalseValue3 = ByteArrayWrapper()
+
+    @JvmField
+    val errorValue3 = ByteArrayWrapper()
+
+    @JvmField
+    val undefValue3 = ByteArrayWrapper()
+
+    init {
+        DictionaryHelper.booleanToByteArray(booleanTrueValue3, true)
+        DictionaryHelper.booleanToByteArray(booleanFalseValue3, false)
+        DictionaryHelper.errorToByteArray(errorValue3)
+        DictionaryHelper.undefToByteArray(undefValue3)
+    }
 }

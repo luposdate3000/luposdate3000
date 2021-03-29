@@ -23,7 +23,7 @@ import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.pow
 
-public class AflCore(private val testname: String, private val maxlen_multiplicator: Double, private val executeTest: (() -> Int, () -> Int) -> Unit) {
+public class AflCore(private val testname: String, private val maxlen_multiplicator: Double, private val executeTest: (() -> Int, () -> Int, () -> Unit) -> Unit) {
     private class MyRandom(var seed: Long) {
         val bits = 32
         fun nextInt(): Int {
@@ -76,7 +76,7 @@ public class AflCore(private val testname: String, private val maxlen_multiplica
                 var testCase = "test_${testname}_${tmp.toString(16).padStart(8, '0')}.data"
                 try {
                     dataoff = 0
-                    executeTest({ data[dataoff++] }, { cnt - dataoff })
+                    executeTest({ data[dataoff++] }, { cnt - dataoff }, { dataoff = 0 })
                 } catch (e: Throwable) {
                     e.printStackTrace()
                     errors++
@@ -100,7 +100,7 @@ public class AflCore(private val testname: String, private val maxlen_multiplica
                 }
             }
             var dataoff = 0
-            executeTest({ data[dataoff++] }, { data.size - dataoff })
+            executeTest({ data[dataoff++] }, { data.size - dataoff }, { dataoff = 0 })
         }
     }
 }

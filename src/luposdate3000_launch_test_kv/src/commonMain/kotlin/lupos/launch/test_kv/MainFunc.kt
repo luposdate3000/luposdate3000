@@ -34,7 +34,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
     AflCore("kv.${BufferManagerExt.isInMemoryOnly}", 1.0, ::executeTest)(arg)
 }
 
-private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
+private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
     var rootPage = -1
@@ -144,12 +144,11 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
         }
         val value = ByteArrayWrapper()
         kv.getValue(value, key)
-        val target = values[mapping[key]!!]
-        if (value.getSize() != target.size) {
+        if (value.getSize() != data.size) {
             throw Exception("")
         }
         for (i in 0 until value.getSize()) {
-            if (value.getBuf()[i] != target[i]) {
+            if (value.getBuf()[i] != data[i]) {
                 throw Exception("")
             }
         }

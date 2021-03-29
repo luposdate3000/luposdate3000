@@ -33,7 +33,6 @@ public class DictionaryKV : ADictionary {
     private var bNodeCounter = 5
     private val rootPageID: Int
     private val rootPage: BufferManagerPage
-    private val isLocal: Boolean = false
     public override fun close() {
         kv.close()
         bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
@@ -61,6 +60,7 @@ public class DictionaryKV : ADictionary {
                 kvPage = pageid
             }
             bufferManager.releasePage(lupos.SOURCE_FILE, kvPage)
+            rootPage.writeInt4(4, kvPage)
         }
         kv = KeyValueStore(bufferManager, kvPage, initFromRootPage)
     }
@@ -76,9 +76,6 @@ public class DictionaryKV : ADictionary {
                 createNewBNode()
             } else {
                 var res = kv.createValue(buffer)
-                if (isLocal) {
-                    res = res or ADictionary.flagLocal
-                }
                 res
             }
             SanityCheck.check { lastId == id - 1 }
@@ -99,47 +96,72 @@ public class DictionaryKV : ADictionary {
 
     public override fun createNewBNode(): Int {
         var res: Int = bNodeCounter++ or ADictionary.flagBNode
-        if (isLocal) {
-            res = res or ADictionary.flagLocal
-        }
         rootPage.writeInt4(0, bNodeCounter)
         return res
     }
 
     public override fun getValue(buffer: ByteArrayWrapper, value: Int) {
-        if ((value and ADictionary.flagBNode) == ADictionary.flagBNode) {
-            buffer.setSize(8)
-            ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.BLANK_NODE)
-            ByteArrayHelper.writeInt4(buffer.getBuf(), 4, value and ADictionary.noFlags)
-        } else {
-            kv.getValue(buffer, value and ADictionary.noFlags)
+        var noFlag = value and ADictionary.noFlags
+        when (noFlag) {
+            0 -> DictionaryHelper.booleanToByteArray(buffer, true)
+            1 -> DictionaryHelper.booleanToByteArray(buffer, false)
+            2 -> DictionaryHelper.errorToByteArray(buffer)
+            3 -> DictionaryHelper.undefToByteArray(buffer)
+            4 -> throw Exception("invalid call")
+            else -> {
+                if ((value and ADictionary.flagBNode) == ADictionary.flagBNode) {
+                    SanityCheck.check { value < bNodeCounter }
+                    SanityCheck.check { value >= 0 }
+                    buffer.setSize(8)
+                    ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.BLANK_NODE)
+                    ByteArrayHelper.writeInt4(buffer.getBuf(), 4, noFlag)
+                } else {
+                    kv.getValue(buffer, noFlag)
+                }
+            }
         }
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): Int {
-        SanityCheck.check { DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE }
-        var res = kv.createValue(buffer)
-        if (isLocal) {
-            res = res or ADictionary.flagLocal
+        val type = DictionaryHelper.byteArrayToType(buffer)
+        SanityCheck.check { type != ETripleComponentTypeExt.BLANK_NODE }
+        when (type) {
+            ETripleComponentTypeExt.BOOLEAN -> {
+                if (DictionaryHelper.byteArrayToBoolean(buffer)) {
+                    return DictionaryExt.booleanTrueValue
+                } else {
+                    return DictionaryExt.booleanFalseValue
+                }
+            }
+            ETripleComponentTypeExt.ERROR -> return DictionaryExt.errorValue
+            ETripleComponentTypeExt.UNDEF -> return DictionaryExt.undefValue
+            else -> {
+                var res = kv.createValue(buffer)
+                return res
+            }
         }
-        return res
     }
 
     public override fun hasValue(buffer: ByteArrayWrapper): Int? {
-        SanityCheck.check { DictionaryHelper.byteArrayToType(buffer) != ETripleComponentTypeExt.BLANK_NODE }
-        if (isLocal) {
-            val tmp = nodeGlobalDictionary.hasValue(buffer)
-            if (tmp != null) {
-                return tmp
+        val type = DictionaryHelper.byteArrayToType(buffer)
+        SanityCheck.check { type != ETripleComponentTypeExt.BLANK_NODE }
+        when (type) {
+            ETripleComponentTypeExt.BOOLEAN -> {
+                if (DictionaryHelper.byteArrayToBoolean(buffer)) {
+                    return DictionaryExt.booleanTrueValue
+                } else {
+                    return DictionaryExt.booleanFalseValue
+                }
+            }
+            ETripleComponentTypeExt.ERROR -> return DictionaryExt.errorValue
+            ETripleComponentTypeExt.UNDEF -> return DictionaryExt.undefValue
+            else -> {
+                var res = kv.hasValue(buffer)
+                if (res == null) {
+                    return null
+                }
+                return res
             }
         }
-        var res = kv.hasValue(buffer)
-        if (res == null) {
-            return null
-        }
-        if (isLocal) {
-            res = res or ADictionary.flagLocal
-        }
-        return res
     }
 }

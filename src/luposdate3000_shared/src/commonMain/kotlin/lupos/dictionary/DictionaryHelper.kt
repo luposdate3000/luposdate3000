@@ -80,6 +80,11 @@ public object DictionaryHelper {
         ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.ERROR)
     }
 
+    public inline fun undefToByteArray(buffer: ByteArrayWrapper) {
+        buffer.setSize(4)
+        ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.UNDEF)
+    }
+
     public inline fun dateTimeToByteArray(buffer: ByteArrayWrapper, str: String) {
         val year: String
         val month: Int

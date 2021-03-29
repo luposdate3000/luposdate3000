@@ -19,6 +19,7 @@ package lupos.launch.test_dictionary
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.dictionary.ADictionary
+import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
@@ -27,6 +28,7 @@ import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.Parallel
 import lupos.test.AflCore
 import kotlin.math.abs
+import kotlin.math.max
 
 private val verbose = false
 
@@ -38,203 +40,219 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
     AflCore("dictionary.${BufferManagerExt.isInMemoryOnly}", 1.0, ::executeTest)(arg)
 }
 
-private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int) {
-    BufferManagerExt.allowInitFromDisk = false
-    var bufferManager = BufferManager()
-    if (hasNextRandom() > 1) {
-        val dictType = abs(nextRandom() % EDictionaryTypeExt.values_size)
-        val isLocal = abs(nextRandom() % 2) == 0
-        if (isLocal) {
-            nodeGlobalDictionary = object : ADictionary() {
-                override fun close() {}
-                override fun delete() {}
-                override fun createNewBNode(): Int = throw Exception("not implemented")
-                override fun createValue(buffer: ByteArrayWrapper): Int = throw Exception("not implemented")
-                override fun getValue(buffer: ByteArrayWrapper, value: Int) = throw Exception("not implemented")
-                override fun hasValue(buffer: ByteArrayWrapper): Int? = null
-                override fun importFromDictionaryFile(filename: String): IntArray = throw Exception("not implemented")
-                override fun isInmemoryOnly(): Boolean = true
+private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+    for (isLocal in listOf(true, false)) {
+        for (dictType in 0 until EDictionaryTypeExt.values_size) {
+            resetRandom()
+            BufferManagerExt.allowInitFromDisk = false
+            var bufferManager = BufferManager()
+            if (isLocal) {
+                nodeGlobalDictionary = object : ADictionary() {
+                    override fun close() {}
+                    override fun delete() {}
+                    override fun createNewBNode(): Int = throw Exception("not implemented")
+                    override fun createValue(buffer: ByteArrayWrapper): Int = throw Exception("not implemented")
+                    override fun getValue(buffer: ByteArrayWrapper, value: Int) = throw Exception("not implemented")
+                    override fun hasValue(buffer: ByteArrayWrapper): Int? = null
+                    override fun importFromDictionaryFile(filename: String): IntArray = throw Exception("not implemented")
+                    override fun isInmemoryOnly(): Boolean = true
+                }
             }
-        }
-        var rootPage = -1
-        fun createDict(initFromRootPage: Boolean): IDictionary {
-            when (dictType) {
-                EDictionaryTypeExt.KV -> {
-                    if (rootPage == -1) {
-                        bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-                            rootPage = pageid
+            var rootPage = -1
+            fun createDict(initFromRootPage: Boolean): IDictionary {
+                when (dictType) {
+                    EDictionaryTypeExt.KV -> {
+                        if (rootPage == -1) {
+                            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
+                                rootPage = pageid
+                            }
+                            bufferManager.releasePage(lupos.SOURCE_FILE, rootPage)
                         }
-                        bufferManager.releasePage(lupos.SOURCE_FILE, rootPage)
+                        return DictionaryFactory.createDictionary(dictType, false, bufferManager, rootPage, initFromRootPage)
                     }
-                    return DictionaryFactory.createDictionary(dictType, false, bufferManager, rootPage, initFromRootPage)
+                    else -> return DictionaryFactory.createDictionary(dictType, isLocal, bufferManager, -1, false)
                 }
-                else -> return DictionaryFactory.createDictionary(dictType, isLocal, bufferManager, -1, false)
             }
-        }
-        println("executeTest $isLocal ${EDictionaryTypeExt.names[dictType]}--------------------------------------")
-
-        var dict = createDict(false)
-        val values = mutableListOf<ByteArray>()
-        val mapping = mutableMapOf<Int, Int>() // dict.id -> values.index
-
-        var usedGenerators = mutableMapOf<Int, MutableSet<Int>>() // len -> seed
-
-        fun getExistingData(rng: Int, action: (ByteArray, Int) -> Unit) {
-            val ids = mutableListOf<Int>()
-            ids.addAll(mapping.keys)
-            if (ids.size > 0) {
-                val key = ids[abs(rng % ids.size)]
-                action(values[mapping[key]!!], key)
+            if (verbose) {
+                println("executeTest $isLocal ${EDictionaryTypeExt.names[dictType]}--------------------------------------")
             }
-        }
+            var dict = createDict(false)
+            val values = mutableListOf<ByteArrayWrapper>(
+                DictionaryExt.booleanTrueValue3,
+                DictionaryExt.booleanFalseValue3,
+                DictionaryExt.errorValue3,
+                DictionaryExt.undefValue3,
+            )
+            val mapping = mutableMapOf<Int, Int>(
+                0 to 0,
+                1 to 1,
+                2 to 2,
+                3 to 3,
+            ) // dict.id -> values.index
 
-        fun getNotExistingKey(rng: Int, action: (Int) -> Unit) {
-            val ids = MutableList<Int>(1000) { it }
-            ids.removeAll(mapping.values)
-            if (ids.size > 0) {
-                val key = ids[abs(rng % ids.size)]
-                action(key)
+            var usedGenerators = mutableMapOf<Int, MutableSet<Int>>() // len -> seed
+
+            fun getExistingData(rng: Int, action: (ByteArrayWrapper, Int) -> Unit) {
+                val ids = mutableListOf<Int>()
+                ids.addAll(mapping.keys)
+                if (ids.size > 0) {
+                    val key = ids[abs(rng % ids.size)]
+                    action(values[mapping[key]!!], key)
+                }
             }
-        }
 
-        fun getNotExistingData(rng: Int, action: (ByteArray) -> Unit) {
-            var len = abs(rng / 256) % maxSize
-            var seed = abs(rng % 256)
-            if (usedGenerators[len] == null) {
-                usedGenerators[len] = mutableSetOf<Int>()
-            } else {
-                while (usedGenerators[len]!!.contains(seed)) {
-                    if (seed < 255) {
-                        seed++
-                    } else {
-                        len = (len + 1) % maxSize
-                        seed = 0
-                        if (usedGenerators[len] == null) {
-                            usedGenerators[len] = mutableSetOf<Int>()
-                            break
+            fun getNotExistingKey(rng: Int, action: (Int) -> Unit) {
+                val ids = MutableList<Int>(1000) { it }
+                ids.removeAll(mapping.values)
+                if (ids.size > 0) {
+                    val key = ids[abs(rng % ids.size)]
+                    action(key)
+                }
+            }
+
+            fun getNotExistingData(rng: Int, action: (ByteArrayWrapper) -> Unit) {
+                var len = max(abs(rng / 256) % maxSize, 4)
+                var seed = abs(rng % 256)
+                if (usedGenerators[len] == null) {
+                    usedGenerators[len] = mutableSetOf<Int>()
+                } else {
+                    while (usedGenerators[len]!!.contains(seed)) {
+                        if (seed < 255) {
+                            seed++
+                        } else {
+                            len = (len + 1) % maxSize
+                            seed = 0
+                            if (usedGenerators[len] == null) {
+                                usedGenerators[len] = mutableSetOf<Int>()
+                                break
+                            }
                         }
                     }
                 }
-            }
-            if (len == 0) {
-                for (i in 0 until 256) {
-                    usedGenerators[len]!!.add(i)
+                if (len == 0) {
+                    for (i in 0 until 256) {
+                        usedGenerators[len]!!.add(i)
+                    }
+                } else {
+                    usedGenerators[len]!!.add(seed)
                 }
-            } else {
-                usedGenerators[len]!!.add(seed)
+                val res = ByteArrayWrapper()
+                res.setSize(len)
+                for (i in 0 until len) {
+                    res.getBuf()[i] = (i + seed).toByte()
+                }
+                action(res)
             }
-            action(ByteArray(len) { (it + seed).toByte() })
-        }
 
-        fun testCreateValueExistingOk(data: ByteArray, targetKey: Int) {
-            if (verbose) {
-                println("testCreateValueExistingOk $targetKey ${data.map { it }}")
+            fun testCreateValueExistingOk(data: ByteArrayWrapper, targetKey: Int) {
+                if (verbose) {
+                    println("testCreateValueExistingOk $targetKey ${data.getBuf().map { it }.subList(0, data.getSize())}")
+                }
+                val key = dict.createValue(data)
+                if (key != targetKey) {
+                    throw Exception("${key.toString(2)} ${targetKey.toString(2)}")
+                }
             }
-            val key = dict.createValue(ByteArrayWrapper(data))
-            if (key != targetKey) {
-                throw Exception("${key.toString(2)} ${targetKey!!.toString(2)}")
-            }
-        }
 
-        fun testCreateValueNotExistingOk(data: ByteArray) {
-            val key = dict.createValue(ByteArrayWrapper(data))
-            if (verbose) {
-                println("testCreateValueNotExistingOk $key ${data.map { it }}")
+            fun testCreateValueNotExistingOk(data: ByteArrayWrapper) {
+                val key = dict.createValue(data)
+                if (verbose) {
+                    println("testCreateValueNotExistingOk $key ${data.getBuf().map { it }.subList(0, data.getSize())}")
+                }
+                if (mapping[key] != null) {
+                    throw Exception("")
+                }
+                mapping[key] = values.size
+                values.add(data)
             }
-            if (mapping[key] != null) {
-                throw Exception("")
-            }
-            mapping[key] = values.size
-            values.add(data)
-        }
 
-        fun testHasValueExistingOk(data: ByteArray, targetKey: Int) {
-            if (verbose) {
-                println("testHasValueYesOk $targetKey ${data.map { it }}")
+            fun testHasValueExistingOk(data: ByteArrayWrapper, targetKey: Int) {
+                if (verbose) {
+                    println("testHasValueYesOk $targetKey ${data.getBuf().map { it }.subList(0, data.getSize())}")
+                }
+                val res = dict.hasValue(data)
+                if (res != targetKey) {
+                    throw Exception("$res $targetKey")
+                }
             }
-            val res = dict.hasValue(ByteArrayWrapper(data))
-            if (res != targetKey) {
-                throw Exception("$res $targetKey")
-            }
-        }
 
-        fun testHasValueNotExistingOk(data: ByteArray) {
-            if (verbose) {
-                println("testHasValueNoOk ${data.map { it }}")
-            }
-            val res = dict.hasValue(ByteArrayWrapper(data))
-            if (res != null) {
-                throw Exception("")
-            }
-        }
-
-        fun testGetValueOk(data: ByteArray, key: Int) {
-            if (verbose) {
-                println("testGetValueOk $key ${data.map { it }}")
-            }
-            val value = ByteArrayWrapper()
-            dict.getValue(value, key)
-            val target = values[mapping[key]!!]
-            if (value.getSize() != target.size) {
-                throw Exception("${value.getSize()} ${target.size}")
-            }
-            for (i in 0 until value.getSize()) {
-                if (value.getBuf()[i] != target[i]) {
+            fun testHasValueNotExistingOk(data: ByteArrayWrapper) {
+                if (verbose) {
+                    println("testHasValueNoOk ${data.getBuf().map { it }.subList(0, data.getSize())}")
+                }
+                val res = dict.hasValue(data)
+                if (res != null) {
                     throw Exception("")
                 }
             }
-        }
 
-        fun testGetValueFail(key: Int) {
-            if (verbose) {
-                println("testGetValueFail $key")
+            fun testGetValueOk(target: ByteArrayWrapper, key: Int) {
+                if (verbose) {
+                    println("testGetValueOk $key ${target.getBuf().map { it }.subList(0, target.getSize())}")
+                }
+                val value = ByteArrayWrapper()
+                dict.getValue(value, key)
+                if (value.getSize() != target.getSize()) {
+                    throw Exception("${value.getSize()} ${target.getSize()}")
+                }
+                for (i in 0 until value.getSize()) {
+                    if (value.getBuf()[i] != target.getBuf()[i]) {
+                        throw Exception("")
+                    }
+                }
             }
-            var flag = true
-            try {
-                val buffer = ByteArrayWrapper()
-                dict.getValue(buffer, key)
-            } catch (e: Throwable) {
-                flag = false
-            }
-            if (flag) {
-                throw Exception("")
-            }
-        }
 
-        while (hasNextRandom() >= 2) {
-            val mode = abs(nextRandom() % 6)
-            val rng = nextRandom()
-            when (mode) {
-                0 -> getExistingData(rng) { v, k -> testCreateValueExistingOk(v, k) }
-                1 -> getNotExistingData(rng) { v -> testCreateValueNotExistingOk(v) }
-
-                2 -> getExistingData(rng) { v, k -> testHasValueExistingOk(v, k) }
-                3 -> getNotExistingData(rng) { v -> testHasValueNotExistingOk(v) }
-
-                4 -> getExistingData(rng) { v, k -> testGetValueOk(v, k) }
-                5 -> getNotExistingKey(rng) { k -> testGetValueFail(k) }
+            fun testGetValueFail(key: Int) {
+                if (verbose) {
+                    println("testGetValueFail $key")
+                }
+                var flag = true
+                try {
+                    val buffer = ByteArrayWrapper()
+                    dict.getValue(buffer, key)
+                } catch (e: Throwable) {
+                    flag = false
+                }
+                if (flag) {
+                    throw Exception("")
+                }
             }
-        }
-        for ((k, v) in mapping) {
-            testGetValueOk(values[v], k)
-        }
-        if (!dict.isInmemoryOnly() && !BufferManagerExt.isInMemoryOnly) {
-            dict.close()
+
+            while (hasNextRandom() >= 2) {
+                val mode = abs(nextRandom() % 6)
+                val rng = nextRandom()
+                when (mode) {
+                    0 -> getExistingData(rng) { v, k -> testCreateValueExistingOk(v, k) }
+                    1 -> getNotExistingData(rng) { v -> testCreateValueNotExistingOk(v) }
+
+                    2 -> getExistingData(rng) { v, k -> testHasValueExistingOk(v, k) }
+                    3 -> getNotExistingData(rng) { v -> testHasValueNotExistingOk(v) }
+
+                    4 -> getExistingData(rng) { v, k -> testGetValueOk(v, k) }
+                    5 -> getNotExistingKey(rng) { k -> testGetValueFail(k) }
+                }
+            }
+            for ((k, v) in mapping) {
+                testGetValueOk(values[v], k)
+            }
+            if (!dict.isInmemoryOnly() && !BufferManagerExt.isInMemoryOnly) {
+                dict.close()
+                if (bufferManager.getNumberOfReferencedPages() != 0) {
+                    throw Exception("")
+                }
+                dict = createDict(true)
+            }
+            for ((k, v) in mapping) {
+                testGetValueOk(values[v], k)
+            }
+            dict.delete()
             if (bufferManager.getNumberOfReferencedPages() != 0) {
                 throw Exception("")
             }
-            dict = createDict(true)
+            if (bufferManager.getNumberOfAllocatedPages() != 0) {
+                throw Exception("")
+            }
+            bufferManager.close()
         }
-        for ((k, v) in mapping) {
-            testGetValueOk(values[v], k)
-        }
-        dict.delete()
-        if (bufferManager.getNumberOfReferencedPages() != 0) {
-            throw Exception("")
-        }
-        if (bufferManager.getNumberOfAllocatedPages() != 0) {
-            throw Exception("")
-        }
-        bufferManager.close()
     }
 }
