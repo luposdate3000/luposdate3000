@@ -33,11 +33,11 @@ public abstract class ADictionary : IDictionary {
 
     internal companion object {
         internal const val flagLocal = 0x40000000
-        internal const val flagBNode = 0x20000000
-        internal const val noFlags = 0x1FFFFFFF
+        internal const val flagNoBNode = 0x20000000
+        internal const val maskValue = 0x1FFFFFFF
     }
 
-    override fun isBnode(value: Int): Boolean = (value and flagBNode) == flagBNode
+    override fun isBnode(value: Int): Boolean = (value and flagNoBNode) != flagNoBNode
 
     override fun toBooleanOrError(value: Int): Int {
         if (value < DictionaryExt.undefValue && value >= 0) {
@@ -54,7 +54,11 @@ public abstract class ADictionary : IDictionary {
         if ((value and flagLocal) != flagLocal) {
             res = value
         } else {
-            if ((value and flagBNode) == flagBNode) {
+            if ((value and flagNoBNode) == flagNoBNode) {
+                val buffer = ByteArrayWrapper()
+                getValue(buffer, value)
+                res = nodeGlobalDictionary.createValue(buffer)
+            } else {
                 val tmp = bnodeMapToGlobal[value]
                 if (tmp == null) {
                     res = nodeGlobalDictionary.createNewBNode()
@@ -62,10 +66,6 @@ public abstract class ADictionary : IDictionary {
                 } else {
                     res = tmp
                 }
-            } else {
-                val buffer = ByteArrayWrapper()
-                getValue(buffer, value)
-                res = nodeGlobalDictionary.createValue(buffer)
             }
         }
         return res

@@ -70,30 +70,43 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     fun getNotExistingData(rng: Int, action: (ByteArray) -> Unit) {
         var len = abs(rng / 256) % maxSize
         var seed = abs(rng % 256)
-        if (usedGenerators[len] == null) {
-            usedGenerators[len] = mutableSetOf<Int>()
-        } else {
-            while (usedGenerators[len]!!.contains(seed)) {
+        var loop = true
+        while (loop) {
+            if (usedGenerators[len] == null) {
+                usedGenerators[len] = mutableSetOf<Int>()
+            } else {
+                while (usedGenerators[len]!!.contains(seed)) {
+                    if (seed < 255) {
+                        seed++
+                    } else {
+                        len = (len + 1) % maxSize
+                        seed = 0
+                        if (usedGenerators[len] == null) {
+                            usedGenerators[len] = mutableSetOf<Int>()
+                            break
+                        }
+                    }
+                }
+            }
+            if (len == 0) {
+                for (i in 0 until 256) {
+                    usedGenerators[len]!!.add(i)
+                }
+            } else {
+                usedGenerators[len]!!.add(seed)
+            }
+            if (values.contains(res)) {
                 if (seed < 255) {
                     seed++
                 } else {
                     len = (len + 1) % maxSize
                     seed = 0
-                    if (usedGenerators[len] == null) {
-                        usedGenerators[len] = mutableSetOf<Int>()
-                        break
-                    }
                 }
+            } else {
+                loop = false
+                action(ByteArray(len) { (it + seed).toByte() })
             }
         }
-        if (len == 0) {
-            for (i in 0 until 256) {
-                usedGenerators[len]!!.add(i)
-            }
-        } else {
-            usedGenerators[len]!!.add(seed)
-        }
-        action(ByteArray(len) { (it + seed).toByte() })
     }
 
     fun testCreateValueExistingOk(data: ByteArray, targetKey: Int) {

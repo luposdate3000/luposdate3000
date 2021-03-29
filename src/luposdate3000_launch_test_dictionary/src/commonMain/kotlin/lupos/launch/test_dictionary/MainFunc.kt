@@ -30,7 +30,7 @@ import lupos.test.AflCore
 import kotlin.math.abs
 import kotlin.math.max
 
-private val verbose = false
+private val verbose = true
 
 // private val maxSize = 16
 private val maxSize = 16384
@@ -113,35 +113,42 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             fun getNotExistingData(rng: Int, action: (ByteArrayWrapper) -> Unit) {
                 var len = max(abs(rng / 256) % maxSize, 4)
                 var seed = abs(rng % 256)
-                if (usedGenerators[len] == null) {
-                    usedGenerators[len] = mutableSetOf<Int>()
-                } else {
-                    while (usedGenerators[len]!!.contains(seed)) {
+                var loop = true
+                while (loop) {
+                    if (usedGenerators[len] == null) {
+                        usedGenerators[len] = mutableSetOf<Int>()
+                    } else {
+                        while (usedGenerators[len]!!.contains(seed)) {
+                            if (seed < 255) {
+                                seed++
+                            } else {
+                                len = (len + 1) % maxSize
+                                seed = 0
+                                if (usedGenerators[len] == null) {
+                                    usedGenerators[len] = mutableSetOf<Int>()
+                                    break
+                                }
+                            }
+                        }
+                    }
+                    usedGenerators[len]!!.add(seed)
+                    val res = ByteArrayWrapper()
+                    res.setSize(len)
+                    for (i in 0 until len) {
+                        res.getBuf()[i] = (i + seed).toByte()
+                    }
+                    if (values.contains(res)) {
                         if (seed < 255) {
                             seed++
                         } else {
                             len = (len + 1) % maxSize
                             seed = 0
-                            if (usedGenerators[len] == null) {
-                                usedGenerators[len] = mutableSetOf<Int>()
-                                break
-                            }
                         }
+                    } else {
+                        loop = false
+                        action(res)
                     }
                 }
-                if (len == 0) {
-                    for (i in 0 until 256) {
-                        usedGenerators[len]!!.add(i)
-                    }
-                } else {
-                    usedGenerators[len]!!.add(seed)
-                }
-                val res = ByteArrayWrapper()
-                res.setSize(len)
-                for (i in 0 until len) {
-                    res.getBuf()[i] = (i + seed).toByte()
-                }
-                action(res)
             }
 
             fun testCreateValueExistingOk(data: ByteArrayWrapper, targetKey: Int) {
@@ -188,12 +195,12 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
 
             fun testGetValueOk(target: ByteArrayWrapper, key: Int) {
                 if (verbose) {
-                    println("testGetValueOk $key ${target.getBuf().map { it }.subList(0, target.getSize())}")
+                    println("testGetValueOk $key ${key.toString(2)} ${target.getBuf().map { it }.subList(0, target.getSize())}")
                 }
                 val value = ByteArrayWrapper()
                 dict.getValue(value, key)
                 if (value.getSize() != target.getSize()) {
-                    throw Exception("${value.getSize()} ${target.getSize()}")
+                    throw Exception("${value.getSize()} ${target.getSize()} ${value.getBuf().map { it }.subList(0, value.getSize())}")
                 }
                 for (i in 0 until value.getSize()) {
                     if (value.getBuf()[i] != target.getBuf()[i]) {
