@@ -19,11 +19,11 @@ package lupos.optimizer.logical
 import lupos.s00misc.BugException
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.AOPBase
+import lupos.s04arithmetikOperators.generated.AOPAnd
 import lupos.s04arithmetikOperators.generated.AOPBuildInCallBOUND
-import lupos.s04arithmetikOperators.multiinput.AOPAnd
+import lupos.s04arithmetikOperators.generated.AOPNot
+import lupos.s04arithmetikOperators.generated.AOPOr
 import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
-import lupos.s04arithmetikOperators.multiinput.AOPOr
-import lupos.s04arithmetikOperators.singleinput.AOPNot
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPFilter

@@ -17,7 +17,7 @@
 package lupos.optimizer.logical
 
 import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.multiinput.AOPOr
+import lupos.s04arithmetikOperators.generated.AOPOr
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.multiinput.LOPUnion

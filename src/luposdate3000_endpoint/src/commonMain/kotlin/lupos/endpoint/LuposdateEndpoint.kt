@@ -114,7 +114,7 @@ public object LuposdateEndpoint {
     internal fun helperImportRaw(dict: MutableMap<String, Int>, v: ByteArrayWrapper): Int {
         val type = DictionaryHelper.byteArrayToType(v)
         if (type == ETripleComponentTypeExt.BLANK_NODE) {
-            val tmp = DictionaryHelper.byteArrayToBnodeIntermediate(v)
+            val tmp = DictionaryHelper.byteArrayToBnode_S(v)
             var res = dict[tmp]
             if (res != null) {
                 return res
