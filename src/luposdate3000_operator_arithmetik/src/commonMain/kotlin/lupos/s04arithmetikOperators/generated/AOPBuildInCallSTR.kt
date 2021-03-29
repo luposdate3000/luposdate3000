@@ -70,13 +70,13 @@ public class AOPBuildInCallSTR public constructor(query: IQuery, child0: AOPBase
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.DOUBLE -> {
-                    val tmp_12: Double = DictionaryHelper.byteArrayToDouble(tmp_0)
+                    val tmp_12: Double = DictionaryHelper.byteArrayToDouble_I(tmp_0)
                     val tmp_13: String = tmp_12.toString()
                     DictionaryHelper.stringToByteArray(tmp_2, tmp_13)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.FLOAT -> {
-                    val tmp_15: Double = DictionaryHelper.byteArrayToFloat(tmp_0)
+                    val tmp_15: Double = DictionaryHelper.byteArrayToFloat_I(tmp_0)
                     val tmp_16: String = tmp_15.toString()
                     DictionaryHelper.stringToByteArray(tmp_2, tmp_16)
                     res = query.getDictionary().createValue(tmp_2)

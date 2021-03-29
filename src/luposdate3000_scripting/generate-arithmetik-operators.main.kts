@@ -2594,7 +2594,7 @@ public val converters = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _ ->
             imports.add("lupos.dictionary.DictionaryHelper")
-            target.appendLine("${indention}val $outputName: Double = DictionaryHelper.byteArrayToDouble($inputName)")
+            target.appendLine("${indention}val $outputName: Double = DictionaryHelper.byteArrayToDouble_I($inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -2614,7 +2614,7 @@ public val converters = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _ ->
             imports.add("lupos.dictionary.DictionaryHelper")
-            target.appendLine("${indention}val $outputName: Double = DictionaryHelper.byteArrayToFloat($inputName)")
+            target.appendLine("${indention}val $outputName: Double = DictionaryHelper.byteArrayToFloat_I($inputName)")
         }
     ),
     MyRepresentationConversionFunction(

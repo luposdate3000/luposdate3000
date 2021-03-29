@@ -78,8 +78,8 @@ public class XMLElement(tag: String) {
                 ETripleComponentTypeExt.BLANK_NODE -> nodeBinding.addContent(XMLElement("bnode").addContentClean(DictionaryHelper.byteArrayToBnode_S(value)))
                 ETripleComponentTypeExt.INTEGER -> nodeBinding.addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToInteger_S(value)).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#integer"))
                 ETripleComponentTypeExt.DECIMAL -> nodeBinding.addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToDecimal_S(value)).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#decimal"))
-                ETripleComponentTypeExt.DOUBLE -> nodeBinding.addContent(XMLElement("literal").addContentClean("" + DictionaryHelper.byteArrayToDouble(value)).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#double"))
-                ETripleComponentTypeExt.FLOAT -> nodeBinding.addContent(XMLElement("literal").addContentClean("" + DictionaryHelper.byteArrayToFloat(value)).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#float"))
+                ETripleComponentTypeExt.DOUBLE -> nodeBinding.addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToDouble_S(value)).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#double"))
+                ETripleComponentTypeExt.FLOAT -> nodeBinding.addContent(XMLElement("literal").addContentClean(DictionaryHelper.byteArrayToFloat_S(value)).addAttribute("datatype", "http://www.w3.org/2001/XMLSchema#float"))
             }
         }
     }

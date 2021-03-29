@@ -58,7 +58,7 @@ public class AOPBuildInCallBNODE1 public constructor(query: IQuery, child0: AOPB
                     res = tmp_10
                 }
                 ETripleComponentTypeExt.DOUBLE -> {
-                    val tmp_12: Double = DictionaryHelper.byteArrayToDouble(tmp_0)
+                    val tmp_12: Double = DictionaryHelper.byteArrayToDouble_I(tmp_0)
                     val tmp_13: Int = query.getDictionary().createNewBNode("DOUBLE_${tmp_12.toString()}")
                     res = tmp_13
                 }
@@ -67,7 +67,7 @@ public class AOPBuildInCallBNODE1 public constructor(query: IQuery, child0: AOPB
                     res = tmp_16
                 }
                 ETripleComponentTypeExt.FLOAT -> {
-                    val tmp_18: Double = DictionaryHelper.byteArrayToFloat(tmp_0)
+                    val tmp_18: Double = DictionaryHelper.byteArrayToFloat_I(tmp_0)
                     val tmp_19: Int = query.getDictionary().createNewBNode("FLOAT_${tmp_18.toString()}")
                     res = tmp_19
                 }

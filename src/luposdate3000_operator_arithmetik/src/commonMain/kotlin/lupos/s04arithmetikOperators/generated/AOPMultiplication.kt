@@ -64,7 +64,7 @@ public class AOPMultiplication public constructor(query: IQuery, child0: AOPBase
                         }
                         ETripleComponentTypeExt.DOUBLE -> {
                             val tmp_9: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
-                            val tmp_10: Double = DictionaryHelper.byteArrayToDouble(tmp_1)
+                            val tmp_10: Double = DictionaryHelper.byteArrayToDouble_I(tmp_1)
                             if (tmp_10 == 0.0) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
@@ -76,7 +76,7 @@ public class AOPMultiplication public constructor(query: IQuery, child0: AOPBase
                         }
                         ETripleComponentTypeExt.FLOAT -> {
                             val tmp_13: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
-                            val tmp_14: Double = DictionaryHelper.byteArrayToFloat(tmp_1)
+                            val tmp_14: Double = DictionaryHelper.byteArrayToFloat_I(tmp_1)
                             if (tmp_14 == 0.0) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
@@ -106,7 +106,7 @@ public class AOPMultiplication public constructor(query: IQuery, child0: AOPBase
                 ETripleComponentTypeExt.DOUBLE -> {
                     when (tmp_3) {
                         ETripleComponentTypeExt.DECIMAL -> {
-                            val tmp_22: Double = DictionaryHelper.byteArrayToDouble(tmp_0)
+                            val tmp_22: Double = DictionaryHelper.byteArrayToDouble_I(tmp_0)
                             val tmp_23: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_1)
                             if (tmp_23 == MyBigDecimal("0.0")) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
@@ -118,8 +118,8 @@ public class AOPMultiplication public constructor(query: IQuery, child0: AOPBase
                             }
                         }
                         ETripleComponentTypeExt.DOUBLE -> {
-                            val tmp_26: Double = DictionaryHelper.byteArrayToDouble(tmp_0)
-                            val tmp_27: Double = DictionaryHelper.byteArrayToDouble(tmp_1)
+                            val tmp_26: Double = DictionaryHelper.byteArrayToDouble_I(tmp_0)
+                            val tmp_27: Double = DictionaryHelper.byteArrayToDouble_I(tmp_1)
                             if (tmp_27 == 0.0) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
@@ -130,8 +130,8 @@ public class AOPMultiplication public constructor(query: IQuery, child0: AOPBase
                             }
                         }
                         ETripleComponentTypeExt.FLOAT -> {
-                            val tmp_30: Double = DictionaryHelper.byteArrayToDouble(tmp_0)
-                            val tmp_31: Double = DictionaryHelper.byteArrayToFloat(tmp_1)
+                            val tmp_30: Double = DictionaryHelper.byteArrayToDouble_I(tmp_0)
+                            val tmp_31: Double = DictionaryHelper.byteArrayToFloat_I(tmp_1)
                             if (tmp_31 == 0.0) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
@@ -142,7 +142,7 @@ public class AOPMultiplication public constructor(query: IQuery, child0: AOPBase
                             }
                         }
                         ETripleComponentTypeExt.INTEGER -> {
-                            val tmp_34: Double = DictionaryHelper.byteArrayToDouble(tmp_0)
+                            val tmp_34: Double = DictionaryHelper.byteArrayToDouble_I(tmp_0)
                             val tmp_35: MyBigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_1)
                             if (tmp_35 == MyBigInteger("0")) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
@@ -161,7 +161,7 @@ public class AOPMultiplication public constructor(query: IQuery, child0: AOPBase
                 ETripleComponentTypeExt.FLOAT -> {
                     when (tmp_3) {
                         ETripleComponentTypeExt.DECIMAL -> {
-                            val tmp_39: Double = DictionaryHelper.byteArrayToFloat(tmp_0)
+                            val tmp_39: Double = DictionaryHelper.byteArrayToFloat_I(tmp_0)
                             val tmp_40: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_1)
                             if (tmp_40 == MyBigDecimal("0.0")) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
@@ -173,8 +173,8 @@ public class AOPMultiplication public constructor(query: IQuery, child0: AOPBase
                             }
                         }
                         ETripleComponentTypeExt.DOUBLE -> {
-                            val tmp_43: Double = DictionaryHelper.byteArrayToFloat(tmp_0)
-                            val tmp_44: Double = DictionaryHelper.byteArrayToDouble(tmp_1)
+                            val tmp_43: Double = DictionaryHelper.byteArrayToFloat_I(tmp_0)
+                            val tmp_44: Double = DictionaryHelper.byteArrayToDouble_I(tmp_1)
                             if (tmp_44 == 0.0) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
@@ -185,8 +185,8 @@ public class AOPMultiplication public constructor(query: IQuery, child0: AOPBase
                             }
                         }
                         ETripleComponentTypeExt.FLOAT -> {
-                            val tmp_47: Double = DictionaryHelper.byteArrayToFloat(tmp_0)
-                            val tmp_48: Double = DictionaryHelper.byteArrayToFloat(tmp_1)
+                            val tmp_47: Double = DictionaryHelper.byteArrayToFloat_I(tmp_0)
+                            val tmp_48: Double = DictionaryHelper.byteArrayToFloat_I(tmp_1)
                             if (tmp_48 == 0.0) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
@@ -197,7 +197,7 @@ public class AOPMultiplication public constructor(query: IQuery, child0: AOPBase
                             }
                         }
                         ETripleComponentTypeExt.INTEGER -> {
-                            val tmp_51: Double = DictionaryHelper.byteArrayToFloat(tmp_0)
+                            val tmp_51: Double = DictionaryHelper.byteArrayToFloat_I(tmp_0)
                             val tmp_52: MyBigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_1)
                             if (tmp_52 == MyBigInteger("0")) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
@@ -229,7 +229,7 @@ public class AOPMultiplication public constructor(query: IQuery, child0: AOPBase
                         }
                         ETripleComponentTypeExt.DOUBLE -> {
                             val tmp_60: MyBigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
-                            val tmp_61: Double = DictionaryHelper.byteArrayToDouble(tmp_1)
+                            val tmp_61: Double = DictionaryHelper.byteArrayToDouble_I(tmp_1)
                             if (tmp_61 == 0.0) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
@@ -241,7 +241,7 @@ public class AOPMultiplication public constructor(query: IQuery, child0: AOPBase
                         }
                         ETripleComponentTypeExt.FLOAT -> {
                             val tmp_64: MyBigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
-                            val tmp_65: Double = DictionaryHelper.byteArrayToFloat(tmp_1)
+                            val tmp_65: Double = DictionaryHelper.byteArrayToFloat_I(tmp_1)
                             if (tmp_65 == 0.0) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)

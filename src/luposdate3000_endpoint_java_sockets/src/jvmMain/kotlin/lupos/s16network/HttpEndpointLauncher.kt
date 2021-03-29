@@ -228,7 +228,7 @@ public actual object HttpEndpointLauncher {
                                 connectionOutMy.print(LuposdateEndpoint.importTurtleFiles(params["file"]!!, dict))
                                 /*Coverage Unreachable*/
                             }
-                            paths["/import/turtledata"] = PathMappingHelper(true, mapOf(Pair("data", "<s> <p> <o>") to ::inputElement)) {
+                            paths["/import/turtledata"] = PathMappingHelper(true, mapOf(Pair("data", "<s> <p> <o> .") to ::inputElement)) {
                                 val dict = mutableMapOf<String, Int>()
                                 val dictfile = params["bnodeList"]
                                 if (dictfile != null) {

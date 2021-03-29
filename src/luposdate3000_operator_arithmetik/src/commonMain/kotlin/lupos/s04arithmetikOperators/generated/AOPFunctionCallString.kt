@@ -73,14 +73,14 @@ public class AOPFunctionCallString public constructor(query: IQuery, child0: AOP
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.DOUBLE -> {
-                    val tmp_12: Double = DictionaryHelper.byteArrayToDouble(tmp_0)
+                    val tmp_12: Double = DictionaryHelper.byteArrayToDouble_I(tmp_0)
                     val tmp_13_content: String = tmp_12.toString()
                     val tmp_13_type: String = "http://www.w3.org/2001/XMLSchema#string"
                     DictionaryHelper.langToByteArray(tmp_2, tmp_13_content, tmp_13_type)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.FLOAT -> {
-                    val tmp_15: Double = DictionaryHelper.byteArrayToFloat(tmp_0)
+                    val tmp_15: Double = DictionaryHelper.byteArrayToFloat_I(tmp_0)
                     val tmp_16_content: String = tmp_15.toString()
                     val tmp_16_type: String = "http://www.w3.org/2001/XMLSchema#string"
                     DictionaryHelper.langToByteArray(tmp_2, tmp_16_content, tmp_16_type)

@@ -386,8 +386,12 @@ public object DictionaryHelper {
         ByteArrayHelper.writeDouble8(buffer.getBuf(), 4, value)
     }
 
-    public inline fun byteArrayToDouble(buffer: ByteArrayWrapper): Double {
+    public inline fun byteArrayToDouble_I(buffer: ByteArrayWrapper): Double {
         return ByteArrayHelper.readDouble8(buffer.getBuf(), 4)
+    }
+
+    public inline fun byteArrayToDouble_S(buffer: ByteArrayWrapper): String {
+        return ByteArrayHelper.readDouble8(buffer.getBuf(), 4).toString()
     }
 
     public inline fun floatToByteArray(buffer: ByteArrayWrapper, value: Double) {
@@ -396,8 +400,12 @@ public object DictionaryHelper {
         ByteArrayHelper.writeDouble8(buffer.getBuf(), 4, value)
     }
 
-    public inline fun byteArrayToFloat(buffer: ByteArrayWrapper): Double {
+    public inline fun byteArrayToFloat_I(buffer: ByteArrayWrapper): Double {
         return ByteArrayHelper.readDouble8(buffer.getBuf(), 4)
+    }
+
+    public inline fun byteArrayToFloat_S(buffer: ByteArrayWrapper): String {
+        return ByteArrayHelper.readDouble8(buffer.getBuf(), 4).toString()
     }
 
     public inline fun langToByteArray(buffer: ByteArrayWrapper, content: String, lang: String) {
@@ -489,6 +497,17 @@ public object DictionaryHelper {
     public inline fun byteArrayToBnode_S(buffer: ByteArrayWrapper): String {
         if (buffer.getSize() == 8) {
             throw Exception("this is not ready to be used as import value")
+        } else {
+            val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
+            val buf = ByteArray(l1)
+            buffer.getBuf().copyInto(buf, 0, 4, 4 + l1)
+            return buf.decodeToString()
+        }
+    }
+
+    public inline fun byteArrayToBnode_A(buffer: ByteArrayWrapper): String {
+        if (buffer.getSize() == 8) {
+            return ByteArrayHelper.readInt4(buffer.getBuf(), 4).toString()
         } else {
             val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
             val buf = ByteArray(l1)
@@ -601,6 +620,31 @@ public object DictionaryHelper {
     }
 
     public inline fun byteArrayToType(buffer: ByteArrayWrapper): ETripleComponentType = ByteArrayHelper.readInt4(buffer.getBuf(), 0)
+    public inline fun byteArrayToSparql(buffer: ByteArrayWrapper): String {
+        val type = byteArrayToType(buffer)
+        return when (type) {
+            ETripleComponentTypeExt.UNDEF -> "UNDEF"
+            ETripleComponentTypeExt.ERROR -> "ERROR"
+            ETripleComponentTypeExt.BLANK_NODE -> byteArrayToBnode_A(buffer)
+            ETripleComponentTypeExt.BOOLEAN -> {
+                if (byteArrayToBoolean(buffer)) {
+                    "true"
+                } else {
+                    "false"
+                }
+            }
+            ETripleComponentTypeExt.DOUBLE -> "\"" + byteArrayToDouble_S(buffer).toString() + "\"^^<http://www.w3.org/2001/XMLSchema#double>"
+            ETripleComponentTypeExt.FLOAT -> "\"" + byteArrayToFloat_S(buffer) + "\"^^<http://www.w3.org/2001/XMLSchema#float>"
+            ETripleComponentTypeExt.INTEGER -> "\"" + byteArrayToInteger_S(buffer) + "\"^^<http://www.w3.org/2001/XMLSchema#integer>"
+            ETripleComponentTypeExt.DECIMAL -> "\"" + byteArrayToDecimal_S(buffer) + "\"^^<http://www.w3.org/2001/XMLSchema#decimal>"
+            ETripleComponentTypeExt.IRI -> "<" + byteArrayToIri(buffer) + ">"
+            ETripleComponentTypeExt.STRING -> "\"" + byteArrayToString(buffer) + "\""
+            ETripleComponentTypeExt.STRING_LANG -> "\"" + byteArrayToLang_Content(buffer) + "\"@" + byteArrayToLang_Lang(buffer)
+            ETripleComponentTypeExt.STRING_TYPED -> "\"" + byteArrayToTyped_Content(buffer) + "\"@" + byteArrayToTyped_Type(buffer)
+            else -> throw Exception("unreachable $type")
+        }
+    }
+
     public inline fun byteArrayToValueDefinition(buffer: ByteArrayWrapper): ValueDefinition {
         val type = byteArrayToType(buffer)
         return when (type) {
@@ -614,8 +658,8 @@ public object DictionaryHelper {
                     DictionaryExt.booleanFalseValue2
                 }
             }
-            ETripleComponentTypeExt.DOUBLE -> ValueDouble(byteArrayToDouble(buffer))
-            ETripleComponentTypeExt.FLOAT -> ValueFloat(byteArrayToDouble(buffer))
+            ETripleComponentTypeExt.DOUBLE -> ValueDouble(byteArrayToDouble_I(buffer))
+            ETripleComponentTypeExt.FLOAT -> ValueFloat(byteArrayToFloat_I(buffer))
             ETripleComponentTypeExt.INTEGER -> ValueInteger(byteArrayToInteger_I(buffer))
             ETripleComponentTypeExt.DECIMAL -> ValueDecimal(byteArrayToDecimal_I(buffer))
             ETripleComponentTypeExt.IRI -> ValueIri(byteArrayToIri(buffer))
@@ -643,8 +687,8 @@ public object DictionaryHelper {
     ) {
         val type = ByteArrayHelper.readInt4(buffer.getBuf(), 0)
         when (type) {
-            ETripleComponentTypeExt.FLOAT -> onFloat(byteArrayToDouble(buffer))
-            ETripleComponentTypeExt.DOUBLE -> onDouble(byteArrayToDouble(buffer))
+            ETripleComponentTypeExt.FLOAT -> onFloat(byteArrayToFloat_I(buffer))
+            ETripleComponentTypeExt.DOUBLE -> onDouble(byteArrayToDouble_I(buffer))
             ETripleComponentTypeExt.INTEGER -> onInteger(byteArrayToInteger_S(buffer))
             ETripleComponentTypeExt.DECIMAL -> onDecimal(byteArrayToDecimal_S(buffer))
             ETripleComponentTypeExt.UNDEF -> onUndefined()

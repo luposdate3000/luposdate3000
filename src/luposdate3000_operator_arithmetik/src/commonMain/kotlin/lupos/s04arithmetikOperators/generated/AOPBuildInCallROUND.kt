@@ -50,13 +50,13 @@ public class AOPBuildInCallROUND public constructor(query: IQuery, child0: AOPBa
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.DOUBLE -> {
-                    val tmp_6: Double = DictionaryHelper.byteArrayToDouble(tmp_0)
+                    val tmp_6: Double = DictionaryHelper.byteArrayToDouble_I(tmp_0)
                     val tmp_7: Double = tmp_6.roundToInt().toDouble()
                     DictionaryHelper.doubleToByteArray(tmp_2, tmp_7)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.FLOAT -> {
-                    val tmp_9: Double = DictionaryHelper.byteArrayToFloat(tmp_0)
+                    val tmp_9: Double = DictionaryHelper.byteArrayToFloat_I(tmp_0)
                     val tmp_10: Double = tmp_9.roundToInt().toDouble()
                     DictionaryHelper.floatToByteArray(tmp_2, tmp_10)
                     res = query.getDictionary().createValue(tmp_2)
