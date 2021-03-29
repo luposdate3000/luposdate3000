@@ -21,16 +21,18 @@ import lupos.buffermanager.BufferManagerExt
 import lupos.dictionary.ADictionary
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryFactory
+import lupos.dictionary.DictionaryHelper
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
 import lupos.dictionary.nodeGlobalDictionary
 import lupos.s00misc.ByteArrayWrapper
+import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.Parallel
 import lupos.test.AflCore
 import kotlin.math.abs
 import kotlin.math.max
 
-private val verbose = true
+private val verbose = false
 
 // private val maxSize = 16
 private val maxSize = 16384
@@ -43,6 +45,9 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
     for (isLocal in listOf(true, false)) {
         for (dictType in 0 until EDictionaryTypeExt.values_size) {
+            if (isLocal && dictType == EDictionaryTypeExt.KV) {
+                continue
+            }
             resetRandom()
             BufferManagerExt.allowInitFromDisk = false
             var bufferManager = BufferManager()
@@ -177,9 +182,22 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 if (verbose) {
                     println("testHasValueYesOk $targetKey ${data.getBuf().map { it }.subList(0, data.getSize())}")
                 }
-                val res = dict.hasValue(data)
-                if (res != targetKey) {
-                    throw Exception("$res $targetKey")
+                var res: Int? = null
+                var flag = true
+                try {
+                    res = dict.hasValue(data)
+                } catch (e: Throwable) {
+                    flag = false
+                }
+                val type = DictionaryHelper.byteArrayToType(data)
+                val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)
+                if (flag == assumeCrash) {
+                    throw Exception("$flag $isLocal")
+                }
+                if (flag) {
+                    if (res != targetKey) {
+                        throw Exception("$res $targetKey")
+                    }
                 }
             }
 
@@ -187,9 +205,22 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 if (verbose) {
                     println("testHasValueNoOk ${data.getBuf().map { it }.subList(0, data.getSize())}")
                 }
-                val res = dict.hasValue(data)
-                if (res != null) {
+                var res: Int? = null
+                var flag = true
+                try {
+                    res = dict.hasValue(data)
+                } catch (e: Throwable) {
+                    flag = false
+                }
+                val type = DictionaryHelper.byteArrayToType(data)
+                val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)
+                if (flag == assumeCrash) {
                     throw Exception("")
+                }
+                if (flag) {
+                    if (res != null) {
+                        throw Exception("")
+                    }
                 }
             }
 
