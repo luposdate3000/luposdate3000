@@ -16,12 +16,12 @@
  */
 package lupos.launch.test_dictionary_encoding
 
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.buffermanager.BufferManagerExt
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.MyBigDecimal
-import lupos.s00misc.MyBigInteger
 import lupos.s00misc.Parallel
 import lupos.test.AflCore
 import kotlin.math.abs
@@ -501,8 +501,8 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                     year = "0" + year
                 }
             }
-            val myseconds = MyBigDecimal(seconds)
-            val myyear = MyBigInteger(year)
+            val myseconds = BigDecimal(seconds)
+            val myyear = BigInteger(year)
             if (verbose) {
                 println("dateTimeToByteArray '$year' '$month' '$day' '$hours' '$minutes' '$seconds' '$timezoneHours' '$timezoneMinutes'")
             }

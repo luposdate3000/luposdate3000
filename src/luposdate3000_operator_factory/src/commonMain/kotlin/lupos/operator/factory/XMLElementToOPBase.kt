@@ -16,9 +16,9 @@
  */
 package lupos.operator.factory
 
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.s00misc.ESortTypeExt
-import lupos.s00misc.MyBigDecimal
-import lupos.s00misc.MyBigInteger
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s00misc.UnknownOperatorTypeInXMLException
@@ -340,10 +340,10 @@ public object XMLElementToOPBase {
                 res = AOPDivision(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
             }
             "ValueInteger" -> {
-                res = AOPConstant(query, ValueInteger(MyBigInteger(node.attributes["value"]!!)))
+                res = AOPConstant(query, ValueInteger(BigInteger(node.attributes["value"]!!)))
             }
             "ValueDecimal" -> {
-                res = AOPConstant(query, ValueDecimal(MyBigDecimal(node.attributes["value"]!!)))
+                res = AOPConstant(query, ValueDecimal(BigDecimal(node.attributes["value"]!!)))
             }
             "ValueFloat" -> {
                 res = AOPConstant(query, ValueFloat(node.attributes["value"]!!.toDouble()))

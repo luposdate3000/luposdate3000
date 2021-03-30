@@ -16,20 +16,24 @@
  */
 package lupos.s04arithmetikOperators.generated
 
+import import
+
+com.ionspin.kotlin.bignum.decimal.BigDecimal
+import import
+
+com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.MyBigDecimal
-import lupos.s00misc.MyBigInteger
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPBuildInCallHOURS public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallHOURSID, "AOPBuildInCallHOURS", arrayOf(child0,)) {
+public class AOPBuildInCallHOURS public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallHOURSID, "AOPBuildInCallHOURS", arrayOf(child0, )) {
     override fun toSparql(): String = "HOURS(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallHOURS && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallHOURS(query, children[0].cloneOP() as AOPBase)
@@ -45,15 +49,15 @@ public class AOPBuildInCallHOURS public constructor(query: IQuery, child0: AOPBa
             when (tmp_1) {
                 ETripleComponentTypeExt.DATE_TIME -> {
                     val tmp_3_typed_content: String = DictionaryHelper.byteArrayToDateTimeAsTyped_Content(tmp_0)
-                    val tmp_3_year: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Year(tmp_0)
-                    val tmp_3_month: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Month(tmp_0)
-                    val tmp_3_day: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Day(tmp_0)
-                    val tmp_3_hours: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Hours(tmp_0)
-                    val tmp_3_minutes: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Minutes(tmp_0)
-                    val tmp_3_seconds: MyBigDecimal = DictionaryHelper.byteArrayToDateTime_Seconds(tmp_0)
+                    val tmp_3_year: BigInteger = DictionaryHelper.byteArrayToDateTime_Year(tmp_0)
+                    val tmp_3_month: BigInteger = DictionaryHelper.byteArrayToDateTime_Month(tmp_0)
+                    val tmp_3_day: BigInteger = DictionaryHelper.byteArrayToDateTime_Day(tmp_0)
+                    val tmp_3_hours: BigInteger = DictionaryHelper.byteArrayToDateTime_Hours(tmp_0)
+                    val tmp_3_minutes: BigInteger = DictionaryHelper.byteArrayToDateTime_Minutes(tmp_0)
+                    val tmp_3_seconds: BigDecimal = DictionaryHelper.byteArrayToDateTime_Seconds(tmp_0)
                     val tmp_3_tz: String = DictionaryHelper.byteArrayToDateTime_TZ(tmp_0)
                     val tmp_3_timezone: String = DictionaryHelper.byteArrayToDateTime_TimeZone(tmp_0)
-                    val tmp_4: MyBigInteger = tmp_3_hours
+                    val tmp_4: BigInteger = tmp_3_hours
                     DictionaryHelper.integerToByteArray(tmp_2, tmp_4)
                     res = query.getDictionary().createValue(tmp_2)
                 }

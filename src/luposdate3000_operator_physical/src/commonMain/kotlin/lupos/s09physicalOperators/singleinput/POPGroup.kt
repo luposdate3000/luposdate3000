@@ -16,6 +16,7 @@
  */
 package lupos.s09physicalOperators.singleinput
 
+import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
@@ -23,7 +24,6 @@ import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.GroupByColumnMissing
 import lupos.s00misc.GroupByDuplicateColumnException
-import lupos.s00misc.MyBigInteger
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
@@ -461,7 +461,7 @@ public class POPGroup : POPBase {
                     val dict = query.getDictionary()
                     for ((k, v) in map) {
                         arrK[i] = k
-                        DictionaryHelper.integerToByteArray(buffer, MyBigInteger(v))
+                        DictionaryHelper.integerToByteArray(buffer, BigInteger(v))
                         arrV[i] = dict.createValue(buffer)
                         i++
                     }

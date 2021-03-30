@@ -16,21 +16,25 @@
  */
 package lupos.s04arithmetikOperators.generated
 
+import import
+
+com.ionspin.kotlin.bignum.decimal.BigDecimal
+import import
+
+com.ionspin.kotlin.bignum.integer.BigInteger
+import kotlin.math.abs
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.MyBigDecimal
-import lupos.s00misc.MyBigInteger
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import kotlin.math.abs
 
-public class AOPBuildInCallABS public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallABSID, "AOPBuildInCallABS", arrayOf(child0,)) {
+public class AOPBuildInCallABS public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallABSID, "AOPBuildInCallABS", arrayOf(child0, )) {
     override fun toSparql(): String = "ABS(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallABS && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallABS(query, children[0].cloneOP() as AOPBase)
@@ -45,8 +49,8 @@ public class AOPBuildInCallABS public constructor(query: IQuery, child0: AOPBase
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
                 ETripleComponentTypeExt.DECIMAL -> {
-                    val tmp_3: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
-                    val tmp_4: MyBigDecimal = tmp_3.abs()
+                    val tmp_3: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
+                    val tmp_4: BigDecimal = tmp_3.abs()
                     DictionaryHelper.decimalToByteArray(tmp_2, tmp_4)
                     res = query.getDictionary().createValue(tmp_2)
                 }
@@ -63,8 +67,8 @@ public class AOPBuildInCallABS public constructor(query: IQuery, child0: AOPBase
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.INTEGER -> {
-                    val tmp_12: MyBigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
-                    val tmp_13: MyBigInteger = tmp_12.abs()
+                    val tmp_12: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
+                    val tmp_13: BigInteger = tmp_12.abs()
                     DictionaryHelper.integerToByteArray(tmp_2, tmp_13)
                     res = query.getDictionary().createValue(tmp_2)
                 }

@@ -16,14 +16,18 @@
  */
 package lupos.s04arithmetikOperators.generated
 
+import import
+
+com.ionspin.kotlin.bignum.decimal.BigDecimal
+import import
+
+com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.MyBigDecimal
-import lupos.s00misc.MyBigInteger
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -53,7 +57,7 @@ public class AOPBuildInCallBNODE1 public constructor(query: IQuery, child0: AOPB
                     res = tmp_7
                 }
                 ETripleComponentTypeExt.DECIMAL -> {
-                    val tmp_9: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
+                    val tmp_9: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
                     val tmp_10: Int = query.getDictionary().createNewBNode("DECIMAL_${tmp_9.toString()}")
                     res = tmp_10
                 }
@@ -72,7 +76,7 @@ public class AOPBuildInCallBNODE1 public constructor(query: IQuery, child0: AOPB
                     res = tmp_19
                 }
                 ETripleComponentTypeExt.INTEGER -> {
-                    val tmp_21: MyBigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
+                    val tmp_21: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
                     val tmp_22: Int = query.getDictionary().createNewBNode("INTEGER_${tmp_21.toString()}")
                     res = tmp_22
                 }

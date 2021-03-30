@@ -16,20 +16,24 @@
  */
 package lupos.s04arithmetikOperators.generated
 
+import import
+
+com.ionspin.kotlin.bignum.decimal.BigDecimal
+import import
+
+com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.MyBigDecimal
-import lupos.s00misc.MyBigInteger
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPSubtraction public constructor(query: IQuery, child0: AOPBase, child1: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPSubtractionID, "AOPSubtraction", arrayOf(child0, child1,)) {
+public class AOPSubtraction public constructor(query: IQuery, child0: AOPBase, child1: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPSubtractionID, "AOPSubtraction", arrayOf(child0, child1, )) {
     override fun toSparql(): String = "Subtraction(${children[0].toSparql()}, ${children[1].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPSubtraction && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = AOPSubtraction(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
@@ -51,19 +55,19 @@ public class AOPSubtraction public constructor(query: IQuery, child0: AOPBase, c
                 ETripleComponentTypeExt.DECIMAL -> {
                     when (tmp_3) {
                         ETripleComponentTypeExt.DECIMAL -> {
-                            val tmp_5: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
-                            val tmp_6: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_1)
-                            if (tmp_6 == MyBigDecimal("0.0")) {
+                            val tmp_5: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
+                            val tmp_6: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_1)
+                            if (tmp_6 == BigDecimal("0.0")) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_7: MyBigDecimal = tmp_5 - tmp_6
+                                val tmp_7: BigDecimal = tmp_5 - tmp_6
                                 DictionaryHelper.decimalToByteArray(tmp_4, tmp_7)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
                         }
                         ETripleComponentTypeExt.DOUBLE -> {
-                            val tmp_9: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
+                            val tmp_9: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
                             val tmp_10: Double = DictionaryHelper.byteArrayToDouble_I(tmp_1)
                             if (tmp_10 == 0.0) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
@@ -75,7 +79,7 @@ public class AOPSubtraction public constructor(query: IQuery, child0: AOPBase, c
                             }
                         }
                         ETripleComponentTypeExt.FLOAT -> {
-                            val tmp_13: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
+                            val tmp_13: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
                             val tmp_14: Double = DictionaryHelper.byteArrayToFloat_I(tmp_1)
                             if (tmp_14 == 0.0) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
@@ -87,13 +91,13 @@ public class AOPSubtraction public constructor(query: IQuery, child0: AOPBase, c
                             }
                         }
                         ETripleComponentTypeExt.INTEGER -> {
-                            val tmp_17: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
-                            val tmp_18: MyBigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_1)
-                            if (tmp_18 == MyBigInteger("0")) {
+                            val tmp_17: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
+                            val tmp_18: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_1)
+                            if (tmp_18 == BigInteger("0")) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_19: MyBigDecimal = tmp_17 - tmp_18.toMyBigDecimal()
+                                val tmp_19: BigDecimal = tmp_17 - tmp_18.toBigDecimal()
                                 DictionaryHelper.decimalToByteArray(tmp_4, tmp_19)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -107,8 +111,8 @@ public class AOPSubtraction public constructor(query: IQuery, child0: AOPBase, c
                     when (tmp_3) {
                         ETripleComponentTypeExt.DECIMAL -> {
                             val tmp_22: Double = DictionaryHelper.byteArrayToDouble_I(tmp_0)
-                            val tmp_23: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_1)
-                            if (tmp_23 == MyBigDecimal("0.0")) {
+                            val tmp_23: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_1)
+                            if (tmp_23 == BigDecimal("0.0")) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
@@ -143,8 +147,8 @@ public class AOPSubtraction public constructor(query: IQuery, child0: AOPBase, c
                         }
                         ETripleComponentTypeExt.INTEGER -> {
                             val tmp_34: Double = DictionaryHelper.byteArrayToDouble_I(tmp_0)
-                            val tmp_35: MyBigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_1)
-                            if (tmp_35 == MyBigInteger("0")) {
+                            val tmp_35: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_1)
+                            if (tmp_35 == BigInteger("0")) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
@@ -162,8 +166,8 @@ public class AOPSubtraction public constructor(query: IQuery, child0: AOPBase, c
                     when (tmp_3) {
                         ETripleComponentTypeExt.DECIMAL -> {
                             val tmp_39: Double = DictionaryHelper.byteArrayToFloat_I(tmp_0)
-                            val tmp_40: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_1)
-                            if (tmp_40 == MyBigDecimal("0.0")) {
+                            val tmp_40: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_1)
+                            if (tmp_40 == BigDecimal("0.0")) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
@@ -198,8 +202,8 @@ public class AOPSubtraction public constructor(query: IQuery, child0: AOPBase, c
                         }
                         ETripleComponentTypeExt.INTEGER -> {
                             val tmp_51: Double = DictionaryHelper.byteArrayToFloat_I(tmp_0)
-                            val tmp_52: MyBigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_1)
-                            if (tmp_52 == MyBigInteger("0")) {
+                            val tmp_52: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_1)
+                            if (tmp_52 == BigInteger("0")) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
@@ -216,19 +220,19 @@ public class AOPSubtraction public constructor(query: IQuery, child0: AOPBase, c
                 ETripleComponentTypeExt.INTEGER -> {
                     when (tmp_3) {
                         ETripleComponentTypeExt.DECIMAL -> {
-                            val tmp_56: MyBigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
-                            val tmp_57: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_1)
-                            if (tmp_57 == MyBigDecimal("0.0")) {
+                            val tmp_56: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
+                            val tmp_57: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_1)
+                            if (tmp_57 == BigDecimal("0.0")) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_58: MyBigDecimal = tmp_56.toMyBigDecimal() - tmp_57
+                                val tmp_58: BigDecimal = tmp_56.toBigDecimal() - tmp_57
                                 DictionaryHelper.decimalToByteArray(tmp_4, tmp_58)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
                         }
                         ETripleComponentTypeExt.DOUBLE -> {
-                            val tmp_60: MyBigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
+                            val tmp_60: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
                             val tmp_61: Double = DictionaryHelper.byteArrayToDouble_I(tmp_1)
                             if (tmp_61 == 0.0) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
@@ -240,7 +244,7 @@ public class AOPSubtraction public constructor(query: IQuery, child0: AOPBase, c
                             }
                         }
                         ETripleComponentTypeExt.FLOAT -> {
-                            val tmp_64: MyBigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
+                            val tmp_64: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
                             val tmp_65: Double = DictionaryHelper.byteArrayToFloat_I(tmp_1)
                             if (tmp_65 == 0.0) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
@@ -252,13 +256,13 @@ public class AOPSubtraction public constructor(query: IQuery, child0: AOPBase, c
                             }
                         }
                         ETripleComponentTypeExt.INTEGER -> {
-                            val tmp_68: MyBigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
-                            val tmp_69: MyBigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_1)
-                            if (tmp_69 == MyBigInteger("0")) {
+                            val tmp_68: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
+                            val tmp_69: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_1)
+                            if (tmp_69 == BigInteger("0")) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_70: MyBigInteger = tmp_68 - tmp_69
+                                val tmp_70: BigInteger = tmp_68 - tmp_69
                                 DictionaryHelper.integerToByteArray(tmp_4, tmp_70)
                                 res = query.getDictionary().createValue(tmp_4)
                             }

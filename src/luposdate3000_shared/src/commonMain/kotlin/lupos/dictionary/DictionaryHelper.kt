@@ -20,8 +20,8 @@ import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.MyBigDecimal
-import lupos.s00misc.MyBigInteger
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueDecimal
@@ -204,10 +204,10 @@ public object DictionaryHelper {
             timezoneHours = -99
             timezoneMinutes = -99
         }
-        dateTimeToByteArray(buffer, MyBigInteger(year), month, day, hours, minutes, MyBigDecimal(seconds), timezoneHours, timezoneMinutes)
+        dateTimeToByteArray(buffer, BigInteger.parseString(year, 10), month, day, hours, minutes, BigDecimal.parseString(seconds, 10), timezoneHours, timezoneMinutes)
     }
 
-    public inline fun dateTimeToByteArray(buffer: ByteArrayWrapper, year: MyBigInteger, month: Int, day: Int, hours: Int, minutes: Int, seconds: MyBigDecimal, timezoneHours: Int, timezoneMinutes: Int) {
+    public inline fun dateTimeToByteArray(buffer: ByteArrayWrapper, year: BigInteger, month: Int, day: Int, hours: Int, minutes: Int, seconds: BigDecimal, timezoneHours: Int, timezoneMinutes: Int) {
         SanityCheck.check { month >= 0 }
         SanityCheck.check { month <= 99 }
         SanityCheck.check { day >= 0 }
@@ -261,46 +261,46 @@ public object DictionaryHelper {
         ByteArrayHelper.writeInt4(buffer.getBuf(), 28 + l1 + l2, timezoneMinutes)
     }
 
-    public inline fun byteArrayToDateTime_Year(buffer: ByteArrayWrapper): MyBigInteger {
+    public inline fun byteArrayToDateTime_Year(buffer: ByteArrayWrapper): BigInteger {
         val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
         val l2 = buffer.getSize() - 32 - l1
         val buf = ByteArray(l1)
         buffer.getBuf().copyInto(buf, 0, 8, 8 + l1)
         val year = buf.decodeToString()
-        return MyBigInteger(year)
+        return BigInteger.parseString(year, 10)
     }
 
-    public inline fun byteArrayToDateTime_Month(buffer: ByteArrayWrapper): MyBigInteger {
+    public inline fun byteArrayToDateTime_Month(buffer: ByteArrayWrapper): BigInteger {
         val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
         val month = ByteArrayHelper.readInt4(buffer.getBuf(), 8 + l1)
-        return MyBigInteger(month)
+        return BigInteger(month)
     }
 
-    public inline fun byteArrayToDateTime_Day(buffer: ByteArrayWrapper): MyBigInteger {
+    public inline fun byteArrayToDateTime_Day(buffer: ByteArrayWrapper): BigInteger {
         val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
         val day = ByteArrayHelper.readInt4(buffer.getBuf(), 12 + l1)
-        return MyBigInteger(day)
+        return BigInteger(day)
     }
 
-    public inline fun byteArrayToDateTime_Hours(buffer: ByteArrayWrapper): MyBigInteger {
+    public inline fun byteArrayToDateTime_Hours(buffer: ByteArrayWrapper): BigInteger {
         val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
         val hours = ByteArrayHelper.readInt4(buffer.getBuf(), 16 + l1)
-        return MyBigInteger(hours)
+        return BigInteger(hours)
     }
 
-    public inline fun byteArrayToDateTime_Minutes(buffer: ByteArrayWrapper): MyBigInteger {
+    public inline fun byteArrayToDateTime_Minutes(buffer: ByteArrayWrapper): BigInteger {
         val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
         val minutes = ByteArrayHelper.readInt4(buffer.getBuf(), 20 + l1)
-        return MyBigInteger(minutes)
+        return BigInteger(minutes)
     }
 
-    public inline fun byteArrayToDateTime_Seconds(buffer: ByteArrayWrapper): MyBigDecimal {
+    public inline fun byteArrayToDateTime_Seconds(buffer: ByteArrayWrapper): BigDecimal {
         val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
         val l2 = buffer.getSize() - 32 - l1
         val buf = ByteArray(l2)
         buffer.getBuf().copyInto(buf, 0, 24 + l1, 24 + l1 + l2)
         val seconds = buf.decodeToString()
-        return MyBigDecimal(seconds)
+        return BigDecimal.parseString(seconds, 10)
     }
 
     public inline fun byteArrayToDateTimeAsTyped_Content(buffer: ByteArrayWrapper): String {
@@ -387,7 +387,7 @@ public object DictionaryHelper {
         buf1.copyInto(buffer.getBuf(), 4)
     }
 
-    public inline fun integerToByteArray(buffer: ByteArrayWrapper, value: MyBigInteger) {
+    public inline fun integerToByteArray(buffer: ByteArrayWrapper, value: BigInteger) {
         val buf1 = value.toString().encodeToByteArray()
         buffer.setSize(4 + buf1.size)
         ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.INTEGER)
@@ -401,11 +401,11 @@ public object DictionaryHelper {
         return buf.decodeToString()
     }
 
-    public inline fun byteArrayToInteger_I(buffer: ByteArrayWrapper): MyBigInteger {
+    public inline fun byteArrayToInteger_I(buffer: ByteArrayWrapper): BigInteger {
         val l1 = buffer.getSize() - 4
         val buf = ByteArray(l1)
         buffer.getBuf().copyInto(buf, 0, 4, 4 + l1)
-        return MyBigInteger(buf.decodeToString())
+        return BigInteger.parseString(buf.decodeToString(), 10)
     }
 
     public inline fun decimalToByteArray(buffer: ByteArrayWrapper, value: String) {
@@ -415,18 +415,18 @@ public object DictionaryHelper {
         buf1.copyInto(buffer.getBuf(), 4)
     }
 
-    public inline fun decimalToByteArray(buffer: ByteArrayWrapper, value: MyBigDecimal) {
+    public inline fun decimalToByteArray(buffer: ByteArrayWrapper, value: BigDecimal) {
         val buf1 = value.toString().encodeToByteArray()
         buffer.setSize(4 + buf1.size)
         ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.DECIMAL)
         buf1.copyInto(buffer.getBuf(), 4)
     }
 
-    public inline fun byteArrayToDecimal_I(buffer: ByteArrayWrapper): MyBigDecimal {
+    public inline fun byteArrayToDecimal_I(buffer: ByteArrayWrapper): BigDecimal {
         val l1 = buffer.getSize() - 4
         val buf = ByteArray(l1)
         buffer.getBuf().copyInto(buf, 0, 4, 4 + l1)
-        return MyBigDecimal(buf.decodeToString())
+        return BigDecimal.parseString(buf.decodeToString(), 10)
     }
 
     public inline fun byteArrayToDecimal_S(buffer: ByteArrayWrapper): String {
@@ -643,14 +643,14 @@ public object DictionaryHelper {
             return
         }
         try {
-            val i = MyBigInteger(value)
+            val i = BigInteger.parseString(value, 10)
             integerToByteArray(buffer, i.toString())
             return
         } catch (e: Throwable) {
         }
         if (!value.contains("e") && !value.contains("E")) {
             try {
-                val d = MyBigDecimal(value)
+                val d = BigDecimal.parseString(value, 10)
                 decimalToByteArray(buffer, d.toString())
                 return
             } catch (e: Throwable) {
