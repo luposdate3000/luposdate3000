@@ -36,7 +36,7 @@ private object AssertionFunctions {
         val a1 = a()
         val b1 = b()
         if (a1 != b1) {
-            throw Exception("$a1 != $b1")
+            throw Exception("'$a1' == '$b1' -- ${a1.toString().length} ${b1.toString().length}")
         }
     }
 
@@ -44,7 +44,7 @@ private object AssertionFunctions {
         val a1 = a()
         val b1 = b()
         if (a1 == b1) {
-            throw Exception("$a1 != $b1")
+            throw Exception("'$a1' != '$b1' -- ${a1.toString().length} ${b1.toString().length}")
         }
     }
 
@@ -56,7 +56,7 @@ private object AssertionFunctions {
             flag = false
         }
         if (flag) {
-            throw Exception("no Exception")
+            throw Exception("expected an Exception")
         }
     }
 
@@ -129,18 +129,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         var remaining = len
         var v = ""
         when (remaining) {
-            1 -> {
+            1, 2 -> {
                 remaining--
-                v = nextRandom().toString()
-            }
-            2 -> {
-                remaining--
-                when (AssertionFunctions.randomRangePositive(nextRandom(), 3)) {
-                    0 -> v += "+"
-                    1 -> v += "-"
-                }
-                remaining--
-                v += abs(nextRandom()).toString()
+                v = nextRandom().toString() + ".0"
             }
             else -> {
                 remaining--
@@ -203,11 +194,15 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         for (i in 0 until hasNextRandom()) {
             v += AssertionFunctions.randomPrintableChar(nextRandom())
         }
-        DictionaryHelper.bnodeToByteArray(buffer, v)
-        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.BLANK_NODE })
-        AssertionFunctions.assumeException({ DictionaryHelper.byteArrayToBnode_I(buffer) })
-        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_S(buffer) }, { v })
-        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_A(buffer) }, { v })
+        if (v.length == 0) {
+            AssertionFunctions.assumeException({ DictionaryHelper.bnodeToByteArray(buffer, v) })
+        } else {
+            DictionaryHelper.bnodeToByteArray(buffer, v)
+            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.BLANK_NODE })
+            AssertionFunctions.assumeException({ DictionaryHelper.byteArrayToBnode_I(buffer) })
+            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_S(buffer) }, { v })
+            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBnode_A(buffer) }, { v })
+        }
     }
 
     fun booleanToByteArray() {
@@ -217,10 +212,18 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBoolean(buffer) }, { true })
         DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        DictionaryHelper.sparqlToByteArray(buffer2, "true")
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        DictionaryHelper.sparqlToByteArray(buffer2, "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
         DictionaryHelper.booleanToByteArray(buffer, false)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.BOOLEAN })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBoolean(buffer) }, { false })
         DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        DictionaryHelper.sparqlToByteArray(buffer2, "false")
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        DictionaryHelper.sparqlToByteArray(buffer2, "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
     }
 
@@ -253,7 +256,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     fun typedToByteArray() {
         resetRandom()
         var v = ""
-        if (hasNextRandom() > 1) {
+        if (hasNextRandom() > 2) {
             val l = nextRandom()
             for (i in 0 until hasNextRandom()) {
                 v += AssertionFunctions.randomPrintableChar(nextRandom())
@@ -273,7 +276,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     fun langToByteArray() {
         resetRandom()
         var v = ""
-        if (hasNextRandom() > 1) {
+        if (hasNextRandom() > 2) {
             val l = nextRandom()
             for (i in 0 until hasNextRandom()) {
                 v += AssertionFunctions.randomPrintableChar(nextRandom())
@@ -299,6 +302,10 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToInteger_I(buffer).toString() }, { v })
         DictionaryHelper.integerToByteArray(buffer2, DictionaryHelper.byteArrayToInteger_I(buffer))
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        DictionaryHelper.sparqlToByteArray(buffer2, "\"$v\"^^<http://www.w3.org/2001/XMLSchema#integer>")
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        DictionaryHelper.sparqlToByteArray(buffer2, v)
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
         DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
     }
@@ -306,12 +313,18 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     fun decimalToByteArray() {
         resetRandom()
         var v = generateDecimalNumber(hasNextRandom())
+        println("decimalToByteArray '$v'")
         DictionaryHelper.decimalToByteArray(buffer, v)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.DECIMAL })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDecimal_S(buffer) }, { v })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDecimal_I(buffer).toString() }, { v })
         DictionaryHelper.decimalToByteArray(buffer2, DictionaryHelper.byteArrayToDecimal_I(buffer))
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        DictionaryHelper.sparqlToByteArray(buffer2, "\"$v\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        DictionaryHelper.sparqlToByteArray(buffer2, v)
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+
         DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
     }
@@ -332,7 +345,8 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
 
     fun doubleToByteArray() {
         resetRandom()
-        var v = generateDoubleNumber(hasNextRandom()).toDouble().toString()
+        var v1 = generateDoubleNumber(hasNextRandom())
+        val v = v1.toDouble().toString()
         println("doubleToByteArray '$v'")
         DictionaryHelper.doubleToByteArray(buffer, v)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.DOUBLE })
@@ -340,6 +354,18 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDouble_I(buffer).toString() }, { v })
         DictionaryHelper.doubleToByteArray(buffer2, DictionaryHelper.byteArrayToDouble_I(buffer))
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        DictionaryHelper.sparqlToByteArray(buffer2, "\"$v\"^^<http://www.w3.org/2001/XMLSchema#double>")
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        if (v1.toDouble() == v.toDouble()) {
+            if (v1.contains("e") || v1.contains("E")) {
+                DictionaryHelper.sparqlToByteArray(buffer2, v1)
+                AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+            }
+        }
+        if (v.contains("e") || v.contains("E")) {
+            DictionaryHelper.sparqlToByteArray(buffer2, v)
+            AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        }
         DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
     }
@@ -355,7 +381,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     fun undefToByteArray() {
         resetRandom()
         DictionaryHelper.undefToByteArray(buffer)
-        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.ERROR })
+        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.UNDEF })
         DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
     }

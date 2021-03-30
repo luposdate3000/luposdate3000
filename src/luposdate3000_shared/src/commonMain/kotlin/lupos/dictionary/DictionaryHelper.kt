@@ -526,7 +526,7 @@ public object DictionaryHelper {
         } else {
             val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
             val buf = ByteArray(l1)
-            buffer.getBuf().copyInto(buf, 0, 4, 4 + l1)
+            buffer.getBuf().copyInto(buf, 0, 8, 8 + l1)
             return buf.decodeToString()
         }
     }
@@ -537,7 +537,7 @@ public object DictionaryHelper {
         } else {
             val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
             val buf = ByteArray(l1)
-            buffer.getBuf().copyInto(buf, 0, 4, 4 + l1)
+            buffer.getBuf().copyInto(buf, 0, 8, 8 + l1)
             return buf.decodeToString()
         }
     }
@@ -571,9 +571,20 @@ public object DictionaryHelper {
     }
 
     public inline fun sparqlToByteArray(buffer: ByteArrayWrapper, value: String?) {
-        if (value == null || value.isEmpty()) {
-            buffer.setSize(4)
-            ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.UNDEF)
+        if (value == null || value.isEmpty() || value.toLowerCase() == "undef") {
+            undefToByteArray(buffer)
+            return
+        }
+        if (value == null || value.isEmpty() || value.toLowerCase() == "error") {
+            errorToByteArray(buffer)
+            return
+        }
+        if (value.toLowerCase() == "true") {
+            booleanToByteArray(buffer, true)
+            return
+        }
+        if (value.toLowerCase() == "false") {
+            booleanToByteArray(buffer, false)
             return
         }
         if (value.startsWith("_:")) {
@@ -660,9 +671,9 @@ public object DictionaryHelper {
             ETripleComponentTypeExt.BLANK_NODE -> byteArrayToBnode_A(buffer)
             ETripleComponentTypeExt.BOOLEAN -> {
                 if (byteArrayToBoolean(buffer)) {
-                    "true"
+                    "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
                 } else {
-                    "false"
+                    "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>"
                 }
             }
             ETripleComponentTypeExt.DOUBLE -> "\"" + byteArrayToDouble_S(buffer).toString() + "\"^^<http://www.w3.org/2001/XMLSchema#double>"
