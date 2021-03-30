@@ -411,7 +411,7 @@ public object BinaryTestCase {
                                 }
                                 targetDict[s] = i
                                 targetDict2[i] = s
-                                DictionaryHelper.valueToByteArray(buffer, s)
+                                DictionaryHelper.sparqlToByteArray(buffer, s)
                                 val tmp = nodeGlobalDictionary.createValue(buffer)
                                 mappingTargetToLive[i] = tmp
                                 mappingLiveToTarget[tmp] = i

@@ -570,7 +570,7 @@ public object DictionaryHelper {
         buf1.copyInto(buffer.getBuf(), 4)
     }
 
-    public inline fun valueToByteArray(buffer: ByteArrayWrapper, value: String?) {
+    public inline fun sparqlToByteArray(buffer: ByteArrayWrapper, value: String?) {
         if (value == null || value.isEmpty()) {
             buffer.setSize(4)
             ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.UNDEF)
@@ -641,8 +641,8 @@ public object DictionaryHelper {
         return s.substring(1, s.length - 1)
     }
 
-    public inline fun valueToByteArray(buffer: ByteArrayWrapper, value: ValueDefinition) {
-        valueToByteArray(buffer, value.valueToString())
+    public inline fun valueDefinitionToByteArray(buffer: ByteArrayWrapper, value: ValueDefinition) {
+        sparqlToByteArray(buffer, value.valueToString())
     }
 
     public inline fun byteArrayToType(buffer: ByteArrayWrapper): ETripleComponentType {

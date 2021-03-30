@@ -158,7 +158,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
 
             fun testCreateValueExistingOk(data: ByteArrayWrapper, targetKey: Int) {
                 if (verbose) {
-                    println("testCreateValueExistingOk $targetKey ${data.getBuf().map { it }.subList(0, data.getSize())}")
+                    println("testCreateValueExistingOk $targetKey $data")
                 }
                 val key = dict.createValue(data)
                 if (key != targetKey) {
@@ -169,7 +169,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             fun testCreateValueNotExistingOk(data: ByteArrayWrapper) {
                 val key = dict.createValue(data)
                 if (verbose) {
-                    println("testCreateValueNotExistingOk $key ${data.getBuf().map { it }.subList(0, data.getSize())}")
+                    println("testCreateValueNotExistingOk $key $data")
                 }
                 if (mapping[key] != null) {
                     throw Exception("")
@@ -180,7 +180,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
 
             fun testHasValueExistingOk(data: ByteArrayWrapper, targetKey: Int) {
                 if (verbose) {
-                    println("testHasValueYesOk $targetKey ${data.getBuf().map { it }.subList(0, data.getSize())}")
+                    println("testHasValueYesOk $targetKey $data")
                 }
                 var res: Int? = null
                 var flag = true
@@ -203,7 +203,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
 
             fun testHasValueNotExistingOk(data: ByteArrayWrapper) {
                 if (verbose) {
-                    println("testHasValueNoOk ${data.getBuf().map { it }.subList(0, data.getSize())}")
+                    println("testHasValueNoOk $data")
                 }
                 var res: Int? = null
                 var flag = true
@@ -226,12 +226,12 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
 
             fun testGetValueOk(target: ByteArrayWrapper, key: Int) {
                 if (verbose) {
-                    println("testGetValueOk $key ${key.toString(2)} ${target.getBuf().map { it }.subList(0, target.getSize())}")
+                    println("testGetValueOk $key ${key.toString(2)} $target")
                 }
                 val value = ByteArrayWrapper()
                 dict.getValue(value, key)
                 if (value.getSize() != target.getSize()) {
-                    throw Exception("${value.getSize()} ${target.getSize()} ${value.getBuf().map { it }.subList(0, value.getSize())}")
+                    throw Exception("${value.getSize()} ${target.getSize()} $value")
                 }
                 for (i in 0 until value.getSize()) {
                     if (value.getBuf()[i] != target.getBuf()[i]) {

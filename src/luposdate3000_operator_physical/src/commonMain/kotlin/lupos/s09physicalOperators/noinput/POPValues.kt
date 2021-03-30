@@ -130,7 +130,7 @@ public open class POPValues : POPBase {
             }
             d.forEach {
                 for (variableIndex in variables.indices) {
-                    DictionaryHelper.valueToByteArray(buffer, it[variableIndex]!!)
+                    DictionaryHelper.sparqlToByteArray(buffer, it[variableIndex]!!)
                     columns[variableIndex].add(query.getDictionary().createValue(buffer))
                 }
             }

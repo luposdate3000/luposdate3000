@@ -29,7 +29,6 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
-import lupos.s03resultRepresentation.ValueInteger
 import lupos.s04arithmetikOperators.AOPAggregationBase
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -462,7 +461,7 @@ public class POPGroup : POPBase {
                     val dict = query.getDictionary()
                     for ((k, v) in map) {
                         arrK[i] = k
-                        DictionaryHelper.valueToByteArray(buffer, ValueInteger(MyBigInteger(v)))
+                        DictionaryHelper.integerToByteArray(buffer, MyBigInteger(v))
                         arrV[i] = dict.createValue(buffer)
                         i++
                     }

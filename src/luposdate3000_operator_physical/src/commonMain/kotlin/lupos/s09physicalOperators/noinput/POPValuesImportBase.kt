@@ -40,7 +40,7 @@ public abstract class POPValuesImportBase public constructor(query: IQuery, proj
         SanityCheck.check { values.size == variables.size }
         val buffer = ByteArrayWrapper()
         for (i in variables.indices) {
-            DictionaryHelper.valueToByteArray(buffer, cleanString(values[i]))
+            DictionaryHelper.sparqlToByteArray(buffer, cleanString(values[i]))
             data[variables[i]]!!.add(query.getDictionary().createValue(buffer))
         }
     }

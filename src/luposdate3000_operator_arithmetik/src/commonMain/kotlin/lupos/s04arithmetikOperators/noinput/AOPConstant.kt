@@ -35,7 +35,7 @@ public class AOPConstant : AOPBase, IAOPConstant {
 
     public constructor(query: IQuery, value2: ValueDefinition) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
         val buffer = ByteArrayWrapper()
-        DictionaryHelper.valueToByteArray(buffer, value2)
+        DictionaryHelper.valueDefinitionToByteArray(buffer, value2)
         value = query.getDictionary().createValue(buffer)
     }
 

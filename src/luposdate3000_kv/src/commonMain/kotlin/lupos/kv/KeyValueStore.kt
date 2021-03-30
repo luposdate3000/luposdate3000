@@ -229,12 +229,12 @@ public class KeyValueStore {
             if (m > left) {
                 val m2 = mappingSorted[m - 1]
                 readData(d, mappingID2Page[m2], mappingID2Off[m2])
-                SanityCheck.check({ d.compareTo(data) < 0 }, { "$l $r $m $left $right ${d.getBuf().map { it }.subList(0, d.getSize())} ${data.getBuf().map { it }.subList(0, data.getSize())}" })
+                SanityCheck.check({ d.compareTo(data) < 0 }, { "$l $r $m $left $right $d $data" })
             }
             if (m <= right) {
                 val m2 = mappingSorted[m]
                 readData(d, mappingID2Page[m2], mappingID2Off[m2])
-                SanityCheck.check({ d.compareTo(data) > 0 }, { "$l $r $m $left $right ${d.getBuf().map { it }.subList(0, d.getSize())} ${data.getBuf().map { it }.subList(0, data.getSize())}" })
+                SanityCheck.check({ d.compareTo(data) > 0 }, { "$l $r $m $left $right $d $data" })
             }
         }
         onNotFound(m)

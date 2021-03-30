@@ -72,7 +72,7 @@ public abstract class AOPBase public constructor(
     public open fun evaluateID(row: IteratorBundle): () -> Int {
         val buffer = ByteArrayWrapper()
         return {
-            DictionaryHelper.valueToByteArray(buffer, evaluate(row)())
+            DictionaryHelper.valueDefinitionToByteArray(buffer, evaluate(row)())
             query.getDictionary().createValue(buffer)
         }
     }

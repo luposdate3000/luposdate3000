@@ -63,4 +63,8 @@ public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
         other.setSize(size)
         buf.copyInto(other.buf, 0, 0, size)
     }
+
+    override fun toString(): String {
+        return buf.map { it }.subList(0, size).toString()
+    }
 }

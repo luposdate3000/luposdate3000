@@ -106,7 +106,7 @@ public object LuposdateEndpoint {
             }
         } else {
             val buffer = ByteArrayWrapper()
-            DictionaryHelper.valueToByteArray(buffer, v2)
+            DictionaryHelper.sparqlToByteArray(buffer, v2)
             res = nodeGlobalDictionary.createValue(buffer)
         }
         return res

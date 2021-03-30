@@ -215,9 +215,13 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         DictionaryHelper.booleanToByteArray(buffer, true)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.BOOLEAN })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBoolean(buffer) }, { true })
+        DictionaryHelper.sparqlToByteArray(buffer2, byteArrayToSparql(buffer))
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
         DictionaryHelper.booleanToByteArray(buffer, false)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.BOOLEAN })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToBoolean(buffer) }, { false })
+        DictionaryHelper.sparqlToByteArray(buffer2, byteArrayToSparql(buffer))
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
     }
 
     fun iriToByteArray() {
@@ -229,6 +233,8 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         DictionaryHelper.iriToByteArray(buffer, v)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.IRI })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToIri(buffer) }, { v })
+        DictionaryHelper.sparqlToByteArray(buffer2, byteArrayToSparql(buffer))
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
     }
 
     fun stringToByteArray() {
@@ -240,6 +246,8 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         DictionaryHelper.stringToByteArray(buffer, v)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.STRING })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToString(buffer) }, { v })
+        DictionaryHelper.sparqlToByteArray(buffer2, byteArrayToSparql(buffer))
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
     }
 
     fun typedToByteArray() {
@@ -257,6 +265,8 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.STRING_TYPED })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToTyped_Content(buffer) }, { a })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToTyped_Type(buffer) }, { b })
+            DictionaryHelper.sparqlToByteArray(buffer2, byteArrayToSparql(buffer))
+            AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
         }
     }
 
@@ -275,6 +285,8 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.STRING_TYPED })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToLang_Content(buffer) }, { a })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToLang_Lang(buffer) }, { b })
+            DictionaryHelper.sparqlToByteArray(buffer2, byteArrayToSparql(buffer))
+            AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
         }
     }
 
@@ -286,8 +298,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToInteger_S(buffer) }, { v })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToInteger_I(buffer).toString() }, { v })
         DictionaryHelper.integerToByteArray(buffer2, DictionaryHelper.byteArrayToInteger_I(buffer))
-        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToInteger_S(buffer2) }, { v })
-        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToInteger_I(buffer2).toString() }, { v })
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        DictionaryHelper.sparqlToByteArray(buffer2, byteArrayToSparql(buffer))
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
     }
 
     fun decimalToByteArray() {
@@ -298,8 +311,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDecimal_S(buffer) }, { v })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDecimal_I(buffer).toString() }, { v })
         DictionaryHelper.decimalToByteArray(buffer2, DictionaryHelper.byteArrayToDecimal_I(buffer))
-        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDecimal_S(buffer2) }, { v })
-        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDecimal_I(buffer2).toString() }, { v })
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        DictionaryHelper.sparqlToByteArray(buffer2, byteArrayToSparql(buffer))
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
     }
 
     fun floatToByteArray() {
@@ -311,8 +325,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToFloat_S(buffer) }, { v })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToFloat_I(buffer).toString() }, { v })
         DictionaryHelper.floatToByteArray(buffer2, DictionaryHelper.byteArrayToFloat_I(buffer))
-        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToFloat_S(buffer2) }, { v })
-        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToFloat_I(buffer2).toString() }, { v })
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        DictionaryHelper.sparqlToByteArray(buffer2, byteArrayToSparql(buffer))
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
     }
 
     fun doubleToByteArray() {
@@ -324,20 +339,62 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDouble_S(buffer) }, { v })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDouble_I(buffer).toString() }, { v })
         DictionaryHelper.doubleToByteArray(buffer2, DictionaryHelper.byteArrayToDouble_I(buffer))
-        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDouble_S(buffer2) }, { v })
-        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDouble_I(buffer2).toString() }, { v })
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        DictionaryHelper.sparqlToByteArray(buffer2, byteArrayToSparql(buffer))
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
     }
 
     fun errorToByteArray() {
         resetRandom()
         DictionaryHelper.errorToByteArray(buffer)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.ERROR })
+        DictionaryHelper.sparqlToByteArray(buffer2, byteArrayToSparql(buffer))
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
     }
 
     fun undefToByteArray() {
         resetRandom()
         DictionaryHelper.undefToByteArray(buffer)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.ERROR })
+        DictionaryHelper.sparqlToByteArray(buffer2, byteArrayToSparql(buffer))
+        AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+    }
+
+    fun dateTimeToByteArray() {
+        resetRandom()
+        if (hasNextRandom() > 9) {
+            val month: Int = nextRandom()
+            val day: Int = nextRandom()
+            val hours: Int = nextRandom()
+            val minutes: Int = nextRandom()
+            val timezoneHours: Int = nextRandom()
+            val timezoneMinutes: Int = nextRandom()
+            var year: String = "0"
+            var seconds: String = "0.0"
+            if (hasNextRandom() < 3) {
+                year = generateIntegerNumber(1)
+                seconds = generateDecimalNumber(1)
+            } else {
+                val rng = nextRandom()
+                val avail = hasNextRandom()
+                val l = AssertionFunctions.randomRangePositive(rng, avail - 2)
+                year = generateIntegerNumber(1 + l)
+                seconds = generateDecimalNumber(hasNextRandom())
+            }
+            DictionaryHelper.dateTimeToByteArray(buffer, year, month, day, hours, minutes, seconds, timezoneHours, timezoneMinutes)
+            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.DATE_TIME })
+            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDateTime_Month(buffer).toString().toInt() }, { month })
+            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDateTime_Day(buffer).toString().toInt() }, { day })
+            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDateTime_Hours(buffer).toString().toInt() }, { hours })
+            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDateTime_Minutes(buffer).toString().toInt() }, { minutes })
+            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDateTime_Seconds(buffer).toString() }, { seconds })
+            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDateTime_Year(buffer).toString() }, { year })
+            val tmp = byteArrayToDateTimeAsTyped_Content(buffer)
+            DictionaryHelper.DictionaryHelper.dateTimeToByteArray(buffer2, tmp)
+            AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+            DictionaryHelper.sparqlToByteArray(buffer2, byteArrayToSparql(buffer))
+            AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
+        }
     }
     bnodeToByteArray_1()
     bnodeToByteArray_2()
@@ -352,4 +409,5 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     doubleToByteArray()
     errorToByteArray()
     undefToByteArray()
+    dateTimeToByteArray()
 }
