@@ -16,8 +16,8 @@
  */
 package lupos.s04arithmetikOperators.singleinput
 
+import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.MyBigInteger
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueInteger
@@ -55,7 +55,7 @@ public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField pub
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
         return {
-            ValueInteger(MyBigInteger(tmp.count))
+            ValueInteger(BigInteger(tmp.count))
         }
     }
 

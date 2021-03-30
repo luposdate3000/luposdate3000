@@ -378,7 +378,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}.abs()")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
@@ -386,7 +386,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.decimal.BigDecimal")
+                    imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
                     target.appendLine("${indention}val $outputName: BigDecimal = ${inputNames[0]}.abs()")
                     onResult(indention, ETripleComponentTypeExt.DECIMAL)
                 },
@@ -419,7 +419,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
@@ -433,8 +433,9 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.decimal.BigDecimal")
-                    target.appendLine("${indention}val $outputName: BigDecimal = ${inputNames[0]}.round()")
+                    imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
+                    imports.add("com.ionspin.kotlin.bignum.decimal.RoundingMode")
+                    target.appendLine("${indention}val $outputName: BigDecimal = ${inputNames[0]}.roundToDigitPositionAfterDecimalPoint(0, RoundingMode.ROUND_HALF_AWAY_FROM_ZERO)")
                     onResult(indention, ETripleComponentTypeExt.DECIMAL)
                 },
             ),
@@ -466,7 +467,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
@@ -480,7 +481,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.decimal.BigDecimal")
+                    imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
                     target.appendLine("${indention}val $outputName: BigDecimal = ${inputNames[0]}.floor()")
                     onResult(indention, ETripleComponentTypeExt.DECIMAL)
                 },
@@ -513,7 +514,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
@@ -527,7 +528,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.decimal.BigDecimal")
+                    imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
                     target.appendLine("${indention}val $outputName: BigDecimal = ${inputNames[0]}.ceil()")
                     onResult(indention, ETripleComponentTypeExt.DECIMAL)
                 },
@@ -579,7 +580,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: BigInteger = BigInteger(${inputNames[0]}.length)")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
@@ -587,7 +588,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: BigInteger = BigInteger(${inputNames[0]}_content.length)")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
@@ -595,7 +596,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: BigInteger = BigInteger(${inputNames[0]}_content.length)")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
@@ -612,7 +613,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toLowerCase()")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -620,7 +621,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content.toLowerCase()")
                     target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
                     onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
@@ -629,7 +630,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content.toLowerCase()")
                     target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
                     onResult(indention, ETripleComponentTypeExt.STRING_LANG)
@@ -647,7 +648,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
                 generateInstantiated = { indention, _, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = \"\"")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -655,7 +656,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
                 generateInstantiated = { indention, _, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = \"\"")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -663,7 +664,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                 generateInstantiated = { indention, _, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = \"\"")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -671,7 +672,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, _, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = \"\"")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -679,7 +680,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
                 generateInstantiated = { indention, _, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = \"\"")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -687,7 +688,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
                 generateInstantiated = { indention, _, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = \"\"")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -695,7 +696,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
                 generateInstantiated = { indention, _, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = \"\"")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -703,7 +704,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, _, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = \"\"")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -711,7 +712,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_lang")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -728,7 +729,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = ${inputNames[0]}")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -736,7 +737,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.IRI),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = ${inputNames[0]}")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -744,7 +745,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_content")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -752,7 +753,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_content")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -760,7 +761,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toString()")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -768,7 +769,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toString()")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -776,7 +777,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toString()")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -784,7 +785,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toString()")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -792,7 +793,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toString()")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -800,7 +801,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_typed_content")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -818,7 +819,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}")
                     target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
                     onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
@@ -827,7 +828,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content")
                     target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
                     onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
@@ -836,7 +837,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content")
                     target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
                     onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
@@ -845,7 +846,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}.toString()")
                     target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
                     onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
@@ -854,7 +855,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}.toString()")
                     target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
                     onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
@@ -863,7 +864,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}.toString()")
                     target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
                     onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
@@ -872,7 +873,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}.toString()")
                     target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
                     onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
@@ -881,7 +882,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}.toString()")
                     target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
                     onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
@@ -890,7 +891,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_typed_content")
                     target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
                     onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
@@ -908,7 +909,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: String = ${inputNames[0]}.toUpperCase()")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
@@ -916,7 +917,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content.toUpperCase()")
                     target.appendLine("${indention}val ${outputName}_type: String = ${inputNames[0]}_type")
                     onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
@@ -925,7 +926,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_content.toUpperCase()")
                     target.appendLine("${indention}val ${outputName}_lang: String = ${inputNames[0]}_lang")
                     onResult(indention, ETripleComponentTypeExt.STRING_LANG)
@@ -944,7 +945,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}")
                     onResult(indention, ETripleComponentTypeExt.DOUBLE)
                 },
@@ -959,14 +960,14 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.toDouble()")
+                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.doubleValue()")
                     onResult(indention, ETripleComponentTypeExt.DOUBLE)
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.toDouble()")
+                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.doubleValue()")
                     onResult(indention, ETripleComponentTypeExt.DOUBLE)
                 },
             ),
@@ -1027,7 +1028,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}")
                     onResult(indention, ETripleComponentTypeExt.FLOAT)
                 },
@@ -1042,14 +1043,14 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.toDouble()")
+                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.doubleValue()")
                     onResult(indention, ETripleComponentTypeExt.FLOAT)
                 },
             ),
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                 generateInstantiated = { indention, inputNames, outputName, _, _, target, _, onResult ->
-                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.toDouble()")
+                    target.appendLine("${indention}val $outputName: Double = ${inputNames[0]}.doubleValue()")
                     onResult(indention, ETripleComponentTypeExt.FLOAT)
                 },
             ),
@@ -1109,7 +1110,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}_day")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
@@ -1126,7 +1127,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}_month")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
@@ -1143,7 +1144,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}_hours")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
@@ -1160,7 +1161,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}_minutes")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
@@ -1177,7 +1178,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+                    imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
                     target.appendLine("${indention}val $outputName: BigInteger = ${inputNames[0]}_year")
                     onResult(indention, ETripleComponentTypeExt.INTEGER)
                 },
@@ -1194,7 +1195,7 @@ public val operators = listOf(
             MyOperatorPart(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                    imports.add("import com.ionspin.kotlin.bignum.decimal.BigDecimal")
+                    imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
                     target.appendLine("${indention}val $outputName: BigDecimal = ${inputNames[0]}_seconds")
                     onResult(indention, ETripleComponentTypeExt.DECIMAL)
                 },
@@ -2270,11 +2271,11 @@ public val operators = listOf(
                 MyOperatorPart(
                     childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.INTEGER),
                     generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                        target.appendLine("${indention}if (${inputNames[1]} == BigInteger(\"0\")) {")
-                        imports.add("import com.ionspin.kotlin.bignum.decimal.BigDecimal")
+                        target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
+                        imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
                         onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
-                        target.appendLine("$indention    val $outputName: BigDecimal = ${inputNames[0]}.toBigDecimal() / ${inputNames[1]}.toBigDecimal()")
+                        target.appendLine("$indention    val $outputName: BigDecimal = BigDecimal.fromBigInteger(${inputNames[0]}) / BigDecimal.fromBigInteger(${inputNames[1]})")
                         onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
                         target.appendLine("$indention}")
                     },
@@ -2297,8 +2298,8 @@ public val operators = listOf(
                 MyOperatorPart(
                     childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.INTEGER),
                     generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                        target.appendLine("${indention}if (${inputNames[1]} == BigInteger(\"0\")) {")
-                        imports.add("import com.ionspin.kotlin.bignum.decimal.BigDecimal")
+                        target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
+                        imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
                         onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
                         target.appendLine("$indention    val $outputName: BigInteger = ${inputNames[0]} + ${inputNames[1]}")
@@ -2324,8 +2325,8 @@ public val operators = listOf(
                 MyOperatorPart(
                     childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.INTEGER),
                     generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                        target.appendLine("${indention}if (${inputNames[1]} == BigInteger(\"0\")) {")
-                        imports.add("import com.ionspin.kotlin.bignum.decimal.BigDecimal")
+                        target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
+                        imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
                         onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
                         target.appendLine("$indention    val $outputName: BigInteger = ${inputNames[0]} - ${inputNames[1]}")
@@ -2351,8 +2352,8 @@ public val operators = listOf(
                 MyOperatorPart(
                     childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.INTEGER),
                     generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                        target.appendLine("${indention}if (${inputNames[1]} == BigInteger(\"0\")) {")
-                        imports.add("import com.ionspin.kotlin.bignum.decimal.BigDecimal")
+                        target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
+                        imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
                         onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
                         target.appendLine("$indention} else {")
                         target.appendLine("$indention    val $outputName: BigInteger = ${inputNames[0]} * ${inputNames[1]}")
@@ -2373,12 +2374,12 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
     MyOperatorPart(
         childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.INTEGER),
         generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-            imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
-            imports.add("import com.ionspin.kotlin.bignum.decimal.BigDecimal")
-            target.appendLine("${indention}if (${inputNames[1]} == BigInteger(\"0\")) {")
+            imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
+            imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
+            target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName: BigDecimal = ${inputNames[0]} $operator ${inputNames[1]}.toBigDecimal()")
+            target.appendLine("$indention    val $outputName: BigDecimal = ${inputNames[0]} $operator BigDecimal.fromBigInteger(${inputNames[1]})")
             onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
             target.appendLine("$indention}")
         },
@@ -2386,11 +2387,11 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
     MyOperatorPart(
         childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER),
         generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-            imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
-            target.appendLine("${indention}if (${inputNames[1]} == BigInteger(\"0\")) {")
+            imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
+            target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.toDouble()")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.doubleValue()")
             onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
             target.appendLine("$indention}")
         },
@@ -2398,11 +2399,11 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
     MyOperatorPart(
         childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.INTEGER),
         generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-            imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
-            target.appendLine("${indention}if (${inputNames[1]} == BigInteger(\"0\")) {")
+            imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
+            target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.toDouble()")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.doubleValue()")
             onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
             target.appendLine("$indention}")
         },
@@ -2410,11 +2411,11 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
     MyOperatorPart(
         childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.DECIMAL),
         generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-            imports.add("import com.ionspin.kotlin.bignum.decimal.BigDecimal")
-            target.appendLine("${indention}if (${inputNames[1]} == BigDecimal(\"0.0\")) {")
+            imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
+            target.appendLine("${indention}if (${inputNames[1]} == BigDecimal.ZERO) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName: BigDecimal = ${inputNames[0]}.toBigDecimal() $operator ${inputNames[1]}")
+            target.appendLine("$indention    val $outputName: BigDecimal = BigDecimal.fromBigInteger(${inputNames[0]}) $operator ${inputNames[1]}")
             onResult(indention + "    ", ETripleComponentTypeExt.DECIMAL)
             target.appendLine("$indention}")
         },
@@ -2422,8 +2423,8 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
     MyOperatorPart(
         childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DECIMAL),
         generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-            imports.add("import com.ionspin.kotlin.bignum.decimal.BigDecimal")
-            target.appendLine("${indention}if (${inputNames[1]} == BigDecimal(\"0.0\")) {")
+            imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
+            target.appendLine("${indention}if (${inputNames[1]} == BigDecimal.ZERO) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
             target.appendLine("$indention    val $outputName: BigDecimal = ${inputNames[0]} $operator ${inputNames[1]}")
@@ -2434,11 +2435,11 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
     MyOperatorPart(
         childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.DECIMAL),
         generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-            imports.add("import com.ionspin.kotlin.bignum.decimal.BigDecimal")
-            target.appendLine("${indention}if (${inputNames[1]} == BigDecimal(\"0.0\")) {")
+            imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
+            target.appendLine("${indention}if (${inputNames[1]} == BigDecimal.ZERO) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.toDouble()")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.doubleValue()")
             onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
             target.appendLine("$indention}")
         },
@@ -2446,11 +2447,11 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
     MyOperatorPart(
         childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.DECIMAL),
         generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-            imports.add("import com.ionspin.kotlin.bignum.decimal.BigDecimal")
-            target.appendLine("${indention}if (${inputNames[1]} == BigDecimal(\"0.0\")) {")
+            imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
+            target.appendLine("${indention}if (${inputNames[1]} == BigDecimal.ZERO) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.toDouble()")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]} $operator ${inputNames[1]}.doubleValue()")
             onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
             target.appendLine("$indention}")
         },
@@ -2461,7 +2462,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.toDouble() $operator ${inputNames[1]}")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.doubleValue() $operator ${inputNames[1]}")
             onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
             target.appendLine("$indention}")
         },
@@ -2472,7 +2473,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.toDouble() $operator ${inputNames[1]}")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.doubleValue() $operator ${inputNames[1]}")
             onResult(indention + "    ", ETripleComponentTypeExt.FLOAT)
             target.appendLine("$indention}")
         },
@@ -2505,7 +2506,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.toDouble() $operator ${inputNames[1]}")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.doubleValue() $operator ${inputNames[1]}")
             onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
             target.appendLine("$indention}")
         },
@@ -2516,7 +2517,7 @@ fun generateNumericBinaryOperatorStub(operator: String): Array<MyOperatorPart> =
             target.appendLine("${indention}if (${inputNames[1]} == 0.0) {")
             onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
             target.appendLine("$indention} else {")
-            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.toDouble() $operator ${inputNames[1]}")
+            target.appendLine("$indention    val $outputName: Double = ${inputNames[0]}.doubleValue() $operator ${inputNames[1]}")
             onResult(indention + "    ", ETripleComponentTypeExt.DOUBLE)
             target.appendLine("$indention}")
         },
@@ -2552,7 +2553,7 @@ public val converters = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _ ->
             imports.add("lupos.dictionary.DictionaryHelper")
-            imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
+            imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
             target.appendLine("${indention}val $outputName: BigInteger = DictionaryHelper.byteArrayToInteger_I($inputName)")
         }
     ),
@@ -2573,7 +2574,7 @@ public val converters = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _ ->
             imports.add("lupos.dictionary.DictionaryHelper")
-            imports.add("import com.ionspin.kotlin.bignum.decimal.BigDecimal")
+            imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
             target.appendLine("${indention}val $outputName: BigDecimal = DictionaryHelper.byteArrayToDecimal_I($inputName)")
         }
     ),
@@ -2782,8 +2783,8 @@ public val converters = listOf(
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { indention, inputName, outputName, imports, target, _ ->
             imports.add("lupos.dictionary.DictionaryHelper")
-            imports.add("import com.ionspin.kotlin.bignum.integer.BigInteger")
-            imports.add("import com.ionspin.kotlin.bignum.decimal.BigDecimal")
+            imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
+            imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
             target.appendLine("${indention}val ${outputName}_typed_content: String = DictionaryHelper.byteArrayToDateTimeAsTyped_Content($inputName)")
             target.appendLine("${indention}val ${outputName}_year: BigInteger = DictionaryHelper.byteArrayToDateTime_Year($inputName)")
             target.appendLine("${indention}val ${outputName}_month: BigInteger = DictionaryHelper.byteArrayToDateTime_Month($inputName)")

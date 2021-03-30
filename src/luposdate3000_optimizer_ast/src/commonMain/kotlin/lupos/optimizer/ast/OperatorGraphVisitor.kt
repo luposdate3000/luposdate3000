@@ -16,7 +16,7 @@
  */
 package lupos.optimizer.ast
 
-import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.s00misc.AggregateNotAllowedSyntaxException
 import lupos.s00misc.DatasetImportFailedException
@@ -933,7 +933,7 @@ return tmp
     }
 
     override fun visit(node: ASTDecimal, childrenValues: List<IOPBase>): IOPBase {
-        return AOPConstant(query, ValueDecimal(BigDecimal(node.toDouble())))
+        return AOPConstant(query, ValueDecimal(node.toDouble().toBigDecimal()))
     }
 
     override fun visit(node: ASTFunctionCall, childrenValues: List<IOPBase>): IOPBase {

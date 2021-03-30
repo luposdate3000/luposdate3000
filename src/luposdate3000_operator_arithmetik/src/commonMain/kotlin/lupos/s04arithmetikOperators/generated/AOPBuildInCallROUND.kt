@@ -16,10 +16,8 @@
  */
 package lupos.s04arithmetikOperators.generated
 
-import import
-
-com.ionspin.kotlin.bignum.decimal.BigDecimal
-import kotlin.math.roundToInt
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.RoundingMode
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
@@ -30,8 +28,9 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
+import kotlin.math.roundToInt
 
-public class AOPBuildInCallROUND public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallROUNDID, "AOPBuildInCallROUND", arrayOf(child0, )) {
+public class AOPBuildInCallROUND public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallROUNDID, "AOPBuildInCallROUND", arrayOf(child0,)) {
     override fun toSparql(): String = "ROUND(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallROUND && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallROUND(query, children[0].cloneOP() as AOPBase)
@@ -47,7 +46,7 @@ public class AOPBuildInCallROUND public constructor(query: IQuery, child0: AOPBa
             when (tmp_1) {
                 ETripleComponentTypeExt.DECIMAL -> {
                     val tmp_3: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
-                    val tmp_4: BigDecimal = tmp_3.round()
+                    val tmp_4: BigDecimal = tmp_3.roundToDigitPositionAfterDecimalPoint(0, RoundingMode.CEILING)
                     DictionaryHelper.decimalToByteArray(tmp_2, tmp_4)
                     res = query.getDictionary().createValue(tmp_2)
                 }

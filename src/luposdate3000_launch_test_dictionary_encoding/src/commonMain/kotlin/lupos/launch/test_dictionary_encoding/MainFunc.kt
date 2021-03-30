@@ -501,8 +501,8 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                     year = "0" + year
                 }
             }
-            val myseconds = BigDecimal(seconds)
-            val myyear = BigInteger(year)
+            val myseconds = BigDecimal.parseString(seconds, 10)
+            val myyear = BigInteger.parseString(year, 10)
             if (verbose) {
                 println("dateTimeToByteArray '$year' '$month' '$day' '$hours' '$minutes' '$seconds' '$timezoneHours' '$timezoneMinutes'")
             }

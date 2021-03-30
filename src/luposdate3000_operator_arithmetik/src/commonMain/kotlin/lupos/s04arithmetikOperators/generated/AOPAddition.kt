@@ -16,12 +16,8 @@
  */
 package lupos.s04arithmetikOperators.generated
 
-import import
-
-com.ionspin.kotlin.bignum.decimal.BigDecimal
-import import
-
-com.ionspin.kotlin.bignum.integer.BigInteger
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
@@ -33,7 +29,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPAddition public constructor(query: IQuery, child0: AOPBase, child1: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPAdditionID, "AOPAddition", arrayOf(child0, child1, )) {
+public class AOPAddition public constructor(query: IQuery, child0: AOPBase, child1: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPAdditionID, "AOPAddition", arrayOf(child0, child1,)) {
     override fun toSparql(): String = "Addition(${children[0].toSparql()}, ${children[1].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPAddition && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = AOPAddition(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)
@@ -57,7 +53,7 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                         ETripleComponentTypeExt.DECIMAL -> {
                             val tmp_5: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
                             val tmp_6: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_1)
-                            if (tmp_6 == BigDecimal("0.0")) {
+                            if (tmp_6 == BigDecimal.ZERO) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
@@ -73,7 +69,7 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_11: Double = tmp_9.toDouble() + tmp_10
+                                val tmp_11: Double = tmp_9.doubleValue() + tmp_10
                                 DictionaryHelper.doubleToByteArray(tmp_4, tmp_11)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -85,7 +81,7 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_15: Double = tmp_13.toDouble() + tmp_14
+                                val tmp_15: Double = tmp_13.doubleValue() + tmp_14
                                 DictionaryHelper.floatToByteArray(tmp_4, tmp_15)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -93,11 +89,11 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                         ETripleComponentTypeExt.INTEGER -> {
                             val tmp_17: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
                             val tmp_18: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_1)
-                            if (tmp_18 == BigInteger("0")) {
+                            if (tmp_18 == BigInteger.ZERO) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_19: BigDecimal = tmp_17 + tmp_18.toBigDecimal()
+                                val tmp_19: BigDecimal = tmp_17 + BigDecimal.fromBigInteger(tmp_18)
                                 DictionaryHelper.decimalToByteArray(tmp_4, tmp_19)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -112,11 +108,11 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                         ETripleComponentTypeExt.DECIMAL -> {
                             val tmp_22: Double = DictionaryHelper.byteArrayToDouble_I(tmp_0)
                             val tmp_23: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_1)
-                            if (tmp_23 == BigDecimal("0.0")) {
+                            if (tmp_23 == BigDecimal.ZERO) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_24: Double = tmp_22 + tmp_23.toDouble()
+                                val tmp_24: Double = tmp_22 + tmp_23.doubleValue()
                                 DictionaryHelper.doubleToByteArray(tmp_4, tmp_24)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -148,11 +144,11 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                         ETripleComponentTypeExt.INTEGER -> {
                             val tmp_34: Double = DictionaryHelper.byteArrayToDouble_I(tmp_0)
                             val tmp_35: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_1)
-                            if (tmp_35 == BigInteger("0")) {
+                            if (tmp_35 == BigInteger.ZERO) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_36: Double = tmp_34 + tmp_35.toDouble()
+                                val tmp_36: Double = tmp_34 + tmp_35.doubleValue()
                                 DictionaryHelper.doubleToByteArray(tmp_4, tmp_36)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -167,11 +163,11 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                         ETripleComponentTypeExt.DECIMAL -> {
                             val tmp_39: Double = DictionaryHelper.byteArrayToFloat_I(tmp_0)
                             val tmp_40: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_1)
-                            if (tmp_40 == BigDecimal("0.0")) {
+                            if (tmp_40 == BigDecimal.ZERO) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_41: Double = tmp_39 + tmp_40.toDouble()
+                                val tmp_41: Double = tmp_39 + tmp_40.doubleValue()
                                 DictionaryHelper.floatToByteArray(tmp_4, tmp_41)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -203,11 +199,11 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                         ETripleComponentTypeExt.INTEGER -> {
                             val tmp_51: Double = DictionaryHelper.byteArrayToFloat_I(tmp_0)
                             val tmp_52: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_1)
-                            if (tmp_52 == BigInteger("0")) {
+                            if (tmp_52 == BigInteger.ZERO) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_53: Double = tmp_51 + tmp_52.toDouble()
+                                val tmp_53: Double = tmp_51 + tmp_52.doubleValue()
                                 DictionaryHelper.floatToByteArray(tmp_4, tmp_53)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -222,11 +218,11 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                         ETripleComponentTypeExt.DECIMAL -> {
                             val tmp_56: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
                             val tmp_57: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_1)
-                            if (tmp_57 == BigDecimal("0.0")) {
+                            if (tmp_57 == BigDecimal.ZERO) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_58: BigDecimal = tmp_56.toBigDecimal() + tmp_57
+                                val tmp_58: BigDecimal = BigDecimal.fromBigInteger(tmp_56) + tmp_57
                                 DictionaryHelper.decimalToByteArray(tmp_4, tmp_58)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -238,7 +234,7 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_62: Double = tmp_60.toDouble() + tmp_61
+                                val tmp_62: Double = tmp_60.doubleValue() + tmp_61
                                 DictionaryHelper.doubleToByteArray(tmp_4, tmp_62)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -250,7 +246,7 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
-                                val tmp_66: Double = tmp_64.toDouble() + tmp_65
+                                val tmp_66: Double = tmp_64.doubleValue() + tmp_65
                                 DictionaryHelper.floatToByteArray(tmp_4, tmp_66)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
@@ -258,7 +254,7 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                         ETripleComponentTypeExt.INTEGER -> {
                             val tmp_68: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
                             val tmp_69: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_1)
-                            if (tmp_69 == BigInteger("0")) {
+                            if (tmp_69 == BigInteger.ZERO) {
                                 DictionaryHelper.errorToByteArray(tmp_4)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {

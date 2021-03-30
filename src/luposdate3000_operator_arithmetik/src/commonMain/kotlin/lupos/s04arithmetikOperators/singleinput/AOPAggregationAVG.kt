@@ -16,9 +16,10 @@
  */
 package lupos.s04arithmetikOperators.singleinput
 
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.EvaluationException
-import lupos.s00misc.MyBigDecimal
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition
@@ -65,7 +66,7 @@ public class AOPAggregationAVG public constructor(query: IQuery, @JvmField publi
                 } else if (tmp1 is ValueDecimal || value is ValueDecimal) {
                     tmp1 = ValueDecimal(tmp1.toDecimal() + value.toDecimal())
                 } else if (tmp1 is ValueInteger || value is ValueInteger) {
-                    tmp1 = ValueDecimal((tmp1.toInt() + value.toInt()).toMyBigDecimal())
+                    tmp1 = ValueDecimal(BigDecimal.fromBigInteger(tmp1.toInt() + value.toInt()))
                 } else {
                     tmp1 = ValueError()
                     res.evaluate = res::aggregateEvaluate
@@ -96,7 +97,7 @@ public class AOPAggregationAVG public constructor(query: IQuery, @JvmField publi
                     ValueFloat(tmp1.toDouble() / tmp.count)
                 }
                 is ValueDecimal -> {
-                    ValueDecimal(tmp1.value / MyBigDecimal(tmp.count))
+                    ValueDecimal(tmp1.value / tmp.count.toBigDecimal())
                 }
                 else -> {
                     ValueError()

@@ -340,10 +340,10 @@ public object XMLElementToOPBase {
                 res = AOPDivision(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping) as AOPBase)
             }
             "ValueInteger" -> {
-                res = AOPConstant(query, ValueInteger(BigInteger(node.attributes["value"]!!)))
+                res = AOPConstant(query, ValueInteger(BigInteger.parseString(node.attributes["value"]!!, 10)))
             }
             "ValueDecimal" -> {
-                res = AOPConstant(query, ValueDecimal(BigDecimal(node.attributes["value"]!!)))
+                res = AOPConstant(query, ValueDecimal(BigDecimal.parseString(node.attributes["value"]!!, 10)))
             }
             "ValueFloat" -> {
                 res = AOPConstant(query, ValueFloat(node.attributes["value"]!!.toDouble()))
