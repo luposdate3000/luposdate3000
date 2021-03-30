@@ -346,7 +346,7 @@ public object DictionaryHelper {
     }
 
     public inline fun integerToByteArray(buffer: ByteArrayWrapper, value: MyBigInteger) {
-        val buf1 = value.toString() encodeToByteArray ()
+        val buf1 = value.toString().encodeToByteArray()
         buffer.setSize(4 + buf1.size)
         ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.INTEGER)
         buf1.copyInto(buffer.getBuf(), 4)
@@ -674,7 +674,6 @@ public object DictionaryHelper {
             ETripleComponentTypeExt.STRING_LANG -> "\"" + byteArrayToLang_Content(buffer) + "\"@" + byteArrayToLang_Lang(buffer)
             ETripleComponentTypeExt.STRING_TYPED -> "\"" + byteArrayToTyped_Content(buffer) + "\"@" + byteArrayToTyped_Type(buffer)
             ETripleComponentTypeExt.DATE_TIME -> "\"" + byteArrayToDateTimeAsTyped_Content(buffer) + "\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
-                )
             else -> throw Exception("unreachable $type")
         }
     }

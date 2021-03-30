@@ -241,7 +241,7 @@ public object QueryResultToXMLStream {
                     val buffer = ByteArrayWrapper()
                     query.getDictionary().getValue(buffer, child.columns["?boolean"]!!.next())
                     output.print(" <boolean>")
-                    output.print(DictionaryHelper.byteArrayToBoolean())
+                    output.print(DictionaryHelper.byteArrayToBoolean(buffer))
                     output.print("</boolean>\n")
                     child.columns["?boolean"]!!.close()
                 } else {
