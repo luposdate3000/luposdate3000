@@ -46,7 +46,7 @@ public class AOPBuildInCallFLOOR public constructor(query: IQuery, child0: AOPBa
                 ETripleComponentTypeExt.DECIMAL -> {
                     val tmp_3: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
                     val tmp_4: MyBigDecimal = tmp_3.floor()
-                    DictionaryHelper.decimalToByteArray(tmp_2, tmp_4.toString())
+                    DictionaryHelper.decimalToByteArray(tmp_2, tmp_4)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.DOUBLE -> {

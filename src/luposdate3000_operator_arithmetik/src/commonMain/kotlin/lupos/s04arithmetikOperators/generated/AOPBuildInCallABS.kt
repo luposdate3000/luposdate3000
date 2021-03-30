@@ -47,7 +47,7 @@ public class AOPBuildInCallABS public constructor(query: IQuery, child0: AOPBase
                 ETripleComponentTypeExt.DECIMAL -> {
                     val tmp_3: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
                     val tmp_4: MyBigDecimal = tmp_3.abs()
-                    DictionaryHelper.decimalToByteArray(tmp_2, tmp_4.toString())
+                    DictionaryHelper.decimalToByteArray(tmp_2, tmp_4)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.DOUBLE -> {
@@ -65,7 +65,7 @@ public class AOPBuildInCallABS public constructor(query: IQuery, child0: AOPBase
                 ETripleComponentTypeExt.INTEGER -> {
                     val tmp_12: MyBigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
                     val tmp_13: MyBigInteger = tmp_12.abs()
-                    DictionaryHelper.integerToByteArray(tmp_2, tmp_13.toString())
+                    DictionaryHelper.integerToByteArray(tmp_2, tmp_13)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {

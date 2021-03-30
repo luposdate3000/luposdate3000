@@ -58,7 +58,7 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
                                 val tmp_7: MyBigDecimal = tmp_5 + tmp_6
-                                DictionaryHelper.decimalToByteArray(tmp_4, tmp_7.toString())
+                                DictionaryHelper.decimalToByteArray(tmp_4, tmp_7)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
                         }
@@ -94,7 +94,7 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
                                 val tmp_19: MyBigDecimal = tmp_17 + tmp_18.toMyBigDecimal()
-                                DictionaryHelper.decimalToByteArray(tmp_4, tmp_19.toString())
+                                DictionaryHelper.decimalToByteArray(tmp_4, tmp_19)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
                         }
@@ -223,7 +223,7 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
                                 val tmp_58: MyBigDecimal = tmp_56.toMyBigDecimal() + tmp_57
-                                DictionaryHelper.decimalToByteArray(tmp_4, tmp_58.toString())
+                                DictionaryHelper.decimalToByteArray(tmp_4, tmp_58)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
                         }
@@ -259,7 +259,7 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
                                 val tmp_70: MyBigInteger = tmp_68 + tmp_69
-                                DictionaryHelper.integerToByteArray(tmp_4, tmp_70.toString())
+                                DictionaryHelper.integerToByteArray(tmp_4, tmp_70)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
                         }

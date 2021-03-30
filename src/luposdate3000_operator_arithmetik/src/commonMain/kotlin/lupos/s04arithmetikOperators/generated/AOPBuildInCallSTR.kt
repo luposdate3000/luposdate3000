@@ -50,7 +50,7 @@ public class AOPBuildInCallSTR public constructor(query: IQuery, child0: AOPBase
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.DATE_TIME -> {
-                    val tmp_6_str: String = DictionaryHelper.byteArrayToDateTime(tmp_0)
+                    val tmp_6_typed_content: String = DictionaryHelper.byteArrayToDateTimeAsTyped_Content(tmp_0)
                     val tmp_6_year: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Year(tmp_0)
                     val tmp_6_month: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Month(tmp_0)
                     val tmp_6_day: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Day(tmp_0)
@@ -59,7 +59,7 @@ public class AOPBuildInCallSTR public constructor(query: IQuery, child0: AOPBase
                     val tmp_6_seconds: MyBigDecimal = DictionaryHelper.byteArrayToDateTime_Seconds(tmp_0)
                     val tmp_6_tz: String = DictionaryHelper.byteArrayToDateTime_TZ(tmp_0)
                     val tmp_6_timezone: String = DictionaryHelper.byteArrayToDateTime_TimeZone(tmp_0)
-                    val tmp_7: String = tmp_6_str
+                    val tmp_7: String = tmp_6_typed_content
                     DictionaryHelper.stringToByteArray(tmp_2, tmp_7)
                     res = query.getDictionary().createValue(tmp_2)
                 }

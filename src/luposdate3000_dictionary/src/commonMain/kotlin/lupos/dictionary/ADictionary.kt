@@ -39,16 +39,6 @@ public abstract class ADictionary : IDictionary {
 
     override fun isBnode(value: Int): Boolean = (value and flagNoBNode) != flagNoBNode
 
-    override fun toBooleanOrError(value: Int): Int {
-        if (value < DictionaryExt.undefValue && value >= 0) {
-            return value
-        } else {
-            val buffer = ByteArrayWrapper()
-            getValue(buffer, value)
-            return DictionaryHelper.byteArrayAnyToBooleanID(buffer)
-        }
-    }
-
     override fun valueToGlobal(value: Int): Int {
         val res: Int
         if ((value and flagLocal) != flagLocal) {

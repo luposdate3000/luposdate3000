@@ -26,7 +26,6 @@ public interface IDictionary {
     public fun hasValue(buffer: ByteArrayWrapper): Int?
     public fun createValue(buffer: ByteArrayWrapper): Int
     public fun valueToGlobal(value: Int): Int
-    public fun toBooleanOrError(value: Int): Int
     public fun isBnode(value: Int): Boolean
     public fun close()
     public fun delete()
@@ -38,7 +37,6 @@ public var nodeGlobalDictionary: IDictionary = object : IDictionary {
     public override fun createNewBNode(): Int = throw Exception("not implemented")
     public override fun createNewBNode(s: String): Int = throw Exception("not implemented")
     public override fun valueToGlobal(value: Int): Int = throw Exception("not implemented")
-    public override fun toBooleanOrError(value: Int): Int = throw Exception("not implemented")
     public override fun hasValue(buffer: ByteArrayWrapper): Int? = throw Exception("not implemented")
     public override fun createValue(buffer: ByteArrayWrapper): Int = throw Exception("not implemented")
     public override fun isBnode(value: Int): Boolean = throw Exception("not implemented")

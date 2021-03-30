@@ -801,7 +801,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigInteger")
-                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_str")
+                    target.appendLine("${indention}val $outputName: String = ${inputNames[0]}_typed_content")
                     onResult(indention, ETripleComponentTypeExt.STRING)
                 },
             ),
@@ -891,7 +891,7 @@ public val operators = listOf(
                 childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                 generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
                     imports.add("lupos.s00misc.MyBigInteger")
-                    target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_str")
+                    target.appendLine("${indention}val ${outputName}_content: String = ${inputNames[0]}_typed_content")
                     target.appendLine("${indention}val ${outputName}_type: String = \"http://www.w3.org/2001/XMLSchema#string\"")
                     onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                 },
@@ -2564,7 +2564,7 @@ public val converters = listOf(
             imports.add("lupos.s00misc.ByteArrayWrapper")
             imports.add("lupos.dictionary.DictionaryHelper")
             globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
-            target.appendLine("${indention}DictionaryHelper.integerToByteArray($outputName, $inputName.toString())")
+            target.appendLine("${indention}DictionaryHelper.integerToByteArray($outputName, $inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -2585,7 +2585,7 @@ public val converters = listOf(
             imports.add("lupos.s00misc.ByteArrayWrapper")
             imports.add("lupos.dictionary.DictionaryHelper")
             globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
-            target.appendLine("${indention}DictionaryHelper.decimalToByteArray($outputName, $inputName.toString())")
+            target.appendLine("${indention}DictionaryHelper.decimalToByteArray($outputName, $inputName)")
         }
     ),
     MyRepresentationConversionFunction(
@@ -2784,7 +2784,7 @@ public val converters = listOf(
             imports.add("lupos.dictionary.DictionaryHelper")
             imports.add("lupos.s00misc.MyBigInteger")
             imports.add("lupos.s00misc.MyBigDecimal")
-            target.appendLine("${indention}val ${outputName}_str: String = DictionaryHelper.byteArrayToDateTime($inputName)")
+            target.appendLine("${indention}val ${outputName}_typed_content: String = DictionaryHelper.byteArrayToDateTimeAsTyped_Content($inputName)")
             target.appendLine("${indention}val ${outputName}_year: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Year($inputName)")
             target.appendLine("${indention}val ${outputName}_month: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Month($inputName)")
             target.appendLine("${indention}val ${outputName}_day: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Day($inputName)")

@@ -50,7 +50,7 @@ public class AOPBuildInCallLANG public constructor(query: IQuery, child0: AOPBas
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.DATE_TIME -> {
-                    val tmp_6_str: String = DictionaryHelper.byteArrayToDateTime(tmp_0)
+                    val tmp_6_typed_content: String = DictionaryHelper.byteArrayToDateTimeAsTyped_Content(tmp_0)
                     val tmp_6_year: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Year(tmp_0)
                     val tmp_6_month: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Month(tmp_0)
                     val tmp_6_day: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Day(tmp_0)

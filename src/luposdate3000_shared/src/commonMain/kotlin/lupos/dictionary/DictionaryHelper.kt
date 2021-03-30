@@ -267,7 +267,7 @@ public object DictionaryHelper {
         return MyBigDecimal(seconds)
     }
 
-    public inline fun byteArrayToDateTime(buffer: ByteArrayWrapper): String {
+    public inline fun byteArrayToDateTimeAsTyped_Content(buffer: ByteArrayWrapper): String {
         val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), 4)
         val l2 = buffer.getSize() - 32 - l1
         val buf1 = ByteArray(l1)
@@ -345,6 +345,13 @@ public object DictionaryHelper {
         buf1.copyInto(buffer.getBuf(), 4)
     }
 
+    public inline fun integerToByteArray(buffer: ByteArrayWrapper, value: MyBigInteger) {
+        val buf1 = value.toString() encodeToByteArray ()
+        buffer.setSize(4 + buf1.size)
+        ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.INTEGER)
+        buf1.copyInto(buffer.getBuf(), 4)
+    }
+
     public inline fun byteArrayToInteger_S(buffer: ByteArrayWrapper): String {
         val l1 = buffer.getSize() - 4
         val buf = ByteArray(l1)
@@ -361,6 +368,13 @@ public object DictionaryHelper {
 
     public inline fun decimalToByteArray(buffer: ByteArrayWrapper, value: String) {
         val buf1 = value.encodeToByteArray()
+        buffer.setSize(4 + buf1.size)
+        ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.DECIMAL)
+        buf1.copyInto(buffer.getBuf(), 4)
+    }
+
+    public inline fun decimalToByteArray(buffer: ByteArrayWrapper, value: MyBigDecimal) {
+        val buf1 = value.toString().encodeToByteArray()
         buffer.setSize(4 + buf1.size)
         ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.DECIMAL)
         buf1.copyInto(buffer.getBuf(), 4)
@@ -386,6 +400,12 @@ public object DictionaryHelper {
         ByteArrayHelper.writeDouble8(buffer.getBuf(), 4, value)
     }
 
+    public inline fun doubleToByteArray(buffer: ByteArrayWrapper, value: String) {
+        buffer.setSize(12)
+        ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.DOUBLE)
+        ByteArrayHelper.writeDouble8(buffer.getBuf(), 4, value.toDouble())
+    }
+
     public inline fun byteArrayToDouble_I(buffer: ByteArrayWrapper): Double {
         return ByteArrayHelper.readDouble8(buffer.getBuf(), 4)
     }
@@ -398,6 +418,12 @@ public object DictionaryHelper {
         buffer.setSize(12)
         ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.FLOAT)
         ByteArrayHelper.writeDouble8(buffer.getBuf(), 4, value)
+    }
+
+    public inline fun floatToByteArray(buffer: ByteArrayWrapper, value: String) {
+        buffer.setSize(12)
+        ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.FLOAT)
+        ByteArrayHelper.writeDouble8(buffer.getBuf(), 4, value.toDouble())
     }
 
     public inline fun byteArrayToFloat_I(buffer: ByteArrayWrapper): Double {
@@ -419,7 +445,7 @@ public object DictionaryHelper {
         buf2.copyInto(buffer.getBuf(), 5 + buf1.size)
     }
 
-    public fun byteArrayToLang_Content(buffer: ByteArrayWrapper): String {
+    public inline fun byteArrayToLang_Content(buffer: ByteArrayWrapper): String {
         val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), buffer.getSize() - 4)
         val l2 = buffer.getSize() - 9 - l1
         val buf = ByteArray(l2)
@@ -427,7 +453,7 @@ public object DictionaryHelper {
         return buf.decodeToString()
     }
 
-    public fun byteArrayToLang_Lang(buffer: ByteArrayWrapper): String {
+    public inline fun byteArrayToLang_Lang(buffer: ByteArrayWrapper): String {
         val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), buffer.getSize() - 4)
         val buf = ByteArray(l1)
         buffer.getBuf().copyInto(buf, 0, 4, 4 + l1)
@@ -455,7 +481,7 @@ public object DictionaryHelper {
         }
     }
 
-    public fun byteArrayToTyped_Content(buffer: ByteArrayWrapper): String {
+    public inline fun byteArrayToTyped_Content(buffer: ByteArrayWrapper): String {
         val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), buffer.getSize() - 4)
         val l2 = buffer.getSize() - 9 - l1
         val buf = ByteArray(l2)
@@ -463,7 +489,7 @@ public object DictionaryHelper {
         return buf.decodeToString()
     }
 
-    public fun byteArrayToTyped_Type(buffer: ByteArrayWrapper): String {
+    public inline fun byteArrayToTyped_Type(buffer: ByteArrayWrapper): String {
         val l1 = ByteArrayHelper.readInt4(buffer.getBuf(), buffer.getSize() - 4)
         val buf = ByteArray(l1)
         buffer.getBuf().copyInto(buf, 0, 4, 4 + l1)
@@ -619,7 +645,13 @@ public object DictionaryHelper {
         valueToByteArray(buffer, value.valueToString())
     }
 
-    public inline fun byteArrayToType(buffer: ByteArrayWrapper): ETripleComponentType = ByteArrayHelper.readInt4(buffer.getBuf(), 0)
+    public inline fun byteArrayToType(buffer: ByteArrayWrapper): ETripleComponentType {
+        val res = ByteArrayHelper.readInt4(buffer.getBuf(), 0)
+        SanityCheck.check { res >= 0 }
+        SanityCheck.check { res < ETripleComponentTypeExt.values_size }
+        return res
+    }
+
     public inline fun byteArrayToSparql(buffer: ByteArrayWrapper): String {
         val type = byteArrayToType(buffer)
         return when (type) {
@@ -641,6 +673,8 @@ public object DictionaryHelper {
             ETripleComponentTypeExt.STRING -> "\"" + byteArrayToString(buffer) + "\""
             ETripleComponentTypeExt.STRING_LANG -> "\"" + byteArrayToLang_Content(buffer) + "\"@" + byteArrayToLang_Lang(buffer)
             ETripleComponentTypeExt.STRING_TYPED -> "\"" + byteArrayToTyped_Content(buffer) + "\"@" + byteArrayToTyped_Type(buffer)
+            ETripleComponentTypeExt.DATE_TIME -> "\"" + byteArrayToDateTimeAsTyped_Content(buffer) + "\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+                )
             else -> throw Exception("unreachable $type")
         }
     }
@@ -699,21 +733,9 @@ public object DictionaryHelper {
             ETripleComponentTypeExt.STRING -> onSimpleLiteral(byteArrayToString(buffer))
             ETripleComponentTypeExt.STRING_LANG -> onLanguageTaggedLiteral(byteArrayToLang_Content(buffer), byteArrayToLang_Lang(buffer))
             ETripleComponentTypeExt.STRING_TYPED -> onTypedLiteral(byteArrayToTyped_Content(buffer), byteArrayToTyped_Type(buffer))
-            ETripleComponentTypeExt.DATE_TIME -> onTypedLiteral(byteArrayToDateTime(buffer), "http://www.w3.org/2001/XMLSchema#dateTime")
+            ETripleComponentTypeExt.DATE_TIME -> onTypedLiteral(byteArrayToDateTimeAsTyped_Content(buffer), "http://www.w3.org/2001/XMLSchema#dateTime")
             else -> throw Exception("unreachable $type")
         }
-    }
-
-    public inline fun byteArrayAnyToBooleanID(buffer: ByteArrayWrapper): Int {
-        val type = byteArrayToType(buffer)
-        if (type == ETripleComponentTypeExt.BOOLEAN) {
-            if (buffer.getBuf()[4] != 0.toByte()) {
-                return DictionaryExt.booleanTrueValue
-            } else {
-                DictionaryExt.booleanFalseValue
-            }
-        }
-        return DictionaryExt.errorValue
     }
 
     public inline fun byteArrayCompareAny(a: ByteArrayWrapper, b: ByteArrayWrapper): Int {

@@ -51,7 +51,7 @@ public class AOPFunctionCallString public constructor(query: IQuery, child0: AOP
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.DATE_TIME -> {
-                    val tmp_6_str: String = DictionaryHelper.byteArrayToDateTime(tmp_0)
+                    val tmp_6_typed_content: String = DictionaryHelper.byteArrayToDateTimeAsTyped_Content(tmp_0)
                     val tmp_6_year: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Year(tmp_0)
                     val tmp_6_month: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Month(tmp_0)
                     val tmp_6_day: MyBigInteger = DictionaryHelper.byteArrayToDateTime_Day(tmp_0)
@@ -60,7 +60,7 @@ public class AOPFunctionCallString public constructor(query: IQuery, child0: AOP
                     val tmp_6_seconds: MyBigDecimal = DictionaryHelper.byteArrayToDateTime_Seconds(tmp_0)
                     val tmp_6_tz: String = DictionaryHelper.byteArrayToDateTime_TZ(tmp_0)
                     val tmp_6_timezone: String = DictionaryHelper.byteArrayToDateTime_TimeZone(tmp_0)
-                    val tmp_7_content: String = tmp_6_str
+                    val tmp_7_content: String = tmp_6_typed_content
                     val tmp_7_type: String = "http://www.w3.org/2001/XMLSchema#string"
                     DictionaryHelper.langToByteArray(tmp_2, tmp_7_content, tmp_7_type)
                     res = query.getDictionary().createValue(tmp_2)

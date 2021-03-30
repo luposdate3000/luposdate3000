@@ -45,21 +45,21 @@ public class AOPBuildInCallSTRLEN public constructor(query: IQuery, child0: AOPB
                 ETripleComponentTypeExt.STRING -> {
                     val tmp_3: String = DictionaryHelper.byteArrayToString(tmp_0)
                     val tmp_4: MyBigInteger = MyBigInteger(tmp_3.length)
-                    DictionaryHelper.integerToByteArray(tmp_2, tmp_4.toString())
+                    DictionaryHelper.integerToByteArray(tmp_2, tmp_4)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING_LANG -> {
                     val tmp_6_content: String = DictionaryHelper.byteArrayToLang_Content(tmp_0)
                     val tmp_6_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
                     val tmp_7: MyBigInteger = MyBigInteger(tmp_6_content.length)
-                    DictionaryHelper.integerToByteArray(tmp_2, tmp_7.toString())
+                    DictionaryHelper.integerToByteArray(tmp_2, tmp_7)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING_TYPED -> {
                     val tmp_9_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
                     val tmp_9_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
                     val tmp_10: MyBigInteger = MyBigInteger(tmp_9_content.length)
-                    DictionaryHelper.integerToByteArray(tmp_2, tmp_10.toString())
+                    DictionaryHelper.integerToByteArray(tmp_2, tmp_10)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {

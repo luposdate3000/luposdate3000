@@ -46,7 +46,7 @@ public class AOPBuildInCallCEIL public constructor(query: IQuery, child0: AOPBas
                 ETripleComponentTypeExt.DECIMAL -> {
                     val tmp_3: MyBigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
                     val tmp_4: MyBigDecimal = tmp_3.ceil()
-                    DictionaryHelper.decimalToByteArray(tmp_2, tmp_4.toString())
+                    DictionaryHelper.decimalToByteArray(tmp_2, tmp_4)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.DOUBLE -> {
