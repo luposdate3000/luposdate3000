@@ -48,7 +48,6 @@ public object BufferManagerExt {
     }
 
     init {
-        println("BufferManagerExt.bufferPrefix = $bufferPrefix")
         File(bufferPrefix).mkdirs()
     }
 
@@ -57,4 +56,11 @@ public object BufferManagerExt {
 
     @JvmField
     internal val managerListLock = MyReadWriteLock()
+    public fun close() {
+        managerListLock.withWriteLock {
+            for (v in managerList.values) {
+                v.close()
+            }
+        }
+    }
 }

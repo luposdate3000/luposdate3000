@@ -45,6 +45,7 @@ import kotlin.jvm.JvmField
 public class TripleStoreIndexIDTriple : TripleStoreIndex {
     private val bufferManager: BufferManager
     private val rootPageID: Int
+    public override fun getRootPageID(): Int = rootPageID
 
     public constructor(rootPageID: Int, initFromRootPage: Boolean) : this(BufferManagerExt.getBuffermanager("stores"), rootPageID, initFromRootPage)
 

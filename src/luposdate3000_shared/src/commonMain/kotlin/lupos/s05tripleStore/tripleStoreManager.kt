@@ -28,6 +28,8 @@ public abstract class TripleStoreManager {
         public const val DEFAULT_GRAPH_NAME: String = ""
     }
 
+    public abstract fun close()
+    public abstract fun delete()
     public abstract fun getLocalhost(): LuposHostname
     public abstract fun getPartitionMode(): EPartitionMode
     public abstract fun debugAllLocalStoreContent()
@@ -52,6 +54,8 @@ public abstract class TripleStoreManager {
 }
 
 public var tripleStoreManager: TripleStoreManager = object : TripleStoreManager() {
+    public override fun close(): Unit = throw Exception("not implemented")
+    public override fun delete(): Unit = throw Exception("not implemented")
     public override fun getLocalhost(): LuposHostname = throw Exception("not implemented")
     public override fun getPartitionMode(): EPartitionMode = throw Exception("not implemented")
     public override fun debugAllLocalStoreContent(): Unit = throw Exception("not implemented")

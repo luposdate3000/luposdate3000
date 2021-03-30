@@ -21,6 +21,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
 public interface TripleStoreIndex {
+    public fun getRootPageID(): Int
     public fun delete()
     public fun getIterator(query: IQuery, filter: IntArray, projection: List<String>): IteratorBundle
     public fun clear()

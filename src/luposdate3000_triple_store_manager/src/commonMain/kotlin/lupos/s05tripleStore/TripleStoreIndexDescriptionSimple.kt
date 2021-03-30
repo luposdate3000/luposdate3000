@@ -29,6 +29,31 @@ public class TripleStoreIndexDescriptionSimple(
 ) : TripleStoreIndexDescription() {
     internal var hostname: LuposHostname = ""
     internal var key: LuposStoreKey = ""
+    private var byteArray: ByteArray? = null
+    override fun toByteArray(): ByteArray {
+        if (byteArray != null) {
+            return byteArray
+        }
+        var buf1 = hostname.encodeToByteArray()
+        var buf2 = key.encodeToByteArray()
+        val size = 16 + buf1.size + buf2.size
+        byteArray = ByteArray(size)
+        var off = 0
+        ByteArrayHelper.writeInt4(byteArray, off, ETripleStoreIndexDescriptionPartitionedTypeExt.Simple)
+        off += 4
+        ByteArrayHelper.writeInt4(byteArray, off, idx_set.first())
+        off += 4
+        ByteArrayHelper.writeInt4(byteArray, off, buf1.size)
+        off += 4
+        buf1.copyInto(byteArray, off)
+        off += buf1.size
+        ByteArrayHelper.writeInt4(byteArray, off, buf2.size)
+        off += 4
+        buf2.copyInto(byteArray, off)
+        off += buf2.size
+        return byteArray
+    }
+
     internal override fun findPartitionFor(query: IQuery, triple: IntArray): Int {
         return 0
     }

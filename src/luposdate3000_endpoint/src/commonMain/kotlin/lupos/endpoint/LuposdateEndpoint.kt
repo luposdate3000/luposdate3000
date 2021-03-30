@@ -18,7 +18,6 @@ package lupos.endpoint
 
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.DictionaryHelper
-import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.nodeGlobalDictionary
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.optimizer.ast.OperatorGraphVisitor
@@ -539,11 +538,21 @@ public object LuposdateEndpoint {
         return buf.toString()
     }
 
+    @JsName("close")
+    public fun close() {
+        if (initialized) {
+            initialized = false
+            nodeGlobalDictionary.close()
+            tripleStoreManager.close()
+            BufferManagerExt.close()
+        }
+    }
+
     @JsName("initialize")
     public fun initialize() {
         if (!initialized) {
             initialized = true
-            nodeGlobalDictionary = DictionaryFactory.createDictionary(EDictionaryTypeExt.KV, false)
+            nodeGlobalDictionary = DictionaryFactory.createGlobalDictionary()
             val hostnames = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80")!!.split(",").toTypedArray()
             val localhost = hostnames[Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()]
             tripleStoreManager = TripleStoreManagerImpl(hostnames, localhost)
@@ -555,6 +564,9 @@ public object LuposdateEndpoint {
             XMLElement.parseFromAnyRegistered["srj"] = XMLElementFromJson()
             XMLElement.parseFromAnyRegistered["csv"] = XMLElementFromCsv()
             XMLElement.parseFromAnyRegistered["tsv"] = XMLElementFromTsv()
+            Platform.setShutdownHock {
+                close()
+            }
         }
     }
 

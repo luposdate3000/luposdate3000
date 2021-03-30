@@ -117,7 +117,7 @@ public class TripleStoreDescription(
             val index = indices[i]
             val store = index.getAllLocations()[j]
             if (store.first == (tripleStoreManager as TripleStoreManagerImpl).localhost) {
-                val tmp = (tripleStoreManager as TripleStoreManagerImpl).localStores[store.second]!!
+                val tmp = (tripleStoreManager as TripleStoreManagerImpl).localStoresGet()[store.second]!!
                 if (type == EModifyTypeExt.INSERT) {
                     tmp.insertAsBulk(buf.buf, EIndexPatternHelper.tripleIndicees[index.idx_set[0]], buf.offset)
                 } else {
@@ -211,7 +211,7 @@ public class TripleStoreDescription(
                 var second = 0
                 for (store in index.getAllLocations()) {
                     if (store.first == (tripleStoreManager as TripleStoreManagerImpl).localhost) {
-                        val tmp = (tripleStoreManager as TripleStoreManagerImpl).localStores[store.second]!!.getHistogram(query, filter)
+                        val tmp = (tripleStoreManager as TripleStoreManagerImpl).localStoresGet()[store.second]!!.getHistogram(query, filter)
                         first += tmp.first
                         second += tmp.second
                     } else {

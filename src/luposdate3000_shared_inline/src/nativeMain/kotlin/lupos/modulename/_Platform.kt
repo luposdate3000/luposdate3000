@@ -53,4 +53,8 @@ internal actual object _Platform {
     internal actual inline fun getAvailableRam(): Int {
         return getEnv("LUPOS_RAM", "60")!!.toInt()
     }
+
+    internal actual inline fun setShutdownHock(crossinline action: () -> Unit) {
+        println("registering shutdown hook not implemented")
+    }
 }

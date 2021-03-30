@@ -14,21 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.modulename
+package lupos.s05tripleStore
 
-import lupos.s00misc.EOperatingSystem
-
-internal expect object _Platform {
-    internal inline fun setShutdownHock(crossinline action: () -> Unit)
-    internal inline fun getEnv(key: String, default: String? = null): String?
-    internal inline fun getHostName(): String
-    internal inline fun getUserHome(): String
-    internal inline fun getPathSeparator(): String
-    internal inline fun findNamedFileInDirectory(dir: String, name: String): List<String>
-    internal inline fun getOperatingSystem(): EOperatingSystem
-    internal inline fun getNullFileName(): String
-    internal inline fun getBenchmarkHome(): String
-    internal inline fun getGradleCache(): String
-    internal inline fun getMavenCache(): String
-    internal inline fun getAvailableRam(): Int
-}
+public typealias ETripleStoreIndexDescriptionPartitionedType = Int

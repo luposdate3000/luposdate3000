@@ -122,7 +122,7 @@ public class POPTripleStoreIterator(
         val target = index.getStore(query, children, parent)
         val manager = tripleStoreManager as TripleStoreManagerImpl
         SanityCheck.check { target.first == manager.localhost }
-        val store = manager.localStores[target.second]!!
+        val store = manager.localStoresGet()[target.second]!!
         val filter2 = mutableListOf<Int>()
         val projection = mutableListOf<String>()
         for (ii in 0 until 3) {

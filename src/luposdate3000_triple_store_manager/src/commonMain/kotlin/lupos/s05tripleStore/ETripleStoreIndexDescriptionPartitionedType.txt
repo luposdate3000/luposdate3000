@@ -1,0 +1,3 @@
+PartitionedByID
+PartitionedByKey
+Simple

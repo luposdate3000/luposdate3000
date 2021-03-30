@@ -16,6 +16,7 @@
  */
 package lupos.s05tripleStore
 
+import lupos.buffermanager.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.s00misc.EIndexPattern
@@ -28,21 +29,146 @@ import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.File
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.Platform
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.Query
 import kotlin.jvm.JvmField
 
-public class TripleStoreManagerImpl(
-    @JvmField internal var hostnames: Array<LuposHostname>,
-    @JvmField internal var localhost: LuposHostname,
-) : TripleStoreManager() {
+public class TripleStoreManagerImpl : TripleStoreManager {
+    private var hostnames: Array<LuposHostname>
     @JvmField
-    internal val partitionMode: EPartitionMode
+    internal var localhost: LuposHostname
+    private val partitionMode: EPartitionMode
+    private var bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
+    private val localStores_ = mutableMapOf<LuposStoreKey, TripleStoreIndex>()
+    private val metadata_ = mutableMapOf<LuposGraphName, TripleStoreDescription>()
+    private lateinit var defaultTripleStoreLayout: TripleStoreDescriptionFactory
+    private var rootPageID: Int = -1
+    private val globalManagerRootFileName = "triple_store_manager.page"
+    private val keysOnHostname_: Array<MutableSet<LuposStoreKey>>
+    internal inline fun localStoresGet() = localStores_
+    internal inline fun metadataGet() = metadata_
 
-    init {
-        val t = Platform.getEnv("LUPOS_PARTITION_MODE", "None")!!
+    inline fun toByteArray(): ByteArray {
+        var size = 8
+        for ((k, v) in localStores_) {
+            val buf = k.encodeToByteArray()
+            size += 8 + buf.size
+        }
+        for ((name, description) in metadata_) {
+            val buf = name.encodeToByteArray()
+            size += 8 + buf.size
+            for (index in description.indices) {
+                val buf2 = index.toByteArray()
+                size += 4 + buf2.size
+            }
+        }
+        val buffer = ByteArray(size)
+        var off = 0
+        ByteArrayHelper.writeInt4(buffer, off, localStores_.size)
+        off += 4
+        for ((key, index) in localStores_) {
+            val buf = key.encodeToByteArray()
+            ByteArrayHelper.writeInt4(buffer, off, index.getRootPageID())
+            off += 4
+            ByteArrayHelper.writeInt4(buffer, off, buf.size)
+            off += 4
+            buf.copyInto(buffer, off)
+            off += buf.size
+        }
+        ByteArrayHelper.writeInt4(buffer, off, metadata_.size)
+        off += 4
+        for ((name, description) in metadata_) {
+            val buf = name.encodeToByteArray()
+            ByteArrayHelper.writeInt4(buffer, off, buf.size)
+            off += 4
+            buf.copyInto(buffer, off)
+            off += buf.size
+            ByteArrayHelper.writeInt4(buffer, off, description.indices.size)
+            off += 4
+            for (index in description.indices) {
+                val buf2 = index.toByteArray()
+                ByteArrayHelper.writeInt4(buffer, off, buf2.size)
+                off += 4
+                buf2.copyInto(buffer, off)
+                off += buf2.size
+            }
+        }
+        return buffer
+    }
+
+    inline fun initFromByteArray(buffer: ByteArray) {
+        var off = 0
+        val l1 = ByteArrayHelper.readInt4(buffer, off)
+        off += 4
+        for (i in 0 until l1) {
+            val pageid = ByteArrayHelper.readInt4(buffer, off)
+            off += 4
+            val l2 = ByteArrayHelper.readInt4(buffer, off)
+            off += 4
+            val buf = ByteArray(l2)
+            buffer.copyInto(buf, 0, off, off + l2)
+            off += l2
+            val store = TripleStoreIndexIDTriple(pageid, true)
+            val key = buf.decodeToString()
+            localStores_[key] = store
+        }
+        val l3 = ByteArrayHelper.readInt4(buffer, off)
+        off += 4
+        for (i in 0 until l3) {
+            val l4 = ByteArrayHelper.readInt4(buffer, off)
+            off += 4
+            val buf = ByteArray(l4)
+            buffer.copyInto(buf, 0, off, off + l4)
+            off += l4
+            val name = buf.decodeToString()
+            val l5 = ByteArrayHelper.readInt4(buffer, off)
+            off += 4
+            val description = TripleStoreDescriptionFactory()
+            for (j in 0 until l5) {
+                val l6 = ByteArrayHelper.readInt4(buffer, off)
+                off += 4
+                val buf2 = ByteArray(l2)
+                buffer.copyInto(buf2, 0, off, off + l6)
+                off += l6
+                description.addIndex { it.initFromByteArray(buf2) }
+            }
+            metadata_[name] = description.build()
+        }
+    }
+
+    private inline fun keysOnHostnameAdd(hostidx: Int, key: LuposStoreKey) {
+        keysOnHostname_[hostidx].add(key)
+    }
+
+    private inline fun localStoresAdd(key: LuposStoreKey, pageid: Int, tripleStore: TripleStoreIndex) {
+        SanityCheck.check { localStores_[key] == null }
+        localStores_[key] = tripleStore
+    }
+
+    private inline fun localStoresRemove(key: LuposStoreKey) {
+        val tripleStore = localStores_[key]!!
+        tripleStore.delete()
+        localStores_.remove(key)
+    }
+
+    private inline fun metadataAdd(name: LuposGraphName, tripleStore: TripleStoreDescription) {
+        SanityCheck.check { metadata_[name] == null }
+        metadata_[name] = tripleStore
+    }
+
+    private inline fun metadataRemove(name: LuposGraphName) {
+        SanityCheck.check { metadata_[name] != null }
+        metadata_.remove(name)
+    }
+
+    public constructor(hostnames: Array<LuposHostname>, localhost: LuposHostname,) : super() {
+        this.hostnames = hostnames
+        this.localhost = localhost
+        keysOnHostname_ = Array(hostnames.size) { mutableListOf<LuposStoreKey>() }
+        val t = Platform.getEnv("LUPOS_PARTITION_MODE", EPartitionModeExt.names[EPartitionModeExt.None])!!
         val tmp = EPartitionModeExt.names.indexOf(t)
         if (tmp < 0) {
             throw Exception("invalid parameter '$t' for 'LUPOS_PARTITION_MODE'. Choose one of ${EPartitionModeExt.names.map { it }}")
@@ -50,23 +176,127 @@ public class TripleStoreManagerImpl(
         partitionMode = tmp
     }
 
-    @JvmField
-    internal val bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
+    public override fun initialize() {
+        val file = File(BufferManagerExt.bufferPrefix + globalManagerRootFileName)
+        var pageid = -1
+        if (file.exists()) {
+            file.withInputStream {
+                pageid = it.readInt()
+            }
+            initialize(bufferManager, pageid, true)
+        } else {
+            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid2 ->
+                pageid = pageid2
+            }
+            bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
+            if (BufferManagerExt.allowInitFromDisk) {
+                file.withOutputStream {
+                    it.writeInt(pageid)
+                }
+            }
+            initialize(bufferManager, pageid, false)
+        }
+    }
 
-    @JvmField
-    internal val localStores = mutableMapOf<LuposStoreKey, TripleStoreIndex>()
+    private fun initFromPageID() {
+        var pageid = rootPageID
+        var page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
+        var nextid = page.readInt4(0)
+        val size = page.readInt4(4)
+        val buffer = ByteArray(size)
+        var off = 0
+        val len = min(size - off, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8)
+        page.copyInto(buffer, off, 8, 8 + len)
+        off += len
+        bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
+        while (off < size) {
+            pageid = nextid
+            page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
+            nextid = page.readInt4(0)
+            val len2 = min(size - off, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 4)
+            page.copyInto(buffer, off, 4, 4 + len2)
+            off += len2
+            bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
+        }
+        initFromByteArray(buffer)
+    }
 
-    @JvmField
-    internal val metadata = mutableMapOf<LuposGraphName, TripleStoreDescription>()
+    private fun deleteAllPagesExceptRootID() {
+        var pageid = rootPageID
+        var page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
+        var nextid = page.readInt4(0)
+        val size = page.readInt4(4)
+        var off = 0
+        val len = min(size - off, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8)
+        off += len
+        bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
+        while (off < size) {
+            pageid = nextid
+            page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
+            nextid = page.readInt4(0)
+            val len2 = min(size - off, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 4)
+            off += len2
+            bufferManager.deletePage(lupos.SOURCE_FILE, pageid)
+        }
+    }
 
-    @JvmField
-    internal var keysOnHostname = Array(hostnames.size) { mutableListOf<LuposStoreKey>() } // TODO initialize based on "metadata" on each restart
-    internal lateinit var defaultTripleStoreLayout: TripleStoreDescriptionFactory
+    private fun writeToPageID() {
+        val buffer = toByteArray()
+        var pageid = rootPageID
+        var page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
+        page.writeInt(4, size)
+        var off = 0
+        val size = buffer.size
+        val len = min(size - off, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8)
+        page.copyFrom(buffer, 8, off, off + len)
+        off += len
+        while (off < size) {
+            bufferManager.createPage(lupos.SOURCE_FILE) { page2, pageid2 ->
+                page.writeInt(0, pageid2)
+                bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
+                pageid = pageid2
+                page = page2
+                val len = min(size - off, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 4)
+                page.copyFrom(buffer, 4, off, off + len)
+                off += len
+            }
+        }
+        bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
+    }
+
+    public fun initialize(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
+        this.bufferManager = bufferManager
+        this.rootPageID = rootPageID
+        resetDefaultTripleStoreLayout()
+        if (initFromRootPage) {
+            initFromPageID()
+        } else {
+            writeToPageID()
+        }
+    }
+
+    override fun close() {
+        for (v in localStores_.values) {
+            v.close()
+        }
+        deleteAllPagesExceptRootID()
+        writeToPageID()
+    }
+
+    override fun delete() {
+        for (v in localStores_.values) {
+            v.delete()
+        }
+        deleteAllPagesExceptRootID()
+        bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
+        bufferManager.deletePage(lupos.SOURCE_FILE, rootPageID)
+    }
+
     public override fun getLocalhost(): LuposHostname = localhost
     public override fun getPartitionMode(): EPartitionMode = partitionMode
     public override fun debugAllLocalStoreContent() {
         File("${localhost.replace(":", "_")}.metadata").withOutputStream { out ->
-            for ((k, v) in metadata) {
+            for ((k, v) in metadata_) {
                 out.println("graphname : '$k'")
                 val meta = v.toMetaString().split("|")
                 for (s in meta) {
@@ -75,7 +305,7 @@ public class TripleStoreManagerImpl(
             }
             out.flush()
         }
-        for ((k, v) in localStores) {
+        for ((k, v) in localStores_) {
             File("${localhost.replace(":", "_")}_$k.store").withOutputStream { out ->
                 val query = Query()
                 val iter = v.getIterator(query, IntArray(0), listOf("s", "p", "o"))
@@ -84,7 +314,6 @@ public class TripleStoreManagerImpl(
                 while (off > -1) {
                     var s = ""
                     for (i in 0 until 3) {
-//                        s += query.getDictionary().getValue(rowiter.buf[off + i]).valueToString()
                         s += "0x${rowiter.buf[off + i].toString(16)}"
                         if (i < 2) {
                             s += " "
@@ -96,10 +325,6 @@ public class TripleStoreManagerImpl(
                 out.flush()
             }
         }
-    }
-
-    public override fun initialize() {
-        resetDefaultTripleStoreLayout()
     }
 
     public override fun resetDefaultTripleStoreLayout() {
@@ -151,15 +376,15 @@ public class TripleStoreManagerImpl(
     internal fun getNextHostAndKey(): Pair<LuposHostname, LuposStoreKey> {
         var hostidx = 0
         for (i in 1 until hostnames.size) {
-            if (keysOnHostname[i].size < keysOnHostname[hostidx].size) {
+            if (keysOnHostname_[i].size < keysOnHostname_[hostidx].size) {
                 hostidx = i
             }
         }
         var key = 0
-        while (keysOnHostname[hostidx].contains("$key")) {
+        while (keysOnHostname_[hostidx].contains("$key")) {
             key++
         }
-        keysOnHostname[hostidx].add("$key")
+        keysOnHostnameAdd(hostidx, "$key")
         return Pair(hostnames[hostidx], "$key")
     }
 
@@ -168,7 +393,7 @@ public class TripleStoreManagerImpl(
     }
 
     public override fun remoteModify(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream) {
-        val store = localStores[key]!!
+        val store = localStores_[key]!!
         var count = stream.readInt()
         val buf = IntArray(count)
         for (i in 0 until count) {
@@ -186,12 +411,12 @@ public class TripleStoreManagerImpl(
             createGraph(query, graphName)
         } else {
             val graph = TripleStoreDescription(meta!!)
-            metadata[graphName] = graph
+            metadataAdd(graphName, graph)
             createGraphShared(graph)
         }
     }
 
-    internal inline fun createGraphShared(graph: TripleStoreDescription) {
+    private inline fun createGraphShared(graph: TripleStoreDescription) {
         for (index in graph.indices) {
             for (store in index.getAllLocations()) {
                 if (store.first == localhost) {
@@ -201,20 +426,20 @@ public class TripleStoreManagerImpl(
                     }
                     bufferManager.releasePage(lupos.SOURCE_FILE, page)
                     println("allocated store-root page :: $page")
-                    localStores[store.second] = TripleStoreIndexIDTriple(page, false)
+                    localStoresAdd(store.second, page, TripleStoreIndexIDTriple(page, false))
                 }
             }
         }
     }
 
     public fun createGraph(query: IQuery, graphName: LuposGraphName, action: (ITripleStoreDescriptionFactory) -> Unit) {
-        if (metadata[graphName] != null) {
+        if (metadata_[graphName] != null) {
             throw Exception("graph already exist")
         }
         val factory = TripleStoreDescriptionFactory()
         action(factory)
         val graph = factory.build()
-        metadata[graphName] = graph
+        metadataAdd(graphName, graph)
         for (index in graph.indices) {
             index.assignHosts()
         }
@@ -244,15 +469,15 @@ public class TripleStoreManagerImpl(
     }
 
     public override fun remoteClearGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean) {
-        if (graphName == DEFAULT_GRAPH_NAME && metadata[graphName] == null) {
+        if (graphName == DEFAULT_GRAPH_NAME && metadata_[graphName] == null) {
             createGraph(query, graphName)
         } else {
-            val graph = metadata[graphName]
+            val graph = metadata_[graphName]
             if (graph != null) {
                 for (index in graph.indices) {
                     for (store in index.getAllLocations()) {
                         if (store.first == localhost) {
-                            localStores[store.second]!!.clear()
+                            localStores_[store.second]!!.clear()
                         } else {
                             if (origin) {
                                 communicationHandler.sendData(
@@ -275,13 +500,12 @@ public class TripleStoreManagerImpl(
     }
 
     public override fun remoteDropGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean) {
-        val graph = metadata[graphName]
+        val graph = metadata_[graphName]
         if (graph != null) {
             for (index in graph.indices) {
                 for (store in index.getAllLocations()) {
                     if (store.first == localhost) {
-                        localStores[store.second]!!.delete()
-                        localStores.remove(store.second)
+                        localStoresRemove(store.second)
                     } else {
                         if (origin) {
                             communicationHandler.sendData(
@@ -296,7 +520,7 @@ public class TripleStoreManagerImpl(
                 }
             }
         }
-        metadata.remove(graphName)
+        metadataRemove(graphName)
     }
 
     public override fun getGraphNames(): List<LuposGraphName> {
@@ -308,7 +532,7 @@ public class TripleStoreManagerImpl(
         if (includeDefault) {
             res.add(DEFAULT_GRAPH_NAME)
         }
-        metadata.keys.forEach {
+        metadata_.keys.forEach {
             if (it != DEFAULT_GRAPH_NAME) {
                 res.add(it)
             }
@@ -322,7 +546,7 @@ public class TripleStoreManagerImpl(
 
     public override fun getIndexFromXML(node: XMLElement): ITripleStoreIndexDescription {
         val node2 = node["TripleStoreIndexDescription"]!!
-        val graph = metadata[node2.attributes["graphName"]]!!
+        val graph = metadata_[node2.attributes["graphName"]]!!
         val idx = EIndexPatternExt.names.indexOf(node2.attributes["pattern"]!!)
         for (index in graph.indices) {
             if (index.hasPattern(idx)) {
@@ -356,19 +580,19 @@ public class TripleStoreManagerImpl(
     }
 
     public override fun getGraph(graphName: LuposGraphName): TripleStoreDescription {
-        if (graphName == DEFAULT_GRAPH_NAME && metadata[graphName] == null) {
+        if (graphName == DEFAULT_GRAPH_NAME && metadata_[graphName] == null) {
             val query = Query()
             createGraph(query, graphName)
         }
-        return metadata[graphName]!!
+        return metadata_[graphName]!!
     }
 
     public override fun remoteCommit(query: IQuery, origin: Boolean) {
-        for (graph in metadata.values) {
+        for (graph in metadata_.values) {
             for (index in graph.indices) {
                 for (store in index.getAllLocations()) {
                     if (store.first == localhost) {
-                        localStores[store.second]!!.flush()
+                        localStores_[store.second]!!.flush()
                     }
                 }
             }

@@ -19,20 +19,26 @@ package lupos.dictionary
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.s00misc.File
+import lupos.s00misc.Platform
 
 public object DictionaryFactory {
     private val globalDictionaryBufferManager = BufferManagerExt.getBuffermanager("dictionary")
     private var globalDictionaryRootPageID: Int = -1
     private var globalDictionaryInitFromRootPage: Boolean
+    private val globalDictionaryRootFileName = "global_dictionary.page"
 
     init {
-        val file = File(BufferManagerExt.bufferPrefix + "dict.page")
+        val file = File(BufferManagerExt.bufferPrefix + globalDictionaryRootFileName)
         globalDictionaryInitFromRootPage = file.exists()
         if (globalDictionaryInitFromRootPage) {
             file.withInputStream {
                 globalDictionaryRootPageID = it.readInt()
             }
         }
+    }
+
+    public fun createGlobalDictionary(): IDictionary {
+        return createDictionary(EDictionaryTypeExt.names.indexOf(Platform.getEnv("LUPOS_DICTIONARY_MODE", EDictionaryTypeExt.names[EDictionaryTypeExt.KV])), false)
     }
 
     public fun createDictionary(type: EDictionaryType, isLocal: Boolean): IDictionary {
@@ -50,7 +56,7 @@ public object DictionaryFactory {
                             globalDictionaryRootPageID = pageid
                         }
                         globalDictionaryBufferManager.releasePage(lupos.SOURCE_FILE, globalDictionaryRootPageID)
-                        File(BufferManagerExt.bufferPrefix + "dict.page").withOutputStream {
+                        File(BufferManagerExt.bufferPrefix + globalDictionaryRootFileName).withOutputStream {
                             it.writeInt(globalDictionaryRootPageID)
                         }
                     }

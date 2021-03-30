@@ -28,6 +28,7 @@ public abstract class TripleStoreIndexDescription() : ITripleStoreIndexDescripti
 
     @JvmField
     internal var tripleStoreDescription: TripleStoreDescription = TripleStoreDescriptionDummy
+    internal abstract fun toByteArray(): ByteArray
     internal abstract fun assignHosts()
     internal abstract fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>>
     internal abstract fun findPartitionFor(query: IQuery, triple: IntArray): Int
@@ -59,7 +60,7 @@ public abstract class TripleStoreIndexDescription() : ITripleStoreIndexDescripti
     public override fun toXMLElement(): XMLElement {
         val res = XMLElement("TripleStoreIndexDescription")
         val manager = tripleStoreManager as TripleStoreManagerImpl
-        for ((k, v) in manager.metadata) {
+        for ((k, v) in manager.metadataGet()) {
             if (v == tripleStoreDescription) {
                 res.addAttribute("graphName", k)
                 break

@@ -34,6 +34,40 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
     internal val hostnames = Array<LuposHostname>(partitionCount) { "" }
     internal val keys = Array<LuposStoreKey>(partitionCount) { "" }
     internal val key_size: Int
+    private var byteArray: ByteArray? = null
+    override fun toByteArray(): ByteArray {
+        if (byteArray != null) {
+            return byteArray
+        }
+        var size = 12
+        for (i in 0 until partitionCount) {
+            var buf1 = hostnames[i].encodeToByteArray()
+            var buf2 = keys[i].encodeToByteArray()
+            size += 8 + buf1.size + buf2.size
+        }
+        byteArray = ByteArray(size)
+        var off = 0
+        ByteArrayHelper.writeInt4(byteArray, off, ETripleStoreIndexDescriptionPartitionedTypeExt.PartitionedByKey)
+        off += 4
+        ByteArrayHelper.writeInt4(byteArray, off, idx_set.first())
+        off += 4
+        ByteArrayHelper.writeInt4(byteArray, off, partitionCount)
+        off += 4
+        for (i in 0 until partitionCount) {
+            var buf1 = hostnames[i].encodeToByteArray()
+            ByteArrayHelper.writeInt4(byteArray, off, buf1.size)
+            off += 4
+            buf1.copyInto(byteArray, off)
+            off += buf1.size
+            var buf2 = keys[i].encodeToByteArray()
+            ByteArrayHelper.writeInt4(byteArray, off, buf2.size)
+            off += 4
+            buf2.copyInto(byteArray, off)
+            off += buf2.size
+        }
+        return byteArray
+    }
+
     internal override fun findPartitionFor(query: IQuery, triple: IntArray): Int {
         val hash: Int
         when (key_size) {

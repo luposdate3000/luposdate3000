@@ -24,9 +24,15 @@
 @file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
 @file:Import("src/luposdate3000_scripting/parsergenerator.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/dictionary/EDictionaryTypeExt.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/dictionary/EDictionaryType.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EPartitionModeExt.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EPartitionMode.kt")
 @file:CompilerOptions("-Xmulti-platform")
 
+import lupos.dictionary.EDictionaryTypeExt
 import lupos.s00misc.EOperatingSystemExt
+import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Platform
 import java.io.File
 import java.io.FileOutputStream
@@ -55,6 +61,7 @@ var intellijMode = ""
 var runArgs = mutableListOf<String>()
 var skipArgs = false
 var compileSpecific: String? = null
+var compileSince: String? = null
 var threadCount = 1
 var processUrls = ""
 var availableMainClass = mutableListOf<String>()
@@ -145,12 +152,6 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                             }
                             "enabledRun=jenaWrapper:On" -> {
                                 enabledRunFunc = { jenaWrapper == "On" }
-                            }
-                            "enabledRun=dictionaryMode:Inmemory" -> {
-                                enabledRunFunc = { dictionaryMode == "_Inmemory" }
-                            }
-                            "enabledRun=dictionaryMode:KV" -> {
-                                enabledRunFunc = { dictionaryMode == "_KV" }
                             }
                             "enabledRun=memoryMode:_Inmemory" -> {
                                 enabledRunFunc = { memoryMode == "_Inmemory" }
@@ -433,12 +434,8 @@ val defaultParams = mutableListOf(
     ),
     ParamClass(
         "--partitionMode",
-        "Thread",
-        mapOf(
-            "Thread" to { partitionMode = "Thread" },
-            "Process" to { partitionMode = "Process" },
-            "None" to { partitionMode = "None" },
-        )
+        EPartitionModeExt.names[EPartitionModeExt.None],
+        EPartitionModeExt.names.map { it to { partitionMode = it } }.toMap(),
     ),
     ParamClass(
         "--memoryMode",
@@ -450,11 +447,8 @@ val defaultParams = mutableListOf(
     ),
     ParamClass(
         "--dictionaryMode",
-        "inmemory",
-        mapOf(
-            "KV" to { dictionaryMode = "_KV" },
-            "inmemory" to { dictionaryMode = "_Inmemory" },
-        )
+        EDictionaryTypeExt.names[EDictionaryTypeExt.KV],
+        EDictionaryTypeExt.names.map { it to { dictionaryMode = it } }.toMap(),
     ),
     ParamClass(
         "--proguardMode",
@@ -519,6 +513,15 @@ val defaultParams = mutableListOf(
         {
             enableParams(compileParams)
             compileSpecific = it
+            execMode = ExecMode.COMPILE
+        }
+    ),
+    ParamClass(
+        "--compileSince",
+        "",
+        {
+            enableParams(compileParams)
+            compileSince = it
             execMode = ExecMode.COMPILE
         }
     ),
@@ -671,15 +674,27 @@ fun onHelp() {
 fun onCompile() {
     println(compileModuleArgs)
     var foundit = false
-    for (module in getAllModuleConfigurations()) {
-        if (module.enabledFunc()) {
-            if (compileSpecific == null || compileSpecific!!.toLowerCase() == module.moduleName.toLowerCase()) {
-                createBuildFileForModule(module)
-                foundit = true
+    if (compileSpecific != null) {
+        for (module in getAllModuleConfigurations()) {
+            if (module.enabledFunc()) {
+                if (compileSpecific!!.toLowerCase() == module.moduleName.toLowerCase()) {
+                    createBuildFileForModule(module)
+                    foundit = true
+                }
             }
         }
     }
-    if (foundit == false && compileSpecific != null) {
+    if (compileSince != null) {
+        for (module in getAllModuleConfigurations()) {
+            if (module.enabledFunc()) {
+                if (compileSince!!.toLowerCase() == module.moduleName.toLowerCase() || foundit) {
+                    createBuildFileForModule(module)
+                    foundit = true
+                }
+            }
+        }
+    }
+    if (foundit == false) {
         for (module in getAllModuleConfigurations()) {
             if (module.enabledFunc()) {
                 if (compileSpecific == null || module.moduleName.toLowerCase().startsWith(compileSpecific!!.toLowerCase())) {
@@ -689,7 +704,7 @@ fun onCompile() {
         }
     }
     if (compileModuleArgs.size > 0) {
-        for ((k, v) in compileModuleArgs) {
+        for (k in compileModuleArgs.keys) {
             println("unknown module argument '$k'")
         }
         throw Exception("there are unkown arguments")
@@ -766,9 +781,10 @@ fun onRun() {
                 println("export LUPOS_PROCESS_URLS=processUrls")
                 println("export LUPOS_THREAD_COUNT=$threadCount")
                 println("export LUPOS_PARTITION_MODE=$partitionMode")
+                println("export LUPOS_DICTIONARY_MODE=$dictionaryMode")
                 println("exec :: " + cmd.joinToString(" "))
             } else {
-                val processes = Array(processUrls.count { it == ',' } + 1) {
+                Array(processUrls.count { it == ',' } + 1) {
                     val p = ProcessBuilder(cmd)
                         .redirectOutput(Redirect.INHERIT)
                         .redirectError(Redirect.INHERIT)
@@ -777,6 +793,7 @@ fun onRun() {
                     env["LUPOS_PROCESS_URLS"] = processUrls
                     env["LUPOS_THREAD_COUNT"] = "$threadCount"
                     env["LUPOS_PARTITION_MODE"] = partitionMode
+                    env["LUPOS_DICTIONARY_MODE"] = dictionaryMode
                     p.start()
                 }.forEach {
                     it.waitFor()
@@ -789,9 +806,6 @@ fun onRun() {
         "JS" -> {
             if (memoryMode != "_Inmemory") {
                 throw Exception("JS can only use 'Inmemory' as memoryMode")
-            }
-            if (dictionaryMode != "_Inmemory") {
-                throw Exception("JS can only use 'Inmemory' as dictionaryMode")
             }
             if (jenaWrapper != "Off") {
                 throw Exception("JS can only use 'Off' as jenaWrapper")
@@ -1081,6 +1095,7 @@ fun onGenerateEnums() {
         listOf("EIndexPattern", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EIndexPattern"),
         listOf("EPartitionMode", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EPartitionMode"),
         listOf("EDictionaryType", "lupos.dictionary", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}dictionary${Platform.getPathSeparator()}EDictionaryType"),
+        listOf("ETripleStoreIndexDescriptionPartitionedType", "lupos.s05tripleStore", "public", "src${Platform.getPathSeparator()}luposdate3000_triple_store_manager${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s05tripleStore${Platform.getPathSeparator()}ETripleStoreIndexDescriptionPartitionedType"),
     )
     for (args in turtleGeneratingArgs) {
         onGenerateEnumsHelper(args[0], args[1], args[2], args[3])
@@ -1169,16 +1184,6 @@ fun copyFromJar(source: InputStream, dest: String) {
     }
     out.close()
     source.close()
-}
-
-fun copyJSLibsIntoFolder(targetFolder: String) {
-    throw Exception("remove this")
-    val jsStdlib = JarFile(File("${Platform.getMavenCache()}${Platform.getPathSeparator()}org${Platform.getPathSeparator()}jetbrains${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}kotlin-stdlib-js${Platform.getPathSeparator()}$compilerVersion${Platform.getPathSeparator()}kotlin-stdlib-js-$compilerVersion.jar"))
-    copyFromJar(jsStdlib.getInputStream(jsStdlib.getEntry("kotlin.js")), "${targetFolder}${Platform.getPathSeparator()}kotlin.js")
-    copyFromJar(jsStdlib.getInputStream(jsStdlib.getEntry("kotlin.js.map")), "${targetFolder}${Platform.getPathSeparator()}kotlin.js.map")
-    val kryptoLib = JarFile(find("${Platform.getGradleCache()}${Platform.getPathSeparator()}modules-2${Platform.getPathSeparator()}files-2.1${Platform.getPathSeparator()}com.soywiz.korlibs.krypto${Platform.getPathSeparator()}krypto-js", "krypto-js-1.9.1.jar")!!)
-    copyFromJar(kryptoLib.getInputStream(kryptoLib.getEntry("krypto-root-krypto.js")), "${targetFolder}${Platform.getPathSeparator()}krypto-root-krypto.js")
-    copyFromJar(kryptoLib.getInputStream(kryptoLib.getEntry("krypto-root-krypto.js.map")), "${targetFolder}${Platform.getPathSeparator()}krypto-root-krypto.js.map")
 }
 
 fun onSetupJS() {

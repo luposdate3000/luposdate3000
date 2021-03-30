@@ -38,6 +38,75 @@ public open class TripleStoreIndexDescriptionFactory : ITripleStoreIndexDescript
         return this
     }
 
+    public override fun initFromByteArray(buffer: ByteArray): ITripleStoreIndexDescriptionFactory {
+        var off = 0
+        var type = ByteArrayHelper.readInt4(buffer, off)
+        off += 4
+        when (type) {
+            ETripleStoreIndexDescriptionPartitionedTypeExt.Simple -> {
+                val idx = ByteArrayHelper.readInt4(buffer, off)
+                off += 4
+                val tmp = TripleStoreIndexDescriptionSimple(idx)
+                val l1 = ByteArrayHelper.readInt4(buffer, off)
+                off += 4
+                val buf1 = ByteArray(l1)
+                buffer.copyInto(buf1, 0, off, off + l1)
+                off += l1
+                val l2 = ByteArrayHelper.readInt4(buffer, off)
+                off += 4
+                val buf1 = ByteArray(l2)
+                buffer.copyInto(buf1, 0, off, off + l2)
+                off += l2
+                tmp.hostname = buf1.decodeToString()
+                tmp.key = buf2.decodeToString()
+                res = tmp
+            }
+            ETripleStoreIndexDescriptionPartitionedTypeExt.PartitionedByID -> {
+                val idx = ByteArrayHelper.readInt4(buffer, off)
+                off += 4
+                val partitionCount = ByteArrayHelper.readInt4(buffer, off)
+                off += 4
+                val partitionColumn = ByteArrayHelper.readInt4(buffer, off)
+                off += 4
+                val tmp = TripleStoreIndexDescriptionPartitionByID(idx, partitionCount, partitionColumn)
+                for (i in 0 until partitionCount) {
+                    val buf1 = ByteArray(l1)
+                    buffer.copyInto(buf1, 0, off, off + l1)
+                    off += l1
+                    val l2 = ByteArrayHelper.readInt4(buffer, off)
+                    off += 4
+                    val buf1 = ByteArray(l2)
+                    buffer.copyInto(buf1, 0, off, off + l2)
+                    off += l2
+                    tmp.hostnames[i] = buf1.decodeToString()
+                    tmp.keys[i] = buf2.decodeToString()
+                }
+                res = tmp
+            }
+            ETripleStoreIndexDescriptionPartitionedTypeExt.PartitionedByKey -> {
+                val idx = ByteArrayHelper.readInt4(buffer, off)
+                off += 4
+                val partitionCount = ByteArrayHelper.readInt4(buffer, off)
+                off += 4
+                val tmp = TripleStoreIndexDescriptionPartitionByKey(idx, partitionCount)
+                for (i in 0 until partitionCount) {
+                    val buf1 = ByteArray(l1)
+                    buffer.copyInto(buf1, 0, off, off + l1)
+                    off += l1
+                    val l2 = ByteArrayHelper.readInt4(buffer, off)
+                    off += 4
+                    val buf1 = ByteArray(l2)
+                    buffer.copyInto(buf1, 0, off, off + l2)
+                    off += l2
+                    tmp.hostnames[i] = buf1.decodeToString()
+                    tmp.keys[i] = buf2.decodeToString()
+                }
+                res = tmp
+            }
+        }
+        return this
+    }
+
     internal fun build(): TripleStoreIndexDescription {
         return res
     }

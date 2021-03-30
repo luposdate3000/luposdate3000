@@ -42,13 +42,16 @@ public object BufferManagerExt {
     @JvmField
     public var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
 
-    init {
-        println("BufferManagerExt.bufferPrefix = $bufferPrefix")
-    }
-
     @JvmField
     internal val managerList = mutableMapOf<String, BufferManager>()
 
     @JvmField
     internal val managerListLock = MyReadWriteLock()
+    public fun close() {
+        managerListLock.withWriteLock {
+            for (v in managerList.values) {
+                v.close()
+            }
+        }
+    }
 }
