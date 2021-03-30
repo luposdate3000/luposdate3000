@@ -91,6 +91,7 @@ internal actual object _Platform {
     private var shutdownhock: () -> Unit = {}
 
     init {
+        println("init shutdown hook")
         Runtime.getRuntime().addShutdownHook(object : Thread() {
             override fun run() {
                 println("calling shutdown-hock")

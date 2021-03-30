@@ -33,6 +33,7 @@ import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
 import lupos.s00misc.IMyOutputStream
+import lupos.s00misc.MyLock
 import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.MyStringStream
 import lupos.s00misc.OperatorGraphToLatex
@@ -81,6 +82,7 @@ import kotlin.js.JsName
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 public object LuposdateEndpoint {
     private var initialized = false
+    private val initializerLock = MyLock()
     private fun helperCleanString(s: String): String {
         var res: String = s
         while (true) {
@@ -541,32 +543,38 @@ public object LuposdateEndpoint {
 
     @JsName("close")
     public fun close() {
-        if (initialized) {
-            initialized = false
-            nodeGlobalDictionary.close()
-            tripleStoreManager.close()
-            BufferManagerExt.close()
+        initializerLock.withLock {
+            if (initialized) {
+                println("LuposdateEndpoint.close")
+                initialized = false
+                nodeGlobalDictionary.close()
+                tripleStoreManager.close()
+                BufferManagerExt.close()
+            }
         }
     }
 
     @JsName("initialize")
     public fun initialize() {
-        if (!initialized) {
-            initialized = true
-            nodeGlobalDictionary = DictionaryFactory.createGlobalDictionary()
-            val hostnames = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80")!!.split(",").toTypedArray()
-            val localhost = hostnames[Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()]
-            tripleStoreManager = TripleStoreManagerImpl(hostnames, localhost)
-            tripleStoreManager.initialize()
-            distributedOptimizerQueryFactory = { DistributedOptimizerQuery() }
-            XMLElement.parseFromAnyRegistered["n3"] = XMLElementFromN3()
-            XMLElement.parseFromAnyRegistered["ttl"] = XMLElementFromN3()
-            XMLElement.parseFromAnyRegistered["srx"] = XMLElementFromXML()
-            XMLElement.parseFromAnyRegistered["srj"] = XMLElementFromJson()
-            XMLElement.parseFromAnyRegistered["csv"] = XMLElementFromCsv()
-            XMLElement.parseFromAnyRegistered["tsv"] = XMLElementFromTsv()
-            Platform.setShutdownHock {
-                close()
+        initializerLock.withLock {
+            if (!initialized) {
+                println("LuposdateEndpoint.initialize")
+                initialized = true
+                nodeGlobalDictionary = DictionaryFactory.createGlobalDictionary()
+                val hostnames = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80")!!.split(",").toTypedArray()
+                val localhost = hostnames[Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()]
+                tripleStoreManager = TripleStoreManagerImpl(hostnames, localhost)
+                tripleStoreManager.initialize()
+                distributedOptimizerQueryFactory = { DistributedOptimizerQuery() }
+                XMLElement.parseFromAnyRegistered["n3"] = XMLElementFromN3()
+                XMLElement.parseFromAnyRegistered["ttl"] = XMLElementFromN3()
+                XMLElement.parseFromAnyRegistered["srx"] = XMLElementFromXML()
+                XMLElement.parseFromAnyRegistered["srj"] = XMLElementFromJson()
+                XMLElement.parseFromAnyRegistered["csv"] = XMLElementFromCsv()
+                XMLElement.parseFromAnyRegistered["tsv"] = XMLElementFromTsv()
+                Platform.setShutdownHock {
+                    close()
+                }
             }
         }
     }
