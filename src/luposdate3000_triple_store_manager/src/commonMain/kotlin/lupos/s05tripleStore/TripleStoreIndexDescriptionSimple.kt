@@ -16,6 +16,7 @@
  */
 package lupos.s05tripleStore
 
+import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.Partition
@@ -32,26 +33,27 @@ public class TripleStoreIndexDescriptionSimple(
     private var byteArray: ByteArray? = null
     override fun toByteArray(): ByteArray {
         if (byteArray != null) {
-            return byteArray
+            return byteArray!!
         }
         var buf1 = hostname.encodeToByteArray()
         var buf2 = key.encodeToByteArray()
         val size = 16 + buf1.size + buf2.size
-        byteArray = ByteArray(size)
+        val byteArray2 = ByteArray(size)
+        byteArray = byteArray2
         var off = 0
-        ByteArrayHelper.writeInt4(byteArray, off, ETripleStoreIndexDescriptionPartitionedTypeExt.Simple)
+        ByteArrayHelper.writeInt4(byteArray2, off, ETripleStoreIndexDescriptionPartitionedTypeExt.Simple)
         off += 4
-        ByteArrayHelper.writeInt4(byteArray, off, idx_set.first())
+        ByteArrayHelper.writeInt4(byteArray2, off, idx_set.first())
         off += 4
-        ByteArrayHelper.writeInt4(byteArray, off, buf1.size)
+        ByteArrayHelper.writeInt4(byteArray2, off, buf1.size)
         off += 4
-        buf1.copyInto(byteArray, off)
+        buf1.copyInto(byteArray2, off)
         off += buf1.size
-        ByteArrayHelper.writeInt4(byteArray, off, buf2.size)
+        ByteArrayHelper.writeInt4(byteArray2, off, buf2.size)
         off += 4
-        buf2.copyInto(byteArray, off)
+        buf2.copyInto(byteArray2, off)
         off += buf2.size
-        return byteArray
+        return byteArray2
     }
 
     internal override fun findPartitionFor(query: IQuery, triple: IntArray): Int {

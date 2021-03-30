@@ -16,6 +16,7 @@
  */
 package lupos.s05tripleStore
 
+import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EIndexPatternHelper
@@ -36,7 +37,7 @@ public class TripleStoreIndexDescriptionPartitionedByID(
     private var byteArray: ByteArray? = null
     override fun toByteArray(): ByteArray {
         if (byteArray != null) {
-            return byteArray
+            return byteArray!!
         }
         var size = 16
         for (i in 0 until partitionCount) {
@@ -44,29 +45,30 @@ public class TripleStoreIndexDescriptionPartitionedByID(
             var buf2 = keys[i].encodeToByteArray()
             size += 8 + buf1.size + buf2.size
         }
-        byteArray = ByteArray(size)
+        val byteArray2 = ByteArray(size)
+        byteArray = byteArray2
         var off = 0
-        ByteArrayHelper.writeInt4(byteArray, off, ETripleStoreIndexDescriptionPartitionedTypeExt.PartitionedByID)
+        ByteArrayHelper.writeInt4(byteArray2, off, ETripleStoreIndexDescriptionPartitionedTypeExt.PartitionedByID)
         off += 4
-        ByteArrayHelper.writeInt4(byteArray, off, idx_set.first())
+        ByteArrayHelper.writeInt4(byteArray2, off, idx_set.first())
         off += 4
-        ByteArrayHelper.writeInt4(byteArray, off, partitionCount)
+        ByteArrayHelper.writeInt4(byteArray2, off, partitionCount)
         off += 4
-        ByteArrayHelper.writeInt4(byteArray, off, partitionColumn)
+        ByteArrayHelper.writeInt4(byteArray2, off, partitionColumn)
         off += 4
         for (i in 0 until partitionCount) {
             var buf1 = hostnames[i].encodeToByteArray()
-            ByteArrayHelper.writeInt4(byteArray, off, buf1.size)
+            ByteArrayHelper.writeInt4(byteArray2, off, buf1.size)
             off += 4
-            buf1.copyInto(byteArray, off)
+            buf1.copyInto(byteArray2, off)
             off += buf1.size
             var buf2 = keys[i].encodeToByteArray()
-            ByteArrayHelper.writeInt4(byteArray, off, buf2.size)
+            ByteArrayHelper.writeInt4(byteArray2, off, buf2.size)
             off += 4
-            buf2.copyInto(byteArray, off)
+            buf2.copyInto(byteArray2, off)
             off += buf2.size
         }
-        return byteArray
+        return byteArray2
     }
 
     internal override fun findPartitionFor(query: IQuery, triple: IntArray): Int {

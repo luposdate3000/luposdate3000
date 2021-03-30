@@ -19,6 +19,7 @@ package lupos.s05tripleStore
 import lupos.buffermanager.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
+import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EIndexPatternHelper
@@ -35,9 +36,11 @@ import lupos.s00misc.communicationHandler
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.Query
 import kotlin.jvm.JvmField
+import kotlin.math.min
 
 public class TripleStoreManagerImpl : TripleStoreManager {
     private var hostnames: Array<LuposHostname>
+
     @JvmField
     internal var localhost: LuposHostname
     private val partitionMode: EPartitionMode
@@ -51,7 +54,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     internal inline fun localStoresGet() = localStores_
     internal inline fun metadataGet() = metadata_
 
-    inline fun toByteArray(): ByteArray {
+    private inline fun toByteArray(): ByteArray {
         var size = 8
         for ((k, v) in localStores_) {
             val buf = k.encodeToByteArray()
@@ -99,7 +102,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         return buffer
     }
 
-    inline fun initFromByteArray(buffer: ByteArray) {
+    private inline fun initFromByteArray(buffer: ByteArray) {
         var off = 0
         val l1 = ByteArrayHelper.readInt4(buffer, off)
         off += 4
@@ -130,7 +133,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             for (j in 0 until l5) {
                 val l6 = ByteArrayHelper.readInt4(buffer, off)
                 off += 4
-                val buf2 = ByteArray(l2)
+                val buf2 = ByteArray(l6)
                 buffer.copyInto(buf2, 0, off, off + l6)
                 off += l6
                 description.addIndex { it.initFromByteArray(buf2) }
@@ -167,7 +170,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     public constructor(hostnames: Array<LuposHostname>, localhost: LuposHostname,) : super() {
         this.hostnames = hostnames
         this.localhost = localhost
-        keysOnHostname_ = Array(hostnames.size) { mutableListOf<LuposStoreKey>() }
+        keysOnHostname_ = Array(hostnames.size) { mutableSetOf<LuposStoreKey>() }
         val t = Platform.getEnv("LUPOS_PARTITION_MODE", EPartitionModeExt.names[EPartitionModeExt.None])!!
         val tmp = EPartitionModeExt.names.indexOf(t)
         if (tmp < 0) {
@@ -244,15 +247,15 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         val buffer = toByteArray()
         var pageid = rootPageID
         var page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-        page.writeInt(4, size)
-        var off = 0
         val size = buffer.size
+        page.writeInt4(4, size)
+        var off = 0
         val len = min(size - off, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8)
         page.copyFrom(buffer, 8, off, off + len)
         off += len
         while (off < size) {
             bufferManager.createPage(lupos.SOURCE_FILE) { page2, pageid2 ->
-                page.writeInt(0, pageid2)
+                page.writeInt4(0, pageid2)
                 bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
                 pageid = pageid2
                 page = page2

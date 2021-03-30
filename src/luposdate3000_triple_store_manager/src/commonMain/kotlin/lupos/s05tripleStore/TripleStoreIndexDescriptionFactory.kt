@@ -16,6 +16,7 @@
  */
 package lupos.s05tripleStore
 
+import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import kotlin.jvm.JvmField
@@ -54,8 +55,8 @@ public open class TripleStoreIndexDescriptionFactory : ITripleStoreIndexDescript
                 off += l1
                 val l2 = ByteArrayHelper.readInt4(buffer, off)
                 off += 4
-                val buf1 = ByteArray(l2)
-                buffer.copyInto(buf1, 0, off, off + l2)
+                val buf2 = ByteArray(l2)
+                buffer.copyInto(buf2, 0, off, off + l2)
                 off += l2
                 tmp.hostname = buf1.decodeToString()
                 tmp.key = buf2.decodeToString()
@@ -68,15 +69,17 @@ public open class TripleStoreIndexDescriptionFactory : ITripleStoreIndexDescript
                 off += 4
                 val partitionColumn = ByteArrayHelper.readInt4(buffer, off)
                 off += 4
-                val tmp = TripleStoreIndexDescriptionPartitionByID(idx, partitionCount, partitionColumn)
+                val tmp = TripleStoreIndexDescriptionPartitionedByID(idx, partitionCount, partitionColumn)
                 for (i in 0 until partitionCount) {
+                    val l1 = ByteArrayHelper.readInt4(buffer, off)
+                    off += 4
                     val buf1 = ByteArray(l1)
                     buffer.copyInto(buf1, 0, off, off + l1)
                     off += l1
                     val l2 = ByteArrayHelper.readInt4(buffer, off)
                     off += 4
-                    val buf1 = ByteArray(l2)
-                    buffer.copyInto(buf1, 0, off, off + l2)
+                    val buf2 = ByteArray(l2)
+                    buffer.copyInto(buf2, 0, off, off + l2)
                     off += l2
                     tmp.hostnames[i] = buf1.decodeToString()
                     tmp.keys[i] = buf2.decodeToString()
@@ -88,15 +91,17 @@ public open class TripleStoreIndexDescriptionFactory : ITripleStoreIndexDescript
                 off += 4
                 val partitionCount = ByteArrayHelper.readInt4(buffer, off)
                 off += 4
-                val tmp = TripleStoreIndexDescriptionPartitionByKey(idx, partitionCount)
+                val tmp = TripleStoreIndexDescriptionPartitionedByKey(idx, partitionCount)
                 for (i in 0 until partitionCount) {
+                    val l1 = ByteArrayHelper.readInt4(buffer, off)
+                    off += 4
                     val buf1 = ByteArray(l1)
                     buffer.copyInto(buf1, 0, off, off + l1)
                     off += l1
                     val l2 = ByteArrayHelper.readInt4(buffer, off)
                     off += 4
-                    val buf1 = ByteArray(l2)
-                    buffer.copyInto(buf1, 0, off, off + l2)
+                    val buf2 = ByteArray(l2)
+                    buffer.copyInto(buf2, 0, off, off + l2)
                     off += l2
                     tmp.hostnames[i] = buf1.decodeToString()
                     tmp.keys[i] = buf2.decodeToString()

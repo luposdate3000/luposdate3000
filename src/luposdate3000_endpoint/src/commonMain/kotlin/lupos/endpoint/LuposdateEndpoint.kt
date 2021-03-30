@@ -16,6 +16,7 @@
  */
 package lupos.endpoint
 
+import lupos.buffermanager.BufferManagerExt
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.DictionaryHelper
 import lupos.dictionary.nodeGlobalDictionary
