@@ -95,12 +95,12 @@ public object DictionaryHelper {
         val timezoneHours: Int
         val timezoneMinutes: Int
         var idx = 0
-        var idx2 = str.indexOf('-', 2)
+        var idx2 = str.indexOf('-', 1)
         if (idx2 < idx) {
             idx2 = str.length - 1
         }
         if (idx2 > idx) {
-            year = str.substring(idx + 1, idx2)
+            year = str.substring(idx, idx2)
             idx = idx2
             idx2 = str.indexOf('-', idx + 1)
             if (idx2 < idx) {
@@ -142,48 +142,48 @@ public object DictionaryHelper {
                                 idx = idxb
                                 idx2 = str.indexOf(':', idx + 1)
                                 if (idx2 > idx) {
-                                    timezoneHours = str.substring(idx + 1, idx2).toInt()
-                                    timezoneMinutes = str.substring(idx2 + 1, str.length - 1).toInt()
+                                    timezoneHours = str.substring(idx, idx2).toInt()
+                                    timezoneMinutes = str.substring(idx2 + 1, str.length).toInt()
                                 } else {
-                                    timezoneHours = -1
-                                    timezoneMinutes = -1
+                                    timezoneHours = -99
+                                    timezoneMinutes = -99
                                 }
                             } else if (idxc > idx) {
                                 seconds = str.substring(idx + 1, idxc)
                                 idx = idxc
                                 idx2 = str.indexOf(':', idx + 1)
                                 if (idx2 > idx) {
-                                    timezoneHours = str.substring(idx + 1, idx2).toInt()
-                                    timezoneMinutes = str.substring(idx2 + 1, str.length - 1).toInt()
+                                    timezoneHours = str.substring(idx, idx2).toInt()
+                                    timezoneMinutes = str.substring(idx2 + 1, str.length).toInt()
                                 } else {
-                                    timezoneHours = -1
-                                    timezoneMinutes = -1
+                                    timezoneHours = -99
+                                    timezoneMinutes = -99
                                 }
                             } else {
-                                seconds = str.substring(idx + 1, str.length - 1)
-                                timezoneHours = -1
-                                timezoneMinutes = -1
+                                seconds = str.substring(idx + 1, str.length)
+                                timezoneHours = -99
+                                timezoneMinutes = -99
                             }
                         } else {
                             minutes = 0
                             seconds = "0.0"
-                            timezoneHours = -1
-                            timezoneMinutes = -1
+                            timezoneHours = -99
+                            timezoneMinutes = -99
                         }
                     } else {
                         hours = 0
                         minutes = 0
                         seconds = "0.0"
-                        timezoneHours = -1
-                        timezoneMinutes = -1
+                        timezoneHours = -99
+                        timezoneMinutes = -99
                     }
                 } else {
                     day = 0
                     hours = 0
                     minutes = 0
                     seconds = "0.0"
-                    timezoneHours = -1
-                    timezoneMinutes = -1
+                    timezoneHours = -99
+                    timezoneMinutes = -99
                 }
             } else {
                 month = 0
@@ -191,8 +191,8 @@ public object DictionaryHelper {
                 hours = 0
                 minutes = 0
                 seconds = "0.0"
-                timezoneHours = -1
-                timezoneMinutes = -1
+                timezoneHours = -99
+                timezoneMinutes = -99
             }
         } else {
             year = "0"
@@ -201,15 +201,51 @@ public object DictionaryHelper {
             hours = 0
             minutes = 0
             seconds = "0.0"
-            timezoneHours = -1
-            timezoneMinutes = -1
+            timezoneHours = -99
+            timezoneMinutes = -99
         }
-        dateTimeToByteArray(buffer, year, month, day, hours, minutes, seconds, timezoneHours, timezoneMinutes)
+        dateTimeToByteArray(buffer, MyBigInteger(year), month, day, hours, minutes, MyBigDecimal(seconds), timezoneHours, timezoneMinutes)
     }
 
-    public inline fun dateTimeToByteArray(buffer: ByteArrayWrapper, year: String, month: Int, day: Int, hours: Int, minutes: Int, seconds: String, timezoneHours: Int, timezoneMinutes: Int) {
-        val buf1 = year.encodeToByteArray()
-        val buf2 = seconds.encodeToByteArray()
+    public inline fun dateTimeToByteArray(buffer: ByteArrayWrapper, year: MyBigInteger, month: Int, day: Int, hours: Int, minutes: Int, seconds: MyBigDecimal, timezoneHours: Int, timezoneMinutes: Int) {
+        SanityCheck.check { month >= 0 }
+        SanityCheck.check { month <= 99 }
+        SanityCheck.check { day >= 0 }
+        SanityCheck.check { day <= 99 }
+        SanityCheck.check { hours >= 0 }
+        SanityCheck.check { hours <= 24 }
+        SanityCheck.check { minutes >= 0 }
+        SanityCheck.check { minutes <= 99 }
+        SanityCheck.check { timezoneHours >= -24 }
+        SanityCheck.check { timezoneHours <= 24 }
+        SanityCheck.check { timezoneMinutes >= 0 }
+        SanityCheck.check { timezoneMinutes <= 99 }
+        val buf1 = year.toString().encodeToByteArray()
+        var secondsAsString = seconds.toString()
+        while (secondsAsString.length > 0 && (secondsAsString[0] == '+' || secondsAsString[0] == '-' || secondsAsString[0] == '0')) {
+            secondsAsString = secondsAsString.substring(1)
+        }
+        if (secondsAsString.contains('.')) {
+            while (secondsAsString[secondsAsString.length - 1] == '0') {
+                secondsAsString = secondsAsString.substring(0, secondsAsString.length - 1)
+            }
+            if (secondsAsString[secondsAsString.length - 1] == '.') {
+                secondsAsString = secondsAsString.substring(0, secondsAsString.length - 1)
+            } else {
+                while (secondsAsString.indexOf('.') < 2) {
+                    secondsAsString = "0" + secondsAsString
+                }
+            }
+        }
+        if (secondsAsString.length == 1) {
+            secondsAsString = "0" + secondsAsString
+        }
+        if (secondsAsString.length == 0) {
+            secondsAsString = "00"
+        }
+
+        SanityCheck.check { secondsAsString.indexOf('.') < 3 }
+        val buf2 = secondsAsString.encodeToByteArray()
         val l1 = buf1.size
         val l2 = buf2.size
         buffer.setSize(32 + l1 + l2)
@@ -287,12 +323,18 @@ public object DictionaryHelper {
         if (secondsString2.size > 1 && secondsString2[1] != "0") {
             secondsString += "." + secondsString2[1]
         }
-        return if (timezoneHours == -1 && timezoneMinutes == -1) {
-            "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsString}\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+        return if (timezoneHours == -99 && timezoneMinutes == -99) {
+            "${year.toString()}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:$secondsString"
         } else if (timezoneHours == 0 && timezoneMinutes == 0) {
-            "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsString}Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+            "${year.toString()}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsString}Z"
         } else {
-            "\"${year.toString().padStart(4, '0')}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:$secondsString-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
+            var timezoneHoursLocal = timezoneHours.toString()
+            if (timezoneHoursLocal[0] == '-' || timezoneHoursLocal[0] == '+') {
+                timezoneHoursLocal = "" + timezoneHoursLocal[0] + timezoneHoursLocal.substring(1).padStart(2, '0')
+            } else {
+                timezoneHoursLocal = "+" + timezoneHoursLocal.padStart(2, '0')
+            }
+            "${year.toString()}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secondsString}$timezoneHoursLocal:${timezoneMinutes.toString().padStart(2, '0')}"
         }
     }
 
@@ -461,23 +503,28 @@ public object DictionaryHelper {
     }
 
     public inline fun typedToByteArray(buffer: ByteArrayWrapper, content: String, type: String) {
-        when (type) {
-            "http://www.w3.org/2001/XMLSchema#integer" -> integerToByteArray(buffer, content)
-            "http://www.w3.org/2001/XMLSchema#decimal" -> decimalToByteArray(buffer, content)
-            "http://www.w3.org/2001/XMLSchema#double" -> doubleToByteArray(buffer, content.toDouble())
-            "http://www.w3.org/2001/XMLSchema#float" -> floatToByteArray(buffer, content.toDouble())
-            "http://www.w3.org/2001/XMLSchema#boolean" -> booleanToByteArray(buffer, content.toLowerCase() == "true")
-            "http://www.w3.org/2001/XMLSchema#dateTime" -> dateTimeToByteArray(buffer, content)
-            else -> {
-                val buf1 = type.encodeToByteArray()
-                val buf2 = content.encodeToByteArray()
-                buffer.setSize(9 + buf1.size + buf2.size)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.STRING_TYPED)
-                ByteArrayHelper.writeInt4(buffer.getBuf(), 5 + buf1.size + buf2.size, buf1.size)
-                buf1.copyInto(buffer.getBuf(), 4)
-                buffer.getBuf()[4 + buf1.size] = 0
-                buf2.copyInto(buffer.getBuf(), 5 + buf1.size)
+        try {
+            when (type) {
+                "http://www.w3.org/2001/XMLSchema#integer" -> integerToByteArray(buffer, content)
+                "http://www.w3.org/2001/XMLSchema#decimal" -> decimalToByteArray(buffer, content)
+                "http://www.w3.org/2001/XMLSchema#double" -> doubleToByteArray(buffer, content.toDouble())
+                "http://www.w3.org/2001/XMLSchema#float" -> floatToByteArray(buffer, content.toDouble())
+                "http://www.w3.org/2001/XMLSchema#boolean" -> booleanToByteArray(buffer, content.toLowerCase() == "true")
+                "http://www.w3.org/2001/XMLSchema#dateTime" -> dateTimeToByteArray(buffer, content)
+                else -> {
+                    val buf1 = type.encodeToByteArray()
+                    val buf2 = content.encodeToByteArray()
+                    buffer.setSize(9 + buf1.size + buf2.size)
+                    ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.STRING_TYPED)
+                    ByteArrayHelper.writeInt4(buffer.getBuf(), 5 + buf1.size + buf2.size, buf1.size)
+                    buf1.copyInto(buffer.getBuf(), 4)
+                    buffer.getBuf()[4 + buf1.size] = 0
+                    buf2.copyInto(buffer.getBuf(), 5 + buf1.size)
+                }
             }
+        } catch (e: Throwable) {
+// drop the type annotation if it can not be parsed
+            stringToByteArray(buffer, content)
         }
     }
 
@@ -634,19 +681,16 @@ public object DictionaryHelper {
         var c = s[0]
         var cntLeft = 1
         var cntRight = 0
-        if (c != '\'' && c != '"') {
+        if (c != '\'' && c != '"' || c != s[s.length - 1]) {
             throw Exception("invalid quoted string >$s<")
         }
-        while (s[cntLeft] == c) {
+        while (cntLeft < s.length && s[cntLeft] == c) {
             cntLeft++
         }
-        while (s[s.length - cntRight - 1] == c) {
+        while (cntRight < s.length && s[s.length - cntRight - 1] == c) {
             cntRight++
         }
-        if (cntLeft == 6) {
-            return ""
-        }
-        if (cntLeft >= 3 && cntRight >= 3) {
+        if (cntLeft >= 3 && cntRight >= 3 && s.length >= 6) {
             return s.substring(3, s.length - 3)
         }
         return s.substring(1, s.length - 1)
@@ -683,7 +727,7 @@ public object DictionaryHelper {
             ETripleComponentTypeExt.IRI -> "<" + byteArrayToIri(buffer) + ">"
             ETripleComponentTypeExt.STRING -> "\"" + byteArrayToString(buffer) + "\""
             ETripleComponentTypeExt.STRING_LANG -> "\"" + byteArrayToLang_Content(buffer) + "\"@" + byteArrayToLang_Lang(buffer)
-            ETripleComponentTypeExt.STRING_TYPED -> "\"" + byteArrayToTyped_Content(buffer) + "\"@" + byteArrayToTyped_Type(buffer)
+            ETripleComponentTypeExt.STRING_TYPED -> "\"" + byteArrayToTyped_Content(buffer) + "\"^^<" + byteArrayToTyped_Type(buffer) + ">"
             ETripleComponentTypeExt.DATE_TIME -> "\"" + byteArrayToDateTimeAsTyped_Content(buffer) + "\"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
             else -> throw Exception("unreachable $type")
         }

@@ -20,6 +20,8 @@ import lupos.buffermanager.BufferManagerExt
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
+import lupos.s00misc.MyBigDecimal
+import lupos.s00misc.MyBigInteger
 import lupos.s00misc.Parallel
 import lupos.test.AflCore
 import kotlin.math.abs
@@ -62,8 +64,10 @@ private object AssertionFunctions {
 
     fun randomRangePositive(rng: Int, limit: Int): Int = abs(rng % limit)
     fun randomPrintableChar(rng: Int): Char = printableChars[randomRangePositive(rng, printableChars.length)]
+    fun randomPrintableLetter(rng: Int): Char = letters[randomRangePositive(rng, letters.length)]
     fun randomPrintableNumber(rng: Int): Char = "${randomRangePositive(rng, 10)}"[0]
-    val printableChars = """ !"#\$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"""
+    val printableChars = """ !#\$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~""" // excluding """""""
+    val letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 }
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
@@ -73,6 +77,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         var remaining = len
         var v = ""
         when (remaining) {
+            0 -> v = "1.0e1"
             1 -> {
                 remaining--
                 v = nextRandom().toString()
@@ -102,23 +107,29 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                     5 -> v2 += "E"
                 }
                 remaining--
+                var x = 1
                 when (AssertionFunctions.randomRangePositive(nextRandom(), 3)) {
                     0 -> v += "+"
                     1 -> v += "-"
+                    else -> x = 0
                 }
                 for (i in 0 until remaining) {
                     remaining--
                     v += AssertionFunctions.randomPrintableNumber(nextRandom())
                 }
-                val dot = abs(l1 % v.length)
-                when (dot) {
-                    0 -> "." + v
-                    v.length -> v + ".0"
-                    else -> v = v.substring(0, dot) + "." + v.substring(dot, v.length)
-                }
-                if (dot + 2 < v.length) {
-                    val pos = 1 + dot + abs(l2 % (v.length - dot - 2))
-                    v = v.substring(0, pos) + "." + v.substring(pos, v.length)
+                if (v.length - x > 0) {
+                    val dot = abs(l1 % (v.length - x)) + x
+                    when (dot) {
+                        0 -> v = "." + v
+                        v.length -> v = v + ".0"
+                        else -> v = v.substring(0, dot) + "." + v.substring(dot, v.length)
+                    }
+                    if (dot + 3 < v.length) {
+                        val pos = 2 + dot + abs(l2 % (v.length - dot - 3))
+                        v = v.substring(0, pos) + v2 + v.substring(pos, v.length)
+                    }
+                } else {
+                    v = v + ".0e1"
                 }
             }
         }
@@ -129,6 +140,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         var remaining = len
         var v = ""
         when (remaining) {
+            0 -> v = "0.0"
             1, 2 -> {
                 remaining--
                 v = nextRandom().toString() + ".0"
@@ -137,19 +149,25 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 remaining--
                 val l = nextRandom()
                 remaining--
+                var x = 1
                 when (AssertionFunctions.randomRangePositive(nextRandom(), 3)) {
                     0 -> v += "+"
                     1 -> v += "-"
+                    else -> x = 0
                 }
                 for (i in 0 until remaining) {
                     remaining--
                     v += AssertionFunctions.randomPrintableNumber(nextRandom())
                 }
-                val l2 = abs(l % v.length - 1)
-                when (l2) {
-                    0 -> "." + v
-                    v.length -> v + ".0"
-                    else -> v = v.substring(0, l2) + "." + v.substring(l2, v.length)
+                if (v.length - 1 - x > 0) {
+                    val l2 = abs(l % (v.length - 1 - x)) + x
+                    when (l2) {
+                        0 -> v = "." + v
+                        v.length -> v = v + ".0"
+                        else -> v = v.substring(0, l2) + "." + v.substring(l2, v.length)
+                    }
+                } else {
+                    v = v + ".0"
                 }
             }
         }
@@ -159,7 +177,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     fun generateIntegerNumber(len: Int): String {
         var remaining = len
         var v = ""
-        if (remaining == 1) {
+        if (remaining == 0) {
+            v = "0"
+        } else if (remaining < 3) {
             remaining--
             v = nextRandom().toString()
         } else {
@@ -233,6 +253,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         for (i in 0 until hasNextRandom()) {
             v += AssertionFunctions.randomPrintableChar(nextRandom())
         }
+        if (verbose) {
+            println("iriToByteArray '$v'")
+        }
         DictionaryHelper.iriToByteArray(buffer, v)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.IRI })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToIri(buffer) }, { v })
@@ -245,6 +268,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         var v = ""
         for (i in 0 until hasNextRandom()) {
             v += AssertionFunctions.randomPrintableChar(nextRandom())
+        }
+        if (verbose) {
+            println("stringToByteArray '$v'")
         }
         DictionaryHelper.stringToByteArray(buffer, v)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.STRING })
@@ -259,11 +285,14 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         if (hasNextRandom() > 2) {
             val l = nextRandom()
             for (i in 0 until hasNextRandom()) {
-                v += AssertionFunctions.randomPrintableChar(nextRandom())
+                v += AssertionFunctions.randomPrintableLetter(nextRandom())
             }
             val l2 = AssertionFunctions.randomRangePositive(l, v.length - 1)
             val a = v.substring(0, l2)
             val b = v.substring(l2, v.length)
+            if (verbose) {
+                println("typedToByteArray '$a' '$b'")
+            }
             DictionaryHelper.typedToByteArray(buffer, a, b)
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.STRING_TYPED })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToTyped_Content(buffer) }, { a })
@@ -279,13 +308,16 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         if (hasNextRandom() > 2) {
             val l = nextRandom()
             for (i in 0 until hasNextRandom()) {
-                v += AssertionFunctions.randomPrintableChar(nextRandom())
+                v += AssertionFunctions.randomPrintableLetter(nextRandom())
             }
             val l2 = AssertionFunctions.randomRangePositive(l, v.length - 1)
             val a = v.substring(0, l2)
             val b = v.substring(l2, v.length)
+            if (verbose) {
+                println("langToByteArray '$a' '$b'")
+            }
             DictionaryHelper.langToByteArray(buffer, a, b)
-            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.STRING_TYPED })
+            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.STRING_LANG })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToLang_Content(buffer) }, { a })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToLang_Lang(buffer) }, { b })
             DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
@@ -296,6 +328,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     fun integerToByteArray() {
         resetRandom()
         var v = generateIntegerNumber(hasNextRandom())
+        if (verbose) {
+            println("integerToByteArray '$v'")
+        }
         DictionaryHelper.integerToByteArray(buffer, v)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.INTEGER })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToInteger_S(buffer) }, { v })
@@ -313,7 +348,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     fun decimalToByteArray() {
         resetRandom()
         var v = generateDecimalNumber(hasNextRandom())
-        println("decimalToByteArray '$v'")
+        if (verbose) {
+            println("decimalToByteArray '$v'")
+        }
         DictionaryHelper.decimalToByteArray(buffer, v)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.DECIMAL })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDecimal_S(buffer) }, { v })
@@ -331,8 +368,14 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
 
     fun floatToByteArray() {
         resetRandom()
-        var v = generateDoubleNumber(hasNextRandom()).toDouble().toString()
-        println("floatToByteArray '$v'")
+        var v1 = generateDoubleNumber(hasNextRandom())
+        if (verbose) {
+            println("floatToByteArray tmp '$v1'")
+        }
+        val v = v1.toDouble().toString()
+        if (verbose) {
+            println("floatToByteArray '$v'")
+        }
         DictionaryHelper.floatToByteArray(buffer, v)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.FLOAT })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToFloat_S(buffer) }, { v })
@@ -346,8 +389,13 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     fun doubleToByteArray() {
         resetRandom()
         var v1 = generateDoubleNumber(hasNextRandom())
+        if (verbose) {
+            println("doubleToByteArray tmp '$v1'")
+        }
         val v = v1.toDouble().toString()
-        println("doubleToByteArray '$v'")
+        if (verbose) {
+            println("doubleToByteArray '$v'")
+        }
         DictionaryHelper.doubleToByteArray(buffer, v)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.DOUBLE })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDouble_S(buffer) }, { v })
@@ -389,12 +437,12 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     fun dateTimeToByteArray() {
         resetRandom()
         if (hasNextRandom() > 9) {
-            val month: Int = nextRandom()
-            val day: Int = nextRandom()
-            val hours: Int = nextRandom()
-            val minutes: Int = nextRandom()
-            val timezoneHours: Int = nextRandom()
-            val timezoneMinutes: Int = nextRandom()
+            val month: Int = abs(nextRandom() % 100)
+            val day: Int = abs(nextRandom() % 100)
+            val hours: Int = abs(nextRandom() % 24)
+            val minutes: Int = abs(nextRandom() % 100)
+            val timezoneHours: Int = nextRandom() % 24
+            val timezoneMinutes: Int = abs(nextRandom() % 100)
             var year: String = "0"
             var seconds: String = "0.0"
             if (hasNextRandom() < 3) {
@@ -407,7 +455,58 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 year = generateIntegerNumber(1 + l)
                 seconds = generateDecimalNumber(hasNextRandom())
             }
-            DictionaryHelper.dateTimeToByteArray(buffer, year, month, day, hours, minutes, seconds, timezoneHours, timezoneMinutes)
+            if (seconds.startsWith("-")) {
+                seconds = seconds.substring(1)
+            }
+            if (seconds.startsWith("+")) {
+                seconds = seconds.substring(1)
+            }
+            if (seconds.contains('.')) {
+                while (seconds[seconds.length - 1] == '0') {
+                    seconds = seconds.substring(0, seconds.length - 1)
+                }
+                if (seconds[seconds.length - 1] == '.') {
+                    seconds = seconds.substring(0, seconds.length - 1)
+                }
+            }
+            if (seconds.length > 0 && seconds[0] == '.') {
+                seconds = seconds.substring(1)
+            }
+            if (seconds.indexOf('.') > 2) {
+                seconds = seconds.substring(seconds.indexOf('.') - 2)
+            }
+            if (seconds.indexOf('.') >= 0) {
+                while (seconds.indexOf('.') < 2) {
+                    seconds = "0" + seconds
+                }
+            }
+            if (seconds.contains('.')) {
+                if (seconds.indexOf('.') > 2) {
+                    seconds = seconds.substring(seconds.indexOf('.') - 2, seconds.length)
+                }
+            } else {
+                if (seconds.length > 2) {
+                    seconds = seconds.substring(0, 2)
+                }
+            }
+            while (seconds.length < 2) {
+                seconds = "0" + seconds
+            }
+            if (year[0] == '-' || year[0] == '+') {
+                while (year.length < 5) {
+                    year = "" + year[0] + "0" + year.substring(1, year.length)
+                }
+            } else {
+                while (year.length < 4) {
+                    year = "0" + year
+                }
+            }
+            val myseconds = MyBigDecimal(seconds)
+            val myyear = MyBigInteger(year)
+            if (verbose) {
+                println("dateTimeToByteArray '$year' '$month' '$day' '$hours' '$minutes' '$seconds' '$timezoneHours' '$timezoneMinutes'")
+            }
+            DictionaryHelper.dateTimeToByteArray(buffer, myyear, month, day, hours, minutes, myseconds, timezoneHours, timezoneMinutes)
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.DATE_TIME })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDateTime_Month(buffer).toString().toInt() }, { month })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDateTime_Day(buffer).toString().toInt() }, { day })
@@ -417,6 +516,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDateTime_Year(buffer).toString() }, { year })
             val tmp = DictionaryHelper.byteArrayToDateTimeAsTyped_Content(buffer)
             DictionaryHelper.dateTimeToByteArray(buffer2, tmp)
+            AssertionFunctions.assumeEQ({ tmp }, { DictionaryHelper.byteArrayToDateTimeAsTyped_Content(buffer2) })
             AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
             DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
             AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
