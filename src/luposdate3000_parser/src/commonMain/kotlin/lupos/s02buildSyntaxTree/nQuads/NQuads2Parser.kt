@@ -38,7 +38,8 @@ public abstract class NQuads2Parser(input: IMyInputStream) {
             parse_subject(
                 context,
                 onIRIREF = {
-                    DictionaryHelper.iriToByteArray(quad[0], context.getValue())
+                    val value = context.getValue()
+                    DictionaryHelper.iriToByteArray(quad[0], value.substring(1, value.length - 1))
                 },
                 onBLANK_NODE_LABEL = {
                     DictionaryHelper.bnodeToByteArray(quad[0], context.getValue())
@@ -48,14 +49,16 @@ public abstract class NQuads2Parser(input: IMyInputStream) {
             parse_predicate(
                 context,
                 onIRIREF = {
-                    DictionaryHelper.iriToByteArray(quad[1], context.getValue())
+                    val value = context.getValue()
+                    DictionaryHelper.iriToByteArray(quad[1], value.substring(1, value.length - 1))
                 },
             )
             parse_ws_forced(context) {}
             parse_object(
                 context,
                 onIRIREF = {
-                    DictionaryHelper.iriToByteArray(quad[2], context.getValue())
+                    val value = context.getValue()
+                    DictionaryHelper.iriToByteArray(quad[2], value.substring(1, value.length - 1))
                     parse_ws_forced(context) {}
                 },
                 onBLANK_NODE_LABEL = {
@@ -88,7 +91,8 @@ public abstract class NQuads2Parser(input: IMyInputStream) {
             parse_graph(
                 context,
                 onIRIREF = {
-                    DictionaryHelper.iriToByteArray(quad[3], context.getValue())
+                    val value = context.getValue()
+                    DictionaryHelper.iriToByteArray(quad[3], value.substring(1, value.length - 1))
                 },
                 onBLANK_NODE_LABEL = {
                     DictionaryHelper.bnodeToByteArray(quad[3], context.getValue())

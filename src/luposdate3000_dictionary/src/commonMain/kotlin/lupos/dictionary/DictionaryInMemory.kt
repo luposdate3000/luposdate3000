@@ -16,7 +16,6 @@
  */
 package lupos.dictionary
 
-import lupos.fileformat.DictionaryIntermediateReader
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.SanityCheck
@@ -25,7 +24,6 @@ public class DictionaryInMemory : ADictionary {
     private var dataI2V = Array<ByteArrayWrapper>(1) { ByteArrayWrapper() }
     private var dataV2I = mutableMapOf<ByteArrayWrapper, Int>()
     private var bNodeCounter = 5
-    private val isLocal: Boolean
 
     internal constructor(isLocal: Boolean) : super() {
         this.isLocal = isLocal
@@ -37,38 +35,6 @@ public class DictionaryInMemory : ADictionary {
 
     public override fun delete() {
         close()
-    }
-
-    @Suppress("NOTHING_TO_INLINE")
-    public override fun importFromDictionaryFile(filename: String): IntArray {
-        var mymapping = IntArray(0)
-        var lastId = -1
-        val buffer = ByteArrayWrapper()
-        DictionaryIntermediateReader(filename).readAll(buffer) { id ->
-            val type = DictionaryHelper.byteArrayToType(buffer)
-            val i = if (type == ETripleComponentTypeExt.BLANK_NODE) {
-                createNewBNode()
-            } else {
-                var res = createValue(buffer)
-                if (isLocal) {
-                    res = res or ADictionary.flagLocal
-                }
-                res
-            }
-            SanityCheck.check { lastId == id - 1 }
-            lastId = id
-            if (mymapping.size <= id) {
-                var newSize = 1
-                while (newSize <= id) {
-                    newSize = newSize * 2
-                }
-                val tmp = mymapping
-                mymapping = IntArray(newSize)
-                tmp.copyInto(mymapping)
-            }
-            mymapping[id] = i
-        }
-        return mymapping
     }
 
     public override fun createNewBNode(): Int {

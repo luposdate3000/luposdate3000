@@ -25,7 +25,8 @@ import lupos.s00misc.Parallel
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     val buffer = ByteArrayWrapper()
     DictionaryIntermediateReader(inputFileName).readAll(buffer) { id ->
+        val type = DictionaryHelper.byteArrayToType(buffer)
         val value = DictionaryHelper.byteArrayToSparql(buffer)
-        println("$id :: $value")
+        println("$id :: $type -> $value")
     }
 }

@@ -131,12 +131,12 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
                 state = Turtle2ParserStateExt.STATEMENT
             },
             onIRIREF = {
-                DictionaryHelper.iriToByteArray(triple[0], context.getValue())
+                val value = context.getValue()
+                DictionaryHelper.iriToByteArray(triple[0], value.substring(1, value.length - 1))
                 parse_ws_forced(context) {}
                 state = Turtle2ParserStateExt.PREDICATE
             },
             onPNAME_NS = {
-                DictionaryHelper.iriToByteArray(triple[0], context.getValue())
                 statement_helper_3(context.getValue())
                 state = Turtle2ParserStateExt.PREDICATE
             },
@@ -169,7 +169,8 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
                 parse_ws_forced(context) {}
             },
             onIRIREF = {
-                DictionaryHelper.iriToByteArray(triple[1], context.getValue())
+                val value = context.getValue()
+                DictionaryHelper.iriToByteArray(triple[1], value.substring(1, value.length - 1))
                 parse_ws_forced(context) {}
             },
             onPNAME_NS = {
@@ -183,7 +184,8 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
         parse_obj(
             context,
             onIRIREF = {
-                DictionaryHelper.iriToByteArray(triple[2], context.getValue())
+                val value = context.getValue()
+                DictionaryHelper.iriToByteArray(triple[2], value.substring(1, value.length - 1))
                 parse_ws(context) {}
                 state = Turtle2ParserStateExt.TRIPLE_END
             },

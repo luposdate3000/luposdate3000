@@ -19,7 +19,6 @@ package lupos.dictionary
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.buffermanager.BufferManagerPage
-import lupos.fileformat.DictionaryIntermediateReader
 import lupos.kv.KeyValueStore
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ByteArrayWrapper
@@ -47,6 +46,7 @@ public class DictionaryKV : ADictionary {
     public override fun isInmemoryOnly(): Boolean = false
 
     internal constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) : super() {
+        isLocal = false
         this.bufferManager = bufferManager
         rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
         this.rootPageID = rootPageID
@@ -63,35 +63,6 @@ public class DictionaryKV : ADictionary {
             rootPage.writeInt4(4, kvPage)
         }
         kv = KeyValueStore(bufferManager, kvPage, initFromRootPage)
-    }
-
-    @Suppress("NOTHING_TO_INLINE")
-    public override fun importFromDictionaryFile(filename: String): IntArray {
-        var mymapping = IntArray(0)
-        var lastId = -1
-        val buffer = ByteArrayWrapper()
-        DictionaryIntermediateReader(filename).readAll(buffer) { id ->
-            val type = DictionaryHelper.byteArrayToType(buffer)
-            val i = if (type == ETripleComponentTypeExt.BLANK_NODE) {
-                createNewBNode()
-            } else {
-                var res = kv.createValue(buffer)
-                res
-            }
-            SanityCheck.check { lastId == id - 1 }
-            lastId = id
-            if (mymapping.size <= id) {
-                var newSize = 1
-                while (newSize <= id) {
-                    newSize = newSize * 2
-                }
-                val tmp = mymapping
-                mymapping = IntArray(newSize)
-                tmp.copyInto(mymapping)
-            }
-            mymapping[id] = i
-        }
-        return mymapping
     }
 
     public override fun createNewBNode(): Int {
