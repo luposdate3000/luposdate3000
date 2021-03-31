@@ -1,3 +1,4 @@
+stale_outputs_checked
 *.cov
 *.generated
 *.swp
