@@ -35,7 +35,7 @@ import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
 import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s03resultRepresentation.ValueTypedLiteral
 
-public object DictionaryHelper {
+internal object DictionaryHelper {
     /* encoding ::
      *
      * ETripleComponentTypeExt.UNDEF

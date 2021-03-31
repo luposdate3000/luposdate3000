@@ -26,8 +26,8 @@ public actual class MyThreadLock {
         private var uuidCounter = 0L
     }
 
-    private val uuid = uuidCounter++
-    private val semaphore = Semaphore(1)
+    public val uuid: Long = uuidCounter++
+    public val semaphore: Semaphore = Semaphore(1)
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun getUUID(): Long = uuid

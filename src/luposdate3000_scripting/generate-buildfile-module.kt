@@ -916,6 +916,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         } else {
             var configPathBase = "src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleArgs.moduleFolder}${pathSeparator}src"
             var configPath = "${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc"
+            File(configPath).mkdirs()
             configFile = "${configPath}${pathSeparator}Config-${moduleArgs.moduleName}.kt"
         }
         println(typeAliasUsed.keys)

@@ -22,13 +22,13 @@ import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 
 public abstract class DictionaryIntermediate(internal val filename: String) {
-    internal var streamOut: IMyOutputStream? = null
-    internal var streamIn: IMyInputStream? = null
+    public var streamOut: IMyOutputStream? = null
+    public var streamIn: IMyInputStream? = null
     public abstract fun close()
 
     public companion object {
         internal const val filenameEnding = ".dictionary"
-        public inline fun delete(filename: String) {
+        public fun delete(filename: String) {
             File("$filename$filenameEnding").deleteRecursively()
         }
     }

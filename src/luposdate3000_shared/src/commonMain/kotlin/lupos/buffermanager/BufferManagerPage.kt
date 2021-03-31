@@ -17,36 +17,37 @@
 package lupos.buffermanager
 
 import lupos.s00misc.SanityCheck
+import kotlin.jvm.JvmField
 
 public const val BUFFER_MANAGER_PAGE_SIZE_IN_BYTES: Int = 8192
 public fun createBufferManagerPage(): BufferManagerPage {
     return BufferManagerPage(ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES + 4))
 }
 
-public inline class BufferManagerPage internal constructor(private val data: ByteArray) {
+public class BufferManagerPage public constructor(@JvmField public val data: ByteArray) {
     init {
         setPageID(-1)
     }
 
-    public inline fun getData(): ByteArray {
+    public fun getData(): ByteArray {
         return data
     }
 
-    public inline fun copyInto(destination: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int) {
+    public fun copyInto(destination: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int) {
         SanityCheck.check { getPageID() != -1 }
         data.copyInto(destination, destinationOffset, startIndex, endIndex)
     }
 
-    public inline fun copyFrom(source: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int) {
+    public fun copyFrom(source: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int) {
         SanityCheck.check { getPageID() != -1 }
         source.copyInto(data, destinationOffset, startIndex, endIndex)
     }
 
-    public inline fun getPageID(): Int {
+    public fun getPageID(): Int {
         return (((data[BUFFER_MANAGER_PAGE_SIZE_IN_BYTES].toInt() and 0xFF) shl 24) or ((data[BUFFER_MANAGER_PAGE_SIZE_IN_BYTES + 1].toInt() and 0xFF) shl 16) or ((data[BUFFER_MANAGER_PAGE_SIZE_IN_BYTES + 2].toInt() and 0xFF) shl 8) or ((data[BUFFER_MANAGER_PAGE_SIZE_IN_BYTES + 3].toInt() and 0xFF)))
     }
 
-    public inline fun setPageID(value: Int) {
+    public fun setPageID(value: Int) {
         SanityCheck.check { value == -1 || getPageID() == -1 }
         data[BUFFER_MANAGER_PAGE_SIZE_IN_BYTES] = ((value shr 24) and 0xFF).toByte()
         data[BUFFER_MANAGER_PAGE_SIZE_IN_BYTES + 1] = ((value shr 16) and 0xFF).toByte()
@@ -54,41 +55,41 @@ public inline class BufferManagerPage internal constructor(private val data: Byt
         data[BUFFER_MANAGER_PAGE_SIZE_IN_BYTES + 3] = (value and 0xFF).toByte()
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    public inline operator fun get(idx: Int): Byte {
+    @Suppress("NOTHING_TO_")
+    public operator fun get(idx: Int): Byte {
         SanityCheck.check { getPageID() != -1 }
         return data[idx]
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    public inline operator fun set(idx: Int, value: Byte) {
+    @Suppress("NOTHING_TO_")
+    public operator fun set(idx: Int, value: Byte) {
         SanityCheck.check { getPageID() != -1 }
         data[idx] = value
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun writeInt1(offset: Int, value: Int) {
+    @Suppress("NOTHING_TO_")
+    public fun writeInt1(offset: Int, value: Int) {
         SanityCheck.check { getPageID() != -1 }
         data[offset] = (value and 0xFF).toByte()
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun writeInt2(offset: Int, value: Int) {
+    @Suppress("NOTHING_TO_")
+    public fun writeInt2(offset: Int, value: Int) {
         SanityCheck.check { getPageID() != -1 }
         data[offset] = ((value shr 8) and 0xFF).toByte()
         data[offset + 1] = (value and 0xFF).toByte()
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun writeInt3(offset: Int, value: Int) {
+    @Suppress("NOTHING_TO_")
+    public fun writeInt3(offset: Int, value: Int) {
         SanityCheck.check { getPageID() != -1 }
         data[offset] = ((value shr 16) and 0xFF).toByte()
         data[offset + 1] = ((value shr 8) and 0xFF).toByte()
         data[offset + 2] = (value and 0xFF).toByte()
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun writeInt4(offset: Int, value: Int) {
+    @Suppress("NOTHING_TO_")
+    public fun writeInt4(offset: Int, value: Int) {
         SanityCheck.check { getPageID() != -1 }
         data[offset] = ((value shr 24) and 0xFF).toByte()
         data[offset + 1] = ((value shr 16) and 0xFF).toByte()
@@ -96,8 +97,8 @@ public inline class BufferManagerPage internal constructor(private val data: Byt
         data[offset + 3] = (value and 0xFF).toByte()
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun writeIntX(offset: Int, value: Int, count: Int) {
+    @Suppress("NOTHING_TO_")
+    public fun writeIntX(offset: Int, value: Int, count: Int) {
         when (count) {
             0 -> {
             }
@@ -116,8 +117,8 @@ public inline class BufferManagerPage internal constructor(private val data: Byt
         }
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun writeLong8(offset: Int, value: Long) {
+    @Suppress("NOTHING_TO_")
+    public fun writeLong8(offset: Int, value: Long) {
         SanityCheck.check { getPageID() != -1 }
         data[offset] = ((value shr 56) and 0xFF).toByte()
         data[offset + 1] = ((value shr 48) and 0xFF).toByte()
@@ -129,46 +130,46 @@ public inline class BufferManagerPage internal constructor(private val data: Byt
         data[offset + 7] = (value and 0xFF).toByte()
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun writeChar(offset: Int, value: Char) {
+    @Suppress("NOTHING_TO_")
+    public fun writeChar(offset: Int, value: Char) {
         SanityCheck.check { getPageID() != -1 }
         val v = value.toInt()
         data[offset] = ((v shr 8) and 0xFF).toByte()
         data[offset + 1] = (v and 0xFF).toByte()
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun readLong8(offset: Int): Long {
+    @Suppress("NOTHING_TO_")
+    public fun readLong8(offset: Int): Long {
         SanityCheck.check { getPageID() != -1 }
         return (((data[offset].toLong() and 0xFF) shl 56) or ((data[offset + 1].toLong() and 0xFF) shl 48) or ((data[offset + 2].toLong() and 0xFF) shl 40) or ((data[offset + 3].toLong() and 0xFF) shl 32) or ((data[offset + 4].toLong() and 0xFF) shl 24) or ((data[offset + 5].toLong() and 0xFF) shl 16) or ((data[offset + 6].toLong() and 0xFF) shl 8) or ((data[offset + 7].toLong() and 0xFF)))
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun readInt4(offset: Int): Int {
+    @Suppress("NOTHING_TO_")
+    public fun readInt4(offset: Int): Int {
         SanityCheck.check { getPageID() != -1 }
         return (((data[offset].toInt() and 0xFF) shl 24) or ((data[offset + 1].toInt() and 0xFF) shl 16) or ((data[offset + 2].toInt() and 0xFF) shl 8) or ((data[offset + 3].toInt() and 0xFF)))
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun readInt3(offset: Int): Int {
+    @Suppress("NOTHING_TO_")
+    public fun readInt3(offset: Int): Int {
         SanityCheck.check { getPageID() != -1 }
         return (((data[offset].toInt() and 0xFF) shl 16) or ((data[offset + 1].toInt() and 0xFF) shl 8) or ((data[offset + 2].toInt() and 0xFF)))
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun readInt2(offset: Int): Int {
+    @Suppress("NOTHING_TO_")
+    public fun readInt2(offset: Int): Int {
         SanityCheck.check { getPageID() != -1 }
         return (((data[offset].toInt() and 0xFF) shl 8) or ((data[offset + 1].toInt() and 0xFF)))
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun readInt1(offset: Int): Int {
+    @Suppress("NOTHING_TO_")
+    public fun readInt1(offset: Int): Int {
         SanityCheck.check { getPageID() != -1 }
         return (data[offset].toInt() and 0xFF)
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun readIntX(offset: Int, count: Int): Int {
+    @Suppress("NOTHING_TO_")
+    public fun readIntX(offset: Int, count: Int): Int {
         when (count) {
             0 -> {
                 return 0
@@ -188,8 +189,8 @@ public inline class BufferManagerPage internal constructor(private val data: Byt
         }
     }
 
-    @Suppress("NOTHING_TO_INLINE")
-    public inline fun readChar(offset: Int): Char {
+    @Suppress("NOTHING_TO_")
+    public fun readChar(offset: Int): Char {
         SanityCheck.check { getPageID() != -1 }
         return (((data[offset].toInt() and 0xFF) shl 8) or ((data[offset + 1].toInt() and 0xFF))).toChar()
     }

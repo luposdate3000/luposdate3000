@@ -735,7 +735,7 @@ fun onSetupIntellijIdea() {
                 val name = it.toString()
                 println(name)
                 if (name.startsWith("src/lupos") || name.startsWith("src\\lupos")) {
-                    if (!name.contains("shared_inline")) {
+                    if (!name.contains("shared_inline") && !name.contains("luposdate3000_scripting")) {
                         outSettingsGradle.println("include(\":src:${name.substring(4)}\")")
                         outBuildGradle.println("    project(\":src:${name.substring(4)}\")")
                     }
