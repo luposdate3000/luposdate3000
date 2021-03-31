@@ -40,7 +40,6 @@ public class EndpointExtendedVisualize {
         return result.toTypedArray()
     }
 
-    // Function by Rico
     // Optimising the logical operator graph and is returning each step of the process for visualisation
     @JsName("getOptimizedStepsLogical")
     public fun getOptimizedStepsLogical(query: String): Array<String> {

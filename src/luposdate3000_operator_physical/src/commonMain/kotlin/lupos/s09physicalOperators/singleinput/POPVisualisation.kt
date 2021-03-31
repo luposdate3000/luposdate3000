@@ -41,8 +41,7 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
     override fun cloneOP(): IOPBase = POPVisualisation(query, projectedVariables, getChildren()[0].cloneOP())
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> = getChildren()[0].getProvidedVariableNames()
-    override fun getProvidedVariableNamesInternal(): List<String> =
-        (getChildren()[0] as POPBase).getProvidedVariableNamesInternal()
+    override fun getProvidedVariableNamesInternal(): List<String> = (getChildren()[0] as POPBase).getProvidedVariableNamesInternal()
 
     override fun toSparql(): String = getChildren()[0].toSparql()
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
@@ -57,35 +56,29 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
         val iterator = RowIterator()
         var counter = 0
         iterator.columns = child.rows.columns
+        val buffer = ByteArrayWrapper()
         iterator.next = {
             println("$uuid next call")
             var visual = Visualisation()
             var res = child.rows.next()
             iterator.buf = child.rows.buf
             if (res < 0) {
-                println { "$uuid next return closed $counter ${parent.data} ResultSetDictionaryExt.nullValue" }
+                println("$uuid next return closed $counter ${parent.data} ResultSetDictionaryExt.nullValue")
             } else {
                 // For each Column the data is received from the Dictionary and send to the
                 // visualization framework.
                 counter++
-                println { "$uuid next return $counter ${parent.data} ${iterator.buf.map { it.toString(16) }}" }
+                println("$uuid next return $counter ${parent.data} ${iterator.buf.map { it.toString(16) }}")
                 // Columns auf ein mal senden
                 for (j in 0..iterator.columns.size - 1) {
-                    var string =
-                        "?" + this.projectedVariables[j] + " = " + query.getDictionary().getValue(iterator.buf[res + j])
-                            .valueToString()
-                    string?.let {
-                        visual.sendData(
-                            getParent().getVisualUUUID(), getChildren()[0].getVisualUUUID(), iterator.buf[res + j],
-                            it
-                        )
-                    }
+                    query.getDictionary().getValue(buffer, iterator.buf[res + j])
+                    var string = "?" + this.projectedVariables[j] + " = " + DictionaryHelper.byteArrayToSparql(buffer)
+                    visual.sendData(getParent().getVisualUUUID(), getChildren()[0].getVisualUUUID(), iterator.buf[res + j], string)
                 }
             }
             res
         }
         iterator.close = {
-            println { "$uuid closed $counter ${parent.data}" }
             child.rows.close()
             iterator._close()
         }

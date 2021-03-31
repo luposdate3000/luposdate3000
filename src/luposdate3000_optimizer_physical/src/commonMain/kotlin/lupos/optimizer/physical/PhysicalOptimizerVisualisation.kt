@@ -15,13 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
-    Added by Rico
-
-    Is adding a POPRico operator between every Operator for the visualization
-
- */
-
 package lupos.optimizer.physical
 
 import lupos.optimizer.logical.EOptimizerIDExt
@@ -31,9 +24,7 @@ import lupos.s04logicalOperators.Query
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPVisualisation
 
-// TODO: PhysicalOptimizerDebugID ersetzen
-
-public class PhysicalOptimizerVisualisation(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerDebugID, "PhysicalOptimizerVisualisation") {
+public class PhysicalOptimizerVisualisation(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerVisualisationID, "PhysicalOptimizerVisualisation") {
 
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node

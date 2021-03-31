@@ -62,7 +62,8 @@ public object EOptimizerIDExt {
     public const val PhysicalOptimizerPartitionRemoveUselessPartitionsID: EOptimizerID = 40
     public const val PhysicalOptimizerPartitionRespectMaxPartitionsID: EOptimizerID = 41
     public const val PhysicalOptimizerTripleIndexID: EOptimizerID = 42
-    public const val values_size: Int = 43
+    public const val PhysicalOptimizerVisualisationID: EOptimizerID = 43
+    public const val values_size: Int = 44
 
     @JvmField
     public val names: Array<String> = arrayOf(
@@ -109,5 +110,6 @@ public object EOptimizerIDExt {
         "PhysicalOptimizerPartitionRemoveUselessPartitionsID",
         "PhysicalOptimizerPartitionRespectMaxPartitionsID",
         "PhysicalOptimizerTripleIndexID",
+        "PhysicalOptimizerVisualisationID",
     )
 }
