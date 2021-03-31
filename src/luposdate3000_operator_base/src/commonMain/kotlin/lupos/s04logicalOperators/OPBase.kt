@@ -57,6 +57,12 @@ public abstract class OPBase public constructor(
     public var alreadyCheckedStore: Long = -1L
 
     @JvmField
+    public var parentNode: IOPBase = this
+
+    @JvmField
+    public var visualUUID: Long = global_uuid++
+
+    @JvmField
     public val uuid: Long = global_uuid++
 
     @JvmField
@@ -87,6 +93,17 @@ public abstract class OPBase public constructor(
     override fun setMySortPriority(value: MutableList<SortHelper>) {
         mySortPriority = value
     }
+
+    public override fun setParent(parent: IOPBase) {
+        this.parentNode = parent
+    }
+
+    public override fun getParent(): IOPBase = parentNode
+    public override fun setVisualUUID(newUUID: Long) {
+        this.visualUUID = newUUID
+    }
+
+    override fun getVisualUUUID(): Long = visualUUID
 
     override fun getQuery(): IQuery = query
     override fun getSortPriorities(): MutableList<List<SortHelper>> = sortPriorities

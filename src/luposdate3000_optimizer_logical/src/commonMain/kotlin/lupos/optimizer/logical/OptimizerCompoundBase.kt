@@ -85,7 +85,7 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
         }
     }
 
-    override /*suspend*/ fun optimizeCall(node: IOPBase, onChange: () -> Unit): IOPBase {
+    override /*suspend*/ fun optimizeCall(node: IOPBase, onChange: () -> Unit, nextStep: (IOPBase) -> Unit): IOPBase {
         if (query.filtersMovedUpFromOptionals) {
             node.syntaxVerifyAllVariableExists(listOf(), true)
         }
@@ -105,6 +105,7 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
                                 d = true
                                 onChange()
                             }
+                            nextStep(tmp)
                         }
                     }
                     SanityCheck {

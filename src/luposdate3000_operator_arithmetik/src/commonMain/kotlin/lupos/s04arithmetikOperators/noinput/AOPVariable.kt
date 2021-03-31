@@ -36,7 +36,7 @@ public class AOPVariable public constructor(query: IQuery, @JvmField public var 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {}
     override fun getRequiredVariableNames(): List<String> = listOf(name)
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("name", name)
-    override fun cloneOP(): IOPBase = this
+    override fun cloneOP(): IOPBase = AOPVariable(query, this.getName())
     override fun equals(other: Any?): Boolean = other is AOPVariable && name == other.name
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val buffer = ByteArrayWrapper()

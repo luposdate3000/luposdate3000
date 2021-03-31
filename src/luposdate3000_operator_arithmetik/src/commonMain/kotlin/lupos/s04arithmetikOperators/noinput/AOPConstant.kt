@@ -75,5 +75,5 @@ public class AOPConstant : AOPBase, IAOPConstant {
         }
     }
 
-    override fun cloneOP(): IOPBase = this
+    override fun cloneOP(): IOPBase = AOPConstant(query, value)
 }

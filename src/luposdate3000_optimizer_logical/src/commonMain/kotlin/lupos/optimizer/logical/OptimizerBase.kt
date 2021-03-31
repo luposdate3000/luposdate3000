@@ -44,10 +44,10 @@ public abstract class OptimizerBase public constructor(@JvmField public val quer
     }
 
     public open /*suspend*/ fun optimizeCall(node: IOPBase): IOPBase {
-        return optimizeCall(node, {})
+        return optimizeCall(node, {}, {})
     }
 
-    public open /*suspend*/ fun optimizeCall(node: IOPBase, onChange: () -> Unit): IOPBase {
+    public open /*suspend*/ fun optimizeCall(node: IOPBase, onChange: () -> Unit, nextStep: (IOPBase) -> Unit): IOPBase {
         if (query.filtersMovedUpFromOptionals) {
             node.syntaxVerifyAllVariableExists(listOf(), true)
         }

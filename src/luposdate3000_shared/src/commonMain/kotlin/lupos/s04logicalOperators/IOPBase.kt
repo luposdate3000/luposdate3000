@@ -57,6 +57,10 @@ public interface IOPBase {
     public fun getOnlyExistenceRequired(): Boolean
     public fun setPartOfAskQuery(value: Boolean)
     public fun setOnlyExistenceRequired(value: Boolean)
+    public fun getParent(): IOPBase
+    public fun setParent(parent: IOPBase)
+    public fun getVisualUUUID(): Long
+    public fun setVisualUUID(newUUID: Long)
     public /*suspend*/ fun evaluateRoot(): IteratorBundle
     public /*suspend*/ fun evaluateRoot(partition: Partition): IteratorBundle
     public fun changePartitionID(idFrom: Int, idTo: Int)
