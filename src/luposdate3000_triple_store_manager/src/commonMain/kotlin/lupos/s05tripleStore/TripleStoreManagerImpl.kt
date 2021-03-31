@@ -182,7 +182,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     public override fun initialize() {
         val file = File(BufferManagerExt.bufferPrefix + globalManagerRootFileName)
         var pageid = -1
-        if (file.exists()) {
+if(BufferManagerExt.allowInitFromDisk&&file.exists()) {
             file.withInputStream {
                 pageid = it.readInt()
             }

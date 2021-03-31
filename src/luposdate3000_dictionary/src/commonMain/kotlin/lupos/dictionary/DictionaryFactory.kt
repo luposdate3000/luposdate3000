@@ -24,10 +24,11 @@ import lupos.s00misc.Platform
 public object DictionaryFactory {
     private val globalDictionaryBufferManager = BufferManagerExt.getBuffermanager("dictionary")
     private var globalDictionaryRootPageID: Int = -1
-    private var globalDictionaryInitFromRootPage: Boolean
+    private var globalDictionaryInitFromRootPage: Boolean = false
     private val globalDictionaryRootFileName = "global_dictionary.page"
 
     init {
+if(BufferManagerExt.allowInitFromDisk){
         val file = File(BufferManagerExt.bufferPrefix + globalDictionaryRootFileName)
         globalDictionaryInitFromRootPage = file.exists()
         if (globalDictionaryInitFromRootPage) {
@@ -35,6 +36,7 @@ public object DictionaryFactory {
                 globalDictionaryRootPageID = it.readInt()
             }
         }
+}
     }
 
     public fun createGlobalDictionary(): IDictionary {
@@ -56,9 +58,11 @@ public object DictionaryFactory {
                             globalDictionaryRootPageID = pageid
                         }
                         globalDictionaryBufferManager.releasePage(lupos.SOURCE_FILE, globalDictionaryRootPageID)
+if(BufferManagerExt.allowInitFromDisk){
                         File(BufferManagerExt.bufferPrefix + globalDictionaryRootFileName).withOutputStream {
                             it.writeInt(globalDictionaryRootPageID)
                         }
+}
                     }
                     DictionaryKV(globalDictionaryBufferManager, globalDictionaryRootPageID, globalDictionaryInitFromRootPage)
                 }
