@@ -21,3 +21,4 @@ tmpparams
 x
 afl.*.log
 erroredTests
+external_jvm_dependencies
