@@ -16,7 +16,36 @@
  */
 package lupos.modulename
 
+public external class ArrayBuffer(size: Int)
+public external class Int64Array(buffer: ArrayBuffer) {
+    public operator fun get(i: Int): Long
+    public operator fun set(i: Int, v: Long)
+}
+
+public external class Float64Array(buffer: ArrayBuffer) {
+    public operator fun get(i: Int): Double
+    public operator fun set(i: Int, v: Double)
+}
+
 internal actual object _ByteArrayHelper {
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun readDouble8(data: ByteArray, offset: Int): Double {
+        var buffer = ArrayBuffer(8)
+        var intView = Int64Array(buffer)
+        var floatView = Float64Array(buffer)
+        intView[0] = readLong8(data, offset)
+        return floatView[0]
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    internal actual inline fun writeDouble8(data: ByteArray, offset: Int, value: Double) {
+        var buffer = ArrayBuffer(8)
+        var intView = Int64Array(buffer)
+        var floatView = Float64Array(buffer)
+        floatView[0] = value
+        writeLong8(data, offset, intView[0])
+    }
+
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun writeInt1(data: ByteArray, offset: Int, value: Int) {
         data[offset] = (value and 0xFF).toByte()
