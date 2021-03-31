@@ -269,8 +269,8 @@ public object DictionaryHelper {
         off += 4
         off += 8
         val yearSignum = when (buffer.getBuf()[off]) {
-            1.toByte() -> Sign.POSITIVE
             (-1).toByte() -> Sign.NEGATIVE
+            1.toByte() -> Sign.POSITIVE
             else -> Sign.ZERO
         }
         off++
@@ -338,8 +338,8 @@ public object DictionaryHelper {
         off += 8
         off++
         val secondsSignum = when (buffer.getBuf()[off]) {
-            1.toByte() -> Sign.POSITIVE
             (-1).toByte() -> Sign.NEGATIVE
+            1.toByte() -> Sign.POSITIVE
             else -> Sign.ZERO
         }
         off++
@@ -374,14 +374,14 @@ public object DictionaryHelper {
         val secondsExponent = ByteArrayHelper.readLong8(buffer.getBuf(), off)
         off += 8
         val yearSignum = when (buffer.getBuf()[off]) {
-            1.toByte() -> Sign.POSITIVE
             (-1).toByte() -> Sign.NEGATIVE
+            1.toByte() -> Sign.POSITIVE
             else -> Sign.ZERO
         }
         off++
         val secondsSignum = when (buffer.getBuf()[off]) {
-            1.toByte() -> Sign.POSITIVE
             (-1).toByte() -> Sign.NEGATIVE
+            1.toByte() -> Sign.POSITIVE
             else -> Sign.ZERO
         }
         off++
@@ -396,8 +396,17 @@ public object DictionaryHelper {
         SanityCheck.check { off == buffer.getSize() }
         val year = BigInteger.fromByteArray(buf1, yearSignum)
         val seconds = BigDecimal.fromBigIntegerWithExponent(BigInteger.fromByteArray(buf2, secondsSignum), secondsExponent)
-        val secondsString2 = seconds.toString().split(".")
+        val secondsString2 = seconds.toStringExpanded().split(".")
         var secondsString = secondsString2[0].padStart(2, '0')
+        if (secondsString2.size > 1) {
+            var tmp = secondsString2[1]
+            while (tmp.endsWith('0')) {
+                tmp = tmp.substring(0, tmp.length - 1)
+            }
+            if (tmp.length > 0) {
+                secondsString += "." + tmp
+            }
+        }
         return if (timezoneHours == -99 && timezoneMinutes == -99) {
             "$year-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}T${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:$secondsString"
         } else if (timezoneHours == 0 && timezoneMinutes == 0) {
@@ -488,8 +497,8 @@ public object DictionaryHelper {
         val buf = ByteArray(l1)
         buffer.getBuf().copyInto(buf, 0, 5, 5 + l1)
         val sign = when (buffer.getBuf()[4]) {
-            1.toByte() -> Sign.POSITIVE
             (-1).toByte() -> Sign.NEGATIVE
+            1.toByte() -> Sign.POSITIVE
             else -> Sign.ZERO
         }
         return BigInteger.fromByteArray(buf, sign)
@@ -509,20 +518,24 @@ public object DictionaryHelper {
     }
 
     public inline fun byteArrayToDecimal_I(buffer: ByteArrayWrapper): BigDecimal {
-        val l1 = buffer.getSize() - 9
+        val l1 = buffer.getSize() - 13
         val buf = ByteArray(l1)
         buffer.getBuf().copyInto(buf, 0, 13, 13 + l1)
         val exponent = ByteArrayHelper.readLong8(buffer.getBuf(), 4)
         val sign = when (buffer.getBuf()[12]) {
-            1.toByte() -> Sign.POSITIVE
             (-1).toByte() -> Sign.NEGATIVE
+            1.toByte() -> Sign.POSITIVE
             else -> Sign.ZERO
         }
         return BigDecimal.fromBigIntegerWithExponent(BigInteger.fromByteArray(buf, sign), exponent)
     }
 
     public inline fun byteArrayToDecimal_S(buffer: ByteArrayWrapper): String {
-        return byteArrayToDecimal_I(buffer).toString()
+        val tmp = byteArrayToDecimal_I(buffer).toStringExpanded()
+        if (tmp.contains('.')) {
+            return tmp
+        }
+        return tmp + ".0"
     }
 
     public inline fun doubleToByteArray(buffer: ByteArrayWrapper, value: Double) {
@@ -731,11 +744,13 @@ public object DictionaryHelper {
             iriToByteArray(buffer, value.substring(1, value.length - 1))
             return
         }
-        try {
-            val i = BigInteger.parseString(value, 10)
-            integerToByteArray(buffer, i)
-            return
-        } catch (e: Throwable) {
+        if (!value.contains('.')) {
+            try {
+                val i = BigInteger.parseString(value, 10)
+                integerToByteArray(buffer, i)
+                return
+            } catch (e: Throwable) {
+            }
         }
         if (!value.contains("e") && !value.contains("E")) {
             try {

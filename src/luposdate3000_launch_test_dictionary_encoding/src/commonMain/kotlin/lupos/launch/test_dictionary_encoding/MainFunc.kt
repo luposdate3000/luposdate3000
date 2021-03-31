@@ -133,6 +133,13 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 }
             }
         }
+        if (v.startsWith("+.")) {
+            return "+0." + v.substring(2, v.length)
+        } else if (v.startsWith("-.")) {
+            return "-0." + v.substring(2, v.length)
+        } else if (v.startsWith(".")) {
+            return "0." + v.substring(1, v.length)
+        }
         return v
     }
 
@@ -170,6 +177,13 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                     v = v + ".0"
                 }
             }
+        }
+        if (v.startsWith("+.")) {
+            return "+0." + v.substring(2, v.length)
+        } else if (v.startsWith("-.")) {
+            return "-0." + v.substring(2, v.length)
+        } else if (v.startsWith(".")) {
+            return "0." + v.substring(1, v.length)
         }
         return v
     }
@@ -328,6 +342,20 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     fun integerToByteArray() {
         resetRandom()
         var v = generateIntegerNumber(hasNextRandom())
+        if (v.startsWith('+')) {
+            v = v.substring(1)
+        }
+        while (v.startsWith('0')) {
+            v = v.substring(1)
+        }
+        while (v.startsWith("-0")) {
+            v = "-" + v.substring(2)
+        }
+        if (v == "") {
+            v = "0"
+        } else if (v == "-") {
+            v = "-0"
+        }
         if (verbose) {
             println("integerToByteArray '$v'")
         }
@@ -348,20 +376,43 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     fun decimalToByteArray() {
         resetRandom()
         var v = generateDecimalNumber(hasNextRandom())
+        if (v.startsWith('+')) {
+            v = v.substring(1)
+        }
+        while (v.startsWith('0')) {
+            v = v.substring(1)
+        }
+        while (v.startsWith("-0")) {
+            v = "-" + v.substring(2)
+        }
+        if (v.contains('.')) {
+            while (v.endsWith('0')) {
+                v = v.substring(0, v.length - 1)
+            }
+            if (v.endsWith('.')) {
+                v = v + "0"
+            }
+            if (v.startsWith('.')) {
+                v = '0' + v
+            } else if (v.startsWith("-.")) {
+                v = "-0" + v.substring(1)
+            }
+        }
+        if (v == "-0.0") {
+            v = "0.0"
+        }
         if (verbose) {
             println("decimalToByteArray '$v'")
         }
         DictionaryHelper.decimalToByteArray(buffer, v)
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.DECIMAL })
         AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDecimal_S(buffer) }, { v })
-        AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDecimal_I(buffer).toString() }, { v })
         DictionaryHelper.decimalToByteArray(buffer2, DictionaryHelper.byteArrayToDecimal_I(buffer))
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
         DictionaryHelper.sparqlToByteArray(buffer2, "\"$v\"^^<http://www.w3.org/2001/XMLSchema#decimal>")
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
         DictionaryHelper.sparqlToByteArray(buffer2, v)
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
-
         DictionaryHelper.sparqlToByteArray(buffer2, DictionaryHelper.byteArrayToSparql(buffer))
         AssertionFunctions.assumeEQ({ buffer }, { buffer2 })
     }
@@ -492,14 +543,17 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             while (seconds.length < 2) {
                 seconds = "0" + seconds
             }
-            if (year[0] == '-' || year[0] == '+') {
-                while (year.length < 5) {
-                    year = "" + year[0] + "0" + year.substring(1, year.length)
-                }
-            } else {
-                while (year.length < 4) {
-                    year = "0" + year
-                }
+            if (year[0] == '+') {
+                year = year.substring(1)
+            }
+            while (year.startsWith('0')) {
+                year = year.substring(1)
+            }
+            while (year.startsWith("-0")) {
+                year = "-" + year.substring(2)
+            }
+            if (year == "") {
+                year = "0"
             }
             val myseconds = BigDecimal.parseString(seconds, 10)
             val myyear = BigInteger.parseString(year, 10)
@@ -512,7 +566,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDateTime_Day(buffer).toString().toInt() }, { day })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDateTime_Hours(buffer).toString().toInt() }, { hours })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDateTime_Minutes(buffer).toString().toInt() }, { minutes })
-            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDateTime_Seconds(buffer).toString() }, { seconds })
+            AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDateTime_Seconds(buffer) }, { myseconds })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDateTime_Year(buffer).toString() }, { year })
             val tmp = DictionaryHelper.byteArrayToDateTimeAsTyped_Content(buffer)
             DictionaryHelper.dateTimeToByteArray(buffer2, tmp)
