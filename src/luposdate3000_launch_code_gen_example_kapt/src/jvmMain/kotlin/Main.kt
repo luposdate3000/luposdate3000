@@ -14,9 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+import examplePackage.ExampleClass
+import examplePackage.exampleVar_evaluate
 import lupos.launch.code_gen_example_kapt.mainFunc
 
 public fun main(args: Array<String>) {
-    var flag = false
-    mainFunc()
+    //var flag = false
+    //mainFunc()
+    val example = ExampleClass()
+    println(example.exampleVar_evaluate())
 }

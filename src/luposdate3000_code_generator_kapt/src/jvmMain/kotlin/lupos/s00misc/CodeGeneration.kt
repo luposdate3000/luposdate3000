@@ -2,6 +2,7 @@ package lupos.s00misc
 
 // import com.squareup.kotlinpoet.*
 import kotlin.reflect.typeOf
+import lupos.dictionary.DictionaryHelper
 import lupos.endpoint.LuposdateEndpoint
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.generated.*
@@ -9,6 +10,7 @@ import lupos.s04arithmetikOperators.multiinput.*
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
+import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s09physicalOperators.POPBase
@@ -19,6 +21,7 @@ import lupos.s09physicalOperators.singleinput.POPDebug
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.s05tripleStore.POPTripleStoreIterator
+import lupos.s05tripleStore.tripleStoreManager
 
 
 public fun generateSourceCode(className: String,
@@ -41,15 +44,32 @@ public fun generateSourceCode(className: String,
     // General imports
     val commonImports = arrayOf(
         "lupos.s04logicalOperators.Query",
+        "lupos.s04logicalOperators.IQuery",
         "lupos.s00misc.MyPrintWriter",
-        "lupos.s16network.LuposdateEndpoint",
-        "lupos.s00misc.MyBigInteger",
-        "lupos.s00misc.MyBigDecimal",
+        "lupos.endpoint.LuposdateEndpoint",
+        "com.ionspin.kotlin.bignum.integer.BigInteger",
+        "com.ionspin.kotlin.bignum.decimal.BigDecimal",
         "lupos.s03resultRepresentation.compareTo",
         "lupos.s03resultRepresentation.plus",
         "lupos.s03resultRepresentation.minus",
         "lupos.s03resultRepresentation.times",
-        "lupos.s03resultRepresentation.div"
+        "lupos.s03resultRepresentation.div",
+        "lupos.s04logicalOperators.IOPBase",
+        "lupos.s09physicalOperators.POPBase",
+        "lupos.s00misc.EOperatorIDExt",
+        "lupos.s00misc.ESortPriorityExt",
+        "lupos.s00misc.SanityCheck",
+        "lupos.s00misc.SanityCheck",
+        "lupos.s00misc.XMLElement",
+        "lupos.s00misc.Partition",
+        "lupos.s04logicalOperators.iterator.ColumnIterator",
+        "lupos.s04logicalOperators.iterator.IteratorBundle",
+        "lupos.s04logicalOperators.iterator.ColumnIteratorQueue",
+        "lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt",
+        "lupos.s04arithmetikOperators.generated.AOPAnd",
+        "lupos.s03resultRepresentation.ValueIri",
+        "lupos.dictionary.DictionaryHelper",
+        "lupos.s00misc.ByteArrayWrapper"
     )
     // Imports that will be used in the generated file
     val imports = mutableSetOf<String>()
@@ -145,18 +165,24 @@ private fun writeOperatorGraph(
         }
         is AOPConstant -> {
             //operatorGraph.getQuery().getDictionary().getValue(tmpBuf, operatorGraph.getValue())
-            val valueDef =
-                operatorGraph.getQuery().getDictionary().getValue(tmpBuf, operatorGraph.getValue()).toString()
-                    ?.replace("\"", "\\\"")
+            //val valueDef =
+            //    operatorGraph.getQuery().getDictionary().getValue(tmpBuf, operatorGraph.getValue()).toString()
+            //        ?.replace("\"", "\\\"")
+            operatorGraph.getQuery().getDictionary().getValue(tmpBuf, operatorGraph.getValue())
+            val value = DictionaryHelper.byteArrayToValueDefinition(tmpBuf)
             buffer.println(
                 "    val operator${operatorGraph.uuid} = AOPConstant(query," +
-                    " ValueDefinition(\"$valueDef\"))"
+                    "ValueDefinition(\"${value.valueToString()?.replace("\"", "\\\"")}\"))"
             )
             imports.add("lupos.s04arithmetikOperators.noinput.AOPConstant")
             imports.add("lupos.s03resultRepresentation.ValueDefinition")
         }
         is POPTripleStoreIterator -> {
-            buffer.println(
+            buffer.println("val graph = tripleStoreManager.getGraph(\"\")")
+            buffer.println("val operator${operatorGraph.uuid} = graph.getIterator(query, " +
+                "arrayOf(operator${operatorGraph.children[0].getUUID()})," +
+                " EIndexPatternExt.${EIndexPatternExt.names[17]})")
+            /*buffer.println(
                 "    val operator${operatorGraph.uuid} = TripleStoreIteratorGlobal(query," +
                     "$projectedVariables,\"${operatorGraph.graphName}\"," +
                     "arrayOf(operator${operatorGraph.children[0].getUUID()}," +
@@ -164,8 +190,8 @@ private fun writeOperatorGraph(
                     "operator${operatorGraph.children[2].getUUID()})," +
                     " EIndexPatternExt.${EIndexPatternExt.names[operatorGraph.idx]}," +
                     "Partition())"
-            )
-            imports.add("lupos.s15tripleStoreDistributed.TripleStoreIteratorGlobal")
+            )*/
+            imports.add("lupos.s05tripleStore.tripleStoreManager")
             imports.add("lupos.s00misc.EIndexPatternExt")
             imports.add("lupos.s00misc.Partition")
         }
@@ -351,7 +377,12 @@ internal fun writeFilter(child: IOPBase, classes: MyPrintWriter?, operatorGraph:
                 // Muss in einen Datentyp gecastet werden, um Operationen wie ?pages+5 < 50 im Filter durchführen zu können
                 // Hier klappt .toInt() am Ende ranhängen, sollte aber dynamisch erkannt werden; Anhängig von der Konstanten zuvor machen?
                 classes.println(
-                    "                    val child${child.uuid} = query.getDictionary().getValue(row${child.name})"
+                    "                   val tmp = ByteArrayWrapper()")
+                classes.println(
+                    "                   query.getDictionary().getValue(tmp, row${child.name})"
+                )
+                classes.println(
+                    "                    val child${child.uuid} = DictionaryHelper.byteArrayToValueDefinition(tmp)"
                 )
             }
             is AOPConstant -> {
@@ -363,15 +394,15 @@ internal fun writeFilter(child: IOPBase, classes: MyPrintWriter?, operatorGraph:
     } else if(variablen != null){
         if (child is AOPConstant) {
             child.getQuery().getDictionary().getValue(tmpBuf, child.getValue())
-            when (val value = ValueDefinition(tmpBuf.toString())) {
+            when (val value = DictionaryHelper.byteArrayToValueDefinition(tmpBuf)) {
                 is ValueBoolean -> {
                     variablen.add("        val child${child.uuid} = ${value.value}")
                 }
                 is ValueInteger -> {
-                    variablen.add("        val child${child.uuid} = MyBigInteger(\"${value.value}\")")
+                    variablen.add("        val child${child.uuid} = BigInteger.fromInt(${value.value})")
                 }
                 is ValueDecimal -> {
-                    variablen.add("        val child${child.uuid} = MyBigDecimal(\"${value.value}\")")
+                    variablen.add("        val child${child.uuid} = MyBigDecimal.fromBigDecimal(${value.value})")
                 }
                 is ValueStringBase -> {
                     // Erkennt noch nicht, dass es ein String ist?

@@ -51,7 +51,7 @@ internal fun generatePOPBind(
         )
     }
 
-    imports.add("lupos.s04logicalOperators.IOPBase")
+    /*imports.add("lupos.s04logicalOperators.IOPBase")
     imports.add("lupos.s09physicalOperators.POPBase")
     imports.add("lupos.s00misc.EOperatorIDExt")
     imports.add("lupos.s00misc.ESortPriorityExt")
@@ -68,7 +68,7 @@ internal fun generatePOPBind(
     imports.add("lupos.s04arithmetikOperators.multiinput.AOPAnd")
     imports.add("lupos.s03resultRepresentation.ValueIri")
     imports.add("lupos.s00misc.MyBigInteger")
-    imports.add("lupos.s03resultRepresentation.compareTo")
+    imports.add("lupos.s03resultRepresentation.compareTo")*/
 
     clazz.header.println(
         """

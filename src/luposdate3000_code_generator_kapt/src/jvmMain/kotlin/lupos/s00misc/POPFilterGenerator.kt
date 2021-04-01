@@ -17,14 +17,13 @@ internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String
         "    val operator${operatorGraph.uuid} = Operator${operatorGraph.uuid}(query," +
             "operator${operatorGraph.children[0].getUUID()})"
     )
-    imports.add("lupos.s04logicalOperators.IOPBase")
+    /*imports.add("lupos.s04logicalOperators.IOPBase")
     imports.add("lupos.s09physicalOperators.POPBase")
     imports.add("lupos.s00misc.EOperatorIDExt")
     imports.add("lupos.s00misc.ESortPriorityExt")
     imports.add("lupos.s00misc.Partition")
     imports.add("lupos.s00misc.SanityCheck")
     imports.add("lupos.s00misc.XMLElement")
-    imports.add("lupos.s03resultRepresentation.ResultSetDictionaryExt")
     imports.add("lupos.s04logicalOperators.IQuery")
     imports.add("lupos.s04logicalOperators.iterator.ColumnIterator")
     imports.add("lupos.s04logicalOperators.iterator.IteratorBundle")
@@ -32,7 +31,7 @@ internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String
     imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt")
     imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt")
     imports.add("lupos.s04arithmetikOperators.multiinput.AOPAnd")
-    imports.add("lupos.s03resultRepresentation.ValueIri")
+    imports.add("lupos.s03resultRepresentation.ValueIri")*/
 
 
     clazz.header.println(
@@ -71,7 +70,7 @@ internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String
     }
     clazz.iteratorNextBody.println(
         """
-                |                    if (row${variablename[0]} == ResultSetDictionaryExt.nullValue) {
+                |                    if (row${variablename[0]} == 0x00000004) {
                 |                       break
                 |                    }
                 """.trimMargin()
@@ -124,7 +123,7 @@ internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String
     }
     clazz.footer.println("        return IteratorBundle(outMap)")
     clazz.footer.println("    }")
-    clazz.footer.println("    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement()")
+    //clazz.footer.println("    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement()")
     clazz.footer.println("}")
     containers.add(clazz)
 }

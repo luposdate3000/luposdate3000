@@ -22,7 +22,7 @@ import lupos.endpoint.LuposdateEndpoint
 public class ExampleClass {
     init {
         LuposdateEndpoint.importTurtleFiles(
-            "D:\\DokumenteHDD\\Universitaet\\BachelorInformatik\\5_Wintersemester2020_2021\\BA_Projekt_IFIS\\luposdate5\\luposdate3000\\example.n3",
+            "resources/code-generation/example.n3",
             mutableMapOf()
         )
     }

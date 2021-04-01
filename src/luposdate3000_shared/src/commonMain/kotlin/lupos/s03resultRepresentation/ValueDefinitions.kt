@@ -532,7 +532,6 @@ public class ValueBoolean(@JvmField public var value: Boolean, x: Boolean) : Val
                 ValueError()
             }
         }
-
         throw IncompatibleTypesDuringCompareException()
     }
 

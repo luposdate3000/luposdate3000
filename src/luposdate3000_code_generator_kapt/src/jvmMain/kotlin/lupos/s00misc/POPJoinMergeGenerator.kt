@@ -36,7 +36,7 @@ public fun generatePOPJoinMerge(
             " operator${operatorGraph.children[0].getUUID()}, " +
             "operator${operatorGraph.children[1].getUUID()} )"
     )
-    imports.add("lupos.s00misc.EOperatorIDExt")
+    /*imports.add("lupos.s00misc.EOperatorIDExt")
     imports.add("lupos.s00misc.ESortPriorityExt")
     imports.add("lupos.s00misc.Partition")
     imports.add("lupos.s00misc.XMLElement")
@@ -52,7 +52,7 @@ public fun generatePOPJoinMerge(
     imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator")
     imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue")
     imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorRepeatIterator")
-    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue")
+    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue")*/
 
     classes.println("public class Operator${operatorGraph.uuid} public constructor(query: IQuery, childA: IOPBase, childB: IOPBase) : POPBase(query, ${projectedVariables}, EOperatorIDExt.POPGenerated, \"Operator${operatorGraph.uuid}\", arrayOf(childA,childB), ESortPriorityExt.JOIN) {")
     classes.println(
