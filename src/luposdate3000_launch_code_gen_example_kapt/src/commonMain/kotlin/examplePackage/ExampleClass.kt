@@ -15,12 +15,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package examplePackage
-
 import lupos.s00misc.CodeGenerationAnnotation
 import kotlin.jvm.JvmField
+import lupos.endpoint.LuposdateEndpoint
 
 public class ExampleClass {
+    init {
+        LuposdateEndpoint.importTurtleFiles(
+            "D:\\DokumenteHDD\\Universitaet\\BachelorInformatik\\5_Wintersemester2020_2021\\BA_Projekt_IFIS\\luposdate5\\luposdate3000\\example.n3",
+            mutableMapOf()
+        )
+    }
     @JvmField
     @CodeGenerationAnnotation
-    public val exampleVar: String = "exampleQuery"
+    public val exampleVar: String = "SELECT ?pages ?article WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER (?pages < 11)}"
+    //public val exampleVar: String = "SELECT ?pages (?pages < 9 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages}"
+    //public val exampleVar: String = "SELECT ?pages ?article (?pages/0 < 9 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER (?pages<= 20)}"
+    //public val exampleVar: String = "SELECT ?pages ?article ?title  WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://purl.org/dc/elements/1.1/title> ?title .filter(?pages > 100)}"
+    //public val exampleVar: String = "SELECT ?pages ?article (?pages as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages }"
+    //public val exampleVar: String = "SELECT ?pages ?article ?pages2  WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://swrc.ontoware.org/ontology#pages> ?pages2 }"
+    //public val exampleVar : String = "SELECT ?a ?b ?c WHERE {?a <a> ?b . ?a <b> ?c .}"
 }
+

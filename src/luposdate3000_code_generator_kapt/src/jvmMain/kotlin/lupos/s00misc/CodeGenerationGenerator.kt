@@ -16,25 +16,11 @@
  */
 package lupos.s00misc
 
-import java.io.File
-import javax.annotation.processing.AbstractProcessor
-import javax.annotation.processing.RoundEnvironment
-import javax.annotation.processing.SupportedOptions
+import javax.annotation.processing.*
 import javax.lang.model.SourceVersion
-import javax.lang.model.element.Element
-import javax.lang.model.element.ExecutableElement
-import javax.lang.model.element.PackageElement
-import javax.lang.model.element.Parameterizable
-import javax.lang.model.element.QualifiedNameable
-import javax.lang.model.element.TypeElement
-import javax.lang.model.element.TypeParameterElement
-import javax.lang.model.element.VariableElement
+import javax.lang.model.element.*
 
-// dieses Tutorial hat mir sehr geholfen
-// https://www.kotlindevelopment.com/generateforme/
-// An dieser stelle wird häufig eine Annotation AutoService verwendet. Diese Annotation erzeigt lediglich die Datei "processor/src/main/resources/META-INF/services/javax.annotation.processing.Processor"
-// Ich bevorzuge weniger Dependencies (da diese dann nicht kaputt gehen können), wenn diese nur so triviale Aufgaben erledigen.
-// aus kompatibilitätsgründen für diese Beispiel java 1.8 ... luposdate3000 kompiliert zurzeit auch mit java 1.8, aber es sollte kein großens Problem sein, hier die Java-version zu erhöhen.
+
 // @SupportedSourceVersion(SourceVersion.RELEASE_8)
 // @SupportedAnnotationTypes("lupos.s00misc.CodeGenerationAnnotation")
 @SupportedOptions(CodeGenerationGenerator.KAPT_KOTLIN_GENERATED_OPTION_NAME)
@@ -48,7 +34,9 @@ public class CodeGenerationGenerator : AbstractProcessor() {
     }
 
     override fun getSupportedSourceVersion(): SourceVersion = SourceVersion.latest()
-    override fun getSupportedAnnotationTypes(): MutableSet<String> = mutableSetOf(CodeGenerationAnnotation::class.java.name)
+    override fun getSupportedAnnotationTypes(): MutableSet<String> =
+        mutableSetOf(CodeGenerationAnnotation::class.java.name)
+
     override fun process(
         annotations: MutableSet<out TypeElement>?,
         roundEnv: RoundEnvironment
@@ -58,22 +46,19 @@ public class CodeGenerationGenerator : AbstractProcessor() {
             .forEach { element ->
                 try {
                     // input ->
-                    val className = element.getEnclosingElement().getSimpleName().toString()
+                    val className = element.enclosingElement.simpleName.toString()
                     val packageName = processingEnv.elementUtils.getPackageOf(element).toString()
                     // die instanz der annotation mit all ihren variablen                    val annotation = element.getAnnotation(CodeGenerationAnnotation::class.java)
-                    recoursivelyPrintTypeInformation(element.getEnclosingElement())
-                    val variableName = element.getSimpleName().toString()
-                    val variableValue = (element as VariableElement).getConstantValue().toString()
+                    recoursivelyPrintTypeInformation(element.enclosingElement)
+                    val variableName = element.simpleName.toString()
+                    val variableValue = (element as VariableElement).constantValue.toString()
                     // output->
                     val folderName = "$kaptKotlinGeneratedDir/$packageName"
                     val fileName = "$folderName/${className}___$variableName.kt"
-                    println("$className $packageName $variableName $variableValue into $fileName")
-                    java.io.File(folderName).mkdirs()
-                    java.io.File(fileName).printWriter().use { out ->
-                        out.println("package $packageName")
-                        out.println("public fun $className.${variableName}_evaluate():String=\"$variableValue\"")
-                    }
-                } catch (e: Throwable) {
+                    val buf = MyPrintWriter(true)
+                    generateSourceCode(className, packageName, variableName, variableValue, folderName, fileName)
+                }
+                catch (e: Throwable){
                     e.printStackTrace()
                 }
             }
@@ -81,9 +66,9 @@ public class CodeGenerationGenerator : AbstractProcessor() {
     }
 
     internal fun recoursivelyPrintTypeInformation(element: Element, indention: String = "") {
-        println("${indention}simpleName :: ${element.getSimpleName()}")
-        println("${indention}kind :: ${element.getKind()}")
-        println("${indention}modifiers :: ${element.getModifiers()}")
+        println("${indention}simpleName :: ${element.simpleName}")
+        println("${indention}kind :: ${element.kind}")
+        println("${indention}modifiers :: ${element.modifiers}")
         println("${indention}annotation :: ${element.getAnnotation(CodeGenerationAnnotation::class.java)}")
         if (element is ExecutableElement) {
             println("${indention}subclass :: ExecutableElement")
@@ -99,10 +84,11 @@ public class CodeGenerationGenerator : AbstractProcessor() {
             println("${indention}subclass :: TypeParameterElement")
         } else if (element is VariableElement) {
             println("${indention}subclass :: VariableElement")
-            println("${indention}value :: ${element.getConstantValue()}")
+            println("${indention}value :: ${element.constantValue}")
         }
-        for (element2 in element.getEnclosedElements()) {
+        for (element2 in element.enclosedElements) {
             recoursivelyPrintTypeInformation(element2, "  $indention")
         }
     }
+
 }
