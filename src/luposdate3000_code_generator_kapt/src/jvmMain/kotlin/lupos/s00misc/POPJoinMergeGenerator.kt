@@ -290,6 +290,7 @@ public fun generatePOPJoinMerge(
             classes.println("                                    break@loop")
             classes.println("                                }")
         }
+        classes.println("                               continue@loop") //CHANGED
         classes.println("                            }")
         classes.println("                            else if (key0$variable > key1$variable){")
         classes.println("                                skipO1++")
@@ -310,7 +311,7 @@ public fun generatePOPJoinMerge(
     classes.println("                            localNextCounta = 0")
     classes.println("                            loop2@ while(true){")
     for (variable in variables0Only) {
-        classes.println("                                if(columnsInO0$variable != null){")
+        //classes.println("                                if(columnsInO0$variable != null){") //CHANGED
         classes.println("                                    if(localNextCounta >= data0$variable.size){")
         classes.println("                                        val x$variable = data0$variable")
         classes.println("                                        val d$variable = IntArray(localNextCounta*2)")
@@ -326,7 +327,7 @@ public fun generatePOPJoinMerge(
         classes.println("                                    data0$variable[localNextCounta] = columnsInO0$variable.skipSIP(skipO0)")
     }
     classes.println("                                    skipO0 = 0")
-    classes.println("                                }")
+    //classes.println("                                }") //CHANGED
     classes.println("                                localNextCounta++")
     for (variable in variablesJoin) {
         classes.println("                                key0$variable = columnsInJ0$variable.next()")
@@ -341,7 +342,7 @@ public fun generatePOPJoinMerge(
     classes.println("                            loop2@ while(true){")
 
     for (variable in variables1Only) {
-        classes.println("                                if(columnsInO1$variable != null){")
+        //classes.println("                                if(columnsInO1$variable != null){") //CHANGED
         classes.println("                                       if(localNextCountb >= data1$variable.size){")
         classes.println("                                           val x$variable = data1$variable")
         classes.println("                                           val d$variable = IntArray(localNextCountb*2)")
@@ -351,7 +352,7 @@ public fun generatePOPJoinMerge(
         classes.println("                                            }")
         classes.println("                                            data1$variable = d$variable")
         classes.println("                                        }")
-        classes.println("                                }")
+        //classes.println("                                }") //CHANGED
     }
 
     for (variable in variables1Only) {

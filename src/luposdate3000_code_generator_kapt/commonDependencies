@@ -1,7 +1,6 @@
 com.ionspin.kotlin:bignum:0.2.8
-luposdate3000:Luposdate3000_Operator_endpoint:0.0.1
-luposdate3000:luposdate3000_operator_arithmetik:0.01
+luposdate3000:Luposdate3000_Endpoint:0.0.1
+luposdate3000:luposdate3000_Operator_arithmetik:0.01
 luposdate3000:Luposdate3000_Operator_physical:0.0.1
-luposdate3000:Luposdate3000_Operator_Base:0.0.1
+luposdate3000:Luposdate3000_Operator_base:0.0.1
 luposdate3000:Luposdate3000_Operator_triple_store_manager:0.0.1
-

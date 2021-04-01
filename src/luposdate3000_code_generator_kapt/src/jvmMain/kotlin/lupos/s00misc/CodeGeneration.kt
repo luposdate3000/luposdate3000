@@ -1,6 +1,7 @@
 package lupos.s00misc
 
 // import com.squareup.kotlinpoet.*
+import kotlin.reflect.typeOf
 import lupos.endpoint.LuposdateEndpoint
 import lupos.s03resultRepresentation.*
 import lupos.s04arithmetikOperators.generated.*
@@ -107,6 +108,7 @@ private fun writeOperatorGraph(
     containers: MutableList<ClazzContainer>,
 
     ) {
+    val tmpBuf = ByteArrayWrapper()
     val projectedVariables =
         "listOf(${(operatorGraph as? POPBase)?.projectedVariables?.map { "\"$it\"" }?.joinToString()})"
     for (child in operatorGraph.children) {
@@ -142,8 +144,9 @@ private fun writeOperatorGraph(
             imports.add("lupos.s04arithmetikOperators.noinput.AOPVariable")
         }
         is AOPConstant -> {
+            //operatorGraph.getQuery().getDictionary().getValue(tmpBuf, operatorGraph.getValue())
             val valueDef =
-                operatorGraph.getQuery().getDictionary().getValue(operatorGraph.getValue()).valueToString()
+                operatorGraph.getQuery().getDictionary().getValue(tmpBuf, operatorGraph.getValue()).toString()
                     ?.replace("\"", "\\\"")
             buffer.println(
                 "    val operator${operatorGraph.uuid} = AOPConstant(query," +
@@ -304,6 +307,7 @@ private fun writeOperatorGraph(
 // Creates variables for the comparisons in the filter, the root variable contains the filters result
 // writeFilter(operatorGraph.children[1],  clazz.iteratorNextBody, operatorGraph, false)
 internal fun writeFilter(child: IOPBase, classes: MyPrintWriter?, operatorGraph: OPBase, variablen: MutableSet<String>?) {
+    val tmpBuf = ByteArrayWrapper()
     for (c in child.getChildren()) {
         writeFilter(c, classes, operatorGraph, variablen)
     }
@@ -358,8 +362,8 @@ internal fun writeFilter(child: IOPBase, classes: MyPrintWriter?, operatorGraph:
         }
     } else if(variablen != null){
         if (child is AOPConstant) {
-            val value = child.getQuery().getDictionary().getValue(child.getValue())
-            when (value) {
+            child.getQuery().getDictionary().getValue(tmpBuf, child.getValue())
+            when (val value = ValueDefinition(tmpBuf.toString())) {
                 is ValueBoolean -> {
                     variablen.add("        val child${child.uuid} = ${value.value}")
                 }
