@@ -129,7 +129,7 @@ public class POPTripleStoreIterator(
             val i = EIndexPatternHelper.tripleIndicees[index.idx_set[0]][ii]
             when (val param = children[i]) {
                 is IAOPConstant -> {
-                    SanityCheck.check { filter2.size == ii }
+                    //SanityCheck.check { filter2.size == ii }
                     filter2.add(query.getDictionary().valueToGlobal(param.getValue()))
                 }
                 is IAOPVariable -> {
