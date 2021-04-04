@@ -332,7 +332,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                         columns[projection[1]] = NodeInner.iterator1(node, filter, lock, 2, nodeManager)
                     }
                 } else {
-                    SanityCheck.check { projection[1] == "_" }
+                    //SanityCheck.check { projection[1] == "_" }
                     var count = 0
                     val it = NodeInner.iterator1(node, filter, lock, 1, nodeManager)
                     while (it.next() != DictionaryExt.nullValue) {

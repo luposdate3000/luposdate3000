@@ -58,7 +58,6 @@ internal fun generatePOPBind(
     imports.add("lupos.s00misc.Partition")
     imports.add("lupos.s00misc.SanityCheck")
     imports.add("lupos.s00misc.XMLElement")
-    imports.add("lupos.s03resultRepresentation.ResultSetDictionaryExt")
     imports.add("lupos.s04logicalOperators.IQuery")
     imports.add("lupos.s04logicalOperators.iterator.ColumnIterator")
     imports.add("lupos.s04logicalOperators.iterator.IteratorBundle")
@@ -98,6 +97,7 @@ internal fun generatePOPBind(
         clazz.iteratorHeader.println("        ): this(query,null)")
     }
     clazz.iteratorClassVariables.add("        var label2${operatorGraph.uuid} = 1")
+    clazz.iteratorClassVariables.add("        val buffer= ByteArrayWrapper()")
     for(variable in variablename) {
         clazz.iteratorClassVariables.add("        var column$variable : LocalIterator? = null")
     }
@@ -118,6 +118,8 @@ internal fun generatePOPBind(
         clazz.iteratorNextVariablen.addAll(childContainer.iteratorNextVariablen)
     }
 
+    clazz.iteratorNextBody.println("        try{")
+
     for (i in 0 until variablename.size - 1) {
         if(!inlineChild){
             clazz.iteratorNextBody.println("                row${variablename[i]} = column${variablename[i]}!!.iterator${operatorGraph.uuid}!!.next()")
@@ -128,7 +130,11 @@ internal fun generatePOPBind(
     writeFilter(operatorGraph.children[1], clazz.iteratorNextBody, operatorGraph, null)
 
     clazz.iteratorNextBody.println("                val tmp${operatorGraph.uuid} = ValueDefinition.convertToValueDefinition(child${operatorGraph.children[1].getUUID()})")
-    clazz.iteratorNextBody.println("                row${variablename[variablename.size - 1]} = query.getDictionary().createValue(tmp${operatorGraph.uuid})")
+    clazz.iteratorNextBody.println("                DictionaryHelper.valueDefinitionToByteArray(buffer,tmp${operatorGraph.uuid})")
+    clazz.iteratorNextBody.println("                row${variablename[variablename.size - 1]} = query.getDictionary().createValue(buffer)")
+    clazz.iteratorNextBody.println("        } catch (e:Throwable){")
+    clazz.iteratorNextBody.println("            row${variablename[variablename.size - 1]} = 0x00000002")
+    clazz.iteratorNextBody.println("        } ")
     if(inlineChild) {
         clazz.iteratorNextBodyEnd.println(childContainer!!.iteratorNextBodyEnd.toString())
     }
@@ -180,7 +186,7 @@ internal fun generatePOPBind(
 
     clazz.footer.println("        return IteratorBundle(outMap)")
     clazz.footer.println("    }")
-    clazz.footer.println("    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement()")
+    //clazz.footer.println("    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement()")
     clazz.footer.println("}")
     containers.add(clazz)
 }

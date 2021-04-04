@@ -28,8 +28,8 @@ public class ExampleClass {
     }
     @JvmField
     @CodeGenerationAnnotation
-    public val exampleVar: String = "SELECT ?article ?pages WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER (?pages < 11)}"
-    //public val exampleVar: String = "SELECT ?pages (?pages < 9 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages}"
+    public val exampleVar: String = "SELECT ?article ?pages (?pages < 6 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER(?pages <= 10)}"
+    //public val exampleVar: String = "SELECT ?pages ?article (?pages < 100 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages}"
     //public val exampleVar: String = "SELECT ?pages ?article (?pages/0 < 9 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER (?pages<= 20)}"
     //public val exampleVar: String = "SELECT ?pages ?article ?title  WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://purl.org/dc/elements/1.1/title> ?title .filter(?pages > 100)}"
     //public val exampleVar: String = "SELECT ?pages ?article (?pages as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages }"

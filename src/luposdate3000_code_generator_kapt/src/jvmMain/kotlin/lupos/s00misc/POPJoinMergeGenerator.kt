@@ -321,7 +321,7 @@ public fun generatePOPJoinMerge(
         classes.println("                                            localNextJ++")
         classes.println("                                        }")
         classes.println("                                        data0$variable = d$variable")
-        classes.println("                                    }")
+        //classes.println("                                    }")
     }
     for (variable in variables0Only) {
         classes.println("                                    data0$variable[localNextCounta] = columnsInO0$variable.skipSIP(skipO0)")
