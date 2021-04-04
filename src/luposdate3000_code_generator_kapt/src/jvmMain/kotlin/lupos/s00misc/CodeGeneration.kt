@@ -154,8 +154,15 @@ private fun writeOperatorGraph(
             }
         }
         is POPFilter -> {
-            generatePOPFilter(operatorGraph, projectedVariables, buffer, imports, containers)
-
+            if(false) {
+                generatePOPFilter(operatorGraph, projectedVariables, buffer, imports, containers)
+            } else {
+                buffer.println("    val operator${operatorGraph.uuid} = POPFilter(query, $projectedVariables," +
+                    "operator${operatorGraph.children[1].getUUID()}," +
+                    "operator${operatorGraph.children[0].getUUID()})"
+                )
+                imports.add("lupos.s09physicalOperators.singleinput.POPFilter")
+            }
         }
         is AOPVariable -> {
             buffer.println(

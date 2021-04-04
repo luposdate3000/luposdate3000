@@ -302,7 +302,7 @@ public fun generatePOPJoinMerge(
             classes.println("                                    break@loop")
             classes.println("                                }")
         }
-        classes.println("                                continue@loop")
+        //classes.println("                                continue@loop")
         classes.println("                            }")
     }
 

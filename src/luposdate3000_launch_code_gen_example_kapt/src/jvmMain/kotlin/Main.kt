@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+import examplePackage.BenchmarkClass
 import examplePackage.ExampleClass
 import examplePackage.exampleVar_evaluate
 import lupos.launch.code_gen_example_kapt.mainFunc
@@ -21,6 +22,14 @@ import lupos.launch.code_gen_example_kapt.mainFunc
 public fun main(args: Array<String>) {
     //var flag = false
     //mainFunc()
-    val example = ExampleClass()
-    println(example.exampleVar_evaluate())
+    //val example = ExampleClass()
+    //println(example.exampleVar_evaluate())
+
+    val benchmark = BenchmarkClass()
+    var time = benchmark.startTimer()
+    println("Elapsed time generated ${time/(1000*1000)} ms")
+    var time2 = benchmark.startTimerEndpoint()
+    println("Elapsed time non-generated ${time2/(1000*1000)} ms")
+    println("Elapsed time factor ${time2/time}")
+
 }
