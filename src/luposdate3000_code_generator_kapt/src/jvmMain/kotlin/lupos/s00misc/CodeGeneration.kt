@@ -178,10 +178,14 @@ private fun writeOperatorGraph(
             imports.add("lupos.s03resultRepresentation.ValueDefinition")
         }
         is POPTripleStoreIterator -> {
-            buffer.println("val graph = tripleStoreManager.getGraph(\"\")")
-            buffer.println("val operator${operatorGraph.uuid} = graph.getIterator(query, " +
-                "arrayOf(operator${operatorGraph.children[0].getUUID()})," +
-                " EIndexPatternExt.${EIndexPatternExt.names[17]})")
+            //buffer.println("println(tripleStoreManager.getGraphNames())")
+            buffer.println("    val graph = tripleStoreManager.getGraph(\"\")")
+            //buffer.println("val graph = tripleStoreManager.getDefaultGraph()")
+            buffer.println("    val operator${operatorGraph.uuid} = graph.getIterator(query, " +
+                "arrayOf(operator${operatorGraph.children[1].getUUID()}," +
+                "operator${operatorGraph.children[0].getUUID()}," +
+                "operator${operatorGraph.children[2].getUUID()})," +
+                "EIndexPatternExt.${EIndexPatternExt.names[17]})")
             /*buffer.println(
                 "    val operator${operatorGraph.uuid} = TripleStoreIteratorGlobal(query," +
                     "$projectedVariables,\"${operatorGraph.graphName}\"," +

@@ -123,7 +123,6 @@ internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String
     }
     clazz.footer.println("        return IteratorBundle(outMap)")
     clazz.footer.println("    }")
-    //clazz.footer.println("    override /*suspend*/ fun toXMLElement(): XMLElement = super.toXMLElement()")
     clazz.footer.println("}")
     containers.add(clazz)
 }
