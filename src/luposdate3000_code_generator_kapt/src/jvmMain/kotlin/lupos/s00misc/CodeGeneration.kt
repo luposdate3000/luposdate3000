@@ -154,7 +154,7 @@ private fun writeOperatorGraph(
             }
         }
         is POPFilter -> {
-            if(false) {
+            if(true) {
                 generatePOPFilter(operatorGraph, projectedVariables, buffer, imports, containers)
             } else {
                 buffer.println("    val operator${operatorGraph.uuid} = POPFilter(query, $projectedVariables," +
