@@ -1,5 +1,6 @@
 package lupos.s00misc
 
+import lupos.dictionary.DictionaryExt
 import lupos.s04logicalOperators.OPBase
 
 public fun generatePOPJoinMerge(
@@ -36,12 +37,11 @@ public fun generatePOPJoinMerge(
             " operator${operatorGraph.children[0].getUUID()}, " +
             "operator${operatorGraph.children[1].getUUID()} )"
     )
-    /*imports.add("lupos.s00misc.EOperatorIDExt")
+    imports.add("lupos.s00misc.EOperatorIDExt")
     imports.add("lupos.s00misc.ESortPriorityExt")
     imports.add("lupos.s00misc.Partition")
     imports.add("lupos.s00misc.XMLElement")
     imports.add("lupos.s00misc.SanityCheck")
-    imports.add("lupos.s03resultRepresentation.ResultSetDictionaryExt")
     imports.add("lupos.s04logicalOperators.IOPBase")
     imports.add("lupos.s04logicalOperators.IQuery")
     imports.add("lupos.s04logicalOperators.iterator.ColumnIterator")
@@ -52,7 +52,7 @@ public fun generatePOPJoinMerge(
     imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator")
     imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue")
     imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorRepeatIterator")
-    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue")*/
+    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue")
 
     classes.println("public class Operator${operatorGraph.uuid} public constructor(query: IQuery, childA: IOPBase, childB: IOPBase) : POPBase(query, ${projectedVariables}, EOperatorIDExt.POPGenerated, \"Operator${operatorGraph.uuid}\", arrayOf(childA,childB), ESortPriorityExt.JOIN) {")
     classes.println(
@@ -94,7 +94,7 @@ public fun generatePOPJoinMerge(
     classes.println(
         """
         override /*suspend*/ fun hasNext2(): Boolean {
-            val tmp = columnsOUTJ.next() != ResultSetDictionaryExt.nullValue
+            val tmp = columnsOUTJ.next() != (0x00000004)
             if (!tmp) {
                 _hasNext2Close()
             }
@@ -103,6 +103,7 @@ public fun generatePOPJoinMerge(
         @Suppress("NOTHING_TO_INLINE") /*suspend*/ private inline fun _hasNext2Close() {
             """
     )
+
     for (variablename in children0ProvidedVariable) {
         classes.println("        columnsInJ0$variablename.close()")
     }
@@ -232,7 +233,7 @@ public fun generatePOPJoinMerge(
         override /*suspend*/ fun next(): Int {
             return nextHelper(
                 {
-                    if (key0${variablesJoin[0]} != ResultSetDictionaryExt.nullValue && key1${variablesJoin[0]} != ResultSetDictionaryExt.nullValue) {
+                    if (key0${variablesJoin[0]} != (0x00000004) && key1${variablesJoin[0]} != (0x00000004)) {
                         loop@ while (true) {
                             if (key0${variablesJoin[0]} != key1${variablesJoin[0]}) {
                                 var skip0 = 0
@@ -245,8 +246,8 @@ public fun generatePOPJoinMerge(
                                         skipO0 += sipbuf[0]
                                         skip0++
                                         skipO0++
-                                        SanityCheck.check { key0${variablesJoin[0]} != ResultSetDictionaryExt.undefValue }
-                                        if (key0${variablesJoin[0]} == ResultSetDictionaryExt.nullValue) {
+                                        SanityCheck.check { key0${variablesJoin[0]} != (0x00000003) }
+                                        if (key0${variablesJoin[0]} == (0x00000004)) {
                                             __close()
                                             break@loop
                                         }
@@ -257,8 +258,8 @@ public fun generatePOPJoinMerge(
                                         skipO1 += sipbuf[0]
                                         skip1++
                                         skipO1++
-                                        SanityCheck.check { key1${variablesJoin[0]} != ResultSetDictionaryExt.undefValue }
-                                        if (key1${variablesJoin[0]} == ResultSetDictionaryExt.nullValue) {
+                                        SanityCheck.check { key1${variablesJoin[0]} != (0x00000003) }
+                                        if (key1${variablesJoin[0]} == (0x00000004)) {
                                             __close()
                                             break@loop
                                         }
@@ -285,18 +286,18 @@ public fun generatePOPJoinMerge(
         classes.println("                                skipO0++ ")
         for (variable2 in variablesJoin) {
             classes.println("                                key0$variable2 = columnsInJ0$variable2.next()")
-            classes.println("                                if(key0$variable2 == ResultSetDictionaryExt.nullValue){")
+            classes.println("                                if(key0$variable2 == (0x00000004)){")
             classes.println("                                    __close()")
             classes.println("                                    break@loop")
             classes.println("                                }")
         }
-        classes.println("                               continue@loop") //CHANGED
+        //classes.println("                               continue@loop") //CHANGED
         classes.println("                            }")
         classes.println("                            else if (key0$variable > key1$variable){")
         classes.println("                                skipO1++")
         for (variable2 in variablesJoin) {
             classes.println("                                key1$variable2 = columnsInJ1$variable2.next()")
-            classes.println("                                if(key1$variable2 == ResultSetDictionaryExt.nullValue){")
+            classes.println("                                if(key1$variable2 == (0x00000004)){")
             classes.println("                                    __close()")
             classes.println("                                    break@loop")
             classes.println("                                }")
@@ -321,7 +322,7 @@ public fun generatePOPJoinMerge(
         classes.println("                                            localNextJ++")
         classes.println("                                        }")
         classes.println("                                        data0$variable = d$variable")
-        //classes.println("                                    }")
+        classes.println("                                    }")
     }
     for (variable in variables0Only) {
         classes.println("                                    data0$variable[localNextCounta] = columnsInO0$variable.skipSIP(skipO0)")

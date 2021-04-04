@@ -86,6 +86,7 @@ public fun generateSourceCode(className: String,
         out.println("public fun $className.${variableName}_evaluate() {")
         out.println()
         out.println("    val query = Query()")
+        out.println("    val graph = tripleStoreManager.getGraph(\"\")")
         out.print(buffer.toString()) // Printing the code from the Buffer
         out.println("    val buf = MyPrintWriter(true)")
         out.println("    LuposdateEndpoint.evaluateOperatorgraphToResult(operator${preparedStatement.getUUID()}, buf)")
@@ -180,7 +181,7 @@ private fun writeOperatorGraph(
 
         is POPTripleStoreIterator -> {
             //buffer.println("println(tripleStoreManager.getGraphNames())")
-            buffer.println("    val graph = tripleStoreManager.getGraph(\"\")")
+
             //buffer.println("val graph = tripleStoreManager.getDefaultGraph()")
             buffer.println("    val operator${operatorGraph.uuid} = graph.getIterator(query, " +
                 "arrayOf(operator${operatorGraph.children[0].getUUID()}," +
