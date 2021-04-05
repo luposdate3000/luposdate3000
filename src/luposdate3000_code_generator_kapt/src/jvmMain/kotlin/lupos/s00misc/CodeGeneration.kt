@@ -142,7 +142,8 @@ private fun writeOperatorGraph(
     }
     when (operatorGraph) {
         is POPJoinMerge -> {
-            if(true) {
+            generatePOPJoinMerge(operatorGraph, projectedVariables, buffer, imports, classes)
+            /*if(true) {
                 generatePOPJoinMerge(operatorGraph, projectedVariables, buffer, imports, classes)
             }
             else {
@@ -151,10 +152,11 @@ private fun writeOperatorGraph(
                     "operator${operatorGraph.children[1].getUUID()}, false)"
                 )
                 imports.add("lupos.s09physicalOperators.multiinput.POPJoinMerge")
-            }
+            }*/
         }
         is POPFilter -> {
-            if(true) {
+            generatePOPFilter(operatorGraph, projectedVariables, buffer, imports, containers)
+            /*if(true) {
                 generatePOPFilter(operatorGraph, projectedVariables, buffer, imports, containers)
             } else {
                 buffer.println("    val operator${operatorGraph.uuid} = POPFilter(query, $projectedVariables," +
@@ -162,7 +164,7 @@ private fun writeOperatorGraph(
                     "operator${operatorGraph.children[0].getUUID()})"
                 )
                 imports.add("lupos.s09physicalOperators.singleinput.POPFilter")
-            }
+            }*/
         }
         is AOPVariable -> {
             buffer.println(
@@ -308,7 +310,7 @@ private fun writeOperatorGraph(
                     "operator${operatorGraph.children[0].getUUID()}," +
                     "operator${operatorGraph.children[1].getUUID()})"
             )
-            imports.add("lupos.s04arithmetikOperators.multiinput.AOPAddition")
+            imports.add("lupos.s04arithmetikOperators.generated.AOPAddition")
         }
         is AOPSubtraction -> {
             buffer.println(
@@ -316,7 +318,7 @@ private fun writeOperatorGraph(
                     "operator${operatorGraph.children[0].getUUID()}," +
                     "operator${operatorGraph.children[1].getUUID()})"
             )
-            imports.add("lupos.s04arithmetikOperators.multiinput.AOPSubtraction")
+            imports.add("lupos.s04arithmetikOperators.generated.AOPSubtraction")
         }
         is AOPMultiplication -> {
             buffer.println(
@@ -324,7 +326,7 @@ private fun writeOperatorGraph(
                     "operator${operatorGraph.children[0].getUUID()}," +
                     "operator${operatorGraph.children[1].getUUID()})"
             )
-            imports.add("lupos.s04arithmetikOperators.multiinput.AOPMultiplication")
+            imports.add("lupos.s04arithmetikOperators.generated.AOPMultiplication")
         }
         is AOPDivision -> {
             buffer.println(
@@ -332,7 +334,7 @@ private fun writeOperatorGraph(
                     "operator${operatorGraph.children[0].getUUID()}," +
                     "operator${operatorGraph.children[1].getUUID()})"
             )
-            imports.add("lupos.s04arithmetikOperators.multiinput.AOPDivision")
+            imports.add("lupos.s04arithmetikOperators.generated.AOPDivision")
         }
         is POPBind -> {
             generatePOPBind(operatorGraph, projectedVariables, buffer, imports, containers)
