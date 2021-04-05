@@ -42,7 +42,11 @@
       "dataSink": "Fog1",
       "type": "StandAloneParkingSensor",
       "number": "1",
-      "networkProtocol": "WPAN"
+      "networkProtocol": "WPAN",
+      "sensorsPerDevice": {
+        "number": 3,
+        "type": "StandAloneParkingSensor"
+      }
     }
   ]
 }

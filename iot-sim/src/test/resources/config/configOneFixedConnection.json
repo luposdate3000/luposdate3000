@@ -10,17 +10,13 @@
     {
       "name": "Parking",
       "dataRateInSeconds": 8
-    },
-    {
-      "name": "Localization",
-      "dataRateInSeconds": 60
     }
   ],
   "deviceType": [
     {
       "name": "RadioTower",
       "application": true,
-      "sensors": ["Parking","Localization"],
+      "sensors": ["Parking"],
       "powerCapacity": "70.0"
     },
     {

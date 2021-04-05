@@ -4,6 +4,7 @@ class Graph<V, E>(private val vertices: List<V>) {
 
     private val adjacencyList: Array<HashMap<Int,E>> = Array(vertices.size) { HashMap() }
 
+    private var edgeCounter = 0
 
     init {
         for ((index, vertex) in vertices.withIndex()) {
@@ -13,6 +14,7 @@ class Graph<V, E>(private val vertices: List<V>) {
 
 
     fun getVerticesCount() = vertices.size
+    fun getEdgeCount() = edgeCounter
 
 
     fun getIndexOf(vertex: V) = vertexIndices[vertex]!!
@@ -21,6 +23,7 @@ class Graph<V, E>(private val vertices: List<V>) {
     fun addUndirectedEdge(one: V, two: V, edge: E) {
         addDirectedEdge(one, two, edge)
         addDirectedEdge(two, one, edge)
+        edgeCounter++
     }
 
     private fun addDirectedEdge(from: V, to: V, edge: E) {

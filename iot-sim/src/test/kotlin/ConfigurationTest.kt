@@ -39,7 +39,7 @@ class ConfigurationTest {
         Configuration.parse(fileName)
         val devices = Configuration.devices
         val deviceName = Configuration.jsonObjects.fixedDevices[0].name
-        val numSensors = 2
+        val numSensors = 1
         Assertions.assertTrue(devices[deviceName]!!.application is DatabaseApp)
         Assertions.assertEquals(numSensors, devices[deviceName]!!.sensors.size)
         Assertions.assertEquals(70.0, devices[deviceName]!!.powerSupply.actualCapacity)
@@ -55,9 +55,7 @@ class ConfigurationTest {
         val deviceName = "Tower1"
         val device = devices[deviceName]!!
         val parkSensor = device.sensors[0] as ParkingSensor
-        val locSensor = device.sensors[1] as LocalizationSensor
         Assertions.assertEquals(device, parkSensor.device)
-        Assertions.assertEquals(device, locSensor.device)
     }
 
     @ParameterizedTest
@@ -68,11 +66,8 @@ class ConfigurationTest {
         val deviceName = "Tower1"
         val device = devices[deviceName]!!
         val parkSensor = device.sensors[0] as ParkingSensor
-        val locSensor = device.sensors[1] as LocalizationSensor
         Assertions.assertEquals(8, parkSensor.dataRateInSeconds)
         Assertions.assertEquals(device, parkSensor.dataSink)
-        Assertions.assertEquals(60, locSensor.dataRateInSeconds)
-        Assertions.assertEquals(device, locSensor.dataSink)
     }
 
     @ParameterizedTest
@@ -92,17 +87,29 @@ class ConfigurationTest {
 
     @ParameterizedTest
     @ValueSource(strings = ["config/configOneRandomNetwork.json"])
-    fun `one random network`(fileName: String) {
+    fun `count number of devices in random network`(fileName: String) {
         Configuration.parse(fileName)
         val devices = Configuration.devices
-        val rootDeviceAddress = "Fog1"
+        val randomNetwork = Configuration.jsonObjects.randomNetwork[0]
+        val numberOfFogDevice = 1
+        val numberOfEdgeDevice = randomNetwork.number
+        val numberOfSensorsPerDevice = randomNetwork.sensorsPerDevice.number
+        val numberOfSensorDevice = numberOfEdgeDevice * numberOfSensorsPerDevice
+        val totalNumber = numberOfFogDevice + numberOfEdgeDevice + numberOfSensorDevice
+        Assertions.assertEquals(totalNumber, devices.size)
 
-        val number = 30
-        Assertions.assertEquals(number + 1, devices.size)
-        for(n in 1 .. number) {
-            val otherAddress: String = Configuration.jsonObjects.randomNetwork[0].name + n
-            Assertions.assertNotNull(Configuration.graph.getEdge(rootDeviceAddress, otherAddress))
-        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["config/configOneRandomNetwork.json"])
+    fun `count number of links in random network`(fileName: String) {
+        Configuration.parse(fileName)
+        val randomNetwork = Configuration.jsonObjects.randomNetwork[0]
+        val numberOfEdgeDevice = randomNetwork.number
+        val numberOfSensorsPerDevice = randomNetwork.sensorsPerDevice.number
+        val totalNumberOfLinks = numberOfEdgeDevice * numberOfSensorsPerDevice
+
+        Assertions.assertEquals(totalNumberOfLinks, Configuration.graph.getEdgeCount())
     }
 
     @ParameterizedTest
@@ -110,13 +117,19 @@ class ConfigurationTest {
     fun `multiple fixed and random network`(fileName: String) {
         Configuration.parse(fileName)
         val devices = Configuration.devices
-        val numGarageA = 501
-        val numGarageB = 10002
-        val numFixed = 2
-        val numSensors = numGarageA + numGarageB
-        val expectedEntities = numSensors + numGarageA + numGarageB + numFixed
-        Assertions.assertEquals(numFixed + numGarageA + numGarageB, devices.size)
-        Assertions.assertEquals(expectedEntities, Configuration.entities.size)
+        val networkA = Configuration.jsonObjects.randomNetwork[0]
+        val networkB = Configuration.jsonObjects.randomNetwork[1]
+
+        val numGarageA = networkA.number
+        val numGarageASensors = networkA.sensorsPerDevice.number * numGarageA
+        val expectedEntitiesGarageA = numGarageA + numGarageASensors + 1
+
+        val numGarageB = networkB.number
+        val numGarageBSensors = networkB.sensorsPerDevice.number * numGarageB
+        val expectedEntitiesGarageB = numGarageB + numGarageBSensors + 1
+
+        val total = expectedEntitiesGarageA + expectedEntitiesGarageB
+        Assertions.assertEquals(total, devices.size)
 
     }
 

@@ -54,4 +54,11 @@ data class RandomNetwork(
     val type: String = "",
     val number: Int = 0,
     val networkProtocol: String = "",
+    val sensorsPerDevice: SensorsPerDevice = SensorsPerDevice()
+)
+
+@Serializable
+data class SensorsPerDevice(
+    val number: Int = 0,
+    val type: String = "",
 )

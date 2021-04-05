@@ -78,8 +78,23 @@ object Configuration {
             val createdDevice = createDevice(deviceType, location, deviceName)
             setSinkOfSensors(createdDevice.sensors, dataSink)
             put(createdDevice.name, createdDevice)
-            createConnection(createdDevice, dataSink, protocol)
+            createSensors(network, createdDevice)
         }
+    }
+
+    private fun createSensors(network: RandomNetwork, device: Device) {
+        val numberOfSensors = network.sensorsPerDevice.number
+        val sensorDeviceType = findDeviceType(network.sensorsPerDevice.type)
+        val protocol = findProtocol(network.networkProtocol)
+        for(i in 1..numberOfSensors) {
+            val sensorDeviceName = device.name + "Sensor" + i.toString()
+            val location = RandomGenerator.getLatLngInRadius(device.location, protocol.rangeInMeters)
+            val createdDevice = createDevice(sensorDeviceType, location, sensorDeviceName)
+            put(createdDevice.name, createdDevice)
+            createConnection(createdDevice, device, protocol)
+        }
+
+
     }
 
     private fun setSinkOfSensors(sensors: List<Sensor>, dataSink: Device) {
@@ -180,9 +195,6 @@ object Configuration {
         return when (sensorType.name) {
             "Parking" -> {
                 ParkingSensor(name, rate, device, device)
-            }
-            "Localization" -> {
-                LocalizationSensor(name, rate, device, device)
             }
             else -> {
                 throw IllegalArgumentException()

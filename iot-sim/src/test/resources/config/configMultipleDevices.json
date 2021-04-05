@@ -15,10 +15,6 @@
     {
       "name": "Parking",
       "dataRateInSeconds": 8
-    },
-    {
-      "name": "Localization",
-      "dataRateInSeconds": 60
     }
   ],
   "deviceType": [
@@ -69,14 +65,22 @@
       "dataSink": "Fog1",
       "type": "StandAloneParkingSensor",
       "number": "501",
-      "networkProtocol": "WPAN"
+      "networkProtocol": "WPAN",
+      "sensorsPerDevice": {
+        "number": 3,
+        "type": "StandAloneParkingSensor"
+      }
     },
     {
       "name": "garageB",
       "dataSink": "Tower1",
       "type": "StandAloneParkingSensor",
       "number": "10002",
-      "networkProtocol": "WIFI"
+      "networkProtocol": "WIFI",
+      "sensorsPerDevice": {
+        "number": 3,
+        "type": "StandAloneParkingSensor"
+      }
     }
   ]
 }
