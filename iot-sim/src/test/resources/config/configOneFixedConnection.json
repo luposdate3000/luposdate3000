@@ -6,23 +6,17 @@
       "dataRateInKbps": -1
     }
   ],
-  "sensorType": [
-    {
-      "name": "Parking",
-      "dataRateInSeconds": 8
-    }
-  ],
   "deviceType": [
     {
       "name": "RadioTower",
       "application": true,
-      "sensors": ["Parking"],
+      "parkingSensor": true,
       "powerCapacity": "70.0"
     },
     {
       "name": "Fog",
       "application": true,
-      "sensors": [],
+      "parkingSensor": false,
       "powerCapacity": -1.0
     }
   ],

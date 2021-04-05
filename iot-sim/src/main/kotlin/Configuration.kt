@@ -76,7 +76,7 @@ object Configuration {
             val deviceName = network.name + i.toString()
             val location = RandomGenerator.getLatLngInRadius(dataSink.location, protocol.rangeInMeters)
             val createdDevice = createDevice(deviceType, location, deviceName)
-            setSinkOfSensors(createdDevice.sensors, dataSink)
+
             put(createdDevice.name, createdDevice)
             createSensors(network, createdDevice)
         }
@@ -95,12 +95,6 @@ object Configuration {
         }
 
 
-    }
-
-    private fun setSinkOfSensors(sensors: List<Sensor>, dataSink: Device) {
-        for (sensor in sensors) {
-            sensor.dataSink = dataSink
-        }
     }
 
 
@@ -142,24 +136,19 @@ object Configuration {
     private fun createDevice(deviceType: DeviceType, location: LatLng, name: String): Device {
         val powerSupply = PowerSupply(deviceType.powerCapacity)
         val application = createAppEntity(deviceType)
-        val device = Device(powerSupply, location, name, application)
-        val sensors = createSensorEntities(deviceType.sensors, device)
-        device.sensors.addAll(sensors)
+        val device = Device(powerSupply, location, name, application, null)
+        val parkingSensor = createParkingSensor(deviceType, device)
+        device.sensor = parkingSensor
         entities.add(device.networkCard)
         return device
     }
+
 
 
     private fun findDeviceType(typeName: String): DeviceType {
         val deviceType = jsonObjects.deviceType.find { typeName == it.name }
         requireNotNull(deviceType, { "device type name $typeName does not exist" })
         return deviceType
-    }
-
-    private fun findSensorType(typeName: String): SensorType {
-        val sensorType = jsonObjects.sensorType.find { typeName == it.name }
-        requireNotNull(sensorType, { "sensor type name $typeName does not exist" })
-        return sensorType
     }
 
     private fun findProtocol(name: String): NetworkProtocol {
@@ -178,29 +167,16 @@ object Configuration {
         return app
     }
 
-    private fun createSensorEntities(sensorRefs: List<String>, device: Device) : List<Sensor> {
-        val sensors = ArrayList<Sensor>(sensorRefs.size)
-        for (sensorRef in sensorRefs) {
-            val sensor = createSensorEntity(sensorRef, device)
-            sensors.add(sensor)
+    private fun createParkingSensor(deviceType: DeviceType, device: Device): ParkingSensor? {
+        var sensor: ParkingSensor? = null
+        if(deviceType.parkingSensor) {
+            val name = device.name + "_ParkingSensor"
+            sensor = ParkingSensor(name, device)
             entities.add(sensor)
         }
-        return sensors
+        return sensor
     }
 
-    private fun createSensorEntity(sensorRef: String, device: Device) : Sensor {
-        val sensorType = findSensorType(sensorRef)
-        val name = sensorType.name
-        val rate = sensorType.dataRateInSeconds
-        return when (sensorType.name) {
-            "Parking" -> {
-                ParkingSensor(name, rate, device, device)
-            }
-            else -> {
-                throw IllegalArgumentException()
-            }
-        }
-    }
 
     private fun createGraph() {
         val keyList = ArrayList(devices.keys)

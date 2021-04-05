@@ -6,9 +6,9 @@ class Device(
     val location: LatLng,
     val name: String,
     val application: Entity?,
-    val sensors: MutableList<Sensor> = ArrayList()
+    var sensor: ParkingSensor?,
 
-)
+    )
 {
 
     val networkCard = NetworkCard(this)

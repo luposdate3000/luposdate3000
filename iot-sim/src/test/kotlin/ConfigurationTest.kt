@@ -28,7 +28,7 @@ class ConfigurationTest {
         Assertions.assertEquals(deviceName, devices[deviceName]!!.name)
         Assertions.assertEquals(location, devices[deviceName]!!.location)
         Assertions.assertNull(devices[deviceName]!!.application)
-        Assertions.assertTrue(devices[deviceName]!!.sensors.isEmpty())
+        Assertions.assertNull(devices[deviceName]!!.sensor)
         Assertions.assertTrue(devices[deviceName]!!.powerSupply.isInfinite)
         Assertions.assertEquals(1, Configuration.entities.size)
     }
@@ -41,7 +41,7 @@ class ConfigurationTest {
         val deviceName = Configuration.jsonObjects.fixedDevices[0].name
         val numSensors = 1
         Assertions.assertTrue(devices[deviceName]!!.application is DatabaseApp)
-        Assertions.assertEquals(numSensors, devices[deviceName]!!.sensors.size)
+        Assertions.assertNotNull(devices[deviceName]!!.sensor)
         Assertions.assertEquals(70.0, devices[deviceName]!!.powerSupply.actualCapacity)
         Assertions.assertFalse(devices[deviceName]!!.powerSupply.isInfinite)
         Assertions.assertEquals(2 + numSensors, Configuration.entities.size)
@@ -54,8 +54,7 @@ class ConfigurationTest {
         val devices = Configuration.devices
         val deviceName = "Tower1"
         val device = devices[deviceName]!!
-        val parkSensor = device.sensors[0] as ParkingSensor
-        Assertions.assertEquals(device, parkSensor.device)
+        Assertions.assertEquals(device, device.sensor!!.device)
     }
 
     @ParameterizedTest
@@ -65,9 +64,7 @@ class ConfigurationTest {
         val devices = Configuration.devices
         val deviceName = "Tower1"
         val device = devices[deviceName]!!
-        val parkSensor = device.sensors[0] as ParkingSensor
-        Assertions.assertEquals(8, parkSensor.dataRateInSeconds)
-        Assertions.assertEquals(device, parkSensor.dataSink)
+        Assertions.assertEquals(device, device.sensor!!.dataSink)
     }
 
     @ParameterizedTest

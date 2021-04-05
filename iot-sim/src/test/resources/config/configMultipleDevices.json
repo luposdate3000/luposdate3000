@@ -11,30 +11,24 @@
       "dataRateInKbps": 250
     }
   ],
-  "sensorType": [
-    {
-      "name": "Parking",
-      "dataRateInSeconds": 8
-    }
-  ],
   "deviceType": [
     {
       "name": "StandAloneParkingSensor",
       "application": false,
-      "sensors": ["Parking"],
+      "parkingSensor": true,
       "powerCapacity": -1.0
     },
 
     {
       "name": "RadioTower",
       "application": false,
-      "sensors": [],
+      "parkingSensor": false,
       "powerCapacity": -1.0
     },
     {
       "name": "Fog",
       "application": true,
-      "sensors": [],
+      "parkingSensor": false,
       "powerCapacity": -1.0
     }
   ],

@@ -3,7 +3,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class JsonObjects(
     val networkProtocol: List<NetworkProtocol> = arrayListOf(),
-    val sensorType: List<SensorType> = arrayListOf(),
     val deviceType: List<DeviceType> = arrayListOf(),
     val fixedDevices: List<FixedDevices> = arrayListOf(),
     val fixedConnection: List<FixedConnection> = arrayListOf(),
@@ -18,16 +17,10 @@ data class NetworkProtocol(
 )
 
 @Serializable
-data class SensorType(
-    val name: String = "",
-    val dataRateInSeconds: Int = 0,
-)
-
-@Serializable
 data class DeviceType(
     val name: String = "",
     val application: Boolean = false,
-    val sensors: List<String> = arrayListOf(),
+    val parkingSensor: Boolean = false,
     var powerCapacity: Double = -1.0,
 )
 

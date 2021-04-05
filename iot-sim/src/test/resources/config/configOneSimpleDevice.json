@@ -1,13 +1,11 @@
 {
   "networkProtocol": [
   ],
-  "sensorType": [
-  ],
   "deviceType": [
     {
       "name": "RadioTower",
       "application": false,
-      "sensors": [],
+      "parkingSensor": false,
       "powerCapacity": -1.0
     }
   ],

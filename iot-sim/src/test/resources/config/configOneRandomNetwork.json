@@ -6,23 +6,17 @@
       "dataRateInKbps": 250
     }
   ],
-  "sensorType": [
-    {
-      "name": "Parking",
-      "dataRateInSeconds": 8
-    }
-  ],
   "deviceType": [
     {
       "name": "Fog",
       "application": true,
-      "sensors": [],
+      "parkingSensor": false,
       "powerCapacity": -1.0
     },
     {
       "name": "StandAloneParkingSensor",
       "application": false,
-      "sensors": ["Parking"],
+      "parkingSensor": true,
       "powerCapacity": -1.0
     }
   ],

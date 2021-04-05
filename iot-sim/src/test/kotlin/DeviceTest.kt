@@ -9,9 +9,9 @@ class DeviceTest {
         val loc = LatLng(0.0, 0.0)
         val name = ""
         val app = DatabaseApp()
-        val sensors = ArrayList<Sensor>()
+        val sensor = null
         val powerSupply = PowerSupply(-1.0)
-        val device = Device(powerSupply, loc, name, app, sensors)
+        val device = Device(powerSupply, loc, name, app, sensor)
         Assertions.assertNotNull(device.networkCard)
 
     }

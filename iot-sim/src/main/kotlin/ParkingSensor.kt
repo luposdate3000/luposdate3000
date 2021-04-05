@@ -1,7 +1,13 @@
 class ParkingSensor(
-    name: String,
-    dataRateInSeconds: Int, dataSink: Device, device: Device
-) : Sensor(name, dataRateInSeconds, dataSink, device) {
+    val name: String,
+    var device: Device
+) : Entity() {
+
+    companion object {
+        var dataRateInSeconds: Int = 30
+    }
+
+    var dataSink: Device = device
 
     override fun startUpEntity() {
         observeEnvironment()
