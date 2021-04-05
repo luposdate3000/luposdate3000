@@ -251,40 +251,38 @@ public class ValueBoolean(@JvmField public var value: Boolean, x: Boolean) : Val
     public override fun hashCode(): Int = value.hashCode()
 
     public override operator fun plus(value: BigInteger): ValueDefinition {
-        if(this.value){
-            return ValueInteger(value + BigInteger(1))
+        return if(this.value){
+            ValueInteger(value + BigInteger(1))
         }else{
-            return ValueInteger(value)
+            ValueInteger(value)
         }
     }
     public override operator fun plus(value: ValueInteger): ValueDefinition {
-        if(this.value){
-            return (value + BigInteger(1))
+        return if(this.value){
+            (value + BigInteger(1))
         }else{
-            return value
+            value
         }
     }
     public override operator fun plus(value: BigDecimal): ValueDefinition {
-        if(this.value){
-            return ValueDecimal(value + 1.0.toBigDecimal())
+        return if(this.value){
+            ValueDecimal(value + (1.0).toBigDecimal())
         }else{
-            return ValueDecimal(value)
+            ValueDecimal(value)
         }
     }
     public override operator fun plus(value: ValueBoolean) : ValueDefinition {
-        if(this.value){
+        return if(this.value){
             if(value.toBoolean()) {
-                return ValueInteger(BigInteger(2))
-            }
-            else{
-                return ValueInteger(BigInteger(1))
+                ValueInteger(BigInteger(2))
+            } else{
+                ValueInteger(BigInteger(1))
             }
         }else{
             if(value.toBoolean()) {
-                return ValueInteger(BigInteger(1))
-            }
-            else{
-                return ValueInteger(BigInteger(0))
+                ValueInteger(BigInteger(1))
+            } else{
+                ValueInteger(BigInteger(0))
             }
         }
     }
@@ -300,7 +298,7 @@ public class ValueBoolean(@JvmField public var value: Boolean, x: Boolean) : Val
         } else if (other is ValueBoolean && !this.value && !other.toBoolean()) {
             return ValueInteger(BigInteger(0))
         } else if (this.value && (other is ValueDecimal || other is ValueDouble || other is ValueFloat)) {
-            return ValueDecimal(other.toDecimal() + 1.0.toBigDecimal())
+            return ValueDecimal(other.toDecimal() + (1.0).toBigDecimal())
         }else if (!this.value && (other is ValueDecimal || other is ValueDouble || other is ValueFloat)) {
             return other
         }
@@ -309,45 +307,43 @@ public class ValueBoolean(@JvmField public var value: Boolean, x: Boolean) : Val
         }else if (!this.value && (other is ValueInteger)) {
             return other
         }
-        return throw IncompatibleTypesDuringCompareException()
+        throw IncompatibleTypesDuringCompareException()
     }
 
     public override operator fun minus(value: BigInteger): ValueDefinition {
-        if(this.value){
-            return ValueInteger(BigInteger(1) - value)
+        return if(this.value){
+            ValueInteger(BigInteger(1) - value)
         }else{
-            return ValueInteger(BigInteger(0) - value)
+            ValueInteger(BigInteger(0) - value)
         }
     }
     public override operator fun minus(value: ValueInteger): ValueDefinition {
-        if(this.value){
-            return ValueInteger(BigInteger(1) - value.toInt())
+        return if(this.value){
+            ValueInteger(BigInteger(1) - value.toInt())
         }else{
-            return ValueInteger(BigInteger(0) - value.toInt())
+            ValueInteger(BigInteger(0) - value.toInt())
         }
     }
     public override operator fun minus(value: BigDecimal): ValueDefinition {
-        if(this.value){
-            return ValueDecimal(1.0.toBigDecimal() - value)
+        return if(this.value){
+            ValueDecimal(1.0.toBigDecimal() - value)
         }else{
-            return ValueDecimal(0.0.toBigDecimal() - value)
+            ValueDecimal(0.0.toBigDecimal() - value)
         }
     }
 
     public override operator fun minus(value: ValueBoolean) : ValueDefinition {
-        if(this.value){
+        return if(this.value){
             if(value.toBoolean()) {
-                return ValueInteger(BigInteger(0))
-            }
-            else{
-                return ValueInteger(BigInteger(1))
+                ValueInteger(BigInteger(0))
+            } else{
+                ValueInteger(BigInteger(1))
             }
         }else{
             if(value.toBoolean()) {
-                return ValueInteger(BigInteger(-1))
-            }
-            else{
-                return ValueInteger(BigInteger(0))
+                ValueInteger(BigInteger(-1))
+            } else{
+                ValueInteger(BigInteger(0))
             }
         }
     }
@@ -363,9 +359,9 @@ public class ValueBoolean(@JvmField public var value: Boolean, x: Boolean) : Val
         } else if (other is ValueBoolean && !this.value && !other.toBoolean()) {
             return ValueInteger(BigInteger(0))
         } else if (this.value && (other is ValueDecimal || other is ValueDouble || other is ValueFloat)) {
-            return ValueDecimal(1.0.toBigDecimal() - other.toDecimal())
+            return ValueDecimal((1.0).toBigDecimal() - other.toDecimal())
         }else if (!this.value && (other is ValueDecimal || other is ValueDouble || other is ValueFloat)) {
-            return ValueDecimal(0.0.toBigDecimal()- other.toDecimal())
+            return ValueDecimal((0.0).toBigDecimal()- other.toDecimal())
         }
         else if (this.value && other is ValueInteger) {
             return ValueInteger(BigInteger(1) - other.toInt())
@@ -376,36 +372,35 @@ public class ValueBoolean(@JvmField public var value: Boolean, x: Boolean) : Val
     }
 
     public override operator fun times(value: BigInteger): ValueDefinition {
-        if(this.value){
-            return ValueInteger(value)
+        return if(this.value){
+            ValueInteger(value)
         }else{
-            return ValueInteger(BigInteger(0))
+            ValueInteger(BigInteger(0))
         }
     }
     public override operator fun times(value: ValueInteger): ValueDefinition {
-        if(this.value){
-            return value
+        return if(this.value){
+            value
         }else{
-            return ValueInteger(BigInteger(0))
+            ValueInteger(BigInteger(0))
         }
     }
     public override operator fun times(value: BigDecimal): ValueDefinition {
-        if(this.value){
-            return ValueDecimal(value)
+        return if(this.value){
+            ValueDecimal(value)
         }else{
-            return ValueDecimal(0.0.toBigDecimal())
+            ValueDecimal(0.0.toBigDecimal())
         }
     }
     public override operator fun times(value: ValueBoolean) : ValueDefinition {
-        if(this.value){
+        return if(this.value){
             if(value.toBoolean()) {
-                return ValueInteger(BigInteger(1))
-            }
-            else{
-                return ValueInteger(BigInteger(0))
+                ValueInteger(BigInteger(1))
+            } else{
+                ValueInteger(BigInteger(0))
             }
         }else{
-            return ValueInteger(BigInteger(0))
+            ValueInteger(BigInteger(0))
         }
     }
     public override operator fun times(other: ValueDefinition) : ValueDefinition{
@@ -420,9 +415,9 @@ public class ValueBoolean(@JvmField public var value: Boolean, x: Boolean) : Val
         } else if (other is ValueBoolean && !this.value && !other.toBoolean()) {
             return ValueInteger(BigInteger(0))
         } else if (this.value && (other is ValueDecimal || other is ValueDouble || other is ValueFloat)) {
-            return ValueDecimal(other.toDecimal() * 1.0.toBigDecimal())
+            return ValueDecimal(other.toDecimal() * (1.0).toBigDecimal())
         }else if (!this.value && (other is ValueDecimal || other is ValueDouble || other is ValueFloat)) {
-            return ValueDecimal(0.0.toBigDecimal())
+            return ValueDecimal((0.0).toBigDecimal())
         }
         else if (this.value && other is ValueInteger) {
             return other
@@ -434,64 +429,62 @@ public class ValueBoolean(@JvmField public var value: Boolean, x: Boolean) : Val
     }
 
     public override operator fun div(value: BigInteger): ValueDefinition {
-        if(this.value){
+        return if(this.value){
             if(value != BigInteger(0)) {
-                return ValueInteger(BigInteger(1) / value)
+                ValueInteger(BigInteger(1) / value)
             }else{
-                return ValueError()
+                ValueError()
             }
         }else{
             if(value != BigInteger(0)) {
-                return ValueInteger(BigInteger(0))
+                ValueInteger(BigInteger(0))
             }else{
-                return ValueError()
+                ValueError()
             }
         }
     }
     public override operator fun div(value: ValueInteger): ValueDefinition {
-        if(this.value){
+        return if(this.value){
             if(value.toInt() != BigInteger(0)) {
-                return ValueInteger(BigInteger(1) / value.toInt())
+                ValueInteger(BigInteger(1) / value.toInt())
             }else{
-                return ValueError()
+                ValueError()
             }
         }else{
             if(value.toInt() != BigInteger(0)) {
-                return ValueInteger(BigInteger(0))
+                ValueInteger(BigInteger(0))
             }else{
-                return ValueError()
+                ValueError()
             }
         }
     }
     public override operator fun div(value: BigDecimal): ValueDefinition {
-        if(this.value){
+        return if(this.value){
             if(value != 0.0.toBigDecimal()) {
-                return ValueDecimal(1.0.toBigDecimal() / value)
+                ValueDecimal(1.0.toBigDecimal() / value)
             }else{
-                return ValueError()
+                ValueError()
             }
         }else{
             if(value != 0.0.toBigDecimal()) {
-                return ValueDecimal(0.0.toBigDecimal())
+                ValueDecimal(0.0.toBigDecimal())
             }else{
-                return ValueError()
+                ValueError()
             }
         }
     }
     public override operator fun div(value: ValueBoolean) : ValueDefinition {
-        if(this.value){
+        return if(this.value){
             if(value.toBoolean()) {
-                return ValueInteger(BigInteger(1))
-            }
-            else{
-                return ValueError()
+                ValueInteger(BigInteger(1))
+            } else{
+                ValueError()
             }
         }else{
             if(value.toBoolean()) {
-                return ValueInteger(BigInteger(0))
-            }
-            else{
-                return ValueError()
+                ValueInteger(BigInteger(0))
+            } else{
+                ValueError()
             }
         }
     }
@@ -798,10 +791,10 @@ public class ValueDecimal(@JvmField public var value: BigDecimal) : ValueNumeric
     public override operator fun plus(value: ValueInteger): ValueDefinition = ValueInteger(this.value.toBigInteger().plus(value.value))
     public override operator fun plus(value: BigDecimal): ValueDefinition = ValueDecimal(this.value.plus(value))
     public override operator fun plus(value: ValueBoolean) : ValueDefinition {
-        if(value.toBoolean()){
-            return ValueDecimal(this.value + 1.0.toBigDecimal())
+        return if(value.toBoolean()){
+            ValueDecimal(this.value + 1.0.toBigDecimal())
         }else{
-            return ValueDecimal(this.value)
+            ValueDecimal(this.value)
         }
     }
     public override operator fun plus(other: ValueDefinition): ValueDefinition {
@@ -820,10 +813,10 @@ public class ValueDecimal(@JvmField public var value: BigDecimal) : ValueNumeric
     public override operator fun minus(value: ValueInteger): ValueDefinition = ValueDecimal(this.value.minus(value.toDecimal()))
     public override operator fun minus(value: BigDecimal): ValueDefinition = ValueDecimal(this.value.minus(value))
     public override operator fun minus(value: ValueBoolean) : ValueDefinition {
-        if(value.toBoolean()){
-            return ValueDecimal(this.value - 1.0.toBigDecimal())
+        return if(value.toBoolean()){
+            ValueDecimal(this.value - 1.0.toBigDecimal())
         }else{
-            return ValueDecimal(this.value)
+            ValueDecimal(this.value)
         }
     }
     public override operator fun minus(other: ValueDefinition): ValueDefinition {
@@ -842,10 +835,10 @@ public class ValueDecimal(@JvmField public var value: BigDecimal) : ValueNumeric
     public override operator fun times(value: ValueInteger): ValueDefinition = ValueDecimal(this.value.times(value.toDecimal()))
     public override operator fun times(value: BigDecimal): ValueDefinition = ValueDecimal(this.value.times(value))
     public override operator fun times(value: ValueBoolean) : ValueDefinition {
-        if(value.toBoolean()){
-            return ValueDecimal(this.value)
+        return if(value.toBoolean()){
+            ValueDecimal(this.value)
         }else{
-            return ValueDecimal(0.0.toBigDecimal())
+            ValueDecimal(0.0.toBigDecimal())
         }
     }
     public override operator fun times(other: ValueDefinition): ValueDefinition {
@@ -861,64 +854,62 @@ public class ValueDecimal(@JvmField public var value: BigDecimal) : ValueNumeric
         return ValueDecimal(this.value * other.toDecimal())
     }
     public override operator fun div(value: BigInteger): ValueDefinition {
-        if(this.value != 0.0.toBigDecimal()){
+        return if(this.value != 0.0.toBigDecimal()){
             if(value != BigInteger.fromInt(0)) {
-                return ValueDecimal(this.value / BigDecimal.fromBigInteger(value))
+                ValueDecimal(this.value / BigDecimal.fromBigInteger(value))
             }else{
-                return ValueError()
+                ValueError()
             }
         }else{
             if(value != BigInteger.fromInt(0)) {
-                return ValueDecimal(0.0.toBigDecimal())
+                ValueDecimal(0.0.toBigDecimal())
             }else{
-                return ValueError()
+                ValueError()
             }
         }
     }
     public override operator fun div(value: ValueInteger): ValueDefinition {
-        if(this.value != 0.0.toBigDecimal()){
+        return if(this.value != 0.0.toBigDecimal()){
             if(value.toInt() != BigInteger.fromInt(0)) {
-                return ValueDecimal(this.value / value.toDecimal())
+                ValueDecimal(this.value / value.toDecimal())
             }else{
-                return ValueError()
+                ValueError()
             }
         }else{
             if(value.toInt() != BigInteger.fromInt(0)) {
-                return ValueDecimal(0.0.toBigDecimal())
+                ValueDecimal(0.0.toBigDecimal())
             }else{
-                return ValueError()
+                ValueError()
             }
         }
     }
     public override operator fun div(value: BigDecimal): ValueDefinition {
-        if(this.value != 0.0.toBigDecimal()){
+        return if(this.value != 0.0.toBigDecimal()){
             if(value != 0.0.toBigDecimal()) {
-                return ValueDecimal(this.value / value)
+                ValueDecimal(this.value / value)
             }else{
-                return ValueError()
+                ValueError()
             }
         }else{
             if(value != 0.0.toBigDecimal()) {
-                return ValueDecimal(0.0.toBigDecimal())
+                ValueDecimal(0.0.toBigDecimal())
             }else{
-                return ValueError()
+                ValueError()
             }
         }
     }
     public override operator fun div(value: ValueBoolean) : ValueDefinition {
-        if(this.value != 0.0.toBigDecimal()){
+        return if(this.value != 0.0.toBigDecimal()){
             if(value.toBoolean()) {
-                return ValueDecimal(this.value)
-            }
-            else{
-                return ValueError()
+                ValueDecimal(this.value)
+            } else{
+                ValueError()
             }
         }else{
             if(value.toBoolean()) {
-                return ValueDecimal(0.0.toBigDecimal())
-            }
-            else{
-                return ValueError()
+                ValueDecimal(0.0.toBigDecimal())
+            } else{
+                ValueError()
             }
         }
     }
@@ -931,28 +922,15 @@ public class ValueDecimal(@JvmField public var value: BigDecimal) : ValueNumeric
             return ValueDecimal(0.0.toBigDecimal())
         } else if (other is ValueBoolean && !other.toBoolean()) {
             return ValueError()
-        } else if (this.value != 0.0.toBigDecimal() && (other is ValueDecimal || other is ValueDouble || other is ValueFloat)) {
+        } else if (other is ValueDecimal || other is ValueDouble || other is ValueFloat) {
             if(other.toDouble() != 0.0){
                 return ValueDecimal(this.value/other)
             }else{
                 ValueError()
             }
-        }else if (this.value == 0.0.toBigDecimal() && (other is ValueDecimal || other is ValueDouble || other is ValueFloat)) {
-            if(other.toDouble() != 0.0){
-                return ValueDecimal(0.0.toBigDecimal())
-            }else{
-                ValueError()
-            }
-        }
-        else if (this.value != 0.0.toBigDecimal() && other is ValueInteger) {
+        } else if (other is ValueInteger) {
             if(other.toInt() != BigInteger.fromInt(0)){
                 return ValueDecimal(this.value/other.toDecimal())
-            }else{
-                ValueError()
-            }
-        }else if (this.value == 0.0.toBigDecimal() && other is ValueInteger) {
-            if(other.toInt() != BigInteger.fromInt(0)){
-                return ValueDecimal(0.0.toBigDecimal())
             }else{
                 ValueError()
             }
@@ -1004,10 +982,10 @@ public class ValueDouble(@JvmField public var value: Double) : ValueNumeric() {
     public override operator fun plus(value: ValueInteger): ValueDefinition = ValueDouble(this.value.plus(value.toDouble()))
     public override operator fun plus(value: BigDecimal): ValueDefinition = ValueDouble(this.value.plus(value.doubleValue()))
     public override operator fun plus(value: ValueBoolean) : ValueDefinition {
-        if(value.toBoolean()){
-            return ValueDouble(this.value + 1.0.toBigDecimal().doubleValue())
+        return if(value.toBoolean()){
+            ValueDouble(this.value + 1.0.toBigDecimal().doubleValue())
         }else{
-            return ValueDouble(this.value)
+            ValueDouble(this.value)
         }
     }
     public override operator fun plus(other: ValueDefinition): ValueDefinition {
@@ -1026,10 +1004,10 @@ public class ValueDouble(@JvmField public var value: Double) : ValueNumeric() {
     public override operator fun minus(value: ValueInteger): ValueDefinition = ValueDouble(this.value.minus(value.toDouble()))
     public override operator fun minus(value: BigDecimal): ValueDefinition = ValueDouble(this.value.minus(value.doubleValue()))
     public override operator fun minus(value: ValueBoolean) : ValueDefinition {
-        if(value.toBoolean()){
-            return ValueDouble(this.value - 10.0.toBigDecimal().doubleValue())
+        return if(value.toBoolean()){
+            ValueDouble(this.value - 1.0.toBigDecimal().doubleValue())
         }else{
-            return ValueDouble(this.value)
+            ValueDouble(this.value)
         }
     }
     public override operator fun minus(other: ValueDefinition): ValueDefinition {
@@ -1049,116 +1027,100 @@ public class ValueDouble(@JvmField public var value: Double) : ValueNumeric() {
     public override operator fun times(value: BigDecimal): ValueDefinition = invoke(this.value.times(value.doubleValue()).toString())
     public override operator fun times(value: ValueBoolean) : ValueDefinition {
         if(value.toBoolean()){
-            return invoke(this.value.toString())
+            return ValueDouble(this.value)
         }else{
-            return invoke("0.0")
+            return ValueDouble(0.0)
         }
     }
     public override operator fun times(other: ValueDefinition): ValueDefinition {
         if (other is ValueBnode || other is ValueIri || other is ValueDateTime || other is ValueStringBase) {
             throw IncompatibleTypesDuringCompareException()
         } else if (other is ValueBoolean && other.toBoolean()) {
-            return invoke(this.value.toString())
+            return ValueDouble(this.value)
         } else if (other is ValueBoolean && !other.toBoolean()) {
-            return invoke("0.0")
+            return ValueDouble(0.0)
         } else if(other is ValueDecimal || other is ValueFloat || other is ValueDouble){
-            return invoke((other.toDouble() * this.value).toString())
+            return ValueDouble(other.toDouble() * this.value)
         }
-        return invoke((this.value + other.toDouble()).toString())
+        return ValueDouble(this.value * other.toDouble())
     }
     public override operator fun div(value: BigInteger): ValueDefinition {
-        if(this.value != 0.0){
+        return if(this.value != 0.0){
             if(value != BigInteger.fromInt(0)) {
-                return invoke((this.value / value.doubleValue()).toString())
+                ValueDouble(this.value / value.doubleValue())
             }else{
-                return ValueError()
+                ValueError()
             }
         }else{
             if(value != BigInteger.fromInt(0)) {
-                return invoke("0.0")
+                ValueDouble(0.0)
             }else{
-                return ValueError()
+                ValueError()
             }
         }
     }
     public override operator fun div(value: ValueInteger): ValueDefinition {
-        if(this.value!= 0.0){
+        return if(this.value!= 0.0){
             if(value.toInt() != BigInteger.fromInt(0)) {
-                return invoke((this.value / value.toDouble()).toString())
+                ValueDouble(this.value / value.toDouble())
             }else{
-                return ValueError()
+                ValueError()
             }
         }else{
             if(value.toInt() != BigInteger.fromInt(0)) {
-                return invoke("0.0")
+                ValueDouble(0.0)
             }else{
-                return ValueError()
+                ValueError()
             }
         }
     }
     public override operator fun div(value: BigDecimal): ValueDefinition {
-        if(this.value != 0.0){
+        return if(this.value != 0.0){
             if(value != 0.0.toBigDecimal()) {
-                return invoke((this.value / value.doubleValue()).toString())
+                ValueDouble(this.value / value.doubleValue())
             }else{
-                return ValueError()
+                ValueError()
             }
         }else{
             if(value != 0.0.toBigDecimal()) {
-                return invoke("0.0")
+                ValueDouble(0.0)
             }else{
-                return ValueError()
+                ValueError()
             }
         }
     }
     public override operator fun div(value: ValueBoolean) : ValueDefinition {
-        if(this.value != 0.0){
+        return if(this.value != 0.0){
             if(value.toBoolean()) {
-                return invoke(this.value.toString())
-            }
-            else{
-                return ValueError()
+                ValueDouble(this.value)
+            } else{
+                ValueError()
             }
         }else{
             if(value.toBoolean()) {
-                return invoke("0.0")
-            }
-            else{
-                return ValueError()
+                ValueDouble(0.0)
+            } else{
+                ValueError()
             }
         }
     }
     public override operator fun div(other: ValueDefinition) : ValueDefinition{
         if (other is ValueBnode || other is ValueIri || other is ValueDateTime || other is ValueStringBase) {
             throw IncompatibleTypesDuringCompareException()
-        } else if (other is ValueBoolean && this.value != 0.0 && other.toBoolean()) {
-            return invoke(this.value.toString())
-        } else if (other is ValueBoolean && this.value == 0.0 && other.toBoolean()) {
-            return invoke("0.0")
+        } else if (other is ValueBoolean && other.toBoolean()) {
+            return ValueDouble(this.value)
         } else if (other is ValueBoolean && !other.toBoolean()) {
             return ValueError()
-        } else if (this.value.toDouble() != 0.0 && (other is ValueDecimal || other is ValueDouble || other is ValueFloat)) {
+        } else if (other is ValueDecimal || other is ValueDouble || other is ValueFloat) {
             if(other.toDouble() != 0.0){
-                return invoke((this.value/other.toDouble()).toString())
-            }else{
-                ValueError()
-            }
-        }else if (this.value == 0.0 && (other is ValueDecimal || other is ValueDouble || other is ValueFloat)) {
-            if(other.toDouble() != 0.0){
-                return invoke("0.0")
+                return ValueDouble(this.value/other.toDouble())
             }else{
                 ValueError()
             }
         }
-        else if (this.value != 0.0 && other is ValueInteger) {
+        else if (other is ValueInteger) {
             if(other.toInt() != BigInteger.fromInt(0)){
-                return invoke((this.value/other.toDouble()).toString())
-            }else{
-                ValueError()
-            }
-        }else if (this.value == 0.0 && other is ValueInteger) {
-            if(other.toInt()!= BigInteger.fromInt(0)){
-                return invoke("0.0")
+                return ValueDouble(this.value/other.toDouble())
             }else{
                 ValueError()
             }
@@ -1212,161 +1174,144 @@ public class ValueFloat(@JvmField public var value: Double) : ValueNumeric() {
     public override operator fun plus(value: ValueInteger): ValueDefinition = invoke(this.value.plus(value.toDouble()).toString())
     public override operator fun plus(value: BigDecimal): ValueDefinition = invoke(this.value.plus(value.doubleValue()).toString())
     public override operator fun plus(value: ValueBoolean) : ValueDefinition {
-        if(value.toBoolean()){
-            return invoke((this.value + 1.0.toBigDecimal().doubleValue()).toString())
+        return if(value.toBoolean()){
+            ValueFloat(this.value + 1.0.toBigDecimal().doubleValue())
         }else{
-            return invoke(this.value.toString())
+            ValueFloat(this.value)
         }
     }
     public override operator fun plus(other: ValueDefinition): ValueDefinition {
         if (other is ValueBnode || other is ValueIri || other is ValueDateTime || other is ValueStringBase) {
             throw IncompatibleTypesDuringCompareException()
         } else if (other is ValueBoolean && other.toBoolean()) {
-            return invoke((this.value + 1.0.toBigDecimal().doubleValue()).toString())
+            return ValueFloat(this.value + 1.0.toBigDecimal().doubleValue())
         } else if (other is ValueBoolean && !other.toBoolean()) {
-            return invoke((this.value).toString())
+            return ValueFloat(this.value)
         } else if(other is ValueDecimal || other is ValueFloat){
-            return invoke((other.toDouble()+this.value).toString())
+            return ValueFloat(other.toDouble()+this.value)
         }
-        return invoke((this.value + other.toDouble()).toString())
+        return ValueFloat(this.value + other.toDouble())
     }
-    public override operator fun minus(value: BigInteger): ValueDefinition = invoke(this.value.minus(value.doubleValue()).toString())
-    public override operator fun minus(value: ValueInteger): ValueDefinition = invoke(this.value.minus(value.toDouble()).toString())
-    public override operator fun minus(value: BigDecimal): ValueDefinition = invoke(this.value.minus(value.doubleValue()).toString())
+    public override operator fun minus(value: BigInteger): ValueDefinition = ValueFloat(this.value.minus(value.doubleValue()))
+    public override operator fun minus(value: ValueInteger): ValueDefinition = ValueFloat(this.value.minus(value.toDouble()))
+    public override operator fun minus(value: BigDecimal): ValueDefinition = ValueFloat(this.value.minus(value.doubleValue()))
     public override operator fun minus(value: ValueBoolean) : ValueDefinition {
-        if(value.toBoolean()){
-            return invoke((this.value - 1.0.toBigDecimal().doubleValue()).toString())
+        return if(value.toBoolean()){
+            ValueFloat((this.value - 1.0.toBigDecimal().doubleValue()))
         }else{
-            return invoke(this.value.toString())
+            ValueFloat(this.value)
         }
     }
     public override operator fun minus(other: ValueDefinition): ValueDefinition {
         if (other is ValueBnode || other is ValueIri || other is ValueDateTime || other is ValueStringBase) {
             throw IncompatibleTypesDuringCompareException()
         } else if (other is ValueBoolean && other.toBoolean()) {
-            return invoke((this.value - 1.0.toBigDecimal().doubleValue()).toString())
+            return ValueFloat(this.value - 1.0.toBigDecimal().doubleValue())
         } else if (other is ValueBoolean && !other.toBoolean()) {
-            return invoke((this.value).toString())
+            return ValueFloat(this.value)
         } else if(other is ValueDecimal || other is ValueFloat){
-            return invoke((this.value - other.toDouble()).toString())
+            return ValueFloat(this.value - other.toDouble())
         }
-        return invoke((this.value - other.toDouble()).toString())
+        return ValueFloat(this.value - other.toDouble())
     }
-    public override operator fun times(value: BigInteger): ValueDefinition = invoke(this.value.times(value.doubleValue()).toString())
-    public override operator fun times(value: ValueInteger): ValueDefinition = invoke(this.value.times(value.toDouble()).toString())
-    public override operator fun times(value: BigDecimal): ValueDefinition = invoke(this.value.times(value.doubleValue()).toString())
+    public override operator fun times(value: BigInteger): ValueDefinition = ValueFloat(this.value.times(value.doubleValue()))
+    public override operator fun times(value: ValueInteger): ValueDefinition = ValueFloat(this.value.times(value.toDouble()))
+    public override operator fun times(value: BigDecimal): ValueDefinition = ValueFloat(this.value.times(value.doubleValue()))
     public override operator fun times(value: ValueBoolean) : ValueDefinition {
         if(value.toBoolean()){
-            return invoke(this.value.toString())
+            return ValueFloat(this.value)
         }else{
-            return invoke("0")
+            return ValueFloat(0.0)
         }
     }
     public override operator fun times(other: ValueDefinition): ValueDefinition {
         if (other is ValueBnode || other is ValueIri || other is ValueDateTime || other is ValueStringBase) {
             throw IncompatibleTypesDuringCompareException()
         } else if (other is ValueBoolean && other.toBoolean()) {
-            return invoke(this.value.toString())
+            return ValueFloat(this.value)
         } else if (other is ValueBoolean && !other.toBoolean()) {
-            return invoke("0")
+            return ValueFloat(0.0)
         } else if(other is ValueDecimal || other is ValueFloat || other is ValueDouble){
-            return invoke((other.toDouble() * this.value).toString())
+            return ValueFloat(other.toDouble() * this.value)
         }
-        return invoke((this.value + other.toDouble()).toString())
+        return ValueFloat(this.value + other.toDouble())
     }
     public override operator fun div(value: BigInteger): ValueDefinition {
-        if(this.value != 0.0){
+        return if(this.value != 0.0){
             if(value != BigInteger.fromInt(0)) {
-                return invoke((this.value / value.doubleValue()).toString())
+                ValueFloat(this.value / value.doubleValue())
             }else{
-                return ValueError()
+                ValueError()
             }
         }else{
             if(value!= BigInteger.fromInt(0)) {
-                return invoke("0.0")
+                ValueFloat(0.0)
             }else{
-                return ValueError()
+                ValueError()
             }
         }
     }
     public override operator fun div(value: ValueInteger): ValueDefinition {
-        if(this.value!= 0.0){
+        return if(this.value!= 0.0){
             if(value.toInt() != BigInteger.fromInt(0)) {
-                return invoke((this.value / value.toDouble()).toString())
+                ValueFloat(this.value / value.toDouble())
             }else{
-                return ValueError()
+                ValueError()
             }
         }else{
             if(value.toInt() != BigInteger.fromInt(0)) {
-                return invoke("0.0")
+                ValueFloat(0.0)
             }else{
-                return ValueError()
+                ValueError()
             }
         }
     }
     public override operator fun div(value: BigDecimal): ValueDefinition {
-        if(this.value != 0.0){
+        return if(this.value != 0.0){
             if(value != 0.0.toBigDecimal()) {
-                return invoke((this.value / value.doubleValue()).toString())
+                ValueFloat(this.value / value.doubleValue())
             }else{
-                return ValueError()
+                ValueError()
             }
         }else{
             if(value.doubleValue() != 0.0) {
-                return invoke("0.0")
+                ValueFloat(0.0)
             }else{
-                return ValueError()
+                ValueError()
             }
         }
     }
     public override operator fun div(value: ValueBoolean) : ValueDefinition {
-        if(this.value != 0.0){
+        return if(this.value != 0.0){
             if(value.toBoolean()) {
-                return invoke(this.value.toString())
-            }
-            else{
-                return ValueError()
+                ValueFloat(this.value)
+            } else{
+                ValueError()
             }
         }else{
             if(value.toBoolean()) {
-                return invoke("0.0")
-            }
-            else{
-                return ValueError()
+                ValueFloat(0.0)
+            } else{
+                ValueError()
             }
         }
     }
     public override operator fun div(other: ValueDefinition) : ValueDefinition{
         if (other is ValueBnode || other is ValueIri || other is ValueDateTime || other is ValueStringBase) {
             throw IncompatibleTypesDuringCompareException()
-        } else if (other is ValueBoolean && this.value != 0.0 && other.toBoolean()) {
-            return invoke(this.value.toString())
-        } else if (other is ValueBoolean && this.value == 0.0 && other.toBoolean()) {
-            return invoke("0.0")
+        } else if (other is ValueBoolean && other.toBoolean()) {
+            return ValueFloat(this.value)
         } else if (other is ValueBoolean && !other.toBoolean()) {
             return ValueError()
-        } else if (this.value != 0.0 && (other is ValueDecimal || other is ValueDouble || other is ValueFloat)) {
+        } else if (other is ValueDecimal || other is ValueDouble || other is ValueFloat) {
             if(other.toDouble() != 0.0){
-                return invoke((this.value/other.toDouble()).toString())
+                return ValueFloat(this.value/other.toDouble())
             }else{
                 ValueError()
             }
-        }else if (this.value == 0.0 && (other is ValueDecimal || other is ValueDouble || other is ValueFloat)) {
-            if(other.toDouble() != 0.0){
-                return invoke("0.0")
-            }else{
-                ValueError()
-            }
-        }
-        else if (this.value != 0.0 && other is ValueInteger) {
+        } else if (other is ValueInteger) {
             if(other.toInt() != BigInteger.fromInt(0)){
-                return invoke((this.value/other.toDouble()).toString())
-            }else{
-                ValueError()
-            }
-        }else if (this.value == 0.0 && other is ValueInteger) {
-            if(other.toInt() != BigInteger.fromInt(0)){
-                return invoke("0.0")
+                return ValueFloat(this.value/other.toDouble())
             }else{
                 ValueError()
             }
@@ -1439,14 +1384,14 @@ public class ValueInteger(@JvmField public var value: BigInteger) : ValueNumeric
         }
     }
 
-    public override operator fun plus(value: BigInteger): ValueDefinition = invoke((this.value.plus(value)).toString())
-    public override operator fun plus(value: ValueInteger): ValueDefinition = invoke((this.value.plus(value.toInt())).toString())
-    public override operator fun plus(value: BigDecimal): ValueDefinition = invoke((this.value.plus(BigInteger.tryFromDouble(value.doubleValue()))).toString())
+    public override operator fun plus(value: BigInteger): ValueDefinition = ValueInteger(this.value.plus(value))
+    public override operator fun plus(value: ValueInteger): ValueDefinition = ValueInteger(this.value.plus(value.toInt()))
+    public override operator fun plus(value: BigDecimal): ValueDefinition = ValueDecimal(BigDecimal.fromBigInteger(this.value).plus(value))
     public override operator fun plus(value: ValueBoolean) : ValueDefinition {
-        if(value.toBoolean()){
-            return invoke(((this.value + BigInteger(1))).toString())
+        return if(value.toBoolean()){
+            ValueInteger((this.value + BigInteger(1)))
         }else{
-            return invoke(this.value.toString())
+            ValueInteger(this.value)
         }
     }
 
@@ -1454,157 +1399,140 @@ public class ValueInteger(@JvmField public var value: BigInteger) : ValueNumeric
         if (other is ValueBnode || other is ValueIri || other is ValueDateTime || other is ValueStringBase) {
             throw IncompatibleTypesDuringCompareException()
         } else if (other is ValueBoolean && other.toBoolean()) {
-            return invoke((this.value + BigInteger(1)).toString())
+            return ValueInteger(this.value + BigInteger(1))
         } else if (other is ValueBoolean && !other.toBoolean()) {
-            return invoke((this.value).toString())
+            return ValueInteger(this.value)
         } else if(other is ValueDecimal || other is ValueFloat){
-            return invoke((other.toDouble()+this.value.doubleValue()).toString())
+            return ValueDecimal(BigDecimal.fromBigInteger(this.value).plus(other))
         } else if(other is ValueInteger){
-            return invoke((other.toInt() + this.value).toString())
+            return ValueInteger(other.toInt() + this.value)
         }
         return ValueError()
     }
-    public override operator fun minus(value: BigInteger): ValueDefinition = invoke((this.value.minus(value)).toString())
-    public override operator fun minus(value: ValueInteger): ValueDefinition = invoke((this.value.minus(value.toInt())).toString())
-    public override operator fun minus(value: BigDecimal): ValueDefinition = invoke((this.value.minus(BigInteger.tryFromDouble(value.doubleValue()))).toString())
+    public override operator fun minus(value: BigInteger): ValueDefinition = ValueInteger(this.value.minus(value))
+    public override operator fun minus(value: ValueInteger): ValueDefinition = ValueInteger(this.value.minus(value.toInt()))
+    public override operator fun minus(value: BigDecimal): ValueDefinition = ValueDecimal(BigDecimal.fromBigInteger(this.value).minus(value))
     public override operator fun minus(value: ValueBoolean) : ValueDefinition {
-        if(value.toBoolean()){
-            return invoke(((this.value - BigInteger(1))).toString())
+        return if(value.toBoolean()){
+            ValueInteger(this.value - BigInteger(1))
         }else{
-            return invoke(this.value.toString())
+            ValueInteger(this.value)
         }
     }
     public override operator fun minus(other: ValueDefinition): ValueDefinition {
         if (other is ValueBnode || other is ValueIri || other is ValueDateTime || other is ValueStringBase) {
             throw IncompatibleTypesDuringCompareException()
         } else if (other is ValueBoolean && other.toBoolean()) {
-            return invoke((this.value - BigInteger(1)).toString())
+            return ValueInteger(this.value - BigInteger(1))
         } else if (other is ValueBoolean && !other.toBoolean()) {
-            return invoke((this.value).toString())
+            return ValueInteger(this.value)
         } else if(other is ValueDecimal || other is ValueFloat){
-            return invoke((this.value.doubleValue() - other.toDouble()).toString())
+            return ValueDecimal(BigDecimal.fromDouble(this.value.doubleValue() - other.toDouble()))
         } else if(other is ValueInteger){
-            return invoke((this.value - other.toInt()).toString())
+            return ValueInteger(this.value - other.toInt())
         }
         return ValueError()
     }
-    public override operator fun times(value: BigInteger): ValueDefinition = invoke((this.value * value).toString())
-    public override operator fun times(value: ValueInteger): ValueDefinition = invoke((this.value.times(value.toInt())).toString())
-    public override operator fun times(value: BigDecimal): ValueDefinition = invoke((this.value.times(BigInteger.tryFromDouble(value.doubleValue()))).toString())
+    public override operator fun times(value: BigInteger): ValueDefinition = ValueInteger(this.value * value)
+    public override operator fun times(value: ValueInteger): ValueDefinition = ValueInteger(this.value.times(value.toInt()))
+    public override operator fun times(value: BigDecimal): ValueDefinition = ValueDecimal(BigDecimal.fromBigInteger(this.value).times(value))
     public override operator fun times(value: ValueBoolean) : ValueDefinition {
-        if(value.toBoolean()){
-            return invoke(this.value.toString())
+        return if(value.toBoolean()){
+            ValueInteger(this.value)
         }else{
-            return invoke("0")
+            ValueInteger(BigInteger(0))
         }
     }
     public override operator fun times(other: ValueDefinition): ValueDefinition {
         if (other is ValueBnode || other is ValueIri || other is ValueDateTime || other is ValueStringBase) {
             throw IncompatibleTypesDuringCompareException()
         } else if (other is ValueBoolean && other.toBoolean()) {
-            return invoke(this.value.toString())
+            return ValueInteger(this.value)
         } else if (other is ValueBoolean && !other.toBoolean()) {
-            return invoke("0")
+            return ValueInteger(BigInteger(0))
         } else if(other is ValueDecimal || other is ValueFloat){
-            return invoke((other.toDouble()*this.value.doubleValue()).toString())
+            return ValueDecimal(BigDecimal.fromDouble(other.toDouble() * this.value.doubleValue()))
         } else if(other is ValueInteger){
-            return invoke((other.toInt() * this.value).toString())
+            return ValueInteger(other.toInt() * this.value)
         }
         return ValueError()
     }
     public override operator fun div(value: BigInteger): ValueDefinition {
-        if(this.value != BigInteger(0)){
+        return if(this.value != BigInteger(0)){
             if(value != BigInteger.fromInt(0)) {
-                return invoke((this.value / value).toString())
+                ValueDecimal(BigDecimal.fromDouble(this.value.doubleValue() / value.doubleValue()))
             }else{
-                return ValueError()
+                ValueError()
             }
         }else{
             if(value != BigInteger(0)) {
-                return invoke("0")
+                ValueInteger(BigInteger(0))
             }else{
-                return ValueError()
+                ValueError()
             }
         }
     }
     public override operator fun div(value: ValueInteger): ValueDefinition {
-        if(this.value != BigInteger.fromInt(0)){
+        return if(this.value != BigInteger.fromInt(0)){
             if(value.toInt() != BigInteger.fromInt(0)) {
-                return invoke((this.value / value).toString())
+                ValueDecimal(BigDecimal.fromDouble(this.value.doubleValue() / value.toDouble()))
             }else{
-                return ValueError()
+                ValueError()
             }
         }else{
             if(value.toInt() != BigInteger.fromInt(0)) {
-                return invoke("0")
+                ValueInteger(BigInteger(0))
             }else{
-                return ValueError()
+                ValueError()
             }
         }
     }
     public override operator fun div(value: BigDecimal): ValueDefinition {
-        if(this.value != BigInteger.fromInt(0)){
+        return if(this.value != BigInteger.fromInt(0)){
             if(value != 0.0.toBigDecimal()) {
-                return invoke(( BigDecimal.fromBigInteger(this.value) / value).toString())
+                ValueDecimal( BigDecimal.fromBigInteger(this.value) / value)
             }else{
-                return ValueError()
+                ValueError()
             }
         }else{
             if(value != 0.0.toBigDecimal()) {
-                return invoke("0.0")
+                ValueDecimal((0.0).toBigDecimal())
             }else{
-                return ValueError()
+                ValueError()
             }
         }
     }
     public override operator fun div(value: ValueBoolean) : ValueDefinition {
-        if(this.value != BigInteger.fromInt(0)){
+        return if(this.value != BigInteger.fromInt(0)){
             if(value.toBoolean()) {
-                return invoke(this.value.toString())
-            }
-            else{
-                return ValueError()
+                ValueInteger(this.value)
+            } else{
+                ValueError()
             }
         }else{
             if(value.toBoolean()) {
-                return invoke("0")
-            }
-            else{
-                return ValueError()
+                ValueInteger(BigInteger(0))
+            } else{
+                ValueError()
             }
         }
     }
     public override operator fun div(other: ValueDefinition) : ValueDefinition{
         if (other is ValueBnode || other is ValueIri || other is ValueDateTime || other is ValueStringBase) {
             throw IncompatibleTypesDuringCompareException()
-        } else if (other is ValueBoolean && this.value != BigInteger.fromInt(0) && other.toBoolean()) {
-            return invoke(this.value.toString())
-        } else if (other is ValueBoolean && this.value == BigInteger.fromInt(0) && other.toBoolean()) {
-            return invoke("0")
+        } else if (other is ValueBoolean && other.toBoolean()) {
+            return ValueInteger(this.value)
         } else if (other is ValueBoolean && !other.toBoolean()) {
             return ValueError()
-        } else if (this.value != BigInteger.fromInt(0) && (other is ValueDecimal || other is ValueDouble || other is ValueFloat)) {
+        } else if (other is ValueDecimal || other is ValueDouble || other is ValueFloat) {
             if(other.toDouble() != 0.0){
-                return invoke((this.value/other).toString())
+                return ValueDecimal(BigDecimal.fromDouble(this.value.doubleValue()/other.toDouble()))
             }else{
                 ValueError()
             }
-        }else if (this.value == BigInteger.fromInt(0) && (other is ValueDecimal || other is ValueDouble || other is ValueFloat)) {
-            if(other.toDouble() != 0.0){
-                return invoke("0.0")
-            }else{
-                ValueError()
-            }
-        }
-        else if (this.value != BigInteger.fromInt(0) && other is ValueInteger) {
+        } else if (this.value != BigInteger.fromInt(0) && other is ValueInteger) {
             if(other.toInt() != BigInteger.fromInt(0)){
-                return invoke((this.value/other).toString())
-            }else{
-                ValueError()
-            }
-        }else if (this.value == BigInteger.fromInt(0) && other is ValueInteger) {
-            if(other.toInt() != BigInteger.fromInt(0)){
-                return invoke("0")
+                return ValueDecimal(BigDecimal.fromDouble(this.value.doubleValue()/other.toDouble()))
             }else{
                 ValueError()
             }
