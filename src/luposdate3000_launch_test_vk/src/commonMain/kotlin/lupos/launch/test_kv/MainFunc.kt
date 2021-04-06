@@ -35,9 +35,9 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
-if(verbose){
-println("start")
-}
+    if (verbose) {
+        println("start")
+    }
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
     var rootPage = -1
@@ -47,11 +47,11 @@ println("start")
     bufferManager.releasePage(lupos.SOURCE_FILE, rootPage)
     var vk = ValueKeyStore(bufferManager, rootPage, false)
 
-    val values = mutableListOf<ByteArray>()
+    val values = mutableListOf<ByteArrayWrapper>()
 
     var usedGenerators = mutableMapOf<Int, MutableSet<Int>>() // len -> seed
 
-    fun getExistingData(rng: Int, action: (ByteArray, Int) -> Unit) {
+    fun getExistingData(rng: Int, action: (ByteArrayWrapper, Int) -> Unit) {
         if (values.size > 0) {
             val key = abs(rng % values.size)
             action(values[key], key)
@@ -62,7 +62,7 @@ println("start")
         action(values.size)
     }
 
-    fun getNotExistingData(rng: Int, action: (ByteArray) -> Unit) {
+    fun getNotExistingData(rng: Int, action: (ByteArrayWrapper) -> Unit) {
         var len = abs(rng / 256) % maxSize
         var seed = abs(rng % 256)
         if (usedGenerators[len] == null) {
@@ -88,25 +88,58 @@ println("start")
         } else {
             usedGenerators[len]!!.add(seed)
         }
-        action(ByteArray(len) { (it + seed).toByte() })
+var res=ByteArrayWrapper()
+res.setSize(len)
+for(i in 0 until len){
+res.getBuf()[i]=(i + seed).toByte()
+}
+        action(res)
     }
 
-    fun testCreateValueExistingOk(data: ByteArray, targetKey: Int) {
+    fun testCreateValueExistingOk(data: ByteArrayWrapper, targetKey: Int) {
         if (verbose) {
-            println("testCreateValueExistingOk $targetKey ${data.map { it }}")
+            println("testCreateValueExistingOk $targetKey $data")
         }
-        val key = vk.createValue(ByteArrayWrapper(data)) {
+        val key = vk.createValue(data) {
             throw Exception("")
         }
         if (key != targetKey) {
             throw Exception("")
         }
     }
+    fun testCreateValues(rng: Int) {
+        var insertedData = mutableSetOf<ByteArrayWrapper>()
+        val maxlen = hasNextRandom() / 2
+        if (maxlen> 0) {
+            for (i in 0 until (abs(rng % maxlen))) {
+                getNotExistingData(nextRandom()) { it ->
+                    insertedData.add(it)
+                }
+            }
+            val toInsert = insertedData.sorted()
+            var i = 0
+            vk.createValues(
+                hasNext = {
+                    i <toInsert.size
+                },
+                next = {
+                    toInsert[i++]
+                },
+                value = { it ->
+if(values.contains(it)){
+throw Exception("")
+}
+                    values.add(it)
+                    values.size - 1
+                }
+            )
+        }
+    }
 
-    fun testCreateValueNotExistingOk(data: ByteArray) {
-        val key = vk.createValue(ByteArrayWrapper(data)) { values.size }
+    fun testCreateValueNotExistingOk(data: ByteArrayWrapper) {
+        val key = vk.createValue(data) { values.size }
         if (verbose) {
-            println("testCreateValueNotExistingOk $key ${data.map { it }}")
+            println("testCreateValueNotExistingOk $key $data")
         }
         if (key != values.size) {
             throw Exception("$key != ${values.size}")
@@ -114,28 +147,28 @@ println("start")
         values.add(data)
     }
 
-    fun testHasValueExistingOk(data: ByteArray, targetKey: Int) {
+    fun testHasValueExistingOk(data: ByteArrayWrapper, targetKey: Int) {
         if (verbose) {
-            println("testHasValueYesOk $targetKey ${data.map { it }}")
+            println("testHasValueYesOk $targetKey $data")
         }
-        val res = vk.hasValue(ByteArrayWrapper(data))
+        val res = vk.hasValue(data)
         if (res != targetKey) {
             throw Exception("$res $targetKey")
         }
     }
 
-    fun testHasValueNotExistingOk(data: ByteArray) {
+    fun testHasValueNotExistingOk(data: ByteArrayWrapper) {
         if (verbose) {
-            println("testHasValueNoOk ${data.map { it }}")
+            println("testHasValueNoOk $data")
         }
-        val res = vk.hasValue(ByteArrayWrapper(data))
+        val res = vk.hasValue(data)
         if (res != ValueKeyStore.ID_NULL) {
             throw Exception("$res")
         }
     }
 
     fun testAll() {
-if (verbose) {
+        if (verbose) {
             println("testAll")
         }
         val buffer = ByteArrayWrapper()
@@ -149,12 +182,12 @@ if (verbose) {
             if (id >= values.size) {
                 throw Exception("")
             }
-            if (ByteArrayWrapper(values[id]) != buffer) {
-                throw Exception("$id ${buffer}")
+            if (values[id] != buffer) {
+                throw Exception("$id $buffer")
             }
             counters[id]++
         }
-iterator.close()
+        iterator.close()
         for (i in 0 until counters.size) {
             if (counters[i] != 1) {
                 throw Exception("$i ${counters[i]}")
@@ -162,7 +195,7 @@ iterator.close()
         }
     }
     while (hasNextRandom() >= 2) {
-        val mode = abs(nextRandom() % 4)
+        val mode = abs(nextRandom() % 5)
         val rng = nextRandom()
         when (mode) {
             0 -> getExistingData(rng) { v, k -> testCreateValueExistingOk(v, k) }
@@ -170,6 +203,7 @@ iterator.close()
 
             2 -> getExistingData(rng) { v, k -> testHasValueExistingOk(v, k) }
             3 -> getNotExistingData(rng) { v -> testHasValueNotExistingOk(v) }
+4->testCreateValues(rng)
         }
     }
     testAll()
