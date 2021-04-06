@@ -1,4 +1,3 @@
-import com.javadocmd.simplelatlng.LatLng
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
@@ -22,7 +21,7 @@ class ConfigurationTest {
         val deviceName = Configuration.jsonObjects.fixedDevices[0].name
         val lat = Configuration.jsonObjects.fixedDevices[0].latitude
         val lon = Configuration.jsonObjects.fixedDevices[0].longitude
-        val location = LatLng(lat, lon)
+        val location = GeoLocation(lat, lon)
 
         Assertions.assertEquals(Configuration.jsonObjects.fixedDevices.size, devices.size)
         Assertions.assertEquals(deviceName, devices[deviceName]!!.name)

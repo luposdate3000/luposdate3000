@@ -5,7 +5,7 @@ import com.javadocmd.simplelatlng.util.LengthUnit
 
 class Device(
     val powerSupply: PowerSupply,
-    var location: LatLng,
+    var location: GeoLocation,
     val name: String,
     val application: Entity?,
     var sensor: ParkingSensor?,
@@ -51,18 +51,10 @@ class Device(
 
 
 
-    fun createNorthernLocation(startLoc: LatLng, distanceInMeters: Double): LatLng
-        = LatLngTool.travel(
-        startLoc,
-        LatLngTool.Bearing.NORTH,
-        distanceInMeters,
-        LengthUnit.METER)
 
-    private fun getDistanceInMeters(loc1: LatLng, loc2: LatLng)
-        = LatLngTool.distance(loc1, loc2, LengthUnit.METER)
 
     fun getDistanceInMeters(otherDevice: Device)
-        = getDistanceInMeters(location, otherDevice.location)
+        = location.getDistanceInMeters(otherDevice.location)
 
     private val comparator = compareByDescending<ProtocolType> { it.dataRateInKbps }
     private fun selectBestFitProtocol(protocols: Set<ProtocolType>, distance: Double): ProtocolType? {

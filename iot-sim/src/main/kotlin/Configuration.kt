@@ -81,7 +81,7 @@ object Configuration {
         for (i in 1..network.number) {
             val deviceName = network.networkPrefix + i.toString()
             addressList.add(deviceName)
-            val location = RandomGenerator.getLatLngInRadius(dataSink.location, protocol.rangeInMeters)
+            val location = GeoLocation.getRandomLocationInRadius(dataSink.location, protocol.rangeInMeters)
             val createdDevice = createDevice(deviceType, location, deviceName)
 
             addDevice(createdDevice.name, createdDevice)
@@ -97,7 +97,7 @@ object Configuration {
         val protocol = findProtocol(network.protocolType)
         for(i in 1..numberOfSensors) {
             val sensorDeviceName = device.name + "Sensor" + i.toString()
-            val location = RandomGenerator.getLatLngInRadius(device.location, protocol.rangeInMeters)
+            val location = GeoLocation.getRandomLocationInRadius(device.location, protocol.rangeInMeters)
             val createdDevice = createDevice(sensorDeviceType, location, sensorDeviceName)
             addDevice(createdDevice.name, createdDevice)
             createdDevice.networkPrefix = device.name
@@ -139,11 +139,11 @@ object Configuration {
 
     private fun createFixedLocatedDevice(fixedDevices: FixedDevices): Device {
         val deviceType = findDeviceType(fixedDevices.deviceType)
-        val location = LatLng(fixedDevices.latitude, fixedDevices.longitude)
+        val location = GeoLocation(fixedDevices.latitude, fixedDevices.longitude)
         return createDevice(deviceType, location, fixedDevices.name)
     }
 
-    private fun createDevice(deviceType: DeviceType, location: LatLng, name: String): Device {
+    private fun createDevice(deviceType: DeviceType, location: GeoLocation, name: String): Device {
         val powerSupply = PowerSupply(deviceType.powerCapacity)
         val application = createAppEntity(deviceType)
         val protocols = createProtocols(deviceType)

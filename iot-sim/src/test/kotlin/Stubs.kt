@@ -3,7 +3,7 @@ import com.javadocmd.simplelatlng.LatLng
 object Stubs {
 
     fun createEmptyDevice(): Device {
-        val loc = LatLng(0.0, 0.0)
+        val loc = GeoLocation(0.0, 0.0)
         val name = ""
         val app = DatabaseApp()
         val sensor = null
@@ -13,7 +13,7 @@ object Stubs {
     }
 
     fun createEmptyDevice(protocols: Set<ProtocolType>): Device {
-        val loc = LatLng(0.0, 0.0)
+        val loc = GeoLocation(0.0, 0.0)
         val name = ""
         val app = DatabaseApp()
         val sensor = null

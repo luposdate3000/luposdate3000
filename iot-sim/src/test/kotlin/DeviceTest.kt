@@ -26,10 +26,10 @@ class DeviceTest {
     fun `two devices are too far away to link`() {
         val protocolX = ProtocolType("X", 50, 7 )
         val deviceOne: Device = Stubs.createEmptyDevice(mutableSetOf(protocolX))
-        deviceOne.location = LatLng.random()
+        deviceOne.location = GeoLocation.getRandom()
         val deviceTwo: Device = Stubs.createEmptyDevice(mutableSetOf(protocolX))
         val distance = 51.0
-        deviceTwo.location = deviceTwo.createNorthernLocation(deviceOne.location, distance)
+        deviceTwo.location = GeoLocation.createNorthernLocation(deviceOne.location, distance)
         Assertions.assertNull(deviceOne.isLinkable(deviceTwo))
     }
 
@@ -41,9 +41,9 @@ class DeviceTest {
         val protocolSet = mutableSetOf(protocolX, protocolY, protocolZ)
         val deviceOne: Device = Stubs.createEmptyDevice(protocolSet)
         val deviceTwo: Device = Stubs.createEmptyDevice(protocolSet)
-        deviceOne.location = LatLng.random()
+        deviceOne.location = GeoLocation.getRandom()
         val distance = 49.0
-        deviceTwo.location = deviceTwo.createNorthernLocation(deviceOne.location, distance)
+        deviceTwo.location = GeoLocation.createNorthernLocation(deviceOne.location, distance)
         val result = deviceOne.isLinkable(deviceTwo)
         Assertions.assertNotNull(result)
         Assertions.assertEquals(protocolY.name, result!!.name)
@@ -55,9 +55,9 @@ class DeviceTest {
         val protocolY = ProtocolType("Y", 42, 70 )
         val protocolSet = mutableSetOf(protocolX, protocolY)
         val selectingDevice: Device = Stubs.createEmptyDevice(protocolSet)
-        selectingDevice.location = LatLng.random()
+        selectingDevice.location = GeoLocation.getRandom()
         val device1: Device = Stubs.createEmptyDevice(protocolSet)
-        device1.location = device1.createNorthernLocation(selectingDevice.location, 60.0)
+        device1.location = GeoLocation.createNorthernLocation(selectingDevice.location, 60.0)
         val list = arrayListOf(device1)
         Assertions.assertNull(selectingDevice.selectBestLink(list))
     }
@@ -68,12 +68,12 @@ class DeviceTest {
         val protocolY = ProtocolType("Y", 42, 70 )
         val protocolSet = mutableSetOf(protocolX, protocolY)
         val selectingDevice: Device = Stubs.createEmptyDevice(protocolSet)
-        selectingDevice.location = LatLng.random()
+        selectingDevice.location = GeoLocation.getRandom()
 
         val device1: Device = Stubs.createEmptyDevice(protocolSet)
-        device1.location = device1.createNorthernLocation(selectingDevice.location, 53.0)
+        device1.location = GeoLocation.createNorthernLocation(selectingDevice.location, 53.0)
         val device2: Device = Stubs.createEmptyDevice(mutableSetOf(ProtocolType("something else")))
-        device2.location = device2.createNorthernLocation(selectingDevice.location, 40.0)
+        device2.location = GeoLocation.createNorthernLocation(selectingDevice.location, 40.0)
 
         val list = arrayListOf(device1, device2)
         Assertions.assertNull(selectingDevice.selectBestLink(list))
@@ -85,14 +85,14 @@ class DeviceTest {
         val protocolY = ProtocolType("Y", 42, 70 )
         val protocolSet = mutableSetOf(protocolX, protocolY)
         val selectingDevice: Device = Stubs.createEmptyDevice(protocolSet)
-        selectingDevice.location = LatLng.random()
+        selectingDevice.location = GeoLocation.getRandom()
 
         val device1: Device = Stubs.createEmptyDevice(protocolSet)
-        device1.location = device1.createNorthernLocation(selectingDevice.location, 4.0)
+        device1.location = GeoLocation.createNorthernLocation(selectingDevice.location, 4.0)
         val device2: Device = Stubs.createEmptyDevice(mutableSetOf(ProtocolType("something else")))
-        device2.location = device2.createNorthernLocation(selectingDevice.location, 0.0)
+        device2.location = GeoLocation.createNorthernLocation(selectingDevice.location, 0.0)
         val device3: Device = Stubs.createEmptyDevice(protocolSet)
-        device3.location = device3.createNorthernLocation(selectingDevice.location, 5.0)
+        device3.location = GeoLocation.createNorthernLocation(selectingDevice.location, 5.0)
 
         val list = arrayListOf(device1, device2)
         val link = selectingDevice.selectBestLink(list)

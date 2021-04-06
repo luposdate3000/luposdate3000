@@ -57,21 +57,7 @@ class RandomGeneratorTest {
         }
     }
 
-    @ParameterizedTest
-    @CsvSource(
-        "53.83396283919661, 10.693484850649323, 40",
-        "53.83396283919661, 10.693484850649323, 0",
-        "53.83396283919661, 10.693484850649323, 1",
-        "53.83396283919661, 10.693484850649323, 1000",
-        "0.0, 0.0, 0",
-    )
-    fun `create random location within radius`(lat: Double, lng: Double, radius: Int) {
-        RandomGenerator.seed = Random.nextInt()
-        val center = LatLng(lat, lng)
-        val createdLoc = RandomGenerator.getLatLngInRadius(center, radius)
-        val distance = LatLngTool.distance(center, createdLoc, LengthUnit.METER)
-        Assertions.assertTrue(distance <= radius)
-    }
+
 
     @Test
     fun `get true`() {
