@@ -20,6 +20,7 @@ import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.buffermanager.BufferManagerPage
 import lupos.kv.KeyValueStore
+import lupos.vk.ValueKeyStore
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
@@ -29,16 +30,19 @@ import lupos.s00misc.SanityCheck
 public class DictionaryKV : ADictionary {
     private val bufferManager: BufferManager
     private val kv: KeyValueStore
+    private val vk: ValueKeyStore
     private var bNodeCounter = 5
     private val rootPageID: Int
     private val rootPage: BufferManagerPage
     public override fun close() {
         kv.close()
+        vk.close()
         bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
     }
 
     public override fun delete() {
         kv.delete()
+        vk.delete()
         bufferManager.deletePage(lupos.SOURCE_FILE, rootPageID)
         File(BufferManagerExt.bufferPrefix + "dict.page").deleteRecursively()
     }
@@ -51,18 +55,20 @@ public class DictionaryKV : ADictionary {
         rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
         this.rootPageID = rootPageID
         var kvPage = 0
+        var vkPage = 0
         if (initFromRootPage) {
             bNodeCounter = rootPage.readInt4(0)
             kvPage = rootPage.readInt4(4)
+            vkPage = rootPage.readInt4(8)
         } else {
+kvPage=bufferManager.allocPage(lupos.SOURCE_FILE)
+vkPage=bufferManager.allocPage(lupos.SOURCE_FILE)
             rootPage.writeInt4(0, bNodeCounter)
-            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-                kvPage = pageid
-            }
-            bufferManager.releasePage(lupos.SOURCE_FILE, kvPage)
             rootPage.writeInt4(4, kvPage)
+            rootPage.writeInt4(8, vkPage)
         }
         kv = KeyValueStore(bufferManager, kvPage, initFromRootPage)
+        vk = ValueKeyStore(bufferManager, vkPage, initFromRootPage)
     }
 
     public override fun createNewBNode(): Int {
@@ -106,7 +112,12 @@ public class DictionaryKV : ADictionary {
             ETripleComponentTypeExt.ERROR -> return DictionaryExt.errorValue
             ETripleComponentTypeExt.UNDEF -> return DictionaryExt.undefValue
             else -> {
-                var res = kv.createValue(buffer)
+var res=vk.createValue(
+buffer,
+value={
+kv.createValue(buffer)
+}
+)
                 return res or ADictionary.flagNoBNode
             }
         }
@@ -118,8 +129,8 @@ public class DictionaryKV : ADictionary {
         SanityCheck.check { type != ETripleComponentTypeExt.BOOLEAN }
         SanityCheck.check { type != ETripleComponentTypeExt.ERROR }
         SanityCheck.check { type != ETripleComponentTypeExt.UNDEF }
-        var res = kv.hasValue(buffer)
-        if (res == null) {
+        var res = vk.hasValue(buffer)
+        if (res == ValueKeyStore.ID_NULL ) {
             return null
         }
         return res or ADictionary.flagNoBNode

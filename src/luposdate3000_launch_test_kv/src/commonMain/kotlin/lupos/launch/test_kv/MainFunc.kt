@@ -96,16 +96,6 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         action(ByteArray(len) { (it + seed).toByte() })
     }
 
-    fun testCreateValueExistingOk(data: ByteArray, targetKey: Int) {
-        if (verbose) {
-            println("testCreateValueExistingOk $targetKey ${data.map { it }}")
-        }
-        val key = kv.createValue(ByteArrayWrapper(data))
-        if (key != targetKey) {
-            throw Exception("")
-        }
-    }
-
     fun testCreateValueNotExistingOk(data: ByteArray) {
         val key = kv.createValue(ByteArrayWrapper(data))
         if (verbose) {
@@ -116,26 +106,6 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         }
         mapping[key] = values.size
         values.add(data)
-    }
-
-    fun testHasValueExistingOk(data: ByteArray, targetKey: Int) {
-        if (verbose) {
-            println("testHasValueYesOk $targetKey ${data.map { it }}")
-        }
-        val res = kv.hasValue(ByteArrayWrapper(data))
-        if (res != targetKey) {
-            throw Exception("$res $targetKey")
-        }
-    }
-
-    fun testHasValueNotExistingOk(data: ByteArray) {
-        if (verbose) {
-            println("testHasValueNoOk ${data.map { it }}")
-        }
-        val res = kv.hasValue(ByteArrayWrapper(data))
-        if (res != null) {
-            throw Exception("")
-        }
     }
 
     fun testGetValueOk(data: ByteArray, key: Int) {
@@ -171,17 +141,13 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     }
 
     while (hasNextRandom() >= 2) {
-        val mode = abs(nextRandom() % 6)
+        val mode = abs(nextRandom() % 3)
         val rng = nextRandom()
         when (mode) {
-            0 -> getExistingData(rng) { v, k -> testCreateValueExistingOk(v, k) }
-            1 -> getNotExistingData(rng) { v -> testCreateValueNotExistingOk(v) }
+            0 -> getNotExistingData(rng) { v -> testCreateValueNotExistingOk(v) }
 
-            2 -> getExistingData(rng) { v, k -> testHasValueExistingOk(v, k) }
-            3 -> getNotExistingData(rng) { v -> testHasValueNotExistingOk(v) }
-
-            4 -> getExistingData(rng) { v, k -> testGetValueOk(v, k) }
-            5 -> getNotExistingKey(rng) { k -> testGetValueFail(k) }
+            1 -> getExistingData(rng) { v, k -> testGetValueOk(v, k) }
+            2 -> getNotExistingKey(rng) { k -> testGetValueFail(k) }
         }
     }
     for ((k, v) in mapping) {

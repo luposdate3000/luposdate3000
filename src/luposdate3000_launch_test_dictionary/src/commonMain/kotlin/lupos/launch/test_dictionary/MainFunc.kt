@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.test_dictionary
-
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.dictionary.ADictionary
@@ -25,6 +24,7 @@ import lupos.dictionary.DictionaryHelper
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
 import lupos.dictionary.nodeGlobalDictionary
+import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.Parallel
@@ -32,7 +32,7 @@ import lupos.test.AflCore
 import kotlin.math.abs
 import kotlin.math.max
 
-private val verbose = false
+private val verbose = true
 
 // private val maxSize = 16
 private val maxSize = 16384
@@ -151,6 +151,15 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                         }
                     } else {
                         loop = false
+                        var x = ByteArrayHelper.readInt4(res.getBuf(), 0)
+                        while (x == ETripleComponentTypeExt.BLANK_NODE) {
+                            x++
+                            x = abs(x % ETripleComponentTypeExt.values_size)
+                        }
+                        ByteArrayHelper.writeInt4(res.getBuf(), 0, x)
+if(DictionaryHelper.byteArrayToType(res)==ETripleComponentTypeExt.BLANK_NODE){
+throw Exception("")
+}
                         action(res)
                     }
                 }

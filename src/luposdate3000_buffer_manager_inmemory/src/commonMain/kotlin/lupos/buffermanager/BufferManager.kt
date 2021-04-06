@@ -101,37 +101,45 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
         return allPages[pageid]
     }
 
-    public /*suspend*/ fun createPage(call_location: String, action: (BufferManagerPage, Int) -> Unit): Unit = lock.withWriteLock {
-        val pageid: Int
-        if (freeList.size > 0 && BUFFER_MANAGER_USE_FREE_LIST) {
-            pageid = freeList.removeAt(0)
-        } else {
-            if (counter == allPages.size) {
-                var size = counter * 2
-                if (size < 100) {
-                    size = 100
-                } else if (counter > 1000) {
-                    size = counter + 1000
-                }
-                val tmp = Array<BufferManagerPage>(size) {
-                    val res: BufferManagerPage = if (it < counter) {
-                        allPages[it]
-                    } else {
-                        createBufferManagerPage()
+    public /*suspend*/ fun allocPage(call_location: String): Int {
+        var pageid: Int = 0
+        lock.withWriteLock {
+            if (freeList.size > 0 && BUFFER_MANAGER_USE_FREE_LIST) {
+                pageid = freeList.removeAt(0)
+            } else {
+                if (counter == allPages.size) {
+                    var size = counter * 2
+                    if (size < 100) {
+                        size = 100
+                    } else if (counter > 1000) {
+                        size = counter + 1000
                     }
-                    res
+                    val tmp = Array<BufferManagerPage>(size) {
+                        val res: BufferManagerPage = if (it < counter) {
+                            allPages[it]
+                        } else {
+                            createBufferManagerPage()
+                        }
+                        res
+                    }
+                    val tmp2 = IntArray(size)
+                    allPagesRefcounters.copyInto(tmp2)
+                    allPages = tmp
+                    allPagesRefcounters = tmp2
                 }
-                val tmp2 = IntArray(size)
-                allPagesRefcounters.copyInto(tmp2)
-                allPages = tmp
-                allPagesRefcounters = tmp2
+                pageid = counter++
             }
-            pageid = counter++
+            SanityCheck.check({ allPages[pageid].getPageID() == -1 }, { "${allPages[pageid].getPageID()}" })
+            allPages[pageid].setPageID(pageid)
         }
+SanityCheck.println_buffermanager { "BufferManager.allocPage($pageid) : $call_location" }
+        return pageid
+    }
+
+    public /*suspend*/ fun createPage(call_location: String, action: (BufferManagerPage, Int) -> Unit): Unit = lock.withWriteLock {
+        val pageid = allocPage(call_location)
         allPagesRefcounters[pageid]++
-        SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $call_location" }
-        SanityCheck.check({ allPages[pageid].getPageID() == -1 }, { "${allPages[pageid].getPageID()}" })
-        allPages[pageid].setPageID(pageid)
+            SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $call_location" }
         action(allPages[pageid], pageid)
     }
 

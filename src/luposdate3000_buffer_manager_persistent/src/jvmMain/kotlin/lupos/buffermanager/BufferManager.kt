@@ -225,7 +225,15 @@ public actual class BufferManager internal actual constructor(@JvmField public v
         }
         return openPages[openId!!]
     }
-
+ public actual /*suspend*/ fun allocPage(call_location: String):Int{
+var pageid=0
+createPage(call_location){p,id->
+pageid=id
+}
+releasePage(call_location,pageid)
+SanityCheck.println_buffermanager { "BufferManager.allocPage($pageid) : $call_location" }
+return pageid
+}
     public actual /*suspend*/ fun createPage(call_location: String, action: (BufferManagerPage, Int) -> Unit) {
         contract { callsInPlace(action, EXACTLY_ONCE) }
         SanityCheck.check { !closed }
