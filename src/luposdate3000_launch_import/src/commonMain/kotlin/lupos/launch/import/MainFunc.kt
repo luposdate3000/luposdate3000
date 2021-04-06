@@ -242,8 +242,8 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                         for (j2 in 0 until 2) {
                             val j = (i + j2 + 1) % 3
                             val partitionPart = tripleBuf[j]
-                            val x = estimatedPartitionSizes[i + j2 * 3]
-                            var y = x[constantPart]
+                            val x :MutableMap<Int,Array<LongArray>> = estimatedPartitionSizes[i + j2 * 3]
+                            var y :Array<LongArray>? = x[constantPart]
                             if (y == null) {
                                 y = Array(partitionSizes.size) { LongArray(partitionSizes[it]) }
                                 x[constantPart.toInt()] = y

@@ -56,7 +56,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
 
     private inline fun toByteArray(): ByteArray {
         var size = 8
-        for ((k, v) in localStores_) {
+        for (k in localStores_.keys) {
             val buf = k.encodeToByteArray()
             size += 8 + buf.size
         }
@@ -259,9 +259,9 @@ if(BufferManagerExt.allowInitFromDisk&&file.exists()) {
                 bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
                 pageid = pageid2
                 page = page2
-                val len = min(size - off, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 4)
-                page.copyFrom(buffer, 4, off, off + len)
-                off += len
+                val len2 = min(size - off, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 4)
+                page.copyFrom(buffer, 4, off, off + len2)
+                off += len2
             }
         }
         bufferManager.releasePage(lupos.SOURCE_FILE, pageid)

@@ -655,7 +655,6 @@ internal object DictionaryHelper {
     }
 
     public inline fun bnodeToByteArray(buffer: ByteArrayWrapper, value: Int) {
-        val buf1 = value.toString().encodeToByteArray()
         buffer.setSize(8)
         ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.BLANK_NODE)
         ByteArrayHelper.writeInt4(buffer.getBuf(), 4, value)
@@ -724,7 +723,7 @@ internal object DictionaryHelper {
             undefToByteArray(buffer)
             return
         }
-        if (value == null || value.isEmpty() || value.toLowerCase() == "error") {
+        if (value.toLowerCase() == "error") {
             errorToByteArray(buffer)
             return
         }

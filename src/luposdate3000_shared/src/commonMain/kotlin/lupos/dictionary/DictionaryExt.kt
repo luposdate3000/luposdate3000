@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.modulename
+package lupos.dictionary
 
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
@@ -24,7 +24,7 @@ import lupos.s03resultRepresentation.ValueUndef
 import kotlin.jvm.JvmField
 
 @PublishedApi
-internal object _DictionaryExt {
+internal object DictionaryExt {
     const val booleanTrueValue = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
     const val booleanFalseValue = (0x00000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
     const val errorValue = (0x00000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/

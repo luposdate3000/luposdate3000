@@ -37,7 +37,6 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
-    var maxClearCalls = 10
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
     var rootPage = -1

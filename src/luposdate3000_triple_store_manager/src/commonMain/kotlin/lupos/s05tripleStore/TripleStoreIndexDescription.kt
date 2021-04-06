@@ -33,7 +33,7 @@ public abstract class TripleStoreIndexDescription() : ITripleStoreIndexDescripti
     internal abstract fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>>
     internal abstract fun findPartitionFor(query: IQuery, triple: IntArray): Int
     internal fun hasPattern(idx: EIndexPattern): Boolean = idx_set.contains(idx)
-    internal fun getIndexWithMaximumPartitions(max_partitions: Int?, column: Int): ITripleStoreIndexDescription {
+    internal fun getIndexWithMaximumPartitions(max_partitions: Int?, column: Int): TripleStoreIndexDescription {
         var count = -1
         var distributionCount = -1
         var currentindex: TripleStoreIndexDescription = this

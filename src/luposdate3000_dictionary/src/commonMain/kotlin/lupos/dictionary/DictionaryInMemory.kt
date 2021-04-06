@@ -55,7 +55,7 @@ public class DictionaryInMemory : ADictionary {
                 DictionaryExt.nullValue -> throw Exception("invalid call")
                 else -> {
                     if ((value and ADictionary.flagNoBNode) == ADictionary.flagNoBNode) {
-                        val buf = dataI2V[value and ADictionary.maskValue]!!
+                        val buf = dataI2V[value and ADictionary.maskValue]
                         buf.copyInto(buffer)
                     } else {
                         SanityCheck.check { value < bNodeCounter }

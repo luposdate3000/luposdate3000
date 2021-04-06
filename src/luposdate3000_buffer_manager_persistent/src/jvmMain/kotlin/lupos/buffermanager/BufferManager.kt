@@ -183,10 +183,10 @@ public actual class BufferManager internal actual constructor(@JvmField public v
                     }
                 }
                 openPagesMapping.remove(pageid)
-                SanityCheck.check({ openPages[openId!!].getPageID() == pageid }, { "${openPages[openId!!].getPageID()} $pageid" })
-                openPages[openId!!].setPageID(-1)
+                SanityCheck.check({ openPages[openId].getPageID() == pageid }, { "${openPages[openId].getPageID()} $pageid" })
+                openPages[openId].setPageID(-1)
                 SanityCheck {
-                    openPages[openId!!] = createBufferManagerPage()
+                    openPages[openId] = createBufferManagerPage()
                 }
                 SanityCheck.check { !openPagesMapping.values.contains(openId) }
             }
@@ -253,8 +253,8 @@ public actual class BufferManager internal actual constructor(@JvmField public v
             openPagesMapping[pageid] = openId
             Arrays.fill(openPages[openId].getData(), 0, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES, 0)
             SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $call_location" }
-            SanityCheck.check { openPages[openId!!].getPageID() == -1 }
-            openPages[openId!!].setPageID(pageid)
+            SanityCheck.check { openPages[openId].getPageID() == -1 }
+            openPages[openId].setPageID(pageid)
             action(openPages[openId], pageid)
             localSanityCheck()
         }
@@ -273,10 +273,10 @@ public actual class BufferManager internal actual constructor(@JvmField public v
         }
         val openId = openPagesMapping[pageid]!!
         SanityCheck.check { openPagesRefcounters[openId] == 1 }
-        SanityCheck.check { openPages[openId!!].getPageID() == pageid }
-        openPages[openId!!].setPageID(-1)
+        SanityCheck.check { openPages[openId].getPageID() == pageid }
+        openPages[openId].setPageID(-1)
         SanityCheck {
-            openPages[openId!!] = createBufferManagerPage()
+            openPages[openId] = createBufferManagerPage()
         }
         openPagesRefcounters[openId]--
         openPagesMapping.remove(pageid)

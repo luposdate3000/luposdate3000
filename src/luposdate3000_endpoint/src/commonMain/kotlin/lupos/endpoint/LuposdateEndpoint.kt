@@ -367,7 +367,6 @@ public object LuposdateEndpoint {
                     tripleStoreManager.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
                 }
                 val fileTriples = File("$fileName.triples")
-                var dictTotal = 0
                 val mapping = nodeGlobalDictionary.importFromDictionaryFile("$fileName")
                 val dictTime = DateHelperRelative.elapsedSeconds(startTime)
                 val cnt = fileTriples.length() / 12L

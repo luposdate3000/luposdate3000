@@ -51,7 +51,7 @@ public open class IteratorBundle {
     }
 
     public val columns: Map<String, ColumnIterator>
-        public get() {
+         get() {
             return when (mode) {
                 IteratorBundleModeExt.COLUMN -> {
                     SanityCheck.check { _columns!!.isNotEmpty() }
@@ -69,7 +69,7 @@ public open class IteratorBundle {
             }
         }
     public val rows: RowIterator
-        public get() {
+        get() {
             return when (mode) {
                 IteratorBundleModeExt.ROW -> {
                     _rows!!

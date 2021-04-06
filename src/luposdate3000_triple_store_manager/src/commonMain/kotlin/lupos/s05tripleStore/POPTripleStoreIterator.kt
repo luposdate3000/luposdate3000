@@ -17,6 +17,7 @@
 package lupos.s05tripleStore
 
 import lupos.s00misc.EIndexPatternHelper
+import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
@@ -34,7 +35,7 @@ import kotlin.jvm.JvmField
 public class POPTripleStoreIterator(
     query: IQuery,
     projectedVariables: List<String>,
-    @JvmField internal var tripleStoreIndexDescription: ITripleStoreIndexDescription,
+    @JvmField internal var tripleStoreIndexDescription: TripleStoreIndexDescription,
     children: Array<IOPBase>,
 ) : POPBase(
     query,
@@ -69,19 +70,21 @@ public class POPTripleStoreIterator(
         return res
 // tripleStoreManager.getIndexFromXML(node["idx"])
     }
-
+public fun getIndexPattern():EIndexPattern{
+return tripleStoreIndexDescription.idx_set[0]
+}
     override fun childrenToVerifyCount(): Int = 0
     public fun changeToIndexWithMaximumPartitions(max_partitions: Int?, column: String): Int {
         var partition_column = -1
         for (i in 0 until 3) {
             val c = children[i]
             if (c is AOPVariable && c.name == column) {
-                partition_column = EIndexPatternHelper.tripleIndicees[(tripleStoreIndexDescription as TripleStoreIndexDescription).idx_set[0]][i]
+                partition_column = EIndexPatternHelper.tripleIndicees[tripleStoreIndexDescription.idx_set[0]][i]
                 break
             }
         }
         if (partition_column > -1) {
-            tripleStoreIndexDescription = (tripleStoreIndexDescription as TripleStoreIndexDescription).getIndexWithMaximumPartitions(max_partitions, partition_column)
+            tripleStoreIndexDescription = tripleStoreIndexDescription.getIndexWithMaximumPartitions(max_partitions, partition_column)
             val count = tripleStoreIndexDescription.getPartitionCount()
             partitionColumn = column
             return count

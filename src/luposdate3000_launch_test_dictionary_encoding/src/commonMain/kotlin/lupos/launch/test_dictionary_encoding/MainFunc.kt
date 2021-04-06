@@ -79,7 +79,6 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         when (remaining) {
             0 -> v = "1.0e1"
             1 -> {
-                remaining--
                 v = nextRandom().toString()
             }
             2, 3, 4 -> {
@@ -88,7 +87,6 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                     0 -> v += "+"
                     1 -> v += "-"
                 }
-                remaining--
                 v += abs(nextRandom()).toString()
             }
             else -> {
@@ -149,7 +147,6 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         when (remaining) {
             0 -> v = "0.0"
             1, 2 -> {
-                remaining--
                 v = nextRandom().toString() + ".0"
             }
             else -> {
@@ -194,7 +191,6 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         if (remaining == 0) {
             v = "0"
         } else if (remaining < 3) {
-            remaining--
             v = nextRandom().toString()
         } else {
             remaining--
