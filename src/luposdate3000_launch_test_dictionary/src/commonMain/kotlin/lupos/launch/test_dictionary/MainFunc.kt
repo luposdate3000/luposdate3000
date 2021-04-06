@@ -32,7 +32,7 @@ import lupos.test.AflCore
 import kotlin.math.abs
 import kotlin.math.max
 
-private val verbose = true
+private val verbose = false
 
 // private val maxSize = 16
 private val maxSize = 16384
