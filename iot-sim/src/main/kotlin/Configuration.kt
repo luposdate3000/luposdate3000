@@ -1,9 +1,6 @@
 import com.javadocmd.simplelatlng.LatLng
-import com.javadocmd.simplelatlng.LatLngTool
-import com.javadocmd.simplelatlng.util.LengthUnit
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
-import java.lang.IllegalArgumentException
 
 object Configuration {
 
@@ -17,6 +14,9 @@ object Configuration {
         private set
 
     var graph = Graph<String, ConnectionParameter>(arrayListOf())
+        private set
+
+    var randNetAddresses: MutableMap<String, MutableList<String>> = HashMap()
         private set
 
     private var connections: MutableList<Connection> = ArrayList()
@@ -38,6 +38,7 @@ object Configuration {
 
     private fun resetVariables() {
         devices = HashMap()
+        randNetAddresses = HashMap()
         entities = ArrayList()
         jsonObjects = JsonObjects()
         connections = ArrayList()
@@ -55,12 +56,15 @@ object Configuration {
 
 
 
-    private fun put(key: String, device: Device) {
+    private fun addDevice(key: String, value: Device) {
         require(!devices.contains(key))
-        devices[key] = device
+        devices[key] = value
     }
 
-
+    private fun addNetAddresses(key: String, value: MutableList<String>) {
+        require(!randNetAddresses.contains(key))
+        randNetAddresses[key] = value
+    }
 
     private fun createRandomNetworks() {
         for (network in jsonObjects.randomNetwork) {
@@ -70,17 +74,21 @@ object Configuration {
 
     private fun createRandomNetwork(network: RandomNetwork){
         val dataSink = devices[network.dataSink]!!
+        dataSink.isWSNGateway = true
+        val addressList = arrayListOf<String>()
         val deviceType = findDeviceType(network.type)
         val protocol = findProtocol(network.protocolType)
         for (i in 1..network.number) {
             val deviceName = network.networkPrefix + i.toString()
+            addressList.add(deviceName)
             val location = RandomGenerator.getLatLngInRadius(dataSink.location, protocol.rangeInMeters)
             val createdDevice = createDevice(deviceType, location, deviceName)
 
-            put(createdDevice.name, createdDevice)
+            addDevice(createdDevice.name, createdDevice)
             createdDevice.networkPrefix = network.networkPrefix
             createSensors(network, createdDevice)
         }
+        addNetAddresses(network.networkPrefix, addressList)
     }
 
     private fun createSensors(network: RandomNetwork, device: Device) {
@@ -91,7 +99,7 @@ object Configuration {
             val sensorDeviceName = device.name + "Sensor" + i.toString()
             val location = RandomGenerator.getLatLngInRadius(device.location, protocol.rangeInMeters)
             val createdDevice = createDevice(sensorDeviceType, location, sensorDeviceName)
-            put(createdDevice.name, createdDevice)
+            addDevice(createdDevice.name, createdDevice)
             createdDevice.networkPrefix = device.name
             createConnection(createdDevice, device, protocol)
         }
@@ -103,7 +111,7 @@ object Configuration {
     private fun createFixedDevices() {
         for (fixedDevice in jsonObjects.fixedDevices) {
             val createdDevice = createFixedLocatedDevice(fixedDevice)
-            put(createdDevice.name, createdDevice)
+            addDevice(createdDevice.name, createdDevice)
         }
     }
 
@@ -142,13 +150,13 @@ object Configuration {
         val device = Device(powerSupply, location, name, application, null, protocols)
         val parkingSensor = createParkingSensor(deviceType, device)
         device.sensor = parkingSensor
-        entities.add(device.networkCard)
+        entities.add(device)
         return device
     }
 
     private fun createProtocols(deviceType: DeviceType): Set<ProtocolType> {
         val result = mutableSetOf<ProtocolType>()
-        for (name in deviceType.supportedProtocolType) {
+        for (name in deviceType.supportedProtocolTypes) {
             val protocolType = findProtocol(name)
             result.add(protocolType)
         }

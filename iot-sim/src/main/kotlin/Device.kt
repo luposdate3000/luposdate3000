@@ -10,10 +10,44 @@ class Device(
     val application: Entity?,
     var sensor: ParkingSensor?,
     val protocols: Set<ProtocolType>
-    )
+    ) : Entity()
 {
     var networkPrefix = ""
-    val networkCard = NetworkCard(this)
+    var isWSNGateway = false
+
+    fun getNetworkDelay(destination: Device): Long {
+        return if (destination == this) {
+            0
+        } else {
+            1
+        }
+    }
+
+
+    override fun startUpEntity() {
+        if (isWSNGateway) {
+
+        }
+    }
+
+    override fun processEvent(event: Event) {
+        val pck = event.data as NetworkPackage
+        if(this == pck.receiver) {
+            // do something
+            return
+        }
+        else {
+            val delay = getNetworkDelay(pck.receiver)
+            //sendEvent(destination, delay, pck )
+        }
+
+    }
+
+    override fun shutDownEntity() {
+    }
+
+
+
 
     fun createNorthernLocation(startLoc: LatLng, distanceInMeters: Double): LatLng
         = LatLngTool.travel(

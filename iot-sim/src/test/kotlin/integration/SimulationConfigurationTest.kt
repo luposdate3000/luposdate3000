@@ -28,21 +28,12 @@ class SimulationConfigurationTest {
         Assertions.assertEquals(maxClock, endClock)
     }
 
-//    @ParameterizedTest
-//    @ValueSource(strings = ["sim/OneRandomNetwork.json"])
-//    fun `message to other connected device do delay`(fileName: String) {
-//        Configuration.parse(fileName)
-//        val randomNetwork = Configuration.jsonObjects.randomNetwork[0]
-//        val sendingDeviceAddress = randomNetwork.name + "1"
-//        val sendingDevice = Configuration.devices[sendingDeviceAddress]!!
-//        val receivingDeviceAddress = randomNetwork.dataSink
-//        val receivingDevice = Configuration.devices[receivingDeviceAddress]!!
-//        val delay = sendingDevice.networkCard.getNetworkDelay(receivingDevice)
-//
-//        val maxClock: Long = ParkingSensor.dataRateInSeconds.toLong() + delay
-//        Simulation.initialize(Configuration.entities, maxClock)
-//        val endClock = Simulation.runSimulation()
-//        Assertions.assertEquals(maxClock, endClock)
-//    }
+    @ParameterizedTest
+    @ValueSource(strings = ["sim/OneRandomNetwork.json"])
+    fun `wsn gateway start flooding`(fileName: String) {
+        Configuration.parse(fileName)
+        val randomNetwork = Configuration.jsonObjects.randomNetwork[0]
+
+    }
 
 }

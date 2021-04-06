@@ -94,7 +94,15 @@ class ConfigurationTest {
         val numberOfSensorDevice = numberOfEdgeDevice * numberOfSensorsPerDevice
         val totalNumber = numberOfFogDevice + numberOfEdgeDevice + numberOfSensorDevice
         Assertions.assertEquals(totalNumber, devices.size)
+    }
 
+    @ParameterizedTest
+    @ValueSource(strings = ["config/configOneRandomNetwork.json"])
+    fun `count addresses in random network by prefix`(fileName: String) {
+        Configuration.parse(fileName)
+        val randomNetwork = Configuration.jsonObjects.randomNetwork[0]
+        val addresses: List<String> = Configuration.randNetAddresses[randomNetwork.networkPrefix]!!
+        Assertions.assertEquals(randomNetwork.number, addresses.size)
     }
 
     @ParameterizedTest

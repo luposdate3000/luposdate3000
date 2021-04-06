@@ -22,7 +22,7 @@ data class DeviceType(
     val application: Boolean = false,
     val parkingSensor: Boolean = false,
     var powerCapacity: Double = -1.0,
-    val supportedProtocolType: List<String> = arrayListOf(),
+    val supportedProtocolTypes: List<String> = arrayListOf(),
 )
 
 
