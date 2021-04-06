@@ -34,23 +34,25 @@ public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
     public fun setSizeCopy(c: Int) {
         size = c
         if (c > buf.size) {
-val oldBuf=buf
+            val oldBuf = buf
             buf = ByteArray(c)
-oldBuf.copyInto(buf)
+            oldBuf.copyInto(buf)
         }
     }
 
     public fun getSize(): Int = size
     public fun getBuf(): ByteArray = buf
-public fun commonBytes(other: ByteArrayWrapper): Int{
-var res=0
-var i = 0
-        while (i < size && i < other.size && res == 0) {
-            res = buf[i] - other.buf[i]
-            i++
+    public fun commonBytes(other: ByteArrayWrapper): Int {
+        var i = 0
+        while (i < size && i < other.size) {
+            if (buf[i] == other.buf[i]) {
+                i++
+            } else {
+                break
+            }
         }
-return i
-}
+        return i
+    }
     override fun compareTo(other: ByteArrayWrapper): Int {
         var res = 0
         var i = 0

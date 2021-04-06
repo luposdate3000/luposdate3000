@@ -24,10 +24,10 @@ import lupos.test.AflCore
 import lupos.vk.ValueKeyStore
 import kotlin.math.abs
 
-private val verbose = true
+private val verbose = false
 
 // private val maxSize = 16
-private val maxSize = 16
+private val maxSize = 16384
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
@@ -35,6 +35,9 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+if(verbose){
+println("start")
+}
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
     var rootPage = -1
@@ -106,7 +109,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             println("testCreateValueNotExistingOk $key ${data.map { it }}")
         }
         if (key != values.size) {
-            throw Exception("")
+            throw Exception("$key != ${values.size}")
         }
         values.add(data)
     }
@@ -126,12 +129,15 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             println("testHasValueNoOk ${data.map { it }}")
         }
         val res = vk.hasValue(ByteArrayWrapper(data))
-        if (res != null) {
-            throw Exception("")
+        if (res != ValueKeyStore.ID_NULL) {
+            throw Exception("$res")
         }
     }
 
     fun testAll() {
+if (verbose) {
+            println("testAll")
+        }
         val buffer = ByteArrayWrapper()
         val iterator = vk.getIterator(buffer)
         var counters = IntArray(values.size)
@@ -144,14 +150,14 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 throw Exception("")
             }
             if (ByteArrayWrapper(values[id]) != buffer) {
-                throw Exception("")
+                throw Exception("$id ${buffer}")
             }
             counters[id]++
         }
 iterator.close()
         for (i in 0 until counters.size) {
             if (counters[i] != 1) {
-                throw Exception("")
+                throw Exception("$i ${counters[i]}")
             }
         }
     }

@@ -24,12 +24,13 @@ import lupos.s00misc.SanityCheck
 import kotlin.math.min
 
 public class ValueKeyStore {
-    internal companion object {
-        const val ID_NULL = -1
-        const val PAGEID_NULL_PTR = -1
-        const val PAGE_TYPE_LEAF = 0
-        const val PAGE_TYPE_INNER = 1
-        const val RESERVED_SPACE = 16
+    public companion object {
+        public const val ID_NULL: Int = -1
+        internal const val PAGEID_NULL_PTR: Int = -1
+        internal const val PAGE_TYPE_LEAF: Int = 0
+        internal const val PAGE_TYPE_INNER: Int = 1
+        internal const val RESERVED_SPACE: Int = 16
+        internal const val MIN_BRANCHING: Int = 10
     }
     private val rootPageID: Int
     private val bufferManager: BufferManager
@@ -91,37 +92,38 @@ public class ValueKeyStore {
     public fun getIterator(buffer: ByteArrayWrapper): ValueKeyStoreIteratorLeaf {
         return ValueKeyStoreIteratorLeaf(bufferManager, firstLeafID, buffer)
     }
-    public fun hasValue(data: ByteArrayWrapper): Int? {
+    public fun hasValue(data: ByteArrayWrapper): Int {
         val buffer = ByteArrayWrapper()
         var iterator = ValueKeyStoreIteratorSearch(bufferManager, firstLeafID, buffer)
         return iterator.search(data)
     }
     public fun createValue(data: ByteArrayWrapper, value: () -> Int): Int {
-        var res = -1
+        var res = ID_NULL
         val buffer = ByteArrayWrapper()
         val writer = ValueKeyStoreWriter(bufferManager, PAGE_TYPE_LEAF)
         val reader = ValueKeyStoreIteratorLeaf(bufferManager, firstLeafID, buffer)
-        if (reader.hasNext()) {
-            while (reader.hasNext()) {
-                val id = reader.next()
-                if (data == buffer) {
-                    writer.write(id, buffer)
-                    res = id
-                    break
-                } else if (data < buffer) {
-                    res = value()
-                    writer.write(res, data)
-                    break
-                } else {
-                    writer.write(id, buffer)
-                }
+        var isInserted = false
+        while (!isInserted && reader.hasNext()) {
+            val id = reader.next()
+            if (data == buffer) {
+                res = id
+                isInserted = true
+                SanityCheck.check { res != ValueKeyStore.ID_NULL }
+            } else if (data < buffer) {
+                res = value()
+                isInserted = true
+                SanityCheck.check { res != ValueKeyStore.ID_NULL }
+                writer.write(res, data)
             }
-            while (reader.hasNext()) {
-                val id = reader.next()
-                writer.write(id, buffer)
-            }
-        } else {
+            writer.write(id, buffer)
+        }
+        while (reader.hasNext()) {
+            val id = reader.next()
+            writer.write(id, buffer)
+        }
+        if (!isInserted) {
             res = value()
+            SanityCheck.check { res != ValueKeyStore.ID_NULL }
             writer.write(res, data)
         }
         reader.close()
@@ -151,6 +153,7 @@ internal class ValueKeyStoreWriter {
     internal val pageType: Int
     internal val bufferManager: BufferManager
     internal var parentLayer: ValueKeyStoreWriter? = null
+    internal var counter = 0
     internal constructor(bufferManager: BufferManager, pageType: Int) : this(bufferManager, pageType, ValueKeyStore.PAGEID_NULL_PTR)
     internal constructor(bufferManager: BufferManager, pageType: Int, childPageID: Int) {
         this.bufferManager = bufferManager
@@ -186,6 +189,8 @@ internal class ValueKeyStoreWriter {
     }
     internal inline fun write(childPageID: Int, id: Int, buffer: ByteArrayWrapper, onNextEntryPoint: () -> Unit) {
         SanityCheck.check { offset <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE }
+        SanityCheck.check { id != ValueKeyStore.ID_NULL }
+        counter++
         var common = buffer.commonBytes(lastBuffer)
         buffer.copyInto(lastBuffer)
         page.writeInt4(offset, id)
@@ -201,7 +206,13 @@ internal class ValueKeyStoreWriter {
         var bufferOffset = common
         var writeEntryPoint = false
         while (bufferOffset <len) {
-            if (offset == BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) {
+            val l1 = min(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - offset, len - bufferOffset)
+            if (l1> 0) {
+                page.copyFrom(buffer.getBuf(), offset, bufferOffset, bufferOffset + l1)
+                bufferOffset += l1
+                offset += l1
+            }
+            if (offset > BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE) {
                 var nextpageid = ValueKeyStore.PAGEID_NULL_PTR
                 var nextpage: BufferManagerPage? = null
                 bufferManager.createPage(lupos.SOURCE_FILE) { page2, pageid2 ->
@@ -214,31 +225,16 @@ internal class ValueKeyStoreWriter {
                 page = nextpage!!
                 page.writeInt4(0, pageType)
                 page.writeInt4(4, ValueKeyStore.PAGEID_NULL_PTR)
+                page.writeInt4(8, 12)
                 offset = 12
                 writeEntryPoint = true
             }
-            val l1 = min(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - offset, len - bufferOffset)
-            page.copyFrom(buffer.getBuf(), offset, bufferOffset, bufferOffset + l1)
-            bufferOffset += l1
-            offset += l1
-            if (writeEntryPoint) {
-                if (offset > BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE) {
-                    var nextpageid = ValueKeyStore.PAGEID_NULL_PTR
-                    var nextpage: BufferManagerPage? = null
-                    bufferManager.createPage(lupos.SOURCE_FILE) { page2, pageid2 ->
-                        nextpageid = pageid2
-                        nextpage = page2
-                    }
-                    page.writeInt4(4, nextpageid)
-                    bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
-                    pageid = nextpageid
-                    page = nextpage!!
-                    page.writeInt4(0, pageType)
-                    page.writeInt4(4, ValueKeyStore.PAGEID_NULL_PTR)
-                    offset = 12
-                }
-                page.writeInt4(8, offset)
-                lastBuffer.setSize(0)
+        }
+        if (writeEntryPoint) {
+            page.writeInt4(8, offset)
+            lastBuffer.setSize(0)
+            if (counter> ValueKeyStore.MIN_BRANCHING) {
+                counter = 0
                 onNextEntryPoint()
             }
         }
@@ -248,7 +244,7 @@ internal class ValueKeyStoreWriter {
             page.writeInt4(offset, ValueKeyStore.ID_NULL)
         }
         bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
-            parentLayer?.close()
+        parentLayer?.close()
     }
 }
 public class ValueKeyStoreIteratorLeaf internal constructor(private val bufferManager: BufferManager, startPageID: Int, private val buffer: ByteArrayWrapper) {
@@ -257,18 +253,8 @@ public class ValueKeyStoreIteratorLeaf internal constructor(private val bufferMa
     internal var nextPageID = page.readInt4(4)
     internal var offset = page.readInt4(8)
     public fun hasNext(): Boolean {
-        if (offset> BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE) {
-            bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
-            pageid = nextPageID
-            if (pageid != ValueKeyStore.PAGEID_NULL_PTR) {
-                page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-                nextPageID = page.readInt4(4)
-                offset = page.readInt4(8)
-                SanityCheck.check { page.readInt4(0) == ValueKeyStore.PAGE_TYPE_LEAF }
-                return true
-            } else {
-                return false
-            }
+        if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
+            return false
         } else {
             SanityCheck.check { page.readInt4(0) == ValueKeyStore.PAGE_TYPE_LEAF }
             return page.readInt4(offset) != ValueKeyStore.ID_NULL
@@ -282,23 +268,30 @@ public class ValueKeyStoreIteratorLeaf internal constructor(private val bufferMa
         offset += 12
         buffer.setSizeCopy(len)
         while (bufferOffset <len) {
-            if (offset == BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) {
+            val l1 = min(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - offset, len - bufferOffset)
+            if (l1> 0) {
+                page.copyInto(buffer.getBuf(), bufferOffset, offset, offset + l1)
+                bufferOffset += l1
+                offset += l1
+            }
+            if (offset > BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE) {
                 bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
                 pageid = nextPageID
-                SanityCheck.check { pageid != ValueKeyStore.PAGEID_NULL_PTR }
-                page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-                nextPageID = page.readInt4(4)
-                offset = 12
+                if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
+                    SanityCheck.check { bufferOffset == len }
+                } else {
+                    page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
+                    SanityCheck.check { page.readInt4(0) == ValueKeyStore.PAGE_TYPE_LEAF }
+                    nextPageID = page.readInt4(4)
+                    offset = 12
+                }
             }
-            val l1 = min(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - offset, len - bufferOffset)
-            page.copyInto(buffer.getBuf(), bufferOffset, offset, offset + l1)
-            bufferOffset += l1
-            offset += l1
         }
         return id
     }
     public fun close() {
         if (pageid != ValueKeyStore.PAGEID_NULL_PTR) {
+            SanityCheck.check { page.readInt4(0) == ValueKeyStore.PAGE_TYPE_LEAF }
             bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
         }
     }
@@ -306,7 +299,7 @@ public class ValueKeyStoreIteratorLeaf internal constructor(private val bufferMa
 internal class ValueKeyStoreIteratorSearch internal constructor(private val bufferManager: BufferManager, startPageID: Int, private val buffer: ByteArrayWrapper) {
     internal var pageid = startPageID
 
-    internal fun search(target: ByteArrayWrapper): Int? {
+    internal fun search(target: ByteArrayWrapper): Int {
         while (true) {
             var page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
             var nextPageID = page.readInt4(4)
@@ -315,7 +308,15 @@ internal class ValueKeyStoreIteratorSearch internal constructor(private val buff
             var childPageID = page.readInt4(12) // only valid if "pageType == ValueKeyStore.PAGE_TYPE_INNER"
             var lastID = ValueKeyStore.ID_NULL
             var lastPageID = childPageID
-            localloop@ while ((offset <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE) && (page.readInt4(offset) != ValueKeyStore.ID_NULL)) {
+            fun hasNext(): Boolean {
+                if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
+                    return false
+                } else {
+                    SanityCheck.check { page.readInt4(0) == ValueKeyStore.PAGE_TYPE_LEAF }
+                    return page.readInt4(offset) != ValueKeyStore.ID_NULL
+                }
+            }
+            localloop@ while (hasNext()) {
                 var localChildPageID = childPageID
                 lastID = page.readInt4(offset)
                 val len = page.readInt4(offset + 4)
@@ -327,32 +328,40 @@ internal class ValueKeyStoreIteratorSearch internal constructor(private val buff
                 }
                 buffer.setSizeCopy(len)
                 while (bufferOffset <len) {
-                    if (offset == BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) {
+                    val l1 = min(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - offset, len - bufferOffset)
+                    if (l1> 0) {
+                        page.copyInto(buffer.getBuf(), bufferOffset, offset, offset + l1)
+                        bufferOffset += l1
+                        offset += l1
+                    }
+                    if (offset > BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE) {
                         bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
                         pageid = nextPageID
-                        SanityCheck.check { pageid != ValueKeyStore.PAGEID_NULL_PTR }
-                        page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-                        nextPageID = page.readInt4(4)
-                        offset = 12
+                        if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
+                            SanityCheck.check { bufferOffset == len }
+                        } else {
+                            page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
+                            SanityCheck.check { page.readInt4(0) == ValueKeyStore.PAGE_TYPE_LEAF }
+                            nextPageID = page.readInt4(4)
+                            offset = 12
+                        }
                     }
-                    val l1 = min(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - offset, len - bufferOffset)
-                    page.copyInto(buffer.getBuf(), bufferOffset, offset, offset + l1)
-                    bufferOffset += l1
-                    offset += l1
                 }
-                if (target < buffer) {
+                if (target <= buffer) {
                     break@localloop
                 } else {
                     lastPageID = localChildPageID
                 }
             }
+if(pageid!=ValueKeyStore.PAGEID_NULL_PTR){
             bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
+}
             if (pageType == ValueKeyStore.PAGE_TYPE_INNER) {
                 pageid = childPageID
             } else if (target == buffer) {
                 return lastID
             } else {
-                return null
+                return ValueKeyStore.ID_NULL
             }
         }
     }
