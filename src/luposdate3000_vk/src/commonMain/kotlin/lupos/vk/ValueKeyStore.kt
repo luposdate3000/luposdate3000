@@ -297,7 +297,7 @@ public class ValueKeyStoreIteratorLeaf internal constructor(private val bufferMa
         }
         return id
     }
-    internal fun close() {
+    public fun close() {
         if (pageid != ValueKeyStore.PAGEID_NULL_PTR) {
             bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
         }

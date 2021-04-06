@@ -1,7 +1,7 @@
 #!/bin/bash
 for memorymode in inmemory persistent
 do
-	for testcase in Test_Buffermanager Test_Int_Array Test_KV Test_Triple_Index Test_Triple_Index_Insert_Sequentiel Test_Dictionary Test_Dictionary_Encoding
+	for testcase in Test_Buffermanager Test_Int_Array Test_KV Test_Triple_Index Test_Triple_Index_Insert_Sequentiel Test_Dictionary Test_Dictionary_Encoding Test_VK
 	do
 		for i in 0
 		do

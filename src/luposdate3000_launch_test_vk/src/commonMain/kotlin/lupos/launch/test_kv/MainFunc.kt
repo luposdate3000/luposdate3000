@@ -24,10 +24,10 @@ import lupos.test.AflCore
 import lupos.vk.ValueKeyStore
 import kotlin.math.abs
 
-private val verbose = false
+private val verbose = true
 
 // private val maxSize = 16
-private val maxSize = 16384
+private val maxSize = 16
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
@@ -148,6 +148,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             }
             counters[id]++
         }
+iterator.close()
         for (i in 0 until counters.size) {
             if (counters[i] != 1) {
                 throw Exception("")
@@ -169,7 +170,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     if (!BufferManagerExt.isInMemoryOnly) {
         vk.close()
         if (bufferManager.getNumberOfReferencedPages() != 0) {
-            throw Exception("")
+            throw Exception("${bufferManager.getNumberOfReferencedPages()}")
         }
         vk = ValueKeyStore(bufferManager, rootPage, true)
     }
