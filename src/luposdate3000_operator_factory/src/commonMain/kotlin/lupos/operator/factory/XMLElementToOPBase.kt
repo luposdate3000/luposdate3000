@@ -114,6 +114,7 @@ import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
 import lupos.s04logicalOperators.singleinput.LOPSubGroup
 import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.s05tripleStore.tripleStoreManager
+import lupos.s05tripleStore.TripleStoreIndexDescription
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.multiinput.POPJoinCartesianProduct
 import lupos.s09physicalOperators.multiinput.POPJoinHashMap
@@ -785,7 +786,7 @@ public object XMLElementToOPBase {
                 val s = XMLElementToOPBase(query, node["sparam"]!!.childs[0], mapping) as IAOPBase
                 val p = XMLElementToOPBase(query, node["pparam"]!!.childs[0], mapping) as IAOPBase
                 val o = XMLElementToOPBase(query, node["oparam"]!!.childs[0], mapping) as IAOPBase
-                val tripleStoreIndexDescription = tripleStoreManager.getIndexFromXML(node["idx"]!!)
+                val tripleStoreIndexDescription = tripleStoreManager.getIndexFromXML(node["idx"]!!) as TripleStoreIndexDescription
                 res = POPTripleStoreIterator(query, createProjectedVariables(query, node, mapping), tripleStoreIndexDescription, arrayOf<IOPBase>(s, p, o))
             }
             "LOPTriple" -> {
