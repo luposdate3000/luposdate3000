@@ -1,5 +1,5 @@
 {
-  "networkProtocol": [
+  "protocolType": [
     {
       "name": "WIRE",
       "rangeInMeters": -1,
@@ -11,13 +11,15 @@
       "name": "RadioTower",
       "application": true,
       "parkingSensor": true,
-      "powerCapacity": "70.0"
+      "powerCapacity": "70.0",
+      "supportedProtocolTypes": ["WIRE"]
     },
     {
       "name": "Fog",
       "application": true,
       "parkingSensor": false,
-      "powerCapacity": -1.0
+      "powerCapacity": -1.0,
+      "supportedProtocolTypes": ["WIRE"]
     }
   ],
   "fixedDevices": [
@@ -36,7 +38,7 @@
   ],
   "fixedConnection": [
     {
-      "networkProtocol": "WIRE",
+      "protocolType": "WIRE",
       "endpointA": "Tower1",
       "endpointB": "Fog1"
     }

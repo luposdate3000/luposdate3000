@@ -71,13 +71,14 @@ object Configuration {
     private fun createRandomNetwork(network: RandomNetwork){
         val dataSink = devices[network.dataSink]!!
         val deviceType = findDeviceType(network.type)
-        val protocol = findProtocol(network.networkProtocol)
+        val protocol = findProtocol(network.protocolType)
         for (i in 1..network.number) {
-            val deviceName = network.name + i.toString()
+            val deviceName = network.networkPrefix + i.toString()
             val location = RandomGenerator.getLatLngInRadius(dataSink.location, protocol.rangeInMeters)
             val createdDevice = createDevice(deviceType, location, deviceName)
 
             put(createdDevice.name, createdDevice)
+            createdDevice.networkPrefix = network.networkPrefix
             createSensors(network, createdDevice)
         }
     }
@@ -85,12 +86,13 @@ object Configuration {
     private fun createSensors(network: RandomNetwork, device: Device) {
         val numberOfSensors = network.sensorsPerDevice.number
         val sensorDeviceType = findDeviceType(network.sensorsPerDevice.type)
-        val protocol = findProtocol(network.networkProtocol)
+        val protocol = findProtocol(network.protocolType)
         for(i in 1..numberOfSensors) {
             val sensorDeviceName = device.name + "Sensor" + i.toString()
             val location = RandomGenerator.getLatLngInRadius(device.location, protocol.rangeInMeters)
             val createdDevice = createDevice(sensorDeviceType, location, sensorDeviceName)
             put(createdDevice.name, createdDevice)
+            createdDevice.networkPrefix = device.name
             createConnection(createdDevice, device, protocol)
         }
 
@@ -107,7 +109,7 @@ object Configuration {
 
     private fun createFixedConnections() {
         for (fixedCon in jsonObjects.fixedConnection) {
-            val protocol = findProtocol(fixedCon.networkProtocol)
+            val protocol = findProtocol(fixedCon.protocolType)
             val a = devices[fixedCon.endpointA]!!
             val b = devices[fixedCon.endpointB]!!
             createConnection(a, b, protocol)
@@ -115,8 +117,8 @@ object Configuration {
 
     }
 
-    private fun createConnection(src: Device, dest: Device, p: NetworkProtocol) {
-        val distance = LatLngTool.distance(src.location, dest.location, LengthUnit.METER)
+    private fun createConnection(src: Device, dest: Device, p: ProtocolType) {
+        val distance = src.getDistanceInMeters(dest);
         val param = ConnectionParameter(
             p.dataRateInKbps, p.rangeInMeters.toDouble(),
             p.name, distance
@@ -136,11 +138,21 @@ object Configuration {
     private fun createDevice(deviceType: DeviceType, location: LatLng, name: String): Device {
         val powerSupply = PowerSupply(deviceType.powerCapacity)
         val application = createAppEntity(deviceType)
-        val device = Device(powerSupply, location, name, application, null)
+        val protocols = createProtocols(deviceType)
+        val device = Device(powerSupply, location, name, application, null, protocols)
         val parkingSensor = createParkingSensor(deviceType, device)
         device.sensor = parkingSensor
         entities.add(device.networkCard)
         return device
+    }
+
+    private fun createProtocols(deviceType: DeviceType): Set<ProtocolType> {
+        val result = mutableSetOf<ProtocolType>()
+        for (name in deviceType.supportedProtocolType) {
+            val protocolType = findProtocol(name)
+            result.add(protocolType)
+        }
+        return result
     }
 
 
@@ -151,8 +163,8 @@ object Configuration {
         return deviceType
     }
 
-    private fun findProtocol(name: String): NetworkProtocol {
-        val element = jsonObjects.networkProtocol.find { name == it.name }
+    private fun findProtocol(name: String): ProtocolType {
+        val element = jsonObjects.protocolType.find { name == it.name }
         requireNotNull(element, { "protocol $name does not exist" })
         return element
     }

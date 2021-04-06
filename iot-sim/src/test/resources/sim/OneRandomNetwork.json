@@ -1,5 +1,5 @@
 {
-  "networkProtocol": [
+  "protocolType": [
     {
       "name": "WPAN",
       "rangeInMeters": 30,
@@ -11,13 +11,15 @@
       "name": "Fog",
       "application": true,
       "parkingSensor": false,
-      "powerCapacity": -1.0
+      "powerCapacity": -1.0,
+      "supportedProtocolTypes": ["WPAN"]
     },
     {
       "name": "StandAloneParkingSensor",
       "application": false,
       "parkingSensor": true,
-      "powerCapacity": -1.0
+      "powerCapacity": -1.0,
+      "supportedProtocolTypes": ["WPAN"]
     }
   ],
   "fixedDevices": [
@@ -32,11 +34,11 @@
   ],
   "randomNetwork": [
     {
-      "name": "garageA",
+      "networkPrefix": "garageA",
       "dataSink": "Fog1",
       "type": "StandAloneParkingSensor",
       "number": "1",
-      "networkProtocol": "WPAN",
+      "protocolType": "WPAN",
       "sensorsPerDevice": {
         "number": 3,
         "type": "StandAloneParkingSensor"

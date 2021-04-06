@@ -1,12 +1,13 @@
 {
-  "networkProtocol": [
+  "protocolType": [
   ],
   "deviceType": [
     {
       "name": "RadioTower",
       "application": false,
       "parkingSensor": false,
-      "powerCapacity": -1.0
+      "powerCapacity": -1.0,
+      "supportedProtocolTypes": []
     }
   ],
   "fixedDevices": [
