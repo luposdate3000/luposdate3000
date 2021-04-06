@@ -32,7 +32,7 @@ import lupos.test.AflCore
 import kotlin.math.abs
 import kotlin.math.max
 
-private val verbose = true
+private val verbose = false
 
 // private val maxSize = 16
 private val maxSize = 16384
@@ -142,6 +142,23 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                     for (i in 0 until len) {
                         res.getBuf()[i] = (i + seed).toByte()
                     }
+                        var x = ByteArrayHelper.readInt4(res.getBuf(), 0)
+                        var lastx = 0
+                        while (x != lastx) {
+                            lastx = x
+                            if (x == ETripleComponentTypeExt.BLANK_NODE) {
+                                x++
+}else                            if (x == ETripleComponentTypeExt.BOOLEAN && len !=5) {
+                                x++
+}else                            if (x == ETripleComponentTypeExt.ERROR && len !=4) {
+                                x++
+}else                            if (x == ETripleComponentTypeExt.UNDEF && len !=4) {
+                                x++
+                            }else{
+                            x = abs(x % ETripleComponentTypeExt.values_size)
+}
+                        }
+                        ByteArrayHelper.writeInt4(res.getBuf(), 0, x)
                     if (values.contains(res)) {
                         if (seed < 255) {
                             seed++
@@ -151,15 +168,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                         }
                     } else {
                         loop = false
-                        var x = ByteArrayHelper.readInt4(res.getBuf(), 0)
-                        while (x == ETripleComponentTypeExt.BLANK_NODE) {
-                            x++
-                            x = abs(x % ETripleComponentTypeExt.values_size)
+                        if (DictionaryHelper.byteArrayToType(res) == ETripleComponentTypeExt.BLANK_NODE) {
+                            throw Exception("")
                         }
-                        ByteArrayHelper.writeInt4(res.getBuf(), 0, x)
-if(DictionaryHelper.byteArrayToType(res)==ETripleComponentTypeExt.BLANK_NODE){
-throw Exception("")
-}
                         action(res)
                     }
                 }
