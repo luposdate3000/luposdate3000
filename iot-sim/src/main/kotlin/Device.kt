@@ -14,6 +14,7 @@ class Device(
 {
     var networkPrefix = ""
     var isWSNGateway = false
+    var rank = 0
 
     fun getNetworkDelay(destination: Device): Long {
         return if (destination == this) {
@@ -26,6 +27,7 @@ class Device(
 
     override fun startUpEntity() {
         if (isWSNGateway) {
+            val addresses = Configuration.randNetAddresses[networkPrefix]
 
         }
     }
@@ -63,7 +65,7 @@ class Device(
         = getDistanceInMeters(location, otherDevice.location)
 
     private val comparator = compareByDescending<ProtocolType> { it.dataRateInKbps }
-    private fun chooseBestFitProtocol(protocols: Set<ProtocolType>, distance: Double): ProtocolType? {
+    private fun selectBestFitProtocol(protocols: Set<ProtocolType>, distance: Double): ProtocolType? {
 
         val sorted = protocols.asSequence().sortedWith(comparator)
         for (protocol in sorted) {
@@ -73,12 +75,31 @@ class Device(
         return null
     }
 
+    fun selectBestLink(otherDevices: List<Device>): Link? {
+        var bestFit: Link? = null
+        for (device in otherDevices) {
+            val protocolType = isLinkable(device)
+            if(protocolType!= null) {
+                val distance = getDistanceInMeters(device)
+                if (bestFit == null) {
+                    bestFit = Link(name, device.name, distance, protocolType)
+                }
+                else {
+                    if(distance < bestFit.distanceInMeters) {
+                        bestFit = Link(name, device.name, distance, protocolType)
+                    }
+                }
+            }
+        }
+        return bestFit
+    }
+
     fun isLinkable(otherDevice: Device): ProtocolType? {
         if (networkPrefix != otherDevice.networkPrefix) {
             return null
         }
         val commonProtocols = protocols.intersect(otherDevice.protocols)
         val distance = getDistanceInMeters(otherDevice)
-        return chooseBestFitProtocol(commonProtocols, distance)
+        return selectBestFitProtocol(commonProtocols, distance)
     }
 }

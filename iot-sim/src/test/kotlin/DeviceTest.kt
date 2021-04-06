@@ -1,7 +1,7 @@
 import com.javadocmd.simplelatlng.LatLng
-import com.javadocmd.simplelatlng.LatLngTool
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import kotlin.math.round
 
 class DeviceTest {
 
@@ -47,6 +47,60 @@ class DeviceTest {
         val result = deviceOne.isLinkable(deviceTwo)
         Assertions.assertNotNull(result)
         Assertions.assertEquals(protocolY.name, result!!.name)
+    }
+
+    @Test
+    fun `there is no best link`() {
+        val protocolX = ProtocolType("X", 50, 7 )
+        val protocolY = ProtocolType("Y", 42, 70 )
+        val protocolSet = mutableSetOf(protocolX, protocolY)
+        val selectingDevice: Device = Stubs.createEmptyDevice(protocolSet)
+        selectingDevice.location = LatLng.random()
+        val device1: Device = Stubs.createEmptyDevice(protocolSet)
+        device1.location = device1.createNorthernLocation(selectingDevice.location, 60.0)
+        val list = arrayListOf(device1)
+        Assertions.assertNull(selectingDevice.selectBestLink(list))
+    }
+
+    @Test
+    fun `one device is close enough but not linkable`() {
+        val protocolX = ProtocolType("X", 50, 7 )
+        val protocolY = ProtocolType("Y", 42, 70 )
+        val protocolSet = mutableSetOf(protocolX, protocolY)
+        val selectingDevice: Device = Stubs.createEmptyDevice(protocolSet)
+        selectingDevice.location = LatLng.random()
+
+        val device1: Device = Stubs.createEmptyDevice(protocolSet)
+        device1.location = device1.createNorthernLocation(selectingDevice.location, 53.0)
+        val device2: Device = Stubs.createEmptyDevice(mutableSetOf(ProtocolType("something else")))
+        device2.location = device2.createNorthernLocation(selectingDevice.location, 40.0)
+
+        val list = arrayListOf(device1, device2)
+        Assertions.assertNull(selectingDevice.selectBestLink(list))
+    }
+
+    @Test
+    fun `select the closest and linkable device`() {
+        val protocolX = ProtocolType("X", 50, 7 )
+        val protocolY = ProtocolType("Y", 42, 70 )
+        val protocolSet = mutableSetOf(protocolX, protocolY)
+        val selectingDevice: Device = Stubs.createEmptyDevice(protocolSet)
+        selectingDevice.location = LatLng.random()
+
+        val device1: Device = Stubs.createEmptyDevice(protocolSet)
+        device1.location = device1.createNorthernLocation(selectingDevice.location, 4.0)
+        val device2: Device = Stubs.createEmptyDevice(mutableSetOf(ProtocolType("something else")))
+        device2.location = device2.createNorthernLocation(selectingDevice.location, 0.0)
+        val device3: Device = Stubs.createEmptyDevice(protocolSet)
+        device3.location = device3.createNorthernLocation(selectingDevice.location, 5.0)
+
+        val list = arrayListOf(device1, device2)
+        val link = selectingDevice.selectBestLink(list)
+        Assertions.assertNotNull(link)
+        Assertions.assertEquals(selectingDevice.name, link!!.srcAddress)
+        Assertions.assertEquals(device1.name, link.destAddress)
+        Assertions.assertEquals("Y", link.protocolType.name)
+        Assertions.assertEquals(4.0, round(link.distanceInMeters))
     }
 
 

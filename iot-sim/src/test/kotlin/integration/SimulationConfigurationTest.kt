@@ -28,12 +28,23 @@ class SimulationConfigurationTest {
         Assertions.assertEquals(maxClock, endClock)
     }
 
-    @ParameterizedTest
+
+/*    @ParameterizedTest
     @ValueSource(strings = ["sim/OneRandomNetwork.json"])
     fun `wsn gateway start flooding`(fileName: String) {
         Configuration.parse(fileName)
         val randomNetwork = Configuration.jsonObjects.randomNetwork[0]
+        val gateway = Configuration.devices[randomNetwork.dataSink]!!
+        Simulation.initialize(Configuration.entities)
+        val endClock = Simulation.runSimulation()
+        Assertions.assertEquals(0, gateway.rank)
 
-    }
+        //Am besten einen Graph zeichnen
+        //Einmal alle Links und nach der Simulation nur den DODAG
+        //die Anzahl der Links ist kleiner, jeder hat nur 1 Eltern
+        //Kinder haben einen höheren Rang
+        //teste zuerst nur mit einem Knoten
+        //dann mit zwei, bevorzuge kürzerer Wege (weil LLN)
+    }*/
 
 }

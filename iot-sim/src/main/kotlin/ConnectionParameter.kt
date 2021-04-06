@@ -1,3 +1,4 @@
+//TODO Ersetze durch Link
 data class ConnectionParameter(
     val dataRateInKbps: Int,
     val maxDistanceInMeters: Double,
