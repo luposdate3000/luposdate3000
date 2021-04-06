@@ -26,11 +26,13 @@ public class DictionaryIntermediateReader(filename: String) : DictionaryIntermed
     }
 
     public inline fun readAll(buffer: ByteArrayWrapper, crossinline action: (id: Int) -> Unit) {
-        while (streamIn != null) {
+        while (hasNext()) {
             next(buffer, action)
         }
     }
-
+public inline fun hasNext():Boolean{
+return streamIn != null
+}
     public inline fun next(buffer: ByteArrayWrapper, crossinline action: (id: Int) -> Unit) {
         val id = streamIn!!.readInt()
         if (id < 0) {

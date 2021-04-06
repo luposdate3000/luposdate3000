@@ -7,8 +7,9 @@ do
 		do
 			(
 				export LUPOS_HOME=/tmp/luposdate3000.$testcase.$memorymode.$i/
-				echo "./launcher.main.kts --run --mainClass=$testcase --memoryMode=$memorymode --runArgument_Luposdate3000_Launch_$testcase:arg=$i"
-				./launcher.main.kts --run --mainClass=$testcase --memoryMode=$memorymode --runArgument_Luposdate3000_Launch_$testcase:arg=$i > afl.$testcase.$memorymode.$i.log 2>&1
+j=$RANDOM
+				echo "./launcher.main.kts --run --mainClass=$testcase --memoryMode=$memorymode --runArgument_Luposdate3000_Launch_$testcase:arg=$j"
+				./launcher.main.kts --run --mainClass=$testcase --memoryMode=$memorymode --runArgument_Luposdate3000_Launch_$testcase:arg=$j > afl.$testcase.$memorymode.$i.log 2>&1
 			)&
 		done
 	done

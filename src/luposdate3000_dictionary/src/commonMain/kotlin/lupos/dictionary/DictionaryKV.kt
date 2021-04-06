@@ -15,17 +15,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.dictionary
-
+import lupos.fileformat.DictionaryIntermediateReader
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.buffermanager.BufferManagerPage
 import lupos.kv.KeyValueStore
-import lupos.vk.ValueKeyStore
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.File
 import lupos.s00misc.SanityCheck
+import lupos.vk.ValueKeyStore
 
 public class DictionaryKV : ADictionary {
     private val bufferManager: BufferManager
@@ -61,8 +61,8 @@ public class DictionaryKV : ADictionary {
             kvPage = rootPage.readInt4(4)
             vkPage = rootPage.readInt4(8)
         } else {
-kvPage=bufferManager.allocPage(lupos.SOURCE_FILE)
-vkPage=bufferManager.allocPage(lupos.SOURCE_FILE)
+            kvPage = bufferManager.allocPage(lupos.SOURCE_FILE)
+            vkPage = bufferManager.allocPage(lupos.SOURCE_FILE)
             rootPage.writeInt4(0, bNodeCounter)
             rootPage.writeInt4(4, kvPage)
             rootPage.writeInt4(8, vkPage)
@@ -112,17 +112,68 @@ vkPage=bufferManager.allocPage(lupos.SOURCE_FILE)
             ETripleComponentTypeExt.ERROR -> return DictionaryExt.errorValue
             ETripleComponentTypeExt.UNDEF -> return DictionaryExt.undefValue
             else -> {
-var res=vk.createValue(
-buffer,
-value={
-kv.createValue(buffer)
-}
-)
+                var res = vk.createValue(
+                    buffer,
+                    value = {
+                        kv.createValue(buffer)
+                    }
+                )
                 return res or ADictionary.flagNoBNode
             }
         }
     }
-
+    @Suppress("NOTHING_TO_INLINE")
+    public override fun importFromDictionaryFile(filename: String): IntArray {
+        var mymapping = IntArray(0)
+        var lastId = -1
+        fun addEntry(id: Int, i: Int) {
+            SanityCheck.check { lastId == id - 1 }
+            lastId = id
+            if (mymapping.size <= id) {
+                var newSize = 1
+                while (newSize <= id) {
+                    newSize = newSize * 2
+                }
+                val tmp = mymapping
+                mymapping = IntArray(newSize)
+                tmp.copyInto(mymapping)
+            }
+            mymapping[id] = i
+        }
+        val buffer = ByteArrayWrapper()
+        val reader = DictionaryIntermediateReader(filename)
+        var ready = false
+        var originalID = 0
+        vk.createValues(
+            hasNext = {
+                loop@while (!ready && reader.hasNext()) {
+                    reader.next(buffer) { id ->
+                        originalID = id
+                        ready = true
+                    }
+                    val type = DictionaryHelper.byteArrayToType(buffer)
+                    if (type == ETripleComponentTypeExt.BLANK_NODE) {
+                        val id = createNewBNode()
+                        addEntry(originalID, id)
+                        ready = false
+                    }
+                }
+                ready
+            },
+            next = {
+                SanityCheck.check { ready }
+                ready = false
+                buffer
+            },
+            value = { it ->
+                val id = kv.createValue(it)
+                addEntry(originalID, id or ADictionary.flagNoBNode)
+                id
+            }
+        )
+        println("imported dictionary with $lastId items")
+        return mymapping
+    }
     public override fun hasValue(buffer: ByteArrayWrapper): Int? {
         val type = DictionaryHelper.byteArrayToType(buffer)
         SanityCheck.check { type != ETripleComponentTypeExt.BLANK_NODE }
@@ -130,7 +181,7 @@ kv.createValue(buffer)
         SanityCheck.check { type != ETripleComponentTypeExt.ERROR }
         SanityCheck.check { type != ETripleComponentTypeExt.UNDEF }
         var res = vk.hasValue(buffer)
-        if (res == ValueKeyStore.ID_NULL ) {
+        if (res == ValueKeyStore.ID_NULL) {
             return null
         }
         return res or ADictionary.flagNoBNode
