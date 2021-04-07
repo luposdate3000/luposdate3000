@@ -29,7 +29,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.math.floor
 
-public class AOPBuildInCallFLOOR public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallFLOORID, "AOPBuildInCallFLOOR", arrayOf(child0,)) {
+public class AOPBuildInCallFLOOR public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallFLOORID, "AOPBuildInCallFLOOR", arrayOf(child0, )) {
     override fun toSparql(): String = "FLOOR(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallFLOOR && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallFLOOR(query, children[0].cloneOP() as AOPBase)

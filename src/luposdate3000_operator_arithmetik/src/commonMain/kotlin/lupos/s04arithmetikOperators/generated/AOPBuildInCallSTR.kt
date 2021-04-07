@@ -29,7 +29,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPBuildInCallSTR public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallSTRID, "AOPBuildInCallSTR", arrayOf(child0,)) {
+public class AOPBuildInCallSTR public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallSTRID, "AOPBuildInCallSTR", arrayOf(child0, )) {
     override fun toSparql(): String = "STR(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallSTR && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallSTR(query, children[0].cloneOP() as AOPBase)

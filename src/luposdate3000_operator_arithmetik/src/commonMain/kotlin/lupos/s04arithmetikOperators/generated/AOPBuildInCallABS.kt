@@ -30,7 +30,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.math.abs
 
-public class AOPBuildInCallABS public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallABSID, "AOPBuildInCallABS", arrayOf(child0,)) {
+public class AOPBuildInCallABS public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallABSID, "AOPBuildInCallABS", arrayOf(child0, )) {
     override fun toSparql(): String = "ABS(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallABS && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallABS(query, children[0].cloneOP() as AOPBase)
