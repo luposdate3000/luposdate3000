@@ -19,19 +19,22 @@ import lupos.s00misc.CodeGenerationAnnotation
 import kotlin.jvm.JvmField
 import lupos.endpoint.LuposdateEndpoint
 
-public class ExampleClass {
+public class ExampleAnnotation {
+    // Importing a turtle file to query on
     init {
         LuposdateEndpoint.importTurtleFiles(
             "resources/code-generation/example.n3",
             mutableMapOf()
         )
     }
+    // The actual annotation, the generated function will be called exampleVar_evaluate() and will return the result of
+    //  the query as a String
     @JvmField
     @CodeGenerationAnnotation
-    //public val exampleVar: String = "SELECT ?article ?pages (?pages < 6 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER(?pages <= 10)}"
+    public val exampleVar: String = "SELECT ?article ?pages (?pages < 6 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER(?pages <= 10)}"
     //public val exampleVar: String = "SELECT ?pages ?article (?pages < 100 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages}"
     //public val exampleVar: String = "SELECT ?pages ?article (?pages/0 < 9 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER (?pages<= 20)}"
-    public val exampleVar: String = "SELECT ?pages ?article ?title  WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://purl.org/dc/elements/1.1/title> ?title}"
+    //public val exampleVar: String = "SELECT ?pages ?article ?title  WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://purl.org/dc/elements/1.1/title> ?title}"
     //public val exampleVar: String = "SELECT ?pages ?article (?pages as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages }"
     //public val exampleVar: String = "SELECT ?pages ?article ?pages2  WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://swrc.ontoware.org/ontology#pages> ?pages2 }"
     //public val exampleVar : String = "SELECT ?a ?b ?c WHERE {?a <a> ?b . ?a <b> ?c .}"

@@ -1,8 +1,5 @@
 package lupos.s00misc
 
-import java.awt.Container
-import lupos.s04logicalOperators.OPBase
-import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.singleinput.POPBind
 import lupos.s09physicalOperators.singleinput.POPDebug
 
@@ -51,24 +48,6 @@ internal fun generatePOPBind(
         )
     }
 
-    /*imports.add("lupos.s04logicalOperators.IOPBase")
-    imports.add("lupos.s09physicalOperators.POPBase")
-    imports.add("lupos.s00misc.EOperatorIDExt")
-    imports.add("lupos.s00misc.ESortPriorityExt")
-    imports.add("lupos.s00misc.Partition")
-    imports.add("lupos.s00misc.SanityCheck")
-    imports.add("lupos.s00misc.XMLElement")
-    imports.add("lupos.s04logicalOperators.IQuery")
-    imports.add("lupos.s04logicalOperators.iterator.ColumnIterator")
-    imports.add("lupos.s04logicalOperators.iterator.IteratorBundle")
-    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorQueue")
-    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt")
-    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt")
-    imports.add("lupos.s04arithmetikOperators.multiinput.AOPAnd")
-    imports.add("lupos.s03resultRepresentation.ValueIri")
-    imports.add("lupos.s00misc.MyBigInteger")
-    imports.add("lupos.s03resultRepresentation.compareTo")*/
-
     clazz.header.println(
         """
                 |public class Operator${operatorGraph.uuid} public constructor(query: IQuery, child: IOPBase) : POPBase(query, ${projectedVariables}, EOperatorIDExt.POPGenerated, "Operator${operatorGraph.uuid}", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
@@ -110,12 +89,12 @@ internal fun generatePOPBind(
     clazz.iteratorNextHeader.println("            return ColumnIteratorQueueExt.nextHelper(this, {")
 
     for(variable in variablename) {
-        clazz.iteratorNextVariablen.add("                var row$variable = 0")
+        clazz.iteratorNextVariables.add("                var row$variable = 0")
     }
 
     if(inlineChild){
         clazz.iteratorNextBody.println(childContainer!!.iteratorNextBody.toString())
-        clazz.iteratorNextVariablen.addAll(childContainer.iteratorNextVariablen)
+        clazz.iteratorNextVariables.addAll(childContainer.iteratorNextVariables)
     }
 
     clazz.iteratorNextBody.println("        try{")

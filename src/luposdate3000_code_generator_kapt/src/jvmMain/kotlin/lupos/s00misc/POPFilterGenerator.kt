@@ -1,38 +1,19 @@
 package lupos.s00misc
 
 import lupos.s04logicalOperators.OPBase
-import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.singleinput.POPDebug
-import lupos.s09physicalOperators.singleinput.POPBind
 
 internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String, buffer: MyPrintWriter, imports: MutableSet<String>, containers: MutableList<ClazzContainer> ) {
+    // The container for the filter
     val clazz = ClazzContainer("operator${operatorGraph.uuid}", operatorGraph.uuid)
 
     val variablename = mutableListOf<String>()
     variablename.addAll(operatorGraph.getProvidedVariableNames())
-    //variablename.remove(operatorGraph.getProvidedVariableNames().toString())
-    //variablename.add(operatorGraph.getProvidedVariableNames().toString())
 
+    // Create the operator that will eventually call the generated class
     buffer.println(
         "    val operator${operatorGraph.uuid} = Operator${operatorGraph.uuid}(query," +
             "operator${operatorGraph.children[0].getUUID()})"
     )
-    /*imports.add("lupos.s04logicalOperators.IOPBase")
-    imports.add("lupos.s09physicalOperators.POPBase")
-    imports.add("lupos.s00misc.EOperatorIDExt")
-    imports.add("lupos.s00misc.ESortPriorityExt")
-    imports.add("lupos.s00misc.Partition")
-    imports.add("lupos.s00misc.SanityCheck")
-    imports.add("lupos.s00misc.XMLElement")
-    imports.add("lupos.s04logicalOperators.IQuery")
-    imports.add("lupos.s04logicalOperators.iterator.ColumnIterator")
-    imports.add("lupos.s04logicalOperators.iterator.IteratorBundle")
-    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorQueue")
-    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt")
-    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt")
-    imports.add("lupos.s04arithmetikOperators.multiinput.AOPAnd")
-    imports.add("lupos.s03resultRepresentation.ValueIri")*/
-
 
     clazz.header.println(
         """
@@ -62,7 +43,7 @@ internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String
     clazz.iteratorNextHeader.println("            return ColumnIteratorQueueExt.nextHelper(this, { ")
     clazz.iteratorNextBody.println("                var res${operatorGraph.uuid}: Boolean = false")
     for(variable in variablename) {
-        clazz.iteratorNextVariablen.add("                var row$variable = 0")
+        clazz.iteratorNextVariables.add("                var row$variable = 0")
     }
     clazz.iteratorNextBody.println("                while(!res${operatorGraph.uuid}) {")
     for (variable in variablename) {

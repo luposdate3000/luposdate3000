@@ -1,6 +1,21 @@
+/*
+ * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
+ * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package lupos.s00misc
 
-import lupos.dictionary.DictionaryExt
 import lupos.s04logicalOperators.OPBase
 
 public fun generatePOPJoinMerge(
@@ -10,6 +25,25 @@ public fun generatePOPJoinMerge(
     imports: MutableSet<String>,
     classes: IMyOutputStream
 ) {
+    // Imports needed for the generated code
+    imports.add("lupos.s00misc.EOperatorIDExt")
+    imports.add("lupos.s00misc.ESortPriorityExt")
+    imports.add("lupos.s00misc.Partition")
+    imports.add("lupos.s00misc.XMLElement")
+    imports.add("lupos.s00misc.SanityCheck")
+    imports.add("lupos.s04logicalOperators.IOPBase")
+    imports.add("lupos.s04logicalOperators.IQuery")
+    imports.add("lupos.s04logicalOperators.iterator.ColumnIterator")
+    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator")
+    imports.add("lupos.s04logicalOperators.iterator.IteratorBundle")
+    imports.add("lupos.s09physicalOperators.POPBase")
+    imports.add("kotlin.jvm.JvmField")
+    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator")
+    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue")
+    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorRepeatIterator")
+    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue")
+
+
     val children0ProvidedVariable = operatorGraph.children[0].getProvidedVariableNames()
     val children1ProvidedVariable = operatorGraph.children[1].getProvidedVariableNames()
     val variablesJoin = mutableListOf<String>()
@@ -32,28 +66,14 @@ public fun generatePOPJoinMerge(
         }
     }
 
+    // Create the operator that will eventually call the generated class
     buffer.println(
         "    val operator${operatorGraph.uuid} = Operator${operatorGraph.uuid}(query," +
             " operator${operatorGraph.children[0].getUUID()}, " +
             "operator${operatorGraph.children[1].getUUID()} )"
     )
-    imports.add("lupos.s00misc.EOperatorIDExt")
-    imports.add("lupos.s00misc.ESortPriorityExt")
-    imports.add("lupos.s00misc.Partition")
-    imports.add("lupos.s00misc.XMLElement")
-    imports.add("lupos.s00misc.SanityCheck")
-    imports.add("lupos.s04logicalOperators.IOPBase")
-    imports.add("lupos.s04logicalOperators.IQuery")
-    imports.add("lupos.s04logicalOperators.iterator.ColumnIterator")
-    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator")
-    imports.add("lupos.s04logicalOperators.iterator.IteratorBundle")
-    imports.add("lupos.s09physicalOperators.POPBase")
-    imports.add("kotlin.jvm.JvmField")
-    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator")
-    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue")
-    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorRepeatIterator")
-    imports.add("lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue")
 
+    // This is the generated class that implements the Merge Join for the annotated query
     classes.println("public class Operator${operatorGraph.uuid} public constructor(query: IQuery, childA: IOPBase, childB: IOPBase) : POPBase(query, ${projectedVariables}, EOperatorIDExt.POPGenerated, \"Operator${operatorGraph.uuid}\", arrayOf(childA,childB), ESortPriorityExt.JOIN) {")
     classes.println(
         """
