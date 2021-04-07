@@ -27,7 +27,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPBuildInCallIsIri public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallIsIriID, "AOPBuildInCallIsIri", arrayOf(child0, )) {
+public class AOPBuildInCallIsIri public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallIsIriID, "AOPBuildInCallIsIri", arrayOf(child0,)) {
     override fun toSparql(): String = "IsIri(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallIsIri && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallIsIri(query, children[0].cloneOP() as AOPBase)

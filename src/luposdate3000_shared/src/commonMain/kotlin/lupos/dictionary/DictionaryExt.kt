@@ -16,7 +16,6 @@
  */
 package lupos.dictionary
 
-import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueError
@@ -24,11 +23,11 @@ import lupos.s03resultRepresentation.ValueUndef
 import kotlin.jvm.JvmField
 
 public object DictionaryExt {
-    const public val booleanTrueValue: Int = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
-    const public val booleanFalseValue: Int = (0x00000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
-    const public val errorValue: Int = (0x00000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
-    const public val undefValue: Int = (0x00000003) /*lowest 5 values*/
-    const public val nullValue: Int = (0x00000004) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
+    public const val booleanTrueValue: Int = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
+    public const val booleanFalseValue: Int = (0x00000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
+    public const val errorValue: Int = (0x00000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
+    public const val undefValue: Int = (0x00000003) /*lowest 5 values*/
+    public const val nullValue: Int = (0x00000004) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
 
     @JvmField
     public val booleanTrueValue2: ValueBoolean = ValueBoolean(true)

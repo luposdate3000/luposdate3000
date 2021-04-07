@@ -17,6 +17,3 @@
 package lupos.dictionary
 
 internal typealias DictionaryHelper = lupos.modulename._DictionaryHelper
-
-
-

@@ -29,7 +29,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPFunctionCallFloat public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPFunctionCallFloatID, "AOPFunctionCallFloat", arrayOf(child0, )) {
+public class AOPFunctionCallFloat public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPFunctionCallFloatID, "AOPFunctionCallFloat", arrayOf(child0,)) {
     override fun toSparql(): String = "<http://www.w3.org/2001/XMLSchema#float>(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPFunctionCallFloat && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPFunctionCallFloat(query, children[0].cloneOP() as AOPBase)

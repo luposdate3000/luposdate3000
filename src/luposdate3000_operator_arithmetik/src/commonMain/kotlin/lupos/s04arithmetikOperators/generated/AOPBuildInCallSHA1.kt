@@ -28,7 +28,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPBuildInCallSHA1 public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallSHA1ID, "AOPBuildInCallSHA1", arrayOf(child0, )) {
+public class AOPBuildInCallSHA1 public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallSHA1ID, "AOPBuildInCallSHA1", arrayOf(child0,)) {
     override fun toSparql(): String = "SHA1(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallSHA1 && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallSHA1(query, children[0].cloneOP() as AOPBase)

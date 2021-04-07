@@ -16,10 +16,10 @@
  */
 package lupos.dictionary
 
-import lupos.fileformat.DictionaryIntermediateReader
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.buffermanager.BufferManagerPage
+import lupos.fileformat.DictionaryIntermediateReader
 import lupos.kv.KeyValueStore
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.ByteArrayWrapper

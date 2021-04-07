@@ -27,7 +27,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPNot public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPNotID, "AOPNot", arrayOf(child0, )) {
+public class AOPNot public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPNotID, "AOPNot", arrayOf(child0,)) {
     override fun toSparql(): String = "Not(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPNot && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPNot(query, children[0].cloneOP() as AOPBase)

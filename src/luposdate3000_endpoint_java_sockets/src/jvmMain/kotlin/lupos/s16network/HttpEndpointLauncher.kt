@@ -363,7 +363,7 @@ public actual object HttpEndpointLauncher {
                                     connectionOutMy.println("<p> $k :: $v </p>")
                                 }
                             }
-                            paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement, )) {
+                            paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement,)) {
                                 val name = params["name"]!!
                                 val query = Query()
                                 tripleStoreManager.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])

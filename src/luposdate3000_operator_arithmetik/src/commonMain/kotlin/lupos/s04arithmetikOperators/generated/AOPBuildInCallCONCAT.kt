@@ -27,7 +27,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPBuildInCallCONCAT public constructor(query: IQuery, child0: AOPBase, child1: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallCONCATID, "AOPBuildInCallCONCAT", arrayOf(child0, child1, )) {
+public class AOPBuildInCallCONCAT public constructor(query: IQuery, child0: AOPBase, child1: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallCONCATID, "AOPBuildInCallCONCAT", arrayOf(child0, child1,)) {
     override fun toSparql(): String = "CONCAT(${children[0].toSparql()}, ${children[1].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallCONCAT && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = AOPBuildInCallCONCAT(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)

@@ -466,14 +466,14 @@ public object BinaryTestCase {
                                 val graph = tripleStoreManager.getDefaultGraph()
                                 var success = true
                                 for (
-                                idx in listOf(
-                                    EIndexPatternExt.SPO,
-                                    EIndexPatternExt.SOP,
-                                    EIndexPatternExt.PSO,
-                                    EIndexPatternExt.POS,
-                                    EIndexPatternExt.OSP,
-                                    EIndexPatternExt.OPS,
-                                )
+                                    idx in listOf(
+                                        EIndexPatternExt.SPO,
+                                        EIndexPatternExt.SOP,
+                                        EIndexPatternExt.PSO,
+                                        EIndexPatternExt.POS,
+                                        EIndexPatternExt.OSP,
+                                        EIndexPatternExt.OPS,
+                                    )
                                 ) {
                                     val query3 = Query()
                                     val queryParam = arrayOf<IAOPBase>(AOPVariable(query3, "s"), AOPVariable(query3, "p"), AOPVariable(query3, "o"))

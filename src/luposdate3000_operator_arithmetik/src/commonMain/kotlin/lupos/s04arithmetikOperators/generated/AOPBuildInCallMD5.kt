@@ -28,7 +28,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPBuildInCallMD5 public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallMD5ID, "AOPBuildInCallMD5", arrayOf(child0, )) {
+public class AOPBuildInCallMD5 public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallMD5ID, "AOPBuildInCallMD5", arrayOf(child0,)) {
     override fun toSparql(): String = "MD5(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallMD5 && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallMD5(query, children[0].cloneOP() as AOPBase)
