@@ -200,9 +200,7 @@ private fun writeOperatorGraph(
                 "arrayOf(operator${operatorGraph.children[0].getUUID()}," +
                 "operator${operatorGraph.children[1].getUUID()}," +
                 "operator${operatorGraph.children[2].getUUID()})," +
-                "EIndexPatternExt.${EIndexPatternExt.names[11]})"
-
-                //"EIndexPatternExt.${EIndexPatternExt.names[operatorGraph.getIndexPattern()]})"
+                "EIndexPatternExt.${EIndexPatternExt.names[operatorGraph.getIndexPattern()]})"
             )
             imports.add("lupos.s05tripleStore.tripleStoreManager")
             imports.add("lupos.s00misc.EIndexPatternExt")
