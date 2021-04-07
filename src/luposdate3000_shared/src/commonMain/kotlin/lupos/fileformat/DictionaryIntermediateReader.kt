@@ -30,9 +30,11 @@ public class DictionaryIntermediateReader(filename: String) : DictionaryIntermed
             next(buffer, action)
         }
     }
-public inline fun hasNext():Boolean{
-return streamIn != null
-}
+
+    public inline fun hasNext(): Boolean {
+        return streamIn != null
+    }
+
     public inline fun next(buffer: ByteArrayWrapper, crossinline action: (id: Int) -> Unit) {
         val id = streamIn!!.readInt()
         if (id < 0) {

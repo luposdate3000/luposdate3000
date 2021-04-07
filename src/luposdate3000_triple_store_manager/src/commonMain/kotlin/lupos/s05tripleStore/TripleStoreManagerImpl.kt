@@ -167,7 +167,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         metadata_.remove(name)
     }
 
-    public constructor(hostnames: Array<LuposHostname>, localhost: LuposHostname,) : super() {
+    public constructor(hostnames: Array<LuposHostname>, localhost: LuposHostname, ) : super() {
         this.hostnames = hostnames
         this.localhost = localhost
         keysOnHostname_ = Array(hostnames.size) { mutableSetOf<LuposStoreKey>() }
@@ -182,7 +182,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     public override fun initialize() {
         val file = File(BufferManagerExt.bufferPrefix + globalManagerRootFileName)
         var pageid = -1
-if(BufferManagerExt.allowInitFromDisk&&file.exists()) {
+        if (BufferManagerExt.allowInitFromDisk && file.exists()) {
             file.withInputStream {
                 pageid = it.readInt()
             }

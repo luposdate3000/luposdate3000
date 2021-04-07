@@ -31,6 +31,7 @@ public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
             buf = ByteArray(c)
         }
     }
+
     public fun setSizeCopy(c: Int) {
         size = c
         if (c > buf.size) {
@@ -53,6 +54,7 @@ public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
         }
         return i
     }
+
     override fun compareTo(other: ByteArrayWrapper): Int {
         var res = 0
         var i = 0

@@ -27,7 +27,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 
-public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AOPBase, child1: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallSTRAFTERID, "AOPBuildInCallSTRAFTER", arrayOf(child0, child1,)) {
+public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AOPBase, child1: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallSTRAFTERID, "AOPBuildInCallSTRAFTER", arrayOf(child0, child1, )) {
     override fun toSparql(): String = "STRAFTER(${children[0].toSparql()}, ${children[1].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallSTRAFTER && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = AOPBuildInCallSTRAFTER(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch.test_dictionary
+
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.dictionary.ADictionary
@@ -151,7 +152,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                         } else if (x == ETripleComponentTypeExt.BOOLEAN && len != 5) {
                             x++
                         } else if (x == ETripleComponentTypeExt.BOOLEAN && len == 5) {
-res.getBuf()[4]=abs(res.getBuf()[4]%2).toByte()
+                            res.getBuf()[4] = abs(res.getBuf()[4] % 2).toByte()
                         } else if (x == ETripleComponentTypeExt.ERROR && len != 4) {
                             x++
                         } else if (x == ETripleComponentTypeExt.UNDEF && len != 4) {

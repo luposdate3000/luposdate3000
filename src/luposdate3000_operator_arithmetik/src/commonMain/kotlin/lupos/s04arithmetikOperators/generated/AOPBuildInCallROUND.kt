@@ -30,7 +30,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.math.roundToInt
 
-public class AOPBuildInCallROUND public constructor(query: IQuery, child0: AOPBase,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallROUNDID, "AOPBuildInCallROUND", arrayOf(child0,)) {
+public class AOPBuildInCallROUND public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallROUNDID, "AOPBuildInCallROUND", arrayOf(child0, )) {
     override fun toSparql(): String = "ROUND(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallROUND && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallROUND(query, children[0].cloneOP() as AOPBase)

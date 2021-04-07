@@ -28,15 +28,15 @@ public object DictionaryFactory {
     private val globalDictionaryRootFileName = "global_dictionary.page"
 
     init {
-if(BufferManagerExt.allowInitFromDisk){
-        val file = File(BufferManagerExt.bufferPrefix + globalDictionaryRootFileName)
-        globalDictionaryInitFromRootPage = file.exists()
-        if (globalDictionaryInitFromRootPage) {
-            file.withInputStream {
-                globalDictionaryRootPageID = it.readInt()
+        if (BufferManagerExt.allowInitFromDisk) {
+            val file = File(BufferManagerExt.bufferPrefix + globalDictionaryRootFileName)
+            globalDictionaryInitFromRootPage = file.exists()
+            if (globalDictionaryInitFromRootPage) {
+                file.withInputStream {
+                    globalDictionaryRootPageID = it.readInt()
+                }
             }
         }
-}
     }
 
     public fun createGlobalDictionary(): IDictionary {
@@ -58,11 +58,11 @@ if(BufferManagerExt.allowInitFromDisk){
                             globalDictionaryRootPageID = pageid
                         }
                         globalDictionaryBufferManager.releasePage(lupos.SOURCE_FILE, globalDictionaryRootPageID)
-if(BufferManagerExt.allowInitFromDisk){
-                        File(BufferManagerExt.bufferPrefix + globalDictionaryRootFileName).withOutputStream {
-                            it.writeInt(globalDictionaryRootPageID)
+                        if (BufferManagerExt.allowInitFromDisk) {
+                            File(BufferManagerExt.bufferPrefix + globalDictionaryRootFileName).withOutputStream {
+                                it.writeInt(globalDictionaryRootPageID)
+                            }
                         }
-}
                     }
                     DictionaryKV(globalDictionaryBufferManager, globalDictionaryRootPageID, globalDictionaryInitFromRootPage)
                 }

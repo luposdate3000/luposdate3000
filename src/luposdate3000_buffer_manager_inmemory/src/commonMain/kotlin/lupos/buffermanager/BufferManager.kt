@@ -132,14 +132,14 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
             SanityCheck.check({ allPages[pageid].getPageID() == -1 }, { "${allPages[pageid].getPageID()}" })
             allPages[pageid].setPageID(pageid)
         }
-SanityCheck.println_buffermanager { "BufferManager.allocPage($pageid) : $call_location" }
+        SanityCheck.println_buffermanager { "BufferManager.allocPage($pageid) : $call_location" }
         return pageid
     }
 
     public /*suspend*/ fun createPage(call_location: String, action: (BufferManagerPage, Int) -> Unit): Unit = lock.withWriteLock {
         val pageid = allocPage(call_location)
         allPagesRefcounters[pageid]++
-            SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $call_location" }
+        SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $call_location" }
         action(allPages[pageid], pageid)
     }
 

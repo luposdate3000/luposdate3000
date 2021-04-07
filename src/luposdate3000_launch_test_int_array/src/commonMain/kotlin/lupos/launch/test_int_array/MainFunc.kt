@@ -95,7 +95,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         }
         var flag = true
         try {
-             arr[idx]
+            arr[idx]
         } catch (e: Throwable) {
             flag = false
         }

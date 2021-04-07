@@ -46,14 +46,14 @@ public class DictionaryInMemory : ADictionary {
     }
 
     public override fun getValue(buffer: ByteArrayWrapper, value: Int) {
-            when (value) {
-                DictionaryExt.booleanTrueValue -> DictionaryHelper.booleanToByteArray(buffer, true)
-                DictionaryExt.booleanFalseValue -> DictionaryHelper.booleanToByteArray(buffer, false)
-                DictionaryExt.errorValue -> DictionaryHelper.errorToByteArray(buffer)
-                DictionaryExt.undefValue -> DictionaryHelper.undefToByteArray(buffer)
-                DictionaryExt.nullValue -> throw Exception("invalid call")
-                else -> {
-        if (isLocal == ((value and ADictionary.flagLocal) == ADictionary.flagLocal)) {
+        when (value) {
+            DictionaryExt.booleanTrueValue -> DictionaryHelper.booleanToByteArray(buffer, true)
+            DictionaryExt.booleanFalseValue -> DictionaryHelper.booleanToByteArray(buffer, false)
+            DictionaryExt.errorValue -> DictionaryHelper.errorToByteArray(buffer)
+            DictionaryExt.undefValue -> DictionaryHelper.undefToByteArray(buffer)
+            DictionaryExt.nullValue -> throw Exception("invalid call")
+            else -> {
+                if (isLocal == ((value and ADictionary.flagLocal) == ADictionary.flagLocal)) {
                     if ((value and ADictionary.flagNoBNode) == ADictionary.flagNoBNode) {
                         val buf = dataI2V[value and ADictionary.maskValue]
                         buf.copyInto(buffer)
@@ -62,11 +62,11 @@ public class DictionaryInMemory : ADictionary {
                         SanityCheck.check { value >= 0 }
                         DictionaryHelper.bnodeToByteArray(buffer, value and ADictionary.maskValue)
                     }
-        } else {
-            nodeGlobalDictionary.getValue(buffer, value)
-        }
+                } else {
+                    nodeGlobalDictionary.getValue(buffer, value)
                 }
             }
+        }
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): Int {

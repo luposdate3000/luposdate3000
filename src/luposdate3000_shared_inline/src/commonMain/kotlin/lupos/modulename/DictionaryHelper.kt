@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.modulename
+
 import lupos.dictionary.DictionaryExt
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
@@ -805,8 +806,8 @@ internal object _DictionaryHelper {
 
     public inline fun byteArrayToType(buffer: ByteArrayWrapper): ETripleComponentType {
         val res = ByteArrayHelper.readInt4(buffer.getBuf(), 0)
-        SanityCheck.check ({ res >= 0 },{"$res"})
-        SanityCheck.check ({ res < ETripleComponentTypeExt.values_size },{"$res"})
+        SanityCheck.check({ res >= 0 }, { "$res" })
+        SanityCheck.check({ res < ETripleComponentTypeExt.values_size }, { "$res" })
         return res
     }
 

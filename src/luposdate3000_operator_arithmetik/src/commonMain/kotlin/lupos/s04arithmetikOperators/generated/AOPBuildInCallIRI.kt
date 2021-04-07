@@ -28,7 +28,7 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
-public class AOPBuildInCallIRI public constructor(query: IQuery, child0: AOPBase, @JvmField public var prefix: String,) : AOPBase(query, EOperatorIDExt.AOPBuildInCallIRIID, "AOPBuildInCallIRI", arrayOf(child0,)) {
+public class AOPBuildInCallIRI public constructor(query: IQuery, child0: AOPBase, @JvmField public var prefix: String, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallIRIID, "AOPBuildInCallIRI", arrayOf(child0, )) {
     override fun toSparql(): String = "IRI(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallIRI && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallIRI(query, children[0].cloneOP() as AOPBase, prefix)

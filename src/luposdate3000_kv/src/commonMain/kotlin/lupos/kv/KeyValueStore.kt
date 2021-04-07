@@ -188,18 +188,18 @@ public class KeyValueStore {
         action(resPage, resOff)
     }
 
-    public fun createValue(data: ByteArrayWrapper):Int {
+    public fun createValue(data: ByteArrayWrapper): Int {
         var res = 0
-                res = nextID++
-                rootPage.writeInt4(8, nextID)
-                writeData(data) { page, off ->
-                    if (res >= mappingID2Page.getSize()) {
-                        mappingID2Page.setSize(res + 1, false)
-                        mappingID2Off.setSize(res + 1, false)
-                    }
-                    mappingID2Page[res] = page
-                    mappingID2Off[res] = off
-                }
+        res = nextID++
+        rootPage.writeInt4(8, nextID)
+        writeData(data) { page, off ->
+            if (res >= mappingID2Page.getSize()) {
+                mappingID2Page.setSize(res + 1, false)
+                mappingID2Off.setSize(res + 1, false)
+            }
+            mappingID2Page[res] = page
+            mappingID2Off[res] = off
+        }
         return res
     }
 

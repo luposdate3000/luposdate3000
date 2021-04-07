@@ -66,7 +66,7 @@ public object EOptimizerIDHelper {
             EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID -> false
             EOptimizerIDExt.LogicalOptimizerDistinctUpID -> false
             EOptimizerIDExt.LogicalOptimizerStoreToValuesID -> true
-    EOptimizerIDExt.PhysicalOptimizerVisualisationID->true
+            EOptimizerIDExt.PhysicalOptimizerVisualisationID -> true
             else -> throw UnreachableException()
         }
     }
@@ -117,7 +117,7 @@ public object EOptimizerIDHelper {
             EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID -> false
             EOptimizerIDExt.LogicalOptimizerDistinctUpID -> true
             EOptimizerIDExt.LogicalOptimizerStoreToValuesID -> false
-EOptimizerIDExt.PhysicalOptimizerVisualisationID->true
+            EOptimizerIDExt.PhysicalOptimizerVisualisationID -> true
             else -> throw UnreachableException()
         }
     }

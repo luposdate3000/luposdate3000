@@ -88,11 +88,11 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         } else {
             usedGenerators[len]!!.add(seed)
         }
-var res=ByteArrayWrapper()
-res.setSize(len)
-for(i in 0 until len){
-res.getBuf()[i]=(i + seed).toByte()
-}
+        var res = ByteArrayWrapper()
+        res.setSize(len)
+        for (i in 0 until len) {
+            res.getBuf()[i] = (i + seed).toByte()
+        }
         action(res)
     }
 
@@ -107,10 +107,11 @@ res.getBuf()[i]=(i + seed).toByte()
             throw Exception("")
         }
     }
+
     fun testCreateValues(rng: Int) {
         var insertedData = mutableSetOf<ByteArrayWrapper>()
         val maxlen = hasNextRandom() / 2
-        if (maxlen> 0) {
+        if (maxlen > 0) {
             for (i in 0 until (abs(rng % maxlen))) {
                 getNotExistingData(nextRandom()) { it ->
                     insertedData.add(it)
@@ -120,15 +121,15 @@ res.getBuf()[i]=(i + seed).toByte()
             var i = 0
             vk.createValues(
                 hasNext = {
-                    i <toInsert.size
+                    i < toInsert.size
                 },
                 next = {
                     toInsert[i++]
                 },
                 value = { it ->
-if(values.contains(it)){
-throw Exception("")
-}
+                    if (values.contains(it)) {
+                        throw Exception("")
+                    }
                     values.add(it)
                     values.size - 1
                 }
@@ -176,7 +177,7 @@ throw Exception("")
         var counters = IntArray(values.size)
         while (iterator.hasNext()) {
             val id = iterator.next()
-            if (id <0) {
+            if (id < 0) {
                 throw Exception("")
             }
             if (id >= values.size) {
@@ -203,7 +204,7 @@ throw Exception("")
 
             2 -> getExistingData(rng) { v, k -> testHasValueExistingOk(v, k) }
             3 -> getNotExistingData(rng) { v -> testHasValueNotExistingOk(v) }
-4->testCreateValues(rng)
+            4 -> testCreateValues(rng)
         }
     }
     testAll()

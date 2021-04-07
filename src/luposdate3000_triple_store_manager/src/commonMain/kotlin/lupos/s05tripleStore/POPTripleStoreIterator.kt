@@ -70,9 +70,11 @@ public class POPTripleStoreIterator(
         return res
 // tripleStoreManager.getIndexFromXML(node["idx"])
     }
-public fun getIndexPattern():EIndexPattern{
-return tripleStoreIndexDescription.idx_set[0]
-}
+
+    public fun getIndexPattern(): EIndexPattern {
+        return tripleStoreIndexDescription.idx_set[0]
+    }
+
     override fun childrenToVerifyCount(): Int = 0
     public fun changeToIndexWithMaximumPartitions(max_partitions: Int?, column: String): Int {
         var partition_column = -1

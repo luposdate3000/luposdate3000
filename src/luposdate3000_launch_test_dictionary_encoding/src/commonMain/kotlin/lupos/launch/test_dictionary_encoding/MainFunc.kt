@@ -548,7 +548,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             while (year.startsWith("-0")) {
                 year = "-" + year.substring(2)
             }
-            if (year == ""||year=="-") {
+            if (year == "" || year == "-") {
                 year = "0"
             }
             val myseconds = BigDecimal.parseString(seconds, 10)

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.dictionary
+
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
@@ -122,6 +123,7 @@ public class DictionaryKV : ADictionary {
             }
         }
     }
+
     @Suppress("NOTHING_TO_INLINE")
     public override fun importFromDictionaryFile(filename: String): IntArray {
         var mymapping = IntArray(0)
@@ -140,13 +142,14 @@ public class DictionaryKV : ADictionary {
             }
             mymapping[id] = i
         }
+
         val buffer = ByteArrayWrapper()
         val reader = DictionaryIntermediateReader(filename)
         var ready = false
         var originalID = 0
         vk.createValues(
             hasNext = {
-                loop@while (!ready && reader.hasNext()) {
+                loop@ while (!ready && reader.hasNext()) {
                     reader.next(buffer) { id ->
                         originalID = id
                         ready = true
@@ -174,6 +177,7 @@ public class DictionaryKV : ADictionary {
         println("imported dictionary with $lastId items")
         return mymapping
     }
+
     public override fun hasValue(buffer: ByteArrayWrapper): Int? {
         val type = DictionaryHelper.byteArrayToType(buffer)
         SanityCheck.check { type != ETripleComponentTypeExt.BLANK_NODE }

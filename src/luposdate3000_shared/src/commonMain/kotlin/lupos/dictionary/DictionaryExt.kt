@@ -24,35 +24,35 @@ import lupos.s03resultRepresentation.ValueUndef
 import kotlin.jvm.JvmField
 
 public object DictionaryExt {
-    const public val booleanTrueValue :Int= (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
-    const public val booleanFalseValue :Int= (0x00000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
-    const public val errorValue :Int= (0x00000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
-    const public val undefValue :Int= (0x00000003) /*lowest 5 values*/
-    const public val nullValue :Int= (0x00000004) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
+    const public val booleanTrueValue: Int = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
+    const public val booleanFalseValue: Int = (0x00000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
+    const public val errorValue: Int = (0x00000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
+    const public val undefValue: Int = (0x00000003) /*lowest 5 values*/
+    const public val nullValue: Int = (0x00000004) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
 
     @JvmField
-    public val booleanTrueValue2 :ValueBoolean= ValueBoolean(true)
+    public val booleanTrueValue2: ValueBoolean = ValueBoolean(true)
 
     @JvmField
-    public val booleanFalseValue2 :ValueBoolean= ValueBoolean(false)
+    public val booleanFalseValue2: ValueBoolean = ValueBoolean(false)
 
     @JvmField
-    public val errorValue2 :ValueError= ValueError()
+    public val errorValue2: ValueError = ValueError()
 
     @JvmField
-    public val undefValue2 :ValueUndef= ValueUndef()
+    public val undefValue2: ValueUndef = ValueUndef()
 
     @JvmField
-    public val booleanTrueValue3 :ByteArrayWrapper= ByteArrayWrapper()
+    public val booleanTrueValue3: ByteArrayWrapper = ByteArrayWrapper()
 
     @JvmField
-    public val booleanFalseValue3 :ByteArrayWrapper= ByteArrayWrapper()
+    public val booleanFalseValue3: ByteArrayWrapper = ByteArrayWrapper()
 
     @JvmField
-    public val errorValue3 :ByteArrayWrapper= ByteArrayWrapper()
+    public val errorValue3: ByteArrayWrapper = ByteArrayWrapper()
 
     @JvmField
-    public val undefValue3 :ByteArrayWrapper= ByteArrayWrapper()
+    public val undefValue3: ByteArrayWrapper = ByteArrayWrapper()
 
     init {
         DictionaryHelper.booleanToByteArray(booleanTrueValue3, true)
