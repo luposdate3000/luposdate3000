@@ -16,7 +16,6 @@
  */
 import examplePackage.BenchmarkClass
 import examplePackage.ExampleClass
-import examplePackage.exampleVar_evaluate
 import lupos.launch.code_gen_example_kapt.mainFunc
 
 public fun main(args: Array<String>) {

@@ -246,7 +246,7 @@ public fun generatePOPJoinMerge(
                                         skipO0 += sipbuf[0]
                                         skip0++
                                         skipO0++
-                                        SanityCheck.check { key0${variablesJoin[0]} != (0x00000003) }
+                                        SanityCheck.check { key0${variablesJoin[0]} != (0x00000004) }
                                         if (key0${variablesJoin[0]} == (0x00000004)) {
                                             __close()
                                             break@loop
@@ -258,7 +258,7 @@ public fun generatePOPJoinMerge(
                                         skipO1 += sipbuf[0]
                                         skip1++
                                         skipO1++
-                                        SanityCheck.check { key1${variablesJoin[0]} != (0x00000003) }
+                                        SanityCheck.check { key1${variablesJoin[0]} != (0x00000004) }
                                         if (key1${variablesJoin[0]} == (0x00000004)) {
                                             __close()
                                             break@loop
@@ -291,7 +291,7 @@ public fun generatePOPJoinMerge(
             classes.println("                                    break@loop")
             classes.println("                                }")
         }
-        //classes.println("                               continue@loop") //CHANGED
+        classes.println("                               continue@loop") //CHANGED
         classes.println("                            }")
         classes.println("                            else if (key0$variable > key1$variable){")
         classes.println("                                skipO1++")
@@ -302,7 +302,7 @@ public fun generatePOPJoinMerge(
             classes.println("                                    break@loop")
             classes.println("                                }")
         }
-        //classes.println("                                continue@loop")
+        classes.println("                                continue@loop")
         classes.println("                            }")
     }
 
