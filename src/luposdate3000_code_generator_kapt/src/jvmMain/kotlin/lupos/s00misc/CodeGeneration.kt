@@ -83,15 +83,15 @@ public fun generateSourceCode(className: String,
         out.println("package $packageName")
         imports.forEach { out.println("import $it") }
         out.println()
-        out.println("public fun $className.${variableName}_evaluate() {")
+        out.println("public fun $className.${variableName}_evaluate(): String {")
         out.println()
         out.println("    val query = Query()")
         out.println("    val graph = tripleStoreManager.getGraph(\"\")")
         out.print(buffer.toString()) // Printing the code from the Buffer
         out.println("    val buf = MyPrintWriter(true)")
         out.println("    LuposdateEndpoint.evaluateOperatorgraphToResult(operator${preparedStatement.getUUID()}, buf)")
-        out.println("    println(\"-------------PRINTING RESULT FROM GENERATED CODE-------------\")")
-        out.println("    println(buf)")
+        //out.println("    println(\"-------------PRINTING RESULT FROM GENERATED CODE-------------\")")
+        out.println("    return buf.toString()")
         out.println("}")
         out.println(classes.toString())
         for (container in containers){
@@ -142,8 +142,8 @@ private fun writeOperatorGraph(
     }
     when (operatorGraph) {
         is POPJoinMerge -> {
-            generatePOPJoinMerge(operatorGraph, projectedVariables, buffer, imports, classes)
-            /*if(true) {
+            //generatePOPJoinMerge(operatorGraph, projectedVariables, buffer, imports, classes)
+            if(true) {
                 generatePOPJoinMerge(operatorGraph, projectedVariables, buffer, imports, classes)
             }
             else {
@@ -152,7 +152,7 @@ private fun writeOperatorGraph(
                     "operator${operatorGraph.children[1].getUUID()}, false)"
                 )
                 imports.add("lupos.s09physicalOperators.multiinput.POPJoinMerge")
-            }*/
+            }
         }
         is POPFilter -> {
             generatePOPFilter(operatorGraph, projectedVariables, buffer, imports, containers)
@@ -196,7 +196,7 @@ private fun writeOperatorGraph(
                 "arrayOf(operator${operatorGraph.children[0].getUUID()}," +
                 "operator${operatorGraph.children[1].getUUID()}," +
                 "operator${operatorGraph.children[2].getUUID()})," +
-                "EIndexPatternExt.${EIndexPatternExt.names[11]})")
+                "EIndexPatternExt.${EIndexPatternExt.names[operatorGraph.getIndexPattern()]})")
             /*buffer.println(
                 "    val operator${operatorGraph.uuid} = TripleStoreIteratorGlobal(query," +
                     "$projectedVariables,\"${operatorGraph.graphName}\"," +
