@@ -228,6 +228,98 @@ public fun generatePOPJoinMerge(
         }
     """
     )
+    classes.println("fun crossProduct(")
+    for (variable in variables0Only) {
+        classes.println("    dataO0$variable: IntArray,")
+    }
+    for (variable in variables1Only) {
+        classes.println("    dataO1$variable: IntArray,")
+    }
+    for (variable in variablesJoin) {
+        classes.println("    dataJ$variable: Int,")
+    }
+    for (variable in variables0Only) {
+        classes.println("    outO0$variable: ColumnIteratorChildIterator,")
+    }
+    for (variable in variables1Only) {
+        classes.println("    outO1$variable: ColumnIteratorChildIterator,")
+    }
+    for (variable in variablesJoinOut) {
+        classes.println("    outJ$variable: ColumnIteratorChildIterator,")
+    }
+    classes.println("    countA: Int,")
+    classes.println("    countB: Int")
+    classes.println("){")
+    classes.println("    val count = countA * countB")
+    classes.println("""
+        when {
+            count == 1 -> {""")
+    for (variable in variables0Only) {
+        classes.println("                outO0$variable.addChildColumnIteratorValue(dataO0$variable[0])")
+    }
+    for (variable in variables1Only) {
+        classes.println("                outO1$variable.addChildColumnIteratorValue(dataO1$variable[0])")
+    }
+    for (variable in variablesJoinOut) {
+        classes.println("                outJ$variable.addChildColumnIteratorValue(dataJ$variable)")
+    }
+    classes.println("""
+            }
+            count < 100 -> {""")
+    for (variable in variables0Only) {
+        classes.println("                val d$variable = IntArray(count)")
+        classes.println("                for (i in 0 until countA) {")
+        classes.println("                   val x = dataO0$variable[i]")
+        classes.println("                   for (j in 0 until countB) {")
+        classes.println("                       d$variable[j * countA + i] = x")
+        classes.println("                   }")
+        classes.println("                 }")
+        classes.println("                outO0$variable.addChild(ColumnIteratorMultiValue(d$variable, count))")
+    }
+    for (variable in variables1Only) {
+        classes.println("                val d$variable = IntArray(count)")
+        classes.println("                for (j in 0 until countB) {")
+        classes.println("                   val x = dataO1$variable[j]")
+        classes.println("                   for (i in 0 until countA) {")
+        classes.println("                       d$variable[j * countA + i] = x")
+        classes.println("                   }")
+        classes.println("                 }")
+        classes.println("                outO1$variable.addChild(ColumnIteratorMultiValue(d$variable, count))")
+    }
+    for (variable in variablesJoinOut) {
+        classes.println("                outJ$variable.addChild(ColumnIteratorRepeatValue(count, dataJ$variable))")
+    }
+    classes.println("""
+            }
+            else -> {""")
+    for (variable in variables0Only) {
+        classes.println("                val iterators$variable = mutableListOf<ColumnIterator>()")
+        classes.println("                for (i in 0 until countA) {")
+        classes.println("                   iterators$variable.add(ColumnIteratorRepeatValue(countB, dataO0$variable[i]))")
+        classes.println("                }")
+        classes.println("                if (iterators$variable.size == 1) {")
+        classes.println("                   outO0$variable.addChild(iterators$variable[0])")
+        classes.println("                }else{")
+        classes.println("                   outO0$variable.addChild(ColumnIteratorMultiIterator(iterators$variable))")
+        classes.println("                }")
+    }
+    for (variable in variables1Only) {
+        classes.println("                val d$variable = IntArray(countB) { dataO1$variable[it] }")
+        classes.println("                if (countA == 1) {")
+        classes.println("                   outO1$variable.addChild(ColumnIteratorMultiValue(d$variable, countB))")
+        classes.println("                } else{")
+        classes.println("                   outO1$variable.addChild(ColumnIteratorRepeatIterator(countA, ColumnIteratorMultiValue(d$variable, countB)))")
+        classes.println("                }")
+    }
+    for (variable in variablesJoinOut) {
+        classes.println("                outJ$variable.addChild(ColumnIteratorRepeatValue(count, dataJ$variable))")
+    }
+    classes.println("""
+            }
+        }
+    """
+    )
+    classes.println("}")
     classes.println(
         """
         override /*suspend*/ fun next(): Int {
@@ -246,7 +338,7 @@ public fun generatePOPJoinMerge(
                                         skipO0 += sipbuf[0]
                                         skip0++
                                         skipO0++
-                                        SanityCheck.check { key0${variablesJoin[0]} != (0x00000004) }
+                                        SanityCheck.check { key0${variablesJoin[0]} != (0x00000003) }
                                         if (key0${variablesJoin[0]} == (0x00000004)) {
                                             __close()
                                             break@loop
@@ -258,7 +350,7 @@ public fun generatePOPJoinMerge(
                                         skipO1 += sipbuf[0]
                                         skip1++
                                         skipO1++
-                                        SanityCheck.check { key1${variablesJoin[0]} != (0x00000004) }
+                                        SanityCheck.check { key1${variablesJoin[0]} != (0x00000003) }
                                         if (key1${variablesJoin[0]} == (0x00000004)) {
                                             __close()
                                             break@loop
@@ -267,7 +359,8 @@ public fun generatePOPJoinMerge(
                                 }
                                 if (skip0 > 0) {"""
     )
-    for (variable in variablesJoin) {
+    for (i in 1..variablesJoin.size-1) {
+        val variable = variablesJoin[i]
         classes.println("                                   key0$variable = columnsInJ0$variable.skipSIP(skip0)")
     }
     classes.println(
@@ -275,13 +368,15 @@ public fun generatePOPJoinMerge(
                                 }
                                 if (skip1 > 0) {"""
     )
-    for (variable in variablesJoin) {
+    for (i in 1..variablesJoin.size-1) {
+        val variable = variablesJoin[i]
         classes.println("                                   key1$variable = columnsInJ1$variable.skipSIP(skip1)")
     }
     classes.println("                                }")
     classes.println("                            }")
 
-    for (variable in variablesJoin) {
+    for (i in 1..variablesJoin.size-1) {
+        val variable = variablesJoin[i]
         classes.println("                            if (key0$variable < key1$variable) {")
         classes.println("                                skipO0++ ")
         for (variable2 in variablesJoin) {
@@ -554,99 +649,7 @@ public fun generatePOPJoinMerge(
     }
     classes.println("        return res")
     classes.println("    }")
-    classes.println("}")
 
-    classes.println("internal fun crossProduct(")
-    for (variable in variables0Only) {
-        classes.println("    dataO0$variable: IntArray,")
-    }
-    for (variable in variables1Only) {
-        classes.println("    dataO1$variable: IntArray,")
-    }
-    for (variable in variablesJoin) {
-        classes.println("    dataJ$variable: Int,")
-    }
-    for (variable in variables0Only) {
-        classes.println("    outO0$variable: ColumnIteratorChildIterator,")
-    }
-    for (variable in variables1Only) {
-        classes.println("    outO1$variable: ColumnIteratorChildIterator,")
-    }
-    for (variable in variablesJoinOut) {
-        classes.println("    outJ$variable: ColumnIteratorChildIterator,")
-    }
-    classes.println("    countA: Int,")
-    classes.println("    countB: Int")
-    classes.println("){")
-    classes.println("    val count = countA * countB")
-    classes.println("""
-        when {
-            count == 1 -> {""")
-    for (variable in variables0Only) {
-        classes.println("                outO0$variable.addChildColumnIteratorValue(dataO0$variable[0])")
-    }
-    for (variable in variables1Only) {
-        classes.println("                outO1$variable.addChildColumnIteratorValue(dataO1$variable[0])")
-    }
-    for (variable in variablesJoinOut) {
-        classes.println("                outJ$variable.addChildColumnIteratorValue(dataJ$variable)")
-    }
-    classes.println("""
-            }
-            count < 100 -> {""")
-    for (variable in variables0Only) {
-        classes.println("                val d$variable = IntArray(count)")
-        classes.println("                for (i in 0 until countA) {")
-        classes.println("                   val x = dataO0$variable[i]")
-        classes.println("                   for (j in 0 until countB) {")
-        classes.println("                       d$variable[j * countA + i] = x")
-        classes.println("                   }")
-        classes.println("                 }")
-        classes.println("                outO0$variable.addChild(ColumnIteratorMultiValue(d$variable, count))")
-    }
-    for (variable in variables1Only) {
-        classes.println("                val d$variable = IntArray(count)")
-        classes.println("                for (j in 0 until countB) {")
-        classes.println("                   val x = dataO1$variable[j]")
-        classes.println("                   for (i in 0 until countA) {")
-        classes.println("                       d$variable[j * countA + i] = x")
-        classes.println("                   }")
-        classes.println("                 }")
-        classes.println("                outO1$variable.addChild(ColumnIteratorMultiValue(d$variable, count))")
-    }
-    for (variable in variablesJoinOut) {
-        classes.println("                outJ$variable.addChild(ColumnIteratorRepeatValue(count, dataJ$variable))")
-    }
-    classes.println("""
-            }
-            else -> {""")
-    for (variable in variables0Only) {
-        classes.println("                val iterators$variable = mutableListOf<ColumnIterator>()")
-        classes.println("                for (i in 0 until countA) {")
-        classes.println("                   iterators$variable.add(ColumnIteratorRepeatValue(countB, dataO0$variable[i]))")
-        classes.println("                }")
-        classes.println("                if (iterators$variable.size == 1) {")
-        classes.println("                   outO0$variable.addChild(iterators$variable[0])")
-        classes.println("                }else{")
-        classes.println("                   outO0$variable.addChild(ColumnIteratorMultiIterator(iterators$variable))")
-        classes.println("                }")
-    }
-    for (variable in variables1Only) {
-        classes.println("                val d$variable = IntArray(countB) { dataO1$variable[it] }")
-        classes.println("                if (countA == 1) {")
-        classes.println("                   outO1$variable.addChild(ColumnIteratorMultiValue(d$variable, countB))")
-        classes.println("                } else{")
-        classes.println("                   outO1$variable.addChild(ColumnIteratorRepeatIterator(countA, ColumnIteratorMultiValue(d$variable, countB)))")
-        classes.println("                }")
-    }
-    for (variable in variablesJoinOut) {
-        classes.println("                outJ$variable.addChild(ColumnIteratorRepeatValue(count, dataJ$variable))")
-    }
-    classes.println("""
-            }
-        }
-    """
-    )
 
     classes.println("}")
 }
