@@ -114,6 +114,7 @@ class Device(
             availableLinks.add(link)
     }
 
+
     fun getAvailableLink(otherDevice: Device): Link? {
         for (link in availableLinks)
             if(link.destAddress == otherDevice.name)

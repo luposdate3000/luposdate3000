@@ -13,18 +13,9 @@ object Configuration {
     var entities: MutableList<Entity> = ArrayList()
         private set
 
-    var graph = Graph<String, ConnectionParameter>(arrayListOf())
-        private set
-
     var randNetAddresses: MutableMap<String, MutableList<String>> = HashMap()
         private set
 
-    private var connections: MutableList<Connection> = ArrayList()
-
-    private class Connection(
-        val src: String,
-        val dest: String,
-        val params: ConnectionParameter)
 
     fun parse(fileName: String) {
         resetVariables()
@@ -32,7 +23,6 @@ object Configuration {
         createFixedDevices()
         createFixedConnections()
         createRandomNetworks()
-        createGraph()
         createLinks()
     }
 
@@ -42,8 +32,6 @@ object Configuration {
         randNetAddresses = HashMap()
         entities = ArrayList()
         jsonObjects = JsonObjects()
-        connections = ArrayList()
-        graph = Graph(arrayListOf())
     }
 
 
@@ -102,7 +90,7 @@ object Configuration {
             val createdDevice = createDevice(sensorDeviceType, location, sensorDeviceName)
             addDevice(createdDevice.name, createdDevice)
             createdDevice.networkPrefix = device.name
-            createConnection(createdDevice, device, protocol)
+            //createConnection(createdDevice, device, protocol)
         }
 
 
@@ -118,22 +106,12 @@ object Configuration {
 
     private fun createFixedConnections() {
         for (fixedCon in jsonObjects.fixedConnection) {
-            val protocol = findProtocol(fixedCon.protocolType)
             val a = devices[fixedCon.endpointA]!!
             val b = devices[fixedCon.endpointB]!!
-            createConnection(a, b, protocol)
+            a.addAvailableLink(b)
+            b.addAvailableLink(a)
         }
 
-    }
-
-    private fun createConnection(src: Device, dest: Device, p: ProtocolType) {
-        val distance = src.getDistanceInMeters(dest);
-        val param = ConnectionParameter(
-            p.dataRateInKbps, p.rangeInMeters.toDouble(),
-            p.name, distance
-        )
-        val con = Connection(src.name, dest.name, param)
-        connections.add(con)
     }
 
 
@@ -198,14 +176,6 @@ object Configuration {
         return sensor
     }
 
-
-    private fun createGraph() {
-        val keyList = ArrayList(devices.keys)
-        graph = Graph(keyList)
-        for (con in connections) {
-            graph.addUndirectedEdge(con.src, con.dest, con.params)
-        }
-    }
 
 
     private fun createLinks() {

@@ -70,15 +70,13 @@ class ConfigurationTest {
     @ValueSource(strings = ["config/configOneFixedConnection.json"])
     fun `two devices have a connection`(fileName: String) {
         Configuration.parse(fileName)
-        val device2Address = "Fog1"
-        val device1Address = "Tower1"
-        val param1 = Configuration.graph.getEdge(device1Address, device2Address)
-        val param2 = Configuration.graph.getEdge(device2Address, device1Address)
-        Assertions.assertNotNull(param1)
-        Assertions.assertNotNull(param2)
-        Assertions.assertEquals(-1, param1!!.dataRateInKbps)
-        Assertions.assertEquals("WIRE", param2!!.protocolName)
-        Assertions.assertEquals(param1, param2)
+        val deviceAName = Configuration.jsonObjects.fixedConnection[0].endpointA
+        val deviceBName = Configuration.jsonObjects.fixedConnection[0].endpointB
+        val deviceA = Configuration.devices[deviceAName]!!
+        val deviceB = Configuration.devices[deviceBName]!!
+
+        Assertions.assertNotNull(deviceA.getAvailableLink(deviceB))
+        Assertions.assertNotNull(deviceB.getAvailableLink(deviceA))
     }
 
     @ParameterizedTest
