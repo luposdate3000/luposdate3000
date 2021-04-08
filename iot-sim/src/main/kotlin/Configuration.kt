@@ -26,7 +26,6 @@ object Configuration {
         createRandomStarNetworks()
     }
 
-
     private fun resetVariables() {
         devices = HashMap()
         randStarNetworks = HashMap()
@@ -103,15 +102,15 @@ object Configuration {
     private fun createDevice(deviceType: DeviceType, location: GeoLocation, name: String): Device {
         val powerSupply = PowerSupply(deviceType.powerCapacity)
         val application = createAppEntity(deviceType)
-        val protocols = createProtocols(deviceType)
-        val device = Device(powerSupply, location, name, application, null, protocols)
+        val linkTypes = createLinkTypes(deviceType)
+        val device = Device(powerSupply, location, name, application, null, linkTypes)
         val parkingSensor = createParkingSensor(deviceType, device)
         device.sensor = parkingSensor
         entities.add(device)
         return device
     }
 
-    private fun createProtocols(deviceType: DeviceType): Set<LinkType> {
+    private fun createLinkTypes(deviceType: DeviceType): Set<LinkType> {
         val result = mutableSetOf<LinkType>()
         for (name in deviceType.supportedLinkTypes) {
             val linkType = findProtocol(name)
@@ -124,13 +123,13 @@ object Configuration {
 
     private fun findDeviceType(typeName: String): DeviceType {
         val deviceType = jsonObjects.deviceType.find { typeName == it.name }
-        requireNotNull(deviceType, { "device type name $typeName does not exist" })
+        requireNotNull(deviceType) { "device type name $typeName does not exist" }
         return deviceType
     }
 
     private fun findProtocol(name: String): LinkType {
         val element = jsonObjects.linkType.find { name == it.name }
-        requireNotNull(element, { "protocol $name does not exist" })
+        requireNotNull(element) { "protocol $name does not exist" }
         return element
     }
 
