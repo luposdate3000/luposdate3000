@@ -32,7 +32,7 @@ internal actual class _MyInputStream(@JvmField internal val stream: InputStream)
     internal val uuid = uuidcounter++
 
     init {
-        println("MyInputStream $uuid open")
+        //println("MyInputStream $uuid open")
     }
 
     public actual override fun read(buf: ByteArray): Int {
@@ -73,15 +73,15 @@ internal actual class _MyInputStream(@JvmField internal val stream: InputStream)
     }
 
     public actual override fun readByte(): Byte {
-        println("MyInputStream $uuid readByte start")
+        //println("MyInputStream $uuid readByte start")
         read(buf4, 1)
-        println("MyInputStream $uuid readByte done ${(0xFF and buf4[0].toInt()).toString(16).padStart(2, '0')}")
+        //println("MyInputStream $uuid readByte done ${(0xFF and buf4[0].toInt()).toString(16).padStart(2, '0')}")
         return buf4[0]
     }
 
     public actual override fun close() {
         stream.close()
-        println("MyInputStream $uuid close")
+        //println("MyInputStream $uuid close")
     }
 
     public actual override fun readLine(): String? {
@@ -101,7 +101,7 @@ internal actual class _MyInputStream(@JvmField internal val stream: InputStream)
             }
         }
         val res = buf.toByteArray().decodeToString()
-        println("MyInputStream $uuid readLine '$res'")
+        //println("MyInputStream $uuid readLine '$res'")
         return res
     }
 }
