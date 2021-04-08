@@ -9,9 +9,6 @@ class Device(
     ) : Entity()
 {
     private var availableLinks: ArrayList<Link> = ArrayList()
-    var networkPrefix = ""
-    var isWSNGateway = false
-    var rank = 0
 
     class RouteRequest
 
@@ -24,18 +21,7 @@ class Device(
     }
 
     override fun startUpEntity() {
-        if (isWSNGateway) {
-            //TODO GetAvailableLinks
-            val addresses = Configuration.randNetAddresses[networkPrefix]
-            if (addresses != null) {
-                for (addr in addresses) {
-                    val destEntity = Configuration.devices[addr]!!
-/*                    val delay = getNetworkDelay(link)
-                    sendEvent(destEntity)*/
-                }
 
-            }
-        }
     }
 
     override fun processEvent(event: Event) {
@@ -93,11 +79,7 @@ class Device(
 //    }
 
     fun createLinkIfPossible(otherDevice: Device): Link? {
-
         if(otherDevice == this)
-            return null
-
-        if (networkPrefix != otherDevice.networkPrefix)
             return null
 
         val commonProtocols = protocols.intersect(otherDevice.protocols)

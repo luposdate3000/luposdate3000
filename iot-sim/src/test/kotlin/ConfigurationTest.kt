@@ -84,44 +84,24 @@ class ConfigurationTest {
     fun `count number of devices in random network`(fileName: String) {
         Configuration.parse(fileName)
         val devices = Configuration.devices
-        val randomStarNetwork = Configuration.jsonObjects.randomStarNetwork[0]
-        val numberOfFogDevice = 1
-        val numberOfEdgeDevice = randomStarNetwork.number
-        val numberOfSensorsPerDevice = randomStarNetwork.sensorsPerDevice.number
-        val numberOfSensorDevice = numberOfEdgeDevice * numberOfSensorsPerDevice
-        val totalNumber = numberOfFogDevice + numberOfEdgeDevice + numberOfSensorDevice
-        Assertions.assertEquals(totalNumber, devices.size)
+        val network = Configuration.jsonObjects.randomStarNetwork[0]
+        val starNet = Configuration.randStarNetworks[network.networkPrefix]!!
+        Assertions.assertEquals(1 + network.number, devices.size)
+        Assertions.assertEquals(network.number, starNet.childs.size)
     }
 
     @ParameterizedTest
     @ValueSource(strings = ["config/configOneRandomNetwork.json"])
-    fun `count addresses in random network by prefix`(fileName: String) {
+    fun `in star network every child is linked to root and vice versa`(fileName: String) {
         Configuration.parse(fileName)
-        val randomStarNetwork = Configuration.jsonObjects.randomStarNetwork[0]
-        val addresses: List<String> = Configuration.randNetAddresses[randomStarNetwork.networkPrefix]!!
-        Assertions.assertEquals(randomStarNetwork.number, addresses.size)
+        val networkPrefix = Configuration.jsonObjects.randomStarNetwork[0].networkPrefix
+        val starNet = Configuration.randStarNetworks[networkPrefix]!!
+        for(child in starNet.childs) {
+            Assertions.assertTrue(child.hasAvailAbleLink(starNet.parent))
+            Assertions.assertTrue(starNet.parent.hasAvailAbleLink(child))
+        }
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = ["config/configMultipleDevices.json"])
-    fun `multiple fixed and random network`(fileName: String) {
-        Configuration.parse(fileName)
-        val devices = Configuration.devices
-        val networkA = Configuration.jsonObjects.randomStarNetwork[0]
-        val networkB = Configuration.jsonObjects.randomStarNetwork[1]
-
-        val numGarageA = networkA.number
-        val numGarageASensors = networkA.sensorsPerDevice.number * numGarageA
-        val expectedEntitiesGarageA = numGarageA + numGarageASensors + 1
-
-        val numGarageB = networkB.number
-        val numGarageBSensors = networkB.sensorsPerDevice.number * numGarageB
-        val expectedEntitiesGarageB = numGarageB + numGarageBSensors + 1
-
-        val total = expectedEntitiesGarageA + expectedEntitiesGarageB
-        Assertions.assertEquals(total, devices.size)
-
-    }
 
     @ParameterizedTest
     @ValueSource(strings = ["config/configOneFixedConnection.json"])

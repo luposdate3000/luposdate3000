@@ -36,14 +36,9 @@
     {
       "networkPrefix": "garageA",
       "dataSink": "Fog1",
-      "type": "StandAloneParkingSensor",
-      "number": 2,
       "linkType": "WPAN",
-      "sensorsPerDevice": {
-        "number": 3,
-        "type": "StandAloneParkingSensor"
-      }
-
+      "deviceType": "StandAloneParkingSensor",
+      "number": 2
     }
   ]
 }

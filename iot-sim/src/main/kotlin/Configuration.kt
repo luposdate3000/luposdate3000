@@ -13,23 +13,23 @@ object Configuration {
     var entities: MutableList<Entity> = ArrayList()
         private set
 
-    var randNetAddresses: MutableMap<String, MutableList<String>> = HashMap()
+    var randStarNetworks: MutableMap<String, StarNetwork> = HashMap()
         private set
 
+    private const val delimiter = "_"
 
     fun parse(fileName: String) {
         resetVariables()
         readJsonFile(fileName)
         createFixedDevices()
         createFixedConnections()
-        createRandomNetworks()
-        createLinks()
+        createRandomStarNetworks()
     }
 
 
     private fun resetVariables() {
         devices = HashMap()
-        randNetAddresses = HashMap()
+        randStarNetworks = HashMap()
         entities = ArrayList()
         jsonObjects = JsonObjects()
     }
@@ -50,52 +50,34 @@ object Configuration {
         devices[key] = value
     }
 
-    private fun addNetAddresses(key: String, value: MutableList<String>) {
-        require(!randNetAddresses.contains(key))
-        randNetAddresses[key] = value
-    }
 
-    private fun createRandomNetworks() {
+    private fun createRandomStarNetworks() {
         for (network in jsonObjects.randomStarNetwork) {
-            createRandomNetwork(network)
+            createRandomStarNetwork(network)
         }
     }
 
-    private fun createRandomNetwork(network: RandomNetwork){
-        val dataSink = devices[network.dataSink]!!
-        dataSink.isWSNGateway = true
-        val addressList = arrayListOf<String>()
-        val deviceType = findDeviceType(network.type)
-        val protocol = findProtocol(network.linkType)
+    private fun createRandomStarNetwork(network: RandomStarNetwork){
+        val root = devices[network.dataSink]!!
+        val starNetwork = StarNetwork(root)
+        starNetwork.networkPrefix = network.networkPrefix
+        val deviceType = findDeviceType(network.deviceType)
+        val linkType = findProtocol(network.linkType)
         for (i in 1..network.number) {
-            val deviceName = network.networkPrefix + i.toString()
-            addressList.add(deviceName)
-            val location = GeoLocation.getRandomLocationInRadius(dataSink.location, protocol.rangeInMeters)
+            val deviceName = network.networkPrefix + delimiter + deviceType.name + delimiter + i.toString()
+            val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters)
             val createdDevice = createDevice(deviceType, location, deviceName)
-
             addDevice(createdDevice.name, createdDevice)
-            createdDevice.networkPrefix = network.networkPrefix
-            createSensors(network, createdDevice)
+            link(root, createdDevice)
+            starNetwork.childs.add(createdDevice)
         }
-        addNetAddresses(network.networkPrefix, addressList)
+        randStarNetworks[network.networkPrefix] = starNetwork
     }
 
-    private fun createSensors(network: RandomNetwork, device: Device) {
-        val numberOfSensors = network.sensorsPerDevice.number
-        val sensorDeviceType = findDeviceType(network.sensorsPerDevice.type)
-        val protocol = findProtocol(network.linkType)
-        for(i in 1..numberOfSensors) {
-            val sensorDeviceName = device.name + "Sensor" + i.toString()
-            val location = GeoLocation.getRandomLocationInRadius(device.location, protocol.rangeInMeters)
-            val createdDevice = createDevice(sensorDeviceType, location, sensorDeviceName)
-            addDevice(createdDevice.name, createdDevice)
-            createdDevice.networkPrefix = device.name
-            //createConnection(createdDevice, device, protocol)
-        }
-
-
+    private fun link(a: Device, b: Device) {
+        a.addAvailableLink(b)
+        b.addAvailableLink(a)
     }
-
 
     private fun createFixedDevices() {
         for (fixedDevice in jsonObjects.fixedDevices) {
@@ -108,13 +90,9 @@ object Configuration {
         for (fixedLink in jsonObjects.fixedLinks) {
             val a = devices[fixedLink.endpointA]!!
             val b = devices[fixedLink.endpointB]!!
-            a.addAvailableLink(b)
-            b.addAvailableLink(a)
+            link(a, b)
         }
-
     }
-
-
 
     private fun createFixedLocatedDevice(fixedDevices: FixedDevices): Device {
         val deviceType = findDeviceType(fixedDevices.deviceType)
@@ -174,17 +152,6 @@ object Configuration {
             entities.add(sensor)
         }
         return sensor
-    }
-
-
-
-    private fun createLinks() {
-        val allDevices = ArrayList(devices.values)
-        for(src in allDevices) {
-            for(dest in allDevices) {
-                src.addAvailableLink(dest)
-            }
-        }
     }
 
 

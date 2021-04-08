@@ -5,14 +5,6 @@ class DeviceTest {
 
 
     @Test
-    fun `two devices with within different networks are not linkable`() {
-        val deviceOne: Device = Stubs.createEmptyDevice()
-        deviceOne.networkPrefix = "A"
-        val deviceTwo: Device = Stubs.createEmptyDevice()
-        Assertions.assertNull(deviceOne.createLinkIfPossible(deviceTwo))
-    }
-
-    @Test
     fun `two devices with different protocols cannot link`() {
         val deviceOne: Device = Stubs.createEmptyDevice()
         val linkType = LinkType("X")
