@@ -49,22 +49,18 @@
   ],
   "fixedConnection": [
     {
-      "protocolType": "WIRE",
       "endpointA": "a",
       "endpointB": "b"
     },
     {
-      "protocolType": "WIRE",
       "endpointA": "a",
       "endpointB": "c"
     },
     {
-      "protocolType": "WIRE",
       "endpointA": "c",
       "endpointB": "e"
     },
     {
-      "protocolType": "WIRE",
       "endpointA": "c",
       "endpointB": "d"
     }

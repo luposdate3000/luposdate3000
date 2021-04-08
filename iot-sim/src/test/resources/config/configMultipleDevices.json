@@ -51,7 +51,6 @@
   ],
   "fixedConnection": [
     {
-      "protocolType": "WIFI",
       "endpointA": "Tower1",
       "endpointB": "Fog1"
     }

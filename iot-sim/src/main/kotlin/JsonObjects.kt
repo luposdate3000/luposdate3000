@@ -36,7 +36,6 @@ data class FixedDevices(
 
 @Serializable
 data class FixedConnection(
-    val protocolType: String = "",
     val endpointA: String = "",
     val endpointB: String = "",
 )
