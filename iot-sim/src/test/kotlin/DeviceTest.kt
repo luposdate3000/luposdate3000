@@ -15,14 +15,14 @@ class DeviceTest {
     @Test
     fun `two devices with different protocols cannot link`() {
         val deviceOne: Device = Stubs.createEmptyDevice()
-        val protocolType = ProtocolType("X")
-        val deviceTwo: Device = Stubs.createEmptyDevice(mutableSetOf(protocolType))
+        val linkType = LinkType("X")
+        val deviceTwo: Device = Stubs.createEmptyDevice(mutableSetOf(linkType))
         Assertions.assertNull(deviceOne.createLinkIfPossible(deviceTwo))
     }
 
     @Test
     fun `two devices are too far away to link`() {
-        val protocolX = ProtocolType("X", 50, 7 )
+        val protocolX = LinkType("X", 50, 7 )
         val deviceOne: Device = Stubs.createEmptyDevice(mutableSetOf(protocolX))
         deviceOne.location = GeoLocation.getRandom()
         val deviceTwo: Device = Stubs.createEmptyDevice(mutableSetOf(protocolX))
@@ -33,9 +33,9 @@ class DeviceTest {
 
     @Test
     fun `two devices link with most suitable protocol`() {
-        val protocolX = ProtocolType("X", 50, 7 )
-        val protocolY = ProtocolType("Y", 50, 8 )
-        val protocolZ = ProtocolType("Z", 48, 9 )
+        val protocolX = LinkType("X", 50, 7 )
+        val protocolY = LinkType("Y", 50, 8 )
+        val protocolZ = LinkType("Z", 48, 9 )
         val protocolSet = mutableSetOf(protocolX, protocolY, protocolZ)
         val deviceOne: Device = Stubs.createEmptyDevice(protocolSet)
         val deviceTwo: Device = Stubs.createEmptyDevice(protocolSet)
@@ -44,13 +44,13 @@ class DeviceTest {
         deviceTwo.location = GeoLocation.createNorthernLocation(deviceOne.location, distance)
         val result = deviceOne.createLinkIfPossible(deviceTwo)
         Assertions.assertNotNull(result)
-        Assertions.assertEquals(protocolY.name, result!!.protocolType.name)
+        Assertions.assertEquals(protocolY.name, result!!.linkType.name)
     }
 
 /*    @Test
     fun `there is no best link`() {
-        val protocolX = ProtocolType("X", 50, 7 )
-        val protocolY = ProtocolType("Y", 42, 70 )
+        val protocolX = LinkType("X", 50, 7 )
+        val protocolY = LinkType("Y", 42, 70 )
         val protocolSet = mutableSetOf(protocolX, protocolY)
         val selectingDevice: Device = Stubs.createEmptyDevice(protocolSet)
         selectingDevice.location = GeoLocation.getRandom()
@@ -62,15 +62,15 @@ class DeviceTest {
 
 //    @Test
 //    fun `one device is close enough but not linkable`() {
-//        val protocolX = ProtocolType("X", 50, 7 )
-//        val protocolY = ProtocolType("Y", 42, 70 )
+//        val protocolX = LinkType("X", 50, 7 )
+//        val protocolY = LinkType("Y", 42, 70 )
 //        val protocolSet = mutableSetOf(protocolX, protocolY)
 //        val selectingDevice: Device = Stubs.createEmptyDevice(protocolSet)
 //        selectingDevice.location = GeoLocation.getRandom()
 //
 //        val device1: Device = Stubs.createEmptyDevice(protocolSet)
 //        device1.location = GeoLocation.createNorthernLocation(selectingDevice.location, 53.0)
-//        val device2: Device = Stubs.createEmptyDevice(mutableSetOf(ProtocolType("something else")))
+//        val device2: Device = Stubs.createEmptyDevice(mutableSetOf(LinkType("something else")))
 //        device2.location = GeoLocation.createNorthernLocation(selectingDevice.location, 40.0)
 //
 //        val list = arrayListOf(device1, device2)
@@ -79,15 +79,15 @@ class DeviceTest {
 
 //    @Test
 //    fun `select the closest and linkable device`() {
-//        val protocolX = ProtocolType("X", 50, 7 )
-//        val protocolY = ProtocolType("Y", 42, 70 )
+//        val protocolX = LinkType("X", 50, 7 )
+//        val protocolY = LinkType("Y", 42, 70 )
 //        val protocolSet = mutableSetOf(protocolX, protocolY)
 //        val selectingDevice: Device = Stubs.createEmptyDevice(protocolSet)
 //        selectingDevice.location = GeoLocation.getRandom()
 //
 //        val device1: Device = Stubs.createEmptyDevice(protocolSet)
 //        device1.location = GeoLocation.createNorthernLocation(selectingDevice.location, 4.0)
-//        val device2: Device = Stubs.createEmptyDevice(mutableSetOf(ProtocolType("something else")))
+//        val device2: Device = Stubs.createEmptyDevice(mutableSetOf(LinkType("something else")))
 //        device2.location = GeoLocation.createNorthernLocation(selectingDevice.location, 0.0)
 //        val device3: Device = Stubs.createEmptyDevice(protocolSet)
 //        device3.location = GeoLocation.createNorthernLocation(selectingDevice.location, 5.0)
@@ -97,7 +97,7 @@ class DeviceTest {
 //        Assertions.assertNotNull(link)
 //        Assertions.assertEquals(selectingDevice.name, link!!.srcAddress)
 //        Assertions.assertEquals(device1.name, link.destAddress)
-//        Assertions.assertEquals("Y", link.protocolType.name)
+//        Assertions.assertEquals("Y", link.linkType.name)
 //        Assertions.assertEquals(4.0, round(link.distanceInMeters))
 //    }
 

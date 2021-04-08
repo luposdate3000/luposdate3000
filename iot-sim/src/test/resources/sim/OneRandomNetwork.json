@@ -1,5 +1,5 @@
 {
-  "protocolType": [
+  "linkType": [
     {
       "name": "WPAN",
       "rangeInMeters": 30,
@@ -12,14 +12,14 @@
       "application": true,
       "parkingSensor": false,
       "powerCapacity": -1.0,
-      "supportedProtocolTypes": ["WPAN"]
+      "supportedLinkTypes": ["WPAN"]
     },
     {
       "name": "StandAloneParkingSensor",
       "application": false,
       "parkingSensor": true,
       "powerCapacity": -1.0,
-      "supportedProtocolTypes": ["WPAN"]
+      "supportedLinkTypes": ["WPAN"]
     }
   ],
   "fixedDevices": [
@@ -38,7 +38,7 @@
       "dataSink": "Fog1",
       "type": "StandAloneParkingSensor",
       "number": 1,
-      "protocolType": "WPAN",
+      "linkType": "WPAN",
       "sensorsPerDevice": {
         "number": 0,
         "type": "StandAloneParkingSensor"

@@ -2,7 +2,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class JsonObjects(
-    val protocolType: List<ProtocolType> = arrayListOf(),
+    val linkType: List<LinkType> = arrayListOf(),
     val deviceType: List<DeviceType> = arrayListOf(),
     val fixedDevices: List<FixedDevices> = arrayListOf(),
     val fixedLinks: List<FixedLinks> = arrayListOf(),
@@ -10,7 +10,7 @@ data class JsonObjects(
 )
 
 @Serializable
-data class ProtocolType(
+data class LinkType(
     val name: String = "",
     val rangeInMeters: Int = 0,
     val dataRateInKbps: Int = 0,
@@ -22,7 +22,7 @@ data class DeviceType(
     val application: Boolean = false,
     val parkingSensor: Boolean = false,
     var powerCapacity: Double = -1.0,
-    val supportedProtocolTypes: List<String> = arrayListOf(),
+    val supportedLinkTypes: List<String> = arrayListOf(),
 )
 
 
@@ -46,7 +46,7 @@ data class RandomNetwork(
     val dataSink: String = "",
     val type: String = "",
     val number: Int = 0,
-    val protocolType: String = "",
+    val linkType: String = "",
     val sensorsPerDevice: SensorsPerDevice = SensorsPerDevice()
 )
 

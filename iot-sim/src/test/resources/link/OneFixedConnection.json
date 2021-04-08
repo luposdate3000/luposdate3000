@@ -1,5 +1,5 @@
 {
-  "protocolType": [
+  "linkType": [
     {
       "name": "WIRE",
       "rangeInMeters": -1,
@@ -12,14 +12,14 @@
       "application": true,
       "parkingSensor": true,
       "powerCapacity": "70.0",
-      "supportedProtocolTypes": ["WIRE"]
+      "supportedLinkTypes": ["WIRE"]
     },
     {
       "name": "Fog",
       "application": true,
       "parkingSensor": false,
       "powerCapacity": -1.0,
-      "supportedProtocolTypes": ["WIRE"]
+      "supportedLinkTypes": ["WIRE"]
     }
   ],
   "fixedDevices": [

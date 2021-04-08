@@ -11,7 +11,7 @@ class ParkingSensorTest {
 //        var eventProcessedAt= 0.0
 //        val expectedProcessCounter = 2
 //        val power = Power(100.0, 1.0)
-//        val protocol = ProtocolType()
+//        val protocol = LinkType()
 //        val dataRate = 60
 //        val sensor = ParkingSensor(power, protocol, dataRate)
 //

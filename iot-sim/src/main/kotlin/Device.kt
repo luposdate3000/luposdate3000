@@ -5,7 +5,7 @@ class Device(
     val name: String,
     val application: Entity?,
     var sensor: ParkingSensor?,
-    val protocols: Set<ProtocolType>
+    val protocols: Set<LinkType>
     ) : Entity()
 {
     private var availableLinks: ArrayList<Link> = ArrayList()
@@ -63,8 +63,8 @@ class Device(
         = location.getDistanceInMeters(otherDevice.location)
 
 
-    private fun selectBestFitProtocol(protocols: Set<ProtocolType>, distance: Double): ProtocolType? {
-        val comparator = compareByDescending<ProtocolType> { it.dataRateInKbps }
+    private fun selectBestFitProtocol(protocols: Set<LinkType>, distance: Double): LinkType? {
+        val comparator = compareByDescending<LinkType> { it.dataRateInKbps }
         val sorted = protocols.asSequence().sortedWith(comparator)
         for (protocol in sorted) {
             if(distance <= protocol.rangeInMeters)
@@ -76,15 +76,15 @@ class Device(
 //    fun selectBestLink(otherDevices: List<Device>): Link? {
 //        var bestFit: Link? = null
 //        for (device in otherDevices) {
-//            val protocolType = getLink(device)
-//            if(protocolType!= null) {
+//            val linkType = getLink(device)
+//            if(linkType!= null) {
 //                val distance = getDistanceInMeters(device)
 //                if (bestFit == null) {
-//                    bestFit = Link(name, device.name, distance, protocolType)
+//                    bestFit = Link(name, device.name, distance, linkType)
 //                }
 //                else {
 //                    if(distance < bestFit.distanceInMeters) {
-//                        bestFit = Link(name, device.name, distance, protocolType)
+//                        bestFit = Link(name, device.name, distance, linkType)
 //                    }
 //                }
 //            }

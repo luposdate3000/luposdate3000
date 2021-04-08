@@ -66,7 +66,7 @@ object Configuration {
         dataSink.isWSNGateway = true
         val addressList = arrayListOf<String>()
         val deviceType = findDeviceType(network.type)
-        val protocol = findProtocol(network.protocolType)
+        val protocol = findProtocol(network.linkType)
         for (i in 1..network.number) {
             val deviceName = network.networkPrefix + i.toString()
             addressList.add(deviceName)
@@ -83,7 +83,7 @@ object Configuration {
     private fun createSensors(network: RandomNetwork, device: Device) {
         val numberOfSensors = network.sensorsPerDevice.number
         val sensorDeviceType = findDeviceType(network.sensorsPerDevice.type)
-        val protocol = findProtocol(network.protocolType)
+        val protocol = findProtocol(network.linkType)
         for(i in 1..numberOfSensors) {
             val sensorDeviceName = device.name + "Sensor" + i.toString()
             val location = GeoLocation.getRandomLocationInRadius(device.location, protocol.rangeInMeters)
@@ -133,11 +133,11 @@ object Configuration {
         return device
     }
 
-    private fun createProtocols(deviceType: DeviceType): Set<ProtocolType> {
-        val result = mutableSetOf<ProtocolType>()
-        for (name in deviceType.supportedProtocolTypes) {
-            val protocolType = findProtocol(name)
-            result.add(protocolType)
+    private fun createProtocols(deviceType: DeviceType): Set<LinkType> {
+        val result = mutableSetOf<LinkType>()
+        for (name in deviceType.supportedLinkTypes) {
+            val linkType = findProtocol(name)
+            result.add(linkType)
         }
         return result
     }
@@ -150,8 +150,8 @@ object Configuration {
         return deviceType
     }
 
-    private fun findProtocol(name: String): ProtocolType {
-        val element = jsonObjects.protocolType.find { name == it.name }
+    private fun findProtocol(name: String): LinkType {
+        val element = jsonObjects.linkType.find { name == it.name }
         requireNotNull(element, { "protocol $name does not exist" })
         return element
     }
