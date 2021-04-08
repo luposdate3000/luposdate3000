@@ -33,8 +33,8 @@ class SimulationConfigurationTest {
     @ValueSource(strings = ["sim/OneRandomNetwork.json"])
     fun `wsn gateway start flooding`(fileName: String) {
         Configuration.parse(fileName)
-        val randomNetwork = Configuration.jsonObjects.randomNetwork[0]
-        val gateway = Configuration.devices[randomNetwork.dataSink]!!
+        val randomStarNetwork = Configuration.jsonObjects.randomStarNetwork[0]
+        val gateway = Configuration.devices[randomStarNetwork.dataSink]!!
         Simulation.initialize(Configuration.entities)
         val endClock = Simulation.runSimulation()
         Assertions.assertEquals(0, gateway.rank)

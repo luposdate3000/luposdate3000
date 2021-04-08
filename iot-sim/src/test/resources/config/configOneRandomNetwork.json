@@ -32,7 +32,7 @@
   ],
   "fixedLinks": [
   ],
-  "randomNetwork": [
+  "randomStarNetwork": [
     {
       "networkPrefix": "garageA",
       "dataSink": "Fog1",

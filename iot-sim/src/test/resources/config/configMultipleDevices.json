@@ -55,7 +55,7 @@
       "endpointB": "Fog1"
     }
   ],
-  "randomNetwork": [
+  "randomStarNetwork": [
     {
       "networkPrefix": "garageA",
       "dataSink": "Fog1",

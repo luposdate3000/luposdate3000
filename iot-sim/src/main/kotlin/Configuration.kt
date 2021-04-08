@@ -56,7 +56,7 @@ object Configuration {
     }
 
     private fun createRandomNetworks() {
-        for (network in jsonObjects.randomNetwork) {
+        for (network in jsonObjects.randomStarNetwork) {
             createRandomNetwork(network)
         }
     }

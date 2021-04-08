@@ -84,10 +84,10 @@ class ConfigurationTest {
     fun `count number of devices in random network`(fileName: String) {
         Configuration.parse(fileName)
         val devices = Configuration.devices
-        val randomNetwork = Configuration.jsonObjects.randomNetwork[0]
+        val randomStarNetwork = Configuration.jsonObjects.randomStarNetwork[0]
         val numberOfFogDevice = 1
-        val numberOfEdgeDevice = randomNetwork.number
-        val numberOfSensorsPerDevice = randomNetwork.sensorsPerDevice.number
+        val numberOfEdgeDevice = randomStarNetwork.number
+        val numberOfSensorsPerDevice = randomStarNetwork.sensorsPerDevice.number
         val numberOfSensorDevice = numberOfEdgeDevice * numberOfSensorsPerDevice
         val totalNumber = numberOfFogDevice + numberOfEdgeDevice + numberOfSensorDevice
         Assertions.assertEquals(totalNumber, devices.size)
@@ -97,9 +97,9 @@ class ConfigurationTest {
     @ValueSource(strings = ["config/configOneRandomNetwork.json"])
     fun `count addresses in random network by prefix`(fileName: String) {
         Configuration.parse(fileName)
-        val randomNetwork = Configuration.jsonObjects.randomNetwork[0]
-        val addresses: List<String> = Configuration.randNetAddresses[randomNetwork.networkPrefix]!!
-        Assertions.assertEquals(randomNetwork.number, addresses.size)
+        val randomStarNetwork = Configuration.jsonObjects.randomStarNetwork[0]
+        val addresses: List<String> = Configuration.randNetAddresses[randomStarNetwork.networkPrefix]!!
+        Assertions.assertEquals(randomStarNetwork.number, addresses.size)
     }
 
     @ParameterizedTest
@@ -107,8 +107,8 @@ class ConfigurationTest {
     fun `multiple fixed and random network`(fileName: String) {
         Configuration.parse(fileName)
         val devices = Configuration.devices
-        val networkA = Configuration.jsonObjects.randomNetwork[0]
-        val networkB = Configuration.jsonObjects.randomNetwork[1]
+        val networkA = Configuration.jsonObjects.randomStarNetwork[0]
+        val networkB = Configuration.jsonObjects.randomStarNetwork[1]
 
         val numGarageA = networkA.number
         val numGarageASensors = networkA.sensorsPerDevice.number * numGarageA
