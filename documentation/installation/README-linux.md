@@ -16,16 +16,15 @@ git config --global http.sslVerify false
 git config --global credential.helper store
 git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
 
-#Lets safe the cloned directory path in a variable such that we can refer to this later in the documentation.
-luposdate3000home=$(echo "$(pwd)/luposdate3000" | sed "s-luposdate3000.*-luposdate3000/-g")
-
 #Define the folder, where to download everything else.
 dependencieshome=/opt
 
 #Now the components are installed one by one.
 
-#kotlin
+#kotlin (optional)
 {
+    # the default settings use an precompiled-compiler from maven-repository
+
     # Compile from source to get a up to date version - not every version in their githup compiles, but the following should work.
     cd $dependencieshome
     git clone https://github.com/JetBrains/kotlin.git
@@ -42,7 +41,16 @@ dependencieshome=/opt
     ln -s $dependencieshome/kotlin/dist/kotlinc/bin/kotlinc /bin/kotlinc
     ln -s $dependencieshome/kotlin/dist/kotlinc/bin/kotlin /bin/kotlin
 }
-#intellij
+#bignum
+{
+    cd $dependencieshome
+    git clone https://github.com/ionspin/kotlin-multiplatform-bignum.git
+    cd bignum
+    #patch the buildfile
+    sed 's/it.compileKotlinTask.kotlinOptions.moduleKind = "commonjs"//g' -i build.gradle.kts
+    gradle publishToMavenLocal
+}
+#intellij (optional)
 {
     cd $dependencieshome
     wget https://download.jetbrains.com/idea/ideaIC-2020.1.2.tar.gz
@@ -53,7 +61,7 @@ dependencieshome=/opt
     # intellij needs to be launched once to confirm basic settings.
     # During the above installations, the gui is installed anyway.
 }
-#intellij ... alternatively build it from source
+#intellij ... alternatively build it from source (optional)
 {
     cd $dependencieshome
     git clone --depth=1 https://github.com/JetBrains/intellij-community
@@ -62,8 +70,9 @@ dependencieshome=/opt
     ./getPlugins.sh
     ant build
 }
-#ktlint
+#ktlint (optional)
 {
+    # used to format source code
     curl -sSLO https://github.com/pinterest/ktlint/releases/download/0.40.0/ktlint
     chmod a+x ktlint
     mv ktlint /usr/local/bin/

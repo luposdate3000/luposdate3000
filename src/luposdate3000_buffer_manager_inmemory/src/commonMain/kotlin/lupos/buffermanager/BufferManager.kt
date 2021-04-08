@@ -136,7 +136,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
         return pageid
     }
 
-    public /*suspend*/ fun createPage(call_location: String, action: (BufferManagerPage, Int) -> Unit): Unit = lock.withWriteLock {
+    public /*suspend*/ fun createPage(call_location: String, action: (BufferManagerPage, Int) -> Unit) {
         val pageid = allocPage(call_location)
         allPagesRefcounters[pageid]++
         SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $call_location" }

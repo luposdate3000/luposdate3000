@@ -1,3 +1,4 @@
-com.ionspin.kotlin:bignum:0.2.8
+com.ionspin.kotlin:bignum:0.3.0-SNAPSHOT
 luposdate3000:Luposdate3000_Buffer_Manager_Inmemory:0.0.1
 luposdate3000:Luposdate3000_KV:0.0.1
+luposdate3000:Luposdate3000_VK:0.0.1

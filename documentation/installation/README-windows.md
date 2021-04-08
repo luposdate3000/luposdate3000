@@ -29,45 +29,6 @@ make sure your new java path is on top of that list, such that your wanted java 
 click "ok" on every window (3 times)
 restart gitbash, if it is already open
 
-## inside of gitbash:
-
-```gitbash
-export myPathBackup=$PATH
-git clone https://github.com/JetBrains/kotlin.git
-cd kotlin
-#you may test the head commit first, but this commit works for me
-git checkout 67b262aa3435c3fd15e1224bfd6a50a0f008d2f3
-#interestingly here the environment variables do effect the used jdk ...
-export JAVA_HOME="C:\Program Files\Java\jdk1.8.0_271"
-export JDK_16="C:\Program Files\Java\jdk1.8.0_271"
-export JDK_17="C:\Program Files\Java\jdk1.8.0_271"
-export JDK_18="C:\Program Files\Java\jdk1.8.0_271"
-export JDK_9="C:\Users\benja\luposdate\jdk-15.0.1"
-./gradlew install
-./gradlew dist
-export PATH="$myPathBackup"
-```
-
-##copy the kotlin binaries into the bin folder of your gitbash installation.
-In my case that means copy the content of the folder "C:\Users\benja\luposdate\kotlin\dist\kotlinc\bin" into the folder "C:\Program Files\Git\usr\bin"
-In my case that means copy the content of the folder "C:\Users\benja\luposdate\kotlin\dist\kotlinc\lib" into the folder "C:\Program Files\Git\usr\lib"
-This cannot be done inside gitbash, because that folder is mounted as readonly.
-
-
-## add kotlin compiler to the path
-open start-search
-type "env"
-open the suggested program
-click on "environment-variables"
-in the system variables select the row with the variable name "Path"
-below the system variables click on "change"
-click on "new"
-add the path to the kotlin-compiler The compiler is located in a subfolder of your cloned kotlin repository.
-In my case it is "C:\Users\benja\luposdate\kotlin\dist\kotlinc\bin"
-click "ok"
-additionally create a new environment variable named "KOTLIN_HOME" and let it point to "C:\Users\benja\luposdate\kotlin\dist\kotlinc"
-click "ok" on every window (2 times)
-
 ##enable windows long file paths (more than 260 chars)
 open start-search
 type "regedit"
@@ -92,4 +53,13 @@ git config --system core.longpaths true
 git config --global credential.helper store
 
 git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
+
+#install bignum
+{ 
+    git clone https://github.com/ionspin/kotlin-multiplatform-bignum.git
+    cd bignum
+    #patch the buildfile to make it executable as JS in Browsers
+    sed 's/it.compileKotlinTask.kotlinOptions.moduleKind = "commonjs"//g' -i build.gradle.kts
+    gradle publishToMavenLocal
+}
 ```

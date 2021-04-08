@@ -1218,6 +1218,7 @@ fun onSetupJS() {
             if (s.endsWith(".js")) {
                 out.println("    <script src=\"$s\"></script>")
             } else if (s.endsWith(".jar")) {
+                println(s)
                 val f = JarFile(File(s))
                 for (e in f.entries()) {
                     val name = e.getName()
