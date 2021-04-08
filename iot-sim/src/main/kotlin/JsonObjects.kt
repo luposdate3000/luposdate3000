@@ -5,7 +5,7 @@ data class JsonObjects(
     val protocolType: List<ProtocolType> = arrayListOf(),
     val deviceType: List<DeviceType> = arrayListOf(),
     val fixedDevices: List<FixedDevices> = arrayListOf(),
-    val fixedConnection: List<FixedConnection> = arrayListOf(),
+    val fixedLinks: List<FixedLinks> = arrayListOf(),
     val randomNetwork: List<RandomNetwork> = arrayListOf(),
 )
 
@@ -35,7 +35,7 @@ data class FixedDevices(
 )
 
 @Serializable
-data class FixedConnection(
+data class FixedLinks(
     val endpointA: String = "",
     val endpointB: String = "",
 )

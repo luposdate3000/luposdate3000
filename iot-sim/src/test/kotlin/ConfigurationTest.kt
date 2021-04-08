@@ -70,8 +70,8 @@ class ConfigurationTest {
     @ValueSource(strings = ["config/configOneFixedConnection.json"])
     fun `two devices have a connection`(fileName: String) {
         Configuration.parse(fileName)
-        val deviceAName = Configuration.jsonObjects.fixedConnection[0].endpointA
-        val deviceBName = Configuration.jsonObjects.fixedConnection[0].endpointB
+        val deviceAName = Configuration.jsonObjects.fixedLinks[0].endpointA
+        val deviceBName = Configuration.jsonObjects.fixedLinks[0].endpointB
         val deviceA = Configuration.devices[deviceAName]!!
         val deviceB = Configuration.devices[deviceBName]!!
 

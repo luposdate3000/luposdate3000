@@ -36,7 +36,7 @@
       "longitude": 9.0
     }
   ],
-  "fixedConnection": [
+  "fixedLinks": [
     {
       "endpointA": "Tower1",
       "endpointB": "Fog1"

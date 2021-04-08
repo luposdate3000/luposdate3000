@@ -105,9 +105,9 @@ object Configuration {
     }
 
     private fun createFixedConnections() {
-        for (fixedCon in jsonObjects.fixedConnection) {
-            val a = devices[fixedCon.endpointA]!!
-            val b = devices[fixedCon.endpointB]!!
+        for (fixedLink in jsonObjects.fixedLinks) {
+            val a = devices[fixedLink.endpointA]!!
+            val b = devices[fixedLink.endpointB]!!
             a.addAvailableLink(b)
             b.addAvailableLink(a)
         }
