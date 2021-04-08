@@ -16,12 +16,6 @@
  */
 package lupos.s05tripleStore
 
-import lupos.s00misc.EIndexPatternHelper
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.noinput.IAOPConstant
 import lupos.s04arithmetikOperators.noinput.IAOPVariable
@@ -30,6 +24,8 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
+import lupos.s00misc.*
+import lupos.s00misc.SanityCheck
 
 public class POPTripleStoreIterator(
     query: IQuery,
@@ -58,6 +54,10 @@ public class POPTripleStoreIterator(
             }
         }
         return res
+    }
+
+    public fun getIndexPattern(): EIndexPattern{
+        return (tripleStoreIndexDescription as TripleStoreIndexDescription).idx_set[0]
     }
 
     override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement {
