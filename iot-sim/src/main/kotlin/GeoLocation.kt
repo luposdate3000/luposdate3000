@@ -2,6 +2,7 @@ import com.javadocmd.simplelatlng.LatLng
 import com.javadocmd.simplelatlng.LatLngTool
 import com.javadocmd.simplelatlng.util.LengthUnit
 import kotlin.math.cos
+import kotlin.math.round
 import kotlin.math.sin
 import kotlin.math.sqrt
 
@@ -46,10 +47,13 @@ class GeoLocation(var latitude: Double, var longitude: Double) {
 
     }
 
-    fun getDistanceInMeters(other: GeoLocation)
-        = LatLngTool.distance(
-        LatLng(latitude, longitude),
-        LatLng(other.latitude, other.longitude), LengthUnit.METER)
+    fun getDistanceInMeters(other: GeoLocation): Int {
+        val distance = LatLngTool.distance(
+                            LatLng(latitude, longitude),
+                            LatLng(other.latitude, other.longitude), LengthUnit.METER)
+        return round(distance).toInt()
+    }
+
 
     override fun equals(other: Any?): Boolean {
         if (other === this)

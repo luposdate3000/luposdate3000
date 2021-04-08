@@ -146,7 +146,7 @@ object Configuration {
     private fun createParkingSensor(deviceType: DeviceType, device: Device): ParkingSensor? {
         var sensor: ParkingSensor? = null
         if(deviceType.parkingSensor) {
-            val name = device.name + "_ParkingSensor"
+            val name = device.name + delimiter + "Sensor"
             sensor = ParkingSensor(name, device)
             entities.add(sensor)
         }

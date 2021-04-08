@@ -49,7 +49,7 @@ class Device(
         = location.getDistanceInMeters(otherDevice.location)
 
 
-    private fun selectBestFitProtocol(protocols: Set<LinkType>, distance: Double): LinkType? {
+    private fun selectBestFitProtocol(protocols: Set<LinkType>, distance: Int): LinkType? {
         val comparator = compareByDescending<LinkType> { it.dataRateInKbps }
         val sorted = protocols.asSequence().sortedWith(comparator)
         for (protocol in sorted) {
