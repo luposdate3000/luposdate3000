@@ -267,7 +267,7 @@ internal class ValueKeyStoreWriter {
         write(ValueKeyStore.PAGEID_NULL_PTR, id, buffer)
     }
 
-    internal inline fun write(childPageID: Int, id: Int, buffer: ByteArrayWrapper) {
+    internal fun write(childPageID: Int, id: Int, buffer: ByteArrayWrapper) {
         write(childPageID, id, buffer) {
             if (parentLayer == null) {
                 parentLayer = ValueKeyStoreWriter(bufferManager, ValueKeyStore.PAGE_TYPE_INNER, firstLeafID)

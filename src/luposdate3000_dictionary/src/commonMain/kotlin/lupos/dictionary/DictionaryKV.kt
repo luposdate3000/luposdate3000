@@ -131,6 +131,9 @@ public class DictionaryKV : ADictionary {
         fun addEntry(id: Int, i: Int) {
             SanityCheck.check { lastId == id - 1 }
             lastId = id
+            if (lastId % 10000 == 0) {
+                println("imported $lastId dictionaryItems")
+            }
             if (mymapping.size <= id) {
                 var newSize = 1
                 while (newSize <= id) {

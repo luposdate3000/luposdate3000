@@ -24,6 +24,17 @@ import kotlin.jvm.JvmField
 internal actual class _MyInputStream(@JvmField internal val stream: InputStream) : IMyInputStream {
     @JvmField
     internal val buf4: ByteArray = ByteArray(4)
+
+    internal companion object {
+        internal var uuidcounter = 0
+    }
+
+    internal val uuid = uuidcounter++
+
+    init {
+        println("MyInputStream $uuid open")
+    }
+
     public actual override fun read(buf: ByteArray): Int {
         return read(buf, buf.size)
     }
@@ -62,12 +73,15 @@ internal actual class _MyInputStream(@JvmField internal val stream: InputStream)
     }
 
     public actual override fun readByte(): Byte {
+        println("MyInputStream $uuid readByte start")
         read(buf4, 1)
+        println("MyInputStream $uuid readByte done ${(0xFF and buf4[0].toInt()).toString(16).padStart(2, '0')}")
         return buf4[0]
     }
 
     public actual override fun close() {
         stream.close()
+        println("MyInputStream $uuid close")
     }
 
     public actual override fun readLine(): String? {
@@ -86,6 +100,8 @@ internal actual class _MyInputStream(@JvmField internal val stream: InputStream)
                 return null
             }
         }
-        return buf.toByteArray().decodeToString()
+        val res = buf.toByteArray().decodeToString()
+        println("MyInputStream $uuid readLine '$res'")
+        return res
     }
 }

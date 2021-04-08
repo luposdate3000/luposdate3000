@@ -40,10 +40,10 @@ enum class IntellijMode {
     Enable, Disable
 }
 
-// var compilerVersion = "1.5.255-SNAPSHOT"
+var compilerVersion = "1.5.255-SNAPSHOT"
 
 // var compilerVersion = "1.4.255-SNAPSHOT"
-var compilerVersion = "1.4.0"
+//var compilerVersion = "1.4.0"
 val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
 private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, appendix: String, out: PrintWriter) {
     for (d in dependencies) {
@@ -520,7 +520,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("    jvm {")
                     out.println("        compilations.forEach{")
                     out.println("            it.kotlinOptions {")
-                    out.println("                jvmTarget= \"1.8\"")
+                    out.println("                jvmTarget= \"14\"")
                     out.println("                useIR = true")
                     out.println("                freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
                     out.println("                freeCompilerArgs += \"-Xno-param-assertions\"")
