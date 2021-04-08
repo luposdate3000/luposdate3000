@@ -61,4 +61,10 @@ class GeoLocation(var latitude: Double, var longitude: Double) {
         return latitude == other.latitude && longitude == other.longitude
     }
 
+    override fun hashCode(): Int {
+        var result = latitude.hashCode()
+        result = 31 * result + longitude.hashCode()
+        return result
+    }
+
 }

@@ -1,4 +1,4 @@
-import com.javadocmd.simplelatlng.LatLng
+
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 
@@ -33,6 +33,7 @@ object Configuration {
         createFixedConnections()
         createRandomNetworks()
         createGraph()
+        createLinks()
     }
 
 
@@ -207,6 +208,14 @@ object Configuration {
     }
 
 
+    private fun createLinks() {
+        val allDevices = ArrayList(devices.values)
+        for(src in allDevices) {
+            for(dest in allDevices) {
+                src.addAvailableLink(dest)
+            }
+        }
+    }
 
 
 

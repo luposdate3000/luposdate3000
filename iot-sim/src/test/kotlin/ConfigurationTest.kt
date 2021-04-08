@@ -105,18 +105,6 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/configOneRandomNetwork.json"])
-    fun `count number of links in random network`(fileName: String) {
-        Configuration.parse(fileName)
-        val randomNetwork = Configuration.jsonObjects.randomNetwork[0]
-        val numberOfEdgeDevice = randomNetwork.number
-        val numberOfSensorsPerDevice = randomNetwork.sensorsPerDevice.number
-        val totalNumberOfLinks = numberOfEdgeDevice * numberOfSensorsPerDevice
-
-        Assertions.assertEquals(totalNumberOfLinks, Configuration.graph.getEdgeCount())
-    }
-
-    @ParameterizedTest
     @ValueSource(strings = ["config/configMultipleDevices.json"])
     fun `multiple fixed and random network`(fileName: String) {
         Configuration.parse(fileName)
@@ -135,6 +123,24 @@ class ConfigurationTest {
         val total = expectedEntitiesGarageA + expectedEntitiesGarageB
         Assertions.assertEquals(total, devices.size)
 
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["config/configOneFixedConnection.json"])
+    fun `check link between two fixed devices`(fileName: String) {
+        Configuration.parse(fileName)
+        val device1Address = Configuration.jsonObjects.fixedDevices[0].name
+        val device2Address = Configuration.jsonObjects.fixedDevices[1].name
+        val device1 = Configuration.devices[device1Address]!!
+        val device2 = Configuration.devices[device2Address]!!
+        val link1 = device1.getAvailableLink(device2)
+        val link2 = device2.getAvailableLink(device1)
+
+        Assertions.assertTrue(device1.hasAvailAbleLink(device2))
+        Assertions.assertTrue(device2.hasAvailAbleLink(device1))
+        Assertions.assertEquals(1, device1.numOfAvailAbleLinks())
+        Assertions.assertEquals(1, device2.numOfAvailAbleLinks())
+        Assertions.assertEquals(link1!!.distanceInMeters, link2!!.distanceInMeters)
     }
 
 

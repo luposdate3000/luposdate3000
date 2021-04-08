@@ -1,4 +1,4 @@
-import com.javadocmd.simplelatlng.LatLng
+
 
 object Stubs {
 

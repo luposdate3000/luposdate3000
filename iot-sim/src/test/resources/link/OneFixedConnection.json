@@ -2,8 +2,8 @@
   "protocolType": [
     {
       "name": "WIRE",
-      "rangeInMeters": 100000,
-      "dataRateInKbps": 1000
+      "rangeInMeters": -1,
+      "dataRateInKbps": -1
     }
   ],
   "deviceType": [
@@ -26,14 +26,14 @@
     {
       "name": "Tower1",
       "deviceType": "RadioTower",
-      "latitude": 53.83490706177371,
-      "longitude": 10.692555029863962
+      "latitude": 3.0,
+      "longitude": 3.0
     },
     {
       "name": "Fog1",
       "deviceType": "Fog",
-      "latitude": 53.83410604011873,
-      "longitude":  10.702721833240291
+      "latitude": 9.0,
+      "longitude": 9.0
     }
   ],
   "fixedConnection": [
