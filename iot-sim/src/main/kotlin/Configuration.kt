@@ -71,8 +71,7 @@ object Configuration {
     }
 
     private fun createRandomMeshNetwork(network: RandomMeshNetwork) {
-        var origin = createMeshOriginDevice(network)
-        addDevice(origin.name, origin)
+        val origin = createMeshOriginDevice(network)
         val meshNetwork = MeshNetwork()
         meshNetwork.networkPrefix = network.networkPrefix
         val linkType = findProtocol(network.linkType)
@@ -89,7 +88,6 @@ object Configuration {
                 val location = GeoLocation.createEasternLocation(origin.location, distance)
                 val name = getNetDeviceName(network.networkPrefix, deviceType)
                 val device = createDevice(deviceType, location, name)
-                addDevice(name, device)
                 column = createSouthernDevices(device, linkType, network, deviceType)
                 meshNetwork.mesh.add(column)
 
@@ -109,7 +107,6 @@ object Configuration {
             val location = GeoLocation.createSouthernLocation(origin.location, distance)
             val name = getNetDeviceName(network.networkPrefix, deviceType)
             val device = createDevice(deviceType, location, name)
-            addDevice(name, device)
             column.add(device)
             restCoverageSouth = restCoverageSouth - distance - linkType.rangeInMeters
         }
@@ -131,7 +128,7 @@ object Configuration {
     }
 
 
-    private fun createRandomStarNetwork(network: RandomStarNetwork){
+    private fun createRandomStarNetwork(network: RandomStarNetwork) {
         val root = devices[network.dataSink]!!
         val starNetwork = StarNetwork(root)
         starNetwork.networkPrefix = network.networkPrefix
@@ -141,7 +138,6 @@ object Configuration {
             val name = getNetDeviceName(network.networkPrefix, deviceType)
             val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters)
             val createdDevice = createDevice(deviceType, location, name)
-            addDevice(createdDevice.name, createdDevice)
             link(root, createdDevice)
             starNetwork.childs.add(createdDevice)
         }
@@ -155,8 +151,7 @@ object Configuration {
 
     private fun createFixedDevices() {
         for (fixedDevice in jsonObjects.fixedDevices) {
-            val createdDevice = createFixedLocatedDevice(fixedDevice)
-            addDevice(createdDevice.name, createdDevice)
+            createFixedLocatedDevice(fixedDevice)
         }
     }
 
@@ -168,10 +163,10 @@ object Configuration {
         }
     }
 
-    private fun createFixedLocatedDevice(fixedDevices: FixedDevices): Device {
+    private fun createFixedLocatedDevice(fixedDevices: FixedDevices) {
         val deviceType = findDeviceType(fixedDevices.deviceType)
         val location = GeoLocation(fixedDevices.latitude, fixedDevices.longitude)
-        return createDevice(deviceType, location, fixedDevices.name)
+        createDevice(deviceType, location, fixedDevices.name)
     }
 
     private fun createDevice(deviceType: DeviceType, location: GeoLocation, name: String): Device {
@@ -182,6 +177,7 @@ object Configuration {
         val parkingSensor = createParkingSensor(deviceType, device)
         device.sensor = parkingSensor
         entities.add(device)
+        addDevice(device.name, device)
         return device
     }
 
