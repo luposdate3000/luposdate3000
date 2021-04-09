@@ -31,10 +31,10 @@ public class ExampleAnnotation {
     //  the query as a String
     @JvmField
     @CodeGenerationAnnotation
-    //public val exampleVar: String = "SELECT ?article ?pages  WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER(?pages <= 10)}"
+    public val exampleVar: String = "SELECT ?article ?pages  WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER(?pages <= 10 || ?pages > 100)}"
     //public val exampleVar: String = "SELECT ?pages ?article (?pages < 100 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages}"
     //public val exampleVar: String = "SELECT ?pages ?article (?pages/0 < 9 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER (?pages<= 20)}"
-    public val exampleVar: String = "SELECT ?pages ?article ?title  WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://purl.org/dc/elements/1.1/title> ?title}"
+    //public val exampleVar: String = "SELECT ?pages ?article ?title  WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://purl.org/dc/elements/1.1/title> ?title}"
     //public val exampleVar: String = "SELECT ?pages ?article (?pages as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages }"
     //public val exampleVar: String = "SELECT ?pages ?article ?pages2  WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://swrc.ontoware.org/ontology#pages> ?pages2 }"
     //public val exampleVar : String = "SELECT ?a ?b ?c WHERE {?a <a> ?b . ?a <b> ?c .}"

@@ -51,9 +51,7 @@ public fun generateSourceCode(className: String,
     println(preparedStatement)
     println("--------------GRAPH----------------------")
     // Buffer to store the separated operators
-    val buffer = MyPrintWriter(true)
-    // Buffer to store the generated operator classes (Bind, Filter, JoinMerge)
-    val classes = MyPrintWriter(true)
+    val operatorsBuffer = MyPrintWriter(true)
     // Imports that will be used in the generated file
     val imports = mutableSetOf<String>()
     // Necessary imports for the generated file
@@ -86,12 +84,14 @@ public fun generateSourceCode(className: String,
         "lupos.dictionary.DictionaryHelper",
         "lupos.s00misc.ByteArrayWrapper"
     )
-    commonImports.forEach { imports.add(it) } // Add the common imports
-    val list = mutableListOf<Long>()
+    // Add the common imports
+    commonImports.forEach { imports.add(it) }
+    // This list will contain all the written operators
+    val createdOperators = mutableListOf<Long>()
     // The containers to store the generated operator classes
-    val containers = mutableListOf<ClazzContainer>()
+    val classContainers = mutableListOf<ClazzContainer>()
     // Generate the operators from the operatorgraph so they are available independently in the generated file
-    writeOperatorGraph(preparedStatement as OPBase, buffer, imports, list, containers)
+    writeOperatorGraph(preparedStatement as OPBase, operatorsBuffer, imports, createdOperators, classContainers)
     // Print the generated source code
     java.io.File(fileName).printWriter().use { outFile ->
         outFile.println("package $packageName") // Package
@@ -100,18 +100,19 @@ public fun generateSourceCode(className: String,
         // This is the function that can be called to retrieve the result
         outFile.println("public fun $className.${variableName}_evaluate(): String {")
         outFile.println()
-        outFile.println("    val query = Query()") // New empty query object
-        outFile.println("    val graph = tripleStoreManager.getGraph(\"\")")
+        // New empty query object
+        outFile.println("    val query = Query()")
+        // This will be used to get the TripleStoreIterator
+        outFile.println("    val graph = tripleStoreManager.getGraph(\"\")") //
         // Writing the operators to the generated file
-        outFile.print(buffer.toString())
+        outFile.print(operatorsBuffer.toString())
         outFile.println("    val buf = MyPrintWriter(true)")
         // Evaluate the operatorgraph with the operators from the generated files and store it in buf
         outFile.println("    LuposdateEndpoint.evaluateOperatorgraphToResult(operator${preparedStatement.getUUID()}, buf)")
         outFile.println("    return buf.toString()") // Return result as String
         outFile.println("}")
-        outFile.println(classes.toString())
-        println("CLASSES: $classes")
-        for (container in containers){
+        // This will print the generated operator classes
+        for (container in classContainers){
             outFile.println(container.header.toString())
             outFile.println(container.iteratorHeader.toString())
             for(s in container.iteratorClassVariables) {
@@ -136,29 +137,34 @@ public fun generateSourceCode(className: String,
 
 
 
-// Copies the Operators from the operatorgraph and replaces some with a generated Class specialized for that one query
+// Copies the Operators from the operatorgraph and replaces some with a generated classes specialized for that one query
 private fun writeOperatorGraph(
-    operatorGraph: OPBase,
-    buffer: MyPrintWriter,
+    operator: OPBase,
+    operatorsBuffer: MyPrintWriter,
     imports: MutableSet<String>,
     knownChildren: MutableList<Long>,
-    containers: MutableList<ClazzContainer>,
+    classContainers: MutableList<ClazzContainer>,
 ) {
     val tmpBuf = ByteArrayWrapper()
+    // Create a list of the projected variables, needed for the constructors of most operators
     val projectedVariables =
-        "listOf(${(operatorGraph as? POPBase)?.projectedVariables?.map { "\"$it\"" }?.joinToString()})"
+        "listOf(${(operator as? POPBase)?.projectedVariables?.joinToString { "\"$it\"" }})"
     // Calls this function recursively on all children
-    for (child in operatorGraph.children) {
+    //  and skips on already used one (not sure if that is still a problem?)
+    for (child in operator.children) {
         if (!knownChildren.contains((child as OPBase).getUUID())) {
             knownChildren.add(child.getUUID())
-            writeOperatorGraph(child, buffer, imports, knownChildren, containers)
+            writeOperatorGraph(child, operatorsBuffer, imports, knownChildren, classContainers)
         }
+
     }
     // Check on what type of operator this function was called
-    when (operatorGraph) {
+    //  we have to create all operators so we can rebuild the operatorgraph
+    //  later and replace some of them with our own specialized implementation
+    when (operator) {
         is POPJoinMerge -> {
             // Merge Joins will be implemented within the generated file, specialized for the annotated query
-            generatePOPJoinMerge(operatorGraph, projectedVariables, buffer, imports, containers)
+            generatePOPJoinMerge(operator, projectedVariables, operatorsBuffer, imports, classContainers)
             // Original implementation
             /*buffer.println("    val operator${operatorGraph.uuid} = POPJoinMerge(query, $projectedVariables," +
                 "operator${operatorGraph.children[0].getUUID()}," +
@@ -168,7 +174,7 @@ private fun writeOperatorGraph(
         }
         is POPFilter -> {
             // Filters will be implemented within the generated file, specialized for the annotated query
-            generatePOPFilter(operatorGraph, projectedVariables, buffer, imports, containers)
+            generatePOPFilter(operator, projectedVariables, operatorsBuffer, imports, classContainers)
             // Original implementation
             /*buffer.println("    val operator${operatorGraph.uuid} = POPFilter(query, $projectedVariables," +
                 "operator${operatorGraph.children[1].getUUID()}," +
@@ -178,165 +184,185 @@ private fun writeOperatorGraph(
             }*/
         }
         is AOPVariable -> {
-            buffer.println(
-                "    val operator${operatorGraph.uuid} = AOPVariable(query," +
-                    " \"${operatorGraph.name}\")"
+            // Creating a new operator with the AOPVariable constructor
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = AOPVariable(query," +
+                    " \"${operator.name}\")"
             )
             imports.add("lupos.s04arithmetikOperators.noinput.AOPVariable")
         }
         is AOPConstant -> {
-            operatorGraph.getQuery().getDictionary().getValue(tmpBuf, operatorGraph.getValue())
+            // Creating a new operator with the AOPConstant constructor
+            operator.getQuery().getDictionary().getValue(tmpBuf, operator.getValue())
             val value = DictionaryHelper.byteArrayToValueDefinition(tmpBuf)
-            buffer.println(
-                "    val operator${operatorGraph.uuid} = AOPConstant(query," +
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = AOPConstant(query," +
                     "ValueDefinition(\"${value.valueToString()?.replace("\"", "\\\"")}\"))"
             )
             imports.add("lupos.s04arithmetikOperators.noinput.AOPConstant")
             imports.add("lupos.s03resultRepresentation.ValueDefinition")
         }
-
         is POPTripleStoreIterator -> {
-            buffer.println("    val operator${operatorGraph.uuid} = graph.getIterator(query, " +
-                "arrayOf(operator${operatorGraph.children[0].getUUID()}," +
-                "operator${operatorGraph.children[1].getUUID()}," +
-                "operator${operatorGraph.children[2].getUUID()})," +
-                "EIndexPatternExt.${EIndexPatternExt.names[operatorGraph.getIndexPattern()]})"
+            // Creating a new operator with the POPTripleStoreIterator constructor
+            operatorsBuffer.println("    val operator${operator.uuid} = graph.getIterator(query, " +
+                "arrayOf(operator${operator.children[0].getUUID()}," +
+                "operator${operator.children[1].getUUID()}," +
+                "operator${operator.children[2].getUUID()})," +
+                "EIndexPatternExt.${EIndexPatternExt.names[operator.getIndexPattern()]})"
             )
             imports.add("lupos.s05tripleStore.tripleStoreManager")
             imports.add("lupos.s00misc.EIndexPatternExt")
             imports.add("lupos.s00misc.Partition")
         }
         is POPDebug -> {
-            buffer.println(
-                "    val operator${operatorGraph.uuid} = operator${operatorGraph.children[0].getUUID()}"
+            // Creating a new operator with the POPDebug constructor
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = operator${operator.children[0].getUUID()}"
             )
         }
         is AOPGT -> {
-            buffer.println(
-                "    val operator${operatorGraph.uuid} = AOPGT(query," +
-                    "operator${operatorGraph.children[0].getUUID()}," +
-                    "operator${operatorGraph.children[1].getUUID()})"
+            // Creating a new operator with the AOPGT constructor
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = AOPGT(query," +
+                    "operator${operator.children[0].getUUID()}," +
+                    "operator${operator.children[1].getUUID()})"
             )
             imports.add("lupos.s04arithmetikOperators.multiinput.AOPGT")
         }
         is AOPLT -> {
-            buffer.println(
-                "    val operator${operatorGraph.uuid} = AOPLT(query," +
-                    "operator${operatorGraph.children[0].getUUID()}," +
-                    "operator${operatorGraph.children[1].getUUID()})"
+            // Creating a new operator with the AOPLT constructor
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = AOPLT(query," +
+                    "operator${operator.children[0].getUUID()}," +
+                    "operator${operator.children[1].getUUID()})"
             )
             imports.add("lupos.s04arithmetikOperators.multiinput.AOPLT")
         }
         is POPProjection -> {
-            buffer.println(
-                "    val operator${operatorGraph.uuid} = POPProjection(query," +
+            // Creating a new operator with the POPProjection constructor
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = POPProjection(query," +
                     " $projectedVariables," +
-                    "operator${operatorGraph.children[0].getUUID()})"
+                    "operator${operator.children[0].getUUID()})"
             )
             imports.add("lupos.s09physicalOperators.singleinput.POPProjection")
         }
+        // Creating a new operator with the OPBaseCompound constructor
         is OPBaseCompound -> {
-            val proVars = "arrayOf(${operatorGraph.children.map { "operator" + it.getUUID() }.joinToString()})"
+            val proVars = "arrayOf(${operator.children.map { "operator" + it.getUUID() }.joinToString()})"
             val proVarsOrder = "listOf(${
-                operatorGraph.columnProjectionOrder.map {
+                operator.columnProjectionOrder.map {
                     "listOf(${
                         it.map { it2 -> "\"$it2\"" }.joinToString()
                     })"
                 }.joinToString()
             })"
-            buffer.println(
-                "    val operator${operatorGraph.uuid} = OPBaseCompound(query," +
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = OPBaseCompound(query," +
                     "$proVars," +
                     "$proVarsOrder)"
             )
             imports.add("lupos.s04logicalOperators.OPBaseCompound")
         }
+        // Creating a new operator with the AOPAnd constructor
         is AOPAnd -> {
-            buffer.println(
-                "    val operator${operatorGraph.uuid} = AOPAnd(query," +
-                    " operator${operatorGraph.children[0].getUUID()}," +
-                    " operator${operatorGraph.children[1].getUUID()})"
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = AOPAnd(query," +
+                    " operator${operator.children[0].getUUID()}," +
+                    " operator${operator.children[1].getUUID()})"
             )
             imports.add("lupos.s04arithmetikOperators.multiinput.AOPAnd")
         }
+        // Creating a new operator with the POPUnion constructor
         is POPUnion -> {
-            buffer.println(
-                "    val operator${operatorGraph.uuid} = POPUnion(query," +
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = POPUnion(query," +
                     " $projectedVariables," +
-                    " operator${operatorGraph.children[0].getUUID()}," +
-                    " operator${operatorGraph.children[1].getUUID()})"
+                    " operator${operator.children[0].getUUID()}," +
+                    " operator${operator.children[1].getUUID()})"
             )
             imports.add("lupos.s09physicalOperators.multiinput.POPUnion")
         }
+        // Creating a new operator with the AOPEQ constructor
         is AOPEQ -> {
-            buffer.println(
-                "    val operator${operatorGraph.uuid} = AOPEQ(query," +
-                    "operator${operatorGraph.children[0].getUUID()}," +
-                    "operator${operatorGraph.children[1].getUUID()})"
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = AOPEQ(query," +
+                    "operator${operator.children[0].getUUID()}," +
+                    "operator${operator.children[1].getUUID()})"
             )
             imports.add("lupos.s04arithmetikOperators.multiinput.AOPEQ")
         }
+        // Creating a new operator with the AOPGEQ constructor
         is AOPGEQ -> {
-            buffer.println(
-                "    val operator${operatorGraph.uuid} = AOPGEQ(query," +
-                    "operator${operatorGraph.children[0].getUUID()}," +
-                    "operator${operatorGraph.children[1].getUUID()})"
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = AOPGEQ(query," +
+                    "operator${operator.children[0].getUUID()}," +
+                    "operator${operator.children[1].getUUID()})"
             )
             imports.add("lupos.s04arithmetikOperators.multiinput.AOPGEQ")
         }
+        // Creating a new operator with the AOPLEQ constructor
         is AOPLEQ -> {
-            buffer.println(
-                "    val operator${operatorGraph.uuid} = AOPLEQ(query," +
-                    "operator${operatorGraph.children[0].getUUID()}," +
-                    "operator${operatorGraph.children[1].getUUID()})"
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = AOPLEQ(query," +
+                    "operator${operator.children[0].getUUID()}," +
+                    "operator${operator.children[1].getUUID()})"
             )
             imports.add("lupos.s04arithmetikOperators.multiinput.AOPLEQ")
         }
+        // Creating a new operator with the AOPNEQ constructor
         is AOPNEQ -> {
-            buffer.println(
-                "    val operator${operatorGraph.uuid} = AOPNEQ(query," +
-                    "operator${operatorGraph.children[0].getUUID()}," +
-                    "operator${operatorGraph.children[1].getUUID()})"
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = AOPNEQ(query," +
+                    "operator${operator.children[0].getUUID()}," +
+                    "operator${operator.children[1].getUUID()})"
             )
             imports.add("lupos.s04arithmetikOperators.multiinput.AOPNEQ")
         }
+        // Creating a new operator with the AOPAddition constructor
         is AOPAddition -> {
-            buffer.println(
-                "    val operator${operatorGraph.uuid} = AOPAddition(query," +
-                    "operator${operatorGraph.children[0].getUUID()}," +
-                    "operator${operatorGraph.children[1].getUUID()})"
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = AOPAddition(query," +
+                    "operator${operator.children[0].getUUID()}," +
+                    "operator${operator.children[1].getUUID()})"
             )
             imports.add("lupos.s04arithmetikOperators.generated.AOPAddition")
         }
+        // Creating a new operator with the AOPSubtraction constructor
         is AOPSubtraction -> {
-            buffer.println(
-                "    val operator${operatorGraph.uuid} = AOPSubtraction(query," +
-                    "operator${operatorGraph.children[0].getUUID()}," +
-                    "operator${operatorGraph.children[1].getUUID()})"
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = AOPSubtraction(query," +
+                    "operator${operator.children[0].getUUID()}," +
+                    "operator${operator.children[1].getUUID()})"
             )
             imports.add("lupos.s04arithmetikOperators.generated.AOPSubtraction")
         }
+        // Creating a new operator with the AOPMultiplication constructor
         is AOPMultiplication -> {
-            buffer.println(
-                "    val operator${operatorGraph.uuid} = AOPMultiplication(query," +
-                    "operator${operatorGraph.children[0].getUUID()}," +
-                    "operator${operatorGraph.children[1].getUUID()})"
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = AOPMultiplication(query," +
+                    "operator${operator.children[0].getUUID()}," +
+                    "operator${operator.children[1].getUUID()})"
             )
             imports.add("lupos.s04arithmetikOperators.generated.AOPMultiplication")
         }
+        // Creating a new operator with the AOPDivision constructor
         is AOPDivision -> {
-            buffer.println(
-                "    val operator${operatorGraph.uuid} = AOPDivision(query," +
-                    "operator${operatorGraph.children[0].getUUID()}," +
-                    "operator${operatorGraph.children[1].getUUID()})"
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = AOPDivision(query," +
+                    "operator${operator.children[0].getUUID()}," +
+                    "operator${operator.children[1].getUUID()})"
             )
             imports.add("lupos.s04arithmetikOperators.generated.AOPDivision")
         }
+
         is POPBind -> {
-            generatePOPBind(operatorGraph, projectedVariables, buffer, imports, containers)
+            // POPBind will be implemented within the generated file, specialized for the annotated query
+            generatePOPBind(operator, projectedVariables, operatorsBuffer, imports, classContainers)
         }
         else -> {
-            throw Exception(operatorGraph.classname)
+            // Oops, seems like we forgot an operator
+            throw Exception(operator.classname)
         }
     }
 }
@@ -345,10 +371,11 @@ private fun writeOperatorGraph(
 internal fun writeFilter(child: IOPBase, classes: MyPrintWriter?, operatorGraph: OPBase, variables: MutableSet<String>?) {
     val tmpBuf = ByteArrayWrapper()
 
+    // Call recursively for all children
     for (c in child.getChildren()) {
         writeFilter(c, classes, operatorGraph, variables)
     }
-    // On
+    // Classes != null means we want to create comparisons or do
     if (classes != null) {
         when (child) {
             is AOPAnd -> {
@@ -402,7 +429,9 @@ internal fun writeFilter(child: IOPBase, classes: MyPrintWriter?, operatorGraph:
                 throw Exception(child.getClassname())
             }
         }
-    } else if(variables != null){
+    }
+    // Variables != null means we want to create variables for comparison
+    else if(variables != null){
         if (child is AOPConstant) {
             child.getQuery().getDictionary().getValue(tmpBuf, child.getValue())
             when (val value = DictionaryHelper.byteArrayToValueDefinition(tmpBuf)) {
