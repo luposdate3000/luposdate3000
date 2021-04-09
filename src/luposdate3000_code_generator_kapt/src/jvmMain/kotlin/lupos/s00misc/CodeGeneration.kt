@@ -91,7 +91,7 @@ public fun generateSourceCode(className: String,
     // The containers to store the generated operator classes
     val containers = mutableListOf<ClazzContainer>()
     // Generate the operators from the operatorgraph so they are available independently in the generated file
-    writeOperatorGraph(preparedStatement as OPBase, buffer, imports, classes, list, containers)
+    writeOperatorGraph(preparedStatement as OPBase, buffer, imports, list, containers)
     // Print the generated source code
     java.io.File(fileName).printWriter().use { outFile ->
         outFile.println("package $packageName") // Package
@@ -110,6 +110,7 @@ public fun generateSourceCode(className: String,
         outFile.println("    return buf.toString()") // Return result as String
         outFile.println("}")
         outFile.println(classes.toString())
+        println("CLASSES: $classes")
         for (container in containers){
             outFile.println(container.header.toString())
             outFile.println(container.iteratorHeader.toString())
@@ -140,7 +141,6 @@ private fun writeOperatorGraph(
     operatorGraph: OPBase,
     buffer: MyPrintWriter,
     imports: MutableSet<String>,
-    classes: MyPrintWriter,
     knownChildren: MutableList<Long>,
     containers: MutableList<ClazzContainer>,
 ) {
@@ -151,14 +151,14 @@ private fun writeOperatorGraph(
     for (child in operatorGraph.children) {
         if (!knownChildren.contains((child as OPBase).getUUID())) {
             knownChildren.add(child.getUUID())
-            writeOperatorGraph(child, buffer, imports, classes, knownChildren, containers)
+            writeOperatorGraph(child, buffer, imports, knownChildren, containers)
         }
     }
     // Check on what type of operator this function was called
     when (operatorGraph) {
         is POPJoinMerge -> {
             // Merge Joins will be implemented within the generated file, specialized for the annotated query
-            generatePOPJoinMerge(operatorGraph, projectedVariables, buffer, imports, classes)
+            generatePOPJoinMerge(operatorGraph, projectedVariables, buffer, imports, containers)
             // Original implementation
             /*buffer.println("    val operator${operatorGraph.uuid} = POPJoinMerge(query, $projectedVariables," +
                 "operator${operatorGraph.children[0].getUUID()}," +
