@@ -27,7 +27,7 @@ object Configuration {
         resetVariables()
         readJsonFile(fileName)
         createFixedDevices()
-        createFixedConnections()
+        createFixedLinks()
         createRandomMeshNetworks()
         createRandomStarNetworks()
     }
@@ -129,7 +129,7 @@ object Configuration {
 
 
     private fun createRandomStarNetwork(network: RandomStarNetwork) {
-        val root = devices[network.dataSink]!!
+        val root = devices.getValue(network.dataSink)
         val starNetwork = StarNetwork(root)
         starNetwork.networkPrefix = network.networkPrefix
         val deviceType = getDeviceTypeByName(network.deviceType)
@@ -155,10 +155,10 @@ object Configuration {
         }
     }
 
-    private fun createFixedConnections() {
+    private fun createFixedLinks() {
         for (fixedLink in jsonObjects.fixedLinks) {
-            val a = devices[fixedLink.endpointA]!!
-            val b = devices[fixedLink.endpointB]!!
+            val a = devices.getValue(fixedLink.endpointA)
+            val b = devices.getValue(fixedLink.endpointB)
             link(a, b)
         }
     }
