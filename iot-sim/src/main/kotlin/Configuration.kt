@@ -172,7 +172,7 @@ object Configuration {
     private fun createDevice(deviceType: DeviceType, location: GeoLocation, name: String): Device {
         val powerSupply = PowerSupply(deviceType.powerCapacity)
         val application = createAppEntity(deviceType)
-        val linkTypes = createLinkTypes(deviceType)
+        val linkTypes = getLinkTypes(deviceType)
         val device = Device(powerSupply, location, name, application, null, linkTypes)
         val parkingSensor = createParkingSensor(deviceType, device)
         device.sensor = parkingSensor
@@ -181,7 +181,7 @@ object Configuration {
         return device
     }
 
-    private fun createLinkTypes(deviceType: DeviceType): Set<LinkType> {
+    private fun getLinkTypes(deviceType: DeviceType): Set<LinkType> {
         val result = mutableSetOf<LinkType>()
         for (name in deviceType.supportedLinkTypes) {
             val linkType = getLinkTypeByName(name)
