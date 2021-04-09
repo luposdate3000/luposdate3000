@@ -18,7 +18,7 @@ class DeviceTest {
         val deviceOne: Device = Stubs.createEmptyDevice(mutableSetOf(protocolX))
         deviceOne.location = GeoLocation.getRandom()
         val deviceTwo: Device = Stubs.createEmptyDevice(mutableSetOf(protocolX))
-        val distance = 51.0
+        val distance = 51
         deviceTwo.location = GeoLocation.createNorthernLocation(deviceOne.location, distance)
         Assertions.assertNull(deviceOne.createLinkIfPossible(deviceTwo))
     }
@@ -32,7 +32,7 @@ class DeviceTest {
         val deviceOne: Device = Stubs.createEmptyDevice(protocolSet)
         val deviceTwo: Device = Stubs.createEmptyDevice(protocolSet)
         deviceOne.location = GeoLocation.getRandom()
-        val distance = 49.0
+        val distance = 49
         deviceTwo.location = GeoLocation.createNorthernLocation(deviceOne.location, distance)
         val result = deviceOne.createLinkIfPossible(deviceTwo)
         Assertions.assertNotNull(result)

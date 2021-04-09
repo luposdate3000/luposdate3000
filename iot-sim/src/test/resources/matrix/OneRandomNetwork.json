@@ -32,6 +32,8 @@
   ],
   "fixedLinks": [
   ],
+  "randomMeshNetwork": [
+  ],
   "randomStarNetwork": [
     {
       "networkPrefix": "garageA",

@@ -21,6 +21,9 @@ object RandomGenerator {
         return random.nextDouble(minInclusive, maxExclusive)
     }
 
+    fun getInt(minInclusive: Int, maxInclusive: Int)
+        = getDouble(minInclusive.toDouble(), maxInclusive.toDouble()).toInt()
+
     fun getBoolean(probabilityOfTrue: Float)
         = random.nextFloat() < probabilityOfTrue
 

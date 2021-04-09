@@ -6,6 +6,7 @@ data class JsonObjects(
     val deviceType: List<DeviceType> = arrayListOf(),
     val fixedDevices: List<FixedDevices> = arrayListOf(),
     val fixedLinks: List<FixedLinks> = arrayListOf(),
+    val randomMeshNetwork: List<RandomMeshNetwork> = arrayListOf(),
     val randomStarNetwork: List<RandomStarNetwork> = arrayListOf(),
 )
 
@@ -30,8 +31,8 @@ data class DeviceType(
 data class FixedDevices(
     val name: String = "",
     val deviceType: String = "",
-    val latitude: Double,
-    val longitude: Double,
+    val latitude: Double = 0.0,
+    val longitude: Double = 0.0,
 )
 
 @Serializable
@@ -47,4 +48,15 @@ data class RandomStarNetwork(
     val linkType: String = "",
     val deviceType: String = "",
     val number: Int = 0
+)
+
+@Serializable
+data class RandomMeshNetwork(
+    val networkPrefix: String = "",
+    val originLatitude: Double = 0.0,
+    val originLongitude: Double = 0.0,
+    val deviceType: String = "",
+    val linkType: String = "",
+    val signalCoverageEast: Int = 0,
+    val signalCoverageSouth: Int = 0
 )

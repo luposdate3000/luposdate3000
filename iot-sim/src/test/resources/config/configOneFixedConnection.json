@@ -42,6 +42,8 @@
       "endpointB": "Fog1"
     }
   ],
+  "randomMeshNetwork": [
+  ],
   "randomStarNetwork": [
   ]
 }

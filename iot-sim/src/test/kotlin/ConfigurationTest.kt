@@ -121,5 +121,56 @@ class ConfigurationTest {
         Assertions.assertEquals(link1!!.distanceInMeters, link2!!.distanceInMeters)
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = ["config/onlyOneMeshDevice.json"])
+    fun onlyOneMeshDevice(fileName: String) {
+        Configuration.parse(fileName)
+        val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
+        val meshNet = Configuration.randMeshNetworks[networkPrefix]!!
+        Assertions.assertEquals(1, meshNet.numOfDevices())
+        Assertions.assertEquals(1, Configuration.devices.size)
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["config/onlySouthernMeshDevices.json"])
+    fun onlySouthernMeshDevices(fileName: String) {
+        Configuration.parse(fileName)
+        val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
+        val meshNet = Configuration.randMeshNetworks[networkPrefix]!!
+        Assertions.assertEquals(1, meshNet.mesh.size)
+        Assertions.assertTrue(Configuration.devices.size > 1)
+        Assertions.assertTrue(meshNet.mesh[0].size > 1)
+        Assertions.assertEquals(meshNet.numOfDevices(), Configuration.devices.size)
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["config/onlyEasternMeshDevices.json"])
+    fun onlyEasternMeshDevices(fileName: String) {
+        Configuration.parse(fileName)
+        val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
+        val meshNet = Configuration.randMeshNetworks[networkPrefix]!!
+        Assertions.assertTrue(Configuration.devices.size > 1)
+        Assertions.assertTrue(meshNet.mesh.size > 1)
+        Assertions.assertEquals(meshNet.numOfDevices(), Configuration.devices.size)
+        for(col in meshNet.mesh) {
+            Assertions.assertEquals(1, col.size)
+        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["config/moreSouthernThanEasternMeshDevices.json"])
+    fun moreSouthernThanEasternMeshDevices(fileName: String) {
+        Configuration.parse(fileName)
+        val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
+        val meshNet = Configuration.randMeshNetworks[networkPrefix]!!
+        Assertions.assertTrue(Configuration.devices.size > 1)
+        Assertions.assertTrue(meshNet.mesh.size > 1)
+        Assertions.assertEquals(meshNet.numOfDevices(), Configuration.devices.size)
+        val rowSize = meshNet.mesh.size
+        for(col in meshNet.mesh) {
+            Assertions.assertTrue(col.size > rowSize)
+
+        }
+    }
 
 }

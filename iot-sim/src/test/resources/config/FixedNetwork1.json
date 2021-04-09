@@ -65,6 +65,8 @@
       "endpointB": "d"
     }
   ],
+  "randomMeshNetwork": [
+  ],
   "randomStarNetwork": [
   ]
 }

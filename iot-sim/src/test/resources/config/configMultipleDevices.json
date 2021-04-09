@@ -55,6 +55,8 @@
       "endpointB": "Fog1"
     }
   ],
+  "randomMeshNetwork": [
+  ],
   "randomStarNetwork": [
     {
       "networkPrefix": "garageA",

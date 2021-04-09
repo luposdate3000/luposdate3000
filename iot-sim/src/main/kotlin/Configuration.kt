@@ -16,15 +16,22 @@ object Configuration {
     var randStarNetworks: MutableMap<String, StarNetwork> = HashMap()
         private set
 
+    var randMeshNetworks: MutableMap<String, MeshNetwork> = HashMap()
+        private set
+
     private const val delimiter = "_"
+
+    private var netDeviceNumber = 0
 
     fun parse(fileName: String) {
         resetVariables()
         readJsonFile(fileName)
         createFixedDevices()
         createFixedConnections()
+        createRandomMeshNetworks()
         createRandomStarNetworks()
     }
+
 
     private fun resetVariables() {
         devices = HashMap()
@@ -33,28 +40,96 @@ object Configuration {
         jsonObjects = JsonObjects()
     }
 
-
     private fun readJsonFile(fileName: String) {
         val fileStr = readFileDirectlyAsText(fileName)
         jsonObjects = Json.decodeFromString(fileStr)
     }
 
+
+
     private fun readFileDirectlyAsText(fileName: String)
         = javaClass.classLoader!!.getResource(fileName)!!.readText()
-
-
 
     private fun addDevice(key: String, value: Device) {
         require(!devices.contains(key))
         devices[key] = value
     }
 
+    private fun createRandomMeshNetworks() {
+        for (network in jsonObjects.randomMeshNetwork) {
+            netDeviceNumber = 0
+            createRandomMeshNetwork(network)
+        }
+    }
 
     private fun createRandomStarNetworks() {
         for (network in jsonObjects.randomStarNetwork) {
+            netDeviceNumber = 0
             createRandomStarNetwork(network)
+
         }
     }
+
+    private fun createRandomMeshNetwork(network: RandomMeshNetwork) {
+        var origin = createMeshOriginDevice(network)
+        addDevice(origin.name, origin)
+        val meshNetwork = MeshNetwork()
+        meshNetwork.networkPrefix = network.networkPrefix
+        val linkType = findProtocol(network.linkType)
+        val deviceType = findDeviceType(network.deviceType)
+
+        var column = createSouthernDevices(origin, linkType, network, deviceType)
+        meshNetwork.mesh[0] = column
+
+        var restCoverageEast = network.signalCoverageEast - linkType.rangeInMeters
+
+            while(restCoverageEast > 0) {
+
+                val distance = RandomGenerator.getInt(1, linkType.rangeInMeters)
+                val location = GeoLocation.createEasternLocation(origin.location, distance)
+                val name = getNetDeviceName(network.networkPrefix, deviceType)
+                val device = createDevice(deviceType, location, name)
+                addDevice(name, device)
+                column = createSouthernDevices(device, linkType, network, deviceType)
+                meshNetwork.mesh.add(column)
+
+                restCoverageEast = restCoverageEast - distance - linkType.rangeInMeters
+            }
+
+        randMeshNetworks[network.networkPrefix] = meshNetwork
+    }
+
+    private fun createSouthernDevices(origin: Device, linkType: LinkType, network: RandomMeshNetwork, deviceType: DeviceType): MutableList<Device> {
+        val column = ArrayList<Device>()
+        var restCoverageSouth = network.signalCoverageSouth - linkType.rangeInMeters
+
+        column.add(origin)
+        while(restCoverageSouth > 0) {
+            val distance = RandomGenerator.getInt(1, linkType.rangeInMeters)
+            val location = GeoLocation.createSouthernLocation(origin.location, distance)
+            val name = getNetDeviceName(network.networkPrefix, deviceType)
+            val device = createDevice(deviceType, location, name)
+            addDevice(name, device)
+            column.add(device)
+            restCoverageSouth = restCoverageSouth - distance - linkType.rangeInMeters
+        }
+
+        return column
+    }
+
+
+    private fun createMeshOriginDevice(network: RandomMeshNetwork) : Device {
+        val deviceType = findDeviceType(network.deviceType)
+        val location = GeoLocation(network.originLatitude, network.originLongitude)
+        val address = getNetDeviceName(network.networkPrefix, deviceType)
+        return createDevice(deviceType, location, address)
+    }
+
+    private fun getNetDeviceName(networkPrefix: String, deviceType: DeviceType) : String {
+        netDeviceNumber++
+        return networkPrefix + delimiter + deviceType.name + delimiter + netDeviceNumber
+    }
+
 
     private fun createRandomStarNetwork(network: RandomStarNetwork){
         val root = devices[network.dataSink]!!
@@ -63,9 +138,9 @@ object Configuration {
         val deviceType = findDeviceType(network.deviceType)
         val linkType = findProtocol(network.linkType)
         for (i in 1..network.number) {
-            val deviceName = network.networkPrefix + delimiter + deviceType.name + delimiter + i.toString()
+            val name = getNetDeviceName(network.networkPrefix, deviceType)
             val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters)
-            val createdDevice = createDevice(deviceType, location, deviceName)
+            val createdDevice = createDevice(deviceType, location, name)
             addDevice(createdDevice.name, createdDevice)
             link(root, createdDevice)
             starNetwork.childs.add(createdDevice)

@@ -9,15 +9,27 @@ import kotlin.math.sqrt
 //adapter class for LatLng
 class GeoLocation(var latitude: Double, var longitude: Double) {
 
+
     companion object {
-        fun createNorthernLocation(start: GeoLocation, distanceInMeters: Double): GeoLocation {
+
+        private fun travel(start: GeoLocation, distanceInMeters: Int, direction: Double): GeoLocation {
             val loc = LatLngTool.travel(
                 LatLng(start.latitude, start.longitude),
-                LatLngTool.Bearing.NORTH,
-                distanceInMeters,
+                direction,
+                distanceInMeters.toDouble(),
                 LengthUnit.METER)
             return GeoLocation(loc.latitude, loc.longitude)
         }
+
+        fun createNorthernLocation(start: GeoLocation, distanceInMeters: Int): GeoLocation
+            = travel(start, distanceInMeters, LatLngTool.Bearing.NORTH)
+
+        fun createSouthernLocation(start: GeoLocation, distanceInMeters: Int): GeoLocation
+                = travel(start, distanceInMeters, LatLngTool.Bearing.SOUTH)
+
+        fun createEasternLocation(start: GeoLocation, distanceInMeters: Int): GeoLocation
+                = travel(start, distanceInMeters, LatLngTool.Bearing.EAST)
+
 
         //Adapted From: https://gis.stackexchange.com/questions/25877/generating-random-locations-nearby
         fun getRandomLocationInRadius(center: GeoLocation, radiusInMeters: Int): GeoLocation {
