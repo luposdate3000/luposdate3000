@@ -775,7 +775,13 @@ fun onRun() {
                     }
                 }
             }
-            val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt")
+            val cmd = mutableListOf("java",
+                "-XX:+UnlockExperimentalVMOptions",
+                "-Xmx${Platform.getAvailableRam()}g",
+//
+                "-XX:+UseShenandoahGC", "-XX:ShenandoahUncommitDelay=1000", "-XX:ShenandoahGuaranteedGCInterval=10000",
+//
+                "-cp", classpath, "MainKt")
             cmd.addAll(runArgs)
             if (dryMode == "Enable") {
                 println("export LUPOS_PROCESS_URLS=processUrls")

@@ -61,7 +61,7 @@ internal actual object _Platform {
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun getAvailableRam(): Int {
-        return getEnv("LUPOS_RAM", "60")!!.toInt()
+        return getEnv("LUPOS_RAM", "50")!!.toInt()
     }
 
     internal actual inline fun setShutdownHock(crossinline action: () -> Unit) {
