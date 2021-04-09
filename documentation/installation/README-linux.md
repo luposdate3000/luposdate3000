@@ -45,7 +45,7 @@ dependencieshome=/opt
 {
     cd $dependencieshome
     git clone https://github.com/ionspin/kotlin-multiplatform-bignum.git
-    cd bignum
+    cd kotlin-multiplatform-bignum/bignum
     #patch the buildfile
     sed 's/it.compileKotlinTask.kotlinOptions.moduleKind = "commonjs"//g' -i build.gradle.kts
     gradle publishToMavenLocal

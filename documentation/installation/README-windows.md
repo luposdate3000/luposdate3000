@@ -57,7 +57,7 @@ git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
 #install bignum
 { 
     git clone https://github.com/ionspin/kotlin-multiplatform-bignum.git
-    cd bignum
+    cd kotlin-multiplatform-bignum/bignum
     #patch the buildfile to make it executable as JS in Browsers
     sed 's/it.compileKotlinTask.kotlinOptions.moduleKind = "commonjs"//g' -i build.gradle.kts
     gradle publishToMavenLocal
