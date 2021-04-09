@@ -74,8 +74,8 @@ object Configuration {
         val origin = createMeshOriginDevice(network)
         val meshNetwork = MeshNetwork()
         meshNetwork.networkPrefix = network.networkPrefix
-        val linkType = findProtocol(network.linkType)
-        val deviceType = findDeviceType(network.deviceType)
+        val linkType = getLinkTypeByName(network.linkType)
+        val deviceType = getDeviceTypeByName(network.deviceType)
 
         var column = createSouthernDevices(origin, linkType, network, deviceType)
         meshNetwork.mesh[0] = column
@@ -116,7 +116,7 @@ object Configuration {
 
 
     private fun createMeshOriginDevice(network: RandomMeshNetwork) : Device {
-        val deviceType = findDeviceType(network.deviceType)
+        val deviceType = getDeviceTypeByName(network.deviceType)
         val location = GeoLocation(network.originLatitude, network.originLongitude)
         val address = getNetDeviceName(network.networkPrefix, deviceType)
         return createDevice(deviceType, location, address)
@@ -132,8 +132,8 @@ object Configuration {
         val root = devices[network.dataSink]!!
         val starNetwork = StarNetwork(root)
         starNetwork.networkPrefix = network.networkPrefix
-        val deviceType = findDeviceType(network.deviceType)
-        val linkType = findProtocol(network.linkType)
+        val deviceType = getDeviceTypeByName(network.deviceType)
+        val linkType = getLinkTypeByName(network.linkType)
         for (i in 1..network.number) {
             val name = getNetDeviceName(network.networkPrefix, deviceType)
             val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters)
@@ -164,7 +164,7 @@ object Configuration {
     }
 
     private fun createFixedLocatedDevice(fixedDevices: FixedDevices) {
-        val deviceType = findDeviceType(fixedDevices.deviceType)
+        val deviceType = getDeviceTypeByName(fixedDevices.deviceType)
         val location = GeoLocation(fixedDevices.latitude, fixedDevices.longitude)
         createDevice(deviceType, location, fixedDevices.name)
     }
@@ -184,7 +184,7 @@ object Configuration {
     private fun createLinkTypes(deviceType: DeviceType): Set<LinkType> {
         val result = mutableSetOf<LinkType>()
         for (name in deviceType.supportedLinkTypes) {
-            val linkType = findProtocol(name)
+            val linkType = getLinkTypeByName(name)
             result.add(linkType)
         }
         return result
@@ -192,13 +192,13 @@ object Configuration {
 
 
 
-    private fun findDeviceType(typeName: String): DeviceType {
+    private fun getDeviceTypeByName(typeName: String): DeviceType {
         val deviceType = jsonObjects.deviceType.find { typeName == it.name }
         requireNotNull(deviceType) { "device type name $typeName does not exist" }
         return deviceType
     }
 
-    private fun findProtocol(name: String): LinkType {
+    private fun getLinkTypeByName(name: String): LinkType {
         val element = jsonObjects.linkType.find { name == it.name }
         requireNotNull(element) { "protocol $name does not exist" }
         return element
