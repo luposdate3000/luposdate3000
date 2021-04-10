@@ -7,7 +7,7 @@ You can annotate queries as String with`@JvmField
 those query will be processed, and the source code that is able to run 
 the query will be placed into the build folder of the module it was used in.
 *(/build/generated/source/kaptKotlin/main/\<packagename\>/\<Classname\>__\<variablename\>.kt)*  
-In there a function ``public fun \<Classname\>.\<Variablename\>_\<evaluate()\>: String``
+In there a function ``public fun <Classname>.<Variablename>_<evaluate()>: String``
 is generated, that will eventually evaluate all the operators and returns the result.
 (see [ExampleAnnotation's main](../luposdate3000_launch_code_gen_example_kapt/src/jvmMain/kotlin/Main.kt))
 ### How it works
