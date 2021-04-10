@@ -29,5 +29,5 @@ own class-constructor, this is the case for [POPBind](../luposdate3000_code_gene
 and [POPJoinMerge](../luposdate3000_code_generator_kapt/src/jvmMain/kotlin/lupos/s00misc/POPJoinMergeGenerator.kt).
 The optimized classes for those operators are written below `<Variablename>_evaluate()` and have the same name as their variable.  
 In order to evaluate annotated queries at runtime with the operators we stored as variables we simply call
-```LuposdateEndpoint.evaluateOperatorgraphToResult()``` with the operatorgraph's root which is the operator we 
+```LuposdateEndpoint.evaluateOperatorgraphToResult()``` within the generated file with the operatorgraph's root which is the operator we 
 retrieved from `LuposdateEndpoint.evaluateSparqlToOpertorgraphA()`. 
