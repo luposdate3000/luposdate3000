@@ -16,7 +16,6 @@
  */
 package lupos.s00misc
 
-import java.lang.NullPointerException
 import lupos.dictionary.DictionaryHelper
 import lupos.endpoint.LuposdateEndpoint
 import lupos.s03resultRepresentation.*
@@ -83,6 +82,7 @@ public fun generateSourceCode(className: String,
         "lupos.s04arithmetikOperators.generated.AOPAnd",
         "lupos.s03resultRepresentation.ValueIri",
         "lupos.dictionary.DictionaryHelper",
+        "lupos.dictionary.DictionaryExt",
         "lupos.s00misc.ByteArrayWrapper"
     )
     // Add the common imports

@@ -16,8 +16,12 @@
  */
 package lupos.s00misc
 
+import lupos.dictionary.DictionaryExt
 import lupos.s04logicalOperators.OPBase
 
+// This function will generate source code to run the merge join for the annotated query
+//  it mainly avoids loops by processing them here already (if possible) to avoid unnecessary
+//  iterations during runtime
 internal fun generatePOPJoinMerge(
     operatorGraph: OPBase,
     projectedVariables: String,
@@ -122,7 +126,7 @@ internal fun generatePOPJoinMerge(
     clazz.iteratorNextBody.println("    ) : IteratorBundle(0) {")
     clazz.iteratorNextBody.println("""
         override /*suspend*/ fun hasNext2(): Boolean {
-            val tmp = columnsOUTJ.next() != (0x00000004)
+            val tmp = columnsOUTJ.next() != DictionaryExt.nullValue
             if (!tmp) {
                 _hasNext2Close()
             }
@@ -340,7 +344,7 @@ internal fun generatePOPJoinMerge(
         override /*suspend*/ fun next(): Int {
             return nextHelper(
                 {
-                    if (key0${variablesJoin[0]} != (0x00000004) && key1${variablesJoin[0]} != (0x00000004)) {
+                    if (key0${variablesJoin[0]} != DictionaryExt.nullValue && key1${variablesJoin[0]} != DictionaryExt.nullValue) {
                         loop@ while (true) {
                             if (key0${variablesJoin[0]} != key1${variablesJoin[0]}) {
                                 var skip0 = 0
@@ -353,7 +357,7 @@ internal fun generatePOPJoinMerge(
                                         skipO0 += sipbuf[0]
                                         skip0++
                                         skipO0++
-                                        if (key0${variablesJoin[0]} == (0x00000004)) {
+                                        if (key0${variablesJoin[0]} == DictionaryExt.nullValue) {
                                             __close()
                                             break@loop
                                         }
@@ -365,7 +369,7 @@ internal fun generatePOPJoinMerge(
                                         skipO1 += sipbuf[0]
                                         skip1++
                                         skipO1++
-                                        if (key1${variablesJoin[0]} == (0x00000004)) {
+                                        if (key1${variablesJoin[0]} == DictionaryExt.nullValue) {
                                             __close()
                                             break@loop
                                         }
@@ -392,7 +396,7 @@ internal fun generatePOPJoinMerge(
         clazz.iteratorNextBody.println("                                skipO0++ ")
         for (variable2 in variablesJoin) {
             clazz.iteratorNextBody.println("                                key0$variable2 = columnsInJ0$variable2.next()")
-            clazz.iteratorNextBody.println("                                if(key0$variable2 == (0x00000004)){")
+            clazz.iteratorNextBody.println("                                if(key0$variable2 == DictionaryExt.nullValue){")
             clazz.iteratorNextBody.println("                                    __close()")
             clazz.iteratorNextBody.println("                                    break@loop")
             clazz.iteratorNextBody.println("                                }")
@@ -403,7 +407,7 @@ internal fun generatePOPJoinMerge(
         clazz.iteratorNextBody.println("                                skipO1++")
         for (variable2 in variablesJoin) {
             clazz.iteratorNextBody.println("                                key1$variable2 = columnsInJ1$variable2.next()")
-            clazz.iteratorNextBody.println("                                if(key1$variable2 == (0x00000004)){")
+            clazz.iteratorNextBody.println("                                if(key1$variable2 == DictionaryExt.nullValue){")
             clazz.iteratorNextBody.println("                                    __close()")
             clazz.iteratorNextBody.println("                                    break@loop")
             clazz.iteratorNextBody.println("                                }")
@@ -505,6 +509,7 @@ internal fun generatePOPJoinMerge(
     clazz.iteratorNextBody.println("    }")
 
 
+    clazz.footer.println()
     clazz.footer.println("    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {")
     clazz.footer.println("        val child0 = children[0].evaluate(parent)")
     clazz.footer.println("        val child1 = children[1].evaluate(parent)")

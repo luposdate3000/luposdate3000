@@ -17,11 +17,12 @@
 import examplePackage.BenchmarkClass
 import examplePackage.ExampleAnnotation
 import examplePackage.exampleVar_evaluate
+import lupos.dictionary.DictionaryExt
 import lupos.launch.code_gen_example_kapt.mainFunc
 
 
 public fun main(args: Array<String>) {
-    var flag = false
+    //var flag = false
     mainFunc()
     val example = ExampleAnnotation()
     println(example.exampleVar_evaluate())

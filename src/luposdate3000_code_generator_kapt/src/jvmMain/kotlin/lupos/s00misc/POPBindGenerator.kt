@@ -123,7 +123,7 @@ internal fun generatePOPBind(
     clazz.iteratorNextBody.println("                        DictionaryHelper.valueDefinitionToByteArray(buffer,tmp${operatorGraph.uuid})")
     clazz.iteratorNextBody.println("                        row${variablename[variablename.size - 1]} = query.getDictionary().createValue(buffer)")
     clazz.iteratorNextBody.println("                    } catch (e:Throwable){")
-    clazz.iteratorNextBody.println("                        row${variablename[variablename.size - 1]} = 0x00000002")
+    clazz.iteratorNextBody.println("                        row${variablename[variablename.size - 1]} = DictionaryExt.errorValue")
     clazz.iteratorNextBody.println("                    } ")
     if(inlineChild) {
         clazz.iteratorNextBodyEnd.println(childContainer!!.iteratorNextBodyEnd.toString())

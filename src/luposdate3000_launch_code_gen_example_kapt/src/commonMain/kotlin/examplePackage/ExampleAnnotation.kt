@@ -31,7 +31,7 @@ public class ExampleAnnotation {
     //  the query as a String
     @JvmField
     @CodeGenerationAnnotation
-    //public val exampleVar: String = "SELECT ?article ?pages WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER(?pages < 15)}"
+    //public val exampleVar: String = "SELECT ?article ?pages (?pages < 50 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER(?pages < 15)}"
     //public val exampleVar: String = "SELECT ?pages ?article (?pages < 100 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages}"
     //public val exampleVar: String = "SELECT ?pages ?article (?pages/0 < 9 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER (?pages<= 20)}"
     public val exampleVar: String = "SELECT ?pages ?article ?title  WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://purl.org/dc/elements/1.1/title> ?title}"

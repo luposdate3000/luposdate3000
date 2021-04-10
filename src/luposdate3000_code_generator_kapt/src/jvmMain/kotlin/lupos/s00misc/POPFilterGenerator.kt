@@ -54,7 +54,7 @@ internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String
     }
     clazz.iteratorNextBody.println(
         """
-                |                        if (row${variablename[0]} == 0x00000004) {
+                |                        if (row${variablename[0]} == DictionaryExt.nullValue) {
                 |                           break
                 |                        }
                 """.trimMargin()
