@@ -1,6 +1,5 @@
 data class Link(
-    val srcAddress: String,
-    val destAddress: String,
+    val destAddress: Int,
     var distanceInMeters: Int,
     val linkType: LinkType
 )

@@ -2,13 +2,13 @@
 class Device(
     val powerSupply: PowerSupply,
     var location: GeoLocation,
-    val name: String,
+    val address: Int,
     val application: Entity?,
     var sensor: ParkingSensor?,
     val protocols: Set<LinkType>
     ) : Entity()
 {
-    private var availableLinks: ArrayList<Link> = ArrayList()
+    private var availableLinks: MutableMap<Int, Link> = HashMap()
 
     class RouteRequest
 
@@ -19,6 +19,7 @@ class Device(
             1
         }
     }
+
 
     override fun startUpEntity() {
 
@@ -49,60 +50,44 @@ class Device(
         = location.getDistanceInMeters(otherDevice.location)
 
 
-    private fun selectBestFitProtocol(protocols: Set<LinkType>, distance: Int): LinkType? {
-        val comparator = compareByDescending<LinkType> { it.dataRateInKbps }
-        val sorted = protocols.asSequence().sortedWith(comparator)
-        for (protocol in sorted) {
-            if(distance <= protocol.rangeInMeters)
-                return protocol
+    val comparator = compareByDescending<LinkType> { it.dataRateInKbps }
+
+    private fun selectBestLinkType(linkTypes: Set<LinkType>, distance: Int): LinkType? {
+        val sortedLinkTypes = linkTypes.asSequence().sortedWith(comparator)
+        for (linkType in sortedLinkTypes) {
+            if(distance <= linkType.rangeInMeters)
+                return linkType
         }
         return null
     }
 
-//    fun selectBestLink(otherDevices: List<Device>): Link? {
-//        var bestFit: Link? = null
-//        for (device in otherDevices) {
-//            val linkType = getLink(device)
-//            if(linkType!= null) {
-//                val distance = getDistanceInMeters(device)
-//                if (bestFit == null) {
-//                    bestFit = Link(name, device.name, distance, linkType)
-//                }
-//                else {
-//                    if(distance < bestFit.distanceInMeters) {
-//                        bestFit = Link(name, device.name, distance, linkType)
-//                    }
-//                }
-//            }
-//        }
-//        return bestFit
-//    }
-
-    fun createLinkIfPossible(otherDevice: Device): Link? {
-        if(otherDevice == this)
+    fun getBestLinkIfPossible(otherDevice: Device): Link? {
+        if (otherDevice == this)
             return null
-
-        val commonProtocols = protocols.intersect(otherDevice.protocols)
+        val commonLinkTypes = protocols.intersect(otherDevice.protocols)
         val distance = getDistanceInMeters(otherDevice)
-        val protocol = selectBestFitProtocol(commonProtocols, distance)
-        if(protocol != null)
-            return Link(name, otherDevice.name, distance, protocol)
-        return null
+        val linkType = selectBestLinkType(commonLinkTypes, distance) ?: return null
+
+        val newLink = Link(otherDevice.address, distance, linkType)
+        if(newLink == availableLinks[otherDevice.address])
+            return null
+        return newLink
     }
 
     fun addAvailableLink(otherDevice: Device) {
-        val link = createLinkIfPossible(otherDevice)
-        if(link != null)
-            availableLinks.add(link)
-    }
+        val newLink = getBestLinkIfPossible(otherDevice) ?: return
+        availableLinks[otherDevice.address] = newLink
 
 
-    fun getAvailableLink(otherDevice: Device): Link? {
-        for (link in availableLinks)
-            if(link.destAddress == otherDevice.name)
-                return link
-        return null
+/*        Probier mal mit String zuweisung,
+        LinkTyp kann wieder verwendet werden,
+        bei den device adressen kann ich vielleicht auch ein int verwenden.*/
+        //nimm string für json, aber als id einfach int hochzählen und in arraylist speiucher
+
     }
+
+    fun getAvailableLink(otherDevice: Device): Link?
+        = availableLinks[otherDevice.address]
 
     fun hasAvailAbleLink(otherDevice: Device)
         = null != getAvailableLink(otherDevice)
@@ -110,5 +95,14 @@ class Device(
     fun numOfAvailAbleLinks()
         = availableLinks.size
 
+    override fun equals(other: Any?): Boolean {
+        if (other === this)
+            return true
+
+        if (other !is Device)
+            return false
+
+        return address == other.address
+    }
 
 }

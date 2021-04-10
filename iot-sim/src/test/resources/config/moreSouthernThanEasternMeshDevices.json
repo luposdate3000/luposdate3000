@@ -27,7 +27,7 @@
       "deviceType": "Fog",
       "linkType": "WPAN",
       "signalCoverageEast": 1000,
-      "signalCoverageSouth": 1300
+      "signalCoverageSouth": 1100
     }
   ],
   "randomStarNetwork": [

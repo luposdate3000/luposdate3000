@@ -1,5 +1,4 @@
 class ParkingSensor(
-    val name: String,
     var device: Device
 ) : Entity() {
 

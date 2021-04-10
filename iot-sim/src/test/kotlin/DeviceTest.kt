@@ -5,65 +5,63 @@ class DeviceTest {
 
 
     @Test
-    fun `two devices with different protocols cannot link`() {
-        val deviceOne: Device = Stubs.createEmptyDevice()
+    fun `two devices with different linkTypes cannot link`() {
+        val deviceOne: Device = Stubs.createEmptyDevice(1)
         val linkType = LinkType("X")
-        val deviceTwo: Device = Stubs.createEmptyDevice(mutableSetOf(linkType))
-        Assertions.assertNull(deviceOne.createLinkIfPossible(deviceTwo))
+        val deviceTwo: Device = Stubs.createEmptyDevice(2, mutableSetOf(linkType))
+        Assertions.assertNull(deviceOne.getBestLinkIfPossible(deviceTwo))
     }
 
     @Test
     fun `two devices are too far away to link`() {
-        val protocolX = LinkType("X", 50, 7 )
-        val deviceOne: Device = Stubs.createEmptyDevice(mutableSetOf(protocolX))
+        val linkTypeX = LinkType("X", 50, 7 )
+        val deviceOne: Device = Stubs.createEmptyDevice(1, mutableSetOf(linkTypeX))
         deviceOne.location = GeoLocation.getRandom()
-        val deviceTwo: Device = Stubs.createEmptyDevice(mutableSetOf(protocolX))
+        val deviceTwo: Device = Stubs.createEmptyDevice(2,mutableSetOf(linkTypeX))
         val distance = 51
         deviceTwo.location = GeoLocation.createNorthernLocation(deviceOne.location, distance)
-        Assertions.assertNull(deviceOne.createLinkIfPossible(deviceTwo))
+        Assertions.assertNull(deviceOne.getBestLinkIfPossible(deviceTwo))
     }
 
     @Test
-    fun `two devices link with most suitable protocol`() {
-        val protocolX = LinkType("X", 50, 7 )
-        val protocolY = LinkType("Y", 50, 8 )
-        val protocolZ = LinkType("Z", 48, 9 )
-        val protocolSet = mutableSetOf(protocolX, protocolY, protocolZ)
-        val deviceOne: Device = Stubs.createEmptyDevice(protocolSet)
-        val deviceTwo: Device = Stubs.createEmptyDevice(protocolSet)
+    fun `two devices link with most suitable linkType`() {
+        val linkTypeX = LinkType("X", 50, 7 )
+        val linkTypeY = LinkType("Y", 50, 8 )
+        val linkTypeZ = LinkType("Z", 48, 9 )
+        val linkTypeSet = mutableSetOf(linkTypeX, linkTypeY, linkTypeZ)
+        val deviceOne: Device = Stubs.createEmptyDevice(1,linkTypeSet)
+        val deviceTwo: Device = Stubs.createEmptyDevice(2,linkTypeSet)
         deviceOne.location = GeoLocation.getRandom()
         val distance = 49
         deviceTwo.location = GeoLocation.createNorthernLocation(deviceOne.location, distance)
-        val result = deviceOne.createLinkIfPossible(deviceTwo)
+        val result = deviceOne.getBestLinkIfPossible(deviceTwo)
         Assertions.assertNotNull(result)
-        Assertions.assertEquals(protocolY.name, result!!.linkType.name)
+        Assertions.assertEquals(linkTypeY.name, result!!.linkType.name)
     }
 
-/*    @Test
-    fun `there is no best link`() {
-        val protocolX = LinkType("X", 50, 7 )
-        val protocolY = LinkType("Y", 42, 70 )
-        val protocolSet = mutableSetOf(protocolX, protocolY)
-        val selectingDevice: Device = Stubs.createEmptyDevice(protocolSet)
-        selectingDevice.location = GeoLocation.getRandom()
-        val device1: Device = Stubs.createEmptyDevice(protocolSet)
-        device1.location = GeoLocation.createNorthernLocation(selectingDevice.location, 60.0)
-        val list = arrayListOf(device1)
-        Assertions.assertNull(selectingDevice.selectBestLink(list))
-    }*/
+    @Test
+    fun cannotLinkWithItself() {
+        val linkTypeX = LinkType("X", 50, 7 )
+        val device: Device = Stubs.createEmptyDevice(1,mutableSetOf(linkTypeX))
+        device.addAvailableLink(device)
+        Assertions.assertNull(device.getAvailableLink(device))
+        Assertions.assertFalse(device.hasAvailAbleLink(device))
+        Assertions.assertNull(device.getBestLinkIfPossible(device))
+    }
+
 
 //    @Test
 //    fun `one device is close enough but not linkable`() {
-//        val protocolX = LinkType("X", 50, 7 )
-//        val protocolY = LinkType("Y", 42, 70 )
-//        val protocolSet = mutableSetOf(protocolX, protocolY)
-//        val selectingDevice: Device = Stubs.createEmptyDevice(protocolSet)
+//        val linkTypeX = LinkType("X", 50, 7 )
+//        val linkTypeY = LinkType("Y", 42, 70 )
+//        val linkTypeSet = mutableSetOf(linkTypeX, linkTypeY)
+//        val selectingDevice: Device = Stubs.createEmptyDevice(linkTypeSet)
 //        selectingDevice.location = GeoLocation.getRandom()
 //
-//        val device1: Device = Stubs.createEmptyDevice(protocolSet)
-//        device1.location = GeoLocation.createNorthernLocation(selectingDevice.location, 53.0)
+//        val device1: Device = Stubs.createEmptyDevice(linkTypeSet)
+//        device1.location = GeoLocation.createNorthernLocation(selectingDevice.location, 53)
 //        val device2: Device = Stubs.createEmptyDevice(mutableSetOf(LinkType("something else")))
-//        device2.location = GeoLocation.createNorthernLocation(selectingDevice.location, 40.0)
+//        device2.location = GeoLocation.createNorthernLocation(selectingDevice.location, 40)
 //
 //        val list = arrayListOf(device1, device2)
 //        Assertions.assertNull(selectingDevice.selectBestLink(list))
@@ -71,17 +69,17 @@ class DeviceTest {
 
 //    @Test
 //    fun `select the closest and linkable device`() {
-//        val protocolX = LinkType("X", 50, 7 )
-//        val protocolY = LinkType("Y", 42, 70 )
-//        val protocolSet = mutableSetOf(protocolX, protocolY)
-//        val selectingDevice: Device = Stubs.createEmptyDevice(protocolSet)
+//        val linkTypeX = LinkType("X", 50, 7 )
+//        val linkTypeY = LinkType("Y", 42, 70 )
+//        val linkTypeSet = mutableSetOf(linkTypeX, linkTypeY)
+//        val selectingDevice: Device = Stubs.createEmptyDevice(linkTypeSet)
 //        selectingDevice.location = GeoLocation.getRandom()
 //
-//        val device1: Device = Stubs.createEmptyDevice(protocolSet)
+//        val device1: Device = Stubs.createEmptyDevice(linkTypeSet)
 //        device1.location = GeoLocation.createNorthernLocation(selectingDevice.location, 4.0)
 //        val device2: Device = Stubs.createEmptyDevice(mutableSetOf(LinkType("something else")))
 //        device2.location = GeoLocation.createNorthernLocation(selectingDevice.location, 0.0)
-//        val device3: Device = Stubs.createEmptyDevice(protocolSet)
+//        val device3: Device = Stubs.createEmptyDevice(linkTypeSet)
 //        device3.location = GeoLocation.createNorthernLocation(selectingDevice.location, 5.0)
 //
 //        val list = arrayListOf(device1, device2)

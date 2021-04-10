@@ -14,21 +14,21 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/configOneSimpleDevice.json"])
-    fun `one simple device`(fileName: String) {
+    @ValueSource(strings = ["config/oneFixedDevice.json"])
+    fun oneFixedDevice(fileName: String) {
         Configuration.parse(fileName)
-        val devices = Configuration.devices
         val deviceName = Configuration.jsonObjects.fixedDevices[0].name
         val lat = Configuration.jsonObjects.fixedDevices[0].latitude
         val lon = Configuration.jsonObjects.fixedDevices[0].longitude
         val location = GeoLocation(lat, lon)
+        val device = Configuration.getNamedDevice(deviceName)
 
-        Assertions.assertEquals(Configuration.jsonObjects.fixedDevices.size, devices.size)
-        Assertions.assertEquals(deviceName, devices[deviceName]!!.name)
-        Assertions.assertEquals(location, devices[deviceName]!!.location)
-        Assertions.assertNull(devices[deviceName]!!.application)
-        Assertions.assertNull(devices[deviceName]!!.sensor)
-        Assertions.assertTrue(devices[deviceName]!!.powerSupply.isInfinite)
+        Assertions.assertEquals(Configuration.jsonObjects.fixedDevices.size, Configuration.devices.size)
+        Assertions.assertEquals(0, device.address)
+        Assertions.assertEquals(location, device.location)
+        Assertions.assertNull(device.application)
+        Assertions.assertNull(device.sensor)
+        Assertions.assertTrue(device.powerSupply.isInfinite)
         Assertions.assertEquals(1, Configuration.entities.size)
     }
 
@@ -38,11 +38,12 @@ class ConfigurationTest {
         Configuration.parse(fileName)
         val devices = Configuration.devices
         val deviceName = Configuration.jsonObjects.fixedDevices[0].name
+        val device = Configuration.getNamedDevice(deviceName)
         val numSensors = 1
-        Assertions.assertTrue(devices[deviceName]!!.application is DatabaseApp)
-        Assertions.assertNotNull(devices[deviceName]!!.sensor)
-        Assertions.assertEquals(70.0, devices[deviceName]!!.powerSupply.actualCapacity)
-        Assertions.assertFalse(devices[deviceName]!!.powerSupply.isInfinite)
+        Assertions.assertTrue(device.application is DatabaseApp)
+        Assertions.assertNotNull(device.sensor)
+        Assertions.assertEquals(70.0, device.powerSupply.actualCapacity)
+        Assertions.assertFalse(device.powerSupply.isInfinite)
         Assertions.assertEquals(2 + numSensors, Configuration.entities.size)
     }
 
@@ -50,9 +51,8 @@ class ConfigurationTest {
     @ValueSource(strings = ["config/configOneComplexDevice.json"])
     fun `sensors know their device`(fileName: String) {
         Configuration.parse(fileName)
-        val devices = Configuration.devices
         val deviceName = "Tower1"
-        val device = devices[deviceName]!!
+        val device = Configuration.getNamedDevice(deviceName)
         Assertions.assertEquals(device, device.sensor!!.device)
     }
 
@@ -60,9 +60,8 @@ class ConfigurationTest {
     @ValueSource(strings = ["config/configOneComplexDevice.json"])
     fun `sensors get correct values`(fileName: String) {
         Configuration.parse(fileName)
-        val devices = Configuration.devices
         val deviceName = "Tower1"
-        val device = devices[deviceName]!!
+        val device = Configuration.getNamedDevice(deviceName)
         Assertions.assertEquals(device, device.sensor!!.dataSink)
     }
 
@@ -72,8 +71,8 @@ class ConfigurationTest {
         Configuration.parse(fileName)
         val deviceAName = Configuration.jsonObjects.fixedLinks[0].endpointA
         val deviceBName = Configuration.jsonObjects.fixedLinks[0].endpointB
-        val deviceA = Configuration.devices[deviceAName]!!
-        val deviceB = Configuration.devices[deviceBName]!!
+        val deviceA = Configuration.getNamedDevice(deviceAName)
+        val deviceB = Configuration.getNamedDevice(deviceBName)
 
         Assertions.assertNotNull(deviceA.getAvailableLink(deviceB))
         Assertions.assertNotNull(deviceB.getAvailableLink(deviceA))
@@ -109,8 +108,8 @@ class ConfigurationTest {
         Configuration.parse(fileName)
         val device1Address = Configuration.jsonObjects.fixedDevices[0].name
         val device2Address = Configuration.jsonObjects.fixedDevices[1].name
-        val device1 = Configuration.devices[device1Address]!!
-        val device2 = Configuration.devices[device2Address]!!
+        val device1 = Configuration.getNamedDevice(device1Address)
+        val device2 = Configuration.getNamedDevice(device2Address)
         val link1 = device1.getAvailableLink(device2)
         val link2 = device2.getAvailableLink(device1)
 
