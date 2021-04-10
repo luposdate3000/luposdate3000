@@ -16,6 +16,7 @@
  */
 package lupos.s00misc
 
+import java.lang.NullPointerException
 import lupos.dictionary.DictionaryHelper
 import lupos.endpoint.LuposdateEndpoint
 import lupos.s03resultRepresentation.*
@@ -47,9 +48,9 @@ public fun generateSourceCode(className: String,
     java.io.File(folderName).mkdirs()
     // Root of the operatorgraph
     val preparedStatement = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(variableValue)
-    println("--------------GRAPH----------------------")
-    println(preparedStatement)
-    println("--------------GRAPH----------------------")
+    //println("--------------GRAPH----------------------")
+    //println(preparedStatement)
+    //println("--------------GRAPH----------------------")
     // Buffer to store the separated operators
     val operatorsBuffer = MyPrintWriter(true)
     // Imports that will be used in the generated file
@@ -95,11 +96,11 @@ public fun generateSourceCode(className: String,
     // Print the generated source code
     java.io.File(fileName).printWriter().use { outFile ->
         outFile.println("package $packageName") // Package
+        outFile.println()
         imports.forEach { outFile.println("import $it") } // Create all the imports
         outFile.println()
         // This is the function that can be called to retrieve the result
         outFile.println("public fun $className.${variableName}_evaluate(): String {")
-        outFile.println()
         // New empty query object
         outFile.println("    val query = Query()")
         // This will be used to get the TripleStoreIterator
@@ -111,10 +112,11 @@ public fun generateSourceCode(className: String,
         outFile.println("    LuposdateEndpoint.evaluateOperatorgraphToResult(operator${preparedStatement.getUUID()}, buf)")
         outFile.println("    return buf.toString()") // Return result as String
         outFile.println("}")
+        outFile.println()
         // This will print the generated operator classes
         for (container in classContainers){
-            outFile.println(container.header.toString())
-            outFile.println(container.iteratorHeader.toString())
+            outFile.print(container.header.toString())
+            outFile.print(container.iteratorHeader.toString())
             for(s in container.iteratorClassVariables) {
                 outFile.println(s)
             }
@@ -122,15 +124,15 @@ public fun generateSourceCode(className: String,
             for(s in container.iteratorNextVariables) {
                 outFile.println(s)
             }
-            outFile.println(container.iteratorNextBody.toString())
-            outFile.println(container.iteratorNextBodyResult.toString())
-            outFile.println(container.iteratorNextBodyEnd.toString())
-            outFile.println(container.iteratorNextFooter.toString())
-            outFile.println(container.iteratorCloseHeader.toString())
-            outFile.println(container.iteratorCloseBody.toString())
-            outFile.println(container.iteratorCloseFooter.toString())
-            outFile.println(container.iteratorFooter.toString())
-            outFile.println(container.footer.toString())
+            outFile.print(container.iteratorNextBody.toString())
+            outFile.print(container.iteratorNextBodyResult.toString())
+            outFile.print(container.iteratorNextBodyEnd.toString())
+            outFile.print(container.iteratorNextFooter.toString())
+            outFile.print(container.iteratorCloseHeader.toString())
+            outFile.print(container.iteratorCloseBody.toString())
+            outFile.print(container.iteratorCloseFooter.toString())
+            outFile.print(container.iteratorFooter.toString())
+            outFile.print(container.footer.toString())
         }
     }
 }
@@ -379,49 +381,44 @@ internal fun writeFilter(child: IOPBase, classes: MyPrintWriter?, operatorGraph:
     if (classes != null) {
         when (child) {
             is AOPAnd -> {
-                classes.println("                    val child${child.uuid}: Boolean = child${child.children[0].getUUID()} && child${child.children[1].getUUID()}")
+                classes.println("                        val child${child.uuid}: Boolean = child${child.children[0].getUUID()} && child${child.children[1].getUUID()}")
             }
             is AOPLT -> {
-                classes.println("                    val child${child.uuid}: Boolean = child${child.children[0].getUUID()} < child${child.children[1].getUUID()}")
+                classes.println("                        val child${child.uuid}: Boolean = child${child.children[0].getUUID()} < child${child.children[1].getUUID()}")
             }
             is AOPGT -> {
-                classes.println("                    val child${child.uuid}: Boolean = child${child.children[0].getUUID()} > child${child.children[1].getUUID()}")
+                classes.println("                        val child${child.uuid}: Boolean = child${child.children[0].getUUID()} > child${child.children[1].getUUID()}")
             }
             is AOPEQ -> {
-                classes.println("                    val child${child.uuid}: Boolean = child${child.children[0].getUUID()} == child${child.children[1].getUUID()}")
+                classes.println("                        val child${child.uuid}: Boolean = child${child.children[0].getUUID()} == child${child.children[1].getUUID()}")
             }
             is AOPLEQ -> {
-                classes.println("                    val child${child.uuid}: Boolean = child${child.children[0].getUUID()} <= child${child.children[1].getUUID()}")
+                classes.println("                        val child${child.uuid}: Boolean = child${child.children[0].getUUID()} <= child${child.children[1].getUUID()}")
             }
             is AOPGEQ -> {
-                classes.println("                    val child${child.uuid}: Boolean = child${child.children[0].getUUID()} >= child${child.children[1].getUUID()}")
+                classes.println("                        val child${child.uuid}: Boolean = child${child.children[0].getUUID()} >= child${child.children[1].getUUID()}")
             }
             is AOPNEQ -> {
-                classes.println("                    val child${child.uuid}: Boolean = child${child.children[0].getUUID()} != child${child.children[1].getUUID()}")
+                classes.println("                        val child${child.uuid}: Boolean = child${child.children[0].getUUID()} != child${child.children[1].getUUID()}")
             }
             is AOPAddition -> {
-                classes.println("                    val child${child.uuid} = child${child.children[0].getUUID()} + child${child.children[1].getUUID()}")
+                classes.println("                        val child${child.uuid} = child${child.children[0].getUUID()} + child${child.children[1].getUUID()}")
             }
             is AOPSubtraction -> {
-                classes.println("                    val child${child.uuid} = child${child.children[0].getUUID()} - child${child.children[1].getUUID()}")
+                classes.println("                        val child${child.uuid} = child${child.children[0].getUUID()} - child${child.children[1].getUUID()}")
             }
             is AOPMultiplication -> {
-                classes.println("                    val child${child.uuid} = child${child.children[0].getUUID()} * child${child.children[1].getUUID()}")
+                classes.println("$                        val child${child.uuid} = child${child.children[0].getUUID()} * child${child.children[1].getUUID()}")
             }
             is AOPDivision -> {
-                classes.println("                    val child${child.uuid} = child${child.children[0].getUUID()} / child${child.children[1].getUUID()}")
+                classes.println("                        val child${child.uuid} = child${child.children[0].getUUID()} / child${child.children[1].getUUID()}")
             }
             is AOPVariable -> {
                 // Muss in einen Datentyp gecastet werden, um Operationen wie ?pages+5 < 50 im Filter durchführen zu können
                 // Hier klappt .toInt() am Ende ranhängen, sollte aber dynamisch erkannt werden; Anhängig von der Konstanten zuvor machen?
-                classes.println(
-                    "                   val tmp = ByteArrayWrapper()")
-                classes.println(
-                    "                   query.getDictionary().getValue(tmp, row${child.name})"
-                )
-                classes.println(
-                    "                    val child${child.uuid} = DictionaryHelper.byteArrayToValueDefinition(tmp)"
-                )
+                classes.println("                        val tmp = ByteArrayWrapper()")
+                classes.println("                        query.getDictionary().getValue(tmp, row${child.name})")
+                classes.println("                        val child${child.uuid} = DictionaryHelper.byteArrayToValueDefinition(tmp)")
             }
             is AOPConstant -> {
             }

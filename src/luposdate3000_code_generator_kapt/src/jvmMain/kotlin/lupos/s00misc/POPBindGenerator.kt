@@ -11,19 +11,20 @@ internal fun generatePOPBind(
     containers: MutableList<ClazzContainer>
 ) {
     val clazz = ClazzContainer("operator${operatorGraph.uuid}",operatorGraph.uuid)
-    var inlineChild: Boolean = false
 
+    var inlineChild: Boolean = false
     var child = operatorGraph.children[0]
+
+    // Skip POPDebug when checking for combining Bind and Filter
     while(child is POPDebug){
         child = child.children[0]
     }
 
     var childContainer: ClazzContainer? = null
 
+
     for (container in containers){
-        println("---------------------------------->Found ${container.name} and ${child.getUUID()}")
         if(container.name == "operator${child.getUUID()}"){
-            println("----------------------------------> Found container")
             inlineChild = true
             childContainer = container
             //containers.remove(container)
@@ -48,32 +49,41 @@ internal fun generatePOPBind(
         )
     }
 
-    clazz.header.println(
-        """
-                |public class Operator${operatorGraph.uuid} public constructor(query: IQuery, child: IOPBase) : POPBase(query, ${projectedVariables}, EOperatorIDExt.POPGenerated, "Operator${operatorGraph.uuid}", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
-                |    //BindOperator
-                |    override fun getPartitionCount(variable: String): Int {
-                |       SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
-                |       return 1
-                |    }
-                |    override fun toSparql(): String {
-                |       return ""
-                |    }
-                |    override fun equals(other: Any?): Boolean = other is Operator${operatorGraph.uuid} && children[0] == other.children[0]
-                |    override fun cloneOP(): IOPBase = Operator${operatorGraph.uuid}(query, children[0].cloneOP())
-""".trimMargin())
+    clazz.header.println("public class Operator${operatorGraph.uuid} public constructor(" +
+        "query: IQuery," +
+        " child: IOPBase)" +
+        " : POPBase(query," +
+        " ${projectedVariables}," +
+        " EOperatorIDExt.POPGenerated," +
+        " \"Operator${operatorGraph.uuid}\"," +
+        " arrayOf(child)," +
+        " ESortPriorityExt.SAME_AS_CHILD) {")
+    clazz.header.println("""
+            |    //BindOperator
+            |    override fun getPartitionCount(variable: String): Int {
+            |       SanityCheck.check { children[0].getPartitionCount(variable) == 1 }
+            |       return 1
+            |    }
+            |    override fun toSparql(): String {
+            |       return ""
+            |    }
+            |    override fun equals(other: Any?): Boolean = other is Operator${operatorGraph.uuid} && children[0] == other.children[0]
+            |    override fun cloneOP(): IOPBase = Operator${operatorGraph.uuid}(query, children[0].cloneOP())
+            |    """.trimMargin())
 
     if(inlineChild){
-        clazz.iteratorHeader.println("    internal class LocalIterator constructor(val query: IQuery, ")
-        clazz.iteratorHeader.println("        @JvmField val iterator${childContainer?.uuid} : ColumnIterator?): ColumnIteratorQueue() {")
-        clazz.iteratorHeader.println("        constructor(query: IQuery,")
-        clazz.iteratorHeader.println("        ): this(query,null)")
+        clazz.iteratorHeader.println("    internal class LocalIterator constructor(" +
+            "val query: IQuery," +
+            " @JvmField val iterator${childContainer?.uuid} : ColumnIterator?)" +
+            ": ColumnIteratorQueue() {" +
+            " constructor(query: IQuery): this(query,null)")
     }
     else {
-        clazz.iteratorHeader.println("    internal class LocalIterator constructor(val query: IQuery, ")
-        clazz.iteratorHeader.println("        @JvmField val iterator${operatorGraph.uuid} : ColumnIterator?): ColumnIteratorQueue() {")
-        clazz.iteratorHeader.println("        constructor(query: IQuery,")
-        clazz.iteratorHeader.println("        ): this(query,null)")
+        clazz.iteratorHeader.println("    internal class LocalIterator constructor(" +
+            "val query: IQuery," +
+            " @JvmField val iterator${operatorGraph.uuid} : ColumnIterator?)" +
+            ": ColumnIteratorQueue() {" +
+            " constructor(query: IQuery): this(query,null)")
     }
     clazz.iteratorClassVariables.add("        var label2${operatorGraph.uuid} = 1")
     clazz.iteratorClassVariables.add("        val buffer= ByteArrayWrapper()")
@@ -86,10 +96,11 @@ internal fun generatePOPBind(
     }
 
     clazz.iteratorNextHeader.println("        override /*suspend*/ fun next(): Int {")
-    clazz.iteratorNextHeader.println("            return ColumnIteratorQueueExt.nextHelper(this, {")
-
+    clazz.iteratorNextHeader.println("            return ColumnIteratorQueueExt.nextHelper(")
+    clazz.iteratorNextHeader.println("                this,")
+    clazz.iteratorNextHeader.println("                {")
     for(variable in variablename) {
-        clazz.iteratorNextVariables.add("                var row$variable = 0")
+        clazz.iteratorNextVariables.add("                    var row$variable = 0")
     }
 
     if(inlineChild){
@@ -97,33 +108,34 @@ internal fun generatePOPBind(
         clazz.iteratorNextVariables.addAll(childContainer.iteratorNextVariables)
     }
 
-    clazz.iteratorNextBody.println("        try{")
+    clazz.iteratorNextBody.println("                    try {")
 
     for (i in 0 until variablename.size - 1) {
         if(!inlineChild){
-            clazz.iteratorNextBody.println("                row${variablename[i]} = column${variablename[i]}!!.iterator${operatorGraph.uuid}!!.next()")
+            clazz.iteratorNextBody.println("                        row${variablename[i]} = column${variablename[i]}!!.iterator${operatorGraph.uuid}!!.next()")
         }
     }
 
     // Creating the filter term itself, child${operatorGraph.children[1].getUUID()}:Boolean contains the evaluated term
     writeFilter(operatorGraph.children[1], clazz.iteratorNextBody, operatorGraph, null)
 
-    clazz.iteratorNextBody.println("                val tmp${operatorGraph.uuid} = ValueDefinition.convertToValueDefinition(child${operatorGraph.children[1].getUUID()})")
-    clazz.iteratorNextBody.println("                DictionaryHelper.valueDefinitionToByteArray(buffer,tmp${operatorGraph.uuid})")
-    clazz.iteratorNextBody.println("                row${variablename[variablename.size - 1]} = query.getDictionary().createValue(buffer)")
-    clazz.iteratorNextBody.println("        } catch (e:Throwable){")
-    clazz.iteratorNextBody.println("            row${variablename[variablename.size - 1]} = 0x00000002")
-    clazz.iteratorNextBody.println("        } ")
+    clazz.iteratorNextBody.println("                        val tmp${operatorGraph.uuid} = ValueDefinition.convertToValueDefinition(child${operatorGraph.children[1].getUUID()})")
+    clazz.iteratorNextBody.println("                        DictionaryHelper.valueDefinitionToByteArray(buffer,tmp${operatorGraph.uuid})")
+    clazz.iteratorNextBody.println("                        row${variablename[variablename.size - 1]} = query.getDictionary().createValue(buffer)")
+    clazz.iteratorNextBody.println("                    } catch (e:Throwable){")
+    clazz.iteratorNextBody.println("                        row${variablename[variablename.size - 1]} = 0x00000002")
+    clazz.iteratorNextBody.println("                    } ")
     if(inlineChild) {
         clazz.iteratorNextBodyEnd.println(childContainer!!.iteratorNextBodyEnd.toString())
     }
     for (i in 0 until variablename.size) {
-        clazz.iteratorNextBodyResult.println("                column${variablename[i]}!!.queue.add(row${variablename[i]})")
+        clazz.iteratorNextBodyResult.println("                    column${variablename[i]}!!.queue.add(row${variablename[i]})")
     }
 
-    clazz.iteratorNextFooter.println("            },{")
-    clazz.iteratorNextFooter.println("                ColumnIteratorQueueExt._close(this)")
-    clazz.iteratorNextFooter.println("            })")
+    clazz.iteratorNextFooter.println("                },")
+    clazz.iteratorNextFooter.println("                {")
+    clazz.iteratorNextFooter.println("                    ColumnIteratorQueueExt._close(this)")
+    clazz.iteratorNextFooter.println("                })")
     clazz.iteratorNextFooter.println("        }")
 
     clazz.iteratorCloseHeader.println("        override /*suspend*/ fun close() {")

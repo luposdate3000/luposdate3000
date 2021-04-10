@@ -30,9 +30,10 @@ internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String
                 |    override fun cloneOP(): IOPBase = Operator${operatorGraph.uuid}(query, children[0].cloneOP())
 """.trimMargin())
 
-    clazz.iteratorHeader.println("""
-    |    internal class LocalIterator constructor(val query : IQuery, @JvmField val iterator${operatorGraph.uuid} : ColumnIterator?): ColumnIteratorQueue() {""".trimMargin()
-    )
+    clazz.iteratorHeader.println("    internal class LocalIterator constructor(" +
+        "val query : IQuery," +
+        "@JvmField val iterator${operatorGraph.uuid} : ColumnIterator?)" +
+        ": ColumnIteratorQueue() {")
     clazz.iteratorClassVariables.add("        var label2${operatorGraph.uuid} = 1")
     for(variable in variablename) {
         clazz.iteratorClassVariables.add("        var column$variable : LocalIterator? = null")
@@ -40,49 +41,50 @@ internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String
     writeFilter(operatorGraph.children[1], null, operatorGraph, clazz.iteratorClassVariables)
 
     clazz.iteratorNextHeader.println("        override /*suspend*/ fun next(): Int {")
-    clazz.iteratorNextHeader.println("            return ColumnIteratorQueueExt.nextHelper(this, { ")
-    clazz.iteratorNextBody.println("                var res${operatorGraph.uuid}: Boolean = false")
+    clazz.iteratorNextHeader.println("            return ColumnIteratorQueueExt.nextHelper(")
+    clazz.iteratorNextHeader.println("                this,")
+    clazz.iteratorNextHeader.println("                {")
+    clazz.iteratorNextBody.println("                    var res${operatorGraph.uuid}: Boolean = false")
     for(variable in variablename) {
-        clazz.iteratorNextVariables.add("                var row$variable = 0")
+        clazz.iteratorNextVariables.add("                    var row$variable = 0")
     }
-    clazz.iteratorNextBody.println("                while(!res${operatorGraph.uuid}) {")
+    clazz.iteratorNextBody.println("                    while(!res${operatorGraph.uuid}) {")
     for (variable in variablename) {
-        clazz.iteratorNextBody.println("                    row$variable = column$variable!!.iterator${operatorGraph.uuid}!!.next()")
+        clazz.iteratorNextBody.println("                        row$variable = column$variable!!.iterator${operatorGraph.uuid}!!.next()")
     }
     clazz.iteratorNextBody.println(
         """
-                |                    if (row${variablename[0]} == 0x00000004) {
-                |                       break
-                |                    }
+                |                        if (row${variablename[0]} == 0x00000004) {
+                |                           break
+                |                        }
                 """.trimMargin()
     )
     // Creating the filter term itself, child${operatorGraph.children[1].getUUID()}:Boolean contains the evaluated term
     writeFilter(operatorGraph.children[1],  clazz.iteratorNextBody, operatorGraph, null)
 
-    clazz.iteratorNextBody.println("                    res${operatorGraph.uuid} = child${operatorGraph.children[1].getUUID()}")
-    clazz.iteratorNextBody.println("                }")
-    clazz.iteratorNextBody.println("                if(res${operatorGraph.uuid}){")
+    clazz.iteratorNextBody.println("                        res${operatorGraph.uuid} = child${operatorGraph.children[1].getUUID()}")
+    clazz.iteratorNextBody.println("                    }")
+    clazz.iteratorNextBody.println("                    if(res${operatorGraph.uuid}){")
     for (variable in variablename) {
-        clazz.iteratorNextBodyResult.println("                    column$variable!!.queue.add(row$variable)")
+        clazz.iteratorNextBodyResult.println("                      column$variable!!.queue.add(row$variable)")
     }
-    clazz.iteratorNextBodyEnd.println("                }")
+    clazz.iteratorNextBodyEnd.println("                    }")
     clazz.iteratorNextFooter.println(
         """
-                |            }, {
-                |               ColumnIteratorQueueExt._close(this)
-                |            })
-                |            """.trimMargin())
-
+                |                },
+                |                {
+                |                    ColumnIteratorQueueExt._close(this)
+                |                })""".trimMargin())
     clazz.iteratorNextFooter.println("""
                 |        }""".trimMargin())
-
-    clazz.iteratorCloseHeader.println("         override /*suspend*/ fun close() {")
-    clazz.iteratorCloseBody.println("""             if (label2${operatorGraph.uuid} != 0) {
+    clazz.iteratorCloseHeader.println("        override /*suspend*/ fun close() {")
+    clazz.iteratorCloseBody.println("""
+                |            if (label2${operatorGraph.uuid} != 0) {
                 |               label2${operatorGraph.uuid} = 0
                 |               iterator${operatorGraph.uuid}?.close()
-                |             }""".trimMargin())
-    clazz.iteratorCloseFooter.println("         }")
-    clazz.iteratorFooter.println("   }")
+                |            }""".trimMargin())
+    clazz.iteratorCloseFooter.println("        }")
+    clazz.iteratorFooter.println("    }")
 
     clazz.footer.println("    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {")
     clazz.footer.println("        val variables = getProvidedVariableNames()")
