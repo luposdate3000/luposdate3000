@@ -23,9 +23,11 @@ object Configuration {
         private set
 
 
+
     fun parse(fileName: String) {
         resetVariables()
         readJsonFile(fileName)
+        createSortedLinkTypes()
         createFixedDevices()
         createFixedLinks()
         createRandomMeshNetworks()
@@ -51,6 +53,10 @@ object Configuration {
     private fun readFileDirectlyAsText(fileName: String)
         = javaClass.classLoader!!.getResource(fileName)!!.readText()
 
+
+    private fun createSortedLinkTypes() {
+        Device.sortedLinkTypes = jsonObjects.linkType as MutableList<LinkType>
+    }
 
     private fun createRandomMeshNetworks() {
         for (network in jsonObjects.randomMeshNetwork) {
@@ -165,7 +171,7 @@ object Configuration {
     private fun createDevice(deviceType: DeviceType, location: GeoLocation): Device {
         val powerSupply = PowerSupply(deviceType.powerCapacity)
         val application = createAppEntity(deviceType)
-        val linkTypes = getLinkTypes(deviceType)
+        val linkTypes = getLinkTypeIndices(deviceType)
         val device = Device(powerSupply, location, devices.size, application, null, linkTypes)
         val parkingSensor = createParkingSensor(deviceType, device)
         device.sensor = parkingSensor
@@ -174,14 +180,14 @@ object Configuration {
         return device
     }
 
-    private fun getLinkTypes(deviceType: DeviceType): Set<LinkType> {
-        val result = mutableSetOf<LinkType>()
-        for (name in deviceType.supportedLinkTypes) {
-            val linkType = getLinkTypeByName(name)
-            result.add(linkType)
+    private fun getLinkTypeIndices(deviceType: DeviceType): IntArray {
+        val list = ArrayList<LinkType>(deviceType.supportedLinkTypes.size)
+        for(name in deviceType.supportedLinkTypes) {
+            list.add(getLinkTypeByName(name))
         }
-        return result
+        return Device.getSortedLinkTypeIndices(list)
     }
+
 
     private fun getDeviceTypeByName(typeName: String): DeviceType {
         val deviceType = jsonObjects.deviceType.find { typeName == it.name }
@@ -189,13 +195,13 @@ object Configuration {
         return deviceType
     }
 
-
-
     private fun getLinkTypeByName(name: String): LinkType {
         val element = jsonObjects.linkType.find { name == it.name }
         requireNotNull(element) { "protocol $name does not exist" }
         return element
     }
+
+
 
     private fun createAppEntity(deviceType: DeviceType) : Entity? {
         var app: Entity? = null

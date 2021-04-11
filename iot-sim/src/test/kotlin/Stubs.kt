@@ -3,20 +3,19 @@
 object Stubs {
 
     fun createEmptyDevice(address: Int): Device {
-        val loc = GeoLocation(0.0, 0.0)
+        val loc = GeoLocation.getRandom()
         val app = DatabaseApp()
         val sensor = null
         val powerSupply = PowerSupply(-1.0)
-        val protocols = mutableSetOf<LinkType>()
-        return Device(powerSupply, loc, address, app, sensor, protocols)
+        return Device(powerSupply, loc, address, app, sensor, IntArray(0))
     }
 
-    fun createEmptyDevice(address: Int, protocols: Set<LinkType>): Device {
-        val loc = GeoLocation(0.0, 0.0)
+    fun createEmptyDevice(address: Int, linkTypes: IntArray): Device {
+        val loc = GeoLocation.getRandom()
         val app = DatabaseApp()
         val sensor = null
         val powerSupply = PowerSupply(-1.0)
-        return Device(powerSupply, loc, address, app, sensor, protocols)
+        return Device(powerSupply, loc, address, app, sensor, linkTypes)
     }
 
 }

@@ -26,8 +26,8 @@
       "originLongitude": 10.697678009507923,
       "deviceType": "Fog",
       "linkType": "WPAN",
-      "signalCoverageEast": 1000,
-      "signalCoverageSouth": 1100
+      "signalCoverageEast": 500,
+      "signalCoverageSouth": 1200
     }
   ],
   "randomStarNetwork": [

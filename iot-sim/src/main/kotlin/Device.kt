@@ -5,12 +5,34 @@ class Device(
     val address: Int,
     val application: Entity?,
     var sensor: ParkingSensor?,
-    val protocols: Set<LinkType>
+    val supportedLinkTypes: IntArray
     ) : Entity()
 {
     private var availableLinks: MutableMap<Int, Link> = HashMap()
 
-    class RouteRequest
+
+    companion object {
+        var sortedLinkTypes: MutableList<LinkType> = ArrayList()
+        set(value) {
+            field = value
+            field.sortByDescending { it.dataRateInKbps }
+        }
+
+        fun getLinkTypeByIndex(index: Int)
+                = sortedLinkTypes[index]
+
+        private fun getIndexByLinkType(linkType: LinkType)
+                = sortedLinkTypes.indexOfFirst { linkType.name == it.name}
+
+        fun getSortedLinkTypeIndices(list: List<LinkType>): IntArray {
+            val result = IntArray(list.size)
+            for((index, linkType) in list.withIndex()) {
+                result[index] = getIndexByLinkType(linkType)
+            }
+            return result.sortedArray()
+        }
+    }
+
 
     fun getNetworkDelay(destination: Device): Long {
         return if (destination == this) {
@@ -46,44 +68,44 @@ class Device(
 
 
 
-    fun getDistanceInMeters(otherDevice: Device)
+    private fun getDistanceInMeters(otherDevice: Device)
         = location.getDistanceInMeters(otherDevice.location)
 
 
-    val comparator = compareByDescending<LinkType> { it.dataRateInKbps }
-
-    private fun selectBestLinkType(linkTypes: Set<LinkType>, distance: Int): LinkType? {
-        val sortedLinkTypes = linkTypes.asSequence().sortedWith(comparator)
-        for (linkType in sortedLinkTypes) {
-            if(distance <= linkType.rangeInMeters)
-                return linkType
+    private fun getBestLinkTypeIndex(otherDevice: Device) : Int {
+        val size = supportedLinkTypes.size.coerceAtMost(otherDevice.supportedLinkTypes.size)
+        for (i in 0 until size) {
+            if(supportedLinkTypes[i] == otherDevice.supportedLinkTypes[i]) {
+                if(isReachableByLinkType(supportedLinkTypes[i], otherDevice)) {
+                    return supportedLinkTypes[i]
+                }
+            }
         }
-        return null
+        return -1
     }
 
-    fun getBestLinkIfPossible(otherDevice: Device): Link? {
+    private fun isReachableByLinkType(index: Int, otherDevice: Device): Boolean {
+        val distance = getDistanceInMeters(otherDevice)
+        val linkType = getLinkTypeByIndex(index)
+        return distance <= linkType.rangeInMeters
+    }
+
+
+    fun getBestLink(otherDevice: Device): Link? {
         if (otherDevice == this)
             return null
-        val commonLinkTypes = protocols.intersect(otherDevice.protocols)
-        val distance = getDistanceInMeters(otherDevice)
-        val linkType = selectBestLinkType(commonLinkTypes, distance) ?: return null
-
-        val newLink = Link(otherDevice.address, distance, linkType)
-        if(newLink == availableLinks[otherDevice.address])
+        val linkIndex = getBestLinkTypeIndex(otherDevice)
+        if(linkIndex == -1)
             return null
-        return newLink
+
+        val distance = getDistanceInMeters(otherDevice)
+        return Link(otherDevice.address, distance, linkIndex)
     }
 
     fun addAvailableLink(otherDevice: Device) {
-        val newLink = getBestLinkIfPossible(otherDevice) ?: return
-        availableLinks[otherDevice.address] = newLink
-
-
-/*        Probier mal mit String zuweisung,
-        LinkTyp kann wieder verwendet werden,
-        bei den device adressen kann ich vielleicht auch ein int verwenden.*/
-        //nimm string für json, aber als id einfach int hochzählen und in arraylist speiucher
-
+        val link = getBestLink(otherDevice)
+        if(link != null)
+            availableLinks[otherDevice.address] = link
     }
 
     fun getAvailableLink(otherDevice: Device): Link?
@@ -103,6 +125,10 @@ class Device(
             return false
 
         return address == other.address
+    }
+
+    override fun hashCode(): Int {
+        return address
     }
 
 }
