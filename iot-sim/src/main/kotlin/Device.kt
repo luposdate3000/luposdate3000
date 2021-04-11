@@ -99,7 +99,7 @@ class Device(
             return null
 
         val distance = getDistanceInMeters(otherDevice)
-        return Link(otherDevice.address, distance, linkIndex)
+        return Link( distance, linkIndex)
     }
 
     fun addAvailableLink(otherDevice: Device) {

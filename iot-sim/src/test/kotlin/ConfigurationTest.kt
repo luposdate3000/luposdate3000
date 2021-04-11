@@ -79,6 +79,19 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
+    @ValueSource(strings = ["config/configOneFixedConnection.json"])
+    fun twoLinkedDevicesShareTheirLinkObject(fileName: String) {
+        Configuration.parse(fileName)
+        val deviceAName = Configuration.jsonObjects.fixedLinks[0].endpointA
+        val deviceBName = Configuration.jsonObjects.fixedLinks[0].endpointB
+        val deviceA = Configuration.getNamedDevice(deviceAName)
+        val deviceB = Configuration.getNamedDevice(deviceBName)
+
+        Assertions.assertNotNull(deviceA.getAvailableLink(deviceB))
+        Assertions.assertNotNull(deviceB.getAvailableLink(deviceA))
+    }
+
+    @ParameterizedTest
     @ValueSource(strings = ["config/configOneRandomNetwork.json"])
     fun `count number of devices in random network`(fileName: String) {
         Configuration.parse(fileName)
