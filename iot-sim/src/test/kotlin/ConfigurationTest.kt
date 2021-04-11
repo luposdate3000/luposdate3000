@@ -79,16 +79,19 @@ class ConfigurationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/configOneFixedConnection.json"])
+    @ValueSource(strings = ["config/twoLinkedDevicesShareTheirLinkObject.json"])
     fun twoLinkedDevicesShareTheirLinkObject(fileName: String) {
         Configuration.parse(fileName)
         val deviceAName = Configuration.jsonObjects.fixedLinks[0].endpointA
         val deviceBName = Configuration.jsonObjects.fixedLinks[0].endpointB
         val deviceA = Configuration.getNamedDevice(deviceAName)
         val deviceB = Configuration.getNamedDevice(deviceBName)
+        val linkA = deviceA.getAvailableLink(deviceB)
+        val linkB = deviceB.getAvailableLink(deviceA)
 
-        Assertions.assertNotNull(deviceA.getAvailableLink(deviceB))
-        Assertions.assertNotNull(deviceB.getAvailableLink(deviceA))
+        Assertions.assertTrue(linkA === linkB)
+        linkA!!.distanceInMeters = -1
+        Assertions.assertTrue(linkB!!.distanceInMeters == -1)
     }
 
     @ParameterizedTest

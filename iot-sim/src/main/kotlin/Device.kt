@@ -104,8 +104,11 @@ class Device(
 
     fun addAvailableLink(otherDevice: Device) {
         val link = getBestLink(otherDevice)
-        if(link != null)
+        if(link != null) {
             availableLinks[otherDevice.address] = link
+            otherDevice.availableLinks[address] = link
+        }
+
     }
 
     fun getAvailableLink(otherDevice: Device): Link?

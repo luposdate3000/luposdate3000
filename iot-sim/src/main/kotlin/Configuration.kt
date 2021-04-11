@@ -148,7 +148,6 @@ object Configuration {
 
     private fun link(a: Device, b: Device) {
         a.addAvailableLink(b)
-        b.addAvailableLink(a)
     }
 
     private fun createFixedDevices() {
