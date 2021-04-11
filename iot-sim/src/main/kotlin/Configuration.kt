@@ -1,6 +1,7 @@
 
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
+import kotlin.math.round
 
 object Configuration {
 
@@ -83,7 +84,7 @@ object Configuration {
         var restCoverageEast = network.signalCoverageEast - linkType.rangeInMeters
         var predecessor = origin
         while(restCoverageEast > 0) {
-            val distance = RandomGenerator.getInt(1, linkType.rangeInMeters)
+            val distance = getRandomDistance(linkType.rangeInMeters)
             val location = GeoLocation.createEasternLocation(predecessor.location, distance)
             predecessor = createDevice(deviceType, location)
             column = createSouthernDevices(predecessor, linkType, network, deviceType)
@@ -101,7 +102,7 @@ object Configuration {
         column.add(origin)
         var predecessor = origin
         while(restCoverageSouth > 0) {
-            val distance = RandomGenerator.getInt(1, linkType.rangeInMeters)
+            val distance = getRandomDistance(linkType.rangeInMeters)
             val location = GeoLocation.createSouthernLocation(predecessor.location, distance)
             predecessor = createDevice(deviceType, location)
             column.add(predecessor)
@@ -109,6 +110,12 @@ object Configuration {
         }
 
         return column
+    }
+
+    private fun getRandomDistance( maxDistance: Int):Int {
+        val density = 0.7
+        val percentage = round(maxDistance * density).toInt()
+        return RandomGenerator.getInt(percentage, maxDistance)
     }
 
     private fun createMeshOriginDevice(network: RandomMeshNetwork) : Device {
