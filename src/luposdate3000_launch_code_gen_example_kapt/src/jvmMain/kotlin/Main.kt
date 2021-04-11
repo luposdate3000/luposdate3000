@@ -18,20 +18,33 @@ import examplePackage.BenchmarkClass
 import examplePackage.ExampleAnnotation
 import examplePackage.exampleVar_evaluate
 import lupos.dictionary.DictionaryExt
+import lupos.endpoint.LuposdateEndpoint
 import lupos.launch.code_gen_example_kapt.mainFunc
 
 
 public fun main(args: Array<String>) {
-    //var flag = false
+    /*//var flag = false
     mainFunc()
     val example = ExampleAnnotation()
-    println(example.exampleVar_evaluate())
-/*
-    val benchmark = BenchmarkClass()
-    var time = benchmark.startTimer()
-    println("Elapsed time generated ${time/(1000*1000)} ms")
-    var time2 = benchmark.startTimerEndpoint()
-    println("Elapsed time non-generated ${time2/(1000*1000)} ms")
-    println("Elapsed time factor ${time2/time}")
-*/
+    println(example.exampleVar_evaluate())*/
+
+
+    LuposdateEndpoint.importTurtleFiles(
+        "resources/code-generation/example18" +
+            ".n3",
+        mutableMapOf()
+    )
+    println("Init finished")
+    val exampleVar: String =
+        "SELECT (count(?pages) as ?count) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://purl.org/dc/elements/1.1/title> ?title}"
+    println(LuposdateEndpoint.evaluateSparqlToResultB(exampleVar))
+
+    /*
+    for (i in 1..3) {
+        val benchmark = BenchmarkClass()
+        var (time, counter) = benchmark.startTimer()
+        println("Elapsed time generated ${time} ms for $counter iterations")
+        var (time2, counter2) = benchmark.startTimerEndpoint()
+        println("Elapsed time non-generated ${time2} ms for $counter2 iterations")
+    }*/
 }
