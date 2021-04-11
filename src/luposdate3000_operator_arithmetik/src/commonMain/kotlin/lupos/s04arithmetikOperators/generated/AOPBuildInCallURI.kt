@@ -16,6 +16,7 @@
  */
 package lupos.s04arithmetikOperators.generated
 
+import kotlin.jvm.JvmField
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
@@ -26,7 +27,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import kotlin.jvm.JvmField
 
 public class AOPBuildInCallURI public constructor(query: IQuery, child0: AOPBase, @JvmField public var prefix: String, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallURIID, "AOPBuildInCallURI", arrayOf(child0, )) {
     override fun toSparql(): String = "URI(${children[0].toSparql()})"

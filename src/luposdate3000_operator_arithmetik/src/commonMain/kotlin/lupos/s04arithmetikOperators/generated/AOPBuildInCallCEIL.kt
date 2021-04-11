@@ -17,6 +17,7 @@
 package lupos.s04arithmetikOperators.generated
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import kotlin.math.ceil
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
@@ -27,7 +28,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import kotlin.math.ceil
 
 public class AOPBuildInCallCEIL public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallCEILID, "AOPBuildInCallCEIL", arrayOf(child0, )) {
     override fun toSparql(): String = "CEIL(${children[0].toSparql()})"

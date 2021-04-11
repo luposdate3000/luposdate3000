@@ -17,6 +17,7 @@
 package lupos.s04arithmetikOperators.generated
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import kotlin.math.floor
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
@@ -27,7 +28,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import kotlin.math.floor
 
 public class AOPBuildInCallFLOOR public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallFLOORID, "AOPBuildInCallFLOOR", arrayOf(child0, )) {
     override fun toSparql(): String = "FLOOR(${children[0].toSparql()})"

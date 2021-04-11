@@ -18,6 +18,7 @@ package lupos.s04arithmetikOperators.generated
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.RoundingMode
+import kotlin.math.roundToInt
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
@@ -28,7 +29,6 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
-import kotlin.math.roundToInt
 
 public class AOPBuildInCallROUND public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallROUNDID, "AOPBuildInCallROUND", arrayOf(child0, )) {
     override fun toSparql(): String = "ROUND(${children[0].toSparql()})"
@@ -46,7 +46,7 @@ public class AOPBuildInCallROUND public constructor(query: IQuery, child0: AOPBa
             when (tmp_1) {
                 ETripleComponentTypeExt.DECIMAL -> {
                     val tmp_3: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
-                    val tmp_4: BigDecimal = tmp_3.roundToDigitPositionAfterDecimalPoint(0, RoundingMode.CEILING)
+                    val tmp_4: BigDecimal = tmp_3.roundToDigitPositionAfterDecimalPoint(0, RoundingMode.ROUND_HALF_AWAY_FROM_ZERO)
                     DictionaryHelper.decimalToByteArray(tmp_2, tmp_4)
                     res = query.getDictionary().createValue(tmp_2)
                 }
