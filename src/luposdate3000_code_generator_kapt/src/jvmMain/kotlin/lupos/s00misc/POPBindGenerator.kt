@@ -2,6 +2,7 @@ package lupos.s00misc
 
 import lupos.s09physicalOperators.singleinput.POPBind
 import lupos.s09physicalOperators.singleinput.POPDebug
+import lupos.s09physicalOperators.singleinput.POPFilter
 
 internal fun generatePOPBind(
     operatorGraph: POPBind,
@@ -24,7 +25,7 @@ internal fun generatePOPBind(
 
 
     for (container in containers){
-        if(container.name == "operator${child.getUUID()}"){
+        if(container.name == "operator${child.getUUID()}" && child is POPFilter){
             inlineChild = true
             childContainer = container
             //containers.remove(container)
