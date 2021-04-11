@@ -80,19 +80,17 @@ object Configuration {
 
         var column = createSouthernDevices(origin, linkType, network, deviceType)
         meshNetwork.mesh[0] = column
-
         var restCoverageEast = network.signalCoverageEast - linkType.rangeInMeters
+        var predecessor = origin
+        while(restCoverageEast > 0) {
+            val distance = RandomGenerator.getInt(1, linkType.rangeInMeters)
+            val location = GeoLocation.createEasternLocation(predecessor.location, distance)
+            predecessor = createDevice(deviceType, location)
+            column = createSouthernDevices(predecessor, linkType, network, deviceType)
+            meshNetwork.mesh.add(column)
 
-            while(restCoverageEast > 0) {
-
-                val distance = RandomGenerator.getInt(1, linkType.rangeInMeters)
-                val location = GeoLocation.createEasternLocation(origin.location, distance)
-                val device = createDevice(deviceType, location)
-                column = createSouthernDevices(device, linkType, network, deviceType)
-                meshNetwork.mesh.add(column)
-
-                restCoverageEast = restCoverageEast - distance - linkType.rangeInMeters
-            }
+            restCoverageEast -= distance
+        }
 
         randMeshNetworks[network.networkPrefix] = meshNetwork
     }
@@ -100,14 +98,14 @@ object Configuration {
     private fun createSouthernDevices(origin: Device, linkType: LinkType, network: RandomMeshNetwork, deviceType: DeviceType): MutableList<Device> {
         val column = ArrayList<Device>()
         var restCoverageSouth = network.signalCoverageSouth - linkType.rangeInMeters
-
         column.add(origin)
+        var predecessor = origin
         while(restCoverageSouth > 0) {
             val distance = RandomGenerator.getInt(1, linkType.rangeInMeters)
-            val location = GeoLocation.createSouthernLocation(origin.location, distance)
-            val device = createDevice(deviceType, location)
-            column.add(device)
-            restCoverageSouth = restCoverageSouth - distance - linkType.rangeInMeters
+            val location = GeoLocation.createSouthernLocation(predecessor.location, distance)
+            predecessor = createDevice(deviceType, location)
+            column.add(predecessor)
+            restCoverageSouth -= distance
         }
 
         return column

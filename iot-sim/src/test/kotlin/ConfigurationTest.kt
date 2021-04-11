@@ -168,8 +168,26 @@ class ConfigurationTest {
         val rowSize = meshNet.mesh.size
         for(col in meshNet.mesh) {
             Assertions.assertTrue(col.size > rowSize)
-
         }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["config/edgeMeshDevicesCannotReachEachOther.json"])
+    fun edgeMeshDevicesCannotReachEachOther(fileName: String) {
+        Configuration.parse(fileName)
+        val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
+        val mesh = Configuration.randMeshNetworks[networkPrefix]!!.mesh
+        val northWest = mesh[0][0]
+        val southWest = mesh[0][mesh[0].size-1]
+        val northEast = mesh[mesh.size-1][0]
+        val southEast = mesh[mesh.size-1][mesh[mesh.size-1].size-1]
+
+        Assertions.assertFalse(northWest.hasAvailAbleLink(northEast))
+        Assertions.assertFalse(northWest.hasAvailAbleLink(southEast))
+        Assertions.assertFalse(northWest.hasAvailAbleLink(southWest))
+        Assertions.assertFalse(northEast.hasAvailAbleLink(southWest))
+        Assertions.assertFalse(northEast.hasAvailAbleLink(southEast))
+        Assertions.assertFalse(southEast.hasAvailAbleLink(southWest))
     }
 
 }
