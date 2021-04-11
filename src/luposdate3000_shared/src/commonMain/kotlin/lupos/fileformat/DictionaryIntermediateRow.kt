@@ -23,4 +23,12 @@ public class DictionaryIntermediateRow(public val id: Int, public val data: Byte
     public override operator fun compareTo(other: DictionaryIntermediateRow): Int {
         return data.compareTo(other.data)
     }
+
+    override fun equals(other: Any?): Boolean {
+        return other is DictionaryIntermediateRow && compareTo(other) == 0
+    }
+
+    override fun hashCode(): Int {
+        return data.hashCode()
+    }
 }

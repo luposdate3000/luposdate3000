@@ -40,10 +40,11 @@ enum class IntellijMode {
     Enable, Disable
 }
 
-//var compilerVersion = "1.5.255-SNAPSHOT"
+var compilerVersion = "1.5.255-SNAPSHOT"
+val copySelevtively = false
 
 // var compilerVersion = "1.4.255-SNAPSHOT"
-var compilerVersion = "1.4.0"
+//var compilerVersion = "1.4.0"
 val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
 private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, appendix: String, out: PrintWriter) {
     for (d in dependencies) {
@@ -286,7 +287,6 @@ class CreateModuleArgs() {
 }
 
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
-    val copySelevtively = false
     try {
         if (moduleArgs.dryMode == DryMode.Enable || moduleArgs.ideaBuildfile == IntellijMode.Enable) {
             moduleArgs.dryMode = DryMode.Enable

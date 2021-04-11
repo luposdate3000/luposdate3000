@@ -7,24 +7,22 @@ These datasets are not required to run the database, but can be used to evaluate
 
 | Dataset | Size (turtle) | Size (intermediate) | triples     |
 | :------ | ------------: | ------------------: | ----------: |
-| barton  |       9.5 GiB |             1.5 GiB |    78497317 |
-| btc2019 |      38.0 GiB |             8.8 GiB |   256059356 |
-| yago1   |       0.9 GiB |             0.5 GiB |    19012849 |
-| yago2   |       5.8 GiB |             2.7 GiB |   112824705 |
+| barton  |       9.5 GiB |             1.1 GiB |    78497317 |
+| btc2019 |      38.0 GiB |             8.5 GiB |   256059356 |
+| yago1   |       0.9 GiB |             0.4 GiB |    19012849 |
+| yago2   |       5.8 GiB |             2.0 GiB |   112824705 |
 | yago2s  |       9.5 GiB |             3.0 GiB |   171684850 |
-| yago3   |       8.5 GiB |             3.6 GiB |   138264317 |
-| yago4   |     474.0 GiB | ???                 |             |
+| yago3   |       8.5 GiB |             3.7 GiB |   138264317 |
+| yago4   |     474.0 GiB |            61.0 GiB |  2539591846 |
 
 | Dataset | Size (nQuads) | Size (intermediate) | quads       |
 | :------ | ------------: | ------------------: | ----------: |
-| btc2010 |     624.0 GiB |            66.5 GiB |  3171793030 |
+| btc2010 |     624.0 GiB |            69.9 GiB |  3171793030 |
 
-Currently luposdate3000 is inmemory only, which means, you can only load benchmarks files, which are smaller than your available RAM.
 The size in the "intermediate" column should give you an idea how large the dataset is, when using a dictionary.
-These intermediate files are generated using "./exec-import.main.kts turtle-file-name.nt"
-The numbers are much smaller than the original size.
+These intermediate files are generated using "./launcher.main.kts --run --mainClass=Import --runArgument_Luposdate3000_Launch_Import:inputFileName=turtle-file-name.nt"
+The intermediate representation is much smaller than the original text size.
 Of course you need some additional memory to evaluate queries on these datasets.
-The intermediate size "???" means, that I have not completely loaded that dataset currently.
 
 Some datasets contain invalid data as for example btc2019 contains the "OgtbbJctXNk"^^<http://www.w3.org/2001/XMLSchema#integer> - which is obviously not a number.
 In these cases I 'fix' those errors by removing the type specifier - or if possible change it to something useful as for example "decimal".

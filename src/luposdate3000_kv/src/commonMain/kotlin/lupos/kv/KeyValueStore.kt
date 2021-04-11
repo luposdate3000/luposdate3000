@@ -39,15 +39,15 @@ public class KeyValueStore {
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
         rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
+        var id1 = 0
+        var id2 = 0
         if (initFromRootPage) {
             lastPage = rootPage.readInt4(0)
             lastPageBuf = bufferManager.getPage(lupos.SOURCE_FILE, lastPage)
             lastPageOffset = rootPage.readInt4(4)
             nextID = rootPage.readInt4(8)
-            var id1 = rootPage.readInt4(12)
-            var id2 = rootPage.readInt4(16)
-            mappingID2Page = MyIntArray(bufferManager, id1, initFromRootPage)
-            mappingID2Off = MyIntArray(bufferManager, id2, initFromRootPage)
+            id1 = rootPage.readInt4(12)
+            id2 = rootPage.readInt4(16)
         } else {
             var tmpPage: BufferManagerPage? = null
             lastPage = 0
@@ -62,8 +62,6 @@ public class KeyValueStore {
             rootPage.writeInt4(4, lastPageOffset)
             nextID = 0
             rootPage.writeInt4(8, nextID)
-            var id1 = 0
-            var id2 = 0
             bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
                 id1 = pageid
             }
@@ -74,9 +72,9 @@ public class KeyValueStore {
             bufferManager.releasePage(lupos.SOURCE_FILE, id2)
             rootPage.writeInt4(12, id1)
             rootPage.writeInt4(16, id2)
-            mappingID2Page = MyIntArray(bufferManager, id1, initFromRootPage)
-            mappingID2Off = MyIntArray(bufferManager, id2, initFromRootPage)
         }
+        mappingID2Page = MyIntArray(bufferManager, id1, initFromRootPage)
+        mappingID2Off = MyIntArray(bufferManager, id2, initFromRootPage)
     }
 
     @ProguardTestAnnotation

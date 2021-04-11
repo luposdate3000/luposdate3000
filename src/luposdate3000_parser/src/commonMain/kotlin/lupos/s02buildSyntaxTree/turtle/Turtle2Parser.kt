@@ -355,7 +355,7 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
         parse_triple_end_or_object_string(
             context,
             onLANGTAG = {
-                DictionaryHelper.langToByteArray(triple[2], arg, context.getValue())
+                DictionaryHelper.langToByteArray(triple[2], arg, context.getValue().substring(1))
                 parse_ws(context) {}
                 state = Turtle2ParserStateExt.TRIPLE_END
             },

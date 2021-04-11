@@ -20,6 +20,7 @@ import lupos.ProguardTestAnnotation
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
+import kotlin.math.max
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 public class MyIntArray internal constructor(@JvmField private val filename: String, initialize: Boolean) {
@@ -35,13 +36,13 @@ public class MyIntArray internal constructor(@JvmField private val filename: Str
     private var closed = false
     private val lock = MyReadWriteLock()
     private var data = IntArray(0)
-
-    public fun getSize(): Int = data.size
+    private var _size = 0
+    public fun getSize(): Int = _size
 
     public operator fun get(idx: Int): Int {
         SanityCheck.check { !closed }
         SanityCheck.check { idx >= 0 }
-        SanityCheck.check { idx < data.size }
+        SanityCheck.check { idx < _size }
         var res = 0
         lock.withReadLock {
             res = data[idx]
@@ -52,7 +53,7 @@ public class MyIntArray internal constructor(@JvmField private val filename: Str
     public operator fun set(idx: Int, value: Int) {
         SanityCheck.check { !closed }
         SanityCheck.check { idx >= 0 }
-        SanityCheck.check { idx < data.size }
+        SanityCheck.check { idx < _size }
         lock.withWriteLock {
             data[idx] = value
         }
@@ -60,30 +61,48 @@ public class MyIntArray internal constructor(@JvmField private val filename: Str
 
     public fun setSize(size: Int, clean: Boolean) {
         SanityCheck.check { !closed }
-        if (size != data.size) {
+        if (size != _size) {
             lock.withWriteLock {
-                var newData = IntArray(size)
-                if (data.size < newData.size) {
-                    data.copyInto(newData)
-                } else {
-                    data.copyInto(newData, 0, 0, newData.size)
+                if (data.size < size) {
+                    var newSize = max(_size, 1)
+                    while (newSize < size) {
+                        newSize *= 2
+                    }
+                    var newData = IntArray(newSize)
+                    if (_size < newSize) {
+                        data.copyInto(newData)
+                    } else {
+                        data.copyInto(newData, 0, 0, newSize)
+                    }
+                    data = newData
+                } else if (clean) {
+                    for (i in _size until size) {
+                        data[i] = 0
+                    }
                 }
-                data = newData
+                _size = size
             }
         }
     }
 
     public fun setSize(size: Int) {
         SanityCheck.check { !closed }
-        if (size != data.size) {
+        if (size != _size) {
             lock.withWriteLock {
-                var newData = IntArray(size)
-                if (data.size < newData.size) {
-                    data.copyInto(newData)
-                } else {
-                    data.copyInto(newData, 0, 0, newData.size)
+                if (data.size < size) {
+                    var newSize = max(_size, 1)
+                    while (newSize < size) {
+                        newSize *= 2
+                    }
+                    var newData = IntArray(newSize)
+                    if (_size < newSize) {
+                        data.copyInto(newData)
+                    } else {
+                        data.copyInto(newData, 0, 0, newSize)
+                    }
+                    data = newData
                 }
-                data = newData
+                _size = size
             }
         }
     }

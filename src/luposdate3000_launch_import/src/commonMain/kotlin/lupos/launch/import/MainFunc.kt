@@ -16,6 +16,7 @@
  */
 package lupos.launch.import
 
+import lupos.dictionary.DictionaryHelper
 import lupos.fileformat.DictionaryIntermediate
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.fileformat.DictionaryIntermediateRow
@@ -51,6 +52,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         "triples"
     }
     val dictSizeLimit = 1024L * 1024L * 1024L
+//    val dictSizeLimit = 1024L * 16L
     var dictSizeEstimated = 0L
     var chunc = 0
 // create chunced dictionaries
@@ -151,26 +153,35 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     val dictionariesHeadBuffer = Array(chunc) { ByteArrayWrapper() }
     val dictionariesHead = Array(chunc) { dictionaries[it].next(dictionariesHeadBuffer[it]) }
 
-    var current: DictionaryIntermediateRow? = null
+    var buffer = ByteArrayWrapper()
+    var current: ByteArrayWrapper? = null
     var currentValue = 0
+
 
     var changed = true
     loop@ while (changed) {
         changed = false
-        for (d in dictionariesHead) {
-            if (current == null) {
-                current = d
-            } else if (d != null && d < current) {
-                current = d
+        for (i in 0 until chunc) {
+            val d = dictionariesHead[i]
+            if (d != null) {
+                if (current == null) {
+                    d.data.copyInto(buffer)
+                    current = buffer
+                } else if (d != null) {
+                    if (d.data <= current) {
+                        d.data.copyInto(current)
+                    }
+                }
             }
         }
         if (current != null) {
             changed = true
-            outDictionary.writeAssumeOrdered(currentValue, current.data)
+            outDictionary.writeAssumeOrdered(currentValue, current)
             for (i in 0 until chunc) {
-                if (dictionariesHead[i] != null) {
-                    if (current.compareTo(dictionariesHead[i]!!) == 0) {
-                        mapping[dictionariesHead[i]!!.id] = currentValue
+                val d = dictionariesHead[i]
+                if (d != null) {
+                    if (current == d.data) {
+                        mapping[d.id] = currentValue
                         dictionariesHead[i] = dictionaries[i].next(dictionariesHeadBuffer[i])
                     }
                 }

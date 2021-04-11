@@ -79,7 +79,7 @@ public abstract class NQuads2Parser(input: IMyInputStream) {
                             )
                         },
                         onLANGTAG = {
-                            DictionaryHelper.langToByteArray(quad[2], s, context.getValue())
+                            DictionaryHelper.langToByteArray(quad[2], s, context.getValue().substring(1))
                             parse_ws_forced(context) {}
                         },
                         onSKIP_WS = {

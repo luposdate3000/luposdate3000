@@ -778,7 +778,9 @@ fun onRun() {
             val cmd = mutableListOf("java",
                 "-XX:+UnlockExperimentalVMOptions",
                 "-Xmx${Platform.getAvailableRam()}g",
-//
+//                "-Xmx10g",
+//"-XX:+UseEpsilonGC","-Xms10g" ,"-XX:+AlwaysPreTouch","-XX:+HeapDumpOnOutOfMemoryError",
+//"-XX:+UseEpsilonGC","-Xms${Platform.getAvailableRam()}g" ,"-XX:+AlwaysPreTouch","-XX:+HeapDumpOnOutOfMemoryError",
                 "-XX:+UseShenandoahGC", "-XX:ShenandoahUncommitDelay=1000", "-XX:ShenandoahGuaranteedGCInterval=10000",
 //
                 "-cp", classpath, "MainKt")
