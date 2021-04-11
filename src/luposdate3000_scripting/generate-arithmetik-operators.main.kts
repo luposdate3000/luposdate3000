@@ -376,7 +376,7 @@ public class MyOperatorPartFactory() {
     var generateByteArrayWrapperOther: GenerateFunc? = null
 
     fun build(): Array<MyOperatorPart> {
-        if (generateInstantiatedOther != null || generateByteArrayWrapperOther != null) {
+        if (generateInstantiatedOther != null) {
             val paramsCount = list[0].childrenTypes.size
             when (paramsCount) {
                 1 -> {
@@ -386,6 +386,61 @@ public class MyOperatorPartFactory() {
                             if (c.childrenTypes[0] == i) {
                                 found = true
                                 break
+                            }
+                        }
+                        if (!found) {
+                            list.add(
+                                MyOperatorPart(
+                                    childrenTypes = arrayOf(i),
+                                    generateInstantiated = generateInstantiatedOther!!,
+                                    generateByteArrayWrapper = generateByteArrayWrapperOther,
+                                )
+                            )
+                        }
+                    }
+                }
+                2 -> {
+                    for (i in 0 until ETripleComponentTypeExt.values_size) {
+                        for (j in 0 until ETripleComponentTypeExt.values_size) {
+                            var found = false
+                            for (c in list) {
+                                if (c.childrenTypes[0] == i && c.childrenTypes[1] == j) {
+                                    found = true
+                                    break
+                                }
+                            }
+                            if (!found) {
+                                list.add(
+                                    MyOperatorPart(
+                                        childrenTypes = arrayOf(i, j),
+                                        generateInstantiated = generateInstantiatedOther!!,
+                                        generateByteArrayWrapper = generateByteArrayWrapperOther,
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+                3 -> {
+                    for (i in 0 until ETripleComponentTypeExt.values_size) {
+                        for (j in 0 until ETripleComponentTypeExt.values_size) {
+                            for (k in 0 until ETripleComponentTypeExt.values_size) {
+                                var found = false
+                                for (c in list) {
+                                    if (c.childrenTypes[0] == i && c.childrenTypes[1] == j && c.childrenTypes[2] == k) {
+                                        found = true
+                                        break
+                                    }
+                                }
+                                if (!found) {
+                                    list.add(
+                                        MyOperatorPart(
+                                            childrenTypes = arrayOf(i, j, k),
+                                            generateInstantiated = generateInstantiatedOther!!,
+                                            generateByteArrayWrapper = generateByteArrayWrapperOther,
+                                        )
+                                    )
+                                }
                             }
                         }
                     }
@@ -675,7 +730,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.FLOAT)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -732,7 +787,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.FLOAT)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -788,7 +843,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.FLOAT)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -844,7 +899,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.FLOAT)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -859,7 +914,7 @@ operators.add(
                 arrayOf(arrayOf(ETripleComponentTypeExt.ERROR), arrayOf(ETripleComponentTypeExt.UNDEF)),
                 generateInstantiated = generateInstantiatedFalse2,
                 generateByteArrayWrapper = generateByteArrayWrapperFalse2,
-            ).build(),
+            ).setOther(generateInstantiatedTrue2, generateByteArrayWrapperTrue2, ).build(),
         generateInstantiatedOther = generateInstantiatedTrue,
         generateIDOther = generateIDTrue,
         generateByteArrayWrapperOther = generateByteArrayWrapperTrue,
@@ -899,7 +954,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.INTEGER)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -938,7 +993,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.STRING_LANG)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -975,7 +1030,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.STRING)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1085,7 +1140,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.STRING)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1195,7 +1250,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1234,7 +1289,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.STRING_LANG)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1334,7 +1389,7 @@ operators.add(
                         target.appendLine("$indention}")
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1434,7 +1489,7 @@ operators.add(
                         target.appendLine("$indention}")
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1454,7 +1509,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.INTEGER)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1474,7 +1529,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.INTEGER)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1494,7 +1549,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.INTEGER)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1514,7 +1569,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.INTEGER)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1534,7 +1589,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.INTEGER)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1554,7 +1609,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.DECIMAL)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1573,7 +1628,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.STRING)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1592,7 +1647,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.STRING)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1612,7 +1667,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1632,7 +1687,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.STRING_LANG)
                     },
                 ),
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1651,7 +1706,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                     },
                 ),
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1802,7 +1857,7 @@ operators.add(
                         target.appendLine("$indention}")
                     },
                 ),
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1953,7 +2008,7 @@ operators.add(
                         target.appendLine("$indention}")
                     },
                 ),
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1990,7 +2045,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                     },
                 ),
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2027,7 +2082,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2064,7 +2119,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2167,7 +2222,7 @@ operators.add(
                         target.appendLine("$indention}")
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2186,7 +2241,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2231,7 +2286,7 @@ operators.add(
                         target.appendLine("$indention}")
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2276,7 +2331,7 @@ operators.add(
                         target.appendLine("$indention}")
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2316,7 +2371,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.STRING)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2356,7 +2411,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.STRING)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2396,7 +2451,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.STRING)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2427,7 +2482,7 @@ operators.add(
                     generateInstantiated = generateInstantiatedTrue2,
                     generateByteArrayWrapper = generateByteArrayWrapperTrue2,
                 )
-            ).build(),
+            ).setOther(generateInstantiatedFalse2, generateByteArrayWrapperFalse2, ).build(),
         generateInstantiatedOther = generateInstantiatedFalse,
         generateIDOther = generateIDFalse,
         generateByteArrayWrapperOther = generateByteArrayWrapperFalse,
@@ -2465,7 +2520,7 @@ operators.add(
                     generateInstantiated = generateInstantiatedFalse2,
                     generateByteArrayWrapper = generateByteArrayWrapperFalse2,
                 )
-            ).build(),
+            ).setOther(generateInstantiatedTrue2, generateByteArrayWrapperTrue2, ).build(),
         generateInstantiatedOther = generateInstantiatedTrue,
         generateIDOther = generateIDTrue,
         generateByteArrayWrapperOther = generateByteArrayWrapperTrue,
@@ -2583,7 +2638,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2611,7 +2666,7 @@ operators.add(
                 ),
                 generateInstantiated = generateInstantiatedTrue2,
                 generateByteArrayWrapper = generateByteArrayWrapperTrue2,
-            ).build(),
+            ).setOther(generateInstantiatedFalse2, generateByteArrayWrapperFalse2, ).build(),
         generateInstantiatedOther = generateInstantiatedFalse,
         generateIDOther = generateIDFalse,
         generateByteArrayWrapperOther = generateByteArrayWrapperFalse,
@@ -2686,7 +2741,7 @@ operators.add(
                         onResult(indention, ETripleComponentTypeExt.STRING)
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2744,7 +2799,7 @@ operators.add(
                         target.appendLine("$indention}")
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2802,7 +2857,7 @@ operators.add(
                         target.appendLine("$indention}")
                     },
                 )
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2828,7 +2883,7 @@ operators.add(
                         target.appendLine("$indention}")
                     },
                 ),
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2854,7 +2909,7 @@ operators.add(
                         target.appendLine("$indention}")
                     },
                 ),
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2881,7 +2936,7 @@ operators.add(
                         target.appendLine("$indention}")
                     },
                 ),
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2907,7 +2962,7 @@ operators.add(
                         target.appendLine("$indention}")
                     },
                 ),
-            ).build(),
+            ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
         generateInstantiatedOther = generateInstantiatedError,
         generateIDOther = generateIDError,
         generateByteArrayWrapperOther = generateByteArrayWrapperError,

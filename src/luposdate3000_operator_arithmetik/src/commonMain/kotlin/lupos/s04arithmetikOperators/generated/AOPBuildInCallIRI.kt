@@ -42,35 +42,75 @@ public class AOPBuildInCallIRI public constructor(query: IQuery, child0: AOPBase
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
+                ETripleComponentTypeExt.BLANK_NODE -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.BOOLEAN -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.DATE_TIME -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.DECIMAL -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.DOUBLE -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.ERROR -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.FLOAT -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.INTEGER -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
                 ETripleComponentTypeExt.IRI -> {
                     tmp_0.copyInto(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING -> {
-                    val tmp_4: String = DictionaryHelper.byteArrayToString(tmp_0)
-                    val tmp_5: String = if (prefix.length > 0 && !prefix.endsWith('/')) {
-                        "$prefix/$tmp_4"
+                    val tmp_12: String = DictionaryHelper.byteArrayToString(tmp_0)
+                    val tmp_13: String = if (prefix.length > 0 && !prefix.endsWith('/')) {
+                        "$prefix/$tmp_12"
                     } else {
-                        "$prefix$tmp_4"
+                        "$prefix$tmp_12"
                     }
-                    DictionaryHelper.iriToByteArray(tmp_2, tmp_5)
+                    DictionaryHelper.iriToByteArray(tmp_2, tmp_13)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.STRING_LANG -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING_TYPED -> {
-                    val tmp_7_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
-                    val tmp_7_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
-                    if (tmp_7_type == "http://www.w3.org/2001/XMLSchema#string") {
-                        val tmp_8: String = if (prefix.length > 0 && !prefix.endsWith('/')) {
-                            "$prefix/$tmp_7_content"
+                    val tmp_16_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
+                    val tmp_16_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
+                    if (tmp_16_type == "http://www.w3.org/2001/XMLSchema#string") {
+                        val tmp_17: String = if (prefix.length > 0 && !prefix.endsWith('/')) {
+                            "$prefix/$tmp_16_content"
                         } else {
-                            "$prefix$tmp_7_content"
+                            "$prefix$tmp_16_content"
                         }
-                        DictionaryHelper.iriToByteArray(tmp_2, tmp_8)
+                        DictionaryHelper.iriToByteArray(tmp_2, tmp_17)
                         res = query.getDictionary().createValue(tmp_2)
                     } else {
                         DictionaryHelper.errorToByteArray(tmp_2)
                         res = query.getDictionary().createValue(tmp_2)
                     }
+                }
+                ETripleComponentTypeExt.UNDEF -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {
                     res = DictionaryExt.errorValue

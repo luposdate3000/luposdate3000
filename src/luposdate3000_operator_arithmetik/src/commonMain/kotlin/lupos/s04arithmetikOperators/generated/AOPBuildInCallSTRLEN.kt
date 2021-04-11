@@ -42,24 +42,64 @@ public class AOPBuildInCallSTRLEN public constructor(query: IQuery, child0: AOPB
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
+                ETripleComponentTypeExt.BLANK_NODE -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.BOOLEAN -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.DATE_TIME -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.DECIMAL -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.DOUBLE -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.ERROR -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.FLOAT -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.INTEGER -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.IRI -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
                 ETripleComponentTypeExt.STRING -> {
-                    val tmp_3: String = DictionaryHelper.byteArrayToString(tmp_0)
-                    val tmp_4: BigInteger = BigInteger(tmp_3.length)
-                    DictionaryHelper.integerToByteArray(tmp_2, tmp_4)
+                    val tmp_12: String = DictionaryHelper.byteArrayToString(tmp_0)
+                    val tmp_13: BigInteger = BigInteger(tmp_12.length)
+                    DictionaryHelper.integerToByteArray(tmp_2, tmp_13)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING_LANG -> {
-                    val tmp_6_content: String = DictionaryHelper.byteArrayToLang_Content(tmp_0)
-                    val tmp_6_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
-                    val tmp_7: BigInteger = BigInteger(tmp_6_content.length)
-                    DictionaryHelper.integerToByteArray(tmp_2, tmp_7)
+                    val tmp_15_content: String = DictionaryHelper.byteArrayToLang_Content(tmp_0)
+                    val tmp_15_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
+                    val tmp_16: BigInteger = BigInteger(tmp_15_content.length)
+                    DictionaryHelper.integerToByteArray(tmp_2, tmp_16)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING_TYPED -> {
-                    val tmp_9_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
-                    val tmp_9_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
-                    val tmp_10: BigInteger = BigInteger(tmp_9_content.length)
-                    DictionaryHelper.integerToByteArray(tmp_2, tmp_10)
+                    val tmp_18_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
+                    val tmp_18_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
+                    val tmp_19: BigInteger = BigInteger(tmp_18_content.length)
+                    DictionaryHelper.integerToByteArray(tmp_2, tmp_19)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.UNDEF -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {

@@ -43,18 +43,66 @@ public class AOPBuildInCallHOURS public constructor(query: IQuery, child0: AOPBa
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
+                ETripleComponentTypeExt.BLANK_NODE -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.BOOLEAN -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
                 ETripleComponentTypeExt.DATE_TIME -> {
-                    val tmp_3_typed_content: String = DictionaryHelper.byteArrayToDateTimeAsTyped_Content(tmp_0)
-                    val tmp_3_year: BigInteger = DictionaryHelper.byteArrayToDateTime_Year(tmp_0)
-                    val tmp_3_month: BigInteger = DictionaryHelper.byteArrayToDateTime_Month(tmp_0)
-                    val tmp_3_day: BigInteger = DictionaryHelper.byteArrayToDateTime_Day(tmp_0)
-                    val tmp_3_hours: BigInteger = DictionaryHelper.byteArrayToDateTime_Hours(tmp_0)
-                    val tmp_3_minutes: BigInteger = DictionaryHelper.byteArrayToDateTime_Minutes(tmp_0)
-                    val tmp_3_seconds: BigDecimal = DictionaryHelper.byteArrayToDateTime_Seconds(tmp_0)
-                    val tmp_3_tz: String = DictionaryHelper.byteArrayToDateTime_TZ(tmp_0)
-                    val tmp_3_timezone: String = DictionaryHelper.byteArrayToDateTime_TimeZone(tmp_0)
-                    val tmp_4: BigInteger = tmp_3_hours
-                    DictionaryHelper.integerToByteArray(tmp_2, tmp_4)
+                    val tmp_5_typed_content: String = DictionaryHelper.byteArrayToDateTimeAsTyped_Content(tmp_0)
+                    val tmp_5_year: BigInteger = DictionaryHelper.byteArrayToDateTime_Year(tmp_0)
+                    val tmp_5_month: BigInteger = DictionaryHelper.byteArrayToDateTime_Month(tmp_0)
+                    val tmp_5_day: BigInteger = DictionaryHelper.byteArrayToDateTime_Day(tmp_0)
+                    val tmp_5_hours: BigInteger = DictionaryHelper.byteArrayToDateTime_Hours(tmp_0)
+                    val tmp_5_minutes: BigInteger = DictionaryHelper.byteArrayToDateTime_Minutes(tmp_0)
+                    val tmp_5_seconds: BigDecimal = DictionaryHelper.byteArrayToDateTime_Seconds(tmp_0)
+                    val tmp_5_tz: String = DictionaryHelper.byteArrayToDateTime_TZ(tmp_0)
+                    val tmp_5_timezone: String = DictionaryHelper.byteArrayToDateTime_TimeZone(tmp_0)
+                    val tmp_6: BigInteger = tmp_5_hours
+                    DictionaryHelper.integerToByteArray(tmp_2, tmp_6)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.DECIMAL -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.DOUBLE -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.ERROR -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.FLOAT -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.INTEGER -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.IRI -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.STRING -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.STRING_LANG -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.STRING_TYPED -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.UNDEF -> {
+                    DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {

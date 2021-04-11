@@ -45,12 +45,48 @@ public class AOPBuildInCallIsLITERAL public constructor(query: IQuery, child0: A
                     DictionaryHelper.booleanToByteArray(tmp_2, false)
                     res = query.getDictionary().createValue(tmp_2)
                 }
+                ETripleComponentTypeExt.BOOLEAN -> {
+                    DictionaryHelper.booleanToByteArray(tmp_2, true)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.DATE_TIME -> {
+                    DictionaryHelper.booleanToByteArray(tmp_2, true)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.DECIMAL -> {
+                    DictionaryHelper.booleanToByteArray(tmp_2, true)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.DOUBLE -> {
+                    DictionaryHelper.booleanToByteArray(tmp_2, true)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
                 ETripleComponentTypeExt.ERROR -> {
                     DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
+                ETripleComponentTypeExt.FLOAT -> {
+                    DictionaryHelper.booleanToByteArray(tmp_2, true)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.INTEGER -> {
+                    DictionaryHelper.booleanToByteArray(tmp_2, true)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
                 ETripleComponentTypeExt.IRI -> {
                     DictionaryHelper.booleanToByteArray(tmp_2, false)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.STRING -> {
+                    DictionaryHelper.booleanToByteArray(tmp_2, true)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.STRING_LANG -> {
+                    DictionaryHelper.booleanToByteArray(tmp_2, true)
+                    res = query.getDictionary().createValue(tmp_2)
+                }
+                ETripleComponentTypeExt.STRING_TYPED -> {
+                    DictionaryHelper.booleanToByteArray(tmp_2, true)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.UNDEF -> {
