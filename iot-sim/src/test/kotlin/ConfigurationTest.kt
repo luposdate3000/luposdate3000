@@ -190,4 +190,22 @@ class ConfigurationTest {
         Assertions.assertFalse(southEast.hasAvailAbleLink(southWest))
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = ["config/distanceToNeighboringDevicesIsSmaller.json"])
+    fun distanceToNeighboringDevicesIsSmaller(fileName: String) {
+        Configuration.parse(fileName)
+        val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
+        val maxLinkRange = Configuration.jsonObjects.linkType[0].rangeInMeters
+        val mesh = Configuration.randMeshNetworks[networkPrefix]!!.mesh
+        val device = mesh[0][0]
+        val neighbour = mesh[1][0]
+        val neighbourNeighbour = mesh[2][0]
+
+        val distanceToNeighbour = device.getDistanceInMeters(neighbour)
+        val distanceToNeighbourNeighbour = device.getDistanceInMeters(neighbourNeighbour)
+
+        Assertions.assertTrue(distanceToNeighbour <= maxLinkRange)
+        Assertions.assertTrue(distanceToNeighbour < distanceToNeighbourNeighbour)
+    }
+
 }

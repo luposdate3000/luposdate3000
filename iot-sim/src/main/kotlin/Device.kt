@@ -68,7 +68,7 @@ class Device(
 
 
 
-    private fun getDistanceInMeters(otherDevice: Device)
+    fun getDistanceInMeters(otherDevice: Device)
         = location.getDistanceInMeters(otherDevice.location)
 
 
