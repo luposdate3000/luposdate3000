@@ -14,15 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.modulename
+package lupos.shared
 
-internal object _PartitionExt {
-    @Suppress("NOTHING_TO_INLINE")
-    internal inline fun hashFunction(v: Int, k: Int): Int {
-        return if (v < 0) {
-            (-v) % k
-        } else {
-            v % k
-        }
-    }
+public object UUID_Counter {
+    private var uuid = 0L
+    public fun getNextUUID(): Long = uuid++
 }

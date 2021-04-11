@@ -16,17 +16,15 @@
  */
 package lupos.s00misc
 
+import lupos.shared.UUID_Counter
 import java.util.concurrent.Semaphore
 import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 public actual class MyThreadLock {
-    public companion object {
-        private var uuidCounter = 0L
-    }
 
-    public val uuid: Long = uuidCounter++
+    public val uuid: Long = UUID_Counter.getNextUUID()
     public val semaphore: Semaphore = Semaphore(1)
 
     @Suppress("NOTHING_TO_INLINE")

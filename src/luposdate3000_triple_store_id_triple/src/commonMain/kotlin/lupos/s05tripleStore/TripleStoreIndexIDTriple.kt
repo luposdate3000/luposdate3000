@@ -148,11 +148,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     private val cachedHistograms2: IntArray = IntArray(400)
 
-    private companion object {
-
-        var debugLock = MyReadWriteLock()
-    }
-
     @Suppress("NOTHING_TO_INLINE")
     private inline fun clearCachedHistogram() {
         cachedHistograms1Size = 0

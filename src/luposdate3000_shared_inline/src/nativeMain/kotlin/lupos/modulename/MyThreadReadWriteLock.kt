@@ -16,14 +16,12 @@
  */
 package lupos.modulename
 
+import lupos.shared.UUID_Counter
 import lupos.s00misc.NotImplementedException
 
 internal actual class MyThreadReadWriteLock {
-    internal companion object {
-        var uuidCounter = 0L
-    }
 
-    val uuid = uuidCounter++
+    val uuid = UUID_Counter.getNextUUID()
     internal actual inline fun getUUID() = uuid
     internal actual inline fun downgradeToReadLock() {
         throw NotImplementedException("MyThreadReadWriteLock", "downgradeToReadLock not implemented")

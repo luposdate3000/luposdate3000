@@ -22,7 +22,6 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelCondition
 import lupos.s00misc.Partition
-import lupos.s00misc.PartitionExt
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IOPBase
@@ -195,8 +194,7 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                                     cacheArr[0] = 0
                                 } else {
                                     cacheSize = 1
-                                    q = PartitionExt.hashFunction(q, partitionCount)
-                                    cacheArr[0] = q
+                                    cacheArr[0] = q % partitionCount
                                 }
                                 loopcache@ for (i in 0 until cacheSize) {
                                     val p = cacheArr[i]

@@ -27,6 +27,15 @@ public object BufferManagerExt {
     @JvmField
     public var allowInitFromDisk: Boolean = false
 
+    @JvmField
+    public var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
+
+    @JvmField
+    internal val managerList = mutableMapOf<String, BufferManager>()
+
+    @JvmField
+    internal val managerListLock = MyReadWriteLock()
+
     public fun getBuffermanager(name: String): BufferManager {
         var res: BufferManager? = null
         managerListLock.withWriteLock {
@@ -39,14 +48,6 @@ public object BufferManagerExt {
         return res!!
     }
 
-    @JvmField
-    public var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
-
-    @JvmField
-    internal val managerList = mutableMapOf<String, BufferManager>()
-
-    @JvmField
-    internal val managerListLock = MyReadWriteLock()
     public fun close() {
         managerListLock.withWriteLock {
             for (v in managerList.values) {

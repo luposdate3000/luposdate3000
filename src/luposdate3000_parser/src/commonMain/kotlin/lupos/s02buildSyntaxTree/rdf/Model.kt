@@ -17,6 +17,7 @@
 package lupos.s02buildSyntaxTree.rdf
 
 import kotlin.jvm.JvmField
+import lupos.shared.UUID_Counter
 
 public abstract class RDFTerm {
     public abstract fun toN3String(): String
@@ -28,16 +29,10 @@ public class IRI(@JvmField public val iri: String) : RDFResource() {
 }
 
 public class BlankNode(@JvmField public val local_name: String) : RDFResource() {
-    public constructor() : this(createNewName())
+    public constructor() : this("_" + UUID_Counter.getNextUUID())
 
     public override fun toN3String(): String = "_:$local_name"
 
-    public companion object NewNameCreator { // just for creating internal new names in case of [] in RDF documents...
-        private var counter = 0L
-        public fun createNewName(): String {
-            return "_" + counter++ // local names for blank nodes in RDF documents cannot start with "_". Hence we start internally given names with "_"!
-        }
-    }
 }
 
 public abstract class Literal(@JvmField public val content: String, @JvmField public val delimiter: String) : RDFTerm() {

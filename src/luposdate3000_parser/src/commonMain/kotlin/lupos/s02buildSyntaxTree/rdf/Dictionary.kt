@@ -16,12 +16,18 @@
  */
 package lupos.s02buildSyntaxTree.rdf
 
+import lupos.shared.UUID_Counter
+
 public object Dictionary {
-    private var max_id = 0L
     private val RDFTerm_to_ID = mutableMapOf<String, Long>()
     private val ID_to_RDFTerm = mutableMapOf<Long, RDFTerm>()
+
     private fun addRDFTerm(term: RDFTerm): Long {
-        val result = max_id++
+        var result = this.RDFTerm_to_ID[term.toN3String()]
+        if (result != null) {
+            return result
+        }
+        result = UUID_Counter.getNextUUID()
         this.RDFTerm_to_ID[term.toN3String()] = result
         this.ID_to_RDFTerm[result] = term
         return result

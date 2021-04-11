@@ -17,6 +17,7 @@
 package lupos.s04logicalOperators
 
 import lupos.s00misc.BugException
+import lupos.shared.UUID_Counter
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.ESortPriorityExt
@@ -60,10 +61,10 @@ public abstract class OPBase public constructor(
     public var parentNode: IOPBase = this
 
     @JvmField
-    public var visualUUID: Long = global_uuid++
+    public var visualUUID: Long = UUID_Counter.getNextUUID()
 
     @JvmField
-    public val uuid: Long = global_uuid++
+    public val uuid: Long = UUID_Counter.getNextUUID()
 
     @JvmField
     public var sortPrioritiesInitialized: Boolean = false
@@ -363,9 +364,6 @@ public abstract class OPBase public constructor(
         children[i] = child
     }
 
-    internal companion object {
-        var global_uuid = 0L
-    }
 
     public open override fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase {
         for (i in this.getChildren().indices) {

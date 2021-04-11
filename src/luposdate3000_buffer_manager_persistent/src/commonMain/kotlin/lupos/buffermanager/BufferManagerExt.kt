@@ -22,18 +22,24 @@ import lupos.s00misc.Platform
 import kotlin.jvm.JvmField
 
 public object BufferManagerExt {
-    public const val fileEnding: String = ".data"
-    public const val fileEndingFree: String = ".datafree"
-    public const val fileEndingIntArray: String = ".intarray"
-
-    @JvmField
-    public var allowInitFromDisk: Boolean = true
+    internal const val fileEnding: String = ".data"
+    internal const val fileEndingFree: String = ".datafree"
+    internal const val fileEndingIntArray: String = ".intarray"
 
     @JvmField
     public val isInMemoryOnly: Boolean = false
 
     @JvmField
+    public var allowInitFromDisk: Boolean = true
+
+    @JvmField
     public var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
+
+    @JvmField
+    internal val managerList = mutableMapOf<String, BufferManager>()
+
+    @JvmField
+    internal val managerListLock = MyReadWriteLock()
 
     public fun getBuffermanager(name: String): BufferManager {
         var res: BufferManager? = null
@@ -47,15 +53,6 @@ public object BufferManagerExt {
         return res!!
     }
 
-    init {
-        File(bufferPrefix).mkdirs()
-    }
-
-    @JvmField
-    internal val managerList = mutableMapOf<String, BufferManager>()
-
-    @JvmField
-    internal val managerListLock = MyReadWriteLock()
     public fun close() {
         managerListLock.withWriteLock {
             for (v in managerList.values) {
@@ -63,4 +60,9 @@ public object BufferManagerExt {
             }
         }
     }
+
+    init {
+        File(bufferPrefix).mkdirs()
+    }
+
 }

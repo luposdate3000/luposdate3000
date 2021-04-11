@@ -21,6 +21,7 @@ import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.UnexpectedToken
 import kotlin.jvm.JvmField
+import lupos.shared.UUID_Counter
 
 public interface Visitor<T> {
     public fun visit(node: ASTNode, childrenValues: List<T>): T
@@ -352,16 +353,9 @@ public class ASTIri(@JvmField public val iri: String) : ASTRDFTerm() {
 }
 
 public class ASTBlankNode(@JvmField public val name: String) : ASTRDFTerm() {
-    public constructor() : this(getNewName())
+    public constructor() : this("_" + UUID_Counter.getNextUUID())
 
     public override fun nodeToString(): String = "_:$name"
-
-    private companion object {
-        var label_index = 0L
-        fun getNewName(): String {
-            return "_" + label_index++
-        }
-    }
 
     public override fun <T> visit(visitor: Visitor<T>): T {
         return visitor.visit(this, this.getChildrensValues(visitor))

@@ -17,13 +17,10 @@
 package lupos.modulename
 
 import lupos.s00misc.SanityCheck
+import lupos.shared.UUID_Counter
 
 internal actual class MyThreadReadWriteLock {
-    internal companion object {
-        var uuidCounter = 0L
-    }
-
-    val uuid = uuidCounter++
+    val uuid = UUID_Counter.getNextUUID()
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun getUUID() = uuid

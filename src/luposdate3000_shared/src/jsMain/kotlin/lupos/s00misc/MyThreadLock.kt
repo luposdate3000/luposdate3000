@@ -16,12 +16,11 @@
  */
 package lupos.s00misc
 
-public actual class MyThreadLock {
-    public companion object {
-        private var uuidCounter = 0L
-    }
+import lupos.shared.UUID_Counter
 
-    private val uuid = uuidCounter++
+public actual class MyThreadLock {
+
+    private val uuid = UUID_Counter.getNextUUID()
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun getUUID(): Long = uuid

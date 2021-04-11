@@ -24,7 +24,6 @@ import lupos.fileformat.DictionaryIntermediateWriter
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
-import lupos.s00misc.PartitionExt
 import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.nQuads.NQuads2Parser
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
@@ -260,7 +259,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                                 x[constantPart.toInt()] = y
                             }
                             for (k in partitionSizes.indices) {
-                                y[k.toInt()][PartitionExt.hashFunction(partitionPart.toInt(), partitionSizes[k.toInt()])]++
+                                y[k.toInt()][partitionPart.toInt() % partitionSizes[k.toInt()]]++
                             }
                         }
                     }

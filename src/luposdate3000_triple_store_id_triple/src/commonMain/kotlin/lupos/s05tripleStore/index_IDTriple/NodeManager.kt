@@ -23,10 +23,10 @@ import lupos.s00misc.SanityCheck
 internal class NodeManager(bufferManager: BufferManager) {
     private val bufferManager: BufferManager = bufferManager
 
-    public companion object {
-        const val nodeTypeLeaf = 1
-        const val nodeTypeInner = 2
-        const val nodeNullPointer = -1
+    internal companion object {
+        internal const val nodeTypeLeaf = 1
+        internal const val nodeTypeInner = 2
+        internal const val nodeNullPointer = -1
     }
 
     @Suppress("NOTHING_TO_INLINE")

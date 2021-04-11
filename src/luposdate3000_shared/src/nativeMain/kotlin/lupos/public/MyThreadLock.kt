@@ -17,13 +17,11 @@
 package lupos.public
 
 import lupos.s00misc.NotImplementedException
+import lupos.shared.UUID_Counter
 
 public actual class MyThreadLock {
-    public companion object {
-        private var uuidCounter = 0L
-    }
 
-    private val uuid = uuidCounter++
+    private val uuid = UUID_Counter.getNextUUID()
     public actual inline fun getUUID(): Long = uuid
     public actual inline fun lock() {
         throw NotImplementedException("MyThreadLock", "lock not implemented")

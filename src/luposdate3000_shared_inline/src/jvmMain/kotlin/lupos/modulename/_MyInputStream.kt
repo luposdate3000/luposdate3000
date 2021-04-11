@@ -20,16 +20,14 @@ import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.IMyInputStream
 import java.io.InputStream
 import kotlin.jvm.JvmField
+import lupos.shared.UUID_Counter
 
 internal actual class _MyInputStream(@JvmField internal val stream: InputStream) : IMyInputStream {
     @JvmField
     internal val buf4: ByteArray = ByteArray(4)
 
-    internal companion object {
-        internal var uuidcounter = 0
-    }
 
-    internal val uuid = uuidcounter++
+    internal val uuid = UUID_Counter.getNextUUID()
 
     init {
         //println("MyInputStream $uuid open")

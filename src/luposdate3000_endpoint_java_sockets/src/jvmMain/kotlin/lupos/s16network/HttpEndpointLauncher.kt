@@ -51,6 +51,9 @@ import java.net.URLDecoder
 
 @OptIn(ExperimentalStdlibApi::class)
 public actual object HttpEndpointLauncher {
+    internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
+    internal var queryMappings = mutableMapOf<String, QueryMappingContainer>()
+
     private fun printHeaderSuccess(stream: IMyOutputStream) {
         stream.println("HTTP/1.1 200 OK")
         stream.println("Content-Type: text/plain")
@@ -80,14 +83,12 @@ public actual object HttpEndpointLauncher {
         return res
     }
 
-    internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
 
     internal class QueryMappingContainer(internal val xml: XMLElement, internal var inputStreams: Array<IMyInputStream?>, internal var outputStreams: Array<IMyOutputStream?>, internal var connections: Array<Socket?>) {
         internal var instance: POPBase? = null
         internal val instanceLock = MyLock()
     }
 
-    internal var queryMappings = mutableMapOf<String, QueryMappingContainer>()
     public actual /*suspend*/ fun start() {
         fun registerDictionary(key: String): RemoteDictionaryServer {
             val dict = RemoteDictionaryServer(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true))

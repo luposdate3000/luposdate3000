@@ -22,23 +22,6 @@ import lupos.s00misc.File
 import lupos.s00misc.Platform
 
 public object DictionaryFactory {
-    private val globalDictionaryBufferManager = BufferManagerExt.getBuffermanager("dictionary")
-    private var globalDictionaryRootPageID: Int = -1
-    private var globalDictionaryInitFromRootPage: Boolean = false
-    private val globalDictionaryRootFileName = "global_dictionary.page"
-
-    init {
-        if (BufferManagerExt.allowInitFromDisk) {
-            val file = File(BufferManagerExt.bufferPrefix + globalDictionaryRootFileName)
-            globalDictionaryInitFromRootPage = file.exists()
-            if (globalDictionaryInitFromRootPage) {
-                file.withInputStream {
-                    globalDictionaryRootPageID = it.readInt()
-                }
-            }
-        }
-    }
-
     public fun createGlobalDictionary(): IDictionary {
         return createDictionary(EDictionaryTypeExt.names.indexOf(Platform.getEnv("LUPOS_DICTIONARY_MODE", EDictionaryTypeExt.names[EDictionaryTypeExt.KV])), false)
     }
@@ -53,18 +36,27 @@ public object DictionaryFactory {
             when (type) {
                 EDictionaryTypeExt.InMemory -> DictionaryInMemory(false)
                 EDictionaryTypeExt.KV -> {
-                    if (!globalDictionaryInitFromRootPage) {
-                        globalDictionaryBufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-                            globalDictionaryRootPageID = pageid
+                    val bufferManager = BufferManagerExt.getBuffermanager("dictionary")
+                    var pageId: Int = -1
+                    val fileName = "global_dictionary.page"
+                    val file = File(BufferManagerExt.bufferPrefix + fileName)
+                    var initFromDisk = BufferManagerExt.allowInitFromDisk && file.exists()
+                    if (initFromDisk) {
+                        file.withInputStream {
+                            pageId = it.readInt()
                         }
-                        globalDictionaryBufferManager.releasePage(lupos.SOURCE_FILE, globalDictionaryRootPageID)
+                    } else {
+                        bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid2 ->
+                            pageId = pageid2
+                        }
+                        bufferManager.releasePage(lupos.SOURCE_FILE, pageId)
                         if (BufferManagerExt.allowInitFromDisk) {
-                            File(BufferManagerExt.bufferPrefix + globalDictionaryRootFileName).withOutputStream {
-                                it.writeInt(globalDictionaryRootPageID)
+                            File(BufferManagerExt.bufferPrefix + fileName).withOutputStream {
+                                it.writeInt(pageId)
                             }
                         }
                     }
-                    DictionaryKV(globalDictionaryBufferManager, globalDictionaryRootPageID, globalDictionaryInitFromRootPage)
+                    DictionaryKV(bufferManager, pageId, initFromDisk)
                 }
                 else -> throw Exception("unreachable")
             }

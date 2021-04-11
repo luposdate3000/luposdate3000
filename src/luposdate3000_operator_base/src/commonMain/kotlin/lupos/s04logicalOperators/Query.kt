@@ -16,6 +16,7 @@
  */
 package lupos.s04logicalOperators
 
+import lupos.shared.UUID_Counter
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
@@ -27,8 +28,8 @@ import lupos.shared.optimizer.distributedOptimizerQueryFactory
 import kotlin.jvm.JvmField
 
 public class Query public constructor(@JvmField public var dictionary: IDictionary, @JvmField public var transactionID: Long) : IQuery {
-    public constructor(dictionary: IDictionary) : this(dictionary, global_transactionID++)
-    public constructor() : this(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true), global_transactionID++)
+    public constructor(dictionary: IDictionary) : this(dictionary, UUID_Counter.getNextUUID())
+    public constructor() : this(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true), UUID_Counter.getNextUUID())
 
     @JvmField
     public var _workingDirectory: String = ""
@@ -80,7 +81,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     override fun getDistributionKey(): Map<String, Int> = allVariationsKey
     override fun initialize(newroot: IOPBase): IOPBase {
         root = newroot
-        transactionID = global_transactionID++
+        transactionID = UUID_Counter.getNextUUID()
         commited = false
         partitions.clear()
         if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
@@ -176,8 +177,4 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         }
     }
 
-    internal companion object {
-        @JvmField
-        internal var global_transactionID = 0L
-    }
 }
