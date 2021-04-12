@@ -100,6 +100,7 @@ public class AOPFunctionCallDouble public constructor(query: IQuery, child0: AOP
                         DictionaryHelper.doubleToByteArray(tmp_2, tmp_23)
                         res = query.getDictionary().createValue(tmp_2)
                     } catch (e: Throwable) {
+                        e.printStackTrace()
                         DictionaryHelper.errorToByteArray(tmp_2)
                         res = query.getDictionary().createValue(tmp_2)
                     }
@@ -112,6 +113,7 @@ public class AOPFunctionCallDouble public constructor(query: IQuery, child0: AOP
                         DictionaryHelper.doubleToByteArray(tmp_2, tmp_26)
                         res = query.getDictionary().createValue(tmp_2)
                     } catch (e: Throwable) {
+                        e.printStackTrace()
                         DictionaryHelper.errorToByteArray(tmp_2)
                         res = query.getDictionary().createValue(tmp_2)
                     }
@@ -124,6 +126,7 @@ public class AOPFunctionCallDouble public constructor(query: IQuery, child0: AOP
                         DictionaryHelper.doubleToByteArray(tmp_2, tmp_29)
                         res = query.getDictionary().createValue(tmp_2)
                     } catch (e: Throwable) {
+                        e.printStackTrace()
                         DictionaryHelper.errorToByteArray(tmp_2)
                         res = query.getDictionary().createValue(tmp_2)
                     }

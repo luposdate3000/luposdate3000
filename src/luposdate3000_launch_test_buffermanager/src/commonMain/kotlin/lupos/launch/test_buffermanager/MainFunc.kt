@@ -16,6 +16,7 @@
  */
 package lupos.launch.test_buffermanager
 
+import lupos.buffermanager.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
 import lupos.buffermanager.BufferManagerPage

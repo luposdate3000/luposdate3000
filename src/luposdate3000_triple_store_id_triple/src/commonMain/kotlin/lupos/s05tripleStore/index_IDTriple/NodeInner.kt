@@ -201,7 +201,7 @@ internal object NodeInner {
         while (true) {
             findIteratorN(
                 node,
-                { value0, value1, value2 ->
+                { value0, value1, _ ->
                     (value0 < prefix[0]) || (value0 == prefix[0] && value1 < prefix[1])
                 },
                 { it ->
@@ -235,7 +235,7 @@ internal object NodeInner {
         while (true) {
             findIteratorN(
                 node,
-                { value0, value1, value2 ->
+                { value0, _, _ ->
                     (value0 < prefix[0])
                 },
                 { it ->

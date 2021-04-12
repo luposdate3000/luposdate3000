@@ -82,21 +82,21 @@ internal class NodeManager(bufferManager: BufferManager) {
     internal inline /*suspend*/ fun allocateNodeLeaf(call_location: String, crossinline action: /*suspend*/ (BufferManagerPage, Int) -> Unit) {
         var nodeid = bufferManager.allocPage(lupos.SOURCE_FILE)
         var node = bufferManager.getPage(lupos.SOURCE_FILE, nodeid)
-        NodeShared.setNodeType(node!!, nodeTypeLeaf)
-        NodeShared.setNextNode(node!!, nodeNullPointer)
-        NodeShared.setTripleCount(node!!, 0)
+        NodeShared.setNodeType(node, nodeTypeLeaf)
+        NodeShared.setNextNode(node, nodeNullPointer)
+        NodeShared.setTripleCount(node, 0)
         SanityCheck.println_nodemanager { "NodeManager.allocateNodeLeaf($nodeid) : $call_location" }
-        action(node!!, nodeid)
+        action(node, nodeid)
     }
 
     internal inline /*suspend*/ fun allocateNodeInner(call_location: String, crossinline action: /*suspend*/ (BufferManagerPage, Int) -> Unit) {
         val nodeid = bufferManager.allocPage(lupos.SOURCE_FILE)
         val node = bufferManager.getPage(lupos.SOURCE_FILE, nodeid)
-        NodeShared.setNodeType(node!!, nodeTypeInner)
-        NodeShared.setNextNode(node!!, nodeNullPointer)
-        NodeShared.setTripleCount(node!!, 0)
+        NodeShared.setNodeType(node, nodeTypeInner)
+        NodeShared.setNextNode(node, nodeNullPointer)
+        NodeShared.setTripleCount(node, 0)
         SanityCheck.println_nodemanager { "NodeManager.allocateNodeInner($nodeid) : $call_location" }
-        action(node!!, nodeid)
+        action(node, nodeid)
     }
 
     @Suppress("NOTHING_TO_INLINE")

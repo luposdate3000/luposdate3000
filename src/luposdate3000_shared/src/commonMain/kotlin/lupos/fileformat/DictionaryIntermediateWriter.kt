@@ -25,16 +25,19 @@ public class DictionaryIntermediateWriter : DictionaryIntermediate {
         streamOut = File("$filename$filenameEnding").openOutputStream(append)
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun writeAssumeOrdered(row: DictionaryIntermediateRow) {
         writeAssumeOrdered(row.id, row.data)
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun writeAssumeOrdered(id: Int, data: ByteArrayWrapper) {
         streamOut!!.writeInt(id)
         streamOut!!.writeInt(data.getSize())
         streamOut!!.write(data.getBuf(), data.getSize())
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun write(dict: MutableMap<ByteArrayWrapper, Int>) {
         val rows = dict.toList().map {
             DictionaryIntermediateRow(it.second, it.first)

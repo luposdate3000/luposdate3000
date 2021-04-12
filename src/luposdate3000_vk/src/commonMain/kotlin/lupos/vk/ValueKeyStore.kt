@@ -174,8 +174,8 @@ public class ValueKeyStore {
                     localloop@ while (hasNext()) {
                         data = next()
                         if (data < buffer) {
-                            val res = value(data)
-                            writer.write(res, data)
+                            val res2 = value(data)
+                            writer.write(res2, data)
                         } else {
                             isInserted = false
                             break@localloop
@@ -196,9 +196,9 @@ public class ValueKeyStore {
                 writer.write(res, data)
                 while (hasNext()) {
                     data = next()
-                    val res = value(data)
-                    SanityCheck.check { res != ValueKeyStore.ID_NULL }
-                    writer.write(res, data)
+                    val res2 = value(data)
+                    SanityCheck.check { res2 != ValueKeyStore.ID_NULL }
+                    writer.write(res2, data)
                 }
             }
             reader.close()
@@ -251,12 +251,13 @@ internal class ValueKeyStoreWriter {
         this.bufferManager = bufferManager
         this.pageType = pageType
         pageid = bufferManager.allocPage(lupos.SOURCE_FILE)
-        page = bufferManager.getPage(lupos.SOURCE_FILE, nextpageid)
+        page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
         firstLeafID = pageid
         lastChildPageID = childPageID
         writeHeader()
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun write(id: Int, buffer: ByteArrayWrapper) {
         write(ValueKeyStore.PAGEID_NULL_PTR, id, buffer)
     }
@@ -392,7 +393,6 @@ internal class ValueKeyStoreIteratorSearch internal constructor(private val buff
             var pageType = page.readInt4(0)
             var childPageID = page.readInt4(12) // only valid if "pageType == ValueKeyStore.PAGE_TYPE_INNER"
             var lastID = ValueKeyStore.ID_NULL
-            var lastPageID = childPageID
             fun hasNext(): Boolean {
                 if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
                     return false
@@ -435,8 +435,6 @@ internal class ValueKeyStoreIteratorSearch internal constructor(private val buff
                 }
                 if (target <= buffer) {
                     break@localloop
-                } else {
-                    lastPageID = localChildPageID
                 }
             }
             if (pageid != ValueKeyStore.PAGEID_NULL_PTR) {

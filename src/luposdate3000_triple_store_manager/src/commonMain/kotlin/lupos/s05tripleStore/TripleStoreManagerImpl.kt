@@ -51,9 +51,11 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     private var rootPageID: Int = -1
     private val globalManagerRootFileName = "triple_store_manager.page"
     private val keysOnHostname_: Array<MutableSet<LuposStoreKey>>
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun localStoresGet() = localStores_
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun metadataGet() = metadata_
-
+    @Suppress("NOTHING_TO_INLINE")
     private inline fun toByteArray(): ByteArray {
         var size = 8
         for (k in localStores_.keys) {
@@ -102,6 +104,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         return buffer
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     private inline fun initFromByteArray(buffer: ByteArray) {
         var off = 0
         val l1 = ByteArrayHelper.readInt4(buffer, off)
@@ -142,26 +145,31 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         }
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     private inline fun keysOnHostnameAdd(hostidx: Int, key: LuposStoreKey) {
         keysOnHostname_[hostidx].add(key)
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     private inline fun localStoresAdd(key: LuposStoreKey, pageid: Int, tripleStore: TripleStoreIndex) {
         SanityCheck.check { localStores_[key] == null }
         localStores_[key] = tripleStore
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     private inline fun localStoresRemove(key: LuposStoreKey) {
         val tripleStore = localStores_[key]!!
         tripleStore.delete()
         localStores_.remove(key)
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     private inline fun metadataAdd(name: LuposGraphName, tripleStore: TripleStoreDescription) {
         SanityCheck.check { metadata_[name] == null }
         metadata_[name] = tripleStore
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     private inline fun metadataRemove(name: LuposGraphName) {
         SanityCheck.check { metadata_[name] != null || name == DEFAULT_GRAPH_NAME }
         metadata_.remove(name)
@@ -415,6 +423,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         }
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     private inline fun createGraphShared(graph: TripleStoreDescription) {
         for (index in graph.indices) {
             for (store in index.getAllLocations()) {

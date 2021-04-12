@@ -47,9 +47,11 @@ internal actual class _MyOutputStream : IMyOutputStream {
     }
 
     public actual override fun flush(): Unit = it!!.flush()
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun _write(buf: ByteArray, off: Int, len: Int): Unit = it!!.write(buf, off, len)
     public actual override fun write(buf: ByteArray): Unit = _write(buf, 0, buf.size)
     public actual override fun write(buf: ByteArray, len: Int): Unit = _write(buf, 0, len)
+    @Suppress("NOTHING_TO_INLINE")
     internal inline fun _print(x: String) {
         val buf = x.encodeToByteArray()
         _write(buf, 0, buf.size)

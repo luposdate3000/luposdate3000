@@ -53,8 +53,8 @@ public abstract class AOPBase public constructor(
                 } catch (e: EvaluationException) {
                     res = false
                 } catch (e: Throwable) {
-                    res = false
                     e.printStackTrace()
+                    res = false
                 }
                 res
             }

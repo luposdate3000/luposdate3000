@@ -31,6 +31,7 @@ public class DictionaryIntermediateReader(filename: String) : DictionaryIntermed
         }
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun hasNext(): Boolean {
         return streamIn != null
     }
@@ -47,6 +48,7 @@ public class DictionaryIntermediateReader(filename: String) : DictionaryIntermed
         }
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun next(buffer: ByteArrayWrapper): DictionaryIntermediateRow? {
         var res: DictionaryIntermediateRow? = null
         next(buffer) { id ->
