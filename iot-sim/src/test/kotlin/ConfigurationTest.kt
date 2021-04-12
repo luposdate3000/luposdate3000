@@ -6,8 +6,8 @@ class ConfigurationTest {
 
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/configEmptyFile.json"])
-    fun `parse empty config file`(fileName: String) {
+    @ValueSource(strings = ["config/parseEmptyConfigFile.json"])
+    fun parseEmptyConfigFile(fileName: String) {
         Configuration.parse(fileName)
         Assertions.assertTrue(Configuration.devices.isEmpty())
         Assertions.assertTrue(Configuration.entities.isEmpty())
@@ -36,7 +36,6 @@ class ConfigurationTest {
     @ValueSource(strings = ["config/configOneComplexDevice.json"])
     fun `one application device with sensors`(fileName: String) {
         Configuration.parse(fileName)
-        val devices = Configuration.devices
         val deviceName = Configuration.jsonObjects.fixedDevice[0].name
         val device = Configuration.getNamedDevice(deviceName)
         val numSensors = 1
