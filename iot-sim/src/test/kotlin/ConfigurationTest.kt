@@ -240,4 +240,20 @@ class ConfigurationTest {
     }
 
 
+    @ParameterizedTest
+    @ValueSource(strings = ["config/fixedAndMeshedDevicesAreNotLinkable.json"])
+    fun fixedAndMeshedDevicesAreNotLinkable(fileName: String) {
+        Configuration.parse(fileName)
+        val fixedDeviceName = Configuration.jsonObjects.fixedDevices[0].name
+        val fixedDevice = Configuration.getNamedDevice(fixedDeviceName)
+
+        val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
+        val mesh = Configuration.randMeshNetworks[networkPrefix]!!.mesh
+        val meshOrigin = mesh[0][0]
+
+        Assertions.assertFalse(fixedDevice.hasAvailAbleLink(meshOrigin))
+        Assertions.assertNotEquals(meshOrigin.numOfAvailAbleLinks() ,fixedDevice.numOfAvailAbleLinks())
+    }
+
+
 }

@@ -1,0 +1,54 @@
+{
+  "linkType": [
+    {
+      "name": "WPAN",
+      "rangeInMeters": 15,
+      "dataRateInKbps": 250
+    },
+    {
+      "name": "X",
+      "rangeInMeters": 15,
+      "dataRateInKbps": 250
+    }
+  ],
+  "deviceType": [
+    {
+      "name": "Fog",
+      "application": false,
+      "parkingSensor": false,
+      "powerCapacity": -1.0,
+      "supportedLinkTypes": ["WPAN"]
+    },
+    {
+      "name": "Other",
+      "application": false,
+      "parkingSensor": false,
+      "powerCapacity": -1.0,
+      "supportedLinkTypes": ["X"]
+    }
+  ],
+  "fixedDevices": [
+    {
+      "name": "Tower1",
+      "deviceType": "Other",
+      "latitude": 53.83671457538109,
+      "longitude": 10.697678009507923
+    }
+  ],
+  "fixedLinks": [
+  ],
+  "randomMeshNetwork": [
+    {
+      "networkPrefix": "meshA",
+      "originLatitude": 53.83671457538109,
+      "originLongitude": 10.697678009507923,
+      "deviceType": "Fog",
+      "linkType": "WPAN",
+      "signalCoverageEast": 20,
+      "signalCoverageSouth": 25
+    }
+  ],
+  "randomStarNetwork": [
+  ]
+}
+
