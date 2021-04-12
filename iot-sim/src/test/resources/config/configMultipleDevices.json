@@ -51,8 +51,8 @@
   ],
   "fixedLinks": [
     {
-      "endpointA": "Tower1",
-      "endpointB": "Fog1"
+      "fixedDeviceA": "Tower1",
+      "fixedDeviceB": "Fog1"
     }
   ],
   "randomMeshNetwork": [

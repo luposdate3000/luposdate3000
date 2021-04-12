@@ -37,8 +37,8 @@ data class FixedDevices(
 
 @Serializable
 data class FixedLinks(
-    val endpointA: String = "",
-    val endpointB: String = "",
+    val fixedDeviceA: String = "",
+    val fixedDeviceB: String = "",
 )
 
 @Serializable

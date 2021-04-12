@@ -49,20 +49,20 @@
   ],
   "fixedLinks": [
     {
-      "endpointA": "a",
-      "endpointB": "b"
+      "fixedDeviceA": "a",
+      "fixedDeviceB": "b"
     },
     {
-      "endpointA": "a",
-      "endpointB": "c"
+      "fixedDeviceA": "a",
+      "fixedDeviceB": "c"
     },
     {
-      "endpointA": "c",
-      "endpointB": "e"
+      "fixedDeviceA": "c",
+      "fixedDeviceB": "e"
     },
     {
-      "endpointA": "c",
-      "endpointB": "d"
+      "fixedDeviceA": "c",
+      "fixedDeviceB": "d"
     }
   ],
   "randomMeshNetwork": [
