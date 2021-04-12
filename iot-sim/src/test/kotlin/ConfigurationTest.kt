@@ -224,4 +224,20 @@ class ConfigurationTest {
         Assertions.assertTrue(distanceToNeighbour < distanceToNeighbourNeighbour)
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = ["config/fixedAndMeshedDevicesAreLinkable.json"])
+    fun fixedAndMeshedDevicesAreLinkable(fileName: String) {
+        Configuration.parse(fileName)
+        val fixedDeviceName = Configuration.jsonObjects.fixedDevices[0].name
+        val fixedDevice = Configuration.getNamedDevice(fixedDeviceName)
+
+        val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
+        val mesh = Configuration.randMeshNetworks[networkPrefix]!!.mesh
+        val meshOrigin = mesh[0][0]
+
+        Assertions.assertTrue(fixedDevice.hasAvailAbleLink(meshOrigin))
+        Assertions.assertEquals(meshOrigin.numOfAvailAbleLinks() ,fixedDevice.numOfAvailAbleLinks())
+    }
+
+
 }
