@@ -8,8 +8,7 @@ object Configuration {
     var devices: MutableList<Device> = ArrayList()
         private set
 
-    var namedAddresses: MutableMap<String, Int> = HashMap()
-        private set
+    private var namedAddresses: MutableMap<String, Int> = HashMap()
 
     var jsonObjects: JsonObjects = JsonObjects()
         private set
