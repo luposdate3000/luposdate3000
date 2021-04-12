@@ -40,11 +40,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     var maxClearCalls = 10
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
-    var rootPage = -1
-    bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-        rootPage = pageid
-    }
-    bufferManager.releasePage(lupos.SOURCE_FILE, rootPage)
+    val rootPage = bufferManager.allocPage(lupos.SOURCE_FILE)
     val order = intArrayOf(0, 1, 2)
     var index: TripleStoreIndex = TripleStoreIndexIDTriple(bufferManager, rootPage, false)
     val dataBuffer = mutableSetOf<Int>() // 2Bytes S, 1 Byte P, 1 Byte O -> this allows fast and easy sorting

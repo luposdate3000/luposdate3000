@@ -24,7 +24,7 @@ public fun createBufferManagerPage(): BufferManagerPage {
     return BufferManagerPage(ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES + 4))
 }
 
-public class BufferManagerPage public constructor(@JvmField public val data: ByteArray) {
+public inline class BufferManagerPage public constructor(@JvmField public val data: ByteArray) {
     init {
         setPageID(-1)
     }

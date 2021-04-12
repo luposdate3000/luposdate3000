@@ -250,14 +250,8 @@ internal class ValueKeyStoreWriter {
     internal constructor(bufferManager: BufferManager, pageType: Int, childPageID: Int) {
         this.bufferManager = bufferManager
         this.pageType = pageType
-        var nextpageid = ValueKeyStore.PAGEID_NULL_PTR
-        var nextpage: BufferManagerPage? = null
-        bufferManager.createPage(lupos.SOURCE_FILE) { page2, pageid2 ->
-            nextpageid = pageid2
-            nextpage = page2
-        }
-        pageid = nextpageid
-        page = nextpage!!
+        pageid = bufferManager.allocPage(lupos.SOURCE_FILE)
+        page = bufferManager.getPage(lupos.SOURCE_FILE, nextpageid)
         firstLeafID = pageid
         lastChildPageID = childPageID
         writeHeader()
@@ -304,17 +298,12 @@ internal class ValueKeyStoreWriter {
                 offset += l1
             }
             if (offset > BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE) {
-                var nextpageid = ValueKeyStore.PAGEID_NULL_PTR
-                var nextpage: BufferManagerPage? = null
-                bufferManager.createPage(lupos.SOURCE_FILE) { page2, pageid2 ->
-                    nextpageid = pageid2
-                    nextpage = page2
-                }
+                var nextpageid = bufferManager.allocPage(lupos.SOURCE_FILE)
                 page.writeInt4(4, nextpageid)
                 // println("add connection.toNext $pageid -> $nextpageid")
                 bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
                 pageid = nextpageid
-                page = nextpage!!
+                page = bufferManager.getPage(lupos.SOURCE_FILE, nextpageid)
                 writeHeader()
                 writeEntryPoint = true
             }

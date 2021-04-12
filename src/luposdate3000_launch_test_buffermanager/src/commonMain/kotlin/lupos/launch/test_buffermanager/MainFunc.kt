@@ -31,6 +31,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+    val zeroBytes = ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
     val pageIds = mutableListOf<Int>()
@@ -107,24 +108,25 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     }
 
     fun testCreateNewPageOk() {
-        bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-            if (verbose) {
-                println("testCreateNewPageOk $pageid")
-            }
-            page.writeInt4(0, pageid)
-            if (pageIds.contains(pageid)) {
-                throw Exception("")
-            }
-            pageIds.add(pageid)
-            if (mappedPages[pageid] != null) {
-                throw Exception("")
-            }
-            mappedPages[pageid] = page
-            if (mappedPagesCtr[pageid] != null) {
-                throw Exception("")
-            }
-            mappedPagesCtr[pageid] = 1
+        val pageid = bufferManager.allocPage(lupos.SOURCE_FILE)
+        val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
+        page.copyFrom(zeroBytes, 0, 0, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+        if (verbose) {
+            println("testCreateNewPageOk $pageid")
         }
+        page.writeInt4(0, pageid)
+        if (pageIds.contains(pageid)) {
+            throw Exception("")
+        }
+        pageIds.add(pageid)
+        if (mappedPages[pageid] != null) {
+            throw Exception("")
+        }
+        mappedPages[pageid] = page
+        if (mappedPagesCtr[pageid] != null) {
+            throw Exception("")
+        }
+        mappedPagesCtr[pageid] = 1
     }
 
     fun testDeletePageOk(pageid: Int) {

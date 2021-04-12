@@ -227,21 +227,10 @@ public actual class BufferManager internal actual constructor(@JvmField public v
     }
 
     public actual /*suspend*/ fun allocPage(call_location: String): Int {
-        var pageid = 0
-        createPage(call_location) { p, id ->
-            pageid = id
-        }
-        releasePage(call_location, pageid)
-        SanityCheck.println_buffermanager { "BufferManager.allocPage($pageid) : $call_location" }
-        return pageid
-    }
-
-    public actual /*suspend*/ fun createPage(call_location: String, action: (BufferManagerPage, Int) -> Unit) {
-        contract { callsInPlace(action, EXACTLY_ONCE) }
         SanityCheck.check { !closed }
+        var pageid: Int = -1
         lock.withWriteLock {
             localSanityCheck()
-            val pageid: Int
             if (freeArrayLength > 0) {
                 freeArrayLength--
                 freelistfile.seek(freelistfileOffsetFreeLen)
@@ -258,16 +247,9 @@ public actual class BufferManager internal actual constructor(@JvmField public v
                     SanityCheck.check { freeArray[i] != pageid }
                 }
             }
-            val openId = findNextOpenID()
-            SanityCheck.check { !openPagesMapping.values.contains(openId) }
-            openPagesMapping[pageid] = openId
-            Arrays.fill(openPages[openId].getData(), 0, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES, 0)
-            SanityCheck.println_buffermanager { "BufferManager.createPage($pageid) : $call_location" }
-            SanityCheck.check { openPages[openId].getPageID() == -1 }
-            openPages[openId].setPageID(pageid)
-            action(openPages[openId], pageid)
-            localSanityCheck()
         }
+        SanityCheck.println_buffermanager { "BufferManager.allocPage($pageid) : $call_location" }
+        return pageid
     }
 
     public actual /*suspend*/ fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {

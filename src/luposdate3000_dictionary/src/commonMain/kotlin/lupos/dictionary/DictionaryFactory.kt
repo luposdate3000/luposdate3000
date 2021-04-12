@@ -46,10 +46,7 @@ public object DictionaryFactory {
                             pageId = it.readInt()
                         }
                     } else {
-                        bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid2 ->
-                            pageId = pageid2
-                        }
-                        bufferManager.releasePage(lupos.SOURCE_FILE, pageId)
+                        pageId = bufferManager.allocPage(lupos.SOURCE_FILE)
                         if (BufferManagerExt.allowInitFromDisk) {
                             File(BufferManagerExt.bufferPrefix + fileName).withOutputStream {
                                 it.writeInt(pageId)

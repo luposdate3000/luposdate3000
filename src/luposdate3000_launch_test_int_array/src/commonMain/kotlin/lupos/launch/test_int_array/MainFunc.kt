@@ -36,11 +36,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     var bufferManager = BufferManager()
     var dataSize = 0
     val data = IntArray(maxSize)
-    var rootPage = -1
-    bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-        rootPage = pageid
-    }
-    bufferManager.releasePage(lupos.SOURCE_FILE, rootPage)
+    val rootPage = bufferManager.allocPage(lupos.SOURCE_FILE)
     var arr = MyIntArray(bufferManager, rootPage, false)
 
     fun testSetSizeOk(size: Int) {

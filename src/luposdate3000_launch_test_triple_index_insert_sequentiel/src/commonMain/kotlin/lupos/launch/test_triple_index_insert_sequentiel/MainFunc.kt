@@ -39,11 +39,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
-    var rootPage = -1
-    bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-        rootPage = pageid
-    }
-    bufferManager.releasePage(lupos.SOURCE_FILE, rootPage)
+    val rootPage = bufferManager.allocPage(lupos.SOURCE_FILE)
     val order = intArrayOf(0, 1, 2)
     var index: TripleStoreIndex = TripleStoreIndexIDTriple(bufferManager, rootPage, false)
     var counterBuf = 0 // all s are '0' and p are '1', objects count from 0 until '$counter'

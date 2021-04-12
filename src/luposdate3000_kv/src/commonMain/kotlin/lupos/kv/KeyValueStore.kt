@@ -49,27 +49,15 @@ public class KeyValueStore {
             id1 = rootPage.readInt4(12)
             id2 = rootPage.readInt4(16)
         } else {
-            var tmpPage: BufferManagerPage? = null
-            lastPage = 0
-            lastPageOffset = 0
-            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-                tmpPage = page
-                lastPage = pageid
-                lastPageOffset = 4
-            }
-            lastPageBuf = tmpPage!!
+            lastPageOffset = 4
+            lastPage = bufferManager.allocPage(lupos.SOURCE_FILE)
+            lastPageBuf = bufferManager.getPage(lupos.SOURCE_FILE, lastPage)
             rootPage.writeInt4(0, lastPage)
             rootPage.writeInt4(4, lastPageOffset)
             nextID = 0
             rootPage.writeInt4(8, nextID)
-            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-                id1 = pageid
-            }
-            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-                id2 = pageid
-            }
-            bufferManager.releasePage(lupos.SOURCE_FILE, id1)
-            bufferManager.releasePage(lupos.SOURCE_FILE, id2)
+            id1 = bufferManager.allocPage(lupos.SOURCE_FILE)
+            id2 = bufferManager.allocPage(lupos.SOURCE_FILE)
             rootPage.writeInt4(12, id1)
             rootPage.writeInt4(16, id2)
         }
@@ -141,13 +129,12 @@ public class KeyValueStore {
 
     private inline fun writeData(data: ByteArrayWrapper, crossinline action: (page: Int, off: Int) -> Unit) {
         if (lastPageOffset >= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8) {
-            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-                lastPageBuf.writeInt4(0, pageid)
-                bufferManager.releasePage(lupos.SOURCE_FILE, lastPage)
-                lastPageBuf = page
-                lastPage = pageid
-                rootPage.writeInt4(0, lastPage)
-            }
+            val pageid = bufferManager.allocPage(lupos.SOURCE_FILE)
+            lastPageBuf.writeInt4(0, pageid)
+            bufferManager.releasePage(lupos.SOURCE_FILE, lastPage)
+            lastPageBuf = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
+            lastPage = pageid
+            rootPage.writeInt4(0, lastPage)
             lastPageOffset = 4
             rootPage.writeInt4(4, lastPageOffset)
         }
@@ -161,13 +148,12 @@ public class KeyValueStore {
         while (towrite > 0) {
             var available = BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - lastPageOffset
             if (available == 0) {
-                bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-                    lastPageBuf.writeInt4(0, pageid)
-                    bufferManager.releasePage(lupos.SOURCE_FILE, lastPage)
-                    lastPageBuf = page
-                    lastPage = pageid
-                    rootPage.writeInt4(0, lastPage)
-                }
+                val pageid = bufferManager.allocPage(lupos.SOURCE_FILE)
+                lastPageBuf.writeInt4(0, pageid)
+                bufferManager.releasePage(lupos.SOURCE_FILE, lastPage)
+                lastPageBuf = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
+                lastPage = pageid
+                rootPage.writeInt4(0, lastPage)
                 lastPageOffset = 4
                 rootPage.writeInt4(4, lastPageOffset)
                 available = BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - lastPageOffset

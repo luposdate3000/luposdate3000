@@ -188,10 +188,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             }
             initialize(bufferManager, pageid, true)
         } else {
-            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid2 ->
-                pageid = pageid2
-            }
-            bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
+            pageid = bufferManager.allocPage(lupos.SOURCE_FILE)
             if (BufferManagerExt.allowInitFromDisk) {
                 file.withOutputStream {
                     it.writeInt(pageid)
@@ -254,15 +251,14 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         page.copyFrom(buffer, 8, off, off + len)
         off += len
         while (off < size) {
-            bufferManager.createPage(lupos.SOURCE_FILE) { page2, pageid2 ->
-                page.writeInt4(0, pageid2)
-                bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
-                pageid = pageid2
-                page = page2
-                val len2 = min(size - off, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 4)
-                page.copyFrom(buffer, 4, off, off + len2)
-                off += len2
-            }
+            val pageid2 = bufferManager.allocPage(lupos.SOURCE_FILE)
+            page.writeInt4(0, pageid2)
+            bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
+            pageid = pageid2
+            page = bufferManager.getPage(lupos.SOURCE_FILE, pageid2)
+            val len2 = min(size - off, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 4)
+            page.copyFrom(buffer, 4, off, off + len2)
+            off += len2
         }
         bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
     }
@@ -423,11 +419,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         for (index in graph.indices) {
             for (store in index.getAllLocations()) {
                 if (store.first == localhost) {
-                    var page: Int = 0
-                    bufferManager.createPage(lupos.SOURCE_FILE) { byteArray, pageid ->
-                        page = pageid
-                    }
-                    bufferManager.releasePage(lupos.SOURCE_FILE, page)
+                    val page = bufferManager.allocPage(lupos.SOURCE_FILE)
                     println("allocated store-root page :: $page")
                     localStoresAdd(store.second, page, TripleStoreIndexIDTriple(page, false))
                 }

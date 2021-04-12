@@ -80,12 +80,8 @@ internal class NodeManager(bufferManager: BufferManager) {
     }
 
     internal inline /*suspend*/ fun allocateNodeLeaf(call_location: String, crossinline action: /*suspend*/ (BufferManagerPage, Int) -> Unit) {
-        var node: BufferManagerPage? = null
-        var nodeid = -1
-        bufferManager.createPage(lupos.SOURCE_FILE) { p, pageid ->
-            node = p
-            nodeid = pageid
-        }
+        var nodeid = bufferManager.allocPage(lupos.SOURCE_FILE)
+        var node = bufferManager.getPage(lupos.SOURCE_FILE, nodeid)
         NodeShared.setNodeType(node!!, nodeTypeLeaf)
         NodeShared.setNextNode(node!!, nodeNullPointer)
         NodeShared.setTripleCount(node!!, 0)
@@ -94,12 +90,8 @@ internal class NodeManager(bufferManager: BufferManager) {
     }
 
     internal inline /*suspend*/ fun allocateNodeInner(call_location: String, crossinline action: /*suspend*/ (BufferManagerPage, Int) -> Unit) {
-        var node: BufferManagerPage? = null
-        var nodeid = -1
-        bufferManager.createPage(lupos.SOURCE_FILE) { p, pageid ->
-            node = p
-            nodeid = pageid
-        }
+        val nodeid = bufferManager.allocPage(lupos.SOURCE_FILE)
+        val node = bufferManager.getPage(lupos.SOURCE_FILE, nodeid)
         NodeShared.setNodeType(node!!, nodeTypeInner)
         NodeShared.setNextNode(node!!, nodeNullPointer)
         NodeShared.setTripleCount(node!!, 0)

@@ -69,10 +69,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 when (dictType) {
                     EDictionaryTypeExt.KV -> {
                         if (rootPage == -1) {
-                            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-                                rootPage = pageid
-                            }
-                            bufferManager.releasePage(lupos.SOURCE_FILE, rootPage)
+                            rootPage = bufferManager.allocPage(lupos.SOURCE_FILE)
                         }
                         return DictionaryFactory.createDictionary(dictType, false, bufferManager, rootPage, initFromRootPage)
                     }
