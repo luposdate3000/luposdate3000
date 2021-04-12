@@ -207,6 +207,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 try {
                     res = dict.hasValue(data)
                 } catch (e: Throwable) {
+                    e.printStackTrace()
                     flag = false
                 }
                 val type = DictionaryHelper.byteArrayToType(data)
@@ -230,6 +231,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 try {
                     res = dict.hasValue(data)
                 } catch (e: Throwable) {
+                    e.printStackTrace()
                     flag = false
                 }
                 val type = DictionaryHelper.byteArrayToType(data)
@@ -269,6 +271,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                     val buffer = ByteArrayWrapper()
                     dict.getValue(buffer, key)
                 } catch (e: Throwable) {
+                    e.printStackTrace()
                     flag = false
                 }
                 if (flag) {

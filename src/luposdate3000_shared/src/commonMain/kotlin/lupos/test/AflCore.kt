@@ -91,6 +91,7 @@ public class AflCore(private val testname: String, private val maxlen_multiplica
                 tests++
             }
         } catch (e: Throwable) {
+            e.printStackTrace()
 // verification of single testcase
             val f = File(arg)
             val data = IntArray((f.length() / 4).toInt())

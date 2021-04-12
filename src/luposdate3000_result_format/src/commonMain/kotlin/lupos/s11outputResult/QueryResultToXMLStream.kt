@@ -174,6 +174,7 @@ public object QueryResultToXMLStream {
                         val columns = variables.map { child.columns[it]!! }.toTypedArray()
                         writeAllRows(variables, columns, node.getQuery().getDictionary(), lock, output)
                     } catch (e: Throwable) {
+                        e.printStackTrace()
                         errors[p] = e
                     }
                 }

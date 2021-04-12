@@ -53,6 +53,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                     try {
                         child.columns
                     } catch (e: Throwable) {
+                        e.printStackTrace()
                         SanityCheck.println { "debugchildclassname::" + getChildren()[0].getClassname() }
                         throw e
                     }
@@ -77,6 +78,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                         try {
                             child.columns
                         } catch (e: Throwable) {
+                            e.printStackTrace()
                             SanityCheck.println { "debugchildclassname2::" + getChildren()[0].getClassname() }
                             throw e
                         }

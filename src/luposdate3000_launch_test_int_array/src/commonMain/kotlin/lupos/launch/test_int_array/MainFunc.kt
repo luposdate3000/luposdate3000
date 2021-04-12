@@ -67,6 +67,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         try {
             arr[idx] = -1
         } catch (e: Throwable) {
+            e.printStackTrace()
             flag = false
         }
         if (flag) {
@@ -93,6 +94,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         try {
             arr[idx]
         } catch (e: Throwable) {
+            e.printStackTrace()
             flag = false
         }
         if (flag) {

@@ -91,6 +91,7 @@ public class POPJoinCartesianProduct public constructor(query: IQuery, projected
             try {
                 res = IteratorBundle(childA.count() * childB.count())
             } catch (e: Throwable) {
+                e.printStackTrace()
                 throw e
             }
         } else if (columnsINAO.size == 0) {

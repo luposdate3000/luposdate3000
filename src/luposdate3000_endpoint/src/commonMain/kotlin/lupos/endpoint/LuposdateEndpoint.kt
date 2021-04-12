@@ -246,6 +246,7 @@ public object LuposdateEndpoint {
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
+            e.printStackTrace()
             if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
                 communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
             }

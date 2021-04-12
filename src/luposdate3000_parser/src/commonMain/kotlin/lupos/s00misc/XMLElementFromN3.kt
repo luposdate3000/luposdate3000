@@ -45,6 +45,7 @@ public class XMLElementFromN3 : XMLElementParser {
             }
             parser.parse()
         } catch (e: Throwable) {
+            e.printStackTrace()
             nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
             val nodeHead = XMLElement("head")
             val nodeResults = XMLElement("results")

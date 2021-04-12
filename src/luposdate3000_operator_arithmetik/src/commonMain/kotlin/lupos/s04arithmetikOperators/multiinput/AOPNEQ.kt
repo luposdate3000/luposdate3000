@@ -53,8 +53,8 @@ public class AOPNEQ public constructor(query: IQuery, childA: AOPBase, childB: A
                     } catch (e: Luposdate3000Exception) {
                         res = DictionaryExt.errorValue2
                     } catch (e: Throwable) {
-                        res = DictionaryExt.errorValue2
                         e.printStackTrace()
+                        res = DictionaryExt.errorValue2
                     }
                 }
             }

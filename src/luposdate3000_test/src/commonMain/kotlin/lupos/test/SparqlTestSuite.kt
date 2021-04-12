@@ -94,7 +94,6 @@ public open class SparqlTestSuite {
                                     it3.println(jenaXML.toPrettyString())
                                 }
                             } catch (e: Throwable) {
-                                println({ "TODO exception 39" })
                                 e.printStackTrace()
                             } finally {
                                 JenaWrapper.dropAll()
@@ -507,7 +506,6 @@ public open class SparqlTestSuite {
                         println({ e.message })
                         ignoreJena = true
                     } catch (e: Throwable) {
-                        println({ "TODO exception 41" })
                         e.printStackTrace()
                         ignoreJena = true
                     }
@@ -542,7 +540,6 @@ public open class SparqlTestSuite {
                         println({ e.message })
                         ignoreJena = true
                     } catch (e: Throwable) {
-                        println({ "TODO exception 42" })
                         e.printStackTrace()
                         ignoreJena = true
                     }
@@ -665,7 +662,6 @@ public open class SparqlTestSuite {
                         println({ e.message })
                         ignoreJena = true
                     } catch (e: Throwable) {
-                        println({ "TODO exception 43" })
                         e.printStackTrace()
                         ignoreJena = true
                     }
@@ -792,7 +788,6 @@ public open class SparqlTestSuite {
             }
             return false
         } catch (e: Throwable) {
-            println({ "TODO exception 44" })
             e.printStackTrace()
             if (expectedResult) {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")

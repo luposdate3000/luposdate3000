@@ -192,6 +192,7 @@ public class POPMergePartition public constructor(query: IQuery, projectedVariab
                                             try {
                                                 ringbuffer[ringbufferWriteHead[p] + variableIdx + ringbufferStart[p]] = variableMapping[variableIdx].next()
                                             } catch (e: Throwable) {
+                                                e.printStackTrace()
                                                 for (variableIdx2 in 0 until variables.size) {
                                                     variableMapping[variableIdx2].close()
                                                 }
@@ -237,8 +238,8 @@ public class POPMergePartition public constructor(query: IQuery, projectedVariab
                             }
                         }
                     } catch (e: Throwable) {
-                        error = e
                         e.printStackTrace()
+                        error = e
                     }
                     writerFinished[p] = 1
                     ringbufferReaderContinuation.signal()

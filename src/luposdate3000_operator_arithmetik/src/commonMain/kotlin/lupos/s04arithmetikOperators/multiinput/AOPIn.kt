@@ -46,8 +46,8 @@ public class AOPIn public constructor(query: IQuery, childA: IAOPBase, childB: I
                         break
                     }
                 } catch (e: Throwable) {
-                    noError = false
                     e.printStackTrace()
+                    noError = false
                 }
             }
             if (found || noError) {

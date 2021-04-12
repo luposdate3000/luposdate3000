@@ -37,6 +37,7 @@ internal fun helperCleanString(s: String): String {
             res = res.replace(match.value, replacement)
         }
     } catch (e: Throwable) {
+        e.printStackTrace()
         println("error during clean :: $s")
     }
     return res

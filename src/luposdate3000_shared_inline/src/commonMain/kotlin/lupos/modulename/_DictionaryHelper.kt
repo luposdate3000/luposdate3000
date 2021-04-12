@@ -661,7 +661,7 @@ internal object _DictionaryHelper {
                 }
             }
         } catch (e: Throwable) {
-// drop the type annotation if it can not be parsed
+            e.printStackTrace()
             stringToByteArray(buffer, content)
         }
     }
@@ -797,6 +797,7 @@ internal object _DictionaryHelper {
                 integerToByteArray(buffer, i)
                 return
             } catch (e: Throwable) {
+                e.printStackTrace()
             }
         }
         if (!value.contains("e") && !value.contains("E")) {
@@ -805,6 +806,7 @@ internal object _DictionaryHelper {
                 decimalToByteArray(buffer, d)
                 return
             } catch (e: Throwable) {
+                e.printStackTrace()
             }
         }
         try {
@@ -812,6 +814,7 @@ internal object _DictionaryHelper {
             doubleToByteArray(buffer, d)
             return
         } catch (e: Throwable) {
+            e.printStackTrace()
         }
         if (!value.endsWith("" + value[0])) {
             val typeIdx = value.lastIndexOf("" + value[0] + "^^<")

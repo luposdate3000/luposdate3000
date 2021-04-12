@@ -40,6 +40,7 @@ internal actual class _MyInputStream : IMyInputStream {
                 b = readByte()
             }
         } catch (e: Throwable) {
+            e.printStackTrace()
             if (buf.size == 0) {
                 return null
             }

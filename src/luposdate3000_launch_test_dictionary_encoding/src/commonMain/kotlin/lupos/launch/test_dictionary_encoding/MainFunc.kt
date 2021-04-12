@@ -55,6 +55,7 @@ private object AssertionFunctions {
         try {
             a()
         } catch (e: Throwable) {
+            e.printStackTrace()
             flag = false
         }
         if (flag) {

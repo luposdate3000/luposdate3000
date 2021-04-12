@@ -91,6 +91,7 @@ internal class _MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @
                 // println("b 0x${b.toString(16)} ''${b.toChar()}''")
             }
         } catch (e: Throwable) {
+            e.printStackTrace()
             if (buf.size == 0) {
                 return null
             }

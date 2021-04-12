@@ -64,6 +64,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         try {
             bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
         } catch (e: Throwable) {
+            e.printStackTrace()
             flag = false
         }
         if (flag) {
@@ -101,6 +102,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         try {
             bufferManager.getPage(lupos.SOURCE_FILE, pageid)
         } catch (e: Throwable) {
+            e.printStackTrace()
             flag = false
         }
         if (flag) {
@@ -148,6 +150,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         try {
             bufferManager.deletePage(lupos.SOURCE_FILE, pageid)
         } catch (e: Throwable) {
+            e.printStackTrace()
             flag = false
         }
         if (flag) {

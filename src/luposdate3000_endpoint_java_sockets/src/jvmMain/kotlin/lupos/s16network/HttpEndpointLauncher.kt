@@ -465,9 +465,7 @@ public actual object HttpEndpointLauncher {
                                 actionHelper.action()
                             }
                         } catch (e: Throwable) {
-                            System.err.println("start error ...")
                             e.printStackTrace()
-                            System.err.println("finish error ...")
                             connectionOutMy.println("HTTP/1.1 500 Internal Server Error")
                             connectionOutMy.println()
                         } finally {

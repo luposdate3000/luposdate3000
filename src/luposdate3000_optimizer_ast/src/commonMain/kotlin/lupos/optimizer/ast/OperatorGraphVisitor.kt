@@ -583,6 +583,7 @@ public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<I
                         }
                     }
                 } catch (e: Throwable) {
+                    e.printStackTrace()
                     throw DatasetImportFailedException(query.getWorkingDirectory() + d.source_iri)
                 }
             }

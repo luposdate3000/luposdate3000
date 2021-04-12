@@ -90,6 +90,7 @@ internal class _MyStringStream(str: String) : IMyInputStream {
                 b = readByte()
             }
         } catch (e: Throwable) {
+            e.printStackTrace()
             if (buf.size == 0) {
                 return null
             }

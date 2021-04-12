@@ -878,6 +878,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                                     val dest2 = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated").replace(".kt", "Alias.kt"))
                                     copyFileWithReplacement(src2, dest2, mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"))
                                 } catch (e: Throwable) {
+                                    e.printStackTrace()
                                 }
                             }
                         }
@@ -895,18 +896,22 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 try {
                     copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}commonMain"), ("${configPathBase}${pathSeparator}commonMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
                 } catch (e: Throwable) {
+                    e.printStackTrace()
                 }
                 try {
                     copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jvmMain"), ("${configPathBase}${pathSeparator}jvmMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
                 } catch (e: Throwable) {
+                    e.printStackTrace()
                 }
                 try {
                     copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jsMain"), ("${configPathBase}${pathSeparator}jsMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
                 } catch (e: Throwable) {
+                    e.printStackTrace()
                 }
                 try {
                     copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}nativeMain"), ("${configPathBase}${pathSeparator}nativeMain"), mapOf(" public " to " @lupos.ProguardKeepAnnotation public ", "lupos.modulename" to "lupos.${moduleArgs.moduleName}"), pathSeparator)
                 } catch (e: Throwable) {
+                    e.printStackTrace()
                 }
             }
         }

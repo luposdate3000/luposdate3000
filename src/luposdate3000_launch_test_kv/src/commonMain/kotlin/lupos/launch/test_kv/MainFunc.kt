@@ -129,6 +129,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             val buffer = ByteArrayWrapper()
             kv.getValue(buffer, key)
         } catch (e: Throwable) {
+            e.printStackTrace()
             flag = false
         }
         if (flag) {

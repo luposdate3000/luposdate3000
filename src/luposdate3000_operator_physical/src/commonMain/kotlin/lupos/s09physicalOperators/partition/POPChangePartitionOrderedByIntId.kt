@@ -207,6 +207,7 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
                                         try {
                                             ringbuffer[ringbufferWriteHead[p1] + variableIdx + ringbufferStart[p1]] = variableMapping[variableIdx].next()
                                         } catch (e: Throwable) {
+                                            e.printStackTrace()
                                             for (variableIdx2 in 0 until variables.size) {
                                                 variableMapping[variableIdx2].close()
                                             }
@@ -252,8 +253,8 @@ public class POPChangePartitionOrderedByIntId public constructor(query: IQuery, 
                         }
                     }
                 } catch (e: Throwable) {
-                    error = e
                     e.printStackTrace()
+                    error = e
                 }
                 writerFinished[p1] = 1
                 ringbufferReaderContinuation.signal()

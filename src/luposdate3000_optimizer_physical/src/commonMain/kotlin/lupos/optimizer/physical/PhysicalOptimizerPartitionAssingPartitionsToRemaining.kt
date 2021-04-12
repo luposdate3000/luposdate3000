@@ -47,6 +47,7 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                                     new_count = node.changeToIndexWithMaximumPartitions(null, partitionVariable)
                                     break
                                 } catch (e: Throwable) {
+                                    e.printStackTrace()
                                 }
                             }
                         }

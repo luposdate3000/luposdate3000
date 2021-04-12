@@ -218,6 +218,7 @@ public class POPSplitPartition public constructor(query: IQuery, projectedVariab
                             }
                         }
                     } catch (e: Throwable) {
+                        e.printStackTrace()
                         error = e
                     }
                     child2?.close?.invoke()

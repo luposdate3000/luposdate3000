@@ -74,16 +74,19 @@ public sealed class ValueDefinition : Comparable<ValueDefinition> {
             try {
                 return ValueInteger(BigInteger.parseString(tmp, 10))
             } catch (e: Throwable) {
+                e.printStackTrace()
             }
             if (!tmp.contains("e") && !tmp.contains("E")) {
                 try {
                     return ValueDecimal(BigDecimal.parseString(tmp, 10))
                 } catch (e: Throwable) {
+                    e.printStackTrace()
                 }
             }
             try {
                 return ValueDouble(tmp.toDouble())
             } catch (e: Throwable) {
+                e.printStackTrace()
             }
             if (!tmp.endsWith("" + tmp[0])) {
                 val typeIdx = tmp.lastIndexOf("" + tmp[0] + "^^<")
