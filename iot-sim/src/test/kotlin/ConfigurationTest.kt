@@ -69,8 +69,8 @@ class ConfigurationTest {
     @ValueSource(strings = ["config/configOneFixedConnection.json"])
     fun `two devices have a connection`(fileName: String) {
         Configuration.parse(fileName)
-        val deviceAName = Configuration.jsonObjects.fixedLinks[0].fixedDeviceA
-        val deviceBName = Configuration.jsonObjects.fixedLinks[0].fixedDeviceB
+        val deviceAName = Configuration.jsonObjects.fixedLink[0].fixedDeviceA
+        val deviceBName = Configuration.jsonObjects.fixedLink[0].fixedDeviceB
         val deviceA = Configuration.getNamedDevice(deviceAName)
         val deviceB = Configuration.getNamedDevice(deviceBName)
 
@@ -82,8 +82,8 @@ class ConfigurationTest {
     @ValueSource(strings = ["config/twoLinkedDevicesShareTheirLinkObject.json"])
     fun twoLinkedDevicesShareTheirLinkObject(fileName: String) {
         Configuration.parse(fileName)
-        val deviceAName = Configuration.jsonObjects.fixedLinks[0].fixedDeviceA
-        val deviceBName = Configuration.jsonObjects.fixedLinks[0].fixedDeviceB
+        val deviceAName = Configuration.jsonObjects.fixedLink[0].fixedDeviceA
+        val deviceBName = Configuration.jsonObjects.fixedLink[0].fixedDeviceB
         val deviceA = Configuration.getNamedDevice(deviceAName)
         val deviceB = Configuration.getNamedDevice(deviceBName)
         val linkA = deviceA.getAvailableLink(deviceB)

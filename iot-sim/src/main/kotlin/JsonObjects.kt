@@ -5,7 +5,7 @@ data class JsonObjects(
     val linkType: List<LinkType> = arrayListOf(),
     val deviceType: List<DeviceType> = arrayListOf(),
     val fixedDevices: List<FixedDevices> = arrayListOf(),
-    val fixedLinks: List<FixedLinks> = arrayListOf(),
+    val fixedLink: List<FixedLink> = arrayListOf(),
     val randomMeshNetwork: List<RandomMeshNetwork> = arrayListOf(),
     val randomStarNetwork: List<RandomStarNetwork> = arrayListOf(),
 )
@@ -36,7 +36,7 @@ data class FixedDevices(
 )
 
 @Serializable
-data class FixedLinks(
+data class FixedLink(
     val fixedDeviceA: String = "",
     val fixedDeviceB: String = "",
 )

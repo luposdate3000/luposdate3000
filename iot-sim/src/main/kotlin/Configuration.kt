@@ -157,7 +157,7 @@ object Configuration {
     }
 
     private fun createFixedLinks() {
-        for (fixedLink in jsonObjects.fixedLinks) {
+        for (fixedLink in jsonObjects.fixedLink) {
             val a = getNamedDevice(fixedLink.fixedDeviceA)
             val b = getNamedDevice(fixedLink.fixedDeviceB)
             link(a, b)

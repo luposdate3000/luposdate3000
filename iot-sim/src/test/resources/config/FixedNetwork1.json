@@ -47,7 +47,7 @@
       "longitude": 10.70409201724958
     }
   ],
-  "fixedLinks": [
+  "fixedLink": [
     {
       "fixedDeviceA": "a",
       "fixedDeviceB": "b"

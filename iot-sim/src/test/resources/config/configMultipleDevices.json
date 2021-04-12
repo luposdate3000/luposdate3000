@@ -49,7 +49,7 @@
       "longitude": 3.0
     }
   ],
-  "fixedLinks": [
+  "fixedLink": [
     {
       "fixedDeviceA": "Tower1",
       "fixedDeviceB": "Fog1"
