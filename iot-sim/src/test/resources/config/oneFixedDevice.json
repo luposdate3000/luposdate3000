@@ -10,7 +10,7 @@
       "supportedLinkTypes": []
     }
   ],
-  "fixedDevices": [
+  "fixedDevice": [
     {
       "name": "Tower1",
       "deviceType": "RadioTower",

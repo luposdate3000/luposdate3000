@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 data class JsonObjects(
     val linkType: List<LinkType> = arrayListOf(),
     val deviceType: List<DeviceType> = arrayListOf(),
-    val fixedDevices: List<FixedDevices> = arrayListOf(),
+    val fixedDevice: List<FixedDevice> = arrayListOf(),
     val fixedLink: List<FixedLink> = arrayListOf(),
     val randomMeshNetwork: List<RandomMeshNetwork> = arrayListOf(),
     val randomStarNetwork: List<RandomStarNetwork> = arrayListOf(),
@@ -28,7 +28,7 @@ data class DeviceType(
 
 
 @Serializable
-data class FixedDevices(
+data class FixedDevice(
     val name: String = "",
     val deviceType: String = "",
     val latitude: Double = 0.0,

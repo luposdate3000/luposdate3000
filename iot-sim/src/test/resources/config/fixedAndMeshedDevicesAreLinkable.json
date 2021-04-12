@@ -15,7 +15,7 @@
       "supportedLinkTypes": ["WPAN"]
     }
   ],
-  "fixedDevices": [
+  "fixedDevice": [
     {
       "name": "Tower1",
       "deviceType": "Fog",

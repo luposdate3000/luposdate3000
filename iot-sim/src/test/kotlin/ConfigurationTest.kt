@@ -17,13 +17,13 @@ class ConfigurationTest {
     @ValueSource(strings = ["config/oneFixedDevice.json"])
     fun oneFixedDevice(fileName: String) {
         Configuration.parse(fileName)
-        val deviceName = Configuration.jsonObjects.fixedDevices[0].name
-        val lat = Configuration.jsonObjects.fixedDevices[0].latitude
-        val lon = Configuration.jsonObjects.fixedDevices[0].longitude
+        val deviceName = Configuration.jsonObjects.fixedDevice[0].name
+        val lat = Configuration.jsonObjects.fixedDevice[0].latitude
+        val lon = Configuration.jsonObjects.fixedDevice[0].longitude
         val location = GeoLocation(lat, lon)
         val device = Configuration.getNamedDevice(deviceName)
 
-        Assertions.assertEquals(Configuration.jsonObjects.fixedDevices.size, Configuration.devices.size)
+        Assertions.assertEquals(Configuration.jsonObjects.fixedDevice.size, Configuration.devices.size)
         Assertions.assertEquals(0, device.address)
         Assertions.assertEquals(location, device.location)
         Assertions.assertNull(device.application)
@@ -37,7 +37,7 @@ class ConfigurationTest {
     fun `one application device with sensors`(fileName: String) {
         Configuration.parse(fileName)
         val devices = Configuration.devices
-        val deviceName = Configuration.jsonObjects.fixedDevices[0].name
+        val deviceName = Configuration.jsonObjects.fixedDevice[0].name
         val device = Configuration.getNamedDevice(deviceName)
         val numSensors = 1
         Assertions.assertTrue(device.application is DatabaseApp)
@@ -122,8 +122,8 @@ class ConfigurationTest {
     @ValueSource(strings = ["config/configOneFixedConnection.json"])
     fun `check link between two fixed devices`(fileName: String) {
         Configuration.parse(fileName)
-        val device1Address = Configuration.jsonObjects.fixedDevices[0].name
-        val device2Address = Configuration.jsonObjects.fixedDevices[1].name
+        val device1Address = Configuration.jsonObjects.fixedDevice[0].name
+        val device2Address = Configuration.jsonObjects.fixedDevice[1].name
         val device1 = Configuration.getNamedDevice(device1Address)
         val device2 = Configuration.getNamedDevice(device2Address)
         val link1 = device1.getAvailableLink(device2)
@@ -228,7 +228,7 @@ class ConfigurationTest {
     @ValueSource(strings = ["config/fixedAndMeshedDevicesAreLinkable.json"])
     fun fixedAndMeshedDevicesAreLinkable(fileName: String) {
         Configuration.parse(fileName)
-        val fixedDeviceName = Configuration.jsonObjects.fixedDevices[0].name
+        val fixedDeviceName = Configuration.jsonObjects.fixedDevice[0].name
         val fixedDevice = Configuration.getNamedDevice(fixedDeviceName)
 
         val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix
@@ -244,7 +244,7 @@ class ConfigurationTest {
     @ValueSource(strings = ["config/fixedAndMeshedDevicesAreNotLinkable.json"])
     fun fixedAndMeshedDevicesAreNotLinkable(fileName: String) {
         Configuration.parse(fileName)
-        val fixedDeviceName = Configuration.jsonObjects.fixedDevices[0].name
+        val fixedDeviceName = Configuration.jsonObjects.fixedDevice[0].name
         val fixedDevice = Configuration.getNamedDevice(fixedDeviceName)
 
         val networkPrefix = Configuration.jsonObjects.randomMeshNetwork[0].networkPrefix

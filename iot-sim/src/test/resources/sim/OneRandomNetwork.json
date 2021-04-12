@@ -22,7 +22,7 @@
       "supportedLinkTypes": ["WPAN"]
     }
   ],
-  "fixedDevices": [
+  "fixedDevice": [
     {
       "name": "Fog1",
       "deviceType": "Fog",

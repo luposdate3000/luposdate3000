@@ -151,7 +151,7 @@ object Configuration {
     }
 
     private fun createFixedDevices() {
-        for (fixedDevice in jsonObjects.fixedDevices) {
+        for (fixedDevice in jsonObjects.fixedDevice) {
             createFixedLocatedDevice(fixedDevice)
         }
     }
@@ -164,12 +164,12 @@ object Configuration {
         }
     }
 
-    private fun createFixedLocatedDevice(fixedDevices: FixedDevices) {
-        val deviceType = getDeviceTypeByName(fixedDevices.deviceType)
-        val location = GeoLocation(fixedDevices.latitude, fixedDevices.longitude)
+    private fun createFixedLocatedDevice(fixedDevice: FixedDevice) {
+        val deviceType = getDeviceTypeByName(fixedDevice.deviceType)
+        val location = GeoLocation(fixedDevice.latitude, fixedDevice.longitude)
         val created = createDevice(deviceType, location)
-        require(!namedAddresses.containsKey(fixedDevices.name)) { "name ${fixedDevices.name} must be unique" }
-        namedAddresses[fixedDevices.name] = created.address
+        require(!namedAddresses.containsKey(fixedDevice.name)) { "name ${fixedDevice.name} must be unique" }
+        namedAddresses[fixedDevice.name] = created.address
     }
 
     private fun createDevice(deviceType: DeviceType, location: GeoLocation): Device {

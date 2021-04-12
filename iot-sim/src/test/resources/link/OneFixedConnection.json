@@ -22,7 +22,7 @@
       "supportedLinkTypes": ["WIRE"]
     }
   ],
-  "fixedDevices": [
+  "fixedDevice": [
     {
       "name": "Tower1",
       "deviceType": "RadioTower",
