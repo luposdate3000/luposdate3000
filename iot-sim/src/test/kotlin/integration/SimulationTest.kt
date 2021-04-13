@@ -19,8 +19,8 @@ class SimulationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["sim/OneDeviceWithParkingSensor.json"])
-    fun `message to own device do not delay`(fileName: String) {
+    @ValueSource(strings = ["sim/selfMessagesDoNotDelay.json"])
+    fun selfMessagesDoNotDelay(fileName: String) {
         Configuration.parse(fileName)
         val maxClock: Long = ParkingSensor.dataRateInSeconds.toLong() * 2
         Simulation.initialize(Configuration.entities, maxClock)
