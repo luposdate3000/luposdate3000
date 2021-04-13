@@ -47,7 +47,8 @@ public class PhysicalOptimizer public constructor(query: Query) : OptimizerCompo
             PhysicalOptimizerPartitionAssingPartitionsToRemaining(query), //
         ),
         arrayOf(
-            PhysicalOptimizerDebug(query), //
+           // PhysicalOptimizerDebug(query), //
+            PhysicalOptimizerVisualisation(query),
         ),
     )
 }

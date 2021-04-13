@@ -1,71 +1,129 @@
 package lupos.s16network
 
+import kotlin.js.JsName
+import lupos.endpoint.LuposdateEndpoint
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizerVisualisation
+import lupos.s00misc.MyPrintWriter
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
+import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
 import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
-import kotlin.js.JsName
 
-public class EndpointExtendedVisualize {
+public class EndpointExtendedVisualize (input: String) {
+    private var resultLog: Array<String>
+    private var resultPhys: Array<String>
+    private var result: String
 
-    // Optimising the physical operator graph and is returning each step of the process for visualisation
+    init {
+        val query: String = input;
+        val q: Query = Query()
+        val lcit: LexerCharIterator = LexerCharIterator(query)
+        val tit: TokenIteratorSPARQLParser = TokenIteratorSPARQLParser(lcit)
+        val ltit: LookAheadTokenIterator = LookAheadTokenIterator(tit, 3)
+        val parser: SPARQLParser = SPARQLParser(ltit)
+        val astNode: ASTNode = parser.expr()
+        val lopNode: IOPBase = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
+        val logSteps: MutableList<IOPBase> = mutableListOf<IOPBase>()
+        val optLog: IOPBase = LogicalOptimizer(q).optimizeCall(lopNode, {}, { logSteps.add(it.cloneOP()) })
+        val resultLogTmp = mutableListOf<String>()
+        for (i in logSteps) {
+            traverseNetwork(i, mutableMapOf<IOPBase, Int>())
+            resultLogTmp.add(getJsonData(i))
+        }
+        resultLog = resultLogTmp.toTypedArray()
+        val popOptimizer: PhysicalOptimizer = PhysicalOptimizer(q)
+        val physSteps: MutableList<IOPBase> = mutableListOf<IOPBase>()
+        val tmp: IOPBase =
+            popOptimizer.optimizeCall(optLog, {}, { physSteps.add(it.cloneOP()) }) // Physical Operatorgraph
+        val optPhys: IOPBase = PhysicalOptimizerVisualisation(q).optimizeCall(tmp)
+        val resultPhysTmp = mutableListOf<String>()
+        for (i in physSteps) {
+            traverseNetwork(i, mutableMapOf<IOPBase, Int>())
+            resultPhysTmp.add(getJsonData(i))
+        }
+        resultPhys = resultPhysTmp.toTypedArray()
+
+        val buf = MyPrintWriter(true)
+        traverseNetwork(optPhys, mutableMapOf())
+        LuposdateEndpoint.evaluateOperatorgraphToResult(optPhys, buf)
+        result = buf.toString()
+    }
+
     @JsName("getOptimizedStepsPhysical")
-    public fun getOptimizedStepsPhysical(query: String): Array<String> {
-        val q = Query()
-        val lcit = LexerCharIterator(query)
-        val tit = TokenIteratorSPARQLParser(lcit)
-        val ltit = LookAheadTokenIterator(tit, 3)
-        val parser = SPARQLParser(ltit)
-        val astNode = parser.expr()
-        val lopNode = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
-        val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode) // Log Operatorgraph Optimized
-        val popOptimizer = PhysicalOptimizer(q)
-        var tmp = mutableListOf<IOPBase>()
-        val tmp3 = popOptimizer.optimizeCall(lopNode2, {}, { tmp.add(it.cloneOP()) }) // Physical Operatorgraph
-        val tmp2 = PhysicalOptimizerVisualisation(q).optimizeCall(tmp3)
-        var result = mutableListOf<String>()
-        // Change the UUIDs in each step beginning from 1 via DFS.
-        for (i in tmp) {
-            traverseNetwork(i, mutableMapOf<IOPBase, Int>())
-            result.add(getJsonData(i))
-        }
-        return result.toTypedArray()
+    public fun getOptimizedStepsPhysical(): Array<String> {
+        return resultPhys
     }
 
-    // Optimising the logical operator graph and is returning each step of the process for visualisation
     @JsName("getOptimizedStepsLogical")
-    public fun getOptimizedStepsLogical(query: String): Array<String> {
-        val q = Query()
-        val lcit = LexerCharIterator(query)
-        val tit = TokenIteratorSPARQLParser(lcit)
-        val ltit = LookAheadTokenIterator(tit, 3)
-        val parser = SPARQLParser(ltit)
-        val astNode = parser.expr()
-        val lopNode = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
-        var tmp = mutableListOf<IOPBase>()
-        var tmp2 = LogicalOptimizer(q).optimizeCall(lopNode, {}, { tmp.add(it.cloneOP()) }) // Log Operatorgraph Optimized
-        var result = mutableListOf<String>()
-        // Change the UUIDs in each step beginning from 1 via DFS.
-        for (i in tmp) {
-            traverseNetwork(i, mutableMapOf<IOPBase, Int>())
-            result.add(getJsonData(i))
-        }
-        return result.toTypedArray()
+    public fun getOptimizedStepsLogical(): Array<String> {
+        return resultLog
     }
+
+    @JsName("getResult")
+    public fun getResult(): String {
+        return result
+    }
+
+
+// Optimising the physical operator graph and is returning each step of the process for visualisation
+/*@JsName("getOptimizedStepsPhysical")
+public fun getOptimizedStepsPhysical(query: String): Array<String> {
+    val q = Query()
+    val lcit = LexerCharIterator(query)
+    val tit = TokenIteratorSPARQLParser(lcit)
+    val ltit = LookAheadTokenIterator(tit, 3)
+    val parser = SPARQLParser(ltit)
+    val astNode = parser.expr()
+    val lopNode = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
+    val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode) // Log Operatorgraph Optimized
+    val popOptimizer = PhysicalOptimizer(q)
+    var tmp = mutableListOf<IOPBase>()
+    val tmp3 = popOptimizer.optimizeCall(lopNode2, {}, { tmp.add(it.cloneOP()) }) // Physical Operatorgraph
+    val tmp2 = PhysicalOptimizerVisualisation(q).optimizeCall(tmp3)
+    var result = mutableListOf<String>()
+    // Change the UUIDs in each step beginning from 1 via DFS.
+    for (i in tmp) {
+        traverseNetwork(i, mutableMapOf<IOPBase, Int>())
+        result.add(getJsonData(i))
+    }
+    return result.toTypedArray()
+}
+
+// Optimising the logical operator graph and is returning each step of the process for visualisation
+@JsName("getOptimizedStepsLogical")
+public fun getOptimizedStepsLogical(query: String): Array<String> {
+    val q = Query()
+    val lcit = LexerCharIterator(query)
+    val tit = TokenIteratorSPARQLParser(lcit)
+    val ltit = LookAheadTokenIterator(tit, 3)
+    val parser = SPARQLParser(ltit)
+    val astNode = parser.expr()
+    val lopNode = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
+    var tmp = mutableListOf<IOPBase>()
+    var tmp2 = LogicalOptimizer(q).optimizeCall(lopNode, {}, { tmp.add(it.cloneOP()) }) // Log Operatorgraph Optimized
+    var result = mutableListOf<String>()
+    // Change the UUIDs in each step beginning from 1 via DFS.
+    for (i in tmp) {
+        traverseNetwork(i, mutableMapOf<IOPBase, Int>())
+        result.add(getJsonData(i))
+    }
+    return result.toTypedArray()
+}
+*/
 
     // Input: (Sub)-Tree of the Query
-    // Output: Node and Edge Information as String for each node of the tree
-    //
-    // Receives a node as IOPBase and calls sub methods to determine the Node and
-    // Edge data as strings which are needed for the visualization framework.
+// Output: Node and Edge Information as String for each node of the tree
+//
+// Receives a node as IOPBase and calls sub methods to determine the Node and
+// Edge data as strings which are needed for the visualization framework.
     private fun getJsonData(baum: IOPBase): String {
         var x = baum
         // Calling traverseNetwork method to change the UUIDs via DFS.
@@ -93,12 +151,12 @@ public class EndpointExtendedVisualize {
     }
 
     // Input: (Sub)-Tree as IOPBase, MutableMap
-    // Output: New MutableMap
-    //
-    // Method checks if an node is already included
-    // -> yes: cloning operator to avoid ID duplicate in the visualization and
-    // -> no: adding node to the hashmap and reassigning the UUID based on the size of the
-    //          hashmap, which results in an DFS like reassignment of the UUIDs.
+// Output: New MutableMap
+//
+// Method checks if an node is already included
+// -> yes: cloning operator to avoid ID duplicate in the visualization and
+// -> no: adding node to the hashmap and reassigning the UUID based on the size of the
+//          hashmap, which results in an DFS like reassignment of the UUIDs.
     public fun traverseNetwork(teilbaum: IOPBase, mutableMap: MutableMap<IOPBase, Int>): MutableMap<IOPBase, Int> {
         var hashMap = mutableMap
         var x = teilbaum
@@ -126,9 +184,9 @@ public class EndpointExtendedVisualize {
     }
 
     // Input: (Sub)-Tree as IOPBase, UUID from the node that is connection to this node, hashmap
-    // Output: Edge information as string needed for visualization framework
-    //
-    // Outputs a string that creates an Edge in the visualization framework
+// Output: Edge information as string needed for visualization framework
+//
+// Outputs a string that creates an Edge in the visualization framework
     private fun createEdgeJson(teilbaum: IOPBase, uuid: Int?, mutableMap: MutableMap<IOPBase, Int>): String {
         var x = teilbaum
         var map = mutableMap
@@ -144,9 +202,9 @@ public class EndpointExtendedVisualize {
     }
 
     // Input: (Sub)-Tree as IOPBase,  hashmap
-    // Output: Node information as string needed for visualization framework
-    //
-    // Outputs a string that creates a Node in the visualization framework
+// Output: Node information as string needed for visualization framework
+//
+// Outputs a string that creates a Node in the visualization framework
     private fun createNodeJson(teilbaum: IOPBase, mutableMap: MutableMap<IOPBase, Int>): String {
         var x = teilbaum
         var map = mutableMap
@@ -157,16 +215,16 @@ public class EndpointExtendedVisualize {
             // -> Different variables are containing the needed information for visualization
             if (x is AOPVariable) {
                 label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
-                "?" + x.getName().replace("\n", "").replace("\"", "\\\"")
+                    "?" + x.getName().replace("\n", "").replace("\"", "\\\"")
                 }\""
             } else if (x is AOPConstant) {
                 label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
-                x.toSparql().replace("\n", "").replace("\"", "\\\"")
+                    x.toSparql().replace("\n", "").replace("\"", "\\\"")
                 }\""
                 // In general: All IOPBase nodes
             } else {
                 label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
-                x.getProvidedVariableNames().toString().replace("\n", "").replace("\"", "\\\"")
+                    x.getProvidedVariableNames().toString().replace("\n", "").replace("\"", "\\\"")
                 }\""
             }
             // In case getProvidedVariableNames is not defined for a given operator.
@@ -182,3 +240,4 @@ public class EndpointExtendedVisualize {
         return result
     }
 }
+
