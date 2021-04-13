@@ -3,17 +3,13 @@ class ParkingSensor(
     override var dataSinkAddress: Int
 ): Device.Sensor {
 
-
-
     companion object {
         var dataRateInSeconds: Int = 30
     }
 
-
-
     override fun observe() {
         val obEnd = NetworkPackage.ObservationEnd()
-        device.sendSelfPackage(obEnd)
+        device.sendSelfPackage(dataRateInSeconds.toLong(), obEnd)
     }
 
     override fun onObservationEnd() {

@@ -43,6 +43,9 @@ class Device(
         //wenn DIO, dann berechne Rang
         //wähle Eltern, sende DAO ob Eltern Eltern bleiben oder nicht.
         val pck = event.data as NetworkPackage
+        if (pck.data is NetworkPackage.ObservationEnd) {
+            sensor!!.onObservationEnd()
+        }
 
     }
 
@@ -56,9 +59,9 @@ class Device(
         }
     }
 
-    fun sendSelfPackage(data: Any) {
+    fun sendSelfPackage(delay: Long, data: Any) {
         val pck = NetworkPackage(address, address, data)
-        sendEvent(this, 0, pck)
+        sendEvent(this, delay, pck)
     }
 
     fun sendPackage(src: Int, dest: Int, data: Any) {
