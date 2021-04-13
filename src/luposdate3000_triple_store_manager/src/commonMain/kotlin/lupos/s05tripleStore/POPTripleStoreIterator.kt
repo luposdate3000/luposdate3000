@@ -116,14 +116,14 @@ public class POPTripleStoreIterator(
     }
 
     public fun getDesiredHostnameFor(partition: Partition): LuposHostname {
-        val index = tripleStoreIndexDescription as TripleStoreIndexDescription
+        val index = tripleStoreIndexDescription
         val target = index.getStore(query, children, partition)
         return target.first
     }
 
     public override fun cloneOP(): IOPBase = POPTripleStoreIterator(query, projectedVariables, tripleStoreIndexDescription, children)
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val index = tripleStoreIndexDescription as TripleStoreIndexDescription
+        val index = tripleStoreIndexDescription
         val target = index.getStore(query, children, parent)
         val manager = tripleStoreManager as TripleStoreManagerImpl
         SanityCheck.check { target.first == manager.localhost }

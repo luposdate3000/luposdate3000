@@ -28,7 +28,6 @@ import kotlin.jvm.JvmField
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 public actual class BufferManager internal actual constructor(@JvmField public val name: String) {
-
     @ProguardTestAnnotation
     public actual constructor() : this("")
 
@@ -135,14 +134,10 @@ public actual class BufferManager internal actual constructor(@JvmField public v
             }
             val openId = openPagesMapping[pageid]!!
             SanityCheck.check { openPagesRefcounters[openId] >= 1 }
-            if (datafilelength < BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid) {
-                datafilelength = BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid
-                datafile.setLength(datafilelength)
-            }
             datafile.seek(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
-            datafile.write(openPages[openId].getData(), 0, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt())
+            datafile.write(openPages[openId].getData(), 0, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
             SanityCheck {
-                val cmp = ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toInt())
+                val cmp = ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
                 datafile.seek(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
                 datafile.readFully(cmp, 0, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
                 for (i in 0 until BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) {
@@ -168,10 +163,6 @@ public actual class BufferManager internal actual constructor(@JvmField public v
             val openId = openPagesMapping[pageid]!!
             SanityCheck.check { openPagesRefcounters[openId] >= 1 }
             if (openPagesRefcounters[openId] == 1) {
-                if (datafilelength < BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid) {
-                    datafilelength = BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid
-                    datafile.setLength(datafilelength)
-                }
                 datafile.seek(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
                 datafile.write(openPages[openId].getData(), 0, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
                 SanityCheck {
@@ -240,6 +231,11 @@ public actual class BufferManager internal actual constructor(@JvmField public v
                 pageid = counter++
                 freelistfile.seek(freelistfileOffsetCounter)
                 freelistfile.writeInt(counter)
+                val minlen = BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * (pageid + 1)
+                if (datafilelength < minlen) {
+                    datafilelength = minlen
+                    datafile.setLength(datafilelength)
+                }
             }
             SanityCheck {
                 SanityCheck.check { pageid < counter }

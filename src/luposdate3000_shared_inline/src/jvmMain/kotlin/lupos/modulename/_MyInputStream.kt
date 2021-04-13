@@ -18,19 +18,18 @@ package lupos.modulename
 
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.IMyInputStream
+import lupos.shared.UUID_Counter
 import java.io.InputStream
 import kotlin.jvm.JvmField
-import lupos.shared.UUID_Counter
 
 internal actual class _MyInputStream(@JvmField internal val stream: InputStream) : IMyInputStream {
     @JvmField
     internal val buf4: ByteArray = ByteArray(4)
 
-
     internal val uuid = UUID_Counter.getNextUUID()
 
     init {
-        //println("MyInputStream $uuid open")
+        // println("MyInputStream $uuid open")
     }
 
     public actual override fun read(buf: ByteArray): Int {
@@ -71,36 +70,53 @@ internal actual class _MyInputStream(@JvmField internal val stream: InputStream)
     }
 
     public actual override fun readByte(): Byte {
-        //println("MyInputStream $uuid readByte start")
+        // println("MyInputStream $uuid readByte start")
         read(buf4, 1)
-        //println("MyInputStream $uuid readByte done ${(0xFF and buf4[0].toInt()).toString(16).padStart(2, '0')}")
+        // println("MyInputStream $uuid readByte done ${(0xFF and buf4[0].toInt()).toString(16).padStart(2, '0')}")
         return buf4[0]
     }
 
     public actual override fun close() {
         stream.close()
-        //println("MyInputStream $uuid close")
+        // println("MyInputStream $uuid close")
     }
 
+    private var buffer = ByteArray(1)
     public actual override fun readLine(): String? {
-// TODO this may break on utf-8
-        var buf = mutableListOf<Byte>()
+// TODO this may break on utf-8 if '\r' or '\0' is part of another char
+        var len = 0
         try {
             var b = readByte()
-            while (b != '\n'.toByte()) {
-                if (b != '\r'.toByte()) {
-                    buf.add(b)
+            while (true) {
+                when (b) {
+                    '\n'.toByte() -> break
+                    '\r'.toByte() -> {
+                    }
+                    0.toByte() -> throw Exception("zero Bytes not allowed within utf8-string")
+                    else -> {
+                        if (len >= buffer.size) {
+                            try {
+                                throw Exception("resize input buffer from $len '${buffer.decodeToString()}'")
+                            } catch (e: Throwable) {
+                                e.printStackTrace()
+                            }
+                            val bb = ByteArray(len * 2)
+                            buffer.copyInto(bb)
+                            buffer = bb
+                        }
+                        buffer[len++] = b
+                    }
                 }
                 b = readByte()
             }
         } catch (e: Throwable) {
             e.printStackTrace()
-            if (buf.size == 0) {
+            if (len == 0) {
                 return null
             }
         }
-        val res = buf.toByteArray().decodeToString()
-        //println("MyInputStream $uuid readLine '$res'")
+        val res = buffer.decodeToString(0, len)
+        // println("MyInputStream $uuid readLine '$res'")
         return res
     }
 }

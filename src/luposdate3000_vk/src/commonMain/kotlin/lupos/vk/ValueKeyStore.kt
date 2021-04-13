@@ -435,6 +435,8 @@ internal class ValueKeyStoreIteratorSearch internal constructor(private val buff
                 }
                 if (target <= buffer) {
                     break@localloop
+                } else {
+                    childPageID = localChildPageID
                 }
             }
             if (pageid != ValueKeyStore.PAGEID_NULL_PTR) {

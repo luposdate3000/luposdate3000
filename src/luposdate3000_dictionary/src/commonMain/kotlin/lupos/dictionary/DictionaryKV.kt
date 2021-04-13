@@ -130,6 +130,9 @@ public class DictionaryKV : ADictionary {
         var lastId = -1
         fun addEntry(id: Int, i: Int) {
             SanityCheck.check { lastId == id - 1 }
+            if (lastId != id - 1) {
+                throw Exception("ERROR !! $lastId -> $id")
+            }
             lastId = id
             if (lastId % 10000 == 0) {
                 println("imported $lastId dictionaryItems")

@@ -114,6 +114,7 @@ public actual object HttpEndpointLauncher {
             println("launched server socket on '0.0.0.0':'$port' - waiting for connections now")
             while (true) {
                 val connection = server.accept()
+                println("received connection from ${connection.getRemoteSocketAddress().toString()}")
                 Thread {
                     var dontCloseSockets: Boolean = false
                     Parallel.runBlocking {

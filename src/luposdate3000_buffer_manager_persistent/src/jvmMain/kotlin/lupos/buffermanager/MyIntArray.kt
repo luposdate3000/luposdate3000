@@ -54,7 +54,7 @@ public actual class MyIntArray internal actual constructor(@JvmField private val
         SanityCheck.check { idx < _size }
         var res = 0
         lock.withWriteLock {
-            datafile.seek(idx * 4 + 4L)
+            datafile.seek(idx * 4L + 4L)
             res = datafile.readInt()
         }
         return res
@@ -65,7 +65,7 @@ public actual class MyIntArray internal actual constructor(@JvmField private val
         SanityCheck.check { idx >= 0 }
         SanityCheck.check { idx < _size }
         lock.withWriteLock {
-            datafile.seek(idx * 4 + 4L)
+            datafile.seek(idx * 4L + 4L)
             datafile.writeInt(value)
         }
     }
@@ -74,7 +74,7 @@ public actual class MyIntArray internal actual constructor(@JvmField private val
         SanityCheck.check { !closed }
         if (size != _size) {
             if (clean) {
-                datafile.seek(_size * 4 + 4L)
+                datafile.seek(_size * 4L + 4L)
                 for (i in _size until size) {
                     datafile.writeInt(0)
                 }
@@ -88,7 +88,7 @@ public actual class MyIntArray internal actual constructor(@JvmField private val
     public actual fun setSize(size: Int) {
         SanityCheck.check { !closed }
         if (size != _size) {
-            datafile.seek(_size * 4 + 4L)
+            datafile.seek(_size * 4L + 4L)
             for (i in _size until size) {
                 datafile.writeInt(0)
             }
