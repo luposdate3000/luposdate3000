@@ -31,7 +31,6 @@ public class PhysicalOptimizerVisualisation(query: Query) : OptimizerBase(query,
         when (node) {
 
             !is POPVisualisation -> {
-                // this code is intended to be debugging only - even if it changes the resulting operator-graph
                 if (node is POPBase && (parent !is POPVisualisation)) {
                     res = POPVisualisation(query, node.projectedVariables, node)
                     if (parent != null) {
@@ -39,7 +38,7 @@ public class PhysicalOptimizerVisualisation(query: Query) : OptimizerBase(query,
                     }
                     onChange()
                 }
-            }
+           }
         }
         return res
     }

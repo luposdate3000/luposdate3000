@@ -41,18 +41,18 @@ public class EndpointExtendedVisualize (input: String) {
         resultLog = resultLogTmp.toTypedArray()
         val popOptimizer: PhysicalOptimizer = PhysicalOptimizer(q)
         val physSteps: MutableList<IOPBase> = mutableListOf<IOPBase>()
-        val tmp: IOPBase =
-            popOptimizer.optimizeCall(optLog, {}, { physSteps.add(it.cloneOP()) }) // Physical Operatorgraph
+        val tmp: IOPBase = popOptimizer.optimizeCall(optLog, {}, { physSteps.add(it.cloneOP()) }) // Physical Operatorgraph
         val optPhys: IOPBase = PhysicalOptimizerVisualisation(q).optimizeCall(tmp)
         val resultPhysTmp = mutableListOf<String>()
         for (i in physSteps) {
             traverseNetwork(i, mutableMapOf<IOPBase, Int>())
             resultPhysTmp.add(getJsonData(i))
         }
+        traverseNetwork(optPhys, mutableMapOf())
+        resultPhysTmp.add(getJsonData(optPhys))
         resultPhys = resultPhysTmp.toTypedArray()
 
         val buf = MyPrintWriter(true)
-        traverseNetwork(optPhys, mutableMapOf())
         LuposdateEndpoint.evaluateOperatorgraphToResult(optPhys, buf)
         result = buf.toString()
     }
