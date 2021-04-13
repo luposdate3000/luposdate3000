@@ -16,6 +16,7 @@
  */
 package lupos.test
 
+import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.DictionaryHelper
@@ -446,9 +447,15 @@ public object BinaryTestCase {
                                 val bufP = IntArray(1048576)
                                 val bufO = IntArray(1048576)
                                 var bufPos = 0
+                                val arr = arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos))
+                                val arr2 = arrayOf(arr[0] as ColumnIterator, arr[1] as ColumnIterator, arr[2] as ColumnIterator)
+                                val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
                                 for (row in tableInput.data) {
                                     if (bufPos == bufS.size) {
-                                        store.modify(query2, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
+                                        for (i in 0 until 3) {
+                                            arr[i].reset(bufPos)
+                                        }
+                                        store.modify_cache(query2, arr2, EModifyTypeExt.INSERT, cache, false)
                                         bufPos = 0
                                     }
                                     bufS[bufPos] = row[0]
@@ -456,9 +463,10 @@ public object BinaryTestCase {
                                     bufO[bufPos] = row[2]
                                     bufPos++
                                 }
-                                if (bufPos > 0) {
-                                    store.modify(query2, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
+                                for (i in 0 until 3) {
+                                    arr[i].reset(bufPos)
                                 }
+                                store.modify_cache(query2, arr2, EModifyTypeExt.INSERT, cache, true)
                                 tripleStoreManager.commit(query2)
                                 if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
                                     communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))

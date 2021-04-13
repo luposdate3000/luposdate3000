@@ -34,25 +34,25 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
-public class TripleStoreDescriptionModifyCache(type: EModifyType) : ITripleStoreDescriptionModifyCache {
-    internal val allBuf = Array(indices.size) { index -> Array(indices[index].getAllLocations().size) { MyBuf() } }
-    internal val allStore = index.getAllLocations()
-    internal val allStoreParams = allStore.map { mapOf("key" to it.second, "idx" to EIndexPatternExt.names[index.idx_set[0]], "mode" to EModifyTypeExt.names[type], ) }.toTypedArray()
+public class TripleStoreDescriptionModifyCache(private val description: TripleStoreDescription, private val type: EModifyType) : ITripleStoreDescriptionModifyCache {
+    internal val idx = description.indices.map { EIndexPatternHelper.tripleIndicees[it.idx_set[0]] }.toTypedArray()
+    internal val allBuf = Array(description.indices.size) { index -> Array(description.indices[index].getAllLocations().size) { MyBuf() } }
+    internal val allStore = description.indices.map { it.getAllLocations() }.toTypedArray()
+    internal val allStoreParams = allStore.mapIndexed { i_idx, i -> i.map { j -> mapOf("key" to j.second, "idx" to idx[i_idx].toString(), "mode" to EModifyTypeExt.names[type]) }.toTypedArray() }.toTypedArray()
     internal val row = IntArray(3)
-    internal val idx = EIndexPatternHelper.tripleIndicees[index.idx_set[0]]
-    internal val allStoreLocal = allStore.map { (tripleStoreManager as TripleStoreManagerImpl).localStoresGet()[it.second]!! }.toTypedArray()
+    internal val allStoreLocal = allStore.map { i -> i.map { j -> (tripleStoreManager as TripleStoreManagerImpl).localStoresGet()[j.second]!! }.toTypedArray() }.toTypedArray()
     internal fun mySend(i: Int, j: Int) {
         val buf = allBuf[i][j]
-        val index = indices[i]
-        val store = allStore[j]
+        val index = description.indices[i]
+        val store = allStore[i][j]
         if (store.first == (tripleStoreManager as TripleStoreManagerImpl).localhost) {
             if (type == EModifyTypeExt.INSERT) {
-                allStoreLocal[j].insertAsBulk(buf.buf, idx, buf.offset)
+                allStoreLocal[i][j].insertAsBulk(buf.buf, idx[i], buf.offset)
             } else {
-                allStoreLocal[j].removeAsBulk(buf.buf, idx, buf.offset)
+                allStoreLocal[i][j].removeAsBulk(buf.buf, idx[i], buf.offset)
             }
         } else {
-            val conn = communicationHandler.openConnection(store.first, "/distributed/graph/modify", allStoreParams[j])
+            val conn = communicationHandler.openConnection(store.first, "/distributed/graph/modify", allStoreParams[i][j])
             conn.second.writeInt(buf.offset)
             for (k in 0 until buf.offset) {
                 conn.second.writeInt(buf.buf[k])

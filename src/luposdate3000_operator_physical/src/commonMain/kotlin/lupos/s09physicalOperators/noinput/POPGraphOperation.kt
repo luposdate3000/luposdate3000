@@ -140,7 +140,8 @@ public class POPGraphOperation public constructor(
     /*suspend*/ private fun copyData(source: ITripleStoreDescription, target: ITripleStoreDescription, parent: Partition) {
         val row = source.getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO).evaluate(parent)
         val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
-        target.modify(query, iterator, EModifyTypeExt.INSERT)
+        val cache = target.modify_create_cache(EModifyTypeExt.INSERT)
+        target.modify_cache(query, iterator, EModifyTypeExt.INSERT, cache, true)
     }
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
@@ -208,7 +209,8 @@ public class POPGraphOperation public constructor(
                     val d = POPValuesImportXML(query, listOf("s", "p", "o"), xml)
                     val row = d.evaluate(parent)
                     val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
-                    target.modify(query, iterator, EModifyTypeExt.INSERT)
+                    val cache = target.modify_create_cache(EModifyTypeExt.INSERT)
+                    target.modify_cache(query, iterator, EModifyTypeExt.INSERT, cache, true)
                 }
                 EGraphOperationTypeExt.COPY -> {
                     when (graph1type) {

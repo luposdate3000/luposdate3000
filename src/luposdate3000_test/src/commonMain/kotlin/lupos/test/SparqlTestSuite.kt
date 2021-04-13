@@ -490,7 +490,9 @@ public open class SparqlTestSuite {
                             query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
                         }
                         val tmp = tmp2.evaluateRoot()
-                        tripleStoreManager.getDefaultGraph().modify(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT)
+                        val sstore = tripleStoreManager.getDefaultGraph()
+                        val cache = sstore.modify_create_cache(EModifyTypeExt.INSERT)
+                        sstore.modify_cache(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT, cache, true)
                         tripleStoreManager.commit(query)
                         query.commited = true
                         if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
@@ -525,7 +527,9 @@ public open class SparqlTestSuite {
                         query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
                     }
                     val tmp = tmp2.evaluateRoot()
-                    tripleStoreManager.getGraph(it["name"]!!).modify(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT)
+                    val sstore = tripleStoreManager.getGraph(it["name"]!!)
+                    val cache = sstore.modify_create_cache(EModifyTypeExt.INSERT)
+                    sstore.modify_cache(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT, cache, true)
                     tripleStoreManager.commit(query)
                     if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
                         communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))

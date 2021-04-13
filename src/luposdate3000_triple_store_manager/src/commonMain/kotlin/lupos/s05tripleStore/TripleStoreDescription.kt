@@ -111,7 +111,7 @@ public class TripleStoreDescription(
     }
 
     public override fun modify_create_cache(type: EModifyType): ITripleStoreDescriptionModifyCache {
-        return TripleStoreDescriptionModifyCache(type)
+        return TripleStoreDescriptionModifyCache(this, type)
     }
 
     public override fun modify_cache(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType, cache: ITripleStoreDescriptionModifyCache, flush: Boolean) {

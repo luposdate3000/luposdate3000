@@ -59,6 +59,7 @@ import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
+import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue3
 import lupos.s05tripleStore.TripleStoreManager
 import lupos.s05tripleStore.TripleStoreManagerImpl
@@ -159,6 +160,8 @@ public object LuposdateEndpoint {
                 val ltit = LookAheadTokenIterator(tit, 3)
                 try {
                     val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
+                    val arr2 = arrayOf(arr[0] as ColumnIterator, arr[1] as ColumnIterator, arr[2] as ColumnIterator)
+                    val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
                     val x = object : TurtleParserWithStringTriples() {
                         /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
                             counter++
@@ -166,7 +169,7 @@ public object LuposdateEndpoint {
                                 for (i in 0 until 3) {
                                     arr[i].reset(bufPos)
                                 }
-                                store.modify(query, arr, EModifyTypeExt.INSERT)
+                                store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, false)
                                 bufPos = 0
                             }
                             bufS[bufPos] = helperImportRaw(bnodeDict, s)
@@ -177,13 +180,10 @@ public object LuposdateEndpoint {
                     }
                     x.ltit = ltit
                     x.parse()
-                    if (bufPos > 0) {
-                        for (i in 0 until 3) {
-                            arr[i].reset(bufPos)
-                        }
-                        store.modify(query, arr, EModifyTypeExt.INSERT)
-                        bufPos = 0
+                    for (i in 0 until 3) {
+                        arr[i].reset(bufPos)
                     }
+                    store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, true)
                 } catch (e: lupos.s02buildSyntaxTree.ParseError) {
                     println("error in file '$fileName'")
                     throw e
@@ -225,6 +225,8 @@ public object LuposdateEndpoint {
                 val iter = f.openInputStream()
                 try {
                     val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
+                    val arr2 = arrayOf(arr[0] as ColumnIterator, arr[1] as ColumnIterator, arr[2] as ColumnIterator)
+                    val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
                     val x = object : Turtle2Parser(iter) {
                         override fun onTriple() {
                             counter++
@@ -232,7 +234,7 @@ public object LuposdateEndpoint {
                                 for (i in 0 until 3) {
                                     arr[i].reset(bufPos)
                                 }
-                                store.modify(query, arr, EModifyTypeExt.INSERT)
+                                store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, false)
                                 bufPos = 0
                             }
                             bufS[bufPos] = helperImportRaw(bnodeDict, triple[0])
@@ -242,13 +244,10 @@ public object LuposdateEndpoint {
                         }
                     }
                     x.parse()
-                    if (bufPos > 0) {
-                        for (i in 0 until 3) {
-                            arr[i].reset(bufPos)
-                        }
-                        store.modify(query, arr, EModifyTypeExt.INSERT)
-                        bufPos = 0
+                    for (i in 0 until 3) {
+                        arr[i].reset(bufPos)
                     }
+                    store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, true)
                 } catch (e: Exception) {
                     println("fast_parser :: error in file '$fileName'")
                     e.printStackTrace()
@@ -293,6 +292,8 @@ public object LuposdateEndpoint {
             val iter = MyStringStream(data)
             try {
                 val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
+                val arr2 = arrayOf(arr[0] as ColumnIterator, arr[1] as ColumnIterator, arr[2] as ColumnIterator)
+                val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
                 val x = object : Turtle2Parser(iter) {
                     override fun onTriple() {
                         counter++
@@ -300,7 +301,7 @@ public object LuposdateEndpoint {
                             for (i in 0 until 3) {
                                 arr[i].reset(bufPos)
                             }
-                            store.modify(query, arr, EModifyTypeExt.INSERT)
+                            store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, false)
                             bufPos = 0
                         }
                         bufS[bufPos] = helperImportRaw(bnodeDict, triple[0])
@@ -310,13 +311,10 @@ public object LuposdateEndpoint {
                     }
                 }
                 x.parse()
-                if (bufPos > 0) {
-                    for (i in 0 until 3) {
-                        arr[i].reset(bufPos)
-                    }
-                    store.modify(query, arr, EModifyTypeExt.INSERT)
-                    bufPos = 0
+                for (i in 0 until 3) {
+                    arr[i].reset(bufPos)
                 }
+                store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, true)
             } catch (e: Exception) {
                 println("fast_parser :: error in turtle-string")
                 e.printStackTrace()
@@ -395,6 +393,8 @@ public object LuposdateEndpoint {
                 val cnt = fileTriples.length() / 12L
                 counter += cnt
                 val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
+                val arr2 = arrayOf(arr[0] as ColumnIterator, arr[1] as ColumnIterator, arr[2] as ColumnIterator)
+                val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
                 fileTriples.withInputStream {
                     for (i in 0 until cnt) {
                         val s = it.readInt()
@@ -404,7 +404,7 @@ public object LuposdateEndpoint {
                             for (i in 0 until 3) {
                                 arr[i].reset(bufPos)
                             }
-                            store.modify(query, arr, EModifyTypeExt.INSERT)
+                            store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, false)
                             bufPos = 0
                         }
                         bufS[bufPos] = mapping[s]
@@ -413,13 +413,10 @@ public object LuposdateEndpoint {
                         bufPos++
                     }
                 }
-                if (bufPos > 0) {
-                    for (i in 0 until 3) {
-                        arr[i].reset(bufPos)
-                    }
-                    store.modify(query, arr, EModifyTypeExt.INSERT)
-                    bufPos = 0
+                for (i in 0 until 3) {
+                    arr[i].reset(bufPos)
                 }
+                store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, true)
                 val totalTime = DateHelperRelative.elapsedSeconds(startTime)
                 val storeTime = totalTime - dictTime
                 println("imported file $fileName,$cnt,$totalTime,$dictTime,$storeTime")
@@ -450,7 +447,9 @@ public object LuposdateEndpoint {
         }
         val import = import2.evaluateRoot()
         val dataLocal = arrayOf(import.columns["s"]!!, import.columns["p"]!!, import.columns["o"]!!)
-        tripleStoreManager.getDefaultGraph().modify(query, dataLocal, EModifyTypeExt.INSERT)
+        val store = tripleStoreManager.getDefaultGraph()
+        val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
+        store.modify_cache(query, dataLocal, EModifyTypeExt.INSERT, cache, true)
         tripleStoreManager.commit(query)
         query.commited = true
         if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
