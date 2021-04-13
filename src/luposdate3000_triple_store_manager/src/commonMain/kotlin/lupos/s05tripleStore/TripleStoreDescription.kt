@@ -110,61 +110,35 @@ public class TripleStoreDescription(
         return res
     }
 
-    public override fun modify(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType) {
-        val allBuf = Array(indices.size) { index -> Array(indices[index].getAllLocations().size) { MyBuf() } }
-        fun mySend(i: Int, j: Int) {
-            val buf = allBuf[i][j]
-            val index = indices[i]
-            val store = index.getAllLocations()[j]
-            if (store.first == (tripleStoreManager as TripleStoreManagerImpl).localhost) {
-                val tmp = (tripleStoreManager as TripleStoreManagerImpl).localStoresGet()[store.second]!!
-                if (type == EModifyTypeExt.INSERT) {
-                    tmp.insertAsBulk(buf.buf, EIndexPatternHelper.tripleIndicees[index.idx_set[0]], buf.offset)
-                } else {
-                    tmp.removeAsBulk(buf.buf, EIndexPatternHelper.tripleIndicees[index.idx_set[0]], buf.offset)
-                }
-            } else {
-                val conn = communicationHandler.openConnection(
-                    store.first, "/distributed/graph/modify",
-                    mapOf(
-                        "key" to store.second,
-                        "idx" to EIndexPatternExt.names[index.idx_set[0]],
-                        "mode" to EModifyTypeExt.names[type],
-                    )
-                )
-                conn.second.writeInt(buf.offset)
-                for (k in 0 until buf.offset) {
-                    conn.second.writeInt(buf.buf[k])
-                }
-                conn.second.flush()
-                conn.first.close()
-                conn.second.close()
-            }
-            buf.offset = 0
-        }
+    public override fun modify_create_cache(type: EModifyType): ITripleStoreDescriptionModifyCache {
+        return TripleStoreDescriptionModifyCache(type)
+    }
 
-        val row = IntArray(3)
+    public override fun modify_cache(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType, cache: ITripleStoreDescriptionModifyCache, flush: Boolean) {
+        val localcache = cache as TripleStoreDescriptionModifyCache
         loop@ while (true) {
-            row[0] = columns[0].next()
-            row[1] = columns[1].next()
-            row[2] = columns[2].next()
-            if (row[0] == DictionaryExt.nullValue) {
+            localcache.row[0] = columns[0].next()
+            localcache.row[1] = columns[1].next()
+            localcache.row[2] = columns[2].next()
+            if (localcache.row[0] == DictionaryExt.nullValue) {
                 break@loop
             }
-            for (i in 0 until allBuf.size) {
-                val bufID = indices[i].findPartitionFor(query, row)
-                val buf = allBuf[i][bufID]
+            for (i in 0 until localcache.allBuf.size) {
+                val bufID = indices[i].findPartitionFor(query, localcache.row)
+                val buf = localcache.allBuf[i][bufID]
                 if (buf.offset >= buf.size) {
-                    mySend(i, bufID)
+                    localcache.mySend(i, bufID)
                 }
-                buf.buf[buf.offset++] = row[0]
-                buf.buf[buf.offset++] = row[1]
-                buf.buf[buf.offset++] = row[2]
+                buf.buf[buf.offset++] = localcache.row[0]
+                buf.buf[buf.offset++] = localcache.row[1]
+                buf.buf[buf.offset++] = localcache.row[2]
             }
         }
-        for (i in 0 until allBuf.size) {
-            for (bufID in 0 until allBuf[i].size) {
-                mySend(i, bufID)
+        if (flush) {
+            for (i in 0 until localcache.allBuf.size) {
+                for (bufID in 0 until localcache.allBuf[i].size) {
+                    localcache.mySend(i, bufID)
+                }
             }
         }
     }

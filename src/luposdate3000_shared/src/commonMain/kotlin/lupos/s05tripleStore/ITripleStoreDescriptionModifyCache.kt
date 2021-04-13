@@ -23,9 +23,5 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 
-public interface ITripleStoreDescription {
-    public fun modify_create_ache(type: EModifyType): ITripleStoreDescriptionModifyCache
-    public fun modify_cache(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType, cache: ITripleStoreDescriptionModifyCache, flush: Boolean)
-    public fun getIterator(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): IOPBase
-    public fun getHistogram(query: IQuery, params: Array<IAOPBase>, idx: EIndexPattern): Pair<Int, Int>
+public interface ITripleStoreDescriptionModifyCache {
 }

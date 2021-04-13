@@ -59,6 +59,7 @@ import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
+import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue3
 import lupos.s05tripleStore.TripleStoreManager
 import lupos.s05tripleStore.TripleStoreManagerImpl
 import lupos.s05tripleStore.tripleStoreManager
@@ -157,11 +158,15 @@ public object LuposdateEndpoint {
                 val tit = TurtleScanner(lcit)
                 val ltit = LookAheadTokenIterator(tit, 3)
                 try {
+                    val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
                     val x = object : TurtleParserWithStringTriples() {
                         /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
                             counter++
                             if (bufPos == bufS.size) {
-                                store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
+                                for (i in 0 until 3) {
+                                    arr[i].reset(bufPos)
+                                }
+                                store.modify(query, arr, EModifyTypeExt.INSERT)
                                 bufPos = 0
                             }
                             bufS[bufPos] = helperImportRaw(bnodeDict, s)
@@ -173,7 +178,10 @@ public object LuposdateEndpoint {
                     x.ltit = ltit
                     x.parse()
                     if (bufPos > 0) {
-                        store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
+                        for (i in 0 until 3) {
+                            arr[i].reset(bufPos)
+                        }
+                        store.modify(query, arr, EModifyTypeExt.INSERT)
                         bufPos = 0
                     }
                 } catch (e: lupos.s02buildSyntaxTree.ParseError) {
@@ -216,11 +224,15 @@ public object LuposdateEndpoint {
                 val f = File(fileName)
                 val iter = f.openInputStream()
                 try {
+                    val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
                     val x = object : Turtle2Parser(iter) {
                         override fun onTriple() {
                             counter++
                             if (bufPos == bufS.size) {
-                                store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
+                                for (i in 0 until 3) {
+                                    arr[i].reset(bufPos)
+                                }
+                                store.modify(query, arr, EModifyTypeExt.INSERT)
                                 bufPos = 0
                             }
                             bufS[bufPos] = helperImportRaw(bnodeDict, triple[0])
@@ -231,7 +243,10 @@ public object LuposdateEndpoint {
                     }
                     x.parse()
                     if (bufPos > 0) {
-                        store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
+                        for (i in 0 until 3) {
+                            arr[i].reset(bufPos)
+                        }
+                        store.modify(query, arr, EModifyTypeExt.INSERT)
                         bufPos = 0
                     }
                 } catch (e: Exception) {
@@ -277,11 +292,15 @@ public object LuposdateEndpoint {
             var bufPos = 0
             val iter = MyStringStream(data)
             try {
+                val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
                 val x = object : Turtle2Parser(iter) {
                     override fun onTriple() {
                         counter++
                         if (bufPos == bufS.size) {
-                            store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
+                            for (i in 0 until 3) {
+                                arr[i].reset(bufPos)
+                            }
+                            store.modify(query, arr, EModifyTypeExt.INSERT)
                             bufPos = 0
                         }
                         bufS[bufPos] = helperImportRaw(bnodeDict, triple[0])
@@ -292,7 +311,10 @@ public object LuposdateEndpoint {
                 }
                 x.parse()
                 if (bufPos > 0) {
-                    store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
+                    for (i in 0 until 3) {
+                        arr[i].reset(bufPos)
+                    }
+                    store.modify(query, arr, EModifyTypeExt.INSERT)
                     bufPos = 0
                 }
             } catch (e: Exception) {
@@ -372,13 +394,17 @@ public object LuposdateEndpoint {
                 val dictTime = DateHelperRelative.elapsedSeconds(startTime)
                 val cnt = fileTriples.length() / 12L
                 counter += cnt
+                val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
                 fileTriples.withInputStream {
                     for (i in 0 until cnt) {
                         val s = it.readInt()
                         val p = it.readInt()
                         val o = it.readInt()
                         if (bufPos == bufS.size) {
-                            store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
+                            for (i in 0 until 3) {
+                                arr[i].reset(bufPos)
+                            }
+                            store.modify(query, arr, EModifyTypeExt.INSERT)
                             bufPos = 0
                         }
                         bufS[bufPos] = mapping[s]
@@ -388,7 +414,10 @@ public object LuposdateEndpoint {
                     }
                 }
                 if (bufPos > 0) {
-                    store.modify(query, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
+                    for (i in 0 until 3) {
+                        arr[i].reset(bufPos)
+                    }
+                    store.modify(query, arr, EModifyTypeExt.INSERT)
                     bufPos = 0
                 }
                 val totalTime = DateHelperRelative.elapsedSeconds(startTime)

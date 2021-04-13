@@ -19,9 +19,15 @@ package lupos.s04logicalOperators.iterator
 import lupos.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
 
-public class ColumnIteratorMultiValue3(@JvmField public val values: IntArray, @JvmField public val size: Int) : ColumnIterator() {
+public class ColumnIteratorMultiValue3(@JvmField public val values: IntArray, @JvmField public var size: Int) : ColumnIterator() {
     @JvmField
     public var index: Int = 0
+
+    public fun reset(newsize: Int) {
+        index = 0
+        size = newsize
+    }
+
     public /*suspend*/ override fun close() {
         index = size
     }
