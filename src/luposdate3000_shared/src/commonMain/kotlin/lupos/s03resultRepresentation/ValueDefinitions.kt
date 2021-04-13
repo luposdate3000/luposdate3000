@@ -107,6 +107,9 @@ public sealed class ValueDefinition : Comparable<ValueDefinition> {
         public fun convertToValueDefinition(value: BigDecimal): ValueDefinition {
             return ValueDecimal(value)
         }
+        public fun convertToValueDefinition(value: String): ValueDefinition {
+            return ValueSimpleLiteral("",value)
+        }
         public operator fun invoke(tmp: String?): ValueDefinition {
             if (tmp == null || tmp.isEmpty()) {
                 return ValueUndef()

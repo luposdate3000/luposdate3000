@@ -35,6 +35,7 @@ internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String
         "@JvmField val iterator${operatorGraph.uuid} : ColumnIterator?)" +
         ": ColumnIteratorQueue() {")
     clazz.iteratorClassVariables.add("        var label2${operatorGraph.uuid} = 1")
+    clazz.iteratorClassVariables.add("        var buffer = ByteArrayWrapper()")
     for(variable in variablename) {
         clazz.iteratorClassVariables.add("        var column$variable : LocalIterator? = null")
     }

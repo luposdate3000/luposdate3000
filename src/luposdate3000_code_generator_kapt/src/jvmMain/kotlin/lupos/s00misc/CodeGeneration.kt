@@ -128,6 +128,7 @@ public fun generateSourceCode(className: String,
             outFile.print(container.iteratorNextBodyResult.toString())
             outFile.print(container.iteratorNextBodyEnd.toString())
             outFile.print(container.iteratorNextFooter.toString())
+            outFile.print(container.iteratorBody.toString())
             outFile.print(container.iteratorCloseHeader.toString())
             outFile.print(container.iteratorCloseBody.toString())
             outFile.print(container.iteratorCloseFooter.toString())
@@ -362,6 +363,20 @@ private fun writeOperatorGraph(
             // POPBind will be implemented within the generated file, specialized for the annotated query
             generatePOPBind(operator, projectedVariables, operatorsBuffer, imports, classContainers)
         }
+        is AOPBuildInCallUCASE -> {
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = AOPBuildInCallUCASE(query," +
+                    "operator${operator.children[0].getUUID()})"
+            )
+            imports.add("lupos.s04arithmetikOperators.generated.AOPBuildInCallUCASE")
+        }
+        is AOPBuildInCallSTR -> {
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = AOPBuildInCallSTR(query," +
+                    "operator${operator.children[0].getUUID()})"
+            )
+            imports.add("lupos.s04arithmetikOperators.generated.AOPBuildInCallSTR")
+        }
         else -> {
             // Oops, seems like we forgot an operator
             throw Exception(operator.classname)
@@ -413,12 +428,18 @@ internal fun writeFilter(child: IOPBase, classes: MyPrintWriter?, operatorGraph:
             is AOPDivision -> {
                 classes.println("                        val child${child.uuid} = child${child.children[0].getUUID()} / child${child.children[1].getUUID()}")
             }
+            is AOPBuildInCallUCASE -> {
+                classes.println("                        val child${child.uuid} = child${child.children[0].getUUID()}.toUpperCase()")
+            }
+            is AOPBuildInCallSTR -> {
+                classes.println("                        val child${child.uuid} = child${child.children[0].getUUID()}.toString()")
+            }
+
             is AOPVariable -> {
                 // Muss in einen Datentyp gecastet werden, um Operationen wie ?pages+5 < 50 im Filter durchführen zu können
                 // Hier klappt .toInt() am Ende ranhängen, sollte aber dynamisch erkannt werden; Anhängig von der Konstanten zuvor machen?
-                classes.println("                        val tmp = ByteArrayWrapper()")
-                classes.println("                        query.getDictionary().getValue(tmp, row${child.name})")
-                classes.println("                        val child${child.uuid} = DictionaryHelper.byteArrayToValueDefinition(tmp)")
+                classes.println("                        query.getDictionary().getValue(buffer, row${child.name})")
+                classes.println("                        val child${child.uuid} = DictionaryHelper.byteArrayToValueDefinition(buffer)")
             }
             is AOPConstant -> {
             }
@@ -477,4 +498,5 @@ internal class ClazzContainer(val name: String, val uuid: Long){
     val footer = MyPrintWriter(true)
     val iteratorNextBodyResult = MyPrintWriter(true)
     val iteratorNextBodyEnd = MyPrintWriter(true)
+    val iteratorBody = MyPrintWriter(true)
 }

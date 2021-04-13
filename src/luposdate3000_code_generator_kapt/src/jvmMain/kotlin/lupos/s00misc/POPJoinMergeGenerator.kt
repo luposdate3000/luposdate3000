@@ -111,20 +111,20 @@ internal fun generatePOPJoinMerge(
         |    override fun toSparql(): String = children[0].toSparql() + children[1].toSparql()
         |    override fun cloneOP(): IOPBase = Operator${operatorGraph.uuid}(query, children[0].cloneOP(), children[1].cloneOP())
         |    override fun equals(other: Any?): Boolean = other is Operator${operatorGraph.uuid} && children[0] == other.children[0] && children[1] == other.children[1]""".trimMargin())
-    clazz.iteratorHeader.println()
-    clazz.iteratorHeader.println("    internal class IteratorBundleImpl(")
+    clazz.header.println()
+    clazz.header.println("    internal class IteratorBundleImpl(")
     for (variablename in children0ProvidedVariable) {
-        clazz.iteratorNextBody.println("        @JvmField")
-        clazz.iteratorNextBody.println("        val columnsInJ0$variablename: ColumnIterator,")
+        clazz.header.println("        @JvmField")
+        clazz.header.println("        val columnsInJ0$variablename: ColumnIterator,")
     }
     for (variablename in children1ProvidedVariable) {
-        clazz.iteratorNextBody.println("        @JvmField")
-        clazz.iteratorNextBody.println("        val columnsInJ1$variablename: ColumnIterator,")
+        clazz.header.println("        @JvmField")
+        clazz.header.println("        val columnsInJ1$variablename: ColumnIterator,")
     }
-    clazz.iteratorNextBody.println("        @JvmField")
-    clazz.iteratorNextBody.println("        val columnsOUTJ: ColumnIteratorChildIterator")
-    clazz.iteratorNextBody.println("    ) : IteratorBundle(0) {")
-    clazz.iteratorNextBody.println("""
+    clazz.header.println("        @JvmField")
+    clazz.header.println("        val columnsOUTJ: ColumnIteratorChildIterator")
+    clazz.header.println("    ) : IteratorBundle(0) {")
+    clazz.header.println("""
         override /*suspend*/ fun hasNext2(): Boolean {
             val tmp = columnsOUTJ.next() != DictionaryExt.nullValue
             if (!tmp) {
@@ -134,216 +134,205 @@ internal fun generatePOPJoinMerge(
         }
         @Suppress("NOTHING_TO_INLINE") /*suspend*/ private inline fun _hasNext2Close() {""")
     for (variablename in children0ProvidedVariable) {
-        clazz.iteratorNextBody.println("            columnsInJ0$variablename.close()")
+        clazz.header.println("            columnsInJ0$variablename.close()")
     }
     for (variablename in children1ProvidedVariable) {
-        clazz.iteratorNextBody.println("            columnsInJ1$variablename.close()")
+        clazz.header.println("            columnsInJ1$variablename.close()")
     }
-    clazz.iteratorNextBody.println("""
+    clazz.header.println("""
         }
         override /*suspend*/ fun hasNext2Close() {
             _hasNext2Close()
         }
     }""")
-    clazz.iteratorNextBody.println()
-    clazz.iteratorNextBody.println()
-    clazz.iteratorNextBody.println("    internal class ColumnIteratorChildIteratorImpl(")
+    clazz.header.println()
+    clazz.header.println()
+    clazz.iteratorHeader.println("    internal class ColumnIteratorChildIteratorImpl(")
 
     for (variable in variablesJoin) {
-        clazz.iteratorNextBody.println("        @JvmField ")
-        clazz.iteratorNextBody.println("        val columnsInJ0$variable: ColumnIterator,")
+        clazz.iteratorHeader.println("        @JvmField ")
+        clazz.iteratorHeader.println("        val columnsInJ0$variable: ColumnIterator,")
     }
     for (variable in variablesJoin) {
-        clazz.iteratorNextBody.println("        @JvmField ")
-        clazz.iteratorNextBody.println("        val columnsInJ1$variable: ColumnIterator,")
+        clazz.iteratorHeader.println("        @JvmField ")
+        clazz.iteratorHeader.println("        val columnsInJ1$variable: ColumnIterator,")
     }
     for (variable in variables0Only) {
-        clazz.iteratorNextBody.println("        @JvmField ")
-        clazz.iteratorNextBody.println("        val columnsInO0$variable: ColumnIterator,")
+        clazz.iteratorHeader.println("        @JvmField ")
+        clazz.iteratorHeader.println("        val columnsInO0$variable: ColumnIterator,")
     }
     for (variable in variables1Only) {
-        clazz.iteratorNextBody.println("        @JvmField ")
-        clazz.iteratorNextBody.println("        val columnsInO1$variable: ColumnIterator,")
+        clazz.iteratorHeader.println("        @JvmField ")
+        clazz.iteratorHeader.println("        val columnsInO1$variable: ColumnIterator,")
     }
     for (variable in variablesJoin) {
-        clazz.iteratorNextBody.println("        @JvmField ")
-        clazz.iteratorNextBody.println("        var key0$variable: Int,")
+        clazz.iteratorHeader.println("        @JvmField ")
+        clazz.iteratorHeader.println("        var key0$variable: Int,")
     }
     for (variable in variablesJoin) {
-        clazz.iteratorNextBody.println("        @JvmField ")
-        clazz.iteratorNextBody.println("        var key1$variable: Int,")
+        clazz.iteratorHeader.println("        @JvmField ")
+        clazz.iteratorHeader.println("        var key1$variable: Int,")
     }
-    clazz.iteratorNextBody.println("    ): ColumnIteratorChildIterator() {")
+    clazz.iteratorHeader.println("    ): ColumnIteratorChildIterator() {")
 
     for (variable in variables0Only) {
-        clazz.iteratorNextBody.println("        @JvmField ")
-        clazz.iteratorNextBody.println("        var columnsOut0$variable = this")
+        clazz.iteratorClassVariables.add("        var columnsOut0$variable = this")
     }
     for (variable in variables1Only) {
-        clazz.iteratorNextBody.println("        @JvmField ")
-        clazz.iteratorNextBody.println("        var columnsOut1$variable = this")
+        clazz.iteratorClassVariables.add("        var columnsOut1$variable = this")
     }
     for (variable in variablesJoinOut) {
-        clazz.iteratorNextBody.println("        @JvmField ")
-        clazz.iteratorNextBody.println("        var columnsOutJ$variable = this")
+        clazz.iteratorClassVariables.add("        var columnsOutJ$variable = this")
     }
 
     for (variable in variables0Only) {
-        clazz.iteratorNextBody.println("        @JvmField ")
-        clazz.iteratorNextBody.println("        var data0$variable = IntArray(100)")
+        clazz.iteratorClassVariables.add("        var data0$variable = IntArray(100)")
     }
     for (variable in variables1Only) {
-        clazz.iteratorNextBody.println("        @JvmField ")
-        clazz.iteratorNextBody.println("        var data1$variable = IntArray(100)")
+        clazz.iteratorClassVariables.add("        var data1$variable = IntArray(100)")
     }
-    clazz.iteratorNextBody.println("""
-        @JvmField
-        var localNextI = 0
-        @JvmField
-        var localNextJ = 0
-        @JvmField
-        var localNextCounta = 0
-        @JvmField
-        var localNextCountb = 0 """)
+
+    clazz.iteratorClassVariables.add("var localNextI = 0")
+    clazz.iteratorClassVariables.add("var localNextJ = 0")
+    clazz.iteratorClassVariables.add("var localNextCounta = 0")
+    clazz.iteratorClassVariables.add("var localNextCountb = 0")
+
     for (variable in variablesJoin) {
-        clazz.iteratorNextBody.println("        @JvmField ")
-        clazz.iteratorNextBody.println("        var localNextKeyCopy$variable = 0")
+        clazz.iteratorClassVariables.add("        var localNextKeyCopy$variable = 0")
     }
-    clazz.iteratorNextBody.println("""
-        @JvmField
-        var localCloseI = 0
-        @JvmField
-        var skipO0 = 0
-        @JvmField
-        var skipO1 = 0
-        @JvmField
-        var sipbuf = IntArray(2)
 
-        @Suppress("NOTHING_TO_INLINE") /*suspend*/ private inline fun __close() {
-            if (label != 0) {""")
+    clazz.iteratorClassVariables.add("var localCloseI = 0")
+    clazz.iteratorClassVariables.add("var skipO0 = 0")
+    clazz.iteratorClassVariables.add("var skipO1 = 0")
+    clazz.iteratorClassVariables.add("var sipbuf = IntArray(2)")
+
+    clazz.iteratorBody.println("@Suppress(\"NOTHING_TO_INLINE\") /*suspend*/ private inline fun __close() {")
+
+    clazz.iteratorBody.println("if (label != 0) {")
     for (variable in variables0Only) {
-        clazz.iteratorNextBody.println("                columnsOut0$variable.closeOnNoMoreElements()")
+        clazz.iteratorBody.println("                columnsOut0$variable.closeOnNoMoreElements()")
     }
     for (variable in variables1Only) {
-        clazz.iteratorNextBody.println("                columnsOut1$variable.closeOnNoMoreElements()")
+        clazz.iteratorBody.println("                columnsOut1$variable.closeOnNoMoreElements()")
     }
     for (variable in variablesJoinOut) {
-        clazz.iteratorNextBody.println("                columnsOutJ$variable.closeOnNoMoreElements()")
+        clazz.iteratorBody.println("                columnsOutJ$variable.closeOnNoMoreElements()")
     }
     for (variable in variablesJoin) {
-        clazz.iteratorNextBody.println("                columnsInJ0$variable.close()")
+        clazz.iteratorBody.println("                columnsInJ0$variable.close()")
     }
     for (variable in variablesJoin) {
-        clazz.iteratorNextBody.println("                columnsInJ1$variable.close()")
+        clazz.iteratorBody.println("                columnsInJ1$variable.close()")
     }
     for (variable in variables0Only) {
-        clazz.iteratorNextBody.println("                columnsInO0$variable.close()")
+        clazz.iteratorBody.println("                columnsInO0$variable.close()")
     }
     for (variable in variables1Only) {
-        clazz.iteratorNextBody.println("                columnsInO1$variable.close()")
+        clazz.iteratorBody.println("                columnsInO1$variable.close()")
     }
-    clazz.iteratorNextBody.println("""
+    clazz.iteratorBody.println("""
                 _close()
             }
-        }
-
-        override /*suspend*/ fun close() {
-            __close()
         }""")
-    clazz.iteratorNextBody.println()
-    clazz.iteratorNextBody.println("        fun crossProduct(")
+
+    clazz.iteratorCloseHeader.println("    override /*suspend*/ fun close() {")
+    clazz.iteratorCloseBody.println("__close()")
+    clazz.iteratorCloseFooter.println("}")
+
+    clazz.iteratorBody.println("        fun crossProduct(")
     for (variable in variables0Only) {
-        clazz.iteratorNextBody.println("            dataO0$variable: IntArray,")
+        clazz.iteratorBody.println("            dataO0$variable: IntArray,")
     }
     for (variable in variables1Only) {
-        clazz.iteratorNextBody.println("            dataO1$variable: IntArray,")
+        clazz.iteratorBody.println("            dataO1$variable: IntArray,")
     }
     for (variable in variablesJoin) {
-        clazz.iteratorNextBody.println("            dataJ$variable: Int,")
+        clazz.iteratorBody.println("            dataJ$variable: Int,")
     }
     for (variable in variables0Only) {
-        clazz.iteratorNextBody.println("            outO0$variable: ColumnIteratorChildIterator,")
+        clazz.iteratorBody.println("            outO0$variable: ColumnIteratorChildIterator,")
     }
     for (variable in variables1Only) {
-        clazz.iteratorNextBody.println("            outO1$variable: ColumnIteratorChildIterator,")
+        clazz.iteratorBody.println("            outO1$variable: ColumnIteratorChildIterator,")
     }
     for (variable in variablesJoinOut) {
-        clazz.iteratorNextBody.println("            outJ$variable: ColumnIteratorChildIterator,")
+        clazz.iteratorBody.println("            outJ$variable: ColumnIteratorChildIterator,")
     }
-    clazz.iteratorNextBody.println("            countA: Int,")
-    clazz.iteratorNextBody.println("            countB: Int")
-    clazz.iteratorNextBody.println("        ){")
-    clazz.iteratorNextBody.println("            val count = countA * countB")
-    clazz.iteratorNextBody.println("            when {")
-    clazz.iteratorNextBody.println("                count == 1 -> {")
+    clazz.iteratorBody.println("            countA: Int,")
+    clazz.iteratorBody.println("            countB: Int")
+    clazz.iteratorBody.println("        ){")
+    clazz.iteratorBody.println("            val count = countA * countB")
+    clazz.iteratorBody.println("            when {")
+    clazz.iteratorBody.println("                count == 1 -> {")
     for (variable in variables0Only) {
-        clazz.iteratorNextBody.println("                    outO0$variable.addChildColumnIteratorValue(dataO0$variable[0])")
+        clazz.iteratorBody.println("                    outO0$variable.addChildColumnIteratorValue(dataO0$variable[0])")
     }
     for (variable in variables1Only) {
-        clazz.iteratorNextBody.println("                    outO1$variable.addChildColumnIteratorValue(dataO1$variable[0])")
+        clazz.iteratorBody.println("                    outO1$variable.addChildColumnIteratorValue(dataO1$variable[0])")
     }
     for (variable in variablesJoinOut) {
-        clazz.iteratorNextBody.println("                    outJ$variable.addChildColumnIteratorValue(dataJ$variable)")
+        clazz.iteratorBody.println("                    outJ$variable.addChildColumnIteratorValue(dataJ$variable)")
     }
-    clazz.iteratorNextBody.println("                }")
-    clazz.iteratorNextBody.println("                count < 100 -> {")
+    clazz.iteratorBody.println("                }")
+    clazz.iteratorBody.println("                count < 100 -> {")
     for (variable in variables0Only) {
-        clazz.iteratorNextBody.println("                    val d$variable = IntArray(count)")
-        clazz.iteratorNextBody.println("                    for (i in 0 until countA) {")
-        clazz.iteratorNextBody.println("                        val x = dataO0$variable[i]")
-        clazz.iteratorNextBody.println("                        for (j in 0 until countB) {")
-        clazz.iteratorNextBody.println("                            d$variable[j * countA + i] = x")
-        clazz.iteratorNextBody.println("                        }")
-        clazz.iteratorNextBody.println("                    }")
-        clazz.iteratorNextBody.println("                    outO0$variable.addChild(ColumnIteratorMultiValue(d$variable, count))")
+        clazz.iteratorBody.println("                    val d$variable = IntArray(count)")
+        clazz.iteratorBody.println("                    for (i in 0 until countA) {")
+        clazz.iteratorBody.println("                        val x = dataO0$variable[i]")
+        clazz.iteratorBody.println("                        for (j in 0 until countB) {")
+        clazz.iteratorBody.println("                            d$variable[j * countA + i] = x")
+        clazz.iteratorBody.println("                        }")
+        clazz.iteratorBody.println("                    }")
+        clazz.iteratorBody.println("                    outO0$variable.addChild(ColumnIteratorMultiValue(d$variable, count))")
     }
     for (variable in variables1Only) {
-        clazz.iteratorNextBody.println("                    val d$variable = IntArray(count)")
-        clazz.iteratorNextBody.println("                    for (j in 0 until countB) {")
-        clazz.iteratorNextBody.println("                        val x = dataO1$variable[j]")
-        clazz.iteratorNextBody.println("                        for (i in 0 until countA) {")
-        clazz.iteratorNextBody.println("                            d$variable[j * countA + i] = x")
-        clazz.iteratorNextBody.println("                        }")
-        clazz.iteratorNextBody.println("                    }")
-        clazz.iteratorNextBody.println("                    outO1$variable.addChild(ColumnIteratorMultiValue(d$variable, count))")
+        clazz.iteratorBody.println("                    val d$variable = IntArray(count)")
+        clazz.iteratorBody.println("                    for (j in 0 until countB) {")
+        clazz.iteratorBody.println("                        val x = dataO1$variable[j]")
+        clazz.iteratorBody.println("                        for (i in 0 until countA) {")
+        clazz.iteratorBody.println("                            d$variable[j * countA + i] = x")
+        clazz.iteratorBody.println("                        }")
+        clazz.iteratorBody.println("                    }")
+        clazz.iteratorBody.println("                    outO1$variable.addChild(ColumnIteratorMultiValue(d$variable, count))")
     }
     for (variable in variablesJoinOut) {
-        clazz.iteratorNextBody.println("                    outJ$variable.addChild(ColumnIteratorRepeatValue(count, dataJ$variable))")
+        clazz.iteratorBody.println("                    outJ$variable.addChild(ColumnIteratorRepeatValue(count, dataJ$variable))")
     }
-    clazz.iteratorNextBody.println("                }")
-    clazz.iteratorNextBody.println("                else -> {")
+    clazz.iteratorBody.println("                }")
+    clazz.iteratorBody.println("                else -> {")
     for (variable in variables0Only) {
-        clazz.iteratorNextBody.println("                    val iterators$variable = mutableListOf<ColumnIterator>()")
-        clazz.iteratorNextBody.println("                    for (i in 0 until countA) {")
-        clazz.iteratorNextBody.println("                        iterators$variable.add(ColumnIteratorRepeatValue(countB, dataO0$variable[i]))")
-        clazz.iteratorNextBody.println("                    }")
-        clazz.iteratorNextBody.println("                    if (iterators$variable.size == 1) {")
-        clazz.iteratorNextBody.println("                        outO0$variable.addChild(iterators$variable[0])")
-        clazz.iteratorNextBody.println("                    }")
-        clazz.iteratorNextBody.println("                    else {")
-        clazz.iteratorNextBody.println("                        outO0$variable.addChild(ColumnIteratorMultiIterator(iterators$variable))")
-        clazz.iteratorNextBody.println("                    }")
+        clazz.iteratorBody.println("                    val iterators$variable = mutableListOf<ColumnIterator>()")
+        clazz.iteratorBody.println("                    for (i in 0 until countA) {")
+        clazz.iteratorBody.println("                        iterators$variable.add(ColumnIteratorRepeatValue(countB, dataO0$variable[i]))")
+        clazz.iteratorBody.println("                    }")
+        clazz.iteratorBody.println("                    if (iterators$variable.size == 1) {")
+        clazz.iteratorBody.println("                        outO0$variable.addChild(iterators$variable[0])")
+        clazz.iteratorBody.println("                    }")
+        clazz.iteratorBody.println("                    else {")
+        clazz.iteratorBody.println("                        outO0$variable.addChild(ColumnIteratorMultiIterator(iterators$variable))")
+        clazz.iteratorBody.println("                    }")
     }
     for (variable in variables1Only) {
-        clazz.iteratorNextBody.println("                    val d$variable = IntArray(countB) { dataO1$variable[it] }")
-        clazz.iteratorNextBody.println("                    if (countA == 1) {")
-        clazz.iteratorNextBody.println("                        outO1$variable.addChild(ColumnIteratorMultiValue(d$variable, countB))")
-        clazz.iteratorNextBody.println("                    }")
-        clazz.iteratorNextBody.println("                    else {")
-        clazz.iteratorNextBody.println("                        outO1$variable.addChild(ColumnIteratorRepeatIterator(countA, ColumnIteratorMultiValue(d$variable, countB)))")
-        clazz.iteratorNextBody.println("                    }")
+        clazz.iteratorBody.println("                    val d$variable = IntArray(countB) { dataO1$variable[it] }")
+        clazz.iteratorBody.println("                    if (countA == 1) {")
+        clazz.iteratorBody.println("                        outO1$variable.addChild(ColumnIteratorMultiValue(d$variable, countB))")
+        clazz.iteratorBody.println("                    }")
+        clazz.iteratorBody.println("                    else {")
+        clazz.iteratorBody.println("                        outO1$variable.addChild(ColumnIteratorRepeatIterator(countA, ColumnIteratorMultiValue(d$variable, countB)))")
+        clazz.iteratorBody.println("                    }")
     }
     for (variable in variablesJoinOut) {
-        clazz.iteratorNextBody.println("                    outJ$variable.addChild(ColumnIteratorRepeatValue(count, dataJ$variable))")
+        clazz.iteratorBody.println("                    outJ$variable.addChild(ColumnIteratorRepeatValue(count, dataJ$variable))")
     }
-    clazz.iteratorNextBody.println("                }")
-    clazz.iteratorNextBody.println("            }")
-    clazz.iteratorNextBody.println("        }")
-    clazz.iteratorNextBody.println(
+    clazz.iteratorBody.println("                }")
+    clazz.iteratorBody.println("            }")
+    clazz.iteratorBody.println("        }")
+    clazz.iteratorNextHeader.println(
         """
         override /*suspend*/ fun next(): Int {
             return nextHelper(
-                {
+                {""")
+    clazz.iteratorNextBody.println("""
                     if (key0${variablesJoin[0]} != DictionaryExt.nullValue && key1${variablesJoin[0]} != DictionaryExt.nullValue) {
                         loop@ while (true) {
                             if (key0${variablesJoin[0]} != key1${variablesJoin[0]}) {
@@ -502,14 +491,13 @@ internal fun generatePOPJoinMerge(
     clazz.iteratorNextBody.println("                    else {")
     clazz.iteratorNextBody.println("                        __close()")
     clazz.iteratorNextBody.println("                    }")
-    clazz.iteratorNextBody.println("                },")
-    clazz.iteratorNextBody.println("                { __close() }")
-    clazz.iteratorNextBody.println("            )")
-    clazz.iteratorNextBody.println("        }")
-    clazz.iteratorNextBody.println("    }")
+    clazz.iteratorNextFooter.println("                },")
+    clazz.iteratorNextFooter.println("                { __close() }")
+    clazz.iteratorNextFooter.println("            )")
+    clazz.iteratorNextFooter.println("        }")
+    clazz.iteratorFooter.println("    }")
 
 
-    clazz.footer.println()
     clazz.footer.println("    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {")
     clazz.footer.println("        val child0 = children[0].evaluate(parent)")
     clazz.footer.println("        val child1 = children[1].evaluate(parent)")

@@ -24,8 +24,7 @@ public class BenchmarkClass {
     @JvmField
     @CodeGenerationAnnotation
     public val exampleVar: String =
-        "SELECT ?pages ?article (?pages > 100 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER(?pages > 50)}"
-
+        "SELECT ?pages ?article (?pages > 100 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages}"
 
     /*
     @JvmField
@@ -38,7 +37,7 @@ public class BenchmarkClass {
     internal fun startTimer(): Pair<Double, Int> {
         var time: Double = 0.0
         var counter: Int = 0
-        exampleVar_evaluate()
+        //println(exampleVar_evaluate())
         val timer = DateHelperRelative.markNow()
         while (time < 10.0) {
             exampleVar_evaluate()
@@ -51,7 +50,7 @@ public class BenchmarkClass {
     internal fun startTimerEndpoint(): Pair<Double, Int> {
         var time: Double = 0.0
         var counter: Int = 0
-        LuposdateEndpoint.evaluateSparqlToResultB(exampleVar)
+        println(LuposdateEndpoint.evaluateSparqlToResultB(exampleVar))
         val timer = DateHelperRelative.markNow()
         while (time < 10.0) {
             LuposdateEndpoint.evaluateSparqlToResultB(exampleVar)

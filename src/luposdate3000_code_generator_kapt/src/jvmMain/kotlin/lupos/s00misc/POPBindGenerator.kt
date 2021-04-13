@@ -25,7 +25,7 @@ internal fun generatePOPBind(
 
 
     for (container in containers){
-        if(container.name == "operator${child.getUUID()}" && child is POPFilter){
+        if(container.name == "operator${child.getUUID()}" && (child is POPFilter || child is POPBind)){
             inlineChild = true
             childContainer = container
             //containers.remove(container)
@@ -73,11 +73,7 @@ internal fun generatePOPBind(
             |    """.trimMargin())
 
     if(inlineChild){
-        clazz.iteratorHeader.println("    internal class LocalIterator constructor(" +
-            "val query: IQuery," +
-            " @JvmField val iterator${childContainer?.uuid} : ColumnIterator?)" +
-            ": ColumnIteratorQueue() {" +
-            " constructor(query: IQuery): this(query,null)")
+        clazz.iteratorHeader.println(childContainer?.iteratorHeader.toString())
     }
     else {
         clazz.iteratorHeader.println("    internal class LocalIterator constructor(" +
@@ -87,7 +83,7 @@ internal fun generatePOPBind(
             " constructor(query: IQuery): this(query,null)")
     }
     clazz.iteratorClassVariables.add("        var label2${operatorGraph.uuid} = 1")
-    clazz.iteratorClassVariables.add("        val buffer= ByteArrayWrapper()")
+    clazz.iteratorClassVariables.add("        val buffer = ByteArrayWrapper()")
     for(variable in variablename) {
         clazz.iteratorClassVariables.add("        var column$variable : LocalIterator? = null")
     }
@@ -151,7 +147,6 @@ internal fun generatePOPBind(
     clazz.iteratorCloseBody.println("            }")
     clazz.iteratorCloseFooter.println("        }")
     clazz.iteratorFooter.println("    }")
-
     clazz.footer.println("    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {")
     clazz.footer.println("        val variables = getProvidedVariableNames()")
     clazz.footer.println("        val outMap = mutableMapOf<String, ColumnIterator>()")
@@ -161,7 +156,8 @@ internal fun generatePOPBind(
     }
     var cnt = 0
     for (variable in variablename) {
-        if (variable == operatorGraph.name.name) {
+        //if (variable == operatorGraph.name.name) {
+        if(!child.getRequiredVariableNames().contains(variable)){
             clazz.footer.println("        column$variable = LocalIterator(query, ")
             clazz.footer.println("        )")
         } else {
