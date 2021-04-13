@@ -20,7 +20,7 @@ data class LinkType(
 @Serializable
 data class DeviceType(
     val name: String = "",
-    val application: Boolean = false,
+    val database: Boolean = false,
     val parkingSensor: Boolean = false,
     var powerCapacity: Double = -1.0,
     val supportedLinkTypes: List<String> = arrayListOf(),

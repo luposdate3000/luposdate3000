@@ -14,14 +14,14 @@
   "deviceType": [
     {
       "name": "Fog",
-      "application": false,
+      "database": false,
       "parkingSensor": false,
       "powerCapacity": -1.0,
       "supportedLinkTypes": ["WPAN"]
     },
     {
       "name": "Other",
-      "application": false,
+      "database": false,
       "parkingSensor": false,
       "powerCapacity": -1.0,
       "supportedLinkTypes": ["X"]

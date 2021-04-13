@@ -172,9 +172,9 @@ object Configuration {
 
     private fun createDevice(deviceType: DeviceType, location: GeoLocation): Device {
         val powerSupply = PowerSupply(deviceType.powerCapacity)
-        val application = getDatabase(deviceType)
+        val database = getDatabase(deviceType)
         val linkTypes = getLinkTypeIndices(deviceType)
-        val device = Device(powerSupply, location, devices.size, application, null, linkTypes)
+        val device = Device(powerSupply, location, devices.size, database, null, linkTypes)
         val parkingSensor = getParkingSensor(deviceType, device)
         device.sensor = parkingSensor
         devices.add(device)
@@ -205,7 +205,7 @@ object Configuration {
 
 
     private fun getDatabase(deviceType: DeviceType) : Database? {
-        if (deviceType.application) {
+        if (deviceType.database) {
             return Database()
         }
         return null

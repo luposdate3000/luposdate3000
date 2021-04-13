@@ -32,7 +32,7 @@ class ConfigurationTest {
 
     @ParameterizedTest
     @ValueSource(strings = ["config/configOneComplexDevice.json"])
-    fun `one application device with sensors`(fileName: String) {
+    fun `one database device with sensors`(fileName: String) {
         Configuration.parse(fileName)
         val deviceName = Configuration.jsonObjects.fixedDevice[0].name
         val device = Configuration.getNamedDevice(deviceName)
