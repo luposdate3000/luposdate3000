@@ -6,12 +6,12 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import Simulation
 
-class SimulationConfigurationTest {
+class SimulationTest {
 
 
     @ParameterizedTest
-    @ValueSource(strings = ["sim/EmptyFile.json"])
-    fun `run simulation without entities`(fileName: String) {
+    @ValueSource(strings = ["sim/runSimulationWithoutEntities.json"])
+    fun runSimulationWithoutEntities(fileName: String) {
         Configuration.parse(fileName)
         Simulation.initialize(Configuration.entities)
         val endClock = Simulation.runSimulation()
