@@ -73,6 +73,7 @@ object Configuration {
 
     private fun createRandomMeshNetwork(network: RandomMeshNetwork) {
         val origin = createMeshOriginDevice(network)
+        origin.dodagRoot = true
         val meshNetwork = MeshNetwork()
         meshNetwork.networkPrefix = network.networkPrefix
         val linkType = getLinkTypeByName(network.linkType)
@@ -131,6 +132,7 @@ object Configuration {
 
     private fun createRandomStarNetwork(network: RandomStarNetwork) {
         val root = getNamedDevice(network.dataSink)
+        root.dodagRoot = true
         val starNetwork = StarNetwork(root)
         starNetwork.networkPrefix = network.networkPrefix
         val deviceType = getDeviceTypeByName(network.deviceType)
@@ -138,6 +140,7 @@ object Configuration {
         for (i in 1..network.number) {
             val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters)
             val createdDevice = createDevice(deviceType, location)
+            createdDevice.sensor?.dataSinkAddress = root.address
             link(root, createdDevice)
             starNetwork.childs.add(createdDevice)
         }
@@ -176,7 +179,7 @@ object Configuration {
         val application = createAppEntity(deviceType)
         val linkTypes = getLinkTypeIndices(deviceType)
         val device = Device(powerSupply, location, devices.size, application, null, linkTypes)
-        val parkingSensor = createParkingSensor(deviceType, device)
+        val parkingSensor = getParkingSensor(deviceType, device)
         device.sensor = parkingSensor
         entities.add(device)
         devices.add(device)
@@ -216,11 +219,10 @@ object Configuration {
         return app
     }
 
-    private fun createParkingSensor(deviceType: DeviceType, device: Device): ParkingSensor? {
+    private fun getParkingSensor(deviceType: DeviceType, device: Device): ParkingSensor? {
         var sensor: ParkingSensor? = null
         if(deviceType.parkingSensor) {
-            sensor = ParkingSensor(device)
-            entities.add(sensor)
+            sensor = ParkingSensor(device, device.address)
         }
         return sensor
     }

@@ -38,30 +38,39 @@ class ConfigurationTest {
         Configuration.parse(fileName)
         val deviceName = Configuration.jsonObjects.fixedDevice[0].name
         val device = Configuration.getNamedDevice(deviceName)
-        val numSensors = 1
         Assertions.assertTrue(device.application is DatabaseApp)
         Assertions.assertNotNull(device.sensor)
         Assertions.assertEquals(70.0, device.powerSupply.actualCapacity)
         Assertions.assertFalse(device.powerSupply.isInfinite)
-        Assertions.assertEquals(2 + numSensors, Configuration.entities.size)
+        Assertions.assertEquals(2, Configuration.entities.size)
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/configOneComplexDevice.json"])
-    fun `sensors know their device`(fileName: String) {
+    @ValueSource(strings = ["config/sensorsKnowTheirDevice.json"])
+    fun sensorsKnowTheirDevice(fileName: String) {
         Configuration.parse(fileName)
-        val deviceName = "Tower1"
-        val device = Configuration.getNamedDevice(deviceName)
-        Assertions.assertEquals(device, device.sensor!!.device)
+        val device = Configuration.getNamedDevice("Tower1")
+        val parkingSensor = device.sensor!! as ParkingSensor
+        Assertions.assertTrue(device === parkingSensor.device)
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["config/configOneComplexDevice.json"])
-    fun `sensors get correct values`(fileName: String) {
+    @ValueSource(strings = ["config/sensorsDataSinkIsItsOwnDevice.json"])
+    fun sensorsDataSinkIsItsOwnDevice(fileName: String) {
         Configuration.parse(fileName)
-        val deviceName = "Tower1"
-        val device = Configuration.getNamedDevice(deviceName)
-        Assertions.assertEquals(device, device.sensor!!.dataSink)
+        val device = Configuration.getNamedDevice("Tower1")
+        val parkingSensor = device.sensor!! as ParkingSensor
+        Assertions.assertEquals(device.address, parkingSensor.dataSinkAddress)
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["config/starRootIsDataSinkOfItsSensors.json"])
+    fun starRootIsDataSinkOfItsSensors(fileName: String) {
+        Configuration.parse(fileName)
+        val root = Configuration.getNamedDevice("Tower1")
+        val starNet = Configuration.randStarNetworks["garageA"]!!
+        val parkingSensor = starNet.childs[0].sensor as ParkingSensor
+        Assertions.assertEquals(root.address, parkingSensor.dataSinkAddress)
     }
 
     @ParameterizedTest

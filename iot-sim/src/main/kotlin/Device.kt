@@ -4,34 +4,18 @@ class Device(
     var location: GeoLocation,
     val address: Int,
     val application: Entity?,
-    var sensor: ParkingSensor?,
+    var sensor: Sensor?,
     val supportedLinkTypes: IntArray
     ) : Entity()
 {
+    var dodagRoot = false
+    var rank = 0
+
+    private var childNodes: MutableList<Int> = ArrayList()
+    private var parentNodes: MutableList<Int> = ArrayList()
+    private var preferredParent: Int = 0
+
     private var availableLinks: MutableMap<Int, Link> = HashMap()
-
-
-    companion object {
-        var sortedLinkTypes: MutableList<LinkType> = ArrayList()
-        set(value) {
-            field = value
-            field.sortByDescending { it.dataRateInKbps }
-        }
-
-        fun getLinkTypeByIndex(index: Int)
-                = sortedLinkTypes[index]
-
-        private fun getIndexByLinkType(linkType: LinkType)
-                = sortedLinkTypes.indexOfFirst { linkType.name == it.name}
-
-        fun getSortedLinkTypeIndices(list: List<LinkType>): IntArray {
-            val result = IntArray(list.size)
-            for((index, linkType) in list.withIndex()) {
-                result[index] = getIndexByLinkType(linkType)
-            }
-            return result.sortedArray()
-        }
-    }
 
 
     fun getNetworkDelay(destination: Device): Long {
@@ -44,32 +28,54 @@ class Device(
 
 
     override fun startUpEntity() {
+        sensor?.observe()
 
+        if(dodagRoot) {
+            childNodes.addAll(availableLinks.keys)
+            sendDIOPackage()
+
+
+        }
     }
 
+
     override fun processEvent(event: Event) {
+        //wenn DIO, dann berechne Rang
+        //wähle Eltern, sende DAO ob Eltern Eltern bleiben oder nicht.
         val pck = event.data as NetworkPackage
-        if(this == pck.receiver) {
-            // do something
-            return
-        }
-        else {
-            val delay = getNetworkDelay(pck.receiver)
-            //sendEvent(destination, delay, pck )
-        }
 
     }
 
     override fun shutDownEntity() {
     }
 
+    private fun sendDIOPackage() {
+        for (child in childNodes) {
+            val dio = NetworkPackage.DIO(rank)
+            sendPackage(address, child, dio)
+        }
+    }
 
+    fun sendSelfPackage(data: Any) {
+        val pck = NetworkPackage(address, address, data)
+        sendEvent(this, 0, pck)
+    }
 
+    fun sendPackage(src: Int, dest: Int, data: Any) {
+        val pck = NetworkPackage(src, dest, data)
+        val nextHop = this //TODO use Routing table
+        val delay = getNetworkDelay(nextHop)
+        sendEvent(nextHop, delay, pck)
+    }
 
 
 
     fun getDistanceInMeters(otherDevice: Device)
         = location.getDistanceInMeters(otherDevice.location)
+
+
+
+
 
 
     private fun getBestLinkTypeIndex(otherDevice: Device) : Int {
@@ -84,12 +90,12 @@ class Device(
         return -1
     }
 
+
     private fun isReachableByLinkType(index: Int, otherDevice: Device): Boolean {
         val distance = getDistanceInMeters(otherDevice)
         val linkType = getLinkTypeByIndex(index)
         return distance <= linkType.rangeInMeters
     }
-
 
     fun getBestLink(otherDevice: Device): Link? {
         if (otherDevice == this)
@@ -101,6 +107,7 @@ class Device(
         val distance = getDistanceInMeters(otherDevice)
         return Link( distance, linkIndex)
     }
+
 
     fun addAvailableLink(otherDevice: Device) {
         val link = getBestLink(otherDevice)
@@ -119,6 +126,34 @@ class Device(
 
     fun numOfAvailAbleLinks()
         = availableLinks.size
+
+    companion object {
+        var sortedLinkTypes: MutableList<LinkType> = ArrayList()
+            set(value) {
+                field = value
+                field.sortByDescending { it.dataRateInKbps }
+            }
+
+        fun getLinkTypeByIndex(index: Int)
+                = sortedLinkTypes[index]
+
+        private fun getIndexByLinkType(linkType: LinkType)
+                = sortedLinkTypes.indexOfFirst { linkType.name == it.name}
+
+        fun getSortedLinkTypeIndices(list: List<LinkType>): IntArray {
+            val result = IntArray(list.size)
+            for((index, linkType) in list.withIndex()) {
+                result[index] = getIndexByLinkType(linkType)
+            }
+            return result.sortedArray()
+        }
+    }
+
+    interface Sensor {
+        var dataSinkAddress: Int
+        fun observe()
+        fun onObservationEnd()
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other === this)

@@ -1,4 +1,10 @@
-data class NetworkPackage(
-    val sender: Device,
-    val receiver : Device,
-    val data: Any)
+class NetworkPackage(
+    val sourceAddress: Int,
+    val destinationAddress : Int,
+    val data: Any) {
+
+    class ParkingObservation(val isOccupied: Boolean)
+    class ObservationEnd
+    class DIO(val rank: Int)
+    class DAO
+}
