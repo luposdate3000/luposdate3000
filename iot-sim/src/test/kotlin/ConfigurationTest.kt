@@ -26,7 +26,7 @@ class ConfigurationTest {
         Assertions.assertEquals(Configuration.jsonObjects.fixedDevice.size, Configuration.devices.size)
         Assertions.assertEquals(0, device.address)
         Assertions.assertEquals(location, device.location)
-        Assertions.assertNull(device.application)
+        Assertions.assertNull(device.database)
         Assertions.assertNull(device.sensor)
         Assertions.assertTrue(device.powerSupply.isInfinite)
         Assertions.assertEquals(1, Configuration.entities.size)
@@ -38,11 +38,10 @@ class ConfigurationTest {
         Configuration.parse(fileName)
         val deviceName = Configuration.jsonObjects.fixedDevice[0].name
         val device = Configuration.getNamedDevice(deviceName)
-        Assertions.assertTrue(device.application is DatabaseApp)
+        Assertions.assertTrue(device.database is Database)
         Assertions.assertNotNull(device.sensor)
         Assertions.assertEquals(70.0, device.powerSupply.actualCapacity)
         Assertions.assertFalse(device.powerSupply.isInfinite)
-        Assertions.assertEquals(2, Configuration.entities.size)
     }
 
     @ParameterizedTest

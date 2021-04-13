@@ -3,7 +3,7 @@ class Device(
     val powerSupply: PowerSupply,
     var location: GeoLocation,
     val address: Int,
-    val application: Entity?,
+    val database: Database?,
     var sensor: Sensor?,
     val supportedLinkTypes: IntArray
     ) : Entity()

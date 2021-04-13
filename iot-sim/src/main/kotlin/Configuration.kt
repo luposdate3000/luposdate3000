@@ -176,7 +176,7 @@ object Configuration {
 
     private fun createDevice(deviceType: DeviceType, location: GeoLocation): Device {
         val powerSupply = PowerSupply(deviceType.powerCapacity)
-        val application = createAppEntity(deviceType)
+        val application = getDatabase(deviceType)
         val linkTypes = getLinkTypeIndices(deviceType)
         val device = Device(powerSupply, location, devices.size, application, null, linkTypes)
         val parkingSensor = getParkingSensor(deviceType, device)
@@ -209,14 +209,11 @@ object Configuration {
 
 
 
-    private fun createAppEntity(deviceType: DeviceType) : Entity? {
-        var app: Entity? = null
+    private fun getDatabase(deviceType: DeviceType) : Database? {
         if (deviceType.application) {
-            app = DatabaseApp()
-            entities.add(app)
+            return Database()
         }
-
-        return app
+        return null
     }
 
     private fun getParkingSensor(deviceType: DeviceType, device: Device): ParkingSensor? {
