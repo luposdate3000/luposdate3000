@@ -13,9 +13,6 @@ object Configuration {
     var jsonObjects: JsonObjects = JsonObjects()
         private set
 
-    var entities: MutableList<Entity> = ArrayList()
-        private set
-
     var randStarNetworks: MutableMap<String, StarNetwork> = HashMap()
         private set
 
@@ -39,7 +36,6 @@ object Configuration {
         devices = ArrayList()
         randStarNetworks = HashMap()
         randMeshNetworks = HashMap()
-        entities = ArrayList()
         jsonObjects = JsonObjects()
         namedAddresses = HashMap()
     }
@@ -181,7 +177,6 @@ object Configuration {
         val device = Device(powerSupply, location, devices.size, application, null, linkTypes)
         val parkingSensor = getParkingSensor(deviceType, device)
         device.sensor = parkingSensor
-        entities.add(device)
         devices.add(device)
         return device
     }

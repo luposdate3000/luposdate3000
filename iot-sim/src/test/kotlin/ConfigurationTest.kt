@@ -10,7 +10,6 @@ class ConfigurationTest {
     fun parseEmptyConfigFile(fileName: String) {
         Configuration.parse(fileName)
         Assertions.assertTrue(Configuration.devices.isEmpty())
-        Assertions.assertTrue(Configuration.entities.isEmpty())
     }
 
     @ParameterizedTest
@@ -29,7 +28,6 @@ class ConfigurationTest {
         Assertions.assertNull(device.database)
         Assertions.assertNull(device.sensor)
         Assertions.assertTrue(device.powerSupply.isInfinite)
-        Assertions.assertEquals(1, Configuration.entities.size)
     }
 
     @ParameterizedTest

@@ -13,7 +13,7 @@ class SimulationTest {
     @ValueSource(strings = ["sim/runSimulationWithoutEntities.json"])
     fun runSimulationWithoutEntities(fileName: String) {
         Configuration.parse(fileName)
-        Simulation.initialize(Configuration.entities)
+        Simulation.initialize(Configuration.devices)
         val endClock = Simulation.runSimulation()
         Assertions.assertEquals(0, endClock)
     }
@@ -23,7 +23,7 @@ class SimulationTest {
     fun selfMessagesDoNotDelay(fileName: String) {
         Configuration.parse(fileName)
         val maxClock: Long = ParkingSensor.dataRateInSeconds.toLong() * 2
-        Simulation.initialize(Configuration.entities, maxClock)
+        Simulation.initialize(Configuration.devices, maxClock)
         val endClock = Simulation.runSimulation()
         Assertions.assertEquals(maxClock, endClock)
     }
