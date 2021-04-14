@@ -29,16 +29,11 @@ public fun main(args: Array<String>) {
     println(example.exampleVar_evaluate())*/
 
 
-    LuposdateEndpoint.importTurtleFiles(
-        "resources/code-generation/example" +
-            ".n3",
-        mutableMapOf()
-    )
+    LuposdateEndpoint.importTurtleFiles("resources/code-generation/example.n3", mutableMapOf())
     println("Init finished")
     // For counting of results set true
     if (false) {
-        val exampleVar: String =
-            "SELECT (count(?pages) as ?count) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://purl.org/dc/elements/1.1/title> ?title}"
+        val exampleVar: String = "SELECT (count(?pages) as ?count) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://purl.org/dc/elements/1.1/title> ?title}"
         println(LuposdateEndpoint.evaluateSparqlToResultB(exampleVar))
     } else {
         for (i in 1..3) {

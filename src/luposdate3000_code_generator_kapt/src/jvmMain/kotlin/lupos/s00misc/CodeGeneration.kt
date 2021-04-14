@@ -18,11 +18,30 @@ package lupos.s00misc
 
 import lupos.dictionary.DictionaryHelper
 import lupos.endpoint.LuposdateEndpoint
+import lupos.s03resultRepresentation.ValueBoolean
+import lupos.s03resultRepresentation.ValueDecimal
+import lupos.s03resultRepresentation.ValueStringBase
+import lupos.s03resultRepresentation.ValueInteger
+import lupos.s03resultRepresentation.ValueIri
+import lupos.s04arithmetikOperators.generated.AOPAddition
+import lupos.s04arithmetikOperators.generated.AOPAnd
+import lupos.s04arithmetikOperators.generated.AOPBuildInCallSTR
+import lupos.s04arithmetikOperators.generated.AOPBuildInCallUCASE
+import lupos.s04arithmetikOperators.generated.AOPDivision
+import lupos.s04arithmetikOperators.generated.AOPMultiplication
+import lupos.s04arithmetikOperators.generated.AOPSubtraction
+import lupos.s04arithmetikOperators.multiinput.AOPEQ
+import lupos.s04arithmetikOperators.multiinput.AOPGEQ
+import lupos.s04arithmetikOperators.multiinput.AOPGT
+import lupos.s04arithmetikOperators.multiinput.AOPLEQ
+import lupos.s04arithmetikOperators.multiinput.AOPLT
+import lupos.s04arithmetikOperators.multiinput.AOPNEQ
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.OPBaseCompound
+import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.s09physicalOperators.POPBase
 import lupos.s09physicalOperators.multiinput.POPJoinMerge
 import lupos.s09physicalOperators.multiinput.POPUnion
@@ -30,23 +49,22 @@ import lupos.s09physicalOperators.singleinput.POPBind
 import lupos.s09physicalOperators.singleinput.POPDebug
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPProjection
-import lupos.s05tripleStore.POPTripleStoreIterator
 
-
-public fun generateSourceCode(className: String,
-                              packageName: String,
-                              variableName: String,
-                              variableValue: String,
-                              folderName: String,
-                              fileName: String
+public fun generateSourceCode(
+    className: String,
+    packageName: String,
+    variableName: String,
+    variableValue: String,
+    folderName: String,
+    fileName: String
 ) {
     println("$className $packageName $variableName $variableValue into $fileName")
     java.io.File(folderName).mkdirs()
     // Root of the operatorgraph
     val preparedStatement = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(variableValue)
-    //println("--------------GRAPH----------------------")
-    //println(preparedStatement)
-    //println("--------------GRAPH----------------------")
+    // println("--------------GRAPH----------------------")
+    // println(preparedStatement)
+    // println("--------------GRAPH----------------------")
     // Buffer to store the separated operators
     val operatorsBuffer = MyPrintWriter(true)
     // Imports that will be used in the generated file
@@ -135,7 +153,6 @@ public fun generateSourceCode(className: String,
     }
 }
 
-
 // Copies the Operators from the operatorgraph and replaces some with a generated classes specialized for that one query
 private fun writeOperatorGraph(
     operator: OPBase,
@@ -155,7 +172,6 @@ private fun writeOperatorGraph(
             knownChildren.add(child.getUUID())
             writeOperatorGraph(child, operatorsBuffer, imports, knownChildren, classContainers)
         }
-
     }
     // Check on what type of operator this function was called
     //  we have to create all operators so we can rebuild the operatorgraph
@@ -203,11 +219,12 @@ private fun writeOperatorGraph(
         }
         is POPTripleStoreIterator -> {
             // Creating a new operator with the POPTripleStoreIterator constructor
-            operatorsBuffer.println("    val operator${operator.uuid} = graph.getIterator(query, " +
-                "arrayOf(operator${operator.children[0].getUUID()}," +
-                "operator${operator.children[1].getUUID()}," +
-                "operator${operator.children[2].getUUID()})," +
-                "EIndexPatternExt.${EIndexPatternExt.names[operator.getIndexPattern()]})"
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = graph.getIterator(query, " +
+                    "arrayOf(operator${operator.children[0].getUUID()}," +
+                    "operator${operator.children[1].getUUID()}," +
+                    "operator${operator.children[2].getUUID()})," +
+                    "EIndexPatternExt.${EIndexPatternExt.names[operator.getIndexPattern()]})"
             )
             imports.add("lupos.s05tripleStore.tripleStoreManager")
             imports.add("lupos.s00misc.EIndexPatternExt")
