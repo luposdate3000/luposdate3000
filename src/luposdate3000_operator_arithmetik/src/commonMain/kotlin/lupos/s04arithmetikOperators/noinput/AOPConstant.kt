@@ -64,8 +64,9 @@ public class AOPConstant : AOPBase, IAOPConstant {
     override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
         val buffer = ByteArrayWrapper()
         query.getDictionary().getValue(buffer, value)
+        val va = DictionaryHelper.byteArrayToValueDefinition(buffer)
         return {
-            DictionaryHelper.byteArrayToValueDefinition(buffer)
+            va
         }
     }
 

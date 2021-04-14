@@ -43,6 +43,7 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.util.jar.JarFile
 
+val useEpsilon = false
 var compileModuleArgs = mutableMapOf<String, MutableMap<String, String>>()
 var jsBrowserMode = true
 var releaseMode = ""
@@ -775,15 +776,33 @@ fun onRun() {
                     }
                 }
             }
-            val cmd = mutableListOf("java",
-                "-XX:+UnlockExperimentalVMOptions",
-                "-Xmx${Platform.getAvailableRam()}g",
-                "-XX:+UseEpsilonGC", "-Xmx10g", "-Xms10g", "-XX:+AlwaysPreTouch", "-XX:+HeapDumpOnOutOfMemoryError",
-//"-XX:+UseEpsilonGC","-Xms${Platform.getAvailableRam()}g" ,"-XX:+AlwaysPreTouch","-XX:+HeapDumpOnOutOfMemoryError",
-//                "-XX:+UseShenandoahGC", "-XX:ShenandoahUncommitDelay=1000", "-XX:ShenandoahGuaranteedGCInterval=10000",
-//
-                "-cp", classpath, "MainKt")
+            val javaFileName = "/usr/lib/jvm/java-15-openjdk-amd64/bin/java"
+            val javaFile = File(javaFileName)
+            val cmd = mutableListOf<String>()
+            if (javaFile.exists()) {
+                cmd.add(javaFileName)
+                cmd.add("-XX:+UnlockExperimentalVMOptions")
+                if (useEpsilon) {
+                    cmd.add("-Xmx10g")
+                    cmd.add("-Xms10g")
+                    cmd.add("-XX:+UseEpsilonGC")
+                    cmd.add("-XX:+AlwaysPreTouch")
+                    cmd.add("-XX:+HeapDumpOnOutOfMemoryError")
+                } else {
+                    cmd.add("-Xmx${Platform.getAvailableRam()}g")
+                    cmd.add("-XX:+UseShenandoahGC")
+                    cmd.add("-XX:ShenandoahUncommitDelay=1000")
+                    cmd.add("-XX:ShenandoahGuaranteedGCInterval=10000")
+                }
+            } else {
+                cmd.add("java")
+                cmd.add("-Xmx${Platform.getAvailableRam()}g")
+            }
+            cmd.add("-cp")
+            cmd.add(classpath)
+            cmd.add("MainKt")
             cmd.addAll(runArgs)
+            println(cmd)
             if (dryMode == "Enable") {
                 println("export LUPOS_PROCESS_URLS=processUrls")
                 println("export LUPOS_THREAD_COUNT=$threadCount")

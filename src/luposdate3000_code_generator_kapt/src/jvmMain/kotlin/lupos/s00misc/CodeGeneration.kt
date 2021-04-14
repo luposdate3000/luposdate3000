@@ -20,9 +20,9 @@ import lupos.dictionary.DictionaryHelper
 import lupos.endpoint.LuposdateEndpoint
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDecimal
-import lupos.s03resultRepresentation.ValueStringBase
 import lupos.s03resultRepresentation.ValueInteger
 import lupos.s03resultRepresentation.ValueIri
+import lupos.s03resultRepresentation.ValueStringBase
 import lupos.s04arithmetikOperators.generated.AOPAddition
 import lupos.s04arithmetikOperators.generated.AOPAnd
 import lupos.s04arithmetikOperators.generated.AOPBuildInCallSTR
@@ -50,6 +50,8 @@ import lupos.s09physicalOperators.singleinput.POPDebug
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPProjection
 
+private const val passThroughGenericImplementation = false
+
 public fun generateSourceCode(
     className: String,
     packageName: String,
@@ -62,15 +64,10 @@ public fun generateSourceCode(
     java.io.File(folderName).mkdirs()
     // Root of the operatorgraph
     val preparedStatement = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(variableValue)
-    // println("--------------GRAPH----------------------")
-    // println(preparedStatement)
-    // println("--------------GRAPH----------------------")
     // Buffer to store the separated operators
     val operatorsBuffer = MyPrintWriter(true)
     // Imports that will be used in the generated file
-    val imports = mutableSetOf<String>()
-    // Necessary imports for the generated file
-    val commonImports = arrayOf(
+    val imports = mutableSetOf<String>(
         "lupos.s04logicalOperators.Query",
         "lupos.s04logicalOperators.IQuery",
         "lupos.s00misc.MyPrintWriter",
@@ -100,8 +97,6 @@ public fun generateSourceCode(
         "lupos.dictionary.DictionaryExt",
         "lupos.s00misc.ByteArrayWrapper"
     )
-    // Add the common imports
-    commonImports.forEach { imports.add(it) }
     // This list will contain all the written operators
     val createdOperators = mutableListOf<Long>()
     // The containers to store the generated operator classes
@@ -115,17 +110,15 @@ public fun generateSourceCode(
         imports.forEach { outFile.println("import $it") } // Create all the imports
         outFile.println()
         // This is the function that can be called to retrieve the result
-        outFile.println("public fun $className.${variableName}_evaluate(): String {")
+        outFile.println("public fun $className.${variableName}_evaluate():IOPBase {")
         // New empty query object
         outFile.println("    val query = Query()")
         // This will be used to get the TripleStoreIterator
         outFile.println("    val graph = tripleStoreManager.getGraph(\"\")") //
         // Writing the operators to the generated file
         outFile.print(operatorsBuffer.toString())
-        outFile.println("    val buf = MyPrintWriter(true)")
         // Evaluate the operatorgraph with the operators from the generated files and store it in buf
-        outFile.println("    LuposdateEndpoint.evaluateOperatorgraphToResult(operator${preparedStatement.getUUID()}, buf)")
-        outFile.println("    return buf.toString()") // Return result as String
+        outFile.println("    return operator${preparedStatement.getUUID()}")
         outFile.println("}")
         outFile.println()
         // This will print the generated operator classes
@@ -163,8 +156,7 @@ private fun writeOperatorGraph(
 ) {
     val tmpBuf = ByteArrayWrapper()
     // Create a list of the projected variables, needed for the constructors of most operators
-    val projectedVariables =
-        "listOf(${(operator as? POPBase)?.projectedVariables?.joinToString { "\"$it\"" }})"
+    val projectedVariables = "listOf(${(operator as? POPBase)?.projectedVariables?.joinToString { "\"$it\"" }})"
     // Calls this function recursively on all children
     //  and skips on already used one (not sure if that is still a problem?)
     for (child in operator.children) {
@@ -178,25 +170,32 @@ private fun writeOperatorGraph(
     //  later and replace some of them with our own specialized implementation
     when (operator) {
         is POPJoinMerge -> {
-            // Merge Joins will be implemented within the generated file, specialized for the annotated query
-            generatePOPJoinMerge(operator, projectedVariables, operatorsBuffer, imports, classContainers)
-            // Original implementation
-            /*buffer.println("    val operator${operatorGraph.uuid} = POPJoinMerge(query, $projectedVariables," +
-                "operator${operatorGraph.children[0].getUUID()}," +
-                "operator${operatorGraph.children[1].getUUID()}, false)"
-            )
-            imports.add("lupos.s09physicalOperators.multiinput.POPJoinMerge")*/
+            if (passThroughGenericImplementation) {
+                // Original implementation
+                operatorsBuffer.println(
+                    "    val operator${operator.uuid} = POPJoinMerge(query, $projectedVariables," +
+                        "operator${operator.children[0].getUUID()}," +
+                        "operator${operator.children[1].getUUID()}, false)"
+                )
+                imports.add("lupos.s09physicalOperators.multiinput.POPJoinMerge")
+            } else {
+                // Merge Joins will be implemented within the generated file, specialized for the annotated query
+                generatePOPJoinMerge(operator, projectedVariables, operatorsBuffer, imports, classContainers)
+            }
         }
         is POPFilter -> {
-            // Filters will be implemented within the generated file, specialized for the annotated query
-            generatePOPFilter(operator, projectedVariables, operatorsBuffer, imports, classContainers)
-            // Original implementation
-            /*buffer.println("    val operator${operatorGraph.uuid} = POPFilter(query, $projectedVariables," +
-                "operator${operatorGraph.children[1].getUUID()}," +
-                "operator${operatorGraph.children[0].getUUID()})"
+            if (passThroughGenericImplementation) {
+                // Original implementation
+                operatorsBuffer.println(
+                    "    val operator${operator.uuid} = POPFilter(query, $projectedVariables," +
+                        "operator${operator.children[1].getUUID()}," +
+                        "operator${operator.children[0].getUUID()})"
                 )
                 imports.add("lupos.s09physicalOperators.singleinput.POPFilter")
-            }*/
+            } else {
+                // Filters will be implemented within the generated file, specialized for the annotated query
+                generatePOPFilter(operator, projectedVariables, operatorsBuffer, imports, classContainers)
+            }
         }
         is AOPVariable -> {
             // Creating a new operator with the AOPVariable constructor
@@ -371,7 +370,6 @@ private fun writeOperatorGraph(
             )
             imports.add("lupos.s04arithmetikOperators.generated.AOPDivision")
         }
-
         is POPBind -> {
             // POPBind will be implemented within the generated file, specialized for the annotated query
             generatePOPBind(operator, projectedVariables, operatorsBuffer, imports, classContainers)
@@ -447,7 +445,6 @@ internal fun writeFilter(child: IOPBase, classes: MyPrintWriter?, operatorGraph:
             is AOPBuildInCallSTR -> {
                 classes.println("                        val child${child.uuid} = child${child.children[0].getUUID()}.toString()")
             }
-
             is AOPVariable -> {
                 // Muss in einen Datentyp gecastet werden, um Operationen wie ?pages+5 < 50 im Filter durchführen zu können
                 // Hier klappt .toInt() am Ende ranhängen, sollte aber dynamisch erkannt werden; Anhängig von der Konstanten zuvor machen?

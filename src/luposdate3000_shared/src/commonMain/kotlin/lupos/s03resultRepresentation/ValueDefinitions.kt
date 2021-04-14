@@ -127,20 +127,17 @@ public sealed class ValueDefinition : Comparable<ValueDefinition> {
             }
             try {
                 return ValueInteger(BigInteger.parseString(tmp, 10))
-            } catch (e: Throwable) {
-                e.printStackTrace()
+            } catch (e: Exception) {
             }
             if (!tmp.contains("e") && !tmp.contains("E")) {
                 try {
                     return ValueDecimal(BigDecimal.parseString(tmp, 10))
-                } catch (e: Throwable) {
-                    e.printStackTrace()
+                } catch (e: Exception) {
                 }
             }
             try {
                 return ValueDouble(tmp.toDouble())
-            } catch (e: Throwable) {
-                e.printStackTrace()
+            } catch (e: Exception) {
             }
             if (!tmp.endsWith("" + tmp[0])) {
                 val typeIdx = tmp.lastIndexOf("" + tmp[0] + "^^<")

@@ -1,46 +1,33 @@
 package examplePackage
 
-import kotlin.jvm.JvmField
 import lupos.endpoint.LuposdateEndpoint
 import lupos.s00misc.CodeGenerationAnnotation
 import lupos.s00misc.DateHelperRelative
+import lupos.s00misc.MyPrintWriter
+import kotlin.jvm.JvmField
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 public class BenchmarkClass {
 
-    /*
     @JvmField
     @CodeGenerationAnnotation
-    public val exampleVar: String =
-        "SELECT ?pages ?article ?title WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://purl.org/dc/elements/1.1/title> ?title}"
-    */
-    /*@JvmField
-    @CodeGenerationAnnotation
-    public val exampleVar: String =
-        "SELECT ?pages ?article (?pages > 100 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages}"
-    */
-
-
-    @JvmField
-    @CodeGenerationAnnotation
-    public val exampleVar: String =
-        "SELECT ?pages ?article (?pages > 100 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages}"
-
-    /*
-    @JvmField
-    @CodeGenerationAnnotation
-    public val exampleVar: String =
-        "SELECT ?pages ?article WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER(?pages > 50)}"
-
-     */
+//    public val exampleVar: String =        "SELECT ?pages ?article ?title WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://purl.org/dc/elements/1.1/title> ?title}"
+//    public val exampleVar: String =        "SELECT ?pages ?article (?pages > 100 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages}"
+    public val exampleVar: String = "SELECT ?pages ?article (?pages > 100 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages}"
+//    public val exampleVar: String = "SELECT ?pages ?article WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages}"
+//    public val exampleVar: String =        "SELECT ?pages ?article WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER(?pages > 50)}"
 
     internal fun startTimer(): Pair<Double, Int> {
         var time: Double = 0.0
         var counter: Int = 0
-        //println(exampleVar_evaluate())
+        var buf = MyPrintWriter(true)
+        var op = exampleVar_evaluate()
+        LuposdateEndpoint.evaluateOperatorgraphToResult(op, buf)
         val timer = DateHelperRelative.markNow()
         while (time < 10.0) {
-            exampleVar_evaluate()
+            buf = MyPrintWriter(true)
+            op = exampleVar_evaluate()
+            LuposdateEndpoint.evaluateOperatorgraphToResult(op, buf)
             time = DateHelperRelative.elapsedSeconds(timer)
             counter++
         }
@@ -50,10 +37,14 @@ public class BenchmarkClass {
     internal fun startTimerEndpoint(): Pair<Double, Int> {
         var time: Double = 0.0
         var counter: Int = 0
-        println(LuposdateEndpoint.evaluateSparqlToResultB(exampleVar))
+        var buf = MyPrintWriter(true)
+        var op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(exampleVar)
+        LuposdateEndpoint.evaluateOperatorgraphToResult(op, buf)
         val timer = DateHelperRelative.markNow()
         while (time < 10.0) {
-            LuposdateEndpoint.evaluateSparqlToResultB(exampleVar)
+            buf = MyPrintWriter(true)
+            op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(exampleVar)
+            LuposdateEndpoint.evaluateOperatorgraphToResult(op, buf)
             time = DateHelperRelative.elapsedSeconds(timer)
             counter++
         }

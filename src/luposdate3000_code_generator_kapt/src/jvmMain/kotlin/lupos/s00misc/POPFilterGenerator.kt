@@ -53,13 +53,9 @@ internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String
     for (variable in variablename) {
         clazz.iteratorNextBody.println("                        row$variable = column$variable!!.iterator${operatorGraph.uuid}!!.next()")
     }
-    clazz.iteratorNextBody.println(
-        """
-                |                        if (row${variablename[0]} == DictionaryExt.nullValue) {
-                |                           break
-                |                        }
-                """.trimMargin()
-    )
+    clazz.iteratorNextBody.println("                        if (row${variablename[0]} == DictionaryExt.nullValue) {")
+    clazz.iteratorNextBody.println("                           break")
+    clazz.iteratorNextBody.println("                        }")
     // Creating the filter term itself, child${operatorGraph.children[1].getUUID()}:Boolean contains the evaluated term
     writeFilter(operatorGraph.children[1], clazz.iteratorNextBody, operatorGraph, null)
 

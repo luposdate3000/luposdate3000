@@ -30,27 +30,16 @@ import javax.lang.model.element.TypeElement
 import javax.lang.model.element.TypeParameterElement
 import javax.lang.model.element.VariableElement
 
-
-// @SupportedSourceVersion(SourceVersion.RELEASE_8)
-// @SupportedAnnotationTypes("lupos.s00misc.CodeGenerationAnnotation")
-@SupportedOptions(CodeGenerationGenerator.KAPT_KOTLIN_GENERATED_OPTION_NAME)
+@SupportedOptions("kapt.kotlin.generated")
 public class CodeGenerationGenerator : AbstractProcessor() {
     init {
         println("CodeGenerationGenerator init")
     }
 
-    public companion object {
-        public const val KAPT_KOTLIN_GENERATED_OPTION_NAME: String = "kapt.kotlin.generated"
-    }
-
     override fun getSupportedSourceVersion(): SourceVersion = SourceVersion.latest()
-    override fun getSupportedAnnotationTypes(): MutableSet<String> =
-        mutableSetOf(CodeGenerationAnnotation::class.java.name)
+    override fun getSupportedAnnotationTypes(): MutableSet<String> = mutableSetOf(CodeGenerationAnnotation::class.java.name)
 
-    override fun process(
-        annotations: MutableSet<out TypeElement>?,
-        roundEnv: RoundEnvironment
-    ): Boolean {
+    override fun process(annotations: MutableSet<out TypeElement>?, roundEnv: RoundEnvironment): Boolean {
         val kaptKotlinGeneratedDir = processingEnv.options["kapt.kotlin.generated"] ?: return false
         roundEnv.getElementsAnnotatedWith(CodeGenerationAnnotation::class.java)
             .forEach { element ->
@@ -58,8 +47,6 @@ public class CodeGenerationGenerator : AbstractProcessor() {
                     // input ->
                     val className = element.enclosingElement.simpleName.toString()
                     val packageName = processingEnv.elementUtils.getPackageOf(element).toString()
-                    // die instanz der annotation mit all ihren variablen                    val annotation = element.getAnnotation(CodeGenerationAnnotation::class.java)
-                    recoursivelyPrintTypeInformation(element.enclosingElement)
                     val variableName = element.simpleName.toString()
                     val variableValue = (element as VariableElement).constantValue.toString()
                     // output->
@@ -73,31 +60,4 @@ public class CodeGenerationGenerator : AbstractProcessor() {
             }
         return true
     }
-
-    internal fun recoursivelyPrintTypeInformation(element: Element, indention: String = "") {
-        println("${indention}simpleName :: ${element.simpleName}")
-        println("${indention}kind :: ${element.kind}")
-        println("${indention}modifiers :: ${element.modifiers}")
-        println("${indention}annotation :: ${element.getAnnotation(CodeGenerationAnnotation::class.java)}")
-        if (element is ExecutableElement) {
-            println("${indention}subclass :: ExecutableElement")
-        } else if (element is PackageElement) {
-            println("${indention}subclass :: PackageElement")
-        } else if (element is Parameterizable) {
-            println("${indention}subclass :: Parameterizable")
-        } else if (element is QualifiedNameable) {
-            println("${indention}subclass :: QualifiedNameable")
-        } else if (element is TypeElement) {
-            println("${indention}subclass :: TypeElement")
-        } else if (element is TypeParameterElement) {
-            println("${indention}subclass :: TypeParameterElement")
-        } else if (element is VariableElement) {
-            println("${indention}subclass :: VariableElement")
-            println("${indention}value :: ${element.constantValue}")
-        }
-        for (element2 in element.enclosedElements) {
-            recoursivelyPrintTypeInformation(element2, "  $indention")
-        }
-    }
-
 }
