@@ -660,7 +660,7 @@ internal object _DictionaryHelper {
                     buf2.copyInto(buffer.getBuf(), 5 + buf1.size)
                 }
             }
-        } catch (e: Throwable) {
+        } catch (e: Exception) {
             e.printStackTrace()
             stringToByteArray(buffer, content)
         }
@@ -796,7 +796,7 @@ internal object _DictionaryHelper {
                 val i = BigInteger.parseString(value, 10)
                 integerToByteArray(buffer, i)
                 return
-            } catch (e: Throwable) {
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
@@ -805,7 +805,7 @@ internal object _DictionaryHelper {
                 val d = BigDecimal.parseString(value, 10)
                 decimalToByteArray(buffer, d)
                 return
-            } catch (e: Throwable) {
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
@@ -813,8 +813,8 @@ internal object _DictionaryHelper {
             val d = value.toDouble()
             doubleToByteArray(buffer, d)
             return
-        } catch (e: Throwable) {
-            e.printStackTrace()
+        } catch (e: Exception) {
+//e.printStackTrace() this is handled correctly
         }
         if (!value.endsWith("" + value[0])) {
             val typeIdx = value.lastIndexOf("" + value[0] + "^^<")

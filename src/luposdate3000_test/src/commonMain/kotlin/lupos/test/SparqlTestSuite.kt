@@ -135,9 +135,7 @@ public open class SparqlTestSuite {
         try {
             TurtleParserWithDictionary(consume_triple, ltit).parse()
         } catch (e: ParseError) {
-            SanityCheck {
-                e.printStackTrace()
-            }
+            e.printStackTrace()
             println("Error in the following line:")
             println(e.lineNumber)
         }
@@ -505,7 +503,7 @@ public open class SparqlTestSuite {
                             JenaWrapper.loadFromFile("/src/luposdate3000/$inputDataFileName")
                         }
                     } catch (e: JenaBugException) {
-                        println({ e.message })
+                        e.printStackTrace()
                         ignoreJena = true
                     } catch (e: Throwable) {
                         e.printStackTrace()
@@ -541,7 +539,7 @@ public open class SparqlTestSuite {
                             JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
                         }
                     } catch (e: JenaBugException) {
-                        println({ e.message })
+                        e.printStackTrace()
                         ignoreJena = true
                     } catch (e: Throwable) {
                         e.printStackTrace()
@@ -663,7 +661,7 @@ public open class SparqlTestSuite {
                             return false
                         }
                     } catch (e: JenaBugException) {
-                        println({ e.message })
+                        e.printStackTrace()
                         ignoreJena = true
                     } catch (e: Throwable) {
                         e.printStackTrace()
@@ -764,8 +762,8 @@ public open class SparqlTestSuite {
                 return expectedResult
             }
         } catch (e: ParseError) {
+            e.printStackTrace()
             if (expectedResult) {
-                e.printStackTrace()
                 SanityCheck.println { e }
                 SanityCheck.println { "Error in the following line:" }
                 SanityCheck.println { e.lineNumber }
@@ -777,15 +775,15 @@ public open class SparqlTestSuite {
             }
             return false
         } catch (e: NotImplementedException) {
+            e.printStackTrace()
             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
             println("----------Failed(NotImplemented)")
-            e.printStackTrace()
             return false
         } catch (e: Luposdate3000Exception) {
+            e.printStackTrace()
             if (expectedResult) {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Failed(${e.classname})")
-                e.printStackTrace()
             } else {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Success(ExpectFalse,${e.classname})")

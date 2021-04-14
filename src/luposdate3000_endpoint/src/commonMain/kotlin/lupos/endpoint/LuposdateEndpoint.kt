@@ -185,6 +185,7 @@ public object LuposdateEndpoint {
                     }
                     store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, true)
                 } catch (e: lupos.s02buildSyntaxTree.ParseError) {
+                    e.printStackTrace()
                     println("error in file '$fileName'")
                     throw e
                 }
@@ -249,8 +250,8 @@ public object LuposdateEndpoint {
                     }
                     store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, true)
                 } catch (e: Exception) {
-                    println("fast_parser :: error in file '$fileName'")
                     e.printStackTrace()
+                    println("fast_parser :: error in file '$fileName'")
                     throw e
                 }
             }
@@ -316,8 +317,8 @@ public object LuposdateEndpoint {
                 }
                 store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, true)
             } catch (e: Exception) {
-                println("fast_parser :: error in turtle-string")
                 e.printStackTrace()
+                println("fast_parser :: error in turtle-string")
                 throw e
             }
             tripleStoreManager.commit(query)

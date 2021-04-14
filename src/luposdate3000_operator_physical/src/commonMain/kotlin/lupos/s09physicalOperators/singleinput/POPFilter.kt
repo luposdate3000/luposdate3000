@@ -109,6 +109,7 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                                         }
                                     }
                                 } catch (e: NotImplementedException) {
+                                    e.printStackTrace()
                                     for (v in child.columns.values) {
                                         v.close()
                                     }
@@ -183,6 +184,7 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                                     }
                                 }
                             } catch (e: NotImplementedException) {
+                                e.printStackTrace()
                                 for (v in child.columns.values) {
                                     v.close()
                                 }
@@ -196,6 +198,7 @@ public class POPFilter public constructor(query: IQuery, projectedVariables: Lis
                 res = IteratorBundle(outMap)
             }
         } catch (e: NotImplementedException) {
+            e.printStackTrace()
             for (v in child.columns.values) {
                 v.close()
             }

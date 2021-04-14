@@ -343,6 +343,7 @@ public class POPGraphOperation public constructor(
                 }
             }
         } catch (e: EvaluationException) {
+            e.printStackTrace()
             if (!silent) {
                 throw e
             }

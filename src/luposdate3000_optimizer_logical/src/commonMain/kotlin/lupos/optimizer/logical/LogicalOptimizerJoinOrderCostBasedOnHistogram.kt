@@ -95,6 +95,7 @@ public object LogicalOptimizerJoinOrderCostBasedOnHistogram {
             }
             return nodes[0]
         } catch (e: HistogramNotImplementedException) {
+            e.printStackTrace()
             return null
         }
 /*Coverage Unreachable*/

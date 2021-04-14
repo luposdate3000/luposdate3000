@@ -46,6 +46,7 @@ public object LogicalOptimizerJoinOrderStore {
                             lastVariable = i
                         }
                     } catch (e: HistogramNotImplementedException) {
+                        e.printStackTrace()
                     }
                 }
             }

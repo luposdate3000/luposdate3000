@@ -100,7 +100,8 @@ internal fun generatePOPBind(
     clazz.iteratorNextBody.println("                        DictionaryHelper.valueDefinitionToByteArray(buffer,tmp${operatorGraph.uuid})")
     clazz.iteratorNextBody.println("                        row${variablename[variablename.size - 1]} = query.getDictionary().createValue(buffer)")
     clazz.iteratorNextBody.println("                    }")
-    clazz.iteratorNextBody.println("                    } catch (e:Throwable){")
+    clazz.iteratorNextBody.println("                    } catch (e: Throwable) {")
+    clazz.iteratorNextBody.println("                    e.printStackTrace()")
     clazz.iteratorNextBody.println("                        row${variablename[variablename.size - 1]} = DictionaryExt.errorValue")
     clazz.iteratorNextBody.println("                    } ")
     if (inlineChild) {
@@ -137,7 +138,12 @@ internal fun generatePOPBind(
     }
     var cnt = 0
     for (variable in variablename) {
-        if (!child.getRequiredVariableNames().contains(variable)) {
+        var flag = if (inlineChild) {
+            !child.getChildren()[0].getProvidedVariableNames().contains(variable)
+        } else {
+            variable == operatorGraph.name.name
+        }
+        if (flag) {
             clazz.footer.println("        column$variable = LocalIterator(query)")
         } else {
             clazz.footer.println("        column$variable = LocalIterator(query, child.columns[\"$variable\"]!!)")

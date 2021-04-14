@@ -51,6 +51,7 @@ public abstract class AOPBase public constructor(
                     val value = tmp()
                     res = value.toBoolean()
                 } catch (e: EvaluationException) {
+                    e.printStackTrace()
                     res = false
                 } catch (e: Throwable) {
                     e.printStackTrace()

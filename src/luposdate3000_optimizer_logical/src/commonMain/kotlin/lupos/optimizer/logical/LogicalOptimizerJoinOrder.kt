@@ -133,6 +133,7 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                     }
                 }
             } catch (e: EmptyResultException) {
+                e.printStackTrace()
                 res = OPNothing(query, originalProvided)
             }
         }
