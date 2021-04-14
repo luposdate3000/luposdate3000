@@ -28,8 +28,8 @@ public fun main(args: Array<String>) {
     val example = ExampleAnnotation()
     println(example.exampleVar_evaluate())*/
 
-
-    LuposdateEndpoint.importTurtleFiles("resources/code-generation/example.n3", mutableMapOf())
+//LuposdateEndpoint.importTurtleFiles("resources/code-generation/example.n3", mutableMapOf())
+    LuposdateEndpoint.importIntermediateFiles("/mnt/luposdate-testdata/sp2b/1048576/complete.n3")
     println("Init finished")
     // For counting of results set true
     if (false) {

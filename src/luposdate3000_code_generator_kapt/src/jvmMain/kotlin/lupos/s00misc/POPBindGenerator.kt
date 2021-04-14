@@ -107,7 +107,7 @@ internal fun generatePOPBind(
     if (inlineChild) {
         clazz.iteratorNextBodyEnd.println(childContainer!!.iteratorNextBodyEnd.toString())
     }
-    clazz.iteratorNextBodyResult.println("                        if (row${variablename[0]} == DictionaryExt.nullValue) {")
+    clazz.iteratorNextBodyResult.println("                        if (row${variablename[0]} != DictionaryExt.nullValue) {")
     for (i in 0 until variablename.size) {
         clazz.iteratorNextBodyResult.println("                    column${variablename[i]}!!.queue.add(row${variablename[i]})")
     }

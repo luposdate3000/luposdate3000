@@ -11,9 +11,9 @@ public class BenchmarkClass {
 
     @JvmField
     @CodeGenerationAnnotation
-//    public val exampleVar: String =        "SELECT ?pages ?article ?title WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://purl.org/dc/elements/1.1/title> ?title}"
+    public val exampleVar: String = "SELECT ?pages ?article ?title WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://purl.org/dc/elements/1.1/title> ?title}"
 //    public val exampleVar: String =        "SELECT ?pages ?article (?pages > 100 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages}"
-    public val exampleVar: String = "SELECT ?pages ?article (?pages > 100 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages}"
+//    public val exampleVar: String = "SELECT ?pages ?article (?pages > 100 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages}"
 //    public val exampleVar: String = "SELECT ?pages ?article WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages}"
 //    public val exampleVar: String =        "SELECT ?pages ?article WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER(?pages > 50)}"
 
@@ -23,6 +23,7 @@ public class BenchmarkClass {
         var buf = MyPrintWriter(true)
         var op = exampleVar_evaluate()
         LuposdateEndpoint.evaluateOperatorgraphToResult(op, buf)
+//lupos.s00misc.File("gen.res").withOutputStream{it.println(buf.toString())}
         val timer = DateHelperRelative.markNow()
         while (time < 10.0) {
             buf = MyPrintWriter(true)
@@ -40,6 +41,7 @@ public class BenchmarkClass {
         var buf = MyPrintWriter(true)
         var op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(exampleVar)
         LuposdateEndpoint.evaluateOperatorgraphToResult(op, buf)
+//lupos.s00misc.File("org.res").withOutputStream{it.println(buf.toString())}
         val timer = DateHelperRelative.markNow()
         while (time < 10.0) {
             buf = MyPrintWriter(true)

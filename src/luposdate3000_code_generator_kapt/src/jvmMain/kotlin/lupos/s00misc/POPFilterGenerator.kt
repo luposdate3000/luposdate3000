@@ -57,6 +57,7 @@ internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String
     clazz.iteratorNextFooter.println("                {")
     clazz.iteratorNextFooter.println("                    ColumnIteratorQueueExt._close(this)")
     clazz.iteratorNextFooter.println("                }")
+    clazz.iteratorNextFooter.println("            )")
     clazz.iteratorNextFooter.println("        }")
     clazz.iteratorCloseHeader.println("        override /*suspend*/ fun close() {")
     clazz.iteratorCloseBody.println("            if (label2${operatorGraph.uuid} != 0) {")
