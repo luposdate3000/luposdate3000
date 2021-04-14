@@ -14,7 +14,7 @@ class ParkingSensor(
 
     override fun onObservationEnd() {
         val data = getParkingObservation()
-        device.sendPackage(device.address, dataSinkAddress, data)
+        device.sendNetworkPackage(device.address, dataSinkAddress, data)
         observe()
     }
 
