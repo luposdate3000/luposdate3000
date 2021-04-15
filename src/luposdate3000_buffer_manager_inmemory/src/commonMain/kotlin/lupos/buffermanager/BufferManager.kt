@@ -35,15 +35,17 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
      * - temporary result rows (currently not implemented)
      * additionally this should make it more easy to exchange this with on disk storage
      */
-    private var allPages = Array<BufferManagerPage>(100) { createBufferManagerPage() }
+    private var allPages = Array<BufferManagerPage>(128) { createBufferManagerPage() }
 
-    private var allPagesRefcounters = IntArray(100)
+    private var allPagesRefcounters = IntArray(128)
 
     private var counter = 0
 
     private val lock = MyReadWriteLock()
 
-    private val freeList = mutableListOf<Int>()
+    private var freeList = IntArray(128)
+    private var freeListSize = 0
+
     /*suspend*/ private fun clearAssumeLocks() {
         counter = 0
         SanityCheck {
@@ -51,15 +53,16 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
                 SanityCheck.check({ allPagesRefcounters[i] == 0 }, { "Failed requirement allPagesRefcounters[$i] = ${allPagesRefcounters[i]} == 0" })
             }
         }
-        allPages = Array<BufferManagerPage>(100) { createBufferManagerPage() }
-        allPagesRefcounters = IntArray(100)
+        allPages = Array<BufferManagerPage>(128) { createBufferManagerPage() }
+        allPagesRefcounters = IntArray(128)
         if (BUFFER_MANAGER_USE_FREE_LIST) {
-            freeList.clear()
+            freeList = IntArray(128)
+            freeListSize = 0
         }
     }
 
     @ProguardTestAnnotation
-    public fun getNumberOfAllocatedPages(): Int = counter - freeList.size
+    public fun getNumberOfAllocatedPages(): Int = counter - freeListSize
 
     @ProguardTestAnnotation
     public fun getNumberOfReferencedPages(): Int {
@@ -93,7 +96,9 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
             SanityCheck.check({ pageid < counter }, { "$pageid < $counter" })
             SanityCheck.check({ pageid >= 0 }, { "$pageid >= 0" })
             if (BUFFER_MANAGER_USE_FREE_LIST) {
-                SanityCheck.check { !freeList.contains(pageid) }
+                for (i in 0 until freeListSize) {
+                    SanityCheck.check { freeList[i] != pageid }
+                }
             }
         }
         SanityCheck.check { allPages[pageid].getPageID() == pageid }
@@ -104,15 +109,13 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
     public /*suspend*/ fun allocPage(call_location: String): Int {
         var pageid: Int = 0
         lock.withWriteLock {
-            if (freeList.size > 0 && BUFFER_MANAGER_USE_FREE_LIST) {
-                pageid = freeList.removeAt(0)
+            if (freeListSize > 0 && BUFFER_MANAGER_USE_FREE_LIST) {
+                pageid = freeList[freeListSize--]
             } else {
                 if (counter == allPages.size) {
                     var size = counter * 2
-                    if (size < 100) {
-                        size = 100
-                    } else if (counter > 1000) {
-                        size = counter + 1000
+                    if (size < 128) {
+                        size = 128
                     }
                     val tmp = Array<BufferManagerPage>(size) {
                         val res: BufferManagerPage = if (it < counter) {
@@ -140,7 +143,9 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
         SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $call_location" }
         SanityCheck {
             if (BUFFER_MANAGER_USE_FREE_LIST) {
-                SanityCheck.check { !freeList.contains(pageid) }
+                for (i in 0 until freeListSize) {
+                    SanityCheck.check { freeList[i] != pageid }
+                }
             }
         }
         SanityCheck.check({ allPagesRefcounters[pageid] == 1 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} == 1" })
@@ -151,8 +156,13 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
             allPages[pageid] = createBufferManagerPage()
         }
         if (BUFFER_MANAGER_USE_FREE_LIST) {
-            freeList.add(pageid)
-            if (freeList.size == counter) {
+            if (freeListSize == freeList.size) {
+                val tmp = IntArray(freeListSize * 2)
+                freeList.copyInto(tmp)
+                freeList = tmp
+            }
+            freeList[freeListSize++] = pageid
+            if (freeListSize == counter) {
                 clearAssumeLocks()
             }
         } else {
