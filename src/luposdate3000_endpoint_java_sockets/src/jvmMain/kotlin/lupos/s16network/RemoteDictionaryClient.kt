@@ -35,7 +35,6 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         return input.readInt()
     }
 
-    override fun importFromDictionaryFile(filename: String): IntArray = throw Exception("not implemented")
     override fun createNewBNode(): Int {
         output.writeInt(1)
         output.flush()

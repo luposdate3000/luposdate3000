@@ -66,7 +66,7 @@ public abstract class ADictionary : IDictionary {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public override fun importFromDictionaryFile(filename: String): IntArray {
+    public override fun importFromDictionaryFile(filename: String): Pair<IntArray, Int> {
         var mymapping = IntArray(0)
         var lastId = -1
         val buffer = ByteArrayWrapper()
@@ -98,6 +98,6 @@ public abstract class ADictionary : IDictionary {
             mymapping[id] = i
         }
         println("imported dictionary with $lastId items")
-        return mymapping
+        return Pair(mymapping, lastId + 1)
     }
 }

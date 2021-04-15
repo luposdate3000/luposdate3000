@@ -44,17 +44,17 @@ internal fun helperCleanString(s: String): String {
     return res
 }
 
-private inline fun cmp(tripleBuf: IntArray, order: IntArray, a: Int, b: Int): Int {
+private inline fun cmp(tripleBuf: IntArray, order: IntArray, a: Int, b: IntArray): Int {
     var res = 0
-    res = tripleBuf[a + order[0]] - tripleBuf[b + order[0]]
+    res = tripleBuf[a + order[0]] - b[order[0]]
     if (res != 0) {
         return res
     }
-    res = tripleBuf[a + order[1]] - tripleBuf[b + order[1]]
+    res = tripleBuf[a + order[1]] - b[order[1]]
     if (res != 0) {
         return res
     }
-    res = tripleBuf[a + order[2]] - tripleBuf[b + order[2]]
+    res = tripleBuf[a + order[2]] - b[order[2]]
     return res
 }
 
@@ -80,26 +80,37 @@ private inline fun swap(tripleBuf: IntArray, a: Int, b: Int) {
     }
 }
 
-private fun quicksort(tripleBuf: IntArray, order: IntArray, l: Int, r: Int) {
+private fun quicksort(tripleBuf: IntArray, order: IntArray, l: Int, r: Int, pivotBuf: IntArray) {
     if (l < r) {
         var i = l
-        var j = r - 3
-        while (i < j) {
-            while (i < r && cmp(tripleBuf, order, i, r) < 0) {
+        var j = r
+        var pivot = (l + r) / 2
+        pivot = pivot - (pivot % 3)
+        pivotBuf[0] = tripleBuf[pivot]
+        pivotBuf[1] = tripleBuf[pivot + 1]
+        pivotBuf[2] = tripleBuf[pivot + 2]
+        while (true) {
+            while (i < r && cmp(tripleBuf, order, i, pivotBuf) < 0) {
                 i += 3
             }
-            while (j > l && cmp(tripleBuf, order, j, r) >= 0) {
+            while (j > l && cmp(tripleBuf, order, j, pivotBuf) > 0) {
                 j -= 3
             }
-            if (i < j) {
-                swap(tripleBuf, i, j)
+            if (i >= j) {
+                break
             }
+            swap(tripleBuf, i, j)
         }
-        if (cmp(tripleBuf, order, i, r) > 0) {
-            swap(tripleBuf, i, r)
+        var a = i
+        while (a > l && cmp(tripleBuf, order, a, pivotBuf) == 0) {
+            a -= 3
         }
-        quicksort(tripleBuf, order, l, i - 3)
-        quicksort(tripleBuf, order, i + 3, r)
+        quicksort(tripleBuf, order, l, a, pivotBuf)
+        a = i
+        while (a < r && cmp(tripleBuf, order, a, pivotBuf) == 0) {
+            a += 3
+        }
+        quicksort(tripleBuf, order, a, r, pivotBuf)
     }
 }
 
@@ -138,25 +149,28 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         return alen - blen
     }
 
+    fun addToDict(data: ByteArrayWrapper): Int {
+        val v = dict[data]
+        if (v != null) {
+            return v.toInt()
+        } else {
+            val v2 = dictCounter++
+            val buf = ByteArrayWrapper()
+            data.copyInto(buf)
+            dict[buf] = v2.toInt()
+            dictSizeEstimated += data.getSize() * 2
+            dicttotalcnt++
+            return v2.toInt()
+        }
+    }
+
     val iter = File(inputFileName).openInputStream()
     if (inputFileName.endsWith(".n3") || inputFileName.endsWith(".ttl") || inputFileName.endsWith(".nt")) {
         val row = IntArray(3)
         val x = object : Turtle2Parser(iter) {
             override fun onTriple() {
                 for (i in 0 until 3) {
-                    val tripleCleaned = triple[i]
-                    val v = dict[tripleCleaned]
-                    if (v != null) {
-                        row[i] = v.toInt()
-                    } else {
-                        val v2 = dictCounter++
-                        row[i] = v2.toInt()
-                        val buf = ByteArrayWrapper()
-                        tripleCleaned.copyInto(buf)
-                        dict[buf] = v2.toInt()
-                        dictSizeEstimated += tripleCleaned.getSize() * 2
-                        dicttotalcnt++
-                    }
+                    row[i] = addToDict(triple[i])
                 }
                 outTriples.write(row[0], row[1], row[2])
                 cnt++
@@ -176,19 +190,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         val x = object : NQuads2Parser(iter) {
             override fun onQuad() {
                 for (i in 0 until 3) {
-                    val quadCleaned = quad[i]
-                    val v = dict[quadCleaned]
-                    if (v != null) {
-                        row[i] = v.toInt()
-                    } else {
-                        val v2 = dictCounter++
-                        row[i] = v2.toInt()
-                        val buf = ByteArrayWrapper()
-                        quadCleaned.copyInto(buf)
-                        dict[buf] = v2.toInt()
-                        dictSizeEstimated += quadCleaned.getSize() * 2
-                        dicttotalcnt++
-                    }
+                    row[i] = addToDict(quad[i])
                 }
                 outTriples.write(row[0], row[1], row[2])
                 cnt++
@@ -263,18 +265,27 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     var offset = 0
     var tripleBlock = 0
     val orders = arrayOf(
-        intArrayOf(0, 1, 2),
-        intArrayOf(0, 2, 1),
-        intArrayOf(1, 0, 2),
-        intArrayOf(1, 2, 0),
-        intArrayOf(2, 0, 1),
-        intArrayOf(2, 1, 0),
+        intArrayOf(0, 1, 2), // "spo" -> "spo" -> "spo"
+        intArrayOf(0, 2, 1), // "spo" -> "sop" -> "spo"
+        intArrayOf(1, 0, 2), // "spo" -> "pso" -> "spo"
+        intArrayOf(1, 2, 0), // "spo" -> "pos" -> "osp"
+        intArrayOf(2, 0, 1), // "spo" -> "osp" -> "pos"
+        intArrayOf(2, 1, 0), // "spo" -> "ops" -> "spo"
+    )
+    val ordersReverse = arrayOf(
+        orders[0],
+        orders[1],
+        orders[2],
+        orders[4],
+        orders[3],
+        orders[5]
     )
     val orderNames = arrayOf("spo", "sop", "pso", "pos", "osp", "ops")
+    val pivotBuf = IntArray(3)
     fun sortBlockMain() {
         for (o in 0 until 6) {
             val order = orders[o]
-            quicksort(tripleBuf, order, 0, offset)
+            quicksort(tripleBuf, order, 0, offset - 3, pivotBuf)
             val outTriples = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}.$tripleBlock")
             var i = 0
             while (i < offset) {
@@ -287,52 +298,58 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         offset = 0
     }
     inTriples.readAll { it ->
-        tripleBuf[offset++] = mapping[it[0]]
-        tripleBuf[offset++] = mapping[it[1]]
-        tripleBuf[offset++] = mapping[it[2]]
+        tripleBuf[offset + 0] = mapping[it[0]]
+        tripleBuf[offset + 1] = mapping[it[1]]
+        tripleBuf[offset + 2] = mapping[it[2]]
+        offset += 3
         if (offset >= limit) {
             sortBlockMain()
         }
     }
-    sortBlockMain()
+    if (offset > 0) {
+        sortBlockMain()
+    }
     inTriples.close()
     TriplesIntermediate.delete("$inputFileName.0")
+    var myCount = -1L
     for (o in 0 until 6) {
+        val order = orders[o]
+        val orderReverse = ordersReverse[o]
         val outTriples = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}")
         val tripleInputs = Array(tripleBlock) { TriplesIntermediateReader("$inputFileName.${orderNames[o]}.$it") }
         val tripleInputHeads = Array(tripleBlock) { tripleInputs[it].next() }
         val smallest = IntArray(3)
-        var valid = false
-        for (i in 0 until tripleBlock) {
-            val head = tripleInputHeads[i]
-            if (head != null) {
-                if (!valid || cmp(head, smallest) < 0) {
+        var valid = true
+        while (valid) {
+            valid = false
+            for (i in 0 until tripleBlock) {
+                val head = tripleInputHeads[i]
+                if (head != null && (!valid || cmp(head, smallest) < 0)) {
                     smallest[0] = head[0]
                     smallest[1] = head[1]
                     smallest[2] = head[2]
                     valid = true
                 }
             }
-        }
-        if (valid) {
-            valid = false
-            outTriples.write(smallest[0], smallest[1], smallest[2])
-            for (i in 0 until tripleBlock) {
-                val head = tripleInputHeads[i]
-                if (head != null) {
-                    if (cmp(head, smallest) == 0) {
+            if (valid) {
+                outTriples.write(smallest[0], smallest[1], smallest[2])
+                for (i in 0 until tripleBlock) {
+                    val head = tripleInputHeads[i]
+                    if (head != null && cmp(head, smallest) == 0) {
                         tripleInputHeads[i] = tripleInputs[i].next()
                     }
                 }
             }
         }
+        myCount = outTriples.getCount()
+        println("$myCount")
         outTriples.close()
         for (i in 0 until tripleBlock) {
             TriplesIntermediate.delete("$inputFileName.${orderNames[o]}.$i")
         }
     }
-    File("$inputFileName.$statFileEnding").withOutputStream {
-        it.println("triples=$cnt")
+    File("$inputFileName$statFileEnding").withOutputStream {
+        it.println("triples=$myCount")
         it.println("dictionary-entries=$currentValue")
     }
     if (false) {

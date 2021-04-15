@@ -389,12 +389,19 @@ public object LuposdateEndpoint {
                     setEstimatedPartitionsFromFile("$fileName.partitions")
                     tripleStoreManager.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
                 }
-                val fileTriples = TriplesIntermediateReader(fileName)
-                val mapping = nodeGlobalDictionary.importFromDictionaryFile(fileName)
+                val (mapping, mappingLength) = nodeGlobalDictionary.importFromDictionaryFile(fileName)
                 val dictTime = DateHelperRelative.elapsedSeconds(startTime)
                 val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
                 val arr2 = arrayOf(arr[0] as ColumnIterator, arr[1] as ColumnIterator, arr[2] as ColumnIterator)
                 val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
+                var requireMapping = false
+                for (i in 1 until mappingLength) {
+                    if (mapping[i] < mapping[i - 1]) {
+                        requireMapping = true
+                        break
+                    }
+                }
+                val fileTriples = TriplesIntermediateReader("$fileName.spo")
                 fileTriples.readAll { it ->
                     if (bufPos == bufS.size) {
                         for (i in 0 until 3) {

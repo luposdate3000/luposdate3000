@@ -60,7 +60,6 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                     override fun createValue(buffer: ByteArrayWrapper): Int = throw Exception("not implemented")
                     override fun getValue(buffer: ByteArrayWrapper, value: Int) = throw Exception("not implemented")
                     override fun hasValue(buffer: ByteArrayWrapper): Int? = null
-                    override fun importFromDictionaryFile(filename: String): IntArray = throw Exception("not implemented")
                     override fun isInmemoryOnly(): Boolean = true
                 }
             }

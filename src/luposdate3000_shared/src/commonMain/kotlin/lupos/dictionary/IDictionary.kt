@@ -19,7 +19,7 @@ package lupos.dictionary
 import lupos.s00misc.ByteArrayWrapper
 
 public interface IDictionary {
-    public fun importFromDictionaryFile(filename: String): IntArray
+    public fun importFromDictionaryFile(filename: String): Pair<IntArray, Int>
     public fun createNewBNode(): Int
     public fun createNewBNode(s: String): Int
     public fun getValue(buffer: ByteArrayWrapper, value: Int)
@@ -33,7 +33,7 @@ public interface IDictionary {
 }
 
 public var nodeGlobalDictionary: IDictionary = object : IDictionary {
-    public override fun importFromDictionaryFile(filename: String): IntArray = throw Exception("not implemented")
+    public override fun importFromDictionaryFile(filename: String): Pair<IntArray, Int> = throw Exception("not implemented")
     public override fun createNewBNode(): Int = throw Exception("not implemented")
     public override fun createNewBNode(s: String): Int = throw Exception("not implemented")
     public override fun valueToGlobal(value: Int): Int = throw Exception("not implemented")

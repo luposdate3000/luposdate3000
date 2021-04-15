@@ -125,7 +125,7 @@ public class DictionaryKV : ADictionary {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public override fun importFromDictionaryFile(filename: String): IntArray {
+    public override fun importFromDictionaryFile(filename: String): Pair<IntArray, Int> {
         var mymapping = IntArray(0)
         var lastId = -1
         fun addEntry(id: Int, i: Int) {
@@ -181,7 +181,7 @@ public class DictionaryKV : ADictionary {
             }
         )
         println("imported dictionary with $lastId items")
-        return mymapping
+        return Pair(mymapping, lastId + 1)
     }
 
     public override fun hasValue(buffer: ByteArrayWrapper): Int? {

@@ -51,7 +51,6 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary) : A
         dictionary.getValue(buffer, value)
     }
 
-    override fun importFromDictionaryFile(filename: String): IntArray = throw Exception("not implemented")
     override fun createNewBNode(): Int {
         return dictionary.createNewBNode()
     }

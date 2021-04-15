@@ -26,11 +26,12 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
         streamOut = File("$filename$filenameEnding").openOutputStream(false)
     }
 
+    private var count = 0L
     private var lastS: Int = 0
     private var lastP: Int = 0
     private var lastO: Int = 0
     private val buf: ByteArray = ByteArray(13)
-
+    public fun getCount(): Long = count
     public fun write(s: Int, p: Int, o: Int) {
         val b0 = lastS xor s
         val b1 = lastP xor p
@@ -43,6 +44,7 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
         val counter2 = (((32 + 7 - IntegerExt.numberOfLeadingZeros(b2))) shr 3)
         val header = counter0 + counter1 * 5 + counter2 * 25
         if (header != 0) {
+            count++
             val rel0 = counter0 + 1
             val rel1 = rel0 + counter1
             val rel2 = rel1 + counter2
