@@ -16,11 +16,12 @@
  */
 package lupos.launch.import
 
-import lupos.dictionary.DictionaryHelper
 import lupos.fileformat.DictionaryIntermediate
 import lupos.fileformat.DictionaryIntermediateReader
-import lupos.fileformat.DictionaryIntermediateRow
 import lupos.fileformat.DictionaryIntermediateWriter
+import lupos.fileformat.TriplesIntermediate
+import lupos.fileformat.TriplesIntermediateReader
+import lupos.fileformat.TriplesIntermediateWriter
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
@@ -43,9 +44,69 @@ internal fun helperCleanString(s: String): String {
     return res
 }
 
+private inline fun cmp(tripleBuf: IntArray, order: IntArray, a: Int, b: Int): Int {
+    var res = 0
+    res = tripleBuf[a + order[0]] - tripleBuf[b + order[0]]
+    if (res != 0) {
+        return res
+    }
+    res = tripleBuf[a + order[1]] - tripleBuf[b + order[1]]
+    if (res != 0) {
+        return res
+    }
+    res = tripleBuf[a + order[2]] - tripleBuf[b + order[2]]
+    return res
+}
+
+private inline fun cmp(a: IntArray, b: IntArray): Int {
+    var res = 0
+    res = a[0] - b[0]
+    if (res != 0) {
+        return res
+    }
+    res = a[1] - b[1]
+    if (res != 0) {
+        return res
+    }
+    res = a[2] - b[2]
+    return res
+}
+
+private inline fun swap(tripleBuf: IntArray, a: Int, b: Int) {
+    for (i in 0 until 3) {
+        val t = tripleBuf[a + i]
+        tripleBuf[a + i] = tripleBuf[b + i]
+        tripleBuf[b + i] = t
+    }
+}
+
+private fun quicksort(tripleBuf: IntArray, order: IntArray, l: Int, r: Int) {
+    if (l < r) {
+        var i = l
+        var j = r - 3
+        while (i < j) {
+            while (i < r && cmp(tripleBuf, order, i, r) < 0) {
+                i += 3
+            }
+            while (j > l && cmp(tripleBuf, order, j, r) >= 0) {
+                j -= 3
+            }
+            if (i < j) {
+                swap(tripleBuf, i, j)
+            }
+        }
+        if (cmp(tripleBuf, order, i, r) > 0) {
+            swap(tripleBuf, i, r)
+        }
+        quicksort(tripleBuf, order, l, i - 3)
+        quicksort(tripleBuf, order, i + 3, r)
+    }
+}
+
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     val quadMode = inputFileName.endsWith(".n4")
+    val statFileEnding = ".stat"
     val tripleFileEnding = if (quadMode) {
         "quads"
     } else {
@@ -56,7 +117,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     var dictSizeEstimated = 0L
     var chunc = 0
 // create chunced dictionaries
-    var outTriples = File("$inputFileName.0.$tripleFileEnding").openOutputStream(false)
+    var outTriples = TriplesIntermediateWriter("$inputFileName.0")
     val dict = mutableMapOf<ByteArrayWrapper, Int>()
     var dictCounter = 0L
     var cnt = 0L
@@ -79,16 +140,17 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
 
     val iter = File(inputFileName).openInputStream()
     if (inputFileName.endsWith(".n3") || inputFileName.endsWith(".ttl") || inputFileName.endsWith(".nt")) {
+        val row = IntArray(3)
         val x = object : Turtle2Parser(iter) {
             override fun onTriple() {
                 for (i in 0 until 3) {
                     val tripleCleaned = triple[i]
                     val v = dict[tripleCleaned]
                     if (v != null) {
-                        outTriples.writeInt(v.toInt())
+                        row[i] = v.toInt()
                     } else {
                         val v2 = dictCounter++
-                        outTriples.writeInt(v2.toInt())
+                        row[i] = v2.toInt()
                         val buf = ByteArrayWrapper()
                         tripleCleaned.copyInto(buf)
                         dict[buf] = v2.toInt()
@@ -96,6 +158,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                         dicttotalcnt++
                     }
                 }
+                outTriples.write(row[0], row[1], row[2])
                 cnt++
                 if (cnt % 10000L == 0L) {
                     println("$cnt :: $dictCounter :: $dictSizeEstimated(Bytes)")
@@ -109,16 +172,17 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         }
         x.parse()
     } else if (inputFileName.endsWith(".n4")) {
+        val row = IntArray(3)
         val x = object : NQuads2Parser(iter) {
             override fun onQuad() {
-                for (i in 0 until 4) {
+                for (i in 0 until 3) {
                     val quadCleaned = quad[i]
                     val v = dict[quadCleaned]
                     if (v != null) {
-                        outTriples.writeInt(v.toInt())
+                        row[i] = v.toInt()
                     } else {
                         val v2 = dictCounter++
-                        outTriples.writeInt(v2.toInt())
+                        row[i] = v2.toInt()
                         val buf = ByteArrayWrapper()
                         quadCleaned.copyInto(buf)
                         dict[buf] = v2.toInt()
@@ -126,6 +190,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                         dicttotalcnt++
                     }
                 }
+                outTriples.write(row[0], row[1], row[2])
                 cnt++
                 if (cnt % 10000L == 0L) {
                     println("$cnt :: $dictCounter :: $dictSizeEstimated(Bytes)")
@@ -146,7 +211,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     outTriples.close()
     iter.close()
 // merge dictionaries
-    val outDictionary = DictionaryIntermediateWriter("$inputFileName")
+    val outDictionary = DictionaryIntermediateWriter(inputFileName)
     val mapping = IntArray(dictCounter.toInt())
 
     val dictionaries = Array(chunc) { DictionaryIntermediateReader("$inputFileName.$it") }
@@ -157,20 +222,15 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     var current: ByteArrayWrapper? = null
     var currentValue = 0
 
-
     var changed = true
     loop@ while (changed) {
         changed = false
         for (i in 0 until chunc) {
             val d = dictionariesHead[i]
             if (d != null) {
-                if (current == null) {
+                if (current == null || d.data <= current) {
                     d.data.copyInto(buffer)
                     current = buffer
-                } else if (d != null) {
-                    if (d.data <= current) {
-                        d.data.copyInto(current)
-                    }
                 }
             }
         }
@@ -194,24 +254,87 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         d.close()
     }
     outDictionary.close()
-    File("$inputFileName.$tripleFileEnding").withOutputStream { outTriples ->
-        File("$inputFileName.0.$tripleFileEnding").withInputStream { inTriples ->
-            val target = cnt * if (quadMode) {
-                4L
-            } else {
-                3L
-            }
-            for (i in 0L until target) {
-                val v = inTriples.readInt()
-                val vv = mapping[v]
-                outTriples.writeInt(vv)
-            }
-        }
-    }
     for (i in 0 until chunc) {
         DictionaryIntermediate.delete("$inputFileName.$i")
     }
-    File("$inputFileName.0.$tripleFileEnding").deleteRecursively()
+    val inTriples = TriplesIntermediateReader("$inputFileName.0")
+    val tripleBuf = IntArray(268435456)
+    val limit = (tripleBuf.size / 3) * 3
+    var offset = 0
+    var tripleBlock = 0
+    val orders = arrayOf(
+        intArrayOf(0, 1, 2),
+        intArrayOf(0, 2, 1),
+        intArrayOf(1, 0, 2),
+        intArrayOf(1, 2, 0),
+        intArrayOf(2, 0, 1),
+        intArrayOf(2, 1, 0),
+    )
+    val orderNames = arrayOf("spo", "sop", "pso", "pos", "osp", "ops")
+    fun sortBlockMain() {
+        for (o in 0 until 6) {
+            val order = orders[o]
+            quicksort(tripleBuf, order, 0, offset)
+            val outTriples = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}.$tripleBlock")
+            var i = 0
+            while (i < offset) {
+                outTriples.write(tripleBuf[i + order[0]], tripleBuf[i + order[1]], tripleBuf[i + order[2]])
+                i += 3
+            }
+            outTriples.close()
+        }
+        tripleBlock++
+        offset = 0
+    }
+    inTriples.readAll { it ->
+        tripleBuf[offset++] = mapping[it[0]]
+        tripleBuf[offset++] = mapping[it[1]]
+        tripleBuf[offset++] = mapping[it[2]]
+        if (offset >= limit) {
+            sortBlockMain()
+        }
+    }
+    sortBlockMain()
+    inTriples.close()
+    TriplesIntermediate.delete("$inputFileName.0")
+    for (o in 0 until 6) {
+        val outTriples = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}")
+        val tripleInputs = Array(tripleBlock) { TriplesIntermediateReader("$inputFileName.${orderNames[o]}.$it") }
+        val tripleInputHeads = Array(tripleBlock) { tripleInputs[it].next() }
+        val smallest = IntArray(3)
+        var valid = false
+        for (i in 0 until tripleBlock) {
+            val head = tripleInputHeads[i]
+            if (head != null) {
+                if (!valid || cmp(head, smallest) < 0) {
+                    smallest[0] = head[0]
+                    smallest[1] = head[1]
+                    smallest[2] = head[2]
+                    valid = true
+                }
+            }
+        }
+        if (valid) {
+            valid = false
+            outTriples.write(smallest[0], smallest[1], smallest[2])
+            for (i in 0 until tripleBlock) {
+                val head = tripleInputHeads[i]
+                if (head != null) {
+                    if (cmp(head, smallest) == 0) {
+                        tripleInputHeads[i] = tripleInputs[i].next()
+                    }
+                }
+            }
+        }
+        outTriples.close()
+        for (i in 0 until tripleBlock) {
+            TriplesIntermediate.delete("$inputFileName.${orderNames[o]}.$i")
+        }
+    }
+    File("$inputFileName.$statFileEnding").withOutputStream {
+        it.println("triples=$cnt")
+        it.println("dictionary-entries=$currentValue")
+    }
     if (false) {
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         val outputTriplesFile = File("$inputFileName.$tripleFileEnding")

@@ -20,9 +20,8 @@ import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.File
 
 public class DictionaryIntermediateWriter : DictionaryIntermediate {
-    public constructor(filename: String) : this(filename, false)
-    public constructor(filename: String, append: Boolean) : super(filename) {
-        streamOut = File("$filename$filenameEnding").openOutputStream(append)
+    public constructor(filename: String) : super(filename) {
+        streamOut = File("$filename$filenameEnding").openOutputStream(false)
     }
 
     @Suppress("NOTHING_TO_INLINE")

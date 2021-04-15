@@ -16,6 +16,7 @@
  */
 package lupos.endpoint
 
+import lupos.fileformat.TriplesIntermediateReader
 import lupos.buffermanager.BufferManagerExt
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.DictionaryHelper
@@ -388,31 +389,25 @@ public object LuposdateEndpoint {
                     setEstimatedPartitionsFromFile("$fileName.partitions")
                     tripleStoreManager.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
                 }
-                val fileTriples = File("$fileName.triples")
-                val mapping = nodeGlobalDictionary.importFromDictionaryFile("$fileName")
+                val fileTriples = TriplesIntermediateReader(fileName)
+                val mapping = nodeGlobalDictionary.importFromDictionaryFile(fileName)
                 val dictTime = DateHelperRelative.elapsedSeconds(startTime)
-                val cnt = fileTriples.length() / 12L
-                counter += cnt
                 val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
                 val arr2 = arrayOf(arr[0] as ColumnIterator, arr[1] as ColumnIterator, arr[2] as ColumnIterator)
                 val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
-                fileTriples.withInputStream {
-                    for (i in 0 until cnt) {
-                        val s = it.readInt()
-                        val p = it.readInt()
-                        val o = it.readInt()
-                        if (bufPos == bufS.size) {
-                            for (i in 0 until 3) {
-                                arr[i].reset(bufPos)
-                            }
-                            store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, false)
-                            bufPos = 0
+                fileTriples.readAll { it ->
+                    if (bufPos == bufS.size) {
+                        for (i in 0 until 3) {
+                            arr[i].reset(bufPos)
                         }
-                        bufS[bufPos] = mapping[s]
-                        bufP[bufPos] = mapping[p]
-                        bufO[bufPos] = mapping[o]
-                        bufPos++
+                        store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, false)
+                        bufPos = 0
                     }
+                    bufS[bufPos] = mapping[it[0]]
+                    bufP[bufPos] = mapping[it[1]]
+                    bufO[bufPos] = mapping[it[2]]
+                    bufPos++
+                    counter++
                 }
                 for (i in 0 until 3) {
                     arr[i].reset(bufPos)
@@ -420,7 +415,7 @@ public object LuposdateEndpoint {
                 store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, true)
                 val totalTime = DateHelperRelative.elapsedSeconds(startTime)
                 val storeTime = totalTime - dictTime
-                println("imported file $fileName,$cnt,$totalTime,$dictTime,$storeTime")
+                println("imported file $fileName,$counter,$totalTime,$dictTime,$storeTime")
             }
             tripleStoreManager.commit(query)
             if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
