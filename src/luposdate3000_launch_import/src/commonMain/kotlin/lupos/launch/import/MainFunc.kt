@@ -16,7 +16,6 @@
  */
 package lupos.launch.import
 
-import lupos.shared.INTERNAL_BUFFER_SIZE
 import lupos.fileformat.DictionaryIntermediate
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.fileformat.DictionaryIntermediateWriter
@@ -24,11 +23,13 @@ import lupos.fileformat.TriplesIntermediate
 import lupos.fileformat.TriplesIntermediateReader
 import lupos.fileformat.TriplesIntermediateWriter
 import lupos.s00misc.ByteArrayWrapper
+import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.File
 import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.nQuads.NQuads2Parser
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
+import lupos.shared.INTERNAL_BUFFER_SIZE
 
 internal fun helperCleanString(s: String): String {
     var res: String = s
@@ -117,6 +118,7 @@ private fun quicksort(tripleBuf: IntArray, order: IntArray, l: Int, r: Int, pivo
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
+    val startTime = DateHelperRelative.markNow()
     val quadMode = inputFileName.endsWith(".n4")
     val statFileEnding = ".stat"
     val tripleFileEnding = if (quadMode) {
@@ -124,8 +126,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     } else {
         "triples"
     }
-    val dictSizeLimit = 1024L * 1024L * 1024L
-//    val dictSizeLimit = 1024L * 16L
+    val dictSizeLimit = INTERNAL_BUFFER_SIZE.toLong()
     var dictSizeEstimated = 0L
     var chunc = 0
 // create chunced dictionaries
@@ -159,12 +160,13 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             val buf = ByteArrayWrapper()
             data.copyInto(buf)
             dict[buf] = v2.toInt()
-            dictSizeEstimated += data.getSize() * 2
+            dictSizeEstimated += data.getSize() + 8
             dicttotalcnt++
             return v2.toInt()
         }
     }
 
+    var dictWriteInitialTime = 0.0
     val iter = File(inputFileName).openInputStream()
     if (inputFileName.endsWith(".n3") || inputFileName.endsWith(".ttl") || inputFileName.endsWith(".nt")) {
         val row = IntArray(3)
@@ -176,10 +178,12 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                 outTriples.write(row[0], row[1], row[2])
                 cnt++
                 if (cnt % 10000L == 0L) {
-                    println("$cnt :: $dictCounter :: $dictSizeEstimated(Bytes)")
+                    println("parsing triples=$cnt :: dictionery-entries=$dictCounter :: dictionary-size-estimated=$dictSizeEstimated(Bytes)")
                 }
                 if (dictSizeEstimated > dictSizeLimit) {
+                    val startTime2 = DateHelperRelative.markNow()
                     DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
+                    dictWriteInitialTime += DateHelperRelative.elapsedSeconds(startTime2)
                     dictSizeEstimated = 0
                     chunc++
                 }
@@ -196,10 +200,12 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                 outTriples.write(row[0], row[1], row[2])
                 cnt++
                 if (cnt % 10000L == 0L) {
-                    println("$cnt :: $dictCounter :: $dictSizeEstimated(Bytes)")
+                    println("parsing triples=$cnt :: dictionery-entries=$dictCounter :: dictionary-size-estimated=$dictSizeEstimated(Bytes)")
                 }
                 if (dictSizeEstimated > dictSizeLimit) {
+                    val startTime2 = DateHelperRelative.markNow()
                     DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
+                    dictWriteInitialTime += DateHelperRelative.elapsedSeconds(startTime2)
                     dictSizeEstimated = 0
                     chunc++
                 }
@@ -209,32 +215,30 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     } else {
         throw Exception("unknown filetype $inputFileName")
     }
+    val startTime2 = DateHelperRelative.markNow()
     DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
+    dictWriteInitialTime += DateHelperRelative.elapsedSeconds(startTime2)
     chunc++
     outTriples.close()
     iter.close()
+    val parseTime = DateHelperRelative.elapsedSeconds(startTime)
 // merge dictionaries
     val outDictionary = DictionaryIntermediateWriter(inputFileName)
     val mapping = IntArray(dictCounter.toInt())
-
     val dictionaries = Array(chunc) { DictionaryIntermediateReader("$inputFileName.$it") }
     val dictionariesHeadBuffer = Array(chunc) { ByteArrayWrapper() }
     val dictionariesHead = Array(chunc) { dictionaries[it].next(dictionariesHeadBuffer[it]) }
-
     var buffer = ByteArrayWrapper()
     var current: ByteArrayWrapper? = null
     var currentValue = 0
-
     var changed = true
     loop@ while (changed) {
         changed = false
         for (i in 0 until chunc) {
             val d = dictionariesHead[i]
-            if (d != null) {
-                if (current == null || d.data <= current) {
-                    d.data.copyInto(buffer)
-                    current = buffer
-                }
+            if (d != null && (current == null || d.data < current)) {
+                d.data.copyInto(buffer)
+                current = buffer
             }
         }
         if (current != null) {
@@ -242,11 +246,9 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             outDictionary.writeAssumeOrdered(currentValue, current)
             for (i in 0 until chunc) {
                 val d = dictionariesHead[i]
-                if (d != null) {
-                    if (current == d.data) {
-                        mapping[d.id] = currentValue
-                        dictionariesHead[i] = dictionaries[i].next(dictionariesHeadBuffer[i])
-                    }
+                if (d != null && current == d.data) {
+                    mapping[d.id] = currentValue
+                    dictionariesHead[i] = dictionaries[i].next(dictionariesHeadBuffer[i])
                 }
             }
             currentValue++
@@ -260,6 +262,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     for (i in 0 until chunc) {
         DictionaryIntermediate.delete("$inputFileName.$i")
     }
+    val dictionaryMergeTime = DateHelperRelative.elapsedSeconds(startTime) - parseTime
     val inTriples = TriplesIntermediateReader("$inputFileName.0")
     val tripleBuf = IntArray(INTERNAL_BUFFER_SIZE / 3 * 3)
     var offset = 0
@@ -268,7 +271,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         intArrayOf(0, 1, 2), // "spo" -> "spo" -> "spo"
         intArrayOf(0, 2, 1), // "spo" -> "sop" -> "spo"
         intArrayOf(1, 0, 2), // "spo" -> "pso" -> "spo"
-        intArrayOf(1, 2, 0), // "spo" -> "pos" -> "osp"
+        intArrayOf(1, 2, 0), // "spo" -> "pos" -> "osp"//attention !!!! this is swapped
         intArrayOf(2, 0, 1), // "spo" -> "osp" -> "pos"
         intArrayOf(2, 1, 0), // "spo" -> "ops" -> "spo"
     )
@@ -276,7 +279,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         orders[0],
         orders[1],
         orders[2],
-        orders[4],
+        orders[4],// !! intentionally !! different index here
         orders[3],
         orders[5]
     )
@@ -342,16 +345,18 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             }
         }
         myCount = outTriples.getCount()
-        println("$myCount")
         outTriples.close()
         for (i in 0 until tripleBlock) {
             TriplesIntermediate.delete("$inputFileName.${orderNames[o]}.$i")
         }
     }
+    val tripleSortTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime
     File("$inputFileName$statFileEnding").withOutputStream {
         it.println("triples=$myCount")
         it.println("dictionary-entries=$currentValue")
     }
+    val totalTime = DateHelperRelative.elapsedSeconds(startTime)
+    println("timers parse=$parseTime dictWriteInitial=$dictWriteInitialTime dictionaryMerge=$dictionaryMergeTime tripleSort=$tripleSortTime total=$totalTime")
     if (false) {
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         val outputTriplesFile = File("$inputFileName.$tripleFileEnding")
