@@ -20,11 +20,14 @@ import lupos.shared.UUID_Counter
 import java.util.concurrent.Semaphore
 import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
+import kotlin.jvm.JvmField
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 public actual class MyThreadLock {
-
+    @JvmField
     public val uuid: Long = UUID_Counter.getNextUUID()
+
+    @JvmField
     public val semaphore: Semaphore = Semaphore(1)
 
     @Suppress("NOTHING_TO_INLINE")
