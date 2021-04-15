@@ -16,4 +16,4 @@
  */
 package lupos.shared
 
-public const val INTERNAL_BUFFER_SIZE: Int = 268435456
+public const val INTERNAL_BUFFER_SIZE: Int = 1073741824

@@ -21,7 +21,7 @@ import lupos.shared.INTERNAL_BUFFER_SIZE
 
 internal class MyBuf {
     @JvmField
-    internal val size = (INTERNAL_BUFFER_SIZE / 3) * 3
+    internal val size = (INTERNAL_BUFFER_SIZE / 12) * 3
 
     @JvmField
     internal var offset: Int = 0

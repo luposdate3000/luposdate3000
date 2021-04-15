@@ -36,9 +36,6 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
         val b0 = lastS xor s
         val b1 = lastP xor p
         val b2 = lastO xor o
-        lastS = s
-        lastP = p
-        lastO = o
         val counter0 = (((32 + 7 - IntegerExt.numberOfLeadingZeros(b0))) shr 3)
         val counter1 = (((32 + 7 - IntegerExt.numberOfLeadingZeros(b1))) shr 3)
         val counter2 = (((32 + 7 - IntegerExt.numberOfLeadingZeros(b2))) shr 3)
@@ -53,6 +50,9 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
             ByteArrayHelper.writeIntX(buf, rel0, b1, counter1)
             ByteArrayHelper.writeIntX(buf, rel1, b2, counter2)
             streamOut!!.write(buf, rel2)
+            lastS = s
+            lastP = p
+            lastO = o
         }
     }
 

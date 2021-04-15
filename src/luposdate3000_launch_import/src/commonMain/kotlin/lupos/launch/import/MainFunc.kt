@@ -102,6 +102,8 @@ private fun quicksort(tripleBuf: IntArray, order: IntArray, l: Int, r: Int, pivo
                 break
             }
             swap(tripleBuf, i, j)
+            i += 3
+            j -= 3
         }
         var a = i
         while (a > l && cmp(tripleBuf, order, a, pivotBuf) == 0) {
@@ -264,7 +266,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     }
     val dictionaryMergeTime = DateHelperRelative.elapsedSeconds(startTime) - parseTime
     val inTriples = TriplesIntermediateReader("$inputFileName.0")
-    val tripleBuf = IntArray(INTERNAL_BUFFER_SIZE / 3 * 3)
+    val tripleBuf = IntArray(INTERNAL_BUFFER_SIZE / 12 * 3)
     var offset = 0
     var tripleBlock = 0
     val orders = arrayOf(
@@ -314,6 +316,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     }
     inTriples.close()
     TriplesIntermediate.delete("$inputFileName.0")
+    val tripleQuickSortTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime
     var myCount = -1L
     for (o in 0 until 6) {
         val order = orders[o]
@@ -350,7 +353,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             TriplesIntermediate.delete("$inputFileName.${orderNames[o]}.$i")
         }
     }
-    val tripleSortTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime
+    val tripleMergeSortTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime - tripleQuickSortTime
     val totalTime = DateHelperRelative.elapsedSeconds(startTime)
     File("$inputFileName$statFileEnding").withOutputStream {
         it.println("triples=$myCount")
@@ -358,7 +361,8 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         it.println("parseTime=$parseTime")
         it.println("dictWriteInitialTime=$dictWriteInitialTime")
         it.println("dictionaryMergeTime=$dictionaryMergeTime")
-        it.println("tripleSortTime=$tripleSortTime")
+        it.println("tripleMergeSortTime=$tripleMergeSortTime")
+        it.println("tripleQuickSortTime=$tripleQuickSortTime")
         it.println("totalTime=$totalTime")
     }
     if (false) {
