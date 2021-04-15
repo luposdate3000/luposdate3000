@@ -351,12 +351,16 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         }
     }
     val tripleSortTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime
+    val totalTime = DateHelperRelative.elapsedSeconds(startTime)
     File("$inputFileName$statFileEnding").withOutputStream {
         it.println("triples=$myCount")
         it.println("dictionary-entries=$currentValue")
+        it.println("parseTime=$parseTime")
+        it.println("dictWriteInitialTime=$dictWriteInitialTime")
+        it.println("dictionaryMergeTime=$dictionaryMergeTime")
+        it.println("tripleSortTime=$tripleSortTime")
+        it.println("totalTime=$totalTime")
     }
-    val totalTime = DateHelperRelative.elapsedSeconds(startTime)
-    println("timers parse=$parseTime dictWriteInitial=$dictWriteInitialTime dictionaryMerge=$dictionaryMergeTime tripleSort=$tripleSortTime total=$totalTime")
     if (false) {
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         val outputTriplesFile = File("$inputFileName.$tripleFileEnding")
