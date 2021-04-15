@@ -14,18 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s05tripleStore
+package lupos.shared
 
-import kotlin.jvm.JvmField
-import lupos.shared.INTERNAL_BUFFER_SIZE
-
-internal class MyBuf {
-    @JvmField
-    internal val size = (INTERNAL_BUFFER_SIZE / 3) * 3
-
-    @JvmField
-    internal var offset: Int = 0
-
-    @JvmField
-    internal var buf = IntArray(size)
-}
+public const val INTERNAL_BUFFER_SIZE: Int = 268435456

@@ -16,6 +16,7 @@
  */
 package lupos.launch.import
 
+import lupos.shared.INTERNAL_BUFFER_SIZE
 import lupos.fileformat.DictionaryIntermediate
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.fileformat.DictionaryIntermediateWriter
@@ -260,8 +261,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         DictionaryIntermediate.delete("$inputFileName.$i")
     }
     val inTriples = TriplesIntermediateReader("$inputFileName.0")
-    val tripleBuf = IntArray(268435456)
-    val limit = (tripleBuf.size / 3) * 3
+    val tripleBuf = IntArray(INTERNAL_BUFFER_SIZE / 3 * 3)
     var offset = 0
     var tripleBlock = 0
     val orders = arrayOf(
@@ -302,7 +302,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         tripleBuf[offset + 1] = mapping[it[1]]
         tripleBuf[offset + 2] = mapping[it[2]]
         offset += 3
-        if (offset >= limit) {
+        if (offset >= tripleBuf.size) {
             sortBlockMain()
         }
     }
