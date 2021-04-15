@@ -51,10 +51,13 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     private var rootPageID: Int = -1
     private val globalManagerRootFileName = "triple_store_manager.page"
     private val keysOnHostname_: Array<MutableSet<LuposStoreKey>>
+
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun localStoresGet() = localStores_
+
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun metadataGet() = metadata_
+
     @Suppress("NOTHING_TO_INLINE")
     private inline fun toByteArray(): ByteArray {
         var size = 8
@@ -410,6 +413,20 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             store.insertAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], count)
         } else {
             store.removeAsBulk(buf, EIndexPatternHelper.tripleIndicees[idx], count)
+        }
+    }
+
+    public override fun remoteModifySorted(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream) {
+        val store = localStores_[key]!!
+        var count = stream.readInt()
+        val buf = IntArray(count)
+        for (i in 0 until count) {
+            buf[i] = stream.readInt()
+        }
+        if (mode == EModifyTypeExt.INSERT) {
+            store.insertAsBulkSorted(buf, count)
+        } else {
+            store.removeAsBulkSorted(buf, count)
         }
     }
 

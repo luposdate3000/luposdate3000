@@ -114,6 +114,10 @@ public class TripleStoreDescription(
         return TripleStoreDescriptionModifyCache(this, type)
     }
 
+    public override fun modify_create_cache_sorted(type: EModifyType, sortedBy: EIndexPattern): ITripleStoreDescriptionModifyCache {
+        return TripleStoreDescriptionModifyCache(this, type, sortedBy)
+    }
+
     public override fun modify_cache(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType, cache: ITripleStoreDescriptionModifyCache, flush: Boolean) {
         val localcache = cache as TripleStoreDescriptionModifyCache
         loop@ while (true) {
@@ -138,6 +142,35 @@ public class TripleStoreDescription(
             for (i in 0 until localcache.allBuf.size) {
                 for (bufID in 0 until localcache.allBuf[i].size) {
                     localcache.mySend(i, bufID)
+                }
+            }
+        }
+    }
+
+    public override fun modify_cache_sorted(query: IQuery, columns: Array<ColumnIterator>, type: EModifyType, cache: ITripleStoreDescriptionModifyCache, sortedBy: EIndexPattern, flush: Boolean) {
+        val localcache = cache as TripleStoreDescriptionModifyCache
+        loop@ while (true) {
+            localcache.row[0] = columns[0].next()
+            localcache.row[1] = columns[1].next()
+            localcache.row[2] = columns[2].next()
+            if (localcache.row[0] == DictionaryExt.nullValue) {
+                break@loop
+            }
+            for (i in 0 until localcache.allBuf.size) {
+                val bufID = indices[i].findPartitionFor(query, localcache.row)
+                val buf = localcache.allBuf[i][bufID]
+                if (buf.offset >= buf.size) {
+                    localcache.mySendSorted(i, bufID, sortedBy)
+                }
+                buf.buf[buf.offset++] = localcache.row[0]
+                buf.buf[buf.offset++] = localcache.row[1]
+                buf.buf[buf.offset++] = localcache.row[2]
+            }
+        }
+        if (flush) {
+            for (i in 0 until localcache.allBuf.size) {
+                for (bufID in 0 until localcache.allBuf[i].size) {
+                    localcache.mySendSorted(i, bufID, sortedBy)
                 }
             }
         }

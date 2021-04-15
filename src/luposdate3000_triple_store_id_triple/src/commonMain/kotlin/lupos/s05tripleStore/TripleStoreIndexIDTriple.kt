@@ -631,6 +631,54 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         lock.writeUnlock()
     }
 
+    override fun insertAsBulkSorted(data: IntArray, dataSize: Int) {
+        flushContinueWithWriteLock()
+        val iteratorImport = BulkImportIterator(data, dataSize, intArrayOf(0, 1, 2))
+        var iteratorStore2: TripleIterator? = null
+        if (firstLeaf == NodeManager.nodeNullPointer) {
+            iteratorStore2 = EmptyIterator()
+        } else {
+            nodeManager.getNodeLeaf(lupos.SOURCE_FILE, firstLeaf) {
+                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf, nodeManager)
+            }
+        }
+        val iteratorStore = iteratorStore2!!
+        val iterator = MergeIterator(iteratorStore, iteratorImport)
+        val oldroot = root
+        rootNode = null
+        root = NodeManager.nodeNullPointer
+        firstLeaf = NodeManager.nodeNullPointer
+        rebuildData(iterator)
+        if (oldroot != NodeManager.nodeNullPointer) {
+            nodeManager.freeNodeAndAllRelated(lupos.SOURCE_FILE, oldroot)
+        }
+        lock.writeUnlock()
+    }
+
+    override fun removeAsBulkSorted(data: IntArray, dataSize: Int) {
+        flushContinueWithWriteLock()
+        val iteratorImport = BulkImportIterator(data, dataSize, intArrayOf(1, 2, 3))
+        var iteratorStore2: TripleIterator? = null
+        if (firstLeaf == NodeManager.nodeNullPointer) {
+            iteratorStore2 = EmptyIterator()
+        } else {
+            nodeManager.getNodeLeaf(lupos.SOURCE_FILE, firstLeaf) {
+                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf, nodeManager)
+            }
+        }
+        val iteratorStore = iteratorStore2!!
+        val iterator = MinusIterator(iteratorStore, iteratorImport)
+        val oldroot = root
+        rootNode = null
+        root = NodeManager.nodeNullPointer
+        firstLeaf = NodeManager.nodeNullPointer
+        rebuildData(iterator)
+        if (oldroot != NodeManager.nodeNullPointer) {
+            nodeManager.freeNodeAndAllRelated(lupos.SOURCE_FILE, oldroot)
+        }
+        lock.writeUnlock()
+    }
+
     override fun clear() {
         flushContinueWithWriteLock()
         if (root != NodeManager.nodeNullPointer) {

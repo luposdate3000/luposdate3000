@@ -36,6 +36,7 @@ public abstract class TripleStoreManager {
     public abstract fun remoteDropGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean): Unit
     public abstract fun remoteClearGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean): Unit
     public abstract fun remoteModify(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream)
+    public abstract fun remoteModifySorted(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream)
     public abstract fun getIndexFromXML(node: XMLElement): ITripleStoreIndexDescription
     public abstract fun resetDefaultTripleStoreLayout()
     public abstract fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit)
@@ -77,4 +78,5 @@ public var tripleStoreManager: TripleStoreManager = object : TripleStoreManager(
     public override fun getIndexFromXML(node: XMLElement): ITripleStoreIndexDescription = throw Exception("not implemented")
     public override fun remoteCreateGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean, meta: String?): Unit = throw Exception("not implemented")
     public override fun remoteModify(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream): Unit = throw Exception("not implemented")
+    public override fun remoteModifySorted(query: IQuery, key: String, mode: EModifyType, idx: EIndexPattern, stream: IMyInputStream): Unit = throw Exception("not implemented")
 }

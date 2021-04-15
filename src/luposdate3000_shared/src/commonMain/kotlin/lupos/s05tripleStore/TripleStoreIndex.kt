@@ -29,6 +29,8 @@ public interface TripleStoreIndex {
     public fun getHistogram(query: IQuery, filter: IntArray): Pair<Int, Int>
     public fun insertAsBulk(data: IntArray, order: IntArray, dataSize: Int)
     public fun removeAsBulk(data: IntArray, order: IntArray, dataSize: Int)
+    public fun insertAsBulkSorted(data: IntArray, dataSize: Int)
+    public fun removeAsBulkSorted(data: IntArray, dataSize: Int)
 
     @ProguardTestAnnotation
     public fun close()

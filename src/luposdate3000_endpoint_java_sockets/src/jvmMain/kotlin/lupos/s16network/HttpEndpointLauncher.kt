@@ -396,6 +396,13 @@ public actual object HttpEndpointLauncher {
                                 val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
                                 tripleStoreManager.remoteModify(query, key, mode, idx2, connectionInMy)
                             }
+                            paths["/distributed/graph/modifysorted"] = PathMappingHelper(false, mapOf()) {
+                                val query = Query()
+                                val key = params["key"]!!
+                                val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
+                                val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
+                                tripleStoreManager.remoteModifySorted(query, key, mode, idx2, connectionInMy)
+                            }
                             paths["/debugLocalStore"] = PathMappingHelper(false, mapOf()) {
                                 tripleStoreManager.debugAllLocalStoreContent()
                                 printHeaderSuccess(connectionOutMy)

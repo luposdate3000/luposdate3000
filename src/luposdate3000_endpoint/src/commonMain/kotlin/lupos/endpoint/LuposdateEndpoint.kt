@@ -16,11 +16,11 @@
  */
 package lupos.endpoint
 
-import lupos.fileformat.TriplesIntermediateReader
 import lupos.buffermanager.BufferManagerExt
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.DictionaryHelper
 import lupos.dictionary.nodeGlobalDictionary
+import lupos.fileformat.TriplesIntermediateReader
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.distributed.query.DistributedOptimizerQuery
@@ -59,7 +59,6 @@ import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue3
 import lupos.s05tripleStore.TripleStoreManager
@@ -393,33 +392,94 @@ public object LuposdateEndpoint {
                 val dictTime = DateHelperRelative.elapsedSeconds(startTime)
                 val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
                 val arr2 = arrayOf(arr[0] as ColumnIterator, arr[1] as ColumnIterator, arr[2] as ColumnIterator)
-                val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
-                var requireMapping = false
+                var requireSorting = false
                 for (i in 1 until mappingLength) {
                     if (mapping[i] < mapping[i - 1]) {
-                        requireMapping = true
+                        println("${mapping[i]} < ${mapping[i - 1]} -> requireSorting")
+                        requireSorting = true
                         break
                     }
                 }
-                val fileTriples = TriplesIntermediateReader("$fileName.spo")
-                fileTriples.readAll { it ->
-                    if (bufPos == bufS.size) {
+                if (requireSorting) {
+                    val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
+                    val fileTriples = TriplesIntermediateReader("$fileName.spo")
+                    fileTriples.readAll { it ->
+                        if (bufPos == bufS.size) {
+                            for (i in 0 until 3) {
+                                arr[i].reset(bufPos)
+                            }
+                            store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, false)
+                            bufPos = 0
+                        }
+                        bufS[bufPos] = mapping[it[0]]
+                        bufP[bufPos] = mapping[it[1]]
+                        bufO[bufPos] = mapping[it[2]]
+                        bufPos++
+                        counter++
+                        if (counter % 10000 == 0L) {
+                            println("imported $counter triples without sorting")
+                        }
+                    }
+                    for (i in 0 until 3) {
+                        arr[i].reset(bufPos)
+                    }
+                    store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, true)
+                } else {
+                    val orders = arrayOf(
+                        intArrayOf(0, 1, 2), // "spo" -> "spo" -> "spo"
+                        intArrayOf(0, 2, 1), // "spo" -> "sop" -> "spo"
+                        intArrayOf(1, 0, 2), // "spo" -> "pso" -> "spo"
+                        intArrayOf(1, 2, 0), // "spo" -> "pos" -> "osp" !!!
+                        intArrayOf(2, 0, 1), // "spo" -> "osp" -> "pos" !!!
+                        intArrayOf(2, 1, 0), // "spo" -> "ops" -> "spo"
+                    )
+                    val ordersReverse = arrayOf(
+                        orders[0],
+                        orders[1],
+                        orders[2],
+                        orders[4], // swapped here !!!! intentionally
+                        orders[3],
+                        orders[5]
+                    )
+                    val orderNames = arrayOf("spo", "sop", "pso", "pos", "osp", "ops")
+                    val orderPatterns = arrayOf(
+                        EIndexPatternExt.SPO,
+                        EIndexPatternExt.SOP,
+                        EIndexPatternExt.PSO,
+                        EIndexPatternExt.POS,
+                        EIndexPatternExt.OSP,
+                        EIndexPatternExt.OPS,
+                    )
+                    for (o in 0 until 6) {
+                        counter = 0
+                        val order = ordersReverse[o]
+                        val orderName = orderNames[o]
+                        val sortedBy = orderPatterns[o]
+                        val cache = store.modify_create_cache_sorted(EModifyTypeExt.INSERT, sortedBy)
+                        val fileTriples = TriplesIntermediateReader("$fileName.$orderName")
+                        fileTriples.readAll { it ->
+                            if (bufPos == bufS.size) {
+                                for (i in 0 until 3) {
+                                    arr[i].reset(bufPos)
+                                }
+                                store.modify_cache_sorted(query, arr2, EModifyTypeExt.INSERT, cache, sortedBy, false)
+                                bufPos = 0
+                            }
+                            bufS[bufPos] = mapping[it[order[0]]]
+                            bufP[bufPos] = mapping[it[order[1]]]
+                            bufO[bufPos] = mapping[it[order[2]]]
+                            bufPos++
+                            counter++
+                            if (counter % 10000 == 0L) {
+                                println("imported $counter triples for index $orderName")
+                            }
+                        }
                         for (i in 0 until 3) {
                             arr[i].reset(bufPos)
                         }
-                        store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, false)
-                        bufPos = 0
+                        store.modify_cache_sorted(query, arr2, EModifyTypeExt.INSERT, cache, sortedBy, true)
                     }
-                    bufS[bufPos] = mapping[it[0]]
-                    bufP[bufPos] = mapping[it[1]]
-                    bufO[bufPos] = mapping[it[2]]
-                    bufPos++
-                    counter++
                 }
-                for (i in 0 until 3) {
-                    arr[i].reset(bufPos)
-                }
-                store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, true)
                 val totalTime = DateHelperRelative.elapsedSeconds(startTime)
                 val storeTime = totalTime - dictTime
                 println("imported file $fileName,$counter,$totalTime,$dictTime,$storeTime")
