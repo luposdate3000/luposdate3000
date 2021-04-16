@@ -46,20 +46,6 @@ internal fun helperCleanString(s: String): String {
     return res
 }
 
-private inline fun cmp(tripleBuf: IntArray, order: IntArray, a: Int, b: IntArray): Int {
-    var res = 0
-    res = tripleBuf[a + order[0]] - b[order[0]]
-    if (res != 0) {
-        return res
-    }
-    res = tripleBuf[a + order[1]] - b[order[1]]
-    if (res != 0) {
-        return res
-    }
-    res = tripleBuf[a + order[2]] - b[order[2]]
-    return res
-}
-
 private inline fun cmp(a: IntArray, b: IntArray): Int {
     var res = 0
     res = a[0] - b[0]
@@ -74,44 +60,35 @@ private inline fun cmp(a: IntArray, b: IntArray): Int {
     return res
 }
 
-private inline fun swap(tripleBuf: IntArray, a: Int, b: Int) {
-    for (i in 0 until 3) {
-        val t = tripleBuf[a + i]
-        tripleBuf[a + i] = tripleBuf[b + i]
-        tripleBuf[b + i] = t
-    }
-}
-
-private fun quicksort(tripleBuf: IntArray, order: IntArray, l: Int, r: Int, pivotBuf: IntArray) {
+private fun quicksort(l: Int, r: Int, cmp: (Int, Int) -> Int, swap: (Int, Int) -> Unit) {
     var ll = l
     var rr = r
-    if (ll < rr) {
+    while (ll < rr) {
         var i = ll
-        var j = rr
-        var pivot = (ll + rr) / 2
-        pivot = pivot - (pivot % 3)
-        pivotBuf[0] = tripleBuf[pivot]
-        pivotBuf[1] = tripleBuf[pivot + 1]
-        pivotBuf[2] = tripleBuf[pivot + 2]
+        var j = rr - 3
         while (true) {
-            while (i < rr && cmp(tripleBuf, order, i, pivotBuf) <= 0) {
+            while (i < rr && cmp(i, rr) <= 0) {
                 i += 3
             }
-            while (j > ll && cmp(tripleBuf, order, j, pivotBuf) > 0) {
+            while (j > ll && cmp(j, rr) >= 0) {
                 j -= 3
             }
             if (i >= j) {
                 break
+            } else {
+                swap(i, j)
+                i += 3
+                j -= 3
             }
-            swap(tripleBuf, i, j)
-            i += 3
-            j -= 3
         }
-        if (i - ll < rr - (i + 1)) {
-            quicksort(tripleBuf, order, i + 1, rr, pivotBuf)
-            rr = i
+        if (i < rr && cmp(i, rr) > 0) {
+            swap(i, rr)
+        }
+        if (i - ll < rr - i) {
+            quicksort(i + 1, rr, cmp, swap)
+            rr = i - 1
         } else {
-            quicksort(tripleBuf, order, ll, i, pivotBuf)
+            quicksort(ll, i - 1, cmp, swap)
             ll = i + 1
         }
     }
@@ -289,7 +266,25 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     fun sortBlockMain() {
         for (o in 0 until 6) {
             val order = orders[o]
-            quicksort(tripleBuf, order, 0, offset - 3, pivotBuf)
+            quicksort(tripleBuf, order, 0, offset - 3, pivotBuf, { a, b ->
+                var res = 0
+                res = tripleBuf[a + order[0]] - tripleBuf[b + order[0]]
+                if (res != 0) {
+                    return res
+                }
+                res = tripleBuf[a + order[1]] - tripleBuf[b + order[1]]
+                if (res != 0) {
+                    return res
+                }
+                res = tripleBuf[a + order[2]] - tripleBuf[b + order[2]]
+                return res
+            }, { a, b ->
+                for (i in 0 until 3) {
+                    val t = tripleBuf[a + i]
+                    tripleBuf[a + i] = tripleBuf[b + i]
+                    tripleBuf[b + i] = t
+                }
+            })
             val outTriples = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}.$tripleBlock")
             var i = 0
             while (i < offset) {
