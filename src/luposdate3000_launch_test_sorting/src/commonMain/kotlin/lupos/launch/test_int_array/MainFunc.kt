@@ -17,71 +17,100 @@
 package lupos.launch.test_sorting
 
 import lupos.s00misc.Parallel
+import lupos.shared.IntArrayWrapper
 import lupos.test.AflCore
-
+import kotlin.math.abs
+import kotlin.math.log2
+import kotlin.math.max
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
-    AflCore("sorting", 1.0, ::executeTest)(arg)
+    AflCore("sorting", 10000.0, ::executeTest)(arg)
 }
 
-private fun quicksort(l: Int, r: Int, cmp: (Int, Int) -> Int, swap: (Int, Int) -> Unit) {
-    var ll = l
-    var rr = r
-    while (ll < rr) {
-        var i = ll
-        var j = rr - 3
-        while (true) {
-            while (i < rr && cmp(i, rr) <= 0) {
-                i += 3
+private var data: IntArray = IntArray(0)
+private var maxdepth = 0
+
+private inline fun quicksort(l: Int, r: Int, crossinline cmp: (Int, Int) -> Int, crossinline swap: (Int, Int) -> Unit, step: Int) {
+    var stack = IntArrayWrapper()
+    stack.append(l)
+    stack.append(r)
+    while (stack.getSize() > 0) {
+        maxdepth = max(maxdepth, stack.getSize())
+        var rr = stack.removeLast()
+        var ll = stack.removeLast()
+        while (ll < rr) {
+            println(".. $ll $rr")
+            var i = ll - step
+            var j = rr
+            while (i < j) {
+                println("a")
+                i += step
+                while (i < j && cmp(i, rr) <= 0) {
+                    i += step
+                }
+                println("b")
+                j -= step
+                while (j >= i && cmp(j, rr) > 0) {
+                    j -= step
+                }
+                if (i < j) {
+                    swap(i, j)
+                }
             }
-            while (j > ll && cmp(j, rr) >= 0) {
-                j -= 3
+            println("c")
+            if (i < rr && cmp(i, rr) > 0) {
+                swap(i, rr)
             }
-            if (i >= j) {
-                break
+            if (i - ll < rr - i) {
+                stack.append(i + step)
+                stack.append(rr)
+                rr = i - step
             } else {
-                swap(i, j)
-                i += 3
-                j -= 3
+                stack.append(ll)
+                stack.append(i - step)
+                ll = i + step
             }
-        }
-        if (i < rr && cmp(i, rr) > 0) {
-            swap(i, rr)
-        }
-        if (i - ll < rr - i) {
-            quicksort(i + 1, rr, cmp, swap)
-            rr = i - 1
-        } else {
-            quicksort(ll, i - 1, cmp, swap)
-            ll = i + 1
         }
     }
 }
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
     val dataA = IntArray(hasNextRandom())
+    data = dataA
+    maxdepth = 0
     val dataB = IntArray(hasNextRandom())
     for (i in 0 until dataA.size) {
-        dataA[i] = nextRandom()
+        dataA[i] = abs(nextRandom() % (Int.MAX_VALUE / 2 - 1))
         dataB[i] = dataA[i]
     }
+    var comparisons = 0
+    var swapped = 0
     quicksort(
         l = 0,
         r = dataA.size - 1,
         cmp = { a, b ->
+            println("cmp $a $b")
+            comparisons++
             dataA[a] - dataA[b]
         },
         swap = { a, b ->
+            swapped++
             val t = dataA[a]
             dataA[a] = dataA[b]
             dataA[b] = t
         },
+        step = 1,
     )
     dataB.sort()
     for (i in 0 until dataA.size) {
         if (dataA[i] != dataB[i]) {
-            throw Exception("")
+            var res = "" + dataA[0]
+            for (i in 1 until dataA.size) {
+                res += ", ${dataA[i]}(${dataA[i] > dataA[i - 1]})"
+            }
+            throw Exception(res)
         }
     }
+    println("size=${dataA.size} maxdepth=$maxdepth comparisons=$comparisons swapped=$swapped nlogn=${(dataA.size.toDouble() * log2(dataA.size.toDouble())).toInt()}")
 }
