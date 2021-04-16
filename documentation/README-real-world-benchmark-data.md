@@ -5,19 +5,19 @@ Some of these datasets are already used in scientific publications (not all of t
 
 These datasets are not required to run the database, but can be used to evaluate your own implementations.
 
-| Dataset | Size (turtle) | Size (intermediate) | triples     |
-| :------ | ------------: | ------------------: | ----------: |
-| barton  |       9.5 GiB |             1.1 GiB |    78497317 |
-| btc2019 |      38.0 GiB |             8.5 GiB |   256059356 |
-| yago1   |       0.9 GiB |             0.4 GiB |    19012849 |
-| yago2   |       5.8 GiB |             2.0 GiB |   112824705 |
-| yago2s  |       9.5 GiB |             3.0 GiB |   171684850 |
-| yago3   |       8.5 GiB |             3.7 GiB |   138264317 |
-| yago4   |     474.0 GiB |            61.0 GiB |  2539591846 |
+| Dataset | Size (turtle) | Size (intermediate) | original triples | distinct triples | dictionary entries |
+| :------ | ------------: | ------------------: | ---------------: | ---------------: | -----------------: |
+| barton  |       9.5 GiB |           0.979 GiB |         78497317 |                  |                    |
+| btc2019 |      38.0 GiB |           8.066 GiB |        256059356 |                  |                    |
+| yago1   |       0.9 GiB |           0.595 GiB |         19012849 |         17637589 |            6932210 |
+| yago2   |       5.8 GiB |           2.316 GiB |        112824705 |                  |                    |
+| yago2s  |       9.5 GiB |           4.101 GiB |        171684850 |        147467500 |           31985485 |
+| yago3   |       8.5 GiB |           5.101 GiB |        138264317 |        119185775 |           60351293 |
+| yago4   |     474.0 GiB |          82.413 GiB |       2539591846 |       2489907579 |          569755459 |
 
-| Dataset | Size (nQuads) | Size (intermediate) | quads       |
-| :------ | ------------: | ------------------: | ----------: |
-| btc2010 |     624.0 GiB |            69.9 GiB |  3171793030 |
+| Dataset | Size (nQuads) | Size (intermediate) | original quads   | distinct triples | dictionary entries |
+| :------ | ------------: | ------------------: | ---------------: | ---------------: | -----------------: |
+| btc2010 |     624.0 GiB |          69.900 GiB      |  3171793030 |                  |                    |
 
 The size in the "intermediate" column should give you an idea how large the dataset is, when using a dictionary.
 These intermediate files are generated using "./launcher.main.kts --run --mainClass=Import --runArgument_Luposdate3000_Launch_Import:inputFileName=turtle-file-name.nt"

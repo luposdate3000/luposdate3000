@@ -83,19 +83,21 @@ private inline fun swap(tripleBuf: IntArray, a: Int, b: Int) {
 }
 
 private fun quicksort(tripleBuf: IntArray, order: IntArray, l: Int, r: Int, pivotBuf: IntArray) {
-    if (l < r) {
-        var i = l
-        var j = r
-        var pivot = (l + r) / 2
+    var ll = l
+    var rr = r
+    if (ll < rr) {
+        var i = ll
+        var j = rr
+        var pivot = (ll + rr) / 2
         pivot = pivot - (pivot % 3)
         pivotBuf[0] = tripleBuf[pivot]
         pivotBuf[1] = tripleBuf[pivot + 1]
         pivotBuf[2] = tripleBuf[pivot + 2]
         while (true) {
-            while (i < r && cmp(tripleBuf, order, i, pivotBuf) < 0) {
+            while (i < rr && cmp(tripleBuf, order, i, pivotBuf) <= 0) {
                 i += 3
             }
-            while (j > l && cmp(tripleBuf, order, j, pivotBuf) > 0) {
+            while (j > ll && cmp(tripleBuf, order, j, pivotBuf) > 0) {
                 j -= 3
             }
             if (i >= j) {
@@ -105,16 +107,13 @@ private fun quicksort(tripleBuf: IntArray, order: IntArray, l: Int, r: Int, pivo
             i += 3
             j -= 3
         }
-        var a = i
-        while (a > l && cmp(tripleBuf, order, a, pivotBuf) == 0) {
-            a -= 3
+        if (i - ll < rr - (i + 1)) {
+            quicksort(tripleBuf, order, i + 1, rr, pivotBuf)
+            rr = i
+        } else {
+            quicksort(tripleBuf, order, ll, i, pivotBuf)
+            ll = i + 1
         }
-        quicksort(tripleBuf, order, l, a, pivotBuf)
-        a = i
-        while (a < r && cmp(tripleBuf, order, a, pivotBuf) == 0) {
-            a += 3
-        }
-        quicksort(tripleBuf, order, a, r, pivotBuf)
     }
 }
 
@@ -281,7 +280,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         orders[0],
         orders[1],
         orders[2],
-        orders[4],// !! intentionally !! different index here
+        orders[4], // !! intentionally !! different index here
         orders[3],
         orders[5]
     )
