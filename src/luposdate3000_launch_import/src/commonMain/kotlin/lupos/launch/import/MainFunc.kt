@@ -68,7 +68,11 @@ private inline fun quicksort(l: Int, r: Int, crossinline cmp: (Int, Int) -> Int,
         var rr = stack[--stackSize]
         var ll = stack[--stackSize]
         while (ll < rr) {
-            println("quicksort $ll $rr")
+            if (rr - ll > 20) {
+//                println("quicksort $ll $rr")
+                val m = (ll + rr) / 2 / step
+                swap(m * step, rr)
+            }
             var i = ll - step
             var j = rr
             while (i < j) {
