@@ -60,36 +60,40 @@ private inline fun cmp(a: IntArray, b: IntArray): Int {
     return res
 }
 
-private fun quicksort(l: Int, r: Int, cmp: (Int, Int) -> Int, swap: (Int, Int) -> Unit) {
-    var ll = l
-    var rr = r
-    while (ll < rr) {
-        var i = ll
-        var j = rr - 3
-        while (true) {
-            while (i < rr && cmp(i, rr) <= 0) {
-                i += 3
+private inline fun quicksort(l: Int, r: Int, crossinline cmp: (Int, Int) -> Int, crossinline swap: (Int, Int) -> Unit, step: Int, stack: IntArray) {
+    var stackSize = 0
+    stack[stackSize++] = l
+    stack[stackSize++] = r
+    while (stackSize > 0) {
+        var rr = stack[--stackSize]
+        var ll = stack[--stackSize]
+        while (ll < rr) {
+            println("quicksort $ll $rr")
+            var i = ll - step
+            var j = rr
+            while (i < j) {
+                i += step
+                while (i < j && cmp(i, rr) <= 0) {
+                    i += step
+                }
+                j -= step
+                while (j > i && cmp(j, rr) > 0) {
+                    j -= step
+                }
+                if (i < j) {
+                    swap(i, j)
+                }
             }
-            while (j > ll && cmp(j, rr) >= 0) {
-                j -= 3
-            }
-            if (i >= j) {
-                break
-            } else {
-                swap(i, j)
-                i += 3
-                j -= 3
-            }
-        }
-        if (i < rr && cmp(i, rr) > 0) {
             swap(i, rr)
-        }
-        if (i - ll < rr - i) {
-            quicksort(i + 1, rr, cmp, swap)
-            rr = i - 1
-        } else {
-            quicksort(ll, i - 1, cmp, swap)
-            ll = i + 1
+            if (i - ll < rr - i) {
+                stack[stackSize++] = i + step
+                stack[stackSize++] = rr
+                rr = i - step
+            } else {
+                stack[stackSize++] = ll
+                stack[stackSize++] = i - step
+                ll = i + step
+            }
         }
     }
 }
@@ -263,28 +267,33 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     )
     val orderNames = arrayOf("spo", "sop", "pso", "pos", "osp", "ops")
     val pivotBuf = IntArray(3)
+    val stack = IntArray(128)
     fun sortBlockMain() {
         for (o in 0 until 6) {
             val order = orders[o]
-            quicksort(tripleBuf, order, 0, offset - 3, pivotBuf, { a, b ->
-                var res = 0
-                res = tripleBuf[a + order[0]] - tripleBuf[b + order[0]]
-                if (res != 0) {
-                    return res
-                }
-                res = tripleBuf[a + order[1]] - tripleBuf[b + order[1]]
-                if (res != 0) {
-                    return res
-                }
-                res = tripleBuf[a + order[2]] - tripleBuf[b + order[2]]
-                return res
-            }, { a, b ->
-                for (i in 0 until 3) {
-                    val t = tripleBuf[a + i]
-                    tripleBuf[a + i] = tripleBuf[b + i]
-                    tripleBuf[b + i] = t
-                }
-            })
+            quicksort(
+                l = 0,
+                r = offset - 3,
+                cmp = { a, b ->
+                    var res = tripleBuf[a + order[0]] - tripleBuf[b + order[0]]
+                    if (res == 0) {
+                        res = tripleBuf[a + order[1]] - tripleBuf[b + order[1]]
+                        if (res == 0) {
+                            res = tripleBuf[a + order[2]] - tripleBuf[b + order[2]]
+                        }
+                    }
+                    res
+                },
+                swap = { a, b ->
+                    for (i in 0 until 3) {
+                        val t = tripleBuf[a + i]
+                        tripleBuf[a + i] = tripleBuf[b + i]
+                        tripleBuf[b + i] = t
+                    }
+                },
+                step = 3,
+                stack = stack,
+            )
             val outTriples = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}.$tripleBlock")
             var i = 0
             while (i < offset) {
