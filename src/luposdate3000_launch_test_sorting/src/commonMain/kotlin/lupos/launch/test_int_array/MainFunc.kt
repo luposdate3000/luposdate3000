@@ -26,7 +26,7 @@ import kotlin.math.min
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
-    AflCore("sorting", 10000.0, ::executeTest)(arg)
+    AflCore("sorting", 10000000.0, ::executeTest)(arg)
 }
 
 private var data1: IntArray = IntArray(0)
@@ -189,14 +189,17 @@ private inline fun quicksort(l: Int, r: Int, crossinline cmp: (Int, Int) -> Int,
 }
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
-    val dataA = IntArray(hasNextRandom())
-    val dataB = IntArray(hasNextRandom())
+    val step = 2
+    var thesize = hasNextRandom()
+    thesize = thesize - (thesize % step)
+    val dataA = IntArray(thesize)
+    val dataB = IntArray(thesize)
     data1 = dataA
     data2 = dataB
     var comparisons = 0L
     var swapped = 0L
     val algorithms = arrayOf(
-        Pair(
+/*        Pair(
             "quicksort ",
             {
                 quicksort(
@@ -241,6 +244,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 )
             }
         ),
+  */
         Pair(
             "mergesort2",
             {
@@ -262,7 +266,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                         comparisons++
                         dataB[i] - dataB[j]
                     },
-                    step = 1,
+                    step = step,
                 )
             }
         ),
@@ -272,8 +276,13 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         for (sorted in 0 until 2) {
             val algorithm = algorithms[ai]
             resetRandom()
-            for (i in 0 until dataA.size) {
+            var i = 0
+            while (i < dataA.size) {
                 dataA[i] = abs(nextRandom() % (Int.MAX_VALUE / 2 - 1))
+                for (j in 1 until step) {
+                    dataA[i + j] = dataA[i]
+                }
+                i += step
             }
             if (sorted == 1) {
                 dataA.sort()
@@ -284,11 +293,17 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             algorithm.second()
             val time = DateHelperRelative.elapsedSeconds(startTime)
             resetRandom()
-            for (i in 0 until dataA.size) {
+            i = 0
+            while (i < dataA.size) {
                 dataB[i] = abs(nextRandom() % (Int.MAX_VALUE / 2 - 1))
+                for (j in 1 until step) {
+                    dataB[i + j] = dataB[i]
+                }
+                i += step
             }
             dataB.sort()
-            for (i in 0 until dataA.size) {
+            i = 0
+            while (i < dataA.size) {
                 if (dataA[i] != dataB[i]) {
                     var res = "" + dataA[0]
                     for (i in 1 until dataA.size) {
@@ -296,6 +311,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                     }
                     throw Exception(res)
                 }
+                i += step
             }
             val n_log_n = dataA.size * log2(dataA.size.toDouble()).toLong()
             val n_times_n = dataA.size.toLong() * dataA.size.toLong()
