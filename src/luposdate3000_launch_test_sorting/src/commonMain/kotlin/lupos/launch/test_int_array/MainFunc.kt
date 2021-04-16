@@ -58,10 +58,8 @@ private inline fun quicksort(l: Int, r: Int, crossinline cmp: (Int, Int) -> Int,
                     swap(i, j)
                 }
             }
-            println("c")
-            if (i < rr && cmp(i, rr) > 0) {
-                swap(i, rr)
-            }
+            println("c $i $j")
+            swap(i, rr)
             if (i - ll < rr - i) {
                 stack.append(i + step)
                 stack.append(rr)
@@ -95,6 +93,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             dataA[a] - dataA[b]
         },
         swap = { a, b ->
+            println("swap $a $b")
             swapped++
             val t = dataA[a]
             dataA[a] = dataA[b]
