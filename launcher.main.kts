@@ -30,9 +30,9 @@
 @file:CompilerOptions("-Xmulti-platform")
 
 import lupos.dictionary.EDictionaryTypeExt
-import lupos.modulename.Platform
 import lupos.s00misc.EOperatingSystemExt
 import lupos.s00misc.EPartitionModeExt
+import lupos.shared_inline.Platform
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
