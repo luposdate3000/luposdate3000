@@ -940,13 +940,21 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         }
         var configFile: String
         if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
-            configFile = "src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc${pathSeparator}Config-${moduleArgs.moduleName}.kt"
+            val configPath = "src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc"
+            configFile = "${configPath}${pathSeparator}Config-${moduleArgs.moduleName}.kt"
+            if (moduleArgs.codegenKAPT || moduleArgs.codegenKSP) {
+                File("${configPath}${pathSeparator}SharedInlineHelper-${moduleArgs.moduleName}.kt").printWriter().use { out ->
+                    out.println("package lupos.shared_inline")
+                    for (s in sharedInlineReferences) {
+                        out.println("internal typealias $s = lupos.${moduleArgs.moduleName}.$s")
+                    }
+                }
+            }
         } else {
             var configPathBase = "src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleArgs.moduleFolder}${pathSeparator}src"
             var configPath = "${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc"
             File(configPath).mkdirs()
             configFile = "${configPath}${pathSeparator}Config-${moduleArgs.moduleName}.kt"
-
             File("${configPath}${pathSeparator}SharedInlineHelper-${moduleArgs.moduleName}.kt").printWriter().use { out ->
                 out.println("package lupos.shared_inline")
                 for (s in sharedInlineReferences) {

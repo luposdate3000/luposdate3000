@@ -16,3 +16,4 @@ luposdate3000:Luposdate3000_Optimizer_Logical:0.0.1
 luposdate3000:Luposdate3000_Optimizer_Physical:0.0.1
 luposdate3000:Luposdate3000_Optimizer_Distributed_Query:0.0.1
 luposdate3000:Luposdate3000_Triple_Store_Id_Triple:0.0.1
+luposdate3000:Luposdate3000_Code_Generator_KAPT:0.0.1
