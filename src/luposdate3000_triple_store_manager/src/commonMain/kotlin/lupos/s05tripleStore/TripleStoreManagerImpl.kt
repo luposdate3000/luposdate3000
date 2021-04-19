@@ -39,18 +39,26 @@ import kotlin.jvm.JvmField
 import kotlin.math.min
 
 public class TripleStoreManagerImpl : TripleStoreManager {
-    private var hostnames: Array<LuposHostname>
+    @JvmField
+    internal var hostnames: Array<LuposHostname>
 
     @JvmField
     internal var localhost: LuposHostname
-    private val partitionMode: EPartitionMode
-    private var bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
-    private val localStores_ = mutableMapOf<LuposStoreKey, TripleStoreIndex>()
-    private val metadata_ = mutableMapOf<LuposGraphName, TripleStoreDescription>()
+    @JvmField
+    internal val partitionMode: EPartitionMode
+    @JvmField
+    internal var bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
+    @JvmField
+    internal val localStores_ = mutableMapOf<LuposStoreKey, TripleStoreIndex>()
+    @JvmField
+    internal val metadata_ = mutableMapOf<LuposGraphName, TripleStoreDescription>()
     private lateinit var defaultTripleStoreLayout: TripleStoreDescriptionFactory
-    private var rootPageID: Int = -1
-    private val globalManagerRootFileName = "triple_store_manager.page"
-    private val keysOnHostname_: Array<MutableSet<LuposStoreKey>>
+    @JvmField
+    internal var rootPageID: Int = -1
+    @JvmField
+    internal val globalManagerRootFileName = "triple_store_manager.page"
+    @JvmField
+    internal val keysOnHostname_: Array<MutableSet<LuposStoreKey>>
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun localStoresGet() = localStores_

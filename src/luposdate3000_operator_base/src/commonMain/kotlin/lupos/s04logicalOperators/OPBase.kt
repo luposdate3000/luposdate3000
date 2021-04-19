@@ -42,7 +42,7 @@ public abstract class OPBase public constructor(
     @JvmField public val operatorID: EOperatorID,
     @JvmField public val classname: String,
     @JvmField public val children: Array<IOPBase>,
-    private val sortPriority: ESortPriority
+    @JvmField internal val sortPriority: ESortPriority
 ) : IOPBase {
     override fun getClassname(): String = classname
 

@@ -51,7 +51,6 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
 
     @JvmField
     internal var flagrN = false
-
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun clear() {
         outBuffer.clear()
@@ -197,6 +196,57 @@ internal inline fun parse_ws(
         onSKIP_WS()
         return
     }
+    throw ParserExceptionUnexpectedChar(context)
+}
+
+internal inline fun parse_ws_forced(
+    context: ParserContext,
+    crossinline onSKIP_WS_FORCED: () -> Unit
+) {
+    context.clear()
+    error@ while (true) {
+        val localswitch1 = parse_ws_forced_helper_0(context.c)
+        when (localswitch1) {
+            0 -> {
+                context.append()
+                loop3@ while (true) {
+                    when (context.c) {
+                        0x9, 0xa, 0xd, 0x20 -> {
+                            context.append()
+                        }
+                        else -> {
+                            break@loop3
+                        }
+                    }
+                }
+                onSKIP_WS_FORCED()
+                return
+            }
+            else -> {
+                break@error
+            }
+        }
+    }
+    throw ParserExceptionUnexpectedChar(context)
+}
+
+@Suppress("NOTHING_TO_INLINE")
+internal inline fun parse_ws_forced_helper_0(c: Int): Int {
+    if (c < 0x9) {
+        return 1
+    } else if (c <= 0xa) {
+        return 0
+    } else if (c < 0xd) {
+        return 1
+    } else if (c <= 0xd) {
+        return 0
+    } else if (c < 0x20) {
+        return 1
+    } else if (c <= 0x20) {
+        return 0
+    } else {
+        return 1
+    }
 }
 
 internal inline fun parse_element_start(
@@ -221,7 +271,7 @@ internal inline fun parse_element_start(
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_element_start_helper_0(c: Int): Int {
+internal inline fun parse_element_start_helper_0(c: Int): Int {
     if (c == 0x3c) {
         return 0
     } else {
@@ -267,7 +317,7 @@ internal inline fun parse_element_tag_or_immediate_close_char(
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_element_tag_or_immediate_close_char_helper_0(c: Int): Int {
+internal inline fun parse_element_tag_or_immediate_close_char_helper_0(c: Int): Int {
     if (c < 0x2f) {
         return 2
     } else if (c <= 0x2f) {
@@ -317,7 +367,7 @@ internal inline fun parse_element_tag(
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_element_tag_helper_0(c: Int): Int {
+internal inline fun parse_element_tag_helper_0(c: Int): Int {
     if (c < 0x41) {
         return 1
     } else if (c <= 0x5a) {
@@ -353,7 +403,7 @@ internal inline fun parse_element_close(
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_element_close_helper_0(c: Int): Int {
+internal inline fun parse_element_close_helper_0(c: Int): Int {
     if (c == 0x3e) {
         return 0
     } else {
@@ -414,7 +464,7 @@ internal inline fun parse_attribute_or_close_tag(
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_attribute_or_close_tag_helper_0(c: Int): Int {
+internal inline fun parse_attribute_or_close_tag_helper_0(c: Int): Int {
     if (c < 0x2f) {
         return 3
     } else if (c <= 0x2f) {
@@ -437,7 +487,7 @@ private inline fun parse_attribute_or_close_tag_helper_0(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_attribute_or_close_tag_helper_1(c: Int): Int {
+internal inline fun parse_attribute_or_close_tag_helper_1(c: Int): Int {
     if (c == 0x3e) {
         return 0
     } else {
@@ -467,7 +517,7 @@ internal inline fun parse_attribute_assinment(
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_attribute_assinment_helper_0(c: Int): Int {
+internal inline fun parse_attribute_assinment_helper_0(c: Int): Int {
     if (c == 0x3d) {
         return 0
     } else {
@@ -516,7 +566,7 @@ internal inline fun parse_attribute_value(
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_attribute_value_helper_0(c: Int): Int {
+internal inline fun parse_attribute_value_helper_0(c: Int): Int {
     if (c == 0x22) {
         return 0
     } else {
@@ -559,10 +609,11 @@ internal inline fun parse_content_or_child(
             }
         }
     }
+    throw ParserExceptionUnexpectedChar(context)
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_content_or_child_helper_0(c: Int): Int {
+internal inline fun parse_content_or_child_helper_0(c: Int): Int {
     if (c <= 0x3b) {
         return 0
     } else if (c < 0x3c) {

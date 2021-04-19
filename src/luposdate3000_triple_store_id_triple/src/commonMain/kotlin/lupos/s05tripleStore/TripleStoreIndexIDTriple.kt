@@ -43,8 +43,10 @@ import lupos.shared_inline.BufferManagerPage
 import kotlin.jvm.JvmField
 
 public class TripleStoreIndexIDTriple : TripleStoreIndex {
-    private val bufferManager: BufferManager
-    private val rootPageID: Int
+    @JvmField
+    internal val bufferManager: BufferManager
+    @JvmField
+    internal val rootPageID: Int
     public override fun getRootPageID(): Int = rootPageID
 
     public constructor(rootPageID: Int, initFromRootPage: Boolean) : this(BufferManagerExt.getBuffermanager("stores"), rootPageID, initFromRootPage)
@@ -83,10 +85,13 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
     }
 
-    private val nodeManager: NodeManager
+    @JvmField
+    internal val nodeManager: NodeManager
 
-    private var firstLeaf_: Int = NodeManager.nodeNullPointer
-    private var firstLeaf: Int
+    @JvmField
+    internal var firstLeaf_: Int = NodeManager.nodeNullPointer
+    @JvmField
+    internal var firstLeaf: Int
         set(value) {
             val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
             BufferManagerPage.writeInt4(rootPage, 16, value)
@@ -96,8 +101,10 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         }
         get() = firstLeaf_
 
-    private var root_: Int = NodeManager.nodeNullPointer
-    private var root: Int
+    @JvmField
+    internal var root_: Int = NodeManager.nodeNullPointer
+    @JvmField
+    internal var root: Int
         set(value) {
             val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
             BufferManagerPage.writeInt4(rootPage, 4, value)
@@ -107,8 +114,10 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         }
         get() = root_
 
-    private var countPrimary_: Int = 0
-    private var countPrimary: Int
+    @JvmField
+    internal var countPrimary_: Int = 0
+    @JvmField
+    internal var countPrimary: Int
         set(value) {
             val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
             BufferManagerPage.writeInt4(rootPage, 8, value)
@@ -118,8 +127,10 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         }
         get() = countPrimary_
 
-    private var distinctPrimary_: Int = 0
-    private var distinctPrimary: Int
+    @JvmField
+    internal var distinctPrimary_: Int = 0
+    @JvmField
+    internal var distinctPrimary: Int
         set(value) {
             val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
             BufferManagerPage.writeInt4(rootPage, 12, value)
@@ -129,24 +140,32 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         }
         get() = distinctPrimary_
 
-    private var rootNode: ByteArray? = null
+    @JvmField
+    internal var rootNode: ByteArray? = null
 
-    private var pendingImport: MutableList<Int?> = mutableListOf()
+    @JvmField
+    internal var pendingImport: MutableList<Int?> = mutableListOf()
 
     @JvmField
     internal var lock = MyReadWriteLock()
 
-    private var cachedHistograms1Size: Int = 0
+    @JvmField
+    internal var cachedHistograms1Size: Int = 0
 
-    private var cachedHistograms1Cursor: Int = 0
+    @JvmField
+    internal var cachedHistograms1Cursor: Int = 0
 
-    private val cachedHistograms1: IntArray = IntArray(300)
+    @JvmField
+    internal val cachedHistograms1: IntArray = IntArray(300)
 
-    private var cachedHistograms2Size: Int = 0
+    @JvmField
+    internal var cachedHistograms2Size: Int = 0
 
-    private var cachedHistograms2Cursor: Int = 0
+    @JvmField
+    internal var cachedHistograms2Cursor: Int = 0
 
-    private val cachedHistograms2: IntArray = IntArray(400)
+    @JvmField
+    internal val cachedHistograms2: IntArray = IntArray(400)
 
     @Suppress("NOTHING_TO_INLINE")
     private inline fun clearCachedHistogram() {

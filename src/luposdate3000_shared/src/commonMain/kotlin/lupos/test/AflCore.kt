@@ -23,7 +23,7 @@ import kotlin.math.abs
 import kotlin.math.min
 import kotlin.math.pow
 
-public class AflCore(private val testname: String, private val maxlen_multiplicator: Double, private val executeTest: (() -> Int, () -> Int, () -> Unit) -> Unit) {
+public class AflCore(@JvmField internal val testname: String, @JvmField internal val maxlen_multiplicator: Double, @JvmField internal val executeTest: (() -> Int, () -> Int, () -> Unit) -> Unit) {
     private class MyRandom(var seed: Long) {
         val bits = 32
         fun nextInt(): Int {

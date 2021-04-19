@@ -25,11 +25,16 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
         streamOut = File("$filename$filenameEnding").openOutputStream(false)
     }
 
-    private var count = 0L
-    private var lastS: Int = 0
-    private var lastP: Int = 0
-    private var lastO: Int = 0
-    private val buf: ByteArray = ByteArray(13)
+    @JvmField
+    internal var count = 0L
+    @JvmField
+    internal var lastS: Int = 0
+    @JvmField
+    internal var lastP: Int = 0
+    @JvmField
+    internal var lastO: Int = 0
+    @JvmField
+    internal val buf: ByteArray = ByteArray(13)
     public fun getCount(): Long = count
     public fun write(s: Int, p: Int, o: Int) {
         val b0 = lastS xor s

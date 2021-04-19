@@ -35,7 +35,8 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
     internal val hostnames = Array<LuposHostname>(partitionCount) { "" }
     internal val keys = Array<LuposStoreKey>(partitionCount) { "" }
     internal val key_size: Int
-    private var byteArray: ByteArray? = null
+    @JvmField
+    internal var byteArray: ByteArray? = null
     override fun toByteArray(): ByteArray {
         if (byteArray != null) {
             return byteArray!!

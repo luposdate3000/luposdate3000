@@ -23,8 +23,10 @@ public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
         buf = b
     }
 
-    private var buf = ByteArray(0)
-    private var size = 0
+    @JvmField
+    internal var buf = ByteArray(0)
+    @JvmField
+    internal var size = 0
     public fun setSize(c: Int) {
         size = c
         if (c > buf.size) {

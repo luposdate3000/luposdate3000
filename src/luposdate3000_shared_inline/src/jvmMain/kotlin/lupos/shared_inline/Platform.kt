@@ -88,7 +88,8 @@ internal actual object Platform {
         return getEnv("LUPOS_RAM", "50")!!.toInt()
     }
 
-    private var shutdownhock: () -> Unit = {}
+    @JvmField
+    internal var shutdownhock: () -> Unit = {}
 
     init {
         println("init shutdown hook")

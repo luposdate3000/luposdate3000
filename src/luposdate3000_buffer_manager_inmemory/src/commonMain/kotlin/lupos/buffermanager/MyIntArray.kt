@@ -23,9 +23,11 @@ import kotlin.jvm.JvmField
 import kotlin.math.max
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
-public class MyIntArray internal constructor(@JvmField private val filename: String, initialize: Boolean) {
-    private var bufferManager: BufferManager? = null
-    private var bufferManagerPage: Int? = null
+public class MyIntArray internal constructor(@JvmField @JvmField internal val filename: String, initialize: Boolean) {
+    @JvmField
+    internal var bufferManager: BufferManager? = null
+    @JvmField
+    internal var bufferManagerPage: Int? = null
 
     public constructor(bufferManager: BufferManager, id: Int, initialize: Boolean) : this("", initialize) {
         this.bufferManager = bufferManager
@@ -33,10 +35,14 @@ public class MyIntArray internal constructor(@JvmField private val filename: Str
     }
 
     @ProguardTestAnnotation
-    private var closed = false
-    private val lock = MyReadWriteLock()
-    private var data = IntArray(0)
-    private var _size = 0
+    @JvmField
+    internal var closed = false
+    @JvmField
+    internal val lock = MyReadWriteLock()
+    @JvmField
+    internal var data = IntArray(0)
+    @JvmField
+    internal var _size = 0
     public fun getSize(): Int = _size
 
     public operator fun get(idx: Int): Int {

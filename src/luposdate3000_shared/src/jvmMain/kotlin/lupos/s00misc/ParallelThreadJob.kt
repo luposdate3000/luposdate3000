@@ -17,7 +17,8 @@
 package lupos.s00misc
 
 public actual class ParallelThreadJob(action: () -> Unit) {
-    private val myThread = Thread { action() }
+    @JvmField
+    internal val myThread = Thread { action() }
     public actual fun join(): Unit = myThread.join()
     public actual fun start(): Unit = myThread.start()
 }

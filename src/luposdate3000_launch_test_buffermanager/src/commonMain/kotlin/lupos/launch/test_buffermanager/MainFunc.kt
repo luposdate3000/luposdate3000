@@ -23,7 +23,8 @@ import lupos.shared_inline.BufferManagerPage
 import lupos.test.AflCore
 import kotlin.math.abs
 
-private val verbose = false
+@JvmField
+internal val verbose = false
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {

@@ -33,10 +33,12 @@ import lupos.test.AflCore
 import kotlin.math.abs
 import kotlin.math.max
 
-private val verbose = false
+@JvmField
+internal val verbose = false
 
-// private val maxSize = 16
-private val maxSize = 16384
+// @JvmField internal val maxSize = 16
+@JvmField
+internal val maxSize = 16384
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {

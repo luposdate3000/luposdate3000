@@ -29,9 +29,12 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
     AflCore("sorting", 10000000.0, ::executeTest)(arg)
 }
 
-private var data1: IntArray = IntArray(0)
-private var data2: IntArray = IntArray(0)
-private val stack = IntArray(128)
+@JvmField
+internal var data1: IntArray = IntArray(0)
+@JvmField
+internal var data2: IntArray = IntArray(0)
+@JvmField
+internal val stack = IntArray(128)
 
 private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, crossinline copyAToB: (Int, Int) -> Unit, crossinline cmpAtoA: (Int, Int) -> Int, crossinline cmpBtoB: (Int, Int) -> Int, step: Int) {
     var size = 1

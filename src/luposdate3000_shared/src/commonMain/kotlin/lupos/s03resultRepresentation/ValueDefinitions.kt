@@ -219,8 +219,10 @@ public class ValueBnode(@JvmField public var value: String) : ValueDefinition() 
 
 public class ValueBoolean(@JvmField public var value: Boolean, x: Boolean) : ValueDefinition() {
     public companion object {
-        private val localTrue = ValueBoolean(true, true)
-        private val localFalse = ValueBoolean(false, true)
+        @JvmField
+        internal val localTrue = ValueBoolean(true, true)
+        @JvmField
+        internal val localFalse = ValueBoolean(false, true)
         public operator fun invoke(value: Boolean): ValueBoolean {
             return if (value) {
                 localTrue

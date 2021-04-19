@@ -21,7 +21,8 @@ import lupos.shared.UUID_Counter
 
 public actual class MyThreadLock {
 
-    private val uuid = UUID_Counter.getNextUUID()
+    @JvmField
+    internal val uuid = UUID_Counter.getNextUUID()
     public actual inline fun getUUID(): Long = uuid
     public actual inline fun lock() {
         throw NotImplementedException("MyThreadLock", "lock not implemented")

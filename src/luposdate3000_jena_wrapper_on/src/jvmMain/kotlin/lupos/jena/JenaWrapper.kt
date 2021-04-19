@@ -29,7 +29,8 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 
 public object JenaWrapper {
-    private var dataset = DatasetFactory.createTxnMem()!!
+    @JvmField
+    internal var dataset = DatasetFactory.createTxnMem()!!
     public fun dropAll() {
         updateQuery("DROP SILENT ALL")
     }

@@ -60,8 +60,10 @@ import lupos.shared_inline.File
 import lupos.shared_inline.MyPrintWriter
 
 public object BinaryTestCase {
-    private var outSummary: IMyOutputStream = MyPrintWriter(false)
-    private var lastInput = MemoryTable(Array(0) { "" })
+    @JvmField
+    internal var outSummary: IMyOutputStream = MyPrintWriter(false)
+    @JvmField
+    internal var lastInput = MemoryTable(Array(0) { "" })
     private fun rowToString(row: IntArray, dict: Array<String>): String {
         var res = "${row.map { it }}::"
         if (row.isNotEmpty()) {
@@ -292,7 +294,8 @@ public object BinaryTestCase {
         return res
     }
 
-    private var notImplementedFeaturesList = mutableSetOf( //
+    @JvmField
+    internal var notImplementedFeaturesList = mutableSetOf( //
         "rdfs:subPropertyOf", //
         "rdfs:subClassOf", //
         "rdfs:domain", //

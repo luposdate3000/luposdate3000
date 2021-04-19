@@ -30,12 +30,18 @@ import lupos.shared_inline.File
 import lupos.vk.ValueKeyStore
 
 public class DictionaryKV : ADictionary {
-    private val bufferManager: BufferManager
-    private val kv: KeyValueStore
-    private val vk: ValueKeyStore
-    private var bNodeCounter = 5
-    private val rootPageID: Int
-    private val rootPage: ByteArray
+    @JvmField
+    internal val bufferManager: BufferManager
+    @JvmField
+    internal val kv: KeyValueStore
+    @JvmField
+    internal val vk: ValueKeyStore
+    @JvmField
+    internal var bNodeCounter = 5
+    @JvmField
+    internal val rootPageID: Int
+    @JvmField
+    internal val rootPage: ByteArray
     public override fun close() {
         kv.close()
         vk.close()

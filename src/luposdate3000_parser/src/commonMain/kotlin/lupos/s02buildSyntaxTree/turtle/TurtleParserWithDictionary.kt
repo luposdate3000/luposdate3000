@@ -24,22 +24,36 @@ import kotlin.jvm.JvmField
 
 public class TurtleParserWithDictionary(@JvmField public val consume_triple: (Long, Long, Long) -> Unit, @JvmField public val ltit: LookAheadTokenIterator) {
     // for storing the prefixes...
-    private val prefixes = mutableMapOf<String, String>()
+    @JvmField
+    internal val prefixes = mutableMapOf<String, String>()
 
     // some constants used for typed literals
-    private val xsd = "http://www.w3.org/2001/XMLSchema#"
-    private val xsd_boolean = xsd + "boolean"
-    private val xsd_integer = xsd + "integer"
-    private val xsd_decimal = xsd + "decimal"
-    private val xsd_double = xsd + "double"
-    private val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    private val nil = rdf + "nil"
-    private val first: String = rdf + "first"
-    private val rest = rdf + "rest"
-    private val nil_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(nil)
-    private val first_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(first)
-    private val rest_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(rest)
-    private val type_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(rdf + "type")
+    @JvmField
+    internal val xsd = "http://www.w3.org/2001/XMLSchema#"
+    @JvmField
+    internal val xsd_boolean = xsd + "boolean"
+    @JvmField
+    internal val xsd_integer = xsd + "integer"
+    @JvmField
+    internal val xsd_decimal = xsd + "decimal"
+    @JvmField
+    internal val xsd_double = xsd + "double"
+    @JvmField
+    internal val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    @JvmField
+    internal val nil = rdf + "nil"
+    @JvmField
+    internal val first: String = rdf + "first"
+    @JvmField
+    internal val rest = rdf + "rest"
+    @JvmField
+    internal val nil_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(nil)
+    @JvmField
+    internal val first_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(first)
+    @JvmField
+    internal val rest_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(rest)
+    @JvmField
+    internal val type_iri = lupos.s02buildSyntaxTree.rdf.Dictionary.IRI(rdf + "type")
     public fun parse() {
         var t1 = ltit.lookahead()
         while (t1.image == "@prefix" || t1.image == "@base" || t1.image == "PREFIX" || t1.image == "BASE" || t1 is IRI || t1 is PNAME_LN || t1 is PNAME_NS || t1 is BNODE || t1 is ANON_BNODE || t1.image == "(" || t1.image == "[") {

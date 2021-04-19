@@ -33,10 +33,14 @@ public class ValueKeyStore {
         internal const val MIN_BRANCHING: Int = 10
     }
 
-    private val rootPageID: Int
-    private val bufferManager: BufferManager
-    private var firstInnerID = ValueKeyStore.PAGEID_NULL_PTR
-    private var firstLeafID = ValueKeyStore.PAGEID_NULL_PTR
+    @JvmField
+    internal val rootPageID: Int
+    @JvmField
+    internal val bufferManager: BufferManager
+    @JvmField
+    internal var firstInnerID = ValueKeyStore.PAGEID_NULL_PTR
+    @JvmField
+    internal var firstLeafID = ValueKeyStore.PAGEID_NULL_PTR
 
     public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
@@ -327,7 +331,7 @@ internal class ValueKeyStoreWriter {
     }
 }
 
-public class ValueKeyStoreIteratorLeaf internal constructor(private val bufferManager: BufferManager, startPageID: Int, private val buffer: ByteArrayWrapper) {
+public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal val bufferManager: BufferManager, startPageID: Int, @JvmField internal val buffer: ByteArrayWrapper) {
     internal var pageid = startPageID
     internal var page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
     internal var nextPageID = BufferManagerPage.readInt4(page, 4)
@@ -379,7 +383,7 @@ public class ValueKeyStoreIteratorLeaf internal constructor(private val bufferMa
     }
 }
 
-internal class ValueKeyStoreIteratorSearch internal constructor(private val bufferManager: BufferManager, startPageID: Int, private val buffer: ByteArrayWrapper) {
+internal class ValueKeyStoreIteratorSearch internal constructor(@JvmField internal val bufferManager: BufferManager, startPageID: Int, @JvmField internal val buffer: ByteArrayWrapper) {
     internal var pageid = startPageID
 
     internal fun search(target: ByteArrayWrapper): Int {

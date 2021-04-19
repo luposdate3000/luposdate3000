@@ -1409,6 +1409,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                 root.append(parseRegex(allTokens[args[idx]]!!, CharGroup(args[idx], CharGroupModifier.ACTION)))
             }
             out.println("    crossinline on${args[args.size - 1]}: () -> Unit")
+            println("debugggging :: '${args[args.size - 1]}' ${allTokens.keys}")
             root.append(parseRegex(allTokens[args[args.size - 1]]!!, CharGroup(args[args.size - 1], CharGroupModifier.ACTION)))
             out.println(") {")
             out.println("    context.clear()")
@@ -1425,9 +1426,9 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             out.println("}")
             for ((k, v) in helperfunctions) {
                 if (k.length < 300) {
-                    out.println("@Suppress(\"NOTHING_TO_INLINE\") private inline fun $v(c: Int): Int{")
+                    out.println("@Suppress(\"NOTHING_TO_INLINE\") internal inline fun $v(c: Int): Int{")
                 } else {
-                    out.println("private fun $v(c: Int): Int{")
+                    out.println("internal fun $v(c: Int): Int{")
                 }
                 out.print(k)
                 out.println("}")

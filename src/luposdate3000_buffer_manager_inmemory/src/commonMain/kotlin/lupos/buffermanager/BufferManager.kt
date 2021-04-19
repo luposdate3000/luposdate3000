@@ -36,16 +36,22 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
      * - temporary result rows (currently not implemented)
      * additionally this should make it more easy to exchange this with on disk storage
      */
-    private var allPages = Array<ByteArray>(128) { BufferManagerPage.create() }
+    @JvmField
+    internal var allPages = Array<ByteArray>(128) { BufferManagerPage.create() }
 
-    private var allPagesRefcounters = IntArray(128)
+    @JvmField
+    internal var allPagesRefcounters = IntArray(128)
 
-    private var counter = 0
+    @JvmField
+    internal var counter = 0
 
-    private val lock = MyReadWriteLock()
+    @JvmField
+    internal val lock = MyReadWriteLock()
 
-    private var freeList = IntArray(128)
-    private var freeListSize = 0
+    @JvmField
+    internal var freeList = IntArray(128)
+    @JvmField
+    internal var freeListSize = 0
 
     @ProguardTestAnnotation
     public fun getNumberOfAllocatedPages(): Int = counter - freeListSize

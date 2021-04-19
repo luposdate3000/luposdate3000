@@ -975,6 +975,7 @@ fun onGenerateParser() {
         "ATTRIBUTE_VALUE" to "'\"' [^\"]* '\"'",
         "ELEMENT_CONTENT" to "[^<]*",
         "SKIP_WS" to "[#x20#x9#xD#xA]*",
+        "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
     )
     val xmlFilename = "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}xmlParser${Platform.getPathSeparator()}XMLParserGenerated.kt"
     val xmlPackage = "lupos.s00misc.xmlParser"

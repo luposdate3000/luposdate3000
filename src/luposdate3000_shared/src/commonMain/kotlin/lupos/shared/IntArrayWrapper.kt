@@ -23,8 +23,10 @@ public class IntArrayWrapper : Comparable<IntArrayWrapper> {
         buf = b
     }
 
-    private var buf = IntArray(1)
-    private var size = 0
+    @JvmField
+    internal var buf = IntArray(1)
+    @JvmField
+    internal var size = 0
     public fun append(v: Int) {
         if (buf.size == size) {
             val oldBuf = buf

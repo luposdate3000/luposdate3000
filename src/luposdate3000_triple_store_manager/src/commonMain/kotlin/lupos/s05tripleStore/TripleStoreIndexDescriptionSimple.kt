@@ -30,7 +30,8 @@ public class TripleStoreIndexDescriptionSimple(
 ) : TripleStoreIndexDescription() {
     internal var hostname: LuposHostname = ""
     internal var key: LuposStoreKey = ""
-    private var byteArray: ByteArray? = null
+    @JvmField
+    internal var byteArray: ByteArray? = null
     override fun toByteArray(): ByteArray {
         if (byteArray != null) {
             return byteArray!!

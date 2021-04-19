@@ -24,8 +24,10 @@ import lupos.s00misc.communicationHandler
 
 public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCache {
 
-    private val description: TripleStoreDescription
-    private val type: EModifyType
+    @JvmField
+    internal val description: TripleStoreDescription
+    @JvmField
+    internal val type: EModifyType
     internal val row = IntArray(3)
 
     internal val idx: Array<IntArray>

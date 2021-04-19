@@ -22,9 +22,12 @@ import lupos.s00misc.SanityCheck
 import lupos.shared_inline.DictionaryHelper
 
 public class DictionaryInMemory : ADictionary {
-    private var dataI2V = Array<ByteArrayWrapper>(1) { ByteArrayWrapper() }
-    private var dataV2I = mutableMapOf<ByteArrayWrapper, Int>()
-    private var bNodeCounter = 5
+    @JvmField
+    internal var dataI2V = Array<ByteArrayWrapper>(1) { ByteArrayWrapper() }
+    @JvmField
+    internal var dataV2I = mutableMapOf<ByteArrayWrapper, Int>()
+    @JvmField
+    internal var bNodeCounter = 5
 
     internal constructor(isLocal: Boolean) : super() {
         this.isLocal = isLocal

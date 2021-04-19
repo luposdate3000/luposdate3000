@@ -17,6 +17,7 @@
 package lupos.shared
 
 public object UUID_Counter {
-    private var uuid = 0L
+    @JvmField
+    internal var uuid = 0L
     public fun getNextUUID(): Long = uuid++
 }

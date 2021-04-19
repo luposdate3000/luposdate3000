@@ -20,12 +20,18 @@ import lupos.s02buildSyntaxTree.rdf.ID_Triple
 import kotlin.jvm.JvmField
 
 public class SevenIndices {
-    private val s = mutableMapOf<Long, Array<Pair<Long, Long>>>()
-    private val p = mutableMapOf<Long, Array<Pair<Long, Long>>>()
-    private val o = mutableMapOf<Long, Array<Pair<Long, Long>>>()
-    private val sp = mutableMapOf<Pair<Long, Long>, LongArray>()
-    private val so = mutableMapOf<Pair<Long, Long>, LongArray>()
-    private val po = mutableMapOf<Pair<Long, Long>, LongArray>()
+    @JvmField
+    internal val s = mutableMapOf<Long, Array<Pair<Long, Long>>>()
+    @JvmField
+    internal val p = mutableMapOf<Long, Array<Pair<Long, Long>>>()
+    @JvmField
+    internal val o = mutableMapOf<Long, Array<Pair<Long, Long>>>()
+    @JvmField
+    internal val sp = mutableMapOf<Pair<Long, Long>, LongArray>()
+    @JvmField
+    internal val so = mutableMapOf<Pair<Long, Long>, LongArray>()
+    @JvmField
+    internal val po = mutableMapOf<Pair<Long, Long>, LongArray>()
 
     @JvmField
     public val spo: MutableSet<ID_Triple> = mutableSetOf()

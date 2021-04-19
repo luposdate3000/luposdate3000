@@ -791,18 +791,28 @@ public class ASTGroupConcat(distinct: Boolean, child: ASTNode, @JvmField public 
 
 public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
     // for storing the prefixes...
-    private val prefixes = mutableMapOf<String, String>()
+    @JvmField
+    internal val prefixes = mutableMapOf<String, String>()
 
     // some constants used for typed literals
-    private val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    private val nil = rdf + "nil"
-    private val first = rdf + "first"
-    private val rest = rdf + "rest"
-    private val type = rdf + "type"
-    private val ASTNil = ASTIri(nil)
-    private val ASTFirst = ASTIri(first)
-    private val ASTRest = ASTIri(rest)
-    private val ASTType = ASTIri(type)
+    @JvmField
+    internal val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    @JvmField
+    internal val nil = rdf + "nil"
+    @JvmField
+    internal val first = rdf + "first"
+    @JvmField
+    internal val rest = rdf + "rest"
+    @JvmField
+    internal val type = rdf + "type"
+    @JvmField
+    internal val ASTNil = ASTIri(nil)
+    @JvmField
+    internal val ASTFirst = ASTIri(first)
+    @JvmField
+    internal val ASTRest = ASTIri(rest)
+    @JvmField
+    internal val ASTType = ASTIri(type)
     public fun expr(): ASTNode {
         val result = QueryOrUpdate()
         val token: Token = ltit.nextToken()

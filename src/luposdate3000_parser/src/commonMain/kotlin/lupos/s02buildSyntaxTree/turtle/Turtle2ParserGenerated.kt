@@ -51,7 +51,6 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
 
     @JvmField
     internal var flagrN = false
-
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun clear() {
         outBuffer.clear()
@@ -200,7 +199,7 @@ internal inline fun parse_dot(
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_dot_helper_0(c: Int): Int {
+internal inline fun parse_dot_helper_0(c: Int): Int {
     if (c == 0x2e) {
         return 0
     } else {
@@ -262,7 +261,7 @@ internal inline fun parse_ws_forced(
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_ws_forced_helper_0(c: Int): Int {
+internal inline fun parse_ws_forced_helper_0(c: Int): Int {
     if (c < 0x9) {
         return 1
     } else if (c <= 0xa) {
@@ -712,7 +711,7 @@ internal inline fun parse_statement(
     throw ParserExceptionUnexpectedChar(context)
 }
 
-private fun parse_statement_helper_0(c: Int): Int {
+internal fun parse_statement_helper_0(c: Int): Int {
     if (c < 0x3a) {
         return 7
     } else if (c <= 0x3a) {
@@ -797,7 +796,7 @@ private fun parse_statement_helper_0(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_1(c: Int): Int {
+internal inline fun parse_statement_helper_1(c: Int): Int {
     if (c == 0x41) {
         return 0
     } else {
@@ -806,7 +805,7 @@ private inline fun parse_statement_helper_1(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_2(c: Int): Int {
+internal inline fun parse_statement_helper_2(c: Int): Int {
     if (c == 0x53) {
         return 0
     } else {
@@ -815,7 +814,7 @@ private inline fun parse_statement_helper_2(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_3(c: Int): Int {
+internal inline fun parse_statement_helper_3(c: Int): Int {
     if (c == 0x45) {
         return 0
     } else {
@@ -824,7 +823,7 @@ private inline fun parse_statement_helper_3(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_4(c: Int): Int {
+internal inline fun parse_statement_helper_4(c: Int): Int {
     if (c == 0x52) {
         return 0
     } else {
@@ -833,7 +832,7 @@ private inline fun parse_statement_helper_4(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_5(c: Int): Int {
+internal inline fun parse_statement_helper_5(c: Int): Int {
     if (c == 0x46) {
         return 0
     } else {
@@ -842,7 +841,7 @@ private inline fun parse_statement_helper_5(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_6(c: Int): Int {
+internal inline fun parse_statement_helper_6(c: Int): Int {
     if (c == 0x49) {
         return 0
     } else {
@@ -851,7 +850,7 @@ private inline fun parse_statement_helper_6(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_7(c: Int): Int {
+internal inline fun parse_statement_helper_7(c: Int): Int {
     if (c == 0x58) {
         return 0
     } else {
@@ -860,7 +859,7 @@ private inline fun parse_statement_helper_7(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_8(c: Int): Int {
+internal inline fun parse_statement_helper_8(c: Int): Int {
     if (c < 0x62) {
         return 2
     } else if (c <= 0x62) {
@@ -875,7 +874,7 @@ private inline fun parse_statement_helper_8(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_9(c: Int): Int {
+internal inline fun parse_statement_helper_9(c: Int): Int {
     if (c == 0x61) {
         return 0
     } else {
@@ -884,7 +883,7 @@ private inline fun parse_statement_helper_9(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_10(c: Int): Int {
+internal inline fun parse_statement_helper_10(c: Int): Int {
     if (c == 0x73) {
         return 0
     } else {
@@ -893,7 +892,7 @@ private inline fun parse_statement_helper_10(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_11(c: Int): Int {
+internal inline fun parse_statement_helper_11(c: Int): Int {
     if (c == 0x65) {
         return 0
     } else {
@@ -902,7 +901,7 @@ private inline fun parse_statement_helper_11(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_12(c: Int): Int {
+internal inline fun parse_statement_helper_12(c: Int): Int {
     if (c == 0x72) {
         return 0
     } else {
@@ -911,7 +910,7 @@ private inline fun parse_statement_helper_12(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_13(c: Int): Int {
+internal inline fun parse_statement_helper_13(c: Int): Int {
     if (c == 0x66) {
         return 0
     } else {
@@ -920,7 +919,7 @@ private inline fun parse_statement_helper_13(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_14(c: Int): Int {
+internal inline fun parse_statement_helper_14(c: Int): Int {
     if (c == 0x69) {
         return 0
     } else {
@@ -929,7 +928,7 @@ private inline fun parse_statement_helper_14(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_15(c: Int): Int {
+internal inline fun parse_statement_helper_15(c: Int): Int {
     if (c == 0x78) {
         return 0
     } else {
@@ -937,7 +936,7 @@ private inline fun parse_statement_helper_15(c: Int): Int {
     }
 }
 
-private fun parse_statement_helper_16(c: Int): Int {
+internal fun parse_statement_helper_16(c: Int): Int {
     if (c < 0x21) {
         return 2
     } else if (c <= 0x21) {
@@ -980,7 +979,7 @@ private fun parse_statement_helper_16(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_17(c: Int): Int {
+internal inline fun parse_statement_helper_17(c: Int): Int {
     if (c < 0x55) {
         return 2
     } else if (c <= 0x55) {
@@ -995,7 +994,7 @@ private inline fun parse_statement_helper_17(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_18(c: Int): Int {
+internal inline fun parse_statement_helper_18(c: Int): Int {
     if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
@@ -1014,7 +1013,7 @@ private inline fun parse_statement_helper_18(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_19(c: Int): Int {
+internal inline fun parse_statement_helper_19(c: Int): Int {
     if (c == 0x3e) {
         return 0
     } else {
@@ -1022,7 +1021,7 @@ private inline fun parse_statement_helper_19(c: Int): Int {
     }
 }
 
-private fun parse_statement_helper_20(c: Int): Int {
+internal fun parse_statement_helper_20(c: Int): Int {
     if (c < 0x2d) {
         return 1
     } else if (c <= 0x2d) {
@@ -1101,7 +1100,7 @@ private fun parse_statement_helper_20(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_statement_helper_21(c: Int): Int {
+internal inline fun parse_statement_helper_21(c: Int): Int {
     if (c == 0x3a) {
         return 0
     } else {
@@ -1109,7 +1108,7 @@ private inline fun parse_statement_helper_21(c: Int): Int {
     }
 }
 
-private fun parse_statement_helper_22(c: Int): Int {
+internal fun parse_statement_helper_22(c: Int): Int {
     if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
@@ -1347,7 +1346,7 @@ internal inline fun parse_base(
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_base_helper_0(c: Int): Int {
+internal inline fun parse_base_helper_0(c: Int): Int {
     if (c == 0x3c) {
         return 0
     } else {
@@ -1355,7 +1354,7 @@ private inline fun parse_base_helper_0(c: Int): Int {
     }
 }
 
-private fun parse_base_helper_1(c: Int): Int {
+internal fun parse_base_helper_1(c: Int): Int {
     if (c < 0x21) {
         return 2
     } else if (c <= 0x21) {
@@ -1398,7 +1397,7 @@ private fun parse_base_helper_1(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_base_helper_2(c: Int): Int {
+internal inline fun parse_base_helper_2(c: Int): Int {
     if (c < 0x55) {
         return 2
     } else if (c <= 0x55) {
@@ -1413,7 +1412,7 @@ private inline fun parse_base_helper_2(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_base_helper_3(c: Int): Int {
+internal inline fun parse_base_helper_3(c: Int): Int {
     if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
@@ -1432,7 +1431,7 @@ private inline fun parse_base_helper_3(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_base_helper_4(c: Int): Int {
+internal inline fun parse_base_helper_4(c: Int): Int {
     if (c == 0x3e) {
         return 0
     } else {
@@ -1497,7 +1496,7 @@ internal inline fun parse_prefix(
     throw ParserExceptionUnexpectedChar(context)
 }
 
-private fun parse_prefix_helper_0(c: Int): Int {
+internal fun parse_prefix_helper_0(c: Int): Int {
     if (c < 0x3a) {
         return 2
     } else if (c <= 0x3a) {
@@ -1563,7 +1562,7 @@ private fun parse_prefix_helper_0(c: Int): Int {
     }
 }
 
-private fun parse_prefix_helper_1(c: Int): Int {
+internal fun parse_prefix_helper_1(c: Int): Int {
     if (c < 0x2d) {
         return 1
     } else if (c <= 0x2d) {
@@ -1642,7 +1641,7 @@ private fun parse_prefix_helper_1(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_prefix_helper_2(c: Int): Int {
+internal inline fun parse_prefix_helper_2(c: Int): Int {
     if (c == 0x3a) {
         return 0
     } else {
@@ -1818,7 +1817,7 @@ internal inline fun parse_prefix2(
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_prefix2_helper_0(c: Int): Int {
+internal inline fun parse_prefix2_helper_0(c: Int): Int {
     if (c == 0x3c) {
         return 0
     } else {
@@ -1826,7 +1825,7 @@ private inline fun parse_prefix2_helper_0(c: Int): Int {
     }
 }
 
-private fun parse_prefix2_helper_1(c: Int): Int {
+internal fun parse_prefix2_helper_1(c: Int): Int {
     if (c < 0x21) {
         return 2
     } else if (c <= 0x21) {
@@ -1869,7 +1868,7 @@ private fun parse_prefix2_helper_1(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_prefix2_helper_2(c: Int): Int {
+internal inline fun parse_prefix2_helper_2(c: Int): Int {
     if (c < 0x55) {
         return 2
     } else if (c <= 0x55) {
@@ -1884,7 +1883,7 @@ private inline fun parse_prefix2_helper_2(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_prefix2_helper_3(c: Int): Int {
+internal inline fun parse_prefix2_helper_3(c: Int): Int {
     if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
@@ -1903,7 +1902,7 @@ private inline fun parse_prefix2_helper_3(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_prefix2_helper_4(c: Int): Int {
+internal inline fun parse_prefix2_helper_4(c: Int): Int {
     if (c == 0x3e) {
         return 0
     } else {
@@ -2126,7 +2125,7 @@ internal inline fun parse_predicate(
     throw ParserExceptionUnexpectedChar(context)
 }
 
-private fun parse_predicate_helper_0(c: Int): Int {
+internal fun parse_predicate_helper_0(c: Int): Int {
     if (c < 0x3a) {
         return 4
     } else if (c <= 0x3a) {
@@ -2198,7 +2197,7 @@ private fun parse_predicate_helper_0(c: Int): Int {
     }
 }
 
-private fun parse_predicate_helper_1(c: Int): Int {
+internal fun parse_predicate_helper_1(c: Int): Int {
     if (c < 0x21) {
         return 2
     } else if (c <= 0x21) {
@@ -2241,7 +2240,7 @@ private fun parse_predicate_helper_1(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_predicate_helper_2(c: Int): Int {
+internal inline fun parse_predicate_helper_2(c: Int): Int {
     if (c < 0x55) {
         return 2
     } else if (c <= 0x55) {
@@ -2256,7 +2255,7 @@ private inline fun parse_predicate_helper_2(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_predicate_helper_3(c: Int): Int {
+internal inline fun parse_predicate_helper_3(c: Int): Int {
     if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
@@ -2275,7 +2274,7 @@ private inline fun parse_predicate_helper_3(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_predicate_helper_4(c: Int): Int {
+internal inline fun parse_predicate_helper_4(c: Int): Int {
     if (c == 0x3e) {
         return 0
     } else {
@@ -2283,7 +2282,7 @@ private inline fun parse_predicate_helper_4(c: Int): Int {
     }
 }
 
-private fun parse_predicate_helper_5(c: Int): Int {
+internal fun parse_predicate_helper_5(c: Int): Int {
     if (c < 0x2d) {
         return 1
     } else if (c <= 0x2d) {
@@ -2362,7 +2361,7 @@ private fun parse_predicate_helper_5(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_predicate_helper_6(c: Int): Int {
+internal inline fun parse_predicate_helper_6(c: Int): Int {
     if (c == 0x3a) {
         return 0
     } else {
@@ -5639,7 +5638,7 @@ internal inline fun parse_obj(
     throw ParserExceptionUnexpectedChar(context)
 }
 
-private fun parse_obj_helper_0(c: Int): Int {
+internal fun parse_obj_helper_0(c: Int): Int {
     if (c < 0x22) {
         return 10
     } else if (c <= 0x22) {
@@ -5739,7 +5738,7 @@ private fun parse_obj_helper_0(c: Int): Int {
     }
 }
 
-private fun parse_obj_helper_1(c: Int): Int {
+internal fun parse_obj_helper_1(c: Int): Int {
     if (c < 0x21) {
         return 2
     } else if (c <= 0x21) {
@@ -5782,7 +5781,7 @@ private fun parse_obj_helper_1(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_2(c: Int): Int {
+internal inline fun parse_obj_helper_2(c: Int): Int {
     if (c < 0x55) {
         return 2
     } else if (c <= 0x55) {
@@ -5797,7 +5796,7 @@ private inline fun parse_obj_helper_2(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_3(c: Int): Int {
+internal inline fun parse_obj_helper_3(c: Int): Int {
     if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
@@ -5816,7 +5815,7 @@ private inline fun parse_obj_helper_3(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_4(c: Int): Int {
+internal inline fun parse_obj_helper_4(c: Int): Int {
     if (c == 0x3e) {
         return 0
     } else {
@@ -5824,7 +5823,7 @@ private inline fun parse_obj_helper_4(c: Int): Int {
     }
 }
 
-private fun parse_obj_helper_5(c: Int): Int {
+internal fun parse_obj_helper_5(c: Int): Int {
     if (c < 0x2d) {
         return 1
     } else if (c <= 0x2d) {
@@ -5903,7 +5902,7 @@ private fun parse_obj_helper_5(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_6(c: Int): Int {
+internal inline fun parse_obj_helper_6(c: Int): Int {
     if (c == 0x3a) {
         return 0
     } else {
@@ -5911,7 +5910,7 @@ private inline fun parse_obj_helper_6(c: Int): Int {
     }
 }
 
-private fun parse_obj_helper_7(c: Int): Int {
+internal fun parse_obj_helper_7(c: Int): Int {
     if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
@@ -5981,7 +5980,7 @@ private fun parse_obj_helper_7(c: Int): Int {
     }
 }
 
-private fun parse_obj_helper_8(c: Int): Int {
+internal fun parse_obj_helper_8(c: Int): Int {
     if (c <= 0x9) {
         return 0
     } else if (c < 0xb) {
@@ -6013,7 +6012,7 @@ private fun parse_obj_helper_8(c: Int): Int {
     }
 }
 
-private fun parse_obj_helper_9(c: Int): Int {
+internal fun parse_obj_helper_9(c: Int): Int {
     if (c <= 0x9) {
         return 0
     } else if (c < 0xb) {
@@ -6041,7 +6040,7 @@ private fun parse_obj_helper_9(c: Int): Int {
     }
 }
 
-private fun parse_obj_helper_10(c: Int): Int {
+internal fun parse_obj_helper_10(c: Int): Int {
     if (c < 0x22) {
         return 3
     } else if (c <= 0x22) {
@@ -6088,7 +6087,7 @@ private fun parse_obj_helper_10(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_11(c: Int): Int {
+internal inline fun parse_obj_helper_11(c: Int): Int {
     if (c == 0x22) {
         return 0
     } else {
@@ -6096,7 +6095,7 @@ private inline fun parse_obj_helper_11(c: Int): Int {
     }
 }
 
-private fun parse_obj_helper_12(c: Int): Int {
+internal fun parse_obj_helper_12(c: Int): Int {
     if (c <= 0x21) {
         return 0
     } else if (c < 0x22) {
@@ -6120,7 +6119,7 @@ private fun parse_obj_helper_12(c: Int): Int {
     }
 }
 
-private fun parse_obj_helper_13(c: Int): Int {
+internal fun parse_obj_helper_13(c: Int): Int {
     if (c <= 0x9) {
         return 0
     } else if (c < 0xb) {
@@ -6152,7 +6151,7 @@ private fun parse_obj_helper_13(c: Int): Int {
     }
 }
 
-private fun parse_obj_helper_14(c: Int): Int {
+internal fun parse_obj_helper_14(c: Int): Int {
     if (c <= 0x9) {
         return 0
     } else if (c < 0xb) {
@@ -6181,7 +6180,7 @@ private fun parse_obj_helper_14(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_15(c: Int): Int {
+internal inline fun parse_obj_helper_15(c: Int): Int {
     if (c == 0x27) {
         return 0
     } else {
@@ -6189,7 +6188,7 @@ private inline fun parse_obj_helper_15(c: Int): Int {
     }
 }
 
-private fun parse_obj_helper_16(c: Int): Int {
+internal fun parse_obj_helper_16(c: Int): Int {
     if (c <= 0x26) {
         return 0
     } else if (c < 0x27) {
@@ -6214,7 +6213,7 @@ private fun parse_obj_helper_16(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_17(c: Int): Int {
+internal inline fun parse_obj_helper_17(c: Int): Int {
     if (c < 0x2e) {
         return 2
     } else if (c <= 0x2e) {
@@ -6233,7 +6232,7 @@ private inline fun parse_obj_helper_17(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_18(c: Int): Int {
+internal inline fun parse_obj_helper_18(c: Int): Int {
     if (c < 0x30) {
         return 2
     } else if (c <= 0x39) {
@@ -6252,7 +6251,7 @@ private inline fun parse_obj_helper_18(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_19(c: Int): Int {
+internal inline fun parse_obj_helper_19(c: Int): Int {
     if (c < 0x45) {
         return 1
     } else if (c <= 0x45) {
@@ -6267,7 +6266,7 @@ private inline fun parse_obj_helper_19(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_20(c: Int): Int {
+internal inline fun parse_obj_helper_20(c: Int): Int {
     if (c < 0x2b) {
         return 2
     } else if (c <= 0x2b) {
@@ -6286,7 +6285,7 @@ private inline fun parse_obj_helper_20(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_21(c: Int): Int {
+internal inline fun parse_obj_helper_21(c: Int): Int {
     if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
@@ -6297,7 +6296,7 @@ private inline fun parse_obj_helper_21(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_22(c: Int): Int {
+internal inline fun parse_obj_helper_22(c: Int): Int {
     if (c < 0x2e) {
         return 2
     } else if (c <= 0x2e) {
@@ -6312,7 +6311,7 @@ private inline fun parse_obj_helper_22(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_23(c: Int): Int {
+internal inline fun parse_obj_helper_23(c: Int): Int {
     if (c == 0x72) {
         return 0
     } else {
@@ -6321,7 +6320,7 @@ private inline fun parse_obj_helper_23(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_24(c: Int): Int {
+internal inline fun parse_obj_helper_24(c: Int): Int {
     if (c == 0x75) {
         return 0
     } else {
@@ -6330,7 +6329,7 @@ private inline fun parse_obj_helper_24(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_25(c: Int): Int {
+internal inline fun parse_obj_helper_25(c: Int): Int {
     if (c == 0x65) {
         return 0
     } else {
@@ -6339,7 +6338,7 @@ private inline fun parse_obj_helper_25(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_26(c: Int): Int {
+internal inline fun parse_obj_helper_26(c: Int): Int {
     if (c == 0x66) {
         return 0
     } else {
@@ -6348,7 +6347,7 @@ private inline fun parse_obj_helper_26(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_27(c: Int): Int {
+internal inline fun parse_obj_helper_27(c: Int): Int {
     if (c == 0x61) {
         return 0
     } else {
@@ -6357,7 +6356,7 @@ private inline fun parse_obj_helper_27(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_28(c: Int): Int {
+internal inline fun parse_obj_helper_28(c: Int): Int {
     if (c == 0x6c) {
         return 0
     } else {
@@ -6366,7 +6365,7 @@ private inline fun parse_obj_helper_28(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_obj_helper_29(c: Int): Int {
+internal inline fun parse_obj_helper_29(c: Int): Int {
     if (c == 0x73) {
         return 0
     } else {
@@ -6408,7 +6407,7 @@ internal inline fun parse_triple_end(
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_triple_end_helper_0(c: Int): Int {
+internal inline fun parse_triple_end_helper_0(c: Int): Int {
     if (c < 0x2c) {
         return 3
     } else if (c <= 0x2c) {
@@ -6689,7 +6688,7 @@ internal inline fun parse_triple_end_or_object_iri(
     throw ParserExceptionUnexpectedChar(context)
 }
 
-private fun parse_triple_end_or_object_iri_helper_0(c: Int): Int {
+internal fun parse_triple_end_or_object_iri_helper_0(c: Int): Int {
     if (c < 0x9) {
         return 7
     } else if (c <= 0xa) {
@@ -6791,7 +6790,7 @@ private fun parse_triple_end_or_object_iri_helper_0(c: Int): Int {
     }
 }
 
-private fun parse_triple_end_or_object_iri_helper_1(c: Int): Int {
+internal fun parse_triple_end_or_object_iri_helper_1(c: Int): Int {
     if (c < 0x25) {
         return 3
     } else if (c <= 0x25) {
@@ -6878,7 +6877,7 @@ private fun parse_triple_end_or_object_iri_helper_1(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_triple_end_or_object_iri_helper_2(c: Int): Int {
+internal inline fun parse_triple_end_or_object_iri_helper_2(c: Int): Int {
     if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
@@ -6896,7 +6895,7 @@ private inline fun parse_triple_end_or_object_iri_helper_2(c: Int): Int {
     }
 }
 
-private fun parse_triple_end_or_object_iri_helper_3(c: Int): Int {
+internal fun parse_triple_end_or_object_iri_helper_3(c: Int): Int {
     if (c < 0x21) {
         return 1
     } else if (c <= 0x21) {
@@ -7050,7 +7049,7 @@ internal inline fun parse_triple_end_or_object_string(
     throw ParserExceptionUnexpectedChar(context)
 }
 
-private fun parse_triple_end_or_object_string_helper_0(c: Int): Int {
+internal fun parse_triple_end_or_object_string_helper_0(c: Int): Int {
     if (c < 0x9) {
         return 6
     } else if (c <= 0xa) {
@@ -7089,7 +7088,7 @@ private fun parse_triple_end_or_object_string_helper_0(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_triple_end_or_object_string_helper_1(c: Int): Int {
+internal inline fun parse_triple_end_or_object_string_helper_1(c: Int): Int {
     if (c < 0x41) {
         return 1
     } else if (c <= 0x5a) {
@@ -7104,7 +7103,7 @@ private inline fun parse_triple_end_or_object_string_helper_1(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_triple_end_or_object_string_helper_2(c: Int): Int {
+internal inline fun parse_triple_end_or_object_string_helper_2(c: Int): Int {
     if (c == 0x2d) {
         return 0
     } else {
@@ -7113,7 +7112,7 @@ private inline fun parse_triple_end_or_object_string_helper_2(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_triple_end_or_object_string_helper_3(c: Int): Int {
+internal inline fun parse_triple_end_or_object_string_helper_3(c: Int): Int {
     if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
@@ -7132,7 +7131,7 @@ private inline fun parse_triple_end_or_object_string_helper_3(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_triple_end_or_object_string_helper_4(c: Int): Int {
+internal inline fun parse_triple_end_or_object_string_helper_4(c: Int): Int {
     if (c == 0x5e) {
         return 0
     } else {
@@ -7349,7 +7348,7 @@ internal inline fun parse_triple_end_or_object_string_typed(
     throw ParserExceptionUnexpectedChar(context)
 }
 
-private fun parse_triple_end_or_object_string_typed_helper_0(c: Int): Int {
+internal fun parse_triple_end_or_object_string_typed_helper_0(c: Int): Int {
     if (c < 0x3a) {
         return 3
     } else if (c <= 0x3a) {
@@ -7419,7 +7418,7 @@ private fun parse_triple_end_or_object_string_typed_helper_0(c: Int): Int {
     }
 }
 
-private fun parse_triple_end_or_object_string_typed_helper_1(c: Int): Int {
+internal fun parse_triple_end_or_object_string_typed_helper_1(c: Int): Int {
     if (c < 0x21) {
         return 2
     } else if (c <= 0x21) {
@@ -7462,7 +7461,7 @@ private fun parse_triple_end_or_object_string_typed_helper_1(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_triple_end_or_object_string_typed_helper_2(c: Int): Int {
+internal inline fun parse_triple_end_or_object_string_typed_helper_2(c: Int): Int {
     if (c < 0x55) {
         return 2
     } else if (c <= 0x55) {
@@ -7477,7 +7476,7 @@ private inline fun parse_triple_end_or_object_string_typed_helper_2(c: Int): Int
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_triple_end_or_object_string_typed_helper_3(c: Int): Int {
+internal inline fun parse_triple_end_or_object_string_typed_helper_3(c: Int): Int {
     if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
@@ -7496,7 +7495,7 @@ private inline fun parse_triple_end_or_object_string_typed_helper_3(c: Int): Int
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_triple_end_or_object_string_typed_helper_4(c: Int): Int {
+internal inline fun parse_triple_end_or_object_string_typed_helper_4(c: Int): Int {
     if (c == 0x3e) {
         return 0
     } else {
@@ -7504,7 +7503,7 @@ private inline fun parse_triple_end_or_object_string_typed_helper_4(c: Int): Int
     }
 }
 
-private fun parse_triple_end_or_object_string_typed_helper_5(c: Int): Int {
+internal fun parse_triple_end_or_object_string_typed_helper_5(c: Int): Int {
     if (c < 0x2d) {
         return 1
     } else if (c <= 0x2d) {
@@ -7583,7 +7582,7 @@ private fun parse_triple_end_or_object_string_typed_helper_5(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_triple_end_or_object_string_typed_helper_6(c: Int): Int {
+internal inline fun parse_triple_end_or_object_string_typed_helper_6(c: Int): Int {
     if (c == 0x3a) {
         return 0
     } else {
@@ -7854,7 +7853,7 @@ internal inline fun parse_triple_end_or_object_string_typed_iri(
     throw ParserExceptionUnexpectedChar(context)
 }
 
-private fun parse_triple_end_or_object_string_typed_iri_helper_0(c: Int): Int {
+internal fun parse_triple_end_or_object_string_typed_iri_helper_0(c: Int): Int {
     if (c < 0x9) {
         return 7
     } else if (c <= 0xa) {
@@ -7956,7 +7955,7 @@ private fun parse_triple_end_or_object_string_typed_iri_helper_0(c: Int): Int {
     }
 }
 
-private fun parse_triple_end_or_object_string_typed_iri_helper_1(c: Int): Int {
+internal fun parse_triple_end_or_object_string_typed_iri_helper_1(c: Int): Int {
     if (c < 0x25) {
         return 3
     } else if (c <= 0x25) {
@@ -8043,7 +8042,7 @@ private fun parse_triple_end_or_object_string_typed_iri_helper_1(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_triple_end_or_object_string_typed_iri_helper_2(c: Int): Int {
+internal inline fun parse_triple_end_or_object_string_typed_iri_helper_2(c: Int): Int {
     if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
@@ -8061,7 +8060,7 @@ private inline fun parse_triple_end_or_object_string_typed_iri_helper_2(c: Int):
     }
 }
 
-private fun parse_triple_end_or_object_string_typed_iri_helper_3(c: Int): Int {
+internal fun parse_triple_end_or_object_string_typed_iri_helper_3(c: Int): Int {
     if (c < 0x21) {
         return 1
     } else if (c <= 0x21) {
@@ -8340,7 +8339,7 @@ internal inline fun parse_subject_iri_or_ws(
     throw ParserExceptionUnexpectedChar(context)
 }
 
-private fun parse_subject_iri_or_ws_helper_0(c: Int): Int {
+internal fun parse_subject_iri_or_ws_helper_0(c: Int): Int {
     if (c < 0x9) {
         return 4
     } else if (c <= 0xa) {
@@ -8430,7 +8429,7 @@ private fun parse_subject_iri_or_ws_helper_0(c: Int): Int {
     }
 }
 
-private fun parse_subject_iri_or_ws_helper_1(c: Int): Int {
+internal fun parse_subject_iri_or_ws_helper_1(c: Int): Int {
     if (c < 0x25) {
         return 3
     } else if (c <= 0x25) {
@@ -8517,7 +8516,7 @@ private fun parse_subject_iri_or_ws_helper_1(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_subject_iri_or_ws_helper_2(c: Int): Int {
+internal inline fun parse_subject_iri_or_ws_helper_2(c: Int): Int {
     if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
@@ -8535,7 +8534,7 @@ private inline fun parse_subject_iri_or_ws_helper_2(c: Int): Int {
     }
 }
 
-private fun parse_subject_iri_or_ws_helper_3(c: Int): Int {
+internal fun parse_subject_iri_or_ws_helper_3(c: Int): Int {
     if (c < 0x21) {
         return 1
     } else if (c <= 0x21) {
@@ -8814,7 +8813,7 @@ internal inline fun parse_predicate_iri_or_ws(
     throw ParserExceptionUnexpectedChar(context)
 }
 
-private fun parse_predicate_iri_or_ws_helper_0(c: Int): Int {
+internal fun parse_predicate_iri_or_ws_helper_0(c: Int): Int {
     if (c < 0x9) {
         return 4
     } else if (c <= 0xa) {
@@ -8904,7 +8903,7 @@ private fun parse_predicate_iri_or_ws_helper_0(c: Int): Int {
     }
 }
 
-private fun parse_predicate_iri_or_ws_helper_1(c: Int): Int {
+internal fun parse_predicate_iri_or_ws_helper_1(c: Int): Int {
     if (c < 0x25) {
         return 3
     } else if (c <= 0x25) {
@@ -8991,7 +8990,7 @@ private fun parse_predicate_iri_or_ws_helper_1(c: Int): Int {
 }
 
 @Suppress("NOTHING_TO_INLINE")
-private inline fun parse_predicate_iri_or_ws_helper_2(c: Int): Int {
+internal inline fun parse_predicate_iri_or_ws_helper_2(c: Int): Int {
     if (c < 0x30) {
         return 1
     } else if (c <= 0x39) {
@@ -9009,7 +9008,7 @@ private inline fun parse_predicate_iri_or_ws_helper_2(c: Int): Int {
     }
 }
 
-private fun parse_predicate_iri_or_ws_helper_3(c: Int): Int {
+internal fun parse_predicate_iri_or_ws_helper_3(c: Int): Int {
     if (c < 0x21) {
         return 1
     } else if (c <= 0x21) {

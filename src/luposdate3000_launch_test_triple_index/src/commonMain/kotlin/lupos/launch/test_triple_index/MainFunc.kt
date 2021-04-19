@@ -27,9 +27,12 @@ import lupos.s05tripleStore.TripleStoreIndexIDTriple
 import lupos.test.AflCore
 import kotlin.math.abs
 
-private val verbose = false
-private var duplicates = 0L
-private var totalinserts = 0L
+@JvmField
+internal val verbose = false
+@JvmField
+internal var duplicates = 0L
+@JvmField
+internal var totalinserts = 0L
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {

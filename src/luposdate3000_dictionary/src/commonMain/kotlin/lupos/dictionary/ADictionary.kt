@@ -23,8 +23,10 @@ import lupos.s00misc.SanityCheck
 import lupos.shared_inline.DictionaryHelper
 
 public abstract class ADictionary : IDictionary {
-    private val bnodeMapToGlobal = mutableMapOf<Int, Int>()
-    private val bnodeMapLocal = mutableMapOf<String, Int>()
+    @JvmField
+    internal val bnodeMapToGlobal = mutableMapOf<Int, Int>()
+    @JvmField
+    internal val bnodeMapLocal = mutableMapOf<String, Int>()
     internal var isLocal: Boolean = false
     public override fun createNewBNode(s: String): Int {
         var res = bnodeMapLocal[s]

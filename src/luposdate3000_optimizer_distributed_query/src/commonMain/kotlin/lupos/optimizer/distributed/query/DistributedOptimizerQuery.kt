@@ -42,12 +42,18 @@ import lupos.shared.optimizer.IDistributedOptimizer
 
 public class DistributedOptimizerQuery() : IDistributedOptimizer {
     internal var query: Query? = null
-    private var operatorgraphParts: MutableMap<String, XMLElement> = mutableMapOf<String, XMLElement>()
-    private var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
-    private var dependenciesMapTopDown = mutableMapOf<String, Set<String>>()
-    private var dependenciesMapBottomUp = mutableMapOf<String, Set<String>>()
-    private var keyRepresentative = mutableMapOf<String, String>()
-    private val childOptimizer = arrayOf(
+    @JvmField
+    internal var operatorgraphParts: MutableMap<String, XMLElement> = mutableMapOf<String, XMLElement>()
+    @JvmField
+    internal var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
+    @JvmField
+    internal var dependenciesMapTopDown = mutableMapOf<String, Set<String>>()
+    @JvmField
+    internal var dependenciesMapBottomUp = mutableMapOf<String, Set<String>>()
+    @JvmField
+    internal var keyRepresentative = mutableMapOf<String, String>()
+    @JvmField
+    internal val childOptimizer = arrayOf(
         arrayOf(
             DistributedOptimizerAssignChild(),
             DistributedOptimizerAssignParent(),

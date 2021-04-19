@@ -27,9 +27,12 @@ import lupos.s05tripleStore.TripleStoreIndexIDTriple
 import lupos.test.AflCore
 import kotlin.math.abs
 
-private val verbose = false
-private val bufferSize = 100000
-private val maxLimit = 100000000
+@JvmField
+internal val verbose = false
+@JvmField
+internal val bufferSize = 100000
+@JvmField
+internal val maxLimit = 100000000
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {

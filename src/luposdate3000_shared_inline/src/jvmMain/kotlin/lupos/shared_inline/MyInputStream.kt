@@ -80,7 +80,8 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
         // println("MyInputStream $uuid close")
     }
 
-    private var buffer = ByteArray(1)
+    @JvmField
+    internal var buffer = ByteArray(1)
     public actual override fun readLine(): String? {
 // TODO this may break on utf-8 if '\r' or '\0' is part of another char
         var len = 0

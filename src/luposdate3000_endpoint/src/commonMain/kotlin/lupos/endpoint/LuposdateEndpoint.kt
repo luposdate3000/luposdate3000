@@ -83,8 +83,10 @@ import kotlin.js.JsName
  */
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 public object LuposdateEndpoint {
-    private var initialized = false
-    private val initializerLock = MyLock()
+    @JvmField
+    internal var initialized = false
+    @JvmField
+    internal val initializerLock = MyLock()
     private fun helperCleanString(s: String): String {
         var res: String = s
         while (true) {

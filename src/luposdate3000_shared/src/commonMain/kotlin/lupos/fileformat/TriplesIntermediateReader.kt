@@ -33,8 +33,10 @@ public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(f
         }
     }
 
-    private val buf: ByteArray = ByteArray(12)
-    private val buffer: IntArray = IntArray(3)
+    @JvmField
+    internal val buf: ByteArray = ByteArray(12)
+    @JvmField
+    internal val buffer: IntArray = IntArray(3)
 
     public fun next(): IntArray? {
         val header = streamIn!!.readByte()

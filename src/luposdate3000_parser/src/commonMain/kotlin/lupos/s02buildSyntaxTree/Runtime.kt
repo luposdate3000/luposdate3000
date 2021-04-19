@@ -27,7 +27,8 @@ public interface TokenIterator {
 }
 
 public class LookAheadTokenIterator(@JvmField public val tokenIterator: TokenIterator, @JvmField public val lookahead: Int) {
-    private val tokens: Array<Token> = Array(lookahead) { EOF(0) } // circular buffer for lookahead requests, EOF default value just to avoid unnecessary null checks...
+    @JvmField
+    internal val tokens: Array<Token> = Array(lookahead) { EOF(0) } // circular buffer for lookahead requests, EOF default value just to avoid unnecessary null checks...
 
     @JvmField
     public var index1: Int = 0

@@ -22,8 +22,10 @@ import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 public class ValueComparatorDESC(@JvmField public val query: IQuery) : Comparator<Int> {
-    private var bufferA = ByteArrayWrapper()
-    private var bufferB = ByteArrayWrapper()
+    @JvmField
+    internal var bufferA = ByteArrayWrapper()
+    @JvmField
+    internal var bufferB = ByteArrayWrapper()
     override fun compare(a: Int, b: Int): Int {
         query.getDictionary().getValue(bufferA, a)
         query.getDictionary().getValue(bufferB, b)

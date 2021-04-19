@@ -20,11 +20,13 @@ import lupos.shared.UUID_Counter
 
 public actual class MyThreadLock {
 
-    private val uuid = UUID_Counter.getNextUUID()
+    @JvmField
+    internal val uuid = UUID_Counter.getNextUUID()
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun getUUID(): Long = uuid
-    private var locked: Boolean = false
+    @JvmField
+    internal var locked: Boolean = false
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun lock() {

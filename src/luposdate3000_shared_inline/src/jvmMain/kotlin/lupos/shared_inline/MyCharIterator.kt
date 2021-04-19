@@ -21,9 +21,12 @@ import java.io.DataInputStream
 import java.io.FileInputStream
 
 internal class MyCharIterator(file: File) : CharIterator() {
-    private val fis = FileInputStream(file.filename)
-    private val bis = BufferedInputStream(fis)
-    private val dis = DataInputStream(bis)
+    @JvmField
+    internal val fis = FileInputStream(file.filename)
+    @JvmField
+    internal val bis = BufferedInputStream(fis)
+    @JvmField
+    internal val dis = DataInputStream(bis)
     override fun hasNext(): Boolean {
         val res = dis.available() > 0
         if (!res) {

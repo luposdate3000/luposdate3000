@@ -24,15 +24,24 @@ import lupos.s00misc.SanityCheck
 import lupos.shared_inline.BufferManagerPage
 
 public class KeyValueStore {
-    private val rootPageID: Int
-    private val rootPage: ByteArray
-    private val bufferManager: BufferManager
-    private var lastPage: Int
-    private var lastPageBuf: ByteArray
-    private var lastPageOffset: Int
-    private var nextID: Int
-    private var mappingID2Page: MyIntArray
-    private var mappingID2Off: MyIntArray
+    @JvmField
+    internal val rootPageID: Int
+    @JvmField
+    internal val rootPage: ByteArray
+    @JvmField
+    internal val bufferManager: BufferManager
+    @JvmField
+    internal var lastPage: Int
+    @JvmField
+    internal var lastPageBuf: ByteArray
+    @JvmField
+    internal var lastPageOffset: Int
+    @JvmField
+    internal var nextID: Int
+    @JvmField
+    internal var mappingID2Page: MyIntArray
+    @JvmField
+    internal var mappingID2Off: MyIntArray
 
     public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
