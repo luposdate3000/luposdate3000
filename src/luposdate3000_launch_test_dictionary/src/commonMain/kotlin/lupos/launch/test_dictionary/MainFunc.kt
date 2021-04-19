@@ -203,14 +203,16 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 }
                 var res: Int? = null
                 var flag = true
+                val type = DictionaryHelper.byteArrayToType(data)
+                val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)
                 try {
                     res = dict.hasValue(data)
                 } catch (e: Throwable) {
-                    e.printStackTrace()
+                    if (!assumeCrash) {
+                        e.printStackTrace()
+                    }
                     flag = false
                 }
-                val type = DictionaryHelper.byteArrayToType(data)
-                val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)
                 if (flag == assumeCrash) {
                     throw Exception("$flag $isLocal")
                 }
@@ -227,14 +229,16 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 }
                 var res: Int? = null
                 var flag = true
+                val type = DictionaryHelper.byteArrayToType(data)
+                val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)
                 try {
                     res = dict.hasValue(data)
                 } catch (e: Throwable) {
-                    e.printStackTrace()
+                    if (!assumeCrash) {
+                        e.printStackTrace()
+                    }
                     flag = false
                 }
-                val type = DictionaryHelper.byteArrayToType(data)
-                val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)
                 if (flag == assumeCrash) {
                     throw Exception("")
                 }
@@ -270,7 +274,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                     val buffer = ByteArrayWrapper()
                     dict.getValue(buffer, key)
                 } catch (e: Throwable) {
-                    e.printStackTrace()
+                    // e.printStackTrace() this is handled correctly
                     flag = false
                 }
                 if (flag) {

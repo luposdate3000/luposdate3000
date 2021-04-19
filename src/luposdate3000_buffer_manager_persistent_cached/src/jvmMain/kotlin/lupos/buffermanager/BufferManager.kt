@@ -121,9 +121,6 @@ public actual class BufferManager internal actual constructor(@JvmField public v
                             }
                         }
                         SanityCheck.check({ BufferManagerPage.getPageID(openPages[openId]) == pageid }, { "${BufferManagerPage.getPageID(openPages[openId])} $pageid" })
-                        SanityCheck {
-                            openPages[openId] = BufferManagerPage.create()
-                        }
                         SanityCheck.check { openPagesLastUseCounter >= 0 }
                         openPagesLastUseCounters[openId] = openPagesLastUseCounter++
                         if (openPagesLastUseCounter >= Int.MAX_VALUE - 10) {
@@ -162,6 +159,7 @@ public actual class BufferManager internal actual constructor(@JvmField public v
                     } else {
                         var minIdx = 0
                         var minCtr = Int.MAX_VALUE
+                        openId2 = 0
                         while (openId2 < cacheSize) {
                             if (openPagesRefcounters[openId2] == 0 && openPagesLastUseCounters[openId2] < minCtr) {
                                 minCtr = openPagesLastUseCounters[openId2]
@@ -234,9 +232,6 @@ public actual class BufferManager internal actual constructor(@JvmField public v
                 SanityCheck.check { openPagesRefcounters[openId] == 1 }
                 SanityCheck.check { BufferManagerPage.getPageID(openPages[openId]) == pageid }
                 BufferManagerPage.setPageID(openPages[openId], -1)
-                SanityCheck {
-                    openPages[openId] = BufferManagerPage.create()
-                }
                 openPagesRefcounters[openId]--
                 openPagesMapping[openId] = -1
                 if (freeArrayLength >= freeArray.size) {

@@ -796,7 +796,7 @@ internal object DictionaryHelper {
                 integerToByteArray(buffer, i)
                 return
             } catch (e: Exception) {
-                e.printStackTrace()
+                // e.printStackTrace() this is handled correctly
             }
         }
         if (!value.contains("e") && !value.contains("E")) {
@@ -805,7 +805,7 @@ internal object DictionaryHelper {
                 decimalToByteArray(buffer, d)
                 return
             } catch (e: Exception) {
-                e.printStackTrace()
+                // e.printStackTrace() this is handled correctly
             }
         }
         try {
@@ -813,7 +813,7 @@ internal object DictionaryHelper {
             doubleToByteArray(buffer, d)
             return
         } catch (e: Exception) {
-// e.printStackTrace() this is handled correctly
+            // e.printStackTrace() this is handled correctly
         }
         if (!value.endsWith("" + value[0])) {
             val typeIdx = value.lastIndexOf("" + value[0] + "^^<")

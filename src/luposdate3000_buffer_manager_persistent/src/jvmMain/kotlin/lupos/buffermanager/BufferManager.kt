@@ -151,6 +151,7 @@ public actual class BufferManager internal actual constructor(@JvmField public v
                     openId2 = openId
                 },
                 onNotFound = {
+                    openId2 = 0
                     while (openId2 < cacheSize) {
                         if (openPagesRefcounters[openId2] == 0) {
                             break

@@ -168,7 +168,6 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             }
             if (optionsChoosenForPackages[pkg] != null) {
                 currentArgs = currentArgs.ssetEnabledRunFunc {
-                    println("${optionsChoosenForPackages[pkg]} == ${name.substring(pkg.length + 1)}")
                     optionsChoosenForPackages[pkg] == name
                 }
             }
@@ -811,7 +810,7 @@ fun onRun() {
         }
         "JS" -> {
             if (optionsChoosenForPackages["Buffer_Manager"]!! != "Inmemory") {
-                throw Exception("JS can only use 'Inmemory' as memoryMode")
+                throw Exception("JS can only use 'Inmemory' as Buffer_Manager")
             }
             if (optionsChoosenForPackages["Jena_Wrapper"]!! != "Off") {
                 throw Exception("JS can only use 'Off' as jenaWrapper")

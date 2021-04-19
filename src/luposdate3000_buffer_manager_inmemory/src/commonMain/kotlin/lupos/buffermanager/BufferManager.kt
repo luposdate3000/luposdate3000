@@ -47,21 +47,6 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
     private var freeList = IntArray(128)
     private var freeListSize = 0
 
-    /*suspend*/ private fun clearAssumeLocks() {
-        counter = 0
-        SanityCheck {
-            for (i in 0 until counter) {
-                SanityCheck.check({ allPagesRefcounters[i] == 0 }, { "Failed requirement allPagesRefcounters[$i] = ${allPagesRefcounters[i]} == 0" })
-            }
-        }
-        allPages = Array<ByteArray>(128) { BufferManagerPage.create() }
-        allPagesRefcounters = IntArray(128)
-        if (BUFFER_MANAGER_USE_FREE_LIST) {
-            freeList = IntArray(128)
-            freeListSize = 0
-        }
-    }
-
     @ProguardTestAnnotation
     public fun getNumberOfAllocatedPages(): Int = counter - freeListSize
 
@@ -111,7 +96,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
         var pageid: Int = 0
         lock.withWriteLock {
             if (freeListSize > 0 && BUFFER_MANAGER_USE_FREE_LIST) {
-                pageid = freeList[freeListSize--]
+                pageid = freeList[--freeListSize]
             } else {
                 if (counter == allPages.size) {
                     var size = counter * 2
@@ -133,7 +118,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
                 }
                 pageid = counter++
             }
-            SanityCheck.check({ BufferManagerPage.getPageID(allPages[pageid]) == -1 }, { "${BufferManagerPage.getPageID(allPages[pageid])}" })
+            SanityCheck.check({ BufferManagerPage.getPageID(allPages[pageid]) == -1 }, { "${BufferManagerPage.getPageID(allPages[pageid])} $pageid" })
             BufferManagerPage.setPageID(allPages[pageid], pageid)
         }
         SanityCheck.println_buffermanager { "BufferManager.allocPage($pageid) : $call_location" }
@@ -163,13 +148,6 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
                 freeList = tmp
             }
             freeList[freeListSize++] = pageid
-            if (freeListSize == counter) {
-                clearAssumeLocks()
-            }
-        } else {
-            if (counter == 0) {
-                clearAssumeLocks()
-            }
         }
     }
 
