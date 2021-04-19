@@ -42,6 +42,9 @@ public actual class BufferManager internal actual constructor(@JvmField public v
     private var openPages = Array<ByteArray>(cacheSize) { BufferManagerPage.create() }
     private var openPagesRefcounters = IntArray(cacheSize)
     private var openPagesMapping = IntArray(cacheSize) { -1 }
+    private var openPagesLastUseCounters = IntArray(cacheSize)
+    private var openPagesLastUseCounter = 0
+    private var unusedPointer = 0
     private var counter: Int
     private var freeArray: IntArray
     private var freeArrayLength: Int
@@ -117,11 +120,14 @@ public actual class BufferManager internal actual constructor(@JvmField public v
                                 SanityCheck.check { cmp[i] == openPages[openId][i] }
                             }
                         }
-                        openPagesMapping[openId] = -1
                         SanityCheck.check({ BufferManagerPage.getPageID(openPages[openId]) == pageid }, { "${BufferManagerPage.getPageID(openPages[openId])} $pageid" })
-                        BufferManagerPage.setPageID(openPages[openId], -1)
                         SanityCheck {
                             openPages[openId] = BufferManagerPage.create()
+                        }
+                        SanityCheck.check { openPagesLastUseCounter >= 0 }
+                        openPagesLastUseCounters[openId] = openPagesLastUseCounter++
+                        if (openPagesLastUseCounter >= Int.MAX_VALUE - 10) {
+                            openPagesLastUseCounter = 0
                         }
                     }
                     openPagesRefcounters[openId]--
@@ -151,14 +157,23 @@ public actual class BufferManager internal actual constructor(@JvmField public v
                     openId2 = openId
                 },
                 onNotFound = {
-                    while (openId2 < cacheSize) {
-                        if (openPagesRefcounters[openId2] == 0) {
-                            break
+                    if (unusedPointer < cacheSize) {
+                        openId2 = unusedPointer++
+                    } else {
+                        var minIdx = 0
+                        var minCtr = Int.MAX_VALUE
+                        while (openId2 < cacheSize) {
+                            if (openPagesRefcounters[openId2] == 0 && openPagesLastUseCounters[openId2] < minCtr) {
+                                minCtr = openPagesLastUseCounters[openId2]
+                                minIdx = openId2
+                            }
+                            openId2++
                         }
-                        openId2++
-                    }
-                    if (openId2 == cacheSize) {
-                        throw Exception("no more pages available")
+                        openId2 = minIdx
+                        if (openId2 == cacheSize) {
+                            throw Exception("no more pages available")
+                        }
+                        BufferManagerPage.setPageID(openPages[openId2], -1)
                     }
                     datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
                     datafile.readFully(openPages[openId2], 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)

@@ -1,0 +1,1 @@
+BUFFER_MANAGER_USE_FREE_LIST,const internal val,Boolean,true
