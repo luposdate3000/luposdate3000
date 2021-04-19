@@ -84,7 +84,7 @@ public fun generateSourceCode(
         "lupos.s09physicalOperators.POPBase",
         "lupos.s00misc.EOperatorIDExt",
         "lupos.s00misc.ESortPriorityExt",
-        "import kotlin.jvm.JvmField",
+        "kotlin.jvm.JvmField",
         "lupos.s00misc.SanityCheck",
         "lupos.s00misc.SanityCheck",
         "lupos.s00misc.XMLElement",

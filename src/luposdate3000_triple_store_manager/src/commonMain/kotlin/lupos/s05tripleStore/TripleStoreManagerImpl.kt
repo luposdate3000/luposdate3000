@@ -44,19 +44,26 @@ public class TripleStoreManagerImpl : TripleStoreManager {
 
     @JvmField
     internal var localhost: LuposHostname
+
     @JvmField
     internal val partitionMode: EPartitionMode
+
     @JvmField
-    internal var bufferManager: BufferManager = BufferManagerExt.getBuffermanager("stores")
+    internal var bufferManager: BufferManager = BufferManagerExt.getBuffermanager()
+
     @JvmField
     internal val localStores_ = mutableMapOf<LuposStoreKey, TripleStoreIndex>()
+
     @JvmField
     internal val metadata_ = mutableMapOf<LuposGraphName, TripleStoreDescription>()
     private lateinit var defaultTripleStoreLayout: TripleStoreDescriptionFactory
+
     @JvmField
     internal var rootPageID: Int = -1
+
     @JvmField
     internal val globalManagerRootFileName = "triple_store_manager.page"
+
     @JvmField
     internal val keysOnHostname_: Array<MutableSet<LuposStoreKey>>
 

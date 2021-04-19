@@ -51,7 +51,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     public override fun getRootPageID(): Int = rootPageID
 
-    public constructor(rootPageID: Int, initFromRootPage: Boolean) : this(BufferManagerExt.getBuffermanager("stores"), rootPageID, initFromRootPage)
+    public constructor(rootPageID: Int, initFromRootPage: Boolean) : this(BufferManagerExt.getBuffermanager(), rootPageID, initFromRootPage)
 
     @ProguardTestAnnotation
     public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {

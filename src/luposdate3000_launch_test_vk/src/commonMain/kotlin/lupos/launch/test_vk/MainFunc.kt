@@ -125,12 +125,14 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 next = {
                     toInsert[i++]
                 },
-                value = { it ->
+                onNotFound = { it ->
                     if (values.contains(it)) {
                         throw Exception("")
                     }
                     values.add(it)
                     values.size - 1
+                },
+                onFound = { _, _ ->
                 }
             )
         }

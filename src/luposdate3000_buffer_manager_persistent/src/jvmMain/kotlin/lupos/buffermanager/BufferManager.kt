@@ -25,9 +25,7 @@ import java.io.RandomAccessFile
 import kotlin.jvm.JvmField
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
-public actual class BufferManager internal actual constructor(@JvmField public val name: String) {
-    @ProguardTestAnnotation
-    public actual constructor() : this("")
+public actual class BufferManager public actual constructor() {
 
     private companion object {
         private const val freelistfileOffsetCounter = 0L
@@ -38,26 +36,37 @@ public actual class BufferManager internal actual constructor(@JvmField public v
     @ProguardTestAnnotation
     @JvmField
     internal var closed = false
+
     @JvmField
     internal val cacheSize: Int = 100
+
     @JvmField
     internal val lock = MyReadWriteLock()
+
     @JvmField
     internal var openPages = Array<ByteArray>(cacheSize) { BufferManagerPage.create() }
+
     @JvmField
     internal var openPagesRefcounters = IntArray(cacheSize)
+
     @JvmField
     internal var openPagesMapping = IntArray(cacheSize) { -1 }
+
     @JvmField
     internal var counter: Int
+
     @JvmField
     internal var freeArray: IntArray
+
     @JvmField
     internal var freeArrayLength: Int
+
     @JvmField
     internal val freelistfile: RandomAccessFile
+
     @JvmField
     internal val datafile: RandomAccessFile
+
     @JvmField
     internal var datafilelength: Long
 
@@ -275,9 +284,9 @@ public actual class BufferManager internal actual constructor(@JvmField public v
     public actual fun getNumberOfReferencedPages(): Int = openPagesRefcounters.sum()
 
     init {
-        val flag = BufferManagerExt.allowInitFromDisk && File(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEnding).exists()
-        datafile = RandomAccessFile(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEnding, "rw")
-        freelistfile = RandomAccessFile(BufferManagerExt.bufferPrefix + name + BufferManagerExt.fileEndingFree, "rw")
+        val flag = BufferManagerExt.allowInitFromDisk && File(BufferManagerExt.bufferPrefix + BufferManagerExt.fileEnding).exists()
+        datafile = RandomAccessFile(BufferManagerExt.bufferPrefix + BufferManagerExt.fileEnding, "rw")
+        freelistfile = RandomAccessFile(BufferManagerExt.bufferPrefix + BufferManagerExt.fileEndingFree, "rw")
         if (flag) {
             datafilelength = datafile.length()
             freelistfile.seek(freelistfileOffsetFreeLen)

@@ -36,7 +36,7 @@ public object DictionaryFactory {
             when (type) {
                 EDictionaryTypeExt.InMemory -> DictionaryInMemory(false)
                 EDictionaryTypeExt.KV -> {
-                    val bufferManager = BufferManagerExt.getBuffermanager("dictionary")
+                    val bufferManager = BufferManagerExt.getBuffermanager()
                     var pageId: Int = -1
                     val fileName = "global_dictionary.page"
                     val file = File(BufferManagerExt.bufferPrefix + fileName)

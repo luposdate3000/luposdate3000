@@ -19,9 +19,6 @@ package lupos.buffermanager
 import lupos.ProguardTestAnnotation
 
 public expect class BufferManager {
-    internal constructor(name: String)
-
-    @ProguardTestAnnotation
     public constructor()
 
     public fun releasePage(call_location: String, pageid: Int)

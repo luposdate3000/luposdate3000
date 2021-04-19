@@ -158,7 +158,7 @@ public class ValueKeyStore {
         return res
     }
 
-    public fun createValues(hasNext: () -> Boolean, next: () -> ByteArrayWrapper, value: (ByteArrayWrapper) -> Int) {
+    public fun createValues(hasNext: () -> Boolean, next: () -> ByteArrayWrapper, onNotFound: (ByteArrayWrapper) -> Int, onFound: (ByteArrayWrapper, Int) -> Unit) {
         if (hasNext()) {
             var data = next()
             val buffer = ByteArrayWrapper()
@@ -168,6 +168,7 @@ public class ValueKeyStore {
             while (!isInserted && reader.hasNext()) {
                 val id = reader.next()
                 if (data == buffer) {
+                    onFound(buffer, id)
                     writer.write(id, buffer)
                     if (hasNext()) {
                         data = next()
@@ -175,13 +176,13 @@ public class ValueKeyStore {
                         isInserted = true
                     }
                 } else if (data < buffer) {
-                    val res = value(data)
+                    val res = onNotFound(data)
                     writer.write(res, data)
                     isInserted = true
                     localloop@ while (hasNext()) {
                         data = next()
                         if (data < buffer) {
-                            val res2 = value(data)
+                            val res2 = onNotFound(data)
                             writer.write(res2, data)
                         } else {
                             isInserted = false
@@ -198,12 +199,12 @@ public class ValueKeyStore {
                 writer.write(id, buffer)
             }
             if (!isInserted) {
-                val res = value(data)
+                val res = onNotFound(data)
                 SanityCheck.check { res != ValueKeyStore.ID_NULL }
                 writer.write(res, data)
                 while (hasNext()) {
                     data = next()
-                    val res2 = value(data)
+                    val res2 = onNotFound(data)
                     SanityCheck.check { res2 != ValueKeyStore.ID_NULL }
                     writer.write(res2, data)
                 }
@@ -228,24 +229,34 @@ public class ValueKeyStore {
 internal class ValueKeyStoreWriter {
     @JvmField
     internal var firstLeafID: Int = ValueKeyStore.PAGEID_NULL_PTR
+
     @JvmField
     internal var lastPageID: Int = ValueKeyStore.PAGEID_NULL_PTR
+
     @JvmField
     internal var pageid: Int = ValueKeyStore.PAGEID_NULL_PTR
+
     @JvmField
     internal var page: ByteArray
+
     @JvmField
     internal var offset = 12
+
     @JvmField
     internal val lastBuffer = ByteArrayWrapper()
+
     @JvmField
     internal val pageType: Int
+
     @JvmField
     internal val bufferManager: BufferManager
+
     @JvmField
     internal var parentLayer: ValueKeyStoreWriter? = null
+
     @JvmField
     internal var counter = 0
+
     @JvmField
     internal var lastChildPageID = ValueKeyStore.PAGEID_NULL_PTR
 
@@ -349,10 +360,13 @@ internal class ValueKeyStoreWriter {
 public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal val bufferManager: BufferManager, startPageID: Int, @JvmField internal val buffer: ByteArrayWrapper) {
     @JvmField
     internal var pageid = startPageID
+
     @JvmField
     internal var page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
+
     @JvmField
     internal var nextPageID = BufferManagerPage.readInt4(page, 4)
+
     @JvmField
     internal var offset = BufferManagerPage.readInt4(page, 8)
     public fun hasNext(): Boolean {
@@ -416,15 +430,7 @@ internal class ValueKeyStoreIteratorSearch internal constructor(@JvmField intern
             var pageType = BufferManagerPage.readInt4(page, 0)
             var childPageID = BufferManagerPage.readInt4(page, 12) // only valid if "pageType == ValueKeyStore.PAGE_TYPE_INNER"
             var lastID = ValueKeyStore.ID_NULL
-            fun hasNext(): Boolean {
-                if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
-                    return false
-                } else {
-                    SanityCheck.check { BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF }
-                    return BufferManagerPage.readInt4(page, offset) != ValueKeyStore.ID_NULL
-                }
-            }
-            localloop@ while (hasNext()) {
+            localloop@ while (pageid != ValueKeyStore.PAGEID_NULL_PTR && BufferManagerPage.readInt4(page, offset) != ValueKeyStore.ID_NULL) {
                 var localChildPageID = childPageID
                 lastID = BufferManagerPage.readInt4(page, offset)
                 val len = BufferManagerPage.readInt4(page, offset + 4)

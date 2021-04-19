@@ -187,10 +187,13 @@ public class DictionaryKV : ADictionary {
                 ready = false
                 buffer
             },
-            value = { it ->
+            onNotFound = { it ->
                 val id = kv.createValue(it)
                 addEntry(originalID, id or ADictionary.flagNoBNode)
                 id
+            },
+            onFound = { _, it ->
+                addEntry(originalID, it or ADictionary.flagNoBNode)
             }
         )
         println("imported dictionary with $lastId items")

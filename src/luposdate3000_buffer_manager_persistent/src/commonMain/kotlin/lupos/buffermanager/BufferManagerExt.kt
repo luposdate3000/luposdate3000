@@ -16,15 +16,14 @@
  */
 package lupos.buffermanager
 
-import lupos.s00misc.MyReadWriteLock
 import lupos.shared_inline.File
 import lupos.shared_inline.Platform
 import kotlin.jvm.JvmField
 
 public object BufferManagerExt {
-    internal const val fileEnding: String = ".data"
-    internal const val fileEndingFree: String = ".datafree"
-    internal const val fileEndingIntArray: String = ".intarray"
+    internal const val fileEnding: String = "buffer.data"
+    internal const val fileEndingFree: String = "buffer.datafree"
+    internal const val fileEndingIntArray: String = "buffer.intarray"
 
     @JvmField
     public val isInMemoryOnly: Boolean = false
@@ -36,29 +35,14 @@ public object BufferManagerExt {
     public var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
 
     @JvmField
-    internal val managerList = mutableMapOf<String, BufferManager>()
+    internal val bufferManager = BufferManager()
 
-    @JvmField
-    internal val managerListLock = MyReadWriteLock()
-
-    public fun getBuffermanager(name: String): BufferManager {
-        var res: BufferManager? = null
-        managerListLock.withWriteLock {
-            res = managerList[name]
-            if (res == null) {
-                res = BufferManager(name)
-                managerList[name] = res!!
-            }
-        }
-        return res!!
+    public fun getBuffermanager(): BufferManager {
+        return bufferManager
     }
 
     public fun close() {
-        managerListLock.withWriteLock {
-            for (v in managerList.values) {
-                v.close()
-            }
-        }
+        bufferManager.close()
     }
 
     init {

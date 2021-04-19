@@ -23,9 +23,7 @@ import lupos.s00misc.SanityCheck
 import lupos.shared_inline.BufferManagerPage
 import kotlin.jvm.JvmField
 
-public class BufferManager internal constructor(@JvmField public val name: String) {
-    @ProguardTestAnnotation
-    public constructor() : this("")
+public class BufferManager public constructor() {
 
     /*
      * each type safe page-manager safes to its own store
@@ -50,6 +48,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
 
     @JvmField
     internal var freeList = IntArray(128)
+
     @JvmField
     internal var freeListSize = 0
 
