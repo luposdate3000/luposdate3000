@@ -70,7 +70,7 @@ public class MyIntArray internal constructor(@JvmField private val filename: Str
                     }
                     var newData = IntArray(newSize)
                     if (_size < newSize) {
-                        data.copyInto(newData)
+                        data.copyInto(newData, 0, 0, _size)
                     } else {
                         data.copyInto(newData, 0, 0, newSize)
                     }

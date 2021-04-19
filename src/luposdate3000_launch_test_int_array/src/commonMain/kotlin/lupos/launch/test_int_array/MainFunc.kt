@@ -48,7 +48,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         if (verbose) {
             println("testSetSizeOk $dataSize")
         }
-        arr.setSize(dataSize)
+        arr.setSize(dataSize, true)
     }
 
     fun testSetOk(idx: Int, value: Int) {
