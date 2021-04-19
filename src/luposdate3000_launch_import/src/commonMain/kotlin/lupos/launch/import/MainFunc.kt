@@ -22,7 +22,6 @@ import lupos.fileformat.DictionaryIntermediateWriter
 import lupos.fileformat.TriplesIntermediate
 import lupos.fileformat.TriplesIntermediateReader
 import lupos.fileformat.TriplesIntermediateWriter
-import lupos.modulename.File
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.Parallel
@@ -30,6 +29,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.nQuads.NQuads2Parser
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.shared.INTERNAL_BUFFER_SIZE
+import lupos.shared_inline.File
 import kotlin.math.min
 
 internal fun helperCleanString(s: String): String {

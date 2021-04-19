@@ -21,7 +21,6 @@ import com.ionspin.kotlin.bignum.decimal.plus
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import com.ionspin.kotlin.bignum.integer.toBigInteger
-import lupos.modulename.DateHelper
 import lupos.s00misc.CanNotCastBNodeToBooleanException
 import lupos.s00misc.CanNotCastBNodeToDecimalException
 import lupos.s00misc.CanNotCastBNodeToDoubleException
@@ -51,6 +50,7 @@ import lupos.s00misc.CanNotCastUndefToIntException
 import lupos.s00misc.IncompatibleTypesDuringCompareException
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
+import lupos.shared_inline.DateHelper
 import kotlin.jvm.JvmField
 
 public sealed class ValueDefinition : Comparable<ValueDefinition> {

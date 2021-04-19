@@ -18,8 +18,8 @@ package lupos.launch.test_buffermanager
 
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
-import lupos.modulename.BufferManagerPage
 import lupos.s00misc.Parallel
+import lupos.shared_inline.BufferManagerPage
 import lupos.test.AflCore
 import kotlin.math.abs
 

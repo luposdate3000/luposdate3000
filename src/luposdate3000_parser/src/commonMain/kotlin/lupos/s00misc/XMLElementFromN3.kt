@@ -16,12 +16,12 @@
  */
 package lupos.s00misc
 
-import lupos.modulename.MyStringStream
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
+import lupos.shared_inline.MyStringStream
 
 public class XMLElementFromN3 : XMLElementParser {
     override operator fun invoke(data: String): XMLElement {

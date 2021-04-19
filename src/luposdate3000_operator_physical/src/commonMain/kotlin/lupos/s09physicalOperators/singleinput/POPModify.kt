@@ -17,7 +17,6 @@
 package lupos.s09physicalOperators.singleinput
 
 import lupos.dictionary.DictionaryExt
-import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
@@ -36,6 +35,7 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
+import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 public class POPModify public constructor(query: IQuery, projectedVariables: List<String>, insert: List<LOPTriple>, delete: List<LOPTriple>, child: IOPBase) :

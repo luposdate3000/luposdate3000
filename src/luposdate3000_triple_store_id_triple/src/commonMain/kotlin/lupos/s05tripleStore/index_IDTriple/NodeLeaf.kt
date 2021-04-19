@@ -16,10 +16,10 @@
  */
 package lupos.s05tripleStore.index_IDTriple
 
-import lupos.modulename.BufferManagerPage
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator
+import lupos.shared_inline.BufferManagerPage
 
 internal object NodeLeaf {
     const val START_OFFSET = 12

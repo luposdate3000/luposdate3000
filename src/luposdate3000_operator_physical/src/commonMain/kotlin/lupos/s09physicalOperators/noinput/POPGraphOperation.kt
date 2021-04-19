@@ -16,7 +16,6 @@
  */
 package lupos.s09physicalOperators.noinput
 
-import lupos.modulename.File
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphOperationTypeExt
 import lupos.s00misc.EGraphRefType
@@ -39,6 +38,7 @@ import lupos.s05tripleStore.ITripleStoreDescription
 import lupos.s05tripleStore.TripleStoreManager
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
+import lupos.shared_inline.File
 import kotlin.jvm.JvmField
 
 public class POPGraphOperation public constructor(

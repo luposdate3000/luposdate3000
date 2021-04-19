@@ -20,11 +20,6 @@ import lupos.buffermanager.BufferManagerExt
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.nodeGlobalDictionary
 import lupos.fileformat.TriplesIntermediateReader
-import lupos.modulename.DictionaryHelper
-import lupos.modulename.File
-import lupos.modulename.MyPrintWriter
-import lupos.modulename.MyStringStream
-import lupos.modulename.Platform
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.distributed.query.DistributedOptimizerQuery
@@ -74,6 +69,11 @@ import lupos.s11outputResult.QueryResultToTurtleStream
 import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s11outputResult.QueryResultToXMLStream
 import lupos.shared.optimizer.distributedOptimizerQueryFactory
+import lupos.shared_inline.DictionaryHelper
+import lupos.shared_inline.File
+import lupos.shared_inline.MyPrintWriter
+import lupos.shared_inline.MyStringStream
+import lupos.shared_inline.Platform
 import kotlin.js.JsName
 
 /*

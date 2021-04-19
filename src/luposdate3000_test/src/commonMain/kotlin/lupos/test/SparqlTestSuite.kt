@@ -18,7 +18,6 @@ package lupos.test
 
 import lupos.endpoint.LuposdateEndpoint
 import lupos.jena.JenaWrapper
-import lupos.modulename.File
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
@@ -55,6 +54,7 @@ import lupos.s05tripleStore.TripleStoreManager
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s11outputResult.QueryResultToXMLElement
+import lupos.shared_inline.File
 import kotlin.jvm.JvmField
 
 public open class SparqlTestSuite {

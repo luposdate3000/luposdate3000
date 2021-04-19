@@ -17,9 +17,9 @@
 package lupos.buffermanager
 
 import lupos.ProguardTestAnnotation
-import lupos.modulename.File
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
+import lupos.shared_inline.File
 import java.io.RandomAccessFile
 import kotlin.jvm.JvmField
 

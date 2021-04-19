@@ -18,8 +18,6 @@ package lupos.s09physicalOperators.singleinput
 
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.dictionary.DictionaryExt
-import lupos.modulename.ColumnIteratorQueueExt
-import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -45,6 +43,8 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s09physicalOperators.MapKey
 import lupos.s09physicalOperators.POPBase
+import lupos.shared_inline.ColumnIteratorQueueExt
+import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 // TODO refactor such that the optimizer may choose which strategy to use

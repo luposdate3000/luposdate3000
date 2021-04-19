@@ -19,9 +19,9 @@ package lupos.kv
 import lupos.ProguardTestAnnotation
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.MyIntArray
-import lupos.modulename.BufferManagerPage
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.SanityCheck
+import lupos.shared_inline.BufferManagerPage
 
 public class KeyValueStore {
     private val rootPageID: Int

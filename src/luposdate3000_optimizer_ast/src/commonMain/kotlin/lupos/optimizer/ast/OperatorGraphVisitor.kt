@@ -18,7 +18,6 @@ package lupos.optimizer.ast
 
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
-import lupos.modulename.File
 import lupos.s00misc.AggregateNotAllowedSyntaxException
 import lupos.s00misc.DatasetImportFailedException
 import lupos.s00misc.EGraphOperationTypeExt
@@ -242,6 +241,7 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPPrefix
 import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s05tripleStore.TripleStoreManager
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
+import lupos.shared_inline.File
 import kotlin.jvm.JvmField
 
 public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<IOPBase> {

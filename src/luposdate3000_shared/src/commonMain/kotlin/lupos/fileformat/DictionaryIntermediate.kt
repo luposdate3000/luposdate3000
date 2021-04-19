@@ -17,9 +17,9 @@
 
 package lupos.fileformat
 
-import lupos.modulename.File
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
+import lupos.shared_inline.File
 
 public abstract class DictionaryIntermediate(internal val filename: String) {
     public var streamOut: IMyOutputStream? = null

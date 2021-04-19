@@ -17,8 +17,8 @@
 
 package lupos.fileformat
 
-import lupos.modulename.ByteArrayHelper
-import lupos.modulename.File
+import lupos.shared_inline.ByteArrayHelper
+import lupos.shared_inline.File
 
 public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(filename) {
     init {

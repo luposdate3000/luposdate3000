@@ -17,9 +17,9 @@
 package lupos.launch.display_dictionary_contents
 
 import lupos.fileformat.DictionaryIntermediateReader
-import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.Parallel
+import lupos.shared_inline.DictionaryHelper
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {

@@ -18,9 +18,9 @@ package lupos.vk
 
 import lupos.ProguardTestAnnotation
 import lupos.buffermanager.BufferManager
-import lupos.modulename.BufferManagerPage
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.SanityCheck
+import lupos.shared_inline.BufferManagerPage
 import kotlin.math.min
 
 public class ValueKeyStore {

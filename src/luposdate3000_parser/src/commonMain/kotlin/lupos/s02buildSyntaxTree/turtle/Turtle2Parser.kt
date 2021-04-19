@@ -16,9 +16,9 @@
  */
 package lupos.s02buildSyntaxTree.turtle
 
-import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.IMyInputStream
+import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 public abstract class Turtle2Parser(input: IMyInputStream) {

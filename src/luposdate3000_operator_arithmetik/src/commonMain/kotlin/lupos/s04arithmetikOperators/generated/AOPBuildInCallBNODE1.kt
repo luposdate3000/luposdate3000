@@ -19,7 +19,7 @@ package lupos.s04arithmetikOperators.generated
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.dictionary.DictionaryExt
-import lupos.modulename.DictionaryHelper
+import lupos.shared_inline.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ETripleComponentType

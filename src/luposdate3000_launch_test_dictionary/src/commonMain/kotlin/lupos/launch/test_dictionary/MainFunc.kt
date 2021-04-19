@@ -24,11 +24,11 @@ import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
 import lupos.dictionary.nodeGlobalDictionary
-import lupos.modulename.ByteArrayHelper
-import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.Parallel
+import lupos.shared_inline.ByteArrayHelper
+import lupos.shared_inline.DictionaryHelper
 import lupos.test.AflCore
 import kotlin.math.abs
 import kotlin.math.max

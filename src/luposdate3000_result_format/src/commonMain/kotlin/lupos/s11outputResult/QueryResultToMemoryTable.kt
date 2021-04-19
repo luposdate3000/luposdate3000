@@ -18,7 +18,6 @@ package lupos.s11outputResult
 
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.IDictionary
-import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.MemoryTable
@@ -35,6 +34,7 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
+import lupos.shared_inline.DictionaryHelper
 
 public object QueryResultToMemoryTable {
     private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IDictionary, output: MemoryTable) {

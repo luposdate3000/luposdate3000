@@ -1,9 +1,9 @@
 package examplePackage
 
 import lupos.endpoint.LuposdateEndpoint
-import lupos.modulename.MyPrintWriter
 import lupos.s00misc.CodeGenerationAnnotation
 import lupos.s00misc.DateHelperRelative
+import lupos.shared_inline.MyPrintWriter
 import kotlin.jvm.JvmField
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)

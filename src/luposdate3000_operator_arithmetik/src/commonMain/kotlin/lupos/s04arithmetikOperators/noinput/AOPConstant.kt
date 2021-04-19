@@ -16,7 +16,6 @@
  */
 package lupos.s04arithmetikOperators.noinput
 
-import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.XMLElement
@@ -26,6 +25,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
+import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 public class AOPConstant : AOPBase, IAOPConstant {

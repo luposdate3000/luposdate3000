@@ -17,7 +17,6 @@
 package lupos.s04arithmetikOperators.generated
 
 import lupos.dictionary.DictionaryExt
-import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ETripleComponentType
@@ -26,6 +25,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
+import lupos.shared_inline.DictionaryHelper
 
 public class AOPBuildInCallIsNUMERIC public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallIsNUMERICID, "AOPBuildInCallIsNUMERIC", arrayOf(child0, )) {
     override fun toSparql(): String = "IsNUMERIC(${children[0].toSparql()})"

@@ -16,8 +16,8 @@
  */
 package lupos.buffermanager
 
-import lupos.modulename.Platform
 import lupos.s00misc.MyReadWriteLock
+import lupos.shared_inline.Platform
 import kotlin.jvm.JvmField
 
 public object BufferManagerExt {

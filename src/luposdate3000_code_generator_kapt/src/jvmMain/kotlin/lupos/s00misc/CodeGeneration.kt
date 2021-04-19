@@ -17,8 +17,6 @@
 package lupos.s00misc
 
 import lupos.endpoint.LuposdateEndpoint
-import lupos.modulename.DictionaryHelper
-import lupos.modulename.MyPrintWriter
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueInteger
@@ -50,6 +48,8 @@ import lupos.s09physicalOperators.singleinput.POPBind
 import lupos.s09physicalOperators.singleinput.POPDebug
 import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPProjection
+import lupos.shared_inline.DictionaryHelper
+import lupos.shared_inline.MyPrintWriter
 
 private const val passThroughGenericImplementation = false
 
@@ -71,7 +71,7 @@ public fun generateSourceCode(
     val imports = mutableSetOf<String>(
         "lupos.s04logicalOperators.Query",
         "lupos.s04logicalOperators.IQuery",
-        "lupos.modulename.MyPrintWriter",
+        "lupos.shared_inline.MyPrintWriter",
         "lupos.endpoint.LuposdateEndpoint",
         "com.ionspin.kotlin.bignum.integer.BigInteger",
         "com.ionspin.kotlin.bignum.decimal.BigDecimal",
@@ -91,10 +91,10 @@ public fun generateSourceCode(
         "lupos.s04logicalOperators.iterator.ColumnIterator",
         "lupos.s04logicalOperators.iterator.IteratorBundle",
         "lupos.s04logicalOperators.iterator.ColumnIteratorQueue",
-        "lupos.modulename.ColumnIteratorQueueExt",
+        "lupos.shared_inline.ColumnIteratorQueueExt",
         "lupos.s04arithmetikOperators.generated.AOPAnd",
         "lupos.s03resultRepresentation.ValueIri",
-        "lupos.modulename.DictionaryHelper",
+        "lupos.shared_inline.DictionaryHelper",
         "lupos.dictionary.DictionaryExt",
         "lupos.s00misc.ByteArrayWrapper"
     )

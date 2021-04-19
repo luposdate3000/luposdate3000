@@ -18,8 +18,8 @@ package lupos.dictionary
 
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
-import lupos.modulename.File
-import lupos.modulename.Platform
+import lupos.shared_inline.File
+import lupos.shared_inline.Platform
 
 public object DictionaryFactory {
     public fun createGlobalDictionary(): IDictionary {

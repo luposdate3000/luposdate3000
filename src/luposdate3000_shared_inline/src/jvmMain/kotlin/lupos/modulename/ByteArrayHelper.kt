@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.modulename
+package lupos.shared_inline
 
 internal actual object ByteArrayHelper {
     @Suppress("NOTHING_TO_INLINE")

@@ -17,7 +17,6 @@
 package lupos.s09physicalOperators.noinput
 
 import lupos.dictionary.DictionaryExt
-import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -32,6 +31,7 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.noinput.LOPValues
 import lupos.s09physicalOperators.POPBase
+import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 public open class POPValues : POPBase {

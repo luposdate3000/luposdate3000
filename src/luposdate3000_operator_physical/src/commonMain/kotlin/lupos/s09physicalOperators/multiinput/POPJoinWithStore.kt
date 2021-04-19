@@ -17,7 +17,6 @@
 package lupos.s09physicalOperators.multiinput
 
 import lupos.dictionary.DictionaryExt
-import lupos.modulename.ColumnIteratorQueueExt
 import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
@@ -40,6 +39,7 @@ import lupos.s04logicalOperators.multiinput.LOPJoin_Helper
 import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
+import lupos.shared_inline.ColumnIteratorQueueExt
 import kotlin.jvm.JvmField
 
 public class POPJoinWithStore public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, @JvmField public val childB: LOPTriple, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinWithStoreID, "POPJoinWithStore", arrayOf(childA), ESortPriorityExt.SAME_AS_CHILD) {

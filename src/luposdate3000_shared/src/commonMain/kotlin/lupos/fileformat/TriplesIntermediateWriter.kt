@@ -16,9 +16,9 @@
  */
 package lupos.fileformat
 
-import lupos.modulename.ByteArrayHelper
-import lupos.modulename.File
-import lupos.modulename.IntegerExt
+import lupos.shared_inline.ByteArrayHelper
+import lupos.shared_inline.File
+import lupos.shared_inline.IntegerExt
 
 public class TriplesIntermediateWriter : TriplesIntermediate {
     public constructor(filename: String) : super(filename) {

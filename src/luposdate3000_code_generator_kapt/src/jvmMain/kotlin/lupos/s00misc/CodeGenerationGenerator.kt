@@ -16,7 +16,7 @@
  */
 package lupos.s00misc
 
-import lupos.modulename.MyPrintWriter
+import lupos.shared_inline.MyPrintWriter
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.RoundEnvironment
 import javax.annotation.processing.SupportedOptions

@@ -16,10 +16,10 @@
  */
 package lupos.s09physicalOperators.noinput
 
-import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery
+import lupos.shared_inline.DictionaryHelper
 
 public abstract class POPValuesImportBase public constructor(query: IQuery, projectedVariables: List<String>, variables: List<String>) : POPValues(query, projectedVariables, variables, mutableListOf()) {
     override fun getPartitionCount(variable: String): Int = 1

@@ -19,7 +19,6 @@ package lupos.s04arithmetikOperators.generated
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.dictionary.DictionaryExt
-import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ETripleComponentType
@@ -28,6 +27,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
+import lupos.shared_inline.DictionaryHelper
 
 public class AOPFunctionCallDouble public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPFunctionCallDoubleID, "AOPFunctionCallDouble", arrayOf(child0, )) {
     override fun toSparql(): String = "<http://www.w3.org/2001/XMLSchema#double>(${children[0].toSparql()})"

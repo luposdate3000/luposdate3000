@@ -16,7 +16,6 @@
  */
 package lupos.s05tripleStore
 
-import lupos.modulename.ByteArrayHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.Partition
@@ -24,6 +23,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
+import lupos.shared_inline.ByteArrayHelper
 
 public class TripleStoreIndexDescriptionSimple(
     idx: EIndexPattern,

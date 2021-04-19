@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.modulename
+package lupos.shared_inline
 
 import lupos.shared.UUID_Counter
 import java.util.concurrent.locks.ReentrantReadWriteLock

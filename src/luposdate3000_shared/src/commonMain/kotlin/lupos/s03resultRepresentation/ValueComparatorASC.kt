@@ -16,9 +16,9 @@
  */
 package lupos.s03resultRepresentation
 
-import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s04logicalOperators.IQuery
+import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 public class ValueComparatorASC(@JvmField public val query: IQuery) : Comparator<Int> {

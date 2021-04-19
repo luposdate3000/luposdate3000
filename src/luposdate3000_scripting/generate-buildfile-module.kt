@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import lupos.modulename.Platform
 import lupos.s00misc.EOperatingSystemExt
+import lupos.shared_inline.Platform
 import java.io.File
 import java.io.PrintWriter
 import java.lang.ProcessBuilder.Redirect
@@ -66,12 +66,15 @@ private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, a
     }
 }
 
-private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<String, String>) {
+private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<String, String>, sharedInlineReferences: MutableSet<String>) {
     dest.printWriter().use { out ->
         var line = 0
         src.forEachLine { it ->
             var s = it
             for ((k, v) in replacement) {
+                if (s.startsWith("import lupos.shared_inline.")) {
+                    sharedInlineReferences.add(s.substring("import lupos.shared_inline.".length))
+                }
                 s = s.replace(k, v)
                 if (k.startsWith(" ")) {
                     if (s.startsWith(k.substring(1))) {
@@ -88,12 +91,12 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<Stri
     }
 }
 
-private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map<String, String>, pathSeparator: String) {
+private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map<String, String>, pathSeparator: String, sharedInlineReferences: MutableSet<String>) {
     for (it in File(src).walk()) {
         val tmp = it.toString()
         val t = tmp.substring(src.length)
         if (File(tmp).isFile()) {
-            copyFileWithReplacement(File(src + pathSeparator + t), File(dest + pathSeparator + t), replacement)
+            copyFileWithReplacement(File(src + pathSeparator + t), File(dest + pathSeparator + t), replacement, sharedInlineReferences)
         } else {
             File(dest + pathSeparator + t).mkdirs()
         }
@@ -288,10 +291,11 @@ class CreateModuleArgs() {
 
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
     try {
-        val replacementsDefault = mapOf(
+        val replacementsDefault = mutableMapOf(
             " public " to " @lupos.ProguardKeepAnnotation public ",
-            "lupos.modulename" to "lupos.${moduleArgs.moduleName}",
+            "lupos.shared_inline" to "lupos.${moduleArgs.moduleName}",
         )
+        val sharedInlineReferences = mutableSetOf<String>()
         if (moduleArgs.dryMode == DryMode.Enable || moduleArgs.ideaBuildfile == IntellijMode.Enable) {
             moduleArgs.dryMode = DryMode.Enable
         } else {
@@ -369,22 +373,22 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                         f = tmp
                     }
                     if (f.startsWith("common")) {
-                        copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("common.*Main", "commonMain"), replacementsDefault, pathSeparator)
+                        copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("common.*Main", "commonMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
                     } else if (f.startsWith("jvm")) {
                         if (enableJVM) {
-                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("jvm.*Main", "jvmMain"), replacementsDefault, pathSeparator)
+                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("jvm.*Main", "jvmMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
                         }
                     } else if (f.startsWith("js")) {
                         if (enableJS) {
-                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("js.*Main", "jsMain"), replacementsDefault, pathSeparator)
+                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("js.*Main", "jsMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
                         }
                     } else if (f.startsWith("native")) {
                         if (enableNative) {
-                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("native.*Main", "nativeMain"), replacementsDefault, pathSeparator)
+                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("native.*Main", "nativeMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
                         }
                     } else if (f.startsWith(moduleArgs.platform)) {
                         if (enableNative) {
-                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("${moduleArgs.platform}.*Main", "${moduleArgs.platform}Main"), replacementsDefault, pathSeparator)
+                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("${moduleArgs.platform}.*Main", "${moduleArgs.platform}Main"), replacementsDefault, pathSeparator, sharedInlineReferences)
                         }
                     }
                 }
@@ -877,11 +881,11 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                             for (fname in v) {
                                 val src = File(fname)
                                 val dest = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated"))
-                                copyFileWithReplacement(src, dest, replacementsDefault)
+                                copyFileWithReplacement(src, dest, replacementsDefault, sharedInlineReferences)
                                 try {
                                     val src2 = File(fname.replace(".kt", "Alias.kt"))
                                     val dest2 = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated").replace(".kt", "Alias.kt"))
-                                    copyFileWithReplacement(src2, dest2, replacementsDefault)
+                                    copyFileWithReplacement(src2, dest2, replacementsDefault, sharedInlineReferences)
                                 } catch (e: Throwable) {
                                     e.printStackTrace()
                                 }
@@ -891,7 +895,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     }
                 } else {
                     typeAliasUsed.putAll(typeAliasAll)
-                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src"), "src.generated", replacementsDefault, pathSeparator)
+                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src"), "src.generated", replacementsDefault, pathSeparator, sharedInlineReferences)
                 }
             } else {
                 var configPathBase = "src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleArgs.moduleFolder}${pathSeparator}src"
@@ -899,22 +903,22 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 File(configPath).mkdirs()
                 typeAliasUsed.putAll(typeAliasAll)
                 try {
-                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}commonMain"), ("${configPathBase}${pathSeparator}commonMain"), replacementsDefault, pathSeparator)
+                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}commonMain"), ("${configPathBase}${pathSeparator}commonMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }
                 try {
-                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jvmMain"), ("${configPathBase}${pathSeparator}jvmMain"), replacementsDefault, pathSeparator)
+                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jvmMain"), ("${configPathBase}${pathSeparator}jvmMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }
                 try {
-                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jsMain"), ("${configPathBase}${pathSeparator}jsMain"), replacementsDefault, pathSeparator)
+                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jsMain"), ("${configPathBase}${pathSeparator}jsMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }
                 try {
-                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}nativeMain"), ("${configPathBase}${pathSeparator}nativeMain"), replacementsDefault, pathSeparator)
+                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}nativeMain"), ("${configPathBase}${pathSeparator}nativeMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }
@@ -928,6 +932,13 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             var configPath = "${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc"
             File(configPath).mkdirs()
             configFile = "${configPath}${pathSeparator}Config-${moduleArgs.moduleName}.kt"
+
+            File("${configPath}${pathSeparator}SharedInlineHelper-${moduleArgs.moduleName}.kt").printWriter().use { out ->
+                out.println("package lupos.shared_inline")
+                for (s in sharedInlineReferences) {
+                    out.println("internal typealias $s = lupos.${moduleArgs.moduleName}.$s")
+                }
+            }
         }
         println(typeAliasUsed.keys)
         println()

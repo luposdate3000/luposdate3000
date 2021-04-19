@@ -18,8 +18,6 @@ package lupos.s11outputResult
 
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.IDictionary
-import lupos.modulename.DictionaryHelper
-import lupos.modulename.MyPrintWriter
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.IMyOutputStream
@@ -36,6 +34,8 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
+import lupos.shared_inline.DictionaryHelper
+import lupos.shared_inline.MyPrintWriter
 
 public object QueryResultToTurtleStream {
     private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, dictionary: IDictionary): String? {

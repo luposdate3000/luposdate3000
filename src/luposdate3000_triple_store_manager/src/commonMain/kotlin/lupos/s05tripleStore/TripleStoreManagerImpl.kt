@@ -18,10 +18,6 @@ package lupos.s05tripleStore
 
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
-import lupos.modulename.BufferManagerPage
-import lupos.modulename.ByteArrayHelper
-import lupos.modulename.File
-import lupos.modulename.Platform
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EIndexPatternHelper
@@ -35,6 +31,10 @@ import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.Query
+import lupos.shared_inline.BufferManagerPage
+import lupos.shared_inline.ByteArrayHelper
+import lupos.shared_inline.File
+import lupos.shared_inline.Platform
 import kotlin.jvm.JvmField
 import kotlin.math.min
 

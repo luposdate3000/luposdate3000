@@ -21,7 +21,6 @@ import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.nodeGlobalDictionary
 import lupos.endpoint.LuposdateEndpoint
 import lupos.jena.JenaWrapper
-import lupos.modulename.File
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
@@ -44,6 +43,7 @@ import lupos.s09physicalOperators.partition.POPDistributedSendMulti
 import lupos.s09physicalOperators.partition.POPDistributedSendSingle
 import lupos.s09physicalOperators.partition.POPDistributedSendSingleCount
 import lupos.s11outputResult.EQueryResultToStreamExt
+import lupos.shared_inline.File
 import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.Socket

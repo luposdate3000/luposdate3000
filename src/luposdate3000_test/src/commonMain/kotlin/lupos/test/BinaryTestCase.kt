@@ -21,9 +21,6 @@ import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
 import lupos.dictionary.nodeGlobalDictionary
-import lupos.modulename.DictionaryHelper
-import lupos.modulename.File
-import lupos.modulename.MyPrintWriter
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
@@ -58,6 +55,9 @@ import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s11outputResult.QueryResultToMemoryTable
 import lupos.s11outputResult.QueryResultToXMLStream
+import lupos.shared_inline.DictionaryHelper
+import lupos.shared_inline.File
+import lupos.shared_inline.MyPrintWriter
 
 public object BinaryTestCase {
     private var outSummary: IMyOutputStream = MyPrintWriter(false)

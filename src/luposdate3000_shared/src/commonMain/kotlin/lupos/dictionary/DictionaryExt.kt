@@ -16,11 +16,11 @@
  */
 package lupos.dictionary
 
-import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueError
 import lupos.s03resultRepresentation.ValueUndef
+import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 public object DictionaryExt {

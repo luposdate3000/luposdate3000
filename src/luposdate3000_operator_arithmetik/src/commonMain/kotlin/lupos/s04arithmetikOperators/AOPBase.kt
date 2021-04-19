@@ -17,7 +17,6 @@
 package lupos.s04arithmetikOperators
 
 import lupos.dictionary.DictionaryExt
-import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriorityExt
@@ -29,6 +28,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.iterator.IteratorBundle
+import lupos.shared_inline.DictionaryHelper
 
 public abstract class AOPBase public constructor(
     query: IQuery,

@@ -16,9 +16,9 @@
  */
 package lupos.s05tripleStore
 
-import lupos.modulename.ByteArrayHelper
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
+import lupos.shared_inline.ByteArrayHelper
 import kotlin.jvm.JvmField
 
 public open class TripleStoreIndexDescriptionFactory : ITripleStoreIndexDescriptionFactory {

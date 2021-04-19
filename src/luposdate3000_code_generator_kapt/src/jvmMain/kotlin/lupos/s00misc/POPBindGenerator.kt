@@ -16,10 +16,10 @@
  */
 package lupos.s00misc
 
-import lupos.modulename.MyPrintWriter
 import lupos.s09physicalOperators.singleinput.POPBind
 import lupos.s09physicalOperators.singleinput.POPDebug
 import lupos.s09physicalOperators.singleinput.POPFilter
+import lupos.shared_inline.MyPrintWriter
 
 internal fun generatePOPBind(
     operatorGraph: POPBind,
