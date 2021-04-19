@@ -17,6 +17,10 @@
 import examplePackage.BenchmarkClass
 import lupos.endpoint.LuposdateEndpoint
 
+// require lupos.shared_inline.ColumnIteratorQueueExt
+// require lupos.shared_inline.DictionaryHelper
+// require lupos.shared_inline.MyPrintWriter
+
 public fun main(args: Array<String>) {
     /*//var flag = false
     mainFunc()

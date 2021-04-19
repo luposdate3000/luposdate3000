@@ -28,7 +28,6 @@ import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyLock
-import lupos.s00misc.MyStringStream
 import lupos.s00misc.Parallel
 import lupos.s00misc.XMLElement
 import lupos.s00misc.XMLElementFromXML
@@ -44,6 +43,7 @@ import lupos.s11outputResult.EQueryResultToStreamExt
 import lupos.shared_inline.File
 import lupos.shared_inline.MyInputStream
 import lupos.shared_inline.MyOutputStream
+import lupos.shared_inline.MyStringStream
 import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.Socket

@@ -78,6 +78,8 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<Stri
         for ((k, v) in replacement) {
             if (s.startsWith("import lupos.shared_inline.")) {
                 sharedInlineReferences.add(s.substring("import lupos.shared_inline.".length))
+            } else if (s.startsWith("// require lupos.shared_inline.")) {
+                sharedInlineReferences.add(s.substring("// require lupos.shared_inline.".length))
             }
             s = s.replace(k, v)
             if (k.startsWith(" ")) {

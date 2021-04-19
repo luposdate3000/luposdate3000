@@ -71,7 +71,6 @@ public fun generateSourceCode(
     val imports = mutableSetOf<String>(
         "lupos.s04logicalOperators.Query",
         "lupos.s04logicalOperators.IQuery",
-        "lupos.shared_inline.MyPrintWriter",
         "lupos.endpoint.LuposdateEndpoint",
         "com.ionspin.kotlin.bignum.integer.BigInteger",
         "com.ionspin.kotlin.bignum.decimal.BigDecimal",
@@ -91,10 +90,11 @@ public fun generateSourceCode(
         "lupos.s04logicalOperators.iterator.ColumnIterator",
         "lupos.s04logicalOperators.iterator.IteratorBundle",
         "lupos.s04logicalOperators.iterator.ColumnIteratorQueue",
-        "lupos.shared_inline.ColumnIteratorQueueExt",
         "lupos.s04arithmetikOperators.generated.AOPAnd",
         "lupos.s03resultRepresentation.ValueIri",
-        "lupos.shared_inline.DictionaryHelper",
+        "lupos" + ".shared_inline.MyPrintWriter",
+        "lupos" + ".shared_inline.ColumnIteratorQueueExt",
+        "lupos" + ".shared_inline.DictionaryHelper",
         "lupos.dictionary.DictionaryExt",
         "lupos.s00misc.ByteArrayWrapper"
     )
