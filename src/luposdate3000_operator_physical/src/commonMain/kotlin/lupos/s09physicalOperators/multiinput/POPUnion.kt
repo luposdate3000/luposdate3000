@@ -19,13 +19,13 @@ package lupos.s09physicalOperators.multiinput
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
+import lupos.shared_inline.SanityCheck
 
 public class POPUnion public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPUnionID, "POPUnion", arrayOf(childA, childB), ESortPriorityExt.UNION) {
     override fun getPartitionCount(variable: String): Int {

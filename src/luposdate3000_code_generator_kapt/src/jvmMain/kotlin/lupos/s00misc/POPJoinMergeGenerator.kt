@@ -33,7 +33,7 @@ internal fun generatePOPJoinMerge(
     imports.add("lupos.s00misc.ESortPriorityExt")
     imports.add("lupos.s00misc.Partition")
     imports.add("lupos.s00misc.XMLElement")
-    imports.add("lupos.s00misc.SanityCheck")
+    imports.add("lupos.shared_inline.SanityCheck")
     imports.add("lupos.s04logicalOperators.IOPBase")
     imports.add("lupos.s04logicalOperators.IQuery")
     imports.add("lupos.s04logicalOperators.iterator.ColumnIterator")

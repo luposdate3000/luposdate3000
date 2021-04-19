@@ -18,7 +18,6 @@ package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.HistogramResult
@@ -26,6 +25,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
+import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class LOPProjection public constructor(query: IQuery, @JvmField public val variables: MutableList<AOPVariable>, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPProjectionID, "LOPProjection", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {

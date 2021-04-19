@@ -16,7 +16,6 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.SanityCheck
 import lupos.shared.UUID_Counter
 
 internal actual class MyThreadReadWriteLock {

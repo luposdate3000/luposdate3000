@@ -19,7 +19,6 @@ package lupos.optimizer.distributed.query
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
 import lupos.s04logicalOperators.IOPBase
@@ -39,6 +38,7 @@ import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStoreCount
 import lupos.s09physicalOperators.partition.POPSplitPartitionPassThrough
 import lupos.shared.optimizer.IDistributedOptimizer
+import lupos.shared_inline.SanityCheck
 
 public class DistributedOptimizerQuery() : IDistributedOptimizer {
     internal var query: Query? = null

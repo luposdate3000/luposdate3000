@@ -17,7 +17,7 @@
 package lupos.s09physicalOperators
 
 import lupos.dictionary.DictionaryExt
-import lupos.s00misc.SanityCheck
+import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 internal class MapKey(@JvmField val data: IntArray) {

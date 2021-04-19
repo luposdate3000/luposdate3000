@@ -17,7 +17,6 @@
 package lupos.optimizer.logical
 
 import lupos.s00misc.BugException
-import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.generated.AOPAnd
 import lupos.s04arithmetikOperators.generated.AOPBuildInCallBOUND
@@ -27,6 +26,7 @@ import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.Query
 import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.shared_inline.SanityCheck
 
 public class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterMergeANDID, "LogicalOptimizerFilterMergeAND") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

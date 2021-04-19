@@ -22,7 +22,6 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EModifyType
-import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04arithmetikOperators.noinput.IAOPConstant
@@ -30,6 +29,7 @@ import lupos.s04arithmetikOperators.noinput.IAOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
+import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class TripleStoreDescription(

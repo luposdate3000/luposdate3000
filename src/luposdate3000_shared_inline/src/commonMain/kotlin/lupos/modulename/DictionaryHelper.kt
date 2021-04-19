@@ -23,7 +23,6 @@ import lupos.dictionary.DictionaryExt
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentType
 import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueDefinition

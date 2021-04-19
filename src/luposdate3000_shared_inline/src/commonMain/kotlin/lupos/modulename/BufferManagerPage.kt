@@ -16,8 +16,6 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.SanityCheck
-
 internal object BufferManagerPage {
     internal const val BUFFER_MANAGER_PAGE_SIZE_IN_BYTES: Int = 8192
 

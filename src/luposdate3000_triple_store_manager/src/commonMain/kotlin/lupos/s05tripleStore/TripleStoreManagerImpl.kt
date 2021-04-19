@@ -26,7 +26,6 @@ import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EPartitionMode
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.IMyInputStream
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
 import lupos.s04logicalOperators.IQuery
@@ -35,6 +34,7 @@ import lupos.shared_inline.BufferManagerPage
 import lupos.shared_inline.ByteArrayHelper
 import lupos.shared_inline.File
 import lupos.shared_inline.Platform
+import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 import kotlin.math.min
 

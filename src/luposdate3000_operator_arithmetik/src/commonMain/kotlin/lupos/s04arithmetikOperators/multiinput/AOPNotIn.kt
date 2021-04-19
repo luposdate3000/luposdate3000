@@ -17,7 +17,6 @@
 package lupos.s04arithmetikOperators.multiinput
 
 import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError
@@ -25,6 +24,7 @@ import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
+import lupos.shared_inline.SanityCheck
 
 public class AOPNotIn public constructor(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorIDExt.AOPNotInID, "AOPNotIn", arrayOf(childA, childB)) {
     override fun toSparql(): String = "( " + children[0].toSparql() + " NOT IN " + children[1].toSparql() + " )"

@@ -19,13 +19,13 @@ package lupos.s04logicalOperators.multiinput
 import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.singleinput.LOPProjection
+import lupos.shared_inline.SanityCheck
 
 public class LOPUnion public constructor(query: IQuery, first: IOPBase, second: IOPBase) : LOPBase(query, EOperatorIDExt.LOPUnionID, "LOPUnion", arrayOf(first, second), ESortPriorityExt.UNION) {
     override fun equals(other: Any?): Boolean = other is LOPUnion && children[0] == other.children[0] && children[1] == other.children[1]

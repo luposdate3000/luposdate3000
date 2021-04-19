@@ -22,7 +22,6 @@ import lupos.s00misc.EPOPDebugModeExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.ITERATOR_DEBUG_MODE
 import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.UnreachableException
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -30,6 +29,7 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIterator
 import lupos.s09physicalOperators.POPBase
+import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class POPDebug public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPDebugID, "POPDebug", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {

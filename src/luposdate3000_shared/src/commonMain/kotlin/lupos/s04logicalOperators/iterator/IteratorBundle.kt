@@ -18,7 +18,7 @@ package lupos.s04logicalOperators.iterator
 
 import lupos.s00misc.IteratorBundleColumnModeNotImplementedException
 import lupos.s00misc.IteratorBundleRowModeNotImplementedException
-import lupos.s00misc.SanityCheck
+import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public open class IteratorBundle {

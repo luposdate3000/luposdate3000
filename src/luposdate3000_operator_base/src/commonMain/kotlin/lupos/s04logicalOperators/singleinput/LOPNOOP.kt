@@ -18,12 +18,12 @@ package lupos.s04logicalOperators.singleinput
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.HistogramResult
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.OPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
+import lupos.shared_inline.SanityCheck
 
 public class LOPNOOP public constructor(query: IQuery, child: IOPBase) : OPBase(query, EOperatorIDExt.LOPNOOPID, "LOPNOOP", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     public constructor(query: IQuery) : this(query, OPEmptyRow(query))

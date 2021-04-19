@@ -17,9 +17,9 @@
 package lupos.s09physicalOperators.multiinput
 
 import lupos.dictionary.DictionaryExt
-import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
+import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 internal class POPJoinMerge_Iterator(

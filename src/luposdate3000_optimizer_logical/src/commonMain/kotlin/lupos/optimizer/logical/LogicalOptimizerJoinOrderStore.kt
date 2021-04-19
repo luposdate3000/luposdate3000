@@ -17,9 +17,9 @@
 package lupos.optimizer.logical
 
 import lupos.s00misc.HistogramNotImplementedException
-import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.multiinput.LOPJoin
+import lupos.shared_inline.SanityCheck
 
 public object LogicalOptimizerJoinOrderStore {
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {

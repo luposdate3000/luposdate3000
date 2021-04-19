@@ -23,7 +23,6 @@ import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.noinput.AOPConstant
 import lupos.s04arithmetikOperators.noinput.AOPVariable
@@ -36,6 +35,7 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
 import lupos.shared_inline.DictionaryHelper
+import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class POPModify public constructor(query: IQuery, projectedVariables: List<String>, insert: List<LOPTriple>, delete: List<LOPTriple>, child: IOPBase) :

@@ -22,11 +22,11 @@ import lupos.fileformat.DictionaryIntermediateReader
 import lupos.kv.KeyValueStore
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.SanityCheck
 import lupos.shared_inline.BufferManagerPage
 import lupos.shared_inline.ByteArrayHelper
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File
+import lupos.shared_inline.SanityCheck
 import lupos.vk.ValueKeyStore
 
 public class DictionaryKV : ADictionary {

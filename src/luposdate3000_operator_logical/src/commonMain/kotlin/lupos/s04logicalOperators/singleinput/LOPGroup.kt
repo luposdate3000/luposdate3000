@@ -19,7 +19,6 @@ package lupos.s04logicalOperators.singleinput
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.GroupByColumnMissing
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
@@ -30,6 +29,7 @@ import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s04logicalOperators.noinput.OPEmptyRow
+import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class LOPGroup public constructor(query: IQuery, @JvmField public var by: List<AOPVariable>) : LOPBase(query, EOperatorIDExt.LOPGroupID, "LOPGroup", arrayOf(OPEmptyRow(query)), ESortPriorityExt.GROUP) {

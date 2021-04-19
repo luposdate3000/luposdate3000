@@ -18,8 +18,8 @@ package lupos.dictionary
 
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.SanityCheck
 import lupos.shared_inline.DictionaryHelper
+import lupos.shared_inline.SanityCheck
 
 public class DictionaryInMemory : ADictionary {
     private var dataI2V = Array<ByteArrayWrapper>(1) { ByteArrayWrapper() }

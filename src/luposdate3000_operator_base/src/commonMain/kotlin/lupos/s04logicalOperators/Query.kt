@@ -21,10 +21,10 @@ import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.MyLock
-import lupos.s00misc.SanityCheck
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.shared.UUID_Counter
 import lupos.shared.optimizer.distributedOptimizerQueryFactory
+import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class Query public constructor(@JvmField public var dictionary: IDictionary, @JvmField public var transactionID: Long) : IQuery {

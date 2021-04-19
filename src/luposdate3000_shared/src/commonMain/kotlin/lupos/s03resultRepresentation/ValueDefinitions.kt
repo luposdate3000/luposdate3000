@@ -48,9 +48,9 @@ import lupos.s00misc.CanNotCastUndefToDecimalException
 import lupos.s00misc.CanNotCastUndefToDoubleException
 import lupos.s00misc.CanNotCastUndefToIntException
 import lupos.s00misc.IncompatibleTypesDuringCompareException
-import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.shared_inline.DateHelper
+import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public sealed class ValueDefinition : Comparable<ValueDefinition> {
