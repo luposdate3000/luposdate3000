@@ -20,12 +20,15 @@ import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.SanityCheck
 import lupos.shared_inline.DictionaryHelper
+import kotlin.jvm.JvmField
 
 public class DictionaryInMemory : ADictionary {
     @JvmField
     internal var dataI2V = Array<ByteArrayWrapper>(1) { ByteArrayWrapper() }
+
     @JvmField
     internal var dataV2I = mutableMapOf<ByteArrayWrapper, Int>()
+
     @JvmField
     internal var bNodeCounter = 5
 

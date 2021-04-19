@@ -27,7 +27,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.jvm.JvmField
 
-internal actual class File actual constructor(@JvmField public val filename: String) {
+internal actual class File actual constructor(@JvmField internal val filename: String) {
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun createTempFile(prefix: String, suffix: String, directory: String): String {
         val f = createTempFile(prefix, suffix, java.io.File(directory))

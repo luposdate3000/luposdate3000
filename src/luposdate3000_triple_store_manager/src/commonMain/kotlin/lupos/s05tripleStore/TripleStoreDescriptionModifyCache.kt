@@ -21,19 +21,26 @@ import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.communicationHandler
+import kotlin.jvm.JvmField
 
 public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCache {
 
     @JvmField
     internal val description: TripleStoreDescription
+
     @JvmField
     internal val type: EModifyType
+    @JvmField
     internal val row = IntArray(3)
-
+    @JvmField
     internal val idx: Array<IntArray>
+    @JvmField
     internal val allBuf: Array<Array<MyBuf>>
+    @JvmField
     internal val allStore: Array<List<Pair<LuposHostname, LuposStoreKey>>>
+    @JvmField
     internal val allStoreParams: Array<Array<Map<String, LuposStoreKey>>>
+    @JvmField
     internal val allStoreLocal: Array<Array<TripleStoreIndex>>
 
     public constructor(description: TripleStoreDescription, type: EModifyType, sortedBy: EIndexPattern) {

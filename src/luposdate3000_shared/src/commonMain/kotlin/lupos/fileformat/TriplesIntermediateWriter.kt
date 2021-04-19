@@ -19,22 +19,29 @@ package lupos.fileformat
 import lupos.shared_inline.ByteArrayHelper
 import lupos.shared_inline.File
 import lupos.shared_inline.IntegerExt
+import kotlin.jvm.JvmField
 
 public class TriplesIntermediateWriter : TriplesIntermediate {
+
+    @JvmField
+    internal var count = 0L
+
+    @JvmField
+    internal var lastS: Int = 0
+
+    @JvmField
+    internal var lastP: Int = 0
+
+    @JvmField
+    internal var lastO: Int = 0
+
+    @JvmField
+    internal val buf: ByteArray = ByteArray(13)
+
     public constructor(filename: String) : super(filename) {
         streamOut = File("$filename$filenameEnding").openOutputStream(false)
     }
 
-    @JvmField
-    internal var count = 0L
-    @JvmField
-    internal var lastS: Int = 0
-    @JvmField
-    internal var lastP: Int = 0
-    @JvmField
-    internal var lastO: Int = 0
-    @JvmField
-    internal val buf: ByteArray = ByteArray(13)
     public fun getCount(): Long = count
     public fun write(s: Int, p: Int, o: Int) {
         val b0 = lastS xor s

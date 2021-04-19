@@ -50,6 +50,7 @@ import lupos.s09physicalOperators.singleinput.POPFilter
 import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.MyPrintWriter
+import kotlin.jvm.JvmField
 
 private const val passThroughGenericImplementation = false
 
@@ -494,7 +495,7 @@ internal fun writeFilter(child: IOPBase, classes: MyPrintWriter?, operatorGraph:
 }
 
 // Containers to store the different parts of the generated operator
-internal class ClazzContainer(val name: String, val uuid: Long) {
+internal class ClazzContainer(@JvmField internal val name: String, @JvmField internal val uuid: Long) {
     val header = MyPrintWriter(true)
     val iteratorHeader = MyPrintWriter(true)
     val iteratorClassVariables = mutableSetOf<String>()

@@ -19,11 +19,13 @@ package lupos.s04logicalOperators.iterator
 import lupos.s00misc.Parallel
 import kotlin.jvm.JvmField
 
-public open class RowIteratorMinus(@JvmField public val a: RowIterator, @JvmField public val b: RowIterator, @JvmField @JvmField internal val projection: Array<String>) : RowIterator() {
+public open class RowIteratorMinus(@JvmField public val a: RowIterator, @JvmField public val b: RowIterator, @JvmField internal val projection: Array<String>) : RowIterator() {
     @JvmField
     public var flag: Int = 2
+
     @JvmField
     internal var aIdx = -1
+
     @JvmField
     internal var bIdx = -1
     public /*suspend*/ fun _init() {

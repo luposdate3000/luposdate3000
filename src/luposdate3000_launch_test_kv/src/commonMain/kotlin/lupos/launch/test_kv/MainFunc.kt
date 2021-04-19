@@ -22,6 +22,7 @@ import lupos.kv.KeyValueStore
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.Parallel
 import lupos.test.AflCore
+import kotlin.jvm.JvmField
 import kotlin.math.abs
 
 @JvmField

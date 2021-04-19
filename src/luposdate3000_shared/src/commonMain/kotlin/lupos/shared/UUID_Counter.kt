@@ -16,8 +16,11 @@
  */
 package lupos.shared
 
+import kotlin.jvm.JvmField
+
 public object UUID_Counter {
     @JvmField
     internal var uuid = 0L
+
     public fun getNextUUID(): Long = uuid++
 }

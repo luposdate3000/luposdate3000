@@ -25,12 +25,15 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s05tripleStore.TripleStoreIndex
 import lupos.s05tripleStore.TripleStoreIndexIDTriple
 import lupos.test.AflCore
+import kotlin.jvm.JvmField
 import kotlin.math.abs
 
 @JvmField
 internal val verbose = false
+
 @JvmField
 internal var duplicates = 0L
+
 @JvmField
 internal var totalinserts = 0L
 

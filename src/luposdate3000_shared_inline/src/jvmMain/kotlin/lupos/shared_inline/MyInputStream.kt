@@ -25,6 +25,7 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
     @JvmField
     internal val buf4: ByteArray = ByteArray(4)
 
+    @JvmField
     internal val uuid = UUID_Counter.getNextUUID()
 
     init {

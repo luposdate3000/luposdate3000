@@ -23,48 +23,48 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
 import kotlin.jvm.JvmField
 
 internal class POPJoinMerge_Iterator(
-    @JvmField val columnsINJ0: List<ColumnIterator>,
-    @JvmField val columnsINJ1: List<ColumnIterator>,
-    @JvmField val columnsINO0: List<ColumnIterator>,
-    @JvmField val columnsINO1: List<ColumnIterator>,
-    @JvmField val columnsOUT0: List<ColumnIteratorChildIterator>,
-    @JvmField val columnsOUT1: List<ColumnIteratorChildIterator>,
-    @JvmField val columnsOUTJ: List<ColumnIteratorChildIterator>,
-    @JvmField val key0: IntArray,
-    @JvmField val key1: IntArray
+    @JvmField internal val columnsINJ0: List<ColumnIterator>,
+    @JvmField internal val columnsINJ1: List<ColumnIterator>,
+    @JvmField internal val columnsINO0: List<ColumnIterator>,
+    @JvmField internal val columnsINO1: List<ColumnIterator>,
+    @JvmField internal val columnsOUT0: List<ColumnIteratorChildIterator>,
+    @JvmField internal val columnsOUT1: List<ColumnIteratorChildIterator>,
+    @JvmField internal val columnsOUTJ: List<ColumnIteratorChildIterator>,
+    @JvmField internal val key0: IntArray,
+    @JvmField internal val key1: IntArray
 ) : ColumnIteratorChildIterator() {
     @JvmField
-    val data0 = Array<IntArray>(columnsINO0.size) { IntArray(100) }
+    internal val data0 = Array<IntArray>(columnsINO0.size) { IntArray(100) }
 
     @JvmField
-    val data1 = Array<IntArray>(columnsINO1.size) { IntArray(100) }
+    internal val data1 = Array<IntArray>(columnsINO1.size) { IntArray(100) }
 
     @JvmField
-    var localNextI = 0
+    internal var localNextI = 0
 
     @JvmField
-    var localNextJ = 0
+    internal var localNextJ = 0
 
     @JvmField
-    var localNextCounta = 0
+    internal var localNextCounta = 0
 
     @JvmField
-    var localNextCountb = 0
+    internal var localNextCountb = 0
 
     @JvmField
-    val localNextKeycopy = IntArray(columnsINJ0.size)
+    internal val localNextKeycopy = IntArray(columnsINJ0.size)
 
     @JvmField
-    var localCloseI = 0
+    internal var localCloseI = 0
 
     @JvmField
-    var skipO0 = 0
+    internal var skipO0 = 0
 
     @JvmField
-    var skipO1 = 0
+    internal var skipO1 = 0
 
     @JvmField
-    var sipbuf = IntArray(2)
+    internal var sipbuf = IntArray(2)
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private inline fun __close() {

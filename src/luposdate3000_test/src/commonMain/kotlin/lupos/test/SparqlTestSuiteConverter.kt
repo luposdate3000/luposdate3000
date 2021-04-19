@@ -16,9 +16,12 @@
  */
 package lupos.test
 
+import kotlin.jvm.JvmField
+
 public class SparqlTestSuiteConverter(resource_folder: String, @JvmField internal val output_folder: String) : SparqlTestSuite() {
     @JvmField
     internal var counter = 0
+
     @JvmField
     internal var lastFile: String = ""
 

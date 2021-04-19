@@ -19,6 +19,7 @@ package lupos.fileformat
 
 import lupos.shared_inline.ByteArrayHelper
 import lupos.shared_inline.File
+import kotlin.jvm.JvmField
 
 public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(filename) {
     init {
@@ -35,6 +36,7 @@ public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(f
 
     @JvmField
     internal val buf: ByteArray = ByteArray(12)
+
     @JvmField
     internal val buffer: IntArray = IntArray(3)
 

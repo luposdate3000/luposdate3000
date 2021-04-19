@@ -28,18 +28,24 @@ import lupos.shared_inline.ByteArrayHelper
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File
 import lupos.vk.ValueKeyStore
+import kotlin.jvm.JvmField
 
 public class DictionaryKV : ADictionary {
     @JvmField
     internal val bufferManager: BufferManager
+
     @JvmField
     internal val kv: KeyValueStore
+
     @JvmField
     internal val vk: ValueKeyStore
+
     @JvmField
     internal var bNodeCounter = 5
+
     @JvmField
     internal val rootPageID: Int
+
     @JvmField
     internal val rootPage: ByteArray
     public override fun close() {

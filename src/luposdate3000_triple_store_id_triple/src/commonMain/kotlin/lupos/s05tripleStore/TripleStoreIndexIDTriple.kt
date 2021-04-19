@@ -45,8 +45,10 @@ import kotlin.jvm.JvmField
 public class TripleStoreIndexIDTriple : TripleStoreIndex {
     @JvmField
     internal val bufferManager: BufferManager
+
     @JvmField
     internal val rootPageID: Int
+
     public override fun getRootPageID(): Int = rootPageID
 
     public constructor(rootPageID: Int, initFromRootPage: Boolean) : this(BufferManagerExt.getBuffermanager("stores"), rootPageID, initFromRootPage)
@@ -58,14 +60,14 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         nodeManager = NodeManager(bufferManager)
         val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
         if (initFromRootPage) {
-            root = BufferManagerPage.readInt4(rootPage, 4)
-            countPrimary = BufferManagerPage.readInt4(rootPage, 8)
-            distinctPrimary = BufferManagerPage.readInt4(rootPage, 12)
-            firstLeaf = BufferManagerPage.readInt4(rootPage, 16)
-            if (root != NodeManager.nodeNullPointer) {
+            root_ = BufferManagerPage.readInt4(rootPage, 4)
+            countPrimary_ = BufferManagerPage.readInt4(rootPage, 8)
+            distinctPrimary_ = BufferManagerPage.readInt4(rootPage, 12)
+            firstLeaf_ = BufferManagerPage.readInt4(rootPage, 16)
+            if (root_ != NodeManager.nodeNullPointer) {
                 nodeManager.getNodeAny(
                     lupos.SOURCE_FILE,
-                    root,
+                    root_,
                     {
                         SanityCheck.checkUnreachable()
                     },
@@ -76,10 +78,10 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             }
         } else {
             BufferManagerPage.writeInt4(rootPage, 0, ETripleIndexTypeExt.ID_TRIPLE)
-            BufferManagerPage.writeInt4(rootPage, 4, root)
-            BufferManagerPage.writeInt4(rootPage, 8, countPrimary)
-            BufferManagerPage.writeInt4(rootPage, 12, distinctPrimary)
-            BufferManagerPage.writeInt4(rootPage, 16, firstLeaf)
+            BufferManagerPage.writeInt4(rootPage, 4, root_)
+            BufferManagerPage.writeInt4(rootPage, 8, countPrimary_)
+            BufferManagerPage.writeInt4(rootPage, 12, distinctPrimary_)
+            BufferManagerPage.writeInt4(rootPage, 16, firstLeaf_)
             bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
         }
         bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
@@ -90,55 +92,43 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     @JvmField
     internal var firstLeaf_: Int = NodeManager.nodeNullPointer
-    @JvmField
-    internal var firstLeaf: Int
-        set(value) {
-            val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
-            BufferManagerPage.writeInt4(rootPage, 16, value)
-            firstLeaf_ = value
-            bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
-            bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
-        }
-        get() = firstLeaf_
+    internal inline fun setFirstLeaf(value: Int) {
+        val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
+        BufferManagerPage.writeInt4(rootPage, 16, value)
+        firstLeaf_ = value
+        bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
+        bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
+    }
 
     @JvmField
     internal var root_: Int = NodeManager.nodeNullPointer
-    @JvmField
-    internal var root: Int
-        set(value) {
-            val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
-            BufferManagerPage.writeInt4(rootPage, 4, value)
-            root_ = value
-            bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
-            bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
-        }
-        get() = root_
+    internal inline fun setRoot(value: Int) {
+        val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
+        BufferManagerPage.writeInt4(rootPage, 4, value)
+        root_ = value
+        bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
+        bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
+    }
 
     @JvmField
     internal var countPrimary_: Int = 0
-    @JvmField
-    internal var countPrimary: Int
-        set(value) {
-            val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
-            BufferManagerPage.writeInt4(rootPage, 8, value)
-            countPrimary_ = value
-            bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
-            bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
-        }
-        get() = countPrimary_
+    internal inline fun setCountPrimary(value: Int) {
+        val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
+        BufferManagerPage.writeInt4(rootPage, 8, value)
+        countPrimary_ = value
+        bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
+        bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
+    }
 
     @JvmField
     internal var distinctPrimary_: Int = 0
-    @JvmField
-    internal var distinctPrimary: Int
-        set(value) {
-            val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
-            BufferManagerPage.writeInt4(rootPage, 12, value)
-            distinctPrimary_ = value
-            bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
-            bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
-        }
-        get() = distinctPrimary_
+    internal inline fun setDistinctPrimary(value: Int) {
+        val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
+        BufferManagerPage.writeInt4(rootPage, 12, value)
+        distinctPrimary_ = value
+        bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
+        bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
+    }
 
     @JvmField
     internal var rootNode: ByteArray? = null
@@ -179,7 +169,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         var res: Pair<Int, Int>? = null
         when (filter.size) {
             0 -> {
-                res = Pair(countPrimary, distinctPrimary)
+                res = Pair(countPrimary_, distinctPrimary_)
             }
             1 -> {
                 for (i in 0 until cachedHistograms1Size) {
@@ -257,7 +247,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             if (node != null) {
                 when (filter.size) {
                     0 -> {
-                        res = Pair(countPrimary, distinctPrimary)
+                        res = Pair(countPrimary_, distinctPrimary_)
                     }
                     1 -> {
                         val iterator = NodeInner.iterator1(node, filter, lock, 1, nodeManager)
@@ -369,7 +359,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                 } else {
                     SanityCheck.check { projection[1] == "_" }
                     SanityCheck.check { projection[2] == "_" }
-                    res = IteratorBundle(countPrimary)
+                    res = IteratorBundle(countPrimary_)
                 }
             }
         }
@@ -481,11 +471,11 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                 }
             )
             SanityCheck.check { rootNode == null }
-            SanityCheck.check { root == NodeManager.nodeNullPointer }
-            SanityCheck.check { firstLeaf == NodeManager.nodeNullPointer }
+            SanityCheck.check { root_ == NodeManager.nodeNullPointer }
+            SanityCheck.check { firstLeaf_ == NodeManager.nodeNullPointer }
             rootNode = null
-            root = NodeManager.nodeNullPointer
-            firstLeaf = NodeManager.nodeNullPointer
+            setRoot(NodeManager.nodeNullPointer)
+            setFirstLeaf(NodeManager.nodeNullPointer)
             if (flag) {
                 rebuildData(NodeLeaf.iterator(node!!, firstLeaf2, nodeManager))
             } else {
@@ -503,12 +493,12 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             var currentLayer = mutableListOf<Int>()
             var node2: ByteArray? = null
             nodeManager.allocateNodeLeaf(lupos.SOURCE_FILE) { n, i ->
-                firstLeaf = i
+                setFirstLeaf(i)
                 node2 = n
                 currentLayer.add(i)
             }
             var node = node2!!
-            var nodeid = firstLeaf
+            var nodeid = firstLeaf_
             NodeLeaf.initializeWith(node, nodeid, iterator)
             while (iterator.hasNext()) {
                 nodeManager.allocateNodeLeaf(lupos.SOURCE_FILE) { n, i ->
@@ -564,7 +554,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     },
                     {
                         rootNode = it
-                        root = currentLayer[0]
+                        setRoot(currentLayer[0])
                     }
                 )
                 if (rootNodeIsLeaf) {
@@ -573,8 +563,8 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     nodeManager.allocateNodeInner(lupos.SOURCE_FILE) { n, i ->
                         NodeInner.initializeWith(n, i, mutableListOf(currentLayer[0]), nodeManager)
                         rootNode = n
-                        root = i
-                        nodeManager.flushNode(lupos.SOURCE_FILE, root)
+                        setRoot(i)
+                        nodeManager.flushNode(lupos.SOURCE_FILE, root_)
                     }
                 }
             }
@@ -583,11 +573,11 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 // this index is cleared completely
             SanityCheck.check { rootNode == null }
             rootNode = null
-            root = NodeManager.nodeNullPointer
-            firstLeaf = NodeManager.nodeNullPointer
+            setRoot(NodeManager.nodeNullPointer)
+            setFirstLeaf(NodeManager.nodeNullPointer)
         }
-        countPrimary = iterator.count
-        distinctPrimary = iterator.distinct
+        setCountPrimary(iterator.count)
+        setDistinctPrimary(iterator.distinct)
         clearCachedHistogram()
     }
 
@@ -602,19 +592,19 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
         val iteratorImport = BulkImportIterator(d[0], dataSize, order)
         var iteratorStore2: TripleIterator? = null
-        if (firstLeaf == NodeManager.nodeNullPointer) {
+        if (firstLeaf_ == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
         } else {
-            nodeManager.getNodeLeaf(lupos.SOURCE_FILE, firstLeaf) {
-                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf, nodeManager)
+            nodeManager.getNodeLeaf(lupos.SOURCE_FILE, firstLeaf_) {
+                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf_, nodeManager)
             }
         }
         val iteratorStore = iteratorStore2!!
         val iterator = MergeIterator(iteratorStore, iteratorImport)
-        val oldroot = root
+        val oldroot = root_
         rootNode = null
-        root = NodeManager.nodeNullPointer
-        firstLeaf = NodeManager.nodeNullPointer
+        setRoot(NodeManager.nodeNullPointer)
+        setFirstLeaf(NodeManager.nodeNullPointer)
         rebuildData(iterator)
         if (oldroot != NodeManager.nodeNullPointer) {
             nodeManager.freeNodeAndAllRelated(lupos.SOURCE_FILE, oldroot)
@@ -633,19 +623,19 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         TripleStoreBulkImportExt.sortUsingBuffers(0, 0, 1, d, dataSize / 3, order)
         val iteratorImport = BulkImportIterator(d[0], dataSize, order)
         var iteratorStore2: TripleIterator? = null
-        if (firstLeaf == NodeManager.nodeNullPointer) {
+        if (firstLeaf_ == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
         } else {
-            nodeManager.getNodeLeaf(lupos.SOURCE_FILE, firstLeaf) {
-                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf, nodeManager)
+            nodeManager.getNodeLeaf(lupos.SOURCE_FILE, firstLeaf_) {
+                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf_, nodeManager)
             }
         }
         val iteratorStore = iteratorStore2!!
         val iterator = MinusIterator(iteratorStore, iteratorImport)
-        val oldroot = root
+        val oldroot = root_
         rootNode = null
-        root = NodeManager.nodeNullPointer
-        firstLeaf = NodeManager.nodeNullPointer
+        setRoot(NodeManager.nodeNullPointer)
+        setFirstLeaf(NodeManager.nodeNullPointer)
         rebuildData(iterator)
         if (oldroot != NodeManager.nodeNullPointer) {
             nodeManager.freeNodeAndAllRelated(lupos.SOURCE_FILE, oldroot)
@@ -657,19 +647,19 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         flushContinueWithWriteLock()
         val iteratorImport = BulkImportIterator(data, dataSize, intArrayOf(0, 1, 2))
         var iteratorStore2: TripleIterator? = null
-        if (firstLeaf == NodeManager.nodeNullPointer) {
+        if (firstLeaf_ == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
         } else {
-            nodeManager.getNodeLeaf(lupos.SOURCE_FILE, firstLeaf) {
-                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf, nodeManager)
+            nodeManager.getNodeLeaf(lupos.SOURCE_FILE, firstLeaf_) {
+                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf_, nodeManager)
             }
         }
         val iteratorStore = iteratorStore2!!
         val iterator = MergeIterator(iteratorStore, iteratorImport)
-        val oldroot = root
+        val oldroot = root_
         rootNode = null
-        root = NodeManager.nodeNullPointer
-        firstLeaf = NodeManager.nodeNullPointer
+        setRoot(NodeManager.nodeNullPointer)
+        setFirstLeaf(NodeManager.nodeNullPointer)
         rebuildData(iterator)
         if (oldroot != NodeManager.nodeNullPointer) {
             nodeManager.freeNodeAndAllRelated(lupos.SOURCE_FILE, oldroot)
@@ -681,19 +671,19 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         flushContinueWithWriteLock()
         val iteratorImport = BulkImportIterator(data, dataSize, intArrayOf(1, 2, 3))
         var iteratorStore2: TripleIterator? = null
-        if (firstLeaf == NodeManager.nodeNullPointer) {
+        if (firstLeaf_ == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
         } else {
-            nodeManager.getNodeLeaf(lupos.SOURCE_FILE, firstLeaf) {
-                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf, nodeManager)
+            nodeManager.getNodeLeaf(lupos.SOURCE_FILE, firstLeaf_) {
+                iteratorStore2 = NodeLeaf.iterator(it, firstLeaf_, nodeManager)
             }
         }
         val iteratorStore = iteratorStore2!!
         val iterator = MinusIterator(iteratorStore, iteratorImport)
-        val oldroot = root
+        val oldroot = root_
         rootNode = null
-        root = NodeManager.nodeNullPointer
-        firstLeaf = NodeManager.nodeNullPointer
+        setRoot(NodeManager.nodeNullPointer)
+        setFirstLeaf(NodeManager.nodeNullPointer)
         rebuildData(iterator)
         if (oldroot != NodeManager.nodeNullPointer) {
             nodeManager.freeNodeAndAllRelated(lupos.SOURCE_FILE, oldroot)
@@ -703,11 +693,11 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun clear() {
         flushContinueWithWriteLock()
-        if (root != NodeManager.nodeNullPointer) {
-            nodeManager.freeNodeAndAllRelated(lupos.SOURCE_FILE, root)
-            root = NodeManager.nodeNullPointer
+        if (root_ != NodeManager.nodeNullPointer) {
+            nodeManager.freeNodeAndAllRelated(lupos.SOURCE_FILE, root_)
+            setRoot(NodeManager.nodeNullPointer)
         }
-        firstLeaf = NodeManager.nodeNullPointer
+        setFirstLeaf(NodeManager.nodeNullPointer)
         rootNode = null
         clearCachedHistogram()
         lock.writeUnlock()
@@ -721,8 +711,8 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun close() {
         flush()
-        if (root != NodeManager.nodeNullPointer) {
-            nodeManager.releaseNode(lupos.SOURCE_FILE, root)
+        if (root_ != NodeManager.nodeNullPointer) {
+            nodeManager.releaseNode(lupos.SOURCE_FILE, root_)
         }
     }
 }

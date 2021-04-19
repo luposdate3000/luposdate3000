@@ -39,19 +39,26 @@ import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
 import lupos.s09physicalOperators.partition.POPSplitPartitionFromStoreCount
 import lupos.s09physicalOperators.partition.POPSplitPartitionPassThrough
 import lupos.shared.optimizer.IDistributedOptimizer
+import kotlin.jvm.JvmField
 
 public class DistributedOptimizerQuery() : IDistributedOptimizer {
     internal var query: Query? = null
+
     @JvmField
     internal var operatorgraphParts: MutableMap<String, XMLElement> = mutableMapOf<String, XMLElement>()
+
     @JvmField
     internal var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
+
     @JvmField
     internal var dependenciesMapTopDown = mutableMapOf<String, Set<String>>()
+
     @JvmField
     internal var dependenciesMapBottomUp = mutableMapOf<String, Set<String>>()
+
     @JvmField
     internal var keyRepresentative = mutableMapOf<String, String>()
+
     @JvmField
     internal val childOptimizer = arrayOf(
         arrayOf(

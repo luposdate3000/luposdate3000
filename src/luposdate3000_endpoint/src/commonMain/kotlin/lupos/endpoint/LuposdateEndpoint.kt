@@ -75,6 +75,7 @@ import lupos.shared_inline.MyPrintWriter
 import lupos.shared_inline.MyStringStream
 import lupos.shared_inline.Platform
 import kotlin.js.JsName
+import kotlin.jvm.JvmField
 
 /*
  * This is the _interface_ of the database
@@ -85,6 +86,7 @@ import kotlin.js.JsName
 public object LuposdateEndpoint {
     @JvmField
     internal var initialized = false
+
     @JvmField
     internal val initializerLock = MyLock()
     private fun helperCleanString(s: String): String {

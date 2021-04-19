@@ -22,24 +22,33 @@ import lupos.buffermanager.MyIntArray
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.SanityCheck
 import lupos.shared_inline.BufferManagerPage
+import kotlin.jvm.JvmField
 
 public class KeyValueStore {
     @JvmField
     internal val rootPageID: Int
+
     @JvmField
     internal val rootPage: ByteArray
+
     @JvmField
     internal val bufferManager: BufferManager
+
     @JvmField
     internal var lastPage: Int
+
     @JvmField
     internal var lastPageBuf: ByteArray
+
     @JvmField
     internal var lastPageOffset: Int
+
     @JvmField
     internal var nextID: Int
+
     @JvmField
     internal var mappingID2Page: MyIntArray
+
     @JvmField
     internal var mappingID2Off: MyIntArray
 

@@ -19,13 +19,19 @@ package lupos.shared_inline
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyPrintWriterMode
 import lupos.s00misc.MyPrintWriterModeExt
+import kotlin.jvm.JvmField
 
 internal actual open class MyPrintWriter : IMyOutputStream {
-    val buffer = StringBuilder()
-    val bufferMode: MyPrintWriterMode
-    val fileName: String
-    var file: Int
-    var filePos: Int = 0
+    @JvmField
+    internal val buffer = StringBuilder()
+    @JvmField
+    internal val bufferMode: MyPrintWriterMode
+    @JvmField
+    internal val fileName: String
+    @JvmField
+    internal var file: Int
+    @JvmField
+    internal var filePos: Int = 0
 
     actual constructor(hasBuffer: Boolean) {
         if (hasBuffer) {

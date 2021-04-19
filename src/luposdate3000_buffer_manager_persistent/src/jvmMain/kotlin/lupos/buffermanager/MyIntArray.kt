@@ -24,27 +24,32 @@ import java.io.RandomAccessFile
 import kotlin.jvm.JvmField
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
-public actual class MyIntArray internal actual constructor(@JvmField @JvmField internal val filename: String, initialize: Boolean) {
+public actual class MyIntArray internal actual constructor(@JvmField internal val filename: String, initialize: Boolean) {
     @JvmField
     internal var bufferManager: BufferManager? = null
+
     @JvmField
     internal var bufferManagerPage: Int? = null
+
+    @ProguardTestAnnotation
+    @JvmField
+    internal var closed = false
+
+    @JvmField
+    internal val lock = MyReadWriteLock()
+
+    @JvmField
+    internal val datafile = RandomAccessFile(filename, "rw")
+
+    @JvmField
+    internal var _size = 0
+
+    public actual fun getSize(): Int = _size
 
     public actual constructor(bufferManager: BufferManager, id: Int, initialize: Boolean) : this(BufferManagerExt.bufferPrefix + bufferManager.name + "." + id + BufferManagerExt.fileEndingIntArray, initialize) {
         this.bufferManager = bufferManager
         this.bufferManagerPage = id
     }
-
-    @ProguardTestAnnotation
-    @JvmField
-    internal var closed = false
-    @JvmField
-    internal val lock = MyReadWriteLock()
-    @JvmField
-    internal val datafile = RandomAccessFile(filename, "rw")
-    @JvmField
-    internal var _size = 0
-    public actual fun getSize(): Int = _size
 
     init {
         if (initialize) {

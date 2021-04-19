@@ -16,17 +16,21 @@
  */
 package lupos.s00misc
 
+import kotlin.jvm.JvmField
+
 public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
+    @JvmField
+    internal var buf = ByteArray(0)
+
+    @JvmField
+    internal var size = 0
+
     public constructor()
     public constructor(b: ByteArray) {
         size = b.size
         buf = b
     }
 
-    @JvmField
-    internal var buf = ByteArray(0)
-    @JvmField
-    internal var size = 0
     public fun setSize(c: Int) {
         size = c
         if (c > buf.size) {

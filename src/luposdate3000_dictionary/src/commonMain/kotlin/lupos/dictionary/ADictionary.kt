@@ -21,10 +21,12 @@ import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.SanityCheck
 import lupos.shared_inline.DictionaryHelper
+import kotlin.jvm.JvmField
 
 public abstract class ADictionary : IDictionary {
     @JvmField
     internal val bnodeMapToGlobal = mutableMapOf<Int, Int>()
+
     @JvmField
     internal val bnodeMapLocal = mutableMapOf<String, Int>()
     internal var isLocal: Boolean = false

@@ -21,6 +21,7 @@ import lupos.buffermanager.BufferManager
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.SanityCheck
 import lupos.shared_inline.BufferManagerPage
+import kotlin.jvm.JvmField
 import kotlin.math.min
 
 public class ValueKeyStore {
@@ -35,10 +36,13 @@ public class ValueKeyStore {
 
     @JvmField
     internal val rootPageID: Int
+
     @JvmField
     internal val bufferManager: BufferManager
+
     @JvmField
     internal var firstInnerID = ValueKeyStore.PAGEID_NULL_PTR
+
     @JvmField
     internal var firstLeafID = ValueKeyStore.PAGEID_NULL_PTR
 

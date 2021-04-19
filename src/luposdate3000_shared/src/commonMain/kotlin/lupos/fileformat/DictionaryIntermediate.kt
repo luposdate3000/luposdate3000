@@ -20,9 +20,12 @@ package lupos.fileformat
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.shared_inline.File
+import kotlin.jvm.JvmField
 
 public abstract class DictionaryIntermediate(internal val filename: String) {
+    @JvmField
     public var streamOut: IMyOutputStream? = null
+    @JvmField
     public var streamIn: IMyInputStream? = null
     public abstract fun close()
 

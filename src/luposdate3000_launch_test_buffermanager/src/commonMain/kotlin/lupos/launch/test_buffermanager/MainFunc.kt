@@ -21,6 +21,7 @@ import lupos.buffermanager.BufferManagerExt
 import lupos.s00misc.Parallel
 import lupos.shared_inline.BufferManagerPage
 import lupos.test.AflCore
+import kotlin.jvm.JvmField
 import kotlin.math.abs
 
 @JvmField

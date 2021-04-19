@@ -25,10 +25,10 @@ import kotlin.jvm.JvmField
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal actual class MyThreadReadWriteLock {
     @JvmField
-    val uuid = UUID_Counter.getNextUUID()
+    internal val uuid = UUID_Counter.getNextUUID()
 
     @JvmField
-    val lock = ReentrantReadWriteLock()
+    internal val lock = ReentrantReadWriteLock()
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun getUUID() = uuid

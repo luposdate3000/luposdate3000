@@ -18,10 +18,13 @@ package lupos.shared_inline
 
 import lupos.s00misc.NotImplementedException
 import lupos.shared.UUID_Counter
+import kotlin.jvm.JvmField
 
 internal actual class MyThreadReadWriteLock {
 
-    val uuid = UUID_Counter.getNextUUID()
+    @JvmField
+    internal val uuid = UUID_Counter.getNextUUID()
+
     internal actual inline fun getUUID() = uuid
     internal actual inline fun downgradeToReadLock() {
         throw NotImplementedException("MyThreadReadWriteLock", "downgradeToReadLock not implemented")

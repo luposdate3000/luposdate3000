@@ -24,14 +24,19 @@ import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.shared_inline.ByteArrayHelper
+import kotlin.jvm.JvmField
 
 public class TripleStoreIndexDescriptionSimple(
     idx: EIndexPattern,
 ) : TripleStoreIndexDescription() {
+    @JvmField
     internal var hostname: LuposHostname = ""
+    @JvmField
     internal var key: LuposStoreKey = ""
+
     @JvmField
     internal var byteArray: ByteArray? = null
+
     override fun toByteArray(): ByteArray {
         if (byteArray != null) {
             return byteArray!!

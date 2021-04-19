@@ -24,6 +24,7 @@ import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.Parallel
 import lupos.shared_inline.DictionaryHelper
 import lupos.test.AflCore
+import kotlin.jvm.JvmField
 import kotlin.math.abs
 
 @JvmField

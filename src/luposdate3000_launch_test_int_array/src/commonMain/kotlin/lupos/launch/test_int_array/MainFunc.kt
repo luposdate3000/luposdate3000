@@ -21,10 +21,12 @@ import lupos.buffermanager.BufferManagerExt
 import lupos.buffermanager.MyIntArray
 import lupos.s00misc.Parallel
 import lupos.test.AflCore
+import kotlin.jvm.JvmField
 import kotlin.math.abs
 
 @JvmField
 internal val verbose = false
+
 @JvmField
 internal val maxSize = 1000000
 

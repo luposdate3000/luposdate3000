@@ -58,12 +58,15 @@ import lupos.s11outputResult.QueryResultToXMLStream
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File
 import lupos.shared_inline.MyPrintWriter
+import kotlin.jvm.JvmField
 
 public object BinaryTestCase {
     @JvmField
     internal var outSummary: IMyOutputStream = MyPrintWriter(false)
+
     @JvmField
     internal var lastInput = MemoryTable(Array(0) { "" })
+
     private fun rowToString(row: IntArray, dict: Array<String>): String {
         var res = "${row.map { it }}::"
         if (row.isNotEmpty()) {

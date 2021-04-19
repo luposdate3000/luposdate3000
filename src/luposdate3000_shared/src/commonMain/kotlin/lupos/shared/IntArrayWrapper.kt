@@ -16,17 +16,22 @@
  */
 package lupos.shared
 
+import kotlin.jvm.JvmField
+
 public class IntArrayWrapper : Comparable<IntArrayWrapper> {
+
+    @JvmField
+    internal var buf = IntArray(1)
+
+    @JvmField
+    internal var size = 0
+
     public constructor()
     public constructor(b: IntArray) {
         size = b.size
         buf = b
     }
 
-    @JvmField
-    internal var buf = IntArray(1)
-    @JvmField
-    internal var size = 0
     public fun append(v: Int) {
         if (buf.size == size) {
             val oldBuf = buf

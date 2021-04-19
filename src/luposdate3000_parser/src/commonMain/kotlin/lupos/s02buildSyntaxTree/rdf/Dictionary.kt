@@ -17,10 +17,12 @@
 package lupos.s02buildSyntaxTree.rdf
 
 import lupos.shared.UUID_Counter
+import kotlin.jvm.JvmField
 
 public object Dictionary {
     @JvmField
     internal val RDFTerm_to_ID = mutableMapOf<String, Long>()
+
     @JvmField
     internal val ID_to_RDFTerm = mutableMapOf<Long, RDFTerm>()
 

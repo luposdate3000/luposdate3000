@@ -25,12 +25,15 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s05tripleStore.TripleStoreIndex
 import lupos.s05tripleStore.TripleStoreIndexIDTriple
 import lupos.test.AflCore
+import kotlin.jvm.JvmField
 import kotlin.math.abs
 
 @JvmField
 internal val verbose = false
+
 @JvmField
 internal val bufferSize = 100000
+
 @JvmField
 internal val maxLimit = 100000000
 

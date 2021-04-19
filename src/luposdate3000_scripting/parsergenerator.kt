@@ -16,6 +16,7 @@
  */
 import java.io.File
 import java.io.PrintWriter
+import kotlin.jvm.JvmField
 
 // addition to regex-grammar::
 // a '=' directly terminates a group
@@ -80,7 +81,8 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
 
     var functionName = "func"
     var helperfunctions = mutableMapOf<String, String>() // func content -> func name
-    var uuid = 1
+    @JvmField
+    internal var uuid = 1
     var startEndMap = mutableMapOf<Int, String>()
     var startEndMapElseBranch = mutableMapOf<Int, String>()
     var identicalIdsMap = mutableMapOf<Int, MutableSet<Int>>()

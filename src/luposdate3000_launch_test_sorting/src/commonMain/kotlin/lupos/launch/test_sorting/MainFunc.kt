@@ -19,6 +19,7 @@ package lupos.launch.test_sorting
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.Parallel
 import lupos.test.AflCore
+import kotlin.jvm.JvmField
 import kotlin.math.abs
 import kotlin.math.log2
 import kotlin.math.max
@@ -31,8 +32,10 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 
 @JvmField
 internal var data1: IntArray = IntArray(0)
+
 @JvmField
 internal var data2: IntArray = IntArray(0)
+
 @JvmField
 internal val stack = IntArray(128)
 

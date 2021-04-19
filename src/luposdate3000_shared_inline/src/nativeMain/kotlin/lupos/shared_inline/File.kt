@@ -19,9 +19,11 @@ package lupos.shared_inline
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.NotImplementedException
+import kotlin.jvm.JvmField
 
 internal actual class File {
-    val filename: String
+    @JvmField
+    internal val filename: String
 
     actual constructor(filename: String) {
         this.filename = filename
