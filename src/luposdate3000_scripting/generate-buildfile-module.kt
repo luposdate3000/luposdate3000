@@ -40,11 +40,8 @@ enum class IntellijMode {
     Enable, Disable
 }
 
-var compilerVersion = "1.5.255-SNAPSHOT"
 val copySelevtively = false
 
-// var compilerVersion = "1.4.255-SNAPSHOT"
-// var compilerVersion = "1.4.0"
 val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
 private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, appendix: String, out: PrintWriter) {
     for (d in dependencies) {
@@ -113,6 +110,7 @@ private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map
 }
 
 class CreateModuleArgs() {
+    var compilerVersion: String = ""
     var enabledFunc: () -> Boolean = { true }
     var enabledRunFunc: () -> Boolean = { true }
     var moduleName: String = ""
@@ -139,6 +137,7 @@ class CreateModuleArgs() {
 
     fun clone(): CreateModuleArgs {
         var res = CreateModuleArgs()
+        res.compilerVersion = compilerVersion
         res.enabledFunc = enabledFunc
         res.enabledRunFunc = enabledRunFunc
         res.moduleName = moduleName
@@ -154,6 +153,12 @@ class CreateModuleArgs() {
         res.codegenKAPT = codegenKAPT
         res.codegenKSP = codegenKSP
         res.args = args
+        return res
+    }
+
+    fun ssetCompilerVersion(compilerVersion: String): CreateModuleArgs {
+        val res = clone()
+        res.compilerVersion = compilerVersion
         return res
     }
 
@@ -357,7 +362,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
         println("generating buildfile for ${moduleArgs.moduleName}")
         if (!buildLibrary && moduleArgs.codegenKSP) {
-            if (compilerVersion != "1.4.0" || copySelevtively == false) {
+            if (moduleArgs.compilerVersion != "1.4.0" || copySelevtively == false) {
                 return
             }
         }
@@ -487,7 +492,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("        maven(\"https://dl.bintray.com/kotlin/kotlin-eap\")")
                 out.println("    }")
                 out.println("    dependencies {")
-                out.println("        classpath(\"org.jetbrains.kotlin:kotlin-gradle-plugin:${compilerVersion}\")")
+                out.println("        classpath(\"org.jetbrains.kotlin:kotlin-gradle-plugin:${moduleArgs.compilerVersion}\")")
                 out.println("        classpath(\"com.guardsquare:proguard-gradle:7.0.1\")")
                 out.println("    }")
                 out.println("}")
@@ -503,9 +508,9 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     }
                 }
                 out.println("plugins {")
-                out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"${compilerVersion}\"")
+                out.println("    id(\"org.jetbrains.kotlin.multiplatform\") version \"${moduleArgs.compilerVersion}\"")
                 if (!buildLibrary && moduleArgs.codegenKAPT) {
-                    out.println("    id(\"org.jetbrains.kotlin.kapt\") version \"${compilerVersion}\"")
+                    out.println("    id(\"org.jetbrains.kotlin.kapt\") version \"${moduleArgs.compilerVersion}\"")
                 }
                 if (!buildLibrary && moduleArgs.codegenKSP) {
                     out.println("    id(\"kotlin-ksp\") version \"1.4.0-dev-experimental-20200914\"")

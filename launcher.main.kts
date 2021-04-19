@@ -17,8 +17,8 @@
  */
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystem.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystemExt.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/modulename/Platform.kt")
-@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/modulename/Platform.kt")
+@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared_inline/Platform.kt")
+@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared_inline/Platform.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
@@ -27,11 +27,14 @@
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/dictionary/EDictionaryType.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EPartitionModeExt.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EPartitionMode.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollector.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt")
 @file:CompilerOptions("-Xmulti-platform")
 
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.s00misc.EOperatingSystemExt
 import lupos.s00misc.EPartitionModeExt
+import lupos.shared.EGarbageCollectorExt
 import lupos.shared_inline.Platform
 import java.io.File
 import java.io.FileOutputStream
@@ -42,7 +45,7 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.util.jar.JarFile
 
-val useEpsilon = false
+var compilerVersion = ""
 var compileModuleArgs = mutableMapOf<String, MutableMap<String, String>>()
 var jsBrowserMode = true
 var releaseMode = ""
@@ -65,12 +68,12 @@ var compileSince: String? = null
 var threadCount = 1
 var processUrls = ""
 var availableMainClass = mutableListOf<String>()
+var garbageCollector = 0
 
 enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, ALL_TEST, UNKNOWN }
+enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
 
 var execMode = ExecMode.UNKNOWN
-
-enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
 
 fun getAllModuleConfigurations(): List<CreateModuleArgs> {
     var releaseMode2 = ReleaseMode.valueOf(releaseMode)
@@ -88,6 +91,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         .ssetIdeaBuildfile(intellijMode2)
         .ssetCodegenKSP(false)
         .ssetCodegenKAPT(false)
+        .ssetCompilerVersion(compilerVersion)
     var modules = mutableMapOf<String, CreateModuleArgs>()
     val dependencyMap = mutableMapOf<String, Set<String>>()
     Files.walk(Paths.get("src"), 1).forEach { it ->
@@ -425,6 +429,15 @@ val defaultParams = mutableListOf(
         )
     ),
     ParamClass(
+        "--compilerVersion",
+        "1.4.0",
+        mapOf(
+            "1.4.0" to { compilerVersion = "1.4.0" },
+            "1.4.255-SNAPSHOT" to { compilerVersion = "1.4.255-SNAPSHOT" },
+            "1.5.255-SNAPSHOT" to { compilerVersion = "1.5.255-SNAPSHOT" },
+        )
+    ),
+    ParamClass(
         "--inlineMode",
         "Disable",
         mapOf(
@@ -438,17 +451,22 @@ val defaultParams = mutableListOf(
         EPartitionModeExt.names.map { it to { partitionMode = it } }.toMap(),
     ),
     ParamClass(
+        "--garbageCollector",
+        EGarbageCollectorExt.names[EGarbageCollectorExt.Shenandoah],
+        EGarbageCollectorExt.names.mapIndexed { idx, it -> it to { garbageCollector = idx } }.toMap(),
+    ),
+    ParamClass(
+        "--dictionaryMode",
+        EDictionaryTypeExt.names[EDictionaryTypeExt.KV],
+        EDictionaryTypeExt.names.map { it to { dictionaryMode = it } }.toMap(),
+    ),
+    ParamClass(
         "--memoryMode",
         "inmemory",
         mapOf(
             "persistent" to { memoryMode = "_Persistent" },
             "inmemory" to { memoryMode = "_Inmemory" },
         )
-    ),
-    ParamClass(
-        "--dictionaryMode",
-        EDictionaryTypeExt.names[EDictionaryTypeExt.KV],
-        EDictionaryTypeExt.names.map { it to { dictionaryMode = it } }.toMap(),
     ),
     ParamClass(
         "--proguardMode",
@@ -781,17 +799,20 @@ fun onRun() {
             if (javaFile.exists()) {
                 cmd.add(javaFileName)
                 cmd.add("-XX:+UnlockExperimentalVMOptions")
-                if (useEpsilon) {
-                    cmd.add("-Xmx10g")
-                    cmd.add("-Xms10g")
-                    cmd.add("-XX:+UseEpsilonGC")
-                    cmd.add("-XX:+AlwaysPreTouch")
-                    cmd.add("-XX:+HeapDumpOnOutOfMemoryError")
-                } else {
-                    cmd.add("-Xmx${Platform.getAvailableRam()}g")
-                    cmd.add("-XX:+UseShenandoahGC")
-                    cmd.add("-XX:ShenandoahUncommitDelay=1000")
-                    cmd.add("-XX:ShenandoahGuaranteedGCInterval=10000")
+                when (garbageCollector) {
+                    EGarbageCollectorExt.Epsilon -> {
+                        cmd.add("-Xmx10g")
+                        cmd.add("-Xms10g")
+                        cmd.add("-XX:+UseEpsilonGC")
+                        cmd.add("-XX:+AlwaysPreTouch")
+                        cmd.add("-XX:+HeapDumpOnOutOfMemoryError")
+                    }
+                    EGarbageCollectorExt.Shenandoah -> {
+                        cmd.add("-Xmx${Platform.getAvailableRam()}g")
+                        cmd.add("-XX:+UseShenandoahGC")
+                        cmd.add("-XX:ShenandoahUncommitDelay=1000")
+                        cmd.add("-XX:ShenandoahGuaranteedGCInterval=10000")
+                    }
                 }
             } else {
                 cmd.add("java")
@@ -1120,6 +1141,7 @@ fun onGenerateEnums() {
         listOf("EIndexPattern", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EIndexPattern"),
         listOf("EPartitionMode", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EPartitionMode"),
         listOf("EDictionaryType", "lupos.dictionary", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}dictionary${Platform.getPathSeparator()}EDictionaryType"),
+        listOf("EGarbageCollector", "lupos.shared", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}shared${Platform.getPathSeparator()}EGarbageCollector"),
         listOf("ETripleStoreIndexDescriptionPartitionedType", "lupos.s05tripleStore", "public", "src${Platform.getPathSeparator()}luposdate3000_triple_store_manager${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s05tripleStore${Platform.getPathSeparator()}ETripleStoreIndexDescriptionPartitionedType"),
     )
     for (args in turtleGeneratingArgs) {
