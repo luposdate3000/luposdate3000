@@ -1382,13 +1382,21 @@ public class ValueFloat(@JvmField public var value: Double) : ValueNumeric() {
 }
 
 //Drehung
+@Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigDecimal.compareTo(value: ValueDefinition): Int = -value.compareTo(this)
+@Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigInteger.plus(value: ValueDefinition): BigInteger = value.plus(this).toInt()
+@Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigDecimal.plus(value: ValueDefinition): BigDecimal = value.plus(this).toDecimal()
+@Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigInteger.minus(value: ValueDefinition): BigInteger = BigInteger(-1) * value.minus(this).toInt()
+@Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigDecimal.minus(value: ValueDefinition): BigDecimal = (-1.0).toBigDecimal() * value.minus(this).toDecimal()
+@Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigInteger.times(value: ValueDefinition): BigInteger = value.times(this).toInt()
+@Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigDecimal.times(value: ValueDefinition): BigDecimal = value.times(this).toDecimal()
+@Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigInteger.div(value: ValueDefinition): BigInteger {
     if (this != BigInteger.fromInt(0)) {
         return (BigInteger(1) / value.div(this).toInt())
@@ -1397,6 +1405,7 @@ public inline operator fun BigInteger.div(value: ValueDefinition): BigInteger {
     }
 }
 
+@Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigDecimal.div(value: ValueDefinition): BigDecimal {
     if (this != 0.0.toBigDecimal()) {
         return (1.0.toBigDecimal() / value.div(this).toDecimal())

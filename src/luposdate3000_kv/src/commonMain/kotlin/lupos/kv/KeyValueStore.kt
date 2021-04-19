@@ -96,6 +96,7 @@ public class KeyValueStore {
         bufferManager.releasePage(lupos.SOURCE_FILE, lastPage)
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     private inline fun readData(data: ByteArrayWrapper, page: Int, off: Int) {
         var p = bufferManager.getPage(lupos.SOURCE_FILE, page)
         var pid = page

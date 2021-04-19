@@ -63,7 +63,6 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
 
     internal fun mySendSorted(i: Int, j: Int, sortedBy: EIndexPattern) {
         val buf = allBuf[i][j]
-        val index = description.indices[i]
         val store = allStore[i][j]
         if (store.first == (tripleStoreManager as TripleStoreManagerImpl).localhost) {
             if (type == EModifyTypeExt.INSERT) {
@@ -86,7 +85,6 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
 
     internal fun mySend(i: Int, j: Int) {
         val buf = allBuf[i][j]
-        val index = description.indices[i]
         val store = allStore[i][j]
         if (store.first == (tripleStoreManager as TripleStoreManagerImpl).localhost) {
             if (type == EModifyTypeExt.INSERT) {

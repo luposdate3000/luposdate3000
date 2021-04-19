@@ -64,7 +64,7 @@ public class ValueKeyStore {
     @ProguardTestAnnotation
     public fun delete() {
         deleteContent(firstInnerID)
-        val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
+        bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
         bufferManager.deletePage(lupos.SOURCE_FILE, rootPageID)
     }
 

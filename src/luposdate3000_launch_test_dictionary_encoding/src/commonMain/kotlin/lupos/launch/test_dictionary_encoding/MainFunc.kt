@@ -83,7 +83,6 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 v = nextRandom().toString()
             }
             2, 3, 4 -> {
-                remaining--
                 when (AssertionFunctions.randomRangePositive(nextRandom(), 3)) {
                     0 -> v += "+"
                     1 -> v += "-"
