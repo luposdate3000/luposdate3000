@@ -226,16 +226,27 @@ public class ValueKeyStore {
 }
 
 internal class ValueKeyStoreWriter {
+    @JvmField
     internal var firstLeafID: Int = ValueKeyStore.PAGEID_NULL_PTR
+    @JvmField
     internal var lastPageID: Int = ValueKeyStore.PAGEID_NULL_PTR
+    @JvmField
     internal var pageid: Int = ValueKeyStore.PAGEID_NULL_PTR
+    @JvmField
     internal var page: ByteArray
+    @JvmField
     internal var offset = 12
+    @JvmField
     internal val lastBuffer = ByteArrayWrapper()
+    @JvmField
     internal val pageType: Int
+    @JvmField
     internal val bufferManager: BufferManager
+    @JvmField
     internal var parentLayer: ValueKeyStoreWriter? = null
+    @JvmField
     internal var counter = 0
+    @JvmField
     internal var lastChildPageID = ValueKeyStore.PAGEID_NULL_PTR
 
     internal constructor(bufferManager: BufferManager, pageType: Int) : this(bufferManager, pageType, ValueKeyStore.PAGEID_NULL_PTR)
@@ -336,9 +347,13 @@ internal class ValueKeyStoreWriter {
 }
 
 public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal val bufferManager: BufferManager, startPageID: Int, @JvmField internal val buffer: ByteArrayWrapper) {
+    @JvmField
     internal var pageid = startPageID
+    @JvmField
     internal var page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
+    @JvmField
     internal var nextPageID = BufferManagerPage.readInt4(page, 4)
+    @JvmField
     internal var offset = BufferManagerPage.readInt4(page, 8)
     public fun hasNext(): Boolean {
         if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
@@ -388,9 +403,10 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
 }
 
 internal class ValueKeyStoreIteratorSearch internal constructor(@JvmField internal val bufferManager: BufferManager, startPageID: Int, @JvmField internal val buffer: ByteArrayWrapper) {
+    @JvmField
     internal var pageid = startPageID
 
-    internal fun search(target: ByteArrayWrapper): Int {
+    internal inline fun search(target: ByteArrayWrapper): Int {
         // println("searching start")
         while (true) {
             // println("searching at $pageid")

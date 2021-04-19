@@ -48,10 +48,13 @@ import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.Socket
 import java.net.URLDecoder
+import kotlin.jvm.JvmField
 
 @OptIn(ExperimentalStdlibApi::class)
 public actual object HttpEndpointLauncher {
+    @JvmField
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
+    @JvmField
     internal var queryMappings = mutableMapOf<String, QueryMappingContainer>()
 
     private fun printHeaderSuccess(stream: IMyOutputStream) {
@@ -83,21 +86,24 @@ public actual object HttpEndpointLauncher {
         return res
     }
 
-    internal class QueryMappingContainer(internal val xml: XMLElement, internal var inputStreams: Array<IMyInputStream?>, internal var outputStreams: Array<IMyOutputStream?>, internal var connections: Array<Socket?>) {
+    internal class QueryMappingContainer(@JvmField internal val xml: XMLElement, @JvmField internal var inputStreams: Array<IMyInputStream?>, @JvmField internal var outputStreams: Array<IMyOutputStream?>, @JvmField internal var connections: Array<Socket?>) {
+        @JvmField
         internal var instance: POPBase? = null
+        @JvmField
         internal val instanceLock = MyLock()
     }
 
-    public actual /*suspend*/ fun start() {
-        fun registerDictionary(key: String): RemoteDictionaryServer {
-            val dict = RemoteDictionaryServer(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true))
-            dictionaryMapping[key] = dict
-            return dict
-        }
+    private inline fun registerDictionary(key: String): RemoteDictionaryServer {
+        val dict = RemoteDictionaryServer(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true))
+        dictionaryMapping[key] = dict
+        return dict
+    }
 
-        fun removeDictionary(key: String) {
-            dictionaryMapping.remove(key)
-        }
+    private inline fun removeDictionary(key: String) {
+        dictionaryMapping.remove(key)
+    }
+
+    public actual /*suspend*/ fun start() {
 
         val hosturl = tripleStoreManager.getLocalhost().split(":")
         val hostname = hosturl[0]

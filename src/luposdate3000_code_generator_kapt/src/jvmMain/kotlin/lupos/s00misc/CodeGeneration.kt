@@ -84,6 +84,7 @@ public fun generateSourceCode(
         "lupos.s09physicalOperators.POPBase",
         "lupos.s00misc.EOperatorIDExt",
         "lupos.s00misc.ESortPriorityExt",
+        "import kotlin.jvm.JvmField",
         "lupos.s00misc.SanityCheck",
         "lupos.s00misc.SanityCheck",
         "lupos.s00misc.XMLElement",
@@ -128,7 +129,7 @@ public fun generateSourceCode(
             outFile.print(container.header.toString())
             outFile.print(container.iteratorHeader.toString())
             for (s in container.iteratorClassVariables) {
-                outFile.println(s)
+                outFile.println("@JvmField internal $s")
             }
             outFile.print(container.iteratorNextHeader.toString())
             for (s in container.iteratorNextVariables) {

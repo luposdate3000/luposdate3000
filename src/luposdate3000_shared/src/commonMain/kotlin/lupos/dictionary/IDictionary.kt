@@ -17,6 +17,7 @@
 package lupos.dictionary
 
 import lupos.s00misc.ByteArrayWrapper
+import kotlin.jvm.JvmField
 
 public interface IDictionary {
     public fun importFromDictionaryFile(filename: String): Pair<IntArray, Int>
@@ -32,6 +33,7 @@ public interface IDictionary {
     public fun isInmemoryOnly(): Boolean
 }
 
+@JvmField
 public var nodeGlobalDictionary: IDictionary = object : IDictionary {
     public override fun importFromDictionaryFile(filename: String): Pair<IntArray, Int> = throw Exception("not implemented")
     public override fun createNewBNode(): Int = throw Exception("not implemented")

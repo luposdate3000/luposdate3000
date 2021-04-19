@@ -20,18 +20,18 @@ import lupos.dictionary.DictionaryExt
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
-internal class POPJoinMergeSingleColumn_Iterator(@JvmField val child0: ColumnIterator, @JvmField val child1: ColumnIterator, @JvmField var head0: Int, @JvmField var head1: Int) : ColumnIterator() {
+internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: ColumnIterator, @JvmField internal val child1: ColumnIterator, @JvmField internal var head0: Int, @JvmField internal var head1: Int) : ColumnIterator() {
     @JvmField
-    var counter: Int = 0
+    internal var counter: Int = 0
 
     @JvmField
-    var value: Int = head0
+    internal var value: Int = head0
 
     @JvmField
-    var label = 1
+    internal var label = 1
 
     @JvmField
-    var sipbuf = IntArray(2)
+    internal var sipbuf = IntArray(2)
     override /*suspend*/ fun next(): Int {
         when (label) {
             1 -> {
