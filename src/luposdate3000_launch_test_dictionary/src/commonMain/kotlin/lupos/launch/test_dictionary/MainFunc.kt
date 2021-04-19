@@ -21,11 +21,11 @@ import lupos.buffermanager.BufferManagerExt
 import lupos.dictionary.ADictionary
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryFactory
-import lupos.dictionary.DictionaryHelper
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
 import lupos.dictionary.nodeGlobalDictionary
-import lupos.s00misc.ByteArrayHelper
+import lupos.modulename.ByteArrayHelper
+import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.Parallel

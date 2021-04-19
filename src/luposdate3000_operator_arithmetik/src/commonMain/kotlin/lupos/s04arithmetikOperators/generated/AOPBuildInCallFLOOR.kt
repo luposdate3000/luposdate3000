@@ -18,7 +18,7 @@ package lupos.s04arithmetikOperators.generated
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import lupos.dictionary.DictionaryExt
-import lupos.dictionary.DictionaryHelper
+import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ETripleComponentType

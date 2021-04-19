@@ -16,7 +16,6 @@
  */
 package lupos.modulename
 
-import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.IMyInputStream
 import kotlin.jvm.JvmField
 

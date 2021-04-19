@@ -16,6 +16,7 @@
  */
 package lupos.s00misc
 
+import lupos.modulename.MyStringStream
 import lupos.s02buildSyntaxTree.LexerCharIterator
 import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser

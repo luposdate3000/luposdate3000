@@ -16,7 +16,7 @@
  */
 package lupos.s03resultRepresentation
 
-import lupos.dictionary.DictionaryHelper
+import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField

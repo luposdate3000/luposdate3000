@@ -16,11 +16,10 @@
  */
 package lupos.s05tripleStore.index_IDTriple
 
-import lupos.buffermanager.BufferManagerPage
 import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
 
-internal class NodeLeafIterator(@JvmField var node: BufferManagerPage, @JvmField var nodeid: Int, private val nodeManager: NodeManager) : TripleIterator() {
+internal class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nodeid: Int, private val nodeManager: NodeManager) : TripleIterator() {
     @JvmField
     var remaining = NodeShared.getTripleCount(node)
 

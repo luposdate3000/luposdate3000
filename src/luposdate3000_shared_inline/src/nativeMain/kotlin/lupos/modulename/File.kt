@@ -18,7 +18,6 @@ package lupos.modulename
 
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
-import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.NotImplementedException
 
 internal actual class File {

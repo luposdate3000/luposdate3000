@@ -17,7 +17,7 @@
 
 package lupos.fileformat
 
-import lupos.s00misc.File
+import lupos.modulename.File
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 

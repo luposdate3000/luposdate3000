@@ -16,6 +16,7 @@
  */
 package lupos.s09physicalOperators.noinput
 
+import lupos.modulename.File
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphOperationTypeExt
 import lupos.s00misc.EGraphRefType
@@ -25,7 +26,6 @@ import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.EvaluationException
-import lupos.s00misc.File
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.UnreachableException

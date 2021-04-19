@@ -17,6 +17,7 @@
 package lupos.buffermanager
 
 import lupos.ProguardTestAnnotation
+import lupos.modulename.BufferManagerPage
 import lupos.s00misc.BUFFER_MANAGER_USE_FREE_LIST
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
@@ -35,7 +36,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
      * - temporary result rows (currently not implemented)
      * additionally this should make it more easy to exchange this with on disk storage
      */
-    private var allPages = Array<BufferManagerPage>(128) { createBufferManagerPage() }
+    private var allPages = Array<ByteArray>(128) { BufferManagerPage.create() }
 
     private var allPagesRefcounters = IntArray(128)
 
@@ -53,7 +54,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
                 SanityCheck.check({ allPagesRefcounters[i] == 0 }, { "Failed requirement allPagesRefcounters[$i] = ${allPagesRefcounters[i]} == 0" })
             }
         }
-        allPages = Array<BufferManagerPage>(128) { createBufferManagerPage() }
+        allPages = Array<ByteArray>(128) { BufferManagerPage.create() }
         allPagesRefcounters = IntArray(128)
         if (BUFFER_MANAGER_USE_FREE_LIST) {
             freeList = IntArray(128)
@@ -89,7 +90,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
         allPagesRefcounters[pageid]--
     }
 
-    public fun getPage(call_location: String, pageid: Int): BufferManagerPage {
+    public fun getPage(call_location: String, pageid: Int): ByteArray {
         SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $call_location" }
         // no locking required, assuming an assignment to 'allPages' is atomic
         SanityCheck {
@@ -101,7 +102,7 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
                 }
             }
         }
-        SanityCheck.check { allPages[pageid].getPageID() == pageid }
+        SanityCheck.check { BufferManagerPage.getPageID(allPages[pageid]) == pageid }
         allPagesRefcounters[pageid]++
         return allPages[pageid]
     }
@@ -117,11 +118,11 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
                     if (size < 128) {
                         size = 128
                     }
-                    val tmp = Array<BufferManagerPage>(size) {
-                        val res: BufferManagerPage = if (it < counter) {
+                    val tmp = Array<ByteArray>(size) {
+                        val res: ByteArray = if (it < counter) {
                             allPages[it]
                         } else {
-                            createBufferManagerPage()
+                            BufferManagerPage.create()
                         }
                         res
                     }
@@ -132,8 +133,8 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
                 }
                 pageid = counter++
             }
-            SanityCheck.check({ allPages[pageid].getPageID() == -1 }, { "${allPages[pageid].getPageID()}" })
-            allPages[pageid].setPageID(pageid)
+            SanityCheck.check({ BufferManagerPage.getPageID(allPages[pageid]) == -1 }, { "${BufferManagerPage.getPageID(allPages[pageid])}" })
+            BufferManagerPage.setPageID(allPages[pageid], pageid)
         }
         SanityCheck.println_buffermanager { "BufferManager.allocPage($pageid) : $call_location" }
         return pageid
@@ -150,10 +151,10 @@ public class BufferManager internal constructor(@JvmField public val name: Strin
         }
         SanityCheck.check({ allPagesRefcounters[pageid] == 1 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} == 1" })
         allPagesRefcounters[pageid] = 0
-        SanityCheck.check { allPages[pageid].getPageID() == pageid }
-        allPages[pageid].setPageID(-1)
+        SanityCheck.check { BufferManagerPage.getPageID(allPages[pageid]) == pageid }
+        BufferManagerPage.setPageID(allPages[pageid], -1)
         SanityCheck {
-            allPages[pageid] = createBufferManagerPage()
+            allPages[pageid] = BufferManagerPage.create()
         }
         if (BUFFER_MANAGER_USE_FREE_LIST) {
             if (freeListSize == freeList.size) {

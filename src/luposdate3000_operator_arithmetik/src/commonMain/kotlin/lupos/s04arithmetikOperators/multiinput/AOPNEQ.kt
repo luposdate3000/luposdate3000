@@ -17,7 +17,7 @@
 package lupos.s04arithmetikOperators.multiinput
 
 import lupos.dictionary.DictionaryExt
-import lupos.dictionary.DictionaryHelper
+import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.Luposdate3000Exception

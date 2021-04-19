@@ -16,7 +16,7 @@
  */
 package lupos.s02buildSyntaxTree.nQuads
 
-import lupos.dictionary.DictionaryHelper
+import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.IMyInputStream
 import kotlin.jvm.JvmField

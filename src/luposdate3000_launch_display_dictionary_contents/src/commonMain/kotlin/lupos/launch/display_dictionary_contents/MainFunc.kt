@@ -16,8 +16,8 @@
  */
 package lupos.launch.display_dictionary_contents
 
-import lupos.dictionary.DictionaryHelper
 import lupos.fileformat.DictionaryIntermediateReader
+import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.Parallel
 

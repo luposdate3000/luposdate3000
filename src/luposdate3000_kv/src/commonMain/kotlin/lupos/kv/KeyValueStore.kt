@@ -17,19 +17,18 @@
 package lupos.kv
 
 import lupos.ProguardTestAnnotation
-import lupos.buffermanager.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.buffermanager.BufferManager
-import lupos.buffermanager.BufferManagerPage
 import lupos.buffermanager.MyIntArray
+import lupos.modulename.BufferManagerPage
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.SanityCheck
 
 public class KeyValueStore {
     private val rootPageID: Int
-    private val rootPage: BufferManagerPage
+    private val rootPage: ByteArray
     private val bufferManager: BufferManager
     private var lastPage: Int
-    private var lastPageBuf: BufferManagerPage
+    private var lastPageBuf: ByteArray
     private var lastPageOffset: Int
     private var nextID: Int
     private var mappingID2Page: MyIntArray
@@ -42,24 +41,24 @@ public class KeyValueStore {
         var id1 = 0
         var id2 = 0
         if (initFromRootPage) {
-            lastPage = rootPage.readInt4(0)
+            lastPage = BufferManagerPage.readInt4(rootPage, 0)
             lastPageBuf = bufferManager.getPage(lupos.SOURCE_FILE, lastPage)
-            lastPageOffset = rootPage.readInt4(4)
-            nextID = rootPage.readInt4(8)
-            id1 = rootPage.readInt4(12)
-            id2 = rootPage.readInt4(16)
+            lastPageOffset = BufferManagerPage.readInt4(rootPage, 4)
+            nextID = BufferManagerPage.readInt4(rootPage, 8)
+            id1 = BufferManagerPage.readInt4(rootPage, 12)
+            id2 = BufferManagerPage.readInt4(rootPage, 16)
         } else {
             lastPageOffset = 4
             lastPage = bufferManager.allocPage(lupos.SOURCE_FILE)
             lastPageBuf = bufferManager.getPage(lupos.SOURCE_FILE, lastPage)
-            rootPage.writeInt4(0, lastPage)
-            rootPage.writeInt4(4, lastPageOffset)
+            BufferManagerPage.writeInt4(rootPage, 0, lastPage)
+            BufferManagerPage.writeInt4(rootPage, 4, lastPageOffset)
             nextID = 0
-            rootPage.writeInt4(8, nextID)
+            BufferManagerPage.writeInt4(rootPage, 8, nextID)
             id1 = bufferManager.allocPage(lupos.SOURCE_FILE)
             id2 = bufferManager.allocPage(lupos.SOURCE_FILE)
-            rootPage.writeInt4(12, id1)
-            rootPage.writeInt4(16, id2)
+            BufferManagerPage.writeInt4(rootPage, 12, id1)
+            BufferManagerPage.writeInt4(rootPage, 16, id2)
         }
         mappingID2Page = MyIntArray(bufferManager, id1, initFromRootPage)
         mappingID2Off = MyIntArray(bufferManager, id2, initFromRootPage)
@@ -75,7 +74,7 @@ public class KeyValueStore {
             pageid = mappingID2Page[0]
             while (pageid != lastPage) {
                 val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-                var nextPage = page.readInt4(0)
+                var nextPage = BufferManagerPage.readInt4(page, 0)
                 bufferManager.deletePage(lupos.SOURCE_FILE, pageid)
                 pageid = nextPage
             }
@@ -100,27 +99,27 @@ public class KeyValueStore {
     private inline fun readData(data: ByteArrayWrapper, page: Int, off: Int) {
         var p = bufferManager.getPage(lupos.SOURCE_FILE, page)
         var pid = page
-        val l = p.readInt4(off)
+        val l = BufferManagerPage.readInt4(p, off)
         data.setSize(l)
         var bufoff = 0
         var toread = l
         var pageoff = off + 4
         while (toread > 0) {
-            var available = BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - pageoff
+            var available = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - pageoff
             if (available == 0) {
-                var id = p.readInt4(0)
+                var id = BufferManagerPage.readInt4(p, 0)
                 bufferManager.releasePage(lupos.SOURCE_FILE, pid)
                 p = bufferManager.getPage(lupos.SOURCE_FILE, id)
                 pid = id
                 pageoff = 4
-                available = BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - pageoff
+                available = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - pageoff
             }
             var len = if (available < toread) {
                 available
             } else {
                 toread
             }
-            p.copyInto(data.getBuf(), bufoff, pageoff, pageoff + len)
+            BufferManagerPage.copyInto(p, data.getBuf(), bufoff, pageoff, pageoff + len)
             bufoff += len
             pageoff += len
             toread -= len
@@ -129,45 +128,45 @@ public class KeyValueStore {
     }
 
     private inline fun writeData(data: ByteArrayWrapper, crossinline action: (page: Int, off: Int) -> Unit) {
-        if (lastPageOffset >= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8) {
+        if (lastPageOffset >= BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8) {
             val pageid = bufferManager.allocPage(lupos.SOURCE_FILE)
-            lastPageBuf.writeInt4(0, pageid)
+            BufferManagerPage.writeInt4(lastPageBuf, 0, pageid)
             bufferManager.releasePage(lupos.SOURCE_FILE, lastPage)
             lastPageBuf = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
             lastPage = pageid
-            rootPage.writeInt4(0, lastPage)
+            BufferManagerPage.writeInt4(rootPage, 0, lastPage)
             lastPageOffset = 4
-            rootPage.writeInt4(4, lastPageOffset)
+            BufferManagerPage.writeInt4(rootPage, 4, lastPageOffset)
         }
         var resPage = lastPage
         var resOff = lastPageOffset
-        lastPageBuf.writeInt4(lastPageOffset, data.getSize())
+        BufferManagerPage.writeInt4(lastPageBuf, lastPageOffset, data.getSize())
         lastPageOffset += 4
-        rootPage.writeInt4(4, lastPageOffset)
+        BufferManagerPage.writeInt4(rootPage, 4, lastPageOffset)
         var dataoff = 0
         var towrite = data.getSize()
         while (towrite > 0) {
-            var available = BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - lastPageOffset
+            var available = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - lastPageOffset
             if (available == 0) {
                 val pageid = bufferManager.allocPage(lupos.SOURCE_FILE)
-                lastPageBuf.writeInt4(0, pageid)
+                BufferManagerPage.writeInt4(lastPageBuf, 0, pageid)
                 bufferManager.releasePage(lupos.SOURCE_FILE, lastPage)
                 lastPageBuf = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
                 lastPage = pageid
-                rootPage.writeInt4(0, lastPage)
+                BufferManagerPage.writeInt4(rootPage, 0, lastPage)
                 lastPageOffset = 4
-                rootPage.writeInt4(4, lastPageOffset)
-                available = BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - lastPageOffset
+                BufferManagerPage.writeInt4(rootPage, 4, lastPageOffset)
+                available = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - lastPageOffset
             }
             var len = if (available < towrite) {
                 available
             } else {
                 towrite
             }
-            lastPageBuf.copyFrom(data.getBuf(), lastPageOffset, dataoff, dataoff + len)
+            BufferManagerPage.copyFrom(lastPageBuf, data.getBuf(), lastPageOffset, dataoff, dataoff + len)
             towrite -= len
             lastPageOffset += len
-            rootPage.writeInt4(4, lastPageOffset)
+            BufferManagerPage.writeInt4(rootPage, 4, lastPageOffset)
             dataoff += len
         }
         action(resPage, resOff)
@@ -176,7 +175,7 @@ public class KeyValueStore {
     public fun createValue(data: ByteArrayWrapper): Int {
         var res = 0
         res = nextID++
-        rootPage.writeInt4(8, nextID)
+        BufferManagerPage.writeInt4(rootPage, 8, nextID)
         writeData(data) { page, off ->
             if (res >= mappingID2Page.getSize()) {
                 mappingID2Page.setSize(res + 1, false)

@@ -22,9 +22,9 @@ import lupos.fileformat.DictionaryIntermediateWriter
 import lupos.fileformat.TriplesIntermediate
 import lupos.fileformat.TriplesIntermediateReader
 import lupos.fileformat.TriplesIntermediateWriter
+import lupos.modulename.File
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.DateHelperRelative
-import lupos.s00misc.File
 import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.nQuads.NQuads2Parser

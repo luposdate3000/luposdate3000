@@ -17,13 +17,13 @@
 package lupos.s11outputResult
 
 import lupos.dictionary.DictionaryExt
-import lupos.dictionary.DictionaryHelper
 import lupos.dictionary.IDictionary
+import lupos.modulename.DictionaryHelper
+import lupos.modulename.MyPrintWriter
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyLock
-import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition

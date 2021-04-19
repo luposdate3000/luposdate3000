@@ -16,7 +16,7 @@
  */
 package lupos.s05tripleStore.index_IDTriple
 
-import lupos.buffermanager.BufferManagerPage
+import lupos.modulename.BufferManagerPage
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.iterator.ColumnIterator
@@ -25,7 +25,7 @@ internal object NodeLeaf {
     const val START_OFFSET = 12
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getFirstTriple(node: BufferManagerPage, b: IntArray) {
+    internal inline fun getFirstTriple(node: ByteArray, b: IntArray) {
         NodeShared.readTriple111(node, START_OFFSET, 0, 0, 0) { v0, v1, v2 ->
             b[0] = v0
             b[1] = v1
@@ -34,12 +34,12 @@ internal object NodeLeaf {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun iterator(node: BufferManagerPage, nodeid: Int, nodeManager: NodeManager): TripleIterator {
+    internal inline fun iterator(node: ByteArray, nodeid: Int, nodeManager: NodeManager): TripleIterator {
         return NodeLeafIterator(node, nodeid, nodeManager)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator(node: BufferManagerPage, nodeid: Int, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
+    /*suspend*/ internal inline fun iterator(node: ByteArray, nodeid: Int, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
         return when (component) {
             0 -> {
                 NodeLeafColumnIterator0(node, nodeid, lock, nodeManager)
@@ -57,17 +57,17 @@ internal object NodeLeaf {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator3(node: BufferManagerPage, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
+    /*suspend*/ internal inline fun iterator3(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
         return NodeLeafColumnIteratorPrefix3(node, nodeid, prefix, lock, nodeManager)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator2(node: BufferManagerPage, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
+    /*suspend*/ internal inline fun iterator2(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager): ColumnIterator {
         return NodeLeafColumnIteratorPrefix22(node, nodeid, prefix, lock, nodeManager)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator1(node: BufferManagerPage, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
+    /*suspend*/ internal inline fun iterator1(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager): ColumnIterator {
         return when (component) {
             1 -> {
                 NodeLeafColumnIteratorPrefix11(node, nodeid, prefix, lock, nodeManager)
@@ -82,7 +82,7 @@ internal object NodeLeaf {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun initializeWith(node: BufferManagerPage, nodeid: Int, iterator: TripleIterator) {
+    internal inline fun initializeWith(node: ByteArray, nodeid: Int, iterator: TripleIterator) {
         SanityCheck.check { iterator.hasNext() }
         var writtenTriples: MutableList<Int>? = null
         SanityCheck {
@@ -90,7 +90,7 @@ internal object NodeLeaf {
         }
         val tripleLast = IntArray(3)
         var offset = START_OFFSET
-        val offsetEnd = lupos.buffermanager.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - NodeShared.MAX_TRIPLE_SIZE
+        val offsetEnd = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - NodeShared.MAX_TRIPLE_SIZE
         var triples = 0
         while (iterator.hasNext() && offset <= offsetEnd) {
             val tripleCurrent = iterator.next()

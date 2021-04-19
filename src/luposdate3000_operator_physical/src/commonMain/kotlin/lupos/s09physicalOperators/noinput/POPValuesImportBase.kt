@@ -16,7 +16,7 @@
  */
 package lupos.s09physicalOperators.noinput
 
-import lupos.dictionary.DictionaryHelper
+import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery

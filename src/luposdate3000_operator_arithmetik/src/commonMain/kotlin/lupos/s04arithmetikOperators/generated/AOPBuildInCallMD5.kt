@@ -17,7 +17,7 @@
 package lupos.s04arithmetikOperators.generated
 
 import lupos.dictionary.DictionaryExt
-import lupos.dictionary.DictionaryHelper
+import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.Crypto
 import lupos.s00misc.EOperatorIDExt

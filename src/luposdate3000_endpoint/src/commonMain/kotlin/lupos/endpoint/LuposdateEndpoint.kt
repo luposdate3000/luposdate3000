@@ -18,9 +18,13 @@ package lupos.endpoint
 
 import lupos.buffermanager.BufferManagerExt
 import lupos.dictionary.DictionaryFactory
-import lupos.dictionary.DictionaryHelper
 import lupos.dictionary.nodeGlobalDictionary
 import lupos.fileformat.TriplesIntermediateReader
+import lupos.modulename.DictionaryHelper
+import lupos.modulename.File
+import lupos.modulename.MyPrintWriter
+import lupos.modulename.MyStringStream
+import lupos.modulename.Platform
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.distributed.query.DistributedOptimizerQuery
@@ -32,13 +36,9 @@ import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.File
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyLock
-import lupos.s00misc.MyPrintWriter
-import lupos.s00misc.MyStringStream
 import lupos.s00misc.OperatorGraphToLatex
-import lupos.s00misc.Platform
 import lupos.s00misc.QueryResultToStream
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.UnreachableException

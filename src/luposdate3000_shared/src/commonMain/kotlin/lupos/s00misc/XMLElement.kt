@@ -16,7 +16,7 @@
  */
 package lupos.s00misc
 
-import lupos.dictionary.DictionaryHelper
+import lupos.modulename.DictionaryHelper
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 

@@ -16,7 +16,6 @@
  */
 package lupos.modulename
 
-import lupos.s00misc.File
 import java.io.BufferedInputStream
 import java.io.DataInputStream
 import java.io.FileInputStream

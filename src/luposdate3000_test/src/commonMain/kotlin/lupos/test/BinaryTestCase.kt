@@ -18,10 +18,12 @@ package lupos.test
 
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryFactory
-import lupos.dictionary.DictionaryHelper
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
 import lupos.dictionary.nodeGlobalDictionary
+import lupos.modulename.DictionaryHelper
+import lupos.modulename.File
+import lupos.modulename.MyPrintWriter
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
@@ -29,11 +31,9 @@ import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.File
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MAX_TRIPLES_DURING_TEST
 import lupos.s00misc.MemoryTable
-import lupos.s00misc.MyPrintWriter
 import lupos.s00misc.NotImplementedException
 import lupos.s00misc.Partition
 import lupos.s00misc.UnknownDataFileException

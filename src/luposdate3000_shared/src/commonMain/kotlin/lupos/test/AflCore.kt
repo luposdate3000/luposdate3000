@@ -16,8 +16,8 @@
  */
 package lupos.test
 
+import lupos.modulename.File
 import lupos.s00misc.DateHelperRelative
-import lupos.s00misc.File
 import lupos.s00misc.Parallel
 import kotlin.math.abs
 import kotlin.math.min

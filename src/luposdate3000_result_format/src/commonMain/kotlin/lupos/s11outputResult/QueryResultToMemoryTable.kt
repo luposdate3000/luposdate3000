@@ -17,8 +17,8 @@
 package lupos.s11outputResult
 
 import lupos.dictionary.DictionaryExt
-import lupos.dictionary.DictionaryHelper
 import lupos.dictionary.IDictionary
+import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.MemoryTable

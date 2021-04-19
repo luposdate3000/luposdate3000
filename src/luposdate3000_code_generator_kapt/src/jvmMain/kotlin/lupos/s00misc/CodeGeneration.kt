@@ -16,8 +16,9 @@
  */
 package lupos.s00misc
 
-import lupos.dictionary.DictionaryHelper
 import lupos.endpoint.LuposdateEndpoint
+import lupos.modulename.DictionaryHelper
+import lupos.modulename.MyPrintWriter
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueInteger
@@ -70,7 +71,7 @@ public fun generateSourceCode(
     val imports = mutableSetOf<String>(
         "lupos.s04logicalOperators.Query",
         "lupos.s04logicalOperators.IQuery",
-        "lupos.s00misc.MyPrintWriter",
+        "lupos.modulename.MyPrintWriter",
         "lupos.endpoint.LuposdateEndpoint",
         "com.ionspin.kotlin.bignum.integer.BigInteger",
         "com.ionspin.kotlin.bignum.decimal.BigDecimal",
@@ -90,10 +91,10 @@ public fun generateSourceCode(
         "lupos.s04logicalOperators.iterator.ColumnIterator",
         "lupos.s04logicalOperators.iterator.IteratorBundle",
         "lupos.s04logicalOperators.iterator.ColumnIteratorQueue",
-        "lupos.s04logicalOperators.iterator.ColumnIteratorQueueExt",
+        "lupos.modulename.ColumnIteratorQueueExt",
         "lupos.s04arithmetikOperators.generated.AOPAnd",
         "lupos.s03resultRepresentation.ValueIri",
-        "lupos.dictionary.DictionaryHelper",
+        "lupos.modulename.DictionaryHelper",
         "lupos.dictionary.DictionaryExt",
         "lupos.s00misc.ByteArrayWrapper"
     )

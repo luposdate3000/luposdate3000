@@ -16,8 +16,8 @@
  */
 package lupos.fileformat
 
+import lupos.modulename.File
 import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.File
 
 public class DictionaryIntermediateWriter : DictionaryIntermediate {
     public constructor(filename: String) : super(filename) {

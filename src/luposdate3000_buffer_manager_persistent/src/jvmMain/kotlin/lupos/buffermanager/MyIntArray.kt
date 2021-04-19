@@ -17,7 +17,7 @@
 package lupos.buffermanager
 
 import lupos.ProguardTestAnnotation
-import lupos.s00misc.File
+import lupos.modulename.File
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import java.io.RandomAccessFile

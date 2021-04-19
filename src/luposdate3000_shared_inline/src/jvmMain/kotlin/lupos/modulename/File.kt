@@ -19,8 +19,6 @@ package lupos.modulename
 import lupos.s00misc.DirectoryCompareNotImplementedException
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
-import lupos.s00misc.MyInputStream
-import lupos.s00misc.MyOutputStream
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.FileInputStream
@@ -91,7 +89,7 @@ internal actual class File actual constructor(@JvmField public val filename: Str
     }
 
     actual override fun equals(other: Any?): Boolean {
-        if (other !is _File) {
+        if (other !is File) {
             return false
         }
         val file1 = java.io.File(filename)

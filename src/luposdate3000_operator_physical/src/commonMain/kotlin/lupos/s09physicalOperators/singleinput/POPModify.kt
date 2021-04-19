@@ -17,7 +17,7 @@
 package lupos.s09physicalOperators.singleinput
 
 import lupos.dictionary.DictionaryExt
-import lupos.dictionary.DictionaryHelper
+import lupos.modulename.DictionaryHelper
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt

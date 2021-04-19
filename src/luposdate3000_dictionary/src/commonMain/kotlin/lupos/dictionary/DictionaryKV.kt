@@ -18,13 +18,14 @@ package lupos.dictionary
 
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
-import lupos.buffermanager.BufferManagerPage
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.kv.KeyValueStore
-import lupos.s00misc.ByteArrayHelper
+import lupos.modulename.BufferManagerPage
+import lupos.modulename.ByteArrayHelper
+import lupos.modulename.DictionaryHelper
+import lupos.modulename.File
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.File
 import lupos.s00misc.SanityCheck
 import lupos.vk.ValueKeyStore
 
@@ -34,7 +35,7 @@ public class DictionaryKV : ADictionary {
     private val vk: ValueKeyStore
     private var bNodeCounter = 5
     private val rootPageID: Int
-    private val rootPage: BufferManagerPage
+    private val rootPage: ByteArray
     public override fun close() {
         kv.close()
         vk.close()
@@ -58,15 +59,15 @@ public class DictionaryKV : ADictionary {
         var kvPage = 0
         var vkPage = 0
         if (initFromRootPage) {
-            bNodeCounter = rootPage.readInt4(0)
-            kvPage = rootPage.readInt4(4)
-            vkPage = rootPage.readInt4(8)
+            bNodeCounter = BufferManagerPage.readInt4(rootPage, 0)
+            kvPage = BufferManagerPage.readInt4(rootPage, 4)
+            vkPage = BufferManagerPage.readInt4(rootPage, 8)
         } else {
             kvPage = bufferManager.allocPage(lupos.SOURCE_FILE)
             vkPage = bufferManager.allocPage(lupos.SOURCE_FILE)
-            rootPage.writeInt4(0, bNodeCounter)
-            rootPage.writeInt4(4, kvPage)
-            rootPage.writeInt4(8, vkPage)
+            BufferManagerPage.writeInt4(rootPage, 0, bNodeCounter)
+            BufferManagerPage.writeInt4(rootPage, 4, kvPage)
+            BufferManagerPage.writeInt4(rootPage, 8, vkPage)
         }
         kv = KeyValueStore(bufferManager, kvPage, initFromRootPage)
         vk = ValueKeyStore(bufferManager, vkPage, initFromRootPage)
@@ -74,7 +75,7 @@ public class DictionaryKV : ADictionary {
 
     public override fun createNewBNode(): Int {
         var res: Int = bNodeCounter++
-        rootPage.writeInt4(0, bNodeCounter)
+        BufferManagerPage.writeInt4(rootPage, 0, bNodeCounter)
         return res
     }
 

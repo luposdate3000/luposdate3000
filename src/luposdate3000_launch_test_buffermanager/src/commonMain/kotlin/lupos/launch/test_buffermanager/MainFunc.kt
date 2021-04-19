@@ -16,10 +16,9 @@
  */
 package lupos.launch.test_buffermanager
 
-import lupos.buffermanager.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
-import lupos.buffermanager.BufferManagerPage
+import lupos.modulename.BufferManagerPage
 import lupos.s00misc.Parallel
 import lupos.test.AflCore
 import kotlin.math.abs
@@ -32,11 +31,11 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
-    val zeroBytes = ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+    val zeroBytes = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
     val pageIds = mutableListOf<Int>()
-    val mappedPages = mutableMapOf<Int, BufferManagerPage>()
+    val mappedPages = mutableMapOf<Int, ByteArray>()
     val mappedPagesCtr = mutableMapOf<Int, Int>()
 
     fun testReleasePageOk(pageid: Int) {
@@ -77,7 +76,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             println("testGetPageOk $pageid")
         }
         val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-        val id = page.readInt4(0)
+        val id = BufferManagerPage.readInt4(page, 0)
         if (id != pageid) {
             throw Exception("")
         }
@@ -113,11 +112,11 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     fun testCreateNewPageOk() {
         val pageid = bufferManager.allocPage(lupos.SOURCE_FILE)
         val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-        page.copyFrom(zeroBytes, 0, 0, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+        BufferManagerPage.copyFrom(page, zeroBytes, 0, 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
         if (verbose) {
             println("testCreateNewPageOk $pageid")
         }
-        page.writeInt4(0, pageid)
+        BufferManagerPage.writeInt4(page, 0, pageid)
         if (pageIds.contains(pageid)) {
             throw Exception("")
         }
@@ -241,7 +240,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             throw Exception("")
         }
         for ((k, v) in mappedPages) {
-            val id = v.readInt4(0)
+            val id = BufferManagerPage.readInt4(v, 0)
             if (id != k) {
                 throw Exception("")
             }
@@ -259,7 +258,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     }
     for (pageid in pageIds) {
         val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-        val id = page.readInt4(0)
+        val id = BufferManagerPage.readInt4(page, 0)
         if (id != pageid) {
             throw Exception("")
         }
@@ -281,7 +280,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     }
     for (pageid in pageIds) {
         val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-        val id = page.readInt4(0)
+        val id = BufferManagerPage.readInt4(page, 0)
         if (id != pageid) {
             throw Exception("")
         }

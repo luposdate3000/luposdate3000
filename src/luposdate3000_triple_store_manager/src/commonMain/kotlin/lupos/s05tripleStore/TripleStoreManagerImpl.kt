@@ -16,10 +16,12 @@
  */
 package lupos.s05tripleStore
 
-import lupos.buffermanager.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.BufferManagerExt
-import lupos.s00misc.ByteArrayHelper
+import lupos.modulename.BufferManagerPage
+import lupos.modulename.ByteArrayHelper
+import lupos.modulename.File
+import lupos.modulename.Platform
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EIndexPatternHelper
@@ -27,9 +29,7 @@ import lupos.s00misc.EModifyType
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EPartitionMode
 import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.File
 import lupos.s00misc.IMyInputStream
-import lupos.s00misc.Platform
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
@@ -212,19 +212,19 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     private fun initFromPageID() {
         var pageid = rootPageID
         var page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-        var nextid = page.readInt4(0)
-        val size = page.readInt4(4)
+        var nextid = BufferManagerPage.readInt4(page, 0)
+        val size = BufferManagerPage.readInt4(page, 4)
         val buffer = ByteArray(size)
         var off = 0
-        val len = min(size - off, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8)
+        val len = min(size - off, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8)
         page.copyInto(buffer, off, 8, 8 + len)
         off += len
         bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
         while (off < size) {
             pageid = nextid
             page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-            nextid = page.readInt4(0)
-            val len2 = min(size - off, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 4)
+            nextid = BufferManagerPage.readInt4(page, 0)
+            val len2 = min(size - off, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 4)
             page.copyInto(buffer, off, 4, 4 + len2)
             off += len2
             bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
@@ -235,17 +235,17 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     private fun deleteAllPagesExceptRootID() {
         var pageid = rootPageID
         var page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-        var nextid = page.readInt4(0)
-        val size = page.readInt4(4)
+        var nextid = BufferManagerPage.readInt4(page, 0)
+        val size = BufferManagerPage.readInt4(page, 4)
         var off = 0
-        val len = min(size - off, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8)
+        val len = min(size - off, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8)
         off += len
         bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
         while (off < size) {
             pageid = nextid
             page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-            nextid = page.readInt4(0)
-            val len2 = min(size - off, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 4)
+            nextid = BufferManagerPage.readInt4(page, 0)
+            val len2 = min(size - off, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 4)
             off += len2
             bufferManager.deletePage(lupos.SOURCE_FILE, pageid)
         }
@@ -256,19 +256,19 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         var pageid = rootPageID
         var page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
         val size = buffer.size
-        page.writeInt4(4, size)
+        BufferManagerPage.writeInt4(page, 4, size)
         var off = 0
-        val len = min(size - off, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8)
-        page.copyFrom(buffer, 8, off, off + len)
+        val len = min(size - off, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8)
+        BufferManagerPage.copyFrom(page, buffer, 8, off, off + len)
         off += len
         while (off < size) {
             val pageid2 = bufferManager.allocPage(lupos.SOURCE_FILE)
-            page.writeInt4(0, pageid2)
+            BufferManagerPage.writeInt4(page, 0, pageid2)
             bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
             pageid = pageid2
             page = bufferManager.getPage(lupos.SOURCE_FILE, pageid2)
-            val len2 = min(size - off, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 4)
-            page.copyFrom(buffer, 4, off, off + len2)
+            val len2 = min(size - off, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 4)
+            BufferManagerPage.copyFrom(page, buffer, 4, off, off + len2)
             off += len2
         }
         bufferManager.releasePage(lupos.SOURCE_FILE, pageid)

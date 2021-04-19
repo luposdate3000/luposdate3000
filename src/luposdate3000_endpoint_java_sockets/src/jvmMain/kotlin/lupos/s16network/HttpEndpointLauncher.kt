@@ -21,11 +21,11 @@ import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.nodeGlobalDictionary
 import lupos.endpoint.LuposdateEndpoint
 import lupos.jena.JenaWrapper
+import lupos.modulename.File
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EnpointRecievedInvalidPath
-import lupos.s00misc.File
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyInputStream

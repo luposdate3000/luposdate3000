@@ -21,6 +21,7 @@ import com.ionspin.kotlin.bignum.decimal.plus
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import com.ionspin.kotlin.bignum.integer.toBigInteger
+import lupos.modulename.DateHelper
 import lupos.s00misc.CanNotCastBNodeToBooleanException
 import lupos.s00misc.CanNotCastBNodeToDecimalException
 import lupos.s00misc.CanNotCastBNodeToDoubleException
@@ -47,7 +48,6 @@ import lupos.s00misc.CanNotCastUndefToBooleanException
 import lupos.s00misc.CanNotCastUndefToDecimalException
 import lupos.s00misc.CanNotCastUndefToDoubleException
 import lupos.s00misc.CanNotCastUndefToIntException
-import lupos.s00misc.DateHelper
 import lupos.s00misc.IncompatibleTypesDuringCompareException
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement

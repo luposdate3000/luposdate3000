@@ -18,13 +18,13 @@ package lupos.optimizer.ast
 
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
+import lupos.modulename.File
 import lupos.s00misc.AggregateNotAllowedSyntaxException
 import lupos.s00misc.DatasetImportFailedException
 import lupos.s00misc.EGraphOperationTypeExt
 import lupos.s00misc.EGraphRefType
 import lupos.s00misc.EGraphRefTypeExt
 import lupos.s00misc.EModifyTypeExt
-import lupos.s00misc.File
 import lupos.s00misc.GroupByClauseNotUsedException
 import lupos.s00misc.ProjectionDoubleDefinitionOfVariableSyntaxException
 import lupos.s00misc.RecoursiveVariableDefinitionSyntaxException
