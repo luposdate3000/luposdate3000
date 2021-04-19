@@ -167,7 +167,10 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                 optionsForPackages[pkg] = pkgs
             }
             if (optionsChoosenForPackages[pkg] != null) {
-                currentArgs = currentArgs.ssetEnabledRunFunc { optionsChoosenForPackages[pkg] == name.substring(pkg.length + 1) }
+                currentArgs = currentArgs.ssetEnabledRunFunc {
+                    println("${optionsChoosenForPackages[pkg]} == ${name.substring(pkg.length + 1)}")
+                    optionsChoosenForPackages[pkg] == name
+                }
             }
             pkgs.add(name)
             if (currentArgs.modulePrefix == "Luposdate3000_Main") {
