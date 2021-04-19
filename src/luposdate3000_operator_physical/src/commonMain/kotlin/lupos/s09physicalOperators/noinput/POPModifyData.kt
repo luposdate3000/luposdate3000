@@ -23,6 +23,7 @@ import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.GraphVariablesNotImplementedException
 import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.UnreachableException
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -35,7 +36,6 @@ import lupos.s04logicalOperators.noinput.LOPTriple
 import lupos.s05tripleStore.TripleStoreManager
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
-import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class POPModifyData public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val type: EModifyType, @JvmField public val data: List<LOPTriple>) : POPBase(query, projectedVariables, EOperatorIDExt.POPModifyDataID, "POPModifyData", arrayOf(), ESortPriorityExt.PREVENT_ANY) {

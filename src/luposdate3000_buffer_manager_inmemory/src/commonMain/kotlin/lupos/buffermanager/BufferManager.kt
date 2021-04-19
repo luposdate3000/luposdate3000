@@ -19,8 +19,8 @@ package lupos.buffermanager
 import lupos.ProguardTestAnnotation
 import lupos.s00misc.BUFFER_MANAGER_USE_FREE_LIST
 import lupos.s00misc.MyReadWriteLock
+import lupos.s00misc.SanityCheck
 import lupos.shared_inline.BufferManagerPage
-import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class BufferManager internal constructor(@JvmField public val name: String) {

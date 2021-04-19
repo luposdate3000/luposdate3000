@@ -18,7 +18,7 @@ package lupos.buffermanager
 
 import lupos.ProguardTestAnnotation
 import lupos.s00misc.MyReadWriteLock
-import lupos.shared_inline.SanityCheck
+import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
 import kotlin.math.max
 

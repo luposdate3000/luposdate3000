@@ -19,8 +19,8 @@ package lupos.dictionary
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
+import lupos.s00misc.SanityCheck
 import lupos.shared_inline.DictionaryHelper
-import lupos.shared_inline.SanityCheck
 
 public abstract class ADictionary : IDictionary {
     private val bnodeMapToGlobal = mutableMapOf<Int, Int>()

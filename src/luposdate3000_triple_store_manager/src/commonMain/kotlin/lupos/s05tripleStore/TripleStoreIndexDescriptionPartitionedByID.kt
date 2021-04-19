@@ -20,11 +20,11 @@ import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.shared_inline.ByteArrayHelper
-import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class TripleStoreIndexDescriptionPartitionedByID(

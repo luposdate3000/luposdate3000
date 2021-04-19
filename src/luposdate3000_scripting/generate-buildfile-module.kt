@@ -66,39 +66,46 @@ private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, a
     }
 }
 
-private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<String, String>, sharedInlineReferences: MutableSet<String>) {
-    dest.printWriter().use { out ->
-        var line = 0
-        src.forEachLine { it ->
-            var s = it
-            for ((k, v) in replacement) {
-                if (s.startsWith("import lupos.shared_inline.")) {
-                    sharedInlineReferences.add(s.substring("import lupos.shared_inline.".length))
-                }
-                s = s.replace(k, v)
-                if (k.startsWith(" ")) {
-                    if (s.startsWith(k.substring(1))) {
-                        s = v + s.substring(k.length - 1)
-                    }
+private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<String, String>, sharedInlineReferences: MutableSet<String>, dry: Boolean = false) {
+    val out = if (dry) {
+        null
+    } else {
+        dest.printWriter()
+    }
+    var line = 0
+    src.forEachLine { it ->
+        var s = it
+        for ((k, v) in replacement) {
+            if (s.startsWith("import lupos.shared_inline.")) {
+                sharedInlineReferences.add(s.substring("import lupos.shared_inline.".length))
+            }
+            s = s.replace(k, v)
+            if (k.startsWith(" ")) {
+                if (s.startsWith(k.substring(1))) {
+                    s = v + s.substring(k.length - 1)
                 }
             }
-            s = s.replace("${'$'}lupos.SOURCE_FILE", "${src.getAbsolutePath().replace("\\", "/")}:$line")
-            s = s.replace("${'$'}{lupos.SOURCE_FILE}", "${src.getAbsolutePath().replace("\\", "/")}:$line")
-            s = s.replace("lupos.SOURCE_FILE", "\"${src.getAbsolutePath().replace("\\", "/")}:$line\"")
-            out.println(s)
-            line++
         }
+        s = s.replace("${'$'}lupos.SOURCE_FILE", "${src.getAbsolutePath().replace("\\", "/")}:$line")
+        s = s.replace("${'$'}{lupos.SOURCE_FILE}", "${src.getAbsolutePath().replace("\\", "/")}:$line")
+        s = s.replace("lupos.SOURCE_FILE", "\"${src.getAbsolutePath().replace("\\", "/")}:$line\"")
+        out?.println(s)
+        line++
     }
+
+    out?.close()
 }
 
-private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map<String, String>, pathSeparator: String, sharedInlineReferences: MutableSet<String>) {
+private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map<String, String>, pathSeparator: String, sharedInlineReferences: MutableSet<String>, dry: Boolean = false) {
     for (it in File(src).walk()) {
         val tmp = it.toString()
         val t = tmp.substring(src.length)
         if (File(tmp).isFile()) {
-            copyFileWithReplacement(File(src + pathSeparator + t), File(dest + pathSeparator + t), replacement, sharedInlineReferences)
+            copyFileWithReplacement(File(src + pathSeparator + t), File(dest + pathSeparator + t), replacement, sharedInlineReferences, dry)
         } else {
-            File(dest + pathSeparator + t).mkdirs()
+            if (!dry) {
+                File(dest + pathSeparator + t).mkdirs()
+            }
         }
     }
 }
@@ -360,8 +367,10 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         val srcFolder = "build-cache${pathSeparator}src_$shortFolder$appendix"
         if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
             File("src.generated").mkdirs()
-            val p = Paths.get("${moduleArgs.moduleFolder}${pathSeparator}src")
-            println("basepath=$p")
+        }
+        val p = Paths.get("${moduleArgs.moduleFolder}${pathSeparator}src")
+        println("basepath=$p")
+        try {
             Files.walk(p, 1).forEach { it ->
                 val tmp = it.toString()
                 if (tmp.length > p.toString().length) {
@@ -373,26 +382,29 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                         f = tmp
                     }
                     if (f.startsWith("common")) {
-                        copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("common.*Main", "commonMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
+                        copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("common.*Main", "commonMain"), replacementsDefault, pathSeparator, sharedInlineReferences, moduleArgs.ideaBuildfile == IntellijMode.Enable)
                     } else if (f.startsWith("jvm")) {
                         if (enableJVM) {
-                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("jvm.*Main", "jvmMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
+                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("jvm.*Main", "jvmMain"), replacementsDefault, pathSeparator, sharedInlineReferences, moduleArgs.ideaBuildfile == IntellijMode.Enable)
                         }
                     } else if (f.startsWith("js")) {
                         if (enableJS) {
-                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("js.*Main", "jsMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
+                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("js.*Main", "jsMain"), replacementsDefault, pathSeparator, sharedInlineReferences, moduleArgs.ideaBuildfile == IntellijMode.Enable)
                         }
                     } else if (f.startsWith("native")) {
                         if (enableNative) {
-                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("native.*Main", "nativeMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
+                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("native.*Main", "nativeMain"), replacementsDefault, pathSeparator, sharedInlineReferences, moduleArgs.ideaBuildfile == IntellijMode.Enable)
                         }
                     } else if (f.startsWith(moduleArgs.platform)) {
                         if (enableNative) {
-                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("${moduleArgs.platform}.*Main", "${moduleArgs.platform}Main"), replacementsDefault, pathSeparator, sharedInlineReferences)
+                            copyFilesWithReplacement(tmp, "src.generated$pathSeparator" + f.replace("${moduleArgs.platform}.*Main", "${moduleArgs.platform}Main"), replacementsDefault, pathSeparator, sharedInlineReferences, moduleArgs.ideaBuildfile == IntellijMode.Enable)
                         }
                     }
                 }
             }
+        } catch (e: java.nio.file.NoSuchFileException) {
+        }
+        if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
             File("src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos").mkdirs()
             File("src.generated${pathSeparator}settings.gradle.kts").printWriter().use { out ->
                 out.println("pluginManagement {")

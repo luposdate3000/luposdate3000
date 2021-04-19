@@ -35,6 +35,7 @@ import lupos.s00misc.IMyOutputStream
 import lupos.s00misc.MyLock
 import lupos.s00misc.OperatorGraphToLatex
 import lupos.s00misc.QueryResultToStream
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.UnreachableException
 import lupos.s00misc.XMLElement
 import lupos.s00misc.XMLElementFromCsv
@@ -73,7 +74,6 @@ import lupos.shared_inline.File
 import lupos.shared_inline.MyPrintWriter
 import lupos.shared_inline.MyStringStream
 import lupos.shared_inline.Platform
-import lupos.shared_inline.SanityCheck
 import kotlin.js.JsName
 
 /*

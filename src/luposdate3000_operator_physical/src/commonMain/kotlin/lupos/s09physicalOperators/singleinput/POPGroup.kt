@@ -24,6 +24,7 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.GroupByColumnMissing
 import lupos.s00misc.GroupByDuplicateColumnException
 import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
@@ -44,7 +45,6 @@ import lupos.s09physicalOperators.MapKey
 import lupos.s09physicalOperators.POPBase
 import lupos.shared_inline.ColumnIteratorQueueExt
 import lupos.shared_inline.DictionaryHelper
-import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 // TODO refactor such that the optimizer may choose which strategy to use

@@ -27,6 +27,7 @@ import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.GroupByClauseNotUsedException
 import lupos.s00misc.ProjectionDoubleDefinitionOfVariableSyntaxException
 import lupos.s00misc.RecoursiveVariableDefinitionSyntaxException
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.SparqlFeatureNotImplementedException
 import lupos.s00misc.UnreachableException
 import lupos.s00misc.XMLElement
@@ -241,7 +242,6 @@ import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
 import lupos.s05tripleStore.TripleStoreManager
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.shared_inline.File
-import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<IOPBase> {

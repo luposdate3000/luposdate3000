@@ -19,6 +19,7 @@ package lupos.s09physicalOperators.multiinput
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -26,7 +27,6 @@ import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s09physicalOperators.POPBase
-import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class POPJoinMerge public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinMergeID, "POPJoinMerge", arrayOf(childA, childB), ESortPriorityExt.JOIN) {

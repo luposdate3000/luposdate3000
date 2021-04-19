@@ -31,6 +31,7 @@ import lupos.s00misc.Luposdate3000Exception
 import lupos.s00misc.MAX_TRIPLES_DURING_TEST
 import lupos.s00misc.NotImplementedException
 import lupos.s00misc.OperatorGraphToLatex
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.UnknownManifestException
 import lupos.s00misc.XMLElement
 import lupos.s00misc.XMLElementFromXML
@@ -54,7 +55,6 @@ import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.shared_inline.File
-import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public open class SparqlTestSuite {

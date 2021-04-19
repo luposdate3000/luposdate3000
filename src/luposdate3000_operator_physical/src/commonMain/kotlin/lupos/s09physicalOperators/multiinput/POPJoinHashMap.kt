@@ -20,6 +20,7 @@ import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
@@ -29,7 +30,6 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin_Helper
 import lupos.s09physicalOperators.MapKey
 import lupos.s09physicalOperators.POPBase
-import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class POPJoinHashMap public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinHashMapID, "POPJoinHashMap", arrayOf(childA, childB), ESortPriorityExt.JOIN) {

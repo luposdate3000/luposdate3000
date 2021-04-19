@@ -21,6 +21,7 @@ import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.GraphVarHistogramsNotImplementedException
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04arithmetikOperators.AOPBase
 import lupos.s04arithmetikOperators.IAOPBase
@@ -32,7 +33,6 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.LOPBase
 import lupos.s05tripleStore.TripleStoreManager
 import lupos.s05tripleStore.tripleStoreManager
-import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField public val graph: String, @JvmField public val graphVar: Boolean) : LOPBase(query, EOperatorIDExt.LOPTripleID, "LOPTriple", arrayOf(s, p, o), ESortPriorityExt.ANY_PROVIDED_VARIABLE) {

@@ -16,9 +16,9 @@
  */
 package lupos.s09physicalOperators.noinput
 
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s04logicalOperators.IQuery
-import lupos.shared_inline.SanityCheck
 
 public class POPValuesImportXML public constructor(query: IQuery, projectedVariables: List<String>, data: XMLElement) : POPValuesImportBase(query, projectedVariables, data["head"]!!.childs.map { it.attributes["name"]!! }) {
     init {

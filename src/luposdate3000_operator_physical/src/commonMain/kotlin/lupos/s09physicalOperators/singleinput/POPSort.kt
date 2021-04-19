@@ -20,6 +20,7 @@ import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueComparatorASC
@@ -31,7 +32,6 @@ import lupos.s04logicalOperators.iterator.ColumnIteratorMerge
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIteratorMerge
 import lupos.s09physicalOperators.POPBase
-import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class POPSort public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val sortBy: Array<AOPVariable>, @JvmField public val sortOrder: Boolean, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPSortID, "POPSort", arrayOf(child), ESortPriorityExt.SORT) {

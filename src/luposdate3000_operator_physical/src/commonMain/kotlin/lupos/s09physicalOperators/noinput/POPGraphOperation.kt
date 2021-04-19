@@ -26,6 +26,7 @@ import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.UnreachableException
 import lupos.s00misc.XMLElement
 import lupos.s00misc.parseFromAny
@@ -38,7 +39,6 @@ import lupos.s05tripleStore.TripleStoreManager
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.POPBase
 import lupos.shared_inline.File
-import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class POPGraphOperation public constructor(

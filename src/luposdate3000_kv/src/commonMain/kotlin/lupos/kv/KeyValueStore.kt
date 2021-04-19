@@ -20,8 +20,8 @@ import lupos.ProguardTestAnnotation
 import lupos.buffermanager.BufferManager
 import lupos.buffermanager.MyIntArray
 import lupos.s00misc.ByteArrayWrapper
+import lupos.s00misc.SanityCheck
 import lupos.shared_inline.BufferManagerPage
-import lupos.shared_inline.SanityCheck
 
 public class KeyValueStore {
     private val rootPageID: Int

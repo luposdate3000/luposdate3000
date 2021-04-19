@@ -19,12 +19,12 @@ package lupos.s09physicalOperators.multiinput
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.iterator.RowIteratorMinus
 import lupos.s09physicalOperators.POPBase
-import lupos.shared_inline.SanityCheck
 
 public class POPMinus public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPMinusID, "POPMinus", arrayOf(childA, childB), ESortPriorityExt.MINUS) {
     override fun getPartitionCount(variable: String): Int {

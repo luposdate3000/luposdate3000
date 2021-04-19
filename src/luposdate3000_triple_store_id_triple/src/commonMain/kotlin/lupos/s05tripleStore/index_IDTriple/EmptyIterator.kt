@@ -16,7 +16,7 @@
  */
 package lupos.s05tripleStore.index_IDTriple
 
-import lupos.shared_inline.SanityCheck
+import lupos.s00misc.SanityCheck
 
 internal class EmptyIterator : TripleIterator() {
     override fun hasNext() = false

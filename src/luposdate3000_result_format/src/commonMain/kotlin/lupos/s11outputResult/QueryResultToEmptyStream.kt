@@ -24,6 +24,7 @@ import lupos.s00misc.MyLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.communicationHandler
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
@@ -32,7 +33,6 @@ import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.s09physicalOperators.partition.POPMergePartition
 import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-import lupos.shared_inline.SanityCheck
 
 public object QueryResultToEmptyStream {
     @Suppress("NOTHING_TO_INLINE")

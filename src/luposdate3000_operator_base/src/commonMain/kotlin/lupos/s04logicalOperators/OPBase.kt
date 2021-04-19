@@ -25,6 +25,7 @@ import lupos.s00misc.EvaluateNotImplementedException
 import lupos.s00misc.HistogramNotImplementedException
 import lupos.s00misc.Parallel
 import lupos.s00misc.Partition
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s00misc.ToSparqlNotImplementedException
 import lupos.s00misc.VariableNotDefinedSyntaxException
@@ -34,7 +35,6 @@ import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin_Helper
 import lupos.s04logicalOperators.singleinput.LOPNOOP
 import lupos.shared.UUID_Counter
-import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public abstract class OPBase public constructor(

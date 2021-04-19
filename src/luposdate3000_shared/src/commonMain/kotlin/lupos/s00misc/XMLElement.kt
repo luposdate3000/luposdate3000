@@ -17,7 +17,6 @@
 package lupos.s00misc
 
 import lupos.shared_inline.DictionaryHelper
-import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 

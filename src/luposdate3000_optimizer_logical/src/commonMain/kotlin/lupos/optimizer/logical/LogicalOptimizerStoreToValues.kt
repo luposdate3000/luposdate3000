@@ -19,6 +19,7 @@ package lupos.optimizer.logical
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.REPLACE_STORE_WITH_VALUES
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.communicationHandler
 import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04arithmetikOperators.noinput.AOPConstant
@@ -32,7 +33,6 @@ import lupos.s04logicalOperators.noinput.OPEmptyRow
 import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s05tripleStore.tripleStoreManager
-import lupos.shared_inline.SanityCheck
 
 public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerStoreToValuesID, "LogicalOptimizerStoreToValues") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

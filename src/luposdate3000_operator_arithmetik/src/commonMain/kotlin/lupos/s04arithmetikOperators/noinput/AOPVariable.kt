@@ -19,6 +19,7 @@ package lupos.s04arithmetikOperators.noinput
 import lupos.dictionary.DictionaryExt
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s04arithmetikOperators.AOPBase
@@ -27,7 +28,6 @@ import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.shared_inline.DictionaryHelper
-import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class AOPVariable public constructor(query: IQuery, @JvmField public var name: String) : AOPBase(query, EOperatorIDExt.AOPVariableID, "AOPVariable", arrayOf()), IAOPVariable {

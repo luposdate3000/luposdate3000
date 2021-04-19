@@ -23,6 +23,7 @@ import lupos.dictionary.DictionaryExt
 import lupos.s00misc.ETripleIndexTypeExt
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Parallel
+import lupos.s00misc.SanityCheck
 import lupos.s04logicalOperators.IQuery
 import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
@@ -39,7 +40,6 @@ import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 import lupos.shared_inline.BufferManagerPage
-import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class TripleStoreIndexIDTriple : TripleStoreIndex {
@@ -503,7 +503,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                 NodeLeaf.initializeWith(node, nodeid, iterator)
             }
             SanityCheck.check { currentLayer.size > 0 }
-            val rebuildDataPart1 = {
+            val codeSection1 = {
 // work around the crossinline here, because the method would be too large
                 while (currentLayer.size > 1) {
                     val tmp = mutableListOf<Int>()
@@ -531,32 +531,35 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     currentLayer = tmp
                 }
             }
-            rebuildDataPart1()
+            codeSection1()
             nodeManager.flushNode(lupos.SOURCE_FILE, nodeid)
             nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
             var rootNodeIsLeaf = false
             SanityCheck.check { rootNode == null }
-            nodeManager.getNodeAny(
-                lupos.SOURCE_FILE,
-                currentLayer[0],
-                {
-                    rootNodeIsLeaf = true
-                },
-                {
-                    rootNode = it
-                    root = currentLayer[0]
-                }
-            )
-            if (rootNodeIsLeaf) {
-                nodeManager.flushNode(lupos.SOURCE_FILE, nodeid)
-                nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
-                nodeManager.allocateNodeInner(lupos.SOURCE_FILE) { n, i ->
-                    NodeInner.initializeWith(n, i, mutableListOf(currentLayer[0]), nodeManager)
-                    rootNode = n
-                    root = i
-                    nodeManager.flushNode(lupos.SOURCE_FILE, root)
+            val codeSection2 = {
+                nodeManager.getNodeAny(
+                    lupos.SOURCE_FILE,
+                    currentLayer[0],
+                    {
+                        rootNodeIsLeaf = true
+                    },
+                    {
+                        rootNode = it
+                        root = currentLayer[0]
+                    }
+                )
+                if (rootNodeIsLeaf) {
+                    nodeManager.flushNode(lupos.SOURCE_FILE, nodeid)
+                    nodeManager.releaseNode(lupos.SOURCE_FILE, nodeid)
+                    nodeManager.allocateNodeInner(lupos.SOURCE_FILE) { n, i ->
+                        NodeInner.initializeWith(n, i, mutableListOf(currentLayer[0]), nodeManager)
+                        rootNode = n
+                        root = i
+                        nodeManager.flushNode(lupos.SOURCE_FILE, root)
+                    }
                 }
             }
+            codeSection2()
         } else {
 // this index is cleared completely
             SanityCheck.check { rootNode == null }

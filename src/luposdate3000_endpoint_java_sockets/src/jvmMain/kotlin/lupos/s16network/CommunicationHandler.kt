@@ -19,8 +19,8 @@ package lupos.s16network
 import lupos.s00misc.ICommunicationHandler
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
-import lupos.s00misc.MyInputStream
-import lupos.s00misc.MyOutputStream
+import lupos.shared_inline.MyInputStream
+import lupos.shared_inline.MyOutputStream
 import java.net.Socket
 import java.net.URLEncoder
 

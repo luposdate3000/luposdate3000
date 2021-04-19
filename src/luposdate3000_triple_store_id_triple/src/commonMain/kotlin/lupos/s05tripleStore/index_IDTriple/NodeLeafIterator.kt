@@ -16,7 +16,7 @@
  */
 package lupos.s05tripleStore.index_IDTriple
 
-import lupos.shared_inline.SanityCheck
+import lupos.s00misc.SanityCheck
 import kotlin.jvm.JvmField
 
 internal class NodeLeafIterator(@JvmField var node: ByteArray, @JvmField var nodeid: Int, private val nodeManager: NodeManager) : TripleIterator() {

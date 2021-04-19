@@ -27,9 +27,7 @@ import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EnpointRecievedInvalidPath
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.IMyOutputStream
-import lupos.s00misc.MyInputStream
 import lupos.s00misc.MyLock
-import lupos.s00misc.MyOutputStream
 import lupos.s00misc.MyStringStream
 import lupos.s00misc.Parallel
 import lupos.s00misc.XMLElement
@@ -44,6 +42,8 @@ import lupos.s09physicalOperators.partition.POPDistributedSendSingle
 import lupos.s09physicalOperators.partition.POPDistributedSendSingleCount
 import lupos.s11outputResult.EQueryResultToStreamExt
 import lupos.shared_inline.File
+import lupos.shared_inline.MyInputStream
+import lupos.shared_inline.MyOutputStream
 import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.Socket

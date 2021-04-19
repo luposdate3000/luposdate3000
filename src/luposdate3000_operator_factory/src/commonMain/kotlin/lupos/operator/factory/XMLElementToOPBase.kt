@@ -19,6 +19,7 @@ package lupos.operator.factory
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.s00misc.ESortTypeExt
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.SortHelper
 import lupos.s00misc.UnknownOperatorTypeInXMLException
 import lupos.s00misc.UnreachableException
@@ -151,7 +152,6 @@ import lupos.s09physicalOperators.singleinput.POPSort
 import lupos.s09physicalOperators.singleinput.modifiers.POPLimit
 import lupos.s09physicalOperators.singleinput.modifiers.POPOffset
 import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
-import lupos.shared_inline.SanityCheck
 
 public object XMLElementToOPBase {
     private fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: String): AOPVariable {

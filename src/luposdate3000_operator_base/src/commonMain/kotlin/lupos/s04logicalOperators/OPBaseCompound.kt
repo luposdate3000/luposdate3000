@@ -18,8 +18,8 @@ package lupos.s04logicalOperators
 
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
+import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.shared_inline.SanityCheck
 import kotlin.jvm.JvmField
 
 public class OPBaseCompound public constructor(query: IQuery, children: Array<IOPBase>, @JvmField public val columnProjectionOrder: List<List<String>>) : OPBase(query, EOperatorIDExt.OPCompoundID, "OPBaseCompound", children, ESortPriorityExt.PREVENT_ANY) {
