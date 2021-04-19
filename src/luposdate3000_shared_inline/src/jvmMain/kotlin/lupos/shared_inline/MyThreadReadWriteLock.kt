@@ -20,11 +20,14 @@ import lupos.shared.UUID_Counter
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
+import kotlin.jvm.JvmField
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal actual class MyThreadReadWriteLock {
-
+    @JvmField
     val uuid = UUID_Counter.getNextUUID()
+
+    @JvmField
     val lock = ReentrantReadWriteLock()
 
     @Suppress("NOTHING_TO_INLINE")

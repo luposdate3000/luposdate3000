@@ -36,21 +36,36 @@ public actual class BufferManager internal actual constructor(@JvmField public v
     }
 
     @ProguardTestAnnotation
-    private var closed = false
-    private val cacheSize: Int = 100
-    private val lock = MyReadWriteLock()
-    private var openPages = Array<ByteArray>(cacheSize) { BufferManagerPage.create() }
-    private var openPagesRefcounters = IntArray(cacheSize)
-    private var openPagesMapping = IntArray(cacheSize) { -1 }
-    private var openPagesLastUseCounters = IntArray(cacheSize)
-    private var openPagesLastUseCounter = 0
-    private var unusedPointer = 0
-    private var counter: Int
-    private var freeArray: IntArray
-    private var freeArrayLength: Int
-    private val freelistfile: RandomAccessFile
-    private val datafile: RandomAccessFile
-    private var datafilelength: Long
+    @JvmField
+    internal var closed = false
+    @JvmField
+    internal val cacheSize: Int = 8192
+    @JvmField
+    internal val lock = MyReadWriteLock()
+    @JvmField
+    internal var openPages = Array<ByteArray>(cacheSize) { BufferManagerPage.create() }
+    @JvmField
+    internal var openPagesRefcounters = IntArray(cacheSize)
+    @JvmField
+    internal var openPagesMapping = IntArray(cacheSize) { -1 }
+    @JvmField
+    internal var openPagesLastUseCounters = IntArray(cacheSize)
+    @JvmField
+    internal var openPagesLastUseCounter = 0
+    @JvmField
+    internal var unusedPointer = 0
+    @JvmField
+    internal var counter: Int
+    @JvmField
+    internal var freeArray: IntArray
+    @JvmField
+    internal var freeArrayLength: Int
+    @JvmField
+    internal val freelistfile: RandomAccessFile
+    @JvmField
+    internal val datafile: RandomAccessFile
+    @JvmField
+    internal var datafilelength: Long
 
     @Suppress("NOTHING_TO_INLINE")
     private inline fun findOpenID(pageid: Int, crossinline onFound: (Int) -> Unit, crossinline onNotFound: () -> Unit) {
