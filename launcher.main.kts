@@ -52,12 +52,9 @@ var releaseMode = ""
 var suspendMode = ""
 var inlineMode = ""
 var partitionMode = ""
-var memoryMode = ""
 var dictionaryMode = ""
 var proguardMode = ""
 var mainClass = ""
-var jenaWrapper = ""
-var endpointMode = ""
 var dryMode = ""
 var target = ""
 var intellijMode = ""
@@ -69,8 +66,9 @@ var threadCount = 1
 var processUrls = ""
 var garbageCollector = 0
 val optionsForPackages = mutableMapOf<String, MutableSet<String>>()
+val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Endpoint_Launcher" to "None", "Jena_Wrapper" to "Off")
 
-enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, ALL_TEST, UNKNOWN }
+enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, UNKNOWN }
 enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
 
 var execMode = ExecMode.UNKNOWN
@@ -151,24 +149,6 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                             "enabledRun=never" -> {
                                 currentArgs = currentArgs.ssetEnabledRunFunc { false }
                             }
-                            "enabledRun=endpointMode:Java_Sockets" -> {
-                                currentArgs = currentArgs.ssetEnabledRunFunc { endpointMode == "Java_Sockets" }
-                            }
-                            "enabledRun=endpointMode:None" -> {
-                                currentArgs = currentArgs.ssetEnabledRunFunc { endpointMode == "None" }
-                            }
-                            "enabledRun=jenaWrapper:Off" -> {
-                                currentArgs = currentArgs.ssetEnabledRunFunc { jenaWrapper == "Off" }
-                            }
-                            "enabledRun=jenaWrapper:On" -> {
-                                currentArgs = currentArgs.ssetEnabledRunFunc { jenaWrapper == "On" }
-                            }
-                            "enabledRun=memoryMode:_Inmemory" -> {
-                                currentArgs = currentArgs.ssetEnabledRunFunc { memoryMode == "_Inmemory" }
-                            }
-                            "enabledRun=memoryMode:_Persistent" -> {
-                                currentArgs = currentArgs.ssetEnabledRunFunc { memoryMode == "_Persistent" }
-                            }
                             else -> {
                                 throw Exception("unknown value '$line'")
                             }
@@ -179,13 +159,17 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                     }
                 }
             }
+            val name = currentArgs.moduleName.substring("Luposdate3000_".length)
             val pkg = currentArgs.modulePrefix.substring("Luposdate3000_".length)
             var pkgs = optionsForPackages[pkg]
             if (pkgs == null) {
                 pkgs = mutableSetOf<String>()
                 optionsForPackages[pkg] = pkgs
             }
-            pkgs.add(currentArgs.moduleName.substring("Luposdate3000_".length))
+            if (optionsChoosenForPackages[pkg] != null) {
+                currentArgs = currentArgs.ssetEnabledRunFunc { optionsChoosenForPackages[pkg] == name.substring(pkg.length + 1) }
+            }
+            pkgs.add(name)
             if (currentArgs.modulePrefix == "Luposdate3000_Main") {
                 currentArgs = currentArgs.ssetEnabledRunFunc { mainClass == currentArgs.moduleName }
             }
@@ -237,7 +221,6 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             optionsForPackages.remove(k)
         }
     }
-    println(optionsForPackages)
     return res
 }
 
@@ -411,14 +394,6 @@ val defaultParams = mutableListOf(
         }
     ),
     ParamClass(
-        "--jenaWrapper",
-        "Off",
-        mapOf(
-            "On" to { jenaWrapper = "On" },
-            "Off" to { jenaWrapper = "Off" },
-        )
-    ),
-    ParamClass(
         "--releaseMode",
         "Disable",
         mapOf(
@@ -467,14 +442,6 @@ val defaultParams = mutableListOf(
         EDictionaryTypeExt.names.map { it to { dictionaryMode = it } }.toMap(),
     ),
     ParamClass(
-        "--memoryMode",
-        "inmemory",
-        mapOf(
-            "persistent" to { memoryMode = "_Persistent" },
-            "inmemory" to { memoryMode = "_Inmemory" },
-        )
-    ),
-    ParamClass(
         "--proguardMode",
         "Off",
         mapOf(
@@ -483,24 +450,9 @@ val defaultParams = mutableListOf(
         )
     ),
     ParamClass(
-        "--endpointMode",
-        "None",
-        mapOf(
-            "None" to { endpointMode = "None" },
-            "Java_Sockets" to { endpointMode = "Java_Sockets" },
-        )
-    ),
-    ParamClass(
         "--help",
         {
             execMode = ExecMode.HELP
-            skipArgs = true
-        }
-    ),
-    ParamClass(
-        "--allTest",
-        {
-            execMode = ExecMode.ALL_TEST
             skipArgs = true
         }
     ),
@@ -561,17 +513,6 @@ val defaultParams = mutableListOf(
         }
     },
     ParamClass(
-        "--compileAndRun",
-        {
-            enableParams(compileParams)
-            execMode = ExecMode.COMPILE_AND_RUN
-        }
-    ).setAdditionalHelp {
-        for (param in compileParams) {
-            param.help(it)
-        }
-    },
-    ParamClass(
         "--clearCaches",
         {
             if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
@@ -618,6 +559,17 @@ fun enableParams(params: List<ParamClass>) {
 }
 enableParams(defaultParams)
 enableParams(getAllModuleSpecificParams())
+getAllModuleConfigurations()
+for ((k, v) in optionsChoosenForPackages) {
+    defaultParams.add(
+        ParamClass(
+            name = "--$k",
+            default = "$v",
+            values = optionsForPackages[k]!!.map { it.substring(k.length + 1) to { optionsChoosenForPackages[k] = it } }.toMap(),
+        ),
+    )
+}
+enableParams(defaultParams)
 val mainclassParams = listOf(
     ParamClass(
         "--mainClass",
@@ -672,7 +624,6 @@ when (execMode) {
     ExecMode.GENERATE_ENUMS -> onGenerateEnums()
     ExecMode.SETUP_INTELLIJ_IDEA -> onSetupIntellijIdea()
     ExecMode.SETUP_JS -> onSetupJS()
-    ExecMode.ALL_TEST -> onAllTest()
     ExecMode.COMPILE_AND_RUN -> {
         onCompile()
         onRun()
@@ -856,10 +807,10 @@ fun onRun() {
             }
         }
         "JS" -> {
-            if (memoryMode != "_Inmemory") {
+            if (optionsChoosenForPackages["Buffer_Manager"]!! != "Inmemory") {
                 throw Exception("JS can only use 'Inmemory' as memoryMode")
             }
-            if (jenaWrapper != "Off") {
+            if (optionsChoosenForPackages["Jena_Wrapper"]!! != "Off") {
                 throw Exception("JS can only use 'Off' as jenaWrapper")
             }
             if (partitionMode != "None") {
@@ -1315,50 +1266,4 @@ fun find(path: String, fName: String): File? {
         }
     }
     return null
-}
-
-fun onAllTest() {
-    for (r in listOf("Enable", "Disable")) {
-        for (i in listOf("Enable", "Disable")) {
-            for (s in listOf("Disable")) {
-                ProcessBuilder("./launcher.main.kts", "--compileAll", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--dryMode=Disable", "--target=All", "--intellijMode=Disable")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s.compile-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s.compile-err")))
-                    .start()
-                    .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Thread", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions.test-err")))
-                    .start()
-                    .waitFor()
-                File("/tmp/luposdate3000/").deleteRecursively()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions.test-err")))
-                    .start()
-                    .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=persistent", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent.test-err")))
-                    .start()
-                    .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Thread", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions-Proguard.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions-Proguard.test-err")))
-                    .start()
-                    .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Proguard.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Proguard.test-err")))
-                    .start()
-                    .waitFor()
-                File("/tmp/luposdate3000/").deleteRecursively()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=persistent", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent-Proguard.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent-Proguard.test-err")))
-                    .start()
-                    .waitFor()
-            }
-        }
-    }
 }
