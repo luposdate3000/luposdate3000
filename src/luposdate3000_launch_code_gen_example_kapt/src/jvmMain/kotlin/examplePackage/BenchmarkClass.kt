@@ -21,7 +21,7 @@ public class BenchmarkClass {
         var buf = MyPrintWriter(true)
         var op = exampleVar_evaluate()
         LuposdateEndpoint.evaluateOperatorgraphToResult(op, buf)
-//lupos.s00misc.File("gen.res").withOutputStream{it.println(buf.toString())}
+// lupos.s00misc.File("gen.res").withOutputStream{it.println(buf.toString())}
         val timer = DateHelperRelative.markNow()
         while (time < 10.0) {
             buf = MyPrintWriter(true)
@@ -39,7 +39,7 @@ public class BenchmarkClass {
         var buf = MyPrintWriter(true)
         var op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(exampleVar)
         LuposdateEndpoint.evaluateOperatorgraphToResult(op, buf)
-//lupos.s00misc.File("org.res").withOutputStream{it.println(buf.toString())}
+// lupos.s00misc.File("org.res").withOutputStream{it.println(buf.toString())}
         val timer = DateHelperRelative.markNow()
         while (time < 10.0) {
             buf = MyPrintWriter(true)

@@ -16,10 +16,10 @@
  */
 package lupos.modulename
 
+import lupos.shared.UUID_Counter
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import kotlin.contracts.InvocationKind.EXACTLY_ONCE
 import kotlin.contracts.contract
-import lupos.shared.UUID_Counter
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 internal actual class MyThreadReadWriteLock {

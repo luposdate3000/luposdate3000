@@ -16,10 +16,9 @@
  */
 package lupos.fileformat
 
-import kotlin.jvm.JvmField
 import lupos.s00misc.ByteArrayHelper
-import lupos.s00misc.IntegerExt
 import lupos.s00misc.File
+import lupos.s00misc.IntegerExt
 
 public class TriplesIntermediateWriter : TriplesIntermediate {
     public constructor(filename: String) : super(filename) {

@@ -16,7 +16,6 @@
  */
 package lupos.test
 
-import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.DictionaryHelper
@@ -50,6 +49,7 @@ import lupos.s04arithmetikOperators.noinput.AOPVariable
 import lupos.s04logicalOperators.IOPBase
 import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s04logicalOperators.Query
+import lupos.s04logicalOperators.iterator.ColumnIterator
 import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
 import lupos.s05tripleStore.TripleStoreManager
 import lupos.s05tripleStore.tripleStoreManager

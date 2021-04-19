@@ -21,9 +21,6 @@ import lupos.s00misc.File
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.SanityCheck
 import java.io.RandomAccessFile
-import java.util.Arrays
-import kotlin.contracts.InvocationKind.EXACTLY_ONCE
-import kotlin.contracts.contract
 import kotlin.jvm.JvmField
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)

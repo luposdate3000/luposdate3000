@@ -18,7 +18,6 @@ package lupos.optimizer.physical
 
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
-import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.SanityCheck
 import lupos.s04arithmetikOperators.AOPBase
@@ -68,7 +67,7 @@ public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, E
                 }
             }
             val targetIdx = LOPTriple.getIndex(node.children, node.mySortPriority.map { it.variableName })
-            //println("targetIdx ${EIndexPatternExt.names[targetIdx]}")
+            // println("targetIdx ${EIndexPatternExt.names[targetIdx]}")
             res = store.getIterator(query, params, targetIdx)
 // println("usedIdx ${((res as POPTripleStoreIterator).tripleStoreIndexDescription as TripleStoreIndexDescription).idx_set.map{EIndexPatternExt.names[it]}}")
 //            println("PhysicalOptimizerTripleIndex : initialize any Iterator ${res.getUUID()}")

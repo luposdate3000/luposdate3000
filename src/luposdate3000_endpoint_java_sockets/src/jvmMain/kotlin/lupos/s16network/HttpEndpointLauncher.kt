@@ -83,7 +83,6 @@ public actual object HttpEndpointLauncher {
         return res
     }
 
-
     internal class QueryMappingContainer(internal val xml: XMLElement, internal var inputStreams: Array<IMyInputStream?>, internal var outputStreams: Array<IMyOutputStream?>, internal var connections: Array<Socket?>) {
         internal var instance: POPBase? = null
         internal val instanceLock = MyLock()
@@ -114,7 +113,7 @@ public actual object HttpEndpointLauncher {
             println("launched server socket on '0.0.0.0':'$port' - waiting for connections now")
             while (true) {
                 val connection = server.accept()
-                println("received connection from ${connection.getRemoteSocketAddress().toString()}")
+                println("received connection from ${connection.getRemoteSocketAddress()}")
                 Thread {
                     var dontCloseSockets: Boolean = false
                     Parallel.runBlocking {

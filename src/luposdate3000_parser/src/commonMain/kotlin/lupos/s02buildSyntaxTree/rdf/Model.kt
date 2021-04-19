@@ -16,8 +16,8 @@
  */
 package lupos.s02buildSyntaxTree.rdf
 
-import kotlin.jvm.JvmField
 import lupos.shared.UUID_Counter
+import kotlin.jvm.JvmField
 
 public abstract class RDFTerm {
     public abstract fun toN3String(): String
@@ -32,7 +32,6 @@ public class BlankNode(@JvmField public val local_name: String) : RDFResource() 
     public constructor() : this("_" + UUID_Counter.getNextUUID())
 
     public override fun toN3String(): String = "_:$local_name"
-
 }
 
 public abstract class Literal(@JvmField public val content: String, @JvmField public val delimiter: String) : RDFTerm() {

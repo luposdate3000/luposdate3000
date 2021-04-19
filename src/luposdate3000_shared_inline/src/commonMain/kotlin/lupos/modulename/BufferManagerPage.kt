@@ -61,13 +61,11 @@ internal object BufferManagerPage {
         data[BUFFER_MANAGER_PAGE_SIZE_IN_BYTES + 3] = (value and 0xFF).toByte()
     }
 
-
     @Suppress("NOTHING_TO_INLINE")
     internal inline operator fun get(data: BufferManagerPage, idx: Int): Byte {
         SanityCheck.check { getPageID() != -1 }
         return data[idx]
     }
-
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline operator fun set(data: BufferManagerPage, idx: Int, value: Byte) {
@@ -75,13 +73,11 @@ internal object BufferManagerPage {
         data[idx] = value
     }
 
-
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeInt1(data: BufferManagerPage, offset: Int, value: Int) {
         SanityCheck.check { getPageID() != -1 }
         data[offset] = (value and 0xFF).toByte()
     }
-
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeInt2(data: BufferManagerPage, offset: Int, value: Int) {
@@ -89,7 +85,6 @@ internal object BufferManagerPage {
         data[offset] = ((value shr 8) and 0xFF).toByte()
         data[offset + 1] = (value and 0xFF).toByte()
     }
-
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeInt3(data: BufferManagerPage, offset: Int, value: Int) {
@@ -99,7 +94,6 @@ internal object BufferManagerPage {
         data[offset + 2] = (value and 0xFF).toByte()
     }
 
-
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeInt4(data: BufferManagerPage, offset: Int, value: Int) {
         SanityCheck.check { getPageID() != -1 }
@@ -108,7 +102,6 @@ internal object BufferManagerPage {
         data[offset + 2] = ((value shr 8) and 0xFF).toByte()
         data[offset + 3] = (value and 0xFF).toByte()
     }
-
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeIntX(data: BufferManagerPage, offset: Int, value: Int, count: Int) {
@@ -130,7 +123,6 @@ internal object BufferManagerPage {
         }
     }
 
-
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeLong8(data: BufferManagerPage, offset: Int, value: Long) {
         SanityCheck.check { getPageID() != -1 }
@@ -144,7 +136,6 @@ internal object BufferManagerPage {
         data[offset + 7] = (value and 0xFF).toByte()
     }
 
-
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeChar(data: BufferManagerPage, offset: Int, value: Char) {
         SanityCheck.check { getPageID() != -1 }
@@ -153,13 +144,11 @@ internal object BufferManagerPage {
         data[offset + 1] = (v and 0xFF).toByte()
     }
 
-
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readLong8(data: BufferManagerPage, offset: Int): Long {
         SanityCheck.check { getPageID() != -1 }
         return (((data[offset].toLong() and 0xFF) shl 56) or ((data[offset + 1].toLong() and 0xFF) shl 48) or ((data[offset + 2].toLong() and 0xFF) shl 40) or ((data[offset + 3].toLong() and 0xFF) shl 32) or ((data[offset + 4].toLong() and 0xFF) shl 24) or ((data[offset + 5].toLong() and 0xFF) shl 16) or ((data[offset + 6].toLong() and 0xFF) shl 8) or ((data[offset + 7].toLong() and 0xFF)))
     }
-
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readInt4(data: BufferManagerPage, offset: Int): Int {
@@ -167,13 +156,11 @@ internal object BufferManagerPage {
         return (((data[offset].toInt() and 0xFF) shl 24) or ((data[offset + 1].toInt() and 0xFF) shl 16) or ((data[offset + 2].toInt() and 0xFF) shl 8) or ((data[offset + 3].toInt() and 0xFF)))
     }
 
-
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readInt3(data: BufferManagerPage, offset: Int): Int {
         SanityCheck.check { getPageID() != -1 }
         return (((data[offset].toInt() and 0xFF) shl 16) or ((data[offset + 1].toInt() and 0xFF) shl 8) or ((data[offset + 2].toInt() and 0xFF)))
     }
-
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readInt2(data: BufferManagerPage, offset: Int): Int {
@@ -181,13 +168,11 @@ internal object BufferManagerPage {
         return (((data[offset].toInt() and 0xFF) shl 8) or ((data[offset + 1].toInt() and 0xFF)))
     }
 
-
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readInt1(data: BufferManagerPage, offset: Int): Int {
         SanityCheck.check { getPageID() != -1 }
         return (data[offset].toInt() and 0xFF)
     }
-
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readIntX(data: BufferManagerPage, offset: Int, count: Int): Int {
@@ -209,7 +194,6 @@ internal object BufferManagerPage {
             }
         }
     }
-
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readChar(data: BufferManagerPage, offset: Int): Char {

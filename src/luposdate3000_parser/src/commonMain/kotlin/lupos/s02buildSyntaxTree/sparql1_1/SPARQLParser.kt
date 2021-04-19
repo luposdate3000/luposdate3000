@@ -20,8 +20,8 @@ import lupos.s02buildSyntaxTree.LookAheadTokenIterator
 import lupos.s02buildSyntaxTree.ParseError
 import lupos.s02buildSyntaxTree.Token
 import lupos.s02buildSyntaxTree.UnexpectedToken
-import kotlin.jvm.JvmField
 import lupos.shared.UUID_Counter
+import kotlin.jvm.JvmField
 
 public interface Visitor<T> {
     public fun visit(node: ASTNode, childrenValues: List<T>): T

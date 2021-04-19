@@ -16,8 +16,8 @@
  */
 package lupos.modulename
 
-import lupos.shared.UUID_Counter
 import lupos.s00misc.NotImplementedException
+import lupos.shared.UUID_Counter
 
 internal actual class MyThreadReadWriteLock {
 

@@ -19,7 +19,6 @@ package lupos.fileformat
 
 import lupos.s00misc.ByteArrayHelper
 import lupos.s00misc.File
-import kotlin.jvm.JvmField
 
 public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(filename) {
     init {

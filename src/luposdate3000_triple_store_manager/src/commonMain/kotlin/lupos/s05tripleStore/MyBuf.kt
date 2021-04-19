@@ -16,8 +16,8 @@
  */
 package lupos.s05tripleStore
 
-import kotlin.jvm.JvmField
 import lupos.shared.INTERNAL_BUFFER_SIZE
+import kotlin.jvm.JvmField
 
 internal class MyBuf {
     @JvmField

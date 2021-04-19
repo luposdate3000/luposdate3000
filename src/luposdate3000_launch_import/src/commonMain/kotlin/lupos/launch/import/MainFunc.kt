@@ -16,7 +16,6 @@
  */
 package lupos.launch.import
 
-import kotlin.math.min
 import lupos.fileformat.DictionaryIntermediate
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.fileformat.DictionaryIntermediateWriter
@@ -31,6 +30,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.nQuads.NQuads2Parser
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.shared.INTERNAL_BUFFER_SIZE
+import kotlin.math.min
 
 internal fun helperCleanString(s: String): String {
     var res: String = s

@@ -61,7 +61,6 @@ public sealed class ValueDefinition : Comparable<ValueDefinition> {
     public abstract fun toInt(): BigInteger
     public abstract fun toBoolean(): Boolean
 
-
     public abstract operator fun compareTo(value: BigInteger): Int
     public abstract operator fun compareTo(value: BigDecimal): Int
     public abstract operator fun compareTo(value: String): Int
@@ -128,7 +127,7 @@ public sealed class ValueDefinition : Comparable<ValueDefinition> {
             try {
                 return ValueInteger(BigInteger.parseString(tmp, 10))
             } catch (e: Exception) {
-//e.printStackTrace() this is handled correctly
+// e.printStackTrace() this is handled correctly
             }
             if (!tmp.contains("e") && !tmp.contains("E")) {
                 try {
@@ -140,7 +139,7 @@ public sealed class ValueDefinition : Comparable<ValueDefinition> {
             try {
                 return ValueDouble(tmp.toDouble())
             } catch (e: Exception) {
-//e.printStackTrace() this is handled correctly
+// e.printStackTrace() this is handled correctly
             }
             if (!tmp.endsWith("" + tmp[0])) {
                 val typeIdx = tmp.lastIndexOf("" + tmp[0] + "^^<")
@@ -444,7 +443,6 @@ public class ValueBoolean(@JvmField public var value: Boolean, x: Boolean) : Val
             return ValueInteger(BigInteger(0))
         }
         throw IncompatibleTypesDuringCompareException()
-
     }
 
     public override operator fun div(value: BigInteger): ValueDefinition {
@@ -613,7 +611,6 @@ public class ValueUndef : ValueDefinition() {
     public override operator fun compareTo(value: ValueBnode): Int = throw IncompatibleTypesDuringCompareException()
     public override operator fun compareTo(value: ValueBoolean): Int = throw IncompatibleTypesDuringCompareException()
 }
-
 
 public class ValueError : ValueDefinition() {
     public /*suspend*/ override fun toXMLElement(partial: Boolean): XMLElement = XMLElement("ValueError")
@@ -807,7 +804,6 @@ public class ValueDecimal(@JvmField public var value: BigDecimal) : ValueNumeric
             throw IncompatibleTypesDuringCompareException()
         }
     }
-
 
     public override operator fun plus(value: BigInteger): ValueDefinition = ValueInteger(this.value.toBigInteger().plus(value))
     public override operator fun plus(value: ValueInteger): ValueDefinition = ValueInteger(this.value.toBigInteger().plus(value.value))
@@ -1381,21 +1377,28 @@ public class ValueFloat(@JvmField public var value: Double) : ValueNumeric() {
     public override operator fun compareTo(value: ValueBoolean): Int = throw IncompatibleTypesDuringCompareException()
 }
 
-//Drehung
+// Drehung
 @Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigDecimal.compareTo(value: ValueDefinition): Int = -value.compareTo(this)
+
 @Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigInteger.plus(value: ValueDefinition): BigInteger = value.plus(this).toInt()
+
 @Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigDecimal.plus(value: ValueDefinition): BigDecimal = value.plus(this).toDecimal()
+
 @Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigInteger.minus(value: ValueDefinition): BigInteger = BigInteger(-1) * value.minus(this).toInt()
+
 @Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigDecimal.minus(value: ValueDefinition): BigDecimal = (-1.0).toBigDecimal() * value.minus(this).toDecimal()
+
 @Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigInteger.times(value: ValueDefinition): BigInteger = value.times(this).toInt()
+
 @Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigDecimal.times(value: ValueDefinition): BigDecimal = value.times(this).toDecimal()
+
 @Suppress("NOTHING_TO_INLINE")
 public inline operator fun BigInteger.div(value: ValueDefinition): BigInteger {
     if (this != BigInteger.fromInt(0)) {
@@ -1626,8 +1629,6 @@ public class ValueInteger(@JvmField public var value: BigInteger) : ValueNumeric
     public override operator fun compareTo(value: ValueIri): Int = -1
     public override operator fun compareTo(value: ValueBnode): Int = -1
     public override operator fun compareTo(value: ValueBoolean): Int = throw IncompatibleTypesDuringCompareException()
-
-
 }
 
 public class ValueIri(@JvmField public var iri: String) : ValueDefinition() {

@@ -17,7 +17,6 @@
 package lupos.s04logicalOperators
 
 import lupos.s00misc.BugException
-import lupos.shared.UUID_Counter
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
 import lupos.s00misc.ESortPriorityExt
@@ -35,6 +34,7 @@ import lupos.s04arithmetikOperators.IAOPBase
 import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s04logicalOperators.multiinput.LOPJoin_Helper
 import lupos.s04logicalOperators.singleinput.LOPNOOP
+import lupos.shared.UUID_Counter
 import kotlin.jvm.JvmField
 
 public abstract class OPBase public constructor(
@@ -363,7 +363,6 @@ public abstract class OPBase public constructor(
         SanityCheck.check { i < children.size }
         children[i] = child
     }
-
 
     public open override fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase {
         for (i in this.getChildren().indices) {
