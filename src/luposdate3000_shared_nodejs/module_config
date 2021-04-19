@@ -1,4 +1,2 @@
 package=Luposdate3000_Shared_JS
 name=Luposdate3000_Shared_NodeJS
-enabled=always
-enabledRun=jsBrowserMode:false

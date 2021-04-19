@@ -67,13 +67,27 @@ var compileSpecific: String? = null
 var compileSince: String? = null
 var threadCount = 1
 var processUrls = ""
-var availableMainClass = mutableListOf<String>()
 var garbageCollector = 0
+val optionsForPackages = mutableMapOf<String, MutableSet<String>>()
 
 enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, ALL_TEST, UNKNOWN }
 enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
 
 var execMode = ExecMode.UNKNOWN
+
+fun makeUppercaseStart(s: String): String {
+    val res = StringBuilder()
+    var flag = true
+    for (c in s) {
+        if (flag) {
+            res.append(c.toUpperCase())
+        } else {
+            res.append(c)
+        }
+        flag = c == '_'
+    }
+    return res.toString()
+}
 
 fun getAllModuleConfigurations(): List<CreateModuleArgs> {
     var releaseMode2 = ReleaseMode.valueOf(releaseMode)
@@ -92,39 +106,40 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         .ssetCodegenKSP(false)
         .ssetCodegenKAPT(false)
         .ssetCompilerVersion(compilerVersion)
+        .ssetEnabledFunc { true }
+        .ssetEnabledRunFunc { true }
     var modules = mutableMapOf<String, CreateModuleArgs>()
     val dependencyMap = mutableMapOf<String, Set<String>>()
     Files.walk(Paths.get("src"), 1).forEach { it ->
         val filename = it.toString()
         val f = File(filename + "/module_config")
         if (f.exists()) {
-            var pkg = ""
-            var name = ""
-            var ksp = false
-            var kapt = false
-            var enabledFunc: () -> Boolean = { true }
-            var enabledRunFunc: () -> Boolean = { true }
+            var currentArgs = localArgs
+                .ssetModuleName(makeUppercaseStart(filename.substring(filename.indexOf("luposdate3000"))))
+                .ssetModulePrefix(makeUppercaseStart(filename.substring(filename.indexOf("luposdate3000"))))
+            if (filename.endsWith("_browserjs")) {
+                currentArgs = currentArgs.ssetEnabledRunFunc { jsBrowserMode && target == "JS" }
+            } else if (filename.endsWith("_nodejs")) {
+                currentArgs = currentArgs.ssetEnabledRunFunc { !jsBrowserMode && target == "JS" }
+            }
             f.forEachLine { line ->
                 when {
                     line == "codegenKAPT=true" -> {
-                        kapt = true
+                        currentArgs = currentArgs.ssetCodegenKAPT(true)
                     }
                     line == "codegenKSP=true" -> {
-                        ksp = true
+                        currentArgs = currentArgs.ssetCodegenKSP(true)
                     }
                     line.startsWith("name=") -> {
-                        name = line.substring("name=".length)
+                        currentArgs = currentArgs.ssetModuleName(line.substring("name=".length))
                     }
                     line.startsWith("package=") -> {
-                        pkg = line.substring("package=".length)
+                        currentArgs = currentArgs.ssetModulePrefix(line.substring("package=".length))
                     }
                     line.startsWith("enabled=") -> {
                         when (line) {
-                            "enabled=always" -> {
-                                enabledFunc = { true }
-                            }
                             "enabled=intellijOnly" -> {
-                                enabledFunc = { intellijMode == "Enable" }
+                                currentArgs = currentArgs.ssetEnabledFunc { intellijMode == "Enable" }
                             }
                             else -> {
                                 throw Exception("unknown value")
@@ -133,35 +148,26 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                     }
                     line.startsWith("enabledRun=") -> {
                         when (line) {
-                            "enabledRun=always" -> {
-                                enabledRunFunc = { true }
-                            }
                             "enabledRun=never" -> {
-                                enabledRunFunc = { false }
-                            }
-                            "enabledRun=jsBrowserMode:true" -> {
-                                enabledRunFunc = { jsBrowserMode && target == "JS" }
-                            }
-                            "enabledRun=jsBrowserMode:false" -> {
-                                enabledRunFunc = { !jsBrowserMode && target == "JS" }
+                                currentArgs = currentArgs.ssetEnabledRunFunc { false }
                             }
                             "enabledRun=endpointMode:Java_Sockets" -> {
-                                enabledRunFunc = { endpointMode == "Java_Sockets" }
+                                currentArgs = currentArgs.ssetEnabledRunFunc { endpointMode == "Java_Sockets" }
                             }
                             "enabledRun=endpointMode:None" -> {
-                                enabledRunFunc = { endpointMode == "None" }
+                                currentArgs = currentArgs.ssetEnabledRunFunc { endpointMode == "None" }
                             }
                             "enabledRun=jenaWrapper:Off" -> {
-                                enabledRunFunc = { jenaWrapper == "Off" }
+                                currentArgs = currentArgs.ssetEnabledRunFunc { jenaWrapper == "Off" }
                             }
                             "enabledRun=jenaWrapper:On" -> {
-                                enabledRunFunc = { jenaWrapper == "On" }
+                                currentArgs = currentArgs.ssetEnabledRunFunc { jenaWrapper == "On" }
                             }
                             "enabledRun=memoryMode:_Inmemory" -> {
-                                enabledRunFunc = { memoryMode == "_Inmemory" }
+                                currentArgs = currentArgs.ssetEnabledRunFunc { memoryMode == "_Inmemory" }
                             }
                             "enabledRun=memoryMode:_Persistent" -> {
-                                enabledRunFunc = { memoryMode == "_Persistent" }
+                                currentArgs = currentArgs.ssetEnabledRunFunc { memoryMode == "_Persistent" }
                             }
                             else -> {
                                 throw Exception("unknown value '$line'")
@@ -173,38 +179,32 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                     }
                 }
             }
-            if (name.length > 0) {
-                if (pkg == "") {
-                    pkg = name
-                }
-                if (pkg == "Luposdate3000_Main") {
-                    enabledRunFunc = { mainClass == name }
-                    availableMainClass.add(name)
-                }
-                modules[name] = (
-                    localArgs
-                        .ssetModuleName(name, pkg)
-                        .ssetArgs2(compileModuleArgs)
-                        .ssetEnabledFunc(enabledFunc)
-                        .ssetEnabledRunFunc(enabledRunFunc)
-                        .ssetCodegenKSP(ksp)
-                        .ssetCodegenKAPT(kapt)
-                    )
-                val dep = mutableSetOf<String>()
-                if (!name.startsWith("Luposdate3000_Shared")) {
-                    dep.add("Luposdate3000_Shared")
-                }
-                if (!name.startsWith("Luposdate3000_Shared_")) {
-                    dep.add("Luposdate3000_Shared_BrowserJS")
-                }
-                dependencyMap[name] = dep
-                for (t in listOf("js", "jvm", "common", "native")) {
-                    val f2 = File(filename + "/${t}Dependencies")
-                    if (f2.exists()) {
-                        f2.forEachLine { line ->
-                            if (line.startsWith("luposdate3000:")) {
-                                dep.add(line.substring("luposdate3000:".length, line.lastIndexOf(":")))
-                            }
+            val pkg = currentArgs.modulePrefix.substring("Luposdate3000_".length)
+            var pkgs = optionsForPackages[pkg]
+            if (pkgs == null) {
+                pkgs = mutableSetOf<String>()
+                optionsForPackages[pkg] = pkgs
+            }
+            pkgs.add(currentArgs.moduleName.substring("Luposdate3000_".length))
+            if (currentArgs.modulePrefix == "Luposdate3000_Main") {
+                currentArgs = currentArgs.ssetEnabledRunFunc { mainClass == currentArgs.moduleName }
+            }
+            currentArgs = currentArgs.ssetArgs2(compileModuleArgs)
+            modules[currentArgs.moduleName] = currentArgs
+            val dep = mutableSetOf<String>()
+            if (!currentArgs.moduleName.startsWith("Luposdate3000_Shared")) {
+                dep.add("Luposdate3000_Shared")
+            }
+            if (!currentArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
+                dep.add("Luposdate3000_Shared_BrowserJS")
+            }
+            dependencyMap[currentArgs.moduleName] = dep
+            for (t in listOf("js", "jvm", "common", "native")) {
+                val f2 = File(filename + "/${t}Dependencies")
+                if (f2.exists()) {
+                    f2.forEachLine { line ->
+                        if (line.startsWith("luposdate3000:")) {
+                            dep.add(line.substring("luposdate3000:".length, line.lastIndexOf(":")))
                         }
                     }
                 }
@@ -232,6 +232,12 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
     if (res.size != modules.size || res.size != nameSet.size) {
         throw Exception("something wrong ${modules.keys} ------- $nameSet")
     }
+    for (k in optionsForPackages.keys.toTypedArray()) {
+        if (optionsForPackages[k]!!.size == 1) {
+            optionsForPackages.remove(k)
+        }
+    }
+    println(optionsForPackages)
     return res
 }
 
@@ -616,7 +622,7 @@ val mainclassParams = listOf(
     ParamClass(
         "--mainClass",
         "Endpoint",
-        availableMainClass.map { it.substring("Luposdate3000_Launch_".length) to { mainClass = it } }.toMap()
+        optionsForPackages["Main"]!!.map { it.substring("Launch_".length) to { mainClass = "Luposdate3000_$it" } }.toMap()
     ),
 )
 enableParams(mainclassParams)

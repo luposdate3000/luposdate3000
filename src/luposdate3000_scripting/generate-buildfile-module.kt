@@ -213,30 +213,12 @@ class CreateModuleArgs() {
             pathSeparator = "/"
         }
         res.moduleName = moduleName
-        res.modulePrefix = moduleName
         res.moduleFolder = "src${pathSeparator}${moduleName.toLowerCase()}"
         return res
     }
 
-    fun ssetModuleName(moduleName: String, modulePrefix: String): CreateModuleArgs {
+    fun ssetModulePrefix(modulePrefix: String): CreateModuleArgs {
         val res = clone()
-        val onWindows = System.getProperty("os.name").contains("Windows")
-        val pathSeparator: String
-        if (onWindows) {
-            pathSeparator = "\\\\"
-        } else {
-            pathSeparator = "/"
-        }
-        res.moduleName = moduleName
-        res.modulePrefix = modulePrefix
-        res.moduleFolder = "src${pathSeparator}${moduleName.toLowerCase()}"
-        return res
-    }
-
-    fun ssetModuleName(moduleName: String, modulePrefix: String, moduleFolder: String): CreateModuleArgs {
-        val res = clone()
-        res.moduleName = moduleName
-        res.moduleFolder = moduleFolder
         res.modulePrefix = modulePrefix
         return res
     }

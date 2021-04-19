@@ -1,4 +1,2 @@
 package=Luposdate3000_Buffer_Manager
-name=Luposdate3000_Buffer_Manager_Inmemory
-enabled=always
 enabledRun=memoryMode:_Inmemory

@@ -1,4 +1,2 @@
 package=Luposdate3000_Jena_Wrapper
-name=Luposdate3000_Jena_Wrapper_On
-enabled=always
 enabledRun=jenaWrapper:On
