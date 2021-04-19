@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+import lupos.modulename.Platform
 import lupos.s00misc.EOperatingSystemExt
-import lupos.s00misc.Platform
 import java.io.File
 import java.io.PrintWriter
 import java.lang.ProcessBuilder.Redirect

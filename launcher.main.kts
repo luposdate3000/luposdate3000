@@ -17,9 +17,8 @@
  */
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystem.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystemExt.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/s00misc/Platform.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/modulename/_Platform.kt")
-@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/modulename/_Platform.kt")
+@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/modulename/Platform.kt")
+@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/modulename/Platform.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
@@ -31,9 +30,9 @@
 @file:CompilerOptions("-Xmulti-platform")
 
 import lupos.dictionary.EDictionaryTypeExt
+import lupos.modulename.Platform
 import lupos.s00misc.EOperatingSystemExt
 import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.Platform
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
