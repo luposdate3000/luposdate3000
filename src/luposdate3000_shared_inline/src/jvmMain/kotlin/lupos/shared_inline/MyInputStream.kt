@@ -17,6 +17,7 @@
 package lupos.shared_inline
 
 import lupos.s00misc.IMyInputStream
+import lupos.s00misc.SanityCheck
 import lupos.shared.UUID_Counter
 import java.io.InputStream
 import kotlin.jvm.JvmField
@@ -96,10 +97,12 @@ internal actual class MyInputStream(@JvmField internal val stream: InputStream) 
                     0.toByte() -> throw Exception("zero Bytes not allowed within utf8-string")
                     else -> {
                         if (len >= buffer.size) {
-                            try {
-                                throw Exception("resize input buffer from $len '${buffer.decodeToString()}'")
-                            } catch (e: Throwable) {
-                                e.printStackTrace()
+                            SanityCheck {
+                                try {
+                                    throw Exception("resize input buffer from $len '${buffer.decodeToString()}'")
+                                } catch (e: Throwable) {
+                                    e.printStackTrace()
+                                }
                             }
                             val bb = ByteArray(len * 2)
                             buffer.copyInto(bb)

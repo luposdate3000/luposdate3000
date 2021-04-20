@@ -16,7 +16,6 @@
  */
 package lupos.buffermanager
 
-import lupos.shared_inline.File
 import lupos.shared_inline.Platform
 import kotlin.jvm.JvmField
 
@@ -32,7 +31,7 @@ public object BufferManagerExt {
     public var allowInitFromDisk: Boolean = true
 
     @JvmField
-    public var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000/")!!
+    public var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000")!! + "/" + Platform.getEnv("LUPOS_PROCESS_ID", "0")!! + "/"
 
     @JvmField
     internal val bufferManager = BufferManager()
@@ -43,9 +42,5 @@ public object BufferManagerExt {
 
     public fun close() {
         bufferManager.close()
-    }
-
-    init {
-        File(bufferPrefix).mkdirs()
     }
 }

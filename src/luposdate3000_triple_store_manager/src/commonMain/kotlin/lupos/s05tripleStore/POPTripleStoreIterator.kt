@@ -135,7 +135,12 @@ public class POPTripleStoreIterator(
             when (val param = children[i]) {
                 is IAOPConstant -> {
                     SanityCheck.check { filter2.size == ii }
-                    filter2.add(query.getDictionary().valueToGlobal(param.getValue()))
+                    val v = param.getValue()
+                    if (query.getDictionary().isLocalValue(v) {
+                            filter2.add(DictionaryExt.nullValue)
+                        } else {
+                        filter2.add(v)
+                    }
                 }
                 is IAOPVariable -> {
                     projection.add(param.getName())

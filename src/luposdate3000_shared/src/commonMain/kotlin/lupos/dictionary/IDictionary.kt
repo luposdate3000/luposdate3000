@@ -31,10 +31,12 @@ public interface IDictionary {
     public fun close()
     public fun delete()
     public fun isInmemoryOnly(): Boolean
+    public fun isLocalValue(value: Int): Boolean
 }
 
 @JvmField
 public var nodeGlobalDictionary: IDictionary = object : IDictionary {
+    public override fun isLocalValue(value: Int): Boolean = throw Exception("not implemented")
     public override fun importFromDictionaryFile(filename: String): Pair<IntArray, Int> = throw Exception("not implemented")
     public override fun createNewBNode(): Int = throw Exception("not implemented")
     public override fun createNewBNode(s: String): Int = throw Exception("not implemented")

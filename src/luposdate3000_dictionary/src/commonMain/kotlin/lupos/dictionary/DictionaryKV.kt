@@ -173,11 +173,13 @@ public class DictionaryKV : ADictionary {
                         originalID = id
                         ready = true
                     }
-                    val type = DictionaryHelper.byteArrayToType(buffer)
-                    if (type == ETripleComponentTypeExt.BLANK_NODE) {
-                        val id = createNewBNode()
-                        addEntry(originalID, id)
-                        ready = false
+                    if (ready) {
+                        val type = DictionaryHelper.byteArrayToType(buffer)
+                        if (type == ETripleComponentTypeExt.BLANK_NODE) {
+                            val id = createNewBNode()
+                            addEntry(originalID, id)
+                            ready = false
+                        }
                     }
                 }
                 ready
@@ -192,8 +194,8 @@ public class DictionaryKV : ADictionary {
                 addEntry(originalID, id or ADictionary.flagNoBNode)
                 id
             },
-            onFound = { _, it ->
-                addEntry(originalID, it or ADictionary.flagNoBNode)
+            onFound = { _, id ->
+                addEntry(originalID, id or ADictionary.flagNoBNode)
             }
         )
         println("imported dictionary with $lastId items")

@@ -54,6 +54,7 @@ import kotlin.jvm.JvmField
 public actual object HttpEndpointLauncher {
     @JvmField
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
+
     @JvmField
     internal var queryMappings = mutableMapOf<String, QueryMappingContainer>()
 
@@ -89,6 +90,7 @@ public actual object HttpEndpointLauncher {
     internal class QueryMappingContainer(@JvmField internal val xml: XMLElement, @JvmField internal var inputStreams: Array<IMyInputStream?>, @JvmField internal var outputStreams: Array<IMyOutputStream?>, @JvmField internal var connections: Array<Socket?>) {
         @JvmField
         internal var instance: POPBase? = null
+
         @JvmField
         internal val instanceLock = MyLock()
     }
@@ -275,6 +277,10 @@ public actual object HttpEndpointLauncher {
                                     queryMappings[key] = container
                                 }
                                 connectionOutMy.print("HTTP/1.1 200 OK\n\n")
+                            }
+                            paths["/shutdown"] = PathMappingHelper(false, mapOf()) {
+                                LuposdateEndpoint.close()
+                                System.exit(0)
                             }
                             paths["/distributed/query/dictionary"] = PathMappingHelper(false, mapOf()) {
                                 val dict = dictionaryMapping[params["key"]!!]!!

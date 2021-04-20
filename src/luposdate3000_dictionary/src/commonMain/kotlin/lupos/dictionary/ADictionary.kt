@@ -48,6 +48,10 @@ public abstract class ADictionary : IDictionary {
 
     override fun isBnode(value: Int): Boolean = (value and flagNoBNode) != flagNoBNode
 
+    public override fun isLocalValue(value: Int): Boolean {
+        return (value and flagLocal) == flagLocal
+    }
+
     override fun valueToGlobal(value: Int): Int {
         val res: Int
         if ((value and flagLocal) != flagLocal) {

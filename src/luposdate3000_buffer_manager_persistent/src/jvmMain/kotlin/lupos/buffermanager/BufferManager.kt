@@ -284,6 +284,7 @@ public actual class BufferManager public actual constructor() {
     public actual fun getNumberOfReferencedPages(): Int = openPagesRefcounters.sum()
 
     init {
+        File(BufferManagerExt.bufferPrefix).mkdirs()
         val flag = BufferManagerExt.allowInitFromDisk && File(BufferManagerExt.bufferPrefix + BufferManagerExt.fileEnding).exists()
         datafile = RandomAccessFile(BufferManagerExt.bufferPrefix + BufferManagerExt.fileEnding, "rw")
         freelistfile = RandomAccessFile(BufferManagerExt.bufferPrefix + BufferManagerExt.fileEndingFree, "rw")

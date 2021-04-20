@@ -783,7 +783,7 @@ fun onRun() {
             cmd.addAll(runArgs)
             println(cmd)
             if (dryMode == "Enable") {
-                println("export LUPOS_PROCESS_URLS=processUrls")
+                println("export LUPOS_PROCESS_URLS=$processUrls")
                 println("export LUPOS_THREAD_COUNT=$threadCount")
                 println("export LUPOS_PARTITION_MODE=$partitionMode")
                 println("export LUPOS_DICTIONARY_MODE=$dictionaryMode")
@@ -795,10 +795,10 @@ fun onRun() {
                         .redirectError(Redirect.INHERIT)
                     val env = p.environment()
                     env["LUPOS_PROCESS_ID"] = "$it"
-                    env["LUPOS_PROCESS_URLS"] = processUrls
+                    env["LUPOS_PROCESS_URLS"] = "$processUrls"
                     env["LUPOS_THREAD_COUNT"] = "$threadCount"
-                    env["LUPOS_PARTITION_MODE"] = partitionMode
-                    env["LUPOS_DICTIONARY_MODE"] = dictionaryMode
+                    env["LUPOS_PARTITION_MODE"] = "$partitionMode"
+                    env["LUPOS_DICTIONARY_MODE"] = "$dictionaryMode"
                     p.start()
                 }.forEach {
                     it.waitFor()
