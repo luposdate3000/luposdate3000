@@ -2,7 +2,6 @@
   "linkType": [
     {
       "name": "WPAN",
-      "wireless": true,
       "rangeInMeters": 30,
       "dataRateInKbps": 250
     }

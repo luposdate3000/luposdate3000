@@ -13,7 +13,6 @@ data class JsonObjects(
 @Serializable
 data class LinkType(
     val name: String = "",
-    val wireless: Boolean = false,
     val rangeInMeters: Int = 0,
     val dataRateInKbps: Int = 0,
 )
