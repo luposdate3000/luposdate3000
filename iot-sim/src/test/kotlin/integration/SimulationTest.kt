@@ -117,8 +117,18 @@ class SimulationTest {
         //routing table from F
         Assertions.assertEquals(0, f.routingTable.size())
         Assertions.assertEquals(e.address, f.routingTable.defaultAddress)
+    }
 
+    @ParameterizedTest
+    @ValueSource(strings = ["sim/meshToDODAG.json"])
+    fun meshToDODAG(fileName: String) {
+        Configuration.parse(fileName)
+        val root = Configuration.randMeshNetworks["meshA"]!!.mesh[0][0]
 
+        Simulation.initialize(Configuration.devices)
+        Simulation.runSimulation()
+
+        Assertions.assertEquals(Configuration.devices.size - 1, root.routingTable.size())
     }
 
 
