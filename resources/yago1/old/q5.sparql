@@ -1,7 +1,0 @@
-select ?n1 ?n2 where { 
-	?p1 <hasGivenName> ?n1. 
-	?p1 <bornIn> ?city. 
-	?p1 <isMarriedTo> ?p2. 
-	?p2 <hasGivenName> ?n2. 
-	?p2 <bornIn> ?city. 
-}

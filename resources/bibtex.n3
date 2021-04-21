@@ -1,0 +1,22 @@
+<Processing_SPARQL_Queries_Over_Distributed_RDF_Graphs> a <bibtex_entry> ;
+ <bibtex_type> <article> ;
+ <bibtex_title> "Processing SPARQL queries over distributed RDF graphs" ;
+ <bibtex_author_list> "Peng, Peng and Zou, Lei and Özsu, M Tamer and Chen, Lei and Zhao, Dongyan" ;
+ <bibtex_journal> "The VLDB Journal" ;
+ <bibtex_volume> 25 ;
+ <bibtex_number> 2 ;
+ <bibtex_pages_from> 243 ;
+ <bibtex_pages_to> 268 ;
+ <bibtex_year> 2016 ;
+ <bibtex_publisher> "Springer" .
+<Scalable_SPARQL_Querying_of_Large_RDF_Graphs> a <bibtex_entry> ;
+ <bibtex_type> <article> ;
+ <bibtex_title> "Scalable SPARQL querying of large RDF graphs" ;
+ <bibtex_author_list> "Huang, Jiewen and Abadi, Daniel J and Ren, Kun" ;
+ <bibtex_journal> "Proceedings of the VLDB Endowment" ;
+ <bibtex_volume> 4 ;
+ <bibtex_number> 11 ;
+ <bibtex_pages_from> 1123 ;
+ <bibtex_pages_to> 1134 ;
+ <bibtex_year> 2011 ;
+ <bibtex_publisher> "VLDB Endowment" .
