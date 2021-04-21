@@ -408,6 +408,7 @@ public object LuposdateEndpoint {
                 if (requireSorting) {
                     val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
                     val fileTriples = TriplesIntermediateReader("$fileName.spo")
+                    bufPos = 0
                     fileTriples.readAll { it ->
                         if (bufPos == bufS.size) {
                             for (i in 0 until 3) {
@@ -462,7 +463,8 @@ public object LuposdateEndpoint {
                         val sortedBy = orderPatterns[o]
                         val cache = store.modify_create_cache_sorted(EModifyTypeExt.INSERT, sortedBy)
                         val fileTriples = TriplesIntermediateReader("$fileName.$orderName")
-                        val debugFile = File("debug-input-$orderName").openOutputStream(false)
+//                        val debugFile = File("debug-input-$orderName").openOutputStream(false)
+                        bufPos = 0
                         fileTriples.readAll { it ->
                             if (bufPos == bufS.size) {
                                 for (i in 0 until 3) {
@@ -471,7 +473,7 @@ public object LuposdateEndpoint {
                                 store.modify_cache_sorted(query, arr2, EModifyTypeExt.INSERT, cache, sortedBy, false)
                                 bufPos = 0
                             }
-                            debugFile.println("${mapping[it[0]]} ${mapping[it[1]]} ${mapping[it[2]]}")
+                            // debugFile.println("${mapping[it[0]]} ${mapping[it[1]]} ${mapping[it[2]]}")
                             bufS[bufPos] = mapping[it[order[0]]]
                             bufP[bufPos] = mapping[it[order[1]]]
                             bufO[bufPos] = mapping[it[order[2]]]
@@ -481,7 +483,7 @@ public object LuposdateEndpoint {
                                 println("imported $counter triples for index $orderName")
                             }
                         }
-                        debugFile.close()
+                        // debugFile.close()
                         for (i in 0 until 3) {
                             arr[i].reset(bufPos)
                         }
