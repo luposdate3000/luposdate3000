@@ -96,7 +96,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         ) {
             var item = extractString(vals[s.second])
             if (item != null) {
-                println("  ${s.first}={$item}")
+                println("  ${s.first}={$item},")
                 vals.remove(s.second)
             }
         }
