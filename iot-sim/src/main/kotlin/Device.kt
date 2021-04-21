@@ -9,12 +9,14 @@ class Device(
     ) : Entity()
 {
     private val notInitialized = Int.MAX_VALUE
-    var dodagRoot = false
+    var root = false
 
     var rank = notInitialized
         private set
-    private var routingTable = RoutingTable(address)
-    private var childNodes: MutableSet<Int> = mutableSetOf()
+
+    var routingTable = RoutingTable(address)
+        private set
+
     var preferredParent = Parent()
         private set
 
@@ -27,26 +29,17 @@ class Device(
         return if (destinationAddress == address) {
             0
         } else {
-            1 //berechne
+            1
         }
     }
-
-
 
     override fun startUpEntity() {
 
         sensor?.observe()
-        if(dodagRoot) {
+        if(root) {
             rank = 0
             broadcastDIO()
         }
-    }
-
-    private fun initializeDODAGRoot() {
-
-        val directAvailableAddresses = availableLinks.keys
-        for (address in directAvailableAddresses)
-            routingTable.update(address, address)
     }
 
     override fun processEvent(event: Event) {
@@ -72,8 +65,9 @@ class Device(
         sendDODAGBuildingPackage(destinationAddress, dio)
     }
 
-    private fun sendDAO(destinationAddress: Int, isChild: Boolean) {
-        val dao = NetworkPackage.DAO(isChild)
+    private fun sendDAO(destinationAddress: Int, isPath: Boolean) {
+        val destinations = if(isPath) routingTable.getDestinations() else emptySet()
+        val dao = NetworkPackage.DAO(isPath, destinations)
         sendDODAGBuildingPackage(destinationAddress, dao)
     }
 
@@ -85,7 +79,7 @@ class Device(
 
     fun sendNetworkPackage(src: Int, dest: Int, data: Any) {
         val pck = NetworkPackage(src, dest, data)
-        val nextHop = routingTable.lookup(pck.destinationAddress)
+        val nextHop = routingTable.getNextHop(pck.destinationAddress)
         val delay = getNetworkDelay(nextHop)
         sendEvent(Configuration.devices[nextHop], delay, pck)
     }
@@ -115,7 +109,6 @@ class Device(
 
         objectiveFunction(dio)
         broadcastDIO()
-
     }
 
     private fun isBetterParent(rank: Int) = !hasParent() || rank < preferredParent.rank
@@ -133,26 +126,26 @@ class Device(
 
     private fun processDAO(pck: NetworkPackage) {
         val dao = pck.data as NetworkPackage.DAO
-        if (dao.isChild)
-            childNodes.add(pck.sourceAddress)
+        if (dao.isPath)
+            routingTable.setDestinationsByHop(pck.sourceAddress, dao.destinations)
         else
-            childNodes.remove(pck.sourceAddress)
+            routingTable.removeDestinationsByHop(pck.sourceAddress)
 
+        if(hasParent())
+            sendDAO(preferredParent.address, dao.isPath)
     }
 
     private fun objectiveFunction(dio: NetworkPackage.DIO) {
         rank = dio.rank + 1
     }
 
+
     fun hasParent()
         = preferredParent.address != notInitialized
 
+
     fun getDistanceInMeters(otherDevice: Device)
         = location.getDistanceInMeters(otherDevice.location)
-
-
-
-
 
 
     private fun getBestLinkTypeIndex(otherDevice: Device) : Int {

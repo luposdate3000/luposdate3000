@@ -69,7 +69,7 @@ object Configuration {
 
     private fun createRandomMeshNetwork(network: RandomMeshNetwork) {
         val origin = createMeshOriginDevice(network)
-        origin.dodagRoot = true
+        origin.root = true
         val meshNetwork = MeshNetwork()
         meshNetwork.networkPrefix = network.networkPrefix
         val linkType = getLinkTypeByName(network.linkType)
@@ -128,7 +128,7 @@ object Configuration {
 
     private fun createRandomStarNetwork(network: RandomStarNetwork) {
         val root = getNamedDevice(network.dataSink)
-        root.dodagRoot = true
+        root.root = true
         val starNetwork = StarNetwork(root)
         starNetwork.networkPrefix = network.networkPrefix
         val deviceType = getDeviceTypeByName(network.deviceType)
