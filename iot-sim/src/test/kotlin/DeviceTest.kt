@@ -71,47 +71,4 @@ class DeviceTest {
         Assertions.assertNull(device.getBestLink(device))
     }
 
-
-//    @Test
-//    fun `one device is close enough but not linkable`() {
-//        val linkTypeX = LinkType("X", 50, 7 )
-//        val linkTypeY = LinkType("Y", 42, 70 )
-//        val linkTypeSet = mutableSetOf(linkTypeX, linkTypeY)
-//        val selectingDevice: Device = Stubs.createEmptyDevice(linkTypeSet)
-//        selectingDevice.location = GeoLocation.getRandom()
-//
-//        val device1: Device = Stubs.createEmptyDevice(linkTypeSet)
-//        device1.location = GeoLocation.createNorthernLocation(selectingDevice.location, 53)
-//        val device2: Device = Stubs.createEmptyDevice(mutableSetOf(LinkType("something else")))
-//        device2.location = GeoLocation.createNorthernLocation(selectingDevice.location, 40)
-//
-//        val list = arrayListOf(device1, device2)
-//        Assertions.assertNull(selectingDevice.selectBestLink(list))
-//    }
-
-//    @Test
-//    fun `select the closest and linkable device`() {
-//        val linkTypeX = LinkType("X", 50, 7 )
-//        val linkTypeY = LinkType("Y", 42, 70 )
-//        val linkTypeSet = mutableSetOf(linkTypeX, linkTypeY)
-//        val selectingDevice: Device = Stubs.createEmptyDevice(linkTypeSet)
-//        selectingDevice.location = GeoLocation.getRandom()
-//
-//        val device1: Device = Stubs.createEmptyDevice(linkTypeSet)
-//        device1.location = GeoLocation.createNorthernLocation(selectingDevice.location, 4.0)
-//        val device2: Device = Stubs.createEmptyDevice(mutableSetOf(LinkType("something else")))
-//        device2.location = GeoLocation.createNorthernLocation(selectingDevice.location, 0.0)
-//        val device3: Device = Stubs.createEmptyDevice(linkTypeSet)
-//        device3.location = GeoLocation.createNorthernLocation(selectingDevice.location, 5.0)
-//
-//        val list = arrayListOf(device1, device2)
-//        val link = selectingDevice.selectBestLink(list)
-//        Assertions.assertNotNull(link)
-//        Assertions.assertEquals(selectingDevice.name, link!!.srcAddress)
-//        Assertions.assertEquals(device1.name, link.destAddress)
-//        Assertions.assertEquals("Y", link.linkType.name)
-//        Assertions.assertEquals(4.0, round(link.distanceInMeters))
-//    }
-
-
 }
