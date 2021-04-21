@@ -69,6 +69,29 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             "author" to "<bibtex_author_list>",
             "journal" to "<bibtex_journal>",
             "publisher" to "<bibtex_publisher>",
+            "volume" to "<bibtex_volume>",
+            "number" to "<bibtex_number>",
+            "year" to "<bibtex_year>",
+            "url" to "<bibtex_url>",
+            "address" to "<bibtex_address>",
+            "booktitle" to "<bibtex_booktitle>",
+            "data" to "<bibtex_data>",
+            "day" to "<bibtex_day>",
+            "doi" to "<bibtex_doi>",
+            "editor" to "<bibtex_editor>",
+            "howpublished" to "<bibtex_howpublished>",
+            "iddue_data" to "<bibtex_iddue_data>",
+            "isbn" to "<bibtex_isbn>",
+            "issn" to "<bibtex_issn>",
+            "issue_data" to "<bibtex_issue_data>",
+            "keywords" to "<bibtex_keywords>",
+            "location" to "<bibtex_location>",
+            "month" to "<bibtex_month>",
+            "note" to "<bibtex_note>",
+            "numpages" to "<bibtex_numpages>",
+            "organization" to "<bibtex_organization>",
+            "series" to "<bibtex_series>",
+            "urn" to "<bibtex_urn>",
         )
         ) {
             var item = extractString(vals[s.second])
@@ -77,22 +100,9 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                 vals.remove(s.second)
             }
         }
-        for (
-        s in arrayOf(
-            "volume" to "<bibtex_volume>",
-            "number" to "<bibtex_number>",
-            "year" to "<bibtex_year>",
-        )
-        ) {
-            var item = extractInteger(vals[s.second])
-            if (item != null) {
-                println("  ${s.first}={$item}")
-                vals.remove(s.second)
-            }
-        }
-        var pages_from = extractInteger(vals["<bibtex_pages_from>"])
+        var pages_from = extractString(vals["<bibtex_pages_from>"])
         if (pages_from != null) {
-            var pages_to = extractInteger(vals["<bibtex_pages_to>"]!!)
+            var pages_to = extractString(vals["<bibtex_pages_to>"]!!)
             vals.remove("<bibtex_pages_from>")
             vals.remove("<bibtex_pages_to>")
             println("  pages={$pages_from--$pages_to},")

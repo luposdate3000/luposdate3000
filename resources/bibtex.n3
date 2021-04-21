@@ -1,22 +1,564 @@
 <Processing_SPARQL_Queries_Over_Distributed_RDF_Graphs> a <bibtex_entry> ;
- <bibtex_type> <article> ;
- <bibtex_title> "Processing SPARQL queries over distributed RDF graphs" ;
- <bibtex_author_list> "Peng, Peng and Zou, Lei and Özsu, M Tamer and Chen, Lei and Zhao, Dongyan" ;
- <bibtex_journal> "The VLDB Journal" ;
- <bibtex_volume> 25 ;
- <bibtex_number> 2 ;
- <bibtex_pages_from> 243 ;
- <bibtex_pages_to> 268 ;
- <bibtex_year> 2016 ;
- <bibtex_publisher> "Springer" .
+<bibtex_type> <article> ;
+<bibtex_title> "Processing SPARQL queries over distributed RDF graphs" ;
+<bibtex_author_list> "Peng, Peng and Zou, Lei and Özsu, M Tamer and Chen, Lei and Zhao, Dongyan" ;
+<bibtex_journal> "The VLDB Journal" ;
+<bibtex_volume> "25" ;
+<bibtex_number> "2" ;
+<bibtex_pages_from> "243" ;
+<bibtex_pages_to> "268" ;
+<bibtex_year> "2016" ;
+<bibtex_publisher> "Springer" .
 <Scalable_SPARQL_Querying_of_Large_RDF_Graphs> a <bibtex_entry> ;
- <bibtex_type> <article> ;
- <bibtex_title> "Scalable SPARQL querying of large RDF graphs" ;
- <bibtex_author_list> "Huang, Jiewen and Abadi, Daniel J and Ren, Kun" ;
- <bibtex_journal> "Proceedings of the VLDB Endowment" ;
- <bibtex_volume> 4 ;
- <bibtex_number> 11 ;
- <bibtex_pages_from> 1123 ;
- <bibtex_pages_to> 1134 ;
- <bibtex_year> 2011 ;
- <bibtex_publisher> "VLDB Endowment" .
+<bibtex_type> <article> ;
+<bibtex_title> "Scalable SPARQL querying of large RDF graphs" ;
+<bibtex_author_list> "Huang, Jiewen and Abadi, Daniel J and Ren, Kun" ;
+<bibtex_journal> "Proceedings of the VLDB Endowment" ;
+<bibtex_volume> "4" ;
+<bibtex_number> "11" ;
+<bibtex_pages_from> "1123" ;
+<bibtex_pages_to> "1134" ;
+<bibtex_year> "2011" ;
+<bibtex_publisher> "VLDB Endowment" .
+<Scaling_Queries_over_Big_RDF_Graphs_with_Semantic_Hash_Partitioning> a <bibtex_entry> ;
+<bibtex_type> <article> ;
+<bibtex_title> "Scaling queries over big RDF graphs with semantic hash partitioning" ;
+<bibtex_author_list> "Lee, Kisung and Liu, Ling" ;
+<bibtex_journal> "Proceedings of the VLDB Endowment" ;
+<bibtex_volume> "6" ;
+<bibtex_number> "14" ;
+<bibtex_pages_from> "1894" ;
+<bibtex_pages_to> "1905" ;
+<bibtex_year> "2013" ;
+<bibtex_publisher> "VLDB Endowment" .
+<DREAM_Distributed_RDF_Engine_with_Adaptive_Query_Planner_and_Minimal_Communication> a <bibtex_entry> ;
+<bibtex_type> <article> ;
+<bibtex_title> "DREAM: distributed RDF engine with adaptive query planner and minimal communication" ;
+<bibtex_author_list> "Hammoud, Mohammad and Rabbou, Dania Abed and Nouri, Reza and Beheshti, Seyed-Mehdi-Reza and Sakr, Sherif" ;
+<bibtex_journal> "Proceedings of the VLDB Endowment" ;
+<bibtex_volume> "8" ;
+<bibtex_number> "6" ;
+<bibtex_pages_from> "654" ;
+<bibtex_pages_to> "665" ;
+<bibtex_year> "2015" ;
+<bibtex_publisher> "VLDB Endowment" .
+<Heuristics_Based_Query_Processing_for_Large_RDF_Graphs_Using_Cloud_Computing> a <bibtex_entry> ;
+<bibtex_type> <article> ;
+<bibtex_title> "Heuristics-based query processing for large RDF graphs using cloud computing" ;
+<bibtex_author_list> "Husain, Mohammad and McGlothlin, James and Masud, Mohammad M and Khan, Latifur and Thuraisingham, Bhavani M" ;
+<bibtex_journal> "IEEE Transactions on Knowledge and Data Engineering" ;
+<bibtex_volume> "23" ;
+<bibtex_number> "9" ;
+<bibtex_pages_from> "1312" ;
+<bibtex_pages_to> "1327" ;
+<bibtex_year> "2011" ;
+<bibtex_publisher> "IEEE" .
+<S2RDF_RDF_Querying_with_SPARQL_on_Spark> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_author_list> "Alexander Schätzle and Martin Przyjaciel-Zablocki and Simon Skilevic and Georg Lausen" ;
+<bibtex_title> "S2RDF: RDF Querying with SPARQL on Spark" ;
+<bibtex_journal> "CoRR" ;
+<bibtex_volume> "abs/1512.07021" ;
+<bibtex_year> "2015" ;
+<bibtex_url> "http://arxiv.org/abs/1512.07021" .
+<CliqueSquare_Flat_Plans_for_Massively_Parallel_RDF_Queries> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "Cliquesquare: Flat plans for massively parallel RDF queries" ;
+<bibtex_author_list> "Goasdoue ; Francois and Kaoudi, Zoi and Manolescu, Ioana and Quiane-Ruiz, Jorge-Arnulfo and Zampetakis, Stamatis" ;
+<bibtex_booktitle> "2015 IEEE 31st International Conference on Data Engineering" ;
+<bibtex_pages_from> "771" ;
+<bibtex_pages_to> "782" ;
+<bibtex_year> "2015" ;
+<bibtex_organization> "IEEE" .
+<PigSPARQL_A_SPARQL_Query_Processing_Baseline_for_Big_Data> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "PigSPARQL: A SPARQL Query Processing Baseline for Big Data." ;
+<bibtex_author_list> "Schätzle, Alexander and Przyjaciel-Zablocki, Martin and Hornung, Thomas and Lausen, Georg" ;
+<bibtex_booktitle> "International semantic web conference (posters & demos)" ;
+<bibtex_volume> "1035" ;
+<bibtex_pages_from> "241" ;
+<bibtex_pages_to> "244" ;
+<bibtex_year> "2013" .
+<Clause_Iteration_with_MapReduce_to_Scalably_Query_Data_Graphs_in_the_SHARD_Graph_Store> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "Clause-iteration with MapReduce to scalably query datagraphs in the SHARD graph-store" ;
+<bibtex_author_list> "Rohloff, Kurt and Schantz, Richard E" ;
+<bibtex_booktitle> "Proceedings of the fourth international workshop on Data-intensive distributed computing" ;
+<bibtex_pages_from> "35" ;
+<bibtex_pages_to> "44" ;
+<bibtex_year> "2011" .
+<On_Distributed_SPARQL_Query_Processing_Using_Triangles_of_RDF_Triples> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_title> "On Distributed SPARQL Query Processing Using Triangles of RDF Triples" ;
+<bibtex_author_list> "Hubert Naacke and Olivier Cure" ;
+<bibtex_journal> "Open Journal of Semantic Web (OJSW)" ;
+<bibtex_issn> "2199-336X" ;
+<bibtex_year> "2020" ;
+<bibtex_volume> "7" ;
+<bibtex_number> "1" ;
+<bibtex_pages_from> "17" ;
+<bibtex_pages_to> "32" ;
+<bibtex_url> "https://www.ronpub.com/ojsw/OJSW_2020v7i1n02_Cure.html" .
+<Matrix_Bit_loaded_A_Scalable_Lightweight_Join_Query_Processor_for_RDF_Data> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "Matrix Bit loaded: a scalable lightweight join query processor for RDF data" ;
+<bibtex_author_list> "Atre, Medha and Chaoji, Vineet and Zaki, Mohammed J and Hendler, James A" ;
+<bibtex_booktitle> "Proceedings of the 19th international conference on World wide web" ;
+<bibtex_pages_from> "41" ;
+<bibtex_pages_to> "50" ;
+<bibtex_year> "2010" .
+<Semantic_Web_Query_Languages> a <bibtex_entry> ;<bibtex_type> <incollection> ;
+<bibtex_doi> "10.1007/11526988_3" ;
+<bibtex_url> "https://doi.org/10.1007/11526988_3" ;
+<bibtex_year> "2005" ;
+<bibtex_publisher> "Springer Berlin Heidelberg" ;
+<bibtex_pages_from> "35" ;
+<bibtex_pages_to> "133" ;
+<bibtex_author_list> "James Bailey and Francois Bry and Tim Furche and Sebastian Schaffert" ;
+<bibtex_title> "Web and Semantic Web Query Languages: A Survey" ;
+<bibtex_booktitle> "Reasoning Web" .
+<YAGO_4_A_Reason_able_Knowledge_Base> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "YAGO 4: A Reason-able Knowledge Base" ;
+<bibtex_author_list> "Tanon, Thomas Pellissier and Weikum, Gerhard and Suchanek, Fabian" ;
+<bibtex_booktitle> "European Semantic Web Conference" ;
+<bibtex_pages_from> "583" ;
+<bibtex_pages_to> "596" ;
+<bibtex_year> "2020" ;
+<bibtex_organization> "Springer" .
+<YAGO2_A_spatially_and_temporally_enhanced_knowledge_base_from_Wikipedia> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_title> "YAGO2: A spatially and temporally enhanced knowledge base from Wikipedia" ;
+<bibtex_author_list> "Hoffart, Johannes and Suchanek, Fabian M and Berberich, Klaus and Weikum, Gerhard" ;
+<bibtex_journal> "Artificial Intelligence" ;
+<bibtex_volume> "194" ;
+<bibtex_pages_from> "28" ;
+<bibtex_pages_to> "61" ;
+<bibtex_year> "2013" ;
+<bibtex_publisher> "Elsevier" .
+<DB_Engines_Ranking_of_RDF_Stores> a <bibtex_entry> ;<bibtex_type> <misc> ;
+<bibtex_title> "DB-Engines Ranking of RDF Stores" ;
+<bibtex_howpublished> "https://db-engines.com/en/ranking/rdf+store" ;
+<bibtex_note> "Accessed: 2020-09-16" ;
+<bibtex_year> "2020" .
+<Wikipedia_Harddrive_Capacity_Over_Time> a <bibtex_entry> ;<bibtex_type> <misc> ;
+<bibtex_howpublished> "https://de.wikipedia.org/wiki/Datei:Hard_drive_capacity_over_time.svg" ;
+<bibtex_title> "Hard drive capacity over time" ;
+<bibtex_note> "Accessed: 2020-09-16" ;
+<bibtex_author_list> "Hankwang" ;
+<bibtex_year> "2018" ;
+<bibtex_month> "12" .
+<Github_microprocessor_trend_data> a <bibtex_entry> ;<bibtex_type> <misc> ;
+<bibtex_title> "microprocessor-trend-data" ;
+<bibtex_howpublished> "https://github.com/karlrupp/microprocessor-trend-data" ;
+<bibtex_author_list> "Rupp, Karl" ;
+<bibtex_data> "2020-07-16" ;
+<bibtex_year> "2020" ;
+<bibtex_month> "7" ;
+<bibtex_day> "16" ;
+<bibtex_note> "Accessed: 2020-09-16" .
+<The_RDF_3X_Engine_for_Scalable_Management_of_RDF_Data> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_title> "The RDF-3X engine for scalable management of RDF data" ;
+<bibtex_author_list> "Neumann, Thomas and Weikum, Gerhard" ;
+<bibtex_journal> "The VLDB Journal" ;
+<bibtex_volume> "19" ;
+<bibtex_number> "1" ;
+<bibtex_pages_from> "91" ;
+<bibtex_pages_to> "113" ;
+<bibtex_year> "2010" ;
+<bibtex_publisher> "Springer" .
+<WORT_Write_Optimal_Radix_Tree_for_Persistent_Memory_Storage_Systems> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "WORT Write optimal radix tree for persistent memory storage systems" ;
+<bibtex_author_list> "Lee, Se Kwon and Lim, K Hyun and Song, Hyunsub and Nam, Beomseok and Noh, Sam H" ;
+<bibtex_booktitle> "15th USENIX Conference on File and Storage Technologies (FAST 17)" ;
+<bibtex_pages_from> "257" ;
+<bibtex_pages_to> "270" ;
+<bibtex_year> "2017" .
+<TripleBit_a_Fast_and_Compact_System_for_Large_Scale_RDF_Data> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_title> "TripleBit: a fast and compact system for large scale RDF data" ;
+<bibtex_author_list> "Yuan, Pingpeng and Liu, Pu and Wu, Buwen and Jin, Hai and Zhang, Wenya and Liu, Ling" ;
+<bibtex_journal> "Proceedings of the VLDB Endowment" ;
+<bibtex_volume> "6" ;
+<bibtex_number> "7" ;
+<bibtex_pages_from> "517" ;
+<bibtex_pages_to> "528" ;
+<bibtex_year> "2013" ;
+<bibtex_publisher> "VLDB Endowment" .
+<TriAD_A_Distributed_Shared_Nothing_RDF_Engine_based_on_Asynchronous_Message_Passing> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "TriAD: a distributed shared-nothing RDF engine based on asynchronous message passing" ;
+<bibtex_author_list> "Gurajada, Sairam and Seufert, Stephan and Miliaraki, Iris and Theobald, Martin" ;
+<bibtex_booktitle> "Proceedings of the 2014 ACM SIGMOD international conference on Management of data" ;
+<bibtex_pages_from> "289" ;
+<bibtex_pages_to> "300" ;
+<bibtex_year> "2014" .
+<SPLODGE_Systematic_Generation_of_SPARQL_Benchmark_Queries_for_Linked_Open_Data> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "Splodge: Systematic generation of sparql benchmark queries for linked open data" ;
+<bibtex_author_list> "Görlitz, Olaf and Thimm, Matthias and Staab, Steffen" ;
+<bibtex_booktitle> "International Semantic Web Conference" ;
+<bibtex_pages_from> "116" ;
+<bibtex_pages_to> "132" ;
+<bibtex_year> "2012" ;
+<bibtex_organization> "Springer" .
+<Optimizing_Distributed_Joins_with_Bloom_Filters> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "Optimizing distributed joins with bloom filters" ;
+<bibtex_author_list> "Ramesh, Sukriti and Papapetrou, Odysseas and Siberski, Wolf" ;
+<bibtex_booktitle> "International Conference on Distributed Computing and Internet Technology" ;
+<bibtex_pages_from> "145" ;
+<bibtex_pages_to> "156" ;
+<bibtex_year> "2008" ;
+<bibtex_organization> "Springer" .
+<LiteMat_a_scalable_cost_efficient_inference_encoding_scheme_for_large_RDF_graphs> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "LiteMat: a scalable, cost-efficient inference encoding scheme for large RDF graphs" ;
+<bibtex_author_list> "Cure, Olivier and Naacke, Hubert and Randriamalala, Tendry and Amann, Bernd" ;
+<bibtex_booktitle> "2015 IEEE International Conference on Big Data (Big Data)" ;
+<bibtex_pages_from> "1823" ;
+<bibtex_pages_to> "1830" ;
+<bibtex_year> "2015" ;
+<bibtex_organization> "IEEE" .
+<Hybrid_SPARQL_Queries_Fresh_vs_Fast_Results> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "Hybrid SPARQL queries: fresh vs. fast results" ;
+<bibtex_author_list> "Umbrich, Jürgen and Karnstedt, Marcel and Hogan, Aidan and Parreira, Josiane Xavier" ;
+<bibtex_booktitle> "International Semantic Web Conference" ;
+<bibtex_pages_from> "608" ;
+<bibtex_pages_to> "624" ;
+<bibtex_year> "2012" ;
+<bibtex_organization> "Springer" .
+<Exploiting_Coroutines_to_Attack_the_Killer_Nanoseconds> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_title> "Exploiting coroutines to attack the killer nanoseconds" ;
+<bibtex_author_list> "Jonathan, Christopher and Minhas, Umar Farooq and Hunter, James and Levandoski, Justin and Nishanov, Gor" ;
+<bibtex_journal> "Proceedings of the VLDB Endowment" ;
+<bibtex_volume> "11" ;
+<bibtex_number> "11" ;
+<bibtex_pages_from> "1702" ;
+<bibtex_pages_to> "1714" ;
+<bibtex_year> "2018" ;
+<bibtex_publisher> "VLDB Endowment" .
+<EdgeFrame_Worst_Case_Optimal_Joins_for_Graph_Pattern_Matching_in_Spark> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "EdgeFrame: Worst-Case Optimal Joins for Graph-Pattern Matching in Spark" ;
+<bibtex_author_list> "Fuchs, Per and Boncz, Peter and Ghit, Bogdan" ;
+<bibtex_booktitle> "Proceedings of the 3rd Joint International Workshop on Graph Data Management Experiences & Systems (GRADES) and Network Data Analytics (NDA)" ;
+<bibtex_pages_from> "1" ;
+<bibtex_pages_to> "11" ;
+<bibtex_year> "2020" .
+<Deep_Unsupervised_Cardinality_Estimation> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_title> "Deep unsupervised cardinality estimation" ;
+<bibtex_author_list> "Yang, Zongheng and Liang, Eric and Kamsetty, Amog and Wu, Chenggang and Duan, Yan and Chen, Xi and Abbeel, Pieter and Hellerstein, Joseph M and Krishnan, Sanjay and Stoica, Ion" ;
+<bibtex_journal> "arXiv preprint arXiv:1905.04278" ;
+<bibtex_year> "2019" .
+<CumulusRDF_Linked_Data_Management_on_Nested_Key_Value_Stores> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "CumulusRDF: linked data management on nested key-value stores" ;
+<bibtex_author_list> "Ladwig, Günter and Harth, Andreas" ;
+<bibtex_booktitle> "The 7th International Workshop on Scalable Semantic Web Knowledge Base Systems (SSWS 2011)" ;
+<bibtex_volume> "30" ;
+<bibtex_year> "2011" .
+<Compressed_k2_Triples_for_Full_In_Memory_RDF_Engines> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_title> "Compressed k2-triples for full-in-memory RDF engines" ;
+<bibtex_author_list> "Alvarez-Garcia, Sandra and Brisaboa, Nieves R and FernAndez, Javier D and Martinez-Prieto, Miguel A" ;
+<bibtex_journal> "arXiv preprint arXiv:1105.4004" ;
+<bibtex_year> "2011" .
+<Cardinality_estimation_and_dynamic_length_adaptation_for_Bloom_filters> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_title> "Cardinality estimation and dynamic length adaptation for Bloom filters" ;
+<bibtex_author_list> "Papapetrou, Odysseas and Siberski, Wolf and Nejdl, Wolfgang" ;
+<bibtex_journal> "Distributed and Parallel Databases" ;
+<bibtex_volume> "28" ;
+<bibtex_number> "2-3" ;
+<bibtex_pages_from> "119" ;
+<bibtex_pages_to> "156" ;
+<bibtex_year> "2010" ;
+<bibtex_publisher> "Springer" .
+<Hexastore_Sextuple_Indexing_for_Semantic_Web_Data_Management> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_title> "Hexastore: sextuple indexing for semantic web data management" ;
+<bibtex_author_list> "Weiss, Cathrin and Karras, Panagiotis and Bernstein, Abraham" ;
+<bibtex_journal> "Proceedings of the VLDB Endowment" ;
+<bibtex_volume> "1" ;
+<bibtex_number> "1" ;
+<bibtex_pages_from> "1008" ;
+<bibtex_pages_to> "1019" ;
+<bibtex_year> "2008" ;
+<bibtex_publisher> "VLDB Endowment" .
+<Evaluating_SPARQL_Subqueries_Over_P2P_Overlay_Networks> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_author_list> "Liaquat Ali and Georg Lausen" ;
+<bibtex_title> "Evaluating SPARQL Subqueries over P2P Overlay Networks" ;
+<bibtex_booktitle> "DEXA Workshops" ;
+<bibtex_pages_from> "272" ;
+<bibtex_pages_to> "276" ;
+<bibtex_publisher> "IEEE Computer Society" ;
+<bibtex_year> "2012" .
+<Ontology_Based_Data_Integration_in_Multi_Disciplinary_Engineering_Environments_A_Review> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_author_list> "Ekaputra, Fajar and Sabou, Marta and Serral, Estefanía and Kiesling, Elmar and Biffl, Stefan" ;
+<bibtex_year> "2017" ;
+<bibtex_month> "10" ;
+<bibtex_pages_from> "1" ;
+<bibtex_pages_to> "26" ;
+<bibtex_title> "Ontology-Based Data Integration in Multi-Disciplinary Engineering Environments: A Review" ;
+<bibtex_volume> "4" ;
+<bibtex_url> "https://www.ronpub.com/OJIS_2017v4i1n01_Ekaputra.pdf" ;
+<bibtex_journal> "Open Journal of Information Systems (OJIS)" .
+<RDFGrowth_a_P2P_annotation_exchange_algorithm_for_scalable_Semantic_Web_applications> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_author_list> "Giovanni Tummarello and Christian Morbidoni and Joackin Petersson and Paolo Puliti and Francesco Piazza" ;
+<bibtex_title> "RDFGrowth, a P2P annotation exchange algorithm for scalable Semantic Web applications" ;
+<bibtex_booktitle> "P2PKM" ;
+<bibtex_series> "CEUR Workshop Proceedings" ;
+<bibtex_volume> "108" ;
+<bibtex_publisher> "CEUR-WS.org" ;
+<bibtex_year> "2004" ;
+<bibtex_url> "RDFGrowth, a P2P annotation exchange algorithm for scalable Semantic Web application" .
+<S2X_Graph_Parallel_Querying_of_RDF_with_GraphX> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_author_list> "Schätzle, Alexander and Przyjaciel-Zablocki, Martin and Berberich, Thorsten and Lausen, Georg" ; 
+<bibtex_editor> "Wang, Fusheng and Luo, Gang and Weng, Chunhua and Khan, Arijit and Mitra, Prasenjit and Yu, Cong" ;
+<bibtex_title> "S2X: Graph-Parallel Querying of RDF with GraphX" ;
+<bibtex_booktitle> "Biomedical Data Management and Graph Online Querying" ;
+<bibtex_year> "2016" ;
+<bibtex_publisher> "Springer International Publishing" ;
+<bibtex_address> "Cham" ;
+<bibtex_pages_from> "155" ;
+<bibtex_pages_to> "168" ;
+<bibtex_isbn> "978-3-319-41576-5" .
+<Scalable_Semantic_Web_Data_Management_Using_Vertical_Partitioning> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_author_list> "Abadi, Daniel J. and Marcus, Adam and Madden, Samuel R. and Hollenbach, Kate" ;
+<bibtex_title> "Scalable Semantic Web Data Management Using Vertical Partitioning" ;
+<bibtex_year> "2007" ;
+<bibtex_isbn> "9781595936493" ;
+<bibtex_publisher> "VLDB Endowment" ;
+<bibtex_booktitle> "Proceedings of the 33rd International Conference on Very Large Data Bases" ;
+<bibtex_pages_from> "411" ;
+<bibtex_pages_to> "422" ;
+<bibtex_numpages> "12" ;
+<bibtex_location> "Vienna, Austria" ;
+<bibtex_series> "VLDB '07" .
+<A_Survey_and_Experimental_Comparison_of_Distributed_SPARQL_Engines_for_Very_Large_RDF_Data> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_author_list> "Abdelaziz, Ibrahim and Harbi, Razen and Khayyat, Zuhair and Kalnis, Panos" ;
+<bibtex_title> "A Survey and Experimental Comparison of Distributed SPARQL Engines for Very Large RDF Data" ;
+<bibtex_year> "2017" ;
+<bibtex_issue_data> "September 2017" ;
+<bibtex_publisher> "VLDB Endowment" ;
+<bibtex_volume> "10" ;
+<bibtex_number> "13" ;
+<bibtex_issn> "2150-8097" ;
+<bibtex_url> "https://doi.org/10.14778/3151106.3151109" ;
+<bibtex_doi> "10.14778/3151106.3151109" ;
+<bibtex_journal> "Proc. VLDB Endow." ;
+<bibtex_month> "sep" ;
+<bibtex_pages_from> "2049" ;
+<bibtex_pages_to> "2060" ;
+<bibtex_numpages> "12" . 
+<Data_Management_and_Query_Processing_in_Semantic_Web_Databases> a <bibtex_entry> ;<bibtex_type> <book> ;
+<bibtex_title> "Data Management and Query Processing in Semantic Web Databases" ;
+<bibtex_author_list> "Sven Groppe" ;
+<bibtex_publisher> "Springer" ;
+<bibtex_year> "2011" ;
+<bibtex_url> "https://doi.org/10.1007/978-3-642-19357-6" .
+<Cloud_Scale_Entity_Resolution_Current_State_and_Open_Challenges> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_title> "Cloud-Scale Entity Resolution: Current State and Open Challenges" ;
+<bibtex_author_list> "Xiao Chen and Eike Schallehn and Gunter Saake" ;
+<bibtex_journal> "Open Journal of Big Data (OJBD)" ;
+<bibtex_issn> "2365-029X" ;
+<bibtex_year> "2018" ;
+<bibtex_volume> "4" ;
+<bibtex_number> "1" ;
+<bibtex_pages_from> "30" ;
+<bibtex_pages_to> "51" ;
+<bibtex_url> "http://www.ronpub.com/OJBD_2018v4i1n03_Chen.pdf" ;
+<bibtex_urn> "urn:nbn:de:101:1-201804155766" ;
+<bibtex_publisher> "RonPub" .
+<RDF_in_the_clouds_a_survey> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_author_list> "Kaoudi, Zoi and Manolescu, Ioana" ;
+<bibtex_doi> "10.1007/s00778-014-0364-z" ;
+<bibtex_journal> "VLDB J." ;
+<bibtex_number> "1" ;
+<bibtex_pages_from> "67" ;
+<bibtex_pages_to> "91" ;
+<bibtex_title> "RDF in the clouds: a survey." ;
+<bibtex_url> "https://link.springer.com/content/pdf/10.1007/s00778-014-0364-z.pdf" ;
+<bibtex_volume> "24" ;
+<bibtex_year> "2015" .
+<Storage_Balancing_in_P2P_Based_Distributed_RDF_Data_Stores> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_author_list> "Maximiliano Osorio and Carlos Buil Aranda" ;
+<bibtex_title> "Storage Balancing in P2P Based Distributed RDF Data Stores" ;
+<bibtex_booktitle> "DeSemWeb@ISWC" ;
+<bibtex_series> "CEUR Workshop Proceedings" ;
+<bibtex_volume> "1934" ;
+<bibtex_publisher> "CEUR-WS.org" ;
+<bibtex_year> "2017" ;
+<bibtex_url> "http://ceur-ws.org/Vol-1934/contribution-04.pdf" .
+<Transactions_on_Large_Scale_Data_and_Knowledge_Centered_Systems_III> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_author_list> "Filali, Imen and Bongiovanni, Francesco and Huet, Fabrice and Baude, Françoise" ;
+<bibtex_year> "2011" ;
+<bibtex_month> "01" ;
+<bibtex_pages_from> "20" ;
+<bibtex_pages_to> "55" ;
+<bibtex_title> "A Survey of Structured P2P Systems for RDF Data Storage and Retrieval" ;
+<bibtex_volume> "3" ;
+<bibtex_journal> "T. Large-Scale Data- and Knowledge-Centered Systems" ;
+<bibtex_doi> "10.1007/978-3-642-23074-5_2" ;
+<bibtex_url> "https://link.springer.com/content/pdf/10.1007%2F978-3-642-23074-5.pdf" .
+<RDF_3X_a_RISC_style_Engine_for_RDF> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_title> "RDF-3X: a RISC-style engine for RDF" ;
+<bibtex_author_list> "Neumann, Thomas and Weikum, Gerhard" ;
+<bibtex_journal> "Proceedings of the VLDB Endowment" ;
+<bibtex_volume> "1" ;
+<bibtex_number> "1" ;
+<bibtex_pages_from> "647" ;
+<bibtex_pages_to> "659" ;
+<bibtex_year> "2008" ;
+<bibtex_publisher> "VLDB Endowment" .
+<BTC_2019_The_2019_Billion_Triple_Challenge_Dataset> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "BTC-2019: The 2019 Billion Triple Challenge Dataset" ;
+<bibtex_author_list> "Herrera, Jose-Miguel and Hogan, Aidan and Käfer, Tobias" ;
+<bibtex_booktitle> "International Semantic Web Conference, Auckland, New Zealand" ;
+<bibtex_pages_from> "163" ;
+<bibtex_pages_to> "180" ;
+<bibtex_year> "2019" ;
+<bibtex_organization> "Springer" .
+<An_Empirical_Study_of_Real_World_SPARQL_Queries> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_title> "An empirical study of real-world SPARQL queries" ;
+<bibtex_author_list> "Arias, Mario and FernAndez, Javier D and Martinez-Prieto, Miguel A and de la Fuente, Pablo" ;
+<bibtex_journal> "arXiv preprint arXiv:1103.5043" ;
+<bibtex_year> "2011" .
+<SPARQL_1_1_Query_Language> a <bibtex_entry> ;<bibtex_type> <techreport> ;
+<bibtex_author_list> "Andy Seaborne and Steven Harris" ;
+<bibtex_title> "SPARQL 1.1 Query Language" ;
+<bibtex_month> "mar" ;
+<bibtex_note> "https://www.w3.org/TR/2013/REC-sparql11-query-20130321/" ;
+<bibtex_year> "2013" .
+<Triag_a_Framework_based_on_Triangles_of_RDF_Triples> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "Triag, a framework based on triangles of RDF triples" ;
+<bibtex_author_list> "Naacke, Hubert and Cure ; Olivier" ;
+<bibtex_booktitle> "Proceedings of The International Workshop on Semantic Big Data" ;
+<bibtex_pages_from> "1" ;
+<bibtex_pages_to> "6" ;
+<bibtex_year> "2020" .
+<Data_Placement_Strategies_that_Speed_Up_Distributed_Graph_Query_Processing> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "Data placement strategies that speed-up distributed graph query processing" ;
+<bibtex_author_list> "Janke, Daniel and Staab, Steffen and Leinberger, Martin" ;
+<bibtex_booktitle> "Proceedings of The International Workshop on Semantic Big Data" ;
+<bibtex_pages_from> "1" ;
+<bibtex_pages_to> "6" ;
+<bibtex_year> "2020" .
+<Accelerating_SPARQL_queries_by_exploiting_hash_based_locality_and_adaptive_partitioning> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_title> "Accelerating SPARQL queries by exploiting hash-based locality and adaptive partitioning" ;
+<bibtex_author_list> "Harbi, Razen and Abdelaziz, Ibrahim and Kalnis, Panos and Mamoulis, Nikos and Ebrahim, Yasser and Sahli, Majed" ;
+<bibtex_journal> "The VLDB Journal" ;
+<bibtex_volume> "25" ;
+<bibtex_number> "3" ;
+<bibtex_pages_from> "355" ;
+<bibtex_pages_to> "380" ;
+<bibtex_year> "2016" ;
+<bibtex_publisher> "Springer" .
+<YARS2_A_Federated_Repository_for_Querying_Graph_Structured_Data_from_the_Web> a <bibtex_entry> ;<bibtex_type> <incollection> ;
+<bibtex_title> "YARS2: A federated repository for querying graph structured data from the web" ;
+<bibtex_author_list> "Harth, Andreas and Umbrich, Jürgen and Hogan, Aidan and Decker, Stefan" ;
+<bibtex_booktitle> "The Semantic Web" ;
+<bibtex_pages_from> "211" ;
+<bibtex_pages_to> "224" ;
+<bibtex_year> "2007" ;
+<bibtex_publisher> "Springer" .
+<H2RDF_High_performance_Distributed_Joins_over_Large_scale_RDF_Graphs> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "H 2 RDF+: High-performance distributed joins over large-scale RDF graphs" ;
+<bibtex_author_list> "Papailiou, Nikolaos and Konstantinou, Ioannis and Tsoumakos, Dimitrios and Karras, Panagiotis and Koziris, Nectarios" ;
+<bibtex_booktitle> "2013 IEEE International Conference on Big Data" ;
+<bibtex_pages_from> "255" ;
+<bibtex_pages_to> "263" ;
+<bibtex_year> "2013" ;
+<bibtex_organization> "IEEE" .
+<A_Distributed_Graph_Engine_for_Web_Scale_RDF_Data> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_title> "A distributed graph engine for web scale RDF data" ;
+<bibtex_author_list> "Zeng, Kai and Yang, Jiacheng and Wang, Haixun and Shao, Bin and Wang, Zhongyuan" ;
+<bibtex_journal> "Proceedings of the VLDB Endowment" ;
+<bibtex_volume> "6" ;
+<bibtex_number> "4" ;
+<bibtex_pages_from> "265" ;
+<bibtex_pages_to> "276" ;
+<bibtex_year> "2013" ;
+<bibtex_publisher> "VLDB Endowment" .
+<SP2Bench_A_SPARQL_Performance_Benchmark> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "SP 2Bench: a SPARQL performance benchmark" ;
+<bibtex_author_list> "Schmidt, Michael and Hornung, Thomas and Lausen, Georg and Pinkel, Christoph" ;
+<bibtex_booktitle> "2009 IEEE 25th International Conference on Data Engineering" ;
+<bibtex_pages_from> "222" ;
+<bibtex_pages_to> "233" ;
+<bibtex_year> "2009" ;
+<bibtex_organization> "IEEE" .
+<In_memory_parallelization_of_join_queries_over_large_ontological_hierarchies> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_doi> "10.1007/s10619-020-07305-y" ;
+<bibtex_url> "https://doi.org/10.1007/s10619-020-07305-y" ;
+<bibtex_year> "2020" ;
+<bibtex_month> "jun" ;
+<bibtex_publisher> "Springer Science and Business Media LLC" ;
+<bibtex_author_list> "Dimitris Bilidas and Manolis Koubarakis" ;
+<bibtex_title> "In-memory parallelization of join queries over large ontological hierarchies" ;
+<bibtex_journal> "Distributed and Parallel Databases" .
+<Parallelizing_Join_Computations_of_SPARQL_Queries_for_Large_Semantic_Web_Databases> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "Parallelizing join computations of SPARQL queries for large semantic web databases" ;
+<bibtex_author_list> "Groppe, Jinghua and Groppe, Sven" ;
+<bibtex_booktitle> "Proceedings of the 2011 ACM Symposium on Applied Computing" ;
+<bibtex_pages_from> "1681" ;
+<bibtex_pages_to> "1686" ;
+<bibtex_year> "2011" .
+<Efficiently_Joining_Group_Patterns_in_SPARQL_Queries> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "Efficiently joining group patterns in SPARQL queries" ;
+<bibtex_author_list> "Vidal, Maria-Esther and Ruckhaus, Edna and Lampo, Tomas and Martinez, Amadis and Sierra, Javier and Polleres, Axel" ;
+<bibtex_booktitle> "Extended Semantic Web Conference" ;
+<bibtex_pages_from> "228" ;
+<bibtex_pages_to> "242" ;
+<bibtex_year> "2010" ;
+<bibtex_organization> "Springer" .
+<eWoT_A_Semantic_Interoperability_Approach_for_Heterogeneous_IoT_Ecosystems_Based_on_the_Web_of_Things> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_title> "eWoT: A Semantic Interoperability Approach for Heterogeneous IoT Ecosystems Based on the Web of Things" ;
+<bibtex_author_list> "Cimmino, Andrea and Poveda-Villalon, Maria and Garcia-Castro, Raul" ;
+<bibtex_journal> "Sensors" ;
+<bibtex_volume> "20" ;
+<bibtex_number> "3" ;
+<bibtex_pages_from> "822" ;
+<bibtex_pages_to> "822" ;
+<bibtex_year> "2020" ;
+<bibtex_publisher> "Multidisciplinary Digital Publishing Institute" .
+<Cardinality_Estimation_An_Experimental_Survey> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_title> "Cardinality estimation: An experimental survey" ;
+<bibtex_author_list> "Harmouch, Hazar and Naumann, Felix" ;
+<bibtex_journal> "Proceedings of the VLDB Endowment" ;
+<bibtex_volume> "11" ;
+<bibtex_number> "4" ;
+<bibtex_pages_from> "499" ;
+<bibtex_pages_to> "512" ;
+<bibtex_year> "2017" ;
+<bibtex_publisher> "VLDB Endowment" .
+<Scalable_Join_Processing_on_Very_Large_RDF_Graphs> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "Scalable join processing on very large RDF graphs" ;
+<bibtex_author_list> "Neumann, Thomas and Weikum, Gerhard" ;
+<bibtex_booktitle> "Proceedings of the 2009 ACM SIGMOD International Conference on Management of data" ;
+<bibtex_pages_from> "627" ;
+<bibtex_pages_to> "640" ;
+<bibtex_year> "2009" .
+<Massively_Parallel_Sort_Merge_Joins_in_Main_Memory_Multi_Core_Database_Systems> a <bibtex_entry> ;<bibtex_type> <article> ;
+<bibtex_author_list> "Albutiu, Martina-Cezara and Kemper, Alfons and Neumann, Thomas" ;
+<bibtex_title> "Massively Parallel Sort-Merge Joins in Main Memory Multi-Core Database Systems" ;
+<bibtex_year> "2012" ;
+<bibtex_iddue_data> "June 2012" ;
+<bibtex_publisher> "VLDB Endowment" ;
+<bibtex_volume> "5" ;
+<bibtex_number> "10" ;
+<bibtex_issn> "2150-8097" ;
+<bibtex_url> "https://doi.org/10.14778/2336664.2336678" ;
+<bibtex_doi> "10.14778/2336664.2336678" ;
+<bibtex_journal> "Proc. VLDB Endow." ;
+<bibtex_month> "jun" ;
+<bibtex_pages_from> "1064" ;
+<bibtex_pages_to> "1075" ;
+<bibtex_numpages> "12" .
+<Yago_A_Core_of_Semantic_Knowledge_Unifying_WordNet_and_Wikipedia> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "Yago: a core of semantic knowledge" ;
+<bibtex_author_list> "Suchanek, Fabian M and Kasneci, Gjergji and Weikum, Gerhard" ;
+<bibtex_booktitle> "Proceedings of the 16th international conference on World Wide Web" ;
+<bibtex_pages_from> "697" ;
+<bibtex_pages_to> "706" ;
+<bibtex_year> "2007" .
+<Inside_YAGO2s_A_Transparent_Information_Extraction_Architecture> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "Inside YAGO2s: a transparent information extraction architecture" ;
+<bibtex_author_list> "Biega, Joanna and Kuzey, Erdal and Suchanek, Fabian M" ;
+<bibtex_booktitle> "Proceedings of the 22nd International Conference on World Wide Web" ;
+<bibtex_pages_from> "325" ;
+<bibtex_pages_to> "328" ;
+<bibtex_year> "2013" .
+<YAGO3_A_Knowledge_Base_from_Multilingual_Wikipedias> a <bibtex_entry> ;<bibtex_type> <inproceedings> ;
+<bibtex_title> "Yago3: A knowledge base from multilingual wikipedias" ;
+<bibtex_author_list> "Mahdisoltani, Farzaneh and Biega, Joanna and Suchanek, Fabian M" ;
+<bibtex_year> "2013" .
+<Using_The_Barton_Libraries_Dataset_As_An_RDF_benchmark> a <bibtex_entry> ;<bibtex_type> <techreport> ;
+<bibtex_title> "Using The Barton Libraries Dataset As An RDF Benchmark" ; 
+<bibtex_number> "MIT-CSAIL-TR-2007-036" ; 
+<bibtex_year> "2007" ; 
+<bibtex_author_list> "Daniel J. Abadi and Adam Marcus and Samuel R. Madden and Kate Hollenbach" ; 
+<bibtex_keywords> "Scalable queries,Parallel database systems,Analytical database systems,Graph database systems,Non-relational data,C-Store} " .
