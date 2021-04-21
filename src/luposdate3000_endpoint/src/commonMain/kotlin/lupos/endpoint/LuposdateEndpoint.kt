@@ -68,6 +68,7 @@ import lupos.s11outputResult.QueryResultToMemoryTable
 import lupos.s11outputResult.QueryResultToTurtleStream
 import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.s11outputResult.QueryResultToXMLStream
+import lupos.shared.INTERNAL_BUFFER_SIZE
 import lupos.shared.optimizer.distributedOptimizerQueryFactory
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File
@@ -146,9 +147,9 @@ public object LuposdateEndpoint {
             }
             var counter = 0
             val store = tripleStoreManager.getDefaultGraph()
-            val bufS = IntArray(1048576)
-            val bufP = IntArray(1048576)
-            val bufO = IntArray(1048576)
+            val bufS = IntArray(INTERNAL_BUFFER_SIZE)
+            val bufP = IntArray(INTERNAL_BUFFER_SIZE)
+            val bufO = IntArray(INTERNAL_BUFFER_SIZE)
             var bufPos = 0
             for (fileName in fileNames.split(";")) {
                 println("importing file '$fileName'")
@@ -220,9 +221,9 @@ public object LuposdateEndpoint {
             }
             var counter = 0
             val store = tripleStoreManager.getDefaultGraph()
-            val bufS = IntArray(1048576)
-            val bufP = IntArray(1048576)
-            val bufO = IntArray(1048576)
+            val bufS = IntArray(INTERNAL_BUFFER_SIZE)
+            val bufP = IntArray(INTERNAL_BUFFER_SIZE)
+            val bufO = IntArray(INTERNAL_BUFFER_SIZE)
             var bufPos = 0
             for (fileName in fileNames.split(";")) {
                 println("importing file '$fileName'")
@@ -290,9 +291,9 @@ public object LuposdateEndpoint {
             }
             var counter = 0
             val store = tripleStoreManager.getDefaultGraph()
-            val bufS = IntArray(1048576)
-            val bufP = IntArray(1048576)
-            val bufO = IntArray(1048576)
+            val bufS = IntArray(INTERNAL_BUFFER_SIZE)
+            val bufP = IntArray(INTERNAL_BUFFER_SIZE)
+            val bufO = IntArray(INTERNAL_BUFFER_SIZE)
             var bufPos = 0
             val iter = MyStringStream(data)
             try {
@@ -380,9 +381,9 @@ public object LuposdateEndpoint {
             tripleStoreManager.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
             var counter = 0L
             val store = tripleStoreManager.getDefaultGraph()
-            val bufS = IntArray(1048576)
-            val bufP = IntArray(1048576)
-            val bufO = IntArray(1048576)
+            val bufS = IntArray(INTERNAL_BUFFER_SIZE)
+            val bufP = IntArray(INTERNAL_BUFFER_SIZE)
+            val bufO = IntArray(INTERNAL_BUFFER_SIZE)
             var bufPos = 0
             val fileNamesS = fileNames.split(";")
             for (fileName in fileNamesS) {
@@ -461,6 +462,7 @@ public object LuposdateEndpoint {
                         val sortedBy = orderPatterns[o]
                         val cache = store.modify_create_cache_sorted(EModifyTypeExt.INSERT, sortedBy)
                         val fileTriples = TriplesIntermediateReader("$fileName.$orderName")
+                        val debugFile = File("debug-input-$orderName").openOutputStream(false)
                         fileTriples.readAll { it ->
                             if (bufPos == bufS.size) {
                                 for (i in 0 until 3) {
@@ -469,6 +471,7 @@ public object LuposdateEndpoint {
                                 store.modify_cache_sorted(query, arr2, EModifyTypeExt.INSERT, cache, sortedBy, false)
                                 bufPos = 0
                             }
+                            debugFile.println("${mapping[it[0]]} ${mapping[it[1]]} ${mapping[it[2]]}")
                             bufS[bufPos] = mapping[it[order[0]]]
                             bufP[bufPos] = mapping[it[order[1]]]
                             bufO[bufPos] = mapping[it[order[2]]]
@@ -478,6 +481,7 @@ public object LuposdateEndpoint {
                                 println("imported $counter triples for index $orderName")
                             }
                         }
+                        debugFile.close()
                         for (i in 0 until 3) {
                             arr[i].reset(bufPos)
                         }

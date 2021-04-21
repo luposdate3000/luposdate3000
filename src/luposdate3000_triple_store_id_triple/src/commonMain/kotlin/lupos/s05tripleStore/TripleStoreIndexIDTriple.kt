@@ -40,6 +40,7 @@ import lupos.s05tripleStore.index_IDTriple.NodeManager
 import lupos.s05tripleStore.index_IDTriple.NodeShared
 import lupos.s05tripleStore.index_IDTriple.TripleIterator
 import lupos.shared_inline.BufferManagerPage
+import lupos.shared_inline.File
 import kotlin.jvm.JvmField
 
 public class TripleStoreIndexIDTriple : TripleStoreIndex {
@@ -52,6 +53,9 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     public override fun getRootPageID(): Int = rootPageID
 
     public constructor(rootPageID: Int, initFromRootPage: Boolean) : this(BufferManagerExt.getBuffermanager(), rootPageID, initFromRootPage)
+
+    internal var logFileInsert = File("logfile-import").openOutputStream(false)
+    internal var logFileInsertFirst = true
 
     @ProguardTestAnnotation
     public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
@@ -85,6 +89,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
             bufferManager.flushPage(lupos.SOURCE_FILE, rootPageID)
         }
         bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
+        logFileInsert = File("logfile-import-$rootPageID").openOutputStream(false)
     }
 
     @JvmField
@@ -645,6 +650,16 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun insertAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int) {
         flushContinueWithWriteLock()
+        if (logFileInsertFirst) {
+            logFileInsertFirst = false
+            logFileInsert.println("${order.map { it }}")
+        }
+        var tmppp = 0
+        while (tmppp < dataSize) {
+            logFileInsert.println("${data[tmppp]} ${data[tmppp + 1]} ${data[tmppp + 2]}")
+            tmppp += 3
+        }
+
         val iteratorImport = BulkImportIterator(data, dataSize, order)
         var iteratorStore2: TripleIterator? = null
         if (firstLeaf_ == NodeManager.nodeNullPointer) {
@@ -711,6 +726,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun close() {
         flush()
+        logFileInsert.close()
         if (root_ != NodeManager.nodeNullPointer) {
             nodeManager.releaseNode(lupos.SOURCE_FILE, root_)
         }
