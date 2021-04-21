@@ -29,6 +29,7 @@ import lupos.s00misc.SanityCheck
 import lupos.s02buildSyntaxTree.nQuads.NQuads2Parser
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.shared.INTERNAL_BUFFER_SIZE
+import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File
 import kotlin.math.min
 
@@ -200,6 +201,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
 
     var dictionaryInitialSortTime = 0.0
     val iter = File(inputFileName).openInputStream()
+    val cleanOutTriples = File(inputFileName + ".cleaned.n3").openOutputStream(false)
     if (inputFileName.endsWith(".n3") || inputFileName.endsWith(".ttl") || inputFileName.endsWith(".nt")) {
         val row = IntArray(3)
         val x = object : Turtle2Parser(iter) {
@@ -207,6 +209,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                 for (i in 0 until 3) {
                     row[i] = addToDict(triple[i])
                 }
+                cleanOutTriples.println("${DictionaryHelper.byteArrayToSparql(triple[0])} ${DictionaryHelper.byteArrayToSparql(triple[1])} ${DictionaryHelper.byteArrayToSparql(triple[2])} .")
                 outTriples.write(row[0], row[1], row[2])
                 cnt++
                 if (cnt % 10000L == 0L) {
@@ -229,6 +232,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                 for (i in 0 until 3) {
                     row[i] = addToDict(quad[i])
                 }
+                cleanOutTriples.println("${DictionaryHelper.byteArrayToSparql(quad[0])} ${DictionaryHelper.byteArrayToSparql(quad[1])} ${DictionaryHelper.byteArrayToSparql(quad[2])} .")
                 outTriples.write(row[0], row[1], row[2])
                 cnt++
                 if (cnt % 10000L == 0L) {
@@ -247,6 +251,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     } else {
         throw Exception("unknown filetype $inputFileName")
     }
+    cleanOutTriples.close()
     val startTime2 = DateHelperRelative.markNow()
     DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
     dictionaryInitialSortTime += DateHelperRelative.elapsedSeconds(startTime2)

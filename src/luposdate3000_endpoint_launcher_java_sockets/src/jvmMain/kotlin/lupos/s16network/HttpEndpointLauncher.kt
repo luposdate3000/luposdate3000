@@ -18,6 +18,7 @@ package lupos.s16network
 
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.EDictionaryTypeExt
+import lupos.dictionary.IDictionary
 import lupos.dictionary.nodeGlobalDictionary
 import lupos.endpoint.LuposdateEndpoint
 import lupos.jena.JenaWrapper
@@ -97,6 +98,12 @@ public actual object HttpEndpointLauncher {
 
     private inline fun registerDictionary(key: String): RemoteDictionaryServer {
         val dict = RemoteDictionaryServer(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true))
+        dictionaryMapping[key] = dict
+        return dict
+    }
+
+    private inline fun registerDictionary(key: String, dict: IDictionary): RemoteDictionaryServer {
+        val dict = RemoteDictionaryServer(dict)
         dictionaryMapping[key] = dict
         return dict
     }
@@ -185,9 +192,10 @@ public actual object HttpEndpointLauncher {
                                 }
                                 println("choosen ${EQueryResultToStreamExt.names[evaluator]} ${EQueryResultToStreamExt.names.map { it }}")
                                 val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(params["query"]!!, false)
+                                println(node.toXMLElementRoot(false).toPrettyString())
                                 val query = node.getQuery()
                                 val key = "${query.getTransactionID()}"
-                                val dict = registerDictionary(key)
+                                val dict = registerDictionary(key, query.getDictionary())
                                 query.setDictionaryServer(dict)
                                 query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
                                 printHeaderSuccess(connectionOutMy)
@@ -217,7 +225,7 @@ public actual object HttpEndpointLauncher {
                                     val query = Query()
                                     val node = XMLElementToOPBase(query, XMLElementFromXML()(params["query"]!!)!!)
                                     val key = "${query.getTransactionID()}"
-                                    val dict = registerDictionary(key)
+                                    val dict = registerDictionary(key, query.getDictionary())
                                     query.setDictionaryServer(dict)
                                     query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
                                     printHeaderSuccess(connectionOutMy)

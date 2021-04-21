@@ -782,6 +782,7 @@ fun onRun() {
             cmd.add("MainKt")
             cmd.addAll(runArgs)
             println(cmd)
+            println("dryMode=$dryMode")
             if (dryMode == "Enable") {
                 println("export LUPOS_PROCESS_URLS=$processUrls")
                 println("export LUPOS_THREAD_COUNT=$threadCount")

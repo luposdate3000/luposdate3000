@@ -85,15 +85,15 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
         )
     }
 
-    private fun statement_helper_3(iri: String) {
+    private fun statement_helper_3(prefix: String) {
         parse_subject_iri_or_ws(
             context,
             onPN_LOCAL = {
-                DictionaryHelper.iriToByteArray(triple[0], iri + context.getValue())
+                DictionaryHelper.iriToByteArray(triple[0], prefixMap[prefix]!! + context.getValue())
                 parse_ws_forced(context) {}
             },
             onSKIP_WS_FORCED = {
-                DictionaryHelper.iriToByteArray(triple[0], iri)
+                DictionaryHelper.iriToByteArray(triple[0], prefixMap[prefix]!!)
             }
         )
     }
@@ -148,15 +148,15 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
         )
     }
 
-    private fun predicate_helper_1(iri: String) {
+    private fun predicate_helper_1(prefix: String) {
         parse_predicate_iri_or_ws(
             context,
             onPN_LOCAL = {
-                DictionaryHelper.iriToByteArray(triple[1], prefixMap[iri]!! + context.getValue())
+                DictionaryHelper.iriToByteArray(triple[1], prefixMap[prefix]!! + context.getValue())
                 parse_ws_forced(context) {}
             },
             onSKIP_WS_FORCED = {
-                DictionaryHelper.iriToByteArray(triple[1], prefixMap[iri]!!)
+                DictionaryHelper.iriToByteArray(triple[1], prefixMap[prefix]!!)
             }
         )
     }
@@ -298,8 +298,7 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
         )
     }
 
-    private fun triple_end_or_object_string_helper_2(arg: String) {
-        val prefix = context.getValue()
+    private fun triple_end_or_object_string_helper_2(arg: String, prefix: String) {
         parse_triple_end_or_object_string_typed_iri(
             context,
             onPN_LOCAL = {
@@ -346,7 +345,8 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
                 state = Turtle2ParserStateExt.TRIPLE_END
             },
             onPNAME_NS = {
-                triple_end_or_object_string_helper_2(arg)
+                val prefix = context.getValue()
+                triple_end_or_object_string_helper_2(arg, prefix)
             }
         )
     }
@@ -378,6 +378,7 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
                 state = Turtle2ParserStateExt.STATEMENT
             },
             onSKIP_WS_FORCED = {
+                DictionaryHelper.stringToByteArray(triple[2], arg)
                 state = Turtle2ParserStateExt.TRIPLE_END
             }
         )

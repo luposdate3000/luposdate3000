@@ -19,10 +19,14 @@ package lupos.dictionary
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.ETripleComponentTypeExt
 import lupos.s00misc.SanityCheck
+import lupos.shared.UUID_Counter
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 public class DictionaryInMemory : ADictionary {
+    @JvmField
+    internal val uuid = UUID_Counter.getNextUUID()
+
     @JvmField
     internal var dataI2V = Array<ByteArrayWrapper>(1) { ByteArrayWrapper() }
 

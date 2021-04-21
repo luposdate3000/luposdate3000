@@ -439,9 +439,9 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             buf[i] = stream.readInt()
         }
         if (mode == EModifyTypeExt.INSERT) {
-            store.insertAsBulkSorted(buf, count)
+            store.insertAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], count)
         } else {
-            store.removeAsBulkSorted(buf, count)
+            store.removeAsBulkSorted(buf, EIndexPatternHelper.tripleIndicees[idx], count)
         }
     }
 

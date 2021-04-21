@@ -16,6 +16,7 @@
  */
 package lupos.s05tripleStore
 
+import lupos.dictionary.DictionaryExt
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EOperatorIDExt
@@ -136,9 +137,9 @@ public class POPTripleStoreIterator(
                 is IAOPConstant -> {
                     SanityCheck.check { filter2.size == ii }
                     val v = param.getValue()
-                    if (query.getDictionary().isLocalValue(v) {
-                            filter2.add(DictionaryExt.nullValue)
-                        } else {
+                    if (query.getDictionary().isLocalValue(v)) {
+                        filter2.add(DictionaryExt.nullValue)
+                    } else {
                         filter2.add(v)
                     }
                 }

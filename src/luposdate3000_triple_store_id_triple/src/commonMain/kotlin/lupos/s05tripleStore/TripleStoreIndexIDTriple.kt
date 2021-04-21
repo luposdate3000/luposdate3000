@@ -643,9 +643,9 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         lock.writeUnlock()
     }
 
-    override fun insertAsBulkSorted(data: IntArray, dataSize: Int) {
+    override fun insertAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int) {
         flushContinueWithWriteLock()
-        val iteratorImport = BulkImportIterator(data, dataSize, intArrayOf(0, 1, 2))
+        val iteratorImport = BulkImportIterator(data, dataSize, order)
         var iteratorStore2: TripleIterator? = null
         if (firstLeaf_ == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()
@@ -667,9 +667,9 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
         lock.writeUnlock()
     }
 
-    override fun removeAsBulkSorted(data: IntArray, dataSize: Int) {
+    override fun removeAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int) {
         flushContinueWithWriteLock()
-        val iteratorImport = BulkImportIterator(data, dataSize, intArrayOf(1, 2, 3))
+        val iteratorImport = BulkImportIterator(data, dataSize, order)
         var iteratorStore2: TripleIterator? = null
         if (firstLeaf_ == NodeManager.nodeNullPointer) {
             iteratorStore2 = EmptyIterator()

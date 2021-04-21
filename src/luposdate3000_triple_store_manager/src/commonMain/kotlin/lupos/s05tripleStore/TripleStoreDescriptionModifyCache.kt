@@ -30,16 +30,22 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
 
     @JvmField
     internal val type: EModifyType
+
     @JvmField
     internal val row = IntArray(3)
+
     @JvmField
     internal val idx: Array<IntArray>
+
     @JvmField
     internal val allBuf: Array<Array<MyBuf>>
+
     @JvmField
     internal val allStore: Array<List<Pair<LuposHostname, LuposStoreKey>>>
+
     @JvmField
     internal val allStoreParams: Array<Array<Map<String, LuposStoreKey>>>
+
     @JvmField
     internal val allStoreLocal: Array<Array<TripleStoreIndex>>
 
@@ -75,9 +81,9 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         val store = allStore[i][j]
         if (store.first == (tripleStoreManager as TripleStoreManagerImpl).localhost) {
             if (type == EModifyTypeExt.INSERT) {
-                allStoreLocal[i][j].insertAsBulkSorted(buf.buf, buf.offset)
+                allStoreLocal[i][j].insertAsBulkSorted(buf.buf, idx[i], buf.offset)
             } else {
-                allStoreLocal[i][j].removeAsBulkSorted(buf.buf, buf.offset)
+                allStoreLocal[i][j].removeAsBulkSorted(buf.buf, idx[i], buf.offset)
             }
         } else {
             val conn = communicationHandler.openConnection(store.first, "/distributed/graph/modifysorted", allStoreParams[i][j])
