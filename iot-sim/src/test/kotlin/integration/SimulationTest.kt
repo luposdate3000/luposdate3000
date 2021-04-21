@@ -75,6 +75,49 @@ class SimulationTest {
         Assertions.assertEquals(root.address, child1.routingTable.defaultAddress)
         for(child in starNet.childs)
             Assertions.assertEquals(child.address, root.routingTable.getNextHop(child.address))
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["sim/multiHopDODAGRoutingTableTest.json"])
+    fun multiHopDODAGRoutingTableTest(fileName: String) {
+        Configuration.parse(fileName)
+        val a = Configuration.getNamedDevice("A")
+        val b = Configuration.getNamedDevice("B")
+        val c = Configuration.getNamedDevice("C")
+        val d = Configuration.getNamedDevice("D")
+        val e = Configuration.getNamedDevice("E")
+        val f = Configuration.getNamedDevice("F")
+
+        a.root = true
+        Simulation.initialize(Configuration.devices)
+        Simulation.runSimulation()
+        //routing table from A
+        Assertions.assertEquals(5, a.routingTable.size())
+        Assertions.assertEquals(b.address, a.routingTable.getNextHop(b.address))
+        Assertions.assertEquals(c.address, a.routingTable.getNextHop(c.address))
+        Assertions.assertEquals(c.address, a.routingTable.getNextHop(d.address))
+        Assertions.assertEquals(c.address, a.routingTable.getNextHop(e.address))
+        Assertions.assertEquals(c.address, a.routingTable.getNextHop(f.address))
+        //routing table from B
+        Assertions.assertEquals(0, b.routingTable.size())
+        Assertions.assertEquals(a.address, b.routingTable.defaultAddress)
+        //routing table from C
+        Assertions.assertEquals(3, c.routingTable.size())
+        Assertions.assertEquals(a.address, c.routingTable.defaultAddress)
+        Assertions.assertEquals(d.address, c.routingTable.getNextHop(d.address))
+        Assertions.assertEquals(e.address, c.routingTable.getNextHop(e.address))
+        Assertions.assertEquals(e.address, c.routingTable.getNextHop(f.address))
+        //routing table from D
+        Assertions.assertEquals(0, b.routingTable.size())
+        Assertions.assertEquals(c.address, d.routingTable.defaultAddress)
+        //routing table from E
+        Assertions.assertEquals(1, e.routingTable.size())
+        Assertions.assertEquals(c.address, e.routingTable.defaultAddress)
+        Assertions.assertEquals(f.address, e.routingTable.getNextHop(f.address))
+        //routing table from F
+        Assertions.assertEquals(0, f.routingTable.size())
+        Assertions.assertEquals(e.address, f.routingTable.defaultAddress)
+
 
     }
 
