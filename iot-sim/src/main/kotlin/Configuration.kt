@@ -137,16 +137,14 @@ object Configuration {
             val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters)
             val createdDevice = createDevice(deviceType, location)
             createdDevice.sensor?.dataSinkAddress = root.address
-            link(root, createdDevice)
+            root.addLinkIfPossible(createdDevice)
             starNetwork.childs.add(createdDevice)
         }
         randStarNetworks[network.networkPrefix] = starNetwork
     }
 
 
-    private fun link(a: Device, b: Device) {
-        a.addAvailableLink(b)
-    }
+
 
     private fun createFixedDevices() {
         for (fixedDevice in jsonObjects.fixedDevice) {
@@ -158,7 +156,7 @@ object Configuration {
         for (fixedLink in jsonObjects.fixedLink) {
             val a = getNamedDevice(fixedLink.fixedDeviceA)
             val b = getNamedDevice(fixedLink.fixedDeviceB)
-            link(a, b)
+            a.addLink(b, fixedLink.dataRateInKbps)
         }
     }
 
@@ -222,8 +220,7 @@ object Configuration {
     private fun createAvailableLinks() {
         for (one in devices)
             for(two in devices)
-                one.addAvailableLink(two)
-
+                one.addLinkIfPossible(two)
 
     }
 }

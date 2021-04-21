@@ -50,19 +50,23 @@
   "fixedLink": [
     {
       "fixedDeviceA": "a",
-      "fixedDeviceB": "b"
+      "fixedDeviceB": "b",
+      "dataRateInKbps": 2500
     },
     {
       "fixedDeviceA": "a",
-      "fixedDeviceB": "c"
+      "fixedDeviceB": "c",
+      "dataRateInKbps": 2500
     },
     {
       "fixedDeviceA": "c",
-      "fixedDeviceB": "e"
+      "fixedDeviceB": "e",
+      "dataRateInKbps": 2500
     },
     {
       "fixedDeviceA": "c",
-      "fixedDeviceB": "d"
+      "fixedDeviceB": "d",
+      "dataRateInKbps": 2500
     }
   ],
   "randomMeshNetwork": [

@@ -39,7 +39,8 @@
   "fixedLink": [
     {
       "fixedDeviceA": "Tower1",
-      "fixedDeviceB": "Fog1"
+      "fixedDeviceB": "Fog1",
+      "dataRateInKbps": 2500
     }
   ],
   "randomMeshNetwork": [

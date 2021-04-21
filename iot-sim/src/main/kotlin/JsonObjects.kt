@@ -39,6 +39,7 @@ data class FixedDevice(
 data class FixedLink(
     val fixedDeviceA: String = "",
     val fixedDeviceB: String = "",
+    val dataRateInKbps: Int = 0,
 )
 
 @Serializable

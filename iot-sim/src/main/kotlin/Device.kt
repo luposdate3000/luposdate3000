@@ -168,24 +168,35 @@ class Device(
     }
 
     fun getBestLink(otherDevice: Device): Link? {
-        if (otherDevice == this)
-            return null
         val linkIndex = getBestLinkTypeIndex(otherDevice)
         if(linkIndex == -1)
             return null
 
         val distance = getDistanceInMeters(otherDevice)
-        return Link( distance, linkIndex)
+        val dataRate = getLinkTypeByIndex(linkIndex).dataRateInKbps
+        return Link( distance, linkIndex, dataRate)
     }
 
+    fun addLink(otherDevice: Device, dataRate: Int) {
+        val distance = getDistanceInMeters(otherDevice)
+        val link = Link(distance, -1, dataRate)
+        addLink(otherDevice, link)
+    }
 
-    fun addAvailableLink(otherDevice: Device) {
-        val link = getBestLink(otherDevice)
-        if(link != null) {
-            availableLinks[otherDevice.address] = link
-            otherDevice.availableLinks[address] = link
-        }
+    private fun addLink(otherDevice: Device, link: Link) {
+        availableLinks[otherDevice.address] = link
+        otherDevice.availableLinks[address] = link
+    }
 
+    fun addLinkIfPossible(otherDevice: Device) {
+        if (otherDevice == this)
+            return
+
+        if(hasAvailAbleLink(otherDevice))
+            return
+
+        val link = getBestLink(otherDevice) ?: return
+        addLink(otherDevice, link)
     }
 
     fun getAvailableLink(otherDevice: Device): Link?

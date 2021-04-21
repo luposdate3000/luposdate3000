@@ -65,10 +65,9 @@ class DeviceTest {
         val linkTypeX = LinkType("X", 50, 7 )
         Device.sortedLinkTypes = arrayListOf(linkTypeX)
         val device: Device = Stubs.createEmptyDevice(1, intArrayOf(0))
-        device.addAvailableLink(device)
+        device.addLinkIfPossible(device)
         Assertions.assertNull(device.getAvailableLink(device))
         Assertions.assertFalse(device.hasAvailAbleLink(device))
-        Assertions.assertNull(device.getBestLink(device))
     }
 
 }
