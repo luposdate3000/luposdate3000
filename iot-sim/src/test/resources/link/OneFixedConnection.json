@@ -2,8 +2,9 @@
   "linkType": [
     {
       "name": "WIRE",
-      "rangeInMeters": -1,
-      "dataRateInKbps": -1
+      "wireless": false,
+      "rangeInMeters": 1000000,
+      "dataRateInKbps": 1000
     }
   ],
   "deviceType": [

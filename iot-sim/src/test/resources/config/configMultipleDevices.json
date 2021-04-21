@@ -2,11 +2,13 @@
   "linkType": [
     {
       "name": "WIFI",
+      "wireless": true,
       "rangeInMeters": 50,
       "dataRateInKbps": 54000
     },
     {
       "name": "WPAN",
+      "wireless": true,
       "rangeInMeters": 30,
       "dataRateInKbps": 250
     }

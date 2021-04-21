@@ -6,10 +6,10 @@ class DeviceTest {
 
     @Test
     fun `get sorted LinkType Indices`() {
-        val linkTypeW = LinkType("W", 51, 13 )
-        val linkTypeX = LinkType("X", 50, 7 )
-        val linkTypeY = LinkType("Y", 50, 8 )
-        val linkTypeZ = LinkType("Z", 48, 9 )
+        val linkTypeW = LinkType("W",false, 51, 13 )
+        val linkTypeX = LinkType("X",false, 50, 7 )
+        val linkTypeY = LinkType("Y",false, 50, 8 )
+        val linkTypeZ = LinkType("Z", false,48, 9 )
         val linkTypes = arrayListOf(linkTypeW, linkTypeX, linkTypeY, linkTypeZ)
         Device.sortedLinkTypes = linkTypes
 
@@ -33,7 +33,7 @@ class DeviceTest {
 
     @Test
     fun `two devices are too far away to link`() {
-        val linkTypeX = LinkType("X", 50, 7 )
+        val linkTypeX = LinkType("X",false, 50, 7 )
         val linkTypes = arrayListOf(linkTypeX)
         Device.sortedLinkTypes = linkTypes
 
@@ -47,9 +47,9 @@ class DeviceTest {
 
     @Test
     fun `two devices link with most suitable linkType`() {
-        val linkTypeX = LinkType("X", 50, 7 )
-        val linkTypeY = LinkType("Y", 50, 8 )
-        val linkTypeZ = LinkType("Z", 48, 9 )
+        val linkTypeX = LinkType("X",false,50, 7 )
+        val linkTypeY = LinkType("Y",false, 50, 8 )
+        val linkTypeZ = LinkType("Z",false, 48, 9 )
         val linkTypes = arrayListOf(linkTypeX, linkTypeY, linkTypeZ)
         Device.sortedLinkTypes = linkTypes
         val deviceOne: Device = Stubs.createEmptyDevice(1, intArrayOf(0, 1, 2))
@@ -62,7 +62,7 @@ class DeviceTest {
 
     @Test
     fun cannotLinkWithItself() {
-        val linkTypeX = LinkType("X", 50, 7 )
+        val linkTypeX = LinkType("X",false, 50, 7 )
         Device.sortedLinkTypes = arrayListOf(linkTypeX)
         val device: Device = Stubs.createEmptyDevice(1, intArrayOf(0))
         device.addAvailableLink(device)
