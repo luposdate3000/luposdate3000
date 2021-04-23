@@ -1,16 +1,13 @@
 #!/bin/bash
 echo "starting $1"
-ports=(8080 8081 8082 8083 8084 8085 8086 8087)
-intermediates=( btc2010/btc-2010.n4 yago3/yago3.ttl yago1/yago-1.0.0-turtle.ttl yago2/yago-2.n3 yago4/yago-all.nt yago2s/yago-2.5.3-turtle-simple.ttl barton/barton.nt btc2019/btc2019-triples.nt )
-storages=( btc2010 yago3 yago1 yago2 yago4 yago2s barton btc2019 )
+intermediates=( /mnt/luposdate-testdata/yago1/yago-1.0.0-turtle.ttl /mnt/luposdate-testdata/yago2/yago-2.n3 /mnt/luposdate-testdata/yago3/yago3.ttl /mnt/luposdate-testdata/barton/barton.nt /mnt/luposdate-testdata/yago2s/yago-2.5.3-turtle-simple.ttl /mnt/luposdate-testdata/btc2019/btc2019-triples.nt /mnt/luposdate-testdata/yago4/yago-all.nt /mnt/luposdate-testdata/btc2010/btc-2010.n4 )
 i=$1
-port=${ports[i]}
-intermediate=/mnt/luposdate-testdata/${intermediates[i]}
-storage=/mnt/db/${storages[i]}/
+port=$((8080+$i))
+intermediate=${intermediates[i]}
+storage=$(dirname $(echo ${intermediates[i]} | sed "s#/mnt/luposdate-testdata/#/mnt/db/#g"))/
 rm -rf $storage
 mkdir -p $storage
 (
-export LUPOS_RAM=14
 export LUPOS_HOME=$storage
 ./launcher.main.kts \
  --run \

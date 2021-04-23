@@ -5,19 +5,28 @@ Some of these datasets are already used in scientific publications (not all of t
 
 These datasets are not required to run the database, but can be used to evaluate your own implementations.
 
-| Dataset | Size (turtle) | Size (intermediate) | original triples | distinct triples | dictionary entries |
-| :------ | ------------: | ------------------: | ---------------: | ---------------: | -----------------: |
-| yago1   |       0.9 GiB |           0.837 GiB |         19012849 |         18260262 |           12752436 |
-| barton  |       9.5 GiB |           1.350 GiB |         78497317 |         35184003 |           10830905 |
-| yago2   |       5.8 GiB |           4.201 GiB |        112824705 |        109891150 |           54351098 |
-| yago3   |       8.5 GiB |           5.415 GiB |        138264317 |        121226445 |           72644117 |
-| yago2s  |       9.5 GiB |           4.447 GiB |        171684850 |        151474901 |           42599960 |
-| btc2019 |      38.0 GiB |          12.936 GiB |        256059356 |        256059356 |           82631100 |
-| yago4   |     474.0 GiB |          82.797 GiB |       2539591846 |       2489858800 |          571715647 |
+some import benchmarks (measured in seconds):
 
-| Dataset | Size (nQuads) | Size (intermediate) | original quads   | distinct triples | dictionary entries |
-| :------ | ------------: | ------------------: | ---------------: | ---------------: | -----------------: |
-| btc2010 |     624.0 GiB |          53.233 GiB |       3171793030 |       1426828906 |          279151232 |
+1. total (t2+t3)
+2. text->intermediate (t6+?)
+3. intermediate->database (t4+t5)
+4. intermediate->database.dict
+5. intermediate->database.triples
+6. text->intermediate.parse
+
+| Dataset | Size (turtle) | Size (intermediate) | original triples | distinct triples | dictionary entries |        t1 |        t2 |        t3 |        t4 |        t5 |        t6 |
+| :------ | ------------: | ------------------: | ---------------: | ---------------: | -----------------: | --------: | --------: | --------: | --------: | --------: | --------: |
+| yago1   |       0.9 GiB |           0.837 GiB |         19012849 |         18260262 |           12752436 |   328.648 |   195.406 |   133.242 |   121.260 |    11.982 |   150.957 |
+| barton  |       9.5 GiB |           1.350 GiB |         78497317 |         35184003 |           10830905 |   723.561 |   596.459 |   127.102 |   104.411 |    22.691 |   505.545 |
+| yago2   |       5.8 GiB |           4.201 GiB |        112824705 |        109891150 |           54351098 |  1469.642 |   833.633 |   636.009 |   521.786 |   114.222 |   654.937 |
+| yago3   |       8.5 GiB |           5.415 GiB |        138264317 |        121226445 |           72644117 |  1944.292 |  1144.821 |   799.471 |   676.511 |   122.960 |   942.936 |
+| yago2s  |       9.5 GiB |           4.447 GiB |        171684850 |        151474901 |           42599960 |  1601.202 |  1058.769 |   542.433 |   406.789 |   135.643 |   827.324 |
+| btc2019 |      38.0 GiB |          12.936 GiB |        256059356 |        256059356 |           82631100 |  2564.312 |  1532.119 |  1032.193 |   743.061 |   289.132 |  1190.925 |
+| yago4   |     474.0 GiB |          82.797 GiB |       2539591846 |       2489858800 |          571715647 | 49340.051 | 18979.163 | 30360.888 |  5587.976 | 24772.911 | 13362.678 |
+
+| Dataset | Size (nQuads) | Size (intermediate) | original quads   | distinct triples | dictionary entries |        t1 |        t2 |        t3 |        t4 |        t5 |        t6 |
+| :------ | ------------: | ------------------: | ---------------: | ---------------: | -----------------: | --------: | --------: | --------: | --------: | --------: | --------: |
+| btc2010 |     624.0 GiB |          53.233 GiB |       3171793030 |       1426828906 |          279151232 | 46576.546 | 38684.171 |  7892.375 |  1781.721 |  6110.654 | 34402.117 |
 
 The size in the "intermediate" column should give you an idea how large the dataset is, when using a dictionary.
 These intermediate files are generated using "./launcher.main.kts --run --mainClass=Import --runArgument_Luposdate3000_Launch_Import:inputFileName=turtle-file-name.nt"
