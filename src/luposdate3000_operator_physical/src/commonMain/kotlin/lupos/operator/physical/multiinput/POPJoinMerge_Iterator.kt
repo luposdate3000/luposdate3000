@@ -16,10 +16,10 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.base.iterator.ColumnIterator
 import lupos.operator.base.iterator.ColumnIteratorChildIterator
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
 internal class POPJoinMerge_Iterator(

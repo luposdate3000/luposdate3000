@@ -17,6 +17,7 @@
 package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.iterator.ColumnIteratorMerge
 import lupos.operator.base.iterator.RowIteratorMerge
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt

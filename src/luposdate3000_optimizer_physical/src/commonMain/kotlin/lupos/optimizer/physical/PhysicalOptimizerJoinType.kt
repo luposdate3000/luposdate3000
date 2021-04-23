@@ -16,9 +16,9 @@
  */
 package lupos.optimizer.physical
 
+import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.logical.Query
 import lupos.operator.logical.multiinput.LOPJoin
-import lupos.operator.logical.multiinput.LOPJoin_Helper
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.logical.singleinput.LOPProjection
 import lupos.operator.physical.POPBase

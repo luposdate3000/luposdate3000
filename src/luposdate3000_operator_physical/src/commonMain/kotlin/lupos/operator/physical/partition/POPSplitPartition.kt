@@ -18,8 +18,6 @@ package lupos.operator.physical.partition
 
 import lupos.operator.base.PartitionHelper
 import lupos.operator.base.Query
-import lupos.operator.logical.PartitionHelper
-import lupos.operator.logical.Query
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt

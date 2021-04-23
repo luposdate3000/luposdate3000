@@ -16,14 +16,12 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.base.iterator.ColumnIterator
 import lupos.operator.base.iterator.ColumnIteratorChildIterator
 import lupos.operator.base.iterator.ColumnIteratorChildIteratorEmpty
-import lupos.operator.base.iterator.ColumnIteratorEmpty
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.base.iterator.ColumnIteratorRepeatIterator
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
-import lupos.operator.logical.multiinput.LOPJoin_Helper
+import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -33,6 +31,8 @@ import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.ColumnIterator
+import lupos.shared.operator.iterator.ColumnIteratorEmpty
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 

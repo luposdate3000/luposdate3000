@@ -28,6 +28,7 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.EvaluationException
 import lupos.shared.IQuery
+import lupos.shared.ITripleStoreDescription
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
@@ -38,7 +39,6 @@ import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.parseFromAny
 import lupos.shared.tripleStoreManager
 import lupos.shared_inline.File
-import lupos.triple_store_id_triple.ITripleStoreDescription
 import kotlin.jvm.JvmField
 
 public class POPGraphOperation public constructor(
