@@ -19,11 +19,7 @@ package lupos.operator.physical.singleinput
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.operator.iterator.ColumnIterator
-
-RepeatValue
-import lupos.shared.operator.iterator.IteratorBundle
+import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -33,8 +29,11 @@ import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.ColumnIteratorQueueEmpty
+import lupos.shared.operator.iterator.ColumnIteratorRepeatValue
+import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared_inline.ColumnIteratorQueueExt
 import kotlin.jvm.JvmField
 

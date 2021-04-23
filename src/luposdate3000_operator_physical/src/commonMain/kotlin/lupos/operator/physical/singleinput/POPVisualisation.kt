@@ -26,7 +26,6 @@
 
 package lupos.operator.physical.singleinput
 
-import lupos.operator.iterator.RowIterator
 import lupos.operator.physical.POPBase
 import lupos.shared.ByteArrayWrapper
 import lupos.shared.EOperatorIDExt
@@ -35,6 +34,7 @@ import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
+import lupos.shared.operator.iterator.RowIterator
 import lupos.shared_inline.DictionaryHelper
 
 public class POPVisualisation public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPDebugID, "POPVisualisation", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {

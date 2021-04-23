@@ -16,7 +16,6 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.iterator.RowIteratorMinus
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -25,6 +24,7 @@ import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
+import lupos.shared.operator.iterator.RowIteratorMinus
 
 public class POPMinus public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPMinusID, "POPMinus", arrayOf(childA, childB), ESortPriorityExt.MINUS) {
     override fun getPartitionCount(variable: String): Int {

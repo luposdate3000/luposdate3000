@@ -17,11 +17,7 @@
 package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.shared.operator.iterator.ColumnIterator
-
-Merge
-import lupos.shared.operator.iterator.IteratorBundle
-import lupos.operator.iterator.RowIteratorMerge
+import lupos.operator.base.iterator.RowIteratorMerge
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -34,6 +30,9 @@ import lupos.shared.ValueComparatorASC
 import lupos.shared.ValueComparatorDESC
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.ColumnIteratorMerge
+import lupos.shared.operator.iterator.IteratorBundle
+import lupos.shared.operator.iterator.RowIteratorMerge
 import kotlin.jvm.JvmField
 
 public class POPSort public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val sortBy: Array<AOPVariable>, @JvmField public val sortOrder: Boolean, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPSortID, "POPSort", arrayOf(child), ESortPriorityExt.SORT) {
