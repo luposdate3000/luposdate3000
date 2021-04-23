@@ -18,9 +18,13 @@ package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.iterator.ColumnIteratorMultiValue
-import lupos.operator.iterator.ColumnIteratorRepeatValue
-import lupos.operator.iterator.IteratorBundle
+import lupos.shared.operator.iterator.ColumnIterator
+
+MultiValue
+import lupos.shared.operator.iterator.ColumnIterator
+
+RepeatValue
+import lupos.shared.operator.iterator.IteratorBundle
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
 import lupos.shared.ByteArrayWrapper

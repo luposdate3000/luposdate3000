@@ -17,12 +17,12 @@
 package lupos.operator.arithmetik.noinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.iterator.IteratorBundle
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
 import lupos.shared.ValueBnode
 import lupos.shared.ValueDefinition
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 public class AOPBuildInCallBNODE0 public constructor(query: IQuery) : AOPBase(query, EOperatorIDExt.AOPBuildInCallBNODE0ID, "AOPBuildInCallBNODE0", arrayOf()) {

@@ -17,7 +17,6 @@
 package lupos.operator.arithmetik.multiinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.iterator.IteratorBundle
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
 import lupos.shared.SanityCheck
@@ -26,6 +25,7 @@ import lupos.shared.ValueDefinition
 import lupos.shared.ValueError
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 
 public class AOPIn public constructor(query: IQuery, childA: IAOPBase, childB: IAOPBase) : AOPBase(query, EOperatorIDExt.AOPInID, "AOPIn", arrayOf(childA, childB)) {
     override fun toSparql(): String = "( " + children[0].toSparql() + " IN " + children[1].toSparql() + " )"

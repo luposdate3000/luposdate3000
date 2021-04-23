@@ -19,14 +19,14 @@ package lupos.operator.arithmetik.singleinput
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.iterator.ColumnIteratorAggregate
-import lupos.operator.iterator.IteratorBundle
+import lupos.operator.base.iterator.ColumnIteratorAggregate
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
 import lupos.shared.ValueDefinition
 import lupos.shared.ValueInteger
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 public class AOPAggregationCOUNT public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationCOUNTID, "AOPAggregationCOUNT", Array<IOPBase>(childs.size) { childs[it] }) {

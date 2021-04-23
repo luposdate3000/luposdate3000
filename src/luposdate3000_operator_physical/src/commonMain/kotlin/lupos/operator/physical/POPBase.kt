@@ -25,6 +25,7 @@ import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.IPOPBase
 import kotlin.jvm.JvmField
 
 public abstract class POPBase public constructor(

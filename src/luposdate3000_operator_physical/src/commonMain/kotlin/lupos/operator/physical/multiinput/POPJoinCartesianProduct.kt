@@ -16,14 +16,26 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.iterator.ColumnIterator
-import lupos.operator.iterator.ColumnIteratorChildIterator
-import lupos.operator.iterator.ColumnIteratorChildIteratorEmpty
-import lupos.operator.iterator.ColumnIteratorEmpty
-import lupos.operator.iterator.ColumnIteratorMultiValue
-import lupos.operator.iterator.ColumnIteratorRepeatIterator
-import lupos.operator.iterator.ColumnIteratorRepeatValue
-import lupos.operator.iterator.IteratorBundle
+import lupos.shared.operator.iterator.ColumnIterator
+import lupos.shared.operator.iterator.ColumnIterator
+
+ChildIterator
+import lupos.shared.operator.iterator.ColumnIterator
+
+ChildIteratorEmpty
+import lupos.shared.operator.iterator.ColumnIterator
+
+Empty
+import lupos.shared.operator.iterator.ColumnIterator
+
+MultiValue
+import lupos.shared.operator.iterator.ColumnIterator
+
+RepeatIterator
+import lupos.shared.operator.iterator.ColumnIterator
+
+RepeatValue
+import lupos.shared.operator.iterator.IteratorBundle
 import lupos.operator.logical.multiinput.LOPJoin_Helper
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt

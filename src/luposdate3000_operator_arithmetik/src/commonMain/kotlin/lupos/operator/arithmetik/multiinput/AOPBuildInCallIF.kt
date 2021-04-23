@@ -17,13 +17,13 @@
 package lupos.operator.arithmetik.multiinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.iterator.IteratorBundle
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EvaluationException
 import lupos.shared.IQuery
 import lupos.shared.ValueDefinition
 import lupos.shared.ValueError
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 
 public class AOPBuildInCallIF public constructor(query: IQuery, child: AOPBase, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallIFID, "AOPBuildInCallIF", arrayOf(child, childA, childB)) {
     override fun toSparql(): String = "IF(" + children[0].toSparql() + ", " + children[1].toSparql() + ", " + children[1].toSparql() + ")"

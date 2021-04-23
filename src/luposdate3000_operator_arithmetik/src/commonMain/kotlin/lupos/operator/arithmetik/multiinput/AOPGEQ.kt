@@ -17,13 +17,13 @@
 package lupos.operator.arithmetik.multiinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.iterator.IteratorBundle
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EvaluationException
 import lupos.shared.IQuery
 import lupos.shared.ValueDefinition
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 
 public class AOPGEQ public constructor(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorIDExt.AOPGEQID, "AOPGEQ", arrayOf(childA, childB)) {
     override fun toSparql(): String = "(" + children[0].toSparql() + " >= " + children[1].toSparql() + ")"

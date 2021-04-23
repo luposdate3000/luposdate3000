@@ -17,7 +17,6 @@
 package lupos.operator.arithmetik.generated
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.iterator.IteratorBundle
 import lupos.shared.ByteArrayWrapper
 import lupos.shared.Crypto
 import lupos.shared.EOperatorIDExt
@@ -26,6 +25,7 @@ import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared_inline.DictionaryHelper
 
 public class AOPBuildInCallMD5 public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallMD5ID, "AOPBuildInCallMD5", arrayOf(child0, )) {

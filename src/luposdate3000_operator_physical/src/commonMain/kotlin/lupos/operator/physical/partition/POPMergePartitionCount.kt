@@ -16,7 +16,6 @@
  */
 package lupos.operator.physical.partition
 
-import lupos.operator.iterator.IteratorBundle
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -26,6 +25,7 @@ import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 public class POPMergePartitionCount public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCount: Int, @JvmField public var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPMergePartitionCountID, "POPMergePartitionCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {

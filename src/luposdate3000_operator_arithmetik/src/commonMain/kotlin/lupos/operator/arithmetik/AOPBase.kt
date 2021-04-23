@@ -17,7 +17,6 @@
 package lupos.operator.arithmetik
 
 import lupos.operator.base.OPBase
-import lupos.operator.iterator.IteratorBundle
 import lupos.shared.ByteArrayWrapper
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriorityExt
@@ -27,7 +26,9 @@ import lupos.shared.SanityCheck
 import lupos.shared.ValueDefinition
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.HistogramResult
+import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared_inline.DictionaryHelper
 
 public abstract class AOPBase public constructor(

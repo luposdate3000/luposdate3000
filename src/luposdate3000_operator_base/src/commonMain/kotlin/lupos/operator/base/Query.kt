@@ -17,8 +17,6 @@
 package lupos.operator.base
 
 import lupos.dictionary.DictionaryFactory
-import lupos.dictionary.EDictionaryTypeExt
-import lupos.dictionary.IDictionary
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IQuery
 import lupos.shared.MyLock
@@ -28,7 +26,7 @@ import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.operator.IOPBase
 import lupos.shared.optimizer.distributedOptimizerQueryFactory
-import lupos.triple_store_id_triple.tripleStoreManager
+import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class Query public constructor(@JvmField public var dictionary: IDictionary, @JvmField public var transactionID: Long) : IQuery {

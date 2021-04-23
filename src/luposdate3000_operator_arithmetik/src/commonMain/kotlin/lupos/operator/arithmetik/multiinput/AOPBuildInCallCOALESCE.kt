@@ -17,7 +17,6 @@
 package lupos.operator.arithmetik.multiinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.iterator.IteratorBundle
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EvaluationException
 import lupos.shared.IQuery
@@ -25,6 +24,7 @@ import lupos.shared.ValueDefinition
 import lupos.shared.ValueError
 import lupos.shared.ValueUndef
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 
 public class AOPBuildInCallCOALESCE public constructor(query: IQuery, childs: List<AOPBase>) : AOPBase(query, EOperatorIDExt.AOPBuildInCallCOALESCEID, "AOPBuildInCallCOALESCE", Array<IOPBase>(childs.size) { childs[it] }) {
     override fun toSparql(): String {

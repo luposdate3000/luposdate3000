@@ -20,8 +20,7 @@ import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.iterator.ColumnIteratorAggregate
-import lupos.operator.iterator.IteratorBundle
+import lupos.operator.base.iterator.ColumnIteratorAggregate
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EvaluationException
 import lupos.shared.IQuery
@@ -34,6 +33,7 @@ import lupos.shared.ValueInteger
 import lupos.shared.ValueUndef
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 public class AOPAggregationAVG public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationAVGID, "AOPAggregationAVG", Array<IOPBase>(childs.size) { childs[it] }) {

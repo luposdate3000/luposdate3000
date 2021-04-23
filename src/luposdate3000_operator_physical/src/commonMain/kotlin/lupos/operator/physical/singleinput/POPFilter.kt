@@ -17,8 +17,6 @@
 package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.iterator.ColumnIterator
-import lupos.operator.iterator.IteratorBundle
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -28,7 +26,9 @@ import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorQueue
+import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared_inline.ColumnIteratorQueueExt
 
 public class POPFilter public constructor(query: IQuery, projectedVariables: List<String>, filter: AOPBase, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPFilterID, "POPFilter", arrayOf(child, filter), ESortPriorityExt.SAME_AS_CHILD) {

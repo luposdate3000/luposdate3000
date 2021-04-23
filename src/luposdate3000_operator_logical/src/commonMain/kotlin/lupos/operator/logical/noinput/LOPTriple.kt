@@ -27,12 +27,12 @@ import lupos.shared.ESortPriorityExt
 import lupos.shared.GraphVarHistogramsNotImplementedException
 import lupos.shared.IQuery
 import lupos.shared.SanityCheck
+import lupos.shared.TripleStoreManager
 import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
-import lupos.triple_store_id_triple.TripleStoreManager
-import lupos.triple_store_id_triple.tripleStoreManager
+import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class LOPTriple public constructor(query: IQuery, s: IAOPBase, p: IAOPBase, o: IAOPBase, @JvmField public val graph: String, @JvmField public val graphVar: Boolean) : LOPBase(query, EOperatorIDExt.LOPTripleID, "LOPTriple", arrayOf(s, p, o), ESortPriorityExt.ANY_PROVIDED_VARIABLE) {

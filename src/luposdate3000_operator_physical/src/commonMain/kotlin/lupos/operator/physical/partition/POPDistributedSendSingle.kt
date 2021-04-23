@@ -16,7 +16,6 @@
  */
 package lupos.operator.physical.partition
 
-import lupos.operator.iterator.IteratorBundle
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -27,6 +26,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 // http://blog.pronghorn.tech/optimizing-suspending-functions-in-kotlin/

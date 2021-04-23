@@ -17,12 +17,12 @@
 package lupos.operator.arithmetik.noinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.iterator.IteratorBundle
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
 import lupos.shared.SanityCheck
 import lupos.shared.ValueDefinition
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 
 public class AOPValue public constructor(query: IQuery, childs: List<AOPConstant>) : AOPBase(query, EOperatorIDExt.AOPValueID, "AOPValue", Array<IOPBase>(childs.size) { childs[it] }) {
     override fun toSparql(): String {

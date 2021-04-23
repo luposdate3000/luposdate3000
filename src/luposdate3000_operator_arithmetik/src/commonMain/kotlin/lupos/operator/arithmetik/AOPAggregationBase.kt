@@ -16,11 +16,11 @@
  */
 package lupos.operator.arithmetik
 
-import lupos.operator.iterator.ColumnIteratorAggregate
-import lupos.operator.iterator.IteratorBundle
+import lupos.operator.base.iterator.ColumnIteratorAggregate
 import lupos.shared.EOperatorID
 import lupos.shared.IQuery
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 
 public abstract class AOPAggregationBase public constructor(
     query: IQuery,

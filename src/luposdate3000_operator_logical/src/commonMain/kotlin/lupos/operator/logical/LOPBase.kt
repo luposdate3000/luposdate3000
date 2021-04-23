@@ -16,9 +16,13 @@
  */
 package lupos.operator.logical
 
+import lupos.operator.base.OPBase
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriority
+import lupos.shared.IQuery
 import lupos.shared.SanityCheck
+import lupos.shared.operator.ILOPBase
+import lupos.shared.operator.IOPBase
 
 public abstract class LOPBase public constructor(
     query: IQuery,

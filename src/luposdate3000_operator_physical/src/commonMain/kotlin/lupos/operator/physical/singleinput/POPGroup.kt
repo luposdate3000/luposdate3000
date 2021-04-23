@@ -22,10 +22,14 @@ import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
 import lupos.operator.base.noinput.OPEmptyRow
-import lupos.operator.iterator.ColumnIterator
-import lupos.operator.iterator.ColumnIteratorMultiValue
-import lupos.operator.iterator.ColumnIteratorRepeatValue
-import lupos.operator.iterator.IteratorBundle
+import lupos.shared.operator.iterator.ColumnIterator
+import lupos.shared.operator.iterator.ColumnIterator
+
+MultiValue
+import lupos.shared.operator.iterator.ColumnIterator
+
+RepeatValue
+import lupos.shared.operator.iterator.IteratorBundle
 import lupos.operator.physical.MapKey
 import lupos.operator.physical.POPBase
 import lupos.shared.ByteArrayWrapper

@@ -16,8 +16,10 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.iterator.ColumnIterator
-import lupos.operator.iterator.ColumnIteratorChildIterator
+import lupos.shared.operator.iterator.ColumnIterator
+import lupos.shared.operator.iterator.ColumnIterator
+
+ChildIterator
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
 import kotlin.jvm.JvmField

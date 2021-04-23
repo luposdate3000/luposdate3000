@@ -21,8 +21,10 @@ import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.OPBaseCompound
-import lupos.operator.iterator.ColumnIterator
-import lupos.operator.iterator.ColumnIteratorMultiValue
+import lupos.shared.operator.iterator.ColumnIterator
+import lupos.shared.operator.iterator.ColumnIterator
+
+MultiValue
 import lupos.operator.logical.Query
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.partition.POPMergePartition

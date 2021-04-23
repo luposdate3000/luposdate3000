@@ -27,7 +27,7 @@ import lupos.shared.ETripleComponentTypeExt
 import lupos.operator.arithmetik.AOPBase
 import lupos.shared.operator.IOPBase
 import lupos.shared.IQuery
-import lupos.operator.iterator.IteratorBundle
+import lupos.shared.operator.iterator.IteratorBundle
 
 public class AOPBuildInCallBNODE1 public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallBNODE1ID, "AOPBuildInCallBNODE1", arrayOf(child0, )) {
     override fun toSparql(): String = "BNODE1(${children[0].toSparql()})"

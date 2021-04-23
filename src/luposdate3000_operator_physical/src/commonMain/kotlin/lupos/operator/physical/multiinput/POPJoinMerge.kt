@@ -16,9 +16,11 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.iterator.ColumnIterator
-import lupos.operator.iterator.ColumnIteratorChildIterator
-import lupos.operator.iterator.IteratorBundle
+import lupos.shared.operator.iterator.ColumnIterator
+import lupos.shared.operator.iterator.ColumnIterator
+
+ChildIterator
+import lupos.shared.operator.iterator.IteratorBundle
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt

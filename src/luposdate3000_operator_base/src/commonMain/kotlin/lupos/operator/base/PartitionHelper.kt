@@ -16,10 +16,10 @@
  */
 package lupos.operator.base
 
-import lupos.operator.iterator.IteratorBundle
 import lupos.shared.MyLock
 import lupos.shared.ParallelJob
 import lupos.shared.Partition
+import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 public class PartitionHelper public constructor() {

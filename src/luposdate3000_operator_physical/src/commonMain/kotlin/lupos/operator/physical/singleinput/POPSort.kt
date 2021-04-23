@@ -17,8 +17,10 @@
 package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.iterator.ColumnIteratorMerge
-import lupos.operator.iterator.IteratorBundle
+import lupos.shared.operator.iterator.ColumnIterator
+
+Merge
+import lupos.shared.operator.iterator.IteratorBundle
 import lupos.operator.iterator.RowIteratorMerge
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt

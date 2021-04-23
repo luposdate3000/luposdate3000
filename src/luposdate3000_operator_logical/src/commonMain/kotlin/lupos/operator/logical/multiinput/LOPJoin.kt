@@ -16,6 +16,7 @@
  */
 package lupos.operator.logical.multiinput
 
+import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.logical.LOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt

@@ -19,8 +19,10 @@ package lupos.endpoint
 import lupos.buffer_manager.BufferManagerExt
 import lupos.dictionary.DictionaryFactory
 import lupos.operator.factory.XMLElementToOPBase
-import lupos.operator.iterator.ColumnIterator
-import lupos.operator.iterator.ColumnIteratorMultiValue3
+import lupos.shared.operator.iterator.ColumnIterator
+import lupos.shared.operator.iterator.ColumnIterator
+
+MultiValue3
 import lupos.operator.logical.Query
 import lupos.operator.physical.noinput.POPValuesImportXML
 import lupos.optimizer.ast.OperatorGraphVisitor

@@ -19,7 +19,6 @@ package lupos.triple_store_manager
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.noinput.IAOPConstant
 import lupos.operator.arithmetik.noinput.IAOPVariable
-import lupos.operator.iterator.ColumnIterator
 import lupos.shared.BugException
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
@@ -30,6 +29,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
 public class TripleStoreDescription(
