@@ -18,6 +18,9 @@ package lupos.dictionary
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
+import lupos.shared.dictionary.EDictionaryType
+import lupos.shared.dictionary.EDictionaryTypeExt
+import lupos.shared.dictionary.IDictionary
 import lupos.shared_inline.File
 import lupos.shared_inline.Platform
 

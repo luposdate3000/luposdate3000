@@ -17,14 +17,14 @@
 package lupos.operator.logical.multiinput
 
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IQuery
 import lupos.operator.logical.LOPBase
 import lupos.operator.logical.singleinput.LOPProjection
 import lupos.shared.BugException
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
+import lupos.shared.IQuery
 import lupos.shared.SanityCheck
+import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
 
 public class LOPUnion public constructor(query: IQuery, first: IOPBase, second: IOPBase) : LOPBase(query, EOperatorIDExt.LOPUnionID, "LOPUnion", arrayOf(first, second), ESortPriorityExt.UNION) {

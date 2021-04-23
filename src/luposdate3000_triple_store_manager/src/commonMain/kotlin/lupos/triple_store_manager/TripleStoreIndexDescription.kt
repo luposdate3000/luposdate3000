@@ -16,9 +16,9 @@
  */
 package lupos.triple_store_manager
 
-import lupos.operator.logical.IQuery
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
+import lupos.shared.IQuery
 import lupos.shared.XMLElement
 import kotlin.jvm.JvmField
 

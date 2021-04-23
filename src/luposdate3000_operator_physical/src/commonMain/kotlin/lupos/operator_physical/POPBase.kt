@@ -16,14 +16,14 @@
  */
 package lupos.operator.physical
 
-import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IQuery
-import lupos.operator.logical.OPBase
+import lupos.operator_base.OPBase
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriority
 import lupos.shared.HistogramNotImplementedException
+import lupos.shared.IQuery
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
+import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 

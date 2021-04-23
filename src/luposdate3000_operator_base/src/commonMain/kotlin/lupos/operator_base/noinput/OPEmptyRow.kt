@@ -16,12 +16,12 @@
  */
 package lupos.operator.base.noinput
 
-import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IQuery
-import lupos.operator.logical.OPBase
+import lupos.operator_base.OPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
+import lupos.shared.IQuery
 import lupos.shared.SanityCheck
+import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
 
 public class OPEmptyRow public constructor(query: IQuery) : OPBase(query, EOperatorIDExt.OPEmptyRowID, "OPEmptyRow", arrayOf(), ESortPriorityExt.PREVENT_ANY) {

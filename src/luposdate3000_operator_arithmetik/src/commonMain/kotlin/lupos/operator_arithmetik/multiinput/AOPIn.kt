@@ -18,8 +18,8 @@ package lupos.operator.arithmetik.multiinput
 
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.iterator.IteratorBundle
-import lupos.operator.logical.IQuery
 import lupos.shared.EOperatorIDExt
+import lupos.shared.IQuery
 import lupos.shared.SanityCheck
 import lupos.shared.ValueBoolean
 import lupos.shared.ValueDefinition

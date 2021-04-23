@@ -19,7 +19,6 @@ package lupos.endpoint_launcher
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
-import lupos.dictionary.nodeGlobalDictionary
 import lupos.endpoint.LuposdateEndpoint
 import lupos.jena.JenaWrapper
 import lupos.operator.factory.XMLElementToOPBase
@@ -39,6 +38,7 @@ import lupos.shared.Parallel
 import lupos.shared.XMLElement
 import lupos.shared.XMLElementFromXML
 import lupos.shared.communicationHandler
+import lupos.shared.dictionary.nodeGlobalDictionary
 import lupos.shared.xmlParser.XMLParser
 import lupos.shared_inline.File
 import lupos.shared_inline.MyInputStream

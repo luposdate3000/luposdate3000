@@ -23,11 +23,8 @@ import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
 import lupos.operator.iterator.ColumnIterator
 import lupos.operator.iterator.ColumnIteratorMultiValue
-import lupos.operator.iterator.ColumnIteratorQueue
-import lupos.operator.iterator.ColumnIteratorQueueEmpty
 import lupos.operator.iterator.ColumnIteratorRepeatValue
 import lupos.operator.iterator.IteratorBundle
-import lupos.operator.logical.IQuery
 import lupos.operator.logical.noinput.OPEmptyRow
 import lupos.operator.physical.MapKey
 import lupos.operator.physical.POPBase
@@ -36,6 +33,7 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.GroupByColumnMissing
 import lupos.shared.GroupByDuplicateColumnException
+import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
@@ -43,6 +41,8 @@ import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.ColumnIteratorQueue
+import lupos.shared.operator.iterator.ColumnIteratorQueueEmpty
 import lupos.shared_inline.ColumnIteratorQueueExt
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField

@@ -19,11 +19,11 @@ package lupos.operator.physical.singleinput
 import lupos.operator.iterator.ColumnIterator
 import lupos.operator.iterator.IteratorBundle
 import lupos.operator.iterator.RowIterator
-import lupos.operator.logical.IQuery
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EPOPDebugModeExt
 import lupos.shared.ESortPriorityExt
+import lupos.shared.IQuery
 import lupos.shared.ITERATOR_DEBUG_MODE
 import lupos.shared.Partition
 import lupos.shared.SanityCheck

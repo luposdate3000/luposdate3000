@@ -16,13 +16,13 @@
  */
 package lupos.operator.base.singleinput
 
-import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IQuery
-import lupos.operator.logical.OPBase
 import lupos.operator.logical.noinput.OPEmptyRow
+import lupos.operator_base.OPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
+import lupos.shared.IQuery
 import lupos.shared.SanityCheck
+import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
 
 public class LOPNOOP public constructor(query: IQuery, child: IOPBase) : OPBase(query, EOperatorIDExt.LOPNOOPID, "LOPNOOP", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {

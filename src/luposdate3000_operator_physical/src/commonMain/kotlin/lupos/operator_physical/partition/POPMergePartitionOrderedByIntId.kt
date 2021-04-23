@@ -18,11 +18,11 @@ package lupos.operator.physical.partition
 
 import lupos.operator.iterator.IteratorBundle
 import lupos.operator.iterator.RowIterator
-import lupos.operator.logical.IQuery
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
+import lupos.shared.IQuery
 import lupos.shared.Parallel
 import lupos.shared.ParallelCondition
 import lupos.shared.Partition

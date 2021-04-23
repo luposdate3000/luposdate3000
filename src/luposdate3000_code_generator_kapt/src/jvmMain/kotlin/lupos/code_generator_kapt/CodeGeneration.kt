@@ -32,8 +32,6 @@ import lupos.operator.arithmetik.multiinput.AOPLT
 import lupos.operator.arithmetik.multiinput.AOPNEQ
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.OPBase
-import lupos.operator.logical.OPBaseCompound
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.multiinput.POPJoinMerge
 import lupos.operator.physical.multiinput.POPUnion
@@ -41,6 +39,8 @@ import lupos.operator.physical.singleinput.POPBind
 import lupos.operator.physical.singleinput.POPDebug
 import lupos.operator.physical.singleinput.POPFilter
 import lupos.operator.physical.singleinput.POPProjection
+import lupos.operator_base.OPBase
+import lupos.operator_base.OPBaseCompound
 import lupos.shared.ValueBoolean
 import lupos.shared.ValueDecimal
 import lupos.shared.ValueInteger
@@ -71,7 +71,7 @@ public fun generateSourceCode(
     // Imports that will be used in the generated file
     val imports = mutableSetOf<String>(
         "lupos.operator.logical.Query",
-        "lupos.operator.logical.IQuery",
+        "lupos.shared.IQuery",
         "lupos.endpoint.LuposdateEndpoint",
         "com.ionspin.kotlin.bignum.integer.BigInteger",
         "com.ionspin.kotlin.bignum.decimal.BigDecimal",
@@ -91,7 +91,7 @@ public fun generateSourceCode(
         "lupos.shared.Partition",
         "lupos.operator.iterator.ColumnIterator",
         "lupos.operator.iterator.IteratorBundle",
-        "lupos.operator.iterator.ColumnIteratorQueue",
+        "lupos.shared.operator.iterator.ColumnIteratorQueue",
         "lupos.operator.arithmetik.generated.AOPAnd",
         "lupos.shared.ValueIri",
         "lupos" + ".shared_inline.MyPrintWriter",
@@ -280,7 +280,7 @@ private fun writeOperatorGraph(
                     "$proVars," +
                     "$proVarsOrder)"
             )
-            imports.add("lupos.operator.logical.OPBaseCompound")
+            imports.add("lupos.operator_base.OPBaseCompound")
         }
         // Creating a new operator with the AOPAnd constructor
         is AOPAnd -> {

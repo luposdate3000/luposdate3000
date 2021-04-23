@@ -16,12 +16,6 @@
  */
 package lupos.launch.import
 
-import lupos.fileformat.DictionaryIntermediate
-import lupos.fileformat.DictionaryIntermediateReader
-import lupos.fileformat.DictionaryIntermediateWriter
-import lupos.fileformat.TriplesIntermediate
-import lupos.fileformat.TriplesIntermediateReader
-import lupos.fileformat.TriplesIntermediateWriter
 import lupos.parser.nQuads.NQuads2Parser
 import lupos.parser.turtle.Turtle2Parser
 import lupos.shared.ByteArrayWrapper
@@ -29,6 +23,12 @@ import lupos.shared.DateHelperRelative
 import lupos.shared.INTERNAL_BUFFER_SIZE
 import lupos.shared.Parallel
 import lupos.shared.SanityCheck
+import lupos.shared.fileformat.DictionaryIntermediate
+import lupos.shared.fileformat.DictionaryIntermediateReader
+import lupos.shared.fileformat.DictionaryIntermediateWriter
+import lupos.shared.fileformat.TriplesIntermediate
+import lupos.shared.fileformat.TriplesIntermediateReader
+import lupos.shared.fileformat.TriplesIntermediateWriter
 import lupos.shared_inline.File
 import kotlin.math.min
 

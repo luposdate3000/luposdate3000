@@ -20,9 +20,9 @@ import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.iterator.ColumnIteratorAggregate
 import lupos.operator.iterator.IteratorBundle
-import lupos.operator.logical.IQuery
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EvaluationException
+import lupos.shared.IQuery
 import lupos.shared.ValueDefinition
 import lupos.shared.ValueError
 import lupos.shared.ValueUndef

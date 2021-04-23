@@ -22,11 +22,11 @@ import lupos.dictionary.ADictionary
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
-import lupos.dictionary.nodeGlobalDictionary
 import lupos.shared.ByteArrayWrapper
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Parallel
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dictionary.nodeGlobalDictionary
 import lupos.shared_inline.ByteArrayHelper
 import lupos.shared_inline.DictionaryHelper
 import lupos.test.AflCore

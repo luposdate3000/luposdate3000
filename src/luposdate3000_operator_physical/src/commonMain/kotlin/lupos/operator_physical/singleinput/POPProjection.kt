@@ -19,10 +19,10 @@ package lupos.operator.physical.singleinput
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.iterator.ColumnIterator
 import lupos.operator.iterator.IteratorBundle
-import lupos.operator.logical.IQuery
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
+import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt

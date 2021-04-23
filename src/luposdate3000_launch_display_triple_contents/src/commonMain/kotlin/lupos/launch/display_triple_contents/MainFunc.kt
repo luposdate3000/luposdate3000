@@ -16,8 +16,8 @@
  */
 package lupos.launch.display_triple_contents
 
-import lupos.fileformat.TriplesIntermediateReader
 import lupos.shared.Parallel
+import lupos.shared.fileformat.TriplesIntermediateReader
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(inputFileName: String, indexPattern: String): Unit = Parallel.runBlocking {

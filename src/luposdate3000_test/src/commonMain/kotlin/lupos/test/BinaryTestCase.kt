@@ -19,15 +19,14 @@ package lupos.test
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
-import lupos.dictionary.nodeGlobalDictionary
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.iterator.ColumnIterator
 import lupos.operator.iterator.ColumnIteratorMultiValue
-import lupos.operator.logical.OPBaseCompound
 import lupos.operator.logical.Query
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPSplitPartitionFromStore
+import lupos.operator_base.OPBaseCompound
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
@@ -50,6 +49,7 @@ import lupos.shared.UnknownDataFileException
 import lupos.shared.XMLElement
 import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dictionary.nodeGlobalDictionary
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 import lupos.shared.parseFromAny

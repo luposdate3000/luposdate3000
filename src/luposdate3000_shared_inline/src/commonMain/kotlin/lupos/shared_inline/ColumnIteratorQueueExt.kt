@@ -16,8 +16,8 @@
  */
 package lupos.shared_inline
 
-import lupos.operator.iterator.ColumnIteratorQueue
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.operator.iterator.ColumnIteratorQueue
 
 internal object ColumnIteratorQueueExt {
     @Suppress("NOTHING_TO_INLINE")

@@ -18,10 +18,10 @@ package lupos.result_format
 
 import lupos.dictionary.IDictionary
 import lupos.operator.iterator.ColumnIterator
-import lupos.operator.logical.OPBaseCompound
 import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
+import lupos.operator_base.OPBaseCompound
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.MyLock

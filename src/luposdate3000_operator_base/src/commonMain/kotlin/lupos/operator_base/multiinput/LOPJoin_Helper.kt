@@ -16,7 +16,7 @@
  */
 package lupos.operator.base.multiinput
 
-import lupos.operator.logical.HistogramResult
+import lupos.shared.operator.HistogramResult
 
 public object LOPJoin_Helper {
     public fun getColumns(columnsA: List<String>, columnsB: List<String>): Array<MutableList<String>> {

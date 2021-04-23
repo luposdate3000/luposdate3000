@@ -16,13 +16,13 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator.logical.HistogramResult
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.multiinput.LOPJoin_Helper
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.logical.noinput.LOPValues
 import lupos.shared.HistogramNotImplementedException
 import lupos.shared.SanityCheck
+import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
 
 public object LogicalOptimizerJoinOrderCostBasedOnHistogram {

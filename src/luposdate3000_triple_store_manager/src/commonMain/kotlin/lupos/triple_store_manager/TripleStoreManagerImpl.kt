@@ -18,7 +18,6 @@ package lupos.triple_store_manager
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
-import lupos.operator.logical.IQuery
 import lupos.operator.logical.Query
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
@@ -28,6 +27,7 @@ import lupos.shared.EModifyTypeExt
 import lupos.shared.EPartitionMode
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyInputStream
+import lupos.shared.IQuery
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.communicationHandler

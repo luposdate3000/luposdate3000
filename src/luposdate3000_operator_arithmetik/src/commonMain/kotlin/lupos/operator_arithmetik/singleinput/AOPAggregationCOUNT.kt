@@ -21,8 +21,8 @@ import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.iterator.ColumnIteratorAggregate
 import lupos.operator.iterator.IteratorBundle
-import lupos.operator.logical.IQuery
 import lupos.shared.EOperatorIDExt
+import lupos.shared.IQuery
 import lupos.shared.ValueDefinition
 import lupos.shared.ValueInteger
 import lupos.shared.XMLElement

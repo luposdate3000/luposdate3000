@@ -20,11 +20,11 @@ import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.iterator.ColumnIteratorMerge
 import lupos.operator.iterator.IteratorBundle
 import lupos.operator.iterator.RowIteratorMerge
-import lupos.operator.logical.IQuery
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
+import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.SortHelper

@@ -20,12 +20,12 @@ import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.noinput.IAOPConstant
 import lupos.operator.arithmetik.noinput.IAOPVariable
 import lupos.operator.iterator.ColumnIterator
-import lupos.operator.logical.IQuery
 import lupos.shared.BugException
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EModifyType
+import lupos.shared.IQuery
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IAOPBase

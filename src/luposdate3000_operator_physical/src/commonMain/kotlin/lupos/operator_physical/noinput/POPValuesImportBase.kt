@@ -16,8 +16,8 @@
  */
 package lupos.operator.physical.noinput
 
-import lupos.operator.logical.IQuery
 import lupos.shared.ByteArrayWrapper
+import lupos.shared.IQuery
 import lupos.shared.SanityCheck
 import lupos.shared_inline.DictionaryHelper
 

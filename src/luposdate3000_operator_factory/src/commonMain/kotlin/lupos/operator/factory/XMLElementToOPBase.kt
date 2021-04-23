@@ -86,7 +86,6 @@ import lupos.operator.arithmetik.singleinput.AOPAggregationSAMPLE
 import lupos.operator.arithmetik.singleinput.AOPAggregationSUM
 import lupos.operator.arithmetik.singleinput.AOPBuildInCallExists
 import lupos.operator.arithmetik.singleinput.AOPBuildInCallNotExists
-import lupos.operator.logical.OPBaseCompound
 import lupos.operator.logical.Query
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.logical.noinput.OPNothing
@@ -129,6 +128,7 @@ import lupos.operator.physical.singleinput.POPSort
 import lupos.operator.physical.singleinput.modifiers.POPLimit
 import lupos.operator.physical.singleinput.modifiers.POPOffset
 import lupos.operator.physical.singleinput.modifiers.POPReduced
+import lupos.operator_base.OPBaseCompound
 import lupos.shared.ESortTypeExt
 import lupos.shared.SanityCheck
 import lupos.shared.SortHelper

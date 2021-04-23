@@ -16,7 +16,7 @@
  */
 package lupos.code_generator_kapt
 
-import lupos.operator.logical.OPBase
+import lupos.operator_base.OPBase
 import lupos.shared_inline.MyPrintWriter
 
 internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String, buffer: MyPrintWriter, imports: MutableSet<String>, containers: MutableList<ClazzContainer>) {

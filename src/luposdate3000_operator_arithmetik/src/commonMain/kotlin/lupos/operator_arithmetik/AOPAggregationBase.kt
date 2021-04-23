@@ -18,8 +18,8 @@ package lupos.operator.arithmetik
 
 import lupos.operator.iterator.ColumnIteratorAggregate
 import lupos.operator.iterator.IteratorBundle
-import lupos.operator.logical.IQuery
 import lupos.shared.EOperatorID
+import lupos.shared.IQuery
 import lupos.shared.operator.IOPBase
 
 public abstract class AOPAggregationBase public constructor(

@@ -17,12 +17,12 @@
 package lupos.operator.logical.singleinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IQuery
 import lupos.operator.logical.LOPBase
 import lupos.operator.logical.noinput.OPEmptyRow
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
+import lupos.shared.IQuery
+import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 

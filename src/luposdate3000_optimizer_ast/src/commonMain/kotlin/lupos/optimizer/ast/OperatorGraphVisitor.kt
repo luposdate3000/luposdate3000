@@ -93,8 +93,6 @@ import lupos.operator.arithmetik.singleinput.AOPAggregationSUM
 import lupos.operator.arithmetik.singleinput.AOPBuildInCallExists
 import lupos.operator.arithmetik.singleinput.AOPBuildInCallNotExists
 import lupos.operator.logical.LOPBase
-import lupos.operator.logical.OPBase
-import lupos.operator.logical.OPBaseCompound
 import lupos.operator.logical.Query
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.multiinput.LOPMinus
@@ -122,6 +120,8 @@ import lupos.operator.logical.singleinput.modifiers.LOPOffset
 import lupos.operator.logical.singleinput.modifiers.LOPPrefix
 import lupos.operator.logical.singleinput.modifiers.LOPReduced
 import lupos.operator.physical.noinput.POPValuesImportXML
+import lupos.operator_base.OPBase
+import lupos.operator_base.OPBaseCompound
 import lupos.parser.rdf.IRI
 import lupos.parser.sparql1_1.ASTAdd
 import lupos.parser.sparql1_1.ASTAddition

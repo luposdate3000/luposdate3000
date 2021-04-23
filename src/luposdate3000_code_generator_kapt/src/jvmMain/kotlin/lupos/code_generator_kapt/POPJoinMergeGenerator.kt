@@ -16,7 +16,7 @@
  */
 package lupos.code_generator_kapt
 
-import lupos.operator.logical.OPBase
+import lupos.operator_base.OPBase
 
 // This function will generate source code to run the merge join for the annotated query
 //  it mainly avoids loops by processing them here already (if possible) to avoid unnecessary
@@ -35,7 +35,7 @@ internal fun generatePOPJoinMerge(
     imports.add("lupos.shared.XMLElement")
     imports.add("lupos.shared.SanityCheck")
     imports.add("lupos.operator.logical.IOPBase")
-    imports.add("lupos.operator.logical.IQuery")
+    imports.add("lupos.shared.IQuery")
     imports.add("lupos.operator.iterator.ColumnIterator")
     imports.add("lupos.operator.iterator.ColumnIteratorChildIterator")
     imports.add("lupos.operator.iterator.IteratorBundle")

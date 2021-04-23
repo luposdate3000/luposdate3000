@@ -16,10 +16,10 @@
  */
 package lupos.triple_store_manager
 
-import lupos.operator.logical.IQuery
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
+import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement

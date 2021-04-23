@@ -22,8 +22,8 @@ import lupos.buffer_manager.BufferManagerExt
 import lupos.operator.iterator.ColumnIterator
 import lupos.operator.iterator.ColumnIteratorEmpty
 import lupos.operator.iterator.IteratorBundle
-import lupos.operator.logical.IQuery
 import lupos.shared.ETripleIndexTypeExt
+import lupos.shared.IQuery
 import lupos.shared.MyReadWriteLock
 import lupos.shared.Parallel
 import lupos.shared.SanityCheck

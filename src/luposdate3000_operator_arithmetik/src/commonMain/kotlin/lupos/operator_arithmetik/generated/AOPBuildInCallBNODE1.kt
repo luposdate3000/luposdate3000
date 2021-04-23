@@ -26,7 +26,7 @@ import lupos.shared.ETripleComponentType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.operator.arithmetik.AOPBase
 import lupos.shared.operator.IOPBase
-import lupos.operator.logical.IQuery
+import lupos.shared.IQuery
 import lupos.operator.iterator.IteratorBundle
 
 public class AOPBuildInCallBNODE1 public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallBNODE1ID, "AOPBuildInCallBNODE1", arrayOf(child0, )) {
