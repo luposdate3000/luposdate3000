@@ -264,7 +264,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         dep.remove(v.moduleName)
     }
     for ((k, v) in modules) {
-        val c = modules["Luposdate3000_Shared_Inline"]
+        val c = modules["Luposdate3000_Shared_Inline"]!!
         v.dependenciesCommon.addAll(c.dependenciesCommon)
         v.dependenciesJvm.addAll(c.dependenciesJvm)
         v.dependenciesJs.addAll(c.dependenciesJs)
