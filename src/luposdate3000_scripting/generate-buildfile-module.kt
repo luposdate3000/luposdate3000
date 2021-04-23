@@ -126,6 +126,8 @@ class CreateModuleArgs() {
     var codegenKAPT: Boolean = false
     var codegenKSP: Boolean = false
     var args: MutableMap<String, String> = mutableMapOf()
+    var dependencies: MutableSet<String> = mutableSetOf<String>()
+    var dependenciesFull: MutableSet<String> = mutableSetOf<String>()
 
     init {
         if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
@@ -137,6 +139,8 @@ class CreateModuleArgs() {
 
     fun clone(): CreateModuleArgs {
         var res = CreateModuleArgs()
+        res.dependencies.addAll(dependencies)
+        res.dependenciesFull.addAll(dependenciesFull)
         res.compilerVersion = compilerVersion
         res.enabledFunc = enabledFunc
         res.enabledRunFunc = enabledRunFunc
@@ -417,6 +421,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             }
         }
         val commonDependencies = mutableSetOf<String>()
+        commonDependencies.addAll(moduleArgs.dependencies)
         if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared")) {
             commonDependencies.add("luposdate3000:Luposdate3000_Shared:0.0.1")
         }
@@ -439,6 +444,8 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
             jsDependencies.add("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
         }
+        jsDependencies.addAll(moduleArgs.dependenciesFull)
+        jsDependencies.removeAll(commonDependencies)
         if (File("${moduleArgs.moduleFolder}${pathSeparator}jsDependencies").exists()) {
             File("${moduleArgs.moduleFolder}${pathSeparator}jsDependencies").forEachLine {
                 if (it.length > 0) {
@@ -447,6 +454,8 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             }
         }
         val nativeDependencies = mutableSetOf<String>()
+        nativeDependencies.addAll(moduleArgs.dependenciesFull)
+        nativeDependencies.removeAll(commonDependencies)
         if (File("${moduleArgs.moduleFolder}${pathSeparator}nativeDependencies").exists()) {
             File("${moduleArgs.moduleFolder}${pathSeparator}nativeDependencies").forEachLine {
                 if (it.length > 0) {
