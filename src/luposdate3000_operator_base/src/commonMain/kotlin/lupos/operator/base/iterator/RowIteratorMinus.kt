@@ -17,6 +17,7 @@
 package lupos.operator.base.iterator
 
 import lupos.shared.Parallel
+import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField
 
 public open class RowIteratorMinus(@JvmField public val a: RowIterator, @JvmField public val b: RowIterator, @JvmField internal val projection: Array<String>) : RowIterator() {

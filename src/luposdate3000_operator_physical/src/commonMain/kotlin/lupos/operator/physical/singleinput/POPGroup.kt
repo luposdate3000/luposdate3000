@@ -21,11 +21,11 @@ import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
+import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.iterator.ColumnIterator
 import lupos.operator.iterator.ColumnIteratorMultiValue
 import lupos.operator.iterator.ColumnIteratorRepeatValue
 import lupos.operator.iterator.IteratorBundle
-import lupos.operator.logical.noinput.OPEmptyRow
 import lupos.operator.physical.MapKey
 import lupos.operator.physical.POPBase
 import lupos.shared.ByteArrayWrapper

@@ -18,8 +18,8 @@ package lupos.operator.logical.singleinput
 
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.logical.LOPBase
-import lupos.operator.logical.noinput.OPEmptyRow
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.GroupByColumnMissing

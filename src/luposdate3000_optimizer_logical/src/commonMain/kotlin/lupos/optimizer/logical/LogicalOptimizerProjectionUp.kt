@@ -17,13 +17,13 @@
 package lupos.optimizer.logical
 
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.OPBaseCompound
 import lupos.operator.logical.Query
 import lupos.operator.logical.multiinput.LOPMinus
 import lupos.operator.logical.multiinput.LOPUnion
 import lupos.operator.logical.singleinput.LOPProjection
 import lupos.operator.logical.singleinput.modifiers.LOPDistinct
 import lupos.operator.logical.singleinput.modifiers.LOPReduced
-import lupos.operator_base.OPBaseCompound
 import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerProjectionUp(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerProjectionUpID, "LogicalOptimizerProjectionUp") {

@@ -20,13 +20,13 @@ import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.OPBaseCompound
 import lupos.operator.iterator.ColumnIterator
 import lupos.operator.iterator.ColumnIteratorMultiValue
 import lupos.operator.logical.Query
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPSplitPartitionFromStore
-import lupos.operator_base.OPBaseCompound
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer

@@ -16,10 +16,10 @@
  */
 package lupos.optimizer.physical
 
+import lupos.operator.base.OPBaseCompound
 import lupos.operator.logical.Query
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.singleinput.POPDebug
-import lupos.operator_base.OPBaseCompound
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.SanityCheck

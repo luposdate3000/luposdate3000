@@ -16,8 +16,8 @@
  */
 package lupos.operator.base.singleinput
 
-import lupos.operator.logical.noinput.OPEmptyRow
-import lupos.operator_base.OPBase
+import lupos.operator.base.OPBase
+import lupos.operator.base.noinput.OPEmptyRow
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery

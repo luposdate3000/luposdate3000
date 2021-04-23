@@ -16,8 +16,8 @@
  */
 package lupos.result_format
 
+import lupos.operator.base.OPBaseCompound
 import lupos.operator.logical.noinput.OPNothing
-import lupos.operator_base.OPBaseCompound
 import lupos.shared.ByteArrayWrapper
 import lupos.shared.EPartitionModeExt
 import lupos.shared.Partition

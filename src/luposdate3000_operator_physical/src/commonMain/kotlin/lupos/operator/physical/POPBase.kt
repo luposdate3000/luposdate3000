@@ -16,7 +16,7 @@
  */
 package lupos.operator.physical
 
-import lupos.operator_base.OPBase
+import lupos.operator.base.OPBase
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriority
 import lupos.shared.HistogramNotImplementedException

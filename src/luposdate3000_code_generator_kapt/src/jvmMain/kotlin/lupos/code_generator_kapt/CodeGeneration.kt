@@ -32,6 +32,8 @@ import lupos.operator.arithmetik.multiinput.AOPLT
 import lupos.operator.arithmetik.multiinput.AOPNEQ
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.OPBase
+import lupos.operator.base.OPBaseCompound
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.multiinput.POPJoinMerge
 import lupos.operator.physical.multiinput.POPUnion
@@ -39,8 +41,6 @@ import lupos.operator.physical.singleinput.POPBind
 import lupos.operator.physical.singleinput.POPDebug
 import lupos.operator.physical.singleinput.POPFilter
 import lupos.operator.physical.singleinput.POPProjection
-import lupos.operator_base.OPBase
-import lupos.operator_base.OPBaseCompound
 import lupos.shared.ValueBoolean
 import lupos.shared.ValueDecimal
 import lupos.shared.ValueInteger
@@ -280,7 +280,7 @@ private fun writeOperatorGraph(
                     "$proVars," +
                     "$proVarsOrder)"
             )
-            imports.add("lupos.operator_base.OPBaseCompound")
+            imports.add("lupos.operator.base.OPBaseCompound")
         }
         // Creating a new operator with the AOPAnd constructor
         is AOPAnd -> {

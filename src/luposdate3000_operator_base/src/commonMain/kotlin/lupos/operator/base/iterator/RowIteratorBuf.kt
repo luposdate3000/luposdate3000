@@ -17,6 +17,7 @@
 package lupos.operator.base.iterator
 
 import lupos.shared.SanityCheck
+import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField
 
 public class RowIteratorBuf(buf: IntArray, columns: Array<String>, @JvmField public val size: Int) : RowIterator() {

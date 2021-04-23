@@ -16,7 +16,7 @@
  */
 package lupos.code_generator_kapt
 
-import lupos.operator_base.OPBase
+import lupos.operator.base.OPBase
 
 // This function will generate source code to run the merge join for the annotated query
 //  it mainly avoids loops by processing them here already (if possible) to avoid unnecessary

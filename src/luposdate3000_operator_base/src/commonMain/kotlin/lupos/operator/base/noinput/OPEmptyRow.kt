@@ -16,7 +16,7 @@
  */
 package lupos.operator.base.noinput
 
-import lupos.operator_base.OPBase
+import lupos.operator.base.OPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery

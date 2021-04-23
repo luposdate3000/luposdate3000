@@ -18,6 +18,7 @@ package lupos.operator.base.iterator
 
 import lupos.shared.MERGE_SORT_MIN_ROWS
 import lupos.shared.SanityCheck
+import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField
 
 public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmField public val b: RowIterator, @JvmField public val comparator: Comparator<Int>, @JvmField public val compCount: Int) : RowIterator() {

@@ -16,9 +16,8 @@
  */
 package lupos.operator.base
 
-import lupos.operator.iterator.IteratorBundle
-import lupos.operator.logical.multiinput.LOPJoin_Helper
-import lupos.operator.logical.singleinput.LOPNOOP
+import lupos.operator.base.multiinput.LOPJoin_Helper
+import lupos.operator.base.singleinput.LOPNOOP
 import lupos.shared.BugException
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriority
@@ -26,6 +25,7 @@ import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
 import lupos.shared.EvaluateNotImplementedException
 import lupos.shared.HistogramNotImplementedException
+import lupos.shared.IQuery
 import lupos.shared.Parallel
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
@@ -34,7 +34,11 @@ import lupos.shared.ToSparqlNotImplementedException
 import lupos.shared.UUID_Counter
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
+import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IAOPBase
+import lupos.shared.operator.ILOPBase
+import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 public abstract class OPBase public constructor(

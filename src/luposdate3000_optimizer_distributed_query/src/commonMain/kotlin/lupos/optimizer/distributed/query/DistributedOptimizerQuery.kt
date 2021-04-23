@@ -16,6 +16,8 @@
  */
 package lupos.optimizer.distributed.query
 
+import lupos.operator.base.OPBase
+import lupos.operator.base.OPBaseCompound
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.operator.logical.Query
 import lupos.operator.physical.POPBase
@@ -27,8 +29,6 @@ import lupos.operator.physical.partition.POPSplitPartition
 import lupos.operator.physical.partition.POPSplitPartitionFromStore
 import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
 import lupos.operator.physical.partition.POPSplitPartitionPassThrough
-import lupos.operator_base.OPBase
-import lupos.operator_base.OPBaseCompound
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IQuery
 import lupos.shared.Partition

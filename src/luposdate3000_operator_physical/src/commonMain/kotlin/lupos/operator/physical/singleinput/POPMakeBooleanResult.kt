@@ -16,10 +16,10 @@
  */
 package lupos.operator.physical.singleinput
 
+import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.iterator.ColumnIterator
 import lupos.operator.iterator.ColumnIteratorRepeatValue
 import lupos.operator.iterator.IteratorBundle
-import lupos.operator.logical.noinput.OPEmptyRow
 import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt

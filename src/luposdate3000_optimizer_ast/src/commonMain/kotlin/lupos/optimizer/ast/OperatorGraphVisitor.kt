@@ -92,6 +92,9 @@ import lupos.operator.arithmetik.singleinput.AOPAggregationSAMPLE
 import lupos.operator.arithmetik.singleinput.AOPAggregationSUM
 import lupos.operator.arithmetik.singleinput.AOPBuildInCallExists
 import lupos.operator.arithmetik.singleinput.AOPBuildInCallNotExists
+import lupos.operator.base.OPBase
+import lupos.operator.base.OPBaseCompound
+import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.logical.LOPBase
 import lupos.operator.logical.Query
 import lupos.operator.logical.multiinput.LOPJoin
@@ -101,7 +104,6 @@ import lupos.operator.logical.noinput.LOPGraphOperation
 import lupos.operator.logical.noinput.LOPModifyData
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.logical.noinput.LOPValues
-import lupos.operator.logical.noinput.OPEmptyRow
 import lupos.operator.logical.singleinput.LOPBind
 import lupos.operator.logical.singleinput.LOPFilter
 import lupos.operator.logical.singleinput.LOPGroup
@@ -120,8 +122,6 @@ import lupos.operator.logical.singleinput.modifiers.LOPOffset
 import lupos.operator.logical.singleinput.modifiers.LOPPrefix
 import lupos.operator.logical.singleinput.modifiers.LOPReduced
 import lupos.operator.physical.noinput.POPValuesImportXML
-import lupos.operator_base.OPBase
-import lupos.operator_base.OPBaseCompound
 import lupos.parser.rdf.IRI
 import lupos.parser.sparql1_1.ASTAdd
 import lupos.parser.sparql1_1.ASTAddition

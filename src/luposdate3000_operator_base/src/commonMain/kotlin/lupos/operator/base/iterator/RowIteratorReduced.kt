@@ -16,6 +16,7 @@
  */
 package lupos.operator.base.iterator
 
+import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField
 
 public open class RowIteratorReduced(@JvmField public val child: RowIterator) : RowIterator() {
