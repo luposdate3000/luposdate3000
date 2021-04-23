@@ -20,6 +20,10 @@ import lupos.parser.LookAheadTokenIterator
 import lupos.parser.ParseError
 import lupos.parser.Token
 import lupos.parser.UnexpectedToken
+import lupos.shared.Aggregation
+import lupos.shared.AggregationExt
+import lupos.shared.BuiltInFunctions
+import lupos.shared.BuiltInFunctionsExt
 import lupos.shared.UUID_Counter
 import kotlin.jvm.JvmField
 

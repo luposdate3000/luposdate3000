@@ -14,13 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-lupos.parser
+package lupos.parser
 
-import lupos.parser.LexerCharIterator
-import lupos.parser.LookAheadTokenIterator
 import lupos.parser.turtle.Turtle2Parser
 import lupos.parser.turtle.TurtleParserWithStringTriples
 import lupos.parser.turtle.TurtleScanner
+import lupos.shared.XMLElement
+import lupos.shared.XMLElementParser
 import lupos.shared_inline.MyStringStream
 
 public class XMLElementFromN3 : XMLElementParser {

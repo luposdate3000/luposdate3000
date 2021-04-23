@@ -18,8 +18,8 @@ package lupos.optimizer.distributed.query
 
 import lupos.operator.base.OPBase
 import lupos.operator.base.OPBaseCompound
+import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
-import lupos.operator.logical.Query
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.partition.POPChangePartitionOrderedByIntId
 import lupos.operator.physical.partition.POPMergePartition
@@ -38,7 +38,7 @@ import lupos.shared.communicationHandler
 import lupos.shared.operator.IOPBase
 import lupos.shared.optimizer.IDistributedOptimizer
 import lupos.shared.tripleStoreManager
-import lupos.triple_store_id_triple.POPTripleStoreIterator
+import lupos.triple_store_manager.POPTripleStoreIterator
 import kotlin.jvm.JvmField
 
 public class DistributedOptimizerQuery() : IDistributedOptimizer {

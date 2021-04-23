@@ -94,9 +94,10 @@ import lupos.operator.arithmetik.singleinput.AOPBuildInCallExists
 import lupos.operator.arithmetik.singleinput.AOPBuildInCallNotExists
 import lupos.operator.base.OPBase
 import lupos.operator.base.OPBaseCompound
+import lupos.operator.base.Query
 import lupos.operator.base.noinput.OPEmptyRow
+import lupos.operator.base.singleinput.LOPNOOP
 import lupos.operator.logical.LOPBase
-import lupos.operator.logical.Query
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.multiinput.LOPMinus
 import lupos.operator.logical.multiinput.LOPUnion
@@ -109,7 +110,6 @@ import lupos.operator.logical.singleinput.LOPFilter
 import lupos.operator.logical.singleinput.LOPGroup
 import lupos.operator.logical.singleinput.LOPMakeBooleanResult
 import lupos.operator.logical.singleinput.LOPModify
-import lupos.operator.logical.singleinput.LOPNOOP
 import lupos.operator.logical.singleinput.LOPOptional
 import lupos.operator.logical.singleinput.LOPProjection
 import lupos.operator.logical.singleinput.LOPServiceIRI
@@ -211,10 +211,10 @@ import lupos.parser.sparql1_1.ASTUpdateGrapOperation
 import lupos.parser.sparql1_1.ASTValue
 import lupos.parser.sparql1_1.ASTValues
 import lupos.parser.sparql1_1.ASTVar
-import lupos.parser.sparql1_1.AggregationExt
-import lupos.parser.sparql1_1.BuiltInFunctionsExt
 import lupos.parser.sparql1_1.Visitor
 import lupos.shared.AggregateNotAllowedSyntaxException
+import lupos.shared.AggregationExt
+import lupos.shared.BuiltInFunctionsExt
 import lupos.shared.DatasetImportFailedException
 import lupos.shared.EGraphOperationTypeExt
 import lupos.shared.EGraphRefType
