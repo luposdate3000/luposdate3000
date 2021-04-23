@@ -14,26 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_physical.multiinput
+package lupos.operator.physical.multiinput
 
-import lupos.dictionary.DictionaryExt
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.iterator.ColumnIterator
-import lupos.operator_logical.iterator.ColumnIteratorChildIterator
-import lupos.operator_logical.iterator.ColumnIteratorChildIteratorEmpty
-import lupos.operator_logical.iterator.ColumnIteratorEmpty
-import lupos.operator_logical.iterator.ColumnIteratorMultiValue
-import lupos.operator_logical.iterator.ColumnIteratorRepeatIterator
-import lupos.operator_logical.iterator.ColumnIteratorRepeatValue
-import lupos.operator_logical.iterator.IteratorBundle
-import lupos.operator_logical.multiinput.LOPJoin_Helper
-import lupos.operator_physical.POPBase
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.iterator.ColumnIterator
+import lupos.operator.logical.iterator.ColumnIteratorChildIterator
+import lupos.operator.logical.iterator.ColumnIteratorChildIteratorEmpty
+import lupos.operator.logical.iterator.ColumnIteratorEmpty
+import lupos.operator.logical.iterator.ColumnIteratorMultiValue
+import lupos.operator.logical.iterator.ColumnIteratorRepeatIterator
+import lupos.operator.logical.iterator.ColumnIteratorRepeatValue
+import lupos.operator.logical.iterator.IteratorBundle
+import lupos.operator.logical.multiinput.LOPJoin_Helper
+import lupos.operator.physical.POPBase
+import lupos.shared.EOperatorIDExt
+import lupos.shared.ESortPriorityExt
+import lupos.shared.Partition
+import lupos.shared.SanityCheck
+import lupos.shared.XMLElement
+import lupos.shared.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
 
 public class POPJoinCartesianProduct public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinCartesianProductID, "POPJoinCartesianProduct", arrayOf(childA, childB), ESortPriorityExt.JOIN) {

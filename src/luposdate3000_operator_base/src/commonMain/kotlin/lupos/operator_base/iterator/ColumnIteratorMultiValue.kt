@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_base.iterator
+package lupos.operator.base.iterator
 
 public object ColumnIteratorMultiValue {
     public operator fun invoke(values: IntArray, size: Int): ColumnIteratorMultiValue3 = ColumnIteratorMultiValue3(values, size)

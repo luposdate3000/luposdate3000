@@ -24,11 +24,11 @@ import lupos.fileformat.TriplesIntermediateReader
 import lupos.fileformat.TriplesIntermediateWriter
 import lupos.parser.nQuads.NQuads2Parser
 import lupos.parser.turtle.Turtle2Parser
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.DateHelperRelative
-import lupos.s00misc.Parallel
-import lupos.s00misc.SanityCheck
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.DateHelperRelative
 import lupos.shared.INTERNAL_BUFFER_SIZE
+import lupos.shared.Parallel
+import lupos.shared.SanityCheck
 import lupos.shared_inline.File
 import kotlin.math.min
 

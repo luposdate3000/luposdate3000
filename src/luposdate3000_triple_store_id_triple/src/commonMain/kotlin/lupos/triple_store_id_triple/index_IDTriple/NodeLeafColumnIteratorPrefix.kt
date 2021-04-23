@@ -16,7 +16,7 @@
  */
 package lupos.triple_store_id_triple.index_IDTriple
 
-import lupos.s00misc.MyReadWriteLock
+import lupos.shared.MyReadWriteLock
 import kotlin.jvm.JvmField
 
 internal abstract class NodeLeafColumnIteratorPrefix(node: ByteArray, nodeid: Int, @JvmField val prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager) : NodeLeafColumnIterator(node, nodeid, lock, nodeManager)

@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_logical
+package lupos.operator.logical
 
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.SanityCheck
+import lupos.shared.EOperatorID
+import lupos.shared.ESortPriority
+import lupos.shared.SanityCheck
 
 public abstract class LOPBase public constructor(
     query: IQuery,

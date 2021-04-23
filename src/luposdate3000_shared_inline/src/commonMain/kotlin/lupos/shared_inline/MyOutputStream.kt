@@ -16,7 +16,7 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.IMyOutputStream
+import lupos.shared.IMyOutputStream
 
 internal expect class MyOutputStream : IMyOutputStream {
     internal constructor()

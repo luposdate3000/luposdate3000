@@ -16,9 +16,9 @@
  */
 package lupos.dictionary
 
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.SanityCheck
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField

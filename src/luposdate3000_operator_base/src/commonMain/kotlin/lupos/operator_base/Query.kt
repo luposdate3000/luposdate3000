@@ -14,14 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_base
+package lupos.operator.base
 
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
-import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.MyLock
-import lupos.s00misc.SanityCheck
+import lupos.shared.EPartitionModeExt
+import lupos.shared.MyLock
+import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
 import lupos.shared.optimizer.distributedOptimizerQueryFactory
 import lupos.triple_store_id_triple.tripleStoreManager

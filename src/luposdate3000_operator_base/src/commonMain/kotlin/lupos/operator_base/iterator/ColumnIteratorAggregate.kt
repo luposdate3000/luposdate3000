@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_base.iterator
+package lupos.operator.base.iterator
 
-import lupos.dictionary.DictionaryExt
 import lupos.s03resultRepresentation.ValueDefinition
+import lupos.shared.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
 
 public class ColumnIteratorAggregate : ColumnIteratorEmpty() {

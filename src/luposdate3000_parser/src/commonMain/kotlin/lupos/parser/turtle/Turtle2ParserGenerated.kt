@@ -16,8 +16,8 @@
  */
 package lupos.parser.turtle
 
-import lupos.s00misc.IMyInputStream
-import lupos.s00misc.Luposdate3000Exception
+import lupos.shared.IMyInputStream
+import lupos.shared.Luposdate3000Exception
 import kotlin.jvm.JvmField
 
 internal open class ParserException(msg: String) : Luposdate3000Exception("ParserContext", msg)

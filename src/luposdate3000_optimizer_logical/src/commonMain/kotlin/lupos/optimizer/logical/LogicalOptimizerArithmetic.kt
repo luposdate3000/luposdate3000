@@ -16,17 +16,17 @@
  */
 package lupos.optimizer.logical
 
-import lupos.dictionary.DictionaryExt
-import lupos.operator_arithmetik.AOPAggregationBase
-import lupos.operator_arithmetik.AOPBase
-import lupos.operator_arithmetik.noinput.AOPConstant
-import lupos.operator_arithmetik.noinput.AOPValue
-import lupos.operator_arithmetik.noinput.AOPVariable
-import lupos.operator_arithmetik.singleinput.AOPBuildInCallExists
-import lupos.operator_arithmetik.singleinput.AOPBuildInCallNotExists
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.Query
-import lupos.operator_logical.iterator.IteratorBundle
+import lupos.operator.arithmetik.AOPAggregationBase
+import lupos.operator.arithmetik.AOPBase
+import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPValue
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.arithmetik.singleinput.AOPBuildInCallExists
+import lupos.operator.arithmetik.singleinput.AOPBuildInCallNotExists
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.Query
+import lupos.operator.logical.iterator.IteratorBundle
+import lupos.shared.dictionary.DictionaryExt
 
 public class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerArithmeticID, "LogicalOptimizerArithmetic") {
     private fun hasAggregation(node: IOPBase): Boolean {

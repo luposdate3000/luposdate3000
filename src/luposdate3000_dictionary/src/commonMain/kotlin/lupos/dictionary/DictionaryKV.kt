@@ -20,9 +20,9 @@ import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.kv.KeyValueStore
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.SanityCheck
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.SanityCheck
 import lupos.shared_inline.BufferManagerPage
 import lupos.shared_inline.ByteArrayHelper
 import lupos.shared_inline.DictionaryHelper

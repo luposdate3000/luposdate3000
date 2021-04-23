@@ -1,9 +1,9 @@
 package lupos.endpoint_launcher
 
-import lupos.operator_arithmetik.noinput.AOPConstant
-import lupos.operator_arithmetik.noinput.AOPVariable
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.Query
+import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.Query
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer

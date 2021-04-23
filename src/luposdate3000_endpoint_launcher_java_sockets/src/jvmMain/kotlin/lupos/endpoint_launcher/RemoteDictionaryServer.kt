@@ -17,12 +17,12 @@
 package lupos.endpoint_launcher
 
 import lupos.dictionary.ADictionary
-import lupos.dictionary.DictionaryExt
 import lupos.dictionary.IDictionary
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.IMyInputStream
-import lupos.s00misc.IMyOutputStream
-import lupos.s00misc.MyReadWriteLock
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.IMyInputStream
+import lupos.shared.IMyOutputStream
+import lupos.shared.MyReadWriteLock
+import lupos.shared.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
 
 internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary) : ADictionary() {

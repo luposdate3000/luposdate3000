@@ -16,7 +16,7 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.ParallelThreadJob
+import lupos.shared.ParallelThreadJob
 
 internal expect object ParallelThread {
     internal inline fun <T> runBlocking(crossinline action: () -> T): T

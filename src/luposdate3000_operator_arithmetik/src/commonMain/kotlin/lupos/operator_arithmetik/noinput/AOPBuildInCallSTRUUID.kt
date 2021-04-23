@@ -14,16 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_arithmetik.noinput
+package lupos.operator.arithmetik.noinput
 
-import lupos.operator_arithmetik.AOPBase
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.iterator.IteratorBundle
-import lupos.s00misc.Crypto
-import lupos.s00misc.EOperatorIDExt
+import lupos.operator.arithmetik.AOPBase
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.iterator.IteratorBundle
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueSimpleLiteral
+import lupos.shared.Crypto
+import lupos.shared.EOperatorIDExt
 
 public class AOPBuildInCallSTRUUID public constructor(query: IQuery) : AOPBase(query, EOperatorIDExt.AOPBuildInCallSTRUUIDID, "AOPBuildInCallSTRUUID", arrayOf()) {
     override fun toSparql(): String = "STRUUID()"

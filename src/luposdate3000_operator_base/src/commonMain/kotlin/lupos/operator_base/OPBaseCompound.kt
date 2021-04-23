@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_base
+package lupos.operator.base
 
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
+import lupos.shared.EOperatorIDExt
+import lupos.shared.ESortPriorityExt
+import lupos.shared.SanityCheck
+import lupos.shared.XMLElement
 import kotlin.jvm.JvmField
 
 public class OPBaseCompound public constructor(query: IQuery, children: Array<IOPBase>, @JvmField public val columnProjectionOrder: List<List<String>>) : OPBase(query, EOperatorIDExt.OPCompoundID, "OPBaseCompound", children, ESortPriorityExt.PREVENT_ANY) {

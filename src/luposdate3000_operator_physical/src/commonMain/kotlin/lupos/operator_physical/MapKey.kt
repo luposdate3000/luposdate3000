@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_physical
+package lupos.operator.physical
 
-import lupos.dictionary.DictionaryExt
-import lupos.s00misc.SanityCheck
+import lupos.shared.SanityCheck
+import lupos.shared.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
 
 internal class MapKey(@JvmField val data: IntArray) {

@@ -16,7 +16,7 @@
  */
 package lupos.code_generator_kapt
 
-import lupos.operator_logical.OPBase
+import lupos.operator.logical.OPBase
 
 // This function will generate source code to run the merge join for the annotated query
 //  it mainly avoids loops by processing them here already (if possible) to avoid unnecessary
@@ -34,17 +34,17 @@ internal fun generatePOPJoinMerge(
     imports.add("lupos.s00misc.Partition")
     imports.add("lupos.s00misc.XMLElement")
     imports.add("lupos.s00misc.SanityCheck")
-    imports.add("lupos.operator_logical.IOPBase")
-    imports.add("lupos.operator_logical.IQuery")
-    imports.add("lupos.operator_logical.iterator.ColumnIterator")
-    imports.add("lupos.operator_logical.iterator.ColumnIteratorChildIterator")
-    imports.add("lupos.operator_logical.iterator.IteratorBundle")
-    imports.add("lupos.operator_physical.POPBase")
+    imports.add("lupos.operator.logical.IOPBase")
+    imports.add("lupos.operator.logical.IQuery")
+    imports.add("lupos.operator.logical.iterator.ColumnIterator")
+    imports.add("lupos.operator.logical.iterator.ColumnIteratorChildIterator")
+    imports.add("lupos.operator.logical.iterator.IteratorBundle")
+    imports.add("lupos.operator.physical.POPBase")
     imports.add("kotlin.jvm.JvmField")
-    imports.add("lupos.operator_logical.iterator.ColumnIteratorMultiIterator")
-    imports.add("lupos.operator_logical.iterator.ColumnIteratorMultiValue")
-    imports.add("lupos.operator_logical.iterator.ColumnIteratorRepeatIterator")
-    imports.add("lupos.operator_logical.iterator.ColumnIteratorRepeatValue")
+    imports.add("lupos.operator.logical.iterator.ColumnIteratorMultiIterator")
+    imports.add("lupos.operator.logical.iterator.ColumnIteratorMultiValue")
+    imports.add("lupos.operator.logical.iterator.ColumnIteratorRepeatIterator")
+    imports.add("lupos.operator.logical.iterator.ColumnIteratorRepeatValue")
 
     val clazz = ClazzContainer("operator${operatorGraph.uuid}", operatorGraph.uuid)
 

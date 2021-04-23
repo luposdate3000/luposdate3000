@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_physical.noinput
+package lupos.operator.physical.noinput
 
-import lupos.operator_logical.IQuery
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.SanityCheck
+import lupos.operator.logical.IQuery
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.SanityCheck
 import lupos.shared_inline.DictionaryHelper
 
 public abstract class POPValuesImportBase public constructor(query: IQuery, projectedVariables: List<String>, variables: List<String>) : POPValues(query, projectedVariables, variables, mutableListOf()) {

@@ -14,19 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_arithmetik.generated
+package lupos.operator.arithmetik.generated
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
-import lupos.dictionary.DictionaryExt
-import lupos.operator_arithmetik.AOPBase
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.iterator.IteratorBundle
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.ETripleComponentType
-import lupos.s00misc.ETripleComponentTypeExt
+import lupos.operator.arithmetik.AOPBase
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.iterator.IteratorBundle
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.EOperatorIDExt
+import lupos.shared.ETripleComponentType
+import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.dictionary.DictionaryExt
 import lupos.shared_inline.DictionaryHelper
 import kotlin.math.abs
 

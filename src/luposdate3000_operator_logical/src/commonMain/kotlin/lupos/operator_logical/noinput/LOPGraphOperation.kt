@@ -14,17 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_logical.noinput
+package lupos.operator.logical.noinput
 
-import lupos.operator_logical.HistogramResult
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.LOPBase
-import lupos.s00misc.EGraphOperationType
-import lupos.s00misc.EGraphRefType
-import lupos.s00misc.EGraphRefTypeExt
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.ESortPriorityExt
+import lupos.operator.logical.HistogramResult
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.LOPBase
+import lupos.shared.EGraphOperationType
+import lupos.shared.EGraphRefType
+import lupos.shared.EGraphRefTypeExt
+import lupos.shared.EOperatorIDExt
+import lupos.shared.ESortPriorityExt
 import kotlin.jvm.JvmField
 
 public class LOPGraphOperation public constructor(

@@ -16,9 +16,9 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.IMyOutputStream
-import lupos.s00misc.MyPrintWriterMode
-import lupos.s00misc.MyPrintWriterModeExt
+import lupos.shared.IMyOutputStream
+import lupos.shared.MyPrintWriterMode
+import lupos.shared.MyPrintWriterModeExt
 import java.io.PrintWriter
 import java.io.StringWriter
 import kotlin.jvm.JvmField

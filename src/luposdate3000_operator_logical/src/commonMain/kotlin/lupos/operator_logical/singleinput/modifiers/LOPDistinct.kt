@@ -14,15 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_logical.singleinput.modifiers
+package lupos.operator.logical.singleinput.modifiers
 
-import lupos.operator_logical.HistogramResult
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.LOPBase
-import lupos.operator_logical.noinput.OPEmptyRow
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.ESortPriorityExt
+import lupos.operator.logical.HistogramResult
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.LOPBase
+import lupos.operator.logical.noinput.OPEmptyRow
+import lupos.shared.EOperatorIDExt
+import lupos.shared.ESortPriorityExt
 
 public class LOPDistinct public constructor(query: IQuery, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPDistinctID, "LOPDistinct", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     public constructor(query: IQuery) : this(query, OPEmptyRow(query))

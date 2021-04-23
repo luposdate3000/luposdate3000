@@ -1,8 +1,8 @@
 package examplePackage
 
 import lupos.endpoint.LuposdateEndpoint
-import lupos.s00misc.CodeGenerationAnnotation
-import lupos.s00misc.DateHelperRelative
+import lupos.shared.CodeGenerationAnnotation
+import lupos.shared.DateHelperRelative
 import lupos.shared_inline.MyPrintWriter
 import kotlin.jvm.JvmField
 

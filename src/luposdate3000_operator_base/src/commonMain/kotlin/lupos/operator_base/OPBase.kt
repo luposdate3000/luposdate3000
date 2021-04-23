@@ -14,27 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_base
+package lupos.operator.base
 
-import lupos.operator_arithmetik.IAOPBase
-import lupos.operator_logical.iterator.IteratorBundle
-import lupos.operator_logical.multiinput.LOPJoin_Helper
-import lupos.operator_logical.singleinput.LOPNOOP
-import lupos.s00misc.BugException
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.ESortTypeExt
-import lupos.s00misc.EvaluateNotImplementedException
-import lupos.s00misc.HistogramNotImplementedException
-import lupos.s00misc.Parallel
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.SortHelper
-import lupos.s00misc.ToSparqlNotImplementedException
-import lupos.s00misc.VariableNotDefinedSyntaxException
-import lupos.s00misc.XMLElement
+import lupos.operator.arithmetik.IAOPBase
+import lupos.operator.logical.iterator.IteratorBundle
+import lupos.operator.logical.multiinput.LOPJoin_Helper
+import lupos.operator.logical.singleinput.LOPNOOP
+import lupos.shared.BugException
+import lupos.shared.EOperatorID
+import lupos.shared.ESortPriority
+import lupos.shared.ESortPriorityExt
+import lupos.shared.ESortTypeExt
+import lupos.shared.EvaluateNotImplementedException
+import lupos.shared.HistogramNotImplementedException
+import lupos.shared.Parallel
+import lupos.shared.Partition
+import lupos.shared.SanityCheck
+import lupos.shared.SortHelper
+import lupos.shared.ToSparqlNotImplementedException
 import lupos.shared.UUID_Counter
+import lupos.shared.VariableNotDefinedSyntaxException
+import lupos.shared.XMLElement
 import kotlin.jvm.JvmField
 
 public abstract class OPBase public constructor(

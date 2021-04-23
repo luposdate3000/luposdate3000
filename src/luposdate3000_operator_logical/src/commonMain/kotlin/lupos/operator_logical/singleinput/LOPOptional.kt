@@ -14,14 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_logical.singleinput
+package lupos.operator.logical.singleinput
 
-import lupos.operator_logical.HistogramResult
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.LOPBase
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.ESortPriorityExt
+import lupos.operator.logical.HistogramResult
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.LOPBase
+import lupos.shared.EOperatorIDExt
+import lupos.shared.ESortPriorityExt
 
 public class LOPOptional public constructor(query: IQuery, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPOptionalID, "LOPOptional", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     override fun equals(other: Any?): Boolean = other is LOPOptional && children[0] == other.children[0]

@@ -17,7 +17,7 @@
 package lupos.triple_store_id_triple.index_IDTriple
 
 import lupos.buffer_manager.BufferManager
-import lupos.s00misc.SanityCheck
+import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
 
 internal class NodeManager(bufferManager: BufferManager) {

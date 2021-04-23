@@ -14,23 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_logical.noinput
+package lupos.operator.logical.noinput
 
-import lupos.operator_arithmetik.AOPBase
-import lupos.operator_arithmetik.IAOPBase
-import lupos.operator_arithmetik.noinput.AOPConstant
-import lupos.operator_arithmetik.noinput.AOPVariable
-import lupos.operator_logical.HistogramResult
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.LOPBase
-import lupos.s00misc.EIndexPattern
-import lupos.s00misc.EIndexPatternExt
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.GraphVarHistogramsNotImplementedException
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
+import lupos.operator.arithmetik.AOPBase
+import lupos.operator.arithmetik.IAOPBase
+import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.logical.HistogramResult
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.LOPBase
+import lupos.shared.EIndexPattern
+import lupos.shared.EIndexPatternExt
+import lupos.shared.EOperatorIDExt
+import lupos.shared.ESortPriorityExt
+import lupos.shared.GraphVarHistogramsNotImplementedException
+import lupos.shared.SanityCheck
+import lupos.shared.XMLElement
 import lupos.triple_store_id_triple.TripleStoreManager
 import lupos.triple_store_id_triple.tripleStoreManager
 import kotlin.jvm.JvmField

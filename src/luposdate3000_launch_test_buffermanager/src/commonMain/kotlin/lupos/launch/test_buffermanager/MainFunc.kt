@@ -18,7 +18,7 @@ package lupos.launch.test_buffermanager
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
-import lupos.s00misc.Parallel
+import lupos.shared.Parallel
 import lupos.shared_inline.BufferManagerPage
 import lupos.test.AflCore
 import kotlin.jvm.JvmField

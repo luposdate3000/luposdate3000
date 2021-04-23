@@ -17,8 +17,8 @@
 package lupos.launch.display_dictionary_contents
 
 import lupos.fileformat.DictionaryIntermediateReader
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.Parallel
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.Parallel
 import lupos.shared_inline.DictionaryHelper
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)

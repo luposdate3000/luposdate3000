@@ -17,7 +17,7 @@
 
 package lupos.shared.fileformat
 
-import lupos.s00misc.ByteArrayWrapper
+import lupos.shared.ByteArrayWrapper
 import lupos.shared_inline.File
 
 public class DictionaryIntermediateReader(filename: String) : DictionaryIntermediate(filename) {

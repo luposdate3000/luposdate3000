@@ -14,18 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_arithmetik.multiinput
+package lupos.operator.arithmetik.multiinput
 
-import lupos.operator_arithmetik.AOPBase
-import lupos.operator_arithmetik.IAOPBase
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.iterator.IteratorBundle
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.SanityCheck
+import lupos.operator.arithmetik.AOPBase
+import lupos.operator.arithmetik.IAOPBase
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.iterator.IteratorBundle
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDefinition
 import lupos.s03resultRepresentation.ValueError
+import lupos.shared.EOperatorIDExt
+import lupos.shared.SanityCheck
 
 public class AOPIn public constructor(query: IQuery, childA: IAOPBase, childB: IAOPBase) : AOPBase(query, EOperatorIDExt.AOPInID, "AOPIn", arrayOf(childA, childB)) {
     override fun toSparql(): String = "( " + children[0].toSparql() + " IN " + children[1].toSparql() + " )"

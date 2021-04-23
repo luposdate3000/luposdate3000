@@ -14,15 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_physical.noinput
+package lupos.operator.physical.noinput
 
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.iterator.IteratorBundle
-import lupos.operator_physical.POPBase
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.Partition
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.iterator.IteratorBundle
+import lupos.operator.physical.POPBase
+import lupos.shared.EOperatorIDExt
+import lupos.shared.ESortPriorityExt
+import lupos.shared.Partition
 
 public class POPEmptyRow public constructor(query: IQuery, projectedVariables: List<String>) : POPBase(query, projectedVariables, EOperatorIDExt.POPEmptyRowID, "POPEmptyRow", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = 1

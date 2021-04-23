@@ -14,16 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_logical.singleinput.modifiers
+package lupos.operator.logical.singleinput.modifiers
 
-import lupos.operator_logical.HistogramResult
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.LOPBase
-import lupos.operator_logical.noinput.OPEmptyRow
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.XMLElement
+import lupos.operator.logical.HistogramResult
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.LOPBase
+import lupos.operator.logical.noinput.OPEmptyRow
+import lupos.shared.EOperatorIDExt
+import lupos.shared.ESortPriorityExt
+import lupos.shared.XMLElement
 import kotlin.jvm.JvmField
 
 public class LOPLimit public constructor(query: IQuery, @JvmField public val limit: Int, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPLimitID, "LOPLimit", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_physical.multiinput
+package lupos.operator.physical.multiinput
 
 internal class POPJoinHashMap_Row(columns: Int) {
     val columns = Array<MutableList<Int>>(columns) { mutableListOf<Int>() }

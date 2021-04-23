@@ -14,14 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_logical.singleinput
+package lupos.operator.logical.singleinput
 
-import lupos.operator_logical.HistogramResult
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.LOPBase
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.ESortPriorityExt
+import lupos.operator.logical.HistogramResult
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.LOPBase
+import lupos.shared.EOperatorIDExt
+import lupos.shared.ESortPriorityExt
 
 public class LOPMakeBooleanResult public constructor(query: IQuery, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPMakeBooleanResultID, "LOPMakeBooleanResult", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     override fun getProvidedVariableNames(): List<String> {

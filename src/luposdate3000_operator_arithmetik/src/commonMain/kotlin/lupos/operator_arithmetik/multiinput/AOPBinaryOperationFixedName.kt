@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_arithmetik.multiinput
+package lupos.operator.arithmetik.multiinput
 
-import lupos.operator_arithmetik.AOPBase
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.s00misc.EOperatorID
+import lupos.operator.arithmetik.AOPBase
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.shared.EOperatorID
 
 public abstract class AOPBinaryOperationFixedName public constructor(
     query: IQuery,

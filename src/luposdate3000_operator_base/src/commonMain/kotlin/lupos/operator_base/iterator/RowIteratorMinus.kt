@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_base.iterator
+package lupos.operator.base.iterator
 
-import lupos.s00misc.Parallel
+import lupos.shared.Parallel
 import kotlin.jvm.JvmField
 
 public open class RowIteratorMinus(@JvmField public val a: RowIterator, @JvmField public val b: RowIterator, @JvmField internal val projection: Array<String>) : RowIterator() {

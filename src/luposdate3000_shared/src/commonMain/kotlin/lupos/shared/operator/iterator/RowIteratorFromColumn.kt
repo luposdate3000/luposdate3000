@@ -16,8 +16,8 @@
  */
 package lupos.shared.operator.iterator
 
-import lupos.dictionary.DictionaryExt
-import lupos.s00misc.SanityCheck
+import lupos.shared.SanityCheck
+import lupos.shared.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
 
 public open class RowIteratorFromColumn(@JvmField public val bundle: IteratorBundle) : RowIterator() {

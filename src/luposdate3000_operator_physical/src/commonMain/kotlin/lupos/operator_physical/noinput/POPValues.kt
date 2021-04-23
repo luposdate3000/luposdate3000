@@ -14,23 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_physical.noinput
+package lupos.operator.physical.noinput
 
-import lupos.dictionary.DictionaryExt
-import lupos.operator_arithmetik.noinput.AOPConstant
-import lupos.operator_arithmetik.noinput.AOPValue
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.iterator.ColumnIterator
-import lupos.operator_logical.iterator.ColumnIteratorMultiValue
-import lupos.operator_logical.iterator.IteratorBundle
-import lupos.operator_logical.noinput.LOPValues
-import lupos.operator_physical.POPBase
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
+import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPValue
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.iterator.ColumnIterator
+import lupos.operator.logical.iterator.ColumnIteratorMultiValue
+import lupos.operator.logical.iterator.IteratorBundle
+import lupos.operator.logical.noinput.LOPValues
+import lupos.operator.physical.POPBase
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.EOperatorIDExt
+import lupos.shared.ESortPriorityExt
+import lupos.shared.Partition
+import lupos.shared.SanityCheck
+import lupos.shared.XMLElement
+import lupos.shared.dictionary.DictionaryExt
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 

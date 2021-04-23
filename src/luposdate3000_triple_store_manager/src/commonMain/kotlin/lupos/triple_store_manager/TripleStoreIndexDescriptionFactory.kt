@@ -16,8 +16,8 @@
  */
 package lupos.triple_store_manager
 
-import lupos.s00misc.EIndexPattern
-import lupos.s00misc.EIndexPatternExt
+import lupos.shared.EIndexPattern
+import lupos.shared.EIndexPatternExt
 import lupos.shared_inline.ByteArrayHelper
 import kotlin.jvm.JvmField
 

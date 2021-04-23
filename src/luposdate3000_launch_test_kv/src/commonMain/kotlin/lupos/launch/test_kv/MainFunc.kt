@@ -19,8 +19,8 @@ package lupos.launch.test_kv
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.kv.KeyValueStore
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.Parallel
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.Parallel
 import lupos.test.AflCore
 import kotlin.jvm.JvmField
 import kotlin.math.abs

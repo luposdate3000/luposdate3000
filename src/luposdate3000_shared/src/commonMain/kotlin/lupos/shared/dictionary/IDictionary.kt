@@ -16,7 +16,7 @@
  */
 package lupos.shared.dictionary
 
-import lupos.s00misc.ByteArrayWrapper
+import lupos.shared.ByteArrayWrapper
 import kotlin.jvm.JvmField
 
 public interface IDictionary {

@@ -16,8 +16,8 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.IMyInputStream
-import lupos.s00misc.NotImplementedException
+import lupos.shared.IMyInputStream
+import lupos.shared.NotImplementedException
 
 internal actual class MyInputStream : IMyInputStream {
     public actual override fun readByte(): Byte = throw NotImplementedException("MyOutputStream", "xyz not implemented")

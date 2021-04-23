@@ -16,7 +16,7 @@
  */
 package lupos.optimizer.distributed.query
 
-import lupos.s00misc.XMLElement
+import lupos.shared.XMLElement
 
 public class DistributedOptimizerAssignChild() : DistributedOptimizerBase {
     override fun optimize(key: String, node: XMLElement, dependenciesTopDown: Set<String>, dependenciesBottomUp: Set<String>, keytoHostMapGet: (String) -> String?, keytoHostMapSet: (String, String) -> Unit, onChange: () -> Unit) {

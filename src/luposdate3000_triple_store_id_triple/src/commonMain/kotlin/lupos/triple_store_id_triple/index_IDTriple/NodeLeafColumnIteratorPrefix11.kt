@@ -16,9 +16,9 @@
  */
 package lupos.triple_store_id_triple.index_IDTriple
 
-import lupos.dictionary.DictionaryExt
-import lupos.s00misc.MyReadWriteLock
-import lupos.s00misc.SanityCheck
+import lupos.shared.MyReadWriteLock
+import lupos.shared.SanityCheck
+import lupos.shared.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
 
 internal class NodeLeafColumnIteratorPrefix11(node: ByteArray, nodeid: Int, prefix: IntArray, lock: MyReadWriteLock, nodeManager: NodeManager) : NodeLeafColumnIteratorPrefix(node, nodeid, prefix, lock, nodeManager) {

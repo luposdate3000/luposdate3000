@@ -14,14 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_logical.multiinput
+package lupos.operator.logical.multiinput
 
-import lupos.operator_logical.HistogramResult
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.LOPBase
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.ESortPriorityExt
+import lupos.operator.logical.HistogramResult
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.LOPBase
+import lupos.shared.EOperatorIDExt
+import lupos.shared.ESortPriorityExt
 import kotlin.jvm.JvmField
 
 public class LOPMinus public constructor(query: IQuery, first: IOPBase, second: IOPBase, @JvmField public var tmpFakeVariables: List<String>) : LOPBase(query, EOperatorIDExt.LOPMinusID, "LOPMinus", arrayOf(first, second), ESortPriorityExt.MINUS) {

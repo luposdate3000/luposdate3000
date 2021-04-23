@@ -17,8 +17,8 @@
 
 package lupos.shared.fileformat
 
-import lupos.s00misc.IMyInputStream
-import lupos.s00misc.IMyOutputStream
+import lupos.shared.IMyInputStream
+import lupos.shared.IMyOutputStream
 import lupos.shared_inline.File
 import kotlin.jvm.JvmField
 

@@ -16,19 +16,19 @@
  */
 package lupos.optimizer.physical
 
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.Query
-import lupos.operator_physical.partition.POPChangePartitionOrderedByIntId
-import lupos.operator_physical.partition.POPMergePartition
-import lupos.operator_physical.partition.POPMergePartitionCount
-import lupos.operator_physical.partition.POPMergePartitionOrderedByIntId
-import lupos.operator_physical.partition.POPSplitPartition
-import lupos.operator_physical.partition.POPSplitPartitionFromStore
-import lupos.operator_physical.partition.POPSplitPartitionFromStoreCount
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.Query
+import lupos.operator.physical.partition.POPChangePartitionOrderedByIntId
+import lupos.operator.physical.partition.POPMergePartition
+import lupos.operator.physical.partition.POPMergePartitionCount
+import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
+import lupos.operator.physical.partition.POPSplitPartition
+import lupos.operator.physical.partition.POPSplitPartitionFromStore
+import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
-import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.Partition
+import lupos.shared.EPartitionModeExt
+import lupos.shared.Partition
 import lupos.triple_store_id_triple.tripleStoreManager
 
 public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionRespectMaxPartitionsID, "PhysicalOptimizerPartitionRespectMaxPartitions") {

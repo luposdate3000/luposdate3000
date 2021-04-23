@@ -16,11 +16,11 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator_arithmetik.AOPBase
-import lupos.operator_arithmetik.generated.AOPAnd
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.Query
-import lupos.operator_logical.singleinput.LOPFilter
+import lupos.operator.arithmetik.AOPBase
+import lupos.operator.arithmetik.generated.AOPAnd
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.Query
+import lupos.operator.logical.singleinput.LOPFilter
 
 public class LogicalOptimizerFilterSplitAND(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterSplitANDID, "LogicalOptimizerFilterSplitAND") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

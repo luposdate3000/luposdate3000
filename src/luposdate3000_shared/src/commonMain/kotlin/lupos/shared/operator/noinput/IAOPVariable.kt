@@ -16,7 +16,7 @@
  */
 package lupos.shared.operator.noinput
 
-import lupos.operator_arithmetik.IAOPBase
+import lupos.operator.arithmetik.IAOPBase
 
 public interface IAOPVariable : IAOPBase {
     public fun getName(): String

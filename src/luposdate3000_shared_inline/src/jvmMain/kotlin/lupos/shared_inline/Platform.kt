@@ -16,7 +16,7 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.EOperatingSystemExt
+import lupos.shared.EOperatingSystemExt
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader

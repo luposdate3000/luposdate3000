@@ -14,26 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_physical.singleinput
+package lupos.operator.physical.singleinput
 
-import lupos.dictionary.DictionaryExt
-import lupos.operator_arithmetik.noinput.AOPConstant
-import lupos.operator_arithmetik.noinput.AOPVariable
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.iterator.ColumnIteratorMultiValue
-import lupos.operator_logical.iterator.ColumnIteratorRepeatValue
-import lupos.operator_logical.iterator.IteratorBundle
-import lupos.operator_logical.noinput.LOPTriple
-import lupos.operator_physical.POPBase
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.EModifyType
-import lupos.s00misc.EModifyTypeExt
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
+import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.iterator.ColumnIteratorMultiValue
+import lupos.operator.logical.iterator.ColumnIteratorRepeatValue
+import lupos.operator.logical.iterator.IteratorBundle
+import lupos.operator.logical.noinput.LOPTriple
+import lupos.operator.physical.POPBase
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.EModifyType
+import lupos.shared.EModifyTypeExt
+import lupos.shared.EOperatorIDExt
+import lupos.shared.ESortPriorityExt
+import lupos.shared.Partition
+import lupos.shared.SanityCheck
+import lupos.shared.XMLElement
+import lupos.shared.dictionary.DictionaryExt
 import lupos.shared_inline.DictionaryHelper
 import lupos.triple_store_id_triple.tripleStoreManager
 import kotlin.jvm.JvmField

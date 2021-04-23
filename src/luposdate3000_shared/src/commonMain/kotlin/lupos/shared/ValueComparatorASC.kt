@@ -16,8 +16,7 @@
  */
 package lupos.shared
 
-import lupos.operator_logical.IQuery
-import lupos.s00misc.ByteArrayWrapper
+import lupos.operator.logical.IQuery
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 

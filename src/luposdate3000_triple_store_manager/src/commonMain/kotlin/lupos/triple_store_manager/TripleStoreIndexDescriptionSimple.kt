@@ -16,13 +16,13 @@
  */
 package lupos.triple_store_manager
 
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.s00misc.EIndexPattern
-import lupos.s00misc.EIndexPatternExt
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.shared.EIndexPattern
+import lupos.shared.EIndexPatternExt
+import lupos.shared.Partition
+import lupos.shared.SanityCheck
+import lupos.shared.XMLElement
 import lupos.shared_inline.ByteArrayHelper
 import kotlin.jvm.JvmField
 

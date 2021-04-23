@@ -16,7 +16,7 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.IMyInputStream
+import lupos.shared.IMyInputStream
 import kotlin.jvm.JvmField
 
 internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @JvmField var remainingBytes: Int) : IMyInputStream {

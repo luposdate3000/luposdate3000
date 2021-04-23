@@ -14,18 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_logical.multiinput
+package lupos.operator.logical.multiinput
 
-import lupos.operator_arithmetik.noinput.AOPVariable
-import lupos.operator_logical.HistogramResult
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.LOPBase
-import lupos.operator_logical.singleinput.LOPProjection
-import lupos.s00misc.BugException
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.SanityCheck
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.logical.HistogramResult
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.LOPBase
+import lupos.operator.logical.singleinput.LOPProjection
+import lupos.shared.BugException
+import lupos.shared.EOperatorIDExt
+import lupos.shared.ESortPriorityExt
+import lupos.shared.SanityCheck
 
 public class LOPUnion public constructor(query: IQuery, first: IOPBase, second: IOPBase) : LOPBase(query, EOperatorIDExt.LOPUnionID, "LOPUnion", arrayOf(first, second), ESortPriorityExt.UNION) {
     override fun equals(other: Any?): Boolean = other is LOPUnion && children[0] == other.children[0] && children[1] == other.children[1]

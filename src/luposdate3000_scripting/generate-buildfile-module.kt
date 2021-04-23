@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import lupos.s00misc.EOperatingSystemExt
+import lupos.shared.EOperatingSystemExt
 import lupos.shared_inline.Platform
 import java.io.File
 import java.io.PrintWriter

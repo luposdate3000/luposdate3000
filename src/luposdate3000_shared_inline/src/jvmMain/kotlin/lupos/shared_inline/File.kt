@@ -16,9 +16,9 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.DirectoryCompareNotImplementedException
-import lupos.s00misc.IMyInputStream
-import lupos.s00misc.IMyOutputStream
+import lupos.shared.DirectoryCompareNotImplementedException
+import lupos.shared.IMyInputStream
+import lupos.shared.IMyOutputStream
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
 import java.io.FileInputStream

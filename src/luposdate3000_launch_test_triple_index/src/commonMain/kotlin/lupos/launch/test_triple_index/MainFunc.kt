@@ -18,10 +18,10 @@ package lupos.launch.test_triple_index
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
-import lupos.dictionary.DictionaryExt
-import lupos.operator_logical.Query
-import lupos.operator_logical.iterator.IteratorBundle
-import lupos.s00misc.Parallel
+import lupos.operator.logical.Query
+import lupos.operator.logical.iterator.IteratorBundle
+import lupos.shared.Parallel
+import lupos.shared.dictionary.DictionaryExt
 import lupos.test.AflCore
 import lupos.triple_store_id_triple.TripleStoreIndex
 import lupos.triple_store_id_triple.TripleStoreIndexIDTriple

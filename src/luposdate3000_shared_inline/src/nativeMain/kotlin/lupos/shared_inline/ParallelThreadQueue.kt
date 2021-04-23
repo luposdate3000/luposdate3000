@@ -16,7 +16,7 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.NotImplementedException
+import lupos.shared.NotImplementedException
 
 internal actual class ParallelThreadQueue<T> {
     actual constructor(terminationValue: T) {

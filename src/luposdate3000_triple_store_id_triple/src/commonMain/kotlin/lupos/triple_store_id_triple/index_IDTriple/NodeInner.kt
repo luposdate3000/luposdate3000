@@ -16,9 +16,9 @@
  */
 package lupos.triple_store_id_triple.index_IDTriple
 
-import lupos.operator_logical.iterator.ColumnIterator
-import lupos.s00misc.MyReadWriteLock
-import lupos.s00misc.SanityCheck
+import lupos.operator.logical.iterator.ColumnIterator
+import lupos.shared.MyReadWriteLock
+import lupos.shared.SanityCheck
 import lupos.shared_inline.BufferManagerPage
 
 internal object NodeInner {

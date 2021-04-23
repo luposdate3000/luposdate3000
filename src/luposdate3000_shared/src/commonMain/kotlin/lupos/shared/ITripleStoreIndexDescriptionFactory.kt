@@ -16,8 +16,6 @@
  */
 package lupos.shared
 
-import lupos.s00misc.EIndexPattern
-
 public interface ITripleStoreIndexDescriptionFactory {
     public fun simple(idx: EIndexPattern): ITripleStoreIndexDescriptionFactory
     public fun partitionedByID(idx: EIndexPattern, partitionCount: Int, partitionColumn: Int): ITripleStoreIndexDescriptionFactory

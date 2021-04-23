@@ -16,12 +16,12 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator_arithmetik.noinput.AOPConstant
-import lupos.operator_arithmetik.noinput.AOPVariable
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.Query
-import lupos.operator_logical.multiinput.LOPMinus
-import lupos.operator_logical.singleinput.LOPBind
+import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.Query
+import lupos.operator.logical.multiinput.LOPMinus
+import lupos.operator.logical.singleinput.LOPBind
 import lupos.s03resultRepresentation.ValueUndef
 
 public class LogicalOptimizerDetectMinusStep2(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerDetectMinusStep2ID, "LogicalOptimizerDetectMinusStep2") {

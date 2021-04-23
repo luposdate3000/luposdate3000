@@ -16,7 +16,7 @@
  */
 package lupos.optimizer.distributed.query
 
-import lupos.s00misc.XMLElement
+import lupos.shared.XMLElement
 import lupos.triple_store_id_triple.tripleStoreManager
 
 public class DistributedOptimizerAssignLocalhost() : DistributedOptimizerBase {

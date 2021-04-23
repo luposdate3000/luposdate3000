@@ -16,8 +16,8 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.IMyInputStream
-import lupos.s00misc.IMyOutputStream
+import lupos.shared.IMyInputStream
+import lupos.shared.IMyOutputStream
 
 internal expect class File(filename: String) {
     internal inline fun createTempFile(prefix: String, suffix: String, directory: String): String

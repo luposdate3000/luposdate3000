@@ -16,15 +16,15 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator_arithmetik.noinput.AOPVariable
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.Query
-import lupos.operator_logical.multiinput.LOPMinus
-import lupos.operator_logical.singleinput.LOPProjection
-import lupos.operator_logical.singleinput.modifiers.LOPReduced
-import lupos.operator_logical.singleinput.modifiers.LOPSortAny
-import lupos.s00misc.ESortTypeExt
-import lupos.s00misc.SortHelper
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.Query
+import lupos.operator.logical.multiinput.LOPMinus
+import lupos.operator.logical.singleinput.LOPProjection
+import lupos.operator.logical.singleinput.modifiers.LOPReduced
+import lupos.operator.logical.singleinput.modifiers.LOPSortAny
+import lupos.shared.ESortTypeExt
+import lupos.shared.SortHelper
 
 public class LogicalOptimizerMinusAddSort(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerMinusAddSortID, "LogicalOptimizerMinusAddSort") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

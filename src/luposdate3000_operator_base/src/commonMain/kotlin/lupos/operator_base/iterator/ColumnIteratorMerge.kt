@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_base.iterator
+package lupos.operator.base.iterator
 
-import lupos.dictionary.DictionaryExt
-import lupos.s00misc.MERGE_SORT_MIN_ROWS
-import lupos.s00misc.SanityCheck
+import lupos.shared.MERGE_SORT_MIN_ROWS
+import lupos.shared.SanityCheck
+import lupos.shared.dictionary.DictionaryExt
 
 public object ColumnIteratorMerge {
     public /*suspend*/ operator fun invoke(a: ColumnIterator, comparator: Comparator<Int>): ColumnIterator {

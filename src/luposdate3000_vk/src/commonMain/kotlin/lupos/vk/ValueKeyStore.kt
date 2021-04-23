@@ -18,8 +18,8 @@ package lupos.vk
 
 import lupos.ProguardTestAnnotation
 import lupos.buffer_manager.BufferManager
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.SanityCheck
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.SanityCheck
 import lupos.shared_inline.BufferManagerPage
 import kotlin.jvm.JvmField
 import kotlin.math.min

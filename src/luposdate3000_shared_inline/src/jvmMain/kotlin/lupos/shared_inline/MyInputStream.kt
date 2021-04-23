@@ -16,8 +16,8 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.IMyInputStream
-import lupos.s00misc.SanityCheck
+import lupos.shared.IMyInputStream
+import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
 import java.io.InputStream
 import kotlin.jvm.JvmField

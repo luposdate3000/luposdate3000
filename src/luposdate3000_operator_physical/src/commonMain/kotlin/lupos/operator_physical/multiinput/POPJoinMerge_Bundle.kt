@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_physical.multiinput
+package lupos.operator.physical.multiinput
 
-import lupos.dictionary.DictionaryExt
-import lupos.operator_logical.iterator.ColumnIterator
-import lupos.operator_logical.iterator.ColumnIteratorChildIterator
-import lupos.operator_logical.iterator.IteratorBundle
+import lupos.operator.logical.iterator.ColumnIterator
+import lupos.operator.logical.iterator.ColumnIteratorChildIterator
+import lupos.operator.logical.iterator.IteratorBundle
+import lupos.shared.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
 
 internal class POPJoinMerge_Bundle(@JvmField val columnsINJ0: List<ColumnIterator>, @JvmField val columnsINJ1: List<ColumnIterator>, @JvmField val columnsOUTJ: ColumnIteratorChildIterator) : IteratorBundle(0) {

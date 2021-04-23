@@ -16,7 +16,7 @@
  */
 package lupos.jena
 
-import lupos.s00misc.JenaBugException
+import lupos.shared.JenaBugException
 import org.apache.jena.query.ARQ
 import org.apache.jena.query.DatasetFactory
 import org.apache.jena.query.QueryExecutionFactory

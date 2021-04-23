@@ -16,9 +16,9 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.IMyInputStream
-import lupos.s00misc.IMyOutputStream
-import lupos.s00misc.NotImplementedException
+import lupos.shared.IMyInputStream
+import lupos.shared.IMyOutputStream
+import lupos.shared.NotImplementedException
 import kotlin.jvm.JvmField
 
 internal actual class File {

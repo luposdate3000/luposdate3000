@@ -16,16 +16,16 @@
  */
 package lupos.result_format
 
-import lupos.dictionary.DictionaryExt
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.OPBaseCompound
-import lupos.operator_logical.noinput.OPNothing
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
-import lupos.s00misc.communicationHandler
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.OPBaseCompound
+import lupos.operator.logical.noinput.OPNothing
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.EPartitionModeExt
+import lupos.shared.Partition
+import lupos.shared.SanityCheck
+import lupos.shared.XMLElement
+import lupos.shared.communicationHandler
+import lupos.shared.dictionary.DictionaryExt
 import lupos.shared_inline.DictionaryHelper
 import lupos.triple_store_id_triple.tripleStoreManager
 

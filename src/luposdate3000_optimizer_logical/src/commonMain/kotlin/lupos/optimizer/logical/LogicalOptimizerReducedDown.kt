@@ -16,17 +16,17 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator_arithmetik.noinput.AOPVariable
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.Query
-import lupos.operator_logical.multiinput.LOPJoin
-import lupos.operator_logical.multiinput.LOPMinus
-import lupos.operator_logical.multiinput.LOPUnion
-import lupos.operator_logical.noinput.LOPTriple
-import lupos.operator_logical.singleinput.LOPFilter
-import lupos.operator_logical.singleinput.LOPProjection
-import lupos.operator_logical.singleinput.modifiers.LOPReduced
-import lupos.operator_logical.singleinput.modifiers.LOPSortAny
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.Query
+import lupos.operator.logical.multiinput.LOPJoin
+import lupos.operator.logical.multiinput.LOPMinus
+import lupos.operator.logical.multiinput.LOPUnion
+import lupos.operator.logical.noinput.LOPTriple
+import lupos.operator.logical.singleinput.LOPFilter
+import lupos.operator.logical.singleinput.LOPProjection
+import lupos.operator.logical.singleinput.modifiers.LOPReduced
+import lupos.operator.logical.singleinput.modifiers.LOPSortAny
 
 public class LogicalOptimizerReducedDown(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerReducedDownID, "LogicalOptimizerReducedDown") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

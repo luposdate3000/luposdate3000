@@ -17,10 +17,10 @@
 
 package lupos.optimizer.physical
 
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.Query
-import lupos.operator_physical.POPBase
-import lupos.operator_physical.singleinput.POPVisualisation
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.Query
+import lupos.operator.physical.POPBase
+import lupos.operator.physical.singleinput.POPVisualisation
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 

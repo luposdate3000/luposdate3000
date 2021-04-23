@@ -16,7 +16,7 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.NotImplementedException
+import lupos.shared.NotImplementedException
 import lupos.shared.UUID_Counter
 import kotlin.jvm.JvmField
 

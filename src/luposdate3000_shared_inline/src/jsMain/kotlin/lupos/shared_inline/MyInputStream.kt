@@ -16,7 +16,7 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.IMyInputStream
+import lupos.shared.IMyInputStream
 
 internal actual class MyInputStream : IMyInputStream {
     internal val fd: Int

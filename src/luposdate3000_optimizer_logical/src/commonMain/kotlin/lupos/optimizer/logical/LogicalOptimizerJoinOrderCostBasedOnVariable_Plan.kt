@@ -16,8 +16,8 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.multiinput.LOPJoin
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.multiinput.LOPJoin
 import kotlin.jvm.JvmField
 
 public class LogicalOptimizerJoinOrderCostBasedOnVariable_Plan : Comparable<LogicalOptimizerJoinOrderCostBasedOnVariable_Plan> {

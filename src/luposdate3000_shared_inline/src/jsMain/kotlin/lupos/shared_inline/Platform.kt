@@ -16,7 +16,7 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.EOperatingSystemExt
+import lupos.shared.EOperatingSystemExt
 
 internal actual object Platform {
     val operatingSystem = EOperatingSystemExt.JS

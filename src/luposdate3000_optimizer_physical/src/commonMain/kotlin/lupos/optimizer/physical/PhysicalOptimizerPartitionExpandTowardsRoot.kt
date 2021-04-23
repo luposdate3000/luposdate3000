@@ -16,25 +16,25 @@
  */
 package lupos.optimizer.physical
 
-import lupos.operator_arithmetik.AOPBase
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.Query
-import lupos.operator_physical.multiinput.POPUnion
-import lupos.operator_physical.partition.POPChangePartitionOrderedByIntId
-import lupos.operator_physical.partition.POPMergePartition
-import lupos.operator_physical.partition.POPMergePartitionCount
-import lupos.operator_physical.partition.POPMergePartitionOrderedByIntId
-import lupos.operator_physical.partition.POPSplitPartition
-import lupos.operator_physical.partition.POPSplitPartitionFromStore
-import lupos.operator_physical.partition.POPSplitPartitionFromStoreCount
-import lupos.operator_physical.singleinput.POPBind
-import lupos.operator_physical.singleinput.POPFilter
-import lupos.operator_physical.singleinput.POPProjection
-import lupos.operator_physical.singleinput.modifiers.POPReduced
+import lupos.operator.arithmetik.AOPBase
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.Query
+import lupos.operator.physical.multiinput.POPUnion
+import lupos.operator.physical.partition.POPChangePartitionOrderedByIntId
+import lupos.operator.physical.partition.POPMergePartition
+import lupos.operator.physical.partition.POPMergePartitionCount
+import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
+import lupos.operator.physical.partition.POPSplitPartition
+import lupos.operator.physical.partition.POPSplitPartitionFromStore
+import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
+import lupos.operator.physical.singleinput.POPBind
+import lupos.operator.physical.singleinput.POPFilter
+import lupos.operator.physical.singleinput.POPProjection
+import lupos.operator.physical.singleinput.modifiers.POPReduced
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
-import lupos.s00misc.DontCareWhichException
-import lupos.s00misc.EPartitionModeExt
+import lupos.shared.DontCareWhichException
+import lupos.shared.EPartitionModeExt
 import lupos.triple_store_id_triple.POPTripleStoreIterator
 import lupos.triple_store_id_triple.tripleStoreManager
 

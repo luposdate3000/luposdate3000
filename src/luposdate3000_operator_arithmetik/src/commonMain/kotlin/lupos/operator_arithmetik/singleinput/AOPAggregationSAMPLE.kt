@@ -14,17 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_arithmetik.singleinput
+package lupos.operator.arithmetik.singleinput
 
-import lupos.operator_arithmetik.AOPAggregationBase
-import lupos.operator_arithmetik.AOPBase
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.iterator.ColumnIteratorAggregate
-import lupos.operator_logical.iterator.IteratorBundle
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.XMLElement
+import lupos.operator.arithmetik.AOPAggregationBase
+import lupos.operator.arithmetik.AOPBase
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.iterator.ColumnIteratorAggregate
+import lupos.operator.logical.iterator.IteratorBundle
 import lupos.s03resultRepresentation.ValueDefinition
+import lupos.shared.EOperatorIDExt
+import lupos.shared.XMLElement
 import kotlin.jvm.JvmField
 
 public class AOPAggregationSAMPLE public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationSAMPLEID, "AOPAggregationSAMPLE", Array<IOPBase>(childs.size) { childs[it] }) {

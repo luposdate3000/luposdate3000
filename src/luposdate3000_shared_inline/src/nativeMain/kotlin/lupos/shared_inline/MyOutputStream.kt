@@ -16,8 +16,8 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.IMyOutputStream
-import lupos.s00misc.NotImplementedException
+import lupos.shared.IMyOutputStream
+import lupos.shared.NotImplementedException
 
 internal actual class MyOutputStream : IMyOutputStream {
     internal actual constructor() {}

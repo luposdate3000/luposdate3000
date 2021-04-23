@@ -16,7 +16,7 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator_logical.Query
+import lupos.operator.logical.Query
 
 public class LogicalOptimizer public constructor(query: Query) : OptimizerCompoundBase(query, EOptimizerIDExt.LogicalOptimizerID, "LogicalOptimizer") {
     override val childrenOptimizers: Array<Array<OptimizerBase>> = arrayOf( //

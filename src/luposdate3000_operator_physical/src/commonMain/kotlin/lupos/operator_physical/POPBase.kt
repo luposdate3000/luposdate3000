@@ -14,17 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_physical
+package lupos.operator.physical
 
-import lupos.operator_logical.HistogramResult
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.OPBase
-import lupos.s00misc.EOperatorID
-import lupos.s00misc.ESortPriority
-import lupos.s00misc.HistogramNotImplementedException
-import lupos.s00misc.VariableNotDefinedSyntaxException
-import lupos.s00misc.XMLElement
+import lupos.operator.logical.HistogramResult
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.OPBase
+import lupos.shared.EOperatorID
+import lupos.shared.ESortPriority
+import lupos.shared.HistogramNotImplementedException
+import lupos.shared.VariableNotDefinedSyntaxException
+import lupos.shared.XMLElement
 import kotlin.jvm.JvmField
 
 public abstract class POPBase public constructor(

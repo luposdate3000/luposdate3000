@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_base.iterator
+package lupos.operator.base.iterator
 
-import lupos.s00misc.SanityCheck
+import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
 
 public class RowIteratorBuf(buf: IntArray, columns: Array<String>, @JvmField public val size: Int) : RowIterator() {

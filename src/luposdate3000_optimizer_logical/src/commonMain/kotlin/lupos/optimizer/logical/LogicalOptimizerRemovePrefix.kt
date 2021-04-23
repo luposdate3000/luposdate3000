@@ -16,9 +16,9 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.Query
-import lupos.operator_logical.singleinput.modifiers.LOPPrefix
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.Query
+import lupos.operator.logical.singleinput.modifiers.LOPPrefix
 
 public class LogicalOptimizerRemovePrefix(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerRemovePrefixID, "LogicalOptimizerRemovePrefix") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

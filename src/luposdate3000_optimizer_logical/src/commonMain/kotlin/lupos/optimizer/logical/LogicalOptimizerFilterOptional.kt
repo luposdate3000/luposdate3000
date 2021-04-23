@@ -16,19 +16,19 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator_arithmetik.AOPBase
-import lupos.operator_arithmetik.generated.AOPAnd
-import lupos.operator_arithmetik.generated.AOPBuildInCallBOUND
-import lupos.operator_arithmetik.generated.AOPNot
-import lupos.operator_arithmetik.generated.AOPOr
-import lupos.operator_arithmetik.multiinput.AOPBuildInCallCOALESCE
-import lupos.operator_arithmetik.noinput.AOPConstant
-import lupos.operator_arithmetik.noinput.AOPVariable
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.Query
-import lupos.operator_logical.multiinput.LOPJoin
-import lupos.operator_logical.singleinput.LOPFilter
-import lupos.operator_logical.singleinput.LOPSubGroup
+import lupos.operator.arithmetik.AOPBase
+import lupos.operator.arithmetik.generated.AOPAnd
+import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
+import lupos.operator.arithmetik.generated.AOPNot
+import lupos.operator.arithmetik.generated.AOPOr
+import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
+import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.Query
+import lupos.operator.logical.multiinput.LOPJoin
+import lupos.operator.logical.singleinput.LOPFilter
+import lupos.operator.logical.singleinput.LOPSubGroup
 import lupos.s03resultRepresentation.ValueBoolean
 
 public class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterOptionalID, "LogicalOptimizerFilterOptional") {

@@ -16,7 +16,7 @@
  */
 package lupos.triple_store_id_triple.index_IDTriple
 
-import lupos.s00misc.SanityCheck
+import lupos.shared.SanityCheck
 import lupos.shared_inline.BufferManagerPage
 import lupos.shared_inline.IntegerExt
 

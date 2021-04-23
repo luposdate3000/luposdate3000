@@ -16,19 +16,19 @@
  */
 package lupos.optimizer.physical
 
-import lupos.operator_arithmetik.AOPBase
-import lupos.operator_arithmetik.IAOPBase
-import lupos.operator_arithmetik.noinput.AOPVariable
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.Query
-import lupos.operator_logical.noinput.LOPTriple
-import lupos.operator_logical.singleinput.LOPProjection
-import lupos.operator_physical.POPBase
-import lupos.operator_physical.singleinput.POPProjection
+import lupos.operator.arithmetik.AOPBase
+import lupos.operator.arithmetik.IAOPBase
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.Query
+import lupos.operator.logical.noinput.LOPTriple
+import lupos.operator.logical.singleinput.LOPProjection
+import lupos.operator.physical.POPBase
+import lupos.operator.physical.singleinput.POPProjection
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
-import lupos.s00misc.ESortTypeExt
-import lupos.s00misc.SanityCheck
+import lupos.shared.ESortTypeExt
+import lupos.shared.SanityCheck
 import lupos.triple_store_id_triple.POPTripleStoreIterator
 import lupos.triple_store_id_triple.tripleStoreManager
 

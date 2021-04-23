@@ -18,8 +18,8 @@ package lupos.launch.benchmark
 
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.HttpEndpointLauncher
-import lupos.s00misc.DateHelperRelative
-import lupos.s00misc.Parallel
+import lupos.shared.DateHelperRelative
+import lupos.shared.Parallel
 import lupos.shared_inline.File
 import lupos.shared_inline.MyPrintWriter
 

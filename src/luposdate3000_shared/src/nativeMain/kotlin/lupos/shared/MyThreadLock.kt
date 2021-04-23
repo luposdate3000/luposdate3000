@@ -16,8 +16,6 @@
  */
 package lupos.shared
 
-import lupos.s00misc.NotImplementedException
-
 public actual class MyThreadLock {
 
     @JvmField

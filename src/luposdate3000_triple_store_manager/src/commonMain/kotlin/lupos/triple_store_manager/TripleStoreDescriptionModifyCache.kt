@@ -16,11 +16,11 @@
  */
 package lupos.triple_store_manager
 
-import lupos.s00misc.EIndexPattern
-import lupos.s00misc.EIndexPatternHelper
-import lupos.s00misc.EModifyType
-import lupos.s00misc.EModifyTypeExt
-import lupos.s00misc.communicationHandler
+import lupos.shared.EIndexPattern
+import lupos.shared.EIndexPatternHelper
+import lupos.shared.EModifyType
+import lupos.shared.EModifyTypeExt
+import lupos.shared.communicationHandler
 import kotlin.jvm.JvmField
 
 public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCache {

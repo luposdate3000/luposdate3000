@@ -47,8 +47,8 @@ object ParserGenerator {
             out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
             out.println(" */")
             out.println("package $packagename")
-            out.println("import lupos.s00misc.IMyInputStream")
-            out.println("import lupos.s00misc.Luposdate3000Exception")
+            out.println("import lupos.shared.IMyInputStream")
+            out.println("import lupos.shared.Luposdate3000Exception")
             out.println("import kotlin.jvm.JvmField")
             out.println("internal open class ParserException(msg: String) : Luposdate3000Exception(\"ParserContext\", msg)")
             out.println("internal class ParserExceptionEOF : ParserException(\"EOF\")")
@@ -81,6 +81,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
 
     var functionName = "func"
     var helperfunctions = mutableMapOf<String, String>() // func content -> func name
+
     @JvmField
     internal var uuid = 1
     var startEndMap = mutableMapOf<Int, String>()

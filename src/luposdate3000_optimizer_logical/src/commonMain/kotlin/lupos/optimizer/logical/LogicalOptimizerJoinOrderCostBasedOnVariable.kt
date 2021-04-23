@@ -16,9 +16,9 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.multiinput.LOPJoin
-import lupos.s00misc.SanityCheck
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.multiinput.LOPJoin
+import lupos.shared.SanityCheck
 
 public object LogicalOptimizerJoinOrderCostBasedOnVariable {
     public /*suspend*/ fun optimize(plans: Array<LogicalOptimizerJoinOrderCostBasedOnVariable_Plan?>, target: Int, variables: List<Int>) {

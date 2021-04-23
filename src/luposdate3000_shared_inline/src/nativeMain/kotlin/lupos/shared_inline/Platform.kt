@@ -17,7 +17,7 @@
 package lupos.shared_inline
 
 import kotlinx.cinterop.toKString
-import lupos.s00misc.EOperatingSystemExt
+import lupos.shared.EOperatingSystemExt
 import platform.posix.getenv
 
 internal actual object Platform {

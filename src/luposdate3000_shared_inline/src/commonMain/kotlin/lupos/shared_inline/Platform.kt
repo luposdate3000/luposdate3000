@@ -16,7 +16,7 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.EOperatingSystem
+import lupos.shared.EOperatingSystem
 
 internal expect object Platform {
     internal inline fun setShutdownHock(crossinline action: () -> Unit)

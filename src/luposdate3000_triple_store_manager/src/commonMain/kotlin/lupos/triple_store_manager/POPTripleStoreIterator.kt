@@ -16,21 +16,21 @@
  */
 package lupos.triple_store_manager
 
-import lupos.dictionary.DictionaryExt
-import lupos.operator_arithmetik.noinput.AOPVariable
-import lupos.operator_arithmetik.noinput.IAOPConstant
-import lupos.operator_arithmetik.noinput.IAOPVariable
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.iterator.IteratorBundle
-import lupos.operator_physical.POPBase
-import lupos.s00misc.EIndexPattern
-import lupos.s00misc.EIndexPatternHelper
-import lupos.s00misc.EOperatorIDExt
-import lupos.s00misc.ESortPriorityExt
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.arithmetik.noinput.IAOPConstant
+import lupos.operator.arithmetik.noinput.IAOPVariable
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.iterator.IteratorBundle
+import lupos.operator.physical.POPBase
+import lupos.shared.EIndexPattern
+import lupos.shared.EIndexPatternHelper
+import lupos.shared.EOperatorIDExt
+import lupos.shared.ESortPriorityExt
+import lupos.shared.Partition
+import lupos.shared.SanityCheck
+import lupos.shared.XMLElement
+import lupos.shared.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
 
 public class POPTripleStoreIterator(

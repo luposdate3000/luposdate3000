@@ -17,7 +17,7 @@
 package examplePackage
 
 import lupos.endpoint.LuposdateEndpoint
-import lupos.s00misc.CodeGenerationAnnotation
+import lupos.shared.CodeGenerationAnnotation
 import kotlin.jvm.JvmField
 
 public class ExampleAnnotation {

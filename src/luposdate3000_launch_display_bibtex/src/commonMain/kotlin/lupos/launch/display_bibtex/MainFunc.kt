@@ -16,11 +16,11 @@
  */
 package lupos.launch.display_bibtex
 
-import lupos.dictionary.DictionaryExt
 import lupos.endpoint.LuposdateEndpoint
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.Parallel
-import lupos.s00misc.Partition
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.Parallel
+import lupos.shared.Partition
+import lupos.shared.dictionary.DictionaryExt
 import lupos.shared_inline.DictionaryHelper
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)

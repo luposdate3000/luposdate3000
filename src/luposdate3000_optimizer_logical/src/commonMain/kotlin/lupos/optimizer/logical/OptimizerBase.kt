@@ -16,9 +16,9 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.Query
-import lupos.s00misc.SanityCheck
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.Query
+import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
 
 public abstract class OptimizerBase public constructor(@JvmField public val query: Query, @JvmField public val optimizerID: EOptimizerID, @JvmField public val classname: String) {

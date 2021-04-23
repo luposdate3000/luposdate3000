@@ -16,7 +16,7 @@
  */
 package lupos.shared.operator.iterator
 
-import lupos.dictionary.DictionaryExt
+import lupos.shared.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
 
 public abstract class ColumnIteratorQueue : ColumnIterator() {

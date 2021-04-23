@@ -16,20 +16,20 @@
  */
 package lupos.triple_store_manager
 
-import lupos.dictionary.DictionaryExt
-import lupos.operator_arithmetik.IAOPBase
-import lupos.operator_arithmetik.noinput.AOPVariable
-import lupos.operator_arithmetik.noinput.IAOPConstant
-import lupos.operator_arithmetik.noinput.IAOPVariable
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.IQuery
-import lupos.operator_logical.iterator.ColumnIterator
-import lupos.s00misc.BugException
-import lupos.s00misc.EIndexPattern
-import lupos.s00misc.EIndexPatternExt
-import lupos.s00misc.EIndexPatternHelper
-import lupos.s00misc.EModifyType
-import lupos.s00misc.SanityCheck
+import lupos.operator.arithmetik.IAOPBase
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.arithmetik.noinput.IAOPConstant
+import lupos.operator.arithmetik.noinput.IAOPVariable
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.IQuery
+import lupos.operator.logical.iterator.ColumnIterator
+import lupos.shared.BugException
+import lupos.shared.EIndexPattern
+import lupos.shared.EIndexPatternExt
+import lupos.shared.EIndexPatternHelper
+import lupos.shared.EModifyType
+import lupos.shared.SanityCheck
+import lupos.shared.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
 
 public class TripleStoreDescription(

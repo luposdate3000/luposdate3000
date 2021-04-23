@@ -16,7 +16,7 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.NotImplementedException
+import lupos.shared.NotImplementedException
 
 internal actual class ParallelThreadCondition {
     internal actual inline fun waitCondition(crossinline condition: () -> Boolean): Unit = throw NotImplementedException("ParallelThreadCondition", "waitCondition not implemented")

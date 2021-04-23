@@ -16,22 +16,22 @@
  */
 package lupos.optimizer.logical
 
-import lupos.dictionary.DictionaryExt
-import lupos.operator_arithmetik.IAOPBase
-import lupos.operator_arithmetik.noinput.AOPConstant
-import lupos.operator_arithmetik.noinput.AOPValue
-import lupos.operator_arithmetik.noinput.AOPVariable
-import lupos.operator_logical.IOPBase
-import lupos.operator_logical.Query
-import lupos.operator_logical.noinput.LOPTriple
-import lupos.operator_logical.noinput.LOPValues
-import lupos.operator_logical.noinput.OPEmptyRow
-import lupos.operator_logical.noinput.OPNothing
-import lupos.operator_logical.singleinput.LOPBind
-import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.REPLACE_STORE_WITH_VALUES
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.communicationHandler
+import lupos.operator.arithmetik.IAOPBase
+import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPValue
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.logical.IOPBase
+import lupos.operator.logical.Query
+import lupos.operator.logical.noinput.LOPTriple
+import lupos.operator.logical.noinput.LOPValues
+import lupos.operator.logical.noinput.OPEmptyRow
+import lupos.operator.logical.noinput.OPNothing
+import lupos.operator.logical.singleinput.LOPBind
+import lupos.shared.EPartitionModeExt
+import lupos.shared.REPLACE_STORE_WITH_VALUES
+import lupos.shared.SanityCheck
+import lupos.shared.communicationHandler
+import lupos.shared.dictionary.DictionaryExt
 import lupos.triple_store_id_triple.tripleStoreManager
 
 public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerStoreToValuesID, "LogicalOptimizerStoreToValues") {

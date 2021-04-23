@@ -16,7 +16,7 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.IMyOutputStream
+import lupos.shared.IMyOutputStream
 import java.io.OutputStream
 import kotlin.jvm.JvmField
 

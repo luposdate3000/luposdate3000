@@ -16,7 +16,7 @@
  */
 package lupos.shared_inline
 
-import lupos.s00misc.IMyInputStream
+import lupos.shared.IMyInputStream
 import kotlin.jvm.JvmField
 
 internal class MyStringStream(str: String) : IMyInputStream {
