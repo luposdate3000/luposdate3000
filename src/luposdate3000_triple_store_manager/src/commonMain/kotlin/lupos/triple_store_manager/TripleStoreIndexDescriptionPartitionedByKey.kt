@@ -21,10 +21,13 @@ import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.IQuery
+import lupos.shared.LuposHostname
+import lupos.shared.LuposStoreKey
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
+import lupos.shared.tripleStoreManager
 import lupos.shared_inline.ByteArrayHelper
 import kotlin.jvm.JvmField
 

@@ -20,7 +20,12 @@ import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
+import lupos.shared.ITripleStoreDescriptionModifyCache
+import lupos.shared.LuposHostname
+import lupos.shared.LuposStoreKey
+import lupos.shared.TripleStoreIndex
 import lupos.shared.communicationHandler
+import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCache {

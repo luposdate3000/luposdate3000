@@ -87,7 +87,7 @@ import lupos.operator.arithmetik.singleinput.AOPAggregationSUM
 import lupos.operator.arithmetik.singleinput.AOPBuildInCallExists
 import lupos.operator.arithmetik.singleinput.AOPBuildInCallNotExists
 import lupos.operator.base.OPBaseCompound
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.logical.singleinput.LOPMakeBooleanResult
@@ -150,8 +150,8 @@ import lupos.shared.XMLNotParseableException
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 import lupos.shared.tripleStoreManager
-import lupos.triple_store_id_triple.POPTripleStoreIterator
-import lupos.triple_store_id_triple.TripleStoreIndexDescription
+import lupos.triple_store_manager.POPTripleStoreIterator
+import lupos.triple_store_manager.TripleStoreIndexDescription
 
 public object XMLElementToOPBase {
     private fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: String): AOPVariable {

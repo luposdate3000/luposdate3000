@@ -19,7 +19,11 @@ package lupos.triple_store_manager
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.IQuery
+import lupos.shared.ITripleStoreIndexDescription
+import lupos.shared.LuposHostname
+import lupos.shared.LuposStoreKey
 import lupos.shared.XMLElement
+import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public abstract class TripleStoreIndexDescription() : ITripleStoreIndexDescription {

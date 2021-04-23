@@ -16,6 +16,8 @@
  */
 package lupos.triple_store_manager
 
+import lupos.shared.ITripleStoreDescriptionFactory
+import lupos.shared.ITripleStoreIndexDescriptionFactory
 import kotlin.jvm.JvmField
 
 public class TripleStoreDescriptionFactory : ITripleStoreDescriptionFactory {

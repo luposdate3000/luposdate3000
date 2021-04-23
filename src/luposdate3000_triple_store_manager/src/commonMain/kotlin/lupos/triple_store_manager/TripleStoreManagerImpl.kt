@@ -18,7 +18,7 @@ package lupos.triple_store_manager
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
@@ -28,13 +28,21 @@ import lupos.shared.EPartitionMode
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyInputStream
 import lupos.shared.IQuery
+import lupos.shared.ITripleStoreDescriptionFactory
+import lupos.shared.ITripleStoreIndexDescription
+import lupos.shared.LuposGraphName
+import lupos.shared.LuposHostname
+import lupos.shared.LuposStoreKey
 import lupos.shared.SanityCheck
+import lupos.shared.TripleStoreIndex
+import lupos.shared.TripleStoreManager
 import lupos.shared.XMLElement
 import lupos.shared.communicationHandler
 import lupos.shared_inline.BufferManagerPage
 import lupos.shared_inline.ByteArrayHelper
 import lupos.shared_inline.File
 import lupos.shared_inline.Platform
+import lupos.triple_store_id_triple.TripleStoreIndexIDTriple
 import kotlin.jvm.JvmField
 import kotlin.math.min
 
