@@ -17,7 +17,6 @@
 package lupos.operator.base.iterator
 
 import lupos.shared.dictionary.DictionaryExt
-import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
 public class ColumnIteratorRepeatValue(@JvmField public val count: Int, @JvmField public val value: Int) : ColumnIterator() {

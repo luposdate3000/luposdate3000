@@ -19,8 +19,8 @@ package lupos.endpoint
 import lupos.buffer_manager.BufferManagerExt
 import lupos.dictionary.DictionaryFactory
 import lupos.operator.factory.XMLElementToOPBase
-import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.operator.iterator.ColumnIterator
+import lupos.operator.base.iterator.ColumnIterator
+import lupos.operator.base.iterator.ColumnIterator
 
 MultiValue3
 import lupos.operator.logical.Query

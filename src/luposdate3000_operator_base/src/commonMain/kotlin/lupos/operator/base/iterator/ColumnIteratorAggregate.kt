@@ -18,7 +18,6 @@ package lupos.operator.base.iterator
 
 import lupos.shared.ValueDefinition
 import lupos.shared.dictionary.DictionaryExt
-import lupos.shared.operator.iterator.ColumnIteratorEmpty
 import kotlin.jvm.JvmField
 
 public class ColumnIteratorAggregate : ColumnIteratorEmpty() {

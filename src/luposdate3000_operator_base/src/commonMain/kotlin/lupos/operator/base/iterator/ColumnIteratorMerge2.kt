@@ -17,7 +17,6 @@
 package lupos.operator.base.iterator
 
 import lupos.shared.dictionary.DictionaryExt
-import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
 public class ColumnIteratorMerge2(@JvmField public val a: ColumnIterator, @JvmField public val b: ColumnIterator) : ColumnIterator() {

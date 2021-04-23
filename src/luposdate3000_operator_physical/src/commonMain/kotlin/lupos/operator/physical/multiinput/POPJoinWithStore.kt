@@ -19,11 +19,10 @@ package lupos.operator.physical.multiinput
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.operator.iterator.ColumnIterator
-
-Empty
-import lupos.shared.operator.iterator.IteratorBundle
+import lupos.operator.base.iterator.ColumnIterator
+import lupos.operator.base.iterator.ColumnIteratorEmpty
+import lupos.operator.base.iterator.ColumnIteratorQueue
+import lupos.operator.base.iterator.ColumnIteratorQueueEmpty
 import lupos.operator.logical.multiinput.LOPJoin_Helper
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
@@ -38,10 +37,9 @@ import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIteratorQueue
-import lupos.operator.base.iterator.ColumnIteratorQueueEmpty
-import lupos.shared_inline.ColumnIteratorQueueExt
+import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.tripleStoreManager
+import lupos.shared_inline.ColumnIteratorQueueExt
 import kotlin.jvm.JvmField
 
 public class POPJoinWithStore public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, @JvmField public val childB: LOPTriple, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinWithStoreID, "POPJoinWithStore", arrayOf(childA), ESortPriorityExt.SAME_AS_CHILD) {

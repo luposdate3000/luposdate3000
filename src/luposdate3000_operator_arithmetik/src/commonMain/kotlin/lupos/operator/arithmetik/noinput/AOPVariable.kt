@@ -17,6 +17,7 @@
 package lupos.operator.arithmetik.noinput
 
 import lupos.operator.arithmetik.AOPBase
+import lupos.operator.base.iterator.ColumnIteratorQueue
 import lupos.shared.ByteArrayWrapper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.IQuery
@@ -25,7 +26,6 @@ import lupos.shared.ValueDefinition
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.noinput.IAOPVariable
 import lupos.shared_inline.DictionaryHelper

@@ -16,11 +16,8 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.operator.iterator.ColumnIterator
-
-ChildIterator
-import lupos.shared.operator.iterator.IteratorBundle
+import lupos.operator.base.iterator.ColumnIterator
+import lupos.operator.base.iterator.ColumnIteratorChildIterator
 import lupos.operator.logical.multiinput.LOPJoin_Helper
 import lupos.operator.physical.MapKey
 import lupos.operator.physical.POPBase
@@ -32,6 +29,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 public class POPJoinHashMap public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinHashMapID, "POPJoinHashMap", arrayOf(childA, childB), ESortPriorityExt.JOIN) {

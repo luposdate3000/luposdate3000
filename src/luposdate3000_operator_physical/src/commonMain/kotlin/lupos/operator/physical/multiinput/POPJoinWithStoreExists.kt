@@ -18,6 +18,7 @@ package lupos.operator.physical.multiinput
 
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.iterator.ColumnIterator
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
@@ -29,7 +30,6 @@ import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField

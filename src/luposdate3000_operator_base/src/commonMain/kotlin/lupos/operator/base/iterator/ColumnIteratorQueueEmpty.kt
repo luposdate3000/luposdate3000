@@ -16,7 +16,6 @@
  */
 package lupos.operator.base.iterator
 
-import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared_inline.ColumnIteratorQueueExt
 
 public class ColumnIteratorQueueEmpty : ColumnIteratorQueue() {

@@ -16,9 +16,9 @@
  */
 package lupos.triple_store_id_triple.index_IDTriple
 
+import lupos.operator.base.iterator.ColumnIterator
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
-import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared_inline.BufferManagerPage
 
 internal object NodeLeaf {

@@ -19,8 +19,8 @@ package lupos.triple_store_id_triple
 import lupos.ProguardTestAnnotation
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
-import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.operator.iterator.ColumnIterator
+import lupos.operator.base.iterator.ColumnIterator
+import lupos.operator.base.iterator.ColumnIterator
 
 Empty
 import lupos.shared.operator.iterator.IteratorBundle

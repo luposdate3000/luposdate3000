@@ -17,7 +17,7 @@
 package lupos.operator.physical.singleinput
 
 import lupos.operator.base.iterator.ColumnIteratorAggregate
-import lupos.shared.operator.iterator.ColumnIteratorQueue
+import lupos.operator.base.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.IteratorBundle
 
 internal class POPGroup_Row(val iterators: IteratorBundle, val aggregates: Array<ColumnIteratorAggregate>, val columns: Array<ColumnIteratorQueue>)

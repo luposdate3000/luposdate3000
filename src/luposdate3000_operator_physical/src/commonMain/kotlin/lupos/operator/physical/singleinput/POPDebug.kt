@@ -16,6 +16,7 @@
  */
 package lupos.operator.physical.singleinput
 
+import lupos.operator.base.iterator.ColumnIterator
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EPOPDebugModeExt
@@ -27,7 +28,6 @@ import lupos.shared.SanityCheck
 import lupos.shared.UnreachableException
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField

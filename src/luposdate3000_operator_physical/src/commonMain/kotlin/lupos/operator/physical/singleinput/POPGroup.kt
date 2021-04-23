@@ -21,7 +21,9 @@ import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT
+import lupos.operator.base.iterator.ColumnIterator
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
+import lupos.operator.base.iterator.ColumnIteratorQueue
 import lupos.operator.base.iterator.ColumnIteratorQueueEmpty
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.base.noinput.OPEmptyRow
@@ -40,8 +42,6 @@ import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared_inline.ColumnIteratorQueueExt
 import lupos.shared_inline.DictionaryHelper

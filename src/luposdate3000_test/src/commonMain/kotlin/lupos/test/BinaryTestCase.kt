@@ -21,8 +21,8 @@ import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.OPBaseCompound
-import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.operator.iterator.ColumnIterator
+import lupos.operator.base.iterator.ColumnIterator
+import lupos.operator.base.iterator.ColumnIterator
 
 MultiValue
 import lupos.operator.logical.Query
