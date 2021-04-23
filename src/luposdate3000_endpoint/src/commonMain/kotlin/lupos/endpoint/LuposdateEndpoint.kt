@@ -21,10 +21,9 @@ import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.nodeGlobalDictionary
 import lupos.fileformat.TriplesIntermediateReader
 import lupos.operator.factory.XMLElementToOPBase
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.ColumnIterator
+import lupos.operator.iterator.ColumnIteratorMultiValue3
 import lupos.operator.logical.Query
-import lupos.operator.logical.iterator.ColumnIterator
-import lupos.operator.logical.iterator.ColumnIteratorMultiValue3
 import lupos.operator.physical.noinput.POPValuesImportXML
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.distributed.query.DistributedOptimizerQuery
@@ -66,6 +65,7 @@ import lupos.shared.XMLElementFromN3
 import lupos.shared.XMLElementFromTsv
 import lupos.shared.XMLElementFromXML
 import lupos.shared.communicationHandler
+import lupos.shared.operator.IOPBase
 import lupos.shared.optimizer.distributedOptimizerQueryFactory
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File

@@ -16,8 +16,7 @@
  */
 package lupos.shared
 
-import lupos.operator.logical.IOPBase
-import lupos.operator.logical.IQuery
+import lupos.shared.operator.IOPBase
 
 public interface ITripleStoreIndexDescription {
     public fun getPartitionCount(): Int

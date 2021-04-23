@@ -19,7 +19,6 @@ package lupos.optimizer.logical
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPValue
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.multiinput.LOPMinus
@@ -39,6 +38,7 @@ import lupos.operator.logical.singleinput.modifiers.LOPOffset
 import lupos.operator.logical.singleinput.modifiers.LOPReduced
 import lupos.operator.logical.singleinput.modifiers.LOPSortAny
 import lupos.shared.SortHelper
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerProjectionDownID, "LogicalOptimizerProjectionDown") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

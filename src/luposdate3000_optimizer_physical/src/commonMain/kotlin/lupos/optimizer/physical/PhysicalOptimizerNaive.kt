@@ -17,9 +17,7 @@
 package lupos.optimizer.physical
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.arithmetik.IAOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.multiinput.LOPMinus
@@ -61,6 +59,8 @@ import lupos.operator.physical.singleinput.modifiers.POPReduced
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EIndexPatternExt
+import lupos.shared.operator.IAOPBase
+import lupos.shared.operator.IOPBase
 import lupos.triple_store_id_triple.tripleStoreManager
 
 public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerNaiveID, "PhysicalOptimizerNaive") {

@@ -16,7 +16,6 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.multiinput.LOPJoin_Helper
@@ -25,6 +24,7 @@ import lupos.operator.logical.singleinput.modifiers.LOPReduced
 import lupos.operator.logical.singleinput.modifiers.LOPSortAny
 import lupos.shared.ESortTypeExt
 import lupos.shared.SortHelper
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerDistinctSplit(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerDistinctSplitID, "LogicalOptimizerDistinctSplit") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

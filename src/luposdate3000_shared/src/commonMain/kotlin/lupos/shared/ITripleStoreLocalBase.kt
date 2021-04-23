@@ -16,10 +16,9 @@
  */
 package lupos.shared
 
-import lupos.operator.arithmetik.IAOPBase
-import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.ColumnIterator
-import lupos.operator.logical.iterator.IteratorBundle
+import lupos.shared.operator.IAOPBase
+import lupos.shared.operator.iterator.ColumnIterator
+import lupos.shared.operator.iterator.IteratorBundle
 
 public interface ITripleStoreLocalBase {
     public fun clear()

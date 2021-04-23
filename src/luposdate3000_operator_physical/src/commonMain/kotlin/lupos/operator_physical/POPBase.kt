@@ -17,7 +17,6 @@
 package lupos.operator.physical
 
 import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.operator.logical.OPBase
 import lupos.shared.EOperatorID
@@ -25,6 +24,7 @@ import lupos.shared.ESortPriority
 import lupos.shared.HistogramNotImplementedException
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
+import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
 public abstract class POPBase public constructor(

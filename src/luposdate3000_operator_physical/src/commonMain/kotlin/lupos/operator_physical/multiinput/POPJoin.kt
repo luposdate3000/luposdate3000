@@ -16,12 +16,12 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.logical.iterator.ColumnIterator
-import lupos.operator.logical.iterator.ColumnIteratorChildIterator
-import lupos.operator.logical.iterator.ColumnIteratorMultiIterator
-import lupos.operator.logical.iterator.ColumnIteratorMultiValue
-import lupos.operator.logical.iterator.ColumnIteratorRepeatIterator
-import lupos.operator.logical.iterator.ColumnIteratorRepeatValue
+import lupos.operator.iterator.ColumnIterator
+import lupos.operator.iterator.ColumnIteratorChildIterator
+import lupos.operator.iterator.ColumnIteratorMultiIterator
+import lupos.operator.iterator.ColumnIteratorMultiValue
+import lupos.operator.iterator.ColumnIteratorRepeatIterator
+import lupos.operator.iterator.ColumnIteratorRepeatValue
 import lupos.shared.SanityCheck
 
 internal object POPJoin {

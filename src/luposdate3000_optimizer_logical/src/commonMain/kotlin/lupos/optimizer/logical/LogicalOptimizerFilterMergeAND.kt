@@ -22,11 +22,11 @@ import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
 import lupos.operator.arithmetik.generated.AOPNot
 import lupos.operator.arithmetik.generated.AOPOr
 import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.operator.logical.singleinput.LOPFilter
 import lupos.shared.BugException
 import lupos.shared.SanityCheck
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterMergeANDID, "LogicalOptimizerFilterMergeAND") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

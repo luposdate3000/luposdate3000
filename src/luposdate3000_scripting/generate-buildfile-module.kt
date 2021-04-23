@@ -765,7 +765,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             }
         }
         if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
-            File("src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc$pathSeparator").mkdirs()
+            File("src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}shared$pathSeparator").mkdirs()
         }
         val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
         val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
@@ -783,10 +783,10 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.${moduleArgs.moduleName}.MyCoroutineReadWriteLock")
         } else {
             typeAliasAll["Parallel"] = Pair("Parallel", "lupos.${moduleArgs.moduleName}.ParallelThread")
-            typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.s00misc.ParallelThreadJob")
+            typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.shared.ParallelThreadJob")
             typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.${moduleArgs.moduleName}.ParallelThreadCondition")
             typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.${moduleArgs.moduleName}.ParallelThreadQueue<T>")
-            typeAliasAll["MyLock"] = Pair("MyLock", "lupos.s00misc.MyThreadLock")
+            typeAliasAll["MyLock"] = Pair("MyLock", "lupos.shared.MyThreadLock")
             typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.${moduleArgs.moduleName}.MyThreadReadWriteLock")
         }
 // selectively copy classes which are inlined from the inline internal module ->
@@ -900,7 +900,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 }
             } else {
                 var configPathBase = "src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleArgs.moduleFolder}${pathSeparator}src"
-                var configPath = "${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc"
+                var configPath = "${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}shared"
                 File(configPath).mkdirs()
                 typeAliasUsed.putAll(typeAliasAll)
                 try {
@@ -927,7 +927,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         }
         var configFile: String
         if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
-            val configPath = "src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc"
+            val configPath = "src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}shared"
             configFile = "${configPath}${pathSeparator}Config-${moduleArgs.moduleName}.kt"
             if (moduleArgs.codegenKAPT || moduleArgs.codegenKSP) {
                 File("${configPath}${pathSeparator}SharedInlineHelper-${moduleArgs.moduleName}.kt").printWriter().use { out ->
@@ -939,7 +939,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             }
         } else {
             var configPathBase = "src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleArgs.moduleFolder}${pathSeparator}src"
-            var configPath = "${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}s00misc"
+            var configPath = "${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}shared"
             File(configPath).mkdirs()
             configFile = "${configPath}${pathSeparator}Config-${moduleArgs.moduleName}.kt"
             File("${configPath}${pathSeparator}SharedInlineHelper-${moduleArgs.moduleName}.kt").printWriter().use { out ->
@@ -955,7 +955,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         val remainingArgs = mutableMapOf<String, String>()
         remainingArgs.putAll(moduleArgs.args)
         File(configFile).printWriter().use { out ->
-            out.println("package lupos.s00misc")
+            out.println("package lupos.shared")
             for ((k, v) in typeAliasUsed) {
                 out.println("internal typealias ${v.first} = ${v.second}")
             }

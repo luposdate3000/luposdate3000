@@ -17,9 +17,8 @@
 package lupos.result_format
 
 import lupos.dictionary.IDictionary
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.ColumnIterator
 import lupos.operator.logical.OPBaseCompound
-import lupos.operator.logical.iterator.ColumnIterator
 import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
@@ -33,6 +32,7 @@ import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.operator.IOPBase
 import lupos.triple_store_id_triple.tripleStoreManager
 
 public object QueryResultToEmptyWithDictionaryStream {

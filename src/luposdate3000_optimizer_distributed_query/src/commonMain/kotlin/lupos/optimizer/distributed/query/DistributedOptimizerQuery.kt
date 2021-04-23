@@ -17,7 +17,6 @@
 package lupos.optimizer.distributed.query
 
 import lupos.operator.factory.XMLElementToOPBase
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.operator.logical.OPBase
 import lupos.operator.logical.OPBaseCompound
@@ -36,6 +35,7 @@ import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.communicationHandler
+import lupos.shared.operator.IOPBase
 import lupos.shared.optimizer.IDistributedOptimizer
 import lupos.triple_store_id_triple.POPTripleStoreIterator
 import lupos.triple_store_id_triple.tripleStoreManager

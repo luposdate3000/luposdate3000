@@ -16,7 +16,6 @@
  */
 package lupos.shared
 
-import lupos.operator.logical.IQuery
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 

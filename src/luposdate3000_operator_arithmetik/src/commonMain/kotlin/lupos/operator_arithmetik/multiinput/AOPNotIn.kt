@@ -17,14 +17,14 @@
 package lupos.operator.arithmetik.multiinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.IteratorBundle
-import lupos.s03resultRepresentation.ValueBoolean
-import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s03resultRepresentation.ValueError
 import lupos.shared.EOperatorIDExt
 import lupos.shared.SanityCheck
+import lupos.shared.ValueBoolean
+import lupos.shared.ValueDefinition
+import lupos.shared.ValueError
+import lupos.shared.operator.IOPBase
 
 public class AOPNotIn public constructor(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBase(query, EOperatorIDExt.AOPNotInID, "AOPNotIn", arrayOf(childA, childB)) {
     override fun toSparql(): String = "( " + children[0].toSparql() + " NOT IN " + children[1].toSparql() + " )"

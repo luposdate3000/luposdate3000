@@ -16,7 +16,6 @@
  */
 package lupos.optimizer.physical
 
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.multiinput.LOPJoin_Helper
@@ -39,6 +38,7 @@ import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EPartitionModeExt
 import lupos.shared.Partition
+import lupos.shared.operator.IOPBase
 import lupos.triple_store_id_triple.POPTripleStoreIterator
 import lupos.triple_store_id_triple.tripleStoreManager
 

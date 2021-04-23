@@ -32,7 +32,6 @@ import lupos.operator.arithmetik.multiinput.AOPLT
 import lupos.operator.arithmetik.multiinput.AOPNEQ
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.OPBase
 import lupos.operator.logical.OPBaseCompound
 import lupos.operator.physical.POPBase
@@ -42,11 +41,12 @@ import lupos.operator.physical.singleinput.POPBind
 import lupos.operator.physical.singleinput.POPDebug
 import lupos.operator.physical.singleinput.POPFilter
 import lupos.operator.physical.singleinput.POPProjection
-import lupos.s03resultRepresentation.ValueBoolean
-import lupos.s03resultRepresentation.ValueDecimal
-import lupos.s03resultRepresentation.ValueInteger
-import lupos.s03resultRepresentation.ValueIri
-import lupos.s03resultRepresentation.ValueStringBase
+import lupos.shared.ValueBoolean
+import lupos.shared.ValueDecimal
+import lupos.shared.ValueInteger
+import lupos.shared.ValueIri
+import lupos.shared.ValueStringBase
+import lupos.shared.operator.IOPBase
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.MyPrintWriter
 import lupos.triple_store_id_triple.POPTripleStoreIterator
@@ -82,23 +82,23 @@ public fun generateSourceCode(
         "lupos.s03resultRepresentation.div",
         "lupos.operator.logical.IOPBase",
         "lupos.operator.physical.POPBase",
-        "lupos.s00misc.EOperatorIDExt",
-        "lupos.s00misc.ESortPriorityExt",
+        "lupos.shared.EOperatorIDExt",
+        "lupos.shared.ESortPriorityExt",
         "kotlin.jvm.JvmField",
-        "lupos.s00misc.SanityCheck",
-        "lupos.s00misc.SanityCheck",
-        "lupos.s00misc.XMLElement",
-        "lupos.s00misc.Partition",
-        "lupos.operator.logical.iterator.ColumnIterator",
-        "lupos.operator.logical.iterator.IteratorBundle",
-        "lupos.operator.logical.iterator.ColumnIteratorQueue",
+        "lupos.shared.SanityCheck",
+        "lupos.shared.SanityCheck",
+        "lupos.shared.XMLElement",
+        "lupos.shared.Partition",
+        "lupos.operator.iterator.ColumnIterator",
+        "lupos.operator.iterator.IteratorBundle",
+        "lupos.operator.iterator.ColumnIteratorQueue",
         "lupos.operator.arithmetik.generated.AOPAnd",
-        "lupos.s03resultRepresentation.ValueIri",
+        "lupos.shared.ValueIri",
         "lupos" + ".shared_inline.MyPrintWriter",
         "lupos" + ".shared_inline.ColumnIteratorQueueExt",
         "lupos" + ".shared_inline.DictionaryHelper",
         "lupos.dictionary.DictionaryExt",
-        "lupos.s00misc.ByteArrayWrapper"
+        "lupos.shared.ByteArrayWrapper"
     )
     // This list will contain all the written operators
     val createdOperators = mutableListOf<Long>()
@@ -217,7 +217,7 @@ private fun writeOperatorGraph(
                     "ValueDefinition(\"${value.valueToString()?.replace("\"", "\\\"")}\"))"
             )
             imports.add("lupos.operator.arithmetik.noinput.AOPConstant")
-            imports.add("lupos.s03resultRepresentation.ValueDefinition")
+            imports.add("lupos.shared.ValueDefinition")
         }
         is POPTripleStoreIterator -> {
             // Creating a new operator with the POPTripleStoreIterator constructor
@@ -229,8 +229,8 @@ private fun writeOperatorGraph(
                     "EIndexPatternExt.${EIndexPatternExt.names[operator.getIndexPattern()]})"
             )
             imports.add("lupos.triple_store_id_triple.tripleStoreManager")
-            imports.add("lupos.s00misc.EIndexPatternExt")
-            imports.add("lupos.s00misc.Partition")
+            imports.add("lupos.shared.EIndexPatternExt")
+            imports.add("lupos.shared.Partition")
         }
         is POPDebug -> {
             // Creating a new operator with the POPDebug constructor

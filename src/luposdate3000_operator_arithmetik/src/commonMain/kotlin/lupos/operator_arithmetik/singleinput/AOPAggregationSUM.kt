@@ -18,19 +18,19 @@ package lupos.operator.arithmetik.singleinput
 
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.ColumnIteratorAggregate
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.ColumnIteratorAggregate
-import lupos.operator.logical.iterator.IteratorBundle
-import lupos.s03resultRepresentation.ValueDecimal
-import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s03resultRepresentation.ValueDouble
-import lupos.s03resultRepresentation.ValueError
-import lupos.s03resultRepresentation.ValueFloat
-import lupos.s03resultRepresentation.ValueInteger
-import lupos.s03resultRepresentation.ValueUndef
 import lupos.shared.EOperatorIDExt
+import lupos.shared.ValueDecimal
+import lupos.shared.ValueDefinition
+import lupos.shared.ValueDouble
+import lupos.shared.ValueError
+import lupos.shared.ValueFloat
+import lupos.shared.ValueInteger
+import lupos.shared.ValueUndef
 import lupos.shared.XMLElement
+import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
 public class AOPAggregationSUM public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationSUMID, "AOPAggregationSUM", Array<IOPBase>(childs.size) { childs[it] }) {

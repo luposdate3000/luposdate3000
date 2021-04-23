@@ -18,12 +18,12 @@ package lupos.optimizer.logical
 
 import lupos.operator.arithmetik.multiinput.AOPEQ
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.logical.singleinput.LOPBind
 import lupos.operator.logical.singleinput.LOPFilter
 import lupos.operator.logical.singleinput.LOPProjection
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerFilterEQ(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterEQID, "LogicalOptimizerFilterEQ") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

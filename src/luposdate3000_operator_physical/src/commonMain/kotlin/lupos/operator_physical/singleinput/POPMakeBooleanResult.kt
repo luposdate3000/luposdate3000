@@ -16,11 +16,10 @@
  */
 package lupos.operator.physical.singleinput
 
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.ColumnIterator
+import lupos.operator.iterator.ColumnIteratorRepeatValue
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.ColumnIterator
-import lupos.operator.logical.iterator.ColumnIteratorRepeatValue
-import lupos.operator.logical.iterator.IteratorBundle
 import lupos.operator.logical.noinput.OPEmptyRow
 import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.physical.POPBase
@@ -29,6 +28,7 @@ import lupos.shared.ESortPriorityExt
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.operator.IOPBase
 
 public class POPMakeBooleanResult public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPMakeBooleanResultID, "POPMakeBooleanResult", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {

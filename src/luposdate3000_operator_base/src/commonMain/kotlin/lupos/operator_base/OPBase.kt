@@ -16,8 +16,7 @@
  */
 package lupos.operator.base
 
-import lupos.operator.arithmetik.IAOPBase
-import lupos.operator.logical.iterator.IteratorBundle
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.multiinput.LOPJoin_Helper
 import lupos.operator.logical.singleinput.LOPNOOP
 import lupos.shared.BugException
@@ -35,6 +34,7 @@ import lupos.shared.ToSparqlNotImplementedException
 import lupos.shared.UUID_Counter
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
+import lupos.shared.operator.IAOPBase
 import kotlin.jvm.JvmField
 
 public abstract class OPBase public constructor(

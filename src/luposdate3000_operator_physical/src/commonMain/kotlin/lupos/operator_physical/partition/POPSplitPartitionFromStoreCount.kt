@@ -16,14 +16,14 @@
  */
 package lupos.operator.physical.partition
 
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.IteratorBundle
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.Partition
 import lupos.shared.XMLElement
+import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
 public class POPSplitPartitionFromStoreCount public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val partitionVariable: String, @JvmField public var partitionCount: Int, @JvmField public var partitionID: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPSplitPartitionFromStoreCountID, "POPSplitPartitionFromStoreCount", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {

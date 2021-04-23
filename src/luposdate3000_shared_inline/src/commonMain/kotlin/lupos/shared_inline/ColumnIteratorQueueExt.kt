@@ -16,7 +16,7 @@
  */
 package lupos.shared_inline
 
-import lupos.operator.logical.iterator.ColumnIteratorQueue
+import lupos.operator.iterator.ColumnIteratorQueue
 import lupos.shared.dictionary.DictionaryExt
 
 internal object ColumnIteratorQueueExt {

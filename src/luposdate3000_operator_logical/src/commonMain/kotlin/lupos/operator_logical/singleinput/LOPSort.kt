@@ -18,7 +18,6 @@ package lupos.operator.logical.singleinput
 
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.operator.logical.LOPBase
 import lupos.operator.logical.noinput.OPEmptyRow
@@ -28,6 +27,7 @@ import lupos.shared.ESortTypeExt
 import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
 import lupos.shared.XMLElement
+import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
 public class LOPSort public constructor(query: IQuery, @JvmField public val asc: Boolean, @JvmField public var by: AOPVariable, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPSortID, "LOPSort", arrayOf(child), ESortPriorityExt.SORT) {

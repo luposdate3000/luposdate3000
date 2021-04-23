@@ -16,15 +16,15 @@
  */
 package lupos.operator.physical.singleinput.modifiers
 
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.ColumnIteratorReduced
+import lupos.operator.iterator.IteratorBundle
+import lupos.operator.iterator.RowIteratorReduced
 import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.ColumnIteratorReduced
-import lupos.operator.logical.iterator.IteratorBundle
-import lupos.operator.logical.iterator.RowIteratorReduced
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.Partition
+import lupos.shared.operator.IOPBase
 
 public class POPReduced public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPReducedID, "POPReduced", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)

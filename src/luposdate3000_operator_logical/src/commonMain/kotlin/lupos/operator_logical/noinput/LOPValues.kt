@@ -20,12 +20,12 @@ import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPValue
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.operator.logical.LOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.XMLElement
+import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
 public class LOPValues public constructor(query: IQuery, @JvmField public val variables: List<AOPVariable>, values: List<AOPValue>) : LOPBase(query, EOperatorIDExt.LOPValuesID, "LOPValues", Array<IOPBase>(values.size) { values[it] }, ESortPriorityExt.PREVENT_ANY) {

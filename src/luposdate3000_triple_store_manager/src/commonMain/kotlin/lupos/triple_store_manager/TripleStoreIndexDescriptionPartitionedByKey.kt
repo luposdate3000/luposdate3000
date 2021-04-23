@@ -17,7 +17,6 @@
 package lupos.triple_store_manager
 
 import lupos.operator.arithmetik.noinput.AOPConstant
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
@@ -25,6 +24,7 @@ import lupos.shared.EIndexPatternHelper
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
+import lupos.shared.operator.IOPBase
 import lupos.shared_inline.ByteArrayHelper
 import kotlin.jvm.JvmField
 

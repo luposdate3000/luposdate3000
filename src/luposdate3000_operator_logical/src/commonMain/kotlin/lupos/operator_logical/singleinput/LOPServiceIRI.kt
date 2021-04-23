@@ -17,12 +17,12 @@
 package lupos.operator.logical.singleinput
 
 import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.operator.logical.LOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.XMLElement
+import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
 public class LOPServiceIRI public constructor(query: IQuery, @JvmField public val name: String, @JvmField public val silent: Boolean, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPServiceIRIID, "LOPServiceIRI", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {

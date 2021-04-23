@@ -16,17 +16,17 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.ColumnIterator
+import lupos.operator.iterator.ColumnIteratorChildIterator
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.ColumnIterator
-import lupos.operator.logical.iterator.ColumnIteratorChildIterator
-import lupos.operator.logical.iterator.IteratorBundle
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
+import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
 public class POPJoinMerge public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinMergeID, "POPJoinMerge", arrayOf(childA, childB), ESortPriorityExt.JOIN) {

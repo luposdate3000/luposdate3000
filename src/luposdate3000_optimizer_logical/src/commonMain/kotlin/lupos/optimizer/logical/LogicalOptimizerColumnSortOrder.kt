@@ -16,11 +16,11 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.shared.SanityCheck
 import lupos.shared.SortHelper
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerColumnSortOrderID, "LogicalOptimizerColumnSortOrder") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

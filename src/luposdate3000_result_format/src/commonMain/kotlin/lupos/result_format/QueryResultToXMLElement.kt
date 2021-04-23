@@ -16,7 +16,6 @@
  */
 package lupos.result_format
 
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.OPBaseCompound
 import lupos.operator.logical.noinput.OPNothing
 import lupos.shared.ByteArrayWrapper
@@ -26,6 +25,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.operator.IOPBase
 import lupos.shared_inline.DictionaryHelper
 import lupos.triple_store_id_triple.tripleStoreManager
 

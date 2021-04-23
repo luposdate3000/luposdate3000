@@ -2,7 +2,6 @@ package lupos.endpoint_launcher
 
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
@@ -12,6 +11,7 @@ import lupos.parser.LexerCharIterator
 import lupos.parser.LookAheadTokenIterator
 import lupos.parser.sparql1_1.SPARQLParser
 import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
+import lupos.shared.operator.IOPBase
 import kotlin.js.JsName
 
 public class EndpointExtendedVisualize {

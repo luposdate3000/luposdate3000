@@ -17,12 +17,12 @@
 package lupos.operator.base.noinput
 
 import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.operator.logical.OPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.SanityCheck
+import lupos.shared.operator.IOPBase
 
 public class OPEmptyRow public constructor(query: IQuery) : OPBase(query, EOperatorIDExt.OPEmptyRowID, "OPEmptyRow", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()

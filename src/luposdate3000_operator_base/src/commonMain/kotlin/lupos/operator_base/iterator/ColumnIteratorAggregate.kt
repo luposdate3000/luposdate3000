@@ -16,7 +16,7 @@
  */
 package lupos.operator.base.iterator
 
-import lupos.s03resultRepresentation.ValueDefinition
+import lupos.shared.ValueDefinition
 import lupos.shared.dictionary.DictionaryExt
 import kotlin.jvm.JvmField
 

@@ -17,9 +17,9 @@
 package lupos.operator.arithmetik.multiinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.shared.EOperatorID
+import lupos.shared.operator.IOPBase
 
 public abstract class AOPBinaryOperationFixedName public constructor(
     query: IQuery,

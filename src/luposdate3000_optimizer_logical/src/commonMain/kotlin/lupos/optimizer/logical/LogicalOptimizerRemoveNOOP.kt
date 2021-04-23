@@ -17,7 +17,6 @@
 package lupos.optimizer.logical
 
 import lupos.operator.arithmetik.noinput.AOPConstant
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.multiinput.LOPMinus
@@ -29,6 +28,7 @@ import lupos.operator.logical.singleinput.LOPMakeBooleanResult
 import lupos.operator.logical.singleinput.LOPNOOP
 import lupos.operator.logical.singleinput.LOPSubGroup
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerRemoveNOOPID, "LogicalOptimizerRemoveNOOP") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

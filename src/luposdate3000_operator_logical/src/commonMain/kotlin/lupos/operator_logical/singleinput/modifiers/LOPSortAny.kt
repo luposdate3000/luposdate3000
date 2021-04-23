@@ -17,13 +17,13 @@
 package lupos.operator.logical.singleinput.modifiers
 
 import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.operator.logical.LOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
 import lupos.shared.SortHelper
+import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
 public class LOPSortAny public constructor(query: IQuery, @JvmField public val possibleSortOrder: List<SortHelper>, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPSortAnyID, "LOPSortAny", arrayOf(child), ESortPriorityExt.SORT) {

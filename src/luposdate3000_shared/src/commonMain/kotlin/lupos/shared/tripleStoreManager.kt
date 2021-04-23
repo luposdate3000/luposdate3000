@@ -16,8 +16,6 @@
  */
 package lupos.shared
 
-import lupos.operator.logical.IQuery
-
 public abstract class TripleStoreManager {
     public companion object {
         public const val DEFAULT_GRAPH_NAME: String = ""

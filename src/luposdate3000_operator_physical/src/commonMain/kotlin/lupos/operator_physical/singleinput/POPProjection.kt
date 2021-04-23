@@ -17,16 +17,16 @@
 package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.ColumnIterator
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.ColumnIterator
-import lupos.operator.logical.iterator.IteratorBundle
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.operator.IOPBase
 
 public class POPProjection public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPProjectionID, "POPProjection", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)

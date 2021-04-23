@@ -16,18 +16,18 @@
  */
 package lupos.operator.arithmetik
 
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.operator.logical.OPBase
-import lupos.operator.logical.iterator.IteratorBundle
-import lupos.s03resultRepresentation.ValueDefinition
 import lupos.shared.ByteArrayWrapper
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriorityExt
 import lupos.shared.EvaluationException
 import lupos.shared.SanityCheck
+import lupos.shared.ValueDefinition
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.operator.IOPBase
 import lupos.shared_inline.DictionaryHelper
 
 public abstract class AOPBase public constructor(

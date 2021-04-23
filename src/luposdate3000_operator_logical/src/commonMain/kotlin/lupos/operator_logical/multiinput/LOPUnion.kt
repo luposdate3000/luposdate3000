@@ -18,7 +18,6 @@ package lupos.operator.logical.multiinput
 
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.operator.logical.LOPBase
 import lupos.operator.logical.singleinput.LOPProjection
@@ -26,6 +25,7 @@ import lupos.shared.BugException
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.SanityCheck
+import lupos.shared.operator.IOPBase
 
 public class LOPUnion public constructor(query: IQuery, first: IOPBase, second: IOPBase) : LOPBase(query, EOperatorIDExt.LOPUnionID, "LOPUnion", arrayOf(first, second), ESortPriorityExt.UNION) {
     override fun equals(other: Any?): Boolean = other is LOPUnion && children[0] == other.children[0] && children[1] == other.children[1]

@@ -17,11 +17,11 @@
 package lupos.operator.logical.singleinput
 
 import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.operator.logical.LOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
+import lupos.shared.operator.IOPBase
 
 public class LOPMakeBooleanResult public constructor(query: IQuery, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPMakeBooleanResultID, "LOPMakeBooleanResult", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     override fun getProvidedVariableNames(): List<String> {

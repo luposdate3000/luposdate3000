@@ -17,11 +17,9 @@
 package lupos.operator.logical.noinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.arithmetik.IAOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.operator.logical.LOPBase
 import lupos.shared.EIndexPattern
@@ -31,6 +29,8 @@ import lupos.shared.ESortPriorityExt
 import lupos.shared.GraphVarHistogramsNotImplementedException
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
+import lupos.shared.operator.IAOPBase
+import lupos.shared.operator.IOPBase
 import lupos.triple_store_id_triple.TripleStoreManager
 import lupos.triple_store_id_triple.tripleStoreManager
 import kotlin.jvm.JvmField

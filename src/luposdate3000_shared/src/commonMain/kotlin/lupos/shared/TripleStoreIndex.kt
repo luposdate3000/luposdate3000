@@ -17,8 +17,7 @@
 package lupos.shared
 
 import lupos.ProguardTestAnnotation
-import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.IteratorBundle
+import lupos.shared.operator.iterator.IteratorBundle
 
 public interface TripleStoreIndex {
     public fun getRootPageID(): Int

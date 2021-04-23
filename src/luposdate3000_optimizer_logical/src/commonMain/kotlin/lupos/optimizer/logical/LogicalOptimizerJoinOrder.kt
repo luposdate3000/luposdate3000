@@ -17,7 +17,6 @@
 package lupos.optimizer.logical
 
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.noinput.OPEmptyRow
@@ -25,6 +24,7 @@ import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.logical.singleinput.LOPProjection
 import lupos.shared.EmptyResultException
 import lupos.shared.SanityCheck
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrder") {
     private fun findAllJoinsInChildren(node: LOPJoin): List<IOPBase> {

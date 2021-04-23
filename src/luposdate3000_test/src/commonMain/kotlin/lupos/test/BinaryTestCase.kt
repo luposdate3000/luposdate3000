@@ -20,13 +20,11 @@ import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
 import lupos.dictionary.nodeGlobalDictionary
-import lupos.operator.arithmetik.IAOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.ColumnIterator
+import lupos.operator.iterator.ColumnIteratorMultiValue
 import lupos.operator.logical.OPBaseCompound
 import lupos.operator.logical.Query
-import lupos.operator.logical.iterator.ColumnIterator
-import lupos.operator.logical.iterator.ColumnIteratorMultiValue
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPSplitPartitionFromStore
@@ -52,6 +50,8 @@ import lupos.shared.UnknownDataFileException
 import lupos.shared.XMLElement
 import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.operator.IAOPBase
+import lupos.shared.operator.IOPBase
 import lupos.shared.parseFromAny
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File

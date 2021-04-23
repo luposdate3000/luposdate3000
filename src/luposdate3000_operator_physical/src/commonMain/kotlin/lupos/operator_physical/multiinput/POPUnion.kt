@@ -16,16 +16,16 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.ColumnIterator
+import lupos.operator.iterator.ColumnIteratorMultiIterator
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.ColumnIterator
-import lupos.operator.logical.iterator.ColumnIteratorMultiIterator
-import lupos.operator.logical.iterator.IteratorBundle
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
+import lupos.shared.operator.IOPBase
 
 public class POPUnion public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPUnionID, "POPUnion", arrayOf(childA, childB), ESortPriorityExt.UNION) {
     override fun getPartitionCount(variable: String): Int {

@@ -20,13 +20,13 @@ import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
 import lupos.operator.arithmetik.generated.AOPNot
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPBuildInCallNotExists
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.multiinput.LOPMinus
 import lupos.operator.logical.singleinput.LOPFilter
 import lupos.operator.logical.singleinput.LOPSubGroup
 import lupos.shared.SanityCheck
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerDetectMinusID, "LogicalOptimizerDetectMinus") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

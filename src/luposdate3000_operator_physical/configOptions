@@ -1,1 +1,1 @@
-ITERATOR_DEBUG_MODE,internal val,lupos.s00misc.EPOPDebugMode,lupos.s00misc.EPOPDebugModeExt.NONE
+ITERATOR_DEBUG_MODE,internal val,lupos.shared.EPOPDebugMode,lupos.shared.EPOPDebugModeExt.NONE

@@ -17,13 +17,13 @@
 package lupos.operator.logical.singleinput
 
 import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.operator.logical.LOPBase
 import lupos.operator.logical.noinput.OPEmptyRow
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.XMLElement
+import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
 public class LOPServiceVAR public constructor(query: IQuery, @JvmField public val name: String, @JvmField public val silent: Boolean, constraint: IOPBase, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPServiceVARID, "LOPServiceVAR", arrayOf(child, constraint), ESortPriorityExt.PREVENT_ANY) {

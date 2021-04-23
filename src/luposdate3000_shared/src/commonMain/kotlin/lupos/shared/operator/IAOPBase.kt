@@ -16,6 +16,4 @@
  */
 package lupos.shared.operator
 
-import lupos.operator.logical.IOPBase
-
 public interface IAOPBase : IOPBase

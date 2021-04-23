@@ -16,10 +16,9 @@
  */
 package lupos.operator.physical.singleinput.modifiers
 
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.ColumnIterator
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.ColumnIterator
-import lupos.operator.logical.iterator.IteratorBundle
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -27,6 +26,7 @@ import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
 public class POPOffset public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val offset: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPOffsetID, "POPOffset", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {

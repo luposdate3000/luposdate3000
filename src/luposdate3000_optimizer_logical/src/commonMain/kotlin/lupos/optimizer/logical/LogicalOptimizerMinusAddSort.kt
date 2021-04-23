@@ -17,7 +17,6 @@
 package lupos.optimizer.logical
 
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.operator.logical.multiinput.LOPMinus
 import lupos.operator.logical.singleinput.LOPProjection
@@ -25,6 +24,7 @@ import lupos.operator.logical.singleinput.modifiers.LOPReduced
 import lupos.operator.logical.singleinput.modifiers.LOPSortAny
 import lupos.shared.ESortTypeExt
 import lupos.shared.SortHelper
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerMinusAddSort(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerMinusAddSortID, "LogicalOptimizerMinusAddSort") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

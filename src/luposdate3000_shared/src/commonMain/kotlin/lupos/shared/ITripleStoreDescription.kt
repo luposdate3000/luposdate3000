@@ -16,10 +16,9 @@
  */
 package lupos.shared
 
-import lupos.operator.arithmetik.IAOPBase
-import lupos.operator.logical.IOPBase
-import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.ColumnIterator
+import lupos.shared.operator.IAOPBase
+import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.ColumnIterator
 
 public interface ITripleStoreDescription {
     public fun modify_create_cache(type: EModifyType): ITripleStoreDescriptionModifyCache

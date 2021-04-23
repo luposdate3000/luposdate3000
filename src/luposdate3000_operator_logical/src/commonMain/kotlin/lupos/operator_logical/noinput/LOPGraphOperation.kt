@@ -17,7 +17,6 @@
 package lupos.operator.logical.noinput
 
 import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.operator.logical.LOPBase
 import lupos.shared.EGraphOperationType
@@ -25,6 +24,7 @@ import lupos.shared.EGraphRefType
 import lupos.shared.EGraphRefTypeExt
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
+import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
 public class LOPGraphOperation public constructor(

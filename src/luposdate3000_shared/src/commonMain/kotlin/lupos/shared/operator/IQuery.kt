@@ -14,9 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.shared.operator
+package lupos.shared
 
-import lupos.dictionary.IDictionary
+import lupos.shared.dictionary.IDictionary
+import lupos.shared.operator.IOPBase
 
 public interface IQuery {
     public fun getDictionary(): IDictionary

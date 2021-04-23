@@ -16,7 +16,6 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.operator.physical.partition.POPChangePartitionOrderedByIntId
 import lupos.operator.physical.partition.POPMergePartition
@@ -26,6 +25,7 @@ import lupos.operator.physical.partition.POPSplitPartition
 import lupos.operator.physical.partition.POPSplitPartitionFromStore
 import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
 import lupos.shared.SanityCheck
+import lupos.shared.operator.IOPBase
 
 public abstract class OptimizerCompoundBase public constructor(query: Query, optimizerID: EOptimizerID, classname: String) : OptimizerBase(query, optimizerID, classname) {
     public abstract val childrenOptimizers: Array<Array<OptimizerBase>>

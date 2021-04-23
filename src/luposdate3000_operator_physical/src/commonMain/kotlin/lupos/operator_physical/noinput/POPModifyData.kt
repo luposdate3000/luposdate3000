@@ -17,11 +17,10 @@
 package lupos.operator.physical.noinput
 
 import lupos.operator.arithmetik.noinput.AOPConstant
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.ColumnIteratorMultiValue
+import lupos.operator.iterator.ColumnIteratorRepeatValue
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.ColumnIteratorMultiValue
-import lupos.operator.logical.iterator.ColumnIteratorRepeatValue
-import lupos.operator.logical.iterator.IteratorBundle
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.physical.POPBase
 import lupos.shared.EModifyType
@@ -34,6 +33,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.UnreachableException
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.operator.IOPBase
 import lupos.triple_store_id_triple.TripleStoreManager
 import lupos.triple_store_id_triple.tripleStoreManager
 import kotlin.jvm.JvmField

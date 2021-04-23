@@ -23,10 +23,10 @@ import lupos.operator.arithmetik.noinput.AOPValue
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPBuildInCallExists
 import lupos.operator.arithmetik.singleinput.AOPBuildInCallNotExists
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.Query
-import lupos.operator.logical.iterator.IteratorBundle
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerArithmetic(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerArithmeticID, "LogicalOptimizerArithmetic") {
     private fun hasAggregation(node: IOPBase): Boolean {

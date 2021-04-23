@@ -16,11 +16,9 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator.arithmetik.IAOPBase
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPValue
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.logical.noinput.LOPValues
@@ -32,6 +30,8 @@ import lupos.shared.REPLACE_STORE_WITH_VALUES
 import lupos.shared.SanityCheck
 import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.operator.IAOPBase
+import lupos.shared.operator.IOPBase
 import lupos.triple_store_id_triple.tripleStoreManager
 
 public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerStoreToValuesID, "LogicalOptimizerStoreToValues") {

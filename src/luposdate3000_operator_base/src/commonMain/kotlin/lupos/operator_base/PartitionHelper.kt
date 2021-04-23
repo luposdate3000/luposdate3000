@@ -16,7 +16,7 @@
  */
 package lupos.operator.base
 
-import lupos.operator.logical.iterator.IteratorBundle
+import lupos.operator.iterator.IteratorBundle
 import lupos.shared.MyLock
 import lupos.shared.ParallelJob
 import lupos.shared.Partition

@@ -17,10 +17,10 @@
 package lupos.optimizer.logical
 
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.operator.logical.singleinput.LOPBind
 import lupos.operator.logical.singleinput.LOPProjection
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerRemoveBindVariable(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerRemoveBindVariableID, "LogicalOptimizerRemoveBindVariable") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

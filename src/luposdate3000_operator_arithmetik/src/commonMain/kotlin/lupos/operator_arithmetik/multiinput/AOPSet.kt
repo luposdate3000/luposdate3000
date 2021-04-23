@@ -17,12 +17,12 @@
 package lupos.operator.arithmetik.multiinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.IteratorBundle
-import lupos.s03resultRepresentation.ValueDefinition
 import lupos.shared.EOperatorIDExt
 import lupos.shared.SparqlFeatureNotImplementedException
+import lupos.shared.ValueDefinition
+import lupos.shared.operator.IOPBase
 
 public class AOPSet public constructor(query: IQuery, childs: List<AOPBase>) : AOPBase(query, EOperatorIDExt.AOPSetID, "AOPSet", Array<IOPBase>(childs.size) { childs[it] }) {
     override fun toSparql(): String {

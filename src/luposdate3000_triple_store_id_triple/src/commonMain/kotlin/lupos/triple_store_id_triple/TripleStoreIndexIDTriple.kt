@@ -19,10 +19,10 @@ package lupos.triple_store_id_triple
 import lupos.ProguardTestAnnotation
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
+import lupos.operator.iterator.ColumnIterator
+import lupos.operator.iterator.ColumnIteratorEmpty
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.ColumnIterator
-import lupos.operator.logical.iterator.ColumnIteratorEmpty
-import lupos.operator.logical.iterator.IteratorBundle
 import lupos.shared.ETripleIndexTypeExt
 import lupos.shared.MyReadWriteLock
 import lupos.shared.Parallel

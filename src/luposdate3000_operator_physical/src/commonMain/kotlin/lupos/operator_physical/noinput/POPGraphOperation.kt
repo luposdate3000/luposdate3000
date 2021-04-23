@@ -17,9 +17,8 @@
 package lupos.operator.physical.noinput
 
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.IteratorBundle
 import lupos.operator.physical.POPBase
 import lupos.shared.EGraphOperationType
 import lupos.shared.EGraphOperationTypeExt
@@ -34,6 +33,7 @@ import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.UnreachableException
 import lupos.shared.XMLElement
+import lupos.shared.operator.IOPBase
 import lupos.shared.parseFromAny
 import lupos.shared_inline.File
 import lupos.triple_store_id_triple.ITripleStoreDescription

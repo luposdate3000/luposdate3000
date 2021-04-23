@@ -16,10 +16,10 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.shared.HistogramNotImplementedException
 import lupos.shared.SanityCheck
+import lupos.shared.operator.IOPBase
 
 public object LogicalOptimizerJoinOrderStore {
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {

@@ -16,7 +16,6 @@
  */
 package lupos.optimizer.physical
 
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.operator.physical.partition.POPChangePartitionOrderedByIntId
 import lupos.operator.physical.partition.POPMergePartition
@@ -28,6 +27,7 @@ import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EPartitionModeExt
+import lupos.shared.operator.IOPBase
 import lupos.triple_store_id_triple.POPTripleStoreIterator
 import lupos.triple_store_id_triple.tripleStoreManager
 

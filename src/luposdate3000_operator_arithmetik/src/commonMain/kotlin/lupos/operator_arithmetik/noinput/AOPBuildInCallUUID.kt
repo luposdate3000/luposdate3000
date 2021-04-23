@@ -17,13 +17,13 @@
 package lupos.operator.arithmetik.noinput
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.IteratorBundle
-import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s03resultRepresentation.ValueIri
 import lupos.shared.Crypto
 import lupos.shared.EOperatorIDExt
+import lupos.shared.ValueDefinition
+import lupos.shared.ValueIri
+import lupos.shared.operator.IOPBase
 
 public class AOPBuildInCallUUID public constructor(query: IQuery) : AOPBase(query, EOperatorIDExt.AOPBuildInCallUUIDID, "AOPBuildInCallUUID", arrayOf()) {
     override fun toSparql(): String = "UUID()"

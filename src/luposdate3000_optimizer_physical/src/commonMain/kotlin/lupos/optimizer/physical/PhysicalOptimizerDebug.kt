@@ -16,7 +16,6 @@
  */
 package lupos.optimizer.physical
 
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.OPBaseCompound
 import lupos.operator.logical.Query
 import lupos.operator.physical.POPBase
@@ -24,6 +23,7 @@ import lupos.operator.physical.singleinput.POPDebug
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.SanityCheck
+import lupos.shared.operator.IOPBase
 
 public class PhysicalOptimizerDebug(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerDebugID, "PhysicalOptimizerDebug") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

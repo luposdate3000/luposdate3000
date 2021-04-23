@@ -17,9 +17,7 @@
 package lupos.optimizer.physical
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.arithmetik.IAOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.logical.singleinput.LOPProjection
@@ -29,6 +27,8 @@ import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.ESortTypeExt
 import lupos.shared.SanityCheck
+import lupos.shared.operator.IAOPBase
+import lupos.shared.operator.IOPBase
 import lupos.triple_store_id_triple.POPTripleStoreIterator
 import lupos.triple_store_id_triple.tripleStoreManager
 

@@ -16,10 +16,11 @@
  */
 package lupos.shared.operator
 
-import lupos.operator.logical.iterator.IteratorBundle
+import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SortHelper
 import lupos.shared.XMLElement
+import lupos.shared.operator.iterator.IteratorBundle
 
 public interface IOPBase {
     public fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase

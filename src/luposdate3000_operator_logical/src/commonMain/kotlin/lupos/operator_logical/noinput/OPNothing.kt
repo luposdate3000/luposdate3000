@@ -17,12 +17,12 @@
 package lupos.operator.logical.noinput
 
 import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.operator.logical.LOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.XMLElement
+import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
 public class OPNothing public constructor(query: IQuery, @JvmField public val myProvidedVariableNames: List<String>) : LOPBase(query, EOperatorIDExt.OPNothingID, "OPNothing", arrayOf(), ESortPriorityExt.PREVENT_ANY) {

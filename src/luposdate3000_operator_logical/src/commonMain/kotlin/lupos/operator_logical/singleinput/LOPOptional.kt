@@ -17,11 +17,11 @@
 package lupos.operator.logical.singleinput
 
 import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.operator.logical.LOPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
+import lupos.shared.operator.IOPBase
 
 public class LOPOptional public constructor(query: IQuery, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPOptionalID, "LOPOptional", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     override fun equals(other: Any?): Boolean = other is LOPOptional && children[0] == other.children[0]

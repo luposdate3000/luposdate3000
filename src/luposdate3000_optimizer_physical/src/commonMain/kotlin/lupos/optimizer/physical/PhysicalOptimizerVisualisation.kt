@@ -17,12 +17,12 @@
 
 package lupos.optimizer.physical
 
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.Query
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.singleinput.POPVisualisation
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
+import lupos.shared.operator.IOPBase
 
 public class PhysicalOptimizerVisualisation(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerVisualisationID, "PhysicalOptimizerVisualisation") {
 

@@ -16,13 +16,13 @@
  */
 package lupos.operator.physical.noinput
 
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.IteratorBundle
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.Partition
+import lupos.shared.operator.IOPBase
 
 public class POPEmptyRow public constructor(query: IQuery, projectedVariables: List<String>) : POPBase(query, projectedVariables, EOperatorIDExt.POPEmptyRowID, "POPEmptyRow", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = 1

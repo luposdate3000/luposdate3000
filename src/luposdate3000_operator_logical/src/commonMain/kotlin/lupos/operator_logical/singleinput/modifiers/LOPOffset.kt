@@ -17,13 +17,13 @@
 package lupos.operator.logical.singleinput.modifiers
 
 import lupos.operator.logical.HistogramResult
-import lupos.operator.logical.IOPBase
 import lupos.operator.logical.IQuery
 import lupos.operator.logical.LOPBase
 import lupos.operator.logical.noinput.OPEmptyRow
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.XMLElement
+import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField
 
 public class LOPOffset public constructor(query: IQuery, @JvmField public val offset: Int, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPOffsetID, "LOPOffset", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {

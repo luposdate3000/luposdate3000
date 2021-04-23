@@ -18,14 +18,14 @@ package lupos.operator.arithmetik.generated
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.logical.IOPBase
+import lupos.operator.iterator.IteratorBundle
 import lupos.operator.logical.IQuery
-import lupos.operator.logical.iterator.IteratorBundle
 import lupos.shared.ByteArrayWrapper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ETripleComponentType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.operator.IOPBase
 import lupos.shared_inline.DictionaryHelper
 import kotlin.math.floor
 
