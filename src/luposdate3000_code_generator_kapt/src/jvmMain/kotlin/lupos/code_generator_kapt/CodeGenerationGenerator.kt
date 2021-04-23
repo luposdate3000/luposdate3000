@@ -16,6 +16,7 @@
  */
 package lupos.code_generator_kapt
 
+import lupos.shared.CodeGenerationAnnotation
 import lupos.shared_inline.MyPrintWriter
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.RoundEnvironment

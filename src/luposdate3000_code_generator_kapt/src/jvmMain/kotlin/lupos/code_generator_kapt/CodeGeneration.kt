@@ -41,6 +41,8 @@ import lupos.operator.physical.singleinput.POPBind
 import lupos.operator.physical.singleinput.POPDebug
 import lupos.operator.physical.singleinput.POPFilter
 import lupos.operator.physical.singleinput.POPProjection
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.EIndexPatternExt
 import lupos.shared.ValueBoolean
 import lupos.shared.ValueDecimal
 import lupos.shared.ValueInteger
@@ -75,12 +77,12 @@ public fun generateSourceCode(
         "lupos.endpoint.LuposdateEndpoint",
         "com.ionspin.kotlin.bignum.integer.BigInteger",
         "com.ionspin.kotlin.bignum.decimal.BigDecimal",
-        "lupos.s03resultRepresentation.compareTo",
-        "lupos.s03resultRepresentation.plus",
-        "lupos.s03resultRepresentation.minus",
-        "lupos.s03resultRepresentation.times",
-        "lupos.s03resultRepresentation.div",
-        "lupos.operator.logical.IOPBase",
+        "lupos.shared.compareTo",
+        "lupos.shared.plus",
+        "lupos.shared.minus",
+        "lupos.shared.times",
+        "lupos.shared.div",
+        "lupos.shared.operator.IOPBase",
         "lupos.operator.physical.POPBase",
         "lupos.shared.EOperatorIDExt",
         "lupos.shared.ESortPriorityExt",
@@ -89,15 +91,15 @@ public fun generateSourceCode(
         "lupos.shared.SanityCheck",
         "lupos.shared.XMLElement",
         "lupos.shared.Partition",
-        "lupos.operator.base.iterator.ColumnIterator   ",
+        "lupos.shared.operator.iterator.ColumnIterator",
         "lupos.shared.operator.iterator.IteratorBundle",
-        "lupos.operator.base.iterator.ColumnIteratorQueue",
+        "lupos.shared.operator.iterator.ColumnIteratorQueue",
         "lupos.operator.arithmetik.generated.AOPAnd",
         "lupos.shared.ValueIri",
         "lupos" + ".shared_inline.MyPrintWriter",
         "lupos" + ".shared_inline.ColumnIteratorQueueExt",
         "lupos" + ".shared_inline.DictionaryHelper",
-        "lupos.dictionary.DictionaryExt",
+        "lupos.shared.dictionary.DictionaryExt",
         "lupos.shared.ByteArrayWrapper"
     )
     // This list will contain all the written operators

@@ -16,9 +16,9 @@
  */
 package lupos.launch.test_sorting
 
+import lupos.shared.AflCore
 import lupos.shared.DateHelperRelative
 import lupos.shared.Parallel
-import lupos.test.AflCore
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 import kotlin.math.log2

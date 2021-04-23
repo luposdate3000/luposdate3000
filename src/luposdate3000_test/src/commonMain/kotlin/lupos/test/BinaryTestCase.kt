@@ -17,15 +17,10 @@
 package lupos.test
 
 import lupos.dictionary.DictionaryFactory
-import lupos.dictionary.EDictionaryTypeExt
-import lupos.dictionary.IDictionary
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.OPBaseCompound
-import lupos.operator.base.iterator.ColumnIterator
-import lupos.operator.base.iterator.ColumnIterator
-
-MultiValue
 import lupos.operator.base.Query
+import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPSplitPartitionFromStore
@@ -47,19 +42,22 @@ import lupos.shared.MAX_TRIPLES_DURING_TEST
 import lupos.shared.MemoryTable
 import lupos.shared.NotImplementedException
 import lupos.shared.Partition
+import lupos.shared.TripleStoreManager
 import lupos.shared.UnknownDataFileException
 import lupos.shared.XMLElement
 import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dictionary.EDictionaryTypeExt
+import lupos.shared.dictionary.IDictionary
 import lupos.shared.dictionary.nodeGlobalDictionary
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.parseFromAny
+import lupos.shared.tripleStoreManager
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File
 import lupos.shared_inline.MyPrintWriter
-import lupos.shared.TripleStoreManager
-import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public object BinaryTestCase {

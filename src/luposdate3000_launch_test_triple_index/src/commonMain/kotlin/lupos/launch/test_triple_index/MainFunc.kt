@@ -19,11 +19,11 @@ package lupos.launch.test_triple_index
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.operator.base.Query
+import lupos.shared.AflCore
 import lupos.shared.Parallel
+import lupos.shared.TripleStoreIndex
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.test.AflCore
-import lupos.triple_store_id_triple.TripleStoreIndex
 import lupos.triple_store_id_triple.TripleStoreIndexIDTriple
 import kotlin.jvm.JvmField
 import kotlin.math.abs
