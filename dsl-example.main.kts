@@ -1,53 +1,75 @@
 #!/usr/bin/env kotlin
 
-interface ICodeBase
-abstract class ACodeExpression(var resultType: CodeType) : ICodeBase {
+val registeredTypes: Map<String, CodeType> = arrayOf(
+    CodeType("Int", null),
+    CodeType("Unit", null),
+    CodeType("Double", null),
+    CodeType("ByteArrayWrapper", "lupos.shared"),
+).map { it.type to it }.toMap()
+
+abstract class ACodeBase(val parent: ACodeBase?) {
+    abstract fun prepareImports()
+    fun getParentFile(): CodeFile {
+        var p = parent
+        if (p == null) {
+            return this as CodeFile
+        }
+        while (p!!.parent != null) {
+            p = p.parent
+        }
+        return p as CodeFile
+    }
+}
+
+abstract class ACodeExpression(parent: ACodeBase, var resultType: CodeType) : ACodeBase(parent) {
     abstract fun generate(): String
 }
 
-class CodeExpressionBuilder {
+class CodeExpressionBuilder(val parent: ACodeBase) {
     fun expValue(type: CodeType, value: String): ACodeExpression {
-        return CodeValue(type, value)
+        return CodeValue(parent, type, value)
     }
 }
 
-interface ICodeStatement : ICodeBase {
-    fun generate(indention: String, out: StringBuilder)
+abstract class ACodeStatement(parent: ACodeBase) : ACodeBase(parent) {
+    abstract fun generate(indention: String, out: StringBuilder)
 }
 
-class CodeType {
-    val type: String
-
-    constructor(type: String) {
-        this.type = type
-    }
-
+class CodeType(val type: String, val pkg: String?) {
     fun generate(): String {
         return type
     }
 
-    companion object {
-        val DOUBLE = CodeType("Double")
-        val INT = CodeType("Int")
-        val UNIT = CodeType("Unit")
+    fun addImport(file: CodeFile) {
+        if (pkg != null) {
+            file.imports.add(pkg + "." + type)
+        }
     }
 }
 
-class CodeName(var name: String) : ICodeBase {
+class CodeName(var name: String) {
     fun generate(): String {
         return name
     }
 }
 
-class CodeValue(type: CodeType, var value: String) : ICodeBase, ACodeExpression(type) {
+class CodeValue(parent: ACodeBase, type: CodeType, var value: String) : ACodeExpression(parent, type) {
+    override fun prepareImports() {
+        resultType.addImport(getParentFile())
+    }
+
     override fun generate(): String {
         return value
     }
 }
 
-class CodeVariableDefinition(var name: CodeName) : ICodeStatement, ICodeBase {
+class CodeVariableDefinition(parent: ACodeBase, var name: CodeName) : ACodeStatement(parent) {
     var value: ACodeExpression? = null
     var type: CodeType? = null
+    override fun prepareImports() {
+        type?.addImport(getParentFile())
+    }
+
     override fun generate(indention: String, out: StringBuilder) {
         out.appendLine("$indention${generate()}")
     }
@@ -61,13 +83,21 @@ class CodeVariableDefinition(var name: CodeName) : ICodeStatement, ICodeBase {
     }
 }
 
-class CodeAssignment(var target: CodeName, var expression: ACodeExpression) : ICodeStatement, ICodeBase {
+class CodeAssignment(parent: ACodeBase, var target: CodeName, var expression: ACodeExpression) : ACodeStatement(parent) {
+    override fun prepareImports() {
+        expression.prepareImports()
+    }
+
     override fun generate(indention: String, out: StringBuilder) {
         out.appendLine("$indention${target.generate()} = ${expression.generate()}")
     }
 }
 
-class CodeReturnValue(val expression: ACodeExpression? = null) : ICodeStatement, ICodeBase {
+class CodeReturnValue(parent: ACodeBase, val expression: ACodeExpression? = null) : ACodeStatement(parent) {
+    override fun prepareImports() {
+        expression?.prepareImports()
+    }
+
     override fun generate(indention: String, out: StringBuilder) {
         if (expression != null) {
             out.appendLine("${indention}return ${expression.generate()}")
@@ -77,54 +107,64 @@ class CodeReturnValue(val expression: ACodeExpression? = null) : ICodeStatement,
     }
 }
 
-class CodeFunction(var name: CodeName) : ICodeBase {
+class CodeFunction(parent: ACodeBase, var name: CodeName) : ACodeBase(parent) {
     val parameters = mutableListOf<CodeVariableDefinition>()
-    val statements = mutableListOf<ICodeStatement>()
+    val statements = mutableListOf<ACodeStatement>()
     var returnType: CodeType? = null
+    override fun prepareImports() {
+        for (statement in statements) {
+            statement.prepareImports()
+        }
+        for (parameter in parameters) {
+            parameter.prepareImports()
+        }
+        returnType?.addImport(getParentFile())
+    }
+
     fun addParameter(name: String, type: CodeType): CodeVariableDefinition {
-        val param = CodeVariableDefinition(CodeName(name))
+        val param = CodeVariableDefinition(this, CodeName(name))
         param.type = type
         parameters.add(param)
         return param
     }
 
     fun addParameter(name: String, type: CodeType, value: String): CodeVariableDefinition {
-        val param = CodeVariableDefinition(CodeName(name))
-        param.value = CodeValue(type, value)
+        val param = CodeVariableDefinition(this, CodeName(name))
+        param.value = CodeValue(this, type, value)
         parameters.add(param)
         return param
     }
 
     fun statementAssign(name: String, init: CodeExpressionBuilder.() -> ACodeExpression): CodeAssignment {
-        val expression = CodeExpressionBuilder().init()
-        val ass = CodeAssignment(CodeName(name), expression)
+        val expression = CodeExpressionBuilder(this).init()
+        val ass = CodeAssignment(this, CodeName(name), expression)
         statements.add(ass)
         return ass
     }
 
     fun statementVar(name: String, type: CodeType): CodeVariableDefinition {
-        val v = CodeVariableDefinition(CodeName(name))
+        val v = CodeVariableDefinition(this, CodeName(name))
         v.type = type
         statements.add(v)
         return v
     }
 
     fun statementVar(name: String, type: CodeType, value: String): CodeVariableDefinition {
-        val v = CodeVariableDefinition(CodeName(name))
-        v.value = CodeValue(type, value)
+        val v = CodeVariableDefinition(this, CodeName(name))
+        v.value = CodeValue(this, type, value)
         statements.add(v)
         return v
     }
 
     fun statementReturn(): CodeReturnValue {
-        val r = CodeReturnValue()
+        val r = CodeReturnValue(this, )
         statements.add(r)
         return r
     }
 
     fun statementReturn(init: CodeExpressionBuilder.() -> ACodeExpression): CodeReturnValue {
-        val res = CodeExpressionBuilder().init()
-        val r = CodeReturnValue(res)
+        val res = CodeExpressionBuilder(this).init()
+        val r = CodeReturnValue(this, res)
         returnType = res.resultType
         statements.add(r)
         return r
@@ -132,9 +172,9 @@ class CodeFunction(var name: CodeName) : ICodeBase {
 
     fun generate(indention: String, out: StringBuilder) {
         if (returnType == null) {
-            returnType = CodeType.UNIT
+            returnType = codeTypes("Unit")
         }
-        out.appendLine("${indention}fun ${name.generate()}(parameters.map{it.generate()}.joinToString()) : ${returnType!!.generate()}{")
+        out.appendLine("${indention}fun ${name.generate()}(${parameters.map { it.generate() }.joinToString()}) : ${returnType!!.generate()} {")
         for (statement in statements) {
             statement.generate(indention + "  ", out)
         }
@@ -142,10 +182,16 @@ class CodeFunction(var name: CodeName) : ICodeBase {
     }
 }
 
-class CodeClazz(var name: CodeName) : ICodeBase {
+class CodeClazz(parent: ACodeBase, var name: CodeName) : ACodeBase(parent) {
     val functions = mutableListOf<CodeFunction>()
+    override fun prepareImports() {
+        for (function in functions) {
+            function.prepareImports()
+        }
+    }
+
     fun function(name: String, init: CodeFunction.() -> Unit): CodeFunction {
-        val func = CodeFunction(CodeName(name))
+        val func = CodeFunction(this, CodeName(name))
         func.init()
         functions.add(func)
         return func
@@ -155,15 +201,23 @@ class CodeClazz(var name: CodeName) : ICodeBase {
         out.appendLine("${indention}class ${name.generate()} {")
         for (function in functions) {
             function.generate(indention + "  ", out)
+            out.appendLine()
         }
         out.appendLine("$indention}")
     }
 }
 
-class CodeFile(var name: String) : ICodeBase {
+class CodeFile(var name: String, var pkg: String) : ACodeBase(null) {
+    val imports = mutableSetOf<String>()
     val clazzes = mutableListOf<CodeClazz>()
+    override fun prepareImports() {
+        for (clazz in clazzes) {
+            clazz.prepareImports()
+        }
+    }
+
     fun clazz(name: String, init: CodeClazz.() -> Unit): CodeClazz {
-        val c = CodeClazz(CodeName(name))
+        val c = CodeClazz(this, CodeName(name))
         c.init()
         clazzes.add(c)
         return c
@@ -172,36 +226,49 @@ class CodeFile(var name: String) : ICodeBase {
     fun generate(indention: String, out: StringBuilder) {
         for (clazz in clazzes) {
             clazz.generate(indention + "", out)
+            out.appendLine()
         }
     }
 
     override fun toString(): String {
         val out = StringBuilder()
+        prepareImports()
+        out.appendLine("package $pkg")
+        out.appendLine()
+        for (i in imports) {
+            out.appendLine("import $i")
+        }
+        out.appendLine()
         generate("", out)
         return out.toString()
     }
 }
 
-fun codeFile(name: String, init: CodeFile.() -> Unit): CodeFile {
-    val file = CodeFile(name)
+fun codeTypes(type: String): CodeType {
+    return registeredTypes[type]!!
+}
+
+fun codeFile(name: String, pkg: String, init: CodeFile.() -> Unit): CodeFile {
+    val file = CodeFile(name, pkg)
     file.init()
     return file
 }
 
 // ///////////////////
 
-codeFile("myfilename") {
+codeFile("myfilename", "generatedPackage") {
     clazz("myclazzname") {
         function("x") {
-            addParameter("a", CodeType.DOUBLE, "0.0")
-            addParameter("b", CodeType.DOUBLE)
-            statementVar("y", CodeType.INT)
-            statementVar("x", CodeType.INT, "4")
-            statementAssign("y") { expValue(CodeType.INT, "5") }
+            addParameter("a", codeTypes("Double"), "0.0")
+            addParameter("b", codeTypes("Double"))
+            statementVar("y", codeTypes("Int"))
+            statementVar("y", codeTypes("ByteArrayWrapper"))
+            statementVar("x", codeTypes("Int"), "4")
+            statementAssign("y") { expValue(codeTypes("Int"), "5") }
             statementReturn()
         }
         function("y") {
-            statementReturn { expValue(CodeType.DOUBLE, "8") }
+            statementReturn { expValue(codeTypes("Double"), "8") }
         }
     }
 }
