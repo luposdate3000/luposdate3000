@@ -63,8 +63,44 @@ class CodeValue(parent: ACodeBase, type: CodeType, var value: String) : ACodeExp
     }
 }
 
-class CodeVariableDefinition(parent: ACodeBase, var name: CodeName) : ACodeStatement(parent) {
-    var value: ACodeExpression? = null
+interface ICodeVariableOrConstantDefinition
+
+class CodeConstantDefinition(parent: ACodeBase, var name: CodeName, var expression: ACodeExpression) : ACodeStatement(parent), ICodeVariableOrConstantDefinition {
+    override fun prepareImports() {
+        expression.resultType.addImport(getParentFile())
+    }
+
+    override fun generate(indention: String, out: StringBuilder) {
+        out.appendLine("$indention${generate()}")
+    }
+
+    fun generate(): String {
+        return "val ${name.generate()} : ${expression.resultType.generate()} = ${expression.generate()}"
+    }
+}
+
+class CodeParamDefinition(parent: ACodeBase, var name: CodeName) : ACodeStatement(parent) {
+    var expression: ACodeExpression? = null
+    var type: CodeType? = null
+    override fun prepareImports() {
+        type?.addImport(getParentFile())
+    }
+
+    override fun generate(indention: String, out: StringBuilder) {
+        throw Exception("error")
+    }
+
+    fun generate(): String {
+        if (expression != null) {
+            return "${name.generate()} : ${expression!!.resultType.generate()} = ${expression!!.generate()}"
+        } else {
+            return "${name.generate()} : ${type!!.generate()}"
+        }
+    }
+}
+
+class CodeVariableDefinition(parent: ACodeBase, var name: CodeName) : ACodeStatement(parent), ICodeVariableOrConstantDefinition {
+    var expression: ACodeExpression? = null
     var type: CodeType? = null
     override fun prepareImports() {
         type?.addImport(getParentFile())
@@ -75,8 +111,8 @@ class CodeVariableDefinition(parent: ACodeBase, var name: CodeName) : ACodeState
     }
 
     fun generate(): String {
-        if (value != null) {
-            return "var ${name.generate()} : ${value!!.resultType.generate()} = ${value!!.generate()}"
+        if (expression != null) {
+            return "var ${name.generate()} : ${expression!!.resultType.generate()} = ${expression!!.generate()}"
         } else {
             return "var ${name.generate()} : ${type!!.generate()}"
         }
@@ -108,7 +144,7 @@ class CodeReturnValue(parent: ACodeBase, val expression: ACodeExpression? = null
 }
 
 class CodeFunction(parent: ACodeBase, var name: CodeName) : ACodeBase(parent) {
-    val parameters = mutableListOf<CodeVariableDefinition>()
+    val parameters = mutableListOf<CodeParamDefinition>()
     val statements = mutableListOf<ACodeStatement>()
     var returnType: CodeType? = null
     override fun prepareImports() {
@@ -121,16 +157,16 @@ class CodeFunction(parent: ACodeBase, var name: CodeName) : ACodeBase(parent) {
         returnType?.addImport(getParentFile())
     }
 
-    fun addParameter(name: String, type: CodeType): CodeVariableDefinition {
-        val param = CodeVariableDefinition(this, CodeName(name))
+    fun addParameter(name: String, type: CodeType): CodeParamDefinition {
+        val param = CodeParamDefinition(this, CodeName(name))
         param.type = type
         parameters.add(param)
         return param
     }
 
-    fun addParameter(name: String, type: CodeType, value: String): CodeVariableDefinition {
-        val param = CodeVariableDefinition(this, CodeName(name))
-        param.value = CodeValue(this, type, value)
+    fun addParameter(name: String, type: CodeType, value: String): CodeParamDefinition {
+        val param = CodeParamDefinition(this, CodeName(name))
+        param.expression = CodeValue(this, type, value)
         parameters.add(param)
         return param
     }
@@ -151,7 +187,13 @@ class CodeFunction(parent: ACodeBase, var name: CodeName) : ACodeBase(parent) {
 
     fun statementVar(name: String, type: CodeType, value: String): CodeVariableDefinition {
         val v = CodeVariableDefinition(this, CodeName(name))
-        v.value = CodeValue(this, type, value)
+        v.expression = CodeValue(this, type, value)
+        statements.add(v)
+        return v
+    }
+
+    fun statementVal(name: String, type: CodeType, value: String): CodeConstantDefinition {
+        val v = CodeConstantDefinition(this, CodeName(name), CodeValue(this, type, value))
         statements.add(v)
         return v
     }
@@ -262,8 +304,8 @@ codeFile("myfilename", "generatedPackage") {
             addParameter("a", codeTypes("Double"), "0.0")
             addParameter("b", codeTypes("Double"))
             statementVar("y", codeTypes("Int"))
-            statementVar("y", codeTypes("ByteArrayWrapper"))
-            statementVar("x", codeTypes("Int"), "4")
+            statementVar("z", codeTypes("ByteArrayWrapper"))
+            statementVal("x", codeTypes("Int"), "4")
             statementAssign("y") { expValue(codeTypes("Int"), "5") }
             statementReturn()
         }
