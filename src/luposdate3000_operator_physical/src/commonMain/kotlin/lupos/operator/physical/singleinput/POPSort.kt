@@ -30,9 +30,7 @@ import lupos.shared.ValueComparatorASC
 import lupos.shared.ValueComparatorDESC
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.ColumnIteratorMerge
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.operator.iterator.RowIteratorMerge
 import kotlin.jvm.JvmField
 
 public class POPSort public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val sortBy: Array<AOPVariable>, @JvmField public val sortOrder: Boolean, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPSortID, "POPSort", arrayOf(child), ESortPriorityExt.SORT) {

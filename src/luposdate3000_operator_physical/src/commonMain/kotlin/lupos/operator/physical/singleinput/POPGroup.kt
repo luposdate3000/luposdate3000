@@ -40,10 +40,8 @@ import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.operator.iterator.ColumnIteratorMultiValue
 import lupos.shared.operator.iterator.ColumnIteratorQueue
 import lupos.shared.operator.iterator.ColumnIteratorQueueEmpty
-import lupos.shared.operator.iterator.ColumnIteratorRepeatValue
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared_inline.ColumnIteratorQueueExt
 import lupos.shared_inline.DictionaryHelper
