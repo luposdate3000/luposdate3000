@@ -16,20 +16,17 @@
  */
 package lupos.shared_inline
 
+import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
-import kotlin.jvm.JvmField
 
 internal actual class MyThreadReadWriteLock {
-    @JvmField
     internal val uuid = UUID_Counter.getNextUUID()
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun getUUID() = uuid
 
-    @JvmField
     internal var lockedRead = 0
 
-    @JvmField
     internal var lockedWrite = false
 
     @Suppress("NOTHING_TO_INLINE")

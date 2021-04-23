@@ -108,7 +108,6 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         .ssetEnabledRunFunc { true }
     var allpackages = mutableSetOf<String>()
     var modules = mutableMapOf<String, CreateModuleArgs>()
-    val dependencyMap = mutableMapOf<String, Set<String>>()
     Files.walk(Paths.get("src"), 1).forEach { it ->
         val filename = it.toString()
         val f = File(filename + "/module_config")
@@ -198,26 +197,15 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             if (!currentArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
                 dep.add("Luposdate3000_Shared_BrowserJS")
             }
-            dependencyMap[currentArgs.moduleName] = dep
-            for (t in listOf("js", "jvm", "common", "native")) {
-                val f2 = File(filename + "/${t}Dependencies")
-                if (f2.exists()) {
-                    f2.forEachLine { line ->
-                        if (line.startsWith("luposdate3000:")) {
-                            dep.add(line.substring("luposdate3000:".length, line.lastIndexOf(":")))
-                        }
-                    }
-                }
-            }
         }
     }
-    val dependencyMapCalculated = mutableMapOf<String, MutableSet<String>>()
+    val dependencyMap = mutableMapOf<String, MutableSet<String>>()
     for ((k, v) in modules) {
         val dep = mutableSetOf<String>()
         if (!v.moduleName.startsWith("Luposdate3000_Shared")) {
             dep.add("Luposdate3000_Shared")
         }
-        dependencyMapCalculated[k] = dep
+        dependencyMap[k] = dep
         Files.walk(Paths.get(v.moduleFolder)).forEach { it ->
             val name = it.toString()
             val f = java.io.File(name)
@@ -271,7 +259,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         v.dependenciesNative.addAll(c.dependenciesNative)
     }
     for ((k, v) in modules) {
-        val depss = dependencyMapCalculated[k]
+        val depss = dependencyMap[k]
         if (depss != null) {
             for (w in depss) {
                 v.dependenciesCommon.add("luposdate3000:$w:0.0.1")
@@ -281,11 +269,11 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         while (flag) {
             flag = false
             for ((k, v) in modules) {
-                val dep = dependencyMapCalculated[k]
+                val dep = dependencyMap[k]
                 if (dep != null) {
                     val s = dep.size
                     for (d in dep.toTypedArray()) {
-                        val deps = dependencyMapCalculated[d]
+                        val deps = dependencyMap[d]
                         if (deps != null) {
                             dep.addAll(deps)
                         }

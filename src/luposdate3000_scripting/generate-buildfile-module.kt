@@ -69,10 +69,15 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<Stri
     } else {
         dest.printWriter()
     }
+    val effectiveReplacement = mutableMapOf<String, String>()
+    effectiveReplacement.putAll(replacement)
+    if (src.toString().contains("jsMain")) {
+        effectiveReplacement.remove(" public ")
+    }
     var line = 0
     src.forEachLine { it ->
         var s = it
-        for ((k, v) in replacement) {
+        for ((k, v) in effectiveReplacement) {
             if (s.startsWith("import lupos.shared_inline.")) {
                 sharedInlineReferences.add(s.substring("import lupos.shared_inline.".length))
             } else if (s.startsWith("// require lupos.shared_inline.")) {
@@ -429,45 +434,17 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared")) {
             commonDependencies.add("luposdate3000:Luposdate3000_Shared:0.0.1")
         }
-        if (File("${moduleArgs.moduleFolder}${pathSeparator}commonDependencies").exists()) {
-            File("${moduleArgs.moduleFolder}${pathSeparator}commonDependencies").forEachLine {
-                if (it.length > 0) {
-                    commonDependencies.add(it)
-                }
-            }
-        }
         val jvmDependencies = mutableSetOf<String>()
         jvmDependencies.addAll(moduleArgs.dependenciesJvm)
-        if (File("${moduleArgs.moduleFolder}${pathSeparator}jvmDependencies").exists()) {
-            File("${moduleArgs.moduleFolder}${pathSeparator}jvmDependencies").forEachLine {
-                if (it.length > 0) {
-                    jvmDependencies.add(it)
-                }
-            }
-        }
         val jsDependencies = mutableSetOf<String>()
         if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
             jsDependencies.add("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
         }
         jsDependencies.addAll(moduleArgs.dependenciesJs)
         jsDependencies.removeAll(commonDependencies)
-        if (File("${moduleArgs.moduleFolder}${pathSeparator}jsDependencies").exists()) {
-            File("${moduleArgs.moduleFolder}${pathSeparator}jsDependencies").forEachLine {
-                if (it.length > 0) {
-                    jsDependencies.add(it)
-                }
-            }
-        }
         val nativeDependencies = mutableSetOf<String>()
         nativeDependencies.addAll(moduleArgs.dependenciesNative)
         nativeDependencies.removeAll(commonDependencies)
-        if (File("${moduleArgs.moduleFolder}${pathSeparator}nativeDependencies").exists()) {
-            File("${moduleArgs.moduleFolder}${pathSeparator}nativeDependencies").forEachLine {
-                if (it.length > 0) {
-                    nativeDependencies.add(it)
-                }
-            }
-        }
         for (filename in listOf("src.generated${pathSeparator}build.gradle.kts", "${moduleArgs.moduleFolder}${pathSeparator}build.gradle.kts")) {
             var buildForIDE = filename != "src.generated${pathSeparator}build.gradle.kts"
             if (moduleArgs.ideaBuildfile == IntellijMode.Enable && !buildForIDE) {

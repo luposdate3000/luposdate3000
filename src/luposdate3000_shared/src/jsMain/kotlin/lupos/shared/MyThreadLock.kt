@@ -18,43 +18,35 @@ package lupos.shared
 
 public actual class MyThreadLock {
 
-    @JvmField
-    internal val uuid = UUID_Counter.getNextUUID()
+    public val uuid: Long = UUID_Counter.getNextUUID()
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun getUUID(): Long = uuid
 
-    @JvmField
-    internal var locked: Boolean = false
+    public var locked: Boolean = false
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun lock() {
-        SanityCheck {
-            if (locked) {
-                throw Exception("deadlock")
-            }
-            locked = true
+        if (locked) {
+            throw Exception("deadlock")
         }
+        locked = true
     }
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun unlock() {
-        SanityCheck {
-            if (!locked) {
-                throw Exception("unlock without previous lock")
-            }
-            locked = false
+        if (!locked) {
+            throw Exception("unlock without previous lock")
         }
+        locked = false
     }
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun tryLock(): Boolean {
-        SanityCheck {
-            if (locked) {
-                throw Exception("deadlock")
-            }
-            locked = true
+        if (locked) {
+            throw Exception("deadlock")
         }
+        locked = true
         return true
     }
 
