@@ -20,9 +20,13 @@ import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
 import lupos.shared.EPartitionModeExt
+import lupos.shared.IQuery
 import lupos.shared.MyLock
 import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
+import lupos.shared.dictionary.EDictionaryTypeExt
+import lupos.shared.dictionary.IDictionary
+import lupos.shared.operator.IOPBase
 import lupos.shared.optimizer.distributedOptimizerQueryFactory
 import lupos.triple_store_id_triple.tripleStoreManager
 import kotlin.jvm.JvmField
