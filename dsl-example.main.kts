@@ -5,8 +5,22 @@ val registeredTypes: Map<String, CodeType> = mutableMapOf(
     "Unit" to CodeType("Unit", null),
     "Double" to CodeType("Double", null),
     "ByteArrayWrapper" to CodeType("ByteArrayWrapper", "lupos.shared"),
+    "ByteArrayWrapperDouble" to CodeType("ByteArrayWrapper", "lupos.shared"),
 )
-val registeredCodeStatementGroups: List<CodeSegment> = mutableListOf()
+val registeredCodeSegments: List<CodeSegment> = mutableListOf(
+    codeSegment("/") {
+        val a = codeVar("a", codeTypes("ByteArrayWrapperDouble"))
+        val b = codeVar("b", codeTypes("ByteArrayWrapperDouble"))
+        val c = codeVar("c", codeTypes("ByteArrayWrapperDouble"))
+        parameter {
+            add(a)
+            add(b)
+        }
+        statementVar(c)
+        statementAssign(c) { expDiv({ expVar(a) }, { expVar(b) }) }
+        statementEvent(c)
+    },
+)
 
 abstract class ACodeBase() {
     abstract fun prepareImports(parentFile: CodeFile)
@@ -16,9 +30,78 @@ abstract class ACodeExpression(var resultType: CodeType) : ACodeBase() {
     abstract fun generate(): String
 }
 
+class CodeReturnEvent(val name: CodeName, val type: CodeType) : ACodeStatement() {
+    override fun prepareImports(parentFile: CodeFile) {
+        throw Exception("dont call this")
+    }
+
+    override fun generate(indention: String, out: StringBuilder) {
+        throw Exception("dont call this")
+    }
+}
+
+class CodeSegment(val name: String) : CodeStatementGroup() {
+    val parameterContainer = CodeParameterContainer()
+    fun statementEvent(name: String, type: CodeType): CodeReturnEvent {
+        val r = CodeReturnEvent(CodeName(name), type)
+        statements.add(r)
+        return r
+    }
+
+    fun statementEvent(v: CodeVariableDefinition): CodeReturnEvent {
+        val r = CodeReturnEvent(v.name, v.getType())
+        statements.add(r)
+        return r
+    }
+
+    fun parameter(init: CodeParameterContainer.() -> Unit) {
+        parameterContainer.init()
+    }
+
+    fun generate(target: CodeStatementGroup, onEvent: (CodeReturnEvent) -> Unit) {
+        for (statement in statements) {
+            if (statement is CodeReturnEvent) {
+                onEvent(statement)
+            } else {
+                target.statements.add(statement)
+            }
+        }
+    }
+
+    override fun prepareImports(parentFile: CodeFile) {
+        throw Exception("dont call this")
+    }
+}
+
 class CodeExpressionBuilder() {
-    fun expValue(type: CodeType, value: String): ACodeExpression {
-        return CodeValue(type, value)
+    fun expVal(type: CodeType, value: String): ACodeExpression {
+        return CodeVal(type, value)
+    }
+
+    fun expVar(v: CodeVariableDefinition): ACodeExpression {
+        return CodeVarRef(v.name.name, v.getType())
+    }
+
+    fun expVar(name: String, type: CodeType): ACodeExpression {
+        return CodeVarRef(name, type)
+    }
+
+    fun expDiv(a: CodeExpressionBuilder.() -> ACodeExpression, b: CodeExpressionBuilder.() -> ACodeExpression): ACodeExpression {
+        val ax = CodeExpressionBuilder().a()
+        val bx = CodeExpressionBuilder().b()
+        return CodePrimitive(ax.resultType, "/", ax, bx)
+    }
+}
+
+class CodePrimitive(resultType: CodeType, var symbol: String, var a: ACodeExpression, var b: ACodeExpression) : ACodeExpression(resultType) {
+    override fun generate(): String {
+        return "${a.generate()} $symbol ${b.generate()}"
+    }
+
+    override fun prepareImports(parentFile: CodeFile) {
+        a.prepareImports(parentFile)
+        b.prepareImports(parentFile)
+        resultType.addImport(parentFile)
     }
 }
 
@@ -44,7 +127,17 @@ class CodeName(var name: String) {
     }
 }
 
-class CodeValue(type: CodeType, var value: String) : ACodeExpression(type) {
+class CodeVarRef(var name: String, var type: CodeType) : ACodeExpression(type) {
+    override fun generate(): String {
+        return name
+    }
+
+    override fun prepareImports(parentFile: CodeFile) {
+        resultType.addImport(parentFile)
+    }
+}
+
+class CodeVal(type: CodeType, var value: String) : ACodeExpression(type) {
     override fun prepareImports(parentFile: CodeFile) {
         resultType.addImport(parentFile)
     }
@@ -71,30 +164,50 @@ class CodeConstantDefinition(var name: CodeName, var expression: ACodeExpression
 }
 
 class CodeParamDefinition(var name: CodeName) : ACodeStatement() {
+    override fun equals(other: Any?): Boolean {
+        return other is CodeParamDefinition && other.getType() == getType()
+    }
+
     var expression: ACodeExpression? = null
-    var type: CodeType? = null
+    var type_: CodeType? = null
+    fun getType(): CodeType {
+        if (expression != null) {
+            return expression!!.resultType
+        } else {
+            return type_!!
+        }
+    }
+
     override fun prepareImports(parentFile: CodeFile) {
-        type?.addImport(parentFile)
+        type_?.addImport(parentFile)
     }
 
     override fun generate(indention: String, out: StringBuilder) {
-        throw Exception("error")
+        throw Exception("dont call this")
     }
 
     fun generate(): String {
         if (expression != null) {
             return "${name.generate()} : ${expression!!.resultType.generate()} = ${expression!!.generate()}"
         } else {
-            return "${name.generate()} : ${type!!.generate()}"
+            return "${name.generate()} : ${type_!!.generate()}"
         }
     }
 }
 
 class CodeVariableDefinition(var name: CodeName) : ACodeStatement(), ICodeVariableOrConstantDefinition {
     var expression: ACodeExpression? = null
-    var type: CodeType? = null
+    var type_: CodeType? = null
+    fun getType(): CodeType {
+        if (expression != null) {
+            return expression!!.resultType
+        } else {
+            return type_!!
+        }
+    }
+
     override fun prepareImports(parentFile: CodeFile) {
-        type?.addImport(parentFile)
+        getType().addImport(parentFile)
     }
 
     override fun generate(indention: String, out: StringBuilder) {
@@ -105,7 +218,7 @@ class CodeVariableDefinition(var name: CodeName) : ACodeStatement(), ICodeVariab
         if (expression != null) {
             return "var ${name.generate()} : ${expression!!.resultType.generate()} = ${expression!!.generate()}"
         } else {
-            return "var ${name.generate()} : ${type!!.generate()}"
+            return "var ${name.generate()} : ${type_!!.generate()}"
         }
     }
 }
@@ -140,16 +253,23 @@ class CodeParameterContainer {
         return parameters.map { it.generate() }.joinToString()
     }
 
+    fun add(v: CodeVariableDefinition): CodeParamDefinition {
+        val param = CodeParamDefinition(v.name)
+        param.type_ = v.getType()
+        parameters.add(param)
+        return param
+    }
+
     fun add(name: String, type: CodeType): CodeParamDefinition {
         val param = CodeParamDefinition(CodeName(name))
-        param.type = type
+        param.type_ = type
         parameters.add(param)
         return param
     }
 
     fun add(name: String, type: CodeType, value: String): CodeParamDefinition {
         val param = CodeParamDefinition(CodeName(name))
-        param.expression = CodeValue(type, value)
+        param.expression = CodeVal(type, value)
         parameters.add(param)
         return param
     }
@@ -176,22 +296,45 @@ abstract class CodeStatementGroup() : ACodeBase() {
         return ass
     }
 
-    fun statementVar(name: String, type: CodeType): CodeVariableDefinition {
-        val v = CodeVariableDefinition(CodeName(name))
-        v.type = type
+    fun statementAssign(v: CodeVariableDefinition, event: CodeReturnEvent): CodeAssignment {
+        if (event.type != v.getType()) {
+            throw Exception("incompatible types")
+        }
+        val ass = CodeAssignment(v.name, CodeVarRef(event.name.name, event.type))
+        statements.add(ass)
+        return ass
+    }
+
+    fun statementAssign(v: CodeVariableDefinition, init: CodeExpressionBuilder.() -> ACodeExpression): CodeAssignment {
+        val expression = CodeExpressionBuilder().init()
+        if (expression.resultType != v.getType()) {
+            throw Exception("incompatible types")
+        }
+        val ass = CodeAssignment(v.name, expression)
+        statements.add(ass)
+        return ass
+    }
+
+    fun statementVar(v: CodeVariableDefinition): CodeVariableDefinition {
         statements.add(v)
         return v
     }
 
-    fun statementVar(name: String, type: CodeType, value: String): CodeVariableDefinition {
+    fun statementVar(name: String, type: CodeType): CodeVariableDefinition {
         val v = CodeVariableDefinition(CodeName(name))
-        v.expression = CodeValue(type, value)
+        v.type_ = type
         statements.add(v)
         return v
+    }
+
+    fun statementVal(v: CodeVariableDefinition, value: String): CodeConstantDefinition {
+        val v2 = CodeConstantDefinition(v.name, CodeVal(v.getType(), value))
+        statements.add(v2)
+        return v2
     }
 
     fun statementVal(name: String, type: CodeType, value: String): CodeConstantDefinition {
-        val v = CodeConstantDefinition(CodeName(name), CodeValue(type, value))
+        val v = CodeConstantDefinition(CodeName(name), CodeVal(type, value))
         statements.add(v)
         return v
     }
@@ -203,7 +346,6 @@ abstract class CodeStatementGroup() : ACodeBase() {
     }
 }
 
-class CodeSegment(val name: String) : CodeStatementGroup()
 class CodeFunction(var name: CodeName) : CodeStatementGroup() {
     var returnType: CodeType? = null
     val parameterContainer = CodeParameterContainer()
@@ -215,6 +357,32 @@ class CodeFunction(var name: CodeName) : CodeStatementGroup() {
         super.prepareImports(parentFile)
         returnType?.addImport(parentFile)
         parameterContainer.prepareImports(parentFile)
+    }
+
+    fun statementUse(name: String, init: CodeParameterContainer.() -> Unit, onEvent: (CodeReturnEvent) -> Unit) {
+        val params = CodeParameterContainer()
+        params.init()
+        var found = false
+        loop@ for (segment in registeredCodeSegments) {
+            if (segment.name == name) {
+                var flag = segment.parameterContainer.parameters.size == params.parameters.size
+                var i = 0
+                while (flag && i < segment.parameterContainer.parameters.size) {
+                    flag = segment.parameterContainer.parameters[i] == params.parameters[i]
+                    i++
+                }
+                if (flag) {
+                    found = true
+                    segment.generate(this) { it ->
+                        onEvent(it)
+                    }
+                    break@loop
+                }
+            }
+        }
+        if (!found) {
+            throw Exception("function not found")
+        }
     }
 
     fun statementReturn(): CodeReturnValue {
@@ -319,6 +487,12 @@ fun codeSegment(name: String, init: CodeSegment.() -> Unit): CodeSegment {
     return seg
 }
 
+fun codeVar(name: String, type: CodeType): CodeVariableDefinition {
+    val v = CodeVariableDefinition(CodeName(name))
+    v.type_ = type
+    return v
+}
+
 // ///////////////////
 
 codeFile("myfilename", "generatedPackage") {
@@ -331,11 +505,26 @@ codeFile("myfilename", "generatedPackage") {
             statementVar("y", codeTypes("Int"))
             statementVar("z", codeTypes("ByteArrayWrapper"))
             statementVal("x", codeTypes("Int"), "4")
-            statementAssign("y") { expValue(codeTypes("Int"), "5") }
+            statementAssign("y") { expVal(codeTypes("Int"), "5") }
             statementReturn()
         }
         function("y") {
-            statementReturn { expValue(codeTypes("Double"), "8") }
+            val a = codeVar("a", codeTypes("ByteArrayWrapperDouble"))
+            val b = codeVar("b", codeTypes("ByteArrayWrapperDouble"))
+            val z = codeVar("z", codeTypes("ByteArrayWrapperDouble"))
+            statementVal(a, "0.0")
+            statementVal(b, "0.0")
+            statementUse(
+                "/",
+                {
+                    add(a)
+                    add(b)
+                },
+                { event ->
+                    statementAssign(z, event)
+                }
+            )
+            statementReturn { expVal(codeTypes("Double"), "8") }
         }
     }
 }
