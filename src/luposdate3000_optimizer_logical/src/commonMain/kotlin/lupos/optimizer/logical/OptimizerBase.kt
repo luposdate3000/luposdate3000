@@ -16,7 +16,7 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.shared.SanityCheck
 import lupos.shared.operator.IOPBase
 import kotlin.jvm.JvmField

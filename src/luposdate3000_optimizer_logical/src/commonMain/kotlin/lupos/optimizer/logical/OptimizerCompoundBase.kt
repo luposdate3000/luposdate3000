@@ -16,7 +16,7 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.operator.physical.partition.POPChangePartitionOrderedByIntId
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionCount

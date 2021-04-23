@@ -17,7 +17,7 @@
 package lupos.optimizer.physical
 
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.operator.physical.partition.POPMergePartitionCount
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
 import lupos.operator.physical.partition.POPSplitPartitionFromStore
@@ -27,7 +27,7 @@ import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EPartitionModeExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.tripleStoreManager
-import lupos.triple_store_id_triple.POPTripleStoreIterator
+import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID, "PhysicalOptimizerPartitionAssingPartitionsToRemaining") {
     // this store introduces fixes, if the desired triple store does not participate in any partitioning at all, but it is required to do so

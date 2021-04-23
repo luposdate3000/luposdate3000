@@ -18,8 +18,8 @@ package lupos.optimizer.physical
 
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
 import lupos.operator.base.noinput.OPEmptyRow
-import lupos.operator.logical.Query
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.multiinput.LOPMinus
 import lupos.operator.logical.multiinput.LOPUnion

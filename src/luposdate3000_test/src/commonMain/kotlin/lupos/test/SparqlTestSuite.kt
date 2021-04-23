@@ -19,8 +19,8 @@ package lupos.test
 import lupos.endpoint.LuposdateEndpoint
 import lupos.jena.JenaWrapper
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
-import lupos.operator.logical.Query
 import lupos.operator.physical.noinput.POPValuesImportXML
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer

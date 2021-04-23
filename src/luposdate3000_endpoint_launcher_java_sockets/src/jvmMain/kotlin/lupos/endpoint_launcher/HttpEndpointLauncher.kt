@@ -21,8 +21,8 @@ import lupos.dictionary.EDictionaryTypeExt
 import lupos.dictionary.IDictionary
 import lupos.endpoint.LuposdateEndpoint
 import lupos.jena.JenaWrapper
+import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
-import lupos.operator.logical.Query
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.partition.POPDistributedSendMulti
 import lupos.operator.physical.partition.POPDistributedSendSingle

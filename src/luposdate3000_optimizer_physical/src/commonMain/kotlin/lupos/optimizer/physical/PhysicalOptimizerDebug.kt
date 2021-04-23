@@ -17,7 +17,7 @@
 package lupos.optimizer.physical
 
 import lupos.operator.base.OPBaseCompound
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.singleinput.POPDebug
 import lupos.optimizer.logical.EOptimizerIDExt

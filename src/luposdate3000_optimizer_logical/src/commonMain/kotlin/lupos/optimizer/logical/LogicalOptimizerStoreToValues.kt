@@ -19,8 +19,8 @@ package lupos.optimizer.logical
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPValue
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
 import lupos.operator.base.noinput.OPEmptyRow
-import lupos.operator.logical.Query
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.logical.noinput.LOPValues
 import lupos.operator.logical.noinput.OPNothing

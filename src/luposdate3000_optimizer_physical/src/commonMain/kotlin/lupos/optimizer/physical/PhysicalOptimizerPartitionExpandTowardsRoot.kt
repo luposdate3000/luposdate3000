@@ -17,7 +17,7 @@
 package lupos.optimizer.physical
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.operator.physical.multiinput.POPUnion
 import lupos.operator.physical.partition.POPChangePartitionOrderedByIntId
 import lupos.operator.physical.partition.POPMergePartition
@@ -36,7 +36,7 @@ import lupos.shared.DontCareWhichException
 import lupos.shared.EPartitionModeExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.tripleStoreManager
-import lupos.triple_store_id_triple.POPTripleStoreIterator
+import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionExpandTowardsRootID, "PhysicalOptimizerPartitionExpandTowardsRoot") {
     // this optimizer moves the partitioning upwards to the root

@@ -17,7 +17,7 @@
 package lupos.optimizer.logical
 
 import lupos.operator.base.OPBaseCompound
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.operator.logical.multiinput.LOPUnion
 import lupos.operator.logical.singleinput.modifiers.LOPDistinct
 import lupos.operator.logical.singleinput.modifiers.LOPLimit

@@ -22,7 +22,7 @@ import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
 import lupos.operator.arithmetik.generated.AOPNot
 import lupos.operator.arithmetik.generated.AOPOr
 import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.operator.logical.singleinput.LOPFilter
 import lupos.shared.BugException
 import lupos.shared.SanityCheck

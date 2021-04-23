@@ -16,7 +16,7 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.operator.logical.singleinput.LOPFilter
 import lupos.operator.logical.singleinput.LOPSort
 import lupos.operator.logical.singleinput.modifiers.LOPReduced

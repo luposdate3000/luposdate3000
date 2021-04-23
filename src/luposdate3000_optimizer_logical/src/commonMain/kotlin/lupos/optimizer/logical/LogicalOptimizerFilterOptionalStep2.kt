@@ -16,7 +16,7 @@
  */
 package lupos.optimizer.logical
 
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerFilterOptionalStep2(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterOptionalStep2ID, "LogicalOptimizerFilterOptionalStep2") {

@@ -19,7 +19,7 @@ package lupos.optimizer.logical
 import lupos.operator.arithmetik.multiinput.AOPEQ
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.logical.singleinput.LOPBind
 import lupos.operator.logical.singleinput.LOPFilter

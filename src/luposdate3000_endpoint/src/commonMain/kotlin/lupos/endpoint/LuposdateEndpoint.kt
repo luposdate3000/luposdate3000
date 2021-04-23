@@ -18,12 +18,9 @@ package lupos.endpoint
 
 import lupos.buffer_manager.BufferManagerExt
 import lupos.dictionary.DictionaryFactory
+import lupos.operator.base.Query
+import lupos.operator.base.iterator.ColumnIteratorMultiValue3
 import lupos.operator.factory.XMLElementToOPBase
-import lupos.operator.base.iterator.ColumnIterator
-import lupos.operator.base.iterator.ColumnIterator
-
-MultiValue3
-import lupos.operator.logical.Query
 import lupos.operator.physical.noinput.POPValuesImportXML
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.distributed.query.DistributedOptimizerQuery
@@ -32,6 +29,7 @@ import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.parser.LexerCharIterator
 import lupos.parser.LookAheadTokenIterator
 import lupos.parser.ParseError
+import lupos.parser.XMLElementFromN3
 import lupos.parser.sparql1_1.SPARQLParser
 import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
 import lupos.parser.turtle.Turtle2Parser
@@ -57,26 +55,26 @@ import lupos.shared.MyLock
 import lupos.shared.OperatorGraphToLatex
 import lupos.shared.QueryResultToStream
 import lupos.shared.SanityCheck
+import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
 import lupos.shared.XMLElement
 import lupos.shared.XMLElementFromCsv
 import lupos.shared.XMLElementFromJson
-import lupos.shared.XMLElementFromN3
 import lupos.shared.XMLElementFromTsv
 import lupos.shared.XMLElementFromXML
 import lupos.shared.communicationHandler
 import lupos.shared.dictionary.nodeGlobalDictionary
 import lupos.shared.fileformat.TriplesIntermediateReader
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.optimizer.distributedOptimizerQueryFactory
+import lupos.shared.tripleStoreManager
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File
 import lupos.shared_inline.MyPrintWriter
 import lupos.shared_inline.MyStringStream
 import lupos.shared_inline.Platform
-import lupos.shared.TripleStoreManager
-import lupos.shared.TripleStoreManagerImpl
-import lupos.shared.tripleStoreManager
+import lupos.triple_store_manager.TripleStoreManagerImpl
 import kotlin.js.JsName
 import kotlin.jvm.JvmField
 

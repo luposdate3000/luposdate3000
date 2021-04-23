@@ -18,7 +18,7 @@ package lupos.launch.test_triple_index
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.shared.Parallel
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.iterator.IteratorBundle

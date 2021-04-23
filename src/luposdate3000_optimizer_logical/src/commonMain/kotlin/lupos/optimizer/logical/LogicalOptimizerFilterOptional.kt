@@ -24,7 +24,7 @@ import lupos.operator.arithmetik.generated.AOPOr
 import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.singleinput.LOPFilter
 import lupos.operator.logical.singleinput.LOPSubGroup

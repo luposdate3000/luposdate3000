@@ -49,7 +49,7 @@ import lupos.shared.ValueStringBase
 import lupos.shared.operator.IOPBase
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.MyPrintWriter
-import lupos.triple_store_id_triple.POPTripleStoreIterator
+import lupos.triple_store_manager.POPTripleStoreIterator
 import kotlin.jvm.JvmField
 
 private const val passThroughGenericImplementation = false
@@ -70,7 +70,7 @@ public fun generateSourceCode(
     val operatorsBuffer = MyPrintWriter(true)
     // Imports that will be used in the generated file
     val imports = mutableSetOf<String>(
-        "lupos.operator.logical.Query",
+        "lupos.operator.base.Query",
         "lupos.shared.IQuery",
         "lupos.endpoint.LuposdateEndpoint",
         "com.ionspin.kotlin.bignum.integer.BigInteger",

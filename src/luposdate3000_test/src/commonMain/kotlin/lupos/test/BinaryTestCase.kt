@@ -25,7 +25,7 @@ import lupos.operator.base.iterator.ColumnIterator
 import lupos.operator.base.iterator.ColumnIterator
 
 MultiValue
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPSplitPartitionFromStore

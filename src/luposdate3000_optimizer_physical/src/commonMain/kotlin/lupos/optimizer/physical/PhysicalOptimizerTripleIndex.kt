@@ -18,7 +18,7 @@ package lupos.optimizer.physical
 
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.operator.logical.noinput.LOPTriple
 import lupos.operator.logical.singleinput.LOPProjection
 import lupos.operator.physical.POPBase
@@ -30,7 +30,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 import lupos.shared.tripleStoreManager
-import lupos.triple_store_id_triple.POPTripleStoreIterator
+import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerTripleIndexID, "PhysicalOptimizerTripleIndex") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

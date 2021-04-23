@@ -17,7 +17,7 @@
 package lupos.optimizer.logical
 
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.operator.logical.multiinput.LOPMinus
 import lupos.operator.logical.singleinput.LOPProjection
 import lupos.operator.logical.singleinput.modifiers.LOPReduced

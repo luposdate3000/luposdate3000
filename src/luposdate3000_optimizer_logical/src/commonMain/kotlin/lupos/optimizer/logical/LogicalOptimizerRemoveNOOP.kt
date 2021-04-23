@@ -17,15 +17,15 @@
 package lupos.optimizer.logical
 
 import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.base.Query
 import lupos.operator.base.noinput.OPEmptyRow
-import lupos.operator.logical.Query
+import lupos.operator.base.singleinput.LOPNOOP
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.multiinput.LOPMinus
 import lupos.operator.logical.multiinput.LOPUnion
 import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.logical.singleinput.LOPFilter
 import lupos.operator.logical.singleinput.LOPMakeBooleanResult
-import lupos.operator.logical.singleinput.LOPNOOP
 import lupos.operator.logical.singleinput.LOPSubGroup
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase

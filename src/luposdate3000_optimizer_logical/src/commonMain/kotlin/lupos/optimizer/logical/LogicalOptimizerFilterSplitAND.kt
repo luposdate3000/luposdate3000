@@ -18,7 +18,7 @@ package lupos.optimizer.logical
 
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.AOPAnd
-import lupos.operator.logical.Query
+import lupos.operator.base.Query
 import lupos.operator.logical.singleinput.LOPFilter
 import lupos.shared.operator.IOPBase
 
