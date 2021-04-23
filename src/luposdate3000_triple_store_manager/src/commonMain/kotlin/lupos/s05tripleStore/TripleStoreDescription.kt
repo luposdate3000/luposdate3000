@@ -220,7 +220,7 @@ public class TripleStoreDescription(
                         first += tmp.first
                         second += tmp.second
                     } else {
-                        throw Exception("getHistogram send to remote node")
+                        throw Exception("getHistogram send to remote node '${store.first}' vs '${(tripleStoreManager as TripleStoreManagerImpl).localhost}'")
                     }
                 }
                 return Pair(first, second)
