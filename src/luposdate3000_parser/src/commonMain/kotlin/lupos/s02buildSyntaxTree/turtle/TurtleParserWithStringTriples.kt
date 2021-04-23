@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s02buildSyntaxTree.turtle
+package lupos.parser.turtle
 
-import lupos.s02buildSyntaxTree.LookAheadTokenIterator
-import lupos.s02buildSyntaxTree.ParseError
-import lupos.s02buildSyntaxTree.Token
-import lupos.s02buildSyntaxTree.UnexpectedToken
+import lupos.parser.LookAheadTokenIterator
+import lupos.parser.ParseError
+import lupos.parser.Token
+import lupos.parser.UnexpectedToken
 import kotlin.jvm.JvmField
 
 public abstract class TurtleParserWithStringTriples {

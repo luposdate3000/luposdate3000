@@ -35,10 +35,10 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.UnreachableException
 import lupos.s00misc.XMLElement
 import lupos.s00misc.parseFromAny
-import lupos.s05tripleStore.ITripleStoreDescription
-import lupos.s05tripleStore.TripleStoreManager
-import lupos.s05tripleStore.tripleStoreManager
 import lupos.shared_inline.File
+import lupos.triple_store_id_triple.ITripleStoreDescription
+import lupos.triple_store_id_triple.TripleStoreManager
+import lupos.triple_store_id_triple.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class POPGraphOperation public constructor(

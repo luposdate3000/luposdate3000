@@ -29,7 +29,7 @@ import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
-import lupos.s05tripleStore.tripleStoreManager
+import lupos.triple_store_id_triple.tripleStoreManager
 
 public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionRespectMaxPartitionsID, "PhysicalOptimizerPartitionRespectMaxPartitions") {
     // this optimizer reduces the partitions, such that a max partition count is preserved

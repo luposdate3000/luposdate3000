@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s05tripleStore
+package lupos.triple_store_manager
 
 import lupos.shared.INTERNAL_BUFFER_SIZE
 import kotlin.jvm.JvmField

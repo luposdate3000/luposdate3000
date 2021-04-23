@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s02buildSyntaxTree.sparql1_1
+package lupos.parser.sparql1_1
 
-import lupos.s02buildSyntaxTree.LookAheadTokenIterator
-import lupos.s02buildSyntaxTree.ParseError
-import lupos.s02buildSyntaxTree.Token
-import lupos.s02buildSyntaxTree.UnexpectedToken
+import lupos.parser.LookAheadTokenIterator
+import lupos.parser.ParseError
+import lupos.parser.Token
+import lupos.parser.UnexpectedToken
 import lupos.shared.UUID_Counter
 import kotlin.jvm.JvmField
 
@@ -797,20 +797,28 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
     // some constants used for typed literals
     @JvmField
     internal val rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+
     @JvmField
     internal val nil = rdf + "nil"
+
     @JvmField
     internal val first = rdf + "first"
+
     @JvmField
     internal val rest = rdf + "rest"
+
     @JvmField
     internal val type = rdf + "type"
+
     @JvmField
     internal val ASTNil = ASTIri(nil)
+
     @JvmField
     internal val ASTFirst = ASTIri(first)
+
     @JvmField
     internal val ASTRest = ASTIri(rest)
+
     @JvmField
     internal val ASTType = ASTIri(type)
     public fun expr(): ASTNode {

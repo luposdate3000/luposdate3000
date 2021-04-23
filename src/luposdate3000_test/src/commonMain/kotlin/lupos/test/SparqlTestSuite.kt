@@ -25,6 +25,18 @@ import lupos.operator_physical.noinput.POPValuesImportXML
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
+import lupos.parser.LexerCharIterator
+import lupos.parser.LookAheadTokenIterator
+import lupos.parser.ParseError
+import lupos.parser.rdf.BlankNode
+import lupos.parser.rdf.Dictionary
+import lupos.parser.rdf.IRI
+import lupos.parser.rdf.SimpleLiteral
+import lupos.parser.sparql1_1.SPARQLParser
+import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
+import lupos.parser.turtle.TurtleParserWithDictionary
+import lupos.parser.turtle.TurtleScanner
+import lupos.result_format.QueryResultToXMLElement
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
@@ -40,21 +52,9 @@ import lupos.s00misc.XMLElement
 import lupos.s00misc.XMLElementFromXML
 import lupos.s00misc.communicationHandler
 import lupos.s00misc.parseFromAny
-import lupos.s02buildSyntaxTree.LexerCharIterator
-import lupos.s02buildSyntaxTree.LookAheadTokenIterator
-import lupos.s02buildSyntaxTree.ParseError
-import lupos.s02buildSyntaxTree.rdf.BlankNode
-import lupos.s02buildSyntaxTree.rdf.Dictionary
-import lupos.s02buildSyntaxTree.rdf.IRI
-import lupos.s02buildSyntaxTree.rdf.SimpleLiteral
-import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
-import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
-import lupos.s02buildSyntaxTree.turtle.TurtleScanner
-import lupos.s05tripleStore.TripleStoreManager
-import lupos.s05tripleStore.tripleStoreManager
-import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.shared_inline.File
+import lupos.triple_store_id_triple.TripleStoreManager
+import lupos.triple_store_id_triple.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public open class SparqlTestSuite {
@@ -131,7 +131,7 @@ public open class SparqlTestSuite {
     }
 
     private fun readTurtleData(filename: String, consume_triple: (Long, Long, Long) -> Unit) {
-        val ltit = LookAheadTokenIterator(lupos.s02buildSyntaxTree.turtle.TurtleScanner(LexerCharIterator(File(filename).readAsString())), 3)
+        val ltit = LookAheadTokenIterator(lupos.parser.turtle.TurtleScanner(LexerCharIterator(File(filename).readAsString())), 3)
         try {
             TurtleParserWithDictionary(consume_triple, ltit).parse()
         } catch (e: ParseError) {

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_logical.iterator
+lupos.shared.operator .iterator
 
 public abstract class ColumnIterator {
     public abstract /*suspend*/ fun next(): Int

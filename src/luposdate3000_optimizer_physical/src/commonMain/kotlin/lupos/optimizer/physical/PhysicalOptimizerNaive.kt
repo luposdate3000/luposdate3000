@@ -61,7 +61,7 @@ import lupos.operator_physical.singleinput.modifiers.POPReduced
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.s00misc.EIndexPatternExt
-import lupos.s05tripleStore.tripleStoreManager
+import lupos.triple_store_id_triple.tripleStoreManager
 
 public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerNaiveID, "PhysicalOptimizerNaive") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

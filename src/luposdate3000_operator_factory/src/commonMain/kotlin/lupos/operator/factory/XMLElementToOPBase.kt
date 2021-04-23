@@ -149,9 +149,9 @@ import lupos.s03resultRepresentation.ValueLanguageTaggedLiteral
 import lupos.s03resultRepresentation.ValueSimpleLiteral
 import lupos.s03resultRepresentation.ValueTypedLiteral
 import lupos.s03resultRepresentation.ValueUndef
-import lupos.s05tripleStore.POPTripleStoreIterator
-import lupos.s05tripleStore.TripleStoreIndexDescription
-import lupos.s05tripleStore.tripleStoreManager
+import lupos.triple_store_id_triple.POPTripleStoreIterator
+import lupos.triple_store_id_triple.TripleStoreIndexDescription
+import lupos.triple_store_id_triple.tripleStoreManager
 
 public object XMLElementToOPBase {
     private fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: String): AOPVariable {

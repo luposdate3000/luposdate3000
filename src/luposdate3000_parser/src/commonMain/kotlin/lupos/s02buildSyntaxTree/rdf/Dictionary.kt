@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s02buildSyntaxTree.rdf
+package lupos.parser.rdf
 
 import lupos.shared.UUID_Counter
 import kotlin.jvm.JvmField
@@ -38,20 +38,20 @@ public object Dictionary {
     }
 
     public fun IRI(iri: String): Long = this.RDFTerm_to_ID["<$iri>"]
-        ?: addRDFTerm(lupos.s02buildSyntaxTree.rdf.IRI(iri))
+        ?: addRDFTerm(lupos.parser.rdf.IRI(iri))
 
     public fun BlankNode(local_name: String): Long = this.RDFTerm_to_ID["_:$local_name"]
-        ?: addRDFTerm(lupos.s02buildSyntaxTree.rdf.BlankNode(local_name))
+        ?: addRDFTerm(lupos.parser.rdf.BlankNode(local_name))
 
-    public fun BlankNode(): Long = addRDFTerm(lupos.s02buildSyntaxTree.rdf.BlankNode())
+    public fun BlankNode(): Long = addRDFTerm(lupos.parser.rdf.BlankNode())
     public fun SimpleLiteral(content: String, delimiter: String = "\""): Long = this.RDFTerm_to_ID[delimiter + content + delimiter]
-        ?: addRDFTerm(lupos.s02buildSyntaxTree.rdf.SimpleLiteral(content, delimiter))
+        ?: addRDFTerm(lupos.parser.rdf.SimpleLiteral(content, delimiter))
 
     public fun LanguageTaggedLiteral(content: String, delimiter: String = "\"", language: String): Long = this.RDFTerm_to_ID["$delimiter$content$delimiter@$language"]
-        ?: addRDFTerm(lupos.s02buildSyntaxTree.rdf.LanguageTaggedLiteral(content, delimiter, language))
+        ?: addRDFTerm(lupos.parser.rdf.LanguageTaggedLiteral(content, delimiter, language))
 
     public fun TypedLiteral(content: String, delimiter: String = "\"", type: String): Long = this.RDFTerm_to_ID["$delimiter$content$delimiter^^<$type>"]
-        ?: addRDFTerm(lupos.s02buildSyntaxTree.rdf.TypedLiteral(content, delimiter, type))
+        ?: addRDFTerm(lupos.parser.rdf.TypedLiteral(content, delimiter, type))
 
     public operator fun get(id: Long): RDFTerm? {
         return this.ID_to_RDFTerm[id]

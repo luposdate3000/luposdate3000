@@ -14,6 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s11outputResult
+package lupos.result_format
 
 public typealias EQueryResultToStream = Int

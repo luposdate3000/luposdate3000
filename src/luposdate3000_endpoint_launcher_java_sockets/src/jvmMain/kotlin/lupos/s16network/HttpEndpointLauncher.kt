@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s16network
+package lupos.endpoint_launcher
 
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.EDictionaryTypeExt
@@ -28,6 +28,7 @@ import lupos.operator_physical.POPBase
 import lupos.operator_physical.partition.POPDistributedSendMulti
 import lupos.operator_physical.partition.POPDistributedSendSingle
 import lupos.operator_physical.partition.POPDistributedSendSingleCount
+import lupos.result_format.EQueryResultToStreamExt
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EnpointRecievedInvalidPath
@@ -39,12 +40,11 @@ import lupos.s00misc.XMLElement
 import lupos.s00misc.XMLElementFromXML
 import lupos.s00misc.communicationHandler
 import lupos.s00misc.xmlParser.XMLParser
-import lupos.s05tripleStore.tripleStoreManager
-import lupos.s11outputResult.EQueryResultToStreamExt
 import lupos.shared_inline.File
 import lupos.shared_inline.MyInputStream
 import lupos.shared_inline.MyOutputStream
 import lupos.shared_inline.MyStringStream
+import lupos.triple_store_id_triple.tripleStoreManager
 import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.Socket

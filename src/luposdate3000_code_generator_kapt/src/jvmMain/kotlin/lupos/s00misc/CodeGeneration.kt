@@ -47,9 +47,9 @@ import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueInteger
 import lupos.s03resultRepresentation.ValueIri
 import lupos.s03resultRepresentation.ValueStringBase
-import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.MyPrintWriter
+import lupos.triple_store_id_triple.POPTripleStoreIterator
 import kotlin.jvm.JvmField
 
 private const val passThroughGenericImplementation = false
@@ -228,7 +228,7 @@ private fun writeOperatorGraph(
                     "operator${operator.children[2].getUUID()})," +
                     "EIndexPatternExt.${EIndexPatternExt.names[operator.getIndexPattern()]})"
             )
-            imports.add("lupos.s05tripleStore.tripleStoreManager")
+            imports.add("lupos.triple_store_id_triple.tripleStoreManager")
             imports.add("lupos.s00misc.EIndexPatternExt")
             imports.add("lupos.s00misc.Partition")
         }

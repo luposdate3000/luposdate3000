@@ -14,13 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s02buildSyntaxTree.turtle
+package lupos.parser.turtle
 
-import lupos.s02buildSyntaxTree.LexerCharIterator
-import lupos.s02buildSyntaxTree.ParseError
-import lupos.s02buildSyntaxTree.Token
-import lupos.s02buildSyntaxTree.TokenIterator
-import lupos.s02buildSyntaxTree.UnexpectedEndOfFile
+import lupos.parser.LexerCharIterator
+import lupos.parser.ParseError
+import lupos.parser.Token
+import lupos.parser.TokenIterator
+import lupos.parser.UnexpectedEndOfFile
 import kotlin.jvm.JvmField
 
 public class EOF(index: Int) : Token("EOF", index)

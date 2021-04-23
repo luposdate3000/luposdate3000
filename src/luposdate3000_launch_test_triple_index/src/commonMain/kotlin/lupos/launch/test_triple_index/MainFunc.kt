@@ -22,9 +22,9 @@ import lupos.dictionary.DictionaryExt
 import lupos.operator_logical.Query
 import lupos.operator_logical.iterator.IteratorBundle
 import lupos.s00misc.Parallel
-import lupos.s05tripleStore.TripleStoreIndex
-import lupos.s05tripleStore.TripleStoreIndexIDTriple
 import lupos.test.AflCore
+import lupos.triple_store_id_triple.TripleStoreIndex
+import lupos.triple_store_id_triple.TripleStoreIndexIDTriple
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s11outputResult
+package lupos.result_format
 
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.IDictionary
@@ -33,9 +33,9 @@ import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.communicationHandler
-import lupos.s05tripleStore.tripleStoreManager
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.MyPrintWriter
+import lupos.triple_store_id_triple.tripleStoreManager
 
 public object QueryResultToTurtleStream {
     private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, dictionary: IDictionary): String? {

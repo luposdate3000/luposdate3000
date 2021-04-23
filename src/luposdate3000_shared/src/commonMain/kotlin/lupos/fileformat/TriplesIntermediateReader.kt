@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lupos.fileformat
+lupos.shared.fileformat
 
 import lupos.shared_inline.ByteArrayHelper
 import lupos.shared_inline.File

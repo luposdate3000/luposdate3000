@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s02buildSyntaxTree.sparql1_1
+lupos.shared
 
 import kotlin.jvm.JvmField
 

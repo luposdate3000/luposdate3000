@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s05tripleStore
+package lupos.triple_store_id_triple
 
 import lupos.ProguardTestAnnotation
 import lupos.buffer_manager.BufferManager
@@ -28,18 +28,18 @@ import lupos.s00misc.ETripleIndexTypeExt
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
-import lupos.s05tripleStore.index_IDTriple.BulkImportIterator
-import lupos.s05tripleStore.index_IDTriple.Count1PassThroughIterator
-import lupos.s05tripleStore.index_IDTriple.DistinctIterator
-import lupos.s05tripleStore.index_IDTriple.EmptyIterator
-import lupos.s05tripleStore.index_IDTriple.MergeIterator
-import lupos.s05tripleStore.index_IDTriple.MinusIterator
-import lupos.s05tripleStore.index_IDTriple.NodeInner
-import lupos.s05tripleStore.index_IDTriple.NodeLeaf
-import lupos.s05tripleStore.index_IDTriple.NodeManager
-import lupos.s05tripleStore.index_IDTriple.NodeShared
-import lupos.s05tripleStore.index_IDTriple.TripleIterator
 import lupos.shared_inline.BufferManagerPage
+import lupos.triple_store_id_triple.index_IDTriple.BulkImportIterator
+import lupos.triple_store_id_triple.index_IDTriple.Count1PassThroughIterator
+import lupos.triple_store_id_triple.index_IDTriple.DistinctIterator
+import lupos.triple_store_id_triple.index_IDTriple.EmptyIterator
+import lupos.triple_store_id_triple.index_IDTriple.MergeIterator
+import lupos.triple_store_id_triple.index_IDTriple.MinusIterator
+import lupos.triple_store_id_triple.index_IDTriple.NodeInner
+import lupos.triple_store_id_triple.index_IDTriple.NodeLeaf
+import lupos.triple_store_id_triple.index_IDTriple.NodeManager
+import lupos.triple_store_id_triple.index_IDTriple.NodeShared
+import lupos.triple_store_id_triple.index_IDTriple.TripleIterator
 import kotlin.jvm.JvmField
 
 public class TripleStoreIndexIDTriple : TripleStoreIndex {

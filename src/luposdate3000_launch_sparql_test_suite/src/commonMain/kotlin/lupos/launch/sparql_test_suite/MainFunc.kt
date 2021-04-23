@@ -17,8 +17,8 @@
 package lupos.launch.sparql_test_suite
 
 import lupos.endpoint.LuposdateEndpoint
+import lupos.endpoint_launcher.HttpEndpointLauncher
 import lupos.s00misc.Parallel
-import lupos.s16network.HttpEndpointLauncher
 import lupos.test.SparqlTestSuite
 
 internal fun mainFunc(): Unit = Parallel.runBlocking {

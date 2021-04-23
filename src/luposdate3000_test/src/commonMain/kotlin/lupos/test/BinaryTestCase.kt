@@ -34,6 +34,12 @@ import lupos.operator_physical.partition.POPSplitPartitionFromStore
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
+import lupos.parser.LexerCharIterator
+import lupos.parser.LookAheadTokenIterator
+import lupos.parser.sparql1_1.SPARQLParser
+import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
+import lupos.result_format.QueryResultToMemoryTable
+import lupos.result_format.QueryResultToXMLStream
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
@@ -47,17 +53,11 @@ import lupos.s00misc.UnknownDataFileException
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
 import lupos.s00misc.parseFromAny
-import lupos.s02buildSyntaxTree.LexerCharIterator
-import lupos.s02buildSyntaxTree.LookAheadTokenIterator
-import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
-import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s05tripleStore.TripleStoreManager
-import lupos.s05tripleStore.tripleStoreManager
-import lupos.s11outputResult.QueryResultToMemoryTable
-import lupos.s11outputResult.QueryResultToXMLStream
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File
 import lupos.shared_inline.MyPrintWriter
+import lupos.triple_store_id_triple.TripleStoreManager
+import lupos.triple_store_id_triple.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public object BinaryTestCase {

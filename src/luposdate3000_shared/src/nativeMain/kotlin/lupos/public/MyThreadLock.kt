@@ -14,10 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.public
+package lupos.shared
 
 import lupos.s00misc.NotImplementedException
-import lupos.shared.UUID_Counter
 
 public actual class MyThreadLock {
 

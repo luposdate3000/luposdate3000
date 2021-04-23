@@ -35,8 +35,8 @@ import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EPartitionModeExt
-import lupos.s05tripleStore.POPTripleStoreIterator
-import lupos.s05tripleStore.tripleStoreManager
+import lupos.triple_store_id_triple.POPTripleStoreIterator
+import lupos.triple_store_id_triple.tripleStoreManager
 
 public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionExpandTowardsRootID, "PhysicalOptimizerPartitionExpandTowardsRoot") {
     // this optimizer moves the partitioning upwards to the root

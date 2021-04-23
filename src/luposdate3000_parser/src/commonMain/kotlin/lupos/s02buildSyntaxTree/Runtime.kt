@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s02buildSyntaxTree
+package lupos.parser
 
-import lupos.s02buildSyntaxTree.turtle.EOF
+import lupos.parser.turtle.EOF
 import kotlin.jvm.JvmField
 
 public interface TokenIterator {

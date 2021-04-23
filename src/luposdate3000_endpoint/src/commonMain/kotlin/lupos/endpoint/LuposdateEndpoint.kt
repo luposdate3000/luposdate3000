@@ -30,6 +30,22 @@ import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.distributed.query.DistributedOptimizerQuery
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
+import lupos.parser.LexerCharIterator
+import lupos.parser.LookAheadTokenIterator
+import lupos.parser.ParseError
+import lupos.parser.sparql1_1.SPARQLParser
+import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
+import lupos.parser.turtle.Turtle2Parser
+import lupos.parser.turtle.TurtleParserWithStringTriples
+import lupos.parser.turtle.TurtleScanner
+import lupos.result_format.EQueryResultToStream
+import lupos.result_format.EQueryResultToStreamExt
+import lupos.result_format.QueryResultToEmptyStream
+import lupos.result_format.QueryResultToEmptyWithDictionaryStream
+import lupos.result_format.QueryResultToMemoryTable
+import lupos.result_format.QueryResultToTurtleStream
+import lupos.result_format.QueryResultToXMLElement
+import lupos.result_format.QueryResultToXMLStream
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.DateHelperRelative
 import lupos.s00misc.EIndexPatternExt
@@ -49,25 +65,6 @@ import lupos.s00misc.XMLElementFromN3
 import lupos.s00misc.XMLElementFromTsv
 import lupos.s00misc.XMLElementFromXML
 import lupos.s00misc.communicationHandler
-import lupos.s02buildSyntaxTree.LexerCharIterator
-import lupos.s02buildSyntaxTree.LookAheadTokenIterator
-import lupos.s02buildSyntaxTree.ParseError
-import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
-import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
-import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
-import lupos.s02buildSyntaxTree.turtle.TurtleScanner
-import lupos.s05tripleStore.TripleStoreManager
-import lupos.s05tripleStore.TripleStoreManagerImpl
-import lupos.s05tripleStore.tripleStoreManager
-import lupos.s11outputResult.EQueryResultToStream
-import lupos.s11outputResult.EQueryResultToStreamExt
-import lupos.s11outputResult.QueryResultToEmptyStream
-import lupos.s11outputResult.QueryResultToEmptyWithDictionaryStream
-import lupos.s11outputResult.QueryResultToMemoryTable
-import lupos.s11outputResult.QueryResultToTurtleStream
-import lupos.s11outputResult.QueryResultToXMLElement
-import lupos.s11outputResult.QueryResultToXMLStream
 import lupos.shared.INTERNAL_BUFFER_SIZE
 import lupos.shared.optimizer.distributedOptimizerQueryFactory
 import lupos.shared_inline.DictionaryHelper
@@ -75,6 +72,9 @@ import lupos.shared_inline.File
 import lupos.shared_inline.MyPrintWriter
 import lupos.shared_inline.MyStringStream
 import lupos.shared_inline.Platform
+import lupos.triple_store_id_triple.TripleStoreManager
+import lupos.triple_store_id_triple.TripleStoreManagerImpl
+import lupos.triple_store_id_triple.tripleStoreManager
 import kotlin.js.JsName
 import kotlin.jvm.JvmField
 
@@ -189,7 +189,7 @@ public object LuposdateEndpoint {
                         arr[i].reset(bufPos)
                     }
                     store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, true)
-                } catch (e: lupos.s02buildSyntaxTree.ParseError) {
+                } catch (e: lupos.parser.ParseError) {
                     e.printStackTrace()
                     println("error in file '$fileName'")
                     throw e

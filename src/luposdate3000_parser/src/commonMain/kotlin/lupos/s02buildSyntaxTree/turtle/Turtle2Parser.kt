@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s02buildSyntaxTree.turtle
+package lupos.parser.turtle
 
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.IMyInputStream

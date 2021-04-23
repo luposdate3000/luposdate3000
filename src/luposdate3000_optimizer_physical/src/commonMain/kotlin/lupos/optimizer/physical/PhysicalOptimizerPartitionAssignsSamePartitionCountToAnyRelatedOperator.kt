@@ -28,8 +28,8 @@ import lupos.operator_physical.partition.POPSplitPartitionFromStoreCount
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.s00misc.EPartitionModeExt
-import lupos.s05tripleStore.POPTripleStoreIterator
-import lupos.s05tripleStore.tripleStoreManager
+import lupos.triple_store_id_triple.POPTripleStoreIterator
+import lupos.triple_store_id_triple.tripleStoreManager
 
 public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperatorID, "PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator") {
     // this optimizer makes sure, that every partitioning which belongs to the same section uses the same partition count

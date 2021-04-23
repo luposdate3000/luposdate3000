@@ -32,7 +32,7 @@ import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.REPLACE_STORE_WITH_VALUES
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.communicationHandler
-import lupos.s05tripleStore.tripleStoreManager
+import lupos.triple_store_id_triple.tripleStoreManager
 
 public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerStoreToValuesID, "LogicalOptimizerStoreToValues") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

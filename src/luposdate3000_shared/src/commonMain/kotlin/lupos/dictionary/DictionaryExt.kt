@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.dictionary
+lupos.shared.dictionary
 
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s03resultRepresentation.ValueBoolean

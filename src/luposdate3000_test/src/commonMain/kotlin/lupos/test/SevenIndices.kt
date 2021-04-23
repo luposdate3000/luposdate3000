@@ -16,20 +16,25 @@
  */
 package lupos.test
 
-import lupos.s02buildSyntaxTree.rdf.ID_Triple
+import lupos.parser.rdf.ID_Triple
 import kotlin.jvm.JvmField
 
 public class SevenIndices {
     @JvmField
     internal val s = mutableMapOf<Long, Array<Pair<Long, Long>>>()
+
     @JvmField
     internal val p = mutableMapOf<Long, Array<Pair<Long, Long>>>()
+
     @JvmField
     internal val o = mutableMapOf<Long, Array<Pair<Long, Long>>>()
+
     @JvmField
     internal val sp = mutableMapOf<Pair<Long, Long>, LongArray>()
+
     @JvmField
     internal val so = mutableMapOf<Pair<Long, Long>, LongArray>()
+
     @JvmField
     internal val po = mutableMapOf<Pair<Long, Long>, LongArray>()
 

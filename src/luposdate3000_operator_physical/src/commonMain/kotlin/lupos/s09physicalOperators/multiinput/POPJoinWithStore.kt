@@ -38,8 +38,8 @@ import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s05tripleStore.tripleStoreManager
 import lupos.shared_inline.ColumnIteratorQueueExt
+import lupos.triple_store_id_triple.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class POPJoinWithStore public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, @JvmField public val childB: LOPTriple, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinWithStoreID, "POPJoinWithStore", arrayOf(childA), ESortPriorityExt.SAME_AS_CHILD) {

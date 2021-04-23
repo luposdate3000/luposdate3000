@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.operator_logical
+package lupos.operator_base
 
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.EDictionaryTypeExt
@@ -22,9 +22,9 @@ import lupos.dictionary.IDictionary
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.MyLock
 import lupos.s00misc.SanityCheck
-import lupos.s05tripleStore.tripleStoreManager
 import lupos.shared.UUID_Counter
 import lupos.shared.optimizer.distributedOptimizerQueryFactory
+import lupos.triple_store_id_triple.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class Query public constructor(@JvmField public var dictionary: IDictionary, @JvmField public var transactionID: Long) : IQuery {

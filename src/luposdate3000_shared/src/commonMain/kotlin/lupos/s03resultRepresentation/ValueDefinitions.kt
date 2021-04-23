@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s03resultRepresentation
+lupos.shared
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.plus
@@ -221,6 +221,7 @@ public class ValueBoolean(@JvmField public var value: Boolean, x: Boolean) : Val
     public companion object {
         @JvmField
         internal val localTrue = ValueBoolean(true, true)
+
         @JvmField
         internal val localFalse = ValueBoolean(false, true)
         public operator fun invoke(value: Boolean): ValueBoolean {

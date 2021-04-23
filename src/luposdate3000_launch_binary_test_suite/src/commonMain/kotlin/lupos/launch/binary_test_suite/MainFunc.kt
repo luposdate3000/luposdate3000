@@ -17,8 +17,8 @@
 package lupos.launch.binary_test_suite
 
 import lupos.endpoint.LuposdateEndpoint
+import lupos.endpoint_launcher.HttpEndpointLauncher
 import lupos.s00misc.Parallel
-import lupos.s16network.HttpEndpointLauncher
 import lupos.test.BinaryTestCase
 import kotlin.js.JsName
 
