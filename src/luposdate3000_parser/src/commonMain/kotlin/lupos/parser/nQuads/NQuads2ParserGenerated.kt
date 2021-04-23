@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.parser.nQuads
+package lupos.s02buildSyntaxTree.nQuads
 
 import lupos.shared.IMyInputStream
 import lupos.shared.Luposdate3000Exception
@@ -51,7 +51,6 @@ internal class ParserContext(@JvmField internal val input: IMyInputStream) {
 
     @JvmField
     internal var flagrN = false
-
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun clear() {
         outBuffer.clear()
