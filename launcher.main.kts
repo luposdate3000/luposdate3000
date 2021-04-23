@@ -129,6 +129,18 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                     line == "codegenKSP=true" -> {
                         currentArgs = currentArgs.ssetCodegenKSP(true)
                     }
+                    line.startsWith("dependencyCommon=") -> {
+                        currentArgs.dependenciesCommon.add(line.substring("dependencyCommon=".length))
+                    }
+                    line.startsWith("dependencyJvm=") -> {
+                        currentArgs.dependenciesJvm.add(line.substring("dependencyJvm=".length))
+                    }
+                    line.startsWith("dependencyJs=") -> {
+                        currentArgs.dependenciesJs.add(line.substring("dependencyJs=".length))
+                    }
+                    line.startsWith("dependencyNative=") -> {
+                        currentArgs.dependenciesNative.add(line.substring("dependencyNative=".length))
+                    }
                     line.startsWith("name=") -> {
                         currentArgs = currentArgs.ssetModuleName(line.substring("name=".length))
                     }
@@ -205,9 +217,6 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         if (!v.moduleName.startsWith("Luposdate3000_Shared")) {
             dep.add("Luposdate3000_Shared")
         }
-        if (!v.moduleName.startsWith("Luposdate3000_Shared_")) {
-            dep.add("Luposdate3000_Shared_BrowserJS")
-        }
         dependencyMapCalculated[k] = dep
         Files.walk(Paths.get(v.moduleFolder)).forEach { it ->
             val name = it.toString()
@@ -216,7 +225,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                 f.forEachLine { it ->
                     if (it.startsWith("import lupos.")) {
                         val imp = it.split('.')
-                        var i = imp.size - 2
+                        var i = imp.size - 1
                         while (i > 0) {
                             var s = "luposdate3000_" + imp[1]
                             for (j in 2 until i) {
@@ -231,11 +240,13 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                                         break
                                     }
                                 }
-                                for ((x, y) in modules) {
-                                    if (y.modulePrefix.toLowerCase() == s) {
-                                        found = true
-                                        dep.add(y.moduleName)
-                                        break
+                                if (!found) {
+                                    for ((x, y) in modules) {
+                                        if (y.modulePrefix.toLowerCase() == s) {
+                                            found = true
+                                            dep.add(y.moduleName)
+                                            break
+                                        }
                                     }
                                 }
                                 if (!found) {
@@ -253,10 +264,17 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         dep.remove(v.moduleName)
     }
     for ((k, v) in modules) {
+        val c = modules["Luposdate3000_Shared_Inline"]
+        v.dependenciesCommon.addAll(c.dependenciesCommon)
+        v.dependenciesJvm.addAll(c.dependenciesJvm)
+        v.dependenciesJs.addAll(c.dependenciesJs)
+        v.dependenciesNative.addAll(c.dependenciesNative)
+    }
+    for ((k, v) in modules) {
         val depss = dependencyMapCalculated[k]
         if (depss != null) {
             for (w in depss) {
-                v.dependencies.add("luposdate3000:$w:0.0.1")
+                v.dependenciesCommon.add("luposdate3000:$w:0.0.1")
             }
         }
         var flag = true
@@ -280,11 +298,11 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         }
         if (depss != null) {
             for (w in depss) {
-                v.dependenciesFull.add("luposdate3000:$w:0.0.1")
+                v.dependenciesJs.add("luposdate3000:$w:0.0.1")
+                v.dependenciesNative.add("luposdate3000:$w:0.0.1")
             }
         }
     }
-
     var res = mutableListOf<CreateModuleArgs>()
     val nameSet = mutableSetOf<String>()
     var changed = true

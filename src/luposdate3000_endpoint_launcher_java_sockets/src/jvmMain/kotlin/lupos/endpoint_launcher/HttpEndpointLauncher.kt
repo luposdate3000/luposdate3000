@@ -18,7 +18,7 @@ package lupos.endpoint_launcher
 
 import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
-import lupos.jena.JenaWrapper
+import lupos.jena_wrapper.JenaWrapper
 import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.operator.physical.POPBase

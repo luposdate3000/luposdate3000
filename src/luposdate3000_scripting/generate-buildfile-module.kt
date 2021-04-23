@@ -126,8 +126,10 @@ class CreateModuleArgs() {
     var codegenKAPT: Boolean = false
     var codegenKSP: Boolean = false
     var args: MutableMap<String, String> = mutableMapOf()
-    var dependencies: MutableSet<String> = mutableSetOf<String>()
-    var dependenciesFull: MutableSet<String> = mutableSetOf<String>()
+    var dependenciesCommon: MutableSet<String> = mutableSetOf<String>()
+    var dependenciesJvm: MutableSet<String> = mutableSetOf<String>()
+    var dependenciesJs: MutableSet<String> = mutableSetOf<String>()
+    var dependenciesNative: MutableSet<String> = mutableSetOf<String>()
 
     init {
         if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
@@ -139,8 +141,10 @@ class CreateModuleArgs() {
 
     fun clone(): CreateModuleArgs {
         var res = CreateModuleArgs()
-        res.dependencies.addAll(dependencies)
-        res.dependenciesFull.addAll(dependenciesFull)
+        res.dependenciesCommon.addAll(dependenciesCommon)
+        res.dependenciesJvm.addAll(dependenciesJvm)
+        res.dependenciesJs.addAll(dependenciesJs)
+        res.dependenciesNative.addAll(dependenciesNative)
         res.compilerVersion = compilerVersion
         res.enabledFunc = enabledFunc
         res.enabledRunFunc = enabledRunFunc
@@ -421,7 +425,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             }
         }
         val commonDependencies = mutableSetOf<String>()
-        commonDependencies.addAll(moduleArgs.dependencies)
+        commonDependencies.addAll(moduleArgs.dependenciesCommon)
         if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared")) {
             commonDependencies.add("luposdate3000:Luposdate3000_Shared:0.0.1")
         }
@@ -433,6 +437,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             }
         }
         val jvmDependencies = mutableSetOf<String>()
+        jvmDependencies.addAll(moduleArgs.dependenciesJvm)
         if (File("${moduleArgs.moduleFolder}${pathSeparator}jvmDependencies").exists()) {
             File("${moduleArgs.moduleFolder}${pathSeparator}jvmDependencies").forEachLine {
                 if (it.length > 0) {
@@ -444,7 +449,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
             jsDependencies.add("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
         }
-        jsDependencies.addAll(moduleArgs.dependenciesFull)
+        jsDependencies.addAll(moduleArgs.dependenciesJs)
         jsDependencies.removeAll(commonDependencies)
         if (File("${moduleArgs.moduleFolder}${pathSeparator}jsDependencies").exists()) {
             File("${moduleArgs.moduleFolder}${pathSeparator}jsDependencies").forEachLine {
@@ -454,7 +459,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             }
         }
         val nativeDependencies = mutableSetOf<String>()
-        nativeDependencies.addAll(moduleArgs.dependenciesFull)
+        nativeDependencies.addAll(moduleArgs.dependenciesNative)
         nativeDependencies.removeAll(commonDependencies)
         if (File("${moduleArgs.moduleFolder}${pathSeparator}nativeDependencies").exists()) {
             File("${moduleArgs.moduleFolder}${pathSeparator}nativeDependencies").forEachLine {

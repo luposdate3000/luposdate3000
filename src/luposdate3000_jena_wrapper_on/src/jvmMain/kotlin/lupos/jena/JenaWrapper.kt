@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.jena
+package lupos.jena_wrapper
 
 import lupos.shared.JenaBugException
 import org.apache.jena.query.ARQ
