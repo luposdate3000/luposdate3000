@@ -106,6 +106,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         .ssetCompilerVersion(compilerVersion)
         .ssetEnabledFunc { true }
         .ssetEnabledRunFunc { true }
+    var allpackages = mutableSetOf<String>()
     var modules = mutableMapOf<String, CreateModuleArgs>()
     val dependencyMap = mutableMapOf<String, Set<String>>()
     Files.walk(Paths.get("src"), 1).forEach { it ->
@@ -177,6 +178,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             }
             currentArgs = currentArgs.ssetArgs2(compileModuleArgs)
             modules[currentArgs.moduleName] = currentArgs
+            allpackages.add(currentArgs.modulePrefix.toLowerCase())
             val dep = mutableSetOf<String>()
             if (!currentArgs.moduleName.startsWith("Luposdate3000_Shared")) {
                 dep.add("Luposdate3000_Shared")
@@ -197,6 +199,92 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             }
         }
     }
+    val dependencyMapCalculated = mutableMapOf<String, MutableSet<String>>()
+    for ((k, v) in modules) {
+        val dep = mutableSetOf<String>()
+        if (!v.moduleName.startsWith("Luposdate3000_Shared")) {
+            dep.add("Luposdate3000_Shared")
+        }
+        if (!v.moduleName.startsWith("Luposdate3000_Shared_")) {
+            dep.add("Luposdate3000_Shared_BrowserJS")
+        }
+        dependencyMapCalculated[k] = dep
+        Files.walk(Paths.get(v.moduleFolder)).forEach { it ->
+            val name = it.toString()
+            val f = java.io.File(name)
+            if (f.isFile() && name.endsWith(".kt")) {
+                f.forEachLine { it ->
+                    if (it.startsWith("import lupos.")) {
+                        val imp = it.split('.')
+                        var i = imp.size - 2
+                        while (i > 0) {
+                            var s = "luposdate3000_" + imp[1]
+                            for (j in 2 until i) {
+                                s += "_" + imp[j]
+                            }
+                            if (allpackages.contains(s)) {
+                                var found = false
+                                for ((x, y) in modules) {
+                                    if (y.modulePrefix.toLowerCase() == s && y.enabledRunFunc()) {
+                                        found = true
+                                        dep.add(y.moduleName)
+                                        break
+                                    }
+                                }
+                                for ((x, y) in modules) {
+                                    if (y.modulePrefix.toLowerCase() == s) {
+                                        found = true
+                                        dep.add(y.moduleName)
+                                        break
+                                    }
+                                }
+                                if (!found) {
+                                    throw Exception(s)
+                                }
+                                i = 0
+                            }
+                            i--
+                        }
+                    }
+                }
+            }
+        }
+        dep.remove("Luposdate3000_Shared_Inline")
+        dep.remove(v.moduleName)
+    }
+    for ((k, v) in modules) {
+        val depss = dependencyMapCalculated[k]
+        if (depss != null) {
+            for (w in depss) {
+                v.dependencies.add("luposdate3000:$w:0.0.1")
+            }
+        }
+        var flag = true
+        while (flag) {
+            flag = false
+            for ((k, v) in modules) {
+                val dep = dependencyMapCalculated[k]
+                if (dep != null) {
+                    val s = dep.size
+                    for (d in dep.toTypedArray()) {
+                        val deps = dependencyMapCalculated[d]
+                        if (deps != null) {
+                            dep.addAll(deps)
+                        }
+                    }
+                    if (s != dep.size) {
+                        flag = true
+                    }
+                }
+            }
+        }
+        if (depss != null) {
+            for (w in depss) {
+                v.dependenciesFull.add("luposdate3000:$w:0.0.1")
+            }
+        }
+    }
+
     var res = mutableListOf<CreateModuleArgs>()
     val nameSet = mutableSetOf<String>()
     var changed = true
