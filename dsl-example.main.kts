@@ -134,30 +134,45 @@ class CodeReturnValue(val expression: ACodeExpression? = null) : ACodeStatement(
     }
 }
 
-abstract class CodeStatementGroup() : ACodeBase() {
-    val statements = mutableListOf<ACodeStatement>()
+class CodeParameterContainer {
     val parameters = mutableListOf<CodeParamDefinition>()
-    fun addParameter(name: String, type: CodeType): CodeParamDefinition {
+    fun generate(): String {
+        return parameters.map { it.generate() }.joinToString()
+    }
+
+    fun add(name: String, type: CodeType): CodeParamDefinition {
         val param = CodeParamDefinition(CodeName(name))
         param.type = type
         parameters.add(param)
         return param
     }
 
-    fun addParameter(name: String, type: CodeType, value: String): CodeParamDefinition {
+    fun add(name: String, type: CodeType, value: String): CodeParamDefinition {
         val param = CodeParamDefinition(CodeName(name))
         param.expression = CodeValue(type, value)
         parameters.add(param)
         return param
     }
 
+    fun prepareImports(parentFile: CodeFile) {
+        for (parameter in parameters) {
+            parameter.prepareImports(parentFile)
+        }
+    }
+}
+
+abstract class CodeStatementGroup() : ACodeBase() {
+    val statements = mutableListOf<ACodeStatement>()
+    val parameterContainer = CodeParameterContainer()
     override fun prepareImports(parentFile: CodeFile) {
         for (statement in statements) {
             statement.prepareImports(parentFile)
         }
-        for (parameter in parameters) {
-            parameter.prepareImports(parentFile)
-        }
+        parameterContainer.prepareImports(parentFile)
+    }
+
+    fun parameter(init: CodeParameterContainer.() -> Unit) {
+        parameterContainer.init()
     }
 
     fun statementAssign(name: String, init: CodeExpressionBuilder.() -> ACodeExpression): CodeAssignment {
@@ -220,7 +235,7 @@ class CodeFunction(var name: CodeName) : CodeStatementGroup() {
         if (returnType == null) {
             returnType = codeTypes("Unit")
         }
-        out.appendLine("${indention}fun ${name.generate()}(${parameters.map { it.generate() }.joinToString()}) : ${returnType!!.generate()} {")
+        out.appendLine("${indention}fun ${name.generate()}(${parameterContainer.generate()}) : ${returnType!!.generate()} {")
         super.generate(indention, out)
         out.appendLine("$indention}")
     }
@@ -309,8 +324,10 @@ fun codeSegment(name: String, init: CodeSegment.() -> Unit): CodeSegment {
 codeFile("myfilename", "generatedPackage") {
     clazz("myclazzname") {
         function("x") {
-            addParameter("a", codeTypes("Double"), "0.0")
-            addParameter("b", codeTypes("Double"))
+            parameter {
+                add("a", codeTypes("Double"), "0.0")
+                add("b", codeTypes("Double"))
+            }
             statementVar("y", codeTypes("Int"))
             statementVar("z", codeTypes("ByteArrayWrapper"))
             statementVal("x", codeTypes("Int"), "4")
