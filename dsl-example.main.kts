@@ -163,16 +163,10 @@ class CodeParameterContainer {
 
 abstract class CodeStatementGroup() : ACodeBase() {
     val statements = mutableListOf<ACodeStatement>()
-    val parameterContainer = CodeParameterContainer()
     override fun prepareImports(parentFile: CodeFile) {
         for (statement in statements) {
             statement.prepareImports(parentFile)
         }
-        parameterContainer.prepareImports(parentFile)
-    }
-
-    fun parameter(init: CodeParameterContainer.() -> Unit) {
-        parameterContainer.init()
     }
 
     fun statementAssign(name: String, init: CodeExpressionBuilder.() -> ACodeExpression): CodeAssignment {
@@ -212,9 +206,15 @@ abstract class CodeStatementGroup() : ACodeBase() {
 class CodeSegment(val name: String) : CodeStatementGroup()
 class CodeFunction(var name: CodeName) : CodeStatementGroup() {
     var returnType: CodeType? = null
+    val parameterContainer = CodeParameterContainer()
+    fun parameter(init: CodeParameterContainer.() -> Unit) {
+        parameterContainer.init()
+    }
+
     override fun prepareImports(parentFile: CodeFile) {
         super.prepareImports(parentFile)
         returnType?.addImport(parentFile)
+        parameterContainer.prepareImports(parentFile)
     }
 
     fun statementReturn(): CodeReturnValue {
