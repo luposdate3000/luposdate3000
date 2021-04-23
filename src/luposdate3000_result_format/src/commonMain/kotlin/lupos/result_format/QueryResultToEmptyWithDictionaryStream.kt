@@ -33,7 +33,7 @@ import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
-import lupos.triple_store_id_triple.tripleStoreManager
+import lupos.shared.tripleStoreManager
 
 public object QueryResultToEmptyWithDictionaryStream {
     private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, columnName: String, dictionary: IDictionary, output: IMyOutputStream) {

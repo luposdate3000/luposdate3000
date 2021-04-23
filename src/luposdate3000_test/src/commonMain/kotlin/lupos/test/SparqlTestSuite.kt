@@ -47,14 +47,14 @@ import lupos.shared.MAX_TRIPLES_DURING_TEST
 import lupos.shared.NotImplementedException
 import lupos.shared.OperatorGraphToLatex
 import lupos.shared.SanityCheck
+import lupos.shared.TripleStoreManager
 import lupos.shared.UnknownManifestException
 import lupos.shared.XMLElement
 import lupos.shared.XMLElementFromXML
 import lupos.shared.communicationHandler
 import lupos.shared.parseFromAny
+import lupos.shared.tripleStoreManager
 import lupos.shared_inline.File
-import lupos.triple_store_id_triple.TripleStoreManager
-import lupos.triple_store_id_triple.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public open class SparqlTestSuite {

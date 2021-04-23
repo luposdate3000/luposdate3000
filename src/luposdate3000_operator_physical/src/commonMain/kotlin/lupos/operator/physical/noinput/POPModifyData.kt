@@ -29,13 +29,13 @@ import lupos.shared.GraphVariablesNotImplementedException
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
+import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.triple_store_id_triple.TripleStoreManager
-import lupos.triple_store_id_triple.tripleStoreManager
+import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class POPModifyData public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val type: EModifyType, @JvmField public val data: List<LOPTriple>) : POPBase(query, projectedVariables, EOperatorIDExt.POPModifyDataID, "POPModifyData", arrayOf(), ESortPriorityExt.PREVENT_ANY) {

@@ -39,9 +39,9 @@ import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIteratorQueue
-import lupos.shared.operator.iterator.ColumnIteratorQueueEmpty
+import lupos.operator.base.iterator.ColumnIteratorQueueEmpty
 import lupos.shared_inline.ColumnIteratorQueueExt
-import lupos.triple_store_id_triple.tripleStoreManager
+import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class POPJoinWithStore public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, @JvmField public val childB: LOPTriple, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinWithStoreID, "POPJoinWithStore", arrayOf(childA), ESortPriorityExt.SAME_AS_CHILD) {

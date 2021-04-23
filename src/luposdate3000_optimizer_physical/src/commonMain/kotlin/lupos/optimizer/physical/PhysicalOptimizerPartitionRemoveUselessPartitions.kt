@@ -28,8 +28,8 @@ import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EPartitionModeExt
 import lupos.shared.operator.IOPBase
+import lupos.shared.tripleStoreManager
 import lupos.triple_store_id_triple.POPTripleStoreIterator
-import lupos.triple_store_id_triple.tripleStoreManager
 
 public class PhysicalOptimizerPartitionRemoveUselessPartitions(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionRemoveUselessPartitionsID, "PhysicalOptimizerPartitionRemoveUselessPartitions") {
     // this optimizer removes useless partitioning operators

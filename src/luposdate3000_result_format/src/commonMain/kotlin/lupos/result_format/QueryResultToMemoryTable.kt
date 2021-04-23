@@ -33,8 +33,8 @@ import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
+import lupos.shared.tripleStoreManager
 import lupos.shared_inline.DictionaryHelper
-import lupos.triple_store_id_triple.tripleStoreManager
 
 public object QueryResultToMemoryTable {
     private /*suspend*/ fun writeRow(variables: Array<String>, rowBuf: IntArray, dictionary: IDictionary, output: MemoryTable) {

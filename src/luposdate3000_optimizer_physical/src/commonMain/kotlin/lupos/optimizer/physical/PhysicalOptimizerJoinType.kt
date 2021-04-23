@@ -39,8 +39,8 @@ import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EPartitionModeExt
 import lupos.shared.Partition
 import lupos.shared.operator.IOPBase
+import lupos.shared.tripleStoreManager
 import lupos.triple_store_id_triple.POPTripleStoreIterator
-import lupos.triple_store_id_triple.tripleStoreManager
 
 public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerJoinTypeID, "PhysicalOptimizerJoinType") {
     private fun localGetProjected(node: IOPBase, parent: IOPBase?): List<String> {

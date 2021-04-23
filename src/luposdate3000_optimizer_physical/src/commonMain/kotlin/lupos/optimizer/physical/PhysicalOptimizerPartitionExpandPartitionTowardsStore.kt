@@ -29,8 +29,8 @@ import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.DontCareWhichException
 import lupos.shared.EPartitionModeExt
 import lupos.shared.operator.IOPBase
+import lupos.shared.tripleStoreManager
 import lupos.triple_store_id_triple.POPTripleStoreIterator
-import lupos.triple_store_id_triple.tripleStoreManager
 
 public class PhysicalOptimizerPartitionExpandPartitionTowardsStore(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionExpandPartitionTowardsStoreID, "PhysicalOptimizerPartitionExpandPartitionTowardsStore") {
     // this optimizer moved the partitioning towards and into the triple store, but does NOT care if the specific triple store exist ...

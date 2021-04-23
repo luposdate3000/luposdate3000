@@ -31,7 +31,7 @@ import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.triple_store_id_triple.tripleStoreManager
+import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class POPJoinWithStoreExists public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, @JvmField public val childB: LOPTriple, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinWithStoreExistsID, "POPJoinWithStoreExists", arrayOf(childA), ESortPriorityExt.SAME_AS_CHILD) {

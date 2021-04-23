@@ -225,6 +225,7 @@ import lupos.shared.ProjectionDoubleDefinitionOfVariableSyntaxException
 import lupos.shared.RecoursiveVariableDefinitionSyntaxException
 import lupos.shared.SanityCheck
 import lupos.shared.SparqlFeatureNotImplementedException
+import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
 import lupos.shared.ValueBnode
 import lupos.shared.ValueBoolean
@@ -241,7 +242,6 @@ import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.parseFromAny
 import lupos.shared_inline.File
-import lupos.triple_store_id_triple.TripleStoreManager
 import kotlin.jvm.JvmField
 
 public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<IOPBase> {

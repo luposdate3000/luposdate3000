@@ -39,12 +39,12 @@ import lupos.shared.XMLElement
 import lupos.shared.XMLElementFromXML
 import lupos.shared.communicationHandler
 import lupos.shared.dictionary.nodeGlobalDictionary
+import lupos.shared.tripleStoreManager
 import lupos.shared.xmlParser.XMLParser
 import lupos.shared_inline.File
 import lupos.shared_inline.MyInputStream
 import lupos.shared_inline.MyOutputStream
 import lupos.shared_inline.MyStringStream
-import lupos.triple_store_id_triple.tripleStoreManager
 import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.Socket

@@ -26,8 +26,8 @@ import lupos.shared.XMLElement
 import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
+import lupos.shared.tripleStoreManager
 import lupos.shared_inline.DictionaryHelper
-import lupos.triple_store_id_triple.tripleStoreManager
 
 public object QueryResultToXMLElement {
     public /*suspend*/ fun toXML(rootNode: IOPBase): XMLElement {

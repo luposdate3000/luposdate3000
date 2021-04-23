@@ -33,9 +33,9 @@ import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
+import lupos.shared.tripleStoreManager
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.MyPrintWriter
-import lupos.triple_store_id_triple.tripleStoreManager
 
 public object QueryResultToTurtleStream {
     private /*suspend*/ fun writeValue(buffer: ByteArrayWrapper, valueID: Int, dictionary: IDictionary): String? {

@@ -228,7 +228,7 @@ private fun writeOperatorGraph(
                     "operator${operator.children[2].getUUID()})," +
                     "EIndexPatternExt.${EIndexPatternExt.names[operator.getIndexPattern()]})"
             )
-            imports.add("lupos.triple_store_id_triple.tripleStoreManager")
+            imports.add("lupos.shared.tripleStoreManager")
             imports.add("lupos.shared.EIndexPatternExt")
             imports.add("lupos.shared.Partition")
         }

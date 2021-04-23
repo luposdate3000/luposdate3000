@@ -32,7 +32,7 @@ import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
-import lupos.triple_store_id_triple.tripleStoreManager
+import lupos.shared.tripleStoreManager
 
 public object QueryResultToEmptyStream {
     @Suppress("NOTHING_TO_INLINE")

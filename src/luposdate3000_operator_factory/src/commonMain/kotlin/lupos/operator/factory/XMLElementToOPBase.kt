@@ -149,9 +149,9 @@ import lupos.shared.XMLElement
 import lupos.shared.XMLNotParseableException
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
+import lupos.shared.tripleStoreManager
 import lupos.triple_store_id_triple.POPTripleStoreIterator
 import lupos.triple_store_id_triple.TripleStoreIndexDescription
-import lupos.triple_store_id_triple.tripleStoreManager
 
 public object XMLElementToOPBase {
     private fun createAOPVariable(query: Query, mapping: MutableMap<String, String>, name: String): AOPVariable {

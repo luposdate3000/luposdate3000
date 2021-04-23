@@ -29,8 +29,8 @@ import lupos.shared.ESortTypeExt
 import lupos.shared.SanityCheck
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
+import lupos.shared.tripleStoreManager
 import lupos.triple_store_id_triple.POPTripleStoreIterator
-import lupos.triple_store_id_triple.tripleStoreManager
 
 public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerTripleIndexID, "PhysicalOptimizerTripleIndex") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

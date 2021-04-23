@@ -74,9 +74,9 @@ import lupos.shared_inline.File
 import lupos.shared_inline.MyPrintWriter
 import lupos.shared_inline.MyStringStream
 import lupos.shared_inline.Platform
-import lupos.triple_store_id_triple.TripleStoreManager
-import lupos.triple_store_id_triple.TripleStoreManagerImpl
-import lupos.triple_store_id_triple.tripleStoreManager
+import lupos.shared.TripleStoreManager
+import lupos.shared.TripleStoreManagerImpl
+import lupos.shared.tripleStoreManager
 import kotlin.js.JsName
 import kotlin.jvm.JvmField
 

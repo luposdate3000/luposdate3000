@@ -58,8 +58,8 @@ import lupos.shared.parseFromAny
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File
 import lupos.shared_inline.MyPrintWriter
-import lupos.triple_store_id_triple.TripleStoreManager
-import lupos.triple_store_id_triple.tripleStoreManager
+import lupos.shared.TripleStoreManager
+import lupos.shared.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public object BinaryTestCase {

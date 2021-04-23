@@ -16,26 +16,6 @@
  */
 package lupos.operator.physical.multiinput
 
-import lupos.shared.operator.iterator.ColumnIterator
-import lupos.shared.operator.iterator.ColumnIterator
-
-ChildIterator
-import lupos.shared.operator.iterator.ColumnIterator
-
-ChildIteratorEmpty
-import lupos.shared.operator.iterator.ColumnIterator
-
-Empty
-import lupos.shared.operator.iterator.ColumnIterator
-
-MultiValue
-import lupos.shared.operator.iterator.ColumnIterator
-
-RepeatIterator
-import lupos.shared.operator.iterator.ColumnIterator
-
-RepeatValue
-import lupos.shared.operator.iterator.IteratorBundle
 import lupos.operator.logical.multiinput.LOPJoin_Helper
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
@@ -46,6 +26,14 @@ import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.ColumnIterator
+import lupos.shared.operator.iterator.ColumnIteratorChildIterator
+import lupos.shared.operator.iterator.ColumnIteratorChildIteratorEmpty
+import lupos.shared.operator.iterator.ColumnIteratorEmpty
+import lupos.shared.operator.iterator.ColumnIteratorMultiValue
+import lupos.shared.operator.iterator.ColumnIteratorRepeatIterator
+import lupos.shared.operator.iterator.ColumnIteratorRepeatValue
+import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 public class POPJoinCartesianProduct public constructor(query: IQuery, projectedVariables: List<String>, childA: IOPBase, childB: IOPBase, @JvmField public val optional: Boolean) : POPBase(query, projectedVariables, EOperatorIDExt.POPJoinCartesianProductID, "POPJoinCartesianProduct", arrayOf(childA, childB), ESortPriorityExt.JOIN) {

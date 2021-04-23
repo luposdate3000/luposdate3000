@@ -37,8 +37,8 @@ import lupos.shared.XMLElement
 import lupos.shared.communicationHandler
 import lupos.shared.operator.IOPBase
 import lupos.shared.optimizer.IDistributedOptimizer
+import lupos.shared.tripleStoreManager
 import lupos.triple_store_id_triple.POPTripleStoreIterator
-import lupos.triple_store_id_triple.tripleStoreManager
 import kotlin.jvm.JvmField
 
 public class DistributedOptimizerQuery() : IDistributedOptimizer {
