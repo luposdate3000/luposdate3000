@@ -17,6 +17,13 @@
 package lupos.s05tripleStore
 
 import lupos.dictionary.DictionaryExt
+import lupos.operator_arithmetik.noinput.AOPVariable
+import lupos.operator_arithmetik.noinput.IAOPConstant
+import lupos.operator_arithmetik.noinput.IAOPVariable
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.IQuery
+import lupos.operator_logical.iterator.IteratorBundle
+import lupos.operator_physical.POPBase
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EOperatorIDExt
@@ -24,13 +31,6 @@ import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.noinput.IAOPConstant
-import lupos.s04arithmetikOperators.noinput.IAOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s09physicalOperators.POPBase
 import kotlin.jvm.JvmField
 
 public class POPTripleStoreIterator(

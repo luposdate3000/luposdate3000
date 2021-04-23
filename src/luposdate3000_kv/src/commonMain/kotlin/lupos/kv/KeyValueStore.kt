@@ -17,8 +17,8 @@
 package lupos.kv
 
 import lupos.ProguardTestAnnotation
-import lupos.buffermanager.BufferManager
-import lupos.buffermanager.MyIntArray
+import lupos.buffer_manager.BufferManager
+import lupos.buffer_manager.MyIntArray
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.SanityCheck
 import lupos.shared_inline.BufferManagerPage

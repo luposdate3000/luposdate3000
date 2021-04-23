@@ -14,15 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s04logicalOperators.noinput
+package lupos.operator_logical.noinput
 
+import lupos.operator_logical.HistogramResult
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.IQuery
+import lupos.operator_logical.OPBase
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.SanityCheck
-import lupos.s04logicalOperators.HistogramResult
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.OPBase
 
 public class OPEmptyRow public constructor(query: IQuery) : OPBase(query, EOperatorIDExt.OPEmptyRowID, "OPEmptyRow", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()

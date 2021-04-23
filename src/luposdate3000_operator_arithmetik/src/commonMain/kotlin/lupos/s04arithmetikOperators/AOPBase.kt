@@ -14,20 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s04arithmetikOperators
+package lupos.operator_arithmetik
 
 import lupos.dictionary.DictionaryExt
+import lupos.operator_logical.HistogramResult
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.IQuery
+import lupos.operator_logical.OPBase
+import lupos.operator_logical.iterator.IteratorBundle
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.EvaluationException
 import lupos.s00misc.SanityCheck
 import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s04logicalOperators.HistogramResult
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.shared_inline.DictionaryHelper
 
 public abstract class AOPBase public constructor(

@@ -14,40 +14,40 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s00misc
+package lupos.code_generator_kapt
 
 import lupos.endpoint.LuposdateEndpoint
+import lupos.operator_arithmetik.generated.AOPAddition
+import lupos.operator_arithmetik.generated.AOPAnd
+import lupos.operator_arithmetik.generated.AOPBuildInCallSTR
+import lupos.operator_arithmetik.generated.AOPBuildInCallUCASE
+import lupos.operator_arithmetik.generated.AOPDivision
+import lupos.operator_arithmetik.generated.AOPMultiplication
+import lupos.operator_arithmetik.generated.AOPSubtraction
+import lupos.operator_arithmetik.multiinput.AOPEQ
+import lupos.operator_arithmetik.multiinput.AOPGEQ
+import lupos.operator_arithmetik.multiinput.AOPGT
+import lupos.operator_arithmetik.multiinput.AOPLEQ
+import lupos.operator_arithmetik.multiinput.AOPLT
+import lupos.operator_arithmetik.multiinput.AOPNEQ
+import lupos.operator_arithmetik.noinput.AOPConstant
+import lupos.operator_arithmetik.noinput.AOPVariable
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.OPBase
+import lupos.operator_logical.OPBaseCompound
+import lupos.operator_physical.POPBase
+import lupos.operator_physical.multiinput.POPJoinMerge
+import lupos.operator_physical.multiinput.POPUnion
+import lupos.operator_physical.singleinput.POPBind
+import lupos.operator_physical.singleinput.POPDebug
+import lupos.operator_physical.singleinput.POPFilter
+import lupos.operator_physical.singleinput.POPProjection
 import lupos.s03resultRepresentation.ValueBoolean
 import lupos.s03resultRepresentation.ValueDecimal
 import lupos.s03resultRepresentation.ValueInteger
 import lupos.s03resultRepresentation.ValueIri
 import lupos.s03resultRepresentation.ValueStringBase
-import lupos.s04arithmetikOperators.generated.AOPAddition
-import lupos.s04arithmetikOperators.generated.AOPAnd
-import lupos.s04arithmetikOperators.generated.AOPBuildInCallSTR
-import lupos.s04arithmetikOperators.generated.AOPBuildInCallUCASE
-import lupos.s04arithmetikOperators.generated.AOPDivision
-import lupos.s04arithmetikOperators.generated.AOPMultiplication
-import lupos.s04arithmetikOperators.generated.AOPSubtraction
-import lupos.s04arithmetikOperators.multiinput.AOPEQ
-import lupos.s04arithmetikOperators.multiinput.AOPGEQ
-import lupos.s04arithmetikOperators.multiinput.AOPGT
-import lupos.s04arithmetikOperators.multiinput.AOPLEQ
-import lupos.s04arithmetikOperators.multiinput.AOPLT
-import lupos.s04arithmetikOperators.multiinput.AOPNEQ
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.OPBaseCompound
 import lupos.s05tripleStore.POPTripleStoreIterator
-import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.multiinput.POPJoinMerge
-import lupos.s09physicalOperators.multiinput.POPUnion
-import lupos.s09physicalOperators.singleinput.POPBind
-import lupos.s09physicalOperators.singleinput.POPDebug
-import lupos.s09physicalOperators.singleinput.POPFilter
-import lupos.s09physicalOperators.singleinput.POPProjection
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.MyPrintWriter
 import kotlin.jvm.JvmField
@@ -70,8 +70,8 @@ public fun generateSourceCode(
     val operatorsBuffer = MyPrintWriter(true)
     // Imports that will be used in the generated file
     val imports = mutableSetOf<String>(
-        "lupos.s04logicalOperators.Query",
-        "lupos.s04logicalOperators.IQuery",
+        "lupos.operator_logical.Query",
+        "lupos.operator_logical.IQuery",
         "lupos.endpoint.LuposdateEndpoint",
         "com.ionspin.kotlin.bignum.integer.BigInteger",
         "com.ionspin.kotlin.bignum.decimal.BigDecimal",
@@ -80,8 +80,8 @@ public fun generateSourceCode(
         "lupos.s03resultRepresentation.minus",
         "lupos.s03resultRepresentation.times",
         "lupos.s03resultRepresentation.div",
-        "lupos.s04logicalOperators.IOPBase",
-        "lupos.s09physicalOperators.POPBase",
+        "lupos.operator_logical.IOPBase",
+        "lupos.operator_physical.POPBase",
         "lupos.s00misc.EOperatorIDExt",
         "lupos.s00misc.ESortPriorityExt",
         "kotlin.jvm.JvmField",
@@ -89,10 +89,10 @@ public fun generateSourceCode(
         "lupos.s00misc.SanityCheck",
         "lupos.s00misc.XMLElement",
         "lupos.s00misc.Partition",
-        "lupos.s04logicalOperators.iterator.ColumnIterator",
-        "lupos.s04logicalOperators.iterator.IteratorBundle",
-        "lupos.s04logicalOperators.iterator.ColumnIteratorQueue",
-        "lupos.s04arithmetikOperators.generated.AOPAnd",
+        "lupos.operator_logical.iterator.ColumnIterator",
+        "lupos.operator_logical.iterator.IteratorBundle",
+        "lupos.operator_logical.iterator.ColumnIteratorQueue",
+        "lupos.operator_arithmetik.generated.AOPAnd",
         "lupos.s03resultRepresentation.ValueIri",
         "lupos" + ".shared_inline.MyPrintWriter",
         "lupos" + ".shared_inline.ColumnIteratorQueueExt",
@@ -180,7 +180,7 @@ private fun writeOperatorGraph(
                         "operator${operator.children[0].getUUID()}," +
                         "operator${operator.children[1].getUUID()}, false)"
                 )
-                imports.add("lupos.s09physicalOperators.multiinput.POPJoinMerge")
+                imports.add("lupos.operator_physical.multiinput.POPJoinMerge")
             } else {
                 // Merge Joins will be implemented within the generated file, specialized for the annotated query
                 generatePOPJoinMerge(operator, projectedVariables, operatorsBuffer, imports, classContainers)
@@ -194,7 +194,7 @@ private fun writeOperatorGraph(
                         "operator${operator.children[1].getUUID()}," +
                         "operator${operator.children[0].getUUID()})"
                 )
-                imports.add("lupos.s09physicalOperators.singleinput.POPFilter")
+                imports.add("lupos.operator_physical.singleinput.POPFilter")
             } else {
                 // Filters will be implemented within the generated file, specialized for the annotated query
                 generatePOPFilter(operator, projectedVariables, operatorsBuffer, imports, classContainers)
@@ -206,7 +206,7 @@ private fun writeOperatorGraph(
                 "    val operator${operator.uuid} = AOPVariable(query," +
                     " \"${operator.name}\")"
             )
-            imports.add("lupos.s04arithmetikOperators.noinput.AOPVariable")
+            imports.add("lupos.operator_arithmetik.noinput.AOPVariable")
         }
         is AOPConstant -> {
             // Creating a new operator with the AOPConstant constructor
@@ -216,7 +216,7 @@ private fun writeOperatorGraph(
                 "    val operator${operator.uuid} = AOPConstant(query," +
                     "ValueDefinition(\"${value.valueToString()?.replace("\"", "\\\"")}\"))"
             )
-            imports.add("lupos.s04arithmetikOperators.noinput.AOPConstant")
+            imports.add("lupos.operator_arithmetik.noinput.AOPConstant")
             imports.add("lupos.s03resultRepresentation.ValueDefinition")
         }
         is POPTripleStoreIterator -> {
@@ -245,7 +245,7 @@ private fun writeOperatorGraph(
                     "operator${operator.children[0].getUUID()}," +
                     "operator${operator.children[1].getUUID()})"
             )
-            imports.add("lupos.s04arithmetikOperators.multiinput.AOPGT")
+            imports.add("lupos.operator_arithmetik.multiinput.AOPGT")
         }
         is AOPLT -> {
             // Creating a new operator with the AOPLT constructor
@@ -254,7 +254,7 @@ private fun writeOperatorGraph(
                     "operator${operator.children[0].getUUID()}," +
                     "operator${operator.children[1].getUUID()})"
             )
-            imports.add("lupos.s04arithmetikOperators.multiinput.AOPLT")
+            imports.add("lupos.operator_arithmetik.multiinput.AOPLT")
         }
         is POPProjection -> {
             // Creating a new operator with the POPProjection constructor
@@ -263,7 +263,7 @@ private fun writeOperatorGraph(
                     " $projectedVariables," +
                     "operator${operator.children[0].getUUID()})"
             )
-            imports.add("lupos.s09physicalOperators.singleinput.POPProjection")
+            imports.add("lupos.operator_physical.singleinput.POPProjection")
         }
         // Creating a new operator with the OPBaseCompound constructor
         is OPBaseCompound -> {
@@ -280,7 +280,7 @@ private fun writeOperatorGraph(
                     "$proVars," +
                     "$proVarsOrder)"
             )
-            imports.add("lupos.s04logicalOperators.OPBaseCompound")
+            imports.add("lupos.operator_logical.OPBaseCompound")
         }
         // Creating a new operator with the AOPAnd constructor
         is AOPAnd -> {
@@ -289,7 +289,7 @@ private fun writeOperatorGraph(
                     " operator${operator.children[0].getUUID()}," +
                     " operator${operator.children[1].getUUID()})"
             )
-            imports.add("lupos.s04arithmetikOperators.multiinput.AOPAnd")
+            imports.add("lupos.operator_arithmetik.multiinput.AOPAnd")
         }
         // Creating a new operator with the POPUnion constructor
         is POPUnion -> {
@@ -299,7 +299,7 @@ private fun writeOperatorGraph(
                     " operator${operator.children[0].getUUID()}," +
                     " operator${operator.children[1].getUUID()})"
             )
-            imports.add("lupos.s09physicalOperators.multiinput.POPUnion")
+            imports.add("lupos.operator_physical.multiinput.POPUnion")
         }
         // Creating a new operator with the AOPEQ constructor
         is AOPEQ -> {
@@ -308,7 +308,7 @@ private fun writeOperatorGraph(
                     "operator${operator.children[0].getUUID()}," +
                     "operator${operator.children[1].getUUID()})"
             )
-            imports.add("lupos.s04arithmetikOperators.multiinput.AOPEQ")
+            imports.add("lupos.operator_arithmetik.multiinput.AOPEQ")
         }
         // Creating a new operator with the AOPGEQ constructor
         is AOPGEQ -> {
@@ -317,7 +317,7 @@ private fun writeOperatorGraph(
                     "operator${operator.children[0].getUUID()}," +
                     "operator${operator.children[1].getUUID()})"
             )
-            imports.add("lupos.s04arithmetikOperators.multiinput.AOPGEQ")
+            imports.add("lupos.operator_arithmetik.multiinput.AOPGEQ")
         }
         // Creating a new operator with the AOPLEQ constructor
         is AOPLEQ -> {
@@ -326,7 +326,7 @@ private fun writeOperatorGraph(
                     "operator${operator.children[0].getUUID()}," +
                     "operator${operator.children[1].getUUID()})"
             )
-            imports.add("lupos.s04arithmetikOperators.multiinput.AOPLEQ")
+            imports.add("lupos.operator_arithmetik.multiinput.AOPLEQ")
         }
         // Creating a new operator with the AOPNEQ constructor
         is AOPNEQ -> {
@@ -335,7 +335,7 @@ private fun writeOperatorGraph(
                     "operator${operator.children[0].getUUID()}," +
                     "operator${operator.children[1].getUUID()})"
             )
-            imports.add("lupos.s04arithmetikOperators.multiinput.AOPNEQ")
+            imports.add("lupos.operator_arithmetik.multiinput.AOPNEQ")
         }
         // Creating a new operator with the AOPAddition constructor
         is AOPAddition -> {
@@ -344,7 +344,7 @@ private fun writeOperatorGraph(
                     "operator${operator.children[0].getUUID()}," +
                     "operator${operator.children[1].getUUID()})"
             )
-            imports.add("lupos.s04arithmetikOperators.generated.AOPAddition")
+            imports.add("lupos.operator_arithmetik.generated.AOPAddition")
         }
         // Creating a new operator with the AOPSubtraction constructor
         is AOPSubtraction -> {
@@ -353,7 +353,7 @@ private fun writeOperatorGraph(
                     "operator${operator.children[0].getUUID()}," +
                     "operator${operator.children[1].getUUID()})"
             )
-            imports.add("lupos.s04arithmetikOperators.generated.AOPSubtraction")
+            imports.add("lupos.operator_arithmetik.generated.AOPSubtraction")
         }
         // Creating a new operator with the AOPMultiplication constructor
         is AOPMultiplication -> {
@@ -362,7 +362,7 @@ private fun writeOperatorGraph(
                     "operator${operator.children[0].getUUID()}," +
                     "operator${operator.children[1].getUUID()})"
             )
-            imports.add("lupos.s04arithmetikOperators.generated.AOPMultiplication")
+            imports.add("lupos.operator_arithmetik.generated.AOPMultiplication")
         }
         // Creating a new operator with the AOPDivision constructor
         is AOPDivision -> {
@@ -371,7 +371,7 @@ private fun writeOperatorGraph(
                     "operator${operator.children[0].getUUID()}," +
                     "operator${operator.children[1].getUUID()})"
             )
-            imports.add("lupos.s04arithmetikOperators.generated.AOPDivision")
+            imports.add("lupos.operator_arithmetik.generated.AOPDivision")
         }
         is POPBind -> {
             // POPBind will be implemented within the generated file, specialized for the annotated query
@@ -382,14 +382,14 @@ private fun writeOperatorGraph(
                 "    val operator${operator.uuid} = AOPBuildInCallUCASE(query," +
                     "operator${operator.children[0].getUUID()})"
             )
-            imports.add("lupos.s04arithmetikOperators.generated.AOPBuildInCallUCASE")
+            imports.add("lupos.operator_arithmetik.generated.AOPBuildInCallUCASE")
         }
         is AOPBuildInCallSTR -> {
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = AOPBuildInCallSTR(query," +
                     "operator${operator.children[0].getUUID()})"
             )
-            imports.add("lupos.s04arithmetikOperators.generated.AOPBuildInCallSTR")
+            imports.add("lupos.operator_arithmetik.generated.AOPBuildInCallSTR")
         }
         else -> {
             // Oops, seems like we forgot an operator

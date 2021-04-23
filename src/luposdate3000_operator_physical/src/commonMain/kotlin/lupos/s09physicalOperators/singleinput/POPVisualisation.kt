@@ -24,17 +24,17 @@
 
 */
 
-package lupos.s09physicalOperators.singleinput
+package lupos.operator_physical.singleinput
 
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.IQuery
+import lupos.operator_logical.iterator.IteratorBundle
+import lupos.operator_logical.iterator.RowIterator
+import lupos.operator_physical.POPBase
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.iterator.RowIterator
-import lupos.s09physicalOperators.POPBase
 import lupos.shared_inline.DictionaryHelper
 
 public class POPVisualisation public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPDebugID, "POPVisualisation", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {

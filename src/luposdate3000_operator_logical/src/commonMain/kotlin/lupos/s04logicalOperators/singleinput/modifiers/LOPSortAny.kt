@@ -14,16 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s04logicalOperators.singleinput.modifiers
+package lupos.operator_logical.singleinput.modifiers
 
+import lupos.operator_logical.HistogramResult
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.IQuery
+import lupos.operator_logical.LOPBase
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.SortHelper
-import lupos.s04logicalOperators.HistogramResult
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.LOPBase
 import kotlin.jvm.JvmField
 
 public class LOPSortAny public constructor(query: IQuery, @JvmField public val possibleSortOrder: List<SortHelper>, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPSortAnyID, "LOPSortAny", arrayOf(child), ESortPriorityExt.SORT) {

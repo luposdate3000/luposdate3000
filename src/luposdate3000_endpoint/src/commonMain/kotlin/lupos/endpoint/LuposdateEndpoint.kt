@@ -16,11 +16,16 @@
  */
 package lupos.endpoint
 
-import lupos.buffermanager.BufferManagerExt
+import lupos.buffer_manager.BufferManagerExt
 import lupos.dictionary.DictionaryFactory
 import lupos.dictionary.nodeGlobalDictionary
 import lupos.fileformat.TriplesIntermediateReader
 import lupos.operator.factory.XMLElementToOPBase
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.Query
+import lupos.operator_logical.iterator.ColumnIterator
+import lupos.operator_logical.iterator.ColumnIteratorMultiValue3
+import lupos.operator_physical.noinput.POPValuesImportXML
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.distributed.query.DistributedOptimizerQuery
 import lupos.optimizer.logical.LogicalOptimizer
@@ -52,14 +57,9 @@ import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithStringTriples
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue3
 import lupos.s05tripleStore.TripleStoreManager
 import lupos.s05tripleStore.TripleStoreManagerImpl
 import lupos.s05tripleStore.tripleStoreManager
-import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s11outputResult.EQueryResultToStream
 import lupos.s11outputResult.EQueryResultToStreamExt
 import lupos.s11outputResult.QueryResultToEmptyStream

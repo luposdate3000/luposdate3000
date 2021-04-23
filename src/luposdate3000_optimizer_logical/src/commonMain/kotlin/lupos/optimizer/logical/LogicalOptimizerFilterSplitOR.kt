@@ -16,12 +16,12 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.generated.AOPOr
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.multiinput.LOPUnion
-import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.operator_arithmetik.AOPBase
+import lupos.operator_arithmetik.generated.AOPOr
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.Query
+import lupos.operator_logical.multiinput.LOPUnion
+import lupos.operator_logical.singleinput.LOPFilter
 
 public class LogicalOptimizerFilterSplitOR(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterSplitORID, "LogicalOptimizerFilterSplitOR") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

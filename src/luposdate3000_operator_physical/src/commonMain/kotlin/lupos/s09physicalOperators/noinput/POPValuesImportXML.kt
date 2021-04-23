@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s09physicalOperators.noinput
+package lupos.operator_physical.noinput
 
+import lupos.operator_logical.IQuery
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s04logicalOperators.IQuery
 
 public class POPValuesImportXML public constructor(query: IQuery, projectedVariables: List<String>, data: XMLElement) : POPValuesImportBase(query, projectedVariables, data["head"]!!.childs.map { it.attributes["name"]!! }) {
     init {

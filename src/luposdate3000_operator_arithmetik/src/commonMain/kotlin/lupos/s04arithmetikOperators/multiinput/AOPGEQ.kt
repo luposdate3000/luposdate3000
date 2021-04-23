@@ -14,16 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s04arithmetikOperators.multiinput
+package lupos.operator_arithmetik.multiinput
 
 import lupos.dictionary.DictionaryExt
+import lupos.operator_arithmetik.AOPBase
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.IQuery
+import lupos.operator_logical.iterator.IteratorBundle
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.EvaluationException
 import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.IteratorBundle
 
 public class AOPGEQ public constructor(query: IQuery, childA: AOPBase, childB: AOPBase) : AOPBinaryOperationFixedName(query, EOperatorIDExt.AOPGEQID, "AOPGEQ", arrayOf(childA, childB)) {
     override fun toSparql(): String = "(" + children[0].toSparql() + " >= " + children[1].toSparql() + ")"

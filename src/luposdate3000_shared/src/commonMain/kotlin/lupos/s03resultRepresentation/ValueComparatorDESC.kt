@@ -16,14 +16,15 @@
  */
 package lupos.s03resultRepresentation
 
+import lupos.operator_logical.IQuery
 import lupos.s00misc.ByteArrayWrapper
-import lupos.s04logicalOperators.IQuery
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 public class ValueComparatorDESC(@JvmField public val query: IQuery) : Comparator<Int> {
     @JvmField
     internal var bufferA = ByteArrayWrapper()
+
     @JvmField
     internal var bufferB = ByteArrayWrapper()
     override fun compare(a: Int, b: Int): Int {

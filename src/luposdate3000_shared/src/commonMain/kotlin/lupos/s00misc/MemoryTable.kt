@@ -16,7 +16,7 @@
  */
 package lupos.s00misc
 
-import lupos.s04logicalOperators.IQuery
+import lupos.operator_logical.IQuery
 import kotlin.jvm.JvmField
 
 public class MemoryTable public constructor(@JvmField public val columns: Array<String>) {

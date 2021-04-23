@@ -19,6 +19,9 @@ package lupos.test
 import lupos.endpoint.LuposdateEndpoint
 import lupos.jena.JenaWrapper
 import lupos.operator.factory.XMLElementToOPBase
+import lupos.operator_arithmetik.noinput.AOPVariable
+import lupos.operator_logical.Query
+import lupos.operator_physical.noinput.POPValuesImportXML
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
@@ -48,11 +51,8 @@ import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
 import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
 import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
 import lupos.s02buildSyntaxTree.turtle.TurtleScanner
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.TripleStoreManager
 import lupos.s05tripleStore.tripleStoreManager
-import lupos.s09physicalOperators.noinput.POPValuesImportXML
 import lupos.s11outputResult.QueryResultToXMLElement
 import lupos.shared_inline.File
 import kotlin.jvm.JvmField

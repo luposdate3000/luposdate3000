@@ -14,21 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s09physicalOperators.singleinput
+package lupos.operator_physical.singleinput
 
 import lupos.dictionary.DictionaryExt
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.IQuery
+import lupos.operator_logical.iterator.ColumnIterator
+import lupos.operator_logical.iterator.ColumnIteratorRepeatValue
+import lupos.operator_logical.iterator.IteratorBundle
+import lupos.operator_logical.noinput.OPEmptyRow
+import lupos.operator_logical.noinput.OPNothing
+import lupos.operator_physical.POPBase
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue
-import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.noinput.OPEmptyRow
-import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s09physicalOperators.POPBase
 
 public class POPMakeBooleanResult public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPMakeBooleanResultID, "POPMakeBooleanResult", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int {

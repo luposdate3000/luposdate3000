@@ -16,8 +16,8 @@
  */
 package lupos.launch.test_dictionary
 
-import lupos.buffermanager.BufferManager
-import lupos.buffermanager.BufferManagerExt
+import lupos.buffer_manager.BufferManager
+import lupos.buffer_manager.BufferManagerExt
 import lupos.dictionary.ADictionary
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryFactory

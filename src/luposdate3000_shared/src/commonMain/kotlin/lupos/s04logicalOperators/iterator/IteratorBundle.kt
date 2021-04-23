@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s04logicalOperators.iterator
+package lupos.operator_logical.iterator
 
 import lupos.s00misc.IteratorBundleColumnModeNotImplementedException
 import lupos.s00misc.IteratorBundleRowModeNotImplementedException
@@ -24,10 +24,13 @@ import kotlin.jvm.JvmField
 public open class IteratorBundle {
     @JvmField
     internal var mode: IteratorBundleMode
+
     @JvmField
     internal var _columns: Map<String, ColumnIterator>?
+
     @JvmField
     internal var _rows: RowIterator?
+
     @JvmField
     internal var counter: Int = 0
     public fun hasColumnMode(): Boolean = mode == IteratorBundleModeExt.COLUMN

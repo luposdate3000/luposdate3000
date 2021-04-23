@@ -16,8 +16,8 @@
  */
 package lupos.dictionary
 
-import lupos.buffermanager.BufferManager
-import lupos.buffermanager.BufferManagerExt
+import lupos.buffer_manager.BufferManager
+import lupos.buffer_manager.BufferManagerExt
 import lupos.fileformat.DictionaryIntermediateReader
 import lupos.kv.KeyValueStore
 import lupos.s00misc.ByteArrayWrapper

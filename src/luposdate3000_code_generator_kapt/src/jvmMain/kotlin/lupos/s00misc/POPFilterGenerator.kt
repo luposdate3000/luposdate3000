@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s00misc
+package lupos.code_generator_kapt
 
-import lupos.s04logicalOperators.OPBase
+import lupos.operator_logical.OPBase
 import lupos.shared_inline.MyPrintWriter
 
 internal fun generatePOPFilter(operatorGraph: OPBase, projectedVariables: String, buffer: MyPrintWriter, imports: MutableSet<String>, containers: MutableList<ClazzContainer>) {

@@ -18,6 +18,12 @@ package lupos.s11outputResult
 
 import lupos.dictionary.DictionaryExt
 import lupos.dictionary.IDictionary
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.OPBaseCompound
+import lupos.operator_logical.iterator.ColumnIterator
+import lupos.operator_logical.noinput.OPNothing
+import lupos.operator_physical.partition.POPMergePartition
+import lupos.operator_physical.partition.POPMergePartitionOrderedByIntId
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.MemoryTable
@@ -27,13 +33,7 @@ import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.communicationHandler
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.OPBaseCompound
-import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s05tripleStore.tripleStoreManager
-import lupos.s09physicalOperators.partition.POPMergePartition
-import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
 import lupos.shared_inline.DictionaryHelper
 
 public object QueryResultToMemoryTable {

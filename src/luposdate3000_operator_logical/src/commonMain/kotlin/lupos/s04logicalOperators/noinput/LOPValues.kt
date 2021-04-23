@@ -14,18 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s04logicalOperators.noinput
+package lupos.operator_logical.noinput
 
+import lupos.operator_arithmetik.noinput.AOPConstant
+import lupos.operator_arithmetik.noinput.AOPValue
+import lupos.operator_arithmetik.noinput.AOPVariable
+import lupos.operator_logical.HistogramResult
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.IQuery
+import lupos.operator_logical.LOPBase
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.XMLElement
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPValue
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.HistogramResult
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.LOPBase
 import kotlin.jvm.JvmField
 
 public class LOPValues public constructor(query: IQuery, @JvmField public val variables: List<AOPVariable>, values: List<AOPValue>) : LOPBase(query, EOperatorIDExt.LOPValuesID, "LOPValues", Array<IOPBase>(values.size) { values[it] }, ESortPriorityExt.PREVENT_ANY) {

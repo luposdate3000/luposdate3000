@@ -16,12 +16,12 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.multiinput.LOPMinus
-import lupos.s04logicalOperators.multiinput.LOPUnion
-import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.Query
+import lupos.operator_logical.multiinput.LOPJoin
+import lupos.operator_logical.multiinput.LOPMinus
+import lupos.operator_logical.multiinput.LOPUnion
+import lupos.operator_logical.singleinput.LOPFilter
 
 public class LogicalOptimizerFilterUp(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterUpID, "LogicalOptimizerFilterUp") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

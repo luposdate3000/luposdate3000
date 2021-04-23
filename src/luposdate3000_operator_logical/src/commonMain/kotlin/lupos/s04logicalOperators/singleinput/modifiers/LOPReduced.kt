@@ -14,15 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s04logicalOperators.singleinput.modifiers
+package lupos.operator_logical.singleinput.modifiers
 
+import lupos.operator_logical.HistogramResult
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.IQuery
+import lupos.operator_logical.LOPBase
+import lupos.operator_logical.noinput.OPEmptyRow
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
-import lupos.s04logicalOperators.HistogramResult
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.LOPBase
-import lupos.s04logicalOperators.noinput.OPEmptyRow
 import kotlin.jvm.JvmField
 
 public class LOPReduced public constructor(query: IQuery, child: IOPBase) : LOPBase(query, EOperatorIDExt.LOPReducedID, "LOPReduced", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {

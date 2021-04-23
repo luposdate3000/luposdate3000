@@ -14,8 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s09physicalOperators.noinput
+package lupos.operator_physical.noinput
 
+import lupos.operator_arithmetik.noinput.AOPVariable
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.IQuery
+import lupos.operator_logical.iterator.IteratorBundle
+import lupos.operator_physical.POPBase
 import lupos.s00misc.EGraphOperationType
 import lupos.s00misc.EGraphOperationTypeExt
 import lupos.s00misc.EGraphRefType
@@ -30,14 +35,9 @@ import lupos.s00misc.SanityCheck
 import lupos.s00misc.UnreachableException
 import lupos.s00misc.XMLElement
 import lupos.s00misc.parseFromAny
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s05tripleStore.ITripleStoreDescription
 import lupos.s05tripleStore.TripleStoreManager
 import lupos.s05tripleStore.tripleStoreManager
-import lupos.s09physicalOperators.POPBase
 import lupos.shared_inline.File
 import kotlin.jvm.JvmField
 

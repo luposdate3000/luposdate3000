@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s09physicalOperators.singleinput
+package lupos.operator_physical.singleinput
 
-import lupos.s04logicalOperators.iterator.ColumnIteratorAggregate
-import lupos.s04logicalOperators.iterator.ColumnIteratorQueue
-import lupos.s04logicalOperators.iterator.IteratorBundle
+import lupos.operator_logical.iterator.ColumnIteratorAggregate
+import lupos.operator_logical.iterator.ColumnIteratorQueue
+import lupos.operator_logical.iterator.IteratorBundle
 
 internal class POPGroup_Row(val iterators: IteratorBundle, val aggregates: Array<ColumnIteratorAggregate>, val columns: Array<ColumnIteratorQueue>)

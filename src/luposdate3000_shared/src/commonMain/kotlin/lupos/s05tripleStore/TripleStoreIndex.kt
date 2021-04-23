@@ -17,8 +17,8 @@
 package lupos.s05tripleStore
 
 import lupos.ProguardTestAnnotation
-import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.IteratorBundle
+import lupos.operator_logical.IQuery
+import lupos.operator_logical.iterator.IteratorBundle
 
 public interface TripleStoreIndex {
     public fun getRootPageID(): Int

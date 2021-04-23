@@ -17,18 +17,18 @@
 package lupos.optimizer.logical
 
 import lupos.dictionary.DictionaryExt
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.multiinput.LOPMinus
-import lupos.s04logicalOperators.multiinput.LOPUnion
-import lupos.s04logicalOperators.noinput.OPEmptyRow
-import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.singleinput.LOPFilter
-import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
-import lupos.s04logicalOperators.singleinput.LOPNOOP
-import lupos.s04logicalOperators.singleinput.LOPSubGroup
+import lupos.operator_arithmetik.noinput.AOPConstant
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.Query
+import lupos.operator_logical.multiinput.LOPJoin
+import lupos.operator_logical.multiinput.LOPMinus
+import lupos.operator_logical.multiinput.LOPUnion
+import lupos.operator_logical.noinput.OPEmptyRow
+import lupos.operator_logical.noinput.OPNothing
+import lupos.operator_logical.singleinput.LOPFilter
+import lupos.operator_logical.singleinput.LOPMakeBooleanResult
+import lupos.operator_logical.singleinput.LOPNOOP
+import lupos.operator_logical.singleinput.LOPSubGroup
 
 public class LogicalOptimizerRemoveNOOP(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerRemoveNOOPID, "LogicalOptimizerRemoveNOOP") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

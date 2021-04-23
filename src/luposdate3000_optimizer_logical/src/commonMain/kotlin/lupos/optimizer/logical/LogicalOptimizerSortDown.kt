@@ -16,12 +16,12 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.singleinput.LOPFilter
-import lupos.s04logicalOperators.singleinput.LOPSort
-import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
-import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.Query
+import lupos.operator_logical.singleinput.LOPFilter
+import lupos.operator_logical.singleinput.LOPSort
+import lupos.operator_logical.singleinput.modifiers.LOPReduced
+import lupos.operator_logical.singleinput.modifiers.LOPSortAny
 
 public class LogicalOptimizerSortDown(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerSortDownID, "LogicalOptimizerSortDown") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

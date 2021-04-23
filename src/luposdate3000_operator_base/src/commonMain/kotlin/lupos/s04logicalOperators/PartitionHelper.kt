@@ -14,19 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s04logicalOperators
+package lupos.operator_logical
 
+import lupos.operator_logical.iterator.IteratorBundle
 import lupos.s00misc.MyLock
 import lupos.s00misc.ParallelJob
 import lupos.s00misc.Partition
-import lupos.s04logicalOperators.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 public class PartitionHelper public constructor() {
     @JvmField
     public var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
+
     @JvmField
     public var jobs: MutableMap<Partition, ParallelJob>? = null
+
     @JvmField
     public val lock: MyLock = MyLock()
 }

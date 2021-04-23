@@ -16,9 +16,9 @@
  */
 package lupos.launch.test_int_array
 
-import lupos.buffermanager.BufferManager
-import lupos.buffermanager.BufferManagerExt
-import lupos.buffermanager.MyIntArray
+import lupos.buffer_manager.BufferManager
+import lupos.buffer_manager.BufferManagerExt
+import lupos.buffer_manager.MyIntArray
 import lupos.s00misc.Parallel
 import lupos.test.AflCore
 import kotlin.jvm.JvmField

@@ -16,21 +16,21 @@
  */
 package lupos.optimizer.physical
 
+import lupos.operator_arithmetik.AOPBase
+import lupos.operator_arithmetik.IAOPBase
+import lupos.operator_arithmetik.noinput.AOPVariable
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.Query
+import lupos.operator_logical.noinput.LOPTriple
+import lupos.operator_logical.singleinput.LOPProjection
+import lupos.operator_physical.POPBase
+import lupos.operator_physical.singleinput.POPProjection
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.s00misc.ESortTypeExt
 import lupos.s00misc.SanityCheck
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.IAOPBase
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.singleinput.LOPProjection
 import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.s05tripleStore.tripleStoreManager
-import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.singleinput.POPProjection
 
 public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerTripleIndexID, "PhysicalOptimizerTripleIndex") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

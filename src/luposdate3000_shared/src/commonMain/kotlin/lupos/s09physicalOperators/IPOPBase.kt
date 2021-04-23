@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s09physicalOperators
+package lupos.operator_physical
 
-import lupos.s04logicalOperators.IOPBase
+import lupos.operator_logical.IOPBase
 
 public interface IPOPBase : IOPBase

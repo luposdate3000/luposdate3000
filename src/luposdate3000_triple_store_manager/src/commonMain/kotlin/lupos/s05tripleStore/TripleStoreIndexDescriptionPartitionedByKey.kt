@@ -16,15 +16,15 @@
  */
 package lupos.s05tripleStore
 
+import lupos.operator_arithmetik.noinput.AOPConstant
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.IQuery
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.IQuery
 import lupos.shared_inline.ByteArrayHelper
 import kotlin.jvm.JvmField
 
@@ -35,6 +35,7 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
     internal val hostnames = Array<LuposHostname>(partitionCount) { "" }
     internal val keys = Array<LuposStoreKey>(partitionCount) { "" }
     internal val key_size: Int
+
     @JvmField
     internal var byteArray: ByteArray? = null
     override fun toByteArray(): ByteArray {

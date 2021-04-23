@@ -17,17 +17,17 @@
 package lupos.s05tripleStore
 
 import lupos.ProguardTestAnnotation
-import lupos.buffermanager.BufferManager
-import lupos.buffermanager.BufferManagerExt
+import lupos.buffer_manager.BufferManager
+import lupos.buffer_manager.BufferManagerExt
 import lupos.dictionary.DictionaryExt
+import lupos.operator_logical.IQuery
+import lupos.operator_logical.iterator.ColumnIterator
+import lupos.operator_logical.iterator.ColumnIteratorEmpty
+import lupos.operator_logical.iterator.IteratorBundle
 import lupos.s00misc.ETripleIndexTypeExt
 import lupos.s00misc.MyReadWriteLock
 import lupos.s00misc.Parallel
 import lupos.s00misc.SanityCheck
-import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorEmpty
-import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s05tripleStore.index_IDTriple.BulkImportIterator
 import lupos.s05tripleStore.index_IDTriple.Count1PassThroughIterator
 import lupos.s05tripleStore.index_IDTriple.DistinctIterator

@@ -16,8 +16,8 @@
  */
 package lupos.shared.optimizer
 
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.IQuery
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.IQuery
 
 public var distributedOptimizerQueryFactory: () -> IDistributedOptimizer = {
     object : IDistributedOptimizer {

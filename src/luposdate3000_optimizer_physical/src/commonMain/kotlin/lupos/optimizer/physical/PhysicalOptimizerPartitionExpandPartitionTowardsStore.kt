@@ -16,21 +16,21 @@
  */
 package lupos.optimizer.physical
 
+import lupos.operator_arithmetik.AOPBase
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.Query
+import lupos.operator_physical.partition.POPSplitPartition
+import lupos.operator_physical.partition.POPSplitPartitionFromStore
+import lupos.operator_physical.partition.POPSplitPartitionFromStoreCount
+import lupos.operator_physical.singleinput.POPFilter
+import lupos.operator_physical.singleinput.POPProjection
+import lupos.operator_physical.singleinput.modifiers.POPReduced
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EPartitionModeExt
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.s05tripleStore.tripleStoreManager
-import lupos.s09physicalOperators.partition.POPSplitPartition
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStoreCount
-import lupos.s09physicalOperators.singleinput.POPFilter
-import lupos.s09physicalOperators.singleinput.POPProjection
-import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 
 public class PhysicalOptimizerPartitionExpandPartitionTowardsStore(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionExpandPartitionTowardsStoreID, "PhysicalOptimizerPartitionExpandPartitionTowardsStore") {
     // this optimizer moved the partitioning towards and into the triple store, but does NOT care if the specific triple store exist ...

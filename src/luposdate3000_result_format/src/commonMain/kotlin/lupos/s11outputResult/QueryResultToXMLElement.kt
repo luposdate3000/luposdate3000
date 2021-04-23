@@ -17,15 +17,15 @@
 package lupos.s11outputResult
 
 import lupos.dictionary.DictionaryExt
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.OPBaseCompound
+import lupos.operator_logical.noinput.OPNothing
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
 import lupos.s00misc.communicationHandler
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.OPBaseCompound
-import lupos.s04logicalOperators.noinput.OPNothing
 import lupos.s05tripleStore.tripleStoreManager
 import lupos.shared_inline.DictionaryHelper
 

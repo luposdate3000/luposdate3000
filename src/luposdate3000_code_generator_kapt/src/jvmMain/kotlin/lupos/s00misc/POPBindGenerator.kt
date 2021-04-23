@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s00misc
+package lupos.code_generator_kapt
 
-import lupos.s09physicalOperators.singleinput.POPBind
-import lupos.s09physicalOperators.singleinput.POPDebug
-import lupos.s09physicalOperators.singleinput.POPFilter
+import lupos.operator_physical.singleinput.POPBind
+import lupos.operator_physical.singleinput.POPDebug
+import lupos.operator_physical.singleinput.POPFilter
 import lupos.shared_inline.MyPrintWriter
 
 internal fun generatePOPBind(

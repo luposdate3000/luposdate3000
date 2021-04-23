@@ -16,20 +16,20 @@
  */
 package lupos.optimizer.physical
 
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.Query
+import lupos.operator_physical.partition.POPChangePartitionOrderedByIntId
+import lupos.operator_physical.partition.POPMergePartition
+import lupos.operator_physical.partition.POPMergePartitionCount
+import lupos.operator_physical.partition.POPMergePartitionOrderedByIntId
+import lupos.operator_physical.partition.POPSplitPartition
+import lupos.operator_physical.partition.POPSplitPartitionFromStore
+import lupos.operator_physical.partition.POPSplitPartitionFromStoreCount
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.Partition
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.tripleStoreManager
-import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPMergePartition
-import lupos.s09physicalOperators.partition.POPMergePartitionCount
-import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPSplitPartition
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStoreCount
 
 public class PhysicalOptimizerPartitionRespectMaxPartitions(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionRespectMaxPartitionsID, "PhysicalOptimizerPartitionRespectMaxPartitions") {
     // this optimizer reduces the partitions, such that a max partition count is preserved

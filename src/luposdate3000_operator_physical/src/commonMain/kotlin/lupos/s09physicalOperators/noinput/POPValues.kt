@@ -14,23 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s09physicalOperators.noinput
+package lupos.operator_physical.noinput
 
 import lupos.dictionary.DictionaryExt
+import lupos.operator_arithmetik.noinput.AOPConstant
+import lupos.operator_arithmetik.noinput.AOPValue
+import lupos.operator_logical.IQuery
+import lupos.operator_logical.iterator.ColumnIterator
+import lupos.operator_logical.iterator.ColumnIteratorMultiValue
+import lupos.operator_logical.iterator.IteratorBundle
+import lupos.operator_logical.noinput.LOPValues
+import lupos.operator_physical.POPBase
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.ESortPriorityExt
 import lupos.s00misc.Partition
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.XMLElement
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPValue
-import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
-import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.noinput.LOPValues
-import lupos.s09physicalOperators.POPBase
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 

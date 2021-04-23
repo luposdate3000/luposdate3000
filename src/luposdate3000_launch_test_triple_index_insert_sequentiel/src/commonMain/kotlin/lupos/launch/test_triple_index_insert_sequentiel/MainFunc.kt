@@ -16,12 +16,12 @@
  */
 package lupos.launch.test_triple_index_insert_sequentiel
 
-import lupos.buffermanager.BufferManager
-import lupos.buffermanager.BufferManagerExt
+import lupos.buffer_manager.BufferManager
+import lupos.buffer_manager.BufferManagerExt
 import lupos.dictionary.DictionaryExt
+import lupos.operator_logical.Query
+import lupos.operator_logical.iterator.IteratorBundle
 import lupos.s00misc.Parallel
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.s05tripleStore.TripleStoreIndex
 import lupos.s05tripleStore.TripleStoreIndexIDTriple
 import lupos.test.AflCore

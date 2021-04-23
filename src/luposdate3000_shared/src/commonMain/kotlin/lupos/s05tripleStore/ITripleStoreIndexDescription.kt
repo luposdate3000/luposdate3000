@@ -16,10 +16,10 @@
  */
 package lupos.s05tripleStore
 
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.IQuery
 import lupos.s00misc.Partition
 import lupos.s00misc.XMLElement
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.IQuery
 
 public interface ITripleStoreIndexDescription {
     public fun getPartitionCount(): Int

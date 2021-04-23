@@ -16,27 +16,27 @@
  */
 package lupos.optimizer.physical
 
+import lupos.operator_arithmetik.AOPBase
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.Query
+import lupos.operator_physical.multiinput.POPUnion
+import lupos.operator_physical.partition.POPChangePartitionOrderedByIntId
+import lupos.operator_physical.partition.POPMergePartition
+import lupos.operator_physical.partition.POPMergePartitionCount
+import lupos.operator_physical.partition.POPMergePartitionOrderedByIntId
+import lupos.operator_physical.partition.POPSplitPartition
+import lupos.operator_physical.partition.POPSplitPartitionFromStore
+import lupos.operator_physical.partition.POPSplitPartitionFromStoreCount
+import lupos.operator_physical.singleinput.POPBind
+import lupos.operator_physical.singleinput.POPFilter
+import lupos.operator_physical.singleinput.POPProjection
+import lupos.operator_physical.singleinput.modifiers.POPReduced
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.s00misc.DontCareWhichException
 import lupos.s00misc.EPartitionModeExt
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.POPTripleStoreIterator
 import lupos.s05tripleStore.tripleStoreManager
-import lupos.s09physicalOperators.multiinput.POPUnion
-import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPMergePartition
-import lupos.s09physicalOperators.partition.POPMergePartitionCount
-import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPSplitPartition
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStoreCount
-import lupos.s09physicalOperators.singleinput.POPBind
-import lupos.s09physicalOperators.singleinput.POPFilter
-import lupos.s09physicalOperators.singleinput.POPProjection
-import lupos.s09physicalOperators.singleinput.modifiers.POPReduced
 
 public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionExpandTowardsRootID, "PhysicalOptimizerPartitionExpandTowardsRoot") {
     // this optimizer moves the partitioning upwards to the root

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.buffermanager
+package lupos.buffer_manager
 
 import lupos.ProguardTestAnnotation
 import lupos.s00misc.BUFFER_MANAGER_USE_FREE_LIST

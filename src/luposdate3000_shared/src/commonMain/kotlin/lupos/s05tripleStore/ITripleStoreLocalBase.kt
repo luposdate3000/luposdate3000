@@ -16,11 +16,11 @@
  */
 package lupos.s05tripleStore
 
+import lupos.operator_arithmetik.IAOPBase
+import lupos.operator_logical.IQuery
+import lupos.operator_logical.iterator.ColumnIterator
+import lupos.operator_logical.iterator.IteratorBundle
 import lupos.s00misc.EModifyType
-import lupos.s04arithmetikOperators.IAOPBase
-import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.ColumnIterator
-import lupos.s04logicalOperators.iterator.IteratorBundle
 
 public interface ITripleStoreLocalBase {
     public fun clear()

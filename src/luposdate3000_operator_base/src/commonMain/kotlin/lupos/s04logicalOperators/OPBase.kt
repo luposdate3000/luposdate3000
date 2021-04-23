@@ -14,8 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s04logicalOperators
+package lupos.operator_logical
 
+import lupos.operator_arithmetik.IAOPBase
+import lupos.operator_logical.iterator.IteratorBundle
+import lupos.operator_logical.multiinput.LOPJoin_Helper
+import lupos.operator_logical.singleinput.LOPNOOP
 import lupos.s00misc.BugException
 import lupos.s00misc.EOperatorID
 import lupos.s00misc.ESortPriority
@@ -30,10 +34,6 @@ import lupos.s00misc.SortHelper
 import lupos.s00misc.ToSparqlNotImplementedException
 import lupos.s00misc.VariableNotDefinedSyntaxException
 import lupos.s00misc.XMLElement
-import lupos.s04arithmetikOperators.IAOPBase
-import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s04logicalOperators.multiinput.LOPJoin_Helper
-import lupos.s04logicalOperators.singleinput.LOPNOOP
 import lupos.shared.UUID_Counter
 import kotlin.jvm.JvmField
 

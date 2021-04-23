@@ -23,6 +23,11 @@ import lupos.dictionary.nodeGlobalDictionary
 import lupos.endpoint.LuposdateEndpoint
 import lupos.jena.JenaWrapper
 import lupos.operator.factory.XMLElementToOPBase
+import lupos.operator_logical.Query
+import lupos.operator_physical.POPBase
+import lupos.operator_physical.partition.POPDistributedSendMulti
+import lupos.operator_physical.partition.POPDistributedSendSingle
+import lupos.operator_physical.partition.POPDistributedSendSingleCount
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EModifyTypeExt
 import lupos.s00misc.EnpointRecievedInvalidPath
@@ -34,12 +39,7 @@ import lupos.s00misc.XMLElement
 import lupos.s00misc.XMLElementFromXML
 import lupos.s00misc.communicationHandler
 import lupos.s00misc.xmlParser.XMLParser
-import lupos.s04logicalOperators.Query
 import lupos.s05tripleStore.tripleStoreManager
-import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.partition.POPDistributedSendMulti
-import lupos.s09physicalOperators.partition.POPDistributedSendSingle
-import lupos.s09physicalOperators.partition.POPDistributedSendSingleCount
 import lupos.s11outputResult.EQueryResultToStreamExt
 import lupos.shared_inline.File
 import lupos.shared_inline.MyInputStream

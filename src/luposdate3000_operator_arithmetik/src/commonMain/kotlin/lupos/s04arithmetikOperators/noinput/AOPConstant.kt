@@ -14,17 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s04arithmetikOperators.noinput
+package lupos.operator_arithmetik.noinput
 
+import lupos.operator_arithmetik.AOPBase
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.IQuery
+import lupos.operator_logical.iterator.IteratorBundle
 import lupos.s00misc.ByteArrayWrapper
 import lupos.s00misc.EOperatorIDExt
 import lupos.s00misc.XMLElement
 import lupos.s03resultRepresentation.ValueBnode
 import lupos.s03resultRepresentation.ValueDefinition
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.IteratorBundle
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 

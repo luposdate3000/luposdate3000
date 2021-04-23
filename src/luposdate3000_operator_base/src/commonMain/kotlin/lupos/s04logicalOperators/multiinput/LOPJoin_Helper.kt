@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s04logicalOperators.multiinput
+package lupos.operator_logical.multiinput
 
-import lupos.s04logicalOperators.HistogramResult
+import lupos.operator_logical.HistogramResult
 
 public object LOPJoin_Helper {
     public fun getColumns(columnsA: List<String>, columnsB: List<String>): Array<MutableList<String>> {

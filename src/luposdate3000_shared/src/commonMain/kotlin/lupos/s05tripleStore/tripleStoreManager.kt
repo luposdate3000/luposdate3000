@@ -16,12 +16,12 @@
  */
 package lupos.s05tripleStore
 
+import lupos.operator_logical.IQuery
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EModifyType
 import lupos.s00misc.EPartitionMode
 import lupos.s00misc.IMyInputStream
 import lupos.s00misc.XMLElement
-import lupos.s04logicalOperators.IQuery
 
 public abstract class TripleStoreManager {
     public companion object {

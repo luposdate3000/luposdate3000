@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s09physicalOperators.multiinput
+package lupos.operator_physical.multiinput
 
 import lupos.dictionary.DictionaryExt
-import lupos.s04logicalOperators.iterator.ColumnIterator
+import lupos.operator_logical.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
 internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val child0: ColumnIterator, @JvmField internal val child1: ColumnIterator, @JvmField internal var head0: Int, @JvmField internal var head1: Int) : ColumnIterator() {

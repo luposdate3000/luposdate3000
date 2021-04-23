@@ -16,15 +16,15 @@
  */
 package lupos.optimizer.logical
 
+import lupos.operator_arithmetik.noinput.AOPVariable
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.Query
+import lupos.operator_logical.multiinput.LOPJoin
+import lupos.operator_logical.noinput.OPEmptyRow
+import lupos.operator_logical.noinput.OPNothing
+import lupos.operator_logical.singleinput.LOPProjection
 import lupos.s00misc.EmptyResultException
 import lupos.s00misc.SanityCheck
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.noinput.OPEmptyRow
-import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.singleinput.LOPProjection
 
 public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrder") {
     private fun findAllJoinsInChildren(node: LOPJoin): List<IOPBase> {

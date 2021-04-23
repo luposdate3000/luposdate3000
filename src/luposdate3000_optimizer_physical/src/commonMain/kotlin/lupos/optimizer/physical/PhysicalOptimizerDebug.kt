@@ -16,14 +16,14 @@
  */
 package lupos.optimizer.physical
 
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.OPBaseCompound
+import lupos.operator_logical.Query
+import lupos.operator_physical.POPBase
+import lupos.operator_physical.singleinput.POPDebug
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.s00misc.SanityCheck
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.OPBaseCompound
-import lupos.s04logicalOperators.Query
-import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.singleinput.POPDebug
 
 public class PhysicalOptimizerDebug(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerDebugID, "PhysicalOptimizerDebug") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

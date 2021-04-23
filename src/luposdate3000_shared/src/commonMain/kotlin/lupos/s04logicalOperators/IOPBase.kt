@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s04logicalOperators
+package lupos.operator_logical
 
+import lupos.operator_logical.iterator.IteratorBundle
 import lupos.s00misc.Partition
 import lupos.s00misc.SortHelper
 import lupos.s00misc.XMLElement
-import lupos.s04logicalOperators.iterator.IteratorBundle
 
 public interface IOPBase {
     public fun replaceVariableWithUndef(name: String, existsClauses: Boolean): IOPBase

@@ -17,19 +17,19 @@
 package lupos.s05tripleStore
 
 import lupos.dictionary.DictionaryExt
+import lupos.operator_arithmetik.IAOPBase
+import lupos.operator_arithmetik.noinput.AOPVariable
+import lupos.operator_arithmetik.noinput.IAOPConstant
+import lupos.operator_arithmetik.noinput.IAOPVariable
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.IQuery
+import lupos.operator_logical.iterator.ColumnIterator
 import lupos.s00misc.BugException
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.EIndexPatternHelper
 import lupos.s00misc.EModifyType
 import lupos.s00misc.SanityCheck
-import lupos.s04arithmetikOperators.IAOPBase
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04arithmetikOperators.noinput.IAOPConstant
-import lupos.s04arithmetikOperators.noinput.IAOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
 public class TripleStoreDescription(

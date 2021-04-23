@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.s04arithmetikOperators
+package lupos.operator_arithmetik
 
-import lupos.s04logicalOperators.IOPBase
+import lupos.operator_logical.IOPBase
 
 public interface IAOPBase : IOPBase

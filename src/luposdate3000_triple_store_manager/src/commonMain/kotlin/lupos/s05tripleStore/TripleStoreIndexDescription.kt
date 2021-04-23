@@ -16,10 +16,10 @@
  */
 package lupos.s05tripleStore
 
+import lupos.operator_logical.IQuery
 import lupos.s00misc.EIndexPattern
 import lupos.s00misc.EIndexPatternExt
 import lupos.s00misc.XMLElement
-import lupos.s04logicalOperators.IQuery
 import kotlin.jvm.JvmField
 
 public abstract class TripleStoreIndexDescription() : ITripleStoreIndexDescription {

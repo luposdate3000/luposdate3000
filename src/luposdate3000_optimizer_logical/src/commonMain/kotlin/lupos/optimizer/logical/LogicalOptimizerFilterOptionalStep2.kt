@@ -16,8 +16,8 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.Query
 
 public class LogicalOptimizerFilterOptionalStep2(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterOptionalStep2ID, "LogicalOptimizerFilterOptionalStep2") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

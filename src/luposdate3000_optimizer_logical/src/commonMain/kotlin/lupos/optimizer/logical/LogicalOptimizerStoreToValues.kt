@@ -17,21 +17,21 @@
 package lupos.optimizer.logical
 
 import lupos.dictionary.DictionaryExt
+import lupos.operator_arithmetik.IAOPBase
+import lupos.operator_arithmetik.noinput.AOPConstant
+import lupos.operator_arithmetik.noinput.AOPValue
+import lupos.operator_arithmetik.noinput.AOPVariable
+import lupos.operator_logical.IOPBase
+import lupos.operator_logical.Query
+import lupos.operator_logical.noinput.LOPTriple
+import lupos.operator_logical.noinput.LOPValues
+import lupos.operator_logical.noinput.OPEmptyRow
+import lupos.operator_logical.noinput.OPNothing
+import lupos.operator_logical.singleinput.LOPBind
 import lupos.s00misc.EPartitionModeExt
 import lupos.s00misc.REPLACE_STORE_WITH_VALUES
 import lupos.s00misc.SanityCheck
 import lupos.s00misc.communicationHandler
-import lupos.s04arithmetikOperators.IAOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPValue
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.noinput.LOPValues
-import lupos.s04logicalOperators.noinput.OPEmptyRow
-import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.singleinput.LOPBind
 import lupos.s05tripleStore.tripleStoreManager
 
 public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerStoreToValuesID, "LogicalOptimizerStoreToValues") {
