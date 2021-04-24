@@ -1,0 +1,3 @@
+package lupos.codegen
+
+interface ICodeVariableOrConstantDefinition
