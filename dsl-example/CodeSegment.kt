@@ -19,24 +19,18 @@ class CodeSegment(val name: String) : CodeStatementGroup() {
     }
 
     fun generate(target: CodeStatementGroup, params: CodeParameterContainer, onEvent: (CodeReturnEvent) -> Unit) {
-        for (statement in statements) {
-            if (statement is CodeReturnEvent) {
-                onEvent(statement)
-            } else {
-                statement.copyInto(
-                    target,
-                    { name ->
-                        var res = name
-                        for (i in 0 until parameterContainer.parameters.size) {
-                            if (parameterContainer.parameters[i].name.name == name) {
-                                res = params.parameters[i].name.name
-                            }
-                        }
-                        res
+        copyInto(
+            target, onEvent,
+            { name ->
+                var res = name
+                for (i in 0 until parameterContainer.parameters.size) {
+                    if (parameterContainer.parameters[i].name.name == name) {
+                        res = params.parameters[i].name.name
                     }
-                )
+                }
+                res
             }
-        }
+        )
     }
 
     override fun prepareImports(parentFile: CodeFile) {

@@ -2,9 +2,13 @@ package lupos.codegen
 
 abstract class CodeStatementGroup() : ACodeBase() {
     val statements = mutableListOf<ACodeStatement>()
-    fun copyInto(target: CodeStatementGroup, mapName: (String) -> String) {
+    fun copyInto(target: CodeStatementGroup, onEvent: (CodeReturnEvent) -> Unit, mapName: (String) -> String) {
         for (statement in statements) {
-            statement.copyInto(target, mapName)
+            if (statement is CodeReturnEvent) {
+                onEvent(statement)
+            } else {
+                statement.copyInto(target, onEvent, mapName)
+            }
         }
     }
 

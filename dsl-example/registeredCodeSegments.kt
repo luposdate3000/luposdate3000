@@ -5,14 +5,13 @@ val registeredCodeSegments: List<CodeSegment> = mutableListOf(
         val a = codeVar("a", codeTypes("Double"))
         val b = codeVar("b", codeTypes("Double"))
         val c = codeVar("c", codeTypes("Double"))
-        val d = codeVal("d", { expVal(codeTypes("Double"), "0.0") })
         parameter {
             add(a)
             add(b)
         }
         statementIf(
             {
-                expEq({ expRef(b) }, { expRef(d) })
+                expEq({ expRef(b) }, { expVal(codeTypes("Double"), "0.0") })
             },
             {
                 statementEvent(this, "", codeTypes("Error"))

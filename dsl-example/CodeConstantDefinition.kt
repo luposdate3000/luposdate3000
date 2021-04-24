@@ -1,7 +1,7 @@
 package lupos.codegen
 
 class CodeConstantDefinition(var name: CodeName, var expression: ACodeExpression) : ACodeStatement(), ICodeVariableOrConstantDefinition {
-    override fun copyInto(target: CodeStatementGroup, mapName: (String) -> String) {
+    override fun copyInto(target: CodeStatementGroup, onEvent: (CodeReturnEvent) -> Unit, mapName: (String) -> String) {
         target.statements.add(CodeConstantDefinition(CodeName(mapName(name.name)), expression.copy(mapName)))
     }
 

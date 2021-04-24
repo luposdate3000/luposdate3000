@@ -1,7 +1,7 @@
 package lupos.codegen
 
 class CodeReturnEvent(val name: CodeName, val type: CodeType) : ACodeStatement() {
-    override fun copyInto(target: CodeStatementGroup, mapName: (String) -> String) {
+    override fun copyInto(target: CodeStatementGroup, onEvent: (CodeReturnEvent) -> Unit, mapName: (String) -> String) {
         throw Exception("dont call this")
     }
 
