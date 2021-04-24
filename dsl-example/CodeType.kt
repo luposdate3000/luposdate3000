@@ -1,5 +1,6 @@
 package lupos.codegen
 
+@CodeDSLMarker
 class CodeType(val type: String?, val pkg: String?) {
     fun generate(): String {
         if (type != null) {

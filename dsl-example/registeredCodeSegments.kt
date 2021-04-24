@@ -14,13 +14,13 @@ val registeredCodeSegments: List<CodeSegment> = mutableListOf(
                 expEq({ expRef(b) }, { expVal(codeTypes("Double"), "0.0") })
             },
             {
-                statementEvent(this, "", codeTypes("Error"))
+                statementEvent("", codeTypes("Error"))
             },
             {
                 statementVal(c) {
                     expDiv({ expRef(a) }, { expRef(b) })
                 }
-                statementEvent(this, c)
+                statementEvent(c)
             }
         )
     },

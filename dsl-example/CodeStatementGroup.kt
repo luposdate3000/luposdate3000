@@ -2,14 +2,26 @@ package lupos.codegen
 
 abstract class CodeStatementGroup() : ACodeBase() {
     val statements = mutableListOf<ACodeStatement>()
-    fun copyInto(target: CodeStatementGroup, onEvent: (CodeReturnEvent) -> Unit, mapName: (String) -> String) {
+    fun copyInto(target: CodeFunctionBody, onEvent: CodeFunctionBody.(CodeReturnEvent) -> Unit, mapName: (String) -> String) {
         for (statement in statements) {
             if (statement is CodeReturnEvent) {
-                onEvent(statement)
+                target.onEvent(statement)
             } else {
                 statement.copyInto(target, onEvent, mapName)
             }
         }
+    }
+
+    fun statementEvent(name: String, type: CodeType): CodeReturnEvent {
+        val r = CodeReturnEvent(CodeName(name), type)
+        statements.add(r)
+        return r
+    }
+
+    fun statementEvent(v: CodeVariableDefinition): CodeReturnEvent {
+        val r = CodeReturnEvent(v.name, v.getType())
+        statements.add(r)
+        return r
     }
 
     override fun prepareImports(parentFile: CodeFile) {
@@ -26,32 +38,6 @@ abstract class CodeStatementGroup() : ACodeBase() {
         val stat = CodeIf(CodeExpressionBuilder().cond(), statA, statB)
         statements.add(stat)
         return stat
-    }
-
-    fun statementUse(name: String, init: CodeParameterContainer.() -> Unit, onEvent: (CodeReturnEvent) -> Unit) {
-        val params = CodeParameterContainer()
-        params.init()
-        var found = false
-        loop@ for (segment in registeredCodeSegments) {
-            if (segment.name == name) {
-                var flag = segment.parameterContainer.parameters.size == params.parameters.size
-                var i = 0
-                while (flag && i < segment.parameterContainer.parameters.size) {
-                    flag = segment.parameterContainer.parameters[i] == params.parameters[i]
-                    i++
-                }
-                if (flag) {
-                    found = true
-                    segment.generate(this, params) { it ->
-                        onEvent(it)
-                    }
-                    break@loop
-                }
-            }
-        }
-        if (!found) {
-            throw Exception("function not found")
-        }
     }
 
     fun statementAssign(name: String, init: CodeExpressionBuilder.() -> ACodeExpression): CodeAssignment {

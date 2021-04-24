@@ -2,23 +2,12 @@ package lupos.codegen
 
 class CodeSegment(val name: String) : CodeStatementGroup() {
     val parameterContainer = CodeParameterContainer()
-    fun statementEvent(context: CodeStatementGroup, name: String, type: CodeType): CodeReturnEvent {
-        val r = CodeReturnEvent(CodeName(name), type)
-        context.statements.add(r)
-        return r
-    }
-
-    fun statementEvent(context: CodeStatementGroup, v: CodeVariableDefinition): CodeReturnEvent {
-        val r = CodeReturnEvent(v.name, v.getType())
-        context.statements.add(r)
-        return r
-    }
 
     fun parameter(init: CodeParameterContainer.() -> Unit) {
         parameterContainer.init()
     }
 
-    fun generate(target: CodeStatementGroup, params: CodeParameterContainer, onEvent: (CodeReturnEvent) -> Unit) {
+    fun generate(target: CodeFunctionBody, params: CodeParameterContainer, onEvent: CodeFunctionBody.(CodeReturnEvent) -> Unit) {
         copyInto(
             target, onEvent,
             { name ->

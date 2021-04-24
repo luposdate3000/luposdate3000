@@ -1,7 +1,7 @@
 package lupos.codegen
 
 class CodeParamDefinition(var name: CodeName) : ACodeStatement() {
-    override fun copyInto(target: CodeStatementGroup, onEvent: (CodeReturnEvent) -> Unit, mapName: (String) -> String) {
+    override fun copyInto(target: CodeFunctionBody, onEvent: CodeFunctionBody.(CodeReturnEvent) -> Unit, mapName: (String) -> String) {
         throw Exception("dont call this")
     }
 

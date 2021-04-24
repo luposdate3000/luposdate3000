@@ -6,6 +6,7 @@
 @file:Import("CodeAssignment.kt")
 @file:Import("CodeClazz.kt")
 @file:Import("CodeConstantDefinition.kt")
+@file:Import("CodeDSLMarker.kt")
 @file:Import("CodeExpressionBuilder.kt")
 @file:Import("CodeFile.kt")
 @file:Import("CodeFunctionBody.kt")

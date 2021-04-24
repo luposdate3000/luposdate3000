@@ -1,3 +1,4 @@
 package lupos.codegen
 
+@CodeDSLMarker
 interface ICodeVariableOrConstantDefinition

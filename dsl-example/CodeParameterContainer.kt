@@ -1,5 +1,6 @@
 package lupos.codegen
 
+@CodeDSLMarker
 class CodeParameterContainer {
     val parameters = mutableListOf<CodeParamDefinition>()
     fun generate(): String {
