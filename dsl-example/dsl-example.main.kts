@@ -58,7 +58,10 @@ codeFile("myfilename", "generatedPackage") {
                     add(b)
                 },
                 { event ->
-                    statementReturn(event)
+                    when (event.type) {
+                        codeTypes("Double") -> statementReturn(event)
+                        else -> statementReturn { expVal(codeTypes("Double"), "6") }
+                    }
                 }
             )
         }

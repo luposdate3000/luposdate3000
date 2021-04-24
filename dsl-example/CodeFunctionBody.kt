@@ -37,14 +37,14 @@ open class CodeFunctionBody(parentFunction: CodeFunction?) : CodeStatementGroup(
 
     fun statementReturn(): CodeReturnValue {
         val r = CodeReturnValue()
-        parentFunction?.setReturnType(codeTypes("Unit"))
+        parentFunction!!.setReturnType(codeTypes("Unit"))
         statements.add(r)
         return r
     }
 
     fun statementReturn(event: CodeReturnEvent): CodeReturnValue {
         val ass = CodeReturnValue(CodeVarRef(event.name.name, event.type))
-        parentFunction?.setReturnType(event.type)
+        parentFunction!!.setReturnType(event.type)
         statements.add(ass)
         return ass
     }
@@ -52,7 +52,7 @@ open class CodeFunctionBody(parentFunction: CodeFunction?) : CodeStatementGroup(
     fun statementReturn(init: CodeExpressionBuilder.() -> ACodeExpression): CodeReturnValue {
         val res = CodeExpressionBuilder().init()
         val r = CodeReturnValue(res)
-        parentFunction?.setReturnType(res.resultType)
+        parentFunction!!.setReturnType(res.resultType)
         statements.add(r)
         return r
     }

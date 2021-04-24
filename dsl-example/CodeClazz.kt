@@ -10,6 +10,7 @@ class CodeClazz(var name: CodeName) : ACodeBase() {
 
     fun function(name: String, init: CodeFunction.() -> Unit): CodeFunction {
         val func = CodeFunction(null, CodeName(name))
+        func.parentFunction = func
         func.init()
         functions.add(func)
         return func
