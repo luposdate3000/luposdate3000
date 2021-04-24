@@ -1,6 +1,7 @@
 #!/usr/bin/env kotlin
 
 val registeredTypes: Map<String, CodeType> = mutableMapOf(
+    "Boolean" to CodeType("Boolean", null),
     "Int" to CodeType("Int", null),
     "Unit" to CodeType("Unit", null),
     "Double" to CodeType("Double", null),
@@ -106,6 +107,12 @@ class CodeExpressionBuilder() {
         val bx = CodeExpressionBuilder().b()
         return CodePrimitive(ax.resultType, "/", ax, bx)
     }
+/*    fun expEq(a: CodeExpressionBuilder.() -> ACodeExpression, b: CodeExpressionBuilder.() -> ACodeExpression): ACodeExpression {
+        val ax = CodeExpressionBuilder().a()
+        val bx = CodeExpressionBuilder().b()
+        return CodePrimitive(codeTypes("Boolean"), "==", ax, bx)
+    }
+*/
 }
 
 class CodePrimitive(resultType: CodeType, var symbol: String, var a: ACodeExpression, var b: ACodeExpression) : ACodeExpression(resultType) {
@@ -331,6 +338,12 @@ class CodeParameterContainer {
 
 abstract class CodeStatementGroup() : ACodeBase() {
     val statements = mutableListOf<ACodeStatement>()
+    fun copyInto(target: CodeStatementGroup, mapName: (String) -> String) {
+        for (statement in statements) {
+            statement.copyInto(target, mapName)
+        }
+    }
+
     override fun prepareImports(parentFile: CodeFile) {
         for (statement in statements) {
             statement.prepareImports(parentFile)
@@ -398,7 +411,32 @@ abstract class CodeStatementGroup() : ACodeBase() {
     }
 }
 
-class CodeFunction(var name: CodeName) : CodeStatementGroup() {
+class CodeIf(var cond: ACodeExpression, var a: CodeFunctionBody, var b: CodeFunctionBody) : ACodeStatement() {
+    override fun copyInto(target: CodeStatementGroup, mapName: (String) -> String) {
+        val a2 = CodeFunctionBody()
+        val b2 = CodeFunctionBody()
+        val c2 = cond.copy(mapName)
+        a.copyInto(a2, mapName)
+        b.copyInto(b2, mapName)
+        target.statements.add(CodeIf(c2, a2, b2))
+    }
+
+    override fun prepareImports(parentFile: CodeFile) {
+        cond.prepareImports(parentFile)
+        a.prepareImports(parentFile)
+        b.prepareImports(parentFile)
+    }
+
+    override fun generate(indention: String, out: StringBuilder) {
+        out.appendLine("${indention}if (${cond.generate()}) {")
+        a.generate(indention + "  ", out)
+        out.appendLine("$indention}else {")
+        b.generate(indention + "  ", out)
+        out.appendLine("$indention")
+    }
+}
+
+open class CodeFunctionBody() : CodeStatementGroup() {
     var returnType: CodeType? = null
     val parameterContainer = CodeParameterContainer()
     fun parameter(init: CodeParameterContainer.() -> Unit) {
@@ -437,6 +475,16 @@ class CodeFunction(var name: CodeName) : CodeStatementGroup() {
         }
     }
 
+    fun statementIf(cond: CodeExpressionBuilder.() -> ACodeExpression, a: CodeFunctionBody.() -> Unit, b: CodeFunctionBody.() -> Unit): CodeIf {
+        val statA = CodeFunctionBody()
+        statA.a()
+        val statB = CodeFunctionBody()
+        statB.b()
+        val stat = CodeIf(CodeExpressionBuilder().cond(), statA, statB)
+        statements.add(stat)
+        return stat
+    }
+
     fun statementReturn(): CodeReturnValue {
         val r = CodeReturnValue()
         statements.add(r)
@@ -456,7 +504,9 @@ class CodeFunction(var name: CodeName) : CodeStatementGroup() {
         statements.add(r)
         return r
     }
+}
 
+class CodeFunction(var name: CodeName) : CodeFunctionBody() {
     override fun generate(indention: String, out: StringBuilder) {
         if (returnType == null) {
             returnType = codeTypes("Unit")
