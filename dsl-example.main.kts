@@ -16,8 +16,7 @@ val registeredCodeSegments: List<CodeSegment> = mutableListOf(
             add(a)
             add(b)
         }
-        statementVar(c)
-        statementAssign(c) { expDiv({ expVar(a) }, { expVar(b) }) }
+        statementVal(c) { expDiv({ expVar(a) }, { expVar(b) }) }
         statementEvent(c)
     },
 )
@@ -28,9 +27,14 @@ abstract class ACodeBase() {
 
 abstract class ACodeExpression(var resultType: CodeType) : ACodeBase() {
     abstract fun generate(): String
+    abstract fun copy(mapName: (String) -> String): ACodeExpression
 }
 
 class CodeReturnEvent(val name: CodeName, val type: CodeType) : ACodeStatement() {
+    override fun copyInto(target: CodeStatementGroup, mapName: (String) -> String) {
+        throw Exception("dont call this")
+    }
+
     override fun prepareImports(parentFile: CodeFile) {
         throw Exception("dont call this")
     }
@@ -58,12 +62,23 @@ class CodeSegment(val name: String) : CodeStatementGroup() {
         parameterContainer.init()
     }
 
-    fun generate(target: CodeStatementGroup, onEvent: (CodeReturnEvent) -> Unit) {
+    fun generate(target: CodeStatementGroup, params: CodeParameterContainer, onEvent: (CodeReturnEvent) -> Unit) {
         for (statement in statements) {
             if (statement is CodeReturnEvent) {
                 onEvent(statement)
             } else {
-                target.statements.add(statement)
+                statement.copyInto(
+                    target,
+                    { name ->
+                        var res = name
+                        for (i in 0 until parameterContainer.parameters.size) {
+                            if (parameterContainer.parameters[i].name.name == name) {
+                                res = params.parameters[i].name.name
+                            }
+                        }
+                        res
+                    }
+                )
             }
         }
     }
@@ -94,6 +109,10 @@ class CodeExpressionBuilder() {
 }
 
 class CodePrimitive(resultType: CodeType, var symbol: String, var a: ACodeExpression, var b: ACodeExpression) : ACodeExpression(resultType) {
+    override fun copy(mapName: (String) -> String): ACodeExpression {
+        return CodePrimitive(resultType, symbol, a.copy(mapName), b.copy(mapName))
+    }
+
     override fun generate(): String {
         return "${a.generate()} $symbol ${b.generate()}"
     }
@@ -107,6 +126,7 @@ class CodePrimitive(resultType: CodeType, var symbol: String, var a: ACodeExpres
 
 abstract class ACodeStatement() : ACodeBase() {
     abstract fun generate(indention: String, out: StringBuilder)
+    abstract fun copyInto(target: CodeStatementGroup, mapName: (String) -> String)
 }
 
 class CodeType(val type: String, val pkg: String?) {
@@ -128,6 +148,10 @@ class CodeName(var name: String) {
 }
 
 class CodeVarRef(var name: String, var type: CodeType) : ACodeExpression(type) {
+    override fun copy(mapName: (String) -> String): ACodeExpression {
+        return CodeVarRef(mapName(name), type)
+    }
+
     override fun generate(): String {
         return name
     }
@@ -138,6 +162,10 @@ class CodeVarRef(var name: String, var type: CodeType) : ACodeExpression(type) {
 }
 
 class CodeVal(type: CodeType, var value: String) : ACodeExpression(type) {
+    override fun copy(mapName: (String) -> String): ACodeExpression {
+        return CodeVal(resultType, value)
+    }
+
     override fun prepareImports(parentFile: CodeFile) {
         resultType.addImport(parentFile)
     }
@@ -150,6 +178,10 @@ class CodeVal(type: CodeType, var value: String) : ACodeExpression(type) {
 interface ICodeVariableOrConstantDefinition
 
 class CodeConstantDefinition(var name: CodeName, var expression: ACodeExpression) : ACodeStatement(), ICodeVariableOrConstantDefinition {
+    override fun copyInto(target: CodeStatementGroup, mapName: (String) -> String) {
+        target.statements.add(CodeConstantDefinition(CodeName(mapName(name.name)), expression.copy(mapName)))
+    }
+
     override fun prepareImports(parentFile: CodeFile) {
         expression.resultType.addImport(parentFile)
     }
@@ -164,6 +196,10 @@ class CodeConstantDefinition(var name: CodeName, var expression: ACodeExpression
 }
 
 class CodeParamDefinition(var name: CodeName) : ACodeStatement() {
+    override fun copyInto(target: CodeStatementGroup, mapName: (String) -> String) {
+        throw Exception("dont call this")
+    }
+
     override fun equals(other: Any?): Boolean {
         return other is CodeParamDefinition && other.getType() == getType()
     }
@@ -196,6 +232,10 @@ class CodeParamDefinition(var name: CodeName) : ACodeStatement() {
 }
 
 class CodeVariableDefinition(var name: CodeName) : ACodeStatement(), ICodeVariableOrConstantDefinition {
+    override fun copyInto(target: CodeStatementGroup, mapName: (String) -> String) {
+        throw Exception("dont call this")
+    }
+
     var expression: ACodeExpression? = null
     var type_: CodeType? = null
     fun getType(): CodeType {
@@ -223,17 +263,25 @@ class CodeVariableDefinition(var name: CodeName) : ACodeStatement(), ICodeVariab
     }
 }
 
-class CodeAssignment(var target: CodeName, var expression: ACodeExpression) : ACodeStatement() {
+class CodeAssignment(var name: CodeName, var expression: ACodeExpression) : ACodeStatement() {
+    override fun copyInto(target: CodeStatementGroup, mapName: (String) -> String) {
+        target.statements.add(CodeAssignment(CodeName(mapName(name.name)), expression.copy(mapName)))
+    }
+
     override fun prepareImports(parentFile: CodeFile) {
         expression.prepareImports(parentFile)
     }
 
     override fun generate(indention: String, out: StringBuilder) {
-        out.appendLine("$indention${target.generate()} = ${expression.generate()}")
+        out.appendLine("$indention${name.generate()} = ${expression.generate()}")
     }
 }
 
 class CodeReturnValue(val expression: ACodeExpression? = null) : ACodeStatement() {
+    override fun copyInto(target: CodeStatementGroup, mapName: (String) -> String) {
+        target.statements.add(CodeReturnValue(expression?.copy(mapName)))
+    }
+
     override fun prepareImports(parentFile: CodeFile) {
         expression?.prepareImports(parentFile)
     }
@@ -327,14 +375,18 @@ abstract class CodeStatementGroup() : ACodeBase() {
         return v
     }
 
-    fun statementVal(v: CodeVariableDefinition, value: String): CodeConstantDefinition {
-        val v2 = CodeConstantDefinition(v.name, CodeVal(v.getType(), value))
+    fun statementVal(v: CodeVariableDefinition, init: CodeExpressionBuilder.() -> ACodeExpression): CodeConstantDefinition {
+        val exp = CodeExpressionBuilder().init()
+        if (v.getType() != exp.resultType) {
+            throw Exception("incompatible types")
+        }
+        val v2 = CodeConstantDefinition(v.name, exp)
         statements.add(v2)
         return v2
     }
 
-    fun statementVal(name: String, type: CodeType, value: String): CodeConstantDefinition {
-        val v = CodeConstantDefinition(CodeName(name), CodeVal(type, value))
+    fun statementVal(name: String, init: CodeExpressionBuilder.() -> ACodeExpression): CodeConstantDefinition {
+        val v = CodeConstantDefinition(CodeName(name), CodeExpressionBuilder().init())
         statements.add(v)
         return v
     }
@@ -373,7 +425,7 @@ class CodeFunction(var name: CodeName) : CodeStatementGroup() {
                 }
                 if (flag) {
                     found = true
-                    segment.generate(this) { it ->
+                    segment.generate(this, params) { it ->
                         onEvent(it)
                     }
                     break@loop
@@ -389,6 +441,12 @@ class CodeFunction(var name: CodeName) : CodeStatementGroup() {
         val r = CodeReturnValue()
         statements.add(r)
         return r
+    }
+
+    fun statementReturn(event: CodeReturnEvent): CodeReturnValue {
+        val ass = CodeReturnValue(CodeVarRef(event.name.name, event.type))
+        statements.add(ass)
+        return ass
     }
 
     fun statementReturn(init: CodeExpressionBuilder.() -> ACodeExpression): CodeReturnValue {
@@ -504,16 +562,15 @@ codeFile("myfilename", "generatedPackage") {
             }
             statementVar("y", codeTypes("Int"))
             statementVar("z", codeTypes("ByteArrayWrapper"))
-            statementVal("x", codeTypes("Int"), "4")
+            statementVal("x") { expVal(codeTypes("Int"), "4") }
             statementAssign("y") { expVal(codeTypes("Int"), "5") }
-            statementReturn()
+            statementReturn { expVal(codeTypes("Double"), "8") }
         }
         function("y") {
-            val a = codeVar("a", codeTypes("ByteArrayWrapperDouble"))
-            val b = codeVar("b", codeTypes("ByteArrayWrapperDouble"))
-            val z = codeVar("z", codeTypes("ByteArrayWrapperDouble"))
-            statementVal(a, "0.0")
-            statementVal(b, "0.0")
+            val a = codeVar("x", codeTypes("ByteArrayWrapperDouble"))
+            val b = codeVar("y", codeTypes("ByteArrayWrapperDouble"))
+            statementVal(a) { expVal(codeTypes("ByteArrayWrapperDouble"), "5") }
+            statementVal(b) { expVal(codeTypes("ByteArrayWrapperDouble"), "5") }
             statementUse(
                 "/",
                 {
@@ -521,10 +578,9 @@ codeFile("myfilename", "generatedPackage") {
                     add(b)
                 },
                 { event ->
-                    statementAssign(z, event)
+                    statementReturn(event)
                 }
             )
-            statementReturn { expVal(codeTypes("Double"), "8") }
         }
     }
 }
