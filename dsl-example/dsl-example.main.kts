@@ -46,10 +46,10 @@ codeFile("myfilename", "generatedPackage") {
             statementReturn { expVal(codeTypes("Double"), "8") }
         }
         function("y") {
-            val a = codeVar("x", codeTypes("ByteArrayWrapperDouble"))
-            val b = codeVar("y", codeTypes("ByteArrayWrapperDouble"))
-            statementVal(a) { expVal(codeTypes("ByteArrayWrapperDouble"), "5") }
-            statementVal(b) { expVal(codeTypes("ByteArrayWrapperDouble"), "5") }
+            val a = codeVar("x", codeTypes("Double"))
+            val b = codeVar("y", codeTypes("Double"))
+            statementVal(a) { expVal(codeTypes("Double"), "4") }
+            statementVal(b) { expVal(codeTypes("Double"), "5") }
             statementUse(
                 "/",
                 {

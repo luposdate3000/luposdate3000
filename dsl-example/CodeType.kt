@@ -1,12 +1,16 @@
 package lupos.codegen
 
-class CodeType(val type: String, val pkg: String?) {
+class CodeType(val type: String?, val pkg: String?) {
     fun generate(): String {
-        return type
+        if (type != null) {
+            return type
+        } else {
+            return ""
+        }
     }
 
     fun addImport(file: CodeFile) {
-        if (pkg != null) {
+        if (pkg != null && type != null) {
             file.imports.add(pkg + "." + type)
         }
     }

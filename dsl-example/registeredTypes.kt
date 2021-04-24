@@ -1,6 +1,7 @@
 package lupos.codegen
 
 val registeredTypes: Map<String, CodeType> = mutableMapOf(
+    "Error" to CodeType(null, null),
     "Boolean" to CodeType("Boolean", null),
     "Int" to CodeType("Int", null),
     "Unit" to CodeType("Unit", null),

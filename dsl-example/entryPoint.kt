@@ -21,3 +21,8 @@ fun codeVar(name: String, type: CodeType): CodeVariableDefinition {
     v.type_ = type
     return v
 }
+
+fun codeVal(name: String, init: CodeExpressionBuilder.() -> ACodeExpression): CodeConstantDefinition {
+    val v = CodeConstantDefinition(CodeName(name), CodeExpressionBuilder().init())
+    return v
+}
