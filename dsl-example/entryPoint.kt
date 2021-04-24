@@ -11,7 +11,7 @@ fun codeFile(name: String, pkg: String, init: CodeFile.() -> Unit): CodeFile {
 }
 
 fun codeSegment(name: String, init: CodeSegment.() -> Unit): CodeSegment {
-    val seg = CodeSegment(name)
+    val seg = CodeSegment(null, name)
     seg.init()
     return seg
 }

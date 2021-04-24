@@ -17,7 +17,7 @@ class CodeIf(var cond: ACodeExpression, var a: CodeFunctionBody, var b: CodeFunc
     override fun generate(indention: String, out: StringBuilder) {
         out.appendLine("${indention}if (${cond.generate()}) {")
         a.generate(indention, out)
-        out.appendLine("$indention}else {")
+        out.appendLine("$indention} else {")
         b.generate(indention, out)
         out.appendLine("$indention}")
     }

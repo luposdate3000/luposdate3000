@@ -1,6 +1,6 @@
 package lupos.codegen
 
-class CodeSegment(val name: String) : CodeStatementGroup() {
+class CodeSegment(parentFunction: CodeFunction?, val name: String) : CodeStatementGroup(parentFunction) {
     val parameterContainer = CodeParameterContainer()
 
     fun parameter(init: CodeParameterContainer.() -> Unit) {

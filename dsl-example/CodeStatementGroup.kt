@@ -1,6 +1,6 @@
 package lupos.codegen
 
-abstract class CodeStatementGroup() : ACodeBase() {
+abstract class CodeStatementGroup(var parentFunction: CodeFunction?) : ACodeBase() {
     val statements = mutableListOf<ACodeStatement>()
     fun copyInto(target: CodeFunctionBody, onEvent: CodeFunctionBody.(CodeReturnEvent) -> Unit, mapName: (String) -> String) {
         for (statement in statements) {
@@ -31,9 +31,9 @@ abstract class CodeStatementGroup() : ACodeBase() {
     }
 
     fun statementIf(cond: CodeExpressionBuilder.() -> ACodeExpression, a: CodeFunctionBody.() -> Unit, b: CodeFunctionBody.() -> Unit): CodeIf {
-        val statA = CodeFunctionBody()
+        val statA = CodeFunctionBody(parentFunction)
         statA.a()
-        val statB = CodeFunctionBody()
+        val statB = CodeFunctionBody(parentFunction)
         statB.b()
         val stat = CodeIf(CodeExpressionBuilder().cond(), statA, statB)
         statements.add(stat)

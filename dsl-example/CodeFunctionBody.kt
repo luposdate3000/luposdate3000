@@ -1,7 +1,6 @@
 package lupos.codegen
 
-open class CodeFunctionBody() : CodeStatementGroup() {
-    var returnType: CodeType? = null
+open class CodeFunctionBody(parentFunction: CodeFunction?) : CodeStatementGroup(parentFunction) {
     val parameterContainer = CodeParameterContainer()
     fun parameter(init: CodeParameterContainer.() -> Unit) {
         parameterContainer.init()
@@ -33,20 +32,19 @@ open class CodeFunctionBody() : CodeStatementGroup() {
 
     override fun prepareImports(parentFile: CodeFile) {
         super.prepareImports(parentFile)
-        returnType?.addImport(parentFile)
         parameterContainer.prepareImports(parentFile)
     }
 
     fun statementReturn(): CodeReturnValue {
         val r = CodeReturnValue()
-        returnType = codeTypes("Unit")
+        parentFunction?.setReturnType(codeTypes("Unit"))
         statements.add(r)
         return r
     }
 
     fun statementReturn(event: CodeReturnEvent): CodeReturnValue {
         val ass = CodeReturnValue(CodeVarRef(event.name.name, event.type))
-        returnType = event.type
+        parentFunction?.setReturnType(event.type)
         statements.add(ass)
         return ass
     }
@@ -54,7 +52,7 @@ open class CodeFunctionBody() : CodeStatementGroup() {
     fun statementReturn(init: CodeExpressionBuilder.() -> ACodeExpression): CodeReturnValue {
         val res = CodeExpressionBuilder().init()
         val r = CodeReturnValue(res)
-        returnType = res.resultType
+        parentFunction?.setReturnType(res.resultType)
         statements.add(r)
         return r
     }
