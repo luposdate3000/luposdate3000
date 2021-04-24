@@ -2,6 +2,10 @@ package lupos.codegen
 
 @CodeDSLMarker
 class CodeExpressionBuilder() {
+    fun use(res: ACodeExpression): ACodeExpression {
+        return res
+    }
+
     fun expVal(type: CodeType, value: String): CodeVal {
         return CodeVal(type, value)
     }

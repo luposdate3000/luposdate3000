@@ -2,12 +2,10 @@ package lupos.codegen
 
 class CodeIf(var cond: ACodeExpression, var a: CodeFunctionBody, var b: CodeFunctionBody) : ACodeStatement() {
     override fun copyInto(target: CodeFunctionBody, onEvent: CodeFunctionBody.(CodeReturnEvent) -> Unit, mapName: (String) -> String) {
-        val a2 = CodeFunctionBody()
-        val b2 = CodeFunctionBody()
-        val c2 = cond.copy(mapName)
-        target.statements.add(CodeIf(c2, a2, b2))
-        a.copyInto(a2, onEvent, mapName)
-        b.copyInto(b2, onEvent, mapName)
+        val c = cond.copy(mapName)
+        val s = target.statementIf({ use(c) }, {}, {})
+        a.copyInto(s.a, onEvent, mapName)
+        b.copyInto(s.b, onEvent, mapName)
     }
 
     override fun prepareImports(parentFile: CodeFile) {

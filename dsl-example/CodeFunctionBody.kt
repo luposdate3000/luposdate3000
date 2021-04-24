@@ -39,12 +39,14 @@ open class CodeFunctionBody() : CodeStatementGroup() {
 
     fun statementReturn(): CodeReturnValue {
         val r = CodeReturnValue()
+        returnType = codeTypes("Unit")
         statements.add(r)
         return r
     }
 
     fun statementReturn(event: CodeReturnEvent): CodeReturnValue {
         val ass = CodeReturnValue(CodeVarRef(event.name.name, event.type))
+        returnType = event.type
         statements.add(ass)
         return ass
     }

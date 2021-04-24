@@ -2,7 +2,12 @@ package lupos.codegen
 
 class CodeReturnValue(val expression: ACodeExpression? = null) : ACodeStatement() {
     override fun copyInto(target: CodeFunctionBody, onEvent: CodeFunctionBody.(CodeReturnEvent) -> Unit, mapName: (String) -> String) {
-        target.statements.add(CodeReturnValue(expression?.copy(mapName)))
+        val exp = expression
+        if (exp == null) {
+            target.statementReturn()
+        } else {
+            target.statementReturn { use(exp.copy(mapName)) }
+        }
     }
 
     override fun prepareImports(parentFile: CodeFile) {
