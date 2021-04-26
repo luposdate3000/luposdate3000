@@ -190,22 +190,18 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             currentArgs = currentArgs.ssetArgs2(compileModuleArgs)
             modules[currentArgs.moduleName] = currentArgs
             allpackages.add(currentArgs.modulePrefix.toLowerCase())
-            val dep = mutableSetOf<String>()
-            if (!currentArgs.moduleName.startsWith("Luposdate3000_Shared")) {
-                dep.add("Luposdate3000_Shared")
-            }
-            if (!currentArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
-                dep.add("Luposdate3000_Shared_BrowserJS")
-            }
         }
     }
     val dependencyMap = mutableMapOf<String, MutableSet<String>>()
     for ((k, v) in modules) {
         val dep = mutableSetOf<String>()
+        dependencyMap[k] = dep
+        if (v.modulePrefix != "Luposdate3000_Shared_JS") {
+            dep.add("Luposdate3000_Shared_BrowserJS")
+        }
         if (!v.moduleName.startsWith("Luposdate3000_Shared")) {
             dep.add("Luposdate3000_Shared")
         }
-        dependencyMap[k] = dep
         Files.walk(Paths.get(v.moduleFolder)).forEach { it ->
             val name = it.toString()
             val f = java.io.File(name)
