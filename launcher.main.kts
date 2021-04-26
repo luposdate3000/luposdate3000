@@ -251,13 +251,17 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         dep.remove("Luposdate3000_Shared_Inline")
         dep.remove(v.moduleName)
     }
+// add explicit dependencies
     for ((k, v) in modules) {
         val c = modules["Luposdate3000_Shared_Inline"]!!
         v.dependenciesCommon.addAll(c.dependenciesCommon)
         v.dependenciesJvm.addAll(c.dependenciesJvm)
+        v.dependenciesJvmRecoursive.addAll(c.dependenciesJvm)
+        v.dependenciesJvmRecoursive.addAll(c.dependenciesCommon)
         v.dependenciesJs.addAll(c.dependenciesJs)
         v.dependenciesNative.addAll(c.dependenciesNative)
     }
+// add kapt dependency
     for ((k, v) in modules) {
         if (v.codegenKAPT) {
             var depss = dependencyMap[k]
@@ -267,15 +271,8 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             }
             depss.add("Luposdate3000_Code_Generator_KAPT")
         }
-        if (v.codegenKSP) {
-            var depss = dependencyMap[k]
-            if (depss == null) {
-                depss = mutableSetOf<String>()
-                dependencyMap[k] = depss
-            }
-            depss.add("Luposdate3000_Code_Generator_KSP")
-        }
     }
+// add inferred direct module dependencies
     for ((k, v) in modules) {
         val depss = dependencyMap[k]
         if (depss != null) {
@@ -283,29 +280,58 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                 v.dependenciesCommon.add("luposdate3000:$w:0.0.1")
             }
         }
-        var flag = true
-        while (flag) {
-            flag = false
-            for ((k, v) in modules) {
-                val dep = dependencyMap[k]
-                if (dep != null) {
-                    val s = dep.size
-                    for (d in dep.toTypedArray()) {
-                        val deps = dependencyMap[d]
-                        if (deps != null) {
-                            dep.addAll(deps)
-                        }
+    }
+// add ksp dependency
+    for ((k, v) in modules) {
+        val depss = dependencyMap[k]
+        if (depss != null) {
+            if (v.codegenKSP) {
+                depss.add("Luposdate3000_Code_Generator_KSP")
+                v.dependenciesJvmRecoursive.add("luposdate3000:Luposdate3000_Code_Generator_KSP:0.0.1")
+            }
+        }
+    }
+// add recursive dependencies
+    println("starting recursion")
+    var flag = true
+    while (flag) {
+        flag = false
+        for ((k, v) in modules) {
+            val depss = dependencyMap[k]
+            if (k.toLowerCase() == "luposdate3000_launch_code_gen_example_ksp") {
+                println("loop for $k")
+            }
+            if (depss != null) {
+                for (dep in depss.toTypedArray()) {
+                    if (k.toLowerCase() == "luposdate3000_launch_code_gen_example_ksp") {
+                        println("scanning for $dep")
                     }
-                    if (s != dep.size) {
+                    val s = depss.size
+                    val deps = dependencyMap[dep]
+                    if (deps != null) {
+                        depss.addAll(deps)
+                    }
+                    if (s != depss.size) {
+                        if (k.toLowerCase() == "luposdate3000_launch_code_gen_example_ksp") {
+                            println("adding $deps to root")
+                        }
+                        for (w in deps!!) {
+                            v.dependenciesJvmRecoursive.add("luposdate3000:$w:0.0.1")
+                            v.dependenciesJs.add("luposdate3000:$w:0.0.1")
+                            v.dependenciesNative.add("luposdate3000:$w:0.0.1")
+                            if (k.toLowerCase() == "luposdate3000_launch_code_gen_example_ksp") {
+                                println("adding 'luposdate3000:$w:0.0.1' to dependenciesJvmRecoursive at 1")
+                            }
+                        }
+                        v.dependenciesJvmRecoursive.addAll(modules[dep]!!.dependenciesJvmRecoursive)
+                        v.dependenciesJs.addAll(modules[dep]!!.dependenciesJs)
+                        v.dependenciesNative.addAll(modules[dep]!!.dependenciesNative)
+                        if (k.toLowerCase() == "luposdate3000_launch_code_gen_example_ksp") {
+                            println("adding ${modules[dep]!!.dependenciesJvmRecoursive} to dependenciesJvmRecoursive at 2")
+                        }
                         flag = true
                     }
                 }
-            }
-        }
-        if (depss != null) {
-            for (w in depss) {
-                v.dependenciesJs.add("luposdate3000:$w:0.0.1")
-                v.dependenciesNative.add("luposdate3000:$w:0.0.1")
             }
         }
     }

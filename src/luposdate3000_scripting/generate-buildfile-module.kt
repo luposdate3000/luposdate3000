@@ -133,6 +133,7 @@ class CreateModuleArgs() {
     var args: MutableMap<String, String> = mutableMapOf()
     var dependenciesCommon: MutableSet<String> = mutableSetOf<String>()
     var dependenciesJvm: MutableSet<String> = mutableSetOf<String>()
+    var dependenciesJvmRecoursive: MutableSet<String> = mutableSetOf<String>()
     var dependenciesJs: MutableSet<String> = mutableSetOf<String>()
     var dependenciesNative: MutableSet<String> = mutableSetOf<String>()
 
@@ -148,6 +149,7 @@ class CreateModuleArgs() {
         var res = CreateModuleArgs()
         res.dependenciesCommon.addAll(dependenciesCommon)
         res.dependenciesJvm.addAll(dependenciesJvm)
+        res.dependenciesJvmRecoursive.addAll(dependenciesJvmRecoursive)
         res.dependenciesJs.addAll(dependenciesJs)
         res.dependenciesNative.addAll(dependenciesNative)
         res.compilerVersion = compilerVersion
@@ -610,15 +612,18 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("            dependencies {")
                     printDependencies(jvmDependencies, buildForIDE, appendix, out)
                     if (!buildLibrary && moduleArgs.codegenKSP) {
-                        out.println("dependencies {")
-                        if (buildForIDE) {
-                            out.println("    implementation(project(\":src:luposdate3000_code_generator_ksp\"))")
-                            out.println("    configurations[\"ksp\"].dependencies.add(project.dependencies.create(project(\":src:luposdate3000_code_generator_ksp\")))")
-                        } else {
-                            out.println("    implementation(\"luposdate3000:Luposdate3000_Code_Generator_KSP:0.0.1\")")
-                            out.println("    configurations[\"ksp\"].dependencies.add(project.dependencies.create(\"luposdate3000:Luposdate3000_Code_Generator_KSP:0.0.1\"))")
+                        printDependencies(moduleArgs.dependenciesJvmRecoursive, buildForIDE, appendix, out)
+                        for (dep in moduleArgs.dependenciesJvmRecoursive) {
+                            if (buildForIDE) {
+                                if (dep.startsWith("luposdate")) {
+                                    out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(project(\":src:${dep.replace("luposdate3000:", "").replace(":0.0.1", "")}\")))")
+                                } else {
+                                    out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(\"$dep\"))")
+                                }
+                            } else {
+                                out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(\"$dep\"))")
+                            }
                         }
-                        out.println("}")
                     }
                     out.println("            }")
                     out.println("        }")
