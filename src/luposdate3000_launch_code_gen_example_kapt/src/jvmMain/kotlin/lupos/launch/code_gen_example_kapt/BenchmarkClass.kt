@@ -1,4 +1,4 @@
-package examplePackage
+package lupos.launch.code_gen_example_kapt
 
 import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.CodeGenerationAnnotation

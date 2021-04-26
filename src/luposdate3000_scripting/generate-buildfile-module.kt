@@ -300,10 +300,14 @@ class CreateModuleArgs() {
 
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
     try {
+
         val replacementsDefault = mutableMapOf(
             " public " to " @lupos.ProguardKeepAnnotation public ",
-            "lupos.shared_inline" to "lupos.${moduleArgs.moduleName}",
         )
+        val renameSharedInline = !moduleArgs.codegenKSP && !moduleArgs.codegenKAPT
+        if (renameSharedInline) {
+            replacementsDefault["lupos.shared_inline"] = "lupos.${moduleArgs.moduleName}"
+        }
         val sharedInlineReferences = mutableSetOf<String>()
         if (moduleArgs.dryMode == DryMode.Enable || moduleArgs.ideaBuildfile == IntellijMode.Enable) {
             moduleArgs.dryMode = DryMode.Enable
@@ -357,7 +361,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
         println("generating buildfile for ${moduleArgs.moduleName}")
         if (!buildLibrary && moduleArgs.codegenKSP) {
-            if (moduleArgs.compilerVersion != "1.4.0" || copySelevtively == false) {
+            if (moduleArgs.compilerVersion != "1.4.0") {
                 return
             }
         }
@@ -760,25 +764,31 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         }
         val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
         val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
-        if (moduleArgs.releaseMode == ReleaseMode.Enable) {
-            typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.${moduleArgs.moduleName}.SanityCheckOff")
+        val packageToUseForConfig: String
+        if (renameSharedInline) {
+            packageToUseForConfig = "lupos.${moduleArgs.moduleName}"
         } else {
-            typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.${moduleArgs.moduleName}.SanityCheckOn")
+            packageToUseForConfig = "lupos.shared_inline"
+        }
+        if (moduleArgs.releaseMode == ReleaseMode.Enable) {
+            typeAliasAll["SanityCheck"] = Pair("SanityCheck", "$packageToUseForConfig.SanityCheckOff")
+        } else {
+            typeAliasAll["SanityCheck"] = Pair("SanityCheck", "$packageToUseForConfig.SanityCheckOn")
         }
         if (moduleArgs.suspendMode == SuspendMode.Enable) {
-            typeAliasAll["Parallel"] = Pair("Parallel", "lupos.${moduleArgs.moduleName}.ParallelCoroutine")
-            typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.${moduleArgs.moduleName}.ParallelCoroutineJob")
-            typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.${moduleArgs.moduleName}.ParallelCoroutineCondition")
-            typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.${moduleArgs.moduleName}.ParallelCoroutineQueue<T>")
-            typeAliasAll["MyLock"] = Pair("MyLock", "lupos.${moduleArgs.moduleName}.MyCoroutineLock")
-            typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.${moduleArgs.moduleName}.MyCoroutineReadWriteLock")
+            typeAliasAll["Parallel"] = Pair("Parallel", "$packageToUseForConfig.ParallelCoroutine")
+            typeAliasAll["ParallelJob"] = Pair("ParallelJob", "$packageToUseForConfig.ParallelCoroutineJob")
+            typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "$packageToUseForConfig.ParallelCoroutineCondition")
+            typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "$packageToUseForConfig.ParallelCoroutineQueue<T>")
+            typeAliasAll["MyLock"] = Pair("MyLock", "$packageToUseForConfig.MyCoroutineLock")
+            typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "$packageToUseForConfig.MyCoroutineReadWriteLock")
         } else {
-            typeAliasAll["Parallel"] = Pair("Parallel", "lupos.${moduleArgs.moduleName}.ParallelThread")
+            typeAliasAll["Parallel"] = Pair("Parallel", "$packageToUseForConfig.ParallelThread")
             typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.shared.ParallelThreadJob")
-            typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.${moduleArgs.moduleName}.ParallelThreadCondition")
-            typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.${moduleArgs.moduleName}.ParallelThreadQueue<T>")
+            typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "$packageToUseForConfig.ParallelThreadCondition")
+            typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "$packageToUseForConfig.ParallelThreadQueue<T>")
             typeAliasAll["MyLock"] = Pair("MyLock", "lupos.shared.MyThreadLock")
-            typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.${moduleArgs.moduleName}.MyThreadReadWriteLock")
+            typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "$packageToUseForConfig.MyThreadReadWriteLock")
         }
 // selectively copy classes which are inlined from the inline internal module ->
         val classNamesRegex = Regex("\\s*([a-zA-Z0-9_]*)")
@@ -920,23 +930,17 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         if (moduleArgs.ideaBuildfile == IntellijMode.Disable) {
             val configPath = "src.generated${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}shared"
             configFile = "${configPath}${pathSeparator}Config-${moduleArgs.moduleName}.kt"
-            if (moduleArgs.codegenKAPT || moduleArgs.codegenKSP) {
-                File("${configPath}${pathSeparator}SharedInlineHelper-${moduleArgs.moduleName}.kt").printWriter().use { out ->
-                    out.println("package lupos.shared_inline")
-                    for (s in sharedInlineReferences) {
-                        out.println("internal typealias $s = lupos.${moduleArgs.moduleName}.$s")
-                    }
-                }
-            }
         } else {
             var configPathBase = "src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleArgs.moduleFolder}${pathSeparator}src"
             var configPath = "${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}shared"
             File(configPath).mkdirs()
             configFile = "${configPath}${pathSeparator}Config-${moduleArgs.moduleName}.kt"
-            File("${configPath}${pathSeparator}SharedInlineHelper-${moduleArgs.moduleName}.kt").printWriter().use { out ->
-                out.println("package lupos.shared_inline")
-                for (s in sharedInlineReferences) {
-                    out.println("internal typealias $s = lupos.${moduleArgs.moduleName}.$s")
+            if (renameSharedInline) {
+                File("${configPath}${pathSeparator}SharedInlineHelper-${moduleArgs.moduleName}.kt").printWriter().use { out ->
+                    out.println("package lupos.shared_inline")
+                    for (s in sharedInlineReferences) {
+                        out.println("internal typealias $s = $packageToUseForConfig.$s")
+                    }
                 }
             }
         }

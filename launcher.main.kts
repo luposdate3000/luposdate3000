@@ -265,8 +265,15 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                 depss = mutableSetOf<String>()
                 dependencyMap[k] = depss
             }
-            val dep2 = dependencyMap["Luposdate3000_Code_Generator_KAPT"]!!
-            depss.addAll(dep2)
+            depss.add("Luposdate3000_Code_Generator_KAPT")
+        }
+        if (v.codegenKSP) {
+            var depss = dependencyMap[k]
+            if (depss == null) {
+                depss = mutableSetOf<String>()
+                dependencyMap[k] = depss
+            }
+            depss.add("Luposdate3000_Code_Generator_KSP")
         }
     }
     for ((k, v) in modules) {
