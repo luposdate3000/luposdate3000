@@ -16,6 +16,7 @@
  */
 package lupos
 
+import lupos.code_generator_shared.CodeGeneration
 import org.jetbrains.kotlin.ksp.processing.CodeGenerator
 import org.jetbrains.kotlin.ksp.processing.KSPLogger
 import org.jetbrains.kotlin.ksp.processing.Resolver
@@ -44,7 +45,6 @@ import org.jetbrains.kotlin.ksp.symbol.KSTypeReference
 import org.jetbrains.kotlin.ksp.symbol.KSValueArgument
 import java.io.File
 import java.io.OutputStream
-import java.io.PrintWriter
 
 @JvmField
 internal val mylogger = File("/tmp/code-gen-ksp.log").printWriter()
@@ -185,10 +185,8 @@ public class SampleProcessor : SymbolProcessor {
         myWalkKSDeclaration(indention, node)
         variableName = node.simpleName.asString()
         if (hasAnnotation) {
-            val out: OutputStream = codeGenerator.createNewFile(packageName, $ { className } ___ $variableName, "kt")
-            val folderName = "$kaptKotlinGeneratedDir/$packageName"
-            val fileName = "$folderName/${className}___$variableName.kt"
-            CodeGeneration.generateSourceCode(out, className, packageName, variableName, variableValue, folderName, fileName)
+            val out: OutputStream = codeGenerator.createNewFile(packageName, "${className}___$variableName", "kt")
+            CodeGeneration.generateSourceCode(out, className, packageName, variableName, variableValue)
             //          mylogger.println("found the annotation at $packageName $className $variableName $variableValue")
             out.close()
 // MyVerboseLogger.printAll("",node)

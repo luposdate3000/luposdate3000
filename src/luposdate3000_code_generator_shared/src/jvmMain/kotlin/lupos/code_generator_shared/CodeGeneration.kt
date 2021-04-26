@@ -53,6 +53,7 @@ import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.MyPrintWriter
 import lupos.triple_store_manager.POPTripleStoreIterator
 import java.io.OutputStream
+import java.io.PrintWriter
 import kotlin.jvm.JvmField
 
 private const val passThroughGenericImplementation = false
