@@ -38,7 +38,6 @@ import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
-import lupos.shared.MAX_TRIPLES_DURING_TEST
 import lupos.shared.MemoryTable
 import lupos.shared.NotImplementedException
 import lupos.shared.Partition

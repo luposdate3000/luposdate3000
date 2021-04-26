@@ -43,7 +43,6 @@ import lupos.shared.EModifyTypeExt
 import lupos.shared.EPartitionModeExt
 import lupos.shared.JenaBugException
 import lupos.shared.Luposdate3000Exception
-import lupos.shared.MAX_TRIPLES_DURING_TEST
 import lupos.shared.NotImplementedException
 import lupos.shared.OperatorGraphToLatex
 import lupos.shared.SanityCheck
