@@ -53,7 +53,6 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.INTERNAL_BUFFER_SIZE
 import lupos.shared.MyLock
 import lupos.shared.OperatorGraphToLatex
-import lupos.shared.QueryResultToStream
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException

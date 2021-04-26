@@ -17,7 +17,6 @@
 package lupos.buffer_manager
 
 import lupos.ProguardTestAnnotation
-import lupos.shared.BUFFER_MANAGER_USE_FREE_LIST
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared_inline.BufferManagerPage
@@ -86,10 +85,8 @@ public class BufferManager public constructor() {
         SanityCheck {
             SanityCheck.check({ pageid < counter }, { "$pageid < $counter" })
             SanityCheck.check({ pageid >= 0 }, { "$pageid >= 0" })
-            if (BUFFER_MANAGER_USE_FREE_LIST) {
-                for (i in 0 until freeListSize) {
-                    SanityCheck.check { freeList[i] != pageid }
-                }
+            for (i in 0 until freeListSize) {
+                SanityCheck.check { freeList[i] != pageid }
             }
         }
         SanityCheck.check { BufferManagerPage.getPageID(allPages[pageid]) == pageid }
@@ -100,7 +97,7 @@ public class BufferManager public constructor() {
     public /*suspend*/ fun allocPage(call_location: String): Int {
         var pageid: Int = 0
         lock.withWriteLock {
-            if (freeListSize > 0 && BUFFER_MANAGER_USE_FREE_LIST) {
+            if (freeListSize > 0) {
                 pageid = freeList[--freeListSize]
             } else {
                 if (counter == allPages.size) {
@@ -133,10 +130,8 @@ public class BufferManager public constructor() {
     public /*suspend*/ fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
         SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $call_location" }
         SanityCheck {
-            if (BUFFER_MANAGER_USE_FREE_LIST) {
-                for (i in 0 until freeListSize) {
-                    SanityCheck.check { freeList[i] != pageid }
-                }
+            for (i in 0 until freeListSize) {
+                SanityCheck.check { freeList[i] != pageid }
             }
         }
         SanityCheck.check({ allPagesRefcounters[pageid] == 1 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} == 1" })
@@ -146,14 +141,12 @@ public class BufferManager public constructor() {
         SanityCheck {
             allPages[pageid] = BufferManagerPage.create()
         }
-        if (BUFFER_MANAGER_USE_FREE_LIST) {
-            if (freeListSize == freeList.size) {
-                val tmp = IntArray(freeListSize * 2)
-                freeList.copyInto(tmp)
-                freeList = tmp
-            }
-            freeList[freeListSize++] = pageid
+        if (freeListSize == freeList.size) {
+            val tmp = IntArray(freeListSize * 2)
+            freeList.copyInto(tmp)
+            freeList = tmp
         }
+        freeList[freeListSize++] = pageid
     }
 
     @ProguardTestAnnotation

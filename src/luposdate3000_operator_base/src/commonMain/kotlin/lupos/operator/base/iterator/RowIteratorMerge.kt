@@ -16,7 +16,7 @@
  */
 package lupos.operator.base.iterator
 
-import lupos.shared.MERGE_SORT_MIN_ROWS
+import lupos.operator.base.MERGE_SORT_MIN_ROWS
 import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField

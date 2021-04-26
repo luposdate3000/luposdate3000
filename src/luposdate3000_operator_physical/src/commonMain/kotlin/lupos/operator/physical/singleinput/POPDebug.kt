@@ -16,12 +16,12 @@
  */
 package lupos.operator.physical.singleinput
 
+import lupos.operator.physical.ITERATOR_DEBUG_MODE
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.EPOPDebugModeExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
-import lupos.shared.ITERATOR_DEBUG_MODE
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.UnreachableException

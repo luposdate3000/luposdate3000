@@ -26,7 +26,6 @@ import lupos.operator.logical.noinput.LOPValues
 import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.logical.singleinput.LOPBind
 import lupos.shared.EPartitionModeExt
-import lupos.shared.REPLACE_STORE_WITH_VALUES
 import lupos.shared.SanityCheck
 import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
