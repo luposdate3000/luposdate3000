@@ -1,16 +1,15 @@
 package lupos.launch.code_gen_example_ksp
 
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.CodeGenerationAnnotation
+import lupos.shared.CodeGenerationAnnotationKSP
 import lupos.shared.DateHelperRelative
 import lupos.shared_inline.MyPrintWriter
 import kotlin.jvm.JvmField
 
-@OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 public class BenchmarkClass {
 
     @JvmField
-    @CodeGenerationAnnotation
+    @CodeGenerationAnnotationKSP("SELECT ?pages ?article ?title WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://purl.org/dc/elements/1.1/title> ?title}")
     public val exampleVar: String = "SELECT ?pages ?article ?title WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . ?article <http://purl.org/dc/elements/1.1/title> ?title}"
 //    public val exampleVar: String = "SELECT ?pages ?article (?pages > 100 as ?x) WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages}"
 //    public val exampleVar: String = "SELECT ?pages ?article WHERE {?article <http://swrc.ontoware.org/ontology#pages> ?pages . FILTER(?pages > 50)}"

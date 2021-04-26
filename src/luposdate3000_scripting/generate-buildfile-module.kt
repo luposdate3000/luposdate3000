@@ -300,10 +300,12 @@ class CreateModuleArgs() {
 
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
     try {
+        val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
 
-        val replacementsDefault = mutableMapOf(
-            " public " to " @lupos.ProguardKeepAnnotation public ",
-        )
+        val replacementsDefault = mutableMapOf<String, String>()
+        if (buildLibrary) {
+            replacementsDefault[" public "] = " @lupos.ProguardKeepAnnotation public "
+        }
         val renameSharedInline = !moduleArgs.codegenKSP && !moduleArgs.codegenKAPT
         if (renameSharedInline) {
             replacementsDefault["lupos.shared_inline"] = "lupos.${moduleArgs.moduleName}"
@@ -358,7 +360,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         if (!(enableJVM || enableJS || enableNative)) {
             return
         }
-        val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
         println("generating buildfile for ${moduleArgs.moduleName}")
         if (!buildLibrary && moduleArgs.codegenKSP) {
             if (moduleArgs.compilerVersion != "1.4.0") {

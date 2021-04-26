@@ -18,7 +18,7 @@ package lupos.code_generator_kapt
 
 import lupos.code_generator_shared.CodeGeneration
 import lupos.shared.CodeGenerationAnnotation
-import lupos.shared_inline.MyPrintWriter
+import java.io.File
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.RoundEnvironment
 import javax.annotation.processing.SupportedOptions
@@ -48,8 +48,10 @@ public class CodeGenerationGenerator : AbstractProcessor() {
                     // output->
                     val folderName = "$kaptKotlinGeneratedDir/$packageName"
                     val fileName = "$folderName/${className}___$variableName.kt"
-                    val buf = MyPrintWriter(true)
-                    CodeGeneration.generateSourceCode(className, packageName, variableName, variableValue, folderName, fileName)
+                    File(folderName).mkdirs()
+                    val out = File(fileName).openOutputStream()
+                    CodeGeneration.generateSourceCode(out, className, packageName, variableName, variableValue)
+                    out.close()
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }

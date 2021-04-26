@@ -6,7 +6,6 @@ import lupos.shared.DateHelperRelative
 import lupos.shared_inline.MyPrintWriter
 import kotlin.jvm.JvmField
 
-@OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 public class BenchmarkClass {
 
     @JvmField

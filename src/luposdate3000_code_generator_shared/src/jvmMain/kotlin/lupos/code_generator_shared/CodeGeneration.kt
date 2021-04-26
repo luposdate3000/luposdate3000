@@ -52,21 +52,19 @@ import lupos.shared.operator.IOPBase
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.MyPrintWriter
 import lupos.triple_store_manager.POPTripleStoreIterator
+import java.io.OutputStream
 import kotlin.jvm.JvmField
 
 private const val passThroughGenericImplementation = false
 
 public object CodeGeneration {
     public fun generateSourceCode(
+        out: OutputStream,
         className: String,
         packageName: String,
         variableName: String,
         variableValue: String,
-        folderName: String,
-        fileName: String
     ) {
-        println("$className $packageName $variableName $variableValue into $fileName")
-        java.io.File(folderName).mkdirs()
         // Root of the operatorgraph
         val preparedStatement = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(variableValue)
         // Buffer to store the separated operators
@@ -110,46 +108,46 @@ public object CodeGeneration {
         // Generate the operators from the operatorgraph so they are available independently in the generated file
         writeOperatorGraph(preparedStatement as OPBase, operatorsBuffer, imports, createdOperators, classContainers)
         // Print the generated source code
-        java.io.File(fileName).printWriter().use { outFile ->
-            outFile.println("package $packageName") // Package
-            outFile.println()
-            imports.forEach { outFile.println("import $it") } // Create all the imports
-            outFile.println()
-            // This is the function that can be called to retrieve the result
-            outFile.println("public fun $className.${variableName}_evaluate():IOPBase {")
-            // New empty query object
-            outFile.println("    val query = Query()")
-            // This will be used to get the TripleStoreIterator
-            outFile.println("    val graph = tripleStoreManager.getGraph(\"\")") //
-            // Writing the operators to the generated file
-            outFile.print(operatorsBuffer.toString())
-            // Evaluate the operatorgraph with the operators from the generated files and store it in buf
-            outFile.println("    return operator${preparedStatement.getUUID()}")
-            outFile.println("}")
-            outFile.println()
-            // This will print the generated operator classes
-            for (container in classContainers) {
-                outFile.print(container.header.toString())
-                outFile.print(container.iteratorHeader.toString())
-                for (s in container.iteratorClassVariables) {
-                    outFile.println("@JvmField internal $s")
-                }
-                outFile.print(container.iteratorNextHeader.toString())
-                for (s in container.iteratorNextVariables) {
-                    outFile.println(s)
-                }
-                outFile.print(container.iteratorNextBody.toString())
-                outFile.print(container.iteratorNextBodyResult.toString())
-                outFile.print(container.iteratorNextBodyEnd.toString())
-                outFile.print(container.iteratorNextFooter.toString())
-                outFile.print(container.iteratorBody.toString())
-                outFile.print(container.iteratorCloseHeader.toString())
-                outFile.print(container.iteratorCloseBody.toString())
-                outFile.print(container.iteratorCloseFooter.toString())
-                outFile.print(container.iteratorFooter.toString())
-                outFile.print(container.footer.toString())
+        val outFile = PrintWriter(out)
+        outFile.println("package $packageName") // Package
+        outFile.println()
+        imports.forEach { outFile.println("import $it") } // Create all the imports
+        outFile.println()
+        // This is the function that can be called to retrieve the result
+        outFile.println("public fun $className.${variableName}_evaluate():IOPBase {")
+        // New empty query object
+        outFile.println("    val query = Query()")
+        // This will be used to get the TripleStoreIterator
+        outFile.println("    val graph = tripleStoreManager.getGraph(\"\")") //
+        // Writing the operators to the generated file
+        outFile.print(operatorsBuffer.toString())
+        // Evaluate the operatorgraph with the operators from the generated files and store it in buf
+        outFile.println("    return operator${preparedStatement.getUUID()}")
+        outFile.println("}")
+        outFile.println()
+        // This will print the generated operator classes
+        for (container in classContainers) {
+            outFile.print(container.header.toString())
+            outFile.print(container.iteratorHeader.toString())
+            for (s in container.iteratorClassVariables) {
+                outFile.println("@JvmField internal $s")
             }
+            outFile.print(container.iteratorNextHeader.toString())
+            for (s in container.iteratorNextVariables) {
+                outFile.println(s)
+            }
+            outFile.print(container.iteratorNextBody.toString())
+            outFile.print(container.iteratorNextBodyResult.toString())
+            outFile.print(container.iteratorNextBodyEnd.toString())
+            outFile.print(container.iteratorNextFooter.toString())
+            outFile.print(container.iteratorBody.toString())
+            outFile.print(container.iteratorCloseHeader.toString())
+            outFile.print(container.iteratorCloseBody.toString())
+            outFile.print(container.iteratorCloseFooter.toString())
+            outFile.print(container.iteratorFooter.toString())
+            outFile.print(container.footer.toString())
         }
+        outFile.close()
     }
 }
 
