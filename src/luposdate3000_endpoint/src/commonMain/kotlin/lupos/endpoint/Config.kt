@@ -1,3 +1,3 @@
 package lupos.endpoint
 
-typealias QueryResultToStream = lupos.result_format.QueryResultToXMLStream
+internal typealias QueryResultToStream = lupos.result_format.QueryResultToXMLStream

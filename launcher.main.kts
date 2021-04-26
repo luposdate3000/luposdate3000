@@ -259,6 +259,17 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         v.dependenciesNative.addAll(c.dependenciesNative)
     }
     for ((k, v) in modules) {
+        if (v.codegenKAPT) {
+            var depss = dependencyMap[k]
+            if (depss == null) {
+                depss = mutableSetOf<String>()
+                dependencyMap[k] = depss
+            }
+            val dep2 = dependencyMap["Luposdate3000_Code_Generator_KAPT"]!!
+            depss.addAll(dep2)
+        }
+    }
+    for ((k, v) in modules) {
         val depss = dependencyMap[k]
         if (depss != null) {
             for (w in depss) {

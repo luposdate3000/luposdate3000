@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.code_generator_kapt
+package lupos.code_generator_shared
 
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.generated.AOPAddition
@@ -56,97 +56,99 @@ import kotlin.jvm.JvmField
 
 private const val passThroughGenericImplementation = false
 
-public fun generateSourceCode(
-    className: String,
-    packageName: String,
-    variableName: String,
-    variableValue: String,
-    folderName: String,
-    fileName: String
-) {
-    println("$className $packageName $variableName $variableValue into $fileName")
-    java.io.File(folderName).mkdirs()
-    // Root of the operatorgraph
-    val preparedStatement = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(variableValue)
-    // Buffer to store the separated operators
-    val operatorsBuffer = MyPrintWriter(true)
-    // Imports that will be used in the generated file
-    val imports = mutableSetOf<String>(
-        "lupos.operator.base.Query",
-        "lupos.shared.IQuery",
-        "lupos.endpoint.LuposdateEndpoint",
-        "com.ionspin.kotlin.bignum.integer.BigInteger",
-        "com.ionspin.kotlin.bignum.decimal.BigDecimal",
-        "lupos.shared.compareTo",
-        "lupos.shared.plus",
-        "lupos.shared.minus",
-        "lupos.shared.times",
-        "lupos.shared.div",
-        "lupos.shared.operator.IOPBase",
-        "lupos.operator.physical.POPBase",
-        "lupos.shared.EOperatorIDExt",
-        "lupos.shared.ESortPriorityExt",
-        "kotlin.jvm.JvmField",
-        "lupos.shared.SanityCheck",
-        "lupos.shared.SanityCheck",
-        "lupos.shared.XMLElement",
-        "lupos.shared.Partition",
-        "lupos.shared.operator.iterator.ColumnIterator",
-        "lupos.shared.operator.iterator.IteratorBundle",
-        "lupos.shared.operator.iterator.ColumnIteratorQueue",
-        "lupos.operator.arithmetik.generated.AOPAnd",
-        "lupos.shared.ValueIri",
-        "lupos" + ".shared_inline.MyPrintWriter",
-        "lupos" + ".shared_inline.ColumnIteratorQueueExt",
-        "lupos" + ".shared_inline.DictionaryHelper",
-        "lupos.shared.dictionary.DictionaryExt",
-        "lupos.shared.ByteArrayWrapper"
-    )
-    // This list will contain all the written operators
-    val createdOperators = mutableListOf<Long>()
-    // The containers to store the generated operator classes
-    val classContainers = mutableListOf<ClazzContainer>()
-    // Generate the operators from the operatorgraph so they are available independently in the generated file
-    writeOperatorGraph(preparedStatement as OPBase, operatorsBuffer, imports, createdOperators, classContainers)
-    // Print the generated source code
-    java.io.File(fileName).printWriter().use { outFile ->
-        outFile.println("package $packageName") // Package
-        outFile.println()
-        imports.forEach { outFile.println("import $it") } // Create all the imports
-        outFile.println()
-        // This is the function that can be called to retrieve the result
-        outFile.println("public fun $className.${variableName}_evaluate():IOPBase {")
-        // New empty query object
-        outFile.println("    val query = Query()")
-        // This will be used to get the TripleStoreIterator
-        outFile.println("    val graph = tripleStoreManager.getGraph(\"\")") //
-        // Writing the operators to the generated file
-        outFile.print(operatorsBuffer.toString())
-        // Evaluate the operatorgraph with the operators from the generated files and store it in buf
-        outFile.println("    return operator${preparedStatement.getUUID()}")
-        outFile.println("}")
-        outFile.println()
-        // This will print the generated operator classes
-        for (container in classContainers) {
-            outFile.print(container.header.toString())
-            outFile.print(container.iteratorHeader.toString())
-            for (s in container.iteratorClassVariables) {
-                outFile.println("@JvmField internal $s")
+public object CodeGeneration {
+    public fun generateSourceCode(
+        className: String,
+        packageName: String,
+        variableName: String,
+        variableValue: String,
+        folderName: String,
+        fileName: String
+    ) {
+        println("$className $packageName $variableName $variableValue into $fileName")
+        java.io.File(folderName).mkdirs()
+        // Root of the operatorgraph
+        val preparedStatement = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(variableValue)
+        // Buffer to store the separated operators
+        val operatorsBuffer = MyPrintWriter(true)
+        // Imports that will be used in the generated file
+        val imports = mutableSetOf<String>(
+            "lupos.operator.base.Query",
+            "lupos.shared.IQuery",
+            "lupos.endpoint.LuposdateEndpoint",
+            "com.ionspin.kotlin.bignum.integer.BigInteger",
+            "com.ionspin.kotlin.bignum.decimal.BigDecimal",
+            "lupos.shared.compareTo",
+            "lupos.shared.plus",
+            "lupos.shared.minus",
+            "lupos.shared.times",
+            "lupos.shared.div",
+            "lupos.shared.operator.IOPBase",
+            "lupos.operator.physical.POPBase",
+            "lupos.shared.EOperatorIDExt",
+            "lupos.shared.ESortPriorityExt",
+            "kotlin.jvm.JvmField",
+            "lupos.shared.SanityCheck",
+            "lupos.shared.SanityCheck",
+            "lupos.shared.XMLElement",
+            "lupos.shared.Partition",
+            "lupos.shared.operator.iterator.ColumnIterator",
+            "lupos.shared.operator.iterator.IteratorBundle",
+            "lupos.shared.operator.iterator.ColumnIteratorQueue",
+            "lupos.operator.arithmetik.generated.AOPAnd",
+            "lupos.shared.ValueIri",
+            "lupos" + ".shared_inline.MyPrintWriter",
+            "lupos" + ".shared_inline.ColumnIteratorQueueExt",
+            "lupos" + ".shared_inline.DictionaryHelper",
+            "lupos.shared.dictionary.DictionaryExt",
+            "lupos.shared.ByteArrayWrapper"
+        )
+        // This list will contain all the written operators
+        val createdOperators = mutableListOf<Long>()
+        // The containers to store the generated operator classes
+        val classContainers = mutableListOf<ClazzContainer>()
+        // Generate the operators from the operatorgraph so they are available independently in the generated file
+        writeOperatorGraph(preparedStatement as OPBase, operatorsBuffer, imports, createdOperators, classContainers)
+        // Print the generated source code
+        java.io.File(fileName).printWriter().use { outFile ->
+            outFile.println("package $packageName") // Package
+            outFile.println()
+            imports.forEach { outFile.println("import $it") } // Create all the imports
+            outFile.println()
+            // This is the function that can be called to retrieve the result
+            outFile.println("public fun $className.${variableName}_evaluate():IOPBase {")
+            // New empty query object
+            outFile.println("    val query = Query()")
+            // This will be used to get the TripleStoreIterator
+            outFile.println("    val graph = tripleStoreManager.getGraph(\"\")") //
+            // Writing the operators to the generated file
+            outFile.print(operatorsBuffer.toString())
+            // Evaluate the operatorgraph with the operators from the generated files and store it in buf
+            outFile.println("    return operator${preparedStatement.getUUID()}")
+            outFile.println("}")
+            outFile.println()
+            // This will print the generated operator classes
+            for (container in classContainers) {
+                outFile.print(container.header.toString())
+                outFile.print(container.iteratorHeader.toString())
+                for (s in container.iteratorClassVariables) {
+                    outFile.println("@JvmField internal $s")
+                }
+                outFile.print(container.iteratorNextHeader.toString())
+                for (s in container.iteratorNextVariables) {
+                    outFile.println(s)
+                }
+                outFile.print(container.iteratorNextBody.toString())
+                outFile.print(container.iteratorNextBodyResult.toString())
+                outFile.print(container.iteratorNextBodyEnd.toString())
+                outFile.print(container.iteratorNextFooter.toString())
+                outFile.print(container.iteratorBody.toString())
+                outFile.print(container.iteratorCloseHeader.toString())
+                outFile.print(container.iteratorCloseBody.toString())
+                outFile.print(container.iteratorCloseFooter.toString())
+                outFile.print(container.iteratorFooter.toString())
+                outFile.print(container.footer.toString())
             }
-            outFile.print(container.iteratorNextHeader.toString())
-            for (s in container.iteratorNextVariables) {
-                outFile.println(s)
-            }
-            outFile.print(container.iteratorNextBody.toString())
-            outFile.print(container.iteratorNextBodyResult.toString())
-            outFile.print(container.iteratorNextBodyEnd.toString())
-            outFile.print(container.iteratorNextFooter.toString())
-            outFile.print(container.iteratorBody.toString())
-            outFile.print(container.iteratorCloseHeader.toString())
-            outFile.print(container.iteratorCloseBody.toString())
-            outFile.print(container.iteratorCloseFooter.toString())
-            outFile.print(container.iteratorFooter.toString())
-            outFile.print(container.footer.toString())
         }
     }
 }

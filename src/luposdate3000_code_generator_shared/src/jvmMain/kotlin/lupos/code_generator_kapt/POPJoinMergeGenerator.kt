@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.code_generator_kapt
+package lupos.code_generator_shared
 
 import lupos.operator.base.OPBase
 import lupos.shared.IMyOutputStream
