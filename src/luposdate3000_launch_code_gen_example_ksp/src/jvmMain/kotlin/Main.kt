@@ -14,6 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos
+import lupos.launch.code_gen_example_ksp.mainFunc
 
-public annotation class MyAnnotation(val g: String)
+public fun main(args: Array<String>) {
+    var flag = false
+    mainFunc()
+}
