@@ -619,7 +619,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                         for (dep in moduleArgs.dependenciesJvmRecoursive) {
                             if (buildForIDE) {
                                 if (dep.startsWith("luposdate")) {
-                                    out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(project(\":src:${dep.replace("luposdate3000:", "").replace(":0.0.1", "")}\")))")
+                                    out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(project(\":src:${dep.toLowerCase().replace("luposdate3000:", "").replace(":0.0.1", "")}\")))")
                                 } else {
                                     out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(\"$dep\"))")
                                 }

@@ -812,11 +812,22 @@ fun onSetupIntellijIdea() {
         outBuildGradle.println("    project(\":src\")")
         outBuildGradle.println("}")
     }
-    File("settings.gradle").printWriter().use { outSettingsGradle ->
+    File("settings.gradle.kts").printWriter().use { outSettingsGradle ->
         File("src${Platform.getPathSeparator()}build.gradle.kts").printWriter().use { outBuildGradle ->
             outSettingsGradle.println("pluginManagement {")
+            outSettingsGradle.println("    resolutionStrategy {")
+            outSettingsGradle.println("        eachPlugin {")
+            outSettingsGradle.println("            when (requested.id.id) {")
+            outSettingsGradle.println("                \"kotlin-ksp\",")
+            outSettingsGradle.println("                \"org.jetbrains.kotlin.kotlin-ksp\",")
+            outSettingsGradle.println("                \"org.jetbrains.kotlin.ksp\" -> useModule(\"org.jetbrains.kotlin:kotlin-ksp:\${requested.version}\")")
+            outSettingsGradle.println("            }")
+            outSettingsGradle.println("        }")
+            outSettingsGradle.println("    }")
             outSettingsGradle.println("    repositories {")
             outSettingsGradle.println("        mavenLocal()")
+            outSettingsGradle.println("        maven(\"https://dl.bintray.com/kotlin/kotlin-eap\")")
+            outSettingsGradle.println("        google()")
             outSettingsGradle.println("        gradlePluginPortal()")
             outSettingsGradle.println("    }")
             outSettingsGradle.println("}")
