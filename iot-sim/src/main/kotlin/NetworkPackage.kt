@@ -6,5 +6,5 @@ class NetworkPackage(
     class ParkingObservation(val isOccupied: Boolean)
     class ObservationEnd
     class DIO(val rank: Int)
-    class DAO(val isPath: Boolean, val destinations: Set<Int>)
+    class DAO(val isPath: Boolean, val destinations: IntArray)
 }

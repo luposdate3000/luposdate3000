@@ -66,7 +66,7 @@ class Device(
     }
 
     private fun sendDAO(destinationAddress: Int, isPath: Boolean) {
-        val destinations = if(isPath) routingTable.getDestinations() else emptySet()
+        val destinations = if(isPath) routingTable.getDestinations() else IntArray(0)
         val dao = NetworkPackage.DAO(isPath, destinations)
         sendDODAGBuildingPackage(destinationAddress, dao)
     }
