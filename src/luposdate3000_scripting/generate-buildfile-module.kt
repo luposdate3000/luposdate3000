@@ -611,6 +611,9 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("        val jvmMain by getting {")
                     out.println("            dependencies {")
                     printDependencies(jvmDependencies, buildForIDE, appendix, out)
+                    if (!buildLibrary && moduleArgs.codegenKAPT) {
+                        printDependencies(moduleArgs.dependenciesJvmRecoursive, buildForIDE, appendix, out)
+                    }
                     if (!buildLibrary && moduleArgs.codegenKSP) {
                         printDependencies(moduleArgs.dependenciesJvmRecoursive, buildForIDE, appendix, out)
                         for (dep in moduleArgs.dependenciesJvmRecoursive) {
