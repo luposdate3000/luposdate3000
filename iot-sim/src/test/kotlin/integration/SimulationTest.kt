@@ -146,5 +146,54 @@ class SimulationTest {
         Assertions.assertEquals(Configuration.devices.size - 1, rootRouter.routingTable.entryCounter)
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = ["sim/upwardRouteForwarding.json"])
+    fun upwardRouteForwarding(fileName: String) {
+        //Send data from the leaf F to the root A
+        Configuration.parse(fileName)
+        val a = Configuration.getNamedDevice("A")
+        val aRouter = a.router as RPLRouter
+        val f = Configuration.getNamedDevice("F")
+
+        aRouter.root = true
+        f.sensor!!.dataSinkAddress = a.address
+
+        Simulation.initialize(Configuration.devices, 100)
+        Simulation.runSimulation()
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["sim/downwardRouteForwarding.json"])
+    fun downwardRouteForwarding(fileName: String) {
+        //Send data from the root A to the leaf F
+        Configuration.parse(fileName)
+        val a = Configuration.getNamedDevice("A")
+        val f = Configuration.getNamedDevice("F")
+        val aRouter = a.router as RPLRouter
+
+        aRouter.root = true
+        a.sensor!!.dataSinkAddress = f.address
+
+        Simulation.initialize(Configuration.devices, 100)
+        Simulation.runSimulation()
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["sim/upAndDownwardRouteForwarding.json"])
+    fun upAndDownwardRouteForwarding(fileName: String) {
+        //Send data from the leaf F to the leaf D
+        Configuration.parse(fileName)
+        val a = Configuration.getNamedDevice("A")
+        val d = Configuration.getNamedDevice("D")
+        val f = Configuration.getNamedDevice("F")
+        val aRouter = a.router as RPLRouter
+
+        aRouter.root = true
+        f.sensor!!.dataSinkAddress = d.address
+
+        Simulation.initialize(Configuration.devices, 100)
+        Simulation.runSimulation()
+    }
+
 
 }
