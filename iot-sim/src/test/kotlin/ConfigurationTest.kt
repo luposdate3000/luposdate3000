@@ -79,8 +79,8 @@ class ConfigurationTest {
         val deviceA = Configuration.getNamedDevice(deviceAName)
         val deviceB = Configuration.getNamedDevice(deviceBName)
 
-        Assertions.assertNotNull(deviceA.getAvailableLink(deviceB))
-        Assertions.assertNotNull(deviceB.getAvailableLink(deviceA))
+        Assertions.assertNotNull(deviceA.linkManager.getLink(deviceB))
+        Assertions.assertNotNull(deviceB.linkManager.getLink(deviceA))
     }
 
     @ParameterizedTest
@@ -91,8 +91,8 @@ class ConfigurationTest {
         val deviceBName = Configuration.jsonObjects.fixedLink[0].fixedDeviceB
         val deviceA = Configuration.getNamedDevice(deviceAName)
         val deviceB = Configuration.getNamedDevice(deviceBName)
-        val linkA = deviceA.getAvailableLink(deviceB)
-        val linkB = deviceB.getAvailableLink(deviceA)
+        val linkA = deviceA.linkManager.getLink(deviceB)
+        val linkB = deviceB.linkManager.getLink(deviceA)
 
         Assertions.assertTrue(linkA === linkB)
         linkA!!.distanceInMeters = -1
@@ -117,8 +117,8 @@ class ConfigurationTest {
         val networkPrefix = Configuration.jsonObjects.randomStarNetwork[0].networkPrefix
         val starNet = Configuration.randStarNetworks[networkPrefix]!!
         for(child in starNet.childs) {
-            Assertions.assertTrue(child.hasAvailAbleLink(starNet.parent))
-            Assertions.assertTrue(starNet.parent.hasAvailAbleLink(child))
+            Assertions.assertTrue(child.linkManager.hasLink(starNet.parent))
+            Assertions.assertTrue(starNet.parent.linkManager.hasLink(child))
         }
     }
 
@@ -131,13 +131,13 @@ class ConfigurationTest {
         val device2Address = Configuration.jsonObjects.fixedDevice[1].name
         val device1 = Configuration.getNamedDevice(device1Address)
         val device2 = Configuration.getNamedDevice(device2Address)
-        val link1 = device1.getAvailableLink(device2)
-        val link2 = device2.getAvailableLink(device1)
+        val link1 = device1.linkManager.getLink(device2)
+        val link2 = device2.linkManager.getLink(device1)
 
-        Assertions.assertTrue(device1.hasAvailAbleLink(device2))
-        Assertions.assertTrue(device2.hasAvailAbleLink(device1))
-        Assertions.assertEquals(1, device1.numOfAvailAbleLinks())
-        Assertions.assertEquals(1, device2.numOfAvailAbleLinks())
+        Assertions.assertTrue(device1.linkManager.hasLink(device2))
+        Assertions.assertTrue(device2.linkManager.hasLink(device1))
+        Assertions.assertEquals(1, device1.linkManager.getNumberOfLinks())
+        Assertions.assertEquals(1, device2.linkManager.getNumberOfLinks())
         Assertions.assertEquals(link1!!.distanceInMeters, link2!!.distanceInMeters)
     }
 
@@ -203,12 +203,12 @@ class ConfigurationTest {
         val northEast = mesh[mesh.size-1][0]
         val southEast = mesh[mesh.size-1][mesh[mesh.size-1].size-1]
 
-        Assertions.assertFalse(northWest.hasAvailAbleLink(northEast))
-        Assertions.assertFalse(northWest.hasAvailAbleLink(southEast))
-        Assertions.assertFalse(northWest.hasAvailAbleLink(southWest))
-        Assertions.assertFalse(northEast.hasAvailAbleLink(southWest))
-        Assertions.assertFalse(northEast.hasAvailAbleLink(southEast))
-        Assertions.assertFalse(southEast.hasAvailAbleLink(southWest))
+        Assertions.assertFalse(northWest.linkManager.hasLink(northEast))
+        Assertions.assertFalse(northWest.linkManager.hasLink(southEast))
+        Assertions.assertFalse(northWest.linkManager.hasLink(southWest))
+        Assertions.assertFalse(northEast.linkManager.hasLink(southWest))
+        Assertions.assertFalse(northEast.linkManager.hasLink(southEast))
+        Assertions.assertFalse(southEast.linkManager.hasLink(southWest))
     }
 
     @ParameterizedTest
@@ -222,8 +222,8 @@ class ConfigurationTest {
         val neighbour = mesh[1][0]
         val neighbourNeighbour = mesh[2][0]
 
-        val distanceToNeighbour = device.getDistanceInMeters(neighbour)
-        val distanceToNeighbourNeighbour = device.getDistanceInMeters(neighbourNeighbour)
+        val distanceToNeighbour = device.linkManager.getDistanceInMeters(neighbour)
+        val distanceToNeighbourNeighbour = device.linkManager.getDistanceInMeters(neighbourNeighbour)
 
         Assertions.assertTrue(distanceToNeighbour <= maxLinkRange)
         Assertions.assertTrue(distanceToNeighbour < distanceToNeighbourNeighbour)
@@ -240,8 +240,8 @@ class ConfigurationTest {
         val mesh = Configuration.randMeshNetworks[networkPrefix]!!.mesh
         val meshOrigin = mesh[0][0]
 
-        Assertions.assertTrue(fixedDevice.hasAvailAbleLink(meshOrigin))
-        Assertions.assertEquals(meshOrigin.numOfAvailAbleLinks() ,fixedDevice.numOfAvailAbleLinks())
+        Assertions.assertTrue(fixedDevice.linkManager.hasLink(meshOrigin))
+        Assertions.assertEquals(meshOrigin.linkManager.getNumberOfLinks() ,fixedDevice.linkManager.getNumberOfLinks())
     }
 
 
@@ -256,8 +256,8 @@ class ConfigurationTest {
         val mesh = Configuration.randMeshNetworks[networkPrefix]!!.mesh
         val meshOrigin = mesh[0][0]
 
-        Assertions.assertFalse(fixedDevice.hasAvailAbleLink(meshOrigin))
-        Assertions.assertNotEquals(meshOrigin.numOfAvailAbleLinks() ,fixedDevice.numOfAvailAbleLinks())
+        Assertions.assertFalse(fixedDevice.linkManager.hasLink(meshOrigin))
+        Assertions.assertNotEquals(meshOrigin.linkManager.getNumberOfLinks() ,fixedDevice.linkManager.getNumberOfLinks())
     }
 
 

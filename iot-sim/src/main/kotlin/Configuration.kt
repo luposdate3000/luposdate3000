@@ -51,7 +51,7 @@ object Configuration {
 
 
     private fun createSortedLinkTypes() {
-        Device.sortedLinkTypes = jsonObjects.linkType as MutableList<LinkType>
+        LinkTypes.sortedLinkTypes = jsonObjects.linkType.toTypedArray()
     }
 
     private fun createRandomMeshNetworks() {
@@ -137,7 +137,7 @@ object Configuration {
             val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters)
             val createdDevice = createDevice(deviceType, location)
             createdDevice.sensor?.dataSinkAddress = root.address
-            root.addLinkIfPossible(createdDevice)
+            //root.addLinkIfPossible(createdDevice)
             starNetwork.childs.add(createdDevice)
         }
         randStarNetworks[network.networkPrefix] = starNetwork
@@ -156,7 +156,7 @@ object Configuration {
         for (fixedLink in jsonObjects.fixedLink) {
             val a = getNamedDevice(fixedLink.fixedDeviceA)
             val b = getNamedDevice(fixedLink.fixedDeviceB)
-            a.addLink(b, fixedLink.dataRateInKbps)
+            a.linkManager.setLink(b, fixedLink.dataRateInKbps)
         }
     }
 
@@ -184,7 +184,7 @@ object Configuration {
         for(name in deviceType.supportedLinkTypes) {
             list.add(getLinkTypeByName(name))
         }
-        return Device.getSortedLinkTypeIndices(list)
+        return LinkTypes.getSortedLinkTypeIndices(list)
     }
 
 
@@ -220,7 +220,7 @@ object Configuration {
     private fun createAvailableLinks() {
         for (one in devices)
             for(two in devices)
-                one.addLinkIfPossible(two)
+                one.linkManager.setLinkIfPossible(two)
 
     }
 }

@@ -6,12 +6,19 @@ class RoutingTable(var defaultAddress: Int) {
         private set
 
 
-    private fun update(destinationAddress: Int, nextHopAddress: Int) {
+    private fun update(destinationAddress: Int, nextHopAddress: Int) : Boolean {
+        var updated = false
         if(entries.isEmpty())
             entries = IntArray(Configuration.devices.size) { notInitialized }
+
         if(entries[destinationAddress] == notInitialized)
             entryCounter++
+
+        if(entries[destinationAddress] != nextHopAddress)
+            updated = true
+
         entries[destinationAddress] = nextHopAddress
+        return updated
     }
 
     fun getNextHop(destinationAddress: Int)
@@ -23,18 +30,26 @@ class RoutingTable(var defaultAddress: Int) {
     private fun hasDestination(destinationAddress: Int)
         = destinationAddress <= entries.size-1 && entries[destinationAddress] != notInitialized
 
-    fun removeDestinationsByHop(hop: Int) {
+    fun removeDestinationsByHop(hop: Int): Boolean {
+        var updated = false
         for ((index, value) in entries.withIndex())
             if(value == hop) {
                 entries[index] = notInitialized
                 entryCounter--
+                updated = true
             }
+        return updated
     }
 
-    fun setDestinationsByHop(hop: Int, destinations: IntArray) {
-        update(hop, hop)
-        for (dest in destinations)
-            update(dest, hop)
+    fun setDestinationsByHop(hop: Int, destinations: IntArray) : Boolean {
+        var updated: Boolean
+        updated = update(hop, hop)
+        for (dest in destinations) {
+            val tmp = update(dest, hop)
+            if (!updated)
+                updated = tmp
+        }
+        return updated
     }
 
     fun getDestinations(): IntArray {

@@ -20,8 +20,7 @@ class Device(
     var preferredParent = Parent()
         private set
 
-    private var availableLinks: MutableMap<Int, Link> = HashMap()
-
+    val linkManager = LinkManager(this)
 
     inner class Parent(var address: Int = notInitialized, var rank: Int = notInitialized)
 
@@ -56,8 +55,9 @@ class Device(
     }
 
     private fun broadcastDIO() {
-        for (potentialChild in availableLinks.keys)
-            sendDIO(potentialChild)
+        for (potentialChild in linkManager.getNeighbours())
+            if(potentialChild != preferredParent.address)
+                sendDIO(potentialChild)
     }
 
     private fun sendDIO(destinationAddress: Int) {
@@ -101,17 +101,13 @@ class Device(
 
     private fun processDIO(pck: NetworkPackage) {
         val dio = pck.data as NetworkPackage.DIO
-        if (dio.rank >= rank)
+        if (objectiveFunction(dio) >= rank)
             return
 
-        if(isBetterParent(dio.rank))
-            updateParent(Parent(pck.sourceAddress, dio.rank))
-
-        objectiveFunction(dio)
+        rank = objectiveFunction(dio)
+        updateParent(Parent(pck.sourceAddress, dio.rank))
         broadcastDIO()
     }
-
-    private fun isBetterParent(rank: Int) = !hasParent() || rank < preferredParent.rank
 
     private fun updateParent(newParent: Parent) {
 
@@ -126,109 +122,25 @@ class Device(
 
     private fun processDAO(pck: NetworkPackage) {
         val dao = pck.data as NetworkPackage.DAO
-        if (dao.isPath)
+        val hasRoutingTableChanged: Boolean = if (dao.isPath)
             routingTable.setDestinationsByHop(pck.sourceAddress, dao.destinations)
         else
             routingTable.removeDestinationsByHop(pck.sourceAddress)
 
-        if(hasParent())
+        if(hasParent() && hasRoutingTableChanged)
             sendDAO(preferredParent.address, dao.isPath)
     }
 
-    private fun objectiveFunction(dio: NetworkPackage.DIO) {
-        rank = dio.rank + 1
-    }
+    private fun objectiveFunction(dio: NetworkPackage.DIO)
+        = dio.rank + 1
+
 
 
     fun hasParent()
         = preferredParent.address != notInitialized
 
 
-    fun getDistanceInMeters(otherDevice: Device)
-        = location.getDistanceInMeters(otherDevice.location)
 
-
-    private fun getBestLinkTypeIndex(otherDevice: Device) : Int {
-        val size = supportedLinkTypes.size.coerceAtMost(otherDevice.supportedLinkTypes.size)
-        for (i in 0 until size) {
-            if(supportedLinkTypes[i] == otherDevice.supportedLinkTypes[i]) {
-                if(isReachableByLinkType(supportedLinkTypes[i], otherDevice)) {
-                    return supportedLinkTypes[i]
-                }
-            }
-        }
-        return -1
-    }
-
-
-    private fun isReachableByLinkType(index: Int, otherDevice: Device): Boolean {
-        val distance = getDistanceInMeters(otherDevice)
-        val linkType = getLinkTypeByIndex(index)
-        return distance <= linkType.rangeInMeters
-    }
-
-    fun getBestLink(otherDevice: Device): Link? {
-        val linkIndex = getBestLinkTypeIndex(otherDevice)
-        if(linkIndex == -1)
-            return null
-
-        val distance = getDistanceInMeters(otherDevice)
-        val dataRate = getLinkTypeByIndex(linkIndex).dataRateInKbps
-        return Link( distance, linkIndex, dataRate)
-    }
-
-    fun addLink(otherDevice: Device, dataRate: Int) {
-        val distance = getDistanceInMeters(otherDevice)
-        val link = Link(distance, -1, dataRate)
-        addLink(otherDevice, link)
-    }
-
-    private fun addLink(otherDevice: Device, link: Link) {
-        availableLinks[otherDevice.address] = link
-        otherDevice.availableLinks[address] = link
-    }
-
-    fun addLinkIfPossible(otherDevice: Device) {
-        if (otherDevice == this)
-            return
-
-        if(hasAvailAbleLink(otherDevice))
-            return
-
-        val link = getBestLink(otherDevice) ?: return
-        addLink(otherDevice, link)
-    }
-
-    fun getAvailableLink(otherDevice: Device): Link?
-        = availableLinks[otherDevice.address]
-
-    fun hasAvailAbleLink(otherDevice: Device)
-        = null != getAvailableLink(otherDevice)
-
-    fun numOfAvailAbleLinks()
-        = availableLinks.size
-
-    companion object {
-        var sortedLinkTypes: MutableList<LinkType> = ArrayList()
-            set(value) {
-                field = value
-                field.sortByDescending { it.dataRateInKbps }
-            }
-
-        fun getLinkTypeByIndex(index: Int)
-                = sortedLinkTypes[index]
-
-        private fun getIndexByLinkType(linkType: LinkType)
-                = sortedLinkTypes.indexOfFirst { linkType.name == it.name}
-
-        fun getSortedLinkTypeIndices(list: List<LinkType>): IntArray {
-            val result = IntArray(list.size)
-            for((index, linkType) in list.withIndex()) {
-                result[index] = getIndexByLinkType(linkType)
-            }
-            return result.sortedArray()
-        }
-    }
 
     interface Sensor {
         var dataSinkAddress: Int
