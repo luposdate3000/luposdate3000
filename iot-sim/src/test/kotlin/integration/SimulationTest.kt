@@ -1,6 +1,7 @@
 package integration
 
 import Configuration
+import RPLRouter
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
@@ -34,23 +35,27 @@ class SimulationTest {
         Configuration.parse(fileName)
         val starNet = Configuration.randStarNetworks["garageA"]!!
         val parent = starNet.parent
+        val parentRouter = parent.router as RPLRouter
+        parentRouter.root = true
         val child1 = starNet.childs[0]
+        val child1Router = child1.router as RPLRouter
         val child2 = starNet.childs[1]
-        Assertions.assertFalse(child1.hasParent())
-        Assertions.assertFalse(child2.hasParent())
+        val child2Router = child2.router as RPLRouter
+        Assertions.assertFalse(child1Router.hasParent())
+        Assertions.assertFalse(child2Router.hasParent())
         Simulation.initialize(Configuration.devices)
         Simulation.runSimulation()
 
-        Assertions.assertTrue(child1.hasParent())
-        Assertions.assertTrue(child2.hasParent())
-        Assertions.assertFalse(parent.hasParent())
-        Assertions.assertEquals(0, parent.rank)
-        Assertions.assertEquals(1, child1.rank)
-        Assertions.assertEquals(1, child2.rank)
-        Assertions.assertEquals(parent.address, child1.preferredParent.address)
-        Assertions.assertEquals(parent.address, child2.preferredParent.address)
-        Assertions.assertEquals(parent.rank, child1.preferredParent.rank)
-        Assertions.assertEquals(parent.rank, child2.preferredParent.rank)
+        Assertions.assertTrue(child1Router.hasParent())
+        Assertions.assertTrue(child2Router.hasParent())
+        Assertions.assertFalse(parentRouter.hasParent())
+        Assertions.assertEquals(0, parentRouter.rank)
+        Assertions.assertEquals(1, child1Router.rank)
+        Assertions.assertEquals(1, child2Router.rank)
+        Assertions.assertEquals(parent.address, child1Router.preferredParent.address)
+        Assertions.assertEquals(parent.address, child2Router.preferredParent.address)
+        Assertions.assertEquals(parentRouter.rank, child1Router.preferredParent.rank)
+        Assertions.assertEquals(parentRouter.rank, child2Router.preferredParent.rank)
     }
 
 
@@ -60,21 +65,24 @@ class SimulationTest {
         Configuration.parse(fileName)
         val starNet = Configuration.randStarNetworks["garageA"]!!
         val root = starNet.parent
+        val rootRouter = root.router as RPLRouter
+        rootRouter.root = true
         val child1 = starNet.childs[0]
-        Assertions.assertEquals(0, root.routingTable.entryCounter)
-        Assertions.assertEquals(0, child1.routingTable.entryCounter)
-        Assertions.assertEquals(root.address, root.routingTable.defaultAddress)
-        Assertions.assertEquals(child1.address, child1.routingTable.defaultAddress)
+        val child1Router = child1.router as RPLRouter
+        Assertions.assertEquals(0, rootRouter.routingTable.entryCounter)
+        Assertions.assertEquals(0, child1Router.routingTable.entryCounter)
+        Assertions.assertEquals(root.address, rootRouter.routingTable.defaultAddress)
+        Assertions.assertEquals(child1.address, child1Router.routingTable.defaultAddress)
 
         Simulation.initialize(Configuration.devices)
         Simulation.runSimulation()
 
-        Assertions.assertEquals(20, root.routingTable.entryCounter)
-        Assertions.assertEquals(0, child1.routingTable.entryCounter)
-        Assertions.assertEquals(root.address, root.routingTable.defaultAddress)
-        Assertions.assertEquals(root.address, child1.routingTable.defaultAddress)
+        Assertions.assertEquals(20, rootRouter.routingTable.entryCounter)
+        Assertions.assertEquals(0, child1Router.routingTable.entryCounter)
+        Assertions.assertEquals(root.address, rootRouter.routingTable.defaultAddress)
+        Assertions.assertEquals(root.address, child1Router.routingTable.defaultAddress)
         for(child in starNet.childs)
-            Assertions.assertEquals(child.address, root.routingTable.getNextHop(child.address))
+            Assertions.assertEquals(child.address, rootRouter.routingTable.getNextHop(child.address))
     }
 
     @ParameterizedTest
@@ -82,41 +90,47 @@ class SimulationTest {
     fun multiHopDODAGRoutingTableTest(fileName: String) {
         Configuration.parse(fileName)
         val a = Configuration.getNamedDevice("A")
+        val aRouter = a.router as RPLRouter
         val b = Configuration.getNamedDevice("B")
+        val bRouter = b.router as RPLRouter
         val c = Configuration.getNamedDevice("C")
+        val cRouter = c.router as RPLRouter
         val d = Configuration.getNamedDevice("D")
+        val dRouter = d.router as RPLRouter
         val e = Configuration.getNamedDevice("E")
+        val eRouter = e.router as RPLRouter
         val f = Configuration.getNamedDevice("F")
+        val fRouter = f.router as RPLRouter
 
-        a.root = true
+        aRouter.root = true
         Simulation.initialize(Configuration.devices)
         Simulation.runSimulation()
         //routing table from A
-        Assertions.assertEquals(5, a.routingTable.entryCounter)
-        Assertions.assertEquals(b.address, a.routingTable.getNextHop(b.address))
-        Assertions.assertEquals(c.address, a.routingTable.getNextHop(c.address))
-        Assertions.assertEquals(c.address, a.routingTable.getNextHop(d.address))
-        Assertions.assertEquals(c.address, a.routingTable.getNextHop(e.address))
-        Assertions.assertEquals(c.address, a.routingTable.getNextHop(f.address))
+        Assertions.assertEquals(5, aRouter.routingTable.entryCounter)
+        Assertions.assertEquals(b.address, aRouter.routingTable.getNextHop(b.address))
+        Assertions.assertEquals(c.address, aRouter.routingTable.getNextHop(c.address))
+        Assertions.assertEquals(c.address, aRouter.routingTable.getNextHop(d.address))
+        Assertions.assertEquals(c.address, aRouter.routingTable.getNextHop(e.address))
+        Assertions.assertEquals(c.address, aRouter.routingTable.getNextHop(f.address))
         //routing table from B
-        Assertions.assertEquals(0, b.routingTable.entryCounter)
-        Assertions.assertEquals(a.address, b.routingTable.defaultAddress)
+        Assertions.assertEquals(0, bRouter.routingTable.entryCounter)
+        Assertions.assertEquals(a.address, bRouter.routingTable.defaultAddress)
         //routing table from C
-        Assertions.assertEquals(3, c.routingTable.entryCounter)
-        Assertions.assertEquals(a.address, c.routingTable.defaultAddress)
-        Assertions.assertEquals(d.address, c.routingTable.getNextHop(d.address))
-        Assertions.assertEquals(e.address, c.routingTable.getNextHop(e.address))
-        Assertions.assertEquals(e.address, c.routingTable.getNextHop(f.address))
+        Assertions.assertEquals(3, cRouter.routingTable.entryCounter)
+        Assertions.assertEquals(a.address, cRouter.routingTable.defaultAddress)
+        Assertions.assertEquals(d.address, cRouter.routingTable.getNextHop(d.address))
+        Assertions.assertEquals(e.address, cRouter.routingTable.getNextHop(e.address))
+        Assertions.assertEquals(e.address, cRouter.routingTable.getNextHop(f.address))
         //routing table from D
-        Assertions.assertEquals(0, b.routingTable.entryCounter)
-        Assertions.assertEquals(c.address, d.routingTable.defaultAddress)
+        Assertions.assertEquals(0, bRouter.routingTable.entryCounter)
+        Assertions.assertEquals(c.address, dRouter.routingTable.defaultAddress)
         //routing table from E
-        Assertions.assertEquals(1, e.routingTable.entryCounter)
-        Assertions.assertEquals(c.address, e.routingTable.defaultAddress)
-        Assertions.assertEquals(f.address, e.routingTable.getNextHop(f.address))
+        Assertions.assertEquals(1, eRouter.routingTable.entryCounter)
+        Assertions.assertEquals(c.address, eRouter.routingTable.defaultAddress)
+        Assertions.assertEquals(f.address, eRouter.routingTable.getNextHop(f.address))
         //routing table from F
-        Assertions.assertEquals(0, f.routingTable.entryCounter)
-        Assertions.assertEquals(e.address, f.routingTable.defaultAddress)
+        Assertions.assertEquals(0, fRouter.routingTable.entryCounter)
+        Assertions.assertEquals(e.address, fRouter.routingTable.defaultAddress)
     }
 
     @ParameterizedTest
@@ -124,11 +138,12 @@ class SimulationTest {
     fun meshToDODAG(fileName: String) {
         Configuration.parse(fileName)
         val root = Configuration.randMeshNetworks["meshA"]!!.mesh[0][0]
-
+        val rootRouter = root.router as RPLRouter
+        rootRouter.root = true
         Simulation.initialize(Configuration.devices)
         Simulation.runSimulation()
 
-        Assertions.assertEquals(Configuration.devices.size - 1, root.routingTable.entryCounter)
+        Assertions.assertEquals(Configuration.devices.size - 1, rootRouter.routingTable.entryCounter)
     }
 
 
