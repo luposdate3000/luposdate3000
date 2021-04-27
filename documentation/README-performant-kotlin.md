@@ -21,7 +21,7 @@ Things you can change:
   This decreases the binary size.
   This increases the compile-speed, because there are no generated/exported functions.
 * "private" <br/>
-  functions and classes are ok, but dont use "private" fields, because they introduce getters and setters if they are used within private functions in the context of an lambda-call
+  functions and classes are ok, but dont use "private" fields, because they introduce getters and setters if they are used within private functions in the context of an lambda-call.
 * function pointers<br/>
   Be careful.
   This creates (multiple) additional objects.
@@ -68,7 +68,7 @@ Current limitations of the kotlin compiler:
 * Gradle has more kotlin related features than maven especially if not-java targets should be build.
 * If the program breaks and you dont think it should break, then clear the build folder and compile again.
   The incremental build sometimes just dont work - especially with enabled inlining.
-  The current version of the scripts automatically wipe the build folder for every build - just to be sure.
+  The current version of the comandline-compilation automatically wipe the build folder for every build - just to be sure.
   This "bug" happend too often for me.
 * My experiments show that Threads are faster than Coroutines, because of the constantly allocated and released intermediate Objects, which are completely useless.
   Maybe this changes with updates to the kotlin-compiler.

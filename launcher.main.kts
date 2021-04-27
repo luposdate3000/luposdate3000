@@ -196,7 +196,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
     for ((k, v) in modules) {
         val dep = mutableSetOf<String>()
         dependencyMap[k] = dep
-        if (v.modulePrefix != "Luposdate3000_Shared_JS") {
+        if (v.modulePrefix != "Luposdate3000_Shared_JS" && target == "JS") {
             dep.add("Luposdate3000_Shared_BrowserJS")
         }
         if (!v.moduleName.startsWith("Luposdate3000_Shared")) {
