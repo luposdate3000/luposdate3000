@@ -47,7 +47,7 @@ internal actual object Platform {
     }
 
     internal actual inline fun getAvailableRam(): Int {
-        return getEnv("LUPOS_RAM", "50")!!.toInt()
+        return getEnv("LUPOS_RAM", "4")!!.toInt()
     }
 
     internal actual inline fun setShutdownHock(crossinline action: () -> Unit) {

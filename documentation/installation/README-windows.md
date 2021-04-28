@@ -24,7 +24,7 @@ The compiler-path looks something like "C:/.../kotlinc/bin"
 
 restart gitbash, if it is already open
 
-##enable windows long file paths (more than 260 chars)
+#enable windows long file paths (more than 260 chars)
 This is required for working with the JS target due to how the compiler works.
 open start-search
 type "regedit"
@@ -36,7 +36,7 @@ you must reboot now to make that change effective
 
 restart gitbash, if it is still open - this should be closed after the reboot
 
-## inside of gitbash:
+# inside of gitbash:
 
 ```gitbash
 # Unfortunately the ifis-git uses incorrect ssl such that the following git option must be used.
@@ -60,3 +60,14 @@ git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
     gradle publishToMavenLocal
 }
 ```
+
+#set some environment variables
+
+* "LUPOS_HOME"
+  only used, if the database is using a persistent buffer-manager. Point this to an Dolder, where the database should store its data. Include a trailling backslash.
+* "LUPOS_BUFFER_SIZE"
+  used for internall buffers during importing data. Set this to at most 5% of your available RAM
+* "LUPOS_REAL_WORLD_DATA_ROOT"
+  point this to the base folder, where you have downloaded your real-world datasets. This is only required, if you are actually using those datasets.
+* "LUPOS_RAM"
+  specify the available memory in GB. Keep in mind, that the operating system (or other programs) may need some space too.
