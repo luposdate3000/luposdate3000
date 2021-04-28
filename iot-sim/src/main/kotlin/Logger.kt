@@ -17,6 +17,7 @@ class Logger: Simulation.Callback {
         log("Total number of packages: ${Device.packageCounter}")
         log("Number of DIOs: ${RPLRouter.dioCounter}")
         log("Number of DAOs: ${RPLRouter.daoCounter}")
+        log("Number of data: ${Device.observationPackageCounter}")
         log("")
         log("Simulation clock: ${Simulation.clock}")
         log("Simulation completed")

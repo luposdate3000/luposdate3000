@@ -60,6 +60,7 @@ class Device(
 
 
     private fun processParkingObservation(pck: NetworkPackage) {
+        observationPackageCounter++
         if (pck.destinationAddress == address) {
             //store
         }
@@ -100,8 +101,12 @@ class Device(
         var packageCounter = 0
             private set
 
+        var observationPackageCounter = 0
+            private set
+
         fun resetCounter() {
             packageCounter = 0
+            observationPackageCounter = 0
         }
     }
 
