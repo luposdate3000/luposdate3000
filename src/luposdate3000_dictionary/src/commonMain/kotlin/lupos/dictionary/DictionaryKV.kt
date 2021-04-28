@@ -26,6 +26,7 @@ import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.fileformat.DictionaryIntermediateReader
 import lupos.shared_inline.BufferManagerPage
 import lupos.shared_inline.ByteArrayHelper
+import lupos.shared_inline.ByteArrayWrapperExt
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File
 import lupos.vk.ValueKeyStore
@@ -105,9 +106,9 @@ public class DictionaryKV : ADictionary {
                 } else {
                     SanityCheck.check { value < bNodeCounter }
                     SanityCheck.check { value >= 0 }
-                    buffer.setSize(8)
-                    ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.BLANK_NODE)
-                    ByteArrayHelper.writeInt4(buffer.getBuf(), 4, value and ADictionary.maskValue)
+                    ByteArrayWrapperExt.setSize(buffer, 8)
+                    ByteArrayHelper.writeInt4(buffer.buf, 0, ETripleComponentTypeExt.BLANK_NODE)
+                    ByteArrayHelper.writeInt4(buffer.buf, 4, value and ADictionary.maskValue)
                 }
             }
         }

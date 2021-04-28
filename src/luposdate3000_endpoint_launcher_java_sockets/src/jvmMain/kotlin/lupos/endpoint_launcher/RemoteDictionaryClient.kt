@@ -21,6 +21,7 @@ import lupos.shared.ByteArrayWrapper
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared_inline.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream) : ADictionary() {
@@ -43,8 +44,8 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
 
     override fun hasValue(buffer: ByteArrayWrapper): Int? {
         output.writeInt(2)
-        output.writeInt(buffer.getSize())
-        output.write(buffer.getBuf(), buffer.getSize())
+        output.writeInt(buffer.size)
+        output.write(buffer.buf, buffer.size)
         output.flush()
         var res = input.readInt()
         if (res == DictionaryExt.nullValue) {
@@ -55,8 +56,8 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
 
     override fun createValue(buffer: ByteArrayWrapper): Int {
         output.writeInt(5)
-        output.writeInt(buffer.getSize())
-        output.write(buffer.getBuf(), buffer.getSize())
+        output.writeInt(buffer.size)
+        output.write(buffer.buf, buffer.size)
         output.flush()
         return input.readInt()
     }
@@ -66,8 +67,8 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         output.writeInt(value)
         output.flush()
         val len = input.readInt()
-        buffer.setSize(len)
-        input.read(buffer.getBuf(), len)
+        ByteArrayWrapperExt.setSize(buffer, len)
+        input.read(buffer.buf, len)
     }
 
     public override fun close() {

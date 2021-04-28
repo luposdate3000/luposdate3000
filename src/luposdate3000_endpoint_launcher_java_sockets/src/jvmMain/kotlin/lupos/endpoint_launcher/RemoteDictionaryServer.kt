@@ -23,6 +23,7 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.MyReadWriteLock
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionary
+import lupos.shared_inline.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary) : ADictionary() {
@@ -73,8 +74,8 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary) : A
                 }
                 2 -> {
                     val len = input.readInt()
-                    buffer.setSize(len)
-                    input.read(buffer.getBuf(), len)
+                    ByteArrayWrapperExt.setSize(buffer, len)
+                    input.read(buffer.buf, len)
                     val res = hasValue(buffer)
                     if (res == null) {
                         output.writeInt(DictionaryExt.nullValue)
@@ -88,16 +89,16 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary) : A
                 }
                 5 -> {
                     val len = input.readInt()
-                    buffer.setSize(len)
-                    input.read(buffer.getBuf(), len)
+                    ByteArrayWrapperExt.setSize(buffer, len)
+                    input.read(buffer.buf, len)
                     val res = createValue(buffer)
                     output.writeInt(res)
                 }
                 6 -> {
                     val value = input.readInt()
                     getValue(buffer, value)
-                    output.writeInt(buffer.getSize())
-                    output.write(buffer.getBuf(), buffer.getSize())
+                    output.writeInt(buffer.size)
+                    output.write(buffer.buf, buffer.size)
                 }
             }
             output.flush()

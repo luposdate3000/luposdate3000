@@ -25,6 +25,7 @@ import lupos.shared.IQuery
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
+import lupos.shared_inline.ByteArrayWrapperExt
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
@@ -75,7 +76,7 @@ public class AOPBuildInCallIRI public constructor(query: IQuery, child0: AOPBase
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.IRI -> {
-                    tmp_0.copyInto(tmp_2)
+                    ByteArrayWrapperExt.copyInto(tmp_0, tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING -> {

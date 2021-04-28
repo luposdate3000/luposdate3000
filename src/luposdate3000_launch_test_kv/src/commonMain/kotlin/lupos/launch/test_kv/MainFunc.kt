@@ -113,11 +113,11 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         }
         val value = ByteArrayWrapper()
         kv.getValue(value, key)
-        if (value.getSize() != data.size) {
+        if (value.size != data.size) {
             throw Exception("")
         }
-        for (i in 0 until value.getSize()) {
-            if (value.getBuf()[i] != data[i]) {
+        for (i in 0 until value.size) {
+            if (value.buf[i] != data[i]) {
                 throw Exception("")
             }
         }

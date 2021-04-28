@@ -22,6 +22,7 @@ import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.nodeGlobalDictionary
+import lupos.shared_inline.ByteArrayWrapperExt
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
@@ -69,7 +70,7 @@ public class DictionaryInMemory : ADictionary {
                 if (isLocal == ((value and ADictionary.flagLocal) == ADictionary.flagLocal)) {
                     if ((value and ADictionary.flagNoBNode) == ADictionary.flagNoBNode) {
                         val buf = dataI2V[value and ADictionary.maskValue]
-                        buf.copyInto(buffer)
+                        ByteArrayWrapperExt.copyInto(buf, buffer)
                     } else {
                         SanityCheck.check { value < bNodeCounter }
                         SanityCheck.check { value >= 0 }
@@ -106,7 +107,7 @@ public class DictionaryInMemory : ADictionary {
                 if (res == null) {
                     res = dataV2I.size
                     val bufferCopy = ByteArrayWrapper()
-                    buffer.copyInto(bufferCopy)
+                    ByteArrayWrapperExt.copyInto(buffer, bufferCopy)
                     dataV2I[bufferCopy] = res
                     if (dataI2V.size <= res) {
                         val tmp = dataI2V

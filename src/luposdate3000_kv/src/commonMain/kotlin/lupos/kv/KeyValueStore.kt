@@ -22,6 +22,7 @@ import lupos.buffer_manager.MyIntArray
 import lupos.shared.ByteArrayWrapper
 import lupos.shared.SanityCheck
 import lupos.shared_inline.BufferManagerPage
+import lupos.shared_inline.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 public class KeyValueStore {
@@ -118,7 +119,7 @@ public class KeyValueStore {
         var p = bufferManager.getPage(lupos.SOURCE_FILE, page)
         var pid = page
         val l = BufferManagerPage.readInt4(p, off)
-        data.setSize(l)
+        ByteArrayWrapperExt.setSize(data, l)
         var bufoff = 0
         var toread = l
         var pageoff = off + 4
@@ -137,7 +138,7 @@ public class KeyValueStore {
             } else {
                 toread
             }
-            BufferManagerPage.copyInto(p, data.getBuf(), bufoff, pageoff, pageoff + len)
+            BufferManagerPage.copyInto(p, data.buf, bufoff, pageoff, pageoff + len)
             bufoff += len
             pageoff += len
             toread -= len
@@ -158,11 +159,11 @@ public class KeyValueStore {
         }
         var resPage = lastPage
         var resOff = lastPageOffset
-        BufferManagerPage.writeInt4(lastPageBuf, lastPageOffset, data.getSize())
+        BufferManagerPage.writeInt4(lastPageBuf, lastPageOffset, data.size)
         lastPageOffset += 4
         BufferManagerPage.writeInt4(rootPage, 4, lastPageOffset)
         var dataoff = 0
-        var towrite = data.getSize()
+        var towrite = data.size
         while (towrite > 0) {
             var available = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - lastPageOffset
             if (available == 0) {
@@ -181,7 +182,7 @@ public class KeyValueStore {
             } else {
                 towrite
             }
-            BufferManagerPage.copyFrom(lastPageBuf, data.getBuf(), lastPageOffset, dataoff, dataoff + len)
+            BufferManagerPage.copyFrom(lastPageBuf, data.buf, lastPageOffset, dataoff, dataoff + len)
             towrite -= len
             lastPageOffset += len
             BufferManagerPage.writeInt4(rootPage, 4, lastPageOffset)

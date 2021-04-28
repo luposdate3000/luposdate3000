@@ -69,8 +69,9 @@ public object OperatorBuilder {
                             },
                             generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
                                 imports.add("lupos.shared.ByteArrayWrapper")
+                                imports.add("lupos.shared_inline.ByteArrayWrapperExt")
                                 globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
-                                target.appendLine("${indention}${inputNames[0]}.copyInto($outputName)")
+                                target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             }
                         )
@@ -126,8 +127,9 @@ public object OperatorBuilder {
                             },
                             generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
                                 imports.add("lupos.shared.ByteArrayWrapper")
+                                imports.add("lupos.shared_inline.ByteArrayWrapperExt")
                                 globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
-                                target.appendLine("${indention}${inputNames[0]}.copyInto($outputName)")
+                                target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             }
                         )
@@ -182,8 +184,9 @@ public object OperatorBuilder {
                             },
                             generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
                                 imports.add("lupos.shared.ByteArrayWrapper")
+                                imports.add("lupos.shared_inline.ByteArrayWrapperExt")
                                 globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
-                                target.appendLine("${indention}${inputNames[0]}.copyInto($outputName)")
+                                target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             }
                         )
@@ -2082,8 +2085,9 @@ public object OperatorBuilder {
                             },
                             generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
                                 imports.add("lupos.shared.ByteArrayWrapper")
+                                imports.add("lupos.shared_inline.ByteArrayWrapperExt")
                                 globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
-                                target.appendLine("${indention}${inputNames[0]}.copyInto($outputName)")
+                                target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.IRI)
                             }
                         )
@@ -2140,8 +2144,9 @@ public object OperatorBuilder {
                             },
                             generateByteArrayWrapper = { indention, inputNames, outputName, _, imports, target, globalVariables, onResult ->
                                 imports.add("lupos.shared.ByteArrayWrapper")
+                                imports.add("lupos.shared_inline.ByteArrayWrapperExt")
                                 globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
-                                target.appendLine("${indention}${inputNames[0]}.copyInto($outputName)")
+                                target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.IRI)
                             }
                         )

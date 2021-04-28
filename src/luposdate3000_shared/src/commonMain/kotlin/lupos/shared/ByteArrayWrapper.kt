@@ -18,7 +18,7 @@ package lupos.shared
 
 import kotlin.jvm.JvmField
 
-public class ByteArrayWrapper public constructor(@JvmField public var buf, @JvmField public var size) : Comparable<ByteArrayWrapper> {
+public class ByteArrayWrapper public constructor(@JvmField public var buf: ByteArray, @JvmField public var size: Int) : Comparable<ByteArrayWrapper> {
     public constructor(buf: ByteArray) : this(buf, buf.size)
     public constructor() : this(ByteArray(0), 0)
 
@@ -46,7 +46,6 @@ public class ByteArrayWrapper public constructor(@JvmField public var buf, @JvmF
         }
         return res
     }
-
 
     override fun toString(): String {
         return buf.map { it }.subList(0, size).toString()

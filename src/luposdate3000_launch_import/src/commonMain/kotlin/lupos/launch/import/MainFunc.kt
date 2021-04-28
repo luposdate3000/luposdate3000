@@ -29,6 +29,7 @@ import lupos.shared.fileformat.DictionaryIntermediateWriter
 import lupos.shared.fileformat.TriplesIntermediate
 import lupos.shared.fileformat.TriplesIntermediateReader
 import lupos.shared.fileformat.TriplesIntermediateWriter
+import lupos.shared_inline.ByteArrayWrapperExt
 import lupos.shared_inline.File
 import kotlin.math.min
 
@@ -190,9 +191,9 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         } else {
             val v2 = dictCounter++
             val buf = ByteArrayWrapper()
-            data.copyInto(buf)
+            ByteArrayWrapperExt.copyInto(data, buf)
             dict[buf] = v2.toInt()
-            dictSizeEstimated += data.getSize() + 8
+            dictSizeEstimated += data.size + 8
             dicttotalcnt++
             return v2.toInt()
         }
@@ -273,7 +274,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         for (i in 0 until chunc) {
             val d = dictionariesHead[i]
             if (d != null && (current == null || d.data < current)) {
-                d.data.copyInto(buffer)
+                ByteArrayWrapperExt.copyInto(d.data, buffer)
                 current = buffer
             }
         }

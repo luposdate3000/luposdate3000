@@ -29,6 +29,7 @@ import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dictionary.nodeGlobalDictionary
 import lupos.shared_inline.ByteArrayHelper
+import lupos.shared_inline.ByteArrayWrapperExt
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 import kotlin.math.abs
@@ -138,11 +139,11 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                     }
                     usedGenerators[len]!!.add(seed)
                     val res = ByteArrayWrapper()
-                    res.setSize(len)
+                    ByteArrayWrapperExt.setSize(res, len)
                     for (i in 0 until len) {
-                        res.getBuf()[i] = (i + seed).toByte()
+                        res.buf[i] = (i + seed).toByte()
                     }
-                    var x = ByteArrayHelper.readInt4(res.getBuf(), 0)
+                    var x = ByteArrayHelper.readInt4(res.buf, 0)
                     var lastx = 0
                     while (x != lastx) {
                         lastx = x
@@ -151,7 +152,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                         } else if (x == ETripleComponentTypeExt.BOOLEAN && len != 5) {
                             x++
                         } else if (x == ETripleComponentTypeExt.BOOLEAN && len == 5) {
-                            res.getBuf()[4] = abs(res.getBuf()[4] % 2).toByte()
+                            res.buf[4] = abs(res.buf[4] % 2).toByte()
                         } else if (x == ETripleComponentTypeExt.ERROR && len != 4) {
                             x++
                         } else if (x == ETripleComponentTypeExt.UNDEF && len != 4) {
@@ -160,7 +161,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                             x = abs(x % ETripleComponentTypeExt.values_size)
                         }
                     }
-                    ByteArrayHelper.writeInt4(res.getBuf(), 0, x)
+                    ByteArrayHelper.writeInt4(res.buf, 0, x)
                     if (values.contains(res)) {
                         if (seed < 255) {
                             seed++
@@ -258,11 +259,11 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 }
                 val value = ByteArrayWrapper()
                 dict.getValue(value, key)
-                if (value.getSize() != target.getSize()) {
-                    throw Exception("${value.getSize()} ${target.getSize()} $value")
+                if (value.size != target.size) {
+                    throw Exception("${value.size} ${target.size} $value")
                 }
-                for (i in 0 until value.getSize()) {
-                    if (value.getBuf()[i] != target.getBuf()[i]) {
+                for (i in 0 until value.size) {
+                    if (value.buf[i] != target.buf[i]) {
                         throw Exception("")
                     }
                 }

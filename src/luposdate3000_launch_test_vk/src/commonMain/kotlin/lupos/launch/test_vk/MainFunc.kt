@@ -21,6 +21,7 @@ import lupos.buffer_manager.BufferManagerExt
 import lupos.shared.AflCore
 import lupos.shared.ByteArrayWrapper
 import lupos.shared.Parallel
+import lupos.shared_inline.ByteArrayWrapperExt
 import lupos.vk.ValueKeyStore
 import kotlin.jvm.JvmField
 import kotlin.math.abs
@@ -88,9 +89,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             usedGenerators[len]!!.add(seed)
         }
         var res = ByteArrayWrapper()
-        res.setSize(len)
+        ByteArrayWrapperExt.setSize(res, len)
         for (i in 0 until len) {
-            res.getBuf()[i] = (i + seed).toByte()
+            res.buf[i] = (i + seed).toByte()
         }
         action(res)
     }

@@ -18,6 +18,7 @@
 package lupos.shared.fileformat
 
 import lupos.shared.ByteArrayWrapper
+import lupos.shared_inline.ByteArrayWrapperExt
 import lupos.shared_inline.File
 
 public class DictionaryIntermediateReader(filename: String) : DictionaryIntermediate(filename) {
@@ -42,8 +43,8 @@ public class DictionaryIntermediateReader(filename: String) : DictionaryIntermed
             close()
         } else {
             val len = streamIn!!.readInt()
-            buffer.setSize(len)
-            streamIn!!.read(buffer.getBuf(), len)
+            ByteArrayWrapperExt.setSize(buffer, len)
+            streamIn!!.read(buffer.buf, len)
             action(id)
         }
     }

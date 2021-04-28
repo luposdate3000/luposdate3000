@@ -21,6 +21,7 @@ import lupos.buffer_manager.BufferManager
 import lupos.shared.ByteArrayWrapper
 import lupos.shared.SanityCheck
 import lupos.shared_inline.BufferManagerPage
+import lupos.shared_inline.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 import kotlin.math.min
 
@@ -305,10 +306,10 @@ internal class ValueKeyStoreWriter {
         SanityCheck.check { offset <= BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE }
         SanityCheck.check { id != ValueKeyStore.ID_NULL }
         counter++
-        var common = buffer.commonBytes(lastBuffer)
-        buffer.copyInto(lastBuffer)
+        var common = ByteArrayWrapperExt.commonBytes(buffer, lastBuffer)
+        ByteArrayWrapperExt.copyInto(buffer, lastBuffer)
         BufferManagerPage.writeInt4(page, offset, id)
-        BufferManagerPage.writeInt4(page, offset + 4, buffer.getSize())
+        BufferManagerPage.writeInt4(page, offset + 4, buffer.size)
         BufferManagerPage.writeInt4(page, offset + 8, common)
         offset += 12
         if (pageType == ValueKeyStore.PAGE_TYPE_INNER) {
@@ -317,13 +318,13 @@ internal class ValueKeyStoreWriter {
             offset += 4
         }
         lastPageID = pageid
-        val len = buffer.getSize()
+        val len = buffer.size
         var bufferOffset = common
         var writeEntryPoint = false
         while (bufferOffset < len) {
             val l1 = min(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - offset, len - bufferOffset)
             if (l1 > 0) {
-                BufferManagerPage.copyFrom(page, buffer.getBuf(), offset, bufferOffset, bufferOffset + l1)
+                BufferManagerPage.copyFrom(page, buffer.buf, offset, bufferOffset, bufferOffset + l1)
                 bufferOffset += l1
                 offset += l1
             }
@@ -340,7 +341,7 @@ internal class ValueKeyStoreWriter {
         }
         if (writeEntryPoint) {
             BufferManagerPage.writeInt4(page, 8, offset)
-            lastBuffer.setSize(0)
+            ByteArrayWrapperExt.setSize(lastBuffer, 0)
             if (counter > ValueKeyStore.MIN_BRANCHING) {
                 counter = 0
                 onNextEntryPoint()
@@ -384,11 +385,11 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
         val len = BufferManagerPage.readInt4(page, offset + 4)
         var bufferOffset = BufferManagerPage.readInt4(page, offset + 8)
         offset += 12
-        buffer.setSizeCopy(len)
+        ByteArrayWrapperExt.setSizeCopy(buffer, len)
         while (bufferOffset < len) {
             val l1 = min(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - offset, len - bufferOffset)
             if (l1 > 0) {
-                page.copyInto(buffer.getBuf(), bufferOffset, offset, offset + l1)
+                page.copyInto(buffer.buf, bufferOffset, offset, offset + l1)
                 bufferOffset += l1
                 offset += l1
             }
@@ -440,11 +441,11 @@ internal class ValueKeyStoreIteratorSearch internal constructor(@JvmField intern
                     localChildPageID = BufferManagerPage.readInt4(page, offset)
                     offset += 4
                 }
-                buffer.setSizeCopy(len)
+                ByteArrayWrapperExt.setSizeCopy(buffer, len)
                 while (bufferOffset < len) {
                     val l1 = min(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - offset, len - bufferOffset)
                     if (l1 > 0) {
-                        page.copyInto(buffer.getBuf(), bufferOffset, offset, offset + l1)
+                        page.copyInto(buffer.buf, bufferOffset, offset, offset + l1)
                         bufferOffset += l1
                         offset += l1
                     }

@@ -14,17 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.shared.inline
+package lupos.shared_inline
+
+import lupos.shared.ByteArrayWrapper
 
 public object ByteArrayWrapperExt {
-    public fun setSize(data: ByteArrayWrapper, c: Int) {
+    public inline fun setSize(data: ByteArrayWrapper, c: Int) {
         data.size = c
         if (c > data.buf.size) {
             data.buf = ByteArray(c)
         }
     }
 
-    public fun setSizeCopy(data: ByteArrayWrapper, c: Int) {
+    public inline fun setSizeCopy(data: ByteArrayWrapper, c: Int) {
         data.size = c
         if (c > data.buf.size) {
             val oldBuf = data.buf
@@ -33,7 +35,7 @@ public object ByteArrayWrapperExt {
         }
     }
 
-    public fun commonBytes(a: ByteArrayWrapper, b: ByteArrayWrapper): Int {
+    public inline fun commonBytes(a: ByteArrayWrapper, b: ByteArrayWrapper): Int {
         var i = 0
         while (i < a.size && i < b.size) {
             if (a.buf[i] == b.buf[i]) {
@@ -45,8 +47,8 @@ public object ByteArrayWrapperExt {
         return i
     }
 
-    public fun copyInto(a: ByteArrayWrapper, b: ByteArrayWrapper) {
-        b.setSize(a.size)
+    public inline fun copyInto(a: ByteArrayWrapper, b: ByteArrayWrapper) {
+        setSize(b, a.size)
         a.buf.copyInto(b.buf, 0, 0, a.size)
     }
 }

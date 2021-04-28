@@ -32,8 +32,8 @@ public class DictionaryIntermediateWriter : DictionaryIntermediate {
     @Suppress("NOTHING_TO_INLINE")
     public inline fun writeAssumeOrdered(id: Int, data: ByteArrayWrapper) {
         streamOut!!.writeInt(id)
-        streamOut!!.writeInt(data.getSize())
-        streamOut!!.write(data.getBuf(), data.getSize())
+        streamOut!!.writeInt(data.size)
+        streamOut!!.write(data.buf, data.size)
     }
 
     @Suppress("NOTHING_TO_INLINE")
