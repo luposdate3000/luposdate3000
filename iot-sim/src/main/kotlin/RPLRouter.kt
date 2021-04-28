@@ -39,6 +39,7 @@ class RPLRouter(val device: Device): Device.Router {
         if (objectiveFunction(dio) >= rank)
             return
 
+        forwardedDioCounter++
         rank = objectiveFunction(dio)
         updateParent(Parent(pck.sourceAddress, dio.rank))
         broadcastDIO()
@@ -63,8 +64,10 @@ class RPLRouter(val device: Device): Device.Router {
         else
             routingTable.removeDestinationsByHop(pck.sourceAddress)
 
-        if(hasParent() && hasRoutingTableChanged)
+        if(hasParent() && hasRoutingTableChanged) {
             sendDAO(preferredParent.address, dao.isPath)
+            forwardedDaoCounter++
+        }
     }
 
     private fun objectiveFunction(dio: DIO)
@@ -136,9 +139,17 @@ class RPLRouter(val device: Device): Device.Router {
         var dioCounter = 0
             private set
 
+        var forwardedDaoCounter = 0
+            private set
+
+        var forwardedDioCounter = 0
+            private set
+
         fun resetCounter() {
             daoCounter = 0
             dioCounter = 0
+            forwardedDaoCounter = 0
+            forwardedDioCounter = 0
         }
     }
 }
