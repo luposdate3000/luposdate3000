@@ -15,13 +15,8 @@ object Simulation {
     var maxClock: Long = maxClockDefault
         private set
 
-    fun initialize(entities: List<Entity>, maxClock: Long = maxClockDefault) {
-        resetVariables()
-        Simulation.entities = entities
-        Simulation.maxClock = maxClock
-    }
-
-    fun start(): Long {
+    fun start(entities: List<Entity>, maxClock: Long = maxClockDefault): Long {
+        initialize(entities, maxClock)
         logSimulationStart()
         startUpAllEntities()
         val simClock = run()
@@ -32,6 +27,12 @@ object Simulation {
 
     fun stop() {
         maxClock = clock - 1
+    }
+
+    private fun initialize(entities: List<Entity>, maxClock: Long) {
+        resetVariables()
+        Simulation.entities = entities
+        Simulation.maxClock = maxClock
     }
 
     fun log(content: String) {
@@ -139,6 +140,7 @@ object Simulation {
         clock = 0
         maxClock = maxClockDefault
         futureEvents = EventPriorityQueue()
+        eventCounter = 0
     }
 
 }
