@@ -18,48 +18,9 @@ package lupos.shared
 
 import kotlin.jvm.JvmField
 
-public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
-    @JvmField
-    internal var buf = ByteArray(0)
-
-    @JvmField
-    internal var size = 0
-
-    public constructor()
-    public constructor(b: ByteArray) {
-        size = b.size
-        buf = b
-    }
-
-    public fun setSize(c: Int) {
-        size = c
-        if (c > buf.size) {
-            buf = ByteArray(c)
-        }
-    }
-
-    public fun setSizeCopy(c: Int) {
-        size = c
-        if (c > buf.size) {
-            val oldBuf = buf
-            buf = ByteArray(c)
-            oldBuf.copyInto(buf)
-        }
-    }
-
-    public fun getSize(): Int = size
-    public fun getBuf(): ByteArray = buf
-    public fun commonBytes(other: ByteArrayWrapper): Int {
-        var i = 0
-        while (i < size && i < other.size) {
-            if (buf[i] == other.buf[i]) {
-                i++
-            } else {
-                break
-            }
-        }
-        return i
-    }
+public class ByteArrayWrapper public constructor(@JvmField public var buf, @JvmField public var size) : Comparable<ByteArrayWrapper> {
+    public constructor(buf: ByteArray) : this(buf, buf.size)
+    public constructor() : this(ByteArray(0), 0)
 
     override fun compareTo(other: ByteArrayWrapper): Int {
         var res = 0
@@ -86,10 +47,6 @@ public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
         return res
     }
 
-    public fun copyInto(other: ByteArrayWrapper) {
-        other.setSize(size)
-        buf.copyInto(other.buf, 0, 0, size)
-    }
 
     override fun toString(): String {
         return buf.map { it }.subList(0, size).toString()

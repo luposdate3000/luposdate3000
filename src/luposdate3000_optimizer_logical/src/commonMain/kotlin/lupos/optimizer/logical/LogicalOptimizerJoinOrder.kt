@@ -55,11 +55,13 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
     }
 
     private fun clusterizeChildren(nodes: List<IOPBase>): List<MutableList<IOPBase>> {
+        println("LogicalOptimizerJoinOrder start clusterizeChildren ${nodes.size}")
         // put children with same variables into groups, such that those definetly can use Merge-Join as much as possible
         val res = mutableListOf<MutableList<IOPBase>>()
         val variables = mutableListOf<List<String>>()
         loop@ for (node in nodes) {
             val v = node.getProvidedVariableNames()
+            println("$v -> ${node.getPossibleSortPriorities()}")
             if (res.size > 0) {
                 for (i in 0 until variables.size) {
                     if (variables[i].size == v.size && variables[i].containsAll(v)) {
@@ -70,6 +72,10 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
             }
             res.add(mutableListOf(node))
             variables.add(v)
+        }
+        println("LogicalOptimizerJoinOrder clusteredChildren :: ")
+        for (i in 0 until variables.size) {
+            println("#$i : ${variables[i]} -> ${res[i].size}")
         }
         return res
     }
@@ -112,10 +118,6 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                 val allChilds2 = findAllJoinsInChildren(node)
                 if (allChilds2.size > 2) {
                     var result: IOPBase? = null
-                    if (result == null && node.onlyExistenceRequired) {
-                        // dont not prefer merge join for_ ask-queries, as this makes it harder later, to avoid any materialisation
-                        result = LogicalOptimizerJoinOrderStore(allChilds2, node)
-                    }
                     if (result == null) {
                         val allChilds3 = clusterizeChildren(allChilds2)
                         val allChilds4 = mutableListOf<IOPBase>()
