@@ -47,7 +47,7 @@ import java.io.File
 import java.io.OutputStream
 
 @JvmField
-internal val mylogger = File("/tmp/code-gen-ksp.log").printWriter()
+internal val mylogger = File("tmp/code-gen-ksp.log").printWriter()
 
 public class SampleProcessor : SymbolProcessor {
     private lateinit var codeGenerator: CodeGenerator

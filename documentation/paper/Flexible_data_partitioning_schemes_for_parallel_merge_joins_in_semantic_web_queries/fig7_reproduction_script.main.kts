@@ -193,11 +193,6 @@ fun execute(result_rows: Int, trash: Int) {
 }
 
 fun generateData(targetNumberOfResults_: Int, numberOfPredicates: Int, blockCount: Int, trashCount: Int, folderName: String): Int {
-// var targetNumberOfResults = 1L
-// var numberOfPredicates = 2
-// var blockCount = 1 //if there is a match, than x elements match in a row
-// var trashCount = 0 //if there is no match, than x elements dont match in a row
-// var folderName = "/tmp/luposdate"
     var targetNumberOfResults = targetNumberOfResults_
     val preventMultiplesOfList = intArrayOf(2, 3, 5, 7, 11, 13, 17, 19)
     val object_counter = 100

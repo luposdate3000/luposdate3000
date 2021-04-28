@@ -31,7 +31,7 @@ public object BufferManagerExt {
     public var allowInitFromDisk: Boolean = true
 
     @JvmField
-    public var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate3000")!! + "/" + Platform.getEnv("LUPOS_PROCESS_ID", "0")!! + "/"
+    public var bufferPrefix: String = Platform.getEnv("LUPOS_HOME", "tmp/luposdate3000")!! + "/" + Platform.getEnv("LUPOS_PROCESS_ID", "0")!! + "/"
 
     @JvmField
     internal val bufferManager = BufferManager()

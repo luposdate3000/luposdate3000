@@ -651,17 +651,6 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun insertAsBulkSorted(data: IntArray, order: IntArray, dataSize: Int) {
         flushContinueWithWriteLock()
-        /*
-      if (logFileInsertFirst) {
-               logFileInsertFirst = false
-               logFileInsert.println("${order.map { it }}")
-           }
-           var tmppp = 0
-           while (tmppp < dataSize) {
-               logFileInsert.println("${data[tmppp]} ${data[tmppp + 1]} ${data[tmppp + 2]}")
-               tmppp += 3
-           }
-   */
         val iteratorImport = BulkImportIterator(data, dataSize, order)
         var iteratorStore2: TripleIterator? = null
         if (firstLeaf_ == NodeManager.nodeNullPointer) {
