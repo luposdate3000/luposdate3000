@@ -51,7 +51,7 @@ object Configuration {
 
 
     private fun createSortedLinkTypes() {
-        LinkTypes.sortedLinkTypes = jsonObjects.linkType.toTypedArray()
+        LinkManager.sortedLinkTypes = jsonObjects.linkType.toTypedArray()
     }
 
     private fun createRandomMeshNetworks() {
@@ -182,7 +182,7 @@ object Configuration {
         for(name in deviceType.supportedLinkTypes) {
             list.add(getLinkTypeByName(name))
         }
-        return LinkTypes.getSortedLinkTypeIndices(list)
+        return LinkManager.getSortedLinkTypeIndices(list)
     }
 
 

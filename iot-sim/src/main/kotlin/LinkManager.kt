@@ -21,7 +21,7 @@ class LinkManager(val device: Device) {
 
     private fun isReachableByLinkType(index: Int, otherDevice: Device): Boolean {
         val distance = getDistanceInMeters(otherDevice)
-        val linkType = LinkTypes.getLinkTypeByIndex(index)
+        val linkType = getLinkTypeByIndex(index)
         return distance <= linkType.rangeInMeters
     }
 
@@ -31,7 +31,7 @@ class LinkManager(val device: Device) {
             return null
 
         val distance = getDistanceInMeters(otherDevice)
-        val dataRate = LinkTypes.getLinkTypeByIndex(linkIndex).dataRateInKbps
+        val dataRate = getLinkTypeByIndex(linkIndex).dataRateInKbps
         return Link( distance, linkIndex, dataRate)
     }
 
@@ -69,4 +69,25 @@ class LinkManager(val device: Device) {
     fun getNeighbours()
         = links.keys
 
+    companion object {
+        var sortedLinkTypes: Array<LinkType> = emptyArray()
+            set(value) {
+                field = value
+                field.sortByDescending { it.dataRateInKbps }
+            }
+
+        fun getLinkTypeByIndex(index: Int)
+                = sortedLinkTypes[index]
+
+        private fun getIndexByLinkType(linkType: LinkType)
+                = sortedLinkTypes.indexOfFirst { linkType.name == it.name}
+
+        fun getSortedLinkTypeIndices(list: List<LinkType>): IntArray {
+            val result = IntArray(list.size)
+            for((index, linkType) in list.withIndex()) {
+                result[index] = getIndexByLinkType(linkType)
+            }
+            return result.sortedArray()
+        }
+    }
 }
