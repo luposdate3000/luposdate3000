@@ -19,12 +19,12 @@ class Device(
         }
     }
 
-    override fun startUpEntity() {
+    override fun onStartUp() {
         sensor?.observe()
         router.startRouting()
     }
 
-    override fun processEvent(event: Event) {
+    override fun onEvent(event: Event) {
         val pck = event.data as NetworkPackage
         when {
             pck.data is NetworkPackage.ObservationEnd -> sensor!!.onObservationEnd()
@@ -34,7 +34,7 @@ class Device(
 
     }
 
-    override fun shutDownEntity() {
+    override fun onShutDown() {
 
     }
 

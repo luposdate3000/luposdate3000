@@ -1,9 +1,9 @@
 class EntityStub : Entity() {
 
-    override fun startUpEntity() {
+    override fun onStartUp() {
     }
-    override fun processEvent(event: Event) {
+    override fun onEvent(event: Event) {
     }
-    override fun shutDownEntity() {
+    override fun onShutDown() {
     }
 }

@@ -1,4 +1,4 @@
-abstract class Entity() {
+abstract class Entity {
 
     private val deferredEvents: EventPriorityQueue = EventPriorityQueue()
     var currentState = State.RUNNABLE
@@ -11,9 +11,9 @@ abstract class Entity() {
         TERMINATED,
     }
 
-    abstract fun startUpEntity()
-    abstract fun processEvent(event: Event)
-    abstract fun shutDownEntity()
+    abstract fun onStartUp()
+    abstract fun onEvent(event: Event)
+    abstract fun onShutDown()
 
     fun addIncomingEvent(event: Event) {
         if(isBusyEndEvent(event)) {
@@ -30,7 +30,7 @@ abstract class Entity() {
         var ev: Event
         while (deferredEvents.hasNext() && currentState == State.RUNNABLE) {
             ev = deferredEvents.dequeue()
-            processEvent(ev)
+            onEvent(ev)
         }
     }
 

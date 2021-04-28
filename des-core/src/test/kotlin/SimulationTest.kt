@@ -29,21 +29,21 @@ class SimulationTest {
         var actualEventTime: Long? = null
 
         val sendingEntity = object : Entity() {
-            override fun startUpEntity() {
+            override fun onStartUp() {
                 this.sendEvent(receivingEntity!!, delay, data)
             }
-            override fun processEvent(event: Event) {}
-            override fun shutDownEntity() {}
+            override fun onEvent(event: Event) {}
+            override fun onShutDown() {}
         }
         receivingEntity = object : Entity() {
-            override fun startUpEntity(){}
-            override fun processEvent(event: Event) {
+            override fun onStartUp(){}
+            override fun onEvent(event: Event) {
                 actualData = event.data as Int
                 actualDestEntity = event.destination
                 actualSrcEntity = event.source
                 actualEventTime = event.occurrenceTime
             }
-            override fun shutDownEntity() {}
+            override fun onShutDown() {}
         }
         val endClock = Simulation.start(arrayListOf(receivingEntity, sendingEntity),CallbackStub())
         Assertions.assertEquals(delay, endClock)
@@ -65,18 +65,18 @@ class SimulationTest {
         var actualThirdClock: Long? = null
 
         val sendingEntity = object : Entity() {
-            override fun startUpEntity() {
+            override fun onStartUp() {
                 this.sendEvent(receivingEntity!!, firstDelay, 1)
                 this.sendEvent(receivingEntity!!, secondDelay, 2)
                 this.sendEvent(receivingEntity!!, thirdDelay, 3)
             }
-            override fun processEvent(event: Event) {}
-            override fun shutDownEntity() {}
+            override fun onEvent(event: Event) {}
+            override fun onShutDown() {}
         }
 
         receivingEntity = object : Entity() {
-            override fun startUpEntity(){}
-            override fun processEvent(event: Event) {
+            override fun onStartUp(){}
+            override fun onEvent(event: Event) {
                 when(event.data) {
                     1 -> {
                         actualFirstClock = Simulation.clock
@@ -89,7 +89,7 @@ class SimulationTest {
                     }
                 }
             }
-            override fun shutDownEntity() {}
+            override fun onShutDown() {}
         }
         Simulation.start(arrayListOf(receivingEntity, sendingEntity),CallbackStub())
         Assertions.assertEquals(firstDelay, actualFirstClock)
@@ -102,27 +102,27 @@ class SimulationTest {
 
         var entityAIsCalled: Boolean? = null
         val entityA = object : Entity() {
-            override fun startUpEntity() {
+            override fun onStartUp() {
                 entityAIsCalled = true
             }
-            override fun processEvent(event: Event) {}
-            override fun shutDownEntity() {}
+            override fun onEvent(event: Event) {}
+            override fun onShutDown() {}
         }
         var entityBIsCalled: Boolean? = null
         val entityB = object : Entity() {
-            override fun startUpEntity() {
+            override fun onStartUp() {
                 entityBIsCalled = true
             }
-            override fun processEvent(event: Event) {}
-            override fun shutDownEntity() {}
+            override fun onEvent(event: Event) {}
+            override fun onShutDown() {}
         }
         var entityCIsCalled: Boolean? = null
         val entityC = object : Entity() {
-            override fun startUpEntity() {
+            override fun onStartUp() {
                 entityCIsCalled = true
             }
-            override fun processEvent(event: Event) {}
-            override fun shutDownEntity() {}
+            override fun onEvent(event: Event) {}
+            override fun onShutDown() {}
         }
         Simulation.start(arrayListOf(entityA, entityB, entityC),CallbackStub())
         Assertions.assertEquals(true, entityAIsCalled)
@@ -135,25 +135,25 @@ class SimulationTest {
 
         var entityAIsCalled: Boolean? = null
         val entityA = object : Entity() {
-            override fun startUpEntity() {}
-            override fun processEvent(event: Event) {}
-            override fun shutDownEntity() {
+            override fun onStartUp() {}
+            override fun onEvent(event: Event) {}
+            override fun onShutDown() {
                 entityAIsCalled = true
             }
         }
         var entityBIsCalled: Boolean? = null
         val entityB = object : Entity() {
-            override fun startUpEntity() {}
-            override fun processEvent(event: Event) {}
-            override fun shutDownEntity() {
+            override fun onStartUp() {}
+            override fun onEvent(event: Event) {}
+            override fun onShutDown() {
                 entityBIsCalled = true
             }
         }
         var entityCIsCalled: Boolean? = null
         val entityC = object : Entity() {
-            override fun startUpEntity() {}
-            override fun processEvent(event: Event) {}
-            override fun shutDownEntity() {
+            override fun onStartUp() {}
+            override fun onEvent(event: Event) {}
+            override fun onShutDown() {
                 entityCIsCalled = true
             }
         }
@@ -171,21 +171,21 @@ class SimulationTest {
         var respondingEntity: Entity? = null
 
         val sendingEntity = object : Entity() {
-            override fun startUpEntity() {
+            override fun onStartUp() {
                 this.sendEvent(respondingEntity!!, firstDelay,null)
             }
-            override fun processEvent(event: Event) {
+            override fun onEvent(event: Event) {
                isResponseReceived = event.data == 2
             }
-            override fun shutDownEntity() {}
+            override fun onShutDown() {}
         }
 
         respondingEntity = object : Entity() {
-            override fun startUpEntity(){}
-            override fun processEvent(event: Event) {
+            override fun onStartUp(){}
+            override fun onEvent(event: Event) {
                 this.sendEvent(event.source, responseDelay,2)
             }
-            override fun shutDownEntity() {}
+            override fun onShutDown() {}
         }
         val endClock = Simulation.start(arrayListOf(respondingEntity, sendingEntity),CallbackStub())
         Assertions.assertEquals(firstDelay + responseDelay, endClock)
@@ -200,23 +200,23 @@ class SimulationTest {
         var respondingEntity: Entity? = null
 
         val sendingEntity = object : Entity() {
-            override fun startUpEntity() {
+            override fun onStartUp() {
                 this.sendEvent(respondingEntity!!, delay,null)
             }
-            override fun processEvent(event: Event) {
+            override fun onEvent(event: Event) {
                 this.sendEvent(event.source, delay,null)
             }
-            override fun shutDownEntity() {}
+            override fun onShutDown() {}
         }
 
         respondingEntity = object : Entity() {
-            override fun startUpEntity(){}
-            override fun processEvent(event: Event) {
+            override fun onStartUp(){}
+            override fun onEvent(event: Event) {
                 this.sendEvent(event.source, delay,null)
                 this.terminate()
                 processCounter++
             }
-            override fun shutDownEntity() {}
+            override fun onShutDown() {}
         }
         val endClock = Simulation.start(arrayListOf(respondingEntity, sendingEntity),CallbackStub())
         Assertions.assertEquals(delay * 3, endClock)
@@ -230,13 +230,13 @@ class SimulationTest {
         val expectedProcessCounter = 1
 
         val busyEntity = object : Entity() {
-            override fun startUpEntity() {
+            override fun onStartUp() {
                 this.beBusy(delay)
             }
-            override fun processEvent(event: Event) {
+            override fun onEvent(event: Event) {
                 processCounter++
             }
-            override fun shutDownEntity() {}
+            override fun onShutDown() {}
         }
         val endClock = Simulation.start(arrayListOf(busyEntity),CallbackStub())
         Assertions.assertEquals(delay, endClock)
@@ -249,12 +249,12 @@ class SimulationTest {
         var endState: Entity.State? = null
         var startState: Entity.State? = null
         val busyEntity = object : Entity() {
-            override fun startUpEntity() {
+            override fun onStartUp() {
                 this.beBusy(busyDuration)
                 startState = this.currentState
             }
-            override fun processEvent(event: Event) {}
-            override fun shutDownEntity() {
+            override fun onEvent(event: Event) {}
+            override fun onShutDown() {
                 endState = this.currentState
             }
         }
@@ -274,17 +274,17 @@ class SimulationTest {
         val expectedProcessCounter = 2
 
         val busyEntity = object : Entity() {
-            override fun startUpEntity() {
+            override fun onStartUp() {
                 this.sendEvent(this, delay, eventType)
                 this.beBusy(busyDuration)
             }
-            override fun processEvent(event: Event) {
+            override fun onEvent(event: Event) {
                 processCounter++
                 if(event.data == eventType) {
                     eventProcessedAt = Simulation.clock
                 }
             }
-            override fun shutDownEntity() {}
+            override fun onShutDown() {}
         }
         val endClock = Simulation.start(arrayListOf(busyEntity),CallbackStub())
         Assertions.assertEquals(busyDuration, endClock)
@@ -299,17 +299,17 @@ class SimulationTest {
         var eventProcessedAt: Long = 0
 
         val busyEntity = object : Entity() {
-            override fun startUpEntity() {
+            override fun onStartUp() {
                 this.sendEvent(this, delay, eventType)
                 this.sendEvent(this, delay - 1, 0)
                 this.sendEvent(this, delay + 1, 0)
             }
-            override fun processEvent(event: Event) {
+            override fun onEvent(event: Event) {
                 if(event.data == eventType) {
                     eventProcessedAt = Simulation.clock
                 }
             }
-            override fun shutDownEntity() {}
+            override fun onShutDown() {}
         }
         Simulation.start(arrayListOf(busyEntity),CallbackStub())
         Assertions.assertEquals(delay, eventProcessedAt)
@@ -326,16 +326,16 @@ class SimulationTest {
         var receivingEntity: Entity? = null
 
         val sendingEntity = object : Entity() {
-            override fun startUpEntity() {
+            override fun onStartUp() {
                 this.sendEvent(receivingEntity!!, 4,1)
             }
-            override fun processEvent(event: Event) {}
-            override fun shutDownEntity() {}
+            override fun onEvent(event: Event) {}
+            override fun onShutDown() {}
         }
         receivingEntity = object : Entity() {
-            override fun startUpEntity(){}
-            override fun processEvent(event: Event) {}
-            override fun shutDownEntity() {}
+            override fun onStartUp(){}
+            override fun onEvent(event: Event) {}
+            override fun onShutDown() {}
         }
         val actualClock = Simulation.start(arrayListOf(receivingEntity, sendingEntity),CallbackStub(), maxClock)
         Assertions.assertEquals(maxClock, actualClock)
@@ -348,21 +348,21 @@ class SimulationTest {
         var respondingEntity: Entity? = null
 
         val sendingEntity = object : Entity() {
-            override fun startUpEntity() {
+            override fun onStartUp() {
                 this.sendEvent(respondingEntity!!, delay,null)
             }
-            override fun processEvent(event: Event) {
+            override fun onEvent(event: Event) {
                 this.sendEvent(event.source, delay,null)
             }
-            override fun shutDownEntity() {}
+            override fun onShutDown() {}
         }
 
         respondingEntity = object : Entity() {
-            override fun startUpEntity(){}
-            override fun processEvent(event: Event) {
+            override fun onStartUp(){}
+            override fun onEvent(event: Event) {
                 this.sendEvent(event.source, delay,null)
             }
-            override fun shutDownEntity() {}
+            override fun onShutDown() {}
         }
         val endClock = Simulation.start(arrayListOf(respondingEntity, sendingEntity),CallbackStub(), maxClock)
         Assertions.assertEquals(maxClock, endClock)
@@ -375,23 +375,23 @@ class SimulationTest {
         var respondingEntity: Entity? = null
 
         val sendingEntity = object : Entity() {
-            override fun startUpEntity() {
+            override fun onStartUp() {
                 this.sendEvent(respondingEntity!!, delay,null)
             }
-            override fun processEvent(event: Event) {
+            override fun onEvent(event: Event) {
                 this.sendEvent(event.source, delay,null)
             }
-            override fun shutDownEntity() {}
+            override fun onShutDown() {}
         }
 
         respondingEntity = object : Entity() {
-            override fun startUpEntity(){}
-            override fun processEvent(event: Event) {
+            override fun onStartUp(){}
+            override fun onEvent(event: Event) {
                 this.sendEvent(event.source, delay,null)
                 if(Simulation.eventCounter >= maxEventNumber)
                     Simulation.stop()
             }
-            override fun shutDownEntity() {}
+            override fun onShutDown() {}
         }
         val endClock = Simulation.start(arrayListOf(respondingEntity, sendingEntity),CallbackStub())
         Assertions.assertEquals(maxEventNumber.toLong()-1, endClock)

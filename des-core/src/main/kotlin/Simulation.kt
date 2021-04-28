@@ -37,7 +37,7 @@ object Simulation {
 
     private fun startUpAllEntities() {
         for (ent: Entity in entities) {
-            ent.startUpEntity()
+            ent.onStartUp()
         }
     }
 
@@ -103,19 +103,19 @@ object Simulation {
 
     private fun startUp(entities: List<Entity>, callback: Callback?, maxClock: Long) {
         initialize(entities, callback, maxClock)
-        callback?.onSimulationStart()
+        callback?.onStartUp()
         startUpAllEntities()
     }
 
     private fun shutDown() {
         shutDownAllEntities()
-        callback?.onSimulationEnd()
+        callback?.onShutDown()
         resetVariables()
     }
 
     private fun shutDownAllEntities() {
         for (ent: Entity in entities) {
-            ent.shutDownEntity()
+            ent.onShutDown()
         }
     }
 
@@ -132,8 +132,8 @@ object Simulation {
     fun numberOfEntities() = entities.size
 
     interface Callback {
-        fun onSimulationStart()
-        fun onSimulationEnd()
+        fun onStartUp()
+        fun onShutDown()
 
     }
 

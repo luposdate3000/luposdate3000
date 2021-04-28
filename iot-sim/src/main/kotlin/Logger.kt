@@ -1,9 +1,9 @@
 class Logger: Simulation.Callback {
-    override fun onSimulationStart() {
+    override fun onStartUp() {
         logSimulationStart()
     }
 
-    override fun onSimulationEnd() {
+    override fun onShutDown() {
         logSimulationEnd()
     }
 
