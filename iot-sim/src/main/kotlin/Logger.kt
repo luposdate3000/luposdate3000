@@ -1,26 +1,17 @@
 class Logger: Simulation.Callback {
+
     override fun onStartUp() {
-        logSimulationStart()
-    }
-
-    override fun onShutDown() {
-        logSimulationEnd()
-    }
-
-    private fun log(content: String) {
-        println(content)
-    }
-
-    private fun logSimulationStart() {
         log("")
         log("")
         log("================================================")
         log("Simulation has started")
-        log("Number of entities: ${Simulation.numberOfEntities()}")
+        log("Number of devices: ${Configuration.devices.size}")
+        log("Number of links: ${LinkManager.linkCounter}")
+        //log("Number of DODAG links: ${LinkManager.linkCounter}")
         log("")
     }
 
-    private fun logSimulationEnd() {
+    override fun onShutDown() {
         log("")
         log("Number of processed events: ${Simulation.eventCounter}")
         log("Simulation clock: ${Simulation.clock}")
@@ -28,5 +19,15 @@ class Logger: Simulation.Callback {
         log("================================================")
         log("")
         log("")
+
+        resetCounters()
+    }
+
+    private fun log(content: String) {
+        println(content)
+    }
+
+    private fun resetCounters() {
+        LinkManager.resetCounter()
     }
 }

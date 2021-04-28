@@ -44,6 +44,7 @@ class LinkManager(val device: Device) {
     private fun setLink(otherDevice: Device, link: Link) {
         links[otherDevice.address] = link
         otherDevice.linkManager.links[device.address] = link
+        linkCounter++
     }
 
     fun setLinkIfPossible(otherDevice: Device) {
@@ -70,6 +71,14 @@ class LinkManager(val device: Device) {
         = links.keys
 
     companion object {
+
+        var linkCounter = 0
+            private set
+
+        fun resetCounter() {
+            linkCounter = 0
+        }
+
         var sortedLinkTypes: Array<LinkType> = emptyArray()
             set(value) {
                 field = value
