@@ -3,6 +3,8 @@ class ParkingSensor(
     override var dataSinkAddress: Int
 ): Device.Sensor {
 
+    class ParkingObservation(val isOccupied: Boolean)
+
     companion object {
         var dataRateInSeconds: Int = 30
         var observationCounter = 0
@@ -14,8 +16,7 @@ class ParkingSensor(
     }
 
     override fun observe() {
-        val obEnd = NetworkPackage.ObservationEnd()
-        device.sendSelfPackage(dataRateInSeconds.toLong(), obEnd)
+        device.waitForObservationEnd(dataRateInSeconds.toLong())
     }
 
     override fun onObservationEnd() {
@@ -26,7 +27,7 @@ class ParkingSensor(
     }
 
     private fun getParkingObservation()
-        = NetworkPackage.ParkingObservation(RandomGenerator.random.nextBoolean())
+        = ParkingObservation(RandomGenerator.random.nextBoolean())
 
 
 }

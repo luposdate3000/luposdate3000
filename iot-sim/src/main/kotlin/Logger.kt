@@ -14,7 +14,8 @@ class Logger: Simulation.Callback {
 
     override fun onShutDown() {
         log(getDODAGString())
-        log("Total number of packages: ${Device.packageCounter}")
+        log("Total number of events: ${Simulation.eventCounter}")
+        log("Total number of network packages: ${Device.packageCounter}")
         log("Number of DIOs: ${RPLRouter.dioCounter}")
         log("Number of DAOs: ${RPLRouter.daoCounter}")
         log("Number of data packages: ${Device.observationPackageCounter}")

@@ -10,6 +10,7 @@ class Device(
 {
     val router: Router = RPLRouter(this)
     val linkManager = LinkManager(this)
+    class SensorObservationEndMarker
 
     private fun getNetworkDelay(destinationAddress: Int): Long {
         return if (destinationAddress == address) {
@@ -25,11 +26,15 @@ class Device(
     }
 
     override fun onEvent(event: Event) {
+        if(event.data is SensorObservationEndMarker) {
+            sensor!!.onObservationEnd()
+            return
+        }
+
         val pck = event.data as NetworkPackage
         packageCounter++
         when {
-            pck.data is NetworkPackage.ObservationEnd -> sensor!!.onObservationEnd()
-            pck.data is NetworkPackage.ParkingObservation -> processParkingObservation(pck)
+            pck.data is ParkingSensor.ParkingObservation -> processParkingObservation(pck)
             router.isControlPackage(pck) -> router.processControlPackage(pck)
         }
 
@@ -53,9 +58,8 @@ class Device(
         sendEvent(Configuration.devices[nextHop], delay, pck)
     }
 
-    fun sendSelfPackage(delay: Long, data: Any) {
-        val pck = NetworkPackage(address, address, data)
-        sendEvent(this, delay, pck)
+    fun waitForObservationEnd(delay: Long) {
+        sendEvent(this, delay, SensorObservationEndMarker())
     }
 
 
