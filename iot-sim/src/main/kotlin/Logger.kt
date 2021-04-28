@@ -13,7 +13,6 @@ class Logger: Simulation.Callback {
     }
 
     override fun onShutDown() {
-        //log("Number of DODAG links: ${LinkManager.linkCounter}")
         log(getDODAGString())
         log("Total number of packages: ${Device.packageCounter}")
         log("Number of DIOs: ${RPLRouter.dioCounter}")
