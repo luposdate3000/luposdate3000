@@ -16,15 +16,15 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s00misc.EmptyResultException
-import lupos.s00misc.SanityCheck
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.noinput.OPEmptyRow
-import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.singleinput.LOPProjection
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
+import lupos.operator.base.noinput.OPEmptyRow
+import lupos.operator.logical.multiinput.LOPJoin
+import lupos.operator.logical.noinput.OPNothing
+import lupos.operator.logical.singleinput.LOPProjection
+import lupos.shared.EmptyResultException
+import lupos.shared.SanityCheck
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrder") {
     private fun findAllJoinsInChildren(node: LOPJoin): List<IOPBase> {
@@ -55,11 +55,13 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
     }
 
     private fun clusterizeChildren(nodes: List<IOPBase>): List<MutableList<IOPBase>> {
+        println("LogicalOptimizerJoinOrder start clusterizeChildren ${nodes.size}")
         // put children with same variables into groups, such that those definetly can use Merge-Join as much as possible
         val res = mutableListOf<MutableList<IOPBase>>()
         val variables = mutableListOf<List<String>>()
         loop@ for (node in nodes) {
             val v = node.getProvidedVariableNames()
+            println("$v -> ${node.getPossibleSortPriorities()}")
             if (res.size > 0) {
                 for (i in 0 until variables.size) {
                     if (variables[i].size == v.size && variables[i].containsAll(v)) {
@@ -70,6 +72,10 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
             }
             res.add(mutableListOf(node))
             variables.add(v)
+        }
+        println("LogicalOptimizerJoinOrder clusteredChildren :: ")
+        for (i in 0 until variables.size) {
+            println("#$i : ${variables[i]} -> ${res[i].size}")
         }
         return res
     }
@@ -112,10 +118,6 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                 val allChilds2 = findAllJoinsInChildren(node)
                 if (allChilds2.size > 2) {
                     var result: IOPBase? = null
-                    if (result == null && node.onlyExistenceRequired) {
-                        // dont not prefer merge join for_ ask-queries, as this makes it harder later, to avoid any materialisation
-                        result = LogicalOptimizerJoinOrderStore(allChilds2, node)
-                    }
                     if (result == null) {
                         val allChilds3 = clusterizeChildren(allChilds2)
                         val allChilds4 = mutableListOf<IOPBase>()
@@ -133,6 +135,7 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                     }
                 }
             } catch (e: EmptyResultException) {
+                e.printStackTrace()
                 res = OPNothing(query, originalProvided)
             }
         }

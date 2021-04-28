@@ -16,13 +16,13 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.OPBaseCompound
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.multiinput.LOPUnion
-import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
-import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
-import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
+import lupos.operator.base.OPBaseCompound
+import lupos.operator.base.Query
+import lupos.operator.logical.multiinput.LOPUnion
+import lupos.operator.logical.singleinput.modifiers.LOPDistinct
+import lupos.operator.logical.singleinput.modifiers.LOPLimit
+import lupos.operator.logical.singleinput.modifiers.LOPOffset
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerDistinctUp(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerDistinctUpID, "LogicalOptimizerDistinctUp") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

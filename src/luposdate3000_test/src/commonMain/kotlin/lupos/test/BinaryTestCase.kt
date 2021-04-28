@@ -16,51 +16,56 @@
  */
 package lupos.test
 
-import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryFactory
-import lupos.dictionary.DictionaryHelper
-import lupos.dictionary.EDictionaryTypeExt
-import lupos.dictionary.IDictionary
-import lupos.dictionary.nodeGlobalDictionary
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.OPBaseCompound
+import lupos.operator.base.Query
+import lupos.operator.base.iterator.ColumnIteratorMultiValue
+import lupos.operator.physical.POPBase
+import lupos.operator.physical.partition.POPMergePartition
+import lupos.operator.physical.partition.POPSplitPartitionFromStore
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.EIndexPatternExt
-import lupos.s00misc.EModifyTypeExt
-import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.File
-import lupos.s00misc.IMyOutputStream
-import lupos.s00misc.MAX_TRIPLES_DURING_TEST
-import lupos.s00misc.MemoryTable
-import lupos.s00misc.MyPrintWriter
-import lupos.s00misc.NotImplementedException
-import lupos.s00misc.Partition
-import lupos.s00misc.UnknownDataFileException
-import lupos.s00misc.XMLElement
-import lupos.s00misc.communicationHandler
-import lupos.s00misc.parseFromAny
-import lupos.s02buildSyntaxTree.LexerCharIterator
-import lupos.s02buildSyntaxTree.LookAheadTokenIterator
-import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
-import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s04arithmetikOperators.IAOPBase
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.OPBaseCompound
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.iterator.ColumnIteratorMultiValue
-import lupos.s05tripleStore.TripleStoreManager
-import lupos.s05tripleStore.tripleStoreManager
-import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.partition.POPMergePartition
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-import lupos.s11outputResult.QueryResultToMemoryTable
-import lupos.s11outputResult.QueryResultToXMLStream
+import lupos.parser.LexerCharIterator
+import lupos.parser.LookAheadTokenIterator
+import lupos.parser.sparql1_1.SPARQLParser
+import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
+import lupos.result_format.QueryResultToMemoryTable
+import lupos.result_format.QueryResultToXMLStream
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.EIndexPatternExt
+import lupos.shared.EModifyTypeExt
+import lupos.shared.EPartitionModeExt
+import lupos.shared.IMyOutputStream
+import lupos.shared.MemoryTable
+import lupos.shared.NotImplementedException
+import lupos.shared.Partition
+import lupos.shared.TripleStoreManager
+import lupos.shared.UnknownDataFileException
+import lupos.shared.XMLElement
+import lupos.shared.communicationHandler
+import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dictionary.EDictionaryTypeExt
+import lupos.shared.dictionary.IDictionary
+import lupos.shared.dictionary.nodeGlobalDictionary
+import lupos.shared.operator.IAOPBase
+import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.ColumnIterator
+import lupos.shared.parseFromAny
+import lupos.shared.tripleStoreManager
+import lupos.shared_inline.DictionaryHelper
+import lupos.shared_inline.File
+import lupos.shared_inline.MyPrintWriter
+import kotlin.jvm.JvmField
 
 public object BinaryTestCase {
-    private var outSummary: IMyOutputStream = MyPrintWriter(false)
-    private var lastInput = MemoryTable(Array(0) { "" })
+    @JvmField
+    internal var outSummary: IMyOutputStream = MyPrintWriter(false)
+
+    @JvmField
+    internal var lastInput = MemoryTable(Array(0) { "" })
+
     private fun rowToString(row: IntArray, dict: Array<String>): String {
         var res = "${row.map { it }}::"
         if (row.isNotEmpty()) {
@@ -291,7 +296,8 @@ public object BinaryTestCase {
         return res
     }
 
-    private var notImplementedFeaturesList = mutableSetOf( //
+    @JvmField
+    internal var notImplementedFeaturesList = mutableSetOf( //
         "rdfs:subPropertyOf", //
         "rdfs:subClassOf", //
         "rdfs:domain", //
@@ -446,9 +452,15 @@ public object BinaryTestCase {
                                 val bufP = IntArray(1048576)
                                 val bufO = IntArray(1048576)
                                 var bufPos = 0
+                                val arr = arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos))
+                                val arr2 = arrayOf(arr[0] as ColumnIterator, arr[1] as ColumnIterator, arr[2] as ColumnIterator)
+                                val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
                                 for (row in tableInput.data) {
                                     if (bufPos == bufS.size) {
-                                        store.modify(query2, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
+                                        for (i in 0 until 3) {
+                                            arr[i].reset(bufPos)
+                                        }
+                                        store.modify_cache(query2, arr2, EModifyTypeExt.INSERT, cache, false)
                                         bufPos = 0
                                     }
                                     bufS[bufPos] = row[0]
@@ -456,9 +468,10 @@ public object BinaryTestCase {
                                     bufO[bufPos] = row[2]
                                     bufPos++
                                 }
-                                if (bufPos > 0) {
-                                    store.modify(query2, arrayOf(ColumnIteratorMultiValue(bufS, bufPos), ColumnIteratorMultiValue(bufP, bufPos), ColumnIteratorMultiValue(bufO, bufPos)), EModifyTypeExt.INSERT)
+                                for (i in 0 until 3) {
+                                    arr[i].reset(bufPos)
                                 }
+                                store.modify_cache(query2, arr2, EModifyTypeExt.INSERT, cache, true)
                                 tripleStoreManager.commit(query2)
                                 if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
                                     communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))

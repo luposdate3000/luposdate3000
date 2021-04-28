@@ -17,8 +17,8 @@
 package lupos.launch.endpoint
 
 import lupos.endpoint.LuposdateEndpoint
-import lupos.s00misc.Parallel
-import lupos.s16network.HttpEndpointLauncher
+import lupos.endpoint_launcher.HttpEndpointLauncher
+import lupos.shared.Parallel
 
 internal fun mainFunc(): Unit = Parallel.runBlocking {
     LuposdateEndpoint.initialize()

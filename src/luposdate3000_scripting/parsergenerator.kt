@@ -16,6 +16,7 @@
  */
 import java.io.File
 import java.io.PrintWriter
+import kotlin.jvm.JvmField
 
 // addition to regex-grammar::
 // a '=' directly terminates a group
@@ -46,8 +47,8 @@ object ParserGenerator {
             out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
             out.println(" */")
             out.println("package $packagename")
-            out.println("import lupos.s00misc.IMyInputStream")
-            out.println("import lupos.s00misc.Luposdate3000Exception")
+            out.println("import lupos.shared.IMyInputStream")
+            out.println("import lupos.shared.Luposdate3000Exception")
             out.println("import kotlin.jvm.JvmField")
             out.println("internal open class ParserException(msg: String) : Luposdate3000Exception(\"ParserContext\", msg)")
             out.println("internal class ParserExceptionEOF : ParserException(\"EOF\")")
@@ -80,7 +81,9 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
 
     var functionName = "func"
     var helperfunctions = mutableMapOf<String, String>() // func content -> func name
-    var uuid = 1
+
+    @JvmField
+    internal var uuid = 1
     var startEndMap = mutableMapOf<Int, String>()
     var startEndMapElseBranch = mutableMapOf<Int, String>()
     var identicalIdsMap = mutableMapOf<Int, MutableSet<Int>>()
@@ -1409,6 +1412,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                 root.append(parseRegex(allTokens[args[idx]]!!, CharGroup(args[idx], CharGroupModifier.ACTION)))
             }
             out.println("    crossinline on${args[args.size - 1]}: () -> Unit")
+            println("debugggging :: '${args[args.size - 1]}' ${allTokens.keys}")
             root.append(parseRegex(allTokens[args[args.size - 1]]!!, CharGroup(args[args.size - 1], CharGroupModifier.ACTION)))
             out.println(") {")
             out.println("    context.clear()")
@@ -1425,9 +1429,9 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             out.println("}")
             for ((k, v) in helperfunctions) {
                 if (k.length < 300) {
-                    out.println("@Suppress(\"NOTHING_TO_INLINE\") private inline fun $v(c: Int): Int{")
+                    out.println("@Suppress(\"NOTHING_TO_INLINE\") internal inline fun $v(c: Int): Int{")
                 } else {
-                    out.println("private fun $v(c: Int): Int{")
+                    out.println("internal fun $v(c: Int): Int{")
                 }
                 out.print(k)
                 out.println("}")

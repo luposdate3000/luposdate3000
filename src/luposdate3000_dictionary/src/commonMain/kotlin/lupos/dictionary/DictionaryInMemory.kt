@@ -16,14 +16,28 @@
  */
 package lupos.dictionary
 
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.SanityCheck
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.SanityCheck
+import lupos.shared.UUID_Counter
+import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dictionary.nodeGlobalDictionary
+import lupos.shared_inline.ByteArrayWrapperExt
+import lupos.shared_inline.DictionaryHelper
+import kotlin.jvm.JvmField
 
 public class DictionaryInMemory : ADictionary {
-    private var dataI2V = Array<ByteArrayWrapper>(1) { ByteArrayWrapper() }
-    private var dataV2I = mutableMapOf<ByteArrayWrapper, Int>()
-    private var bNodeCounter = 5
+    @JvmField
+    internal val uuid = UUID_Counter.getNextUUID()
+
+    @JvmField
+    internal var dataI2V = Array<ByteArrayWrapper>(1) { ByteArrayWrapper() }
+
+    @JvmField
+    internal var dataV2I = mutableMapOf<ByteArrayWrapper, Int>()
+
+    @JvmField
+    internal var bNodeCounter = 5
 
     internal constructor(isLocal: Boolean) : super() {
         this.isLocal = isLocal
@@ -56,7 +70,7 @@ public class DictionaryInMemory : ADictionary {
                 if (isLocal == ((value and ADictionary.flagLocal) == ADictionary.flagLocal)) {
                     if ((value and ADictionary.flagNoBNode) == ADictionary.flagNoBNode) {
                         val buf = dataI2V[value and ADictionary.maskValue]
-                        buf.copyInto(buffer)
+                        ByteArrayWrapperExt.copyInto(buf, buffer)
                     } else {
                         SanityCheck.check { value < bNodeCounter }
                         SanityCheck.check { value >= 0 }
@@ -93,7 +107,7 @@ public class DictionaryInMemory : ADictionary {
                 if (res == null) {
                     res = dataV2I.size
                     val bufferCopy = ByteArrayWrapper()
-                    buffer.copyInto(bufferCopy)
+                    ByteArrayWrapperExt.copyInto(buffer, bufferCopy)
                     dataV2I[bufferCopy] = res
                     if (dataI2V.size <= res) {
                         val tmp = dataI2V

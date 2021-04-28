@@ -16,31 +16,31 @@
  */
 package lupos.optimizer.physical
 
+import lupos.operator.base.Query
+import lupos.operator.base.multiinput.LOPJoin_Helper
+import lupos.operator.logical.multiinput.LOPJoin
+import lupos.operator.logical.noinput.LOPTriple
+import lupos.operator.logical.singleinput.LOPProjection
+import lupos.operator.physical.POPBase
+import lupos.operator.physical.multiinput.POPJoinCartesianProduct
+import lupos.operator.physical.multiinput.POPJoinHashMap
+import lupos.operator.physical.multiinput.POPJoinMerge
+import lupos.operator.physical.multiinput.POPJoinMergeOptional
+import lupos.operator.physical.multiinput.POPJoinMergeSingleColumn
+import lupos.operator.physical.multiinput.POPJoinWithStore
+import lupos.operator.physical.multiinput.POPJoinWithStoreExists
+import lupos.operator.physical.partition.POPMergePartition
+import lupos.operator.physical.partition.POPMergePartitionCount
+import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
+import lupos.operator.physical.partition.POPSplitPartition
+import lupos.operator.physical.singleinput.POPProjection
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
-import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.Partition
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.multiinput.LOPJoin_Helper
-import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.singleinput.LOPProjection
-import lupos.s05tripleStore.POPTripleStoreIterator
-import lupos.s05tripleStore.tripleStoreManager
-import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.multiinput.POPJoinCartesianProduct
-import lupos.s09physicalOperators.multiinput.POPJoinHashMap
-import lupos.s09physicalOperators.multiinput.POPJoinMerge
-import lupos.s09physicalOperators.multiinput.POPJoinMergeOptional
-import lupos.s09physicalOperators.multiinput.POPJoinMergeSingleColumn
-import lupos.s09physicalOperators.multiinput.POPJoinWithStore
-import lupos.s09physicalOperators.multiinput.POPJoinWithStoreExists
-import lupos.s09physicalOperators.partition.POPMergePartition
-import lupos.s09physicalOperators.partition.POPMergePartitionCount
-import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPSplitPartition
-import lupos.s09physicalOperators.singleinput.POPProjection
+import lupos.shared.EPartitionModeExt
+import lupos.shared.Partition
+import lupos.shared.operator.IOPBase
+import lupos.shared.tripleStoreManager
+import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerJoinTypeID, "PhysicalOptimizerJoinType") {
     private fun localGetProjected(node: IOPBase, parent: IOPBase?): List<String> {

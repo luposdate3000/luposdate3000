@@ -15,7 +15,7 @@ nohup.out
 proguard
 resources/binary/config2
 run
-settings.gradle
+settings.gradle.kts
 src/xxx_generated_xxx/
 tmp
 tmpparams
@@ -23,3 +23,4 @@ x
 afl.*.log
 erroredTests
 external_jvm_dependencies
+

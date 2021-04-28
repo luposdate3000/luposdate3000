@@ -16,23 +16,22 @@
  */
 package lupos.optimizer.logical
 
-import lupos.dictionary.DictionaryExt
-import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.REPLACE_STORE_WITH_VALUES
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.communicationHandler
-import lupos.s04arithmetikOperators.IAOPBase
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPValue
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.noinput.LOPValues
-import lupos.s04logicalOperators.noinput.OPEmptyRow
-import lupos.s04logicalOperators.noinput.OPNothing
-import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s05tripleStore.tripleStoreManager
+import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPValue
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
+import lupos.operator.base.noinput.OPEmptyRow
+import lupos.operator.logical.noinput.LOPTriple
+import lupos.operator.logical.noinput.LOPValues
+import lupos.operator.logical.noinput.OPNothing
+import lupos.operator.logical.singleinput.LOPBind
+import lupos.shared.EPartitionModeExt
+import lupos.shared.SanityCheck
+import lupos.shared.communicationHandler
+import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.operator.IAOPBase
+import lupos.shared.operator.IOPBase
+import lupos.shared.tripleStoreManager
 
 public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerStoreToValuesID, "LogicalOptimizerStoreToValues") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

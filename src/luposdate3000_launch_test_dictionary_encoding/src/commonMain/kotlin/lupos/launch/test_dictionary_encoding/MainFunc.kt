@@ -18,15 +18,17 @@ package lupos.launch.test_dictionary_encoding
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
-import lupos.buffermanager.BufferManagerExt
-import lupos.dictionary.DictionaryHelper
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.Parallel
-import lupos.test.AflCore
+import lupos.buffer_manager.BufferManagerExt
+import lupos.shared.AflCore
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.Parallel
+import lupos.shared_inline.DictionaryHelper
+import kotlin.jvm.JvmField
 import kotlin.math.abs
 
-private val verbose = false
+@JvmField
+internal val verbose = false
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
@@ -55,6 +57,7 @@ private object AssertionFunctions {
         try {
             a()
         } catch (e: Throwable) {
+            // e.printStackTrace() this is handled correctly
             flag = false
         }
         if (flag) {
@@ -82,7 +85,6 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 v = nextRandom().toString()
             }
             2, 3, 4 -> {
-                remaining--
                 when (AssertionFunctions.randomRangePositive(nextRandom(), 3)) {
                     0 -> v += "+"
                     1 -> v += "-"

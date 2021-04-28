@@ -16,9 +16,14 @@
  */
 package lupos.test
 
-public class SparqlTestSuiteConverter(resource_folder: String, private val output_folder: String) : SparqlTestSuite() {
-    private var counter = 0
-    private var lastFile: String = ""
+import kotlin.jvm.JvmField
+
+public class SparqlTestSuiteConverter(resource_folder: String, @JvmField internal val output_folder: String) : SparqlTestSuite() {
+    @JvmField
+    internal var counter = 0
+
+    @JvmField
+    internal var lastFile: String = ""
 
     init {
         prefixDirectory = "$resource_folder/"

@@ -16,20 +16,26 @@
  */
 package lupos.launch.test_triple_index
 
-import lupos.buffermanager.BufferManager
-import lupos.buffermanager.BufferManagerExt
-import lupos.dictionary.DictionaryExt
-import lupos.s00misc.Parallel
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.iterator.IteratorBundle
-import lupos.s05tripleStore.TripleStoreIndex
-import lupos.s05tripleStore.TripleStoreIndexIDTriple
-import lupos.test.AflCore
+import lupos.buffer_manager.BufferManager
+import lupos.buffer_manager.BufferManagerExt
+import lupos.operator.base.Query
+import lupos.shared.AflCore
+import lupos.shared.Parallel
+import lupos.shared.TripleStoreIndex
+import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.operator.iterator.IteratorBundle
+import lupos.triple_store_id_triple.TripleStoreIndexIDTriple
+import kotlin.jvm.JvmField
 import kotlin.math.abs
 
-private val verbose = false
-private var duplicates = 0L
-private var totalinserts = 0L
+@JvmField
+internal val verbose = false
+
+@JvmField
+internal var duplicates = 0L
+
+@JvmField
+internal var totalinserts = 0L
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
@@ -40,11 +46,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     var maxClearCalls = 10
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
-    var rootPage = -1
-    bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-        rootPage = pageid
-    }
-    bufferManager.releasePage(lupos.SOURCE_FILE, rootPage)
+    val rootPage = bufferManager.allocPage(lupos.SOURCE_FILE)
     val order = intArrayOf(0, 1, 2)
     var index: TripleStoreIndex = TripleStoreIndexIDTriple(bufferManager, rootPage, false)
     val dataBuffer = mutableSetOf<Int>() // 2Bytes S, 1 Byte P, 1 Byte O -> this allows fast and easy sorting

@@ -16,14 +16,16 @@
  */
 package lupos.launch.test_buffermanager
 
-import lupos.buffermanager.BufferManager
-import lupos.buffermanager.BufferManagerExt
-import lupos.buffermanager.BufferManagerPage
-import lupos.s00misc.Parallel
-import lupos.test.AflCore
+import lupos.buffer_manager.BufferManager
+import lupos.buffer_manager.BufferManagerExt
+import lupos.shared.AflCore
+import lupos.shared.Parallel
+import lupos.shared_inline.BufferManagerPage
+import kotlin.jvm.JvmField
 import kotlin.math.abs
 
-private val verbose = false
+@JvmField
+internal val verbose = false
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
@@ -31,10 +33,11 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 }
 
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
+    val zeroBytes = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
     val pageIds = mutableListOf<Int>()
-    val mappedPages = mutableMapOf<Int, BufferManagerPage>()
+    val mappedPages = mutableMapOf<Int, ByteArray>()
     val mappedPagesCtr = mutableMapOf<Int, Int>()
 
     fun testReleasePageOk(pageid: Int) {
@@ -62,6 +65,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         try {
             bufferManager.releasePage(lupos.SOURCE_FILE, pageid)
         } catch (e: Throwable) {
+            // e.printStackTrace() this is handled correctly
             flag = false
         }
         if (flag) {
@@ -74,7 +78,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             println("testGetPageOk $pageid")
         }
         val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-        val id = page.readInt4(0)
+        val id = BufferManagerPage.readInt4(page, 0)
         if (id != pageid) {
             throw Exception("")
         }
@@ -99,6 +103,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         try {
             bufferManager.getPage(lupos.SOURCE_FILE, pageid)
         } catch (e: Throwable) {
+            // e.printStackTrace() this is handled correctly
             flag = false
         }
         if (flag) {
@@ -107,24 +112,25 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     }
 
     fun testCreateNewPageOk() {
-        bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-            if (verbose) {
-                println("testCreateNewPageOk $pageid")
-            }
-            page.writeInt4(0, pageid)
-            if (pageIds.contains(pageid)) {
-                throw Exception("")
-            }
-            pageIds.add(pageid)
-            if (mappedPages[pageid] != null) {
-                throw Exception("")
-            }
-            mappedPages[pageid] = page
-            if (mappedPagesCtr[pageid] != null) {
-                throw Exception("")
-            }
-            mappedPagesCtr[pageid] = 1
+        val pageid = bufferManager.allocPage(lupos.SOURCE_FILE)
+        val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
+        BufferManagerPage.copyFrom(page, zeroBytes, 0, 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+        if (verbose) {
+            println("testCreateNewPageOk $pageid")
         }
+        BufferManagerPage.writeInt4(page, 0, pageid)
+        if (pageIds.contains(pageid)) {
+            throw Exception("")
+        }
+        pageIds.add(pageid)
+        if (mappedPages[pageid] != null) {
+            throw Exception("")
+        }
+        mappedPages[pageid] = page
+        if (mappedPagesCtr[pageid] != null) {
+            throw Exception("")
+        }
+        mappedPagesCtr[pageid] = 1
     }
 
     fun testDeletePageOk(pageid: Int) {
@@ -145,6 +151,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         try {
             bufferManager.deletePage(lupos.SOURCE_FILE, pageid)
         } catch (e: Throwable) {
+            // e.printStackTrace() this is handled correctly
             flag = false
         }
         if (flag) {
@@ -235,7 +242,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             throw Exception("")
         }
         for ((k, v) in mappedPages) {
-            val id = v.readInt4(0)
+            val id = BufferManagerPage.readInt4(v, 0)
             if (id != k) {
                 throw Exception("")
             }
@@ -253,7 +260,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     }
     for (pageid in pageIds) {
         val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-        val id = page.readInt4(0)
+        val id = BufferManagerPage.readInt4(page, 0)
         if (id != pageid) {
             throw Exception("")
         }
@@ -275,7 +282,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     }
     for (pageid in pageIds) {
         val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
-        val id = page.readInt4(0)
+        val id = BufferManagerPage.readInt4(page, 0)
         if (id != pageid) {
             throw Exception("")
         }

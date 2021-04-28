@@ -1,4 +1,4 @@
 package=Luposdate3000_Jena_Wrapper
-name=Luposdate3000_Jena_Wrapper_On
-enabled=always
-enabledRun=jenaWrapper:On
+dependencyJvm=org.slf4j:slf4j-simple:1.7.25
+dependencyJvm=org.apache.jena:jena-core:3.14.0
+dependencyJvm=org.apache.jena:jena-arq:3.14.0

@@ -16,29 +16,29 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s00misc.SortHelper
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPValue
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.multiinput.LOPMinus
-import lupos.s04logicalOperators.multiinput.LOPUnion
-import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.noinput.LOPValues
-import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s04logicalOperators.singleinput.LOPFilter
-import lupos.s04logicalOperators.singleinput.LOPGroup
-import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
-import lupos.s04logicalOperators.singleinput.LOPProjection
-import lupos.s04logicalOperators.singleinput.LOPSort
-import lupos.s04logicalOperators.singleinput.LOPSubGroup
-import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
-import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
-import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
-import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
-import lupos.s04logicalOperators.singleinput.modifiers.LOPSortAny
+import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPValue
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
+import lupos.operator.logical.multiinput.LOPJoin
+import lupos.operator.logical.multiinput.LOPMinus
+import lupos.operator.logical.multiinput.LOPUnion
+import lupos.operator.logical.noinput.LOPTriple
+import lupos.operator.logical.noinput.LOPValues
+import lupos.operator.logical.singleinput.LOPBind
+import lupos.operator.logical.singleinput.LOPFilter
+import lupos.operator.logical.singleinput.LOPGroup
+import lupos.operator.logical.singleinput.LOPMakeBooleanResult
+import lupos.operator.logical.singleinput.LOPProjection
+import lupos.operator.logical.singleinput.LOPSort
+import lupos.operator.logical.singleinput.LOPSubGroup
+import lupos.operator.logical.singleinput.modifiers.LOPDistinct
+import lupos.operator.logical.singleinput.modifiers.LOPLimit
+import lupos.operator.logical.singleinput.modifiers.LOPOffset
+import lupos.operator.logical.singleinput.modifiers.LOPReduced
+import lupos.operator.logical.singleinput.modifiers.LOPSortAny
+import lupos.shared.SortHelper
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerProjectionDownID, "LogicalOptimizerProjectionDown") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

@@ -16,18 +16,22 @@
  */
 package lupos.launch.test_vk
 
-import lupos.buffermanager.BufferManager
-import lupos.buffermanager.BufferManagerExt
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.Parallel
-import lupos.test.AflCore
+import lupos.buffer_manager.BufferManager
+import lupos.buffer_manager.BufferManagerExt
+import lupos.shared.AflCore
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.Parallel
+import lupos.shared_inline.ByteArrayWrapperExt
 import lupos.vk.ValueKeyStore
+import kotlin.jvm.JvmField
 import kotlin.math.abs
 
-private val verbose = false
+@JvmField
+internal val verbose = false
 
-// private val maxSize = 16
-private val maxSize = 16384
+// @JvmField internal val maxSize = 16
+@JvmField
+internal val maxSize = 16384
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
@@ -40,11 +44,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     }
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
-    var rootPage = -1
-    bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-        rootPage = pageid
-    }
-    bufferManager.releasePage(lupos.SOURCE_FILE, rootPage)
+    val rootPage = bufferManager.allocPage(lupos.SOURCE_FILE)
     var vk = ValueKeyStore(bufferManager, rootPage, false)
 
     val values = mutableListOf<ByteArrayWrapper>()
@@ -89,9 +89,9 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             usedGenerators[len]!!.add(seed)
         }
         var res = ByteArrayWrapper()
-        res.setSize(len)
+        ByteArrayWrapperExt.setSize(res, len)
         for (i in 0 until len) {
-            res.getBuf()[i] = (i + seed).toByte()
+            res.buf[i] = (i + seed).toByte()
         }
         action(res)
     }
@@ -126,12 +126,14 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 next = {
                     toInsert[i++]
                 },
-                value = { it ->
+                onNotFound = { it ->
                     if (values.contains(it)) {
                         throw Exception("")
                     }
                     values.add(it)
                     values.size - 1
+                },
+                onFound = { _, _ ->
                 }
             )
         }

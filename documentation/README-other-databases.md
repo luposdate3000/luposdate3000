@@ -11,7 +11,7 @@ This installs other databases, which can be used to compare benchmark results.
     cd virtuoso
     ./autogen.sh
     CFLAGS="-O2 -m64" ./configure --prefix=$dependencieshome/virtuoso-dist
-    make -j8
+    make -j20
     make install
 }
 ```

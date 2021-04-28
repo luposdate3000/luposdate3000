@@ -17,11 +17,11 @@
 package lupos.launch.benchmark
 
 import lupos.endpoint.LuposdateEndpoint
-import lupos.s00misc.DateHelperRelative
-import lupos.s00misc.File
-import lupos.s00misc.MyPrintWriter
-import lupos.s00misc.Parallel
-import lupos.s16network.HttpEndpointLauncher
+import lupos.endpoint_launcher.HttpEndpointLauncher
+import lupos.shared.DateHelperRelative
+import lupos.shared.Parallel
+import lupos.shared_inline.File
+import lupos.shared_inline.MyPrintWriter
 
 internal enum class OptimizerMode {
     All, OnlyWith, OnlyWithout

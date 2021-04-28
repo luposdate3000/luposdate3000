@@ -16,25 +16,40 @@
  */
 package lupos.dictionary
 
-import lupos.buffermanager.BufferManager
-import lupos.buffermanager.BufferManagerExt
-import lupos.buffermanager.BufferManagerPage
-import lupos.fileformat.DictionaryIntermediateReader
+import lupos.buffer_manager.BufferManager
 import lupos.kv.KeyValueStore
-import lupos.s00misc.ByteArrayHelper
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.File
-import lupos.s00misc.SanityCheck
+import lupos.shared.BUFFER_HOME
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.SanityCheck
+import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.fileformat.DictionaryIntermediateReader
+import lupos.shared_inline.BufferManagerPage
+import lupos.shared_inline.ByteArrayHelper
+import lupos.shared_inline.ByteArrayWrapperExt
+import lupos.shared_inline.DictionaryHelper
+import lupos.shared_inline.File
 import lupos.vk.ValueKeyStore
+import kotlin.jvm.JvmField
 
 public class DictionaryKV : ADictionary {
-    private val bufferManager: BufferManager
-    private val kv: KeyValueStore
-    private val vk: ValueKeyStore
-    private var bNodeCounter = 5
-    private val rootPageID: Int
-    private val rootPage: BufferManagerPage
+    @JvmField
+    internal val bufferManager: BufferManager
+
+    @JvmField
+    internal val kv: KeyValueStore
+
+    @JvmField
+    internal val vk: ValueKeyStore
+
+    @JvmField
+    internal var bNodeCounter = 5
+
+    @JvmField
+    internal val rootPageID: Int
+
+    @JvmField
+    internal val rootPage: ByteArray
     public override fun close() {
         kv.close()
         vk.close()
@@ -45,7 +60,7 @@ public class DictionaryKV : ADictionary {
         kv.delete()
         vk.delete()
         bufferManager.deletePage(lupos.SOURCE_FILE, rootPageID)
-        File(BufferManagerExt.bufferPrefix + "dict.page").deleteRecursively()
+        File(BUFFER_HOME + "dict.page").deleteRecursively()
     }
 
     public override fun isInmemoryOnly(): Boolean = false
@@ -58,15 +73,15 @@ public class DictionaryKV : ADictionary {
         var kvPage = 0
         var vkPage = 0
         if (initFromRootPage) {
-            bNodeCounter = rootPage.readInt4(0)
-            kvPage = rootPage.readInt4(4)
-            vkPage = rootPage.readInt4(8)
+            bNodeCounter = BufferManagerPage.readInt4(rootPage, 0)
+            kvPage = BufferManagerPage.readInt4(rootPage, 4)
+            vkPage = BufferManagerPage.readInt4(rootPage, 8)
         } else {
             kvPage = bufferManager.allocPage(lupos.SOURCE_FILE)
             vkPage = bufferManager.allocPage(lupos.SOURCE_FILE)
-            rootPage.writeInt4(0, bNodeCounter)
-            rootPage.writeInt4(4, kvPage)
-            rootPage.writeInt4(8, vkPage)
+            BufferManagerPage.writeInt4(rootPage, 0, bNodeCounter)
+            BufferManagerPage.writeInt4(rootPage, 4, kvPage)
+            BufferManagerPage.writeInt4(rootPage, 8, vkPage)
         }
         kv = KeyValueStore(bufferManager, kvPage, initFromRootPage)
         vk = ValueKeyStore(bufferManager, vkPage, initFromRootPage)
@@ -74,7 +89,7 @@ public class DictionaryKV : ADictionary {
 
     public override fun createNewBNode(): Int {
         var res: Int = bNodeCounter++
-        rootPage.writeInt4(0, bNodeCounter)
+        BufferManagerPage.writeInt4(rootPage, 0, bNodeCounter)
         return res
     }
 
@@ -91,9 +106,9 @@ public class DictionaryKV : ADictionary {
                 } else {
                     SanityCheck.check { value < bNodeCounter }
                     SanityCheck.check { value >= 0 }
-                    buffer.setSize(8)
-                    ByteArrayHelper.writeInt4(buffer.getBuf(), 0, ETripleComponentTypeExt.BLANK_NODE)
-                    ByteArrayHelper.writeInt4(buffer.getBuf(), 4, value and ADictionary.maskValue)
+                    ByteArrayWrapperExt.setSize(buffer, 8)
+                    ByteArrayHelper.writeInt4(buffer.buf, 0, ETripleComponentTypeExt.BLANK_NODE)
+                    ByteArrayHelper.writeInt4(buffer.buf, 4, value and ADictionary.maskValue)
                 }
             }
         }
@@ -125,11 +140,14 @@ public class DictionaryKV : ADictionary {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public override fun importFromDictionaryFile(filename: String): IntArray {
+    public override fun importFromDictionaryFile(filename: String): Pair<IntArray, Int> {
         var mymapping = IntArray(0)
         var lastId = -1
         fun addEntry(id: Int, i: Int) {
             SanityCheck.check { lastId == id - 1 }
+            if (lastId != id - 1) {
+                throw Exception("ERROR !! $lastId -> $id")
+            }
             lastId = id
             if (lastId % 10000 == 0) {
                 println("imported $lastId dictionaryItems")
@@ -157,11 +175,13 @@ public class DictionaryKV : ADictionary {
                         originalID = id
                         ready = true
                     }
-                    val type = DictionaryHelper.byteArrayToType(buffer)
-                    if (type == ETripleComponentTypeExt.BLANK_NODE) {
-                        val id = createNewBNode()
-                        addEntry(originalID, id)
-                        ready = false
+                    if (ready) {
+                        val type = DictionaryHelper.byteArrayToType(buffer)
+                        if (type == ETripleComponentTypeExt.BLANK_NODE) {
+                            val id = createNewBNode()
+                            addEntry(originalID, id)
+                            ready = false
+                        }
                     }
                 }
                 ready
@@ -171,14 +191,17 @@ public class DictionaryKV : ADictionary {
                 ready = false
                 buffer
             },
-            value = { it ->
+            onNotFound = { it ->
                 val id = kv.createValue(it)
                 addEntry(originalID, id or ADictionary.flagNoBNode)
                 id
+            },
+            onFound = { _, id ->
+                addEntry(originalID, id or ADictionary.flagNoBNode)
             }
         )
         println("imported dictionary with $lastId items")
-        return mymapping
+        return Pair(mymapping, lastId + 1)
     }
 
     public override fun hasValue(buffer: ByteArrayWrapper): Int? {

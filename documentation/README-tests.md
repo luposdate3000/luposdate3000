@@ -3,7 +3,8 @@
 To run all tests use the following:
 
 ```bash
-./launcher.main.kts --allTest
+./launchar.main.kts --compileAll
+./launcher.main.kts --run --mainClass=Binary_Test_Suite --runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary
 ```
 
 or if you are using intellij, launch the main-function in the File [src/luposdate3000_launch_binary_test_suite/src/jvmMain/kotlin/Main.kt](../src/luposdate3000_launch_binary_test_suite/src/jvmMain/kotlin/Main.kt) .
@@ -23,16 +24,10 @@ In the console there are only debugging-logs, which may help to find the origin 
 luposdate3000 allows for many configuration options where completely independent code is used.
 
 Currently the only tests are integration tests using complete sparql-queries at once.
-To gain usefull insight, what breakes when, the object "lupos.s00misc.SanityCheck" provides assertion functions, which are included in debug-build, but not in release-build.
+To gain usefull insight, what breakes when, the object "lupos.shared.SanityCheck" provides assertion functions, which are included in debug-build, but not in release-build.
 
 To add a new testcase::
 
 ```bash
-inputdata=xyz/file.n3
-sparql=xyz/file.sparql
-targetdata=xyz/file.n3
-outputfoldername=xyz
-testname=xyz
-mode=SELECT_QUERY_RESULT  # or mode=MODIFY_RESULT
-./launcher --mainClass=Binary_Test_Suite --generate "$inputdata" "$sparql" "$targetdata" "$outputfoldername" "$testname" "$mode"
+./launcher.main.kts --run --mainClass=Generate_Binary_Test_Suite_Single <args as specified by --help>
 ```

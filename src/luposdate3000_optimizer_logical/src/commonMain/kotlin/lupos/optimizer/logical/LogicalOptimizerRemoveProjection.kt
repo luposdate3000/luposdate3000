@@ -16,12 +16,12 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s04logicalOperators.singleinput.LOPProjection
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
+import lupos.operator.logical.noinput.LOPTriple
+import lupos.operator.logical.singleinput.LOPBind
+import lupos.operator.logical.singleinput.LOPProjection
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerRemoveProjection(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerRemoveProjectionID, "LogicalOptimizerRemoveProjection") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

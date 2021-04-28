@@ -16,15 +16,19 @@
  */
 package lupos.launch.test_int_array
 
-import lupos.buffermanager.BufferManager
-import lupos.buffermanager.BufferManagerExt
-import lupos.buffermanager.MyIntArray
-import lupos.s00misc.Parallel
-import lupos.test.AflCore
+import lupos.buffer_manager.BufferManager
+import lupos.buffer_manager.BufferManagerExt
+import lupos.buffer_manager.MyIntArray
+import lupos.shared.AflCore
+import lupos.shared.Parallel
+import kotlin.jvm.JvmField
 import kotlin.math.abs
 
-private val verbose = false
-private val maxSize = 1000000
+@JvmField
+internal val verbose = false
+
+@JvmField
+internal val maxSize = 1000000
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
@@ -36,11 +40,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     var bufferManager = BufferManager()
     var dataSize = 0
     val data = IntArray(maxSize)
-    var rootPage = -1
-    bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-        rootPage = pageid
-    }
-    bufferManager.releasePage(lupos.SOURCE_FILE, rootPage)
+    val rootPage = bufferManager.allocPage(lupos.SOURCE_FILE)
     var arr = MyIntArray(bufferManager, rootPage, false)
 
     fun testSetSizeOk(size: Int) {
@@ -52,7 +52,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         if (verbose) {
             println("testSetSizeOk $dataSize")
         }
-        arr.setSize(dataSize)
+        arr.setSize(dataSize, true)
     }
 
     fun testSetOk(idx: Int, value: Int) {
@@ -71,6 +71,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         try {
             arr[idx] = -1
         } catch (e: Throwable) {
+            // e.printStackTrace() this is handled correctly
             flag = false
         }
         if (flag) {
@@ -97,6 +98,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         try {
             arr[idx]
         } catch (e: Throwable) {
+            // e.printStackTrace() this is handled correctly
             flag = false
         }
         if (flag) {

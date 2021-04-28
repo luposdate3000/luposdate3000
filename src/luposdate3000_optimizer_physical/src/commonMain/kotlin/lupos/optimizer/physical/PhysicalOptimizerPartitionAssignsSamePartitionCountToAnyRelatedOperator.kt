@@ -16,20 +16,20 @@
  */
 package lupos.optimizer.physical
 
+import lupos.operator.base.Query
+import lupos.operator.physical.partition.POPChangePartitionOrderedByIntId
+import lupos.operator.physical.partition.POPMergePartition
+import lupos.operator.physical.partition.POPMergePartitionCount
+import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
+import lupos.operator.physical.partition.POPSplitPartition
+import lupos.operator.physical.partition.POPSplitPartitionFromStore
+import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
-import lupos.s00misc.EPartitionModeExt
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.POPTripleStoreIterator
-import lupos.s05tripleStore.tripleStoreManager
-import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPMergePartition
-import lupos.s09physicalOperators.partition.POPMergePartitionCount
-import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPSplitPartition
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStoreCount
+import lupos.shared.EPartitionModeExt
+import lupos.shared.operator.IOPBase
+import lupos.shared.tripleStoreManager
+import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperatorID, "PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator") {
     // this optimizer makes sure, that every partitioning which belongs to the same section uses the same partition count

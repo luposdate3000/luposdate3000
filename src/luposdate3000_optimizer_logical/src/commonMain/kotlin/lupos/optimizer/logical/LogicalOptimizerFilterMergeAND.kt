@@ -16,17 +16,17 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s00misc.BugException
-import lupos.s00misc.SanityCheck
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.generated.AOPAnd
-import lupos.s04arithmetikOperators.generated.AOPBuildInCallBOUND
-import lupos.s04arithmetikOperators.generated.AOPNot
-import lupos.s04arithmetikOperators.generated.AOPOr
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.operator.arithmetik.AOPBase
+import lupos.operator.arithmetik.generated.AOPAnd
+import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
+import lupos.operator.arithmetik.generated.AOPNot
+import lupos.operator.arithmetik.generated.AOPOr
+import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
+import lupos.operator.base.Query
+import lupos.operator.logical.singleinput.LOPFilter
+import lupos.shared.BugException
+import lupos.shared.SanityCheck
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterMergeANDID, "LogicalOptimizerFilterMergeAND") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

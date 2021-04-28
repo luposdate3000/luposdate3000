@@ -16,27 +16,31 @@
  */
 package lupos.launch.test_dictionary
 
-import lupos.buffermanager.BufferManager
-import lupos.buffermanager.BufferManagerExt
+import lupos.buffer_manager.BufferManager
+import lupos.buffer_manager.BufferManagerExt
 import lupos.dictionary.ADictionary
-import lupos.dictionary.DictionaryExt
 import lupos.dictionary.DictionaryFactory
-import lupos.dictionary.DictionaryHelper
-import lupos.dictionary.EDictionaryTypeExt
-import lupos.dictionary.IDictionary
-import lupos.dictionary.nodeGlobalDictionary
-import lupos.s00misc.ByteArrayHelper
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.Parallel
-import lupos.test.AflCore
+import lupos.shared.AflCore
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.Parallel
+import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dictionary.EDictionaryTypeExt
+import lupos.shared.dictionary.IDictionary
+import lupos.shared.dictionary.nodeGlobalDictionary
+import lupos.shared_inline.ByteArrayHelper
+import lupos.shared_inline.ByteArrayWrapperExt
+import lupos.shared_inline.DictionaryHelper
+import kotlin.jvm.JvmField
 import kotlin.math.abs
 import kotlin.math.max
 
-private val verbose = false
+@JvmField
+internal val verbose = false
 
-// private val maxSize = 16
-private val maxSize = 16384
+// @JvmField internal val maxSize = 16
+@JvmField
+internal val maxSize = 16384
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
@@ -60,7 +64,6 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                     override fun createValue(buffer: ByteArrayWrapper): Int = throw Exception("not implemented")
                     override fun getValue(buffer: ByteArrayWrapper, value: Int) = throw Exception("not implemented")
                     override fun hasValue(buffer: ByteArrayWrapper): Int? = null
-                    override fun importFromDictionaryFile(filename: String): IntArray = throw Exception("not implemented")
                     override fun isInmemoryOnly(): Boolean = true
                 }
             }
@@ -69,10 +72,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 when (dictType) {
                     EDictionaryTypeExt.KV -> {
                         if (rootPage == -1) {
-                            bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-                                rootPage = pageid
-                            }
-                            bufferManager.releasePage(lupos.SOURCE_FILE, rootPage)
+                            rootPage = bufferManager.allocPage(lupos.SOURCE_FILE)
                         }
                         return DictionaryFactory.createDictionary(dictType, false, bufferManager, rootPage, initFromRootPage)
                     }
@@ -139,11 +139,11 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                     }
                     usedGenerators[len]!!.add(seed)
                     val res = ByteArrayWrapper()
-                    res.setSize(len)
+                    ByteArrayWrapperExt.setSize(res, len)
                     for (i in 0 until len) {
-                        res.getBuf()[i] = (i + seed).toByte()
+                        res.buf[i] = (i + seed).toByte()
                     }
-                    var x = ByteArrayHelper.readInt4(res.getBuf(), 0)
+                    var x = ByteArrayHelper.readInt4(res.buf, 0)
                     var lastx = 0
                     while (x != lastx) {
                         lastx = x
@@ -152,7 +152,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                         } else if (x == ETripleComponentTypeExt.BOOLEAN && len != 5) {
                             x++
                         } else if (x == ETripleComponentTypeExt.BOOLEAN && len == 5) {
-                            res.getBuf()[4] = abs(res.getBuf()[4] % 2).toByte()
+                            res.buf[4] = abs(res.buf[4] % 2).toByte()
                         } else if (x == ETripleComponentTypeExt.ERROR && len != 4) {
                             x++
                         } else if (x == ETripleComponentTypeExt.UNDEF && len != 4) {
@@ -161,7 +161,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                             x = abs(x % ETripleComponentTypeExt.values_size)
                         }
                     }
-                    ByteArrayHelper.writeInt4(res.getBuf(), 0, x)
+                    ByteArrayHelper.writeInt4(res.buf, 0, x)
                     if (values.contains(res)) {
                         if (seed < 255) {
                             seed++
@@ -207,13 +207,16 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 }
                 var res: Int? = null
                 var flag = true
+                val type = DictionaryHelper.byteArrayToType(data)
+                val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)
                 try {
                     res = dict.hasValue(data)
                 } catch (e: Throwable) {
+                    if (!assumeCrash) {
+                        e.printStackTrace()
+                    }
                     flag = false
                 }
-                val type = DictionaryHelper.byteArrayToType(data)
-                val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)
                 if (flag == assumeCrash) {
                     throw Exception("$flag $isLocal")
                 }
@@ -230,13 +233,16 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 }
                 var res: Int? = null
                 var flag = true
+                val type = DictionaryHelper.byteArrayToType(data)
+                val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)
                 try {
                     res = dict.hasValue(data)
                 } catch (e: Throwable) {
+                    if (!assumeCrash) {
+                        e.printStackTrace()
+                    }
                     flag = false
                 }
-                val type = DictionaryHelper.byteArrayToType(data)
-                val assumeCrash = isLocal || type in listOf(ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF)
                 if (flag == assumeCrash) {
                     throw Exception("")
                 }
@@ -253,11 +259,11 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                 }
                 val value = ByteArrayWrapper()
                 dict.getValue(value, key)
-                if (value.getSize() != target.getSize()) {
-                    throw Exception("${value.getSize()} ${target.getSize()} $value")
+                if (value.size != target.size) {
+                    throw Exception("${value.size} ${target.size} $value")
                 }
-                for (i in 0 until value.getSize()) {
-                    if (value.getBuf()[i] != target.getBuf()[i]) {
+                for (i in 0 until value.size) {
+                    if (value.buf[i] != target.buf[i]) {
                         throw Exception("")
                     }
                 }
@@ -272,6 +278,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
                     val buffer = ByteArrayWrapper()
                     dict.getValue(buffer, key)
                 } catch (e: Throwable) {
+                    // e.printStackTrace() this is handled correctly
                     flag = false
                 }
                 if (flag) {

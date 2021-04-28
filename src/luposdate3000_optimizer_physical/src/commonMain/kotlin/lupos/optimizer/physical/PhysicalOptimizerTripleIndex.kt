@@ -16,22 +16,21 @@
  */
 package lupos.optimizer.physical
 
+import lupos.operator.arithmetik.AOPBase
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
+import lupos.operator.logical.noinput.LOPTriple
+import lupos.operator.logical.singleinput.LOPProjection
+import lupos.operator.physical.POPBase
+import lupos.operator.physical.singleinput.POPProjection
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
-import lupos.s00misc.EIndexPatternExt
-import lupos.s00misc.ESortTypeExt
-import lupos.s00misc.SanityCheck
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.IAOPBase
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.singleinput.LOPProjection
-import lupos.s05tripleStore.POPTripleStoreIterator
-import lupos.s05tripleStore.tripleStoreManager
-import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.singleinput.POPProjection
+import lupos.shared.ESortTypeExt
+import lupos.shared.SanityCheck
+import lupos.shared.operator.IAOPBase
+import lupos.shared.operator.IOPBase
+import lupos.shared.tripleStoreManager
+import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerTripleIndexID, "PhysicalOptimizerTripleIndex") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
@@ -68,10 +67,10 @@ public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, E
                 }
             }
             val targetIdx = LOPTriple.getIndex(node.children, node.mySortPriority.map { it.variableName })
-            println("targetIdx ${EIndexPatternExt.names[targetIdx]}")
+            // println("targetIdx ${EIndexPatternExt.names[targetIdx]}")
             res = store.getIterator(query, params, targetIdx)
 // println("usedIdx ${((res as POPTripleStoreIterator).tripleStoreIndexDescription as TripleStoreIndexDescription).idx_set.map{EIndexPatternExt.names[it]}}")
-            println("PhysicalOptimizerTripleIndex : initialize any Iterator ${res.getUUID()}")
+//            println("PhysicalOptimizerTripleIndex : initialize any Iterator ${res.getUUID()}")
             if (res is POPTripleStoreIterator) {
                 res.sortPriorities = node.sortPriorities
                 res.mySortPriority = node.mySortPriority

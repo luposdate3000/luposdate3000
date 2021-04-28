@@ -16,14 +16,14 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s00misc.HistogramNotImplementedException
-import lupos.s00misc.SanityCheck
-import lupos.s04logicalOperators.HistogramResult
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.multiinput.LOPJoin_Helper
-import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.noinput.LOPValues
+import lupos.operator.base.multiinput.LOPJoin_Helper
+import lupos.operator.logical.multiinput.LOPJoin
+import lupos.operator.logical.noinput.LOPTriple
+import lupos.operator.logical.noinput.LOPValues
+import lupos.shared.HistogramNotImplementedException
+import lupos.shared.SanityCheck
+import lupos.shared.operator.HistogramResult
+import lupos.shared.operator.IOPBase
 
 public object LogicalOptimizerJoinOrderCostBasedOnHistogram {
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
@@ -95,6 +95,7 @@ public object LogicalOptimizerJoinOrderCostBasedOnHistogram {
             }
             return nodes[0]
         } catch (e: HistogramNotImplementedException) {
+            e.printStackTrace()
             return null
         }
 /*Coverage Unreachable*/

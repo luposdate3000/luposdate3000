@@ -16,11 +16,11 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.noinput.OPEmptyRow
-import lupos.s04logicalOperators.singleinput.LOPOptional
+import lupos.operator.base.Query
+import lupos.operator.base.noinput.OPEmptyRow
+import lupos.operator.logical.multiinput.LOPJoin
+import lupos.operator.logical.singleinput.LOPOptional
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerOptional(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerOptionalID, "LogicalOptimizerOptional") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

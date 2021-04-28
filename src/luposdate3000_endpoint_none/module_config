@@ -1,4 +1,0 @@
-package=Luposdate3000_Endpoint_Launcher
-name=Luposdate3000_Endpoint_None
-enabled=always
-enabledRun=endpointMode:None

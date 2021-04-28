@@ -16,38 +16,51 @@
  */
 package lupos.optimizer.distributed.query
 
+import lupos.operator.base.OPBase
+import lupos.operator.base.OPBaseCompound
+import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
-import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.Partition
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.XMLElement
-import lupos.s00misc.communicationHandler
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.IQuery
-import lupos.s04logicalOperators.OPBase
-import lupos.s04logicalOperators.OPBaseCompound
-import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.POPTripleStoreIterator
-import lupos.s05tripleStore.tripleStoreManager
-import lupos.s09physicalOperators.POPBase
-import lupos.s09physicalOperators.partition.POPChangePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPMergePartition
-import lupos.s09physicalOperators.partition.POPMergePartitionCount
-import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPSplitPartition
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStoreCount
-import lupos.s09physicalOperators.partition.POPSplitPartitionPassThrough
+import lupos.operator.physical.POPBase
+import lupos.operator.physical.partition.POPChangePartitionOrderedByIntId
+import lupos.operator.physical.partition.POPMergePartition
+import lupos.operator.physical.partition.POPMergePartitionCount
+import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
+import lupos.operator.physical.partition.POPSplitPartition
+import lupos.operator.physical.partition.POPSplitPartitionFromStore
+import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
+import lupos.operator.physical.partition.POPSplitPartitionPassThrough
+import lupos.shared.EPartitionModeExt
+import lupos.shared.IQuery
+import lupos.shared.Partition
+import lupos.shared.SanityCheck
+import lupos.shared.XMLElement
+import lupos.shared.communicationHandler
+import lupos.shared.operator.IOPBase
 import lupos.shared.optimizer.IDistributedOptimizer
+import lupos.shared.tripleStoreManager
+import lupos.triple_store_manager.POPTripleStoreIterator
+import kotlin.jvm.JvmField
 
 public class DistributedOptimizerQuery() : IDistributedOptimizer {
     internal var query: Query? = null
-    private var operatorgraphParts: MutableMap<String, XMLElement> = mutableMapOf<String, XMLElement>()
-    private var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
-    private var dependenciesMapTopDown = mutableMapOf<String, Set<String>>()
-    private var dependenciesMapBottomUp = mutableMapOf<String, Set<String>>()
-    private var keyRepresentative = mutableMapOf<String, String>()
-    private val childOptimizer = arrayOf(
+
+    @JvmField
+    internal var operatorgraphParts: MutableMap<String, XMLElement> = mutableMapOf<String, XMLElement>()
+
+    @JvmField
+    internal var operatorgraphPartsToHostMap: MutableMap<String, String> = mutableMapOf<String, String>()
+
+    @JvmField
+    internal var dependenciesMapTopDown = mutableMapOf<String, Set<String>>()
+
+    @JvmField
+    internal var dependenciesMapBottomUp = mutableMapOf<String, Set<String>>()
+
+    @JvmField
+    internal var keyRepresentative = mutableMapOf<String, String>()
+
+    @JvmField
+    internal val childOptimizer = arrayOf(
         arrayOf(
             DistributedOptimizerAssignChild(),
             DistributedOptimizerAssignParent(),

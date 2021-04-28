@@ -16,14 +16,14 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.multiinput.LOPMinus
-import lupos.s04logicalOperators.singleinput.LOPMakeBooleanResult
-import lupos.s04logicalOperators.singleinput.modifiers.LOPDistinct
-import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
-import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
-import lupos.s04logicalOperators.singleinput.modifiers.LOPReduced
+import lupos.operator.base.Query
+import lupos.operator.logical.multiinput.LOPMinus
+import lupos.operator.logical.singleinput.LOPMakeBooleanResult
+import lupos.operator.logical.singleinput.modifiers.LOPDistinct
+import lupos.operator.logical.singleinput.modifiers.LOPLimit
+import lupos.operator.logical.singleinput.modifiers.LOPOffset
+import lupos.operator.logical.singleinput.modifiers.LOPReduced
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerExists(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerExistsID, "LogicalOptimizerExists") {
     private fun applyRecoursive(node: IOPBase, askFlag: Boolean) {

@@ -16,10 +16,10 @@
  */
 package lupos.optimizer.physical
 
+import lupos.operator.base.Query
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.optimizer.logical.OptimizerCompoundBase
-import lupos.s04logicalOperators.Query
 
 public class PhysicalOptimizer public constructor(query: Query) : OptimizerCompoundBase(query, EOptimizerIDExt.PhysicalOptimizerID, "PhysicalOptimizer") {
     override val childrenOptimizers: Array<Array<OptimizerBase>> = arrayOf( //

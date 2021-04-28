@@ -16,18 +16,18 @@
  */
 package lupos.optimizer.physical
 
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
+import lupos.operator.physical.partition.POPMergePartitionCount
+import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
+import lupos.operator.physical.partition.POPSplitPartitionFromStore
+import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
-import lupos.s00misc.EPartitionModeExt
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.POPTripleStoreIterator
-import lupos.s05tripleStore.tripleStoreManager
-import lupos.s09physicalOperators.partition.POPMergePartitionCount
-import lupos.s09physicalOperators.partition.POPMergePartitionOrderedByIntId
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStore
-import lupos.s09physicalOperators.partition.POPSplitPartitionFromStoreCount
+import lupos.shared.EPartitionModeExt
+import lupos.shared.operator.IOPBase
+import lupos.shared.tripleStoreManager
+import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID, "PhysicalOptimizerPartitionAssingPartitionsToRemaining") {
     // this store introduces fixes, if the desired triple store does not participate in any partitioning at all, but it is required to do so
@@ -47,6 +47,7 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                                     new_count = node.changeToIndexWithMaximumPartitions(null, partitionVariable)
                                     break
                                 } catch (e: Throwable) {
+                                    e.printStackTrace()
                                 }
                             }
                         }

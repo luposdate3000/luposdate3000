@@ -16,17 +16,17 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.multiinput.LOPMinus
-import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s04logicalOperators.singleinput.LOPFilter
-import lupos.s04logicalOperators.singleinput.LOPProjection
-import lupos.s04logicalOperators.singleinput.modifiers.LOPLimit
-import lupos.s04logicalOperators.singleinput.modifiers.LOPOffset
+import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
+import lupos.operator.logical.multiinput.LOPJoin
+import lupos.operator.logical.multiinput.LOPMinus
+import lupos.operator.logical.singleinput.LOPBind
+import lupos.operator.logical.singleinput.LOPFilter
+import lupos.operator.logical.singleinput.LOPProjection
+import lupos.operator.logical.singleinput.modifiers.LOPLimit
+import lupos.operator.logical.singleinput.modifiers.LOPOffset
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerBindUp(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerBindUpID, "LogicalOptimizerBindUp") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

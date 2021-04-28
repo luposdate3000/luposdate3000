@@ -17,44 +17,43 @@
 package lupos.test
 
 import lupos.endpoint.LuposdateEndpoint
-import lupos.jena.JenaWrapper
+import lupos.jena_wrapper.JenaWrapper
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
+import lupos.operator.physical.noinput.POPValuesImportXML
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
-import lupos.s00misc.DateHelperRelative
-import lupos.s00misc.EIndexPatternExt
-import lupos.s00misc.EModifyTypeExt
-import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.File
-import lupos.s00misc.JenaBugException
-import lupos.s00misc.Luposdate3000Exception
-import lupos.s00misc.MAX_TRIPLES_DURING_TEST
-import lupos.s00misc.NotImplementedException
-import lupos.s00misc.OperatorGraphToLatex
-import lupos.s00misc.SanityCheck
-import lupos.s00misc.UnknownManifestException
-import lupos.s00misc.XMLElement
-import lupos.s00misc.XMLElementFromXML
-import lupos.s00misc.communicationHandler
-import lupos.s00misc.parseFromAny
-import lupos.s02buildSyntaxTree.LexerCharIterator
-import lupos.s02buildSyntaxTree.LookAheadTokenIterator
-import lupos.s02buildSyntaxTree.ParseError
-import lupos.s02buildSyntaxTree.rdf.BlankNode
-import lupos.s02buildSyntaxTree.rdf.Dictionary
-import lupos.s02buildSyntaxTree.rdf.IRI
-import lupos.s02buildSyntaxTree.rdf.SimpleLiteral
-import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
-import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary
-import lupos.s02buildSyntaxTree.turtle.TurtleScanner
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.Query
-import lupos.s05tripleStore.TripleStoreManager
-import lupos.s05tripleStore.tripleStoreManager
-import lupos.s09physicalOperators.noinput.POPValuesImportXML
-import lupos.s11outputResult.QueryResultToXMLElement
+import lupos.parser.LexerCharIterator
+import lupos.parser.LookAheadTokenIterator
+import lupos.parser.ParseError
+import lupos.parser.rdf.BlankNode
+import lupos.parser.rdf.Dictionary
+import lupos.parser.rdf.IRI
+import lupos.parser.rdf.SimpleLiteral
+import lupos.parser.sparql1_1.SPARQLParser
+import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
+import lupos.parser.turtle.TurtleParserWithDictionary
+import lupos.parser.turtle.TurtleScanner
+import lupos.result_format.QueryResultToXMLElement
+import lupos.shared.DateHelperRelative
+import lupos.shared.EIndexPatternExt
+import lupos.shared.EModifyTypeExt
+import lupos.shared.EPartitionModeExt
+import lupos.shared.JenaBugException
+import lupos.shared.Luposdate3000Exception
+import lupos.shared.NotImplementedException
+import lupos.shared.OperatorGraphToLatex
+import lupos.shared.SanityCheck
+import lupos.shared.TripleStoreManager
+import lupos.shared.UnknownManifestException
+import lupos.shared.XMLElement
+import lupos.shared.XMLElementFromXML
+import lupos.shared.communicationHandler
+import lupos.shared.parseFromAny
+import lupos.shared.tripleStoreManager
+import lupos.shared_inline.File
 import kotlin.jvm.JvmField
 
 public open class SparqlTestSuite {
@@ -94,7 +93,6 @@ public open class SparqlTestSuite {
                                     it3.println(jenaXML.toPrettyString())
                                 }
                             } catch (e: Throwable) {
-                                println({ "TODO exception 39" })
                                 e.printStackTrace()
                             } finally {
                                 JenaWrapper.dropAll()
@@ -132,13 +130,11 @@ public open class SparqlTestSuite {
     }
 
     private fun readTurtleData(filename: String, consume_triple: (Long, Long, Long) -> Unit) {
-        val ltit = LookAheadTokenIterator(lupos.s02buildSyntaxTree.turtle.TurtleScanner(LexerCharIterator(File(filename).readAsString())), 3)
+        val ltit = LookAheadTokenIterator(lupos.parser.turtle.TurtleScanner(LexerCharIterator(File(filename).readAsString())), 3)
         try {
             TurtleParserWithDictionary(consume_triple, ltit).parse()
         } catch (e: ParseError) {
-            SanityCheck {
-                e.printStackTrace()
-            }
+            e.printStackTrace()
             println("Error in the following line:")
             println(e.lineNumber)
         }
@@ -491,7 +487,9 @@ public open class SparqlTestSuite {
                             query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
                         }
                         val tmp = tmp2.evaluateRoot()
-                        tripleStoreManager.getDefaultGraph().modify(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT)
+                        val sstore = tripleStoreManager.getDefaultGraph()
+                        val cache = sstore.modify_create_cache(EModifyTypeExt.INSERT)
+                        sstore.modify_cache(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT, cache, true)
                         tripleStoreManager.commit(query)
                         query.commited = true
                         if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
@@ -504,10 +502,9 @@ public open class SparqlTestSuite {
                             JenaWrapper.loadFromFile("/src/luposdate3000/$inputDataFileName")
                         }
                     } catch (e: JenaBugException) {
-                        println({ e.message })
+                        e.printStackTrace()
                         ignoreJena = true
                     } catch (e: Throwable) {
-                        println({ "TODO exception 41" })
                         e.printStackTrace()
                         ignoreJena = true
                     }
@@ -527,7 +524,9 @@ public open class SparqlTestSuite {
                         query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
                     }
                     val tmp = tmp2.evaluateRoot()
-                    tripleStoreManager.getGraph(it["name"]!!).modify(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT)
+                    val sstore = tripleStoreManager.getGraph(it["name"]!!)
+                    val cache = sstore.modify_create_cache(EModifyTypeExt.INSERT)
+                    sstore.modify_cache(query, arrayOf(tmp.columns["s"]!!, tmp.columns["p"]!!, tmp.columns["o"]!!), EModifyTypeExt.INSERT, cache, true)
                     tripleStoreManager.commit(query)
                     if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
                         communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
@@ -539,10 +538,9 @@ public open class SparqlTestSuite {
                             JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
                         }
                     } catch (e: JenaBugException) {
-                        println({ e.message })
+                        e.printStackTrace()
                         ignoreJena = true
                     } catch (e: Throwable) {
-                        println({ "TODO exception 42" })
                         e.printStackTrace()
                         ignoreJena = true
                     }
@@ -662,10 +660,9 @@ public open class SparqlTestSuite {
                             return false
                         }
                     } catch (e: JenaBugException) {
-                        println({ e.message })
+                        e.printStackTrace()
                         ignoreJena = true
                     } catch (e: Throwable) {
-                        println({ "TODO exception 43" })
                         e.printStackTrace()
                         ignoreJena = true
                     }
@@ -764,8 +761,8 @@ public open class SparqlTestSuite {
                 return expectedResult
             }
         } catch (e: ParseError) {
+            e.printStackTrace()
             if (expectedResult) {
-                e.printStackTrace()
                 SanityCheck.println { e }
                 SanityCheck.println { "Error in the following line:" }
                 SanityCheck.println { e.lineNumber }
@@ -777,22 +774,21 @@ public open class SparqlTestSuite {
             }
             return false
         } catch (e: NotImplementedException) {
+            e.printStackTrace()
             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
             println("----------Failed(NotImplemented)")
-            e.printStackTrace()
             return false
         } catch (e: Luposdate3000Exception) {
+            e.printStackTrace()
             if (expectedResult) {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Failed(${e.classname})")
-                e.printStackTrace()
             } else {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Success(ExpectFalse,${e.classname})")
             }
             return false
         } catch (e: Throwable) {
-            println({ "TODO exception 44" })
             e.printStackTrace()
             if (expectedResult) {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")

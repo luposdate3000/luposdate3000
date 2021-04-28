@@ -16,14 +16,21 @@
  */
 package lupos.dictionary
 
-import lupos.fileformat.DictionaryIntermediateReader
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.ETripleComponentTypeExt
-import lupos.s00misc.SanityCheck
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.SanityCheck
+import lupos.shared.dictionary.IDictionary
+import lupos.shared.dictionary.nodeGlobalDictionary
+import lupos.shared.fileformat.DictionaryIntermediateReader
+import lupos.shared_inline.DictionaryHelper
+import kotlin.jvm.JvmField
 
 public abstract class ADictionary : IDictionary {
-    private val bnodeMapToGlobal = mutableMapOf<Int, Int>()
-    private val bnodeMapLocal = mutableMapOf<String, Int>()
+    @JvmField
+    internal val bnodeMapToGlobal = mutableMapOf<Int, Int>()
+
+    @JvmField
+    internal val bnodeMapLocal = mutableMapOf<String, Int>()
     internal var isLocal: Boolean = false
     public override fun createNewBNode(s: String): Int {
         var res = bnodeMapLocal[s]
@@ -42,6 +49,10 @@ public abstract class ADictionary : IDictionary {
     }
 
     override fun isBnode(value: Int): Boolean = (value and flagNoBNode) != flagNoBNode
+
+    public override fun isLocalValue(value: Int): Boolean {
+        return (value and flagLocal) == flagLocal
+    }
 
     override fun valueToGlobal(value: Int): Int {
         val res: Int
@@ -66,7 +77,7 @@ public abstract class ADictionary : IDictionary {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public override fun importFromDictionaryFile(filename: String): IntArray {
+    public override fun importFromDictionaryFile(filename: String): Pair<IntArray, Int> {
         var mymapping = IntArray(0)
         var lastId = -1
         val buffer = ByteArrayWrapper()
@@ -98,6 +109,6 @@ public abstract class ADictionary : IDictionary {
             mymapping[id] = i
         }
         println("imported dictionary with $lastId items")
-        return mymapping
+        return Pair(mymapping, lastId + 1)
     }
 }

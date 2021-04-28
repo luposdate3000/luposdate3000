@@ -13,27 +13,29 @@
  * General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
-  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystem.kt")
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystemExt.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/s00misc/Platform.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/modulename/_Platform.kt")
-@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/modulename/_Platform.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystem.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystemExt.kt")
+@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared_inline/Platform.kt")
+@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared_inline/Platform.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
 @file:Import("src/luposdate3000_scripting/parsergenerator.kt")
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/dictionary/EDictionaryTypeExt.kt")
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/dictionary/EDictionaryType.kt")
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EPartitionModeExt.kt")
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EPartitionMode.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryTypeExt.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryType.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionModeExt.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionMode.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollector.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt")
 @file:CompilerOptions("-Xmulti-platform")
 
-import lupos.dictionary.EDictionaryTypeExt
-import lupos.s00misc.EOperatingSystemExt
-import lupos.s00misc.EPartitionModeExt
-import lupos.s00misc.Platform
+import lupos.shared.EGarbageCollectorExt
+import lupos.shared.EOperatingSystemExt
+import lupos.shared.EPartitionModeExt
+import lupos.shared.dictionary.EDictionaryTypeExt
+import lupos.shared_inline.Platform
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -43,18 +45,16 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.util.jar.JarFile
 
+var compilerVersion = ""
 var compileModuleArgs = mutableMapOf<String, MutableMap<String, String>>()
 var jsBrowserMode = true
 var releaseMode = ""
 var suspendMode = ""
 var inlineMode = ""
 var partitionMode = ""
-var memoryMode = ""
 var dictionaryMode = ""
 var proguardMode = ""
 var mainClass = ""
-var jenaWrapper = ""
-var endpointMode = ""
 var dryMode = ""
 var target = ""
 var intellijMode = ""
@@ -64,13 +64,28 @@ var compileSpecific: String? = null
 var compileSince: String? = null
 var threadCount = 1
 var processUrls = ""
-var availableMainClass = mutableListOf<String>()
+var garbageCollector = 0
+val optionsForPackages = mutableMapOf<String, MutableSet<String>>()
+val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Endpoint_Launcher" to "None", "Jena_Wrapper" to "Off")
 
-enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, ALL_TEST, UNKNOWN }
+enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, UNKNOWN }
+enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
 
 var execMode = ExecMode.UNKNOWN
 
-enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
+fun makeUppercaseStart(s: String): String {
+    val res = StringBuilder()
+    var flag = true
+    for (c in s) {
+        if (flag) {
+            res.append(c.toUpperCase())
+        } else {
+            res.append(c)
+        }
+        flag = c == '_'
+    }
+    return res.toString()
+}
 
 fun getAllModuleConfigurations(): List<CreateModuleArgs> {
     var releaseMode2 = ReleaseMode.valueOf(releaseMode)
@@ -88,39 +103,53 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         .ssetIdeaBuildfile(intellijMode2)
         .ssetCodegenKSP(false)
         .ssetCodegenKAPT(false)
+        .ssetCompilerVersion(compilerVersion)
+        .ssetEnabledFunc { true }
+        .ssetEnabledRunFunc { true }
+    var allpackages = mutableSetOf<String>()
     var modules = mutableMapOf<String, CreateModuleArgs>()
-    val dependencyMap = mutableMapOf<String, Set<String>>()
     Files.walk(Paths.get("src"), 1).forEach { it ->
         val filename = it.toString()
         val f = File(filename + "/module_config")
         if (f.exists()) {
-            var pkg = ""
-            var name = ""
-            var ksp = false
-            var kapt = false
-            var enabledFunc: () -> Boolean = { true }
-            var enabledRunFunc: () -> Boolean = { true }
+            var currentArgs = localArgs
+                .ssetModuleName(makeUppercaseStart(filename.substring(filename.indexOf("luposdate3000"))))
+                .ssetModulePrefix(makeUppercaseStart(filename.substring(filename.indexOf("luposdate3000"))))
+            if (filename.endsWith("_browserjs")) {
+                currentArgs = currentArgs.ssetEnabledRunFunc { jsBrowserMode && target == "JS" }
+            } else if (filename.endsWith("_nodejs")) {
+                currentArgs = currentArgs.ssetEnabledRunFunc { !jsBrowserMode && target == "JS" }
+            }
             f.forEachLine { line ->
                 when {
                     line == "codegenKAPT=true" -> {
-                        kapt = true
+                        currentArgs = currentArgs.ssetCodegenKAPT(true)
                     }
                     line == "codegenKSP=true" -> {
-                        ksp = true
+                        currentArgs = currentArgs.ssetCodegenKSP(true)
+                    }
+                    line.startsWith("dependencyCommon=") -> {
+                        currentArgs.dependenciesCommon.add(line.substring("dependencyCommon=".length))
+                    }
+                    line.startsWith("dependencyJvm=") -> {
+                        currentArgs.dependenciesJvm.add(line.substring("dependencyJvm=".length))
+                    }
+                    line.startsWith("dependencyJs=") -> {
+                        currentArgs.dependenciesJs.add(line.substring("dependencyJs=".length))
+                    }
+                    line.startsWith("dependencyNative=") -> {
+                        currentArgs.dependenciesNative.add(line.substring("dependencyNative=".length))
                     }
                     line.startsWith("name=") -> {
-                        name = line.substring("name=".length)
+                        currentArgs = currentArgs.ssetModuleName(line.substring("name=".length))
                     }
                     line.startsWith("package=") -> {
-                        pkg = line.substring("package=".length)
+                        currentArgs = currentArgs.ssetModulePrefix(line.substring("package=".length))
                     }
                     line.startsWith("enabled=") -> {
                         when (line) {
-                            "enabled=always" -> {
-                                enabledFunc = { true }
-                            }
                             "enabled=intellijOnly" -> {
-                                enabledFunc = { intellijMode == "Enable" }
+                                currentArgs = currentArgs.ssetEnabledFunc { intellijMode == "Enable" }
                             }
                             else -> {
                                 throw Exception("unknown value")
@@ -129,35 +158,8 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                     }
                     line.startsWith("enabledRun=") -> {
                         when (line) {
-                            "enabledRun=always" -> {
-                                enabledRunFunc = { true }
-                            }
                             "enabledRun=never" -> {
-                                enabledRunFunc = { false }
-                            }
-                            "enabledRun=jsBrowserMode:true" -> {
-                                enabledRunFunc = { jsBrowserMode && target == "JS" }
-                            }
-                            "enabledRun=jsBrowserMode:false" -> {
-                                enabledRunFunc = { !jsBrowserMode && target == "JS" }
-                            }
-                            "enabledRun=endpointMode:Java_Sockets" -> {
-                                enabledRunFunc = { endpointMode == "Java_Sockets" }
-                            }
-                            "enabledRun=endpointMode:None" -> {
-                                enabledRunFunc = { endpointMode == "None" }
-                            }
-                            "enabledRun=jenaWrapper:Off" -> {
-                                enabledRunFunc = { jenaWrapper == "Off" }
-                            }
-                            "enabledRun=jenaWrapper:On" -> {
-                                enabledRunFunc = { jenaWrapper == "On" }
-                            }
-                            "enabledRun=memoryMode:_Inmemory" -> {
-                                enabledRunFunc = { memoryMode == "_Inmemory" }
-                            }
-                            "enabledRun=memoryMode:_Persistent" -> {
-                                enabledRunFunc = { memoryMode == "_Persistent" }
+                                currentArgs = currentArgs.ssetEnabledRunFunc { false }
                             }
                             else -> {
                                 throw Exception("unknown value '$line'")
@@ -169,39 +171,138 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                     }
                 }
             }
-            if (name.length > 0) {
-                if (pkg == "") {
-                    pkg = name
+            val name = currentArgs.moduleName.substring("Luposdate3000_".length)
+            val pkg = currentArgs.modulePrefix.substring("Luposdate3000_".length)
+            var pkgs = optionsForPackages[pkg]
+            if (pkgs == null) {
+                pkgs = mutableSetOf<String>()
+                optionsForPackages[pkg] = pkgs
+            }
+            if (optionsChoosenForPackages[pkg] != null) {
+                currentArgs = currentArgs.ssetEnabledRunFunc {
+                    optionsChoosenForPackages[pkg] == name
                 }
-                if (pkg == "Luposdate3000_Main") {
-                    enabledRunFunc = { mainClass == name }
-                    availableMainClass.add(name)
-                }
-                modules[name] = (
-                    localArgs
-                        .ssetModuleName(name, pkg)
-                        .ssetArgs2(compileModuleArgs)
-                        .ssetEnabledFunc(enabledFunc)
-                        .ssetEnabledRunFunc(enabledRunFunc)
-                        .ssetCodegenKSP(ksp)
-                        .ssetCodegenKAPT(kapt)
-                    )
-                val dep = mutableSetOf<String>()
-                if (!name.startsWith("Luposdate3000_Shared")) {
-                    dep.add("Luposdate3000_Shared")
-                }
-                if (!name.startsWith("Luposdate3000_Shared_")) {
-                    dep.add("Luposdate3000_Shared_BrowserJS")
-                }
-                dependencyMap[name] = dep
-                for (t in listOf("js", "jvm", "common", "native")) {
-                    val f2 = File(filename + "/${t}Dependencies")
-                    if (f2.exists()) {
-                        f2.forEachLine { line ->
-                            if (line.startsWith("luposdate3000:")) {
-                                dep.add(line.substring("luposdate3000:".length, line.lastIndexOf(":")))
+            }
+            pkgs.add(name)
+            if (currentArgs.modulePrefix == "Luposdate3000_Main") {
+                currentArgs = currentArgs.ssetEnabledRunFunc { mainClass == currentArgs.moduleName }
+            }
+            currentArgs = currentArgs.ssetArgs2(compileModuleArgs)
+            modules[currentArgs.moduleName] = currentArgs
+            allpackages.add(currentArgs.modulePrefix.toLowerCase())
+        }
+    }
+    val dependencyMap = mutableMapOf<String, MutableSet<String>>()
+    for ((k, v) in modules) {
+        val dep = mutableSetOf<String>()
+        dependencyMap[k] = dep
+        if (v.modulePrefix != "Luposdate3000_Shared_JS" && target == "JS") {
+            dep.add("Luposdate3000_Shared_BrowserJS")
+        }
+        if (!v.moduleName.startsWith("Luposdate3000_Shared")) {
+            dep.add("Luposdate3000_Shared")
+        }
+        Files.walk(Paths.get(v.moduleFolder)).forEach { it ->
+            val name = it.toString()
+            val f = java.io.File(name)
+            if (f.isFile() && name.endsWith(".kt")) {
+                f.forEachLine { it ->
+                    if (it.startsWith("import lupos.")) {
+                        val imp = it.split('.')
+                        var i = imp.size - 1
+                        while (i > 0) {
+                            var s = "luposdate3000_" + imp[1]
+                            for (j in 2 until i) {
+                                s += "_" + imp[j]
                             }
+                            if (allpackages.contains(s)) {
+                                var found = false
+                                for ((x, y) in modules) {
+                                    if (y.modulePrefix.toLowerCase() == s && y.enabledRunFunc()) {
+                                        found = true
+                                        dep.add(y.moduleName)
+                                        break
+                                    }
+                                }
+                                if (!found) {
+                                    for ((x, y) in modules) {
+                                        if (y.modulePrefix.toLowerCase() == s) {
+                                            found = true
+                                            dep.add(y.moduleName)
+                                            break
+                                        }
+                                    }
+                                }
+                                if (!found) {
+                                    throw Exception(s)
+                                }
+                                i = 0
+                            }
+                            i--
                         }
+                    }
+                }
+            }
+        }
+        dep.remove("Luposdate3000_Shared_Inline")
+        dep.remove(v.moduleName)
+    }
+// add explicit dependencies
+    for ((k, v) in modules) {
+        val c = modules["Luposdate3000_Shared_Inline"]!!
+        v.dependenciesCommon.addAll(c.dependenciesCommon)
+        v.dependenciesJvm.addAll(c.dependenciesJvm)
+        v.dependenciesJvmRecoursive.addAll(c.dependenciesJvm)
+        v.dependenciesJvmRecoursive.addAll(c.dependenciesCommon)
+        v.dependenciesJs.addAll(c.dependenciesJs)
+        v.dependenciesNative.addAll(c.dependenciesNative)
+    }
+// add inferred direct module dependencies
+    for ((k, v) in modules) {
+        val depss = dependencyMap[k]
+        if (depss != null) {
+            for (w in depss) {
+                v.dependenciesCommon.add("luposdate3000:$w:0.0.1")
+            }
+        }
+    }
+// add ksp dependency
+    for ((k, v) in modules) {
+        val depss = dependencyMap[k]
+        if (depss != null) {
+            if (v.codegenKSP) {
+                depss.add("Luposdate3000_Code_Generator_KSP")
+                v.dependenciesJvmRecoursive.add("luposdate3000:Luposdate3000_Code_Generator_KSP:0.0.1")
+            }
+            if (v.codegenKAPT) {
+                depss.add("Luposdate3000_Code_Generator_KAPT")
+                v.dependenciesJvmRecoursive.add("luposdate3000:Luposdate3000_Code_Generator_KAPT:0.0.1")
+            }
+        }
+    }
+// add recursive dependencies
+    var flag = true
+    while (flag) {
+        flag = false
+        for ((k, v) in modules) {
+            val depss = dependencyMap[k]
+            if (depss != null) {
+                for (dep in depss.toTypedArray()) {
+                    val s = depss.size
+                    val deps = dependencyMap[dep]
+                    if (deps != null) {
+                        depss.addAll(deps)
+                    }
+                    if (s != depss.size) {
+                        for (w in deps!!) {
+                            v.dependenciesJvmRecoursive.add("luposdate3000:$w:0.0.1")
+                            v.dependenciesJs.add("luposdate3000:$w:0.0.1")
+                            v.dependenciesNative.add("luposdate3000:$w:0.0.1")
+                        }
+                        v.dependenciesJvmRecoursive.addAll(modules[dep]!!.dependenciesJvmRecoursive)
+                        v.dependenciesJs.addAll(modules[dep]!!.dependenciesJs)
+                        v.dependenciesNative.addAll(modules[dep]!!.dependenciesNative)
+                        flag = true
                     }
                 }
             }
@@ -227,6 +328,11 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
     }
     if (res.size != modules.size || res.size != nameSet.size) {
         throw Exception("something wrong ${modules.keys} ------- $nameSet")
+    }
+    for (k in optionsForPackages.keys.toTypedArray()) {
+        if (optionsForPackages[k]!!.size == 1) {
+            optionsForPackages.remove(k)
+        }
     }
     return res
 }
@@ -401,14 +507,6 @@ val defaultParams = mutableListOf(
         }
     ),
     ParamClass(
-        "--jenaWrapper",
-        "Off",
-        mapOf(
-            "On" to { jenaWrapper = "On" },
-            "Off" to { jenaWrapper = "Off" },
-        )
-    ),
-    ParamClass(
         "--releaseMode",
         "Disable",
         mapOf(
@@ -425,6 +523,15 @@ val defaultParams = mutableListOf(
         )
     ),
     ParamClass(
+        "--compilerVersion",
+        "1.4.0",
+        mapOf(
+            "1.4.0" to { compilerVersion = "1.4.0" },
+            "1.4.255-SNAPSHOT" to { compilerVersion = "1.4.255-SNAPSHOT" },
+            "1.5.255-SNAPSHOT" to { compilerVersion = "1.5.255-SNAPSHOT" },
+        )
+    ),
+    ParamClass(
         "--inlineMode",
         "Disable",
         mapOf(
@@ -438,12 +545,9 @@ val defaultParams = mutableListOf(
         EPartitionModeExt.names.map { it to { partitionMode = it } }.toMap(),
     ),
     ParamClass(
-        "--memoryMode",
-        "inmemory",
-        mapOf(
-            "persistent" to { memoryMode = "_Persistent" },
-            "inmemory" to { memoryMode = "_Inmemory" },
-        )
+        "--garbageCollector",
+        EGarbageCollectorExt.names[EGarbageCollectorExt.Shenandoah],
+        EGarbageCollectorExt.names.mapIndexed { idx, it -> it to { garbageCollector = idx } }.toMap(),
     ),
     ParamClass(
         "--dictionaryMode",
@@ -459,24 +563,9 @@ val defaultParams = mutableListOf(
         )
     ),
     ParamClass(
-        "--endpointMode",
-        "None",
-        mapOf(
-            "None" to { endpointMode = "None" },
-            "Java_Sockets" to { endpointMode = "Java_Sockets" },
-        )
-    ),
-    ParamClass(
         "--help",
         {
             execMode = ExecMode.HELP
-            skipArgs = true
-        }
-    ),
-    ParamClass(
-        "--allTest",
-        {
-            execMode = ExecMode.ALL_TEST
             skipArgs = true
         }
     ),
@@ -537,17 +626,6 @@ val defaultParams = mutableListOf(
         }
     },
     ParamClass(
-        "--compileAndRun",
-        {
-            enableParams(compileParams)
-            execMode = ExecMode.COMPILE_AND_RUN
-        }
-    ).setAdditionalHelp {
-        for (param in compileParams) {
-            param.help(it)
-        }
-    },
-    ParamClass(
         "--clearCaches",
         {
             if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
@@ -594,11 +672,22 @@ fun enableParams(params: List<ParamClass>) {
 }
 enableParams(defaultParams)
 enableParams(getAllModuleSpecificParams())
+getAllModuleConfigurations()
+for ((k, v) in optionsChoosenForPackages) {
+    defaultParams.add(
+        ParamClass(
+            name = "--$k",
+            default = "$v",
+            values = optionsForPackages[k]!!.map { it.substring(k.length + 1) to { optionsChoosenForPackages[k] = it } }.toMap(),
+        ),
+    )
+}
+enableParams(defaultParams)
 val mainclassParams = listOf(
     ParamClass(
         "--mainClass",
         "Endpoint",
-        availableMainClass.map { it.substring("Luposdate3000_Launch_".length) to { mainClass = it } }.toMap()
+        optionsForPackages["Main"]!!.map { it.substring("Launch_".length) to { mainClass = "Luposdate3000_$it" } }.toMap()
     ),
 )
 enableParams(mainclassParams)
@@ -648,7 +737,6 @@ when (execMode) {
     ExecMode.GENERATE_ENUMS -> onGenerateEnums()
     ExecMode.SETUP_INTELLIJ_IDEA -> onSetupIntellijIdea()
     ExecMode.SETUP_JS -> onSetupJS()
-    ExecMode.ALL_TEST -> onAllTest()
     ExecMode.COMPILE_AND_RUN -> {
         onCompile()
         onRun()
@@ -720,11 +808,22 @@ fun onSetupIntellijIdea() {
         outBuildGradle.println("    project(\":src\")")
         outBuildGradle.println("}")
     }
-    File("settings.gradle").printWriter().use { outSettingsGradle ->
+    File("settings.gradle.kts").printWriter().use { outSettingsGradle ->
         File("src${Platform.getPathSeparator()}build.gradle.kts").printWriter().use { outBuildGradle ->
             outSettingsGradle.println("pluginManagement {")
+            outSettingsGradle.println("    resolutionStrategy {")
+            outSettingsGradle.println("        eachPlugin {")
+            outSettingsGradle.println("            when (requested.id.id) {")
+            outSettingsGradle.println("                \"kotlin-ksp\",")
+            outSettingsGradle.println("                \"org.jetbrains.kotlin.kotlin-ksp\",")
+            outSettingsGradle.println("                \"org.jetbrains.kotlin.ksp\" -> useModule(\"org.jetbrains.kotlin:kotlin-ksp:\${requested.version}\")")
+            outSettingsGradle.println("            }")
+            outSettingsGradle.println("        }")
+            outSettingsGradle.println("    }")
             outSettingsGradle.println("    repositories {")
             outSettingsGradle.println("        mavenLocal()")
+            outSettingsGradle.println("        maven(\"https://dl.bintray.com/kotlin/kotlin-eap\")")
+            outSettingsGradle.println("        google()")
             outSettingsGradle.println("        gradlePluginPortal()")
             outSettingsGradle.println("    }")
             outSettingsGradle.println("}")
@@ -775,10 +874,39 @@ fun onRun() {
                     }
                 }
             }
-            val cmd = mutableListOf("java", "-Xmx${Platform.getAvailableRam()}g", "-cp", classpath, "MainKt")
+            val javaFileName = "/usr/lib/jvm/java-15-openjdk-amd64/bin/java"
+            val javaFile = File(javaFileName)
+            val cmd = mutableListOf<String>()
+            if (javaFile.exists()) {
+                cmd.add(javaFileName)
+                cmd.add("-XX:+UnlockExperimentalVMOptions")
+                when (garbageCollector) {
+                    EGarbageCollectorExt.Epsilon -> {
+                        cmd.add("-Xmx10g")
+                        cmd.add("-Xms10g")
+                        cmd.add("-XX:+UseEpsilonGC")
+                        cmd.add("-XX:+AlwaysPreTouch")
+                        cmd.add("-XX:+HeapDumpOnOutOfMemoryError")
+                    }
+                    EGarbageCollectorExt.Shenandoah -> {
+                        cmd.add("-Xmx${Platform.getAvailableRam()}g")
+                        cmd.add("-XX:+UseShenandoahGC")
+                        cmd.add("-XX:ShenandoahUncommitDelay=1000")
+                        cmd.add("-XX:ShenandoahGuaranteedGCInterval=10000")
+                    }
+                }
+            } else {
+                cmd.add("java")
+                cmd.add("-Xmx${Platform.getAvailableRam()}g")
+            }
+            cmd.add("-cp")
+            cmd.add(classpath)
+            cmd.add("MainKt")
             cmd.addAll(runArgs)
+            println(cmd)
+            println("dryMode=$dryMode")
             if (dryMode == "Enable") {
-                println("export LUPOS_PROCESS_URLS=processUrls")
+                println("export LUPOS_PROCESS_URLS=$processUrls")
                 println("export LUPOS_THREAD_COUNT=$threadCount")
                 println("export LUPOS_PARTITION_MODE=$partitionMode")
                 println("export LUPOS_DICTIONARY_MODE=$dictionaryMode")
@@ -790,10 +918,10 @@ fun onRun() {
                         .redirectError(Redirect.INHERIT)
                     val env = p.environment()
                     env["LUPOS_PROCESS_ID"] = "$it"
-                    env["LUPOS_PROCESS_URLS"] = processUrls
+                    env["LUPOS_PROCESS_URLS"] = "$processUrls"
                     env["LUPOS_THREAD_COUNT"] = "$threadCount"
-                    env["LUPOS_PARTITION_MODE"] = partitionMode
-                    env["LUPOS_DICTIONARY_MODE"] = dictionaryMode
+                    env["LUPOS_PARTITION_MODE"] = "$partitionMode"
+                    env["LUPOS_DICTIONARY_MODE"] = "$dictionaryMode"
                     p.start()
                 }.forEach {
                     it.waitFor()
@@ -804,10 +932,10 @@ fun onRun() {
             }
         }
         "JS" -> {
-            if (memoryMode != "_Inmemory") {
-                throw Exception("JS can only use 'Inmemory' as memoryMode")
+            if (optionsChoosenForPackages["Buffer_Manager"]!! != "Inmemory") {
+                throw Exception("JS can only use 'Inmemory' as Buffer_Manager")
             }
-            if (jenaWrapper != "Off") {
+            if (optionsChoosenForPackages["Jena_Wrapper"]!! != "Off") {
                 throw Exception("JS can only use 'Off' as jenaWrapper")
             }
             if (partitionMode != "None") {
@@ -944,8 +1072,8 @@ fun onGenerateParser() {
         "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
         "SKIP_WS" to "[#x20#x9#xD#xA]*",
     )
-    val turtleFilename = "src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}turtle${Platform.getPathSeparator()}Turtle2ParserGenerated.kt"
-    val turtlePackage = "lupos.s02buildSyntaxTree.turtle"
+    val turtleFilename = "src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}parser${Platform.getPathSeparator()}turtle${Platform.getPathSeparator()}Turtle2ParserGenerated.kt"
+    val turtlePackage = "lupos.parser.turtle"
     val xmlGeneratingArgs = arrayOf(
         listOf("PARSER_CONTEXT"),
         listOf("parse_ws", "SKIP_WS"),
@@ -970,9 +1098,10 @@ fun onGenerateParser() {
         "ATTRIBUTE_VALUE" to "'\"' [^\"]* '\"'",
         "ELEMENT_CONTENT" to "[^<]*",
         "SKIP_WS" to "[#x20#x9#xD#xA]*",
+        "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
     )
-    val xmlFilename = "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}xmlParser${Platform.getPathSeparator()}XMLParserGenerated.kt"
-    val xmlPackage = "lupos.s00misc.xmlParser"
+    val xmlFilename = "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}shared${Platform.getPathSeparator()}xmlParser${Platform.getPathSeparator()}XMLParserGenerated.kt"
+    val xmlPackage = "lupos.shared.xmlParser"
     val nQuadsGeneratingArgs = arrayOf(
         listOf("PARSER_CONTEXT"),
         listOf("parse_dot", "DOT"),
@@ -998,8 +1127,8 @@ fun onGenerateParser() {
         "DOT" to "('.')",
         "IRI1" to "('^') ('^')",
     )
-    val nQuadsFilename = "src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}nQuads${Platform.getPathSeparator()}NQuads2ParserGenerated.kt"
-    val nQuadsPackage = "lupos.s02buildSyntaxTree.nQuads"
+    val nQuadsFilename = "src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}parser${Platform.getPathSeparator()}nQuads${Platform.getPathSeparator()}NQuads2ParserGenerated.kt"
+    val nQuadsPackage = "lupos.parser.nQuads"
     ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage, )
     ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage, )
     ParserGenerator(nQuadsGeneratingArgs, nQuadsGrammar, nQuadsFilename, nQuadsPackage, )
@@ -1073,29 +1202,30 @@ fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: Strin
 
 fun onGenerateEnums() {
     val turtleGeneratingArgs = arrayOf(
-        listOf("MyPrintWriterMode", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}MyPrintWriterMode"),
-        listOf("BuiltInFunctions", "lupos.s02buildSyntaxTree.sparql1_1", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}sparql1_1${Platform.getPathSeparator()}BuiltInFunctions"),
-        listOf("BinaryTestCaseOutputMode", "lupos.test", "public", "src${Platform.getPathSeparator()}luposdate3000_test${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}test${Platform.getPathSeparator()}BinaryTestCaseOutputMode"),
-        listOf("Aggregation", "lupos.s02buildSyntaxTree.sparql1_1", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}sparql1_1${Platform.getPathSeparator()}Aggregation"),
-        listOf("IteratorBundleMode", "lupos.s04logicalOperators.iterator", "internal", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s04logicalOperators${Platform.getPathSeparator()}iterator${Platform.getPathSeparator()}IteratorBundleMode"),
-        listOf("ESortPriority", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}ESortPriority"),
-        listOf("ETripleIndexType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}ETripleIndexType"),
-        listOf("EGraphRefType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EGraphRefType"),
-        listOf("EOperatorID", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EOperatorID"),
-        listOf("EModifyType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EModifyType"),
-        listOf("ETripleComponentType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}ETripleComponentType"),
-        listOf("EGraphOperationType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EGraphOperationType"),
-        listOf("ESortType", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}ESortType"),
-        listOf("EGroupMember", "lupos.optimizer.ast", "public", "src${Platform.getPathSeparator()}luposdate3000_optimizer_ast${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}optimizer${Platform.getPathSeparator()}ast${Platform.getPathSeparator()}EGroupMember"),
-        listOf("EQueryResultToStream", "lupos.s11outputResult", "public", "src${Platform.getPathSeparator()}luposdate3000_result_format${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s11outputResult${Platform.getPathSeparator()}EQueryResultToStream"),
-        listOf("EPOPDebugMode", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EPOPDebugMode"),
-        listOf("Turtle2ParserState", "lupos.s02buildSyntaxTree.turtle", "internal", "src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s02buildSyntaxTree${Platform.getPathSeparator()}turtle${Platform.getPathSeparator()}Turtle2ParserState"),
-        listOf("EOptimizerID", "lupos.optimizer.logical", "public", "src${Platform.getPathSeparator()}luposdate3000_optimizer_logical${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}optimizer${Platform.getPathSeparator()}logical${Platform.getPathSeparator()}EOptimizerID"),
-        listOf("EOperatingSystem", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EOperatingSystem"),
-        listOf("EIndexPattern", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EIndexPattern"),
-        listOf("EPartitionMode", "lupos.s00misc", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s00misc${Platform.getPathSeparator()}EPartitionMode"),
-        listOf("EDictionaryType", "lupos.dictionary", "public", "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}dictionary${Platform.getPathSeparator()}EDictionaryType"),
-        listOf("ETripleStoreIndexDescriptionPartitionedType", "lupos.s05tripleStore", "public", "src${Platform.getPathSeparator()}luposdate3000_triple_store_manager${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}s05tripleStore${Platform.getPathSeparator()}ETripleStoreIndexDescriptionPartitionedType"),
+        listOf("ETripleStoreIndexDescriptionPartitionedType", "lupos.triple_store_manager", "public", "src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/ETripleStoreIndexDescriptionPartitionedType"),
+        listOf("BinaryTestCaseOutputMode", "lupos.test", "public", "src/luposdate3000_test/src/commonMain/kotlin/lupos/test/BinaryTestCaseOutputMode"),
+        listOf("ESortPriority", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/ESortPriority"),
+        listOf("EIndexPattern", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EIndexPattern"),
+        listOf("EOperatingSystem", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystem"),
+        listOf("BuiltInFunctions", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/BuiltInFunctions"),
+        listOf("ETripleComponentType", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/ETripleComponentType"),
+        listOf("EModifyType", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EModifyType"),
+        listOf("EOperatorID", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatorID"),
+        listOf("ETripleIndexType", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/ETripleIndexType"),
+        listOf("Aggregation", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/Aggregation"),
+        listOf("EGraphRefType", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGraphRefType"),
+        listOf("IteratorBundleMode", "lupos.shared.operator.iterator", "internal", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/operator/iterator/IteratorBundleMode"),
+        listOf("MyPrintWriterMode", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/MyPrintWriterMode"),
+        listOf("EGarbageCollector", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollector"),
+        listOf("EPOPDebugMode", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPOPDebugMode"),
+        listOf("EPartitionMode", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionMode"),
+        listOf("ESortType", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/ESortType"),
+        listOf("EDictionaryType", "lupos.shared.dictionary", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryType"),
+        listOf("EGraphOperationType", "lupos.shared", "public", "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGraphOperationType"),
+        listOf("EGroupMember", "lupos.optimizer.ast", "public", "src/luposdate3000_optimizer_ast/src/commonMain/kotlin/lupos/optimizer/ast/EGroupMember"),
+        listOf("Turtle2ParserState", "lupos.parser.turtle", "internal", "src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/turtle/Turtle2ParserState"),
+        listOf("EQueryResultToStream", "lupos.result_format", "public", "src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/EQueryResultToStream"),
+        listOf("EOptimizerID", "lupos.optimizer.logical", "public", "src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/EOptimizerID"),
     )
     for (args in turtleGeneratingArgs) {
         onGenerateEnumsHelper(args[0], args[1], args[2], args[3])
@@ -1262,50 +1392,4 @@ fun find(path: String, fName: String): File? {
         }
     }
     return null
-}
-
-fun onAllTest() {
-    for (r in listOf("Enable", "Disable")) {
-        for (i in listOf("Enable", "Disable")) {
-            for (s in listOf("Disable")) {
-                ProcessBuilder("./launcher.main.kts", "--compileAll", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--dryMode=Disable", "--target=All", "--intellijMode=Disable")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s.compile-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s.compile-err")))
-                    .start()
-                    .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Thread", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions.test-err")))
-                    .start()
-                    .waitFor()
-                File("/tmp/luposdate3000/").deleteRecursively()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=inmemory", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions.test-err")))
-                    .start()
-                    .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=persistent", "--proguardMode=Off", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent.test-err")))
-                    .start()
-                    .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=Thread", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions-Proguard.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-WithPartitions-Proguard.test-err")))
-                    .start()
-                    .waitFor()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=inmemory", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Proguard.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Proguard.test-err")))
-                    .start()
-                    .waitFor()
-                File("/tmp/luposdate3000/").deleteRecursively()
-                ProcessBuilder("./launcher.main.kts", "--run", "--runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary", "--mainClass=Binary_Test_Suite", "--releaseMode=$r", "--inlineMode=$i", "--suspendMode=$s", "--partitionMode=None", "--memoryMode=persistent", "--proguardMode=On", "--mainClass=Binary_Test_Suite", "--jenaWrapper=On", "--endpointMode=None")
-                    .redirectOutput(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent-Proguard.test-log")))
-                    .redirectError(Redirect.appendTo(File("all-test-$r-$i-$s-NoPartitions-Persistent-Proguard.test-err")))
-                    .start()
-                    .waitFor()
-            }
-        }
-    }
 }

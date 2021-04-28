@@ -16,7 +16,7 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s00misc.UnreachableException
+import lupos.shared.UnreachableException
 import kotlin.jvm.JvmField
 
 public object EOptimizerIDHelper {

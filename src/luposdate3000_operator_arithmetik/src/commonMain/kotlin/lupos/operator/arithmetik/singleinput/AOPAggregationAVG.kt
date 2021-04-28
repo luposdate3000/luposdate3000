@@ -1,0 +1,111 @@
+/*
+ * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
+ * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, version 3.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+package lupos.operator.arithmetik.singleinput
+
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
+import lupos.operator.arithmetik.AOPAggregationBase
+import lupos.operator.arithmetik.AOPBase
+import lupos.operator.base.iterator.ColumnIteratorAggregate
+import lupos.shared.EOperatorIDExt
+import lupos.shared.EvaluationException
+import lupos.shared.IQuery
+import lupos.shared.ValueDecimal
+import lupos.shared.ValueDefinition
+import lupos.shared.ValueDouble
+import lupos.shared.ValueError
+import lupos.shared.ValueFloat
+import lupos.shared.ValueInteger
+import lupos.shared.ValueUndef
+import lupos.shared.XMLElement
+import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
+import kotlin.jvm.JvmField
+
+public class AOPAggregationAVG public constructor(query: IQuery, @JvmField public val distinct: Boolean, childs: Array<AOPBase>) : AOPAggregationBase(query, EOperatorIDExt.AOPAggregationAVGID, "AOPAggregationAVG", Array<IOPBase>(childs.size) { childs[it] }) {
+    override /*suspend*/ fun toXMLElement(partial: Boolean): XMLElement = super.toXMLElement(partial).addAttribute("distinct", "" + distinct)
+    override fun toSparql(): String {
+        if (distinct) {
+            return "AVG(DISTINCT " + children[0].toSparql() + ")"
+        }
+        return "AVG(" + children[0].toSparql() + ")"
+    }
+
+    override fun equals(other: Any?): Boolean = other is AOPAggregationAVG && distinct == other.distinct && children.contentEquals(other.children)
+    override fun createIterator(row: IteratorBundle): ColumnIteratorAggregate {
+        val res = ColumnIteratorAggregate()
+        val child = (children[0] as AOPBase).evaluate(row)
+        res.evaluate = {
+            var tmp1 = res.value
+            res.count++
+            try {
+                val value = child()
+                if (value is ValueError) {
+                    tmp1 = value
+                    res.evaluate = res::aggregateEvaluate
+                } else if (tmp1 is ValueUndef) {
+                    tmp1 = value
+                } else if (tmp1 is ValueDouble || value is ValueDouble) {
+                    tmp1 = ValueDouble(tmp1.toDouble() + value.toDouble())
+                } else if (tmp1 is ValueFloat || value is ValueFloat) {
+                    tmp1 = ValueFloat(tmp1.toDouble() + value.toDouble())
+                } else if (tmp1 is ValueDecimal || value is ValueDecimal) {
+                    tmp1 = ValueDecimal(tmp1.toDecimal() + value.toDecimal())
+                } else if (tmp1 is ValueInteger || value is ValueInteger) {
+                    tmp1 = ValueDecimal(BigDecimal.fromBigInteger(tmp1.toInt() + value.toInt()))
+                } else {
+                    tmp1 = ValueError()
+                    res.evaluate = res::aggregateEvaluate
+                }
+            } catch (e: EvaluationException) {
+                tmp1 = ValueError()
+                res.evaluate = res::aggregateEvaluate
+            } catch (e: Throwable) {
+                e.printStackTrace()
+                tmp1 = ValueError()
+                res.evaluate = res::aggregateEvaluate
+            }
+            res.value = tmp1
+        }
+        return res
+    }
+
+    override fun evaluate(row: IteratorBundle): () -> ValueDefinition {
+        val tmp = row.columns["#$uuid"]!! as ColumnIteratorAggregate
+        return {
+            val res: ValueDefinition
+            val tmp1 = tmp.value
+            res = when (tmp1) {
+                is ValueDouble -> {
+                    ValueDouble(tmp1.toDouble() / tmp.count)
+                }
+                is ValueFloat -> {
+                    ValueFloat(tmp1.toDouble() / tmp.count)
+                }
+                is ValueDecimal -> {
+                    ValueDecimal(tmp1.value / tmp.count.toBigDecimal())
+                }
+                else -> {
+                    ValueError()
+                }
+            }
+            res
+        }
+    }
+
+    override fun cloneOP(): IOPBase = AOPAggregationAVG(query, distinct, Array<AOPBase>(children.size) { (children[it].cloneOP()) as AOPBase })
+}

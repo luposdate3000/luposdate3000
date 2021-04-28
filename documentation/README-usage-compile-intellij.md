@@ -20,3 +20,4 @@ The Linux-version of intellij ignores this.
 You can compile and run the database by navigating to the main functions, which are located within the src/luposdate3000_launch_*/src/jvmMain/kotlin/Main.kt files.
 Substitute the "*" with the wanted target.
 Within the IDE this works only for main functions, which dont require arguments.
+This only works, if the main function is in the jvmMain folder - not for main functions in the commonMain folders.

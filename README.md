@@ -6,20 +6,24 @@ luposdate3000 is a Database which can process sparql-queries.
 
 This describes how to install the prerequisites for the database.
 
-If you chose Windows, the compiler is about 25% slower compared to the linux version - tested with the same database-code and the same compiler-version.  
+If you chose Windows, the compiler is about 25% slower compared to the linux version - tested with the same database-code and the same compiler-version.
 
-[readme linux](documentation/installation/README-linux.md)  
-[readme windows](documentation/installation/README-windows.md)  
+[readme linux](documentation/installation/README-linux.md)
+[readme windows](documentation/installation/README-windows.md)
 
 ## Usage and Compilation
 
 You can choose either the simple mode - and use intellij-IDE (and use only the standard (jvm-only) modules).
+The compilation in intellij is faster than the compilation on the commandline - due to the usage of caches.
+On the other hand exactly this caches can introduce Bugs in the database, which are not present in the code, due to false-negatives in the cache-detection.
+In the case of code-generation, the caches are used very badly - such that you have to clean them manually.
 
 [readme intelliJ-IDE](documentation/README-usage-compile-intellij.md)
 
 Or you may choose the advanced mode without IDE, which allows you to use all configurations.
 
 This describes how to compile the database itself (during development).
+
 [readme-advanced](documentation/README-usage-compile-advanced.md)
 
 ## Tests
@@ -28,9 +32,9 @@ This describes how to compile the database itself (during development).
 
 ## Benchmarks
 
-[readme - benchmark-data](documentation/README-real-world-benchmark-data.md)  
-[readme - other databases](documentation/README-other-databases.md)  
-[readme - will be updated soon](documentation/README-benchmarks.md)  
+[readme - benchmark-data](documentation/README-real-world-benchmark-data.md)
+[readme - other databases](documentation/README-other-databases.md)
+[readme - will be updated soon](documentation/README-benchmarks.md)
 
 ## Configuration
 

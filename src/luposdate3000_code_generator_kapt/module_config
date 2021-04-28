@@ -1,4 +1,3 @@
 package=Luposdate3000_Code_Generator_KAPT
 name=Luposdate3000_Code_Generator_KAPT
-enabled=always
 enabledRun=never

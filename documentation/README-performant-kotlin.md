@@ -20,22 +20,14 @@ Things you can change:
   This hides the function/class from the api.
   This decreases the binary size.
   This increases the compile-speed, because there are no generated/exported functions.
+* "private" <br/>
+  functions and classes are ok, but dont use "private" fields, because they introduce getters and setters if they are used within private functions in the context of an lambda-call.
 * function pointers<br/>
   Be careful.
   This creates (multiple) additional objects.
   If these are called, multiple indirect function calls are performed, which may be slow.
   Dont do this in performance-critical sections.
   The performant-kotlin way to to this is a function with a "when(xyz)" where each case contains the code you otherwise would have put into different function pointers.
-* coroutines<br/>
-  If you have blocking code for example when you need a Lock, then recursively put the "suspend" keyword in front of every required function - the whole way up until "main" if necessary.
-  Do the same for every function, which calles any of the functions you modify.
-  Do NOT use "runBlocking" - because it does just that: blocking.
-  Use "runBlocking" only if you are really forced to do so by an external library.
-* "suspend" function modifier<br/>
-  The compiler performs a lot of changes to functions with this keyword.
-  Try to avoid any function-local variable ... and put that as a instance-variable instead - because otherwise all these local variables are transformet into a temporary object by the kotlin compiler - which is bad.
-  If a suspend function does not contain any suspend code (or only the last call is a suspendable function), then compiler changes are minimal.
-  Try to call other suspending functions as late as possible within a function, to reduce the number of variabes which must be stored by the compiler.
 * debug-only-code<br/>
   use this:
   
@@ -61,6 +53,9 @@ Things you can change:
 * "class-variables" and "instance-variables"<br/>
   Annotate all of these with "@JvmField" - otherwise the kotlin compiler generates useless getter and setter code.
   An "annotate-everything"-compiler option was suggested by other people too, but is currently not supported.
+* "get" and "set" kotlin-language feature <br/>
+  dont use the kotlin-language features "get" and "set" on fields, because they add an extra function, which can not be inlined.
+  If you need to, than write the getters/setters yourself and put the "inline" keyword in front of them.
 
 Current limitations of the kotlin compiler:
 
@@ -73,7 +68,7 @@ Current limitations of the kotlin compiler:
 * Gradle has more kotlin related features than maven especially if not-java targets should be build.
 * If the program breaks and you dont think it should break, then clear the build folder and compile again.
   The incremental build sometimes just dont work - especially with enabled inlining.
-  The current version of the scripts automatically wipe the build folder for every build - just to be sure.
+  The current version of the comandline-compilation automatically wipe the build folder for every build - just to be sure.
   This "bug" happend too often for me.
 * My experiments show that Threads are faster than Coroutines, because of the constantly allocated and released intermediate Objects, which are completely useless.
   Maybe this changes with updates to the kotlin-compiler.

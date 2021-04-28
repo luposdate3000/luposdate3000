@@ -16,20 +16,20 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s03resultRepresentation.ValueBoolean
-import lupos.s04arithmetikOperators.AOPBase
-import lupos.s04arithmetikOperators.generated.AOPAnd
-import lupos.s04arithmetikOperators.generated.AOPBuildInCallBOUND
-import lupos.s04arithmetikOperators.generated.AOPNot
-import lupos.s04arithmetikOperators.generated.AOPOr
-import lupos.s04arithmetikOperators.multiinput.AOPBuildInCallCOALESCE
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.multiinput.LOPJoin
-import lupos.s04logicalOperators.singleinput.LOPFilter
-import lupos.s04logicalOperators.singleinput.LOPSubGroup
+import lupos.operator.arithmetik.AOPBase
+import lupos.operator.arithmetik.generated.AOPAnd
+import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
+import lupos.operator.arithmetik.generated.AOPNot
+import lupos.operator.arithmetik.generated.AOPOr
+import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
+import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
+import lupos.operator.logical.multiinput.LOPJoin
+import lupos.operator.logical.singleinput.LOPFilter
+import lupos.operator.logical.singleinput.LOPSubGroup
+import lupos.shared.ValueBoolean
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterOptionalID, "LogicalOptimizerFilterOptional") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

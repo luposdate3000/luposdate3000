@@ -16,14 +16,14 @@
  */
 package lupos.optimizer.logical
 
-import lupos.s04arithmetikOperators.multiinput.AOPEQ
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
-import lupos.s04logicalOperators.noinput.LOPTriple
-import lupos.s04logicalOperators.singleinput.LOPBind
-import lupos.s04logicalOperators.singleinput.LOPFilter
+import lupos.operator.arithmetik.multiinput.AOPEQ
+import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
+import lupos.operator.logical.noinput.LOPTriple
+import lupos.operator.logical.singleinput.LOPBind
+import lupos.operator.logical.singleinput.LOPFilter
+import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerFilterIntoTriple(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterIntoTripleID, "LogicalOptimizerFilterIntoTriple") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {

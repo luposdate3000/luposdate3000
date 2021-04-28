@@ -16,17 +16,22 @@
  */
 package lupos.launch.import
 
-import lupos.fileformat.DictionaryIntermediate
-import lupos.fileformat.DictionaryIntermediateReader
-import lupos.fileformat.DictionaryIntermediateRow
-import lupos.fileformat.DictionaryIntermediateWriter
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.File
-import lupos.s00misc.Parallel
-import lupos.s00misc.PartitionExt
-import lupos.s00misc.SanityCheck
-import lupos.s02buildSyntaxTree.nQuads.NQuads2Parser
-import lupos.s02buildSyntaxTree.turtle.Turtle2Parser
+import lupos.parser.nQuads.NQuads2Parser
+import lupos.parser.turtle.Turtle2Parser
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.DateHelperRelative
+import lupos.shared.LUPOS_BUFFER_SIZE
+import lupos.shared.Parallel
+import lupos.shared.SanityCheck
+import lupos.shared.fileformat.DictionaryIntermediate
+import lupos.shared.fileformat.DictionaryIntermediateReader
+import lupos.shared.fileformat.DictionaryIntermediateWriter
+import lupos.shared.fileformat.TriplesIntermediate
+import lupos.shared.fileformat.TriplesIntermediateReader
+import lupos.shared.fileformat.TriplesIntermediateWriter
+import lupos.shared_inline.ByteArrayWrapperExt
+import lupos.shared_inline.File
+import kotlin.math.min
 
 internal fun helperCleanString(s: String): String {
     var res: String = s
@@ -37,24 +42,128 @@ internal fun helperCleanString(s: String): String {
             res = res.replace(match.value, replacement)
         }
     } catch (e: Throwable) {
+        e.printStackTrace()
         println("error during clean :: $s")
     }
     return res
 }
 
+private inline fun cmp(a: IntArray, b: IntArray): Int {
+    var res = 0
+    res = a[0] - b[0]
+    if (res != 0) {
+        return res
+    }
+    res = a[1] - b[1]
+    if (res != 0) {
+        return res
+    }
+    res = a[2] - b[2]
+    return res
+}
+
+private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, crossinline copyAToB: (Int, Int) -> Unit, crossinline cmpAtoA: (Int, Int) -> Int, crossinline cmpBtoB: (Int, Int) -> Int, step: Int) {
+    var size = 1
+    while (size < n) {
+        var lstart = 0
+        while (lstart < n) {
+            var lend = min(lstart + size * step, n)
+            var rstart = lend
+            var rend = min(lend + size * step, n)
+            var dstart = lstart
+            if (lstart < lend && rstart < rend) {
+                if (cmpAtoA(lend - step, rstart) > 0) {
+                    loop@ while (true) {
+                        if (cmpAtoA(lstart, rstart) <= 0) {
+                            copyAToB(dstart, lstart)
+                            dstart += step
+                            lstart += step
+                            if (lstart >= lend) {
+                                break@loop
+                            }
+                        } else {
+                            copyAToB(dstart, rstart)
+                            dstart += step
+                            rstart += step
+                            if (rstart >= rend) {
+                                break@loop
+                            }
+                        }
+                    }
+                }
+            }
+            while (lstart < lend) {
+                copyAToB(dstart, lstart)
+                dstart += step
+                lstart += step
+            }
+            while (rstart < rend) {
+                copyAToB(dstart, rstart)
+                dstart += step
+                rstart += step
+            }
+            lstart = rend
+        }
+        size += size
+// //
+        lstart = 0
+        while (lstart < n) {
+            var lend = min(lstart + size * step, n)
+            var rstart = lend
+            var rend = min(lend + size * step, n)
+            var dstart = lstart
+            if (lstart < lend && rstart < rend) {
+                if (cmpBtoB(lend - step, rstart) > 0) {
+                    loop@ while (true) {
+                        if (cmpBtoB(lstart, rstart) <= 0) {
+                            copyBToA(dstart, lstart)
+                            dstart += step
+                            lstart += step
+                            if (lstart >= lend) {
+                                break@loop
+                            }
+                        } else {
+                            copyBToA(dstart, rstart)
+                            dstart += step
+                            rstart += step
+                            if (rstart >= rend) {
+                                break@loop
+                            }
+                        }
+                    }
+                }
+            }
+            while (lstart < lend) {
+                copyBToA(dstart, lstart)
+                dstart += step
+                lstart += step
+            }
+            while (rstart < rend) {
+                copyBToA(dstart, rstart)
+                dstart += step
+                rstart += step
+            }
+            lstart = rend
+        }
+        size += size
+    }
+}
+
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
+    val startTime = DateHelperRelative.markNow()
     val quadMode = inputFileName.endsWith(".n4")
+    val statFileEnding = ".stat"
     val tripleFileEnding = if (quadMode) {
         "quads"
     } else {
         "triples"
     }
-    val dictSizeLimit = 1024L * 1024L * 1024L
+    val dictSizeLimit = LUPOS_BUFFER_SIZE.toLong()
     var dictSizeEstimated = 0L
     var chunc = 0
 // create chunced dictionaries
-    var outTriples = File("$inputFileName.0.$tripleFileEnding").openOutputStream(false)
+    var outTriples = TriplesIntermediateWriter("$inputFileName.0")
     val dict = mutableMapOf<ByteArrayWrapper, Int>()
     var dictCounter = 0L
     var cnt = 0L
@@ -75,31 +184,41 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         return alen - blen
     }
 
+    fun addToDict(data: ByteArrayWrapper): Int {
+        val v = dict[data]
+        if (v != null) {
+            return v.toInt()
+        } else {
+            val v2 = dictCounter++
+            val buf = ByteArrayWrapper()
+            ByteArrayWrapperExt.copyInto(data, buf)
+            dict[buf] = v2.toInt()
+            dictSizeEstimated += data.size + 8
+            dicttotalcnt++
+            return v2.toInt()
+        }
+    }
+
+    var dictionaryInitialSortTime = 0.0
     val iter = File(inputFileName).openInputStream()
+    // val cleanOutTriples = File(inputFileName + ".cleaned.n3").openOutputStream(false)
     if (inputFileName.endsWith(".n3") || inputFileName.endsWith(".ttl") || inputFileName.endsWith(".nt")) {
+        val row = IntArray(3)
         val x = object : Turtle2Parser(iter) {
             override fun onTriple() {
                 for (i in 0 until 3) {
-                    val tripleCleaned = triple[i]
-                    val v = dict[tripleCleaned]
-                    if (v != null) {
-                        outTriples.writeInt(v.toInt())
-                    } else {
-                        val v2 = dictCounter++
-                        outTriples.writeInt(v2.toInt())
-                        val buf = ByteArrayWrapper()
-                        tripleCleaned.copyInto(buf)
-                        dict[buf] = v2.toInt()
-                        dictSizeEstimated += tripleCleaned.getSize() * 2
-                        dicttotalcnt++
-                    }
+                    row[i] = addToDict(triple[i])
                 }
+                // cleanOutTriples.println("${DictionaryHelper.byteArrayToSparql(triple[0])} ${DictionaryHelper.byteArrayToSparql(triple[1])} ${DictionaryHelper.byteArrayToSparql(triple[2])} .")
+                outTriples.write(row[0], row[1], row[2])
                 cnt++
                 if (cnt % 10000L == 0L) {
-                    println("$cnt :: $dictCounter :: $dictSizeEstimated(Bytes)")
+                    println("parsing triples=$cnt :: dictionery-entries=$dictCounter :: dictionary-size-estimated=$dictSizeEstimated(Bytes)")
                 }
                 if (dictSizeEstimated > dictSizeLimit) {
+                    val startTime2 = DateHelperRelative.markNow()
                     DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
+                    dictionaryInitialSortTime += DateHelperRelative.elapsedSeconds(startTime2)
                     dictSizeEstimated = 0
                     chunc++
                 }
@@ -107,29 +226,22 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         }
         x.parse()
     } else if (inputFileName.endsWith(".n4")) {
+        val row = IntArray(3)
         val x = object : NQuads2Parser(iter) {
             override fun onQuad() {
-                for (i in 0 until 4) {
-                    val quadCleaned = quad[i]
-                    val v = dict[quadCleaned]
-                    if (v != null) {
-                        outTriples.writeInt(v.toInt())
-                    } else {
-                        val v2 = dictCounter++
-                        outTriples.writeInt(v2.toInt())
-                        val buf = ByteArrayWrapper()
-                        quadCleaned.copyInto(buf)
-                        dict[buf] = v2.toInt()
-                        dictSizeEstimated += quadCleaned.getSize() * 2
-                        dicttotalcnt++
-                    }
+                for (i in 0 until 3) {
+                    row[i] = addToDict(quad[i])
                 }
+                // cleanOutTriples.println("${DictionaryHelper.byteArrayToSparql(quad[0])} ${DictionaryHelper.byteArrayToSparql(quad[1])} ${DictionaryHelper.byteArrayToSparql(quad[2])} .")
+                outTriples.write(row[0], row[1], row[2])
                 cnt++
                 if (cnt % 10000L == 0L) {
-                    println("$cnt :: $dictCounter :: $dictSizeEstimated(Bytes)")
+                    println("parsing triples=$cnt :: dictionery-entries=$dictCounter :: dictionary-size-estimated=$dictSizeEstimated(Bytes)")
                 }
                 if (dictSizeEstimated > dictSizeLimit) {
+                    val startTime2 = DateHelperRelative.markNow()
                     DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
+                    dictionaryInitialSortTime += DateHelperRelative.elapsedSeconds(startTime2)
                     dictSizeEstimated = 0
                     chunc++
                 }
@@ -139,40 +251,41 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     } else {
         throw Exception("unknown filetype $inputFileName")
     }
+    // cleanOutTriples.close()
+    val startTime2 = DateHelperRelative.markNow()
     DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
+    dictionaryInitialSortTime += DateHelperRelative.elapsedSeconds(startTime2)
     chunc++
     outTriples.close()
     iter.close()
+    val parseTime = DateHelperRelative.elapsedSeconds(startTime)
 // merge dictionaries
-    val outDictionary = DictionaryIntermediateWriter("$inputFileName")
+    val outDictionary = DictionaryIntermediateWriter(inputFileName)
     val mapping = IntArray(dictCounter.toInt())
-
     val dictionaries = Array(chunc) { DictionaryIntermediateReader("$inputFileName.$it") }
     val dictionariesHeadBuffer = Array(chunc) { ByteArrayWrapper() }
     val dictionariesHead = Array(chunc) { dictionaries[it].next(dictionariesHeadBuffer[it]) }
-
-    var current: DictionaryIntermediateRow? = null
+    var buffer = ByteArrayWrapper()
+    var current: ByteArrayWrapper? = null
     var currentValue = 0
-
     var changed = true
     loop@ while (changed) {
         changed = false
-        for (d in dictionariesHead) {
-            if (current == null) {
-                current = d
-            } else if (d != null && d < current) {
-                current = d
+        for (i in 0 until chunc) {
+            val d = dictionariesHead[i]
+            if (d != null && (current == null || d.data < current)) {
+                ByteArrayWrapperExt.copyInto(d.data, buffer)
+                current = buffer
             }
         }
         if (current != null) {
             changed = true
-            outDictionary.writeAssumeOrdered(currentValue, current.data)
+            outDictionary.writeAssumeOrdered(currentValue, current)
             for (i in 0 until chunc) {
-                if (dictionariesHead[i] != null) {
-                    if (current.compareTo(dictionariesHead[i]!!) == 0) {
-                        mapping[dictionariesHead[i]!!.id] = currentValue
-                        dictionariesHead[i] = dictionaries[i].next(dictionariesHeadBuffer[i])
-                    }
+                val d = dictionariesHead[i]
+                if (d != null && current == d.data) {
+                    mapping[d.id] = currentValue
+                    dictionariesHead[i] = dictionaries[i].next(dictionariesHeadBuffer[i])
                 }
             }
             currentValue++
@@ -183,24 +296,143 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         d.close()
     }
     outDictionary.close()
-    File("$inputFileName.$tripleFileEnding").withOutputStream { outTriples ->
-        File("$inputFileName.0.$tripleFileEnding").withInputStream { inTriples ->
-            val target = cnt * if (quadMode) {
-                4L
-            } else {
-                3L
-            }
-            for (i in 0L until target) {
-                val v = inTriples.readInt()
-                val vv = mapping[v]
-                outTriples.writeInt(vv)
-            }
-        }
-    }
     for (i in 0 until chunc) {
         DictionaryIntermediate.delete("$inputFileName.$i")
     }
-    File("$inputFileName.0.$tripleFileEnding").deleteRecursively()
+    val dictionaryMergeTime = DateHelperRelative.elapsedSeconds(startTime) - parseTime
+    val inTriples = TriplesIntermediateReader("$inputFileName.0")
+    var offset = 0
+    var tripleBlock = 0
+    val orders = arrayOf(
+        intArrayOf(0, 1, 2), // "spo" -> "spo" -> "spo"
+        intArrayOf(0, 2, 1), // "spo" -> "sop" -> "spo"
+        intArrayOf(1, 0, 2), // "spo" -> "pso" -> "spo"
+        intArrayOf(1, 2, 0), // "spo" -> "pos" -> "osp"//attention !!!! this is swapped
+        intArrayOf(2, 0, 1), // "spo" -> "osp" -> "pos"
+        intArrayOf(2, 1, 0), // "spo" -> "ops" -> "spo"
+    )
+    val ordersReverse = arrayOf(
+        orders[0],
+        orders[1],
+        orders[2],
+        orders[4], // !! intentionally !! different index here
+        orders[3],
+        orders[5]
+    )
+    val orderNames = arrayOf("spo", "sop", "pso", "pos", "osp", "ops")
+    val tripleBufA = IntArray(LUPOS_BUFFER_SIZE / 12 * 3)
+    val tripleBufB = IntArray(LUPOS_BUFFER_SIZE / 12 * 3)
+    fun sortBlockMain() {
+        for (o in 0 until 6) {
+            val order = orders[o]
+            mergesort2(
+                offset,
+                copyBToA = { i, j ->
+                    tripleBufA[i] = tripleBufB[j]
+                    tripleBufA[i + 1] = tripleBufB[j + 1]
+                    tripleBufA[i + 2] = tripleBufB[j + 2]
+                },
+                copyAToB = { i, j ->
+                    tripleBufB[i] = tripleBufA[j]
+                    tripleBufB[i + 1] = tripleBufA[j + 1]
+                    tripleBufB[i + 2] = tripleBufA[j + 2]
+                },
+                cmpAtoA = { a, b ->
+                    var res = tripleBufA[a + order[0]] - tripleBufA[b + order[0]]
+                    if (res == 0) {
+                        res = tripleBufA[a + order[1]] - tripleBufA[b + order[1]]
+                        if (res == 0) {
+                            res = tripleBufA[a + order[2]] - tripleBufA[b + order[2]]
+                        }
+                    }
+                    res
+                },
+                cmpBtoB = { a, b ->
+                    var res = tripleBufB[a + order[0]] - tripleBufB[b + order[0]]
+                    if (res == 0) {
+                        res = tripleBufB[a + order[1]] - tripleBufB[b + order[1]]
+                        if (res == 0) {
+                            res = tripleBufB[a + order[2]] - tripleBufB[b + order[2]]
+                        }
+                    }
+                    res
+                },
+                step = 3,
+            )
+            val outTriples = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}.$tripleBlock")
+            var i = 0
+            while (i < offset) {
+                outTriples.write(tripleBufA[i + order[0]], tripleBufA[i + order[1]], tripleBufA[i + order[2]])
+                i += 3
+            }
+            outTriples.close()
+        }
+        tripleBlock++
+        offset = 0
+    }
+    inTriples.readAll { it ->
+        tripleBufA[offset + 0] = mapping[it[0]]
+        tripleBufA[offset + 1] = mapping[it[1]]
+        tripleBufA[offset + 2] = mapping[it[2]]
+        offset += 3
+        if (offset >= tripleBufA.size) {
+            sortBlockMain()
+        }
+    }
+    if (offset > 0) {
+        sortBlockMain()
+    }
+    inTriples.close()
+    TriplesIntermediate.delete("$inputFileName.0")
+    val tripleInitialSortTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime
+    var myCount = -1L
+    for (o in 0 until 6) {
+        val order = orders[o]
+        val orderReverse = ordersReverse[o]
+        val outTriples = TriplesIntermediateWriter("$inputFileName.${orderNames[o]}")
+        val tripleInputs = Array(tripleBlock) { TriplesIntermediateReader("$inputFileName.${orderNames[o]}.$it") }
+        val tripleInputHeads = Array(tripleBlock) { tripleInputs[it].next() }
+        val smallest = IntArray(3)
+        var valid = true
+        while (valid) {
+            valid = false
+            for (i in 0 until tripleBlock) {
+                val head = tripleInputHeads[i]
+                if (head != null && (!valid || cmp(head, smallest) < 0)) {
+                    smallest[0] = head[0]
+                    smallest[1] = head[1]
+                    smallest[2] = head[2]
+                    valid = true
+                }
+            }
+            if (valid) {
+                outTriples.write(smallest[0], smallest[1], smallest[2])
+                for (i in 0 until tripleBlock) {
+                    val head = tripleInputHeads[i]
+                    if (head != null && cmp(head, smallest) == 0) {
+                        tripleInputHeads[i] = tripleInputs[i].next()
+                    }
+                }
+            }
+        }
+        myCount = outTriples.getCount()
+        outTriples.close()
+        for (i in 0 until tripleBlock) {
+            TriplesIntermediate.delete("$inputFileName.${orderNames[o]}.$i")
+        }
+    }
+    val tripleMergeTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime - tripleInitialSortTime
+    val totalTime = DateHelperRelative.elapsedSeconds(startTime)
+    File("$inputFileName$statFileEnding").withOutputStream {
+        it.println("triples=$myCount")
+        it.println("dictionary-entries=$currentValue")
+        it.println("parseTime=$parseTime")
+        it.println("dictionaryInitialSortTime=$dictionaryInitialSortTime")
+        it.println("dictionaryMergeTime=$dictionaryMergeTime")
+        it.println("tripleInitialSortTime=$tripleInitialSortTime")
+        it.println("tripleMergeTime=$tripleMergeTime")
+        it.println("totalTime=$totalTime")
+    }
     if (false) {
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         val outputTriplesFile = File("$inputFileName.$tripleFileEnding")
@@ -249,7 +481,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                                 x[constantPart.toInt()] = y
                             }
                             for (k in partitionSizes.indices) {
-                                y[k.toInt()][PartitionExt.hashFunction(partitionPart.toInt(), partitionSizes[k.toInt()])]++
+                                y[k.toInt()][partitionPart.toInt() % partitionSizes[k.toInt()]]++
                             }
                         }
                     }

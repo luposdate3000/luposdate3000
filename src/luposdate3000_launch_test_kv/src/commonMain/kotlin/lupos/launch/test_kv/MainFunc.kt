@@ -16,18 +16,21 @@
  */
 package lupos.launch.test_kv
 
-import lupos.buffermanager.BufferManager
-import lupos.buffermanager.BufferManagerExt
+import lupos.buffer_manager.BufferManager
+import lupos.buffer_manager.BufferManagerExt
 import lupos.kv.KeyValueStore
-import lupos.s00misc.ByteArrayWrapper
-import lupos.s00misc.Parallel
-import lupos.test.AflCore
+import lupos.shared.AflCore
+import lupos.shared.ByteArrayWrapper
+import lupos.shared.Parallel
+import kotlin.jvm.JvmField
 import kotlin.math.abs
 
-private val verbose = false
+@JvmField
+internal val verbose = false
 
-// private val maxSize = 16
-private val maxSize = 16384
+// @JvmField internal val maxSize = 16
+@JvmField
+internal val maxSize = 16384
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
@@ -37,11 +40,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
-    var rootPage = -1
-    bufferManager.createPage(lupos.SOURCE_FILE) { page, pageid ->
-        rootPage = pageid
-    }
-    bufferManager.releasePage(lupos.SOURCE_FILE, rootPage)
+    val rootPage = bufferManager.allocPage(lupos.SOURCE_FILE)
     var kv = KeyValueStore(bufferManager, rootPage, false)
 
     val values = mutableListOf<ByteArray>()
@@ -114,11 +113,11 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
         }
         val value = ByteArrayWrapper()
         kv.getValue(value, key)
-        if (value.getSize() != data.size) {
+        if (value.size != data.size) {
             throw Exception("")
         }
-        for (i in 0 until value.getSize()) {
-            if (value.getBuf()[i] != data[i]) {
+        for (i in 0 until value.size) {
+            if (value.buf[i] != data[i]) {
                 throw Exception("")
             }
         }
@@ -133,6 +132,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             val buffer = ByteArrayWrapper()
             kv.getValue(buffer, key)
         } catch (e: Throwable) {
+            // e.printStackTrace() this is handled correctly
             flag = false
         }
         if (flag) {

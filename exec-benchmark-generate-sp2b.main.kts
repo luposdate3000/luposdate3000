@@ -15,21 +15,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystem.kt")
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystemExt.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/s00misc/Platform.kt")
-@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystem.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystemExt.kt")
+@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/Platform.kt")
+@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/Platform.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/Config.kt")
 @file:Import("src/luposdate3000_scripting/exec-import.kt")
 @file:CompilerOptions("-Xmulti-platform")
 
-import lupos.s00misc.Platform
+import lupos.shared.Platform
+import lupos.shared.REAL_WORLD_DATA_ROOT
 import java.io.File
 import java.io.FileWriter
 import java.io.PrintWriter
 import java.nio.file.Files
 import java.nio.file.Paths
 
-val targetBaseFolder = "${Platform.getBenchmarkHome()}${Platform.getPathSeparator()}luposdate-testdata${Platform.getPathSeparator()}sp2b"
+val targetBaseFolder = "${REAL_WORLD_DATA_ROOT}${Platform.getPathSeparator()}sp2b"
 val sp2bGeneratorHome = "${Platform.getPathSeparator()}opt${Platform.getPathSeparator()}sp2b${Platform.getPathSeparator()}bin"
 var targetCount = 1024
 while (targetCount <= 9999999999) {
