@@ -16,4 +16,7 @@
  */
 package lupos.shared
 
-public const val INTERNAL_BUFFER_SIZE: Int = 1073741824
+import kotlin.jvm.JvmField
+
+@JvmField
+public val INTERNAL_BUFFER_SIZE: Int = Platform.getEnv("LUPOS_BUFFER_SIZE", "134217728")!!.toInt() // set this to at most 5% of your available RAM

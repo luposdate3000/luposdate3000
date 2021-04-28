@@ -45,9 +45,8 @@ import org.jetbrains.kotlin.ksp.symbol.KSTypeReference
 import org.jetbrains.kotlin.ksp.symbol.KSValueArgument
 import java.io.File
 import java.io.OutputStream
-import java.io.PrintWriter
 
-internal lateinit var mylogger: PrintWriter
+internal val mylogger = File("code-gen-ksp.log").printWriter() // file name relative to "~/.local/share/kotlin/daemon/"
 
 public class SampleProcessor : SymbolProcessor {
     private lateinit var codeGenerator: CodeGenerator
@@ -55,9 +54,6 @@ public class SampleProcessor : SymbolProcessor {
     override fun init(options: Map<String, String>, kotlinVersion: KotlinVersion, codeGenerator: CodeGenerator, logger: KSPLogger) {
         this.codeGenerator = codeGenerator
         this.logger = logger
-        File("tmp").mkdirs()
-        mylogger = File("tmp/code-gen-ksp.log").printWriter()
-
         mylogger.println("LuposdateCodeGen :: init")
     }
 
