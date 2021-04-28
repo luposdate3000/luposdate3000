@@ -103,7 +103,7 @@ class RPLRouter(val device: Device): Device.Router {
     override fun toString(): String {
         val strBuilder = StringBuilder()
         strBuilder
-            .append("device ${device.address}").append(", ")
+            .append("Device ${device.address}").append(", ")
             .append("rank $rank").append(", ")
             .append(getParentString()).append(", ")
             .append("children ")
