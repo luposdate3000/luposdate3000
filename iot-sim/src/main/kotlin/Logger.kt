@@ -1,3 +1,5 @@
+import java.lang.StringBuilder
+
 class Logger: Simulation.Callback {
 
     override fun onStartUp() {
@@ -5,15 +7,16 @@ class Logger: Simulation.Callback {
         log("")
         log("================================================")
         log("Simulation has started")
+        log("")
         log("Number of devices: ${Configuration.devices.size}")
         log("Number of links: ${LinkManager.linkCounter}")
-        //log("Number of DODAG links: ${LinkManager.linkCounter}")
-        log("")
     }
 
     override fun onShutDown() {
-        log("")
+        //log("Number of DODAG links: ${LinkManager.linkCounter}")
+        log(getDODAGString())
         log("Number of processed events: ${Simulation.eventCounter}")
+        log("")
         log("Simulation clock: ${Simulation.clock}")
         log("Simulation completed")
         log("================================================")
@@ -29,5 +32,14 @@ class Logger: Simulation.Callback {
 
     private fun resetCounters() {
         LinkManager.resetCounter()
+    }
+
+    private fun getDODAGString(): String {
+        val strBuilder = StringBuilder()
+        strBuilder.appendLine("Constructed DODAG:")
+        for (device in Configuration.devices) {
+            strBuilder.appendLine(device.router)
+        }
+        return strBuilder.toString()
     }
 }

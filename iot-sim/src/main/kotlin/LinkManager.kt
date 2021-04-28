@@ -58,8 +58,11 @@ class LinkManager(val device: Device) {
         setLink(otherDevice, link)
     }
 
+    fun getLink(otherDeviceAddress: Int)
+        = links[otherDeviceAddress]
+
     fun getLink(otherDevice: Device): Link?
-            = links[otherDevice.address]
+            = getLink(otherDevice.address)
 
     fun hasLink(otherDevice: Device)
             = null != getLink(otherDevice)

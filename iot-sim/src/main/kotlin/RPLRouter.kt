@@ -1,3 +1,5 @@
+import java.lang.StringBuilder
+
 class RPLRouter(val device: Device): Device.Router {
 
     val routingTable = RoutingTable(device.address)
@@ -96,4 +98,25 @@ class RPLRouter(val device: Device): Device.Router {
     override fun getNextHop(destinationAddress: Int)
         = routingTable.getNextHop(destinationAddress)
 
+    override fun toString(): String {
+        val strBuilder = StringBuilder()
+        strBuilder
+            .append("device ${device.address}, rank $rank, parent ${preferredParent.address} children ")
+            .append("{${getChildrenString()}}")
+
+        return strBuilder.toString()
+    }
+
+    private fun getChildrenString(): StringBuilder {
+        val strBuilder = StringBuilder()
+        val separator = ", "
+        for (neighbour in device.linkManager.getNeighbours())
+            if(neighbour != preferredParent.address) {
+                val link = device.linkManager.getLink(neighbour)!!
+                strBuilder.append("$link to $neighbour").append(separator)
+            }
+        if(strBuilder.length >= separator.length)
+            strBuilder.deleteRange(strBuilder.length - separator.length, strBuilder.length)
+        return strBuilder
+    }
 }
