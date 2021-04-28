@@ -15,7 +15,7 @@ class Logger: Simulation.Callback {
     override fun onShutDown() {
         //log("Number of DODAG links: ${LinkManager.linkCounter}")
         log(getDODAGString())
-        log("Number of processed events: ${Simulation.eventCounter}")
+        log("Total number of packages: ${Device.packageCounter}")
         log("")
         log("Simulation clock: ${Simulation.clock}")
         log("Simulation completed")
@@ -32,6 +32,7 @@ class Logger: Simulation.Callback {
 
     private fun resetCounters() {
         LinkManager.resetCounter()
+        Device.resetCounter()
     }
 
     private fun getDODAGString(): String {

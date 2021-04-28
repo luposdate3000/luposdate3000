@@ -26,6 +26,7 @@ class Device(
 
     override fun onEvent(event: Event) {
         val pck = event.data as NetworkPackage
+        packageCounter++
         when {
             pck.data is NetworkPackage.ObservationEnd -> sensor!!.onObservationEnd()
             pck.data is NetworkPackage.ParkingObservation -> processParkingObservation(pck)
@@ -93,6 +94,15 @@ class Device(
 
     override fun hashCode(): Int {
         return address
+    }
+
+    companion object {
+        var packageCounter = 0
+            private set
+
+        fun resetCounter() {
+            packageCounter = 0
+        }
     }
 
 }
