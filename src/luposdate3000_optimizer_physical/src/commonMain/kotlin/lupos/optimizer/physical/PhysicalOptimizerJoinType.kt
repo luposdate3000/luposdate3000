@@ -155,7 +155,7 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
                         POPJoinWithStore(query, projectedVariables, childB, childA, false)
                     } else if (node.partOfAskQuery && childB is LOPTriple && columns[2].size > 0 && childA.getProvidedVariableNames().containsAll(node.getMySortPriority().map { it.variableName })) {
                         POPJoinWithStore(query, projectedVariables, childA, childB, false)
-                    } else if (childA is POPTripleStoreIterator || childA is LOPTriple && childB.getProvidedVariableNames().containsAll(node.getMySortPriority().map { it.variableName })) {
+                    } else if ((childB is POPTripleStoreIterator || childB is LOPTriple) && childB.getProvidedVariableNames().containsAll(node.getMySortPriority().map { it.variableName })) {
                         embedWithinPartitionContext(columns[0], childB, childA, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, false) }, keepOrder)
                     } else {
                         embedWithinPartitionContext(columns[0], childA, childB, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, false) }, keepOrder)

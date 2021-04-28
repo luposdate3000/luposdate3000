@@ -85,11 +85,11 @@ public class LogicalOptimizer public constructor(query: Query) : OptimizerCompou
         ),
         arrayOf(
             // force as much as possible joins to be next to each other
-            LogicalOptimizerFilterUp(query) //
+            LogicalOptimizerProjectionUp(query), //
         ),
         arrayOf(
             // force as much as possible joins to be next to each other
-            LogicalOptimizerProjectionUp(query), //
+            LogicalOptimizerFilterUp(query) //
         ),
         arrayOf(
             // calculate if_ only count or real data is required. this must happen directly before join order optimisation{
