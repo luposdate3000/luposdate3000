@@ -16,6 +16,8 @@ class Logger: Simulation.Callback {
         //log("Number of DODAG links: ${LinkManager.linkCounter}")
         log(getDODAGString())
         log("Total number of packages: ${Device.packageCounter}")
+        log("Number of DIOs: ${RPLRouter.dioCounter}")
+        log("Number of DAOs: ${RPLRouter.daoCounter}")
         log("")
         log("Simulation clock: ${Simulation.clock}")
         log("Simulation completed")
@@ -33,6 +35,7 @@ class Logger: Simulation.Callback {
     private fun resetCounters() {
         LinkManager.resetCounter()
         Device.resetCounter()
+        RPLRouter.resetCounter()
     }
 
     private fun getDODAGString(): String {

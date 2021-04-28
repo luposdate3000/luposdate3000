@@ -35,6 +35,7 @@ class RPLRouter(val device: Device): Device.Router {
 
     private fun processDIO(pck: NetworkPackage) {
         val dio = pck.data as DIO
+        dioCounter++
         if (objectiveFunction(dio) >= rank)
             return
 
@@ -56,6 +57,7 @@ class RPLRouter(val device: Device): Device.Router {
 
     private fun processDAO(pck: NetworkPackage) {
         val dao = pck.data as DAO
+        daoCounter++
         val hasRoutingTableChanged: Boolean = if (dao.isPath)
             routingTable.setDestinationsByHop(pck.sourceAddress, dao.destinations)
         else
@@ -118,5 +120,18 @@ class RPLRouter(val device: Device): Device.Router {
         if(strBuilder.length >= separator.length)
             strBuilder.deleteRange(strBuilder.length - separator.length, strBuilder.length)
         return strBuilder
+    }
+
+    companion object {
+        var daoCounter = 0
+            private set
+
+        var dioCounter = 0
+            private set
+
+        fun resetCounter() {
+            daoCounter = 0
+            dioCounter = 0
+        }
     }
 }
