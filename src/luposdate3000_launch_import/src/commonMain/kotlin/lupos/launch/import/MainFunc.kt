@@ -20,7 +20,7 @@ import lupos.parser.nQuads.NQuads2Parser
 import lupos.parser.turtle.Turtle2Parser
 import lupos.shared.ByteArrayWrapper
 import lupos.shared.DateHelperRelative
-import lupos.shared.INTERNAL_BUFFER_SIZE
+import lupos.shared.LUPOS_BUFFER_SIZE
 import lupos.shared.Parallel
 import lupos.shared.SanityCheck
 import lupos.shared.fileformat.DictionaryIntermediate
@@ -159,7 +159,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     } else {
         "triples"
     }
-    val dictSizeLimit = INTERNAL_BUFFER_SIZE.toLong()
+    val dictSizeLimit = LUPOS_BUFFER_SIZE.toLong()
     var dictSizeEstimated = 0L
     var chunc = 0
 // create chunced dictionaries
@@ -320,8 +320,8 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         orders[5]
     )
     val orderNames = arrayOf("spo", "sop", "pso", "pos", "osp", "ops")
-    val tripleBufA = IntArray(INTERNAL_BUFFER_SIZE / 12 * 3)
-    val tripleBufB = IntArray(INTERNAL_BUFFER_SIZE / 12 * 3)
+    val tripleBufA = IntArray(LUPOS_BUFFER_SIZE / 12 * 3)
+    val tripleBufB = IntArray(LUPOS_BUFFER_SIZE / 12 * 3)
     fun sortBlockMain() {
         for (o in 0 until 6) {
             val order = orders[o]

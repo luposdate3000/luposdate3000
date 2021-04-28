@@ -27,7 +27,6 @@ internal expect object Platform {
     internal inline fun findNamedFileInDirectory(dir: String, name: String): List<String>
     internal inline fun getOperatingSystem(): EOperatingSystem
     internal inline fun getNullFileName(): String
-    internal inline fun getBenchmarkHome(): String
     internal inline fun getGradleCache(): String
     internal inline fun getMavenCache(): String
     internal inline fun getAvailableRam(): Int

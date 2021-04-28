@@ -31,6 +31,7 @@ import lupos.shared.EModifyTypeExt
 import lupos.shared.EnpointRecievedInvalidPath
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
+import lupos.shared.LUPOS_REAL_WORLD_DATA_ROOT
 import lupos.shared.MyLock
 import lupos.shared.Parallel
 import lupos.shared.XMLElement
@@ -167,7 +168,7 @@ public actual object HttpEndpointLauncher {
                                 connectionOutMy.print(JenaWrapper.execQuery(params["query"]!!))
                                 /*Coverage Unreachable*/
                             }
-                            paths["/sparql/jenaload"] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3") to ::inputElement)) {
+                            paths["/sparql/jenaload"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3") to ::inputElement)) {
                                 JenaWrapper.loadFromFile(params["file"]!!)
                                 printHeaderSuccess(connectionOutMy)
                                 connectionOutMy.print("success")
@@ -233,7 +234,7 @@ public actual object HttpEndpointLauncher {
                                     removeDictionary(key)
                                     /*Coverage Unreachable*/
                                 }
-                            paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3") to ::inputElement)) {
+                            paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3") to ::inputElement)) {
                                 val dict = mutableMapOf<String, Int>()
                                 val dictfile = params["bnodeList"]
                                 if (dictfile != null) {
@@ -257,11 +258,11 @@ public actual object HttpEndpointLauncher {
                                 connectionOutMy.print(LuposdateEndpoint.importTurtleString(params["data"]!!, dict))
                                 /*Coverage Unreachable*/
                             }
-                            paths["/import/estimatedPartitions"] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3.partitions") to ::inputElement)) {
+                            paths["/import/estimatedPartitions"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3.partitions") to ::inputElement)) {
                                 LuposdateEndpoint.setEstimatedPartitionsFromFile(params["file"]!!)
                                 printHeaderSuccess(connectionOutMy)
                             }
-                            paths["/import/intermediate"] = PathMappingHelper(true, mapOf(Pair("file", "/mnt/luposdate-testdata/sp2b/1024/complete.n3") to ::inputElement)) {
+                            paths["/import/intermediate"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3") to ::inputElement)) {
                                 printHeaderSuccess(connectionOutMy)
                                 connectionOutMy.print(LuposdateEndpoint.importIntermediateFiles(params["file"]!!))
                                 /*Coverage Unreachable*/

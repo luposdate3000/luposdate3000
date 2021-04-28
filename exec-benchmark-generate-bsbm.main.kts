@@ -23,13 +23,14 @@
 @file:CompilerOptions("-Xmulti-platform")
 
 import lupos.s00misc.Platform
+import lupos.shared.REAL_WORLD_DATA_ROOT
 import java.io.File
 import java.io.FileWriter
 import java.io.PrintWriter
 import java.nio.file.Files
 import java.nio.file.Paths
 
-val targetBaseFolder = "${Platform.getBenchmarkHome()}${Platform.getPathSeparator()}luposdate-testdata${Platform.getPathSeparator()}bsbm"
+val targetBaseFolder = "${REAL_WORLD_DATA_ROOT}${Platform.getPathSeparator()}bsbm"
 val sp2bGeneratorHome = "${Platform.getPathSeparator()}opt${Platform.getPathSeparator()}bsbmtools-0.2"
 var targetCount = 1
 while (targetCount <= 2097152) {

@@ -50,7 +50,7 @@ import lupos.shared.EModifyTypeExt
 import lupos.shared.EPartitionModeExt
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IMyOutputStream
-import lupos.shared.INTERNAL_BUFFER_SIZE
+import lupos.shared.LUPOS_BUFFER_SIZE
 import lupos.shared.MyLock
 import lupos.shared.OperatorGraphToLatex
 import lupos.shared.SanityCheck
@@ -146,9 +146,9 @@ public object LuposdateEndpoint {
             }
             var counter = 0
             val store = tripleStoreManager.getDefaultGraph()
-            val bufS = IntArray(INTERNAL_BUFFER_SIZE)
-            val bufP = IntArray(INTERNAL_BUFFER_SIZE)
-            val bufO = IntArray(INTERNAL_BUFFER_SIZE)
+            val bufS = IntArray(LUPOS_BUFFER_SIZE)
+            val bufP = IntArray(LUPOS_BUFFER_SIZE)
+            val bufO = IntArray(LUPOS_BUFFER_SIZE)
             var bufPos = 0
             for (fileName in fileNames.split(";")) {
                 println("importing file '$fileName'")
@@ -220,9 +220,9 @@ public object LuposdateEndpoint {
             }
             var counter = 0
             val store = tripleStoreManager.getDefaultGraph()
-            val bufS = IntArray(INTERNAL_BUFFER_SIZE)
-            val bufP = IntArray(INTERNAL_BUFFER_SIZE)
-            val bufO = IntArray(INTERNAL_BUFFER_SIZE)
+            val bufS = IntArray(LUPOS_BUFFER_SIZE)
+            val bufP = IntArray(LUPOS_BUFFER_SIZE)
+            val bufO = IntArray(LUPOS_BUFFER_SIZE)
             var bufPos = 0
             for (fileName in fileNames.split(";")) {
                 println("importing file '$fileName'")
@@ -290,9 +290,9 @@ public object LuposdateEndpoint {
             }
             var counter = 0
             val store = tripleStoreManager.getDefaultGraph()
-            val bufS = IntArray(INTERNAL_BUFFER_SIZE)
-            val bufP = IntArray(INTERNAL_BUFFER_SIZE)
-            val bufO = IntArray(INTERNAL_BUFFER_SIZE)
+            val bufS = IntArray(LUPOS_BUFFER_SIZE)
+            val bufP = IntArray(LUPOS_BUFFER_SIZE)
+            val bufO = IntArray(LUPOS_BUFFER_SIZE)
             var bufPos = 0
             val iter = MyStringStream(data)
             try {
@@ -380,9 +380,9 @@ public object LuposdateEndpoint {
             tripleStoreManager.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
             var counter = 0L
             val store = tripleStoreManager.getDefaultGraph()
-            val bufS = IntArray(INTERNAL_BUFFER_SIZE)
-            val bufP = IntArray(INTERNAL_BUFFER_SIZE)
-            val bufO = IntArray(INTERNAL_BUFFER_SIZE)
+            val bufS = IntArray(LUPOS_BUFFER_SIZE)
+            val bufP = IntArray(LUPOS_BUFFER_SIZE)
+            val bufO = IntArray(LUPOS_BUFFER_SIZE)
             var bufPos = 0
             val fileNamesS = fileNames.split(";")
             for (fileName in fileNamesS) {

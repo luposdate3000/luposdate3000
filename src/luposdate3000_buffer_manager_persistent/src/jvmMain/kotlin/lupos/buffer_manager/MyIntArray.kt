@@ -17,6 +17,7 @@
 package lupos.buffer_manager
 
 import lupos.ProguardTestAnnotation
+import lupos.shared.BUFFER_HOME
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared_inline.File
@@ -46,7 +47,7 @@ public actual class MyIntArray internal actual constructor(@JvmField internal va
 
     public actual fun getSize(): Int = _size
 
-    public actual constructor(bufferManager: BufferManager, id: Int, initialize: Boolean) : this(BufferManagerExt.bufferPrefix + id + BufferManagerExt.fileEndingIntArray, initialize) {
+    public actual constructor(bufferManager: BufferManager, id: Int, initialize: Boolean) : this(BUFFER_HOME + id + BufferManagerExt.fileEndingIntArray, initialize) {
         this.bufferManager = bufferManager
         this.bufferManagerPage = id
     }

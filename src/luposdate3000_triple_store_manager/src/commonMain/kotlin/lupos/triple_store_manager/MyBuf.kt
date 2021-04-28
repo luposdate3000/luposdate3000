@@ -16,12 +16,12 @@
  */
 package lupos.triple_store_manager
 
-import lupos.shared.INTERNAL_BUFFER_SIZE
+import lupos.shared.LUPOS_BUFFER_SIZE
 import kotlin.jvm.JvmField
 
 internal class MyBuf {
     @JvmField
-    internal val size = (INTERNAL_BUFFER_SIZE / 12) * 3
+    internal val size = (LUPOS_BUFFER_SIZE / 12) * 3
 
     @JvmField
     internal var offset: Int = 0

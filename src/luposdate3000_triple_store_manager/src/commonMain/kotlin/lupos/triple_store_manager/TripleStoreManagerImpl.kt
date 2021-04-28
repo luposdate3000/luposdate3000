@@ -19,6 +19,7 @@ package lupos.triple_store_manager
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.operator.base.Query
+import lupos.shared.BUFFER_HOME
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
@@ -214,7 +215,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
     }
 
     public override fun initialize() {
-        val file = File(BufferManagerExt.bufferPrefix + globalManagerRootFileName)
+        val file = File(BUFFER_HOME + globalManagerRootFileName)
         var pageid = -1
         if (BufferManagerExt.allowInitFromDisk && file.exists()) {
             file.withInputStream {

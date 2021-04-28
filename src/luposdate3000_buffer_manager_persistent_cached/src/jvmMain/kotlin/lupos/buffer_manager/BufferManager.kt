@@ -17,6 +17,7 @@
 package lupos.buffer_manager
 
 import lupos.ProguardTestAnnotation
+import lupos.shared.BUFFER_HOME
 import lupos.shared.MyReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared_inline.BufferManagerPage
@@ -299,10 +300,10 @@ public actual class BufferManager public actual constructor() {
     public actual fun getNumberOfReferencedPages(): Int = openPagesRefcounters.sum()
 
     init {
-        File(BufferManagerExt.bufferPrefix).mkdirs()
-        val flag = BufferManagerExt.allowInitFromDisk && File(BufferManagerExt.bufferPrefix + BufferManagerExt.fileEnding).exists()
-        datafile = RandomAccessFile(BufferManagerExt.bufferPrefix + BufferManagerExt.fileEnding, "rw")
-        freelistfile = RandomAccessFile(BufferManagerExt.bufferPrefix + BufferManagerExt.fileEndingFree, "rw")
+        File(BUFFER_HOME).mkdirs()
+        val flag = BufferManagerExt.allowInitFromDisk && File(BUFFER_HOME + BufferManagerExt.fileEnding).exists()
+        datafile = RandomAccessFile(BUFFER_HOME + BufferManagerExt.fileEnding, "rw")
+        freelistfile = RandomAccessFile(BUFFER_HOME + BufferManagerExt.fileEndingFree, "rw")
         if (flag) {
             datafilelength = datafile.length()
             freelistfile.seek(freelistfileOffsetFreeLen)

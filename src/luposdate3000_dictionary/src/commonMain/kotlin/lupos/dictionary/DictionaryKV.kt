@@ -17,8 +17,8 @@
 package lupos.dictionary
 
 import lupos.buffer_manager.BufferManager
-import lupos.buffer_manager.BufferManagerExt
 import lupos.kv.KeyValueStore
+import lupos.shared.BUFFER_HOME
 import lupos.shared.ByteArrayWrapper
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.SanityCheck
@@ -60,7 +60,7 @@ public class DictionaryKV : ADictionary {
         kv.delete()
         vk.delete()
         bufferManager.deletePage(lupos.SOURCE_FILE, rootPageID)
-        File(BufferManagerExt.bufferPrefix + "dict.page").deleteRecursively()
+        File(BUFFER_HOME + "dict.page").deleteRecursively()
     }
 
     public override fun isInmemoryOnly(): Boolean = false

@@ -71,11 +71,6 @@ internal actual object Platform {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getBenchmarkHome(): String {
-        return getEnv("LUPOS_BENCHMARK_HOME", "${getPathSeparator()}mnt")!!
-    }
-
-    @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun getGradleCache(): String {
         return getEnv("LUPOS_GRADLE_CACHE", "${getUserHome()}${getPathSeparator()}.gradle${getPathSeparator()}caches${getPathSeparator()}")!!
     }

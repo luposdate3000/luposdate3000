@@ -18,6 +18,7 @@ package lupos.dictionary
 
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
+import lupos.shared.BUFFER_HOME
 import lupos.shared.dictionary.EDictionaryType
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
@@ -42,7 +43,7 @@ public object DictionaryFactory {
                     val bufferManager = BufferManagerExt.getBuffermanager()
                     var pageId: Int = -1
                     val fileName = "global_dictionary.page"
-                    val file = File(BufferManagerExt.bufferPrefix + fileName)
+                    val file = File(BUFFER_HOME + fileName)
                     var initFromDisk = BufferManagerExt.allowInitFromDisk && file.exists()
                     if (initFromDisk) {
                         file.withInputStream {
@@ -51,7 +52,7 @@ public object DictionaryFactory {
                     } else {
                         pageId = bufferManager.allocPage(lupos.SOURCE_FILE)
                         if (BufferManagerExt.allowInitFromDisk) {
-                            File(BufferManagerExt.bufferPrefix + fileName).withOutputStream {
+                            File(BUFFER_HOME + fileName).withOutputStream {
                                 it.writeInt(pageId)
                             }
                         }
