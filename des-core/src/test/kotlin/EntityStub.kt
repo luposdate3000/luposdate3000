@@ -1,4 +1,5 @@
-class EmptyEntityStub : Entity() {
+class EntityStub : Entity() {
+
     override fun startUpEntity() {
     }
     override fun processEvent(event: Event) {

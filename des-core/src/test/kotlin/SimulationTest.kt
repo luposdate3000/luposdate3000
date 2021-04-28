@@ -6,14 +6,14 @@ class SimulationTest {
     @Test
     fun `run without entities has no effect on clock`() {
         val startClock: Long = 0
-        val endClock = Simulation.start(emptyList())
+        val endClock = Simulation.start(emptyList(),CallbackStub())
         Assertions.assertEquals(startClock, endClock)
     }
 
     @Test
     fun `run without sending events has no effect on clock`() {
         val startClock = Simulation.clock
-        val endClock = Simulation.start(arrayListOf(EmptyEntityStub(), EmptyEntityStub()))
+        val endClock = Simulation.start(arrayListOf(EntityStub(), EntityStub()), CallbackStub())
         Assertions.assertEquals(0, startClock)
         Assertions.assertEquals(startClock, endClock)
     }
@@ -45,7 +45,7 @@ class SimulationTest {
             }
             override fun shutDownEntity() {}
         }
-        val endClock = Simulation.start(arrayListOf(receivingEntity, sendingEntity))
+        val endClock = Simulation.start(arrayListOf(receivingEntity, sendingEntity),CallbackStub())
         Assertions.assertEquals(delay, endClock)
         Assertions.assertEquals(0, Simulation.clock)
         Assertions.assertEquals(data, actualData)
@@ -91,7 +91,7 @@ class SimulationTest {
             }
             override fun shutDownEntity() {}
         }
-        Simulation.start(arrayListOf(receivingEntity, sendingEntity))
+        Simulation.start(arrayListOf(receivingEntity, sendingEntity),CallbackStub())
         Assertions.assertEquals(firstDelay, actualFirstClock)
         Assertions.assertEquals(secondDelay, actualSecondClock)
         Assertions.assertEquals(thirdDelay, actualThirdClock)
@@ -124,7 +124,7 @@ class SimulationTest {
             override fun processEvent(event: Event) {}
             override fun shutDownEntity() {}
         }
-        Simulation.start(arrayListOf(entityA, entityB, entityC))
+        Simulation.start(arrayListOf(entityA, entityB, entityC),CallbackStub())
         Assertions.assertEquals(true, entityAIsCalled)
         Assertions.assertEquals(true, entityBIsCalled)
         Assertions.assertEquals(true, entityCIsCalled)
@@ -157,7 +157,7 @@ class SimulationTest {
                 entityCIsCalled = true
             }
         }
-        Simulation.start(arrayListOf(entityA, entityB, entityC))
+        Simulation.start(arrayListOf(entityA, entityB, entityC),CallbackStub())
         Assertions.assertEquals(true, entityAIsCalled)
         Assertions.assertEquals(true, entityBIsCalled)
         Assertions.assertEquals(true, entityCIsCalled)
@@ -187,7 +187,7 @@ class SimulationTest {
             }
             override fun shutDownEntity() {}
         }
-        val endClock = Simulation.start(arrayListOf(respondingEntity, sendingEntity))
+        val endClock = Simulation.start(arrayListOf(respondingEntity, sendingEntity),CallbackStub())
         Assertions.assertEquals(firstDelay + responseDelay, endClock)
         Assertions.assertTrue(isResponseReceived)
     }
@@ -218,7 +218,7 @@ class SimulationTest {
             }
             override fun shutDownEntity() {}
         }
-        val endClock = Simulation.start(arrayListOf(respondingEntity, sendingEntity))
+        val endClock = Simulation.start(arrayListOf(respondingEntity, sendingEntity),CallbackStub())
         Assertions.assertEquals(delay * 3, endClock)
         Assertions.assertEquals(expectedProcessCounter, processCounter)
     }
@@ -238,7 +238,7 @@ class SimulationTest {
             }
             override fun shutDownEntity() {}
         }
-        val endClock = Simulation.start(arrayListOf(busyEntity))
+        val endClock = Simulation.start(arrayListOf(busyEntity),CallbackStub())
         Assertions.assertEquals(delay, endClock)
         Assertions.assertEquals(expectedProcessCounter, processCounter)
     }
@@ -258,7 +258,7 @@ class SimulationTest {
                 endState = this.currentState
             }
         }
-        val endClock = Simulation.start(arrayListOf(busyEntity))
+        val endClock = Simulation.start(arrayListOf(busyEntity),CallbackStub())
         Assertions.assertEquals(busyDuration, endClock)
         Assertions.assertEquals(Entity.State.BUSY, startState)
         Assertions.assertEquals(Entity.State.RUNNABLE, endState)
@@ -286,7 +286,7 @@ class SimulationTest {
             }
             override fun shutDownEntity() {}
         }
-        val endClock = Simulation.start(arrayListOf(busyEntity))
+        val endClock = Simulation.start(arrayListOf(busyEntity),CallbackStub())
         Assertions.assertEquals(busyDuration, endClock)
         Assertions.assertEquals(expectedProcessCounter, processCounter)
         Assertions.assertEquals(busyDuration, eventProcessedAt)
@@ -311,7 +311,7 @@ class SimulationTest {
             }
             override fun shutDownEntity() {}
         }
-        Simulation.start(arrayListOf(busyEntity))
+        Simulation.start(arrayListOf(busyEntity),CallbackStub())
         Assertions.assertEquals(delay, eventProcessedAt)
     }
 
@@ -337,7 +337,7 @@ class SimulationTest {
             override fun processEvent(event: Event) {}
             override fun shutDownEntity() {}
         }
-        val actualClock = Simulation.start(arrayListOf(receivingEntity, sendingEntity), maxClock)
+        val actualClock = Simulation.start(arrayListOf(receivingEntity, sendingEntity),CallbackStub(), maxClock)
         Assertions.assertEquals(maxClock, actualClock)
     }
 
@@ -364,7 +364,7 @@ class SimulationTest {
             }
             override fun shutDownEntity() {}
         }
-        val endClock = Simulation.start(arrayListOf(respondingEntity, sendingEntity), maxClock)
+        val endClock = Simulation.start(arrayListOf(respondingEntity, sendingEntity),CallbackStub(), maxClock)
         Assertions.assertEquals(maxClock, endClock)
     }
 
@@ -393,7 +393,7 @@ class SimulationTest {
             }
             override fun shutDownEntity() {}
         }
-        val endClock = Simulation.start(arrayListOf(respondingEntity, sendingEntity))
+        val endClock = Simulation.start(arrayListOf(respondingEntity, sendingEntity),CallbackStub())
         Assertions.assertEquals(maxEventNumber.toLong()-1, endClock)
     }
 

@@ -1,4 +1,4 @@
-abstract class Entity {
+abstract class Entity() {
 
     private val deferredEvents: EventPriorityQueue = EventPriorityQueue()
     var currentState = State.RUNNABLE
@@ -22,7 +22,7 @@ abstract class Entity {
         deferredEvents.enqueue(event)
     }
 
-    protected fun isBusyEndEvent(event: Event)
+    private fun isBusyEndEvent(event: Event)
         = event.data != null && event.data is BusyEndIdentifier
 
 

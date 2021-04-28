@@ -4,7 +4,7 @@ class EntityTest {
 
     @Test
     fun `processing on empty Queue has no effect`() {
-        val entity = EmptyEntityStub()
+        val entity = EntityStub()
         entity.processDeferredEvents()
     }
 

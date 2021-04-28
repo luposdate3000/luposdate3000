@@ -7,7 +7,7 @@ object Simulation {
     var clock: Long = 0
         private set
 
-    private const val maxClockDefault: Long = Long.MAX_VALUE
+    private val maxClockDefault: Long = Long.MAX_VALUE
 
     var eventCounter = 0
         private set
@@ -15,13 +15,12 @@ object Simulation {
     var maxClock: Long = maxClockDefault
         private set
 
-    fun start(entities: List<Entity>, maxClock: Long = maxClockDefault): Long {
-        initialize(entities, maxClock)
-        logSimulationStart()
-        startUpAllEntities()
+    var callback: Callback? = null
+
+    fun start(entities: List<Entity>, callback: Callback?, maxClock: Long = maxClockDefault): Long {
+        startUp(entities, callback, maxClock)
         val simClock = run()
-        logSimulationEnd()
-        finishRun()
+        shutDown()
         return simClock
     }
 
@@ -29,33 +28,11 @@ object Simulation {
         maxClock = clock - 1
     }
 
-    private fun initialize(entities: List<Entity>, maxClock: Long) {
+    private fun initialize(entities: List<Entity>,callback: Callback?, maxClock: Long) {
         resetVariables()
-        Simulation.entities = entities
-        Simulation.maxClock = maxClock
-    }
-
-    fun log(content: String) {
-        println(content)
-    }
-
-    private fun logSimulationStart() {
-        log("")
-        log("")
-        log("================================================")
-        log("Simulation has started")
-        log("Number of entities: ${entities.size}")
-        log("")
-    }
-
-    private fun logSimulationEnd() {
-        log("")
-        log("Number of processed events: $eventCounter")
-        log("Simulation clock: $clock")
-        log("Simulation completed")
-        log("================================================")
-        log("")
-        log("")
+        this.entities = entities
+        this.maxClock = maxClock
+        this.callback = callback
     }
 
     private fun startUpAllEntities() {
@@ -124,8 +101,15 @@ object Simulation {
         eventCounter++
     }
 
-    private fun finishRun() {
+    private fun startUp(entities: List<Entity>, callback: Callback?, maxClock: Long) {
+        initialize(entities, callback, maxClock)
+        callback?.onSimulationStart()
+        startUpAllEntities()
+    }
+
+    private fun shutDown() {
         shutDownAllEntities()
+        callback?.onSimulationEnd()
         resetVariables()
     }
 
@@ -141,6 +125,19 @@ object Simulation {
         maxClock = maxClockDefault
         futureEvents = EventPriorityQueue()
         eventCounter = 0
+        callback = null
     }
+
+
+    fun numberOfEntities() = entities.size
+
+    interface Callback {
+        fun onSimulationStart()
+        fun onSimulationEnd()
+
+    }
+
+
+
 
 }
