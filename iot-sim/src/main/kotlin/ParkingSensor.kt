@@ -5,13 +5,22 @@ class ParkingSensor(
 
     class ParkingObservation(val isOccupied: Boolean)
 
+    init {
+        sensorCounter++
+    }
+
     companion object {
         var dataRateInSeconds: Int = 30
+
+        var sensorCounter = 0
+            private set
+
         var observationCounter = 0
             private set
 
         fun resetCounter() {
             observationCounter = 0
+            sensorCounter = 0
         }
     }
 

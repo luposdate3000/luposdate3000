@@ -9,6 +9,7 @@ class Logger: Simulation.Callback {
         log("Simulation has started")
         log("")
         log("Number of devices: ${Configuration.devices.size}")
+        log("Number of sensors: ${ParkingSensor.sensorCounter}")
         log("Number of links: ${LinkManager.linkCounter}")
     }
 
@@ -45,7 +46,7 @@ class Logger: Simulation.Callback {
         val strBuilder = StringBuilder()
         strBuilder.appendLine("Constructed DODAG:")
         for (device in Configuration.devices) {
-            strBuilder.appendLine(device.router)
+            strBuilder.append("> ").appendLine(device.router)
         }
         return strBuilder.toString()
     }
