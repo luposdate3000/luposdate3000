@@ -5,6 +5,8 @@ class ParkingSensor(
 
     companion object {
         var dataRateInSeconds: Int = 30
+        var observationCounter = 0
+            private set
     }
 
     override fun observe() {
@@ -15,6 +17,7 @@ class ParkingSensor(
     override fun onObservationEnd() {
         val data = getParkingObservation()
         device.sendRoutedPackage(device.address, dataSinkAddress, data)
+        observationCounter++
         observe()
     }
 

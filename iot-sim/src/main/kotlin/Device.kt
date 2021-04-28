@@ -35,6 +35,7 @@ class Device(
     }
 
     override fun shutDownEntity() {
+        Simulation.log()
     }
 
 

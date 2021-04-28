@@ -1,11 +1,6 @@
-package integration
-
-import Configuration
-import RPLRouter
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import Simulation
 
 class SimulationTest {
 
@@ -15,7 +10,7 @@ class SimulationTest {
     fun runSimulationWithoutEntities(fileName: String) {
         Configuration.parse(fileName)
         Simulation.initialize(Configuration.devices)
-        val endClock = Simulation.runSimulation()
+        val endClock = Simulation.start()
         Assertions.assertEquals(0, endClock)
     }
 
@@ -25,7 +20,7 @@ class SimulationTest {
         Configuration.parse(fileName)
         val maxClock: Long = ParkingSensor.dataRateInSeconds.toLong() * 2
         Simulation.initialize(Configuration.devices, maxClock)
-        val endClock = Simulation.runSimulation()
+        val endClock = Simulation.start()
         Assertions.assertEquals(maxClock, endClock)
     }
 
@@ -44,7 +39,7 @@ class SimulationTest {
         Assertions.assertFalse(child1Router.hasParent())
         Assertions.assertFalse(child2Router.hasParent())
         Simulation.initialize(Configuration.devices)
-        Simulation.runSimulation()
+        Simulation.start()
 
         Assertions.assertTrue(child1Router.hasParent())
         Assertions.assertTrue(child2Router.hasParent())
@@ -75,7 +70,7 @@ class SimulationTest {
         Assertions.assertEquals(child1.address, child1Router.routingTable.defaultAddress)
 
         Simulation.initialize(Configuration.devices)
-        Simulation.runSimulation()
+        Simulation.start()
 
         Assertions.assertEquals(20, rootRouter.routingTable.entryCounter)
         Assertions.assertEquals(0, child1Router.routingTable.entryCounter)
@@ -104,7 +99,7 @@ class SimulationTest {
 
         aRouter.root = true
         Simulation.initialize(Configuration.devices)
-        Simulation.runSimulation()
+        Simulation.start()
         //routing table from A
         Assertions.assertEquals(5, aRouter.routingTable.entryCounter)
         Assertions.assertEquals(b.address, aRouter.routingTable.getNextHop(b.address))
@@ -141,7 +136,7 @@ class SimulationTest {
         val rootRouter = root.router as RPLRouter
         rootRouter.root = true
         Simulation.initialize(Configuration.devices)
-        Simulation.runSimulation()
+        Simulation.start()
 
         Assertions.assertEquals(Configuration.devices.size - 1, rootRouter.routingTable.entryCounter)
     }
@@ -159,7 +154,7 @@ class SimulationTest {
         f.sensor!!.dataSinkAddress = a.address
 
         Simulation.initialize(Configuration.devices, 100)
-        Simulation.runSimulation()
+        Simulation.start()
     }
 
     @ParameterizedTest
@@ -175,7 +170,7 @@ class SimulationTest {
         a.sensor!!.dataSinkAddress = f.address
 
         Simulation.initialize(Configuration.devices, 100)
-        Simulation.runSimulation()
+        Simulation.start()
     }
 
     @ParameterizedTest
@@ -192,7 +187,7 @@ class SimulationTest {
         f.sensor!!.dataSinkAddress = d.address
 
         Simulation.initialize(Configuration.devices, 100)
-        Simulation.runSimulation()
+        Simulation.start()
     }
 
 

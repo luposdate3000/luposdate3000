@@ -1,5 +1,3 @@
-package integration
-
 import IDatabaseAccess
 
 class LuposdateStub : IDatabaseAccess {

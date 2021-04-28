@@ -9,6 +9,9 @@ object Simulation {
 
     private const val maxClockDefault: Long = Long.MAX_VALUE
 
+    var eventCounter = 0
+        private set
+
     var maxClock: Long = maxClockDefault
         private set
 
@@ -18,11 +21,40 @@ object Simulation {
         Simulation.maxClock = maxClock
     }
 
-    fun runSimulation(): Long {
+    fun start(): Long {
+        logSimulationStart()
         startUpAllEntities()
         val simClock = run()
+        logSimulationEnd()
         finishRun()
         return simClock
+    }
+
+    fun stop() {
+        maxClock = clock - 1
+    }
+
+    fun log(content: String) {
+        println(content)
+    }
+
+    private fun logSimulationStart() {
+        log("")
+        log("")
+        log("================================================")
+        log("Simulation has started")
+        log("Number of entities: ${entities.size}")
+        log("")
+    }
+
+    private fun logSimulationEnd() {
+        log("")
+        log("Number of processed events: $eventCounter")
+        log("Simulation clock: $clock")
+        log("Simulation completed")
+        log("================================================")
+        log("")
+        log("")
     }
 
     private fun startUpAllEntities() {
@@ -88,6 +120,7 @@ object Simulation {
         val eventOccurringTime = clock + event.occurrenceTime
         val timeUpdatedEvent = Event(eventOccurringTime, event.source, event.destination, event.data)
         futureEvents.enqueue(timeUpdatedEvent)
+        eventCounter++
     }
 
     private fun finishRun() {
