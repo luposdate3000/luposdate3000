@@ -17,7 +17,8 @@ class Logger: Simulation.Callback {
         log("Total number of packages: ${Device.packageCounter}")
         log("Number of DIOs: ${RPLRouter.dioCounter}")
         log("Number of DAOs: ${RPLRouter.daoCounter}")
-        log("Number of data: ${Device.observationPackageCounter}")
+        log("Number of data packages: ${Device.observationPackageCounter}")
+        log("Number of parking observations: ${ParkingSensor.observationCounter}")
         log("")
         log("Simulation clock: ${Simulation.clock}")
         log("Simulation completed")
@@ -36,6 +37,7 @@ class Logger: Simulation.Callback {
         LinkManager.resetCounter()
         Device.resetCounter()
         RPLRouter.resetCounter()
+        ParkingSensor.resetCounter()
     }
 
     private fun getDODAGString(): String {

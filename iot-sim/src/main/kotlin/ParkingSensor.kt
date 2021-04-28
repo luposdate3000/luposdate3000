@@ -7,6 +7,10 @@ class ParkingSensor(
         var dataRateInSeconds: Int = 30
         var observationCounter = 0
             private set
+
+        fun resetCounter() {
+            observationCounter = 0
+        }
     }
 
     override fun observe() {
