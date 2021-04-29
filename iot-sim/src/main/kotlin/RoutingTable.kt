@@ -1,8 +1,12 @@
+import java.util.*
+
 class RoutingTable(var defaultAddress: Int) {
 
     private var entries = IntArray(0)
     private val notInitialized = -1
-    var entryCounter = 0
+    private var hops = TreeSet<Int>()
+
+    var destinationCounter = 0
         private set
 
 
@@ -12,12 +16,13 @@ class RoutingTable(var defaultAddress: Int) {
             entries = IntArray(Configuration.devices.size) { notInitialized }
 
         if(entries[destinationAddress] == notInitialized)
-            entryCounter++
+            destinationCounter++
 
         if(entries[destinationAddress] != nextHopAddress)
             updated = true
 
         entries[destinationAddress] = nextHopAddress
+        hops.add(nextHopAddress)
         return updated
     }
 
@@ -35,7 +40,7 @@ class RoutingTable(var defaultAddress: Int) {
         for ((index, value) in entries.withIndex())
             if(value == hop) {
                 entries[index] = notInitialized
-                entryCounter--
+                destinationCounter--
                 updated = true
             }
         return updated
@@ -53,7 +58,7 @@ class RoutingTable(var defaultAddress: Int) {
     }
 
     fun getDestinations(): IntArray {
-        val destinations = IntArray(entryCounter)
+        val destinations = IntArray(destinationCounter)
         var destIndex = 0
         for ((index, value) in entries.withIndex())
             if(value != notInitialized) {
@@ -62,6 +67,9 @@ class RoutingTable(var defaultAddress: Int) {
             }
         return destinations
     }
+
+    fun getHops(): Set<Int> = hops
+
 
 
 }

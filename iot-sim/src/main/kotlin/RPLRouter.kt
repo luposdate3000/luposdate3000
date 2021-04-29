@@ -122,17 +122,24 @@ class RPLRouter(val device: Device): Device.Router {
     private fun getChildrenString(): StringBuilder {
         val strBuilder = StringBuilder()
         val separator = ", "
-        for (neighbour in device.linkManager.getNeighbours())
-            if(neighbour != preferredParent.address) {
-                val link = device.linkManager.getLink(neighbour)!!
-                strBuilder.append("$link to $neighbour").append(separator)
-            }
+        for (children in routingTable.getHops()) {
+            val link = device.linkManager.getLink(children)!!
+            strBuilder.append("$link to $children").append(separator)
+        }
         if(strBuilder.length >= separator.length)
             strBuilder.deleteRange(strBuilder.length - separator.length, strBuilder.length)
         return strBuilder
     }
 
     companion object {
+
+        //RPL Constants and Variables (see RFC 6550)
+        const val DEFAULT_DAO_DELAY = 1 //seconds
+
+
+        val daoDelay = DEFAULT_DAO_DELAY * 3
+
+
         var daoCounter = 0
             private set
 
