@@ -42,8 +42,10 @@ public object LogicalOptimizerJoinOrderCostBasedOnHistogram {
                 var r21 = Int.MAX_VALUE
                 for (i in 0 until nodes.size) {
                     for (j in i + 1 until nodes.size) {
-                        val p0 = nodes[i].getProvidedVariableNames()
-                        val p1 = nodes[j].getProvidedVariableNames()
+                        val p0 = nodes[i].getProvidedVariableNames().toMutableSet()
+                        val p1 = nodes[j].getProvidedVariableNames().toMutableSet()
+                        p0.remove("_")
+                        p1.remove("_")
                         if (p0.intersect(p1).isNotEmpty()) {
 // prevent any cross-product without any join-variable - except very last joins, where cross-product is unavoidable
                             val ch0 = nodes[i].getHistogram()
@@ -79,15 +81,15 @@ public object LogicalOptimizerJoinOrderCostBasedOnHistogram {
                 }
                 var bestA: Int
                 var bestB: Int
-                if (r1 < 0.6) {
+//                if (r1 < 0.6) {
 // prefer the joins with strong result-count-reduction
-                    bestA = besta1
-                    bestB = bestb1
-                } else {
-                    // otherwise choose join with least amount of expected rows
-                    bestA = besta2
-                    bestB = bestb2
-                }
+                //                  bestA = besta1
+                //                 bestB = bestb1
+                //           } else {
+                // otherwise choose join with least amount of expected rows
+                bestA = besta2
+                bestB = bestb2
+                //         }
                 val b = nodes.removeAt(bestB) // first remove at the end of list
                 val a = nodes.removeAt(bestA) // afterwards in front of b otherwise, the index would be wrong
                 val c = LOPJoin(root.query, a, b, false)

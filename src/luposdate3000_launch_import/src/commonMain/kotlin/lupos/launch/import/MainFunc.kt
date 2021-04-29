@@ -457,8 +457,8 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         outTriples.close()
         triplePrefix++
     }
-//    TriplesIntermediate.delete("$inputFileName.1.type")
-//    TriplesIntermediate.delete("$inputFileName.1.subClassOf")
+    TriplesIntermediate.delete("$inputFileName.1.type")
+    TriplesIntermediate.delete("$inputFileName.1.subClassOf")
     val inferenceTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime
     val inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix")
     inTriples.readAll { it ->

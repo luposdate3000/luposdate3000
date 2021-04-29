@@ -26,8 +26,8 @@ mkdir -p $storage
 export LUPOS_HOME=$storage
 ./launcher.main.kts \
  --run \
- --inlineMode=Disable \
- --releaseMode=Disable \
+ --inlineMode=Enable \
+ --releaseMode=Enable \
  --processUrls=localhost:$port \
  --Endpoint_Launcher=Java_Sockets \
  --Buffer_Manager=Persistent_Cached \

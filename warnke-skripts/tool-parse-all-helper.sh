@@ -22,10 +22,10 @@ echo $i $intermediate
 ./launcher.main.kts \
  --run \
  --mainClass=Import \
- --inlineMode=Disable \
- --releaseMode=Disable \
+ --inlineMode=Enable \
+ --releaseMode=Enable \
  --garbageCollector=Shenandoah \
  --partitionMode=None \
  --runArgument_Luposdate3000_Launch_Import:inputFileName=$intermediate \
  ;
-) > ${intermediate}parse-logs.log 2>&1
+) > ${intermediate}.parse-logs.log 2>&1
