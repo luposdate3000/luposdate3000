@@ -28,7 +28,6 @@ import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.parser.LexerCharIterator
 import lupos.parser.LookAheadTokenIterator
-import lupos.parser.ParseError
 import lupos.parser.XMLElementFromN3
 import lupos.parser.sparql1_1.SPARQLParser
 import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
@@ -70,12 +69,12 @@ import lupos.shared.optimizer.distributedOptimizerQueryFactory
 import lupos.shared.tripleStoreManager
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File
-import lupos.shared_inline.MyPrintWriter
 import lupos.shared_inline.MyStringStream
 import lupos.shared_inline.Platform
 import lupos.triple_store_manager.TripleStoreManagerImpl
 import kotlin.js.JsName
 import kotlin.jvm.JvmField
+import lupos.shared_inline.MyPrintWriter
 
 /*
  * This is the _interface_ of the database

@@ -39,6 +39,7 @@ import lupos.operator.physical.multiinput.POPJoinMerge
 import lupos.operator.physical.multiinput.POPUnion
 import lupos.operator.physical.singleinput.POPBind
 import lupos.operator.physical.singleinput.POPDebug
+import lupos.operator.physical.singleinput.POPVisualisation
 import lupos.operator.physical.singleinput.POPFilter
 import lupos.operator.physical.singleinput.POPProjection
 import lupos.shared.ByteArrayWrapper
@@ -237,6 +238,12 @@ private fun writeOperatorGraph(
         }
         is POPDebug -> {
             // Creating a new operator with the POPDebug constructor
+            operatorsBuffer.println(
+                "    val operator${operator.uuid} = operator${operator.children[0].getUUID()}"
+            )
+        }
+        is POPVisualisation -> {
+            // Creating a new operator with the POPVisualisation constructor
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = operator${operator.children[0].getUUID()}"
             )

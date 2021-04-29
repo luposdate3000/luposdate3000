@@ -18,20 +18,20 @@ package lupos.endpoint_launcher
 
 import kotlin.js.JsName
 import lupos.endpoint.LuposdateEndpoint
+import lupos.operator.arithmetik.noinput.AOPConstant
+import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.Query
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizerVisualisation
-import lupos.s00misc.MyPrintWriter
-import lupos.s02buildSyntaxTree.LexerCharIterator
-import lupos.s02buildSyntaxTree.LookAheadTokenIterator
-import lupos.s02buildSyntaxTree.sparql1_1.ASTNode
-import lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser
-import lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser
-import lupos.s04arithmetikOperators.noinput.AOPConstant
-import lupos.s04arithmetikOperators.noinput.AOPVariable
-import lupos.s04logicalOperators.IOPBase
-import lupos.s04logicalOperators.Query
+import lupos.parser.LexerCharIterator
+import lupos.parser.LookAheadTokenIterator
+import lupos.parser.sparql1_1.ASTNode
+import lupos.parser.sparql1_1.SPARQLParser
+import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
+import lupos.shared_inline.MyPrintWriter
+import lupos.shared.operator.IOPBase
 
 public class EndpointExtendedVisualize (input: String) {
     private var resultLog: Array<String>
@@ -57,7 +57,8 @@ public class EndpointExtendedVisualize (input: String) {
         resultLog = resultLogTmp.toTypedArray()
         val popOptimizer: PhysicalOptimizer = PhysicalOptimizer(q)
         val physSteps: MutableList<IOPBase> = mutableListOf<IOPBase>()
-        val tmp: IOPBase = popOptimizer.optimizeCall(optLog, {}, { physSteps.add(it.cloneOP()) }) // Physical Operatorgraph
+        val tmp: IOPBase =
+            popOptimizer.optimizeCall(optLog, {}, { physSteps.add(it.cloneOP()) }) // Physical Operatorgraph
         val optPhys: IOPBase = PhysicalOptimizerVisualisation(q).optimizeCall(tmp)
         val resultPhysTmp = mutableListOf<String>()
         for (i in physSteps) {
@@ -87,7 +88,54 @@ public class EndpointExtendedVisualize (input: String) {
     public fun getResult(): String {
         return result
     }
-    
+
+
+// Optimising the physical operator graph and is returning each step of the process for visualisation
+/*@JsName("getOptimizedStepsPhysical")
+public fun getOptimizedStepsPhysical(query: String): Array<String> {
+    val q = Query()
+    val lcit = LexerCharIterator(query)
+    val tit = TokenIteratorSPARQLParser(lcit)
+    val ltit = LookAheadTokenIterator(tit, 3)
+    val parser = SPARQLParser(ltit)
+    val astNode = parser.expr()
+    val lopNode = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
+    val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode) // Log Operatorgraph Optimized
+    val popOptimizer = PhysicalOptimizer(q)
+    var tmp = mutableListOf<IOPBase>()
+    val tmp3 = popOptimizer.optimizeCall(lopNode2, {}, { tmp.add(it.cloneOP()) }) // Physical Operatorgraph
+    val tmp2 = PhysicalOptimizerVisualisation(q).optimizeCall(tmp3)
+    var result = mutableListOf<String>()
+    // Change the UUIDs in each step beginning from 1 via DFS.
+    for (i in tmp) {
+        traverseNetwork(i, mutableMapOf<IOPBase, Int>())
+        result.add(getJsonData(i))
+    }
+    return result.toTypedArray()
+}
+
+// Optimising the logical operator graph and is returning each step of the process for visualisation
+@JsName("getOptimizedStepsLogical")
+public fun getOptimizedStepsLogical(query: String): Array<String> {
+    val q = Query()
+    val lcit = LexerCharIterator(query)
+    val tit = TokenIteratorSPARQLParser(lcit)
+    val ltit = LookAheadTokenIterator(tit, 3)
+    val parser = SPARQLParser(ltit)
+    val astNode = parser.expr()
+    val lopNode = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
+    var tmp = mutableListOf<IOPBase>()
+    var tmp2 = LogicalOptimizer(q).optimizeCall(lopNode, {}, { tmp.add(it.cloneOP()) }) // Log Operatorgraph Optimized
+    var result = mutableListOf<String>()
+    // Change the UUIDs in each step beginning from 1 via DFS.
+    for (i in tmp) {
+        traverseNetwork(i, mutableMapOf<IOPBase, Int>())
+        result.add(getJsonData(i))
+    }
+    return result.toTypedArray()
+}
+*/
+
     // Input: (Sub)-Tree of the Query
 // Output: Node and Edge Information as String for each node of the tree
 //
@@ -209,4 +257,3 @@ public class EndpointExtendedVisualize (input: String) {
         return result
     }
 }
-
