@@ -28,21 +28,27 @@ internal object WebRootEndpoint {
         stream.println()
     }
 
+    private var isInitialized = false
+    private var pathCache = mutableMapOf<String, PathMappingHelper>()
     internal fun initialize(paths: MutableMap<String, PathMappingHelper>, params: Map<String, String>, connectionInMy: MyInputStream, connectionOutMy: MyOutputStream) {
-        val webroot = "documentation/"
-        val basepath = "/doc/"
-        File(webroot).walk { p ->
-            if (p.length > webroot.length) {
-                val targetPath = basepath + p.substring(webroot.length)
-                paths[targetPath] = PathMappingHelper(true, mapOf()) {
-                    printHeaderSuccess(connectionOutMy)
-                    val buf = ByteArray(4096)
-                    File(p).withInputStream { input ->
-                        val len = input.read(buf)
-                        connectionOutMy.write(buf, len)
+        if (!isInitialized) {
+            isInitialized = true
+            val webroot = "documentation/" // relative to luposdate3000 or absolute path including trailling slash
+            val basepath = "/doc/" // base path in the browser url. this may be the empty path. this must include a trailing slash
+            File(webroot).walk { p ->
+                if (p.length > webroot.length) {
+                    val targetPath = basepath + p.substring(webroot.length)
+                    pathCache[targetPath] = PathMappingHelper(true, mapOf()) {
+                        printHeaderSuccess(connectionOutMy)
+                        val buf = ByteArray(4096)
+                        File(p).withInputStream { input ->
+                            val len = input.read(buf)
+                            connectionOutMy.write(buf, len)
+                        }
                     }
                 }
             }
         }
+        paths.putAll(pathCache)
     }
 }
