@@ -113,7 +113,6 @@ public actual object HttpEndpointLauncher {
                             }
                             println("$hostname:$port path : '$path'")
                             val paths = mutableMapOf<String, PathMappingHelper>()
-                            
                             paths["/sparql/jenaquery"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement)) {
                                 printHeaderSuccess(connectionOutMy)
                                 connectionOutMy.print(JenaWrapper.execQuery(params["query"]!!))
