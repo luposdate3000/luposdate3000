@@ -16,33 +16,20 @@
  */
 package lupos.endpoint_launcher
 
-import lupos.dictionary.DictionaryFactory
 import lupos.endpoint.LuposdateEndpoint
-import lupos.jena_wrapper.JenaWrapper
 import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
 import lupos.operator.physical.POPBase
 import lupos.operator.physical.partition.POPDistributedSendMulti
 import lupos.operator.physical.partition.POPDistributedSendSingle
 import lupos.operator.physical.partition.POPDistributedSendSingleCount
-import lupos.result_format.EQueryResultToStreamExt
-import lupos.shared.EIndexPatternExt
-import lupos.shared.EModifyTypeExt
 import lupos.shared.EnpointRecievedInvalidPath
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
-import lupos.shared.LUPOS_REAL_WORLD_DATA_ROOT
-import lupos.shared.MyLock
 import lupos.shared.Parallel
-import lupos.shared.XMLElement
-import lupos.shared.XMLElementFromXML
 import lupos.shared.communicationHandler
-import lupos.shared.dictionary.EDictionaryTypeExt
-import lupos.shared.dictionary.IDictionary
-import lupos.shared.dictionary.nodeGlobalDictionary
 import lupos.shared.tripleStoreManager
 import lupos.shared.xmlParser.XMLParser
-import lupos.shared_inline.File
 import lupos.shared_inline.MyInputStream
 import lupos.shared_inline.MyOutputStream
 import lupos.shared_inline.MyStringStream
@@ -54,8 +41,6 @@ import kotlin.jvm.JvmField
 
 @OptIn(ExperimentalStdlibApi::class)
 public actual object HttpEndpointLauncher {
-    @JvmField
-    internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
 
     @JvmField
     internal var sessionMap = mutableMapOf<Int, EndpointExtendedVisualize>()
@@ -76,44 +61,6 @@ public actual object HttpEndpointLauncher {
                 params[t[0]] = URLDecoder.decode(t[1])
             }
         }
-    }
-
-    internal fun inputElement(name: String, value: String): String = "<input type=\"text\" name=\"$name\" value=\"$value\"/>"
-    internal fun selectElementEQueryResultToStreamExt(name: String, value: String): String {
-        var res = "<select name=\"$name\">"
-        for (evaluator in EQueryResultToStreamExt.names) {
-            if (value == evaluator) {
-                res += "<option selected=\"selected\">$evaluator</option>"
-            } else {
-                res += "<option>$evaluator</option>"
-            }
-        }
-        res + "</select>"
-        return res
-    }
-
-    internal class QueryMappingContainer(@JvmField internal val xml: XMLElement, @JvmField internal var inputStreams: Array<IMyInputStream?>, @JvmField internal var outputStreams: Array<IMyOutputStream?>, @JvmField internal var connections: Array<Socket?>) {
-        @JvmField
-        internal var instance: POPBase? = null
-
-        @JvmField
-        internal val instanceLock = MyLock()
-    }
-
-    private inline fun registerDictionary(key: String): RemoteDictionaryServer {
-        val dict = RemoteDictionaryServer(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true))
-        dictionaryMapping[key] = dict
-        return dict
-    }
-
-    private inline fun registerDictionary(key: String, dict: IDictionary): RemoteDictionaryServer {
-        val dict = RemoteDictionaryServer(dict)
-        dictionaryMapping[key] = dict
-        return dict
-    }
-
-    private inline fun removeDictionary(key: String) {
-        dictionaryMapping.remove(key)
     }
 
     public actual /*suspend*/ fun start() {
@@ -166,6 +113,7 @@ public actual object HttpEndpointLauncher {
                             }
                             println("$hostname:$port path : '$path'")
                             val paths = mutableMapOf<String, PathMappingHelper>()
+                            
                             paths["/sparql/jenaquery"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement)) {
                                 printHeaderSuccess(connectionOutMy)
                                 connectionOutMy.print(JenaWrapper.execQuery(params["query"]!!))
@@ -368,6 +316,11 @@ public actual object HttpEndpointLauncher {
                                 printHeaderSuccess(connectionOutMy)
                                 connectionOutMy.print(LuposdateEndpoint.importXmlData(params["xml"]!!))
                                 /*Coverage Unreachable*/
+                            RestEndpoint.initialize(paths, params, connectionInMy, connectionOutMy, hostname, port)
+
+                            paths["/shutdown"] = PathMappingHelper(false, mapOf()) {
+                                LuposdateEndpoint.close()
+                                System.exit(0)
                             }
                             paths["/distributed/query/register"] = PathMappingHelper(true, mapOf()) {
                                 val xml = XMLParser(MyStringStream(params["query"]!!))
@@ -383,22 +336,6 @@ public actual object HttpEndpointLauncher {
                                     queryMappings[key] = container
                                 }
                                 connectionOutMy.print("HTTP/1.1 200 OK\n\n")
-                            }
-                            paths["/shutdown"] = PathMappingHelper(false, mapOf()) {
-                                LuposdateEndpoint.close()
-                                System.exit(0)
-                            }
-                            paths["/distributed/query/dictionary"] = PathMappingHelper(false, mapOf()) {
-                                val dict = dictionaryMapping[params["key"]!!]!!
-                                dict.connect(connectionInMy, connectionOutMy)
-                            }
-                            paths["/distributed/query/dictionary/register"] = PathMappingHelper(true, mapOf()) {
-                                registerDictionary(params["key"]!!)
-                                printHeaderSuccess(connectionOutMy)
-                            }
-                            paths["/distributed/query/dictionary/remove"] = PathMappingHelper(true, mapOf()) {
-                                removeDictionary(params["key"]!!)
-                                printHeaderSuccess(connectionOutMy)
                             }
                             paths["/distributed/query/execute"] = PathMappingHelper(false, mapOf()) {
                                 println("execute ... :: $hostname:$port -> ${params["key"]}")
@@ -482,49 +419,8 @@ public actual object HttpEndpointLauncher {
                                     connectionOutMy.println("<p> $k :: $v </p>")
                                 }
                             }
-                            paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement, )) {
-                                val name = params["name"]!!
-                                val query = Query()
-                                tripleStoreManager.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])
-                                printHeaderSuccess(connectionOutMy)
-                            }
-                            paths["/distributed/graph/commit"] = PathMappingHelper(true, mapOf()) {
-                                val query = Query()
-                                val origin = params["origin"] == null || params["origin"]!!.toBoolean()
-                                tripleStoreManager.remoteCommit(query, origin)
-                                printHeaderSuccess(connectionOutMy)
-                            }
-                            paths["/distributed/graph/drop"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) {
-                                val query = Query()
-                                val origin = params["origin"] == null || params["origin"]!!.toBoolean()
-                                tripleStoreManager.remoteDropGraph(query, params["name"]!!, origin)
-                                printHeaderSuccess(connectionOutMy)
-                            }
-                            paths["/distributed/graph/clear"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) {
-                                val query = Query()
-                                val origin = params["origin"] == null || params["origin"]!!.toBoolean()
-                                tripleStoreManager.remoteClearGraph(query, params["name"]!!, origin)
-                                printHeaderSuccess(connectionOutMy)
-                            }
-                            paths["/distributed/graph/modify"] = PathMappingHelper(false, mapOf()) {
-                                val query = Query()
-                                val key = params["key"]!!
-                                val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
-                                val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
-                                tripleStoreManager.remoteModify(query, key, mode, idx2, connectionInMy)
-                            }
-                            paths["/distributed/graph/modifysorted"] = PathMappingHelper(false, mapOf()) {
-                                val query = Query()
-                                val key = params["key"]!!
-                                val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
-                                val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
-                                tripleStoreManager.remoteModifySorted(query, key, mode, idx2, connectionInMy)
-                            }
-                            paths["/debugLocalStore"] = PathMappingHelper(false, mapOf()) {
-                                tripleStoreManager.debugAllLocalStoreContent()
-                                printHeaderSuccess(connectionOutMy)
-                            }
-                            paths["/index.html"] = PathMappingHelper(true, mapOf()) {
+
+                            paths["/debug.html"] = PathMappingHelper(true, mapOf()) {
                                 connectionOutMy.println("HTTP/1.1 200 OK")
                                 connectionOutMy.println("Content-Type: text/html; charset=UTF-8")
                                 connectionOutMy.println()
@@ -575,8 +471,16 @@ public actual object HttpEndpointLauncher {
                                 connectionOutMy.println("   </body>")
                                 connectionOutMy.println("</html>")
                             }
-                            paths[""] = paths["/index.html"]!!
-                            paths["/"] = paths["/index.html"]!!
+                            WebRootEndpoint.initialize(paths, params, connectionInMy, connectionOutMy)
+                            val tmpRoot = paths["/index.html"]
+                            if (tmpRoot != null) {
+                                paths[""] = tmpRoot
+                                paths["/"] = tmpRoot
+                            } else {
+                                val tmpRoot2 = paths["/debug.html"]
+                                paths[""] = tmpRoot2!!
+                                paths["/"] = tmpRoot2!!
+                            }
                             val actionHelper = paths[path]
                             if (actionHelper == null) {
                                 throw EnpointRecievedInvalidPath(path)

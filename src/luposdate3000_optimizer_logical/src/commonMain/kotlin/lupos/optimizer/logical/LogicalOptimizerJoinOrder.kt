@@ -22,8 +22,10 @@ import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.noinput.OPNothing
 import lupos.operator.logical.singleinput.LOPProjection
+import lupos.shared.ESortTypeExt
 import lupos.shared.EmptyResultException
 import lupos.shared.SanityCheck
+import lupos.shared.SortHelper
 import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerJoinOrderID, "LogicalOptimizerJoinOrder") {
@@ -56,27 +58,65 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
 
     private fun clusterizeChildren(nodes: List<IOPBase>): List<MutableList<IOPBase>> {
         println("LogicalOptimizerJoinOrder start clusterizeChildren ${nodes.size}")
-        // put children with same variables into groups, such that those definetly can use Merge-Join as much as possible
         val res = mutableListOf<MutableList<IOPBase>>()
-        val variables = mutableListOf<List<String>>()
-        loop@ for (node in nodes) {
-            val v = node.getProvidedVariableNames()
-            println("$v -> ${node.getPossibleSortPriorities()}")
-            if (res.size > 0) {
-                for (i in 0 until variables.size) {
-                    if (variables[i].size == v.size && variables[i].containsAll(v)) {
-                        res[i].add(node)
-                        continue@loop
-                    }
+        val cacheProvidedVariableNames = nodes.map { it.getProvidedVariableNames().toSet().toList() }
+        val cachePossibleSortPriorities = nodes.map { it.getPossibleSortPriorities() }
+        val allVariables = cacheProvidedVariableNames.flatten().toSet().toList()
+        val cachePossibleSortPrioritiesIdx = cachePossibleSortPriorities.map { it ->
+            val x = it.map { it2 ->
+                val f = it2.first()
+                if (f.sortType == ESortTypeExt.FAST) {
+                    allVariables.indexOf(f.variableName)
+                } else {
+                    -1
+                }
+            }.toMutableSet()
+            x.remove(-1)
+            x
+        }
+
+        var remainingNodes = IntArray(nodes.size) { it }.toMutableList()
+        println("cacheProvidedVariableNames ${cacheProvidedVariableNames.mapIndexed { idx, it -> "#$idx -> $it" }}")
+        println("cachePossibleSortPriorities ${cachePossibleSortPriorities.mapIndexed { idx, it -> "#$idx -> $it" }}")
+        println("allVariables ${allVariables.mapIndexed { idx, it -> "#$idx -> $it" }}")
+        println("cachePossibleSortPrioritiesIdx ${cachePossibleSortPrioritiesIdx.mapIndexed { idx, it -> "#$idx -> $it" }}")
+        while (remainingNodes.size > 0) {
+            println("a $remainingNodes")
+            val allVariablesSortCounters = IntArray(allVariables.size)
+            for (i in remainingNodes) {
+                for (j in cachePossibleSortPrioritiesIdx[i]) {
+                    allVariablesSortCounters[j]++
                 }
             }
-            res.add(mutableListOf(node))
-            variables.add(v)
+            println("b ${allVariablesSortCounters.map { it }}")
+            var max = 0
+            var maxIdx = 0
+            for (i in 0 until allVariables.size) {
+                if (allVariablesSortCounters[i] > max) {
+                    max = allVariablesSortCounters[i]
+                    maxIdx = i
+                }
+            }
+            println("c $max $maxIdx")
+            SanityCheck.check { max > 0 }
+            val current = mutableListOf<IOPBase>()
+            var groupIds = mutableSetOf<Int>()
+            for (i in remainingNodes.toList()) {
+                if (cachePossibleSortPrioritiesIdx[i].contains(maxIdx)) {
+                    val node = nodes[i]
+                    node.selectSortPriority(listOf(SortHelper(allVariables[maxIdx], ESortTypeExt.FAST)))
+                    groupIds.add(i)
+                    remainingNodes.remove(i)
+                    current.add(nodes[i])
+                }
+            }
+            println("grouped $groupIds")
+            SanityCheck.check { max == current.size }
+            println("d")
+            res.add(current)
+            println("e")
         }
-        println("LogicalOptimizerJoinOrder clusteredChildren :: ")
-        for (i in 0 until variables.size) {
-            println("#$i : ${variables[i]} -> ${res[i].size}")
-        }
+        println("f")
         return res
     }
 
