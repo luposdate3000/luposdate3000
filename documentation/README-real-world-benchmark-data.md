@@ -43,7 +43,7 @@ Make sure you read the following comments.
 
 Lets define the root path for all real-world data as 
 ```bash
-export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
+export LUPOS_REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 ```
 
 ```bash
@@ -59,8 +59,8 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
     git commit -m a
     # The following line runs until your disk space is completely consumed.
     # Make sure to abort it if you have enough benchmark data.
-    mkdir -p ${REAL_WORLD_DATA_ROOT}/bsbm
-    touch ${REAL_WORLD_DATA_ROOT}/bsbm/stat.csv
+    mkdir -p ${LUPOS_REAL_WORLD_DATA_ROOT}/bsbm
+    touch ${LUPOS_REAL_WORLD_DATA_ROOT}/bsbm/stat.csv
     ${luposdate3000home}/exec-benchmark-generate-bsbm.main.kts
 }
 #sp2b
@@ -79,13 +79,13 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
     mv sp2b_gen ../bin/
     # The following line runs until your disk space is completely consumed.
     # Make sure to abort it if you have enough benchmark data.
-    mkdir -p ${REAL_WORLD_DATA_ROOT}/sp2b
-    touch ${REAL_WORLD_DATA_ROOT}/sp2b/stat.csv
+    mkdir -p ${LUPOS_REAL_WORLD_DATA_ROOT}/sp2b
+    touch ${LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/stat.csv
     ${luposdate3000home}/exec-benchmark-generate-sp2b.main.kts
 }
 #btc2019
 {
-    cd ${REAL_WORLD_DATA_ROOT}
+    cd ${LUPOS_REAL_WORLD_DATA_ROOT}
     mkdir btc2019
     cd btc2019
     wget https://zenodo.org/record/2634588/files/btc2019-triples.nt.gz?download=1 btc2019-triples.nt.gz
@@ -93,7 +93,7 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 }
 #btc2010
 {
-    cd ${REAL_WORLD_DATA_ROOT}
+    cd ${LUPOS_REAL_WORLD_DATA_ROOT}
     mkdir btc2010
     cd btc2010
     wget https://km.aifb.kit.edu/projects/btc-2010/000-CONTENTS
@@ -104,7 +104,7 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 }
 #yago1
 {
-    cd ${REAL_WORLD_DATA_ROOT}
+    cd ${LUPOS_REAL_WORLD_DATA_ROOT}
     mkdir yago1
     cd yago1
     wget https://yago-knowledge.org/data/yago1/yago-1.0.0-turtle.7z
@@ -113,7 +113,7 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 }
 #yago2
 {
-    cd ${REAL_WORLD_DATA_ROOT}
+    cd ${LUPOS_REAL_WORLD_DATA_ROOT}
     mkdir yago2
     cd yago2
     wget https://yago-knowledge.org/data/yago2/yago-2.3.0-turtle.7z
@@ -122,7 +122,7 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 }
 #yago2s
 {
-    cd ${REAL_WORLD_DATA_ROOT}
+    cd ${LUPOS_REAL_WORLD_DATA_ROOT}
     mkdir yago2s
     cd yago2s
     wget https://yago-knowledge.org/data/yago2s/yago-2.5.3-turtle-simple.7z
@@ -131,7 +131,7 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 }
 #yago3
 {
-    cd ${REAL_WORLD_DATA_ROOT}
+    cd ${LUPOS_REAL_WORLD_DATA_ROOT}
     mkdir yago3
     cd yago3
     wget https://yago-knowledge.org/data/yago3/yago-3.0.2-turtle-simple.7z
@@ -140,7 +140,7 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 }
 #yago4
 {
-    cd ${REAL_WORLD_DATA_ROOT}
+    cd ${LUPOS_REAL_WORLD_DATA_ROOT}
     mkdir yago4
     cd yago4
     # This one is about 470 gigabytes.
@@ -154,7 +154,7 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 }
 #barton
 {
-    cd ${REAL_WORLD_DATA_ROOT}
+    cd ${LUPOS_REAL_WORLD_DATA_ROOT}
     mkdir barton
     cd barton
     wget http://dslam.cs.umd.edu/data/barton/barton.mods.rdf.tar.gz

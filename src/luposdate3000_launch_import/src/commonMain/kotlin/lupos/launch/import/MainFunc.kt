@@ -156,7 +156,6 @@ private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     val inference_enabled = true
-    val write_types_enabled = true
     var inferredTriples = 0
     val startTime = DateHelperRelative.markNow()
     val quadMode = inputFileName.endsWith(".n4")
@@ -397,7 +396,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             val t_p = mapping[it[1]]
             val t_o = mapping[it[2]]
             outTriples.write(t_s, t_p, t_o)
-            if (write_types_enabled && inference_enabled) {
+            if (inference_enabled) {
                 when (t_p) {
                     inference_Type_ID -> outTriplesType.write(t_s, t_p, t_o)
                     inference_SubClassOf_ID -> outTriplesSubClassOf.write(t_s, t_p, t_o)
@@ -437,12 +436,12 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         inTriples.close()
         inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix.type")
         inTriples.readAll { it ->
-            val tmp = subclassMappingSingle[it[0]]
+            val tmp = subclassMappingSingle[it[2]]
             when (tmp) {
                 -1 -> {
                 }
                 -2 -> {
-                    for (i in subclassMappingMulti[it[0]]!!) {
+                    for (i in subclassMappingMulti[it[2]]!!) {
                         outTriples.write(it[0], inference_Type_ID, i)
                         inferredTriples++
                     }
@@ -458,8 +457,8 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         outTriples.close()
         triplePrefix++
     }
-    TriplesIntermediate.delete("$inputFileName.1.type")
-    TriplesIntermediate.delete("$inputFileName.1.subClassOf")
+//    TriplesIntermediate.delete("$inputFileName.1.type")
+//    TriplesIntermediate.delete("$inputFileName.1.subClassOf")
     val inferenceTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime
     val inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix")
     inTriples.readAll { it ->

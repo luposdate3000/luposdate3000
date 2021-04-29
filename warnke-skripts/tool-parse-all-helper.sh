@@ -16,29 +16,16 @@
 echo "starting $1"
 intermediates=( ${LUPOS_REAL_WORLD_DATA_ROOT}/yago1/yago-1.0.0-turtle.ttl ${LUPOS_REAL_WORLD_DATA_ROOT}/yago2/yago-2.n3 ${LUPOS_REAL_WORLD_DATA_ROOT}/yago3/yago3.ttl ${LUPOS_REAL_WORLD_DATA_ROOT}/barton/barton.nt ${LUPOS_REAL_WORLD_DATA_ROOT}/yago2s/yago-2.5.3-turtle-simple.ttl ${LUPOS_REAL_WORLD_DATA_ROOT}/btc2019/btc2019-triples.nt ${LUPOS_REAL_WORLD_DATA_ROOT}/yago4/yago-all.nt ${LUPOS_REAL_WORLD_DATA_ROOT}/btc2010/btc-2010.n4 )
 i=$1
-port=80
 intermediate=${intermediates[i]}
-storage=$(dirname $(echo ${intermediates[i]} | sed "s#${LUPOS_REAL_WORLD_DATA_ROOT}/#/mnt/db/#g"))/
-echo $i $intermediate $storage
-rm -rf $storage
-mkdir -p $storage
+echo $i $intermediate
 (
-export LUPOS_HOME=$storage
 ./launcher.main.kts \
  --run \
+ --mainClass=Import \
  --inlineMode=Disable \
  --releaseMode=Disable \
- --processUrls=localhost:$port \
- --Endpoint_Launcher=Java_Sockets \
- --Buffer_Manager=Persistent_Cached \
  --garbageCollector=Shenandoah \
  --partitionMode=None \
- &
-pid=$!
-while ! nc -z localhost $port
-do
-sleep 0.1
-done
-time curl localhost:$port/import/intermediate?file=$intermediate
-curl localhost:$port/shutdown
-) > $storage/importing-logs.log 2>&1
+ --runArgument_Luposdate3000_Launch_Import:inputFileName=$intermediate \
+ ;
+) > ${intermediate}parse-logs.log 2>&1
