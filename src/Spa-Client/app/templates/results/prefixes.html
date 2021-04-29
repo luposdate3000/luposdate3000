@@ -1,0 +1,11 @@
+<% if(Object.keys(prefixes).length) { %>
+<h4>Prefixes</h4>
+<table>
+    <% _.each(prefixes, function(value, prefix) { %>
+        <tr>
+            <td class="sparql-prefix" style="color: <%= colors[prefix] %>"><%= prefix %></td>
+            <td><%= value %></td>
+        </tr>
+    <% }); %>
+</table>
+<% } %>

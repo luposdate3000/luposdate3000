@@ -1,0 +1,1156 @@
+{
+  "AST": {
+    "children": [
+      {
+        "children": [
+          {
+            "operandPosition": 0,
+            "description": "Document",
+            "id": 533320450,
+            "type": "NodeToken"
+          },
+          {
+            "operandPosition": 1,
+            "description": "(",
+            "id": 408825799,
+            "type": "NodeToken"
+          },
+          {
+            "children": [
+              {
+                "operandPosition": 0,
+                "description": "Prefix",
+                "id": 1260538272,
+                "type": "NodeToken"
+              },
+              {
+                "operandPosition": 1,
+                "description": "(",
+                "id": 446874117,
+                "type": "NodeToken"
+              },
+              {
+                "children": [
+                  {
+                    "operandPosition": 0,
+                    "description": "rdf",
+                    "id": 348002719,
+                    "type": "NodeToken"
+                  }
+                ],
+                "operandPosition": 2,
+                "description": "lupos.rif.generated.syntaxtree.RIFNCName@736bf681",
+                "id": 1936455297,
+                "type": "RIFNCName"
+              },
+              {
+                "children": [
+                  {
+                    "operandPosition": 0,
+                    "description": "<http://www.w3.org/1999/02/22-rdf-syntax-ns#>",
+                    "id": 1102478511,
+                    "type": "NodeToken"
+                  }
+                ],
+                "operandPosition": 3,
+                "description": "lupos.rif.generated.syntaxtree.RIFQuotedURIref@4d082de1",
+                "id": 1292381665,
+                "type": "RIFQuotedURIref"
+              },
+              {
+                "operandPosition": 4,
+                "description": ")",
+                "id": 1841649126,
+                "type": "NodeToken"
+              }
+            ],
+            "operandPosition": 2,
+            "description": "lupos.rif.generated.syntaxtree.RIFPrefix@39abc330",
+            "id": 967557936,
+            "type": "RIFPrefix"
+          },
+          {
+            "children": [
+              {
+                "operandPosition": 0,
+                "description": "Prefix",
+                "id": 95979742,
+                "type": "NodeToken"
+              },
+              {
+                "operandPosition": 1,
+                "description": "(",
+                "id": 1998180290,
+                "type": "NodeToken"
+              },
+              {
+                "children": [
+                  {
+                    "operandPosition": 0,
+                    "description": "dc",
+                    "id": 665389391,
+                    "type": "NodeToken"
+                  }
+                ],
+                "operandPosition": 2,
+                "description": "lupos.rif.generated.syntaxtree.RIFNCName@30b4cea2",
+                "id": 817155746,
+                "type": "RIFNCName"
+              },
+              {
+                "children": [
+                  {
+                    "operandPosition": 0,
+                    "description": "<http://purl.org/dc/elements/1.1/>",
+                    "id": 1606959043,
+                    "type": "NodeToken"
+                  }
+                ],
+                "operandPosition": 3,
+                "description": "lupos.rif.generated.syntaxtree.RIFQuotedURIref@66169b1c",
+                "id": 1712757532,
+                "type": "RIFQuotedURIref"
+              },
+              {
+                "operandPosition": 4,
+                "description": ")",
+                "id": 1226779462,
+                "type": "NodeToken"
+              }
+            ],
+            "operandPosition": 3,
+            "description": "lupos.rif.generated.syntaxtree.RIFPrefix@9d3db20",
+            "id": 164879136,
+            "type": "RIFPrefix"
+          },
+          {
+            "children": [
+              {
+                "operandPosition": 0,
+                "description": "Prefix",
+                "id": 1955533310,
+                "type": "NodeToken"
+              },
+              {
+                "operandPosition": 1,
+                "description": "(",
+                "id": 1789337227,
+                "type": "NodeToken"
+              },
+              {
+                "children": [
+                  {
+                    "operandPosition": 0,
+                    "description": "dcterms",
+                    "id": 1643687931,
+                    "type": "NodeToken"
+                  }
+                ],
+                "operandPosition": 2,
+                "description": "lupos.rif.generated.syntaxtree.RIFNCName@5a525d82",
+                "id": 1515347330,
+                "type": "RIFNCName"
+              },
+              {
+                "children": [
+                  {
+                    "operandPosition": 0,
+                    "description": "<http://purl.org/dc/terms/>",
+                    "id": 1073040056,
+                    "type": "NodeToken"
+                  }
+                ],
+                "operandPosition": 3,
+                "description": "lupos.rif.generated.syntaxtree.RIFQuotedURIref@6d7442db",
+                "id": 1836335835,
+                "type": "RIFQuotedURIref"
+              },
+              {
+                "operandPosition": 4,
+                "description": ")",
+                "id": 2005122697,
+                "type": "NodeToken"
+              }
+            ],
+            "operandPosition": 4,
+            "description": "lupos.rif.generated.syntaxtree.RIFPrefix@2613b05b",
+            "id": 638824539,
+            "type": "RIFPrefix"
+          },
+          {
+            "children": [
+              {
+                "operandPosition": 0,
+                "description": "Prefix",
+                "id": 479044288,
+                "type": "NodeToken"
+              },
+              {
+                "operandPosition": 1,
+                "description": "(",
+                "id": 163089251,
+                "type": "NodeToken"
+              },
+              {
+                "children": [
+                  {
+                    "operandPosition": 0,
+                    "description": "bench",
+                    "id": 844351554,
+                    "type": "NodeToken"
+                  }
+                ],
+                "operandPosition": 2,
+                "description": "lupos.rif.generated.syntaxtree.RIFNCName@63251b2b",
+                "id": 1663376171,
+                "type": "RIFNCName"
+              },
+              {
+                "children": [
+                  {
+                    "operandPosition": 0,
+                    "description": "<http://localhost/vocabulary/bench/>",
+                    "id": 236425197,
+                    "type": "NodeToken"
+                  }
+                ],
+                "operandPosition": 3,
+                "description": "lupos.rif.generated.syntaxtree.RIFQuotedURIref@43b9f76a",
+                "id": 1136260970,
+                "type": "RIFQuotedURIref"
+              },
+              {
+                "operandPosition": 4,
+                "description": ")",
+                "id": 1168126279,
+                "type": "NodeToken"
+              }
+            ],
+            "operandPosition": 5,
+            "description": "lupos.rif.generated.syntaxtree.RIFPrefix@53a050f5",
+            "id": 1403015413,
+            "type": "RIFPrefix"
+          },
+          {
+            "children": [
+              {
+                "operandPosition": 0,
+                "description": "Prefix",
+                "id": 1704151175,
+                "type": "NodeToken"
+              },
+              {
+                "operandPosition": 1,
+                "description": "(",
+                "id": 1464453951,
+                "type": "NodeToken"
+              },
+              {
+                "children": [
+                  {
+                    "operandPosition": 0,
+                    "description": "xsd",
+                    "id": 364889645,
+                    "type": "NodeToken"
+                  }
+                ],
+                "operandPosition": 2,
+                "description": "lupos.rif.generated.syntaxtree.RIFNCName@1327f298",
+                "id": 321385112,
+                "type": "RIFNCName"
+              },
+              {
+                "children": [
+                  {
+                    "operandPosition": 0,
+                    "description": "<http://www.w3.org/2001/XMLSchema#>",
+                    "id": 1931369779,
+                    "type": "NodeToken"
+                  }
+                ],
+                "operandPosition": 3,
+                "description": "lupos.rif.generated.syntaxtree.RIFQuotedURIref@6a97736d",
+                "id": 1788310381,
+                "type": "RIFQuotedURIref"
+              },
+              {
+                "operandPosition": 4,
+                "description": ")",
+                "id": 1593950970,
+                "type": "NodeToken"
+              }
+            ],
+            "operandPosition": 6,
+            "description": "lupos.rif.generated.syntaxtree.RIFPrefix@691df069",
+            "id": 1763569769,
+            "type": "RIFPrefix"
+          },
+          {
+            "children": [
+              {
+                "operandPosition": 0,
+                "description": "Group",
+                "id": 1698297971,
+                "type": "NodeToken"
+              },
+              {
+                "operandPosition": 1,
+                "description": "(",
+                "id": 1691342370,
+                "type": "NodeToken"
+              },
+              {
+                "children": [
+                  {
+                    "operandPosition": 0,
+                    "description": "Forall",
+                    "id": 640897370,
+                    "type": "NodeToken"
+                  },
+                  {
+                    "children": [
+                      {
+                        "operandPosition": 0,
+                        "description": "?",
+                        "id": 369587959,
+                        "type": "NodeToken"
+                      },
+                      {
+                        "children": [
+                          {
+                            "operandPosition": 0,
+                            "description": "yr",
+                            "id": 1502346312,
+                            "type": "NodeToken"
+                          }
+                        ],
+                        "operandPosition": 1,
+                        "description": "lupos.rif.generated.syntaxtree.RIFNCName@650ed832",
+                        "id": 1695471666,
+                        "type": "RIFNCName"
+                      }
+                    ],
+                    "operandPosition": 1,
+                    "description": "lupos.rif.generated.syntaxtree.RIFVar@ce3df8f",
+                    "id": 216260495,
+                    "type": "RIFVar"
+                  },
+                  {
+                    "children": [
+                      {
+                        "operandPosition": 0,
+                        "description": "?",
+                        "id": 1721444360,
+                        "type": "NodeToken"
+                      },
+                      {
+                        "children": [
+                          {
+                            "operandPosition": 0,
+                            "description": "journal",
+                            "id": 1932028141,
+                            "type": "NodeToken"
+                          }
+                        ],
+                        "operandPosition": 1,
+                        "description": "lupos.rif.generated.syntaxtree.RIFNCName@75c7a3a1",
+                        "id": 1976017825,
+                        "type": "RIFNCName"
+                      }
+                    ],
+                    "operandPosition": 2,
+                    "description": "lupos.rif.generated.syntaxtree.RIFVar@4b065f51",
+                    "id": 1258708817,
+                    "type": "RIFVar"
+                  },
+                  {
+                    "operandPosition": 3,
+                    "description": "(",
+                    "id": 179129614,
+                    "type": "NodeToken"
+                  },
+                  {
+                    "children": [
+                      {
+                        "children": [
+                          {
+                            "children": [
+                              {
+                                "children": [
+                                  {
+                                    "operandPosition": 0,
+                                    "description": "?",
+                                    "id": 1475025893,
+                                    "type": "NodeToken"
+                                  },
+                                  {
+                                    "children": [
+                                      {
+                                        "operandPosition": 0,
+                                        "description": "journal",
+                                        "id": 477987412,
+                                        "type": "NodeToken"
+                                      }
+                                    ],
+                                    "operandPosition": 1,
+                                    "description": "lupos.rif.generated.syntaxtree.RIFNCName@7655c648",
+                                    "id": 1985332808,
+                                    "type": "RIFNCName"
+                                  }
+                                ],
+                                "operandPosition": 0,
+                                "description": "lupos.rif.generated.syntaxtree.RIFVar@2d21095d",
+                                "id": 757139805,
+                                "type": "RIFVar"
+                              }
+                            ],
+                            "operandPosition": 0,
+                            "description": "lupos.rif.generated.syntaxtree.RIFTerm@4d84f8de",
+                            "id": 1300560094,
+                            "type": "RIFTerm"
+                          },
+                          {
+                            "children": [
+                              {
+                                "children": [
+                                  {
+                                    "children": [
+                                      {
+                                        "operandPosition": 0,
+                                        "description": "?",
+                                        "id": 1475025893,
+                                        "type": "NodeToken"
+                                      },
+                                      {
+                                        "children": [
+                                          {
+                                            "operandPosition": 0,
+                                            "description": "journal",
+                                            "id": 477987412,
+                                            "type": "NodeToken"
+                                          }
+                                        ],
+                                        "operandPosition": 1,
+                                        "description": "lupos.rif.generated.syntaxtree.RIFNCName@7655c648",
+                                        "id": 1985332808,
+                                        "type": "RIFNCName"
+                                      }
+                                    ],
+                                    "operandPosition": 0,
+                                    "description": "lupos.rif.generated.syntaxtree.RIFVar@2d21095d",
+                                    "id": 757139805,
+                                    "type": "RIFVar"
+                                  }
+                                ],
+                                "operandPosition": 0,
+                                "description": "lupos.rif.generated.syntaxtree.RIFTerm@4d84f8de",
+                                "id": 1300560094,
+                                "type": "RIFTerm"
+                              },
+                              {
+                                "operandPosition": 1,
+                                "description": "[",
+                                "id": 914885527,
+                                "type": "NodeToken"
+                              },
+                              {
+                                "children": [
+                                  {
+                                    "children": [
+                                      {
+                                        "children": [
+                                          {
+                                            "operandPosition": 0,
+                                            "description": "dcterms:published",
+                                            "id": 1229165681,
+                                            "type": "NodeToken"
+                                          }
+                                        ],
+                                        "operandPosition": 0,
+                                        "description": "lupos.rif.generated.syntaxtree.RIFQName@3f61f4b9",
+                                        "id": 1063384249,
+                                        "type": "RIFQName"
+                                      }
+                                    ],
+                                    "operandPosition": 0,
+                                    "description": "lupos.rif.generated.syntaxtree.RIFURI@1ea8bc38",
+                                    "id": 514374712,
+                                    "type": "RIFURI"
+                                  }
+                                ],
+                                "operandPosition": 2,
+                                "description": "lupos.rif.generated.syntaxtree.RIFTerm@6e37fc88",
+                                "id": 1849162888,
+                                "type": "RIFTerm"
+                              },
+                              {
+                                "operandPosition": 3,
+                                "description": "->",
+                                "id": 406970989,
+                                "type": "NodeToken"
+                              },
+                              {
+                                "children": [
+                                  {
+                                    "children": [
+                                      {
+                                        "operandPosition": 0,
+                                        "description": "?",
+                                        "id": 638768855,
+                                        "type": "NodeToken"
+                                      },
+                                      {
+                                        "children": [
+                                          {
+                                            "operandPosition": 0,
+                                            "description": "yr",
+                                            "id": 1819845157,
+                                            "type": "NodeToken"
+                                          }
+                                        ],
+                                        "operandPosition": 1,
+                                        "description": "lupos.rif.generated.syntaxtree.RIFNCName@31570af2",
+                                        "id": 827788018,
+                                        "type": "RIFNCName"
+                                      }
+                                    ],
+                                    "operandPosition": 0,
+                                    "description": "lupos.rif.generated.syntaxtree.RIFVar@732734de",
+                                    "id": 1931949278,
+                                    "type": "RIFVar"
+                                  }
+                                ],
+                                "operandPosition": 4,
+                                "description": "lupos.rif.generated.syntaxtree.RIFTerm@43d3d421",
+                                "id": 1137955873,
+                                "type": "RIFTerm"
+                              },
+                              {
+                                "operandPosition": 5,
+                                "description": "]",
+                                "id": 640936624,
+                                "type": "NodeToken"
+                              }
+                            ],
+                            "operandPosition": 1,
+                            "description": "lupos.rif.generated.syntaxtree.RIFFrame@39330b67",
+                            "id": 959646567,
+                            "type": "RIFFrame"
+                          }
+                        ],
+                        "operandPosition": 0,
+                        "description": "lupos.rif.generated.syntaxtree.RIFAtomic@7ddb9888",
+                        "id": 2111543432,
+                        "type": "RIFAtomic"
+                      },
+                      {
+                        "operandPosition": 1,
+                        "description": ":-",
+                        "id": 371668175,
+                        "type": "NodeToken"
+                      },
+                      {
+                        "children": [
+                          {
+                            "operandPosition": 0,
+                            "description": "And",
+                            "id": 913202233,
+                            "type": "NodeToken"
+                          },
+                          {
+                            "operandPosition": 1,
+                            "description": "(",
+                            "id": 254891566,
+                            "type": "NodeToken"
+                          },
+                          {
+                            "children": [
+                              {
+                                "children": [
+                                  {
+                                    "children": [
+                                      {
+                                        "children": [
+                                          {
+                                            "operandPosition": 0,
+                                            "description": "?",
+                                            "id": 1474813012,
+                                            "type": "NodeToken"
+                                          },
+                                          {
+                                            "children": [
+                                              {
+                                                "operandPosition": 0,
+                                                "description": "journal",
+                                                "id": 1260901325,
+                                                "type": "NodeToken"
+                                              }
+                                            ],
+                                            "operandPosition": 1,
+                                            "description": "lupos.rif.generated.syntaxtree.RIFNCName@5a6eddb8",
+                                            "id": 1517215160,
+                                            "type": "RIFNCName"
+                                          }
+                                        ],
+                                        "operandPosition": 0,
+                                        "description": "lupos.rif.generated.syntaxtree.RIFVar@b7652b3",
+                                        "id": 192303795,
+                                        "type": "RIFVar"
+                                      }
+                                    ],
+                                    "operandPosition": 0,
+                                    "description": "lupos.rif.generated.syntaxtree.RIFTerm@e73e575",
+                                    "id": 242476405,
+                                    "type": "RIFTerm"
+                                  },
+                                  {
+                                    "operandPosition": 1,
+                                    "description": "#",
+                                    "id": 1920852944,
+                                    "type": "NodeToken"
+                                  },
+                                  {
+                                    "children": [
+                                      {
+                                        "children": [
+                                          {
+                                            "children": [
+                                              {
+                                                "operandPosition": 0,
+                                                "description": "bench:Journal",
+                                                "id": 1594623244,
+                                                "type": "NodeToken"
+                                              }
+                                            ],
+                                            "operandPosition": 0,
+                                            "description": "lupos.rif.generated.syntaxtree.RIFQName@42f21de1",
+                                            "id": 1123163617,
+                                            "type": "RIFQName"
+                                          }
+                                        ],
+                                        "operandPosition": 0,
+                                        "description": "lupos.rif.generated.syntaxtree.RIFURI@37be1960",
+                                        "id": 935205216,
+                                        "type": "RIFURI"
+                                      }
+                                    ],
+                                    "operandPosition": 2,
+                                    "description": "lupos.rif.generated.syntaxtree.RIFTerm@1b9194b7",
+                                    "id": 462525623,
+                                    "type": "RIFTerm"
+                                  }
+                                ],
+                                "operandPosition": 0,
+                                "description": "lupos.rif.generated.syntaxtree.RIFAtomic@4ab8e78f",
+                                "id": 1253631887,
+                                "type": "RIFAtomic"
+                              }
+                            ],
+                            "operandPosition": 2,
+                            "description": "lupos.rif.generated.syntaxtree.RIFFormula@209f9a4b",
+                            "id": 547330635,
+                            "type": "RIFFormula"
+                          },
+                          {
+                            "children": [
+                              {
+                                "children": [
+                                  {
+                                    "children": [
+                                      {
+                                        "children": [
+                                          {
+                                            "operandPosition": 0,
+                                            "description": "?",
+                                            "id": 1382356567,
+                                            "type": "NodeToken"
+                                          },
+                                          {
+                                            "children": [
+                                              {
+                                                "operandPosition": 0,
+                                                "description": "journal",
+                                                "id": 2026421501,
+                                                "type": "NodeToken"
+                                              }
+                                            ],
+                                            "operandPosition": 1,
+                                            "description": "lupos.rif.generated.syntaxtree.RIFNCName@36042a32",
+                                            "id": 906242610,
+                                            "type": "RIFNCName"
+                                          }
+                                        ],
+                                        "operandPosition": 0,
+                                        "description": "lupos.rif.generated.syntaxtree.RIFVar@62c930de",
+                                        "id": 1657352414,
+                                        "type": "RIFVar"
+                                      }
+                                    ],
+                                    "operandPosition": 0,
+                                    "description": "lupos.rif.generated.syntaxtree.RIFTerm@5dd26a0d",
+                                    "id": 1574070797,
+                                    "type": "RIFTerm"
+                                  },
+                                  {
+                                    "children": [
+                                      {
+                                        "children": [
+                                          {
+                                            "children": [
+                                              {
+                                                "operandPosition": 0,
+                                                "description": "?",
+                                                "id": 1382356567,
+                                                "type": "NodeToken"
+                                              },
+                                              {
+                                                "children": [
+                                                  {
+                                                    "operandPosition": 0,
+                                                    "description": "journal",
+                                                    "id": 2026421501,
+                                                    "type": "NodeToken"
+                                                  }
+                                                ],
+                                                "operandPosition": 1,
+                                                "description": "lupos.rif.generated.syntaxtree.RIFNCName@36042a32",
+                                                "id": 906242610,
+                                                "type": "RIFNCName"
+                                              }
+                                            ],
+                                            "operandPosition": 0,
+                                            "description": "lupos.rif.generated.syntaxtree.RIFVar@62c930de",
+                                            "id": 1657352414,
+                                            "type": "RIFVar"
+                                          }
+                                        ],
+                                        "operandPosition": 0,
+                                        "description": "lupos.rif.generated.syntaxtree.RIFTerm@5dd26a0d",
+                                        "id": 1574070797,
+                                        "type": "RIFTerm"
+                                      },
+                                      {
+                                        "operandPosition": 1,
+                                        "description": "[",
+                                        "id": 687955814,
+                                        "type": "NodeToken"
+                                      },
+                                      {
+                                        "children": [
+                                          {
+                                            "children": [
+                                              {
+                                                "children": [
+                                                  {
+                                                    "operandPosition": 0,
+                                                    "description": "dc:title",
+                                                    "id": 309460479,
+                                                    "type": "NodeToken"
+                                                  }
+                                                ],
+                                                "operandPosition": 0,
+                                                "description": "lupos.rif.generated.syntaxtree.RIFQName@31287ed3",
+                                                "id": 824737491,
+                                                "type": "RIFQName"
+                                              }
+                                            ],
+                                            "operandPosition": 0,
+                                            "description": "lupos.rif.generated.syntaxtree.RIFURI@351d9bf",
+                                            "id": 55695807,
+                                            "type": "RIFURI"
+                                          }
+                                        ],
+                                        "operandPosition": 2,
+                                        "description": "lupos.rif.generated.syntaxtree.RIFTerm@3ec3a5ce",
+                                        "id": 1053009358,
+                                        "type": "RIFTerm"
+                                      },
+                                      {
+                                        "operandPosition": 3,
+                                        "description": "->",
+                                        "id": 834652074,
+                                        "type": "NodeToken"
+                                      },
+                                      {
+                                        "children": [
+                                          {
+                                            "children": [
+                                              {
+                                                "children": [
+                                                  {
+                                                    "children": [
+                                                      {
+                                                        "operandPosition": 0,
+                                                        "description": "\"Journal 1 (1940)\"",
+                                                        "id": 1405970234,
+                                                        "type": "NodeToken"
+                                                      }
+                                                    ],
+                                                    "operandPosition": 0,
+                                                    "description": "lupos.rif.generated.syntaxtree.RIFString@1c4cded4",
+                                                    "id": 474799828,
+                                                    "type": "RIFString"
+                                                  },
+                                                  {
+                                                    "children": [
+                                                      {
+                                                        "children": [
+                                                          {
+                                                            "operandPosition": 0,
+                                                            "description": "xsd:string",
+                                                            "id": 673116715,
+                                                            "type": "NodeToken"
+                                                          }
+                                                        ],
+                                                        "operandPosition": 0,
+                                                        "description": "lupos.rif.generated.syntaxtree.RIFQName@525e3cca",
+                                                        "id": 1381907658,
+                                                        "type": "RIFQName"
+                                                      }
+                                                    ],
+                                                    "operandPosition": 1,
+                                                    "description": "lupos.rif.generated.syntaxtree.RIFURI@f0eb92b",
+                                                    "id": 252623147,
+                                                    "type": "RIFURI"
+                                                  }
+                                                ],
+                                                "operandPosition": 0,
+                                                "description": "lupos.rif.generated.syntaxtree.RIFTypedLiteral@5301c189",
+                                                "id": 1392624009,
+                                                "type": "RIFTypedLiteral"
+                                              }
+                                            ],
+                                            "operandPosition": 0,
+                                            "description": "lupos.rif.generated.syntaxtree.RIFRDFLiteral@4e0243b3",
+                                            "id": 1308771251,
+                                            "type": "RIFRDFLiteral"
+                                          }
+                                        ],
+                                        "operandPosition": 4,
+                                        "description": "lupos.rif.generated.syntaxtree.RIFTerm@3c2e7c03",
+                                        "id": 1009679363,
+                                        "type": "RIFTerm"
+                                      },
+                                      {
+                                        "operandPosition": 5,
+                                        "description": "]",
+                                        "id": 273851557,
+                                        "type": "NodeToken"
+                                      }
+                                    ],
+                                    "operandPosition": 1,
+                                    "description": "lupos.rif.generated.syntaxtree.RIFFrame@532c2cfa",
+                                    "id": 1395404026,
+                                    "type": "RIFFrame"
+                                  }
+                                ],
+                                "operandPosition": 0,
+                                "description": "lupos.rif.generated.syntaxtree.RIFAtomic@f9d730a",
+                                "id": 261976842,
+                                "type": "RIFAtomic"
+                              }
+                            ],
+                            "operandPosition": 3,
+                            "description": "lupos.rif.generated.syntaxtree.RIFFormula@482f1676",
+                            "id": 1211045494,
+                            "type": "RIFFormula"
+                          },
+                          {
+                            "children": [
+                              {
+                                "children": [
+                                  {
+                                    "children": [
+                                      {
+                                        "children": [
+                                          {
+                                            "operandPosition": 0,
+                                            "description": "?",
+                                            "id": 86821499,
+                                            "type": "NodeToken"
+                                          },
+                                          {
+                                            "children": [
+                                              {
+                                                "operandPosition": 0,
+                                                "description": "journal",
+                                                "id": 1539782250,
+                                                "type": "NodeToken"
+                                              }
+                                            ],
+                                            "operandPosition": 1,
+                                            "description": "lupos.rif.generated.syntaxtree.RIFNCName@6e7f5be9",
+                                            "id": 1853840361,
+                                            "type": "RIFNCName"
+                                          }
+                                        ],
+                                        "operandPosition": 0,
+                                        "description": "lupos.rif.generated.syntaxtree.RIFVar@13d68ccc",
+                                        "id": 332827852,
+                                        "type": "RIFVar"
+                                      }
+                                    ],
+                                    "operandPosition": 0,
+                                    "description": "lupos.rif.generated.syntaxtree.RIFTerm@16246521",
+                                    "id": 371483937,
+                                    "type": "RIFTerm"
+                                  },
+                                  {
+                                    "children": [
+                                      {
+                                        "children": [
+                                          {
+                                            "children": [
+                                              {
+                                                "operandPosition": 0,
+                                                "description": "?",
+                                                "id": 86821499,
+                                                "type": "NodeToken"
+                                              },
+                                              {
+                                                "children": [
+                                                  {
+                                                    "operandPosition": 0,
+                                                    "description": "journal",
+                                                    "id": 1539782250,
+                                                    "type": "NodeToken"
+                                                  }
+                                                ],
+                                                "operandPosition": 1,
+                                                "description": "lupos.rif.generated.syntaxtree.RIFNCName@6e7f5be9",
+                                                "id": 1853840361,
+                                                "type": "RIFNCName"
+                                              }
+                                            ],
+                                            "operandPosition": 0,
+                                            "description": "lupos.rif.generated.syntaxtree.RIFVar@13d68ccc",
+                                            "id": 332827852,
+                                            "type": "RIFVar"
+                                          }
+                                        ],
+                                        "operandPosition": 0,
+                                        "description": "lupos.rif.generated.syntaxtree.RIFTerm@16246521",
+                                        "id": 371483937,
+                                        "type": "RIFTerm"
+                                      },
+                                      {
+                                        "operandPosition": 1,
+                                        "description": "[",
+                                        "id": 533468097,
+                                        "type": "NodeToken"
+                                      },
+                                      {
+                                        "children": [
+                                          {
+                                            "children": [
+                                              {
+                                                "children": [
+                                                  {
+                                                    "operandPosition": 0,
+                                                    "description": "dcterms:issued",
+                                                    "id": 1776635468,
+                                                    "type": "NodeToken"
+                                                  }
+                                                ],
+                                                "operandPosition": 0,
+                                                "description": "lupos.rif.generated.syntaxtree.RIFQName@16c8154f",
+                                                "id": 382211407,
+                                                "type": "RIFQName"
+                                              }
+                                            ],
+                                            "operandPosition": 0,
+                                            "description": "lupos.rif.generated.syntaxtree.RIFURI@696ea0b1",
+                                            "id": 1768857777,
+                                            "type": "RIFURI"
+                                          }
+                                        ],
+                                        "operandPosition": 2,
+                                        "description": "lupos.rif.generated.syntaxtree.RIFTerm@bf8a3c2",
+                                        "id": 200844226,
+                                        "type": "RIFTerm"
+                                      },
+                                      {
+                                        "operandPosition": 3,
+                                        "description": "->",
+                                        "id": 659359233,
+                                        "type": "NodeToken"
+                                      },
+                                      {
+                                        "children": [
+                                          {
+                                            "children": [
+                                              {
+                                                "operandPosition": 0,
+                                                "description": "?",
+                                                "id": 786103783,
+                                                "type": "NodeToken"
+                                              },
+                                              {
+                                                "children": [
+                                                  {
+                                                    "operandPosition": 0,
+                                                    "description": "yr",
+                                                    "id": 145817526,
+                                                    "type": "NodeToken"
+                                                  }
+                                                ],
+                                                "operandPosition": 1,
+                                                "description": "lupos.rif.generated.syntaxtree.RIFNCName@61689b33",
+                                                "id": 1634245427,
+                                                "type": "RIFNCName"
+                                              }
+                                            ],
+                                            "operandPosition": 0,
+                                            "description": "lupos.rif.generated.syntaxtree.RIFVar@6d8e4934",
+                                            "id": 1838041396,
+                                            "type": "RIFVar"
+                                          }
+                                        ],
+                                        "operandPosition": 4,
+                                        "description": "lupos.rif.generated.syntaxtree.RIFTerm@3b3a5171",
+                                        "id": 993677681,
+                                        "type": "RIFTerm"
+                                      },
+                                      {
+                                        "operandPosition": 5,
+                                        "description": "]",
+                                        "id": 392745085,
+                                        "type": "NodeToken"
+                                      }
+                                    ],
+                                    "operandPosition": 1,
+                                    "description": "lupos.rif.generated.syntaxtree.RIFFrame@7cd07132",
+                                    "id": 2094035250,
+                                    "type": "RIFFrame"
+                                  }
+                                ],
+                                "operandPosition": 0,
+                                "description": "lupos.rif.generated.syntaxtree.RIFAtomic@49f4599e",
+                                "id": 1240750494,
+                                "type": "RIFAtomic"
+                              }
+                            ],
+                            "operandPosition": 4,
+                            "description": "lupos.rif.generated.syntaxtree.RIFFormula@6aef8065",
+                            "id": 1794080869,
+                            "type": "RIFFormula"
+                          },
+                          {
+                            "operandPosition": 5,
+                            "description": ")",
+                            "id": 1847861938,
+                            "type": "NodeToken"
+                          }
+                        ],
+                        "operandPosition": 2,
+                        "description": "lupos.rif.generated.syntaxtree.RIFFormula@1faeac63",
+                        "id": 531541091,
+                        "type": "RIFFormula"
+                      }
+                    ],
+                    "operandPosition": 4,
+                    "description": "lupos.rif.generated.syntaxtree.RIFClause@35c9ff3b",
+                    "id": 902430523,
+                    "type": "RIFClause"
+                  },
+                  {
+                    "operandPosition": 5,
+                    "description": ")",
+                    "id": 1269865798,
+                    "type": "NodeToken"
+                  }
+                ],
+                "operandPosition": 2,
+                "description": "lupos.rif.generated.syntaxtree.RIFRule@3588ce53",
+                "id": 898158163,
+                "type": "RIFRule"
+              },
+              {
+                "operandPosition": 3,
+                "description": ")",
+                "id": 1148360393,
+                "type": "NodeToken"
+              }
+            ],
+            "operandPosition": 7,
+            "description": "lupos.rif.generated.syntaxtree.RIFGroup@34e4e999",
+            "id": 887417241,
+            "type": "RIFGroup"
+          },
+          {
+            "operandPosition": 8,
+            "description": ")",
+            "id": 365452546,
+            "type": "NodeToken"
+          }
+        ],
+        "operandPosition": 0,
+        "description": "lupos.rif.generated.syntaxtree.RIFDocument@39096e53",
+        "id": 956919379,
+        "type": "RIFDocument"
+      }
+    ],
+    "description": "lupos.rif.generated.syntaxtree.CompilationUnit@71ca03c7",
+    "id": 1909064647,
+    "type": "CompilationUnit"
+  },
+  "rulesAST": {
+    "children": [
+      {
+        "children": [
+          {
+            "operandPosition": 0,
+            "description": "?journal",
+            "id": 354623494,
+            "type": "RuleVariable"
+          },
+          {
+            "operandPosition": 1,
+            "description": "?yr",
+            "id": 1169635509,
+            "type": "RuleVariable"
+          },
+          {
+            "operandPosition": 2,
+            "description": "?journal[<http://purl.org/dc/terms/published>->?yr]",
+            "id": 306208076,
+            "type": "RulePredicate"
+          },
+          {
+            "children": [
+              {
+                "operandPosition": 0,
+                "description": "?journal[<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>-><http://localhost/vocabulary/bench/Journal>]",
+                "id": 1926276194,
+                "type": "RulePredicate"
+              },
+              {
+                "operandPosition": 1,
+                "description": "?journal[<http://purl.org/dc/elements/1.1/title>->\"Journal 1 (1940)\"^^<http://www.w3.org/2001/XMLSchema#string>]",
+                "id": 241063965,
+                "type": "RulePredicate"
+              },
+              {
+                "operandPosition": 2,
+                "description": "?journal[<http://purl.org/dc/terms/issued>->?yr]",
+                "id": 509922983,
+                "type": "RulePredicate"
+              }
+            ],
+            "operandPosition": 3,
+            "description": "And(?journal[<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>-><http://localhost/vocabulary/bench/Journal>] ?journal[<http://purl.org/dc/elements/1.1/title>->\"Journal 1 (1940)\"^^<http://www.w3.org/2001/XMLSchema#string>] ?journal[<http://purl.org/dc/terms/issued>->?yr] )",
+            "id": 2130675883,
+            "type": "Conjunction"
+          }
+        ],
+        "operandPosition": 0,
+        "description": "?journal[<http://purl.org/dc/terms/published>->?yr]",
+        "id": 877830578,
+        "type": "Rule"
+      }
+    ],
+    "description": "Document\nPrefix: bench - http://localhost/vocabulary/bench/\nPrefix: rdf - http://www.w3.org/1999/02/22-rdf-syntax-ns#\nPrefix: xsd - http://www.w3.org/2001/XMLSchema#\nPrefix: dcterms - http://purl.org/dc/terms/\nPrefix: rdfs - http://www.w3.org/2000/01/rdf-schema#\nPrefix: xs - http://www.w3.org/2001/XMLSchema#\nPrefix: rif - http://www.w3.org/2007/rif#\nPrefix: dc - http://purl.org/dc/elements/1.1/\n",
+    "id": 1521929403,
+    "type": "Document"
+  }
+}
