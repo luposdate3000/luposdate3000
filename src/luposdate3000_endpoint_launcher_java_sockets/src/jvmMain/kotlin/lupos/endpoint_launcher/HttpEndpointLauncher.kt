@@ -214,7 +214,7 @@ public actual object HttpEndpointLauncher {
                                 }
                             }
 
-                            paths["/index.html"] = PathMappingHelper(true, mapOf()) {
+                            paths["/debug.html"] = PathMappingHelper(true, mapOf()) {
                                 connectionOutMy.println("HTTP/1.1 200 OK")
                                 connectionOutMy.println("Content-Type: text/html; charset=UTF-8")
                                 connectionOutMy.println()
@@ -265,8 +265,16 @@ public actual object HttpEndpointLauncher {
                                 connectionOutMy.println("   </body>")
                                 connectionOutMy.println("</html>")
                             }
-                            paths[""] = paths["/index.html"]!!
-                            paths["/"] = paths["/index.html"]!!
+                            WebRootEndpoint.initialize(paths, params, connectionInMy, connectionOutMy)
+                            val tmpRoot = paths["/index.html"]
+                            if (tmpRoot != null) {
+                                paths[""] = tmpRoot
+                                paths["/"] = tmpRoot
+                            } else {
+                                val tmpRoot2 = paths["/debug.html"]
+                                paths[""] = tmpRoot2!!
+                                paths["/"] = tmpRoot2!!
+                            }
                             val actionHelper = paths[path]
                             if (actionHelper == null) {
                                 throw EnpointRecievedInvalidPath(path)
