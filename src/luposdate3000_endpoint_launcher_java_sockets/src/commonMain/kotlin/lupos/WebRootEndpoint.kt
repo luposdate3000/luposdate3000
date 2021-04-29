@@ -33,7 +33,7 @@ internal object WebRootEndpoint {
         val basepath = "/doc/" // base path in the browser url. this may be the empty path. this must include a trailing slash
         File(webroot).walk { p ->
             if (p.length > webroot.length) {
-                val targetPath = basepath + p.substring(webroot.length)
+                val targetPath = basepath + p2.substring(webroot.length).replace("\\", "/").replace("//", "/")
                 paths[targetPath] = PathMappingHelper(true, mapOf()) {
                     printHeaderSuccess(connectionOutMy)
                     val buf = ByteArray(4096)
