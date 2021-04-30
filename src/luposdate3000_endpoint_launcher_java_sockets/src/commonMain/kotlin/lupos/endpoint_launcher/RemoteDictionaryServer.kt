@@ -23,7 +23,7 @@ import lupos.shared.MyReadWriteLock
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.ByteArrayWrapperExt
+import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary) : ADictionary() {

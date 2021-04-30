@@ -22,7 +22,7 @@ import lupos.buffer_manager.MyIntArray
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.BufferManagerPage
-import lupos.shared_inline.ByteArrayWrapperExt
+import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 public class KeyValueStore {

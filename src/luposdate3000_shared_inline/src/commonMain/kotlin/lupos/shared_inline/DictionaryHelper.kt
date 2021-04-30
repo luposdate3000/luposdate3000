@@ -34,6 +34,7 @@ import lupos.shared.ValueSimpleLiteral
 import lupos.shared.ValueTypedLiteral
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 
 internal object DictionaryHelper {
     /* encoding ::

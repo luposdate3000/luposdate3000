@@ -939,11 +939,35 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             File(configPath).mkdirs()
             configFile = "${configPath}${pathSeparator}Config-${moduleArgs.moduleName}.kt"
             if (renameSharedInline) {
-                File("${configPath}${pathSeparator}SharedInlineHelper-${moduleArgs.moduleName}.kt").printWriter().use { out ->
-                    out.println("package lupos.shared_inline")
-                    for (s in sharedInlineReferences) {
-                        out.println("internal typealias $s = $packageToUseForConfig.$s")
+                val localMap = mutableMapOf<String, MutableSet<String>>()
+                for (s in sharedInlineReferences) {
+                    if (s.contains(".")) {
+                        val pkg = "." + s.substring(0, s.lastIndexOf("."))
+                        val name = s.substring(pkg.length)
+                        var tmp = localMap[pkg]
+                        if (tmp == null) {
+                            tmp = mutableSetOf<String>()
+                            localMap[pkg] = tmp!!
+                        }
+                        tmp!!.add(name)
+                    } else {
+                        var tmp = localMap[""]
+                        if (tmp == null) {
+                            tmp = mutableSetOf<String>()
+                            localMap[""] = tmp!!
+                        }
+                        tmp!!.add(s)
                     }
+                }
+                var i = 0
+                for ((k, v) in localMap) {
+                    File("${configPath}${pathSeparator}SharedInlineHelper-${moduleArgs.moduleName}-$i.kt").printWriter().use { out ->
+                        out.println("package lupos.shared_inline$k")
+                        for (s in v) {
+                            out.println("internal typealias $s = $packageToUseForConfig$k.$s")
+                        }
+                    }
+                    i++
                 }
             }
         }

@@ -13,4 +13,4 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
-printf %s\\n {0..7} | xargs -n 1 -P 1 ./warnke-skripts/tool-parse-all-helper.sh
+printf %s\\n {4..7} | xargs -n 1 -P 1 ./warnke-skripts/tool-parse-all-helper.sh
