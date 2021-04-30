@@ -2,6 +2,8 @@
 
 This installs other databases, which can be used to compare benchmark results.
 
+luposdate3000 can be used as a wrapper for apache jena
+
 ```bash
 #virtuoso
 {
@@ -13,5 +15,9 @@ This installs other databases, which can be used to compare benchmark results.
     CFLAGS="-O2 -m64" ./configure --prefix=$dependencieshome/virtuoso-dist
     make -j20
     make install
+}
+#blazegraph
+{
+    wget https://github.com/blazegraph/database/releases/download/BLAZEGRAPH_2_1_6_RC/blazegraph.jar
 }
 ```
