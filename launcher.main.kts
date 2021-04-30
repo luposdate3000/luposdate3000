@@ -879,6 +879,7 @@ fun onRun() {
             val cmd = mutableListOf<String>()
             if (javaFile.exists()) {
                 cmd.add(javaFileName)
+                cmd.add("-server")
                 cmd.add("-XX:+UnlockExperimentalVMOptions")
                 when (garbageCollector) {
                     EGarbageCollectorExt.Epsilon -> {

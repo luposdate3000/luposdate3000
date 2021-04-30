@@ -53,10 +53,12 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
             }
         }
         while (inputline != null) {
+            println(inputline)
             if (inputline.startsWith("Go to ") && inputline.endsWith("/blazegraph/ to get started.")) {
                 inputThread.start()
                 errorThread.start()
                 importData(import_file_name)
+                println("xxx imported $import_file_name")
                 action()
                 break
             }
@@ -70,6 +72,7 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
     }
 
     override fun runQuery(query: String): String {
+        println("xxx runQuery $query")
         val encodedData = "query=${encode(query)}".encodeToByteArray()
         val u = URL("http://$hostname:9999/blazegraph/sparql")
         val conn = u.openConnection() as HttpURLConnection
