@@ -1,0 +1,12 @@
+node_modules
+dist
+.tmp
+.sass-cache
+app/bower_components
+.idea
+app/scripts/main.js
+app/scripts/loading.js
+app/scripts/jst.js
+app/styles/main.css
+app/scripts/algos/samples/*
+deploy.bat

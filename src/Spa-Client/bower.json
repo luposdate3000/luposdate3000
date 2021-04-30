@@ -1,0 +1,17 @@
+{
+  "name": "ld-spa",
+  "private": true,
+  "dependencies": {
+    "foundation": "~5.5",
+    "jquery": "~2.1.1",
+    "backbone": "~1.1.2",
+    "codemirror": "~4.10.0",
+    "font-source-sans-pro": "~0.1.0",
+    "please-wait": "~0.0.2",
+    "x2js": "hauptbenutzer/x2js#master",
+    "randomcolor": "~0.2.0",
+    "d3": "~3.5.5",
+    "uri.js": "~1.14.2"
+  },
+  "devDependencies": {}
+}

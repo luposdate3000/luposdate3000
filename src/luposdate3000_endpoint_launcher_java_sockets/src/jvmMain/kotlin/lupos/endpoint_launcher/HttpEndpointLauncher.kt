@@ -43,6 +43,9 @@ import kotlin.jvm.JvmField
 public actual object HttpEndpointLauncher {
 
     @JvmField
+    internal var sessionMap = mutableMapOf<Int, EndpointExtendedVisualize>()
+
+    @JvmField
     internal var queryMappings = mutableMapOf<String, QueryMappingContainer>()
 
     private fun printHeaderSuccess(stream: IMyOutputStream) {
@@ -110,6 +113,208 @@ public actual object HttpEndpointLauncher {
                             }
                             println("$hostname:$port path : '$path'")
                             val paths = mutableMapOf<String, PathMappingHelper>()
+                            paths["/sparql/jenaquery"] = PathMappingHelper(true, mapOf(Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement)) {
+                                printHeaderSuccess(connectionOutMy)
+                                connectionOutMy.print(JenaWrapper.execQuery(params["query"]!!))
+                                /*Coverage Unreachable*/
+                            }
+                            paths["/sparql/jenaload"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3") to ::inputElement)) {
+                                JenaWrapper.loadFromFile(params["file"]!!)
+                                printHeaderSuccess(connectionOutMy)
+                                connectionOutMy.print("success")
+                            }
+                            paths["/sparql/startSession"] = PathMappingHelper(
+                                true,
+                                mapOf(
+                                Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement,
+                                Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt,
+                                )
+                            ){
+                                val e = params["evaluator"]
+                                val evaluator = if (e == null) {
+                                    EQueryResultToStreamExt.DEFAULT_STREAM
+                                } else {
+                                    val e2 = EQueryResultToStreamExt.names.indexOf(e)
+                                    if (e2 >= 0) {
+                                        e2
+                                    } else {
+                                        EQueryResultToStreamExt.DEFAULT_STREAM
+                                    }
+                                }
+                                println("choosen ${EQueryResultToStreamExt.names[evaluator]} ${EQueryResultToStreamExt.names.map { it }}")
+                                var eev = EndpointExtendedVisualize(params["query"].toString())
+                                val key = sessionMap.size+1
+                                sessionMap[key] = eev
+                                printHeaderSuccess(connectionOutMy)
+                                connectionOutMy.print(key.toString())
+                                //LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+                                /*Coverage Unreachable*/
+                            }
+
+                            paths["/sparql/getLogicalVisual"] = PathMappingHelper(
+                                true,
+                                mapOf(
+                                    Pair("sessionID", "") to ::inputElement,
+                                )
+                            ){
+                                val eev = params["sessionID"]?.let { sessionMap.get(it.toInt()) }
+                                printHeaderSuccess(connectionOutMy)
+                                if (eev != null) {
+                                    for (step in eev.getOptimizedStepsLogical()){
+                                        connectionOutMy.print(step)
+                                        connectionOutMy.print("NEWTREE")
+                                    }
+                                }else{
+                                    connectionOutMy.print("SessionNotFoundException")
+                                }
+                            }
+
+                            paths["/sparql/getPhysicalVisual"] = PathMappingHelper(
+                                true,
+                                mapOf(
+                                    Pair("sessionID", "") to ::inputElement,
+                                )
+                            ){
+                                val eev = params["sessionID"]?.let { sessionMap.get(it.toInt()) }
+                                printHeaderSuccess(connectionOutMy)
+                                if (eev != null) {
+                                    for (step in eev.getOptimizedStepsPhysical()){
+                                        connectionOutMy.print(step)
+                                        connectionOutMy.print("NEWTREE")
+                                    }
+                                }else{
+                                    connectionOutMy.print("SessionNotFoundException")
+                                }
+                            }
+                            paths["/sparql/getResult"] = PathMappingHelper(
+                                true,
+                                mapOf(
+                                    Pair("sessionID", "") to ::inputElement,
+                                )
+                            ){
+                                val eev = params["sessionID"]?.let { sessionMap.get(it.toInt()) }
+                                printHeaderSuccess(connectionOutMy)
+                                if (eev != null) {
+                                        connectionOutMy.print(eev.getResult())
+                                }else{
+                                    connectionOutMy.print("SessionNotFoundException")
+                                }
+                                //LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+                                /*Coverage Unreachable*/
+                            }
+
+                            paths["/sparql/closeSession"] = PathMappingHelper(
+                                true,
+                                mapOf(
+                                    Pair("sessionID", "") to ::inputElement,
+                                )
+                            ){
+
+                                printHeaderSuccess(connectionOutMy)
+                                connectionOutMy.print("SessionClosedACK")
+                                sessionMap.remove(params["sessionID"])
+                                //LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+                                /*Coverage Unreachable*/
+                            }
+
+                            paths["/sparql/query"] = PathMappingHelper(
+                                true,
+                                mapOf(
+                                    Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement,
+                                    Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt,
+                                )
+                            ) {
+                                val e = params["evaluator"]
+                                val evaluator = if (e == null) {
+                                    EQueryResultToStreamExt.DEFAULT_STREAM
+                                } else {
+                                    val e2 = EQueryResultToStreamExt.names.indexOf(e)
+                                    if (e2 >= 0) {
+                                        e2
+                                    } else {
+                                        EQueryResultToStreamExt.DEFAULT_STREAM
+                                    }
+                                }
+                                println("choosen ${EQueryResultToStreamExt.names[evaluator]} ${EQueryResultToStreamExt.names.map { it }}")
+                                val node = LuposdateEndpoint.evaluateSparqlToOperatorgraphB(params["query"]!!, false)
+                                println(node.toXMLElementRoot(false).toPrettyString())
+                                val query = node.getQuery()
+                                val key = "${query.getTransactionID()}"
+                                val dict = registerDictionary(key, query.getDictionary())
+                                query.setDictionaryServer(dict)
+                                query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
+                                printHeaderSuccess(connectionOutMy)
+                                LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+                                removeDictionary(key)
+                                /*Coverage Unreachable*/
+                            }
+                            paths["/sparql/operator"] =
+                                PathMappingHelper(
+                                    true,
+                                    mapOf(
+                                        Pair("query", "") to ::inputElement,
+                                        Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt,
+                                    )
+                                ) {
+                                    val e = params["evaluator"]
+                                    val evaluator = if (e == null) {
+                                        EQueryResultToStreamExt.DEFAULT_STREAM
+                                    } else {
+                                        val e2 = EQueryResultToStreamExt.names.indexOf(e)
+                                        if (e2 >= 0) {
+                                            e2
+                                        } else {
+                                            EQueryResultToStreamExt.DEFAULT_STREAM
+                                        }
+                                    }
+                                    val query = Query()
+                                    val node = XMLElementToOPBase(query, XMLElementFromXML()(params["query"]!!)!!)
+                                    val key = "${query.getTransactionID()}"
+                                    val dict = registerDictionary(key, query.getDictionary())
+                                    query.setDictionaryServer(dict)
+                                    query.setDictionaryUrl("$hostname:$port/distributed/query/dictionary?key=$key")
+                                    printHeaderSuccess(connectionOutMy)
+                                    LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+                                    removeDictionary(key)
+                                    /*Coverage Unreachable*/
+                                }
+                            paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3") to ::inputElement)) {
+                                val dict = mutableMapOf<String, Int>()
+                                val dictfile = params["bnodeList"]
+                                if (dictfile != null) {
+                                    File(dictfile).forEachLine {
+                                        dict[it] = nodeGlobalDictionary.createNewBNode()
+                                    }
+                                }
+                                printHeaderSuccess(connectionOutMy)
+                                connectionOutMy.print(LuposdateEndpoint.importTurtleFiles(params["file"]!!, dict))
+                                /*Coverage Unreachable*/
+                            }
+                            paths["/import/turtledata"] = PathMappingHelper(true, mapOf(Pair("data", "<s> <p> <o> .") to ::inputElement)) {
+                                val dict = mutableMapOf<String, Int>()
+                                val dictfile = params["bnodeList"]
+                                if (dictfile != null) {
+                                    File(dictfile).forEachLine {
+                                        dict[it] = nodeGlobalDictionary.createNewBNode()
+                                    }
+                                }
+                                printHeaderSuccess(connectionOutMy)
+                                connectionOutMy.print(LuposdateEndpoint.importTurtleString(params["data"]!!, dict))
+                                /*Coverage Unreachable*/
+                            }
+                            paths["/import/estimatedPartitions"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3.partitions") to ::inputElement)) {
+                                LuposdateEndpoint.setEstimatedPartitionsFromFile(params["file"]!!)
+                                printHeaderSuccess(connectionOutMy)
+                            }
+                            paths["/import/intermediate"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3") to ::inputElement)) {
+                                printHeaderSuccess(connectionOutMy)
+                                connectionOutMy.print(LuposdateEndpoint.importIntermediateFiles(params["file"]!!))
+                                /*Coverage Unreachable*/
+                            }
+                            paths["/import/xml"] = PathMappingHelper(true, mapOf(Pair("xml", "") to ::inputElement)) {
+                                printHeaderSuccess(connectionOutMy)
+                                connectionOutMy.print(LuposdateEndpoint.importXmlData(params["xml"]!!))
+                                /*Coverage Unreachable*/
                             RestEndpoint.initialize(paths, params, connectionInMy, connectionOutMy, hostname, port)
 
                             paths["/shutdown"] = PathMappingHelper(false, mapOf()) {
