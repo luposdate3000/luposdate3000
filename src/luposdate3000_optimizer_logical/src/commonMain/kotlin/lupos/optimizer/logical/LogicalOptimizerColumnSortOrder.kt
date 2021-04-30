@@ -17,9 +17,8 @@
 package lupos.optimizer.logical
 
 import lupos.operator.base.Query
-import lupos.operator.logical.noinput.LOPTriple
+import lupos.operator.logical.singleinput.LOPSort
 import lupos.shared.SanityCheck
-import lupos.shared.SortHelper
 import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerColumnSortOrderID, "LogicalOptimizerColumnSortOrder") {
@@ -40,88 +39,35 @@ public class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query
         }
         var done = node.initializeSortPriorities {
             hadChange = true
+            println("onChange A")
             onChange()
         }
         if (!hadChange && !done) {
-            for (c in node.getChildren()) {
-                if (c.getSortPriorities().size > 1 && c !is LOPTriple) {
-                    done = true
-                    break
+            if (parent == null || parent is LOPSort) {
+                val tmp = node.getSortPriorities()
+                if (tmp.size > 1) {
+                    node.selectSortPriority(tmp.first())
+                    SanityCheck.check { node.getSortPriorities().size == 1 }
+                    println("onChange B")
+                    onChange()
                 }
-            }
-            if (!done) {
-                var flag = true
-                if (node is LOPTriple && parent != null) {
-                    if (!parent.getSortPrioritiesInitialized() || parent.getSortPriorities().size > 1) {
-                        // let the parent-operator choose first ..
-                        flag = false
+            } else {
+                val tmp2 = node.getSortPriorities()
+                if (tmp2.size > 1) {
+                    val tmp = parent.getSortPriorities()
+                    if (tmp.size == 1) {
+                        node.selectSortPriority(tmp.first())
+                        println("onChange C")
+                        onChange()
                     }
-                }
-                if (flag) {
-                    if (node.getChildren().isNotEmpty() && node !is LOPTriple) {
-                        // filter only valid sort orders based on children, which may had an update
-                        val tmp = mutableListOf<List<SortHelper>>()
-                        loop@ for (x in node.getSortPriorities()) {
-                            var maxI = 0
-                            for (c in node.getChildren()) {
-                                loop2@ for (p in c.getSortPriorities()) {
-                                    var i = 0
-                                    while (i < x.size && i < p.size) {
-                                        if (x[i] != p[i]) {
-                                            if (i > maxI) {
-                                                maxI = i
-                                            }
-                                            continue@loop2
-                                        }
-                                        i++
-                                    }
-                                    tmp.add(x)
-                                    continue@loop
-                                }
-                            }
-                            if (maxI > 0) {
-                                val y = mutableListOf<SortHelper>()
-                                for (i in 0 until maxI) {
-                                    y.add(x[i])
-                                }
-                                tmp.add(y)
-                            }
-                        }
-                        if (node.getSortPriorities() != tmp) {
-                            node.setSortPriorities(tmp)
+                    if (tmp.size <= 1) {
+                        val tmp3 = node.getSortPriorities()
+                        if (tmp3.size > 1) {
+                            node.selectSortPriority(tmp3.first())
+                            SanityCheck.check { node.getSortPriorities().size == 1 }
+                            println("onChange D")
                             onChange()
                         }
-                    }
-                    var maxSize = 0
-                    for (x in node.getSortPriorities()) {
-                        if (x.size > maxSize) {
-                            maxSize = x.size
-                        }
-                    }
-                    if (maxSize > 0) {
-                        for (x in node.getSortPriorities()) {
-                            if (x.size == maxSize) {
-                                node.selectSortPriority(x)
-                                break
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (node.getSortPriorities().size > 0 && node.getMySortPriority().size == 0) {
-// TODO debug why this is wrong ...
-            var maxSize = 0
-            for (x in node.getSortPriorities()) {
-                if (x.size > maxSize) {
-                    maxSize = x.size
-                }
-            }
-            if (maxSize > 0) {
-                for (x in node.getSortPriorities()) {
-                    if (x.size == maxSize) {
-                        node.selectSortPriority(x)
-                        break
                     }
                 }
             }

@@ -105,8 +105,10 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
                                 d = true
                                 onChange()
                             }
-                            nextStep(tmp)
                         }
+                        nextStep(tmp)
+                        println("optimizer :: " + o.classname)
+                        println(tmp)
                     }
                     SanityCheck {
                         val allPartitionOperators = mutableMapOf<Int, MutableSet<Long>>()

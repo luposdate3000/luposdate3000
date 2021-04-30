@@ -57,12 +57,18 @@ internal actual class File actual constructor(@JvmField internal val filename: S
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun openOutputStream(append: Boolean): IMyOutputStream = MyOutputStream(BufferedOutputStream(FileOutputStream(filename, append)))
-    internal actual inline fun walk(crossinline action: (String) -> Unit) {
-        java.nio.file.Files.walk(java.nio.file.Paths.get(filename), 1).forEach {
+    internal actual inline fun walk(maxdepth: Int, crossinline action: (String) -> Unit) {
+        java.nio.file.Files.walk(java.nio.file.Paths.get(filename), maxdepth).forEach {
             val tmp = it.toString()
             if (tmp.length > filename.length) {
                 action(tmp)
             }
+        }
+    }
+
+    internal actual inline fun walk(crossinline action: (String) -> Unit) {
+        Files.walk(Paths.get(filename)).forEach { it ->
+            action(it.toString())
         }
     }
 

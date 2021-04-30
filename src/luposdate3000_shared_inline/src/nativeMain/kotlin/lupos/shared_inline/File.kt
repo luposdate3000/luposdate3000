@@ -38,6 +38,7 @@ internal actual class File {
     internal actual inline fun readAsCharIterator(): CharIterator = throw NotImplementedException("File", "readAsCharIterator not implemented")
     internal actual inline fun openInputStream(): IMyInputStream = throw NotImplementedException("File", "openInputStream not implemented")
     internal actual inline fun walk(crossinline action: (String) -> Unit): Unit = throw NotImplementedException("File", "walk not implemented")
+    internal actual inline fun walk(maxdepth: Int, crossinline action: (String) -> Unit): Unit = throw NotImplementedException("File", "walk not implemented")
     internal actual inline fun withOutputStream(crossinline action: (MyPrintWriter) -> Unit): Unit = throw NotImplementedException("File", "withOutputStream not implemented")
     internal /*suspend*/ actual inline fun withOutputStream(crossinline action: /*suspend*/ (MyPrintWriter) -> Unit): Unit = throw NotImplementedException("File", "withOutputStream not implemented")
     internal actual inline fun forEachLine(crossinline action: (String) -> Unit): Unit = throw NotImplementedException("File", "forEachLine not implemented")
