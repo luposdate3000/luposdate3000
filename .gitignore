@@ -23,4 +23,5 @@ x
 afl.*.log
 erroredTests
 external_jvm_dependencies
+src/Spa-Client/app/scripts/algos/samples/*
 
