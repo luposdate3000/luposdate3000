@@ -27,11 +27,11 @@
 package lupos.operator.physical.singleinput
 
 import lupos.operator.physical.POPBase
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator

@@ -19,8 +19,8 @@ package lupos.kv
 import lupos.ProguardTestAnnotation
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.MyIntArray
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.SanityCheck
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.BufferManagerPage
 import lupos.shared_inline.ByteArrayWrapperExt
 import kotlin.jvm.JvmField

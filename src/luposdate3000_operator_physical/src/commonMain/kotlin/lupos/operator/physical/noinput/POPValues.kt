@@ -21,7 +21,6 @@ import lupos.operator.arithmetik.noinput.AOPValue
 import lupos.operator.base.iterator.ColumnIteratorMultiValue
 import lupos.operator.logical.noinput.LOPValues
 import lupos.operator.physical.POPBase
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
@@ -29,6 +28,7 @@ import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared_inline.DictionaryHelper

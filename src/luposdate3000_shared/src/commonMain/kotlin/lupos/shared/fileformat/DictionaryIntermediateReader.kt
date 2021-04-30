@@ -17,7 +17,7 @@
 
 package lupos.shared.fileformat
 
-import lupos.shared.ByteArrayWrapper
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.ByteArrayWrapperExt
 import lupos.shared_inline.File
 

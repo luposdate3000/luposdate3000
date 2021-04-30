@@ -33,7 +33,6 @@ import lupos.parser.sparql1_1.SPARQLParser
 import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
 import lupos.result_format.QueryResultToMemoryTable
 import lupos.result_format.QueryResultToXMLStream
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EPartitionModeExt
@@ -49,6 +48,7 @@ import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dictionary.nodeGlobalDictionary
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator

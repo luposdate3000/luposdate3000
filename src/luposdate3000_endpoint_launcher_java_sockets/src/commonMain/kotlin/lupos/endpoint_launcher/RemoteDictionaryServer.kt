@@ -17,12 +17,12 @@
 package lupos.endpoint_launcher
 
 import lupos.dictionary.ADictionary
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.MyReadWriteLock
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionary
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 

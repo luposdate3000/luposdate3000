@@ -16,12 +16,12 @@
  */
 package lupos.dictionary
 
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.nodeGlobalDictionary
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.ByteArrayWrapperExt
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField

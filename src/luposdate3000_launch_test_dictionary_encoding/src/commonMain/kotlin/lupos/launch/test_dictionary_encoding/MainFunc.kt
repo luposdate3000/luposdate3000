@@ -20,9 +20,9 @@ import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.buffer_manager.BufferManagerExt
 import lupos.shared.AflCore
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Parallel
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 import kotlin.math.abs

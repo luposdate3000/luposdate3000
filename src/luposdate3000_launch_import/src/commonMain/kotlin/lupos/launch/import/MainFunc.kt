@@ -18,11 +18,11 @@ package lupos.launch.import
 
 import lupos.parser.nQuads.NQuads2Parser
 import lupos.parser.turtle.Turtle2Parser
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.DateHelperRelative
 import lupos.shared.LUPOS_BUFFER_SIZE
 import lupos.shared.Parallel
 import lupos.shared.SanityCheck
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediate
 import lupos.shared.fileformat.DictionaryIntermediateReader
 import lupos.shared.fileformat.DictionaryIntermediateWriter

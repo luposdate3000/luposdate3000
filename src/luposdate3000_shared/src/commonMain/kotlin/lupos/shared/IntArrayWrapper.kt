@@ -14,56 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.shared
+package lupos.shared.dynamicArray
 
 import kotlin.jvm.JvmField
 
-public class IntArrayWrapper : Comparable<IntArrayWrapper> {
+public class IntArrayWrapper public constructor(@JvmField public var buf: IntArray, @JvmField public var size: Int) : Comparable<IntArrayWrapper> {
 
-    @JvmField
-    internal var buf = IntArray(1)
-
-    @JvmField
-    internal var size = 0
-
-    public constructor()
-    public constructor(b: IntArray) {
-        size = b.size
-        buf = b
-    }
-
-    public fun append(v: Int) {
-        if (buf.size == size) {
-            val oldBuf = buf
-            buf = IntArray(size * 2)
-            oldBuf.copyInto(buf)
-        }
-        buf[size++] = v
-    }
-
-    public fun removeLast(): Int {
-        size--
-        return buf[size]
-    }
-
-    public fun setSize(c: Int) {
-        size = c
-        if (c > buf.size) {
-            buf = IntArray(c)
-        }
-    }
-
-    public fun setSizeCopy(c: Int) {
-        size = c
-        if (c > buf.size) {
-            val oldBuf = buf
-            buf = IntArray(c)
-            oldBuf.copyInto(buf)
-        }
-    }
-
-    public fun getSize(): Int = size
-    public fun getBuf(): IntArray = buf
+    public constructor(buf: IntArray) : this(buf, buf.size)
+    public constructor() : this(IntArray(0), 0)
 
     override fun compareTo(other: IntArrayWrapper): Int {
         var res = 0
@@ -88,11 +46,6 @@ public class IntArrayWrapper : Comparable<IntArrayWrapper> {
             res = (res shl 1) + buf[i]
         }
         return res
-    }
-
-    public fun copyInto(other: IntArrayWrapper) {
-        other.setSize(size)
-        buf.copyInto(other.buf, 0, 0, size)
     }
 
     override fun toString(): String {

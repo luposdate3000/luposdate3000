@@ -16,39 +16,41 @@
  */
 package lupos.shared_inline.dynamicArray
 
-import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.dynamicArray.IntArrayWrapper
 
-public object ByteArrayWrapperExt {
-    public inline fun setSize(data: ByteArrayWrapper, c: Int) {
+public object IntArrayWrapperExt {
+    public inline fun setSize(data: IntArrayWrapper, c: Int) {
         data.size = c
         if (c > data.buf.size) {
-            data.buf = ByteArray(c)
+            data.buf = IntArray(c)
         }
     }
 
-    public inline fun setSizeCopy(data: ByteArrayWrapper, c: Int) {
+    public inline fun setSizeCopy(data: IntArrayWrapper, c: Int) {
         data.size = c
         if (c > data.buf.size) {
             val oldBuf = data.buf
-            data.buf = ByteArray(c)
+            data.buf = IntArray(c)
             oldBuf.copyInto(data.buf)
         }
     }
 
-    public inline fun commonBytes(a: ByteArrayWrapper, b: ByteArrayWrapper): Int {
-        var i = 0
-        while (i < a.size && i < b.size) {
-            if (a.buf[i] == b.buf[i]) {
-                i++
-            } else {
-                break
-            }
-        }
-        return i
-    }
-
-    public inline fun copyInto(a: ByteArrayWrapper, b: ByteArrayWrapper) {
+    public inline fun copyInto(a: IntArrayWrapper, b: IntArrayWrapper) {
         setSize(b, a.size)
         a.buf.copyInto(b.buf, 0, 0, a.size)
+    }
+
+    public inline fun append(data: IntArrayWrapper, v: Int) {
+        if (data.buf.size == data.size) {
+            val oldBuf = data.buf
+            data.buf = IntArray(data.size * 2)
+            oldBuf.copyInto(data.buf)
+        }
+        data.buf[data.size++] = v
+    }
+
+    public inline fun removeLast(data: IntArrayWrapper): Int {
+        data.size--
+        return data.buf[data.size]
     }
 }

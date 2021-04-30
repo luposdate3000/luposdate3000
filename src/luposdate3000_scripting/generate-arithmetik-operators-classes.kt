@@ -106,7 +106,7 @@ public val generateInstantiatedError2: GenerateFunc = { indention, _, _, _, _, _
 }
 
 public val generateByteArrayWrapperError2: GenerateFunc = { indention, _, outputName, _, imports, target, globalVariables, onResult ->
-    imports.add("lupos.shared.ByteArrayWrapper")
+    imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
     imports.add("lupos.shared_inline.DictionaryHelper")
     globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
     target.appendLine("${indention}DictionaryHelper.errorToByteArray($outputName)")
@@ -118,7 +118,7 @@ public val generateInstantiatedTrue2: GenerateFunc = { indention, _, outputName,
 }
 
 public val generateByteArrayWrapperTrue2: GenerateFunc = { indention, _, outputName, _, imports, target, globalVariables, onResult ->
-    imports.add("lupos.shared.ByteArrayWrapper")
+    imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
     imports.add("lupos.shared_inline.DictionaryHelper")
     globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
     target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName, true)")
@@ -130,7 +130,7 @@ public val generateInstantiatedFalse2: GenerateFunc = { indention, _, outputName
 }
 
 public val generateByteArrayWrapperFalse2: GenerateFunc = { indention, _, outputName, _, imports, target, globalVariables, onResult ->
-    imports.add("lupos.shared.ByteArrayWrapper")
+    imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
     imports.add("lupos.shared_inline.DictionaryHelper")
     globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
     target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName, false)")
@@ -138,7 +138,7 @@ public val generateByteArrayWrapperFalse2: GenerateFunc = { indention, _, output
 }
 
 fun generateByteArrayWrapperString(str: String): GenerateFunc = { indention, _, outputName, _, imports, target, globalVariables, onResult ->
-    imports.add("lupos.shared.ByteArrayWrapper")
+    imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
     imports.add("lupos.shared_inline.DictionaryHelper")
     globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
     target.appendLine("${indention}DictionaryHelper.stringToByteArray($outputName, \"$str\")")
@@ -176,7 +176,7 @@ public class MyOperator(
             globalVariables.add("var $outputName: Int")
             for (i in 0 until inputNames.size) {
                 myInputNames[i] = "${prefix}_${prefix_counter++}"
-                imports.add("lupos.shared.ByteArrayWrapper")
+                imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
                 globalVariables.add("val ${myInputNames[i]}: ByteArrayWrapper = ByteArrayWrapper()")
                 target.appendLine("${indention}query.getDictionary().getValue(${myInputNames[i]}, ${inputNames[i]})")
             }
@@ -709,7 +709,7 @@ public val converters = listOf(
         inputRepresentation = EParamRepresentation.INSTANTIATED,
         outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
-            imports.add("lupos.shared.ByteArrayWrapper")
+            imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared_inline.DictionaryHelper")
             globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.integerToByteArray($outputName, $inputName)")
@@ -730,7 +730,7 @@ public val converters = listOf(
         inputRepresentation = EParamRepresentation.INSTANTIATED,
         outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
-            imports.add("lupos.shared.ByteArrayWrapper")
+            imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared_inline.DictionaryHelper")
             globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.decimalToByteArray($outputName, $inputName)")
@@ -750,7 +750,7 @@ public val converters = listOf(
         inputRepresentation = EParamRepresentation.INSTANTIATED,
         outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
-            imports.add("lupos.shared.ByteArrayWrapper")
+            imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared_inline.DictionaryHelper")
             globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.doubleToByteArray($outputName, $inputName)")
@@ -826,7 +826,7 @@ public val converters = listOf(
         inputRepresentation = EParamRepresentation.INSTANTIATED,
         outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
-            imports.add("lupos.shared.ByteArrayWrapper")
+            imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared_inline.DictionaryHelper")
             globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.bnodeToByteArray($outputName, $inputName)")
@@ -837,7 +837,7 @@ public val converters = listOf(
         inputRepresentation = EParamRepresentation.INSTANTIATED,
         outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
-            imports.add("lupos.shared.ByteArrayWrapper")
+            imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared_inline.DictionaryHelper")
             globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.stringToByteArray($outputName, $inputName)")
@@ -848,7 +848,7 @@ public val converters = listOf(
         inputRepresentation = EParamRepresentation.INSTANTIATED,
         outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
-            imports.add("lupos.shared.ByteArrayWrapper")
+            imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared_inline.DictionaryHelper")
             globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.langToByteArray($outputName, ${inputName}_content, ${inputName}_lang)")
@@ -859,7 +859,7 @@ public val converters = listOf(
         inputRepresentation = EParamRepresentation.INSTANTIATED,
         outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
-            imports.add("lupos.shared.ByteArrayWrapper")
+            imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared_inline.DictionaryHelper")
             globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.langToByteArray($outputName, ${inputName}_content, ${inputName}_type)")
@@ -871,7 +871,7 @@ public val converters = listOf(
         inputRepresentation = EParamRepresentation.INSTANTIATED,
         outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
-            imports.add("lupos.shared.ByteArrayWrapper")
+            imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared_inline.DictionaryHelper")
             globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.iriToByteArray($outputName, $inputName)")
@@ -882,7 +882,7 @@ public val converters = listOf(
         inputRepresentation = EParamRepresentation.INSTANTIATED,
         outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
-            imports.add("lupos.shared.ByteArrayWrapper")
+            imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared_inline.DictionaryHelper")
             globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.floatToByteArray($outputName, $inputName)")
@@ -907,7 +907,7 @@ public val converters = listOf(
         inputRepresentation = EParamRepresentation.INSTANTIATED,
         outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
         generate = { indention, inputName, outputName, imports, target, globalVariables ->
-            imports.add("lupos.shared.ByteArrayWrapper")
+            imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared_inline.DictionaryHelper")
             globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName, $inputName)")
@@ -918,7 +918,7 @@ public val converters = listOf(
         inputRepresentation = EParamRepresentation.INSTANTIATED,
         outputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
         generate = { indention, _, outputName, imports, target, globalVariables ->
-            imports.add("lupos.shared.ByteArrayWrapper")
+            imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared_inline.DictionaryHelper")
             globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.errorToByteArray($outputName)")

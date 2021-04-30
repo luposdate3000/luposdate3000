@@ -19,7 +19,6 @@ package lupos.shared_inline
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import com.ionspin.kotlin.bignum.integer.Sign
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.ETripleComponentType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.SanityCheck
@@ -34,6 +33,7 @@ import lupos.shared.ValueLanguageTaggedLiteral
 import lupos.shared.ValueSimpleLiteral
 import lupos.shared.ValueTypedLiteral
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dynamicArray.ByteArrayWrapper
 
 internal object DictionaryHelper {
     /* encoding ::

@@ -19,10 +19,10 @@ package lupos.dictionary
 import lupos.buffer_manager.BufferManager
 import lupos.kv.KeyValueStore
 import lupos.shared.BUFFER_HOME
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediateReader
 import lupos.shared_inline.BufferManagerPage
 import lupos.shared_inline.ByteArrayHelper
