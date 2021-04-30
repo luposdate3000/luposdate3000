@@ -16,7 +16,12 @@
  */
 package lupos.benchmark
 
-class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
+import java.io.File
+import java.lang.ProcessBuilder.Redirect
+import java.net.HttpURLConnection
+import java.net.URL
+
+class DatabaseHandleLuposdateRDF3X(val workDir: String, val port: Int) : DatabaseHandle() {
     var processInstance: Process? = null
     override fun getThreads() = -1
     override fun getName(): String = "LuposdateRDF3X"
@@ -30,7 +35,7 @@ class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
             "N3",
             "UTF-8",
             "NONE",
-            "$tmpFolder/luposdateindex",
+            "$workDir/luposdateindex",
             "500000",
             "4",
             "2"
@@ -47,7 +52,7 @@ class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
             "-cp",
             luposdateParallelJar,
             "lupos.endpoint.server.Endpoint",
-            "$tmpFolder/luposdateindex",
+            "$workDir/luposdateindex",
             "port$port",
             "RDF3X_PARALLEL"
         ).directory(File("."))
@@ -88,7 +93,7 @@ class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
         errorThread.stop()
     }
 
-    override fun runQuery(query: String) {
+    override fun runQuery(query: String): String {
         val encodedData = "query=${encode(query)}".encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql")
         val conn = u.openConnection() as HttpURLConnection
@@ -104,5 +109,6 @@ class DatabaseHandleLuposdateRDF3X() : DatabaseHandle() {
         if (code != 200) {
             throw Exception("query failed with response code $code")
         }
+        return response
     }
 }

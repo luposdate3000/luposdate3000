@@ -16,6 +16,10 @@
  */
 package lupos.benchmark
 
+import java.io.File
+import java.net.HttpURLConnection
+import java.net.URL
+
 class DatabaseHandleBlazegraph() : DatabaseHandle() {
     var processInstance: Process? = null
     override fun getThreads() = -1
@@ -65,7 +69,7 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
         errorThread.stop()
     }
 
-    override fun runQuery(query: String) {
+    override fun runQuery(query: String): String {
         val encodedData = "query=${encode(query)}".encodeToByteArray()
         val u = URL("http://$hostname:9999/blazegraph/sparql")
         val conn = u.openConnection() as HttpURLConnection
@@ -81,6 +85,7 @@ class DatabaseHandleBlazegraph() : DatabaseHandle() {
         if (code != 200) {
             throw Exception("query failed with response code $code")
         }
+        return response
     }
 
     fun importData(file: String) {

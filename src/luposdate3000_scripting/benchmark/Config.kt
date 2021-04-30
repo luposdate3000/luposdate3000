@@ -1,4 +1,3 @@
-#!/usr/bin/env kotlin
 /*
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
@@ -15,16 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/OperatorGraphToLatex.kt")
+package lupos.benchmark
 
-import lupos.shared.OperatorGraphToLatex
-
-val inputString = StringBuilder()
-while (true) {
-    val line = readLine()
-    if (line == null) {
-        break
-    }
-    inputString.append(line.trim())
-}
-println(OperatorGraphToLatex(inputString.toString()))
+const val blazeGraphJar = "documentation/paper/Flexible_data_partitioning_schemes_for_parallel_merge_joins_in_semantic_web_queries/blazegraph.jar"
+const val luposdateJar = "documentation/paper/Flexible_data_partitioning_schemes_for_parallel_merge_joins_in_semantic_web_queries/luposdate.jar"
+const val luposdateParallelJar = "documentation/paper/Flexible_data_partitioning_schemes_for_parallel_merge_joins_in_semantic_web_queries/luposdate-parallel.jar"
+const val virtuosoBasePath = "/opt/virtuoso-dist/" /*this folder contains the folders "bin", and "var/lib/virtuosodb" */
+const val workDir = "/mnt/db/benchmark/"

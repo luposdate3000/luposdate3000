@@ -16,13 +16,20 @@
  */
 package lupos.benchmark
 
+import lupos.shared_inline.Platform
+import java.net.URLEncoder
+
 abstract class DatabaseHandle() {
     val hostname = Platform.getHostName()
     abstract fun getThreads(): Int
     abstract fun getName(): String
     abstract fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit): Unit
-    abstract fun runQuery(query: String)
+    abstract fun runQuery(query: String): String
     fun encode(s: String): String {
         return URLEncoder.encode(s, "utf-8").replace("+", "%20").replace("*", "%2A")
+    }
+
+    open fun setWorkDirectory(dir: String): DatabaseHandle {
+        return this
     }
 }

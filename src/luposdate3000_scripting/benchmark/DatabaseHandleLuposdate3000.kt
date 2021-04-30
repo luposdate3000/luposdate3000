@@ -17,23 +17,44 @@
 package lupos.benchmark
 
 import java.io.File
+import java.lang.ProcessBuilder.Redirect
 import java.net.HttpURLConnection
 import java.net.URL
 
-class DatabaseHandleLuposdateMemory(val port: Int) : DatabaseHandle() {
+abstract class DatabaseHandleLuposdate3000(val workDir: String, val port: Int) : DatabaseHandle() {
     var processInstance: Process? = null
-    override fun getThreads() = -1
-    override fun getName(): String = "LuposdateMemory"
+    var bufferManagerToUse = "Inmemory"
+    fun setBufferManager(manager: String): DatabaseHandleLuposdate3000 {
+        bufferManagerToUse = manager
+        return this
+    }
+
+    abstract fun getLauncher(): ProcessBuilder
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
-        val p = ProcessBuilder(
-            "java",
-            "-cp",
-            luposdateJar,
-            "lupos.endpoint.server.Endpoint",
-            import_file_name,
-            "port$port",
-            "MEMORY"
-        ).directory(File("."))
+        val p_launcher = getLauncher()
+            .directory(File("."))
+            .redirectError(Redirect.INHERIT)
+        val p_launcher_instance = p_launcher.start()
+        var cmd = listOf<String>()
+        var env2 = mutableMapOf<String, String>(
+            "LUPOS_HOME" to workDir,
+        )
+        p_launcher_instance!!.getInputStream().bufferedReader().use {
+            println("it")
+            var line = it.readLine()
+            while (line != null) {
+                if (line.startsWith("exec :: ")) {
+                    cmd = line.substring("exec :: ".length).split(" ")
+                } else if (line.startsWith("export ")) {
+                    val tmp = line.substring("export ".length).split("=")
+                    env2[tmp[0]] = tmp[1]
+                }
+                line = it.readLine()
+            }
+        }
+        val p = ProcessBuilder(cmd).directory(File("."))
+        val env = p.environment()
+        env.putAll(env2)
         processInstance = p.start()
         val inputstream = processInstance!!.getInputStream()
         val inputreader = inputstream.bufferedReader()
@@ -48,17 +69,18 @@ class DatabaseHandleLuposdateMemory(val port: Int) : DatabaseHandle() {
         var errorThread = Thread {
             var errorline = errorreader.readLine()
             while (errorline != null) {
+                println(errorline)
                 if (errorline.contains("Exception")) {
                     abort()
                 }
-                println(errorline)
                 errorline = errorreader.readLine()
             }
         }
         while (inputline != null) {
-            if (inputline.contains("Endpoint ready to receive requests")) {
+            if (inputline.contains("waiting for connections now")) {
                 inputThread.start()
                 errorThread.start()
+                importData(import_file_name)
                 action()
                 break
             }
@@ -73,7 +95,7 @@ class DatabaseHandleLuposdateMemory(val port: Int) : DatabaseHandle() {
 
     override fun runQuery(query: String): String {
         val encodedData = "query=${encode(query)}".encodeToByteArray()
-        val u = URL("http://$hostname:$port/sparql")
+        val u = URL("http://$hostname:$port/sparql/query")
         val conn = u.openConnection() as HttpURLConnection
         conn.setDoOutput(true)
         conn.setRequestMethod("POST")
@@ -88,5 +110,23 @@ class DatabaseHandleLuposdateMemory(val port: Int) : DatabaseHandle() {
             throw Exception("query failed with response code $code")
         }
         return response
+    }
+
+    fun importData(file: String) {
+        val encodedData = "file=${encode(file)}".encodeToByteArray()
+        val u = URL("http://$hostname:$port/import/intermediate")
+        val conn = u.openConnection() as HttpURLConnection
+        conn.setDoOutput(true)
+        conn.setRequestMethod("POST")
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+        conn.setRequestProperty("Content-Length", "${encodedData.size}")
+        conn.connect()
+        val os = conn.getOutputStream()
+        os.write(encodedData)
+        val response = conn.inputStream.bufferedReader().readText()
+        val code = conn.getResponseCode()
+        if (code != 200) {
+            throw Exception("import failed with response code $code")
+        }
     }
 }

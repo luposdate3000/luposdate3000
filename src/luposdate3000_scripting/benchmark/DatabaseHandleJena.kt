@@ -16,7 +16,12 @@
  */
 package lupos.benchmark
 
-class DatabaseHandleJena() : DatabaseHandle() {
+import java.io.File
+import java.lang.ProcessBuilder.Redirect
+import java.net.HttpURLConnection
+import java.net.URL
+
+class DatabaseHandleJena(val port: Int) : DatabaseHandle() {
     var processInstance: Process? = null
     override fun getThreads() = -1
     override fun getName(): String = "Jena"
@@ -24,12 +29,12 @@ class DatabaseHandleJena() : DatabaseHandle() {
         val p_launcher = ProcessBuilder(
             "./launcher.main.kts",
             "--run",
-            "--jenaWrapper=On",
+            "--Jena_Wrapper=On",
             "--releaseMode=Enable",
             "--inlineMode=Enable",
             "--proguardMode=On",
             "--mainClass=Endpoint",
-            "--endpointMode=Java_Sockets",
+            "--Endpoint_Launcher=Java_Sockets",
             "--partitionMode=None",
             "--dryMode=Enable",
             "--threadCount=1",
@@ -95,7 +100,7 @@ class DatabaseHandleJena() : DatabaseHandle() {
         errorThread.stop()
     }
 
-    override fun runQuery(query: String) {
+    override fun runQuery(query: String): String {
         val encodedData = "query=${encode(query)}".encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql/jenaquery")
         val conn = u.openConnection() as HttpURLConnection
@@ -111,6 +116,7 @@ class DatabaseHandleJena() : DatabaseHandle() {
         if (code != 200) {
             throw Exception("query failed with response code $code")
         }
+        return response
     }
 
     fun importData(file: String) {

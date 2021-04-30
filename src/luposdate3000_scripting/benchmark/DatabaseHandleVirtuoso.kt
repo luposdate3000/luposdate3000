@@ -16,17 +16,22 @@
  */
 package lupos.benchmark
 
-class DatabaseHandleVirtuoso() : DatabaseHandle() {
+import java.io.File
+import java.lang.ProcessBuilder.Redirect
+import java.net.HttpURLConnection
+import java.net.URL
+
+class DatabaseHandleVirtuoso(val workDir: String) : DatabaseHandle() {
     var processInstance: Process? = null
     override fun getThreads() = -1
     override fun getName(): String = "Virtuoso"
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
-        File("$tmpFolder/virtuoso.ini").printWriter().use { out ->
+        File("$workDir/virtuoso.ini").printWriter().use { out ->
             File("${virtuosoBasePath}var/lib/virtuoso/db/virtuoso.ini").forEachLine { line ->
-                out.println(line.replace("${virtuosoBasePath}var/lib/virtuoso/db/", "$tmpFolder/").replace("$tmpFolder/virtuoso.log", "/dev/stdout"))
+                out.println(line.replace("${virtuosoBasePath}var/lib/virtuoso/db/", "$workDir/").replace("$workDir/virtuoso.log", "/dev/stdout"))
             }
         }
-        File("$tmpFolder/init").printWriter().use { out ->
+        File("$workDir/init").printWriter().use { out ->
             out.println("GRANT SPARQL_LOAD_SERVICE_DATA to \"SPARQL\";")
             out.println("GRANT SPARQL_UPDATE to \"SPARQL\";")
         }
@@ -34,7 +39,7 @@ class DatabaseHandleVirtuoso() : DatabaseHandle() {
             "${virtuosoBasePath}bin/virtuoso-t",
             "-f",
             "-c",
-            "$tmpFolder/virtuoso.ini",
+            "$workDir/virtuoso.ini",
         )
             .directory(File("."))
         processInstance = p.start()
@@ -56,7 +61,7 @@ class DatabaseHandleVirtuoso() : DatabaseHandle() {
                     "1111",
                     "dba",
                     "dba",
-                    "$tmpFolder/init"
+                    "$workDir/init"
                 )
                     .directory(File("."))
                     .redirectOutput(Redirect.INHERIT)
@@ -75,7 +80,7 @@ class DatabaseHandleVirtuoso() : DatabaseHandle() {
         inputThread.stop()
     }
 
-    override fun runQuery(query: String) {
+    override fun runQuery(query: String): String {
         val encodedData = "default-graph-uri=${encode("http://benchmark")}&query=${encode(query)}&format=xml&timeout=0&debug=off&run=${encode(" Run Query")}".encodeToByteArray()
         val u = URL("http://$hostname:8890/sparql/")
         val conn = u.openConnection() as HttpURLConnection
@@ -91,6 +96,7 @@ class DatabaseHandleVirtuoso() : DatabaseHandle() {
         if (code != 200) {
             throw Exception("query failed with response code $code")
         }
+        return response
     }
 
     fun importData(file: String) {
