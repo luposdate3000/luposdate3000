@@ -34,7 +34,7 @@ abstract class Entity {
         }
     }
 
-    protected fun sendEvent(destination: Entity, delay: Long, data: Any?) {
+    protected fun sendEvent(destination: Entity, delay: Long, data: Any) {
         require(currentState == State.RUNNABLE)
         Simulation.addEvent(delay, this, destination, data)
     }

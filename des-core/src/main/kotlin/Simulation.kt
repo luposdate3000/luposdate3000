@@ -94,7 +94,7 @@ object Simulation {
         }
     }
 
-    fun addEvent(occurrenceTime: Long, src: Entity, dest: Entity, data: Any?) {
+    fun addEvent(occurrenceTime: Long, src: Entity, dest: Entity, data: Any) {
         eventCounter++
         val updatedOccurringTime = clock + occurrenceTime
         val ev = Event(eventCounter, updatedOccurringTime, src, dest, data)
