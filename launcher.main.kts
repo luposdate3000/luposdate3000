@@ -30,7 +30,7 @@
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollector.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt")
 @file:CompilerOptions("-Xmulti-platform")
-
+ 
 import lupos.shared.EGarbageCollectorExt
 import lupos.shared.EOperatingSystemExt
 import lupos.shared.EPartitionModeExt
@@ -272,7 +272,9 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         if (depss != null) {
             if (v.codegenKSP) {
                 depss.add("Luposdate3000_Code_Generator_KSP")
+                depss.add("Luposdate3000_Endpoint")
                 v.dependenciesJvmRecoursive.add("luposdate3000:Luposdate3000_Code_Generator_KSP:0.0.1")
+                v.dependenciesJvmRecoursive.add("luposdate3000:Luposdate3000_Endpoint:0.0.1")
             }
             if (v.codegenKAPT) {
                 depss.add("Luposdate3000_Code_Generator_KAPT")
