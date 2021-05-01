@@ -467,7 +467,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("    }")
                 out.println("    dependencies {")
                 out.println("        classpath(\"org.jetbrains.kotlin:kotlin-gradle-plugin:${moduleArgs.compilerVersion}\")")
-                out.println("        classpath(\"com.guardsquare:proguard-gradle:7.0.1\")")
+                out.println("        classpath(\"com.guardsquare:proguard-gradle:7.1.0-beta3\")")
                 out.println("    }")
                 out.println("}")
                 if (buildForIDE) {

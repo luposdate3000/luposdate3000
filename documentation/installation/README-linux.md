@@ -4,77 +4,72 @@ You can copy paste execute the following script.
 Make sure you read the following comments as they may provide useful information.
 
 ```bash
-# The basic dependencies which can be installed via package manager apt.
-# Yes, there are 2 versions of java ... because the dependencies dont like the wrong one.
-# Sadly latex installs a complete gui for linux - even on server distributions.
-apt install docker docker-compose docker.io g++ gnuplot gzip htop lcov make maven net-tools ntfs-3g openjdk-8-jdk openjdk-14-jdk unzip zip poppler-utils texlive texlive-latex-extra p7zip-full libncurses5 texlive-font-utils raptor2-utils curl
-npm install read-each-line-sync
-
 # Unfortunately the ifis-git uses incorrect ssl such that the following git option must be used.
 git config --global http.sslVerify false
 # Prevent repeatingly typing the password on commit.
 git config --global credential.helper store
 git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
 
+apt install openjdk-8-jdk-headless unzip
+
 #Define the folder, where to download everything else.
 dependencieshome=/opt
 
 #Now the components are installed one by one.
 
-#kotlin (optional)
-{
-    # the default settings use an precompiled-compiler from maven-repository
-
-    # Compile from source to get a up to date version - not every version in their githup compiles, but the following should work.
-    cd $dependencieshome
-    git clone https://github.com/JetBrains/kotlin.git
-    cd kotlin
-    # you may check first if the head commit is working, otherwise the following commit worked for me
-    git checkout 3a5ffe479eb43f53db55b33280cbdca72bf23dc8
-    export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/"
-    export JDK_16="/usr/lib/jvm/java-8-openjdk-amd64/"
-    export JDK_17="/usr/lib/jvm/java-8-openjdk-amd64/"
-    export JDK_18="/usr/lib/jvm/java-8-openjdk-amd64/"
-    export JDK_9="/usr/lib/jvm/java-14-openjdk-amd64/"
-    ./gradlew install
-    ./gradlew dist
-    ln -s $dependencieshome/kotlin/dist/kotlinc/bin/kotlinc /bin/kotlinc
-    ln -s $dependencieshome/kotlin/dist/kotlinc/bin/kotlin /bin/kotlin
-}
 #bignum
 {
     cd $dependencieshome
     git clone https://github.com/ionspin/kotlin-multiplatform-bignum.git
     cd kotlin-multiplatform-bignum/bignum
-    #patch the buildfile
-    sed 's/it.compileKotlinTask.kotlinOptions.moduleKind = "commonjs"//g' -i build.gradle.kts
-    gradle publishToMavenLocal
+    #patch the buildfile to make it executable as JS in Browsers
+    sed 's/.*it.compileKotlinTask.kotlinOptions.moduleKind = "commonjs"//g' -i build.gradle.kts
+    sed 's/if.*primaryDevelopment.*{/if (true) {/g' -i build.gradle.kts
+    cd ..
+    ./gradlew publishToMavenLocal
+}
+#kotlin
+{
+    cd $dependencieshome
+    wget https://github.com/JetBrains/kotlin/releases/download/v1.4.32/kotlin-compiler-1.4.32.zip
+    unzip kotlin-compiler-1.4.32.zip
+    cd kotlinc/bin/
+    echo "export PATH=$PATH:$(pwd)" >> ~/.bashrc
+}
+#kotlin (optional)
+{
+    cd $dependencieshome
+    # the default settings use an precompiled-compiler from maven-repository such that this is not necessary
+
+    apt install openjdk-16-jdk-headless
+    git clone https://github.com/JetBrains/kotlin.git --depth=1
+    cd kotlin
+    echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> ~/.bashrc
+    echo "export JDK_16=/usr/lib/jvm/java-8-openjdk-amd64/" >> ~/.bashrc
+    echo "export JDK_17=/usr/lib/jvm/java-8-openjdk-amd64/" >> ~/.bashrc
+    echo "export JDK_18=/usr/lib/jvm/java-8-openjdk-amd64/" >> ~/.bashrc
+    echo "export JDK_9=/usr/lib/jvm/java-16-openjdk-amd64/" >> ~/.bashrc
+    ./gradlew install
+    ./gradlew dist
+    ln -s $dependencieshome/kotlin/dist/kotlinc/bin/kotlinc /bin/kotlinc
+    ln -s $dependencieshome/kotlin/dist/kotlinc/bin/kotlin /bin/kotlin
 }
 #intellij (optional)
 {
     cd $dependencieshome
-    wget https://download.jetbrains.com/idea/ideaIC-2020.1.2.tar.gz
-    tar -xzf ideaIC-2020.1.2.tar.gz
-    rm ideaIC-2020.1.2.tar.gz
-    cd idea-IC-201.7846.76/bin
+    wget https://download-cf.jetbrains.com/idea/ideaIC-2021.1.1.tar.gz
+    tar -xzf ideaIC-2021.1.1.tar.gz
+    rm ideaIC-2021.1.1.tar.gz
+    cd idea-IC-211.7142.45/bin/
     ./idea.sh
     # intellij needs to be launched once to confirm basic settings.
     # During the above installations, the gui is installed anyway.
 }
-#intellij ... alternatively build it from source (optional)
-{
-    cd $dependencieshome
-    git clone --depth=1 https://github.com/JetBrains/intellij-community
-    cd intellij-community
-    export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64/"
-    ./getPlugins.sh
-    ant build
-}
 #ktlint (optional)
 {
     # used to format source code
-    curl -sSLO https://github.com/pinterest/ktlint/releases/download/0.40.0/ktlint
-    chmod a+x ktlint
+    wget https://github.com/pinterest/ktlint/releases/download/0.41.0/ktlint
+    chmod +x ktlint
     mv ktlint /usr/local/bin/
 }
 ```

@@ -19,13 +19,14 @@ package lupos.shared_inline.dynamicArray
 import lupos.shared.dynamicArray.ByteArrayWrapper
 
 public object ByteArrayWrapperExt {
+@Suppress("NOTHING_TO_INLINE")
     public inline fun setSize(data: ByteArrayWrapper, c: Int) {
         data.size = c
         if (c > data.buf.size) {
             data.buf = ByteArray(c)
         }
     }
-
+@Suppress("NOTHING_TO_INLINE")
     public inline fun setSizeCopy(data: ByteArrayWrapper, c: Int) {
         data.size = c
         if (c > data.buf.size) {
@@ -34,7 +35,7 @@ public object ByteArrayWrapperExt {
             oldBuf.copyInto(data.buf)
         }
     }
-
+@Suppress("NOTHING_TO_INLINE")
     public inline fun commonBytes(a: ByteArrayWrapper, b: ByteArrayWrapper): Int {
         var i = 0
         while (i < a.size && i < b.size) {
@@ -46,7 +47,7 @@ public object ByteArrayWrapperExt {
         }
         return i
     }
-
+@Suppress("NOTHING_TO_INLINE")
     public inline fun copyInto(a: ByteArrayWrapper, b: ByteArrayWrapper) {
         setSize(b, a.size)
         a.buf.copyInto(b.buf, 0, 0, a.size)
