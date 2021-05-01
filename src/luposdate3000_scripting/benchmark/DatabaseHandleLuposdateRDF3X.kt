@@ -26,6 +26,8 @@ class DatabaseHandleLuposdateRDF3X(val workDir: String, val port: Int) : Databas
     override fun getThreads() = -1
     override fun getName(): String = "LuposdateRDF3X"
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
+        File(workDir).deleteRecursively()
+        File(workDir).mkdirs()
         val p_launcher = ProcessBuilder(
             "java",
             "-cp",

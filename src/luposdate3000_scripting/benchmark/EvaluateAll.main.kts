@@ -35,20 +35,18 @@
 @file:Import("../../luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DateHelperRelative.kt")
 @file:CompilerOptions("-Xmulti-platform")
 
-import lupos.benchmark.DatabaseHandleBlazegraph
 import lupos.benchmark.DatabaseHandleJena
 import lupos.benchmark.DatabaseHandleLuposdate3000NoPartition
 import lupos.benchmark.DatabaseHandleLuposdate3000Thread
-import lupos.benchmark.DatabaseHandleLuposdateMemory
-import lupos.benchmark.DatabaseHandleLuposdateRDF3X
 import lupos.benchmark.DatabaseHandleVirtuoso
 import lupos.shared.DateHelperRelative
 import java.io.File
 
+// configure databases
 val allDatabases = listOf(
-    DatabaseHandleBlazegraph(),
-    DatabaseHandleLuposdateMemory(port = 8080),
-    DatabaseHandleLuposdateRDF3X(workDir = "/mnt/db/benchmark/", port = 8080),
+//    DatabaseHandleBlazegraph("/mnt/db/benchmark/"), //empty results --- something wrong with query prefixes
+//    DatabaseHandleLuposdateMemory(port = 8080),
+//    DatabaseHandleLuposdateRDF3X(workDir = "/mnt/db/benchmark/", port = 8080), //all queries working on yago1
     DatabaseHandleVirtuoso(workDir = "/mnt/db/benchmark/"),
     DatabaseHandleJena(port = 8080),
     DatabaseHandleLuposdate3000NoPartition(workDir = "/mnt/db/benchmark/", port = 8080)
@@ -72,39 +70,64 @@ val allDatabases = listOf(
     DatabaseHandleLuposdate3000Thread(workDir = "/mnt/db/benchmark/", port = 8080, threadCount = 16)
         .setBufferManager("Persistent_Cached"),
 )
-val allTasks = mapOf(
-    Pair("yago1", "/mnt/luposdate-testdata/yago1/yago-1.0.0-turtle.ttl") to mapOf(
-        "_:11" to "select distinct ?n1 ?n2 where { ?p1 <hasFamilyName> ?n1 . ?p2 <hasFamilyName> ?n2 . ?p1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <wordnet_scientist_110560637> . ?p2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <wordnet_scientist_110560637> . ?c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <wordnet_site_108651247> . ?p1 ?x1 ?c1 . ?p2 ?y1 ?c1 . filter (?p1 != ?p2) . }",
-        "_:13" to "select distinct ?n1 where { ?p1 <hasGivenName> ?n1 . ?c2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <wordnet_site_108651247> . ?c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <wordnet_village_108672738> . ?c1 <http://www.w3.org/2000/01/rdf-schema#label> 'London' . ?c2 <http://www.w3.org/2000/01/rdf-schema#label> 'Paris' . ?p1 ?x1 ?c1 . ?p1 ?y1 ?c2 . }",
-        "_:15" to "select ?gn ?fn where { ?p1 <bornIn> ?c1 . ?a1 <bornIn> ?c2 . ?p1 <hasAcademicAdvisor> ?a1 . ?p1 <hasFamilyName> ?fn . ?p1 <hasGivenName> ?gn . ?p1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <wordnet_scientist_110560637> . }",
-        "_:17" to "select ?n1 where { ?a1 <actedIn> ?m1 . ?a1 <directed> ?m2 . ?a1 <hasGivenName> ?n1 . ?a1 <livesIn> ?c1 . ?a1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <wordnet_actor_109765278> . ?m1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <wordnet_movie_106613686> . ?m2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <wordnet_movie_106613686> . }",
-        "_:21" to "select distinct ?n1 ?n2 where { ?a2 <actedIn> ?m1 . ?a1 <actedIn> ?m1 . ?a1 <hasGivenName> ?n1 . ?a2 <hasGivenName> ?n2 . ?a1 <livesIn> ?c1 . ?a2 <livesIn> ?c2 . filter (?a1 != ?a2) . filter (?c1 = ?c2) . }",
-        "_:24" to "select distinct ?n1 ?n2 where { ?p1 <bornIn> ?c1 . ?p2 <bornIn> ?c1 . ?p1 <hasFamilyName> ?n1 . ?p2 <hasFamilyName> ?n2 . ?p1 <hasWonPrize> ?aw . ?p2 <hasWonPrize> ?aw. ?p1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <wordnet_scientist_110560637> . ?p2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <wordnet_scientist_110560637> . filter (?p1 != ?p2) . }",
-        "_:26" to "select distinct ?n1 ?n2 where { ?p1 <hasFamilyName> ?n1 . ?p2 <hasFamilyName> ?n2 . ?p1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <wordnet_scientist_110560637> . ?p2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <wordnet_scientist_110560637> . ?p1 ?x1 ?c1 . ?p2 ?y1 ?c1 . filter (?p1 != ?p2) . }",
-        "_:30" to "select ?fn ?gn where { ?p1 <bornIn> ?c1 . ?a1 <bornIn> ?c2 . ?p1 <hasAcademicAdvisor> ?a1 . ?p1 <hasFamilyName> ?fn . ?p1 <hasGivenName> ?gn . ?p1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <wordnet_scientist_110560637> . ?c2 <locatedIn> <Germany> . ?c1 <locatedIn> <Switzerland> . }",
-        "_:40" to "select ?gn ?fn where { ?p1 <bornIn> ?c1 . ?a1 <bornIn> ?c1 . ?p1 <hasAcademicAdvisor> ?a1 . ?p1 <hasFamilyName> ?fn . ?p1 <hasGivenName> ?gn .  }",
-        "_:42" to "select ?gn ?fn where { ?p1 <hasAcademicAdvisor> ?a1 . ?p1 <hasFamilyName> ?fn . ?p1 <hasGivenName> ?gn . ?p1 <isMarriedTo> ?p2 . }",
-        "_:44" to "select ?n1 ?n2 where { ?a1 <actedIn> ?m1 . ?a2 <actedIn> ?m1 . ?a1 <hasGivenName> ?n1 . ?a2 <hasGivenName> ?n2 . }",
-        "_:46" to "select ?n1 ?n2 where { ?p1 <bornIn> ?c1 . ?p2 <bornIn> ?c1 . ?p1 <hasGivenName> ?n1 . ?p2 <hasGivenName> ?n2 . ?p1 <isMarriedTo> ?p2 .  }",
-        "_:48" to "select ?x where { ?x <livesIn> <Athens> . }",
-        "_:50" to "select ?y ?u where { <Albert_Einstein> <graduatedFrom> ?u . ?y <graduatedFrom> ?u . }",
-        "_:6" to "select ?n1 where { ?a1 <actedIn> ?m1 . ?a1 <directed> ?m2 . ?a1 <hasGivenName> ?n1 . ?a1 <livesIn> ?c1 . ?c1 <locatedIn> ?s . ?m1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <wikicategory_2000_films> . ?m2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <wikicategory_2000_films> . ?a1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <wordnet_actor_109765278> . }",
-        "_:7" to "select distinct ?n1 ?n2 where { ?a1 <actedIn> ?m1 . ?a2 <actedIn> ?m1. ?a1 <hasGivenName> ?n1 . ?a2 <hasGivenName> ?n2 . ?a1 <livesIn> ?c1 . ?a2 <livesIn> ?c1 . filter (?a1 != ?a2) . }",
-        "_:9" to "select ?n1 ?n2 where { ?p1 <bornIn> ?c1 . ?p2 <bornIn> ?c1 . ?p1 <hasGivenName> ?n1 . ?p2 <hasGivenName> ?n2 . ?p1 <isMarriedTo> ?p2 . }",
+// configure dataset locations
+val allDatasets = mapOf(
+    "yago1" to "/mnt/luposdate-testdata/yago1/yago-1.0.0-turtle.ttl",
+    "yago2" to "/mnt/luposdate-testdata/yago2/yago-2.n3",
+    "yago2s" to "/mnt/luposdate-testdata/yago2s/yago-2.5.3-turtle-simple.ttl",
+    "barton" to "/mnt/luposdate-testdata/barton/barton.nt",
+)
+// configure file containing all queries
+val literaturFile = "/src/benjamin/uni_luebeck/_00_papers/gelesenePaper/literatur.n3"
+// blacklist some queries, comments show why these are blacklisted
+val blacklistedQueries = mapOf(
+    "LuposdateRDF3X" to mapOf(
+        "yago1" to setOf(
+            "_:26" // timeout
+        )
     )
 )
 
+// obtaining tasks from file
+val allTasks = mutableMapOf<String, MutableMap<String, String>>()
+File(literaturFile).forEachLine { line ->
+    val idx = line.indexOf(" <query_sparql_")
+    if (idx > 0) {
+        if (!line.contains("_original>")) {
+            val queryName = line.substring(0, idx)
+            val idx2 = line.indexOf(">", idx)
+            val datasetname = line.substring(idx + " <query_sparql_".length, idx2)
+            val query = line.substring(idx2 + 3, line.length - 3)
+            var tmp = allTasks[datasetname]
+            if (tmp == null) {
+                tmp = mutableMapOf<String, String>()
+                allTasks[datasetname] = tmp
+            }
+            tmp[queryName] = query
+        }
+    }
+}
+// printing all tasks
+for ((k, v) in allTasks) {
+    println("dataset :: $k")
+    for ((k2, v2) in v) {
+        println("  query :: $k2 :: $v2")
+    }
+}
+
+// evaluating all tasks
 val outputFolder = "/mnt/db/benchmark-results/"
 File(outputFolder).mkdirs()
 File("$outputFolder/log.txt").printWriter().use { logger ->
-    for ((dataset, allQueries) in allTasks) {
+    for ((datasetName, allQueries) in allTasks) {
+        val datasetFile = allDatasets[datasetName]!!
         for (databaseIdx in 0 until allDatabases.size) {
             val database = allDatabases[databaseIdx]
             try {
                 var abortSignal = false
                 val startTime = DateHelperRelative.markNow()
                 database.launch(
-                    dataset.second,
+                    datasetFile,
                     {
                         abortSignal = true
                     },
@@ -112,17 +135,20 @@ File("$outputFolder/log.txt").printWriter().use { logger ->
                         try {
                             if (!abortSignal) {
                                 val importTime = DateHelperRelative.elapsedSeconds(startTime)
-                                logger.println("import,${dataset.first},${database.getName()},_,$importTime")
+                                logger.println("import,$datasetName,${database.getName()},_,$importTime")
                                 logger.flush()
                                 for ((queryname, query) in allQueries) {
-                                    val startTime2 = DateHelperRelative.markNow()
-                                    val response = database.runQuery(query)
-                                    val querytime = DateHelperRelative.elapsedSeconds(startTime2)
-                                    logger.println("evaluate,${dataset.first},${database.getName()},$queryname,$querytime")
-                                    logger.flush()
-                                    File("$outputFolder${dataset.first}/$queryname").mkdirs()
-                                    File("$outputFolder${dataset.first}/$queryname/${database.getName()}.xml").printWriter().use { out ->
-                                        out.println(response)
+                                    val flag = blacklistedQueries[database.getName()]?.get(datasetName)?.contains(queryname)
+                                    if (flag == null || !flag) {
+                                        val startTime2 = DateHelperRelative.markNow()
+                                        val response = database.runQuery(query)
+                                        val querytime = DateHelperRelative.elapsedSeconds(startTime2)
+                                        logger.println("evaluate,$datasetName,${database.getName()},$queryname,$querytime")
+                                        logger.flush()
+                                        File("$outputFolder$datasetName/$queryname").mkdirs()
+                                        File("$outputFolder$datasetName/$queryname/${database.getName()}.xml").printWriter().use { out ->
+                                            out.println(response)
+                                        }
                                     }
                                 }
                             }
@@ -133,7 +159,7 @@ File("$outputFolder/log.txt").printWriter().use { logger ->
                 )
             } catch (e: Throwable) {
                 e.printStackTrace()
-                println("errored import ${database.getName()} ${dataset.first}")
+                println("errored import ${database.getName()} $datasetName")
             }
         }
     }

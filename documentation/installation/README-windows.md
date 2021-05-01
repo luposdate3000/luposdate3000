@@ -64,10 +64,10 @@ git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
 #set some environment variables
 
 * "LUPOS_HOME"
-  only used, if the database is using a persistent buffer-manager. Point this to an Dolder, where the database should store its data. Include a trailling backslash.
+  only used, if the database is using a persistent buffer-manager. Point this to an Folder, where the database should store its data. Include a trailling backslash.
 * "LUPOS_BUFFER_SIZE"
   used for internall buffers during importing data. Set this to at most 5% of your available RAM
 * "LUPOS_REAL_WORLD_DATA_ROOT"
   point this to the base folder, where you have downloaded your real-world datasets. This is only required, if you are actually using those datasets.
 * "LUPOS_RAM"
-  specify the available memory in GB. Keep in mind, that the operating system (or other programs) may need some space too.
+  specify the available memory in GB. Keep in mind, that the operating system (or other programs) may need some space too. This is only used in the commanline startup of the database.

@@ -25,7 +25,7 @@ class DatabaseHandleLuposdateMemory(val port: Int) : DatabaseHandle() {
     override fun getThreads() = -1
     override fun getName(): String = "LuposdateMemory"
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
-        val p = ProcessBuilder(
+        val args = listOf(
             "java",
             "-cp",
             luposdateJar,
@@ -33,6 +33,10 @@ class DatabaseHandleLuposdateMemory(val port: Int) : DatabaseHandle() {
             import_file_name,
             "port$port",
             "MEMORY"
+        )
+        println(args)
+        val p = ProcessBuilder(
+            args
         ).directory(File("."))
         processInstance = p.start()
         val inputstream = processInstance!!.getInputStream()
@@ -56,6 +60,7 @@ class DatabaseHandleLuposdateMemory(val port: Int) : DatabaseHandle() {
             }
         }
         while (inputline != null) {
+            println(inputline)
             if (inputline.contains("Endpoint ready to receive requests")) {
                 inputThread.start()
                 errorThread.start()
@@ -72,6 +77,7 @@ class DatabaseHandleLuposdateMemory(val port: Int) : DatabaseHandle() {
     }
 
     override fun runQuery(query: String): String {
+        println("runQuery $query")
         val encodedData = "query=${encode(query)}".encodeToByteArray()
         val u = URL("http://$hostname:$port/sparql")
         val conn = u.openConnection() as HttpURLConnection

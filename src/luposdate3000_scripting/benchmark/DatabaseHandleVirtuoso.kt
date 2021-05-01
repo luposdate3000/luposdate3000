@@ -26,6 +26,8 @@ class DatabaseHandleVirtuoso(val workDir: String) : DatabaseHandle() {
     override fun getThreads() = -1
     override fun getName(): String = "Virtuoso"
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
+        File(workDir).deleteRecursively()
+        File(workDir).mkdirs()
         File("$workDir/virtuoso.ini").printWriter().use { out ->
             File("${virtuosoBasePath}var/lib/virtuoso/db/virtuoso.ini").forEachLine { line ->
                 out.println(line.replace("${virtuosoBasePath}var/lib/virtuoso/db/", "$workDir/").replace("$workDir/virtuoso.log", "/dev/stdout"))

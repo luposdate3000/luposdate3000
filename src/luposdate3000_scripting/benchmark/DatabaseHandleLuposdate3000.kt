@@ -31,6 +31,8 @@ abstract class DatabaseHandleLuposdate3000(val workDir: String, val port: Int) :
 
     abstract fun getLauncher(): ProcessBuilder
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
+        File(workDir).deleteRecursively()
+        File(workDir).mkdirs()
         val p_launcher = getLauncher()
             .directory(File("."))
             .redirectError(Redirect.INHERIT)

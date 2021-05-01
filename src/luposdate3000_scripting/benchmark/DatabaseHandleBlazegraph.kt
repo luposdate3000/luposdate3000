@@ -20,17 +20,19 @@ import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
 
-class DatabaseHandleBlazegraph() : DatabaseHandle() {
+class DatabaseHandleBlazegraph(val workDir: String) : DatabaseHandle() {
     var processInstance: Process? = null
     override fun getThreads() = -1
     override fun getName(): String = "Blazegraph"
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
+        File(workDir).deleteRecursively()
+        File(workDir).mkdirs()
         val p = ProcessBuilder(
             "java",
             "-server",
             "-jar",
             blazeGraphJar
-        ).directory(File("."))
+        ).directory(File(workDir))
         processInstance = p.start()
         val inputstream = processInstance!!.getInputStream()
         val inputreader = inputstream.bufferedReader()
