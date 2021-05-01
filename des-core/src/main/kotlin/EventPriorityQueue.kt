@@ -3,7 +3,7 @@ import java.util.*
 
 class EventPriorityQueue {
 
-    private val comparator = compareBy<Event> { it.occurrenceTime }
+    private val comparator = compareBy<Event> { it.occurrenceTime }.thenBy { it.sequenceNumber }
     private val queue: PriorityQueue<Event> = PriorityQueue(comparator)
 
     fun enqueue(newEvent: Event) {

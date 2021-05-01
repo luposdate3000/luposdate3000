@@ -68,4 +68,25 @@ class EventPriorityQueueTest {
         Assertions.assertFalse(queue.hasNext())
     }
 
+    @Test
+    fun `after comparing occurrenceTime, sequenceNumber is compared`() {
+        val queue = EventPriorityQueue()
+        val e1 = Event(10,1, EntityStub(), EntityStub(), null)
+        val e2 = Event(1,2, EntityStub(), EntityStub(), null)
+        val e3 = Event(2,2, EntityStub(), EntityStub(), null)
+        val e4 = Event(2,3, EntityStub(), EntityStub(), null)
+        val e5 = Event(1,3, EntityStub(), EntityStub(), null)
+        queue.enqueue(e5)
+        queue.enqueue(e3)
+        queue.enqueue(e4)
+        queue.enqueue(e1)
+        queue.enqueue(e2)
+        Assertions.assertEquals(e1, queue.dequeue())
+        Assertions.assertEquals(e2, queue.dequeue())
+        Assertions.assertEquals(e3, queue.dequeue())
+        Assertions.assertEquals(e5, queue.dequeue())
+        Assertions.assertEquals(e4, queue.dequeue())
+        Assertions.assertFalse(queue.hasNext())
+    }
+
 }
