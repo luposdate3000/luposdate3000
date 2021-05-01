@@ -8,13 +8,10 @@ class LinkManager(val device: Device) {
 
     private fun getBestLinkTypeIndex(otherDevice: Device) : Int {
         val size = device.supportedLinkTypes.size.coerceAtMost(otherDevice.supportedLinkTypes.size)
-        for (i in 0 until size) {
-            if(device.supportedLinkTypes[i] == otherDevice.supportedLinkTypes[i]) {
-                if(isReachableByLinkType(device.supportedLinkTypes[i], otherDevice)) {
+        for (i in 0 until size)
+            if(device.supportedLinkTypes[i] == otherDevice.supportedLinkTypes[i])
+                if(isReachableByLinkType(device.supportedLinkTypes[i], otherDevice))
                     return device.supportedLinkTypes[i]
-                }
-            }
-        }
         return -1
     }
 
