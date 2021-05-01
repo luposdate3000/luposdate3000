@@ -51,7 +51,7 @@ class RPLRouter(val device: Device): Device.Router {
 
 
     private fun processDIO(pck: NetworkPackage) {
-        val dio = pck.data as DIO
+        val dio = pck.payload as DIO
         dioReceivedCounter++
         dioCounter++
         if (objectiveFunction(pck) >= rank)
@@ -78,7 +78,7 @@ class RPLRouter(val device: Device): Device.Router {
 
 
     private fun processDAO(pck: NetworkPackage) {
-        val dao = pck.data as DAO
+        val dao = pck.payload as DAO
         daoReceivedCounter++
         daoCounter++
         val hasRoutingTableChanged: Boolean = if (dao.isPath)
@@ -93,7 +93,7 @@ class RPLRouter(val device: Device): Device.Router {
 
     private fun objectiveFunction(pck: NetworkPackage): Int {
         val link = device.linkManager.getLink(pck.sourceAddress)!!
-        val otherRank = (pck.data as DIO).rank
+        val otherRank = (pck.payload as DIO).rank
         return otherRank + link.distanceInMeters
     }
 
@@ -114,7 +114,7 @@ class RPLRouter(val device: Device): Device.Router {
     class DAO(val isPath: Boolean, val destinations: IntArray)
 
     override fun isControlPackage(pck: NetworkPackage)
-        = pck.data is DAO || pck.data is DIO
+        = pck.payload is DAO || pck.payload is DIO
 
     override fun isSelfEvent(marker: Any)
         = marker is DelayDAOTimerExpiredMarker
@@ -138,7 +138,7 @@ class RPLRouter(val device: Device): Device.Router {
 
 
     override fun processControlPackage(pck: NetworkPackage) {
-        when(pck.data) {
+        when(pck.payload) {
             is DIO -> processDIO(pck)
             is DAO -> processDAO(pck)
         }

@@ -39,7 +39,7 @@ class Device(
         val pck = event.data as NetworkPackage
         packageCounter++
         when {
-            pck.data is ParkingSensor.ParkingObservation -> processParkingObservation(pck)
+            pck.payload is ParkingSensor.ParkingObservation -> processParkingObservation(pck)
             router.isControlPackage(pck) -> router.processControlPackage(pck)
         }
 
@@ -78,7 +78,7 @@ class Device(
             //store
         }
         else {
-            sendRoutedPackage(pck.sourceAddress, pck.destinationAddress, pck.data)
+            sendRoutedPackage(pck.sourceAddress, pck.destinationAddress, pck.payload)
         }
     }
 
