@@ -36,15 +36,13 @@ abstract class Entity {
 
     protected fun sendEvent(destination: Entity, delay: Long, data: Any?) {
         require(currentState == State.RUNNABLE)
-        val event = Event(delay, this, destination, data)
-        Simulation.addEvent(event)
+        Simulation.addEvent(delay, this, destination, data)
     }
 
     protected fun beBusy(busyDuration: Long) {
         require(currentState == State.RUNNABLE)
         currentState = State.BUSY
-        val event = Event(busyDuration, this, this, BusyEndIdentifier())
-        Simulation.addEvent(event)
+        Simulation.addEvent(busyDuration, this, this, BusyEndIdentifier())
     }
 
     protected fun terminate() {

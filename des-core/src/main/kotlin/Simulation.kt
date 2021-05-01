@@ -94,11 +94,11 @@ object Simulation {
         }
     }
 
-    fun addEvent(event: Event) {
-        val eventOccurringTime = clock + event.occurrenceTime
-        val timeUpdatedEvent = Event(eventOccurringTime, event.source, event.destination, event.data)
-        futureEvents.enqueue(timeUpdatedEvent)
+    fun addEvent(occurrenceTime: Long, src: Entity, dest: Entity, data: Any?) {
         eventCounter++
+        val updatedOccurringTime = clock + occurrenceTime
+        val ev = Event(eventCounter, updatedOccurringTime, src, dest, data)
+        futureEvents.enqueue(ev)
     }
 
     private fun startUp(entities: List<Entity>, callback: Callback?, maxClock: Long) {
