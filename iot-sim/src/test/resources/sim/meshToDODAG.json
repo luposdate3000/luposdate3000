@@ -2,7 +2,7 @@
   "linkType": [
     {
       "name": "WPAN",
-      "rangeInMeters": 15,
+      "rangeInMeters": 10,
       "dataRateInKbps": 250
     }
   ],
@@ -26,8 +26,8 @@
       "originLongitude": 10.697678009507923,
       "deviceType": "Fog",
       "linkType": "WPAN",
-      "signalCoverageEast": 400,
-      "signalCoverageSouth": 100
+      "signalCoverageEast": 200,
+      "signalCoverageSouth": 300
     }
   ],
   "randomStarNetwork": [

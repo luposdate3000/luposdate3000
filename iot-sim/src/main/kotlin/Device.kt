@@ -31,6 +31,11 @@ class Device(
             return
         }
 
+        if(event.data != null && router.isSelfEvent(event.data!!)) {
+            router.processSelfEvent(event.data!!)
+            return
+        }
+
         val pck = event.data as NetworkPackage
         packageCounter++
         when {
@@ -59,7 +64,11 @@ class Device(
     }
 
     fun waitForObservationEnd(delay: Long) {
-        sendEvent(this, delay, SensorObservationEndMarker())
+        sendSelfEvent(delay, SensorObservationEndMarker())
+    }
+
+    fun sendSelfEvent(delay: Long, marker: Any) {
+        sendEvent(this, delay, marker)
     }
 
 
@@ -83,6 +92,8 @@ class Device(
     interface Router {
         fun startRouting()
         fun isControlPackage(pck: NetworkPackage): Boolean
+        fun isSelfEvent(marker: Any): Boolean
+        fun processSelfEvent(marker: Any)
         fun processControlPackage(pck: NetworkPackage)
         fun getNextHop(destinationAddress: Int): Int
     }

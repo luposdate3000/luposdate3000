@@ -43,6 +43,7 @@ class RoutingTable(var defaultAddress: Int) {
                 destinationCounter--
                 updated = true
             }
+        hops.remove(hop)
         return updated
     }
 

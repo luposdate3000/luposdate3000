@@ -46,7 +46,7 @@ class Logger: Simulation.Callback {
         val strBuilder = StringBuilder()
         strBuilder.appendLine("Constructed DODAG:")
         for (device in Configuration.devices) {
-            strBuilder.append("> ").appendLine(device.router)
+            strBuilder.appendLine(device.router)
         }
         return strBuilder.toString()
     }

@@ -12,6 +12,21 @@ class RPLRouter(val device: Device): Device.Router {
     var preferredParent = Parent()
         private set
 
+    class DelayDAOTimerExpiredMarker
+    private var isDelayDAOTimerRunning = false
+
+    var dioSentCounter = 0
+        private set
+
+    var dioReceivedCounter = 0
+        private set
+
+    var daoSentCounter = 0
+        private set
+
+    var daoReceivedCounter = 0
+        private set
+
     inner class Parent(var address: Int = notInitialized, var rank: Int = notInitialized)
 
 
@@ -24,28 +39,34 @@ class RPLRouter(val device: Device): Device.Router {
     private fun sendDIO(destinationAddress: Int) {
         val dio = DIO(rank)
         device.sendUnRoutedPackage(destinationAddress, dio)
+        dioSentCounter++
     }
 
     private fun sendDAO(destinationAddress: Int, isPath: Boolean) {
         val destinations = if(isPath) routingTable.getDestinations() else IntArray(0)
         val dao = DAO(isPath, destinations)
         device.sendUnRoutedPackage(destinationAddress, dao)
+        daoSentCounter++
     }
 
 
     private fun processDIO(pck: NetworkPackage) {
         val dio = pck.data as DIO
+        dioReceivedCounter++
         dioCounter++
-        if (objectiveFunction(dio) >= rank)
+        if (objectiveFunction(pck) >= rank)
             return
 
         forwardedDioCounter++
-        rank = objectiveFunction(dio)
+        rank = objectiveFunction(pck)
         updateParent(Parent(pck.sourceAddress, dio.rank))
         broadcastDIO()
     }
 
     private fun updateParent(newParent: Parent) {
+        if (hasParent())
+            if (newParent.address == preferredParent.address)
+                return
 
         if (hasParent())
             sendDAO(preferredParent.address, false)
@@ -58,20 +79,23 @@ class RPLRouter(val device: Device): Device.Router {
 
     private fun processDAO(pck: NetworkPackage) {
         val dao = pck.data as DAO
+        daoReceivedCounter++
         daoCounter++
         val hasRoutingTableChanged: Boolean = if (dao.isPath)
             routingTable.setDestinationsByHop(pck.sourceAddress, dao.destinations)
         else
             routingTable.removeDestinationsByHop(pck.sourceAddress)
 
-        if(hasParent() && hasRoutingTableChanged) {
-            sendDAO(preferredParent.address, dao.isPath)
-            forwardedDaoCounter++
-        }
+        if(hasParent() && hasRoutingTableChanged)
+            if (!isDelayDAOTimerRunning)
+                startDelayDAOTimer()
     }
 
-    private fun objectiveFunction(dio: DIO)
-            = dio.rank + 1
+    private fun objectiveFunction(pck: NetworkPackage): Int {
+        val link = device.linkManager.getLink(pck.sourceAddress)!!
+        val otherRank = (pck.data as DIO).rank
+        return otherRank + link.distanceInMeters
+    }
 
 
 
@@ -92,6 +116,26 @@ class RPLRouter(val device: Device): Device.Router {
     override fun isControlPackage(pck: NetworkPackage)
         = pck.data is DAO || pck.data is DIO
 
+    override fun isSelfEvent(marker: Any)
+        = marker is DelayDAOTimerExpiredMarker
+
+    override fun processSelfEvent(marker: Any) {
+        if(marker is DelayDAOTimerExpiredMarker) {
+            isDelayDAOTimerRunning = false
+            forwardDAO()
+        }
+    }
+
+    private fun forwardDAO() {
+        sendDAO(preferredParent.address, true)
+        forwardedDaoCounter++
+    }
+
+    private fun startDelayDAOTimer() {
+        device.sendSelfEvent(daoDelay.toLong(), DelayDAOTimerExpiredMarker())
+        isDelayDAOTimerRunning = true
+    }
+
 
     override fun processControlPackage(pck: NetworkPackage) {
         when(pck.data) {
@@ -106,11 +150,16 @@ class RPLRouter(val device: Device): Device.Router {
     override fun toString(): String {
         val strBuilder = StringBuilder()
         strBuilder
+            .append("> ")
             .append("Device ${device.address}").append(", ")
             .append("rank $rank").append(", ")
-            .append(getParentString()).append(", ")
-            .append("children ")
-            .append("{${getChildrenString()}}")
+            .append(getParentString())
+            .appendLine().append("  ")
+            .append("children [${getChildrenString()}]")
+            .appendLine().append("  ")
+            .append("DIO (received: $dioReceivedCounter, sent: $dioSentCounter)")
+            .appendLine().append("  ")
+            .append("DAO (received: $daoReceivedCounter, sent: $daoSentCounter)")
 
         return strBuilder.toString()
     }
@@ -137,7 +186,7 @@ class RPLRouter(val device: Device): Device.Router {
         const val DEFAULT_DAO_DELAY = 1 //seconds
 
 
-        val daoDelay = DEFAULT_DAO_DELAY * 3
+        val daoDelay = 2//DEFAULT_DAO_DELAY * 3
 
 
         var daoCounter = 0
