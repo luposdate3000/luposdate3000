@@ -105,7 +105,7 @@ class RPLRouter(val device: Device): Device.Router {
 
     override fun startRouting() {
         if(root) {
-            rank = 0
+            rank = ROOT_RANK
             broadcastDIO()
         }
     }
@@ -188,6 +188,7 @@ class RPLRouter(val device: Device): Device.Router {
 
         val daoDelay = 2//DEFAULT_DAO_DELAY * 3
 
+        const val ROOT_RANK = 0
 
         var daoCounter = 0
             private set

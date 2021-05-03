@@ -2,9 +2,9 @@ class LinkManager(val device: Device) {
 
     private var links: MutableMap<Int, Link> = HashMap(5)
 
+
     fun getDistanceInMeters(otherDevice: Device)
             = device.location.getDistanceInMeters(otherDevice.location)
-
 
     private fun getBestLinkTypeIndex(otherDevice: Device) : Int {
         val size = device.supportedLinkTypes.size.coerceAtMost(otherDevice.supportedLinkTypes.size)

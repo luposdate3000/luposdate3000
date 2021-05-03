@@ -66,7 +66,7 @@ class ConfigurationTest {
         Configuration.parse(fileName)
         val root = Configuration.getNamedDevice("Tower1")
         val starNet = Configuration.randStarNetworks["garageA"]!!
-        val parkingSensor = starNet.childs[0].sensor as ParkingSensor
+        val parkingSensor = starNet.children[0].sensor as ParkingSensor
         Assertions.assertEquals(root.address, parkingSensor.dataSinkAddress)
     }
 
@@ -107,7 +107,7 @@ class ConfigurationTest {
         val network = Configuration.jsonObjects.randomStarNetwork[0]
         val starNet = Configuration.randStarNetworks[network.networkPrefix]!!
         Assertions.assertEquals(1 + network.number, devices.size)
-        Assertions.assertEquals(network.number, starNet.childs.size)
+        Assertions.assertEquals(network.number, starNet.children.size)
     }
 
     @ParameterizedTest
@@ -116,10 +116,33 @@ class ConfigurationTest {
         Configuration.parse(fileName)
         val networkPrefix = Configuration.jsonObjects.randomStarNetwork[0].networkPrefix
         val starNet = Configuration.randStarNetworks[networkPrefix]!!
-        for(child in starNet.childs) {
+        for(child in starNet.children) {
             Assertions.assertTrue(child.linkManager.hasLink(starNet.parent))
             Assertions.assertTrue(starNet.parent.linkManager.hasLink(child))
         }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["config/inStarNetworkChildrenDoNotKnowEachOther.json"])
+    fun inStarNetworkChildrenDoNotKnowEachOther(fileName: String) {
+        Configuration.parse(fileName)
+        val starNet = Configuration.randStarNetworks["garageA"]!!
+        for(childA in starNet.children)
+            for (childB in starNet.children)
+                Assertions.assertFalse(childA.linkManager.hasLink(childB))
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["config/severalStarNetworksDifferInTheNetworkPrefix.json"])
+    fun severalStarNetworksDifferInTheNetworkPrefix(fileName: String) {
+        Configuration.parse(fileName)
+        val starNetA = Configuration.randStarNetworks["garageA"]!!
+        val starNetB = Configuration.randStarNetworks["garageB"]!!
+        val starNetC = Configuration.randStarNetworks["garageC"]!!
+
+        Assertions.assertEquals(10, starNetA.children.size)
+        Assertions.assertEquals(11, starNetB.children.size)
+        Assertions.assertEquals(12, starNetC.children.size)
     }
 
 

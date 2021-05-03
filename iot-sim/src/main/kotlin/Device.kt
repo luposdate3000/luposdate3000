@@ -11,6 +11,7 @@ class Device(
     val router: Router = RPLRouter(this)
     val linkManager = LinkManager(this)
     class SensorObservationEndMarker
+    var isStarNetworkChild = false
 
     private fun getNetworkDelay(destinationAddress: Int): Long {
         return if (destinationAddress == address) {

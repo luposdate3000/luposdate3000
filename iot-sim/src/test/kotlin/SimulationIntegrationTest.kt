@@ -30,9 +30,9 @@ class SimulationIntegrationTest {
         val parent = starNet.parent
         val parentRouter = parent.router as RPLRouter
         parentRouter.root = true
-        val child1 = starNet.childs[0]
+        val child1 = starNet.children[0]
         val child1Router = child1.router as RPLRouter
-        val child2 = starNet.childs[1]
+        val child2 = starNet.children[1]
         val child2Router = child2.router as RPLRouter
         Assertions.assertFalse(child1Router.hasParent())
         Assertions.assertFalse(child2Router.hasParent())
@@ -41,9 +41,9 @@ class SimulationIntegrationTest {
         Assertions.assertTrue(child1Router.hasParent())
         Assertions.assertTrue(child2Router.hasParent())
         Assertions.assertFalse(parentRouter.hasParent())
-        Assertions.assertEquals(0, parentRouter.rank)
-        Assertions.assertEquals(1, child1Router.rank)
-        Assertions.assertEquals(1, child2Router.rank)
+        Assertions.assertEquals(RPLRouter.ROOT_RANK, parentRouter.rank)
+        Assertions.assertTrue(child1Router.rank >= RPLRouter.ROOT_RANK)
+        Assertions.assertTrue(child2Router.rank >= RPLRouter.ROOT_RANK)
         Assertions.assertEquals(parent.address, child1Router.preferredParent.address)
         Assertions.assertEquals(parent.address, child2Router.preferredParent.address)
         Assertions.assertEquals(parentRouter.rank, child1Router.preferredParent.rank)
@@ -59,7 +59,7 @@ class SimulationIntegrationTest {
         val root = starNet.parent
         val rootRouter = root.router as RPLRouter
         rootRouter.root = true
-        val child1 = starNet.childs[0]
+        val child1 = starNet.children[0]
         val child1Router = child1.router as RPLRouter
         Assertions.assertEquals(0, rootRouter.routingTable.destinationCounter)
         Assertions.assertEquals(0, child1Router.routingTable.destinationCounter)
@@ -72,7 +72,7 @@ class SimulationIntegrationTest {
         Assertions.assertEquals(0, child1Router.routingTable.destinationCounter)
         Assertions.assertEquals(root.address, rootRouter.routingTable.defaultAddress)
         Assertions.assertEquals(root.address, child1Router.routingTable.defaultAddress)
-        for(child in starNet.childs)
+        for(child in starNet.children)
             Assertions.assertEquals(child.address, rootRouter.routingTable.getNextHop(child.address))
     }
 

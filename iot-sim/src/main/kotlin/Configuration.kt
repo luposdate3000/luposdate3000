@@ -55,16 +55,13 @@ object Configuration {
     }
 
     private fun createRandomMeshNetworks() {
-        for (network in jsonObjects.randomMeshNetwork) {
+        for (network in jsonObjects.randomMeshNetwork)
             createRandomMeshNetwork(network)
-        }
     }
 
     private fun createRandomStarNetworks() {
-        for (network in jsonObjects.randomStarNetwork) {
+        for (network in jsonObjects.randomStarNetwork)
             createRandomStarNetwork(network)
-
-        }
     }
 
     private fun createRandomMeshNetwork(network: RandomMeshNetwork) {
@@ -126,17 +123,18 @@ object Configuration {
 
 
     private fun createRandomStarNetwork(network: RandomStarNetwork) {
-        val root = getNamedDevice(network.dataSink)
-        val starNetwork = StarNetwork(root)
+        val parent = getNamedDevice(network.dataSink)
+        val starNetwork = StarNetwork(parent)
         starNetwork.networkPrefix = network.networkPrefix
         val deviceType = getDeviceTypeByName(network.deviceType)
         val linkType = getLinkTypeByName(network.linkType)
         for (i in 1..network.number) {
-            val location = GeoLocation.getRandomLocationInRadius(root.location, linkType.rangeInMeters)
-            val createdDevice = createDevice(deviceType, location)
-            createdDevice.sensor?.dataSinkAddress = root.address
-            //root.addLinkIfPossible(createdDevice)
-            starNetwork.childs.add(createdDevice)
+            val location = GeoLocation.getRandomLocationInRadius(parent.location, linkType.rangeInMeters)
+            val child = createDevice(deviceType, location)
+            child.sensor?.dataSinkAddress = parent.address
+            parent.linkManager.setLinkIfPossible(child)
+            child.isStarNetworkChild = true
+            starNetwork.children.add(child)
         }
         randStarNetworks[network.networkPrefix] = starNetwork
     }
@@ -145,9 +143,8 @@ object Configuration {
 
 
     private fun createFixedDevices() {
-        for (fixedDevice in jsonObjects.fixedDevice) {
+        for (fixedDevice in jsonObjects.fixedDevice)
             createFixedLocatedDevice(fixedDevice)
-        }
     }
 
     private fun createFixedLinks() {
@@ -179,9 +176,9 @@ object Configuration {
 
     private fun getLinkTypeIndices(deviceType: DeviceType): IntArray {
         val list = ArrayList<LinkType>(deviceType.supportedLinkTypes.size)
-        for(name in deviceType.supportedLinkTypes) {
+        for(name in deviceType.supportedLinkTypes)
             list.add(getLinkTypeByName(name))
-        }
+
         return LinkManager.getSortedLinkTypeIndices(list)
     }
 
@@ -201,24 +198,23 @@ object Configuration {
 
 
     private fun getDatabase(deviceType: DeviceType) : Database? {
-        if (deviceType.database) {
+        if (deviceType.database)
             return Database()
-        }
         return null
     }
 
     private fun getParkingSensor(deviceType: DeviceType, device: Device): ParkingSensor? {
         var sensor: ParkingSensor? = null
-        if(deviceType.parkingSensor) {
+        if(deviceType.parkingSensor)
             sensor = ParkingSensor(device, device.address)
-        }
         return sensor
     }
 
     private fun createAvailableLinks() {
         for (one in devices)
             for(two in devices)
-                one.linkManager.setLinkIfPossible(two)
+                if(!one.isStarNetworkChild && !two.isStarNetworkChild)
+                    one.linkManager.setLinkIfPossible(two)
 
     }
 }
