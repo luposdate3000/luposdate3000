@@ -26,7 +26,7 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
     internal val context = ParserContext(input)
 
     @JvmField
-    internal val prefixMap = mutableMapOf<String, String>()
+    internal val prefixMap = mutableMapOf<String, String>(":" to "")
 
     @JvmField
     public val triple: Array<ByteArrayWrapper> = Array(3) { ByteArrayWrapper() }

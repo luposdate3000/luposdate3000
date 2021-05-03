@@ -31,10 +31,22 @@ class DatabaseHandleVirtuoso(val workDir: String) : DatabaseHandle() {
         println("workDir:: " + workDir)
         File("$workDir/virtuoso.ini").printWriter().use { out ->
             File("${virtuosoBasePath}var/lib/virtuoso/db/virtuoso.ini").forEachLine { line ->
-                if (line.startsWith("DirsAllowed")) {
-                    out.println("DirsAllowed = /")
-                } else {
-                    out.println(line.replace("${virtuosoBasePath}var/lib/virtuoso/db/", "$workDir/").replace("$workDir/virtuoso.log", "/dev/stdout"))
+                when {
+                    line.startsWith("DirsAllowed") -> {
+                        out.println("DirsAllowed = /")
+                    }
+                    line.startsWith("NumberOfBuffers") -> {
+                        out.println("NumberOfBuffers = 5450000")
+                    }
+                    line.startsWith("MaxDirtyBuffers") -> {
+                        out.println("MaxDirtyBuffers = 4000000")
+                    }
+                    line.startsWith("ResultSetMaxRows") -> {
+                        out.println("ResultSetMaxRows = 1048576")
+                    }
+                    else -> {
+                        out.println(line.replace("${virtuosoBasePath}var/lib/virtuoso/db/", "$workDir/").replace("$workDir/virtuoso.log", "/dev/stdout"))
+                    }
                 }
             }
         }

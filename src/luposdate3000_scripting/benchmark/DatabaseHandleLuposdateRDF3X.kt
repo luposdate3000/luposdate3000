@@ -30,6 +30,7 @@ class DatabaseHandleLuposdateRDF3X(val workDir: String, val port: Int) : Databas
         File(workDir).mkdirs()
         val p_launcher = ProcessBuilder(
             "java",
+            "-server",
             "-cp",
             luposdateParallelJar,
             "lupos.engine.indexconstruction.FastRDF3XIndexConstruction",

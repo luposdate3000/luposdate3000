@@ -36,6 +36,8 @@
 @file:CompilerOptions("-Xmulti-platform")
 
 import lupos.benchmark.DatabaseHandleJena
+import lupos.benchmark.DatabaseHandleLuposdateRDF3X
+import lupos.benchmark.DatabaseHandleBlazegraph
 import lupos.benchmark.DatabaseHandleLuposdate3000NoPartition
 import lupos.benchmark.DatabaseHandleLuposdate3000Thread
 import lupos.benchmark.DatabaseHandleVirtuoso
@@ -44,9 +46,9 @@ import java.io.File
 
 // configure databases
 val allDatabases = listOf(
-//    DatabaseHandleBlazegraph("/data/benchmark/"), //empty results --- something wrong with query prefixes
+    DatabaseHandleBlazegraph("/data/benchmark/"),
 //    DatabaseHandleLuposdateMemory(port = 8080),
-//    DatabaseHandleLuposdateRDF3X(workDir = "/data/benchmark/", port = 8080), //all queries working on yago1
+    DatabaseHandleLuposdateRDF3X(workDir = "/data/benchmark/", port = 8080),
     DatabaseHandleVirtuoso(workDir = "/data/benchmark/"),
     DatabaseHandleJena(port = 8080),
     DatabaseHandleLuposdate3000NoPartition(workDir = "/data/benchmark/", port = 8080)

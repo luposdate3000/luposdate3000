@@ -796,7 +796,7 @@ public class ASTGroupConcat(distinct: Boolean, child: ASTNode, @JvmField public 
 public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
     // for storing the prefixes...
     @JvmField
-    internal val prefixes = mutableMapOf<String, String>()
+    internal val prefixes = mutableMapOf<String, String>("" to "")
 
     // some constants used for typed literals
     @JvmField
@@ -5183,7 +5183,7 @@ public class SPARQLParser(@JvmField public val ltit: LookAheadTokenIterator) {
         if (token !is IRI) {
             throw UnexpectedToken(token, arrayOf("IRI"), ltit)
         }
-        return ASTIri(token.content)
+        return ASTIri(prefixes[""]!! + token.content)
     }
 
     private fun PrefixedName(): ASTIri {
