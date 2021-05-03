@@ -29,7 +29,7 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared_inline.DictionaryHelper
 
-public class AOPBuildInCallHOURS public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallHOURSID, "AOPBuildInCallHOURS", arrayOf(child0, )) {
+public class AOPBuildInCallHOURS public constructor(query: IQuery, child0: AOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallHOURSID, "AOPBuildInCallHOURS", arrayOf(child0)) {
     override fun toSparql(): String = "HOURS(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallHOURS && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallHOURS(query, children[0].cloneOP() as AOPBase)

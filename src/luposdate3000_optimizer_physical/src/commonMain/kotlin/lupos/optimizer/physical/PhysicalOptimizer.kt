@@ -22,7 +22,8 @@ import lupos.optimizer.logical.OptimizerBase
 import lupos.optimizer.logical.OptimizerCompoundBase
 
 public class PhysicalOptimizer public constructor(query: Query) : OptimizerCompoundBase(query, EOptimizerIDExt.PhysicalOptimizerID, "PhysicalOptimizer") {
-    override val childrenOptimizers: Array<Array<OptimizerBase>> = arrayOf( //
+    override val childrenOptimizers: Array<Array<OptimizerBase>> = arrayOf(
+        //
         arrayOf(
             PhysicalOptimizerJoinType(query), //
         ),

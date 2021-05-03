@@ -40,19 +40,21 @@ internal object RestEndpoint {
     @JvmField
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
 
-@Suppress("NOTHING_TO_INLNE")
+    @Suppress("NOTHING_TO_INLNE")
     private inline fun registerDictionary(key: String): RemoteDictionaryServer {
         val dict = RemoteDictionaryServer(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true))
         dictionaryMapping[key] = dict
         return dict
     }
-@Suppress("NOTHING_TO_INLNE")
+
+    @Suppress("NOTHING_TO_INLNE")
     private inline fun registerDictionary(key: String, dict: IDictionary): RemoteDictionaryServer {
         val dict = RemoteDictionaryServer(dict)
         dictionaryMapping[key] = dict
         return dict
     }
-@Suppress("NOTHING_TO_INLNE")
+
+    @Suppress("NOTHING_TO_INLNE")
     private inline fun removeDictionary(key: String) {
         dictionaryMapping.remove(key)
     }
@@ -200,7 +202,7 @@ internal object RestEndpoint {
             removeDictionary(params["key"]!!)
             printHeaderSuccess(connectionOutMy)
         }
-        paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement, )) {
+        paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) {
             val name = params["name"]!!
             val query = Query()
             tripleStoreManager.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])

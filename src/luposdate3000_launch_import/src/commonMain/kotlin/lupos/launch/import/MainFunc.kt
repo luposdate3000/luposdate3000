@@ -564,7 +564,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                     tripleBuf[i] = fis.readInt().toLong()
                 }
                 for (i in 0 until 3) {
-                    val constantPart:Long = tripleBuf[i]
+                    val constantPart: Long = tripleBuf[i]
                     if (counters[i][constantPart.toInt()] > minimumOccurences[i]) {
                         for (j2 in 0 until 2) {
                             val j = (i + j2 + 1) % 3

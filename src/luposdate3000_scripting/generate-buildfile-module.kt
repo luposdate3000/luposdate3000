@@ -364,7 +364,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         }
         println("generating buildfile for ${moduleArgs.moduleName}")
         if (!buildLibrary && moduleArgs.codegenKSP) {
-            if (moduleArgs.compilerVersion .contains("SNAPSHOT")) {
+            if (moduleArgs.compilerVersion.contains("SNAPSHOT")) {
                 return
             }
         }
@@ -487,11 +487,11 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("    id(\"org.jetbrains.kotlin.kapt\") version \"${moduleArgs.compilerVersion}\"")
                 }
                 if (!buildLibrary && moduleArgs.codegenKSP) {
-if(moduleArgs.compilerVersion.startsWith("1.4")){
-                    out.println("    id(\"kotlin-ksp\") version \"1.4.0-dev-experimental-20200914\"")
-}else{
-return //currently there is no 1.5 plugin from jetbrains
-}
+                    if (moduleArgs.compilerVersion.startsWith("1.4")) {
+                        out.println("    id(\"kotlin-ksp\") version \"1.4.0-dev-experimental-20200914\"")
+                    } else {
+                        return //currently there is no 1.5 plugin from jetbrains
+                    }
                 }
                 if (buildForIDE && !buildLibrary) {
                     out.println("    application")

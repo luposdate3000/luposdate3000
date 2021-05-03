@@ -23,8 +23,10 @@ import java.io.FileInputStream
 internal class MyCharIterator(file: File) : CharIterator() {
     @JvmField
     internal val fis = FileInputStream(file.filename)
+
     @JvmField
     internal val bis = BufferedInputStream(fis)
+
     @JvmField
     internal val dis = DataInputStream(bis)
     override fun hasNext(): Boolean {

@@ -19,14 +19,15 @@ package lupos.shared_inline.dynamicArray
 import lupos.shared.dynamicArray.IntArrayWrapper
 
 internal object IntArrayWrapperExt {
-@Suppress("NOTHING_TO_INLNE")
+    @Suppress("NOTHING_TO_INLNE")
     internal inline fun setSize(data: IntArrayWrapper, c: Int) {
         data.size = c
         if (c > data.buf.size) {
             data.buf = IntArray(c)
         }
     }
-@Suppress("NOTHING_TO_INLNE")
+
+    @Suppress("NOTHING_TO_INLNE")
     internal inline fun setSizeCopy(data: IntArrayWrapper, c: Int) {
         data.size = c
         if (c > data.buf.size) {
@@ -35,12 +36,14 @@ internal object IntArrayWrapperExt {
             oldBuf.copyInto(data.buf)
         }
     }
-@Suppress("NOTHING_TO_INLNE")
+
+    @Suppress("NOTHING_TO_INLNE")
     internal inline fun copyInto(a: IntArrayWrapper, b: IntArrayWrapper) {
         setSize(b, a.size)
         a.buf.copyInto(b.buf, 0, 0, a.size)
     }
-@Suppress("NOTHING_TO_INLNE")
+
+    @Suppress("NOTHING_TO_INLNE")
     internal inline fun append(data: IntArrayWrapper, v: Int) {
         if (data.buf.size == data.size) {
             val oldBuf = data.buf
@@ -49,7 +52,8 @@ internal object IntArrayWrapperExt {
         }
         data.buf[data.size++] = v
     }
-@Suppress("NOTHING_TO_INLNE")
+
+    @Suppress("NOTHING_TO_INLNE")
     internal inline fun removeLast(data: IntArrayWrapper): Int {
         data.size--
         return data.buf[data.size]

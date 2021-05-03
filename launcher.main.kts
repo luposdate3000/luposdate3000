@@ -29,20 +29,20 @@
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EPartitionMode.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollector.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt")
-@file:CompilerOptions("-Xmulti-platform") 
- 
+@file:CompilerOptions("-Xmulti-platform")
+
 import lupos.shared.EGarbageCollectorExt
 import lupos.shared.EOperatingSystemExt
-import lupos.shared.EPartitionModeExt 
+import lupos.shared.EPartitionModeExt
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared_inline.Platform
 import java.io.File
-import java.io.FileOutputStream 
+import java.io.FileOutputStream
 import java.io.InputStream
 import java.lang.ProcessBuilder.Redirect
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.nio.file.StandardCopyOption.REPLACE_EXISTING 
+import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.util.jar.JarFile
 
 var compilerVersion = ""
@@ -1133,9 +1133,9 @@ fun onGenerateParser() {
     )
     val nQuadsFilename = "src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}parser${Platform.getPathSeparator()}nQuads${Platform.getPathSeparator()}NQuads2ParserGenerated.kt"
     val nQuadsPackage = "lupos.parser.nQuads"
-    ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage, )
-    ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage, )
-    ParserGenerator(nQuadsGeneratingArgs, nQuadsGrammar, nQuadsFilename, nQuadsPackage, )
+    ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage)
+    ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage)
+    ParserGenerator(nQuadsGeneratingArgs, nQuadsGrammar, nQuadsFilename, nQuadsPackage)
 }
 
 fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: String, fileName: String) {

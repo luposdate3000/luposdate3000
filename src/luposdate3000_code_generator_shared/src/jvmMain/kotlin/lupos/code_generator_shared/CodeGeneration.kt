@@ -272,11 +272,11 @@ private fun writeOperatorGraph(
         is OPBaseCompound -> {
             val proVars = "arrayOf(${operator.children.map { "operator" + it.getUUID() }.joinToString()})"
             val proVarsOrder = "listOf(${
-            operator.columnProjectionOrder.map {
-                "listOf(${
-                it.map { it2 -> "\"$it2\"" }.joinToString()
-                })"
-            }.joinToString()
+                operator.columnProjectionOrder.map {
+                    "listOf(${
+                        it.map { it2 -> "\"$it2\"" }.joinToString()
+                    })"
+                }.joinToString()
             })"
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = OPBaseCompound(query," +
@@ -483,7 +483,7 @@ internal fun writeFilter(child: IOPBase, classes: MyPrintWriter?, operatorGraph:
                     // Abfragen wie equals/!equals werden noch als == und != übersetzt
                     variables.add(
                         "        val child${child.uuid} = \"${
-                        value.valueToString()!!.replace("\"", "")
+                            value.valueToString()!!.replace("\"", "")
                         }\""
                     )
                 }
