@@ -35,12 +35,7 @@
 @file:Import("../../luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DateHelperRelative.kt")
 @file:CompilerOptions("-Xmulti-platform")
 
-import lupos.benchmark.DatabaseHandleJena
-import lupos.benchmark.DatabaseHandleLuposdateRDF3X
 import lupos.benchmark.DatabaseHandleBlazegraph
-import lupos.benchmark.DatabaseHandleLuposdate3000NoPartition
-import lupos.benchmark.DatabaseHandleLuposdate3000Thread
-import lupos.benchmark.DatabaseHandleVirtuoso
 import lupos.shared.DateHelperRelative
 import java.io.File
 
@@ -48,10 +43,10 @@ import java.io.File
 val allDatabases = listOf(
     DatabaseHandleBlazegraph("/data/benchmark/"),
 //    DatabaseHandleLuposdateMemory(port = 8080),
-    DatabaseHandleLuposdateRDF3X(workDir = "/data/benchmark/", port = 8080),
-    DatabaseHandleVirtuoso(workDir = "/data/benchmark/"),
-    DatabaseHandleJena(port = 8080),
-    DatabaseHandleLuposdate3000NoPartition(workDir = "/data/benchmark/", port = 8080)
+//    DatabaseHandleLuposdateRDF3X(workDir = "/data/benchmark/", port = 8080),
+//    DatabaseHandleVirtuoso(workDir = "/data/benchmark/"),
+//    DatabaseHandleJena(port = 8080),
+/*    DatabaseHandleLuposdate3000NoPartition(workDir = "/data/benchmark/", port = 8080)
         .setBufferManager("Inmemory"),
     DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 2)
         .setBufferManager("Inmemory"),
@@ -71,6 +66,7 @@ val allDatabases = listOf(
         .setBufferManager("Persistent_Cached"),
     DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 16)
         .setBufferManager("Persistent_Cached"),
+*/
 )
 // configure dataset locations
 val allDatasets = mapOf(
@@ -85,9 +81,15 @@ val literaturFile = "/src/benjamin/uni_luebeck/_00_papers/gelesenePaper/literatu
 val blacklistedQueries = mapOf(
     "LuposdateRDF3X" to mapOf(
         "yago1" to setOf(
-            "_:26" // timeout
-        )
-    )
+            "_:26", // timeout
+        ),
+    ),
+    "Jena" to mapOf(
+        "yago1" to setOf(
+            "_:11", // timeout
+            "_:26", // timeout
+        ),
+    ),
 )
 
 // obtaining tasks from file
@@ -163,6 +165,7 @@ File("$outputFolder/log.txt").printWriter().use { logger ->
                 e.printStackTrace()
                 println("errored import ${database.getName()} $datasetName")
             }
+            System.exit(1)
         }
     }
 }

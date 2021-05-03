@@ -16,6 +16,7 @@
  */
 package lupos.benchmark
 
+import lupos.shared_inline.Platform
 import java.io.File
 import java.lang.ProcessBuilder.Redirect
 import java.net.HttpURLConnection
@@ -28,21 +29,32 @@ class DatabaseHandleLuposdateRDF3X(val workDir: String, val port: Int) : Databas
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
         File(workDir).deleteRecursively()
         File(workDir).mkdirs()
-        val p_launcher = ProcessBuilder(
-            "java",
-            "-server",
-            "-cp",
-            luposdateParallelJar,
-            "lupos.engine.indexconstruction.FastRDF3XIndexConstruction",
-            import_file_name,
-            "N3",
-            "UTF-8",
-            "NONE",
-            "$workDir/luposdateindex",
-            "500000",
-            "4",
-            "2"
-        )
+        val javaFileName = "/usr/lib/jvm/java-16-openjdk-amd64/bin/java"
+        val javaFile = File(javaFileName)
+        val cmd = mutableListOf<String>()
+        if (javaFile.exists()) {
+            cmd.add(javaFileName)
+            cmd.add("-XX:+UnlockExperimentalVMOptions")
+            cmd.add("-XX:+UseShenandoahGC")
+            cmd.add("-XX:ShenandoahUncommitDelay=1000")
+            cmd.add("-XX:ShenandoahGuaranteedGCInterval=10000")
+        } else {
+            cmd.add("java")
+        }
+        cmd.add("-Xmx${Platform.getAvailableRam()}g")
+        cmd.add("-server")
+        cmd.add("-cp")
+        cmd.add(luposdateParallelJar)
+        cmd.add("lupos.engine.indexconstruction.FastRDF3XIndexConstruction")
+        cmd.add(import_file_name)
+        cmd.add("N3")
+        cmd.add("UTF-8")
+        cmd.add("NONE")
+        cmd.add("$workDir/luposdateindex")
+        cmd.add("500000")
+        cmd.add("4")
+        cmd.add("2")
+        val p_launcher = ProcessBuilder(cmd)
             .redirectOutput(Redirect.INHERIT)
             .redirectError(Redirect.INHERIT)
             .start()

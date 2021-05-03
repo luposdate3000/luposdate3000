@@ -32,7 +32,6 @@ class DatabaseHandleJena(val port: Int) : DatabaseHandle() {
             "--Jena_Wrapper=On",
             "--releaseMode=Enable",
             "--inlineMode=Enable",
-            "--proguardMode=On",
             "--mainClass=Endpoint",
             "--Endpoint_Launcher=Java_Sockets",
             "--partitionMode=None",
@@ -57,6 +56,7 @@ class DatabaseHandleJena(val port: Int) : DatabaseHandle() {
                 line = it.readLine()
             }
         }
+        println(cmd.joinToString(" "))
         val p = ProcessBuilder(cmd).directory(File("."))
         val env = p.environment()
         env.putAll(env2)

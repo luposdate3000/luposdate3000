@@ -16,6 +16,7 @@
  */
 package lupos.benchmark
 
+import lupos.shared_inline.Platform
 import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
@@ -27,21 +28,28 @@ class DatabaseHandleBlazegraph(val workDir: String) : DatabaseHandle() {
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
         File(workDir).deleteRecursively()
         File(workDir).mkdirs()
-        val p = ProcessBuilder(
-            "java",
-            "-server",
-            "-jar",
-            blazeGraphJar
-        ).directory(File(workDir))
-        processInstance = p.start()
-        val inputstream = processInstance!!.getInputStream()
-        val inputreader = inputstream.bufferedReader()
-        var inputline = inputreader.readLine()
-        var inputThread = Thread {
-            while (inputline != null) {
-                inputline = inputreader.readLine()
-            }
+        var pwd = blazeGraphJar
+        if (pwd.startsWith("./")) {
+            pwd = File(".").getAbsolutePath() + "/" + pwd
         }
+        val javaFileName = "/usr/lib/jvm/java-16-openjdk-amd64/bin/java"
+        val javaFile = File(javaFileName)
+        val cmd = mutableListOf<String>()
+        if (javaFile.exists()) {
+            cmd.add(javaFileName)
+            cmd.add("-XX:+UnlockExperimentalVMOptions")
+            cmd.add("-XX:+UseShenandoahGC")
+            cmd.add("-XX:ShenandoahUncommitDelay=1000")
+            cmd.add("-XX:ShenandoahGuaranteedGCInterval=10000")
+        } else {
+            cmd.add("java")
+        }
+        cmd.add("-server")
+        cmd.add("-Xmx${Platform.getAvailableRam()}g")
+        cmd.add("-jar")
+        cmd.add(pwd)
+        val p = ProcessBuilder(cmd).directory(File(workDir))
+        processInstance = p.start()
         val errorstream = processInstance!!.getErrorStream()
         val errorreader = errorstream.bufferedReader()
         var errorThread = Thread {
@@ -54,13 +62,21 @@ class DatabaseHandleBlazegraph(val workDir: String) : DatabaseHandle() {
                 errorline = errorreader.readLine()
             }
         }
+        errorThread.start()
+        val inputstream = processInstance!!.getInputStream()
+        val inputreader = inputstream.bufferedReader()
+        var inputline = inputreader.readLine()
+        var inputThread = Thread {
+            println(inputline)
+            while (inputline != null) {
+                inputline = inputreader.readLine()
+            }
+        }
         while (inputline != null) {
             println(inputline)
             if (inputline.startsWith("Go to ") && inputline.endsWith("/blazegraph/ to get started.")) {
                 inputThread.start()
-                errorThread.start()
                 importData(import_file_name)
-                println("xxx imported $import_file_name")
                 action()
                 break
             }
@@ -74,7 +90,6 @@ class DatabaseHandleBlazegraph(val workDir: String) : DatabaseHandle() {
     }
 
     override fun runQuery(query: String): String {
-        println("xxx runQuery $query")
         val encodedData = "query=${encode(query)}".encodeToByteArray()
         val u = URL("http://$hostname:9999/blazegraph/sparql")
         val conn = u.openConnection() as HttpURLConnection
