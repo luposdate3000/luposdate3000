@@ -15,9 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/OperatorGraphToLatex.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/OperatorGraphToLatex.kt")
 
-import lupos.s00misc.OperatorGraphToLatex
+import lupos.shared.OperatorGraphToLatex
 
 val inputString = StringBuilder()
 while (true) {

@@ -17,7 +17,7 @@
 
 package lupos.shared.fileformat
 
-import lupos.shared.ByteArrayWrapper
+import lupos.shared.dynamicArray.ByteArrayWrapper
 
 public class DictionaryIntermediateRow(public val id: Int, public val data: ByteArrayWrapper) : Comparable<DictionaryIntermediateRow> {
     public override operator fun compareTo(other: DictionaryIntermediateRow): Int {

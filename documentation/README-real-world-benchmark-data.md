@@ -14,19 +14,16 @@ some import benchmarks (measured in seconds):
 5. intermediate->database.triples
 6. text->intermediate.parse
 
-| Dataset | Size (turtle) | Size (intermediate) | original triples | distinct triples | dictionary entries |        t1 |        t2 |        t3 |        t4 |        t5 |        t6 |
-| :------ | ------------: | ------------------: | ---------------: | ---------------: | -----------------: | --------: | --------: | --------: | --------: | --------: | --------: |
-| yago1   |       0.9 GiB |           0.837 GiB |         19012849 |         18260262 |           12752436 |   328.648 |   195.406 |   133.242 |   121.260 |    11.982 |   150.957 |
-| barton  |       9.5 GiB |           1.350 GiB |         78497317 |         35184003 |           10830905 |   723.561 |   596.459 |   127.102 |   104.411 |    22.691 |   505.545 |
-| yago2   |       5.8 GiB |           4.201 GiB |        112824705 |        109891150 |           54351098 |  1469.642 |   833.633 |   636.009 |   521.786 |   114.222 |   654.937 |
-| yago3   |       8.5 GiB |           5.415 GiB |        138264317 |        121226445 |           72644117 |  1944.292 |  1144.821 |   799.471 |   676.511 |   122.960 |   942.936 |
-| yago2s  |       9.5 GiB |           4.447 GiB |        171684850 |        151474901 |           42599960 |  1601.202 |  1058.769 |   542.433 |   406.789 |   135.643 |   827.324 |
-| btc2019 |      38.0 GiB |          12.936 GiB |        256059356 |        256059356 |           82631100 |  2564.312 |  1532.119 |  1032.193 |   743.061 |   289.132 |  1190.925 |
-| yago4   |     474.0 GiB |          82.797 GiB |       2539591846 |       2489858800 |          571715647 | 49340.051 | 18979.163 | 30360.888 |  5587.976 | 24772.911 | 13362.678 |
-
-| Dataset | Size (nQuads) | Size (intermediate) | original quads   | distinct triples | dictionary entries |        t1 |        t2 |        t3 |        t4 |        t5 |        t6 |
-| :------ | ------------: | ------------------: | ---------------: | ---------------: | -----------------: | --------: | --------: | --------: | --------: | --------: | --------: |
-| btc2010 |     624.0 GiB |          53.233 GiB |       3171793030 |       1426828906 |          279151232 | 46576.546 | 38684.171 |  7892.375 |  1781.721 |  6110.654 | 34402.117 |
+| Dataset | Size (turtle) | Size (intermediate) | original triples | inferred triples | distinct triples | dictionary entries |        t1 |        t2 |        t3 |        t4 |        t5 |        t6 |
+| :------ | ------------: | ------------------: | ---------------: | ---------------: | ---------------: | -----------------: | --------: | --------: | --------: | --------: | --------: | --------: |
+| yago1   |       0.9 GiB |           0.837 GiB |         19012849 |          4703635 |         21383706 |           12752436 |   328.648 |   195.406 |   133.242 |   121.260 |    11.982 |   150.957 |
+| barton  |       9.5 GiB |           1.350 GiB |         78497317 |                0 |         35184003 |           10830905 |   723.561 |   596.459 |   127.102 |   104.411 |    22.691 |   505.545 |
+| yago2   |       5.8 GiB |           4.201 GiB |        112824705 |         16972765 |        123689922 |           54351098 |  1469.642 |   833.633 |   636.009 |   521.786 |   114.222 |   654.937 |
+| yago3   |       8.5 GiB |           5.415 GiB |        138264317 |         71721473 |        142608259 |           72644117 |  1944.292 |  1144.821 |   799.471 |   676.511 |   122.960 |   942.936 |
+| yago2s  |       9.5 GiB |           4.447 GiB |        171684850 |                  |        151474901 |           42599960 |  1601.202 |  1058.769 |   542.433 |   406.789 |   135.643 |   827.324 |
+| btc2019 |      38.0 GiB |          12.936 GiB |        256059356 |                  |        256059356 |           82631100 |  2564.312 |  1532.119 |  1032.193 |   743.061 |   289.132 |  1190.925 |
+| yago4   |     474.0 GiB |          82.797 GiB |       2539591846 |                  |       2489858800 |          571715647 | 49340.051 | 18979.163 | 30360.888 |  5587.976 | 24772.911 | 13362.678 |
+| btc2010 |     624.0 GiB |          53.233 GiB |       3171793030 |                  |       1426828906 |          279151232 | 46576.546 | 38684.171 |  7892.375 |  1781.721 |  6110.654 | 34402.117 |
 
 The size in the "intermediate" column should give you an idea how large the dataset is, when using a dictionary.
 These intermediate files are generated using "./launcher.main.kts --run --mainClass=Import --runArgument_Luposdate3000_Launch_Import:inputFileName=turtle-file-name.nt"
@@ -43,7 +40,7 @@ Make sure you read the following comments.
 
 Lets define the root path for all real-world data as 
 ```bash
-export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
+export LUPOS_REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 ```
 
 ```bash
@@ -59,8 +56,8 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
     git commit -m a
     # The following line runs until your disk space is completely consumed.
     # Make sure to abort it if you have enough benchmark data.
-    mkdir -p ${REAL_WORLD_DATA_ROOT}/bsbm
-    touch ${REAL_WORLD_DATA_ROOT}/bsbm/stat.csv
+    mkdir -p ${LUPOS_REAL_WORLD_DATA_ROOT}/bsbm
+    touch ${LUPOS_REAL_WORLD_DATA_ROOT}/bsbm/stat.csv
     ${luposdate3000home}/exec-benchmark-generate-bsbm.main.kts
 }
 #sp2b
@@ -79,13 +76,13 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
     mv sp2b_gen ../bin/
     # The following line runs until your disk space is completely consumed.
     # Make sure to abort it if you have enough benchmark data.
-    mkdir -p ${REAL_WORLD_DATA_ROOT}/sp2b
-    touch ${REAL_WORLD_DATA_ROOT}/sp2b/stat.csv
+    mkdir -p ${LUPOS_REAL_WORLD_DATA_ROOT}/sp2b
+    touch ${LUPOS_REAL_WORLD_DATA_ROOT}/sp2b/stat.csv
     ${luposdate3000home}/exec-benchmark-generate-sp2b.main.kts
 }
 #btc2019
 {
-    cd ${REAL_WORLD_DATA_ROOT}
+    cd ${LUPOS_REAL_WORLD_DATA_ROOT}
     mkdir btc2019
     cd btc2019
     wget https://zenodo.org/record/2634588/files/btc2019-triples.nt.gz?download=1 btc2019-triples.nt.gz
@@ -93,7 +90,7 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 }
 #btc2010
 {
-    cd ${REAL_WORLD_DATA_ROOT}
+    cd ${LUPOS_REAL_WORLD_DATA_ROOT}
     mkdir btc2010
     cd btc2010
     wget https://km.aifb.kit.edu/projects/btc-2010/000-CONTENTS
@@ -104,7 +101,7 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 }
 #yago1
 {
-    cd ${REAL_WORLD_DATA_ROOT}
+    cd ${LUPOS_REAL_WORLD_DATA_ROOT}
     mkdir yago1
     cd yago1
     wget https://yago-knowledge.org/data/yago1/yago-1.0.0-turtle.7z
@@ -113,7 +110,7 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 }
 #yago2
 {
-    cd ${REAL_WORLD_DATA_ROOT}
+    cd ${LUPOS_REAL_WORLD_DATA_ROOT}
     mkdir yago2
     cd yago2
     wget https://yago-knowledge.org/data/yago2/yago-2.3.0-turtle.7z
@@ -122,7 +119,7 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 }
 #yago2s
 {
-    cd ${REAL_WORLD_DATA_ROOT}
+    cd ${LUPOS_REAL_WORLD_DATA_ROOT}
     mkdir yago2s
     cd yago2s
     wget https://yago-knowledge.org/data/yago2s/yago-2.5.3-turtle-simple.7z
@@ -131,7 +128,7 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 }
 #yago3
 {
-    cd ${REAL_WORLD_DATA_ROOT}
+    cd ${LUPOS_REAL_WORLD_DATA_ROOT}
     mkdir yago3
     cd yago3
     wget https://yago-knowledge.org/data/yago3/yago-3.0.2-turtle-simple.7z
@@ -140,7 +137,7 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 }
 #yago4
 {
-    cd ${REAL_WORLD_DATA_ROOT}
+    cd ${LUPOS_REAL_WORLD_DATA_ROOT}
     mkdir yago4
     cd yago4
     # This one is about 470 gigabytes.
@@ -154,7 +151,7 @@ export REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 }
 #barton
 {
-    cd ${REAL_WORLD_DATA_ROOT}
+    cd ${LUPOS_REAL_WORLD_DATA_ROOT}
     mkdir barton
     cd barton
     wget http://dslam.cs.umd.edu/data/barton/barton.mods.rdf.tar.gz

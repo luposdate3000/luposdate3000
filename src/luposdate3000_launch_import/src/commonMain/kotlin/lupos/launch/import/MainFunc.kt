@@ -18,20 +18,24 @@ package lupos.launch.import
 
 import lupos.parser.nQuads.NQuads2Parser
 import lupos.parser.turtle.Turtle2Parser
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.DateHelperRelative
 import lupos.shared.LUPOS_BUFFER_SIZE
 import lupos.shared.Parallel
 import lupos.shared.SanityCheck
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediate
 import lupos.shared.fileformat.DictionaryIntermediateReader
 import lupos.shared.fileformat.DictionaryIntermediateWriter
 import lupos.shared.fileformat.TriplesIntermediate
 import lupos.shared.fileformat.TriplesIntermediateReader
 import lupos.shared.fileformat.TriplesIntermediateWriter
-import lupos.shared_inline.ByteArrayWrapperExt
+import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File
+import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.math.min
+
+// rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+// rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 internal fun helperCleanString(s: String): String {
     var res: String = s
@@ -151,6 +155,8 @@ private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, 
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
 internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
+    val inference_enabled = true
+    var inferredTriples = 0
     val startTime = DateHelperRelative.markNow()
     val quadMode = inputFileName.endsWith(".n4")
     val statFileEnding = ".stat"
@@ -199,9 +205,17 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         }
     }
 
+    fun addIriToDict(iri: String): Int {
+        val buf = ByteArrayWrapper()
+        DictionaryHelper.iriToByteArray(buf, iri)
+        return addToDict(buf)
+    }
+
+    val inferenceOriginal_Type_ID = addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
+    val inferenceOriginal_SubClassOf_ID = addIriToDict("http://www.w3.org/2000/01/rdf-schema#subClassOf")
+
     var dictionaryInitialSortTime = 0.0
     val iter = File(inputFileName).openInputStream()
-    // val cleanOutTriples = File(inputFileName + ".cleaned.n3").openOutputStream(false)
     if (inputFileName.endsWith(".n3") || inputFileName.endsWith(".ttl") || inputFileName.endsWith(".nt")) {
         val row = IntArray(3)
         val x = object : Turtle2Parser(iter) {
@@ -209,7 +223,6 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                 for (i in 0 until 3) {
                     row[i] = addToDict(triple[i])
                 }
-                // cleanOutTriples.println("${DictionaryHelper.byteArrayToSparql(triple[0])} ${DictionaryHelper.byteArrayToSparql(triple[1])} ${DictionaryHelper.byteArrayToSparql(triple[2])} .")
                 outTriples.write(row[0], row[1], row[2])
                 cnt++
                 if (cnt % 10000L == 0L) {
@@ -232,7 +245,6 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                 for (i in 0 until 3) {
                     row[i] = addToDict(quad[i])
                 }
-                // cleanOutTriples.println("${DictionaryHelper.byteArrayToSparql(quad[0])} ${DictionaryHelper.byteArrayToSparql(quad[1])} ${DictionaryHelper.byteArrayToSparql(quad[2])} .")
                 outTriples.write(row[0], row[1], row[2])
                 cnt++
                 if (cnt % 10000L == 0L) {
@@ -251,7 +263,6 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     } else {
         throw Exception("unknown filetype $inputFileName")
     }
-    // cleanOutTriples.close()
     val startTime2 = DateHelperRelative.markNow()
     DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
     dictionaryInitialSortTime += DateHelperRelative.elapsedSeconds(startTime2)
@@ -299,8 +310,8 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
     for (i in 0 until chunc) {
         DictionaryIntermediate.delete("$inputFileName.$i")
     }
+// sorting triples chuncs
     val dictionaryMergeTime = DateHelperRelative.elapsedSeconds(startTime) - parseTime
-    val inTriples = TriplesIntermediateReader("$inputFileName.0")
     var offset = 0
     var tripleBlock = 0
     val orders = arrayOf(
@@ -370,10 +381,90 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         tripleBlock++
         offset = 0
     }
+
+    val inference_Type_ID = mapping[inferenceOriginal_Type_ID]
+    val inference_SubClassOf_ID = mapping[inferenceOriginal_SubClassOf_ID]
+    var triplePrefix = 0
+    if (true) { // apply dictionary mapping
+        val inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix")
+
+        val outTriples = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}")
+        val outTriplesType = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}.type")
+        val outTriplesSubClassOf = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}.subClassOf")
+        inTriples.readAll { it ->
+            val t_s = mapping[it[0]]
+            val t_p = mapping[it[1]]
+            val t_o = mapping[it[2]]
+            outTriples.write(t_s, t_p, t_o)
+            if (inference_enabled) {
+                when (t_p) {
+                    inference_Type_ID -> outTriplesType.write(t_s, t_p, t_o)
+                    inference_SubClassOf_ID -> outTriplesSubClassOf.write(t_s, t_p, t_o)
+                }
+            }
+        }
+        outTriples.close()
+        outTriplesType.close()
+        outTriplesSubClassOf.close()
+        inTriples.close()
+        TriplesIntermediate.delete("$inputFileName.$triplePrefix")
+        triplePrefix++
+    }
+    if (inference_enabled) {
+        var subclassMappingSingle = IntArray(currentValue) { -1 } // -1 undefined, -2 multi, otherwise the mapping
+        var subclassMappingMulti = mutableMapOf<Int, MutableSet<Int>>()
+        var inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix.subClassOf")
+        inTriples.readAll { it ->
+            val tmp = subclassMappingSingle[it[0]]
+            when (tmp) {
+                -1 -> subclassMappingSingle[it[0]] = it[2]
+                -2 -> subclassMappingMulti[it[0]]!!.add(it[2])
+                else -> {
+                    if (tmp != it[2]) {
+                        subclassMappingMulti[it[0]] = mutableSetOf(tmp, it[2])
+                        subclassMappingSingle[it[0]] = -2
+                    }
+                }
+            }
+        }
+        inTriples.close()
+        val outTriples = TriplesIntermediateWriter("$inputFileName.${triplePrefix + 1}")
+        inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix")
+        inTriples.readAll { it ->
+            outTriples.write(it[0], it[1], it[2])
+        }
+        inTriples.close()
+        inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix.type")
+        inTriples.readAll { it ->
+            val tmp = subclassMappingSingle[it[2]]
+            when (tmp) {
+                -1 -> {
+                }
+                -2 -> {
+                    for (i in subclassMappingMulti[it[2]]!!) {
+                        outTriples.write(it[0], inference_Type_ID, i)
+                        inferredTriples++
+                    }
+                }
+                else -> {
+                    outTriples.write(it[0], inference_Type_ID, tmp)
+                    inferredTriples++
+                }
+            }
+        }
+        inTriples.close()
+        TriplesIntermediate.delete("$inputFileName.$triplePrefix")
+        outTriples.close()
+        triplePrefix++
+    }
+    TriplesIntermediate.delete("$inputFileName.1.type")
+    TriplesIntermediate.delete("$inputFileName.1.subClassOf")
+    val inferenceTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime
+    val inTriples = TriplesIntermediateReader("$inputFileName.$triplePrefix")
     inTriples.readAll { it ->
-        tripleBufA[offset + 0] = mapping[it[0]]
-        tripleBufA[offset + 1] = mapping[it[1]]
-        tripleBufA[offset + 2] = mapping[it[2]]
+        tripleBufA[offset + 0] = it[0]
+        tripleBufA[offset + 1] = it[1]
+        tripleBufA[offset + 2] = it[2]
         offset += 3
         if (offset >= tripleBufA.size) {
             sortBlockMain()
@@ -383,8 +474,9 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
         sortBlockMain()
     }
     inTriples.close()
-    TriplesIntermediate.delete("$inputFileName.0")
-    val tripleInitialSortTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime
+    TriplesIntermediate.delete("$inputFileName.$triplePrefix")
+// sorting triples merge
+    val tripleInitialSortTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime - inferenceTime
     var myCount = -1L
     for (o in 0 until 6) {
         val order = orders[o]
@@ -421,11 +513,13 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
             TriplesIntermediate.delete("$inputFileName.${orderNames[o]}.$i")
         }
     }
-    val tripleMergeTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime - tripleInitialSortTime
+    val tripleMergeTime = DateHelperRelative.elapsedSeconds(startTime) - dictionaryMergeTime - parseTime - inferenceTime - tripleInitialSortTime
     val totalTime = DateHelperRelative.elapsedSeconds(startTime)
     File("$inputFileName$statFileEnding").withOutputStream {
         it.println("triples=$myCount")
+        it.println("inferencedtriples=$inferredTriples")
         it.println("dictionary-entries=$currentValue")
+        it.println("inferenceTime=$inferenceTime")
         it.println("parseTime=$parseTime")
         it.println("dictionaryInitialSortTime=$dictionaryInitialSortTime")
         it.println("dictionaryMergeTime=$dictionaryMergeTime")

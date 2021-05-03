@@ -17,7 +17,6 @@
 package lupos.operator.arithmetik
 
 import lupos.operator.base.OPBase
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.EOperatorID
 import lupos.shared.ESortPriorityExt
 import lupos.shared.EvaluationException
@@ -25,6 +24,7 @@ import lupos.shared.IQuery
 import lupos.shared.SanityCheck
 import lupos.shared.ValueDefinition
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IAOPBase
 import lupos.shared.operator.IOPBase

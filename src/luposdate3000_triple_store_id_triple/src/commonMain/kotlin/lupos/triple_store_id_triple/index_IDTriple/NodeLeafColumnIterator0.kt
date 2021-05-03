@@ -149,12 +149,14 @@ internal class NodeLeafColumnIterator0(node: ByteArray, nodeid: Int, lock: MyRea
                 needsReset = false
                 value = 0
             }
+            remaining -= toSkip - 1
             while (toSkip > 0) {
                 offset += NodeShared.readTriple100(node, offset, value) { v ->
                     value = v
                 }
                 toSkip--
             }
+            updateRemaining()
             return value
         } else {
             return DictionaryExt.nullValue

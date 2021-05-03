@@ -16,10 +16,10 @@
  */
 package lupos.shared.dictionary
 
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.ValueBoolean
 import lupos.shared.ValueError
 import lupos.shared.ValueUndef
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 

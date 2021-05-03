@@ -17,16 +17,16 @@
 package lupos.operator.arithmetik.generated
 
 import lupos.operator.arithmetik.AOPBase
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ETripleComponentType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IQuery
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared_inline.ByteArrayWrapperExt
 import lupos.shared_inline.DictionaryHelper
+import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 public class AOPBuildInCallURI public constructor(query: IQuery, child0: AOPBase, @JvmField public var prefix: String, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallURIID, "AOPBuildInCallURI", arrayOf(child0, )) {

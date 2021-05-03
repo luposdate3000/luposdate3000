@@ -18,13 +18,13 @@ package lupos.result_format
 
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.logical.noinput.OPNothing
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.EPartitionModeExt
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.communicationHandler
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.tripleStoreManager
 import lupos.shared_inline.DictionaryHelper

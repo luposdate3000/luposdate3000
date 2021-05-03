@@ -42,7 +42,6 @@ import lupos.result_format.QueryResultToMemoryTable
 import lupos.result_format.QueryResultToTurtleStream
 import lupos.result_format.QueryResultToXMLElement
 import lupos.result_format.QueryResultToXMLStream
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.DateHelperRelative
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
@@ -62,6 +61,7 @@ import lupos.shared.XMLElementFromTsv
 import lupos.shared.XMLElementFromXML
 import lupos.shared.communicationHandler
 import lupos.shared.dictionary.nodeGlobalDictionary
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.TriplesIntermediateReader
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator

@@ -16,9 +16,9 @@
  */
 package lupos.operator.physical.noinput
 
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.IQuery
 import lupos.shared.SanityCheck
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.DictionaryHelper
 
 public abstract class POPValuesImportBase public constructor(query: IQuery, projectedVariables: List<String>, variables: List<String>) : POPValues(query, projectedVariables, variables, mutableListOf()) {

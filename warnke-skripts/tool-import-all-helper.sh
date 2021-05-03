@@ -14,11 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 echo "starting $1"
-intermediates=( ${REAL_WORLD_DATA_ROOT}/yago1/yago-1.0.0-turtle.ttl ${REAL_WORLD_DATA_ROOT}/yago2/yago-2.n3 ${REAL_WORLD_DATA_ROOT}/yago3/yago3.ttl ${REAL_WORLD_DATA_ROOT}/barton/barton.nt ${REAL_WORLD_DATA_ROOT}/yago2s/yago-2.5.3-turtle-simple.ttl ${REAL_WORLD_DATA_ROOT}/btc2019/btc2019-triples.nt ${REAL_WORLD_DATA_ROOT}/yago4/yago-all.nt ${REAL_WORLD_DATA_ROOT}/btc2010/btc-2010.n4 )
+intermediates=( ${LUPOS_REAL_WORLD_DATA_ROOT}/yago1/yago-1.0.0-turtle.ttl ${LUPOS_REAL_WORLD_DATA_ROOT}/yago2/yago-2.n3 ${LUPOS_REAL_WORLD_DATA_ROOT}/yago3/yago3.ttl ${LUPOS_REAL_WORLD_DATA_ROOT}/barton/barton.nt ${LUPOS_REAL_WORLD_DATA_ROOT}/yago2s/yago-2.5.3-turtle-simple.ttl ${LUPOS_REAL_WORLD_DATA_ROOT}/btc2019/btc2019-triples.nt ${LUPOS_REAL_WORLD_DATA_ROOT}/yago4/yago-all.nt ${LUPOS_REAL_WORLD_DATA_ROOT}/btc2010/btc-2010.n4 )
 i=$1
 port=80
 intermediate=${intermediates[i]}
-storage=$(dirname $(echo ${intermediates[i]} | sed "s#${REAL_WORLD_DATA_ROOT}/#${LUPOS_HOME}/#g"))/
+storage=$(dirname $(echo ${intermediates[i]} | sed "s#${LUPOS_REAL_WORLD_DATA_ROOT}/#/mnt/db/#g"))/
+echo $i $intermediate $storage
 rm -rf $storage
 mkdir -p $storage
 (

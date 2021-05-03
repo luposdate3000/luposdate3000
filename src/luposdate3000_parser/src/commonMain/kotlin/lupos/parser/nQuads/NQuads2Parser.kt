@@ -16,8 +16,8 @@
  */
 package lupos.parser.nQuads
 
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.IMyInputStream
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 

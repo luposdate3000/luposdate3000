@@ -16,14 +16,14 @@
  */
 package lupos.dictionary
 
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.nodeGlobalDictionary
-import lupos.shared_inline.ByteArrayWrapperExt
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.DictionaryHelper
+import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 public class DictionaryInMemory : ADictionary {

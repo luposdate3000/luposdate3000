@@ -19,16 +19,16 @@ package lupos.dictionary
 import lupos.buffer_manager.BufferManager
 import lupos.kv.KeyValueStore
 import lupos.shared.BUFFER_HOME
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediateReader
 import lupos.shared_inline.BufferManagerPage
 import lupos.shared_inline.ByteArrayHelper
-import lupos.shared_inline.ByteArrayWrapperExt
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File
+import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 import lupos.vk.ValueKeyStore
 import kotlin.jvm.JvmField
 

@@ -15,11 +15,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-@file:Import("../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleComponentType.kt")
-@file:Import("../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/ETripleComponentTypeExt.kt")
+@file:Import("../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/ETripleComponentType.kt")
+@file:Import("../../../src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/ETripleComponentTypeExt.kt")
 @file:CompilerOptions("-Xmulti-platform")
 
-import lupos.s00misc.ETripleComponentTypeExt
+import lupos.shared.ETripleComponentTypeExt
 import java.io.BufferedOutputStream
 import java.io.DataOutputStream
 import java.io.File

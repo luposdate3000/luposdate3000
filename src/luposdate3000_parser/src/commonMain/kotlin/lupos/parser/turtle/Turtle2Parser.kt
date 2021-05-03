@@ -16,8 +16,8 @@
  */
 package lupos.parser.turtle
 
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.IMyInputStream
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
@@ -195,7 +195,7 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
             onBLANK_NODE_LABEL = {
                 val v = context.getValue()
                 if (v.endsWith(".")) {
-// TODO fix the underlying bug in the parser
+// TODO fix the underlying bug in the scanner
                     DictionaryHelper.bnodeToByteArray(triple[2], v.substring(0, v.length - 1))
                     onTriple()
                     state = Turtle2ParserStateExt.STATEMENT
@@ -206,16 +206,20 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
                 }
             },
             onSTRING_LITERAL_QUOTE = {
-                triple_end_or_object_string(DictionaryHelper.removeQuotesFromString(context.getValue()))
+                val s = context.getValue()
+                triple_end_or_object_string(s.substring(1, s.length - 1))
             },
             onSTRING_LITERAL_SINGLE_QUOTE = {
-                triple_end_or_object_string(DictionaryHelper.removeQuotesFromString(context.getValue()))
+                val s = context.getValue()
+                triple_end_or_object_string(s.substring(1, s.length - 1))
             },
             onSTRING_LITERAL_LONG_SINGLE_QUOTE = {
-                triple_end_or_object_string(DictionaryHelper.removeQuotesFromString(context.getValue()))
+                val s = context.getValue()
+                triple_end_or_object_string(s.substring(3, s.length - 3))
             },
             onSTRING_LITERAL_LONG_QUOTE = {
-                triple_end_or_object_string(DictionaryHelper.removeQuotesFromString(context.getValue()))
+                val s = context.getValue()
+                triple_end_or_object_string(s.substring(3, s.length - 3))
             },
             onINTEGER = {
                 DictionaryHelper.integerToByteArray(triple[2], context.getValue())

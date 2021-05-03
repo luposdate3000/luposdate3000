@@ -19,9 +19,9 @@ package lupos.launch.test_vk
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.shared.AflCore
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.Parallel
-import lupos.shared_inline.ByteArrayWrapperExt
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 import lupos.vk.ValueKeyStore
 import kotlin.jvm.JvmField
 import kotlin.math.abs

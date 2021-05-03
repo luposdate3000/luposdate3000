@@ -15,15 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystem.kt")
-@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/s00misc/EOperatingSystemExt.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/s00misc/Platform.kt")
-@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/s00misc/Platform.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystem.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystemExt.kt")
+@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared_inline/Platform.kt")
+@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared_inline/Platform.kt")
 @file:Import("src/luposdate3000_scripting/exec-import.kt")
 @file:CompilerOptions("-Xmulti-platform")
 
-import lupos.s00misc.Platform
 import lupos.shared.REAL_WORLD_DATA_ROOT
+import lupos.shared_inline.Platform
 import java.io.File
 import java.io.FileWriter
 import java.io.PrintWriter

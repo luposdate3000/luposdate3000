@@ -42,13 +42,13 @@ import lupos.operator.physical.singleinput.POPDebug
 import lupos.operator.physical.singleinput.POPVisualisation
 import lupos.operator.physical.singleinput.POPFilter
 import lupos.operator.physical.singleinput.POPProjection
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.EIndexPatternExt
 import lupos.shared.ValueBoolean
 import lupos.shared.ValueDecimal
 import lupos.shared.ValueInteger
 import lupos.shared.ValueIri
 import lupos.shared.ValueStringBase
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.MyPrintWriter
@@ -101,7 +101,7 @@ public object CodeGeneration {
             "lupos" + ".shared_inline.ColumnIteratorQueueExt",
             "lupos" + ".shared_inline.DictionaryHelper",
             "lupos.shared.dictionary.DictionaryExt",
-            "lupos.shared.ByteArrayWrapper"
+            "lupos.shared.dynamicArray.ByteArrayWrapper"
         )
         // This list will contain all the written operators
         val createdOperators = mutableListOf<Long>()

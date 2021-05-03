@@ -27,7 +27,6 @@ import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.operator.base.noinput.OPEmptyRow
 import lupos.operator.physical.MapKey
 import lupos.operator.physical.POPBase
-import lupos.shared.ByteArrayWrapper
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.GroupByColumnMissing
@@ -39,6 +38,7 @@ import lupos.shared.SortHelper
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorQueue
