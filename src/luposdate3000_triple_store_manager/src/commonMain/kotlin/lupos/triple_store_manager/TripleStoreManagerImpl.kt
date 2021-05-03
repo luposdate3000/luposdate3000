@@ -202,7 +202,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
         metadata_.remove(name)
     }
 
-    public constructor(hostnames: Array<LuposHostname>, localhost: LuposHostname, ) : super() {
+    public constructor(hostnames: Array<LuposHostname>, localhost: LuposHostname) : super() {
         this.hostnames = hostnames
         this.localhost = localhost
         keysOnHostname_ = Array(hostnames.size) { mutableSetOf<LuposStoreKey>() }

@@ -648,7 +648,7 @@ public sealed class ValueStringBase(@JvmField public val delimiter: String, @Jvm
     public override operator fun div(value: ValueBoolean): ValueDefinition = throw IncompatibleTypesDuringCompareException()
     public override operator fun compareTo(value: BigInteger): Int = throw IncompatibleTypesDuringCompareException()
     public override operator fun compareTo(value: BigDecimal): Int = throw IncompatibleTypesDuringCompareException()
-    public override operator fun compareTo(value: String): Int = valueToString()!!.compareTo(value!!)
+    public override operator fun compareTo(value: String): Int = valueToString()!!.compareTo(value)
     public override operator fun compareTo(value: ValueStringBase): Int = valueToString()!!.compareTo(value.valueToString()!!)
     public override operator fun compareTo(value: ValueIri): Int = -1
     public override operator fun compareTo(value: ValueBnode): Int = -1

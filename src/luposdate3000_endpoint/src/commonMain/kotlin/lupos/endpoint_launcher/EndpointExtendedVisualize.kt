@@ -20,6 +20,7 @@ import kotlin.js.JsName
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
@@ -30,6 +31,9 @@ import lupos.parser.LookAheadTokenIterator
 import lupos.parser.sparql1_1.ASTNode
 import lupos.parser.sparql1_1.SPARQLParser
 import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
+import lupos.result_format.QueryResultToXMLStream
+import lupos.shared.MyLock
+import lupos.shared.Partition
 import lupos.shared_inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 
@@ -37,6 +41,7 @@ public class EndpointExtendedVisualize (input: String) {
     private var resultLog: Array<String>
     private var resultPhys: Array<String>
     private var result: String
+    private var animationData: MutableList<Array<String>> = mutableListOf<Array<String>>()
 
     init {
         val query: String = input;
@@ -70,8 +75,28 @@ public class EndpointExtendedVisualize (input: String) {
         resultPhys = resultPhysTmp.toTypedArray()
 
         val buf = MyPrintWriter(true)
+        val buf2 = MyPrintWriter(true)
         LuposdateEndpoint.evaluateOperatorgraphToResult(optPhys, buf)
         result = buf.toString()
+
+        val nodes: Array<IOPBase>
+        var columnProjectionOrder = listOf<List<String>>()
+        if (optPhys is OPBaseCompound) {
+            nodes = Array<IOPBase>(optPhys.children.size) { optPhys.children[it] }
+            columnProjectionOrder = optPhys.columnProjectionOrder
+        } else {
+            nodes = arrayOf(optPhys)
+        }
+        for (i in nodes.indices) {
+            val node = nodes[i]
+            val tmp: Any = node.evaluateRoot(Partition(), { animationData.add(it) })
+        }
+
+    }
+
+    @JsName ("getDataSteps")
+    public fun getDataSteps(): Array<Array<String>> {
+        return animationData.toTypedArray()
     }
 
     @JsName("getOptimizedStepsPhysical")

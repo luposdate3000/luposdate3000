@@ -281,7 +281,7 @@ public actual object HttpEndpointLauncher {
                             } else {
                                 val tmpRoot2 = paths["/debug.html"]
                                 paths[""] = tmpRoot2!!
-                                paths["/"] = tmpRoot2!!
+                                paths["/"] = tmpRoot2
                             }
                             val actionHelper = paths[path]
                             if (actionHelper == null) {

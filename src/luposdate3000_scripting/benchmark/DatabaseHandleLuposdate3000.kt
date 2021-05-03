@@ -1,6 +1,6 @@
 /*
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
- * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of>
+ * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

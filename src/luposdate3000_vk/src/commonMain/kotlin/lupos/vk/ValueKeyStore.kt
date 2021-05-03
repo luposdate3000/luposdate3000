@@ -421,6 +421,7 @@ internal class ValueKeyStoreIteratorSearch internal constructor(@JvmField intern
     @JvmField
     internal var pageid = startPageID
 
+    @Suppress("NOTHING_TO_INLNE")
     internal inline fun search(target: ByteArrayWrapper): Int {
         // println("searching start")
         while (true) {

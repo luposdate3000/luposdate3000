@@ -30,7 +30,7 @@ import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.math.ceil
 
-public class AOPBuildInCallCEIL public constructor(query: IQuery, child0: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallCEILID, "AOPBuildInCallCEIL", arrayOf(child0, )) {
+public class AOPBuildInCallCEIL public constructor(query: IQuery, child0: AOPBase) : AOPBase(query, EOperatorIDExt.AOPBuildInCallCEILID, "AOPBuildInCallCEIL", arrayOf(child0)) {
     override fun toSparql(): String = "CEIL(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallCEIL && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallCEIL(query, children[0].cloneOP() as AOPBase)

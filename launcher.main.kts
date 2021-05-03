@@ -30,7 +30,7 @@
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollector.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt")
 @file:CompilerOptions("-Xmulti-platform")
- 
+
 import lupos.shared.EGarbageCollectorExt
 import lupos.shared.EOperatingSystemExt
 import lupos.shared.EPartitionModeExt
@@ -528,6 +528,7 @@ val defaultParams = mutableListOf(
         "--compilerVersion",
         "1.4.0",
         mapOf(
+            "1.5.0-RC" to { compilerVersion = "1.5.0-RC" },
             "1.4.0" to { compilerVersion = "1.4.0" },
             "1.4.255-SNAPSHOT" to { compilerVersion = "1.4.255-SNAPSHOT" },
             "1.5.255-SNAPSHOT" to { compilerVersion = "1.5.255-SNAPSHOT" },
@@ -876,7 +877,7 @@ fun onRun() {
                     }
                 }
             }
-            val javaFileName = "/usr/lib/jvm/java-15-openjdk-amd64/bin/java"
+            val javaFileName = "/usr/lib/jvm/java-16-openjdk-amd64/bin/java"
             val javaFile = File(javaFileName)
             val cmd = mutableListOf<String>()
             if (javaFile.exists()) {
@@ -1132,9 +1133,9 @@ fun onGenerateParser() {
     )
     val nQuadsFilename = "src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}parser${Platform.getPathSeparator()}nQuads${Platform.getPathSeparator()}NQuads2ParserGenerated.kt"
     val nQuadsPackage = "lupos.parser.nQuads"
-    ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage, )
-    ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage, )
-    ParserGenerator(nQuadsGeneratingArgs, nQuadsGrammar, nQuadsFilename, nQuadsPackage, )
+    ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage)
+    ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage)
+    ParserGenerator(nQuadsGeneratingArgs, nQuadsGrammar, nQuadsFilename, nQuadsPackage)
 }
 
 fun onGenerateEnumsHelper(enumName: String, packageName: String, modifier: String, fileName: String) {

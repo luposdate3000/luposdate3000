@@ -46,7 +46,7 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
     override fun getProvidedVariableNamesInternal(): List<String> = (getChildren()[0] as POPBase).getProvidedVariableNamesInternal()
 
     override fun toSparql(): String = getChildren()[0].toSparql()
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
+    public override fun evaluate(parent: Partition, addNewData: (Array<String>) -> Unit): IteratorBundle {
         var result = IteratorBundle(RowIterator())
         val child = getChildren()[0].evaluate(parent)
         var rowMode = child.rows.columns.toMutableList()
@@ -76,6 +76,12 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
                     query.getDictionary().getValue(buffer, iterator.buf[res + j])
                     var string = "?" + this.projectedVariables[j] + " = " + DictionaryHelper.byteArrayToSparql(buffer)
                     visual.sendData(getParent().getVisualUUUID(), getChildren()[0].getVisualUUUID(), iterator.buf[res + j], string)
+                    val tmp = mutableListOf<String>()
+                    tmp.add(getParent().getVisualUUUID().toString())
+                    tmp.add(getChildren()[0].getVisualUUUID().toString())
+                    tmp.add(iterator.buf[res + j].toString())
+                    tmp.add(string)
+                    addNewData(tmp.toTypedArray())
                 }
             }
             res

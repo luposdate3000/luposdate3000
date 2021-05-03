@@ -52,6 +52,7 @@ internal fun helperCleanString(s: String): String {
     return res
 }
 
+@Suppress("NOTHING_TO_INLNE")
 private inline fun cmp(a: IntArray, b: IntArray): Int {
     var res = 0
     res = a[0] - b[0]
@@ -563,13 +564,13 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                     tripleBuf[i] = fis.readInt().toLong()
                 }
                 for (i in 0 until 3) {
-                    val constantPart = tripleBuf[i]
+                    val constantPart: Long = tripleBuf[i]
                     if (counters[i][constantPart.toInt()] > minimumOccurences[i]) {
                         for (j2 in 0 until 2) {
                             val j = (i + j2 + 1) % 3
                             val partitionPart = tripleBuf[j]
                             val x: MutableMap<Int, Array<LongArray>> = estimatedPartitionSizes[i + j2 * 3]
-                            var y: Array<LongArray>? = x[constantPart]
+                            var y: Array<LongArray>? = x[constantPart.toInt()]
                             if (y == null) {
                                 y = Array(partitionSizes.size) { LongArray(partitionSizes[it]) }
                                 x[constantPart.toInt()] = y

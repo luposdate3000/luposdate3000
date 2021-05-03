@@ -191,10 +191,12 @@ public object BinaryTestCase {
                     if (value != null && !value.startsWith("_:")) {
                         out.println("found wrong $value")
                         out.println(
-                            "row :: ${row.map {
-                                actualDict.getValue(buffer, it)
-                                DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString()
-                            }}"
+                            "row :: ${
+                                row.map {
+                                    actualDict.getValue(buffer, it)
+                                    DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString()
+                                }
+                            }"
                         )
                         out.println("dict :: $dict")
                         out.println("missing value in dictionary")
@@ -221,10 +223,12 @@ public object BinaryTestCase {
                     if (value != null && !value.startsWith("_:")) {
                         out.println("found wrong $value")
                         out.println(
-                            "row :: ${row.map {
-                                expectedDict.getValue(buffer, it)
-                                DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString()
-                            }}"
+                            "row :: ${
+                                row.map {
+                                    expectedDict.getValue(buffer, it)
+                                    DictionaryHelper.byteArrayToValueDefinition(buffer).valueToString()
+                                }
+                            }"
                         )
                         out.println("dict :: $dict")
                         out.println("missing value in dictionary")
@@ -297,7 +301,8 @@ public object BinaryTestCase {
     }
 
     @JvmField
-    internal var notImplementedFeaturesList = mutableSetOf( //
+    internal var notImplementedFeaturesList = mutableSetOf(
+        //
         "rdfs:subPropertyOf", //
         "rdfs:subClassOf", //
         "rdfs:domain", //

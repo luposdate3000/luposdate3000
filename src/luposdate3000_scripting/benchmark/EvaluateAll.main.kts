@@ -36,6 +36,8 @@
 @file:CompilerOptions("-Xmulti-platform")
 
 import lupos.benchmark.DatabaseHandleJena
+import lupos.benchmark.DatabaseHandleLuposdateRDF3X
+import lupos.benchmark.DatabaseHandleBlazegraph
 import lupos.benchmark.DatabaseHandleLuposdate3000NoPartition
 import lupos.benchmark.DatabaseHandleLuposdate3000Thread
 import lupos.benchmark.DatabaseHandleVirtuoso
@@ -44,30 +46,30 @@ import java.io.File
 
 // configure databases
 val allDatabases = listOf(
-//    DatabaseHandleBlazegraph("/mnt/db/benchmark/"), //empty results --- something wrong with query prefixes
+    DatabaseHandleBlazegraph("/data/benchmark/"),
 //    DatabaseHandleLuposdateMemory(port = 8080),
-//    DatabaseHandleLuposdateRDF3X(workDir = "/mnt/db/benchmark/", port = 8080), //all queries working on yago1
-    DatabaseHandleVirtuoso(workDir = "/mnt/db/benchmark/"),
+    DatabaseHandleLuposdateRDF3X(workDir = "/data/benchmark/", port = 8080),
+    DatabaseHandleVirtuoso(workDir = "/data/benchmark/"),
     DatabaseHandleJena(port = 8080),
-    DatabaseHandleLuposdate3000NoPartition(workDir = "/mnt/db/benchmark/", port = 8080)
+    DatabaseHandleLuposdate3000NoPartition(workDir = "/data/benchmark/", port = 8080)
         .setBufferManager("Inmemory"),
-    DatabaseHandleLuposdate3000Thread(workDir = "/mnt/db/benchmark/", port = 8080, threadCount = 2)
+    DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 2)
         .setBufferManager("Inmemory"),
-    DatabaseHandleLuposdate3000Thread(workDir = "/mnt/db/benchmark/", port = 8080, threadCount = 4)
+    DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 4)
         .setBufferManager("Inmemory"),
-    DatabaseHandleLuposdate3000Thread(workDir = "/mnt/db/benchmark/", port = 8080, threadCount = 8)
+    DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 8)
         .setBufferManager("Inmemory"),
-    DatabaseHandleLuposdate3000Thread(workDir = "/mnt/db/benchmark/", port = 8080, threadCount = 16)
+    DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 16)
         .setBufferManager("Inmemory"),
-    DatabaseHandleLuposdate3000NoPartition(workDir = "/mnt/db/benchmark/", port = 8080)
+    DatabaseHandleLuposdate3000NoPartition(workDir = "/data/benchmark/", port = 8080)
         .setBufferManager("Persistent_Cached"),
-    DatabaseHandleLuposdate3000Thread(workDir = "/mnt/db/benchmark/", port = 8080, threadCount = 2)
+    DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 2)
         .setBufferManager("Persistent_Cached"),
-    DatabaseHandleLuposdate3000Thread(workDir = "/mnt/db/benchmark/", port = 8080, threadCount = 4)
+    DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 4)
         .setBufferManager("Persistent_Cached"),
-    DatabaseHandleLuposdate3000Thread(workDir = "/mnt/db/benchmark/", port = 8080, threadCount = 8)
+    DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 8)
         .setBufferManager("Persistent_Cached"),
-    DatabaseHandleLuposdate3000Thread(workDir = "/mnt/db/benchmark/", port = 8080, threadCount = 16)
+    DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 16)
         .setBufferManager("Persistent_Cached"),
 )
 // configure dataset locations
@@ -116,7 +118,7 @@ for ((k, v) in allTasks) {
 }
 
 // evaluating all tasks
-val outputFolder = "/mnt/db/benchmark-results/"
+val outputFolder = "/data/benchmark-results/"
 File(outputFolder).mkdirs()
 File("$outputFolder/log.txt").printWriter().use { logger ->
     for ((datasetName, allQueries) in allTasks) {

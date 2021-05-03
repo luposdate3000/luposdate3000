@@ -64,7 +64,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -122,7 +122,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -179,7 +179,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -236,7 +236,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -251,7 +251,7 @@ public object OperatorBuilder {
                         arrayOf(arrayOf(ETripleComponentTypeExt.ERROR), arrayOf(ETripleComponentTypeExt.UNDEF)),
                         generateInstantiated = generateInstantiatedFalse2,
                         generateByteArrayWrapper = generateByteArrayWrapperFalse2,
-                    ).setOther(generateInstantiatedTrue2, generateByteArrayWrapperTrue2, ).build(),
+                    ).setOther(generateInstantiatedTrue2, generateByteArrayWrapperTrue2).build(),
                 generateInstantiatedOther = generateInstantiatedTrue,
                 generateIDOther = generateIDTrue,
                 generateByteArrayWrapperOther = generateByteArrayWrapperTrue,
@@ -291,7 +291,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -330,7 +330,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.STRING_LANG)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -367,7 +367,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -477,7 +477,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -587,7 +587,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -626,7 +626,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.STRING_LANG)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -726,7 +726,7 @@ public object OperatorBuilder {
                                 target.appendLine("$indention}")
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -826,7 +826,7 @@ public object OperatorBuilder {
                                 target.appendLine("$indention}")
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -846,7 +846,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -866,7 +866,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -886,7 +886,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -906,7 +906,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -926,7 +926,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -946,7 +946,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.DECIMAL)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -965,7 +965,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -984,7 +984,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1004,7 +1004,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1024,7 +1024,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.STRING_LANG)
                             },
                         ),
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1043,7 +1043,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         ),
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1194,7 +1194,7 @@ public object OperatorBuilder {
                                 target.appendLine("$indention}")
                             },
                         ),
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1345,7 +1345,7 @@ public object OperatorBuilder {
                                 target.appendLine("$indention}")
                             },
                         ),
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1382,7 +1382,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         ),
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1419,7 +1419,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1456,7 +1456,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1559,7 +1559,7 @@ public object OperatorBuilder {
                                 target.appendLine("$indention}")
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1578,7 +1578,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1623,7 +1623,7 @@ public object OperatorBuilder {
                                 target.appendLine("$indention}")
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1668,7 +1668,7 @@ public object OperatorBuilder {
                                 target.appendLine("$indention}")
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1708,7 +1708,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1748,7 +1748,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1788,7 +1788,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -1819,7 +1819,7 @@ public object OperatorBuilder {
                             generateInstantiated = generateInstantiatedTrue2,
                             generateByteArrayWrapper = generateByteArrayWrapperTrue2,
                         )
-                    ).setOther(generateInstantiatedFalse2, generateByteArrayWrapperFalse2, ).build(),
+                    ).setOther(generateInstantiatedFalse2, generateByteArrayWrapperFalse2).build(),
                 generateInstantiatedOther = generateInstantiatedFalse,
                 generateIDOther = generateIDFalse,
                 generateByteArrayWrapperOther = generateByteArrayWrapperFalse,
@@ -1857,7 +1857,7 @@ public object OperatorBuilder {
                             generateInstantiated = generateInstantiatedFalse2,
                             generateByteArrayWrapper = generateByteArrayWrapperFalse2,
                         )
-                    ).setOther(generateInstantiatedTrue2, generateByteArrayWrapperTrue2, ).build(),
+                    ).setOther(generateInstantiatedTrue2, generateByteArrayWrapperTrue2).build(),
                 generateInstantiatedOther = generateInstantiatedTrue,
                 generateIDOther = generateIDTrue,
                 generateByteArrayWrapperOther = generateByteArrayWrapperTrue,
@@ -1975,7 +1975,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2003,7 +2003,7 @@ public object OperatorBuilder {
                         ),
                         generateInstantiated = generateInstantiatedTrue2,
                         generateByteArrayWrapper = generateByteArrayWrapperTrue2,
-                    ).setOther(generateInstantiatedFalse2, generateByteArrayWrapperFalse2, ).build(),
+                    ).setOther(generateInstantiatedFalse2, generateByteArrayWrapperFalse2).build(),
                 generateInstantiatedOther = generateInstantiatedFalse,
                 generateIDOther = generateIDFalse,
                 generateByteArrayWrapperOther = generateByteArrayWrapperFalse,
@@ -2078,7 +2078,7 @@ public object OperatorBuilder {
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2137,7 +2137,7 @@ public object OperatorBuilder {
                                 target.appendLine("$indention}")
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2196,7 +2196,7 @@ public object OperatorBuilder {
                                 target.appendLine("$indention}")
                             },
                         )
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2222,7 +2222,7 @@ public object OperatorBuilder {
                                 target.appendLine("$indention}")
                             },
                         ),
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2248,7 +2248,7 @@ public object OperatorBuilder {
                                 target.appendLine("$indention}")
                             },
                         ),
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2275,7 +2275,7 @@ public object OperatorBuilder {
                                 target.appendLine("$indention}")
                             },
                         ),
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
@@ -2301,7 +2301,7 @@ public object OperatorBuilder {
                                 target.appendLine("$indention}")
                             },
                         ),
-                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2, ).build(),
+                    ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,

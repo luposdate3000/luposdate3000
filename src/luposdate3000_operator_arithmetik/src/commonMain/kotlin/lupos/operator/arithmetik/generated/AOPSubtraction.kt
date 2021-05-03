@@ -29,7 +29,7 @@ import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared_inline.DictionaryHelper
 
-public class AOPSubtraction public constructor(query: IQuery, child0: AOPBase, child1: AOPBase, ) : AOPBase(query, EOperatorIDExt.AOPSubtractionID, "AOPSubtraction", arrayOf(child0, child1, )) {
+public class AOPSubtraction public constructor(query: IQuery, child0: AOPBase, child1: AOPBase) : AOPBase(query, EOperatorIDExt.AOPSubtractionID, "AOPSubtraction", arrayOf(child0, child1)) {
     override fun toSparql(): String = "Subtraction(${children[0].toSparql()}, ${children[1].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPSubtraction && children[0] == other.children[0] && children[1] == other.children[1]
     override fun cloneOP(): IOPBase = AOPSubtraction(query, children[0].cloneOP() as AOPBase, children[1].cloneOP() as AOPBase)

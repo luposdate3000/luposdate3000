@@ -29,7 +29,7 @@ import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
-public class AOPBuildInCallURI public constructor(query: IQuery, child0: AOPBase, @JvmField public var prefix: String, ) : AOPBase(query, EOperatorIDExt.AOPBuildInCallURIID, "AOPBuildInCallURI", arrayOf(child0, )) {
+public class AOPBuildInCallURI public constructor(query: IQuery, child0: AOPBase, @JvmField public var prefix: String) : AOPBase(query, EOperatorIDExt.AOPBuildInCallURIID, "AOPBuildInCallURI", arrayOf(child0)) {
     override fun toSparql(): String = "URI(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallURI && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallURI(query, children[0].cloneOP() as AOPBase, prefix)

@@ -51,7 +51,7 @@ internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
                 vals = mutableMapOf<String, String>()
                 values[vs] = vals
             }
-            vals!![vp] = vo
+            vals[vp] = vo
         } else {
             break
         }

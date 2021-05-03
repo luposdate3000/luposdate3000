@@ -141,9 +141,15 @@ public abstract class OPBase public constructor(
         return res
     }
 
+    public override fun evaluateRoot(partition: Partition, addNewData: (Array<String>) -> Unit):IteratorBundle{
+        val node = query.initialize(this)
+        val res = node.evaluate(partition, addNewData)
+        return res
+    }
+
     override /*suspend*/ fun evaluateRoot(partition: Partition): IteratorBundle {
         val node = query.initialize(this)
-        val res = node.evaluate(partition)
+        val res = node.evaluate(partition, {})
         return res
     }
 

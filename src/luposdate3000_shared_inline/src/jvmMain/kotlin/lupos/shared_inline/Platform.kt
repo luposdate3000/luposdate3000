@@ -82,7 +82,7 @@ internal actual object Platform {
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun getAvailableRam(): Int {
-        return getEnv("LUPOS_RAM", "50")!!.toInt()
+        return getEnv("LUPOS_RAM", "4")!!.toInt()
     }
 
     @JvmField

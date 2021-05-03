@@ -41,18 +41,21 @@ internal object RestEndpoint {
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
     internal var sessionMap = mutableMapOf<Int, EndpointExtendedVisualize>()
 
+    @Suppress("NOTHING_TO_INLNE")
     private inline fun registerDictionary(key: String): RemoteDictionaryServer {
         val dict = RemoteDictionaryServer(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true))
         dictionaryMapping[key] = dict
         return dict
     }
 
+    @Suppress("NOTHING_TO_INLNE")
     private inline fun registerDictionary(key: String, dict: IDictionary): RemoteDictionaryServer {
         val dict = RemoteDictionaryServer(dict)
         dictionaryMapping[key] = dict
         return dict
     }
 
+    @Suppress("NOTHING_TO_INLNE")
     private inline fun removeDictionary(key: String) {
         dictionaryMapping.remove(key)
     }
@@ -161,6 +164,26 @@ internal object RestEndpoint {
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
                 connectionOutMy.print(eev.getResult())
+            }else{
+                connectionOutMy.print("SessionNotFoundException")
+            }
+            //LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+            /*Coverage Unreachable*/
+        }
+
+        paths["/sparql/getVisualisationData"] = PathMappingHelper(
+            true,
+            mapOf(
+                Pair("sessionID", "") to ::inputElement,
+            )
+        ){
+            val eev = params["sessionID"]?.let { sessionMap.get(it.toInt()) }
+            printHeaderSuccess(connectionOutMy)
+            if (eev != null) {
+                val tmp = eev.getDataSteps()
+                for (i in tmp){
+                    connectionOutMy.print(i[0]+"||"+i[1]+"||"+i[2]+"||"+i[3]+"ENDDATA")
+                }
             }else{
                 connectionOutMy.print("SessionNotFoundException")
             }
@@ -293,7 +316,7 @@ internal object RestEndpoint {
             removeDictionary(params["key"]!!)
             printHeaderSuccess(connectionOutMy)
         }
-        paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement, )) {
+        paths["/distributed/graph/create"] = PathMappingHelper(true, mapOf(Pair("name", "") to ::inputElement)) {
             val name = params["name"]!!
             val query = Query()
             tripleStoreManager.remoteCreateGraph(query, name, (params["origin"] == null || params["origin"].toBoolean()), params["metadata"])

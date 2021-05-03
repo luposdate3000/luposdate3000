@@ -1,6 +1,6 @@
 /*
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
- * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of>
+ * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,14 +28,37 @@ class DatabaseHandleVirtuoso(val workDir: String) : DatabaseHandle() {
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
         File(workDir).deleteRecursively()
         File(workDir).mkdirs()
+        println("workDir:: " + workDir)
         File("$workDir/virtuoso.ini").printWriter().use { out ->
             File("${virtuosoBasePath}var/lib/virtuoso/db/virtuoso.ini").forEachLine { line ->
-                out.println(line.replace("${virtuosoBasePath}var/lib/virtuoso/db/", "$workDir/").replace("$workDir/virtuoso.log", "/dev/stdout"))
+                when {
+                    line.startsWith("DirsAllowed") -> {
+                        out.println("DirsAllowed = /")
+                    }
+                    line.startsWith("NumberOfBuffers") -> {
+                        out.println("NumberOfBuffers = 5450000")
+                    }
+                    line.startsWith("MaxDirtyBuffers") -> {
+                        out.println("MaxDirtyBuffers = 4000000")
+                    }
+                    line.startsWith("ResultSetMaxRows") -> {
+                        out.println("ResultSetMaxRows = 1048576")
+                    }
+                    else -> {
+                        out.println(line.replace("${virtuosoBasePath}var/lib/virtuoso/db/", "$workDir/").replace("$workDir/virtuoso.log", "/dev/stdout"))
+                    }
+                }
             }
         }
+        File(import_file_name).copyTo(File("$workDir/data/${import_file_name.substring(import_file_name.lastIndexOf("/"))}"))
         File("$workDir/init").printWriter().use { out ->
             out.println("GRANT SPARQL_LOAD_SERVICE_DATA to \"SPARQL\";")
             out.println("GRANT SPARQL_UPDATE to \"SPARQL\";")
+            val name = import_file_name.substring(import_file_name.lastIndexOf("."))
+            out.println("ld_dir ('$workDir/data', '*$name', 'http://benchmark');")
+            out.println("select * from DB.DBA.load_list;")
+            out.println("rdf_loader_run();")
+            out.println("checkpoint;")
         }
         val p = ProcessBuilder(
             "${virtuosoBasePath}bin/virtuoso-t",
@@ -70,7 +93,7 @@ class DatabaseHandleVirtuoso(val workDir: String) : DatabaseHandle() {
                     .redirectError(Redirect.INHERIT)
                     .start()
                     .waitFor()
-                importData(import_file_name)
+//                importData(import_file_name)
                 action()
                 break
             }
@@ -112,11 +135,18 @@ class DatabaseHandleVirtuoso(val workDir: String) : DatabaseHandle() {
         conn.connect()
         val os = conn.getOutputStream()
         os.write(encodedData)
-        val response = conn.inputStream.bufferedReader().readText()
-        println(response)
-        val code = conn.getResponseCode()
-        if (code != 200) {
-            throw Exception("import failed with response code $code")
+        println(encodedData.decodeToString())
+        try {
+            val response = conn.inputStream.bufferedReader().readText()
+            println(response)
+            val code = conn.getResponseCode()
+            if (code != 200) {
+                throw Exception("import failed with response code $code")
+            }
+        } catch (e: Throwable) {
+            val response = conn.errorStream.bufferedReader().readText()
+            println(response)
+            throw e
         }
     }
 }

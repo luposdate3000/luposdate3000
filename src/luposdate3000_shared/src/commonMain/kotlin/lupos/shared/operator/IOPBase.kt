@@ -66,4 +66,6 @@ public interface IOPBase {
     public /*suspend*/ fun evaluateRoot(partition: Partition): IteratorBundle
     public fun changePartitionID(idFrom: Int, idTo: Int)
     public fun replaceVariableWithConstant(name: String, value: Int): IOPBase
+    public abstract fun evaluate(parent: Partition, addNewData: (Array<String>) -> Unit): IteratorBundle
+    public abstract fun evaluateRoot(partition: Partition, addNewData: (Array<String>) -> Unit): Any
 }
