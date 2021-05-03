@@ -18,7 +18,7 @@ package lupos.benchmark
 
 class DatabaseHandleLuposdate3000Thread(workDir: String, port: Int, val threadCount: Int) : DatabaseHandleLuposdate3000(workDir, port) {
     override fun getThreads() = threadCount
-    override fun getName(): String = "Luposdate3000Thread($threadCount)"
+    override fun getName(): String = "Luposdate3000Thread$bufferManagerToUse($threadCount)"
     override fun getLauncher(): ProcessBuilder {
         return ProcessBuilder(
             "./launcher.main.kts",
@@ -27,7 +27,7 @@ class DatabaseHandleLuposdate3000Thread(workDir: String, port: Int, val threadCo
             "--inlineMode=Enable",
             "--mainClass=Endpoint",
             "--Endpoint_Launcher=Java_Sockets",
-            "--partitionMode=Threads",
+            "--partitionMode=Thread",
             "--dryMode=Enable",
             "--Buffer_Manager=$bufferManagerToUse",
             "--threadCount=$threadCount",

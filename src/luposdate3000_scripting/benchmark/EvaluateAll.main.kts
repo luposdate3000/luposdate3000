@@ -35,19 +35,19 @@
 @file:Import("../../luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DateHelperRelative.kt")
 @file:CompilerOptions("-Xmulti-platform")
 
-import lupos.benchmark.DatabaseHandleBlazegraph
+import lupos.benchmark.*
 import lupos.shared.DateHelperRelative
 import java.io.File
 
 // configure databases
 val allDatabases = listOf(
-    DatabaseHandleBlazegraph("/data/benchmark/"),
-//    DatabaseHandleLuposdateMemory(port = 8080),
+//    DatabaseHandleBlazegraph("/data/benchmark/"),//out of memory during load
+//    DatabaseHandleLuposdateMemory(port = 8080),//out of memory during load
 //    DatabaseHandleLuposdateRDF3X(workDir = "/data/benchmark/", port = 8080),
 //    DatabaseHandleVirtuoso(workDir = "/data/benchmark/"),
 //    DatabaseHandleJena(port = 8080),
-/*    DatabaseHandleLuposdate3000NoPartition(workDir = "/data/benchmark/", port = 8080)
-        .setBufferManager("Inmemory"),
+//    DatabaseHandleLuposdate3000NoPartition(workDir = "/data/benchmark/", port = 8080)
+//        .setBufferManager("Inmemory"),
     DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 2)
         .setBufferManager("Inmemory"),
     DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 4)
@@ -66,8 +66,8 @@ val allDatabases = listOf(
         .setBufferManager("Persistent_Cached"),
     DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 16)
         .setBufferManager("Persistent_Cached"),
-*/
-)
+
+    )
 // configure dataset locations
 val allDatasets = mapOf(
     "yago1" to "/mnt/luposdate-testdata/yago1/yago-1.0.0-turtle.ttl",
@@ -88,6 +88,14 @@ val blacklistedQueries = mapOf(
         "yago1" to setOf(
             "_:11", // timeout
             "_:26", // timeout
+        ),
+    ),
+    "Luposdate3000ThreadInmemory(2)" to mapOf(
+        "yago1" to setOf(
+            "_:13", // timeout
+            "_:17", // timeout sleep-deadlock
+            "_:50", // timeout sleep-deadlock
+            "_:6", // timeout sleep-deadlock
         ),
     ),
 )
@@ -165,7 +173,6 @@ File("$outputFolder/log.txt").printWriter().use { logger ->
                 e.printStackTrace()
                 println("errored import ${database.getName()} $datasetName")
             }
-            System.exit(1)
         }
     }
 }

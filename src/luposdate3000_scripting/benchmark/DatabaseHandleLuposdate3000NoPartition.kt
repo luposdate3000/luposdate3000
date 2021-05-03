@@ -18,7 +18,7 @@ package lupos.benchmark
 
 class DatabaseHandleLuposdate3000NoPartition(workDir: String, port: Int) : DatabaseHandleLuposdate3000(workDir, port) {
     override fun getThreads() = 1
-    override fun getName(): String = "Luposdate3000NoPartition"
+    override fun getName(): String = "Luposdate3000NoPartition$bufferManagerToUse"
     override fun getLauncher(): ProcessBuilder {
         return ProcessBuilder(
             "./launcher.main.kts",
