@@ -19,16 +19,14 @@ package lupos.shared_inline
 import kotlin.jvm.JvmField
 
 internal actual class ParallelThreadCondition {
-    @JvmField
-    val myMonitorObject = this as Object
 
     @JvmField
     var wasSignalled = false
     internal actual inline fun waitCondition(crossinline condition: () -> Boolean) {
-        synchronized(myMonitorObject) {
+        synchronized(this) {
             if (!wasSignalled && condition()) {
                 try {
-                    myMonitorObject.wait()
+                    (this as Object).wait()
                 } catch (e: Exception) {
                 }
             }
@@ -38,9 +36,9 @@ internal actual class ParallelThreadCondition {
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun signal() {
-        synchronized(myMonitorObject) {
+        synchronized(this) {
             wasSignalled = true
-            myMonitorObject.notify()
+            (this as Object).notify()
         }
     }
 }

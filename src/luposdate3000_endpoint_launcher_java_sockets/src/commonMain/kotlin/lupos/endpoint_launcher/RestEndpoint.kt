@@ -40,18 +40,19 @@ internal object RestEndpoint {
     @JvmField
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
 
+@Suppress("NOTHING_TO_INLNE")
     private inline fun registerDictionary(key: String): RemoteDictionaryServer {
         val dict = RemoteDictionaryServer(DictionaryFactory.createDictionary(EDictionaryTypeExt.InMemory, true))
         dictionaryMapping[key] = dict
         return dict
     }
-
+@Suppress("NOTHING_TO_INLNE")
     private inline fun registerDictionary(key: String, dict: IDictionary): RemoteDictionaryServer {
         val dict = RemoteDictionaryServer(dict)
         dictionaryMapping[key] = dict
         return dict
     }
-
+@Suppress("NOTHING_TO_INLNE")
     private inline fun removeDictionary(key: String) {
         dictionaryMapping.remove(key)
     }

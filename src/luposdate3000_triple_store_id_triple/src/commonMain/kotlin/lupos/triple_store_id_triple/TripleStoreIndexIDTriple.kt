@@ -98,6 +98,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     @JvmField
     internal var firstLeaf_: Int = NodeManager.nodeNullPointer
+@Suppress("NOTHING_TO_INLNE")
     internal inline fun setFirstLeaf(value: Int) {
         val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
         BufferManagerPage.writeInt4(rootPage, 16, value)
@@ -108,6 +109,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     @JvmField
     internal var root_: Int = NodeManager.nodeNullPointer
+@Suppress("NOTHING_TO_INLNE")
     internal inline fun setRoot(value: Int) {
         val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
         BufferManagerPage.writeInt4(rootPage, 4, value)
@@ -118,6 +120,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     @JvmField
     internal var countPrimary_: Int = 0
+@Suppress("NOTHING_TO_INLNE")
     internal inline fun setCountPrimary(value: Int) {
         val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
         BufferManagerPage.writeInt4(rootPage, 8, value)
@@ -128,6 +131,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     @JvmField
     internal var distinctPrimary_: Int = 0
+@Suppress("NOTHING_TO_INLNE")
     internal inline fun setDistinctPrimary(value: Int) {
         val rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
         BufferManagerPage.writeInt4(rootPage, 12, value)

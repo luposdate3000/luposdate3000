@@ -528,6 +528,7 @@ val defaultParams = mutableListOf(
         "--compilerVersion",
         "1.4.0",
         mapOf(
+            "1.5.0-RC" to { compilerVersion = "1.5.0-RC" },
             "1.4.0" to { compilerVersion = "1.4.0" },
             "1.4.255-SNAPSHOT" to { compilerVersion = "1.4.255-SNAPSHOT" },
             "1.5.255-SNAPSHOT" to { compilerVersion = "1.5.255-SNAPSHOT" },
