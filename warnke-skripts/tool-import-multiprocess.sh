@@ -14,9 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 port=8080
-storage_base=/mnt/db/btc2019
+storage_base=/data/btc2019
 intermediate=${LUPOS_REAL_WORLD_DATA_ROOT}/yago1/yago-1.0.0-turtle.ttl
-storage_base=/mnt/db/yago1
+storage_base=/data/yago1
 
 for i in 1 2 4 8 16
 #for i in 2

@@ -18,7 +18,7 @@ intermediates=( ${LUPOS_REAL_WORLD_DATA_ROOT}/yago1/yago-1.0.0-turtle.ttl ${LUPO
 i=$1
 port=80
 intermediate=${intermediates[i]}
-storage=$(dirname $(echo ${intermediates[i]} | sed "s#${LUPOS_REAL_WORLD_DATA_ROOT}/#/mnt/db/#g"))/
+storage=$(dirname $(echo ${intermediates[i]} | sed "s#${LUPOS_REAL_WORLD_DATA_ROOT}/#/data/#g"))/
 echo $i $intermediate $storage
 rm -rf $storage
 mkdir -p $storage

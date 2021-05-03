@@ -877,7 +877,7 @@ fun onRun() {
                     }
                 }
             }
-            val javaFileName = "/usr/lib/jvm/java-15-openjdk-amd64/bin/java"
+            val javaFileName = "/usr/lib/jvm/java-16-openjdk-amd64/bin/java"
             val javaFile = File(javaFileName)
             val cmd = mutableListOf<String>()
             if (javaFile.exists()) {
