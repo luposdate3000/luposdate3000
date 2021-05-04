@@ -30,7 +30,7 @@ public object BufferManagerExt {
     public var allowInitFromDisk: Boolean = true
 
     @JvmField
-    internal val bufferManager: BufferManager? = null
+    internal var bufferManager: BufferManager? = null
 
     public fun initialize() {
         bufferManager = BufferManager()
