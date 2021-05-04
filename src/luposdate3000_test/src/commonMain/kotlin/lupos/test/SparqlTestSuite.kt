@@ -642,7 +642,7 @@ public open class SparqlTestSuite {
                         val jenaResult = JenaWrapper.execQuery(toParse)
                         val jenaXML = MemoryTableFromXML()(jenaResult, xmlQueryResult!!.query!!)
 // println("test xmlJena >>>>>"+jenaResult+"<<<<<")
-                        if (jenaXML != null && jenaXML != xmlQueryResult) {
+                        if (jenaXML != null && !jenaXML.equalsVerbose(xmlQueryResult, false, true)) {
                             println("----------Verify Output Jena jena,actual")
                             println("test jenaOriginal :: $jenaResult")
 
@@ -658,11 +658,7 @@ public open class SparqlTestSuite {
                         ignoreJena = true
                     }
                 }
-                if (toParse.contains("ORDER", true)) {
-                    res = xmlQueryResult!!.equalsIgnoreOrder(xmlQueryTarget)
-                } else {
-                    res = xmlQueryResult!! == xmlQueryTarget
-                }
+                res = xmlQueryResult!!.equalsVerbose(xmlQueryTarget, toParse.toLowerCase().contains("order", true), true)
                 if (res) {
                     val xmlPOP = popNode.toXMLElementRoot(false)
                     val query4 = Query()
@@ -677,7 +673,7 @@ public open class SparqlTestSuite {
                     tripleStoreManager.commit(query4)
                     query4.commited = true
 
-                    if (xmlQueryResultRecovered.first() == xmlQueryResult!!) {
+                    if (xmlQueryResultRecovered.first().equalsVerbose(xmlQueryResult!!, false, true)) {
                         if (expectedResult) {
                             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                             println("----------Success")

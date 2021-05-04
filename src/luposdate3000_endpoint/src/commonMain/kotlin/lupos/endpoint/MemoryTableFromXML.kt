@@ -27,11 +27,11 @@ import lupos.shared_inline.DictionaryHelper
 public class MemoryTableFromXML : MemoryTableParser {
     override operator fun invoke(data: String, query: IQuery): MemoryTable? {
         val xml = XMLElementFromXML()(data)
-        if (xml == null) {
+        if (xml == null || xml.tag != "sparql") {
             return null
         }
         try {
-            val xmlSparql = xml["sparql"]!!
+            val xmlSparql = xml
             val xmlHead = xmlSparql["head"]!!
             val variables = xmlHead.childs.map { it.attributes["name"]!! }
             var res = MemoryTable(variables.toTypedArray())
@@ -95,6 +95,7 @@ public class MemoryTableFromXML : MemoryTableParser {
             }
             return res
         } catch (e: Throwable) {
+            e.printStackTrace()
             return null
         }
     }

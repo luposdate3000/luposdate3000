@@ -17,6 +17,7 @@
 package lupos.shared
 
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 public class MemoryTable public constructor(@JvmField public val columns: Array<String>) {
@@ -44,68 +45,131 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other !is MemoryTable) {
-            return false
-        }
-        if (columns.size != other.columns.size) {
-            return false
-        }
-        for (i in 0 until columns.size) {
-            if (columns[i] != other.columns[i]) {
-                return false
-            }
-        }
-        if (data.size != other.data.size) {
-            return false
-        }
-        val buffer1 = ByteArrayWrapper()
-        val buffer2 = ByteArrayWrapper()
-        var i = 0
-        var dict1 = query!!.getDictionary()
-        var dict2 = other.query!!.getDictionary()
-        while (i < data.size && i < other.data.size) {
-            for (j in 0 until columns.size) {
-                dict1.getValue(buffer1, data[i][j])
-                dict2.getValue(buffer2, data[i][j])
-                if (buffer1 != buffer2) {
-                    return false
-                }
-            }
-            i++
-        }
-        return true
+        return equalsVerbose(other, false, false)
     }
 
-    public fun equalsIgnoreOrder(other: Any?): Boolean {
+    public fun equalsVerbose(other: Any?, ignoreOrder: Boolean, verbose: Boolean): Boolean {
         if (other !is MemoryTable) {
             return false
         }
         if (columns.size != other.columns.size) {
+            if (verbose) {
+                println("columns differ : ${columns.map { it }} vs ${other.columns.map { it }}")
+            }
             return false
         }
         for (i in 0 until columns.size) {
             if (columns[i] != other.columns[i]) {
+                if (verbose) {
+                    println("columns differ : ${columns.map { it }} vs ${other.columns.map { it }}")
+                }
                 return false
             }
         }
-        if (data.size != other.data.size) {
-            return false
+        if (booleanResult != null || other.booleanResult != null) {
+            if (booleanResult == other.booleanResult) {
+                return true
+            } else {
+                if (verbose) {
+                    println("boolean result differ : $booleanResult vs ${other.booleanResult}")
+                }
+                return false
+            }
         }
         val buffer1 = ByteArrayWrapper()
         val buffer2 = ByteArrayWrapper()
-        var i = 0
         var dict1 = query!!.getDictionary()
         var dict2 = other.query!!.getDictionary()
-        while (i < data.size && i < other.data.size) {
-            for (j in 0 until columns.size) {
-                dict1.getValue(buffer1, data[i][j])
-                dict2.getValue(buffer2, data[i][j])
-                if (buffer1 != buffer2) {
-                    return false
+        var flags1 = IntArray(data.size) { -1 }
+        var flags2 = IntArray(other.data.size) { -1 }
+        for (i in 0 until data.size) {
+            loop2@ for (j in 0 until other.data.size) {
+                if (flags2[j] == -1) {
+                    var flag = true
+                    loop1@ for (k in 0 until columns.size) {
+                        dict1.getValue(buffer1, data[i][k])
+                        dict2.getValue(buffer2, other.data[j][k])
+                        if (buffer1 != buffer2) {
+                            flag = false
+                            break@loop1
+                        }
+                    }
+                    if (flag) {
+                        flags2[j] = i
+                        flags1[i] = j
+                        break@loop2
+                    }
                 }
             }
-            i++
         }
+        if (ignoreOrder) {
+            var i = 0
+            while (i < data.size || i < other.data.size) {
+                if (i < data.size) {
+                    if (flags1[i] == -1) {
+                        if (verbose) {
+                            println(
+                                "left has ${data[i].map { it }} : ${
+                                    data[i].map { it ->
+                                        dict1.getValue(buffer1, it)
+                                        DictionaryHelper.byteArrayToSparql(buffer1)
+                                    }
+                                }"
+                            )
+                        }
+                    }
+                }
+                if (i < other.data.size) {
+                    if (flags2[i] == -1) {
+                        if (verbose) {
+                            println(
+                                "right has ${other.data[i].map { it }} : ${
+                                    other.data[i].map { it ->
+                                        dict2.getValue(buffer2, it)
+                                        DictionaryHelper.byteArrayToSparql(buffer2)
+                                    }
+                                }"
+                            )
+                        }
+                    }
+                }
+                i++
+            }
+        } else {
+            var i = 0
+            while (i < data.size || i < other.data.size) {
+                if (i < data.size) {
+                    if (flags1[i] != i) {
+                        if (verbose) {
+                            println(
+                                "left has ${data[i].map { it }} : ${
+                                    data[i].map { it ->
+                                        dict1.getValue(buffer1, it)
+                                        DictionaryHelper.byteArrayToSparql(buffer1)
+                                    }
+                                }"
+                            )
+                        }
+                    }
+                }
+                if (i < other.data.size) {
+                    if (flags2[i] != i) {
+                        if (verbose) {
+                            println(
+                                "right has ${other.data[i].map { it }} : ${
+                                    other.data[i].map { it ->
+                                        dict2.getValue(buffer2, it)
+                                        DictionaryHelper.byteArrayToSparql(buffer2)
+                                    }
+                                }"
+                            )
+                        }
+                    }
+                }
+                i++
+            }
+        }
+
         return true
     }
 

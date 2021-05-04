@@ -49,7 +49,25 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
 
     public fun finish() {
         File(outputFolderSrc + "/MainFunc.kt").withOutputStream { out ->
+            out.println("/*")
+            out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
+            out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
+            out.println(" *")
+            out.println(" * This program is free software: you can redistribute it and/or modify")
+            out.println(" * it under the terms of the GNU General Public License as published by")
+            out.println(" * the Free Software Foundation, version 3.")
+            out.println(" *")
+            out.println(" * This program is distributed in the hope that it will be useful, but")
+            out.println(" * WITHOUT ANY WARRANTY; without even the implied warranty of")
+            out.println(" * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU")
+            out.println(" * General Public License for more details.")
+            out.println(" *")
+            out.println(" * You should have received a copy of the GNU General Public License")
+            out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
+            out.println(" */")
             out.println("package lupos.launch.$folderPathCoponent")
+            out.println("import lupos.shared.Parallel")
+            out.println("")
             out.println("internal fun mainFunc(): Unit = Parallel.runBlocking {")
             for (test in allTests) {
                 out.println("    $test()")
@@ -103,29 +121,61 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         allTests.add("$testCaseName")
 
         val queryFileContent = File(queryFile).readAsString()
-        val queryFileContentClean = queryFileContent.replace("\"", "\\\"").replace("\n", "\" +\n        \"")
+        val queryFileContentClean = queryFileContent.replace("\"", "\\\"").replace("\n", "\" +\n        \"").replace("\r", "\" +\n        \"").replace("\t", " ")
 
         File(testCaseFileName).withOutputStream { out ->
+            out.println("/*")
+            out.println(" * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).")
+            out.println(" * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck")
+            out.println(" *")
+            out.println(" * This program is free software: you can redistribute it and/or modify")
+            out.println(" * it under the terms of the GNU General Public License as published by")
+            out.println(" * the Free Software Foundation, version 3.")
+            out.println(" *")
+            out.println(" * This program is distributed in the hope that it will be useful, but")
+            out.println(" * WITHOUT ANY WARRANTY; without even the implied warranty of")
+            out.println(" * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU")
+            out.println(" * General Public License for more details.")
+            out.println(" *")
+            out.println(" * You should have received a copy of the GNU General Public License")
+            out.println(" * along with this program. If not, see <http://www.gnu.org/licenses/>.")
+            out.println(" */")
             out.println("package lupos.launch.$folderPathCoponent")
+            out.println("import lupos.endpoint.LuposdateEndpoint")
+            out.println("import lupos." + "shared_inline.MyPrintWriter")
+            out.println("import lupos." + "shared_inline.File")
+            out.println("import lupos.shared.MemoryTable")
+            out.println("import lupos.result_format.EQueryResultToStreamExt")
+            out.println("import lupos.shared.tripleStoreManager")
+            out.println("import lupos.operator.arithmetik.noinput.AOPVariable")
+            out.println("import lupos.shared.EIndexPatternExt")
+            out.println("")
             out.println("internal object $testCaseName {")
-            out.println("internal const val query = \"${queryFileContentClean}\".trimMargin()")
-            out.println("    public operator fun invoke(){")
+            out.println("    internal const val inputFileName=\"$inputFile\"")
+            out.println("    internal const val targetFileName=\"${outputFile!!}\"")
+            out.println("    internal const val query = \"${queryFileContentClean}\"")
+            out.println("    internal operator fun invoke(){")
             out.println("        println(\"Test: '$testName'\")")
-            out.println("        LuposdateEndpoint.importTurtleFiles(\"$inputFile\",mutableMapOf())")
+            out.println("        LuposdateEndpoint.importTurtleFiles(inputFileName,mutableMapOf())")
             out.println("        val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(query)")
-            out.println("        val buf = MywithOutputStream(true)")
-            out.println("        val result = LuposdateEndpoint.evaluateOperatorgraphToResultA(op,buf,EQueryResultToStreamExt.MEMORY_TABLE)")
-            out.println("        val target = XMLElement.parseFromAny(File(\"${outputFile!!}\").readAsString(), \"${outputFile!!}\")!!")
+            out.println("        val buf = MyPrintWriter(true)")
+            out.println("        val targetString = File(targetFileName).readAsString()")
+            out.println("        val target = MemoryTable.parseFromAny(targetString, targetFileName, op.getQuery())!!")
             if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
-// TODO cmp target and result
+                out.println("        val result = LuposdateEndpoint.evaluateOperatorgraphToResultA(op,buf,EQueryResultToStreamExt.MEMORY_TABLE)")
             } else {
-// TODO cmp target and default graph
+                out.println("        LuposdateEndpoint.evaluateOperatorgraphToResultA(op,buf,EQueryResultToStreamExt.EMPTY_STREAM)")
+                out.println("        val graph = tripleStoreManager.getGraph(\"\")")
+                out.println("        val op2 = graph.getIterator(op.getQuery(), arrayOf(AOPVariable(op.getQuery(), \"s\"),AOPVariable(op.getQuery(), \"p\"),AOPVariable(op.getQuery(), \"o\")),EIndexPatternExt.SPO)")
+                out.println("        val result = LuposdateEndpoint.evaluateOperatorgraphToResultA(op2,buf,EQueryResultToStreamExt.MEMORY_TABLE)")
             }
+            val ordered = queryFileContentClean.toLowerCase().contains("order", true)
+            out.println("        if (target.equalsVerbose(result,${!ordered},true)){")
+            out.println("            throw Exception()")
+            out.println("        }")
             out.println("    }")
             out.println("}")
         }
-//        val tmp = BinaryTestCase.generateTestcase(inputFile, queryFile, outputFile!!, output_folder + "/${counter++}/", testName, mode)
-
         return true
     }
 }

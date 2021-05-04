@@ -28,6 +28,7 @@ internal fun mainFunc() {
         HttpEndpointLauncher.start()
     }
     SparqlTestSuite.prefixDirectory = ""
-    val converter = SparqlTestSuiteConverterToUnitTest("")
+    val converter = SparqlTestSuiteConverterToUnitTest(".")
     converter.testMain()
+    converter.finish()
 }
