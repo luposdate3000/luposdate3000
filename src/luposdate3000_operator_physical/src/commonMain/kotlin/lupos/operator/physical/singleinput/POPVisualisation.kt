@@ -26,6 +26,7 @@
 
 package lupos.operator.physical.singleinput
 
+import lupos.Luposdate3000_Operator_Physical.MyOutputStream
 import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
@@ -44,9 +45,9 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> = getChildren()[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> = (getChildren()[0] as POPBase).getProvidedVariableNamesInternal()
-
     override fun toSparql(): String = getChildren()[0].toSparql()
-    public override fun evaluate(parent: Partition, addNewData: (Array<String>) -> Unit): IteratorBundle {
+    override fun evaluate(parent: Partition, output: String): String {
+        var outputString: String = ""
         var result = IteratorBundle(RowIterator())
         val child = getChildren()[0].evaluate(parent)
         var rowMode = child.rows.columns.toMutableList()
@@ -76,12 +77,11 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
                     query.getDictionary().getValue(buffer, iterator.buf[res + j])
                     var string = "?" + this.projectedVariables[j] + " = " + DictionaryHelper.byteArrayToSparql(buffer)
                     visual.sendData(getParent().getVisualUUUID(), getChildren()[0].getVisualUUUID(), iterator.buf[res + j], string)
-                    val tmp = mutableListOf<String>()
-                    tmp.add(getParent().getVisualUUUID().toString())
-                    tmp.add(getChildren()[0].getVisualUUUID().toString())
-                    tmp.add(iterator.buf[res + j].toString())
-                    tmp.add(string)
-                    addNewData(tmp.toTypedArray())
+                    outputString = getParent().getVisualUUUID().toString()+"||"
+                    outputString += getParent().getVisualUUUID().toString()+"||"
+                    outputString += iterator.buf[res + j].toString()+"||"
+                    outputString += string+"||"
+
                 }
             }
             res
@@ -90,6 +90,6 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
             child.rows.close()
             iterator._close()
         }
-        return IteratorBundle(iterator)
+        return outputString
     }
 }

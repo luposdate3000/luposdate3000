@@ -16,6 +16,7 @@
  */
 package lupos.operator.base
 
+import lupos.Luposdate3000_Operator_Base.MyPrintWriter
 import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.base.singleinput.LOPNOOP
 import lupos.shared.BugException
@@ -141,17 +142,19 @@ public abstract class OPBase public constructor(
         return res
     }
 
-    public override fun evaluateRoot(partition: Partition, addNewData: (Array<String>) -> Unit):IteratorBundle{
+    override fun evaluateRoot(partition: Partition, outputString: String): String{
         val node = query.initialize(this)
-        val res = node.evaluate(partition, addNewData)
+        val res = node.evaluate(partition, outputString)
         return res
     }
 
     override /*suspend*/ fun evaluateRoot(partition: Partition): IteratorBundle {
         val node = query.initialize(this)
-        val res = node.evaluate(partition, {})
+        val res = node.evaluate(partition)
         return res
     }
+
+    public override fun evaluate(parent: Partition, outputString: String): String = throw EvaluateNotImplementedException(classname)
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
     override fun getChildrenCountRecoursive(): Int {

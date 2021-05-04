@@ -41,7 +41,7 @@ public class EndpointExtendedVisualize (input: String) {
     private var resultLog: Array<String>
     private var resultPhys: Array<String>
     private var result: String
-    private var animationData: MutableList<Array<String>> = mutableListOf<Array<String>>()
+    private var animationData: MutableList<String> = mutableListOf()
 
     init {
         val query: String = input;
@@ -75,7 +75,7 @@ public class EndpointExtendedVisualize (input: String) {
         resultPhys = resultPhysTmp.toTypedArray()
 
         val buf = MyPrintWriter(true)
-        val buf2 = MyPrintWriter(true)
+
         LuposdateEndpoint.evaluateOperatorgraphToResult(optPhys, buf)
         result = buf.toString()
 
@@ -87,15 +87,17 @@ public class EndpointExtendedVisualize (input: String) {
         } else {
             nodes = arrayOf(optPhys)
         }
+        var outputString: String = ""
         for (i in nodes.indices) {
             val node = nodes[i]
-            val tmp: Any = node.evaluateRoot(Partition(), { animationData.add(it) })
+            outputString = node.evaluateRoot(Partition(), outputString)
+            animationData.add(outputString)
         }
 
     }
 
     @JsName ("getDataSteps")
-    public fun getDataSteps(): Array<Array<String>> {
+    public fun getDataSteps(): Array<String> {
         return animationData.toTypedArray()
     }
 
