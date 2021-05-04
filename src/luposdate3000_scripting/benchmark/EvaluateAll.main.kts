@@ -39,35 +39,30 @@ import lupos.benchmark.*
 import lupos.shared.DateHelperRelative
 import java.io.File
 
+/* pretty print xml :: 
+ * apt install libxml2-utils
+ * cat FILE_IN | xmllint --format - > FILE_OUT
+ */
+
 // configure databases
-val allDatabases = listOf(
+val allDatabases = mutableListOf(
 //    DatabaseHandleBlazegraph("/data/benchmark/"),//out of memory during load
 //    DatabaseHandleLuposdateMemory(port = 8080),//out of memory during load
 //    DatabaseHandleLuposdateRDF3X(workDir = "/data/benchmark/", port = 8080),
 //    DatabaseHandleVirtuoso(workDir = "/data/benchmark/"),
 //    DatabaseHandleJena(port = 8080),
-//    DatabaseHandleLuposdate3000NoPartition(workDir = "/data/benchmark/", port = 8080)
-//        .setBufferManager("Inmemory"),
-    DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 2)
-        .setBufferManager("Inmemory"),
-    DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 4)
-        .setBufferManager("Inmemory"),
-    DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 8)
-        .setBufferManager("Inmemory"),
-    DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 16)
-        .setBufferManager("Inmemory"),
-    DatabaseHandleLuposdate3000NoPartition(workDir = "/data/benchmark/", port = 8080)
-        .setBufferManager("Persistent_Cached"),
-    DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 2)
-        .setBufferManager("Persistent_Cached"),
-    DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 4)
-        .setBufferManager("Persistent_Cached"),
-    DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 8)
-        .setBufferManager("Persistent_Cached"),
-    DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = 16)
-        .setBufferManager("Persistent_Cached"),
-
+    DatabaseHandleLuposdate3000NoPartition(workDir = "/data/benchmark/", port = 8080).setBufferManager("Inmemory"),
+    DatabaseHandleLuposdate3000NoPartition(workDir = "/data/benchmark/", port = 8080).setBufferManager("Persistent_Cached"),
+)
+for (i in listOf(2)) {
+    allDatabases.add(
+        DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = i).setBufferManager("Inmemory")
     )
+    allDatabases.add(
+        DatabaseHandleLuposdate3000Thread(workDir = "/data/benchmark/", port = 8080, threadCount = i).setBufferManager("Persistent_Cached")
+    )
+}
+
 // configure dataset locations
 val allDatasets = mapOf(
     "yago1" to "/mnt/luposdate-testdata/yago1/yago-1.0.0-turtle.ttl",
@@ -90,12 +85,14 @@ val blacklistedQueries = mapOf(
             "_:26", // timeout
         ),
     ),
-    "Luposdate3000ThreadInmemory(2)" to mapOf(
+    "Luposdate3000NoPartitionInmemory" to mapOf(
         "yago1" to setOf(
-            "_:13", // timeout
-            "_:17", // timeout sleep-deadlock
-            "_:50", // timeout sleep-deadlock
-            "_:6", // timeout sleep-deadlock
+            "_:26", // timeout
+        ),
+    ),
+    "Luposdate3000NoPartitionPersistent_Cached" to mapOf(
+        "yago1" to setOf(
+            "_:26", // timeout
         ),
     ),
 )
@@ -132,9 +129,11 @@ val outputFolder = "/data/benchmark-results/"
 File(outputFolder).mkdirs()
 File("$outputFolder/log.txt").printWriter().use { logger ->
     for ((datasetName, allQueries) in allTasks) {
+        println("use $datasetName")
         val datasetFile = allDatasets[datasetName]!!
         for (databaseIdx in 0 until allDatabases.size) {
             val database = allDatabases[databaseIdx]
+            println("use ${database.getName()}")
             try {
                 var abortSignal = false
                 val startTime = DateHelperRelative.markNow()
@@ -150,6 +149,7 @@ File("$outputFolder/log.txt").printWriter().use { logger ->
                                 logger.println("import,$datasetName,${database.getName()},_,$importTime")
                                 logger.flush()
                                 for ((queryname, query) in allQueries) {
+                                    println("use $queryname")
                                     val flag = blacklistedQueries[database.getName()]?.get(datasetName)?.contains(queryname)
                                     if (flag == null || !flag) {
                                         val startTime2 = DateHelperRelative.markNow()

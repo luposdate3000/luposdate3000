@@ -42,9 +42,9 @@ abstract class DatabaseHandleLuposdate3000(val workDir: String, val port: Int) :
             "LUPOS_HOME" to workDir,
         )
         p_launcher_instance!!.getInputStream().bufferedReader().use {
-            println("it")
             var line = it.readLine()
             while (line != null) {
+                println(line)
                 if (line.startsWith("exec :: ")) {
                     cmd = line.substring("exec :: ".length).split(" ")
                 } else if (line.startsWith("export ")) {
