@@ -115,6 +115,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 return false
             }
         }
+
         counter++
         val testCaseName = "TestCase$counter"
         val testCaseFileName = "$outputFolderSrc/$testCaseName.kt"
@@ -149,6 +150,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             out.println("import lupos.shared.tripleStoreManager")
             out.println("import lupos.operator.arithmetik.noinput.AOPVariable")
             out.println("import lupos.shared.EIndexPatternExt")
+            out.println("import lupos.operator.base.Query")
             out.println("")
             out.println("internal object $testCaseName {")
             out.println("    internal const val inputFileName=\"$inputFile\"")
@@ -156,22 +158,37 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             out.println("    internal const val query = \"${queryFileContentClean}\"")
             out.println("    internal operator fun invoke(){")
             out.println("        println(\"Test: '$testName'\")")
-            out.println("        LuposdateEndpoint.importTurtleFiles(inputFileName,mutableMapOf())")
-            out.println("        val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(query)")
-            out.println("        val buf = MyPrintWriter(true)")
-            out.println("        val targetString = File(targetFileName).readAsString()")
-            out.println("        val target = MemoryTable.parseFromAny(targetString, targetFileName, op.getQuery())!!")
+            out.println("        var success = true")
+            out.println("        try {")
+            out.println("            try {")
+            out.println("                tripleStoreManager.dropGraph(Query(),\"\")")
+            out.println("            }catch (e:Throwable){")
+            out.println("            }")
+            out.println("            LuposdateEndpoint.importTurtleFiles(inputFileName,mutableMapOf())")
+            out.println("            val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(query)")
+            out.println("            val buf = MyPrintWriter(true)")
+            out.println("            val targetString = File(targetFileName).readAsString()")
+            out.println("            val target = MemoryTable.parseFromAny(targetString, targetFileName, op.getQuery())!!")
             if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
-                out.println("        val result = LuposdateEndpoint.evaluateOperatorgraphToResultA(op,buf,EQueryResultToStreamExt.MEMORY_TABLE)")
+                out.println("            val result = LuposdateEndpoint.evaluateOperatorgraphToResultA(op,buf,EQueryResultToStreamExt.MEMORY_TABLE)")
             } else {
-                out.println("        LuposdateEndpoint.evaluateOperatorgraphToResultA(op,buf,EQueryResultToStreamExt.EMPTY_STREAM)")
-                out.println("        val graph = tripleStoreManager.getGraph(\"\")")
-                out.println("        val op2 = graph.getIterator(op.getQuery(), arrayOf(AOPVariable(op.getQuery(), \"s\"),AOPVariable(op.getQuery(), \"p\"),AOPVariable(op.getQuery(), \"o\")),EIndexPatternExt.SPO)")
-                out.println("        val result = LuposdateEndpoint.evaluateOperatorgraphToResultA(op2,buf,EQueryResultToStreamExt.MEMORY_TABLE)")
+                out.println("            LuposdateEndpoint.evaluateOperatorgraphToResultA(op,buf,EQueryResultToStreamExt.EMPTY_STREAM)")
+                out.println("            val graph = tripleStoreManager.getGraph(\"\")")
+                out.println("            val op2 = graph.getIterator(op.getQuery(), arrayOf(AOPVariable(op.getQuery(), \"s\"),AOPVariable(op.getQuery(), \"p\"),AOPVariable(op.getQuery(), \"o\")),EIndexPatternExt.SPO)")
+                out.println("            val result = LuposdateEndpoint.evaluateOperatorgraphToResultA(op2,buf,EQueryResultToStreamExt.MEMORY_TABLE)")
             }
             val ordered = queryFileContentClean.toLowerCase().contains("order", true)
-            out.println("        if (target.equalsVerbose(result,${!ordered},true)){")
-            out.println("            throw Exception()")
+            out.println("            if (target.equalsVerbose(result,${!ordered},true)){")
+            out.println("                success=false")
+            out.println("            }")
+            out.println("        }catch (e:Throwable){")
+            out.println("            e.printStackTrace()")
+            out.println("            success=false")
+            out.println("        }")
+            out.println("        if(success){")
+            out.println("            println(\"Result: '$testName' success\")")
+            out.println("        }else{")
+            out.println("            println(\"Result: '$testName' failed\")")
             out.println("        }")
             out.println("    }")
             out.println("}")
