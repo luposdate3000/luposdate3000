@@ -20,7 +20,7 @@ import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.HttpEndpointLauncher
 import lupos.shared.Parallel
 import lupos.test.SparqlTestSuite
-import lupos.test.SparqlTestSuiteConverter
+import lupos.test.SparqlTestSuiteConverterToBinary
 
 internal fun mainFunc(input_folder: String, output_folder: String) {
     LuposdateEndpoint.initialize()
@@ -28,6 +28,6 @@ internal fun mainFunc(input_folder: String, output_folder: String) {
         HttpEndpointLauncher.start()
     }
     SparqlTestSuite.prefixDirectory = input_folder
-    val converter = SparqlTestSuiteConverter(input_folder, output_folder)
+    val converter = SparqlTestSuiteConverterToBinary(input_folder, output_folder)
     converter.testMain()
 }
