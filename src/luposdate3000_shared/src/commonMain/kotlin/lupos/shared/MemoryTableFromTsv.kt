@@ -16,21 +16,21 @@
  */
 package lupos.shared
 
-public class XMLElementFromTsv : XMLElementParser {
-    override operator fun invoke(data: String): XMLElement {
-        val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
-        val nodeHead = XMLElement("head")
-        val nodeResults = XMLElement("results")
-        nodeSparql.addContent(nodeHead)
-        nodeSparql.addContent(nodeResults)
+import lupos.shared.dictionary.DictionaryExt
+
+public class MemoryTableFromTsv : MemoryTableParser {
+    override operator fun invoke(data: String): MemoryTable {
         val lines = data.lines()
         val variables = mutableListOf<String>()
         val columns = lines.first().split("\t")
         for (variableName in columns) {
-            nodeHead.addContent(XMLElement("variable").addAttribute("name", variableName.substring(1, variableName.length)))
             variables.add(variableName.substring(1, variableName.length))
         }
+        var res = MemoryTable(variables)
+        res.query = Query()
+        var dictionary = res.query.getDictionary()
         var firstLine = true
+        val buffer = ByteArrayWrapper()
         for (line in lines) {
             if (firstLine) {
                 firstLine = false
@@ -39,15 +39,16 @@ public class XMLElementFromTsv : XMLElementParser {
             if (line.isEmpty()) {
                 continue
             }
-            val nodeResult = XMLElement("result")
-            nodeResults.addContent(nodeResult)
             val values = line.split("\t")
             var i = 0
+            val row = IntArray(variables.size) { DictionaryExt.undefValue }
+            res.data.add(row)
             while (i < variables.size && i < values.size) {
-                XMLElement.parseBindingFromString(nodeResult, values[i], variables[i])
+                DictionaryHelper.sparqlToByteArray(buffer, values[i])
+                row[i] = dictionary.createValue(buffer)
                 i++
             }
         }
-        return nodeSparql
+        return res
     }
 }

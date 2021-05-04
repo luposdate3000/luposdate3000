@@ -24,8 +24,6 @@ import kotlin.math.abs
 public class XMLElement(tag: String) {
     // https://regex101.com
     public companion object {
-        @JvmField
-        public val parseFromAnyRegistered: MutableMap<String, XMLElementParser> = mutableMapOf()
         public fun parseBindingFromString(nodeResult: XMLElement, value: String?, name: String) {
             val nodeBinding = XMLElement("binding").addAttribute("name", name)
             if (value != null && value != "") {

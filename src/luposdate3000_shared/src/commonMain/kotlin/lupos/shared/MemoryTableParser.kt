@@ -16,6 +16,6 @@
  */
 package lupos.shared
 
-public interface XMLElementParser {
-    public operator fun invoke(data: String): XMLElement?
+public interface MemoryTableParser {
+    public operator fun invoke(data: String): MemoryTable?
 }

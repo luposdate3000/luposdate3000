@@ -20,6 +20,9 @@ import kotlin.jvm.JvmField
 
 public class MemoryTable public constructor(@JvmField public val columns: Array<String>) {
     @JvmField
+    public val parseFromAnyRegistered: MutableMap<String, MemoryTableParser> = mutableMapOf()
+
+    @JvmField
     public val data: MutableList<IntArray> = mutableListOf() // array of rows
 
     @JvmField
