@@ -14,21 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.parser
+package lupos.endpoint
 
+import lupos.parser.LexerCharIterator
+import lupos.parser.LookAheadTokenIterator
 import lupos.parser.turtle.Turtle2Parser
 import lupos.parser.turtle.TurtleParserWithStringTriples
 import lupos.parser.turtle.TurtleScanner
-import lupos.shared.ByteArrayWrapper
+import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.MemoryTableParser
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.MyStringStream
 
 public class MemoryTableFromN3 : MemoryTableParser {
-    override operator fun invoke(data: String): MemoryTable {
-        var res = MemoryTable("s", "p", "o")
-        res.query = Query()
-        var dictionary = res.query.getDictionary()
+    override operator fun invoke(data: String, query: IQuery): MemoryTable {
+        var res = MemoryTable(arrayOf("s", "p", "o"))
+        res.query = query
+        var dictionary = res.query!!.getDictionary()
         try {
             val inputstream = MyStringStream(data)
             val parser = object : Turtle2Parser(inputstream) {
@@ -43,9 +47,9 @@ public class MemoryTableFromN3 : MemoryTableParser {
             parser.parse()
         } catch (e: Throwable) {
             e.printStackTrace()
-            res = MemoryTable("s", "p", "o")
-            res.query = Query()
-            dictionary = res.query.getDictionary()
+            res = MemoryTable(arrayOf("s", "p", "o"))
+            res.query = query
+            dictionary = res.query!!.getDictionary()
             val lcit = LexerCharIterator(data)
             val tit = TurtleScanner(lcit)
             val ltit = LookAheadTokenIterator(tit, 3)

@@ -17,6 +17,7 @@
 package lupos.operator.physical.noinput
 
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.base.iterator.ColumnIteratorMultiValue3
 import lupos.operator.physical.POPBase
 import lupos.shared.EGraphOperationType
 import lupos.shared.EGraphOperationTypeExt
@@ -29,14 +30,14 @@ import lupos.shared.ESortPriorityExt
 import lupos.shared.EvaluationException
 import lupos.shared.IQuery
 import lupos.shared.ITripleStoreDescription
+import lupos.shared.MemoryTable
 import lupos.shared.Partition
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
-import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
-import lupos.shared.parseFromAny
 import lupos.shared.tripleStoreManager
 import lupos.shared_inline.File
 import kotlin.jvm.JvmField
@@ -205,10 +206,15 @@ public class POPGraphOperation public constructor(
                     } else {
                         tripleStoreManager.getGraph(graph2iri!!)
                     }
-                    val xml = XMLElement.parseFromAny(File(fileName).readAsString(), fileName)!!
-                    val d = POPValuesImportXML(query, listOf("s", "p", "o"), xml)
-                    val row = d.evaluate(parent)
-                    val iterator = arrayOf(row.columns["s"]!!, row.columns["p"]!!, row.columns["o"]!!)
+                    val table = MemoryTable.parseFromAny(File(fileName).readAsString(), fileName, query)!!
+                    val sa = table.column("s")!!
+                    val pa = table.column("p")!!
+                    val oa = table.column("o")!!
+                    val iterator = arrayOf<ColumnIterator>(
+                        ColumnIteratorMultiValue3(sa, sa.size),
+                        ColumnIteratorMultiValue3(pa, pa.size),
+                        ColumnIteratorMultiValue3(oa, oa.size),
+                    )
                     val cache = target.modify_create_cache(EModifyTypeExt.INSERT)
                     target.modify_cache(query, iterator, EModifyTypeExt.INSERT, cache, true)
                 }

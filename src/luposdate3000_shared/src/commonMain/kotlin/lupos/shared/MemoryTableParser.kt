@@ -17,5 +17,5 @@
 package lupos.shared
 
 public interface MemoryTableParser {
-    public operator fun invoke(data: String): MemoryTable?
+    public operator fun invoke(data: String, query: IQuery): MemoryTable?
 }

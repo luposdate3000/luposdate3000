@@ -14,21 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.shared
+package lupos.endpoint
 
+import lupos.shared.IQuery
+import lupos.shared.MemoryTable
+import lupos.shared.MemoryTableParser
 import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared_inline.DictionaryHelper
 
-public class MemoryTableFromTsv : MemoryTableParser {
-    override operator fun invoke(data: String): MemoryTable {
+public class MemoryTableFromCsv : MemoryTableParser {
+    override operator fun invoke(data: String, query: IQuery): MemoryTable {
         val lines = data.lines()
         val variables = mutableListOf<String>()
-        val columns = lines.first().split("\t")
+        val columns = lines.first().split(",")
         for (variableName in columns) {
             variables.add(variableName.substring(1, variableName.length))
         }
-        var res = MemoryTable(variables)
-        res.query = Query()
-        var dictionary = res.query.getDictionary()
+        var res = MemoryTable(variables.toTypedArray())
+        res.query = query
+        var dictionary = res.query!!.getDictionary()
         var firstLine = true
         val buffer = ByteArrayWrapper()
         for (line in lines) {
@@ -39,7 +44,7 @@ public class MemoryTableFromTsv : MemoryTableParser {
             if (line.isEmpty()) {
                 continue
             }
-            val values = line.split("\t")
+            val values = line.split(",")
             var i = 0
             val row = IntArray(variables.size) { DictionaryExt.undefValue }
             res.data.add(row)

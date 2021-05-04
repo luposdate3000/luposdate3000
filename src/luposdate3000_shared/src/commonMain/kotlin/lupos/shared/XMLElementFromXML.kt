@@ -16,8 +16,8 @@
  */
 package lupos.shared
 
-public class XMLElementFromXML : XMLElementParser {
-    override operator fun invoke(data: String): XMLElement? {
+public class XMLElementFromXML {
+    public operator fun invoke(data: String): XMLElement? {
         return parseFromXmlHelper(data)?.first()
     }
 

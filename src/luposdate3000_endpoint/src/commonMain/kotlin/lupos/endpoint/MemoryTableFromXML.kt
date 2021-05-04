@@ -14,11 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.shared
+package lupos.endpoint
+
+import lupos.shared.IQuery
+import lupos.shared.MemoryTable
+import lupos.shared.MemoryTableParser
+import lupos.shared.XMLElementFromXML
+import lupos.shared.dictionary.DictionaryExt
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared_inline.DictionaryHelper
 
 public class MemoryTableFromXML : MemoryTableParser {
-    override operator fun invoke(data: String): MemoryTable? {
-        val xml = XMLElementFromXML(data)
+    override operator fun invoke(data: String, query: IQuery): MemoryTable? {
+        val xml = XMLElementFromXML()(data)
         if (xml == null) {
             return null
         }
@@ -26,9 +34,9 @@ public class MemoryTableFromXML : MemoryTableParser {
             val xmlSparql = xml["sparql"]!!
             val xmlHead = xmlSparql["head"]!!
             val variables = xmlHead.childs.map { it.attributes["name"]!! }
-            var res = MemoryTable(variables)
-            res.query = Query()
-            var dictionary = res.query.getDictionary()
+            var res = MemoryTable(variables.toTypedArray())
+            res.query = query
+            var dictionary = res.query!!.getDictionary()
             val xmlBoolean = xmlSparql["boolean"]
             if (xmlBoolean != null) {
                 res.booleanResult = xmlBoolean.content.toBoolean()
@@ -85,6 +93,7 @@ public class MemoryTableFromXML : MemoryTableParser {
                     }
                 }
             }
+            return res
         } catch (e: Throwable) {
             return null
         }

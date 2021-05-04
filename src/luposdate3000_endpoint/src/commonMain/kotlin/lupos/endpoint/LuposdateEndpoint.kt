@@ -29,7 +29,6 @@ import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.parser.LexerCharIterator
 import lupos.parser.LookAheadTokenIterator
 import lupos.parser.ParseError
-import lupos.parser.XMLElementFromN3
 import lupos.parser.sparql1_1.SPARQLParser
 import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
 import lupos.parser.turtle.Turtle2Parser
@@ -50,15 +49,13 @@ import lupos.shared.EPartitionModeExt
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.LUPOS_BUFFER_SIZE
+import lupos.shared.MemoryTable
 import lupos.shared.MyLock
 import lupos.shared.OperatorGraphToLatex
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnreachableException
 import lupos.shared.XMLElement
-import lupos.shared.XMLElementFromCsv
-import lupos.shared.XMLElementFromJson
-import lupos.shared.XMLElementFromTsv
 import lupos.shared.XMLElementFromXML
 import lupos.shared.communicationHandler
 import lupos.shared.dictionary.nodeGlobalDictionary
@@ -666,12 +663,11 @@ public object LuposdateEndpoint {
                 tripleStoreManager = TripleStoreManagerImpl(hostnames, localhost)
                 tripleStoreManager.initialize()
                 distributedOptimizerQueryFactory = { DistributedOptimizerQuery() }
-                XMLElement.parseFromAnyRegistered["n3"] = XMLElementFromN3()
-                XMLElement.parseFromAnyRegistered["ttl"] = XMLElementFromN3()
-                XMLElement.parseFromAnyRegistered["srx"] = XMLElementFromXML()
-                XMLElement.parseFromAnyRegistered["srj"] = XMLElementFromJson()
-                XMLElement.parseFromAnyRegistered["csv"] = XMLElementFromCsv()
-                XMLElement.parseFromAnyRegistered["tsv"] = XMLElementFromTsv()
+                MemoryTable.parseFromAnyRegistered["n3"] = MemoryTableFromN3()
+                MemoryTable.parseFromAnyRegistered["ttl"] = MemoryTableFromN3()
+                MemoryTable.parseFromAnyRegistered["srx"] = MemoryTableFromXML()
+                MemoryTable.parseFromAnyRegistered["csv"] = MemoryTableFromCsv()
+                MemoryTable.parseFromAnyRegistered["tsv"] = MemoryTableFromTsv()
                 Platform.setShutdownHock {
                     close()
                 }

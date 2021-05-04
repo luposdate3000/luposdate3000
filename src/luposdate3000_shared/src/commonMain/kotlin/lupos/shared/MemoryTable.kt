@@ -19,8 +19,6 @@ package lupos.shared
 import kotlin.jvm.JvmField
 
 public class MemoryTable public constructor(@JvmField public val columns: Array<String>) {
-    @JvmField
-    public val parseFromAnyRegistered: MutableMap<String, MemoryTableParser> = mutableMapOf()
 
     @JvmField
     public val data: MutableList<IntArray> = mutableListOf() // array of rows
@@ -30,8 +28,25 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
 
     @JvmField
     public var query: IQuery? = null
+    public fun column(name: String): IntArray? {
+        val j = columns.indexOf(name)
+        if (j < 0) {
+            return null
+        }
+        var res = IntArray(data.size)
+        var i = 0
+        for (row in data) {
+            res[i] = row[j]
+            i++
+        }
+        return res
+    }
 
     public companion object {
+
+        @JvmField
+        public val parseFromAnyRegistered: MutableMap<String, MemoryTableParser> = mutableMapOf()
+
         @Suppress("NOTHING_TO_INLINE")
         internal inline fun merge(a: MemoryTable, b: MemoryTable): MemoryTable {
             if (a.columns.size != b.columns.size) {
@@ -52,6 +67,16 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
             res.data.addAll(a.data)
             res.data.addAll(b.data)
             return res
+        }
+
+        public fun parseFromAny(data: String, filename: String, query: IQuery): MemoryTable? {
+            val ext = filename.substring(filename.lastIndexOf(".") + 1)
+            val parser = parseFromAnyRegistered[ext]
+            if (parser == null) {
+                throw UnknownDataFileException("$filename ($ext)")
+            } else {
+                return parser(data, query)
+            }
         }
     }
 }
