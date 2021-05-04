@@ -14,32 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import lupos.launch.generate_binary_test_suite_multi.mainFunc
+import lupos.launch.generate_unit_test_suite_multi.mainFunc
 
 public fun main(args: Array<String>) {
     var flag = false
-    var input_folder: String = ""
-    for (a in args) {
-        if (a.startsWith("--input_folder=")) {
-            input_folder = a.substring(15)
-            flag = true
-            break
-        }
-    }
-    if (!flag) {
-        throw Exception("the option '--input_folder' is missing on the arguments list")
-    }
-    flag = false
-    var output_folder: String = ""
-    for (a in args) {
-        if (a.startsWith("--output_folder=")) {
-            output_folder = a.substring(16)
-            flag = true
-            break
-        }
-    }
-    if (!flag) {
-        throw Exception("the option '--output_folder' is missing on the arguments list")
-    }
-    mainFunc(input_folder, output_folder)
+    mainFunc()
 }

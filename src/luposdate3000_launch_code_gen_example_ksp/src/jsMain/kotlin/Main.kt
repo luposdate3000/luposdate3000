@@ -14,8 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-import lupos.launch.generate_unit_test_suite_multi.mainFunc
+import lupos.launch.code_gen_example_ksp.mainFunc
+import kotlin.js.JsName
 
+@JsName("main")
 public fun main(args: Array<String>) {
     var flag = false
     mainFunc()
