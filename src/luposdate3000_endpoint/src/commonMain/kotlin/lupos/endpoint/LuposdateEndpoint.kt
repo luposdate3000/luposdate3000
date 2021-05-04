@@ -657,6 +657,7 @@ public object LuposdateEndpoint {
             if (!initialized) {
                 println("LuposdateEndpoint.initialize")
                 initialized = true
+                BufferManagerExt.initialize()
                 nodeGlobalDictionary = DictionaryFactory.createGlobalDictionary()
                 val hostnames = Platform.getEnv("LUPOS_PROCESS_URLS", "localhost:80")!!.split(",").toTypedArray()
                 val localhost = hostnames[Platform.getEnv("LUPOS_PROCESS_ID", "0")!!.toInt()]
