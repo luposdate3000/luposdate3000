@@ -16,6 +16,7 @@
  */
 package lupos.shared
 
+import lupos.shared.dynamicArray.ByteArrayWrapper
 import kotlin.jvm.JvmField
 
 public class MemoryTable public constructor(@JvmField public val columns: Array<String>) {
@@ -40,6 +41,72 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
             i++
         }
         return res
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is MemoryTable) {
+            return false
+        }
+        if (columns.size != other.columns.size) {
+            return false
+        }
+        for (i in 0 until columns.size) {
+            if (columns[i] != other.columns[i]) {
+                return false
+            }
+        }
+        if (data.size != other.data.size) {
+            return false
+        }
+        val buffer1 = ByteArrayWrapper()
+        val buffer2 = ByteArrayWrapper()
+        var i = 0
+        var dict1 = query!!.getDictionary()
+        var dict2 = other.query!!.getDictionary()
+        while (i < data.size && i < other.data.size) {
+            for (j in 0 until columns.size) {
+                dict1.getValue(buffer1, data[i][j])
+                dict2.getValue(buffer2, data[i][j])
+                if (buffer1 != buffer2) {
+                    return false
+                }
+            }
+            i++
+        }
+        return true
+    }
+
+    public fun equalsIgnoreOrder(other: Any?): Boolean {
+        if (other !is MemoryTable) {
+            return false
+        }
+        if (columns.size != other.columns.size) {
+            return false
+        }
+        for (i in 0 until columns.size) {
+            if (columns[i] != other.columns[i]) {
+                return false
+            }
+        }
+        if (data.size != other.data.size) {
+            return false
+        }
+        val buffer1 = ByteArrayWrapper()
+        val buffer2 = ByteArrayWrapper()
+        var i = 0
+        var dict1 = query!!.getDictionary()
+        var dict2 = other.query!!.getDictionary()
+        while (i < data.size && i < other.data.size) {
+            for (j in 0 until columns.size) {
+                dict1.getValue(buffer1, data[i][j])
+                dict2.getValue(buffer2, data[i][j])
+                if (buffer1 != buffer2) {
+                    return false
+                }
+            }
+            i++
+        }
+        return true
     }
 
     public companion object {

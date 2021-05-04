@@ -26,29 +26,29 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
     @JvmField
     internal var lastFile: String = ""
 
-    const val folderPathCoponent = "code_gen_test"
+    internal val folderPathCoponent = "code_gen_test"
 
-    const val outputFolderRoot = "src/luposdate3000_launch_$folderPathCoponent/"
-    const val outputFolderSrc = "src/luposdate3000_launch_$folderPathCoponent/src/jvmMain/kotlin/lupos/launch/$folderPathCoponent/"
-    val allTests = mutableListOf<String>()
+    internal val outputFolderRoot = "src/luposdate3000_launch_$folderPathCoponent/"
+    internal val outputFolderSrc = "src/luposdate3000_launch_$folderPathCoponent/src/jvmMain/kotlin/lupos/launch/$folderPathCoponent/"
+    internal val allTests = mutableListOf<String>()
 
     init {
         prefixDirectory = "$resource_folder/"
         File(outputFolderRoot).deleteRecursively()
         File(outputFolderRoot).mkdirs()
         File(outputFolderSrc).mkdirs()
-        File(outputFolderRoot + "/module_config").printWriter().use { out ->
+        File(outputFolderRoot + "/module_config").withOutputStream { out ->
             out.println("package=Luposdate3000_Main")
             out.println("codegenKAPT=true")
         }
-        File(outputFolderRoot + "/runOptions").printWriter().use {}
-        File(outputFolderRoot + "/disableTarget").printWriter().use { out ->
+        File(outputFolderRoot + "/runOptions").withOutputStream {}
+        File(outputFolderRoot + "/disableTarget").withOutputStream { out ->
             out.println("js")
         }
     }
 
     public fun finish() {
-        File(outputFolderSrc + "/MainFunc.kt").printWriter().use { out ->
+        File(outputFolderSrc + "/MainFunc.kt").withOutputStream { out ->
             out.println("package lupos.launch.$folderPathCoponent")
             out.println("internal fun mainFunc(): Unit = Parallel.runBlocking {")
             for (test in allTests) {
@@ -101,21 +101,25 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         val testCaseName = "TestCase$counter"
         val testCaseFileName = "$outputFolderSrc/$testCaseName.kt"
         allTests.add("$testCaseName")
-        File(testCaseFileName).printWriter().use { out ->
+
+        val queryFileContent = File(queryFile).readAsString()
+        val queryFileContentClean = queryFileContent.replace("\"", "\\\"").replace("\n", "\" +\n        \"")
+
+        File(testCaseFileName).withOutputStream { out ->
             out.println("package lupos.launch.$folderPathCoponent")
             out.println("internal object $testCaseName {")
-            out.println("internal const val query = \"${File(queryFile).readAsString().replace("\"", "\\\"").replace("\n", "\" +\n        \"")}\".trimMargin()"))
+            out.println("internal const val query = \"${queryFileContentClean}\".trimMargin()")
             out.println("    public operator fun invoke(){")
             out.println("        println(\"Test: '$testName'\")")
             out.println("        LuposdateEndpoint.importTurtleFiles(\"$inputFile\",mutableMapOf())")
             out.println("        val op = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(query)")
-            out.println("        val buf = MyPrintWriter(true)")
+            out.println("        val buf = MywithOutputStream(true)")
             out.println("        val result = LuposdateEndpoint.evaluateOperatorgraphToResultA(op,buf,EQueryResultToStreamExt.MEMORY_TABLE)")
             out.println("        val target = XMLElement.parseFromAny(File(\"${outputFile!!}\").readAsString(), \"${outputFile!!}\")!!")
             if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
-//TODO cmp target and result
+// TODO cmp target and result
             } else {
-//TODO cmp target and default graph
+// TODO cmp target and default graph
             }
             out.println("    }")
             out.println("}")

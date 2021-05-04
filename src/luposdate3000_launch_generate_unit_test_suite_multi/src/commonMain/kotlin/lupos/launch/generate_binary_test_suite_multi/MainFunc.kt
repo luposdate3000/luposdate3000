@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.launch.generate_binary_test_suite_multi
+package lupos.launch.generate_unit_test_suite_multi
 
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.HttpEndpointLauncher
@@ -28,6 +28,6 @@ internal fun mainFunc() {
         HttpEndpointLauncher.start()
     }
     SparqlTestSuite.prefixDirectory = ""
-    val converter = SparqlTestSuiteConverterToUnitTest(input_folder)
+    val converter = SparqlTestSuiteConverterToUnitTest("")
     converter.testMain()
 }

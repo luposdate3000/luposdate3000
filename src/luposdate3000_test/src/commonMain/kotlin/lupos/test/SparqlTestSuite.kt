@@ -470,8 +470,7 @@ public open class SparqlTestSuite {
                         LuposdateEndpoint.importTurtleFiles(inputDataFileName, mutableMapOf())
                         val bulkSelect = tripleStoreManager.getDefaultGraph().getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO)
                         val xmlGraphBulk = QueryResultToMemoryTable(bulkSelect)
-                        if (!xmlGraphBulk.myEqualsUnclean(xmlQueryInput, true, true, true)) {
-
+                        if (xmlGraphBulk.first() != xmlQueryInput) {
                             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                             println("----------Failed(BulkImport)")
                             return false
@@ -618,7 +617,7 @@ public open class SparqlTestSuite {
                 val xmlGraphTarget = MemoryTable.parseFromAny(outputData!!, it["filename"]!!, query)!!
                 val tmp = tripleStoreManager.getGraph(it["name"]!!).getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO)
                 val xmlGraphActual = QueryResultToMemoryTable(tmp)
-                if (!xmlGraphTarget.myEqualsUnclean(xmlGraphActual, true, true, true)) {
+                if (xmlGraphTarget != xmlGraphActual.first()) {
                     println("OutputData Graph[${it["name"]}] Original")
                     println(outputData)
                     println("----------Verify Output Data Graph[${it["name"]}] ... target,actual")
@@ -643,7 +642,7 @@ public open class SparqlTestSuite {
                         val jenaResult = JenaWrapper.execQuery(toParse)
                         val jenaXML = MemoryTableFromXML()(jenaResult, xmlQueryResult!!.query!!)
 // println("test xmlJena >>>>>"+jenaResult+"<<<<<")
-                        if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult, true, true, true)) {
+                        if (jenaXML != null && jenaXML != xmlQueryResult) {
                             println("----------Verify Output Jena jena,actual")
                             println("test jenaOriginal :: $jenaResult")
 
@@ -659,7 +658,11 @@ public open class SparqlTestSuite {
                         ignoreJena = true
                     }
                 }
-                res = xmlQueryResult!!.myEquals(xmlQueryTarget)
+                if (toParse.contains("ORDER", true)) {
+                    res = xmlQueryResult!!.equalsIgnoreOrder(xmlQueryTarget)
+                } else {
+                    res = xmlQueryResult!! == xmlQueryTarget
+                }
                 if (res) {
                     val xmlPOP = popNode.toXMLElementRoot(false)
                     val query4 = Query()
@@ -674,7 +677,7 @@ public open class SparqlTestSuite {
                     tripleStoreManager.commit(query4)
                     query4.commited = true
 
-                    if (xmlQueryResultRecovered.myEqualsUnclean(xmlQueryResult, true, true, true)) {
+                    if (xmlQueryResultRecovered.first() == xmlQueryResult!!) {
                         if (expectedResult) {
                             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                             println("----------Success")
@@ -688,46 +691,13 @@ public open class SparqlTestSuite {
                         res = false
                     }
                 } else {
-                    val containsOrderBy = toParse.contains("ORDER", true)
-                    val correctIfIgnoreOrderBy = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, false, false, true)
-                    val correctIfIgnoreString = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, true, false, true)
-                    val correctIfIgnoreNumber = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, true, true, true)
-                    val correctIfIgnoreAllExceptOrder = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, true, true, false)
-                    if (correctIfIgnoreNumber) {
-                        if (expectedResult) {
-                            if (containsOrderBy) {
-                                if (correctIfIgnoreAllExceptOrder) {
-                                    println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                                    println("----------Success")
-                                } else {
-                                    println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                                    println("----------Success(Unordered)")
-                                }
-                            } else if (correctIfIgnoreOrderBy) {
-                                println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                                println("----------Success")
-                            } else if (correctIfIgnoreString) {
-                                println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                                println("----------Success(String)")
-                            } else if (correctIfIgnoreNumber) {
-                                println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                                println("----------Success(Number & String)")
-                            } else {
-                                SanityCheck.checkUnreachable()
-                            }
-                        } else {
-                            println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                            println("----------Failed(expectFalse,Simplified)")
-                        }
-                    } else {
-                        if (expectedResult) {
+                    if (expectedResult) {
 
-                            println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                            println("----------Failed(Incorrect)")
-                        } else {
-                            println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                            println("----------Success(ExpectFalse)")
-                        }
+                        println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                        println("----------Failed(Incorrect)")
+                    } else {
+                        println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                        println("----------Success(ExpectFalse)")
                     }
                 }
                 return res
