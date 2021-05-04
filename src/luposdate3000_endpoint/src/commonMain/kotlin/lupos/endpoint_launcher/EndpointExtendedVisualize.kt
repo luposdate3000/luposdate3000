@@ -22,6 +22,7 @@ import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
+import lupos.operator.physical.singleinput.POPVisualisation
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
@@ -32,12 +33,13 @@ import lupos.parser.sparql1_1.ASTNode
 import lupos.parser.sparql1_1.SPARQLParser
 import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
 import lupos.result_format.QueryResultToXMLStream
+import lupos.shared.IVisualisation
 import lupos.shared.MyLock
 import lupos.shared.Partition
 import lupos.shared_inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
 
-public class EndpointExtendedVisualize (input: String) {
+public class EndpointExtendedVisualize (input: String): IVisualisation {
     private var resultLog: Array<String>
     private var resultPhys: Array<String>
     private var result: String
@@ -75,25 +77,18 @@ public class EndpointExtendedVisualize (input: String) {
         resultPhys = resultPhysTmp.toTypedArray()
 
         val buf = MyPrintWriter(true)
-
+        recursive(optPhys)
         LuposdateEndpoint.evaluateOperatorgraphToResult(optPhys, buf)
         result = buf.toString()
+    }
 
-        val nodes: Array<IOPBase>
-        var columnProjectionOrder = listOf<List<String>>()
-        if (optPhys is OPBaseCompound) {
-            nodes = Array<IOPBase>(optPhys.children.size) { optPhys.children[it] }
-            columnProjectionOrder = optPhys.columnProjectionOrder
-        } else {
-            nodes = arrayOf(optPhys)
+    private fun recursive(node: IOPBase){
+        for (i in node.getChildren()) {
+            recursive(i)
         }
-        var outputString: String = ""
-        for (i in nodes.indices) {
-            val node = nodes[i]
-            outputString = node.evaluateRoot(Partition(), outputString)
-            animationData.add(outputString)
+        if (node is POPVisualisation){
+            node.visualTest = this
         }
-
     }
 
     @JsName ("getDataSteps")
@@ -282,5 +277,9 @@ public fun getOptimizedStepsLogical(query: String): Array<String> {
             }
         }
         return result
+    }
+
+    override fun sendData(string: String) {
+        animationData.add(string)
     }
 }

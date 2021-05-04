@@ -148,6 +148,22 @@ function getResultFromEndpoint(sessionID, url){
     })
         .done(function(data) {
             result = data;
+            getAnimationDataFromEndpoint(sessionID, url);
+        });
+}
+
+function getAnimationDataFromEndpoint(sessionID, url){
+    var formData = {
+        'sessionID': sessionID,
+    };
+    var tmpResult;
+    $.ajax({
+        type: 'POST',
+        url: url+'sparql/getVisualisationData',
+        data: formData
+    })
+        .done(function(data) {
+            globalAnimationList = data;
             closeSessionWithEndpoint(sessionID, url);
         });
 }
@@ -185,4 +201,6 @@ function formatResultData(){
     loadData(physGraph[physGraph.length-1].split("SPLITHERE"), false);
     loadData(physGraph[physGraph.length-1].split("SPLITHERE"), true);
     replacePrefix();
+
+
 }

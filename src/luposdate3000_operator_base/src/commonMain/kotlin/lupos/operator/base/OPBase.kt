@@ -142,20 +142,11 @@ public abstract class OPBase public constructor(
         return res
     }
 
-    override fun evaluateRoot(partition: Partition, outputString: String): String{
-        val node = query.initialize(this)
-        val res = node.evaluate(partition, outputString)
-        return res
-    }
-
     override /*suspend*/ fun evaluateRoot(partition: Partition): IteratorBundle {
         val node = query.initialize(this)
         val res = node.evaluate(partition)
         return res
     }
-
-    public override fun evaluate(parent: Partition, outputString: String): String = throw EvaluateNotImplementedException(classname)
-
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
     override fun getChildrenCountRecoursive(): Int {
         var res = children.size

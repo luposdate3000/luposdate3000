@@ -182,7 +182,7 @@ internal object RestEndpoint {
             if (eev != null) {
                 val tmp = eev.getDataSteps()
                 for (i in tmp){
-                    connectionOutMy.print(i[0]+"||"+i[1]+"||"+i[2]+"||"+i[3]+"ENDDATA")
+                    connectionOutMy.print(i)
                 }
             }else{
                 connectionOutMy.print("SessionNotFoundException")

@@ -28,10 +28,7 @@ package lupos.operator.physical.singleinput
 
 import lupos.Luposdate3000_Operator_Physical.MyOutputStream
 import lupos.operator.physical.POPBase
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
-import lupos.shared.IQuery
-import lupos.shared.Partition
+import lupos.shared.*
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
@@ -39,6 +36,8 @@ import lupos.shared.operator.iterator.RowIterator
 import lupos.shared_inline.DictionaryHelper
 
 public class POPVisualisation public constructor(query: IQuery, projectedVariables: List<String>, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPDebugID, "POPVisualisation", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
+    public var visualTest: IVisualisation? = null
+
     override fun getPartitionCount(variable: String): Int = getChildren()[0].getPartitionCount(variable)
     override fun equals(other: Any?): Boolean = other is POPVisualisation && getChildren()[0] == other.getChildren()[0]
     override fun cloneOP(): IOPBase = POPVisualisation(query, projectedVariables, getChildren()[0].cloneOP())
@@ -46,7 +45,7 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
     override fun getProvidedVariableNames(): List<String> = getChildren()[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> = (getChildren()[0] as POPBase).getProvidedVariableNamesInternal()
     override fun toSparql(): String = getChildren()[0].toSparql()
-    override fun evaluate(parent: Partition, output: String): String {
+    override fun evaluate(parent: Partition): IteratorBundle {
         var outputString: String = ""
         var result = IteratorBundle(RowIterator())
         val child = getChildren()[0].evaluate(parent)
@@ -76,12 +75,12 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
                 for (j in 0..iterator.columns.size - 1) {
                     query.getDictionary().getValue(buffer, iterator.buf[res + j])
                     var string = "?" + this.projectedVariables[j] + " = " + DictionaryHelper.byteArrayToSparql(buffer)
-                    visual.sendData(getParent().getVisualUUUID(), getChildren()[0].getVisualUUUID(), iterator.buf[res + j], string)
-                    outputString = getParent().getVisualUUUID().toString()+"||"
+                    //visual.sendData(getParent().getVisualUUUID(), getChildren()[0].getVisualUUUID(), iterator.buf[res + j], string)
+                    outputString = getChildren()[0].getVisualUUUID().toString()+"||"
                     outputString += getParent().getVisualUUUID().toString()+"||"
-                    outputString += iterator.buf[res + j].toString()+"||"
                     outputString += string+"||"
-
+                    outputString += iterator.buf[res + j].toString()+"NEWDATA"
+                    visualTest!!.sendData(outputString)
                 }
             }
             res
@@ -90,6 +89,6 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
             child.rows.close()
             iterator._close()
         }
-        return outputString
+        return IteratorBundle(iterator)
     }
 }
