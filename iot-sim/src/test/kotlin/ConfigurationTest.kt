@@ -36,7 +36,7 @@ class ConfigurationTest {
         Configuration.parse(fileName)
         val deviceName = Configuration.jsonObjects.fixedDevice[0].name
         val device = Configuration.getNamedDevice(deviceName)
-        Assertions.assertTrue(device.database is Database)
+        Assertions.assertTrue(device.database is DatabaseAdapter)
         Assertions.assertNotNull(device.sensor)
         Assertions.assertEquals(70.0, device.powerSupply.actualCapacity)
         Assertions.assertFalse(device.powerSupply.isInfinite)

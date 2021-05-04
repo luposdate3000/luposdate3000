@@ -19,6 +19,9 @@ object Configuration {
     var randMeshNetworks: MutableMap<String, MeshNetwork> = HashMap()
         private set
 
+    var dbDeviceAddresses: IntArray = intArrayOf()
+
+    private var dbDeviceCounter = 0
 
 
     fun parse(fileName: String) {
@@ -30,6 +33,7 @@ object Configuration {
         createRandomMeshNetworks()
         createRandomStarNetworks()
         createAvailableLinks()
+        createDbDeviceAddresses()
     }
 
     private fun resetVariables() {
@@ -165,11 +169,12 @@ object Configuration {
 
     private fun createDevice(deviceType: DeviceType, location: GeoLocation): Device {
         val powerSupply = PowerSupply(deviceType.powerCapacity)
-        val database = getDatabase(deviceType)
         val linkTypes = getLinkTypeIndices(deviceType)
-        val device = Device(powerSupply, location, devices.size, database, null, linkTypes)
+        val device = Device(powerSupply, location, devices.size, null, null, linkTypes)
         val parkingSensor = getParkingSensor(deviceType, device)
         device.sensor = parkingSensor
+        val database = getDatabase(deviceType, device)
+        device.database = database
         devices.add(device)
         return device
     }
@@ -197,17 +202,18 @@ object Configuration {
 
 
 
-    private fun getDatabase(deviceType: DeviceType) : Database? {
-        if (deviceType.database)
-            return Database()
+    private fun getDatabase(deviceType: DeviceType, device: Device) : DatabaseAdapter? {
+        if (deviceType.database) {
+            dbDeviceCounter++
+            return DatabaseAdapter(device)
+        }
         return null
     }
 
     private fun getParkingSensor(deviceType: DeviceType, device: Device): ParkingSensor? {
-        var sensor: ParkingSensor? = null
         if(deviceType.parkingSensor)
-            sensor = ParkingSensor(device, device.address)
-        return sensor
+            return ParkingSensor(device, device.address)
+        return null
     }
 
     private fun createAvailableLinks() {
@@ -216,5 +222,15 @@ object Configuration {
                 if(!one.isStarNetworkChild && !two.isStarNetworkChild)
                     one.linkManager.setLinkIfPossible(two)
 
+    }
+
+    private fun createDbDeviceAddresses() {
+        dbDeviceAddresses = IntArray(dbDeviceCounter)
+        var index = 0
+        for (d in devices)
+            if (d.hasDatabase()) {
+                dbDeviceAddresses[index] = d.address
+                index++
+            }
     }
 }

@@ -3,7 +3,7 @@ class Device(
     val powerSupply: PowerSupply,
     var location: GeoLocation,
     val address: Int,
-    val database: Database?,
+    var database: DatabaseAdapter?,
     var sensor: Sensor?,
     val supportedLinkTypes: IntArray
     ) : Entity()
@@ -23,31 +23,28 @@ class Device(
 
     override fun onStartUp() {
         sensor?.observe()
+        database?.startUp()
         router.startRouting()
     }
 
     override fun onEvent(event: Event) {
-        if(event.data is SensorObservationEndMarker) {
-            sensor!!.onObservationEnd()
-            return
+        when {
+            event.data is SensorObservationEndMarker -> sensor!!.onObservationEnd()
+            event.data != null && router.isSelfEvent(event.data!!) -> router.processSelfEvent(event.data!!)
+            event.data is NetworkPackage -> processNetworkPackage(event.data as NetworkPackage)
         }
+    }
 
-        if(event.data != null && router.isSelfEvent(event.data!!)) {
-            router.processSelfEvent(event.data!!)
-            return
-        }
-
-        val pck = event.data as NetworkPackage
+    private fun processNetworkPackage(pck: NetworkPackage) {
         packageCounter++
         when {
             pck.payload is ParkingSensor.ParkingObservation -> processParkingObservation(pck)
             router.isControlPackage(pck) -> router.processControlPackage(pck)
         }
-
     }
 
     override fun onShutDown() {
-
+        database?.shutDown()
     }
 
 
@@ -82,6 +79,8 @@ class Device(
             sendRoutedPackage(pck.sourceAddress, pck.destinationAddress, pck.payload)
         }
     }
+
+    fun hasDatabase() = database != null
 
 
     interface Sensor {
