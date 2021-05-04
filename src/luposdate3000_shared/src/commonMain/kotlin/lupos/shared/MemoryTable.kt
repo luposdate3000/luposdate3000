@@ -20,7 +20,7 @@ import kotlin.jvm.JvmField
 
 public class MemoryTable public constructor(@JvmField public val columns: Array<String>) {
     @JvmField
-    public val data: MutableList<IntArray> = mutableListOf()
+    public val data: MutableList<IntArray> = mutableListOf() // array of rows
 
     @JvmField
     public var booleanResult: Boolean? = null
@@ -30,7 +30,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
 
     public companion object {
         @Suppress("NOTHING_TO_INLINE")
-        internal inline operator fun invoke(a: MemoryTable, b: MemoryTable): MemoryTable {
+        internal inline fun merge(a: MemoryTable, b: MemoryTable): MemoryTable {
             if (a.columns.size != b.columns.size) {
                 throw Exception("incompatible input")
             }
