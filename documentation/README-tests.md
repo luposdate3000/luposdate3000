@@ -1,33 +1,28 @@
 ## Tests
 
-To run all tests use the following:
+If you want to have code-generation unit tests, than navigate to the file
+[SparqlTestSuiteConverterToUnitTest.kt](../src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTest.kt)
+and change the value useCodeGen to true.
+
+Afterwards generate the module, which contains the unit-test code.
+This module needs to be explicitly generated, because it has an significant impact on compile time.
+
+If you are using the commandline, the tests can be generated and executed using:
 
 ```bash
-./launchar.main.kts --compileAll
-./launcher.main.kts --run --mainClass=Binary_Test_Suite --runArgument_Luposdate3000_Launch_Binary_Test_Suite:basePath=resources/binary
+./launcher.main.kts --compileAll
+./launcher.main.kts --run --mainClass=Generate_Unit_Test_Suite_Multi
+./launcher.main.kts --generateLauncher
+./launcher.main.kts --compile=luposdate3000_launch_code_gen_test
+./launcher.main.kts --run --mainClass=Code_Gen_Test
 ```
 
-or if you are using intellij, launch the main-function in the File [src/luposdate3000_launch_binary_test_suite/src/jvmMain/kotlin/Main.kt](../src/luposdate3000_launch_binary_test_suite/src/jvmMain/kotlin/Main.kt) .
-
-
-These tests are executed repeatedly and therefore these should be compileable and executable.
-Currently luposdate3000 is not finished - thats why there are lots of failing tests.
-The test script writes a summary to the file resources/binary/config2.
-The comparison to the file resources/binary/config should show if there are new tests working - or if there are some tests broken right now.
-You can modify resources/binary/config to enable/disable specific tests.
-The found errors are summarized in the file log/error.
-
-The errors are NOT displayed in the console.
-In the console there are only debugging-logs, which may help to find the origin of the error.
-
-
-luposdate3000 allows for many configuration options where completely independent code is used.
-
-Currently the only tests are integration tests using complete sparql-queries at once.
-To gain usefull insight, what breakes when, the object "lupos.shared.SanityCheck" provides assertion functions, which are included in debug-build, but not in release-build.
-
-To add a new testcase::
+In intellij, you need to execute the main function in the Luposdate3000_Launch_Generate_Unit_Test_Suite_Multi package.
+Than the intellij files need to be recreated to add the new module.
 
 ```bash
-./launcher.main.kts --run --mainClass=Generate_Binary_Test_Suite_Single <args as specified by --help>
+./launcher.main.kts --generateLauncher
+./launcher.main.kts --setupIntellijIdea
 ```
+
+Finally you can execute the tests with the main function in Luposdate3000_Launch_Code_Gen_Test.
