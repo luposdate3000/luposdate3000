@@ -1,4 +1,7 @@
 import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardOpenOption
 
 class DatabaseStub : Database {
 
@@ -10,7 +13,7 @@ class DatabaseStub : Database {
         ownAddress: Int,
         allAddresses: IntArray,
         absolutePathToOntologyFile: String,
-        holder: DatabaseHolder
+        network: Network
     ) {
         dbFile = File("$absolutePathToDirectory\\file.txt")
         dbFile!!.createNewFile()
@@ -24,16 +27,13 @@ class DatabaseStub : Database {
         //DB Threads sleep until activate() is called
     }
 
-    override fun finish() {
+    override fun end() {
 
     }
 
-    override fun receive(sourceAddress: Int, data: ByteArray) {
-
+    override fun receive(header: Header, payload: ByteArray) {
+        Files.write(Paths.get(dbFile!!.toURI()), payload, StandardOpenOption.APPEND);
     }
 
 
-    //if insert Statement
-    //The database must use the triples to determine
-    // which database should store the triples
 }

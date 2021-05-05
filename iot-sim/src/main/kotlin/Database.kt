@@ -4,19 +4,26 @@ interface Database {
               ownAddress: Int,
               allAddresses: IntArray,
               absolutePathToOntologyFile: String,
-              holder: DatabaseHolder)
+              network: Network)
 
     fun activate()
 
     fun deactivate()
 
-    fun finish()
+    fun end()
 
-    fun receive(sourceAddress: Int, data: ByteArray)
+    fun receive(header: Header, payload: ByteArray)
 }
 
-interface DatabaseHolder {
+interface Network {
+    fun send(header: Header, payload: ByteArray)
+}
 
-    fun send(destinationAddress: Int, data: ByteArray)
+interface Header {
+    val sourceAddress: Int
+    val destinationAddress: Int
+    val participation: Boolean
+    val operate: Boolean
+    val participantsList: IntArray
 }
 

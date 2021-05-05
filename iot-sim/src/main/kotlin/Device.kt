@@ -1,4 +1,10 @@
 
+import java.io.ByteArrayInputStream
+import java.io.DataInputStream
+import java.io.InputStream
+import java.nio.charset.StandardCharsets
+
+
 class Device(
     val powerSupply: PowerSupply,
     var location: GeoLocation,
@@ -38,7 +44,7 @@ class Device(
     private fun processNetworkPackage(pck: NetworkPackage) {
         packageCounter++
         when {
-            pck.payload is ParkingSensor.ParkingObservation -> processParkingObservation(pck)
+            pck.payload is DatabaseAdapter.DatabasePackage -> processDBPackage(pck)
             router.isControlPackage(pck) -> router.processControlPackage(pck)
         }
     }
@@ -70,15 +76,7 @@ class Device(
     }
 
 
-    private fun processParkingObservation(pck: NetworkPackage) {
-        observationPackageCounter++
-        if (pck.destinationAddress == address) {
-            //store
-        }
-        else {
-            sendRoutedPackage(pck.sourceAddress, pck.destinationAddress, pck.payload)
-        }
-    }
+
 
     fun hasDatabase() = database != null
 
@@ -124,5 +122,26 @@ class Device(
             observationPackageCounter = 0
         }
     }
+
+
+
+
+    private fun processDBPackage(pck: NetworkPackage) {
+        val dbPackage = pck.payload as DatabaseAdapter.DatabasePackage
+        val header = dbPackage.header
+        if (pck.destinationAddress == address) {
+            database?.receive(dbPackage)
+        }
+        else {
+            if(header.participation && hasDatabase())
+                database!!.receive(dbPackage)
+            else
+                sendRoutedPackage(pck.sourceAddress, pck.destinationAddress, pck.payload)
+        }
+
+    }
+
+
+
 
 }

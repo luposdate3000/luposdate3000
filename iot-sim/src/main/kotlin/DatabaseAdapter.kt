@@ -4,7 +4,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 
 
-class DatabaseAdapter(val device: Device): DatabaseHolder {
+class DatabaseAdapter(val device: Device): Network {
 
     var path: Path = Paths.get("src","db", "device${device.address}")
     val db: Database = DatabaseStub()
@@ -18,30 +18,30 @@ class DatabaseAdapter(val device: Device): DatabaseHolder {
 
     fun shutDown() {
         db.activate()
-        db.finish()
+        db.end()
         deleteDirectory(path.toFile())
     }
 
+    override fun send(header: Header, payload: ByteArray) {
+        val pck = DatabasePackage(header, payload)
+        device.sendRoutedPackage(device.address, header.destinationAddress, pck)
+    }
 
+    fun receive(pck: DatabasePackage) {
+        db.activate()
+        db.receive(pck.header, pck.payload)
+        db.deactivate()
+    }
 
     private fun deleteDirectory(directoryToBeDeleted: File): Boolean {
         val allContents = directoryToBeDeleted.listFiles()
-        if (allContents != null) {
-            for (file in allContents) {
+        if (allContents != null)
+            for (file in allContents)
                 deleteDirectory(file)
-            }
-        }
+
         return directoryToBeDeleted.delete()
     }
 
-    override fun send(destinationAddress: Int, data: ByteArray) {
-        device.sendRoutedPackage(device.address, destinationAddress, data)
-    }
-
-    fun receive(sourceAddress: Int, data: ByteArray) {
-        db.activate()
-        db.receive(sourceAddress, data)
-        db.deactivate()
-    }
+    class DatabasePackage(val header: Header, val payload: ByteArray)
 
 }
