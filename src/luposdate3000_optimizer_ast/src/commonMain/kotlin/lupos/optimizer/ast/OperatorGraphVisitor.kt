@@ -1306,7 +1306,7 @@ return tmp
                 return AOPBuildInCallExists(query, parseGroup(node.children))
             }
             else -> {
-                throw SparqlFeatureNotImplementedException("BuiltInFunctionsExt." + node.function.toString())
+                throw SparqlFeatureNotImplementedException("BuiltInFunctionsExt." + BuiltInFunctionsExt.names[node.function])
             }
         }
         /*Coverage Unreachable*/

@@ -72,8 +72,8 @@ public class DictionaryInMemory : ADictionary {
                         val buf = dataI2V[value and ADictionary.maskValue]
                         ByteArrayWrapperExt.copyInto(buf, buffer)
                     } else {
-                        SanityCheck.check { value < bNodeCounter }
-                        SanityCheck.check { value >= 0 }
+                        SanityCheck.check({ value < bNodeCounter }, { "$value < $bNodeCounter" })
+                        SanityCheck.check({ value >= 0 }, { " $value >= 0" })
                         DictionaryHelper.bnodeToByteArray(buffer, value and ADictionary.maskValue)
                     }
                 } else {

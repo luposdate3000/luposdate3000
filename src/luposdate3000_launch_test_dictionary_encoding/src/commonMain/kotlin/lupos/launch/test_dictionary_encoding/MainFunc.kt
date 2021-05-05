@@ -558,7 +558,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
             if (verbose) {
                 println("dateTimeToByteArray '$year' '$month' '$day' '$hours' '$minutes' '$seconds' '$timezoneHours' '$timezoneMinutes'")
             }
-            DictionaryHelper.dateTimeToByteArray(buffer, myyear, month, day, hours, minutes, myseconds, timezoneHours, timezoneMinutes)
+            DictionaryHelper.dateTimeToByteArray(buffer, myyear, month, day, hours, minutes, myseconds, timezoneHours, timezoneMinutes, true)
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToType(buffer) }, { ETripleComponentTypeExt.DATE_TIME })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDateTime_Month(buffer).toString().toInt() }, { month })
             AssertionFunctions.assumeEQ({ DictionaryHelper.byteArrayToDateTime_Day(buffer).toString().toInt() }, { day })

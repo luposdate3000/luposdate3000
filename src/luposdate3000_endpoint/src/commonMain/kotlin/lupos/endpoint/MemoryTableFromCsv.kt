@@ -49,7 +49,14 @@ public class MemoryTableFromCsv : MemoryTableParser {
             val row = IntArray(variables.size) { DictionaryExt.undefValue }
             res.data.add(row)
             while (i < variables.size && i < values.size) {
-                DictionaryHelper.sparqlToByteArray(buffer, values[i])
+                when {
+                    values[i].startsWith("http") -> DictionaryHelper.iriToByteArray(buffer, values[i])
+                    values[i].startsWith("_:") -> DictionaryHelper.bnodeToByteArray(buffer, values[i].substring(2))
+                    "[0-9]+".toRegex().matches() -> DictionaryHelper.intToByteArray(buffer, values[i])
+                    "[0-9]*\.[0-9]*".toRegex().matches() -> DictionaryHelper.decimalToByteArray(buffer, values[i])
+                    "[0-9]*\.[0-9]*[eE][0-9]+".toRegex().matches() -> DictionaryHelper.doubleToByteArray(buffer, values[i])
+                    else -> DictionaryHelper.stringToByteArray(buffer, values[i])
+                }
                 row[i] = dictionary.createValue(buffer)
                 i++
             }

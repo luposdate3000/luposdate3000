@@ -99,6 +99,7 @@ internal object DictionaryHelper {
         val seconds: String
         val timezoneHours: Int
         val timezoneMinutes: Int
+        val hasTimeZone
         var idx = 0
         var idx2 = str.indexOf('-', 1)
         if (idx2 < idx) {
@@ -142,6 +143,7 @@ internal object DictionaryHelper {
                                 seconds = str.substring(idx + 1, idxa)
                                 timezoneHours = 0
                                 timezoneMinutes = 0
+                                hasTimeZone = true
                             } else if (idxb > idx) {
                                 seconds = str.substring(idx + 1, idxb)
                                 idx = idxb
@@ -149,9 +151,11 @@ internal object DictionaryHelper {
                                 if (idx2 > idx) {
                                     timezoneHours = str.substring(idx, idx2).toInt()
                                     timezoneMinutes = str.substring(idx2 + 1, str.length).toInt()
+                                    hasTimeZone = true
                                 } else {
                                     timezoneHours = -99
                                     timezoneMinutes = -99
+                                    hasTimeZone = false
                                 }
                             } else if (idxc > idx) {
                                 seconds = str.substring(idx + 1, idxc)
@@ -160,20 +164,24 @@ internal object DictionaryHelper {
                                 if (idx2 > idx) {
                                     timezoneHours = str.substring(idx, idx2).toInt()
                                     timezoneMinutes = str.substring(idx2 + 1, str.length).toInt()
+                                    hasTimeZone = true
                                 } else {
                                     timezoneHours = -99
                                     timezoneMinutes = -99
+                                    hasTimeZone = false
                                 }
                             } else {
                                 seconds = str.substring(idx + 1, str.length)
                                 timezoneHours = -99
                                 timezoneMinutes = -99
+                                hasTimeZone = false
                             }
                         } else {
                             minutes = 0
                             seconds = "0.0"
                             timezoneHours = -99
                             timezoneMinutes = -99
+                            hasTimeZone = false
                         }
                     } else {
                         hours = 0
@@ -181,6 +189,7 @@ internal object DictionaryHelper {
                         seconds = "0.0"
                         timezoneHours = -99
                         timezoneMinutes = -99
+                        hasTimeZone = false
                     }
                 } else {
                     day = 0
@@ -189,6 +198,7 @@ internal object DictionaryHelper {
                     seconds = "0.0"
                     timezoneHours = -99
                     timezoneMinutes = -99
+                    hasTimeZone = false
                 }
             } else {
                 month = 0
@@ -198,6 +208,7 @@ internal object DictionaryHelper {
                 seconds = "0.0"
                 timezoneHours = -99
                 timezoneMinutes = -99
+                hasTimeZone = false
             }
         } else {
             year = "0"
@@ -208,12 +219,13 @@ internal object DictionaryHelper {
             seconds = "0.0"
             timezoneHours = -99
             timezoneMinutes = -99
+            hasTimeZone = false
         }
-        dateTimeToByteArray(buffer, BigInteger.parseString(year, 10), month, day, hours, minutes, BigDecimal.parseString(seconds, 10), timezoneHours, timezoneMinutes)
+        dateTimeToByteArray(buffer, BigInteger.parseString(year, 10), month, day, hours, minutes, BigDecimal.parseString(seconds, 10), timezoneHours, timezoneMinutes, hasTimeZone)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun dateTimeToByteArray(buffer: ByteArrayWrapper, year: BigInteger, month: Int, day: Int, hours: Int, minutes: Int, seconds: BigDecimal, timezoneHours: Int, timezoneMinutes: Int) {
+    public inline fun dateTimeToByteArray(buffer: ByteArrayWrapper, year: BigInteger, month: Int, day: Int, hours: Int, minutes: Int, seconds: BigDecimal, timezoneHours: Int, timezoneMinutes: Int, hasTimeZone: Boolean) {
         SanityCheck.check({ month >= 0 }, { "dateTimeToByteArray.month : $month" })
         SanityCheck.check({ month <= 99 }, { "dateTimeToByteArray.month : $month" })
         SanityCheck.check({ day >= 0 }, { "dateTimeToByteArray.day : $day" })
@@ -222,10 +234,10 @@ internal object DictionaryHelper {
         SanityCheck.check({ hours <= 24 }, { "dateTimeToByteArray.hours : $hours" })
         SanityCheck.check({ minutes >= 0 }, { "dateTimeToByteArray.minutes : $minutes" })
         SanityCheck.check({ minutes <= 99 }, { "dateTimeToByteArray.minutes : $minutes" })
-        SanityCheck.check({ timezoneHours >= -24 }, { "dateTimeToByteArray.timezoneHours : $timezoneHours" })
-        SanityCheck.check({ timezoneHours <= 24 }, { "dateTimeToByteArray.timezoneHours : $timezoneHours" })
-        SanityCheck.check({ timezoneMinutes >= 0 }, { "dateTimeToByteArray.timezoneMinutes : $timezoneMinutes" })
-        SanityCheck.check({ timezoneMinutes <= 99 }, { "dateTimeToByteArray.timezoneMinutes : $timezoneMinutes" })
+        SanityCheck.check({ !hasTimeZone || timezoneHours >= -24 }, { "dateTimeToByteArray.timezoneHours : $timezoneHours" })
+        SanityCheck.check({ !hasTimeZone || timezoneHours <= 24 }, { "dateTimeToByteArray.timezoneHours : $timezoneHours" })
+        SanityCheck.check({ !hasTimeZone || timezoneMinutes >= 0 }, { "dateTimeToByteArray.timezoneMinutes : $timezoneMinutes" })
+        SanityCheck.check({ !hasTimeZone || timezoneMinutes <= 99 }, { "dateTimeToByteArray.timezoneMinutes : $timezoneMinutes" })
         val buf1 = year.toByteArray()
         val buf2 = seconds.significand.toByteArray()
         val l1 = buf1.size
@@ -244,10 +256,17 @@ internal object DictionaryHelper {
         off += 4
         ByteArrayHelper.writeInt4(buffer.buf, off, minutes)
         off += 4
-        ByteArrayHelper.writeInt4(buffer.buf, off, timezoneHours)
-        off += 4
-        ByteArrayHelper.writeInt4(buffer.buf, off, timezoneMinutes)
-        off += 4
+        if (hasTimeZone) {
+            ByteArrayHelper.writeInt4(buffer.buf, off, timezoneHours)
+            off += 4
+            ByteArrayHelper.writeInt4(buffer.buf, off, timezoneMinutes)
+            off += 4
+        } else {
+            ByteArrayHelper.writeInt4(buffer.buf, off, -99)
+            off += 4
+            ByteArrayHelper.writeInt4(buffer.buf, off, -99)
+            off += 4
+        }
         ByteArrayHelper.writeLong8(buffer.buf, off, seconds.exponent)
         off += 8
         buffer.buf[off] = year.signum().toByte()
@@ -449,7 +468,7 @@ internal object DictionaryHelper {
         if (timezoneHours == 0 && timezoneMinutes == 0) {
             return "Z"
         }
-        if (timezoneHours == -1 && timezoneMinutes == -1) {
+        if (timezoneHours == -99 && timezoneMinutes == -99) {
             return ""
         }
         return "-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}"

@@ -29,11 +29,6 @@ echo $(wc -l optional${j}.ttl | sed "s/ .*//g"),optional${i}.sparql,optional${j}
 done
 done
 
-for f in $(find . -name "ygraphic*.sparql"| sed "s-./--g")
-do
-echo $(wc -l ygraphic.ttl | sed "s/ .*//g"),$f,ygraphic.ttl,ygraphic_$(echo $f | sed "s/sparql/srx/g") >> config.csv2
-echo $(wc -l ygraphic2.ttl | sed "s/ .*//g"),$f,ygraphic2.ttl,ygraphic2_$(echo $f | sed "s/sparql/srx/g") >> config.csv2
-done
 
 cat config.csv2 | sort -n | uniq > config.csv
 rm config.csv2
