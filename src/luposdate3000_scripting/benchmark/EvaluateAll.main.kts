@@ -43,7 +43,7 @@ import java.io.File
  * pretty print xml :: 
  * apt install libxml2-utils
  * cat FILE_IN | sed 's/<?xml version="1.0"?>//g' | sed 's/<sparql [^>]*>/<sparql>/g' | xmllint --format - > FILE_OUT
- * for f in $(find /data/benchmark-results -type f -name "*xml") ; do cat $f | sed 's/<?xml version="1.0"?>//g' | sed 's/<sparql [^>]*>/<sparql>/g' > $f.pretty.xml; done
+ * for f in $(find /data/benchmark-results -type f -name "*xml") ; do cat $f | sed 's/<?xml version="1.0"?>//g' | sed 's/<sparql [^>]*>/<sparql>/g' | xmllint --format -  > $f.pretty.xml; done
  */
 
 // configure databases
