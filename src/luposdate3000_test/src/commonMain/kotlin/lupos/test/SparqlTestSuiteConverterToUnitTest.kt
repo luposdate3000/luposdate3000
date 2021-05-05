@@ -21,15 +21,24 @@ import kotlin.jvm.JvmField
 
 public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : SparqlTestSuite() {
     @JvmField
+    internal val useCodeGen = true
+
+    @JvmField
     internal var counter = 0
 
     @JvmField
     internal var lastFile: String = ""
 
+    @JvmField
     internal val folderPathCoponent = "code_gen_test"
 
+    @JvmField
     internal val outputFolderRoot = "src/luposdate3000_launch_$folderPathCoponent/"
+
+    @JvmField
     internal val outputFolderSrc = "src/luposdate3000_launch_$folderPathCoponent/src/jvmMain/kotlin/lupos/launch/$folderPathCoponent/"
+
+    @JvmField
     internal val allTests = mutableListOf<String>()
 
     init {
@@ -39,7 +48,9 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         File(outputFolderSrc).mkdirs()
         File(outputFolderRoot + "/module_config").withOutputStream { out ->
             out.println("package=Luposdate3000_Main")
-            out.println("codegenKAPT=true")
+            if (useCodeGen) {
+                out.println("codegenKAPT=true")
+            }
         }
         File(outputFolderRoot + "/runOptions").withOutputStream {}
         File(outputFolderRoot + "/disableTarget").withOutputStream { out ->
@@ -157,10 +168,16 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             out.println("import lupos.operator.arithmetik.noinput.AOPVariable")
             out.println("import lupos.shared.EIndexPatternExt")
             out.println("import lupos.operator.base.Query")
+            if (useCodeGen) {
+                out.println("import lupos.shared.CodeGenerationAnnotation")
+            }
             out.println("")
-            out.println("internal object $testCaseName {")
+            out.println("public object $testCaseName {")
             out.println("    internal const val inputFileName=\"$inputFile\"")
             out.println("    internal const val targetFileName=\"${outputFile!!}\"")
+            if (useCodeGen) {
+                out.println("    @CodeGenerationAnnotation")
+            }
             out.println("    internal const val query = \"${queryFileContentClean}\"")
             out.println("    internal operator fun invoke(){")
             out.println("        println(\"Test: '$testName'\")")
@@ -194,6 +211,38 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             out.println("        } else {")
             out.println("            println(\"Result: '$testName' failed\")")
             out.println("        }")
+            if (useCodeGen) {
+                out.println("        if(success){")
+                out.println("            var success2 = true")
+                out.println("            try {")
+                out.println("                LuposdateEndpoint.initialize()")
+                out.println("                LuposdateEndpoint.importTurtleFiles(inputFileName,mutableMapOf())")
+                out.println("                val op = query_evaluate()")
+                out.println("                val buf = MyPrintWriter(true)")
+                out.println("                val targetString = File(targetFileName).readAsString()")
+                out.println("                val target = MemoryTable.parseFromAny(targetString, targetFileName, op.getQuery())!!")
+                if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
+                    out.println("                val result = LuposdateEndpoint.evaluateOperatorgraphToResultA(op, buf, EQueryResultToStreamExt.MEMORY_TABLE)")
+                } else {
+                    out.println("                LuposdateEndpoint.evaluateOperatorgraphToResultA(op, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
+                    out.println("                val graph = tripleStoreManager.getGraph(\"\")")
+                    out.println("                val op2 = graph.getIterator(op.getQuery(), arrayOf(AOPVariable(op.getQuery(), \"s\"), AOPVariable(op.getQuery(), \"p\"), AOPVariable(op.getQuery(), \"o\")), EIndexPatternExt.SPO)")
+                    out.println("                val result = LuposdateEndpoint.evaluateOperatorgraphToResultA(op2, buf, EQueryResultToStreamExt.MEMORY_TABLE)")
+                }
+                val ordered = queryFileContentClean.toLowerCase().contains("order", true)
+                out.println("                if (target.equalsVerbose(result, ${!ordered}, true)) {")
+                out.println("                    success2 = false")
+                out.println("                }")
+                out.println("            } catch (e:Throwable) {")
+                out.println("                e.printStackTrace()")
+                out.println("                success2 = false")
+                out.println("            }")
+                out.println("                LuposdateEndpoint.close()") // for inmemory db this results in complete wipe of ALL data
+                out.println("            if (!success2) {")
+                out.println("                println(\"ResultCodegen: '$testName' failed\")")
+                out.println("            }")
+                out.println("        }")
+            }
             out.println("    }")
             out.println("}")
         }

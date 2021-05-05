@@ -99,7 +99,7 @@ internal object DictionaryHelper {
         val seconds: String
         val timezoneHours: Int
         val timezoneMinutes: Int
-        val hasTimeZone
+        val hasTimeZone: Boolean
         var idx = 0
         var idx2 = str.indexOf('-', 1)
         if (idx2 < idx) {
