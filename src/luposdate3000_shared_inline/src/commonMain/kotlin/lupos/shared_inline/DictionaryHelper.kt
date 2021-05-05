@@ -214,18 +214,18 @@ internal object DictionaryHelper {
 
     @Suppress("NOTHING_TO_INLINE")
     public inline fun dateTimeToByteArray(buffer: ByteArrayWrapper, year: BigInteger, month: Int, day: Int, hours: Int, minutes: Int, seconds: BigDecimal, timezoneHours: Int, timezoneMinutes: Int) {
-        SanityCheck.check { month >= 0 }
-        SanityCheck.check { month <= 99 }
-        SanityCheck.check { day >= 0 }
-        SanityCheck.check { day <= 99 }
-        SanityCheck.check { hours >= 0 }
-        SanityCheck.check { hours <= 24 }
-        SanityCheck.check { minutes >= 0 }
-        SanityCheck.check { minutes <= 99 }
-        SanityCheck.check { timezoneHours >= -24 }
-        SanityCheck.check { timezoneHours <= 24 }
-        SanityCheck.check { timezoneMinutes >= 0 }
-        SanityCheck.check { timezoneMinutes <= 99 }
+        SanityCheck.check({ month >= 0 }, { "dateTimeToByteArray.month : $month" })
+        SanityCheck.check({ month <= 99 }, { "dateTimeToByteArray.month : $month" })
+        SanityCheck.check({ day >= 0 }, { "dateTimeToByteArray.day : $day" })
+        SanityCheck.check({ day <= 99 }, { "dateTimeToByteArray.day : $day" })
+        SanityCheck.check({ hours >= 0 }, { "dateTimeToByteArray.hours : $hours" })
+        SanityCheck.check({ hours <= 24 }, { "dateTimeToByteArray.hours : $hours" })
+        SanityCheck.check({ minutes >= 0 }, { "dateTimeToByteArray.minutes : $minutes" })
+        SanityCheck.check({ minutes <= 99 }, { "dateTimeToByteArray.minutes : $minutes" })
+        SanityCheck.check({ timezoneHours >= -24 }, { "dateTimeToByteArray.timezoneHours : $timezoneHours" })
+        SanityCheck.check({ timezoneHours <= 24 }, { "dateTimeToByteArray.timezoneHours : $timezoneHours" })
+        SanityCheck.check({ timezoneMinutes >= 0 }, { "dateTimeToByteArray.timezoneMinutes : $timezoneMinutes" })
+        SanityCheck.check({ timezoneMinutes <= 99 }, { "dateTimeToByteArray.timezoneMinutes : $timezoneMinutes" })
         val buf1 = year.toByteArray()
         val buf2 = seconds.significand.toByteArray()
         val l1 = buf1.size
@@ -823,7 +823,7 @@ internal object DictionaryHelper {
                 typedToByteArray(buffer, removeQuotesFromString(value.substring(0, typeIdx + 1)), value.substring(typeIdx + 4, value.length - 1))
                 return
             } else {
-                SanityCheck.check { langIdx > 0 }
+                SanityCheck.check({ langIdx > 0 }, { "$langIdx :: $value" })
                 langToByteArray(buffer, removeQuotesFromString(value.substring(0, langIdx + 1)), value.substring(langIdx + 2, value.length))
                 return
             }
@@ -991,10 +991,23 @@ internal object DictionaryHelper {
             } else if (typeA == ETripleComponentTypeExt.BOOLEAN) {
                 return a.buf[4] - b.buf[4]
             } else if (typeA == ETripleComponentTypeExt.DATE_TIME) {
+                return a.compareTo(b)
             } else if (typeA == ETripleComponentTypeExt.DECIMAL) {
+                val av = byteArrayToDecimal_I(a)
+                val bv = byteArrayToDecimal_I(b)
+                return av.compareTo(bv)
             } else if (typeA == ETripleComponentTypeExt.DOUBLE) {
+                val av = byteArrayToDouble_I(a)
+                val bv = byteArrayToDouble_I(b)
+                return av.compareTo(bv)
             } else if (typeA == ETripleComponentTypeExt.FLOAT) {
+                val av = byteArrayToFloat_I(a)
+                val bv = byteArrayToFloat_I(b)
+                return av.compareTo(bv)
             } else if (typeA == ETripleComponentTypeExt.INTEGER) {
+                val av = byteArrayToInteger_I(a)
+                val bv = byteArrayToInteger_I(b)
+                return av.compareTo(bv)
             } else if (typeA == ETripleComponentTypeExt.STRING_LANG || typeA == ETripleComponentTypeExt.STRING_TYPED || typeA == ETripleComponentTypeExt.IRI || typeA == ETripleComponentTypeExt.STRING) {
                 val lenA = a.size
                 val lenB = b.size

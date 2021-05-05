@@ -41,7 +41,6 @@ public class MemoryTableFromXML : MemoryTableParser {
             if (xmlBoolean != null) {
                 res.booleanResult = xmlBoolean.content.toBoolean()
             } else {
-                val bnodeMap = mutableMapOf<String, Int>()
                 val xmlResults = xmlSparql["results"]!!
                 val buffer = ByteArrayWrapper()
                 for (xmlResult in xmlResults.childs) {
@@ -54,14 +53,7 @@ public class MemoryTableFromXML : MemoryTableParser {
                                 val child = xmlBinding.childs.first()
                                 when (child.tag) {
                                     "bnode" -> {
-                                        val tmp = bnodeMap[child.content]
-                                        if (tmp != null) {
-                                            row[column] = tmp
-                                        } else {
-                                            val tmp1 = dictionary.createNewBNode()
-                                            bnodeMap[child.content] = tmp1
-                                            row[column] = tmp1
-                                        }
+                                        row[column] = dictionary.createNewBNode(child.content)
                                     }
                                     "uri" -> {
                                         DictionaryHelper.iriToByteArray(buffer, child.content)

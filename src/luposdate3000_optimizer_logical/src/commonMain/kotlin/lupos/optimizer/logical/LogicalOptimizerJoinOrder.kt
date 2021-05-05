@@ -89,7 +89,7 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                 }
             }
             println("b ${allVariablesSortCounters.map { it }}")
-            var max = 0
+            var max = -1
             var maxIdx = 0
             for (i in 0 until allVariables.size) {
                 if (allVariablesSortCounters[i] > max) {
@@ -98,7 +98,7 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                 }
             }
             println("c $max $maxIdx")
-            SanityCheck.check { max > 0 }
+            SanityCheck.check({ max > -1 }, "$max > -1")
             val current = mutableListOf<IOPBase>()
             var groupIds = mutableSetOf<Int>()
             for (i in remainingNodes.toList()) {

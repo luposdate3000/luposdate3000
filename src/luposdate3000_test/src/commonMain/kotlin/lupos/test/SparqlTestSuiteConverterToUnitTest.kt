@@ -122,7 +122,13 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         allTests.add("$testCaseName")
 
         val queryFileContent = File(queryFile).readAsString()
-        val queryFileContentClean = queryFileContent.replace("\"", "\\\"").replace("\n", "\" +\n        \"").replace("\r", "\" +\n        \"").replace("\t", " ")
+        val queryFileContentClean = queryFileContent
+            .replace("\"", "\\\"")
+            .replace("\n", "\" +\n        \"")
+            .replace("\r", "\" +\n        \"")
+            .replace("\t", " ")
+            .replace(" +\n        \"\"", "")
+            .replace("\" +\n", " \" +\n")
 
         File(testCaseFileName).withOutputStream { out ->
             out.println("/*")

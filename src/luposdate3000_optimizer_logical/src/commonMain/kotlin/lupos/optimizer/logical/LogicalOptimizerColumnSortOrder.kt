@@ -39,7 +39,6 @@ public class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query
         }
         var done = node.initializeSortPriorities {
             hadChange = true
-            println("onChange A")
             onChange()
         }
         if (!hadChange && !done) {
@@ -48,7 +47,6 @@ public class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query
                 if (tmp.size > 1) {
                     node.selectSortPriority(tmp.first())
                     SanityCheck.check { node.getSortPriorities().size == 1 }
-                    println("onChange B")
                     onChange()
                 }
             } else {
@@ -57,7 +55,6 @@ public class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query
                     val tmp = parent.getSortPriorities()
                     if (tmp.size == 1) {
                         node.selectSortPriority(tmp.first())
-                        println("onChange C")
                         onChange()
                     }
                     if (tmp.size <= 1) {
@@ -65,7 +62,6 @@ public class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query
                         if (tmp3.size > 1) {
                             node.selectSortPriority(tmp3.first())
                             SanityCheck.check { node.getSortPriorities().size == 1 }
-                            println("onChange D")
                             onChange()
                         }
                     }

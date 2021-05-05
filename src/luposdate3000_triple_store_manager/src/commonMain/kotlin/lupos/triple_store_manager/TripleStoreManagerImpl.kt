@@ -198,7 +198,7 @@ public class TripleStoreManagerImpl : TripleStoreManager {
 
     @Suppress("NOTHING_TO_INLINE")
     private inline fun metadataRemove(name: LuposGraphName) {
-        SanityCheck.check { metadata_[name] != null || name == DEFAULT_GRAPH_NAME }
+        SanityCheck.check({ metadata_[name] != null || name == DEFAULT_GRAPH_NAME }, { "$name :: ${metadata_.keys}" })
         metadata_.remove(name)
     }
 
