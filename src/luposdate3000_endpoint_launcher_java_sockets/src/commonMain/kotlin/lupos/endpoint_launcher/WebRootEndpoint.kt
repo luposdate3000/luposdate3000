@@ -29,8 +29,8 @@ internal object WebRootEndpoint {
     }
 
     internal fun initialize(paths: MutableMap<String, PathMappingHelper>, params: Map<String, String>, connectionInMy: MyInputStream, connectionOutMy: MyOutputStream) {
-        val webroot = "documentation/" // relative to luposdate3000 or absolute path including trailling slash
-        val basepath = "/doc/" // base path in the browser url. this may be the empty path. this must include a trailing slash
+        val webroot = "src/Spa-Client/app/" // relative to luposdate3000 or absolute path including trailling slash
+        val basepath = "/" // base path in the browser url. this may be the empty path. this must include a trailing slash
         File(webroot).walk { p ->
             if (p.length > webroot.length) {
                 val targetPath = basepath + p.substring(webroot.length).replace("\\", "/").replace("//", "/")

@@ -204,7 +204,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         }
         Files.walk(Paths.get(v.moduleFolder)).forEach { it2 ->
             val name = it2.toString()
-            val f = java.io.File(name)
+            val f = File(name)
             if (f.isFile() && name.endsWith(".kt")) {
                 f.forEachLine { it ->
                     if (it.startsWith("import lupos.")) {
@@ -636,6 +636,14 @@ val defaultParams = mutableListOf(
         }
     ),
     ParamClass(
+        "--setupSPAClient",
+        {
+            enableParams(compileParams)
+            execMode = ExecMode.SETUP_SPACLIENT
+            target = TargetMode2.JS
+        }
+    ),
+    ParamClass(
         "--setupIntellijIdea",
         {
             enableParams(compileParams)
@@ -723,6 +731,7 @@ when (execMode) {
     ExecMode.GENERATE_ENUMS -> onGenerateEnums()
     ExecMode.SETUP_INTELLIJ_IDEA -> onSetupIntellijIdea()
     ExecMode.SETUP_JS -> onSetupJS()
+    ExecMode.SETUP_SPACLIENT -> onSetupSPAClient()
     ExecMode.COMPILE_AND_RUN -> {
         onCompile()
         onRun()
@@ -1303,6 +1312,129 @@ fun copyFromJar(source: InputStream, dest: String) {
     source.close()
 }
 
+fun onSetupSPAClient() {
+// depends on "apt install nodejs npm"
+    println("onSetupSPAClient")
+    val dirname = "./src/luposdate3000_spa_client"
+    val dirluposdatejs = "$dirname/app/scripts/algos/luposdate3000"
+    val relativeUrlJs = "scripts/algos/luposdate3000"
+    val dir = File(dirname)
+    val scriptFiles = getJSScriptFiles()
+    println(File(dirluposdatejs).absolutePath)
+    File(dirluposdatejs).mkdirs()
+    val imports = mutableListOf<String>()
+    println("scriptFiles :: $scriptFiles")
+    for (script in scriptFiles) {
+        val src = "build-cache/$script"
+        val dest = "$dirluposdatejs/${src.substring(src.lastIndexOf("/") + 1)}"
+        val dest2 = "$relativeUrlJs/${src.substring(src.lastIndexOf("/") + 1)}"
+        try {
+            Files.copy(File(src).toPath(), File(dest).toPath(), REPLACE_EXISTING)
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
+        try {
+            Files.copy(File("$src.map").toPath(), File("$dest.map").toPath(), REPLACE_EXISTING)
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
+        imports.add("<script src=\"$dest2\" />")
+    }
+    val cache = mutableListOf<String>()
+    var mode = 0
+    println("$dirname/app/index.html")
+    File("$dirname/app/index.html").forEachLine { line ->
+        cache.add(line)
+        when (mode) {
+            0 -> {
+                if (line == "<!-- LUPOSDATE3000 GENERATED CODE START-->") {
+                    mode = 1
+                    cache.addAll(imports)
+                }
+            }
+            1 -> {
+                if (line == "<!-- LUPOSDATE3000 GENERATED CODE END-->") {
+                    mode = 2
+                }
+            }
+        }
+    }
+    File("$dirname/app/index.html").printWriter().use { out ->
+        for (c in cache) {
+            out.println(c)
+        }
+    }
+    val pbin = ProcessBuilder("npm", "bin")
+        .directory(dir)
+    val bproc = pbin.start()
+    val reader = bproc.getInputStream().reader()
+    val pwd = reader.readText().trim()
+    reader.close()
+    val commands = listOf(
+        listOf("npm", "install"),
+        listOf("$pwd/bower", "install", "--allow-root"),
+        listOf("touch", "app/scripts/jst.js"),
+        listOf("$pwd/gulp"),
+    )
+    for (cmd in commands) {
+        println("cmd :: $cmd")
+        val p = ProcessBuilder(cmd)
+            .redirectOutput(Redirect.INHERIT)
+            .redirectError(Redirect.INHERIT)
+            .directory(dir)
+        val env = p.environment()
+        env["DISABLE_NOTIFIER"] = "true"
+        val p2 = p.start()
+        p2.waitFor()
+        if (p2.exitValue() != 0) {
+            throw Exception("exit-code:: " + p2.exitValue())
+        }
+    }
+}
+
+fun getJSScriptFiles(): List<String> {
+    val dependencies = mutableListOf<String>()
+    val scripts = mutableListOf<String>()
+    for (module in getAllModuleConfigurations()) {
+        if (module.enabledRunFunc() && module.modulePrefix != "Luposdate3000_Main") {
+            val s: String
+            if (module.modulePrefix == module.moduleName) {
+                s = "bin$appendix/${module.modulePrefix}.js"
+            } else {
+                s = "bin$appendix/${module.moduleName}/${module.modulePrefix}.js"
+            }
+            File("build-cache/${s.substring(0, s.length - 3)}-js.classpath").forEachLine { it ->
+                if (!dependencies.contains(it)) {
+                    dependencies.add(it)
+                }
+            }
+            if (!scripts.contains(s)) {
+                scripts.add(s)
+            }
+        }
+    }
+    for (s in dependencies) {
+        if (s.endsWith(".js")) {
+            scripts.add(0, s)
+        } else if (s.endsWith(".jar")) {
+            println(s)
+            val f = JarFile(File(s))
+            for (e in f.entries()) {
+                val name = e.getName()
+                if (name.endsWith(".js.map")) {
+                    copyFromJar(f.getInputStream(e), "build-cache/$name")
+                } else if (name.endsWith(".js") && !name.endsWith("meta.js")) {
+                    copyFromJar(f.getInputStream(e), "build-cache/$name")
+                    scripts.add(0, name)
+                }
+            }
+        } else {
+            throw Exception("unknown dependency '$s'")
+        }
+    }
+    return scripts
+}
+
 fun onSetupJS() {
     jsBrowserMode = true
     File("build-cache${Platform.getPathSeparator()}index.html").printWriter().use { out ->
@@ -1311,46 +1443,7 @@ fun onSetupJS() {
         out.println("<head>")
         out.println("    <meta charset=\"utf-8\">")
         out.println("    <title>Luposdate3000</title>")
-        val dependencies = mutableListOf<String>()
-        val scripts = mutableListOf<String>()
-        for (module in getAllModuleConfigurations()) {
-            if (module.enabledRunFunc() && module.modulePrefix != "Luposdate3000_Main") {
-                val s: String
-                if (module.modulePrefix == module.moduleName) {
-                    s = "bin$appendix/${module.modulePrefix}.js"
-                } else {
-                    s = "bin$appendix/${module.moduleName}/${module.modulePrefix}.js"
-                }
-                File("build-cache/${s.substring(0, s.length - 3)}-js.classpath").forEachLine { it ->
-                    if (!dependencies.contains(it)) {
-                        dependencies.add(it)
-                    }
-                }
-                if (!scripts.contains(s)) {
-                    scripts.add(s)
-                }
-            }
-        }
-        for (s in dependencies) {
-            if (s.endsWith(".js")) {
-                out.println("    <script src=\"$s\"></script>")
-            } else if (s.endsWith(".jar")) {
-                println(s)
-                val f = JarFile(File(s))
-                for (e in f.entries()) {
-                    val name = e.getName()
-                    if (name.endsWith(".js.map")) {
-                        copyFromJar(f.getInputStream(e), "build-cache/$name")
-                    } else if (name.endsWith(".js") && !name.endsWith("meta.js")) {
-                        copyFromJar(f.getInputStream(e), "build-cache/$name")
-                        out.println("    <script src=\"$name\"></script>")
-                    }
-                }
-            } else {
-                throw Exception("unknown dependency '$s'")
-            }
-        }
-        for (s in scripts) {
+        for (s in getJSScriptFiles()) {
             out.println("    <script src=\"$s\"></script>")
         }
         out.println("</head>")
