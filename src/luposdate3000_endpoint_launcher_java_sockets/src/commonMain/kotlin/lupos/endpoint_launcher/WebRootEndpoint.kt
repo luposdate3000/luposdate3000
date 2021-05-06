@@ -34,12 +34,20 @@ internal object WebRootEndpoint {
                         connectionOutMy.println("Content-Type: text/html")
                     } else if (targetPath.endsWith(".css")) {
                         connectionOutMy.println("Content-Type: text/css")
+                    } else if (targetPath.endsWith(".woff")) {
+                        connectionOutMy.println("Content-Type: font/woff")
+                    } else if (targetPath.endsWith(".svg")) {
+                        connectionOutMy.println("Content-Type: image/svg+xml")
+                    } else if (targetPath.endsWith(".js")) {
+                        connectionOutMy.println("Content-Type: application/javascript")
                     } else {
                         connectionOutMy.println("Content-Type: text/plain")
                     }
+                    val f = File(p)
+                    connectionOutMy.println("Content-Length: ${f.length()}")
                     connectionOutMy.println()
                     val buf = ByteArray(4096)
-                    File(p).withInputStream { input ->
+                    f.withInputStream { input ->
                         var len = input.read(buf)
                         while (len > 0) {
                             connectionOutMy.write(buf, len)

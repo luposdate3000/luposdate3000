@@ -111,6 +111,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         .ssetEnabledRunFunc { true }
     var allpackages = mutableSetOf<String>()
     var modules = mutableMapOf<String, CreateModuleArgs>()
+    val dependencyMap = mutableMapOf<String, MutableSet<String>>()
     Files.walk(Paths.get("src"), 1).forEach { it ->
         val filename = it.toString()
         val f = File(filename + "/module_config")
@@ -123,6 +124,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             } else if (filename.endsWith("_nodejs")) {
                 currentArgs = currentArgs.ssetEnabledRunFunc { !jsBrowserMode && targetModeCompatible(target, TargetMode2.JS) }
             }
+            val dep = mutableSetOf<String>()
             f.forEachLine { line ->
                 when {
                     line == "codegenKAPT=true" -> {
@@ -130,6 +132,9 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                     }
                     line == "codegenKSP=true" -> {
                         currentArgs = currentArgs.ssetCodegenKSP(true)
+                    }
+                    line.startsWith("dependencyLuposdate=") -> {
+                        dep.add(line.substring("dependencyLuposdate=".length))
                     }
                     line.startsWith("dependencyCommon=") -> {
                         currentArgs.dependenciesCommon.add(line.substring("dependencyCommon=".length))
@@ -192,13 +197,12 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             }
             currentArgs = currentArgs.ssetArgs2(compileModuleArgs)
             modules[currentArgs.moduleName] = currentArgs
+            dependencyMap[currentArgs.moduleName] = dep
             allpackages.add(currentArgs.modulePrefix.toLowerCase())
         }
     }
-    val dependencyMap = mutableMapOf<String, MutableSet<String>>()
     for ((k, v) in modules) {
-        val dep = mutableSetOf<String>()
-        dependencyMap[k] = dep
+        val dep = dependencyMap[k]!!
         if (!v.moduleName.startsWith("Luposdate3000_Shared")) {
             dep.add("Luposdate3000_Shared")
         }
@@ -1322,7 +1326,9 @@ fun onSetupSPAClient() {
     val scriptFiles = getJSScriptFiles()
     println(File(dirluposdatejs).absolutePath)
     File(dirluposdatejs).mkdirs()
-    val imports = mutableListOf<String>()
+    val imports = mutableListOf<String>(
+        "<script>Int64Array = BigInt64Array</script>", // fix an error in kotlin compiler ..... .
+    )
     println("scriptFiles :: $scriptFiles")
     for (script in scriptFiles) {
         val src = "build-cache/$script"
@@ -1338,15 +1344,15 @@ fun onSetupSPAClient() {
         } catch (e: Throwable) {
             e.printStackTrace()
         }
-        imports.add("<script src=\"$dest2\" />")
+        imports.add("<script src=\"$dest2\" ></script>")
     }
     val cache = mutableListOf<String>()
     var mode = 0
     println("$dirname/app/index.html")
     File("$dirname/app/index.html").forEachLine { line ->
-        cache.add(line)
         when (mode) {
             0 -> {
+                cache.add(line)
                 if (line == "<!-- LUPOSDATE3000 GENERATED CODE START-->") {
                     mode = 1
                     cache.addAll(imports)
@@ -1354,8 +1360,12 @@ fun onSetupSPAClient() {
             }
             1 -> {
                 if (line == "<!-- LUPOSDATE3000 GENERATED CODE END-->") {
+                    cache.add(line)
                     mode = 2
                 }
+            }
+            2 -> {
+                cache.add(line)
             }
         }
     }
