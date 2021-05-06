@@ -199,9 +199,6 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
     for ((k, v) in modules) {
         val dep = mutableSetOf<String>()
         dependencyMap[k] = dep
-        if (v.modulePrefix != "Luposdate3000_Shared_JS" && targetModeCompatible(target, TargetMode2.JS)) {
-            dep.add("Luposdate3000_Shared_BrowserJS")
-        }
         if (!v.moduleName.startsWith("Luposdate3000_Shared")) {
             dep.add("Luposdate3000_Shared")
         }
@@ -253,6 +250,9 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
 // add explicit dependencies
     for (v in modules.values) {
         val c = modules["Luposdate3000_Shared_Inline"]!!
+        if (v.modulePrefix != "Luposdate3000_Shared_JS" && targetModeCompatible(target, TargetMode2.JS)) {
+            v.dependenciesJs.add("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
+        }
         v.dependenciesCommon.addAll(c.dependenciesCommon)
         v.dependenciesJvm.addAll(c.dependenciesJvm)
         v.dependenciesJvmRecoursive.addAll(c.dependenciesJvm)
