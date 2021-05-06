@@ -14,13 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package launcher
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 
-enum class SuspendMode {
-    Enable, Disable
-}
 
 val regexEnableSuspend = "/\\*suspend\\*/ ".toRegex()
 val regexDisableSuspend = "(^|[^a-zA-Z])suspend ".toRegex()

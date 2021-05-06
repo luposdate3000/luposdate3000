@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package launcher
 import lupos.shared.EOperatingSystemExt
 import lupos.shared_inline.Platform
 import java.io.File
@@ -24,26 +25,10 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 
-enum class ReleaseMode {
-    Enable, Disable
-}
-
-enum class DryMode {
-    Enable, Disable
-}
-
-enum class TargetMode {
-    JVM, JS, Native, All
-}
-
-enum class IntellijMode {
-    Enable, Disable
-}
-
 val copySelevtively = false
 
 val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
-private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, appendix: String, out: PrintWriter) {
+private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, out: PrintWriter) {
     for (d in dependencies) {
         if (d.startsWith("luposdate3000")) {
             if (buildForIDE) {
@@ -126,7 +111,7 @@ class CreateModuleArgs() {
     var suspendMode: SuspendMode = SuspendMode.Disable
     var inlineMode: InlineMode = InlineMode.Disable
     var dryMode: DryMode = DryMode.Disable
-    var target: TargetMode = TargetMode.JVM
+    var target: TargetMode2 = TargetMode2.JVM
     var ideaBuildfile: IntellijMode = IntellijMode.Disable
     var codegenKAPT: Boolean = false
     var codegenKSP: Boolean = false
@@ -262,7 +247,7 @@ class CreateModuleArgs() {
         return res
     }
 
-    fun ssetTarget(target: TargetMode): CreateModuleArgs {
+    fun ssetTarget(target: TargetMode2): CreateModuleArgs {
         val res = clone()
         res.target = target
         return res
@@ -303,7 +288,9 @@ class CreateModuleArgs() {
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
     try {
         val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
-
+var enableJVM=targetModeCompatible(moduleArgs.target,TargetMode2.JVM)
+var enableJS=targetModeCompatible(moduleArgs.target,TargetMode2.JS)
+var enableNative=targetModeCompatible(moduleArgs.target,TargetMode2.Native)
         val replacementsDefault = mutableMapOf<String, String>()
         if (buildLibrary) {
             replacementsDefault[" public "] = " @lupos.ProguardKeepAnnotation public "
@@ -345,9 +332,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             pathSeparator = "/"
             pathSeparatorEscaped = "/"
         }
-        var enableJVM = moduleArgs.target == TargetMode.All || moduleArgs.target == TargetMode.JVM
-        var enableJS = moduleArgs.target == TargetMode.All || moduleArgs.target == TargetMode.JS
-        var enableNative = moduleArgs.target == TargetMode.All || moduleArgs.target == TargetMode.Native
         if (File("${moduleArgs.moduleFolder}/disableTarget").exists()) {
             File("${moduleArgs.moduleFolder}/disableTarget").forEachLine {
                 when (it) {
@@ -602,18 +586,18 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("    sourceSets {")
                 out.println("        val commonMain by getting {")
                 out.println("            dependencies {")
-                printDependencies(commonDependencies, buildForIDE, appendix, out)
+                printDependencies(commonDependencies, buildForIDE, out)
                 out.println("            }")
                 out.println("        }")
                 if (enableJVM) {
                     out.println("        val jvmMain by getting {")
                     out.println("            dependencies {")
-                    printDependencies(jvmDependencies, buildForIDE, appendix, out)
+                    printDependencies(jvmDependencies, buildForIDE, out)
                     if (!buildLibrary && moduleArgs.codegenKAPT) {
-                        printDependencies(moduleArgs.dependenciesJvmRecoursive, buildForIDE, appendix, out)
+                        printDependencies(moduleArgs.dependenciesJvmRecoursive, buildForIDE, out)
                     }
                     if (!buildLibrary && moduleArgs.codegenKSP) {
-                        printDependencies(moduleArgs.dependenciesJvmRecoursive, buildForIDE, appendix, out)
+                        printDependencies(moduleArgs.dependenciesJvmRecoursive, buildForIDE, out)
                         for (dep in moduleArgs.dependenciesJvmRecoursive) {
                             if (buildForIDE) {
                                 if (dep.startsWith("luposdate")) {
@@ -632,14 +616,14 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 if (enableJS) {
                     out.println("        val jsMain by getting {")
                     out.println("            dependencies {")
-                    printDependencies(jsDependencies, buildForIDE, appendix, out)
+                    printDependencies(jsDependencies, buildForIDE, out)
                     out.println("            }")
                     out.println("        }")
                 }
                 if (enableNative) {
                     out.println("        val ${moduleArgs.platform}Main by getting {")
                     out.println("            dependencies {")
-                    printDependencies(nativeDependencies, buildForIDE, appendix, out)
+                    printDependencies(nativeDependencies, buildForIDE, out)
                     out.println("            }")
                     out.println("        }")
                 }
@@ -886,7 +870,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                                 }
                             }
                         }
-                        for ((k, v) in classNamesUsed) {
+                        for ( v in classNamesUsed.values) {
                             for (fname in v) {
                                 val src = File(fname)
                                 val dest = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated"))
@@ -982,7 +966,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         remainingArgs.putAll(moduleArgs.args)
         File(configFile).printWriter().use { out ->
             out.println("package lupos.shared")
-            for ((k, v) in typeAliasUsed) {
+            for ( v in typeAliasUsed.values) {
                 out.println("internal typealias ${v.first} = ${v.second}")
             }
             for (f in listOf("${moduleArgs.moduleFolder}${pathSeparator}configOptions", "src${pathSeparator}luposdate3000_shared_inline${pathSeparator}configOptions")) {
