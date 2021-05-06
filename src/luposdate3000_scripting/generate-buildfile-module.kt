@@ -688,6 +688,54 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("    mainClass.set(\"MainKt\")")
                     out.println("}")
                 }
+                out.println("tasks.register(\"luposSetup\") {")
+// xxxxx
+                out.println("    val regexDisableNoInline = \"(^|[^a-zA-Z])noinline \".toRegex()")
+                out.println("    val regexDisableInline = \"(^|[^a-zA-Z])inline \".toRegex()")
+                out.println("    val regexDisableCrossInline = \"(^|[^a-zA-Z])crossinline \".toRegex()")
+                out.println("    for (bp in listOf(File(buildDir.parentFile,\"/src\"),File(rootDir,\"src/luposdate3000_shared_inline/src\"))) {")
+                out.println("        val basePath = bp.toString()")
+                out.println("        for (it in bp.walk()) {")
+                out.println("            val tmp = it.toString()")
+                out.println("            val t = \"src/\"+tmp.substring(basePath.length)")
+                out.println("            if (File(tmp).isFile()) {")
+                out.println("                File(buildDir, t).printWriter().use { out ->")
+                out.println("                    var line = 0")
+                out.println("                    File(tmp).forEachLine { line2 ->")
+                out.println("                        var s = line2")
+                out.println("                        s = s.replace(\"lupos.SOURCE_FILE\", \"\\\"\${File(tmp).getAbsolutePath().replace(\"\\\\\", \"/\")}:\$line\\\"\")")
+                out.println("                        s = s.replace(\" public \", \" @lupos.ProguardKeepAnnotation public \")")
+                if (moduleArgs.inlineMode == InlineMode.Disable) {
+                    out.println("                        s = s.replace(\"noinline \", \"\")")
+                    out.println("                        s = s.replace(\"crossinline \", \"\")")
+                    out.println("                        s = s.replace(\"inline \", \"\")")
+                }
+                out.println("                        out.println(s)")
+                out.println("                        line++")
+                out.println("                    }")
+                out.println("                }")
+                out.println("            } else {")
+                out.println("                File(buildDir, t).mkdirs()")
+                out.println("            }")
+                out.println("        }")
+                out.println("    }")
+// xxxxx
+                out.println("}")
+                if (enableJVM) {
+                    out.println("tasks.named(\"compileKotlinJvm\") {")
+                    out.println("    dependsOn(\"luposSetup\")")
+                    out.println("}")
+                }
+                if (enableJS) {
+                    out.println("tasks.named(\"compileKotlinJs\") {")
+                    out.println("    dependsOn(\"luposSetup\")")
+                    out.println("}")
+                }
+                if (enableNative) {
+                    out.println("tasks.named(\"compileKotlinNative\") {")
+                    out.println("    dependsOn(\"luposSetup\")")
+                    out.println("}")
+                }
                 out.println("tasks.named(\"build\") {")
                 out.println("    doLast {")
                 if (enableJVM) {
