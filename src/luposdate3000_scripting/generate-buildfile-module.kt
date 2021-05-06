@@ -688,30 +688,31 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("    mainClass.set(\"MainKt\")")
                     out.println("}")
                 }
-                out.println("tasks.register(\"mydependencies\") {")
-                out.println("    dependsOn(\"build\")")
+                out.println("tasks.named(\"build\") {")
+                out.println("    doLast {")
                 if (enableJVM) {
-                    out.println("    File(\"external_jvm_dependencies\").printWriter().use { out ->")
-                    out.println("        for (f in configurations.getByName(\"jvmRuntimeClasspath\").resolve()) {")
-                    out.println("            if (!\"\$f\".contains(\"luposdate3000\")) {")
-                    out.println("                out.println(\"\$f\")")
+                    out.println("        File(buildDir,\"external_jvm_dependencies\").printWriter().use { out ->")
+                    out.println("            for (f in configurations.getByName(\"jvmRuntimeClasspath\").resolve()) {")
+                    out.println("                if (!\"\$f\".contains(\"luposdate3000\")) {")
+                    out.println("                    out.println(\"\$f\")")
+                    out.println("                }")
                     out.println("            }")
                     out.println("        }")
-                    out.println("    }")
                 }
                 if (enableJS) {
-                    out.println("    File(\"external_js_dependencies\").printWriter().use { out ->")
-                    out.println("        for (f in configurations.getByName(\"jsRuntimeClasspath\").resolve()) {")
-                    out.println("            if (!\"\$f\".contains(\"luposdate3000\")) {")
-                    out.println("                out.println(\"\$f\")")
+                    out.println("        File(buildDir,\"external_js_dependencies\").printWriter().use { out ->")
+                    out.println("            for (f in configurations.getByName(\"jsRuntimeClasspath\").resolve()) {")
+                    out.println("                if (!\"\$f\".contains(\"luposdate3000\")) {")
+                    out.println("                    out.println(\"\$f\")")
+                    out.println("                }")
                     out.println("            }")
                     out.println("        }")
-                    out.println("    }")
                 }
+                out.println("    }")
                 out.println("}")
                 if (!onWindows) {
                     out.println("tasks.register<proguard.gradle.ProGuardTask>(\"proguard\") {")
-                    out.println("    dependsOn(\"mydependencies\")")
+                    out.println("    dependsOn(\"build\")")
                     out.println("    injars(\"build/libs/${moduleArgs.moduleName}-jvm-0.0.1.jar\")")
                     out.println("    outjars(\"build/libs/${moduleArgs.moduleName}-jvm-0.0.1-pro.jar\")")
                     out.println("    val javaHome = System.getProperty(\"java.home\")")
@@ -726,7 +727,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("            \"\$javaHome/jmods/java.base.jmod\"")
                     out.println("        )")
                     out.println("    }")
-                    out.println("    File(\"external_jvm_dependencies\").printWriter().use { out ->")
+                    out.println("    File(buildDir,\"external_jvm_dependencies\").printWriter().use { out ->")
                     out.println("        for (f in configurations.getByName(\"jvmRuntimeClasspath\").resolve()) {")
                     out.println("            if (!\"\$f\".contains(\"luposdate3000\")) {")
                     out.println("                out.println(\"\$f\")")
@@ -1016,16 +1017,16 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 File("$path${pathSeparator}gradle").copyRecursively(File("$path${pathSeparator}src.generated${pathSeparator}gradle"))
                 File("gradlew.bat").copyTo(File("src.generated${pathSeparator}gradlew.bat"))
                 if (enableJVM) {
-                    runCommand(listOf("gradlew.bat", "mydependencies"), File("$path${pathSeparator}src.generated"))
+                    runCommand(listOf("gradlew.bat", "build"), File("$path${pathSeparator}src.generated"))
                 } else {
-                    runCommand(listOf("gradlew.bat", "mydependencies"), File("$path${pathSeparator}src.generated"))
+                    runCommand(listOf("gradlew.bat", "build"), File("$path${pathSeparator}src.generated"))
                 }
                 runCommand(listOf("gradlew.bat", "publishToMavenLocal"), File("$path${pathSeparator}src.generated"))
             } else if (onLinux) {
                 if (enableJVM) {
-                    runCommand(listOf("../gradlew", "proguard"), File("src.generated"))
+                    runCommand(listOf("../gradlew", "build"), File("src.generated"))
                 } else {
-                    runCommand(listOf("../gradlew", "mydependencies"), File("src.generated"))
+                    runCommand(listOf("../gradlew", "build"), File("src.generated"))
                 }
                 runCommand(listOf("../gradlew", "publishToMavenLocal"), File("src.generated"))
             }
@@ -1066,7 +1067,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     if (!onWindows) {
                         Files.copy(Paths.get(buildFolder + "${pathSeparator}libs${pathSeparator}${moduleArgs.moduleName}-jvm-0.0.1-pro.jar"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm-pro.jar"), StandardCopyOption.REPLACE_EXISTING)
                     }
-                    Files.copy(Paths.get("$srcFolder${pathSeparator}external_jvm_dependencies"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm.classpath"), StandardCopyOption.REPLACE_EXISTING)
+                    Files.copy(Paths.get("$buildFolder${pathSeparator}external_jvm_dependencies"), Paths.get("build-cache${pathSeparator}bin$appendix${pathSeparator}${moduleArgs.moduleName}-jvm.classpath"), StandardCopyOption.REPLACE_EXISTING)
                 } catch (e: Throwable) {
                     e.printStackTrace()
                 }
