@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package launcher
+
 import lupos.shared.EOperatingSystemExt
 import lupos.shared_inline.Platform
 import java.io.File
@@ -288,9 +289,9 @@ class CreateModuleArgs() {
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
     try {
         val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
-var enableJVM=targetModeCompatible(moduleArgs.target,TargetMode2.JVM)
-var enableJS=targetModeCompatible(moduleArgs.target,TargetMode2.JS)
-var enableNative=targetModeCompatible(moduleArgs.target,TargetMode2.Native)
+        var enableJVM = targetModeCompatible(moduleArgs.target, TargetMode2.JVM)
+        var enableJS = targetModeCompatible(moduleArgs.target, TargetMode2.JS)
+        var enableNative = targetModeCompatible(moduleArgs.target, TargetMode2.Native)
         val replacementsDefault = mutableMapOf<String, String>()
         if (buildLibrary) {
             replacementsDefault[" public "] = " @lupos.ProguardKeepAnnotation public "
@@ -474,7 +475,7 @@ var enableNative=targetModeCompatible(moduleArgs.target,TargetMode2.Native)
                     if (moduleArgs.compilerVersion.startsWith("1.4")) {
                         out.println("    id(\"kotlin-ksp\") version \"1.4.0-dev-experimental-20200914\"")
                     } else {
-                        return //currently there is no 1.5 plugin from jetbrains
+                        return // currently there is no 1.5 plugin from jetbrains
                     }
                 }
                 if (buildForIDE && !buildLibrary) {
@@ -870,7 +871,7 @@ var enableNative=targetModeCompatible(moduleArgs.target,TargetMode2.Native)
                                 }
                             }
                         }
-                        for ( v in classNamesUsed.values) {
+                        for (v in classNamesUsed.values) {
                             for (fname in v) {
                                 val src = File(fname)
                                 val dest = File(fname.replace("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src", "src.generated"))
@@ -966,7 +967,7 @@ var enableNative=targetModeCompatible(moduleArgs.target,TargetMode2.Native)
         remainingArgs.putAll(moduleArgs.args)
         File(configFile).printWriter().use { out ->
             out.println("package lupos.shared")
-            for ( v in typeAliasUsed.values) {
+            for (v in typeAliasUsed.values) {
                 out.println("internal typealias ${v.first} = ${v.second}")
             }
             for (f in listOf("${moduleArgs.moduleFolder}${pathSeparator}configOptions", "src${pathSeparator}luposdate3000_shared_inline${pathSeparator}configOptions")) {

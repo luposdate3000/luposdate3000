@@ -15,19 +15,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package launcher
+
 enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, UNKNOWN }
 enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
-enum class ReleaseMode {    Enable, Disable}
-enum class DryMode {    Enable, Disable}
-enum class TargetMode2 {    JVM, JS, Native, All,JVM_JS}
-enum class IntellijMode {    Enable, Disable}
-enum class SuspendMode {    Enable, Disable}
-enum class InlineMode {    Enable, Disable}
-fun targetModeCompatible(base:TargetMode2,check:TargetMode2):Boolean{
-when(check){
-TargetMode2.JVM->return base==TargetMode2.JVM||base==TargetMode2.JVM_JS||base==TargetMode2.All
-TargetMode2.JS->return base==TargetMode2.JS||base==TargetMode2.JVM_JS||base==TargetMode2.All
-TargetMode2.Native->return base==TargetMode2.Native||base==TargetMode2.All
-else->throw Exception("")
-}
+enum class ReleaseMode { Enable, Disable }
+enum class DryMode { Enable, Disable }
+enum class TargetMode2 { JVM, JS, Native, All, JVM_JS }
+enum class IntellijMode { Enable, Disable }
+enum class SuspendMode { Enable, Disable }
+enum class InlineMode { Enable, Disable }
+
+fun targetModeCompatible(base: TargetMode2, check: TargetMode2): Boolean {
+    when (check) {
+        TargetMode2.JVM -> return base == TargetMode2.JVM || base == TargetMode2.JVM_JS || base == TargetMode2.All
+        TargetMode2.JS -> return base == TargetMode2.JS || base == TargetMode2.JVM_JS || base == TargetMode2.All
+        TargetMode2.Native -> return base == TargetMode2.Native || base == TargetMode2.All
+        else -> throw Exception("")
+    }
 }

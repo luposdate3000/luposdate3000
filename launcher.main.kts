@@ -32,7 +32,18 @@
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt")
 @file:CompilerOptions("-Xmulti-platform")
 
-import lupos.shared.EGarbageCollectorExt 
+import launcher.CreateModuleArgs
+import launcher.DryMode
+import launcher.ExecMode
+import launcher.InlineMode
+import launcher.IntellijMode
+import launcher.ParamClassMode
+import launcher.ReleaseMode
+import launcher.SuspendMode
+import launcher.TargetMode2
+import launcher.createBuildFileForModule
+import launcher.targetModeCompatible
+import lupos.shared.EGarbageCollectorExt
 import lupos.shared.EOperatingSystemExt
 import lupos.shared.EPartitionModeExt
 import lupos.shared.dictionary.EDictionaryTypeExt
@@ -45,22 +56,11 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.util.jar.JarFile
-import launcher.ExecMode
-import launcher.ReleaseMode
-import launcher.SuspendMode
-import launcher.InlineMode
-import launcher.DryMode
-import launcher.TargetMode2
-import launcher.IntellijMode
-import launcher.targetModeCompatible
-import launcher.ParamClassMode
-import launcher.CreateModuleArgs
-import launcher.createBuildFileForModule
 
 var compilerVersion = ""
 var compileModuleArgs = mutableMapOf<String, MutableMap<String, String>>()
 var jsBrowserMode = true
-var releaseMode =ReleaseMode.Disable
+var releaseMode = ReleaseMode.Disable
 var suspendMode = SuspendMode.Disable
 var inlineMode = InlineMode.Disable
 var partitionMode = ""
@@ -79,7 +79,6 @@ var processUrls = ""
 var garbageCollector = 0
 val optionsForPackages = mutableMapOf<String, MutableSet<String>>()
 val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Endpoint_Launcher" to "None", "Jena_Wrapper" to "Off")
-
 
 var execMode = ExecMode.UNKNOWN
 
@@ -120,9 +119,9 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                 .ssetModuleName(makeUppercaseStart(filename.substring(filename.indexOf("luposdate3000"))))
                 .ssetModulePrefix(makeUppercaseStart(filename.substring(filename.indexOf("luposdate3000"))))
             if (filename.endsWith("_browserjs")) {
-                currentArgs = currentArgs.ssetEnabledRunFunc { jsBrowserMode && targetModeCompatible(target ,TargetMode2.JS) }
+                currentArgs = currentArgs.ssetEnabledRunFunc { jsBrowserMode && targetModeCompatible(target, TargetMode2.JS) }
             } else if (filename.endsWith("_nodejs")) {
-                currentArgs = currentArgs.ssetEnabledRunFunc { !jsBrowserMode && targetModeCompatible(target ,TargetMode2.JS)  }
+                currentArgs = currentArgs.ssetEnabledRunFunc { !jsBrowserMode && targetModeCompatible(target, TargetMode2.JS) }
             }
             f.forEachLine { line ->
                 when {
@@ -200,7 +199,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
     for ((k, v) in modules) {
         val dep = mutableSetOf<String>()
         dependencyMap[k] = dep
-        if (v.modulePrefix != "Luposdate3000_Shared_JS" && targetModeCompatible(target ,TargetMode2.JS) ) {
+        if (v.modulePrefix != "Luposdate3000_Shared_JS" && targetModeCompatible(target, TargetMode2.JS)) {
             dep.add("Luposdate3000_Shared_BrowserJS")
         }
         if (!v.moduleName.startsWith("Luposdate3000_Shared")) {
@@ -229,7 +228,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                                     }
                                 }
                                 if (!found) {
-                                    for ( y in modules.values) {
+                                    for (y in modules.values) {
                                         if (y.modulePrefix.toLowerCase() == s) {
                                             found = true
                                             dep.add(y.moduleName)
@@ -252,7 +251,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         dep.remove(v.moduleName)
     }
 // add explicit dependencies
-    for ( v in modules.values) {
+    for (v in modules.values) {
         val c = modules["Luposdate3000_Shared_Inline"]!!
         v.dependenciesCommon.addAll(c.dependenciesCommon)
         v.dependenciesJvm.addAll(c.dependenciesJvm)
@@ -474,18 +473,18 @@ var enabledParams = mutableListOf<ParamClass>()
 val defaultParams = mutableListOf(
     ParamClass(
         "--dryMode",
-DryMode.Disable.toString(),
-DryMode.values().map{it->it.toString() to {dryMode=it}}.toMap()
+        DryMode.Disable.toString(),
+        DryMode.values().map { it -> it.toString() to { dryMode = it } }.toMap()
     ),
     ParamClass(
         "--intellijMode",
         IntellijMode.Disable.toString(),
-IntellijMode.values().map{it->it.toString() to {intellijMode=it}}.toMap()
+        IntellijMode.values().map { it -> it.toString() to { intellijMode = it } }.toMap()
     ),
     ParamClass(
         "--target",
         TargetMode2.JVM.toString(),
- TargetMode2.values().map{it->it.toString() to {target=it}}.toMap()
+        TargetMode2.values().map { it -> it.toString() to { target = it } }.toMap()
     ),
     ParamClass(
         "--threadCount",
@@ -504,12 +503,12 @@ IntellijMode.values().map{it->it.toString() to {intellijMode=it}}.toMap()
     ParamClass(
         "--releaseMode",
         ReleaseMode.Disable.toString(),
-     ReleaseMode.values().map{it-> it.toString() to {releaseMode=it}}.toMap()
+        ReleaseMode.values().map { it -> it.toString() to { releaseMode = it } }.toMap()
     ),
     ParamClass(
         "--suspendMode",
         SuspendMode.Disable.toString(),
-SuspendMode.values().map{it-> it.toString() to {suspendMode=it}}.toMap()
+        SuspendMode.values().map { it -> it.toString() to { suspendMode = it } }.toMap()
     ),
     ParamClass(
         "--compilerVersion",
@@ -524,7 +523,7 @@ SuspendMode.values().map{it-> it.toString() to {suspendMode=it}}.toMap()
     ParamClass(
         "--inlineMode",
         InlineMode.Disable.toString(),
-InlineMode.values().map{it-> it.toString() to {inlineMode=it}}.toMap()
+        InlineMode.values().map { it -> it.toString() to { inlineMode = it } }.toMap()
     ),
     ParamClass(
         "--partitionMode",
@@ -834,8 +833,8 @@ fun onSetupIntellijIdea() {
 
 fun onRun() {
     File("log").mkdirs()
-    when  {
-        targetModeCompatible(target,TargetMode2.JVM) -> {
+    when {
+        targetModeCompatible(target, TargetMode2.JVM) -> {
             val jarsLuposdate3000 = mutableListOf<String>()
             for (module in getAllModuleConfigurations()) {
                 if (module.enabledRunFunc()) {
@@ -919,7 +918,7 @@ fun onRun() {
                 }
             }
         }
-        targetModeCompatible(target,TargetMode2.JS) -> {
+        targetModeCompatible(target, TargetMode2.JS) -> {
             if (optionsChoosenForPackages["Buffer_Manager"]!! != "Inmemory") {
                 throw Exception("JS can only use 'Inmemory' as Buffer_Manager")
             }
