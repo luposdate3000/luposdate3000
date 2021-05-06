@@ -254,9 +254,6 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
 // add explicit dependencies
     for (v in modules.values) {
         val c = modules["Luposdate3000_Shared_Inline"]!!
-        if (v.modulePrefix != "Luposdate3000_Shared_JS" && targetModeCompatible(target, TargetMode2.JS)) {
-            v.dependenciesJs.add("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
-        }
         v.dependenciesCommon.addAll(c.dependenciesCommon)
         v.dependenciesJvm.addAll(c.dependenciesJvm)
         v.dependenciesJvmRecoursive.addAll(c.dependenciesJvm)
@@ -343,6 +340,13 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             optionsForPackages.remove(k)
         }
     }
+    for (v in modules.values) {
+        v.dependenciesCommon.remove("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
+        v.dependenciesJvm.remove("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
+        v.dependenciesNative.remove("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
+        v.dependenciesJvmRecoursive.remove("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
+    }
+    modules["Luposdate3000_Shared"]!!.dependenciesJs.add("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
     return res
 }
 
