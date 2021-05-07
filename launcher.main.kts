@@ -60,17 +60,15 @@ var compilerVersion = ""
 var compileModuleArgs = mutableMapOf<String, MutableMap<String, String>>()
 var jsBrowserMode = true
 var releaseMode = ReleaseMode.Disable
+var dryMode = DryMode.Disable
 var suspendMode = SuspendMode.Disable
 var inlineMode = InlineMode.Enable
 var partitionMode = ""
 var dictionaryMode = ""
 var mainClass = ""
-var dryMode = DryMode.Disable
 var target = TargetMode2.JVM
 var runArgs = mutableListOf<String>()
 var skipArgs = false
-var compileSpecific: String? = null
-var compileSince: String? = null
 var threadCount = 1
 var processUrls = ""
 var garbageCollector = 0
@@ -98,7 +96,6 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         .ssetReleaseMode(releaseMode)
         .ssetSuspendMode(suspendMode)
         .ssetInlineMode(inlineMode)
-        .ssetDryMode(dryMode)
         .ssetTarget(target)
         .ssetCodegenKSP(false)
         .ssetCodegenKAPT(false)
@@ -436,22 +433,6 @@ class ParamClass {
 fun getAllModuleSpecificParams(): List<ParamClass> {
     val res = mutableListOf<ParamClass>()
     for (module in getAllModuleConfigurations()) {
-        for (opt in module.getPossibleOptions()) {
-            res.add(
-                ParamClass(
-                    "--compileArgument_${module.moduleName}:$opt",
-                    "",
-                    {
-                        var t = compileModuleArgs[module.moduleName]
-                        if (t == null) {
-                            t = mutableMapOf<String, String>()
-                            compileModuleArgs[module.moduleName] = t
-                        }
-                        t[opt] = it
-                    }
-                )
-            )
-        }
         if (module.modulePrefix == "Luposdate3000_Main") {
             if (File(File(module.moduleFolder), "runOptions").exists()) {
                 File(File(module.moduleFolder), "runOptions").forEachLine { opt ->
@@ -475,14 +456,14 @@ val compileParams = mutableListOf<ParamClass>()
 var enabledParams = mutableListOf<ParamClass>()
 val defaultParams = mutableListOf(
     ParamClass(
-        "--dryMode",
-        DryMode.Disable.toString(),
-        DryMode.values().map { it -> it.toString() to { dryMode = it } }.toMap()
-    ),
-    ParamClass(
         "--target",
         TargetMode2.JVM.toString(),
         TargetMode2.values().map { it -> it.toString() to { target = it } }.toMap()
+    ),
+    ParamClass(
+        "--dryMode",
+        DryMode.Disable.toString(),
+        DryMode.values().map { it -> it.toString() to { dryMode = it } }.toMap()
     ),
     ParamClass(
         "--threadCount",
@@ -573,35 +554,6 @@ val defaultParams = mutableListOf(
         }
     ),
     ParamClass(
-        "--compile",
-        "",
-        {
-            enableParams(compileParams)
-            compileSpecific = it
-            execMode = ExecMode.COMPILE
-        }
-    ),
-    ParamClass(
-        "--compileSince",
-        "",
-        {
-            enableParams(compileParams)
-            compileSince = it
-            execMode = ExecMode.COMPILE
-        }
-    ),
-    ParamClass(
-        "--compileAll",
-        {
-            enableParams(compileParams)
-            execMode = ExecMode.COMPILE
-        }
-    ).setAdditionalHelp {
-        for (param in compileParams) {
-            param.help(it)
-        }
-    },
-    ParamClass(
         "--clearCaches",
         {
             if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
@@ -640,7 +592,6 @@ val defaultParams = mutableListOf(
             releaseMode = ReleaseMode.Disable
             suspendMode = SuspendMode.Disable
             inlineMode = InlineMode.Disable
-            dryMode = DryMode.Enable
             target = TargetMode2.JVM
         }
     ),
@@ -712,7 +663,6 @@ if (releaseMode == ReleaseMode.Enable) {
 }
 when (execMode) {
     ExecMode.HELP -> onHelp()
-    ExecMode.COMPILE -> onCompile()
     ExecMode.RUN -> onRun()
     ExecMode.GENERATE_PARSER -> onGenerateParser()
     ExecMode.GENERATE_LAUNCHER -> onGenerateLauncherMain()
@@ -720,10 +670,6 @@ when (execMode) {
     ExecMode.SETUP_INTELLIJ_IDEA -> onSetupIntellijIdea()
     ExecMode.SETUP_JS -> onSetupJS()
     ExecMode.SETUP_SPACLIENT -> onSetupSPAClient()
-    ExecMode.COMPILE_AND_RUN -> {
-        onCompile()
-        onRun()
-    }
     else -> {
         throw Exception("unknown execMode $execMode")
     }
@@ -742,36 +688,13 @@ fun onHelp() {
     }
 }
 
-fun onCompile() {
+fun onSetupIntellijIdea() {
+    File(".idea").deleteRecursively()
+    File("log").mkdirs()
     println(compileModuleArgs)
-    var foundit = false
-    if (compileSpecific != null) {
-        for (module in getAllModuleConfigurations()) {
-            if (module.enabledFunc()) {
-                if (compileSpecific!!.toLowerCase() == module.moduleName.toLowerCase()) {
-                    createBuildFileForModule(module)
-                    foundit = true
-                }
-            }
-        }
-    }
-    if (compileSince != null) {
-        for (module in getAllModuleConfigurations()) {
-            if (module.enabledFunc()) {
-                if (compileSince!!.toLowerCase() == module.moduleName.toLowerCase() || foundit) {
-                    createBuildFileForModule(module)
-                    foundit = true
-                }
-            }
-        }
-    }
-    if (foundit == false) {
-        for (module in getAllModuleConfigurations()) {
-            if (module.enabledFunc()) {
-                if (compileSpecific == null || module.moduleName.toLowerCase().startsWith(compileSpecific!!.toLowerCase())) {
-                    createBuildFileForModule(module)
-                }
-            }
+    for (module in getAllModuleConfigurations()) {
+        if (module.enabledFunc()) {
+            createBuildFileForModule(module)
         }
     }
     if (compileModuleArgs.size > 0) {
@@ -780,12 +703,6 @@ fun onCompile() {
         }
         throw Exception("there are unkown arguments")
     }
-}
-
-fun onSetupIntellijIdea() {
-    File(".idea").deleteRecursively()
-    File("log").mkdirs()
-    onCompile()
     File("build.gradle.kts").printWriter().use { outBuildGradle ->
         outBuildGradle.println("dependencies {")
         outBuildGradle.println("    project(\":src\")")
@@ -886,7 +803,6 @@ fun onRun() {
             cmd.add("MainKt")
             cmd.addAll(runArgs)
             println(cmd)
-            println("dryMode=$dryMode")
             if (dryMode == DryMode.Enable) {
                 println("export LUPOS_PROCESS_URLS=$processUrls")
                 println("export LUPOS_THREAD_COUNT=$threadCount")

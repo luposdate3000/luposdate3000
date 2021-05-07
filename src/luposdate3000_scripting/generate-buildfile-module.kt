@@ -26,18 +26,14 @@ import java.nio.file.Paths
 val copySelevtively = false
 
 val validPlatforms = listOf("iosArm32", "iosArm64", "linuxX64", "macosX64", "mingwX64")
-private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, out: PrintWriter) {
+private fun printDependencies(dependencies: Set<String>, out: PrintWriter) {
     for (d in dependencies) {
         if (d.startsWith("luposdate3000")) {
-            if (buildForIDE) {
-                var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
-                if (t.contains("#")) {
-                    t = t.substring(0, t.indexOf("#"))
-                }
-                out.println("                implementation(project(\":src:${t}\"))")
-            } else {
-                out.println("                compileOnly(\"${d.replace("#", "")}\")")
+            var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
+            if (t.contains("#")) {
+                t = t.substring(0, t.indexOf("#"))
             }
+            out.println("                implementation(project(\":src:${t}\"))")
         } else if (d.startsWith("npm(")) {
             out.println("                implementation($d)")
         } else {
@@ -46,12 +42,8 @@ private fun printDependencies(dependencies: Set<String>, buildForIDE: Boolean, o
     }
 }
 
-private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<String, String>, sharedInlineReferences: MutableSet<String>, dry: Boolean = false) {
-    val out = if (dry) {
-        null
-    } else {
-        dest.printWriter()
-    }
+private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<String, String>, sharedInlineReferences: MutableSet<String>) {
+    val out = dest.printWriter()
     val effectiveReplacement = mutableMapOf<String, String>()
     effectiveReplacement.putAll(replacement)
     if (src.toString().contains("jsMain")) {
@@ -83,16 +75,14 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<Stri
     out?.close()
 }
 
-private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map<String, String>, pathSeparator: String, sharedInlineReferences: MutableSet<String>, dry: Boolean = false) {
+private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map<String, String>, pathSeparator: String, sharedInlineReferences: MutableSet<String>) {
     for (it in File(src).walk()) {
         val tmp = it.toString()
         val t = tmp.substring(src.length)
         if (File(tmp).isFile()) {
-            copyFileWithReplacement(File(src + pathSeparator + t), File(dest + pathSeparator + t), replacement, sharedInlineReferences, dry)
+            copyFileWithReplacement(File(src + pathSeparator + t), File(dest + pathSeparator + t), replacement, sharedInlineReferences)
         } else {
-            if (!dry) {
-                File(dest + pathSeparator + t).mkdirs()
-            }
+            File(dest + pathSeparator + t).mkdirs()
         }
     }
 }
@@ -108,7 +98,6 @@ class CreateModuleArgs() {
     var releaseMode: ReleaseMode = ReleaseMode.Disable
     var suspendMode: SuspendMode = SuspendMode.Disable
     var inlineMode: InlineMode = InlineMode.Disable
-    var dryMode: DryMode = DryMode.Disable
     var target: TargetMode2 = TargetMode2.JVM
     var codegenKAPT: Boolean = false
     var codegenKSP: Boolean = false
@@ -144,7 +133,6 @@ class CreateModuleArgs() {
         res.releaseMode = releaseMode
         res.suspendMode = suspendMode
         res.inlineMode = inlineMode
-        res.dryMode = dryMode
         res.target = target
         res.codegenKAPT = codegenKAPT
         res.codegenKSP = codegenKSP
@@ -234,12 +222,6 @@ class CreateModuleArgs() {
     fun ssetInlineMode(inlineMode: InlineMode): CreateModuleArgs {
         val res = clone()
         res.inlineMode = inlineMode
-        return res
-    }
-
-    fun ssetDryMode(dryMode: DryMode): CreateModuleArgs {
-        val res = clone()
-        res.dryMode = dryMode
         return res
     }
 
@@ -335,7 +317,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         }
         var shortFolder = ".$pathSeparator${moduleArgs.moduleName}"
         shortFolder = shortFolder.substring(shortFolder.lastIndexOf(pathSeparator) + 1)
-        File("src.generated").deleteRecursively()
         val buildFolder = "build-cache${pathSeparator}build_$shortFolder$appendix"
         println("buildFolder :: $buildFolder")
         val srcFolder = "build-cache${pathSeparator}src_$shortFolder$appendix"
@@ -351,11 +332,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         val nativeDependencies = mutableSetOf<String>()
         nativeDependencies.addAll(moduleArgs.dependenciesNative)
         nativeDependencies.removeAll(commonDependencies)
-        for (filename in listOf("src.generated${pathSeparator}build.gradle.kts", "${moduleArgs.moduleFolder}${pathSeparator}build.gradle.kts")) {
-            var buildForIDE = filename != "src.generated${pathSeparator}build.gradle.kts"
-            if (!buildForIDE) {
-                continue
-            }
+        for (filename in listOf("${moduleArgs.moduleFolder}${pathSeparator}build.gradle.kts")) {
             File(filename).printWriter().use { out ->
                 out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
                 out.println("buildscript {")
@@ -372,15 +349,13 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("        classpath(\"com.guardsquare:proguard-gradle:7.1.0-beta3\")")
                 out.println("    }")
                 out.println("}")
-                if (buildForIDE) {
-                    for (d in commonDependencies) {
-                        if (d.startsWith("luposdate3000")) {
-                            var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
-                            if (t.contains("#")) {
-                                t = t.substring(0, t.indexOf("#"))
-                            }
-                            out.println("    evaluationDependsOn(\":src:${t}\")")
+                for (d in commonDependencies) {
+                    if (d.startsWith("luposdate3000")) {
+                        var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
+                        if (t.contains("#")) {
+                            t = t.substring(0, t.indexOf("#"))
                         }
+                        out.println("    evaluationDependsOn(\":src:${t}\")")
                     }
                 }
                 out.println("plugins {")
@@ -395,8 +370,8 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                         return // currently there is no 1.5 plugin from jetbrains
                     }
                 }
-                if (buildForIDE && !buildLibrary) {
-//                    out.println("    application")
+                if (!buildLibrary) {
+                    out.println("    application")
                 }
                 out.println("}")
                 out.println("repositories {")
@@ -504,25 +479,21 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("    sourceSets {")
                 out.println("        val commonMain by getting {")
                 out.println("            dependencies {")
-                printDependencies(commonDependencies, buildForIDE, out)
+                printDependencies(commonDependencies, out)
                 out.println("            }")
                 out.println("        }")
                 if (enableJVM) {
                     out.println("        val jvmMain by getting {")
                     out.println("            dependencies {")
-                    printDependencies(jvmDependencies, buildForIDE, out)
+                    printDependencies(jvmDependencies, out)
                     if (!buildLibrary && moduleArgs.codegenKAPT) {
-                        printDependencies(moduleArgs.dependenciesJvmRecoursive, buildForIDE, out)
+                        printDependencies(moduleArgs.dependenciesJvmRecoursive, out)
                     }
                     if (!buildLibrary && moduleArgs.codegenKSP) {
-                        printDependencies(moduleArgs.dependenciesJvmRecoursive, buildForIDE, out)
+                        printDependencies(moduleArgs.dependenciesJvmRecoursive, out)
                         for (dep in moduleArgs.dependenciesJvmRecoursive) {
-                            if (buildForIDE) {
-                                if (dep.startsWith("luposdate")) {
-                                    out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(project(\":src:${dep.toLowerCase().replace("luposdate3000:", "").replace(":0.0.1", "")}\")))")
-                                } else {
-                                    out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(\"$dep\"))")
-                                }
+                            if (dep.startsWith("luposdate")) {
+                                out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(project(\":src:${dep.toLowerCase().replace("luposdate3000:", "").replace(":0.0.1", "")}\")))")
                             } else {
                                 out.println("                configurations[\"ksp\"].dependencies.add(project.dependencies.create(\"$dep\"))")
                             }
@@ -534,76 +505,53 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 if (enableJS) {
                     out.println("        val jsMain by getting {")
                     out.println("            dependencies {")
-                    printDependencies(jsDependencies, buildForIDE, out)
+                    printDependencies(jsDependencies, out)
                     out.println("            }")
                     out.println("        }")
                 }
                 if (enableNative) {
                     out.println("        val ${moduleArgs.platform}Main by getting {")
                     out.println("            dependencies {")
-                    printDependencies(nativeDependencies, buildForIDE, out)
+                    printDependencies(nativeDependencies, out)
                     out.println("            }")
                     out.println("        }")
                 }
                 out.println("    }")
-                if (buildForIDE) {
+                if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
+                    out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
+                    out.println("    sourceSets[\"commonMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}resources\")")
+                }
+                if (enableJVM) {
                     if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
-                        out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
-                        out.println("    sourceSets[\"commonMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}resources\")")
+                        out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"jvmMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}resources\")")
                     }
-                    if (enableJVM) {
-                        if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
-                            out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
-                            out.println("    sourceSets[\"jvmMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}resources\")")
-                        }
+                }
+                if (enableJS) {
+                    if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
+                        out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"jsMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}resources\")")
                     }
-                    if (enableJS) {
-                        if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
-                            out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
-                            out.println("    sourceSets[\"jsMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}resources\")")
-                        }
-                    }
-                    if (enableNative) {
-                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
-                        if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
-                            out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
-                            out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}${moduleArgs.platform}Main${pathSeparatorEscaped}resources\")")
-                            out.println("    sourceSets[\"${moduleArgs.platform}Main\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
-                            out.println("    sourceSets[\"${moduleArgs.platform}Main\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}${moduleArgs.platform}Main${pathSeparatorEscaped}resources\")")
-                        }
-                    }
-                } else {
-                    out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"commonMain${pathSeparatorEscaped}kotlin\")")
-                    out.println("    sourceSets[\"commonMain\"].resources.srcDir(\"commonMain${pathSeparatorEscaped}resources\")")
-                    if (enableJVM) {
-                        out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"jvmMain${pathSeparatorEscaped}kotlin\")")
-                        out.println("    sourceSets[\"jvmMain\"].resources.srcDir(\"jvmMain${pathSeparatorEscaped}resources\")")
-                    }
-                    if (enableJS) {
-                        out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"jsMain${pathSeparatorEscaped}kotlin\")")
-                        out.println("    sourceSets[\"jsMain\"].resources.srcDir(\"jsMain${pathSeparatorEscaped}resources\")")
-                    }
-                    if (enableNative) {
-                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
-                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"${moduleArgs.platform}Main${pathSeparatorEscaped}kotlin\")")
-                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].resources.srcDir(\"nativeMain${pathSeparatorEscaped}resources\")")
-                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].resources.srcDir(\"${moduleArgs.platform}Main${pathSeparatorEscaped}resources\")")
+                }
+                if (enableNative) {
+                    out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
+                    if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
+                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}${moduleArgs.platform}Main${pathSeparatorEscaped}resources\")")
+                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}${moduleArgs.platform}Main${pathSeparatorEscaped}resources\")")
                     }
                 }
                 out.println("}")
                 if (!buildLibrary && moduleArgs.codegenKAPT) {
                     out.println("dependencies {")
-                    if (buildForIDE) {
-                        out.println("    \"kapt\"(project(\":src:luposdate3000_code_generator_kapt\")) // attention to the '\"' around kapt - otherwise it resolves to another function")
-                    } else {
-                        out.println("    \"kapt\"(\"luposdate3000:Luposdate3000_Code_Generator_KAPT:0.0.1\") // attention to the '\"' around kapt - otherwise it resolves to another function")
-                    }
+                    out.println("    \"kapt\"(project(\":src:luposdate3000_code_generator_kapt\")) // attention to the '\"' around kapt - otherwise it resolves to another function")
                     out.println("}")
                 }
-                if (buildForIDE && !buildLibrary) {
-//                    out.println("application{")
-//                    out.println("    mainClass.set(\"MainKt\")")
-//                    out.println("}")
+                if (!buildLibrary) {
+                    out.println("application{")
+                    out.println("    mainClass.set(\"MainKt\")")
+                    out.println("}")
                 }
                 out.println("tasks.register(\"luposSetup\") {")
 // xxxxx
@@ -848,23 +796,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             }
             throw Exception("unknown arguments")
         }
-        File("gradle.properties").copyTo(File("src.generated${pathSeparator}gradle.properties"))
-        if (moduleArgs.dryMode == DryMode.Disable) {
-            if (onWindows) {
-                var path = System.getProperty("user.dir")
-                File("$path${pathSeparator}gradle").copyRecursively(File("$path${pathSeparator}src.generated${pathSeparator}gradle"))
-                File("gradlew.bat").copyTo(File("src.generated${pathSeparator}gradlew.bat"))
-                if (enableJVM) {
-                    runCommand(listOf("gradlew.bat", "build", "--parallel"), File("$path${pathSeparator}src.generated"))
-                } else {
-                    runCommand(listOf("gradlew.bat", "build"), File("$path${pathSeparator}src.generated"))
-                }
-                runCommand(listOf("gradlew.bat", "publishToMavenLocal"), File("$path${pathSeparator}src.generated"))
-            } else if (onLinux) {
-                runCommand(listOf("../gradlew", "build", "--parallel"), File("src.generated"))
-                runCommand(listOf("../gradlew", "publishToMavenLocal"), File("src.generated"))
-            }
-        }
         try {
             File(srcFolder).deleteRecursively()
         } catch (e: Throwable) {
@@ -884,13 +815,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         }
     } catch (e: Throwable) {
         e.printStackTrace()
-        for (f in listOf(File(File("src.generated"), "gradle.log"), File(File("src.generated"), "gradle.err"))) {
-            if (f.exists()) {
-                f.forEachLine {
-                    println(it)
-                }
-            }
-        }
         throw e
     }
 }
@@ -900,8 +824,6 @@ public fun runCommand(command: List<String>, workingDir: File) {
         .directory(workingDir)
         .redirectOutput(Redirect.INHERIT)
         .redirectError(Redirect.INHERIT)
-        //        .redirectOutput(Redirect.to(File(File("src.generated"), "gradle.log"))) //this disables the warnings?!?
-        //        .redirectError(Redirect.to(File(File("src.generated"), "gradle.err"))) //this disables the warnings?!?
         .start()
     p.waitFor()
     if (p.exitValue() != 0) {
