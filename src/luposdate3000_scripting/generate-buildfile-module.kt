@@ -340,7 +340,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         val nativeDependencies = mutableSetOf<String>()
         nativeDependencies.addAll(moduleArgs.dependenciesNative)
         nativeDependencies.removeAll(commonDependencies)
-        var shared_inline_base_folder = "${File(".").absolutePath}${pathSeparatorEscaped}src$pathSeparatorEscaped"
+        var shared_inline_base_folder = "${File(".").absolutePath.replace("\\", "\\\\")}${pathSeparatorEscaped}src$pathSeparatorEscaped"
         var shared_config_base_folder = ""
         if (moduleArgs.intellijMode == IntellijMode.Enable) {
             shared_inline_base_folder += "xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}"
