@@ -1154,7 +1154,7 @@ fun copyFromJar(source: InputStream, dest: String) {
 fun onSetupSPAClient() {
 // depends on "apt install nodejs npm"
     println("onSetupSPAClient")
-    val dirname = "./src/luposdate3000_spa_client"
+    val dirname = "$(File(".").absolutePath.replace("\\","\\\\"))/src/luposdate3000_spa_client"
     val dirluposdatejs = "$dirname/app/scripts/algos/luposdate3000"
     val relativeUrlJs = "scripts/algos/luposdate3000"
     val dir = File(dirname)
