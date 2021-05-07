@@ -1,171 +1,170 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd)
-    define(['exports', 'kotlin', 'KotlinBigInteger-bignum-jsLegacy', 'Luposdate3000_Shared', 'Luposdate3000_Operator_Base', 'Luposdate3000_Operator_Arithmetik', 'Luposdate3000_Operator_Logical', 'Luposdate3000_Shared_JS'], factory);
+    define(['exports', 'kotlin', 'Luposdate3000_Operator_Base', 'Luposdate3000_Shared', 'Luposdate3000_Operator_Arithmetik', 'Luposdate3000_Operator_Logical', 'KotlinBigInteger-bignum-jsLegacy', 'Luposdate3000_Shared_JS'], factory);
   else if (typeof exports === 'object')
-    factory(module.exports, require('kotlin'), require('KotlinBigInteger-bignum-jsLegacy'), require('Luposdate3000_Shared'), require('Luposdate3000_Operator_Base'), require('Luposdate3000_Operator_Arithmetik'), require('Luposdate3000_Operator_Logical'), require('Luposdate3000_Shared_JS'));
+    factory(module.exports, require('kotlin'), require('Luposdate3000_Operator_Base'), require('Luposdate3000_Shared'), require('Luposdate3000_Operator_Arithmetik'), require('Luposdate3000_Operator_Logical'), require('KotlinBigInteger-bignum-jsLegacy'), require('Luposdate3000_Shared_JS'));
   else {
     if (typeof kotlin === 'undefined') {
       throw new Error("Error loading module 'Luposdate3000_Operator_Physical'. Its dependency 'kotlin' was not found. Please, check whether 'kotlin' is loaded prior to 'Luposdate3000_Operator_Physical'.");
-    }if (typeof this['KotlinBigInteger-bignum-jsLegacy'] === 'undefined') {
-      throw new Error("Error loading module 'Luposdate3000_Operator_Physical'. Its dependency 'KotlinBigInteger-bignum-jsLegacy' was not found. Please, check whether 'KotlinBigInteger-bignum-jsLegacy' is loaded prior to 'Luposdate3000_Operator_Physical'.");
-    }if (typeof Luposdate3000_Shared === 'undefined') {
-      throw new Error("Error loading module 'Luposdate3000_Operator_Physical'. Its dependency 'Luposdate3000_Shared' was not found. Please, check whether 'Luposdate3000_Shared' is loaded prior to 'Luposdate3000_Operator_Physical'.");
     }if (typeof Luposdate3000_Operator_Base === 'undefined') {
       throw new Error("Error loading module 'Luposdate3000_Operator_Physical'. Its dependency 'Luposdate3000_Operator_Base' was not found. Please, check whether 'Luposdate3000_Operator_Base' is loaded prior to 'Luposdate3000_Operator_Physical'.");
+    }if (typeof Luposdate3000_Shared === 'undefined') {
+      throw new Error("Error loading module 'Luposdate3000_Operator_Physical'. Its dependency 'Luposdate3000_Shared' was not found. Please, check whether 'Luposdate3000_Shared' is loaded prior to 'Luposdate3000_Operator_Physical'.");
     }if (typeof Luposdate3000_Operator_Arithmetik === 'undefined') {
       throw new Error("Error loading module 'Luposdate3000_Operator_Physical'. Its dependency 'Luposdate3000_Operator_Arithmetik' was not found. Please, check whether 'Luposdate3000_Operator_Arithmetik' is loaded prior to 'Luposdate3000_Operator_Physical'.");
     }if (typeof Luposdate3000_Operator_Logical === 'undefined') {
       throw new Error("Error loading module 'Luposdate3000_Operator_Physical'. Its dependency 'Luposdate3000_Operator_Logical' was not found. Please, check whether 'Luposdate3000_Operator_Logical' is loaded prior to 'Luposdate3000_Operator_Physical'.");
+    }if (typeof this['KotlinBigInteger-bignum-jsLegacy'] === 'undefined') {
+      throw new Error("Error loading module 'Luposdate3000_Operator_Physical'. Its dependency 'KotlinBigInteger-bignum-jsLegacy' was not found. Please, check whether 'KotlinBigInteger-bignum-jsLegacy' is loaded prior to 'Luposdate3000_Operator_Physical'.");
     }if (typeof Luposdate3000_Shared_JS === 'undefined') {
       throw new Error("Error loading module 'Luposdate3000_Operator_Physical'. Its dependency 'Luposdate3000_Shared_JS' was not found. Please, check whether 'Luposdate3000_Shared_JS' is loaded prior to 'Luposdate3000_Operator_Physical'.");
-    }root.Luposdate3000_Operator_Physical = factory(typeof Luposdate3000_Operator_Physical === 'undefined' ? {} : Luposdate3000_Operator_Physical, kotlin, this['KotlinBigInteger-bignum-jsLegacy'], Luposdate3000_Shared, Luposdate3000_Operator_Base, Luposdate3000_Operator_Arithmetik, Luposdate3000_Operator_Logical, Luposdate3000_Shared_JS);
+    }root.Luposdate3000_Operator_Physical = factory(typeof Luposdate3000_Operator_Physical === 'undefined' ? {} : Luposdate3000_Operator_Physical, kotlin, Luposdate3000_Operator_Base, Luposdate3000_Shared, Luposdate3000_Operator_Arithmetik, Luposdate3000_Operator_Logical, this['KotlinBigInteger-bignum-jsLegacy'], Luposdate3000_Shared_JS);
   }
-}(this, function (_, Kotlin, $module$KotlinBigInteger_bignum_jsLegacy, $module$Luposdate3000_Shared, $module$Luposdate3000_Operator_Base, $module$Luposdate3000_Operator_Arithmetik, $module$Luposdate3000_Operator_Logical, $module$Luposdate3000_Shared_JS) {
+}(this, function (_, Kotlin, $module$Luposdate3000_Operator_Base, $module$Luposdate3000_Shared, $module$Luposdate3000_Operator_Arithmetik, $module$Luposdate3000_Operator_Logical, $module$KotlinBigInteger_bignum_jsLegacy, $module$Luposdate3000_Shared_JS) {
   'use strict';
-  var Kind_OBJECT = Kotlin.Kind.OBJECT;
-  var indexOf = Kotlin.kotlin.text.indexOf_8eortd$;
-  var toInt = Kotlin.kotlin.text.toInt_pdl1vz$;
-  var BigInteger = $module$KotlinBigInteger_bignum_jsLegacy.com.ionspin.kotlin.bignum.integer.BigInteger;
-  var BigDecimal = $module$KotlinBigInteger_bignum_jsLegacy.com.ionspin.kotlin.bignum.decimal.BigDecimal;
-  var toByte = Kotlin.toByte;
-  var Sign = $module$KotlinBigInteger_bignum_jsLegacy.com.ionspin.kotlin.bignum.integer.Sign;
-  var BigInteger_init = $module$KotlinBigInteger_bignum_jsLegacy.com.ionspin.kotlin.bignum.integer.BigInteger_init_za3lpa$;
-  var split = Kotlin.kotlin.text.split_ip8yn$;
-  var padStart = Kotlin.kotlin.text.padStart_vrc1nu$;
-  var endsWith = Kotlin.kotlin.text.endsWith_sgbm27$;
-  var toBoxedChar = Kotlin.toBoxedChar;
-  var contains = Kotlin.kotlin.text.contains_sgbm27$;
-  var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
-  var encodeToByteArray = Kotlin.kotlin.text.encodeToByteArray_pdl1vz$;
-  var decodeToString = Kotlin.kotlin.text.decodeToString_964n91$;
-  var equals = Kotlin.equals;
-  var Throwable = Error;
-  var Exception_init = Kotlin.kotlin.Exception_init_pdl1vj$;
-  var startsWith = Kotlin.kotlin.text.startsWith_7epoxm$;
-  var endsWith_0 = Kotlin.kotlin.text.endsWith_7epoxm$;
-  var contains_0 = Kotlin.kotlin.text.contains_li3zpu$;
-  var lastIndexOf = Kotlin.kotlin.text.lastIndexOf_l5u8uk$;
-  var dictionary = $module$Luposdate3000_Shared.lupos.dictionary;
-  var toString = Kotlin.toString;
-  var ValueBnode = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueBnode;
-  var ValueDouble = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueDouble;
-  var ValueFloat = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueFloat;
-  var ValueInteger = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueInteger;
-  var ValueDecimal = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueDecimal;
-  var ValueIri = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueIri;
-  var ValueSimpleLiteral = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueSimpleLiteral;
-  var ValueLanguageTaggedLiteral = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueLanguageTaggedLiteral;
-  var ValueTypedLiteral = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueTypedLiteral;
-  var arrayCopy = Kotlin.kotlin.collections.arrayCopy;
-  var toByteArray = Kotlin.kotlin.collections.toByteArray_kdx1v$;
-  var Kind_CLASS = Kotlin.Kind.CLASS;
-  var IMyInputStream = $module$Luposdate3000_Shared.lupos.s00misc.IMyInputStream;
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
-  var UnreachableException = $module$Luposdate3000_Shared.lupos.s00misc.UnreachableException;
-  var println = Kotlin.kotlin.io.println_s8jyv4$;
-  var printStackTrace = Kotlin.kotlin.printStackTrace_dbl4o4$;
   var hashCode = Kotlin.hashCode;
   var contentEquals = Kotlin.arrayEquals;
   var throwCCE = Kotlin.throwCCE;
-  var iterator = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.iterator;
-  var ColumnIteratorRepeatValue = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.iterator.ColumnIteratorRepeatValue;
-  var ColumnIteratorMultiIterator = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.iterator.ColumnIteratorMultiIterator;
-  var ColumnIteratorRepeatIterator = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.iterator.ColumnIteratorRepeatIterator;
-  var multiinput = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.multiinput;
+  var Kind_CLASS = Kotlin.Kind.CLASS;
+  var iterator = $module$Luposdate3000_Operator_Base.lupos.operator.base.iterator;
+  var ColumnIteratorRepeatValue = $module$Luposdate3000_Operator_Base.lupos.operator.base.iterator.ColumnIteratorRepeatValue;
+  var ColumnIteratorMultiIterator = $module$Luposdate3000_Operator_Base.lupos.operator.base.iterator.ColumnIteratorMultiIterator;
+  var ColumnIteratorRepeatIterator = $module$Luposdate3000_Operator_Base.lupos.operator.base.iterator.ColumnIteratorRepeatIterator;
+  var Kind_OBJECT = Kotlin.Kind.OBJECT;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  var Exception_init = Kotlin.kotlin.Exception_init_pdl1vj$;
+  var equals = Kotlin.equals;
+  var multiinput = $module$Luposdate3000_Operator_Base.lupos.operator.base.multiinput;
   var Unit = Kotlin.kotlin.Unit;
   var ensureNotNull = Kotlin.ensureNotNull;
-  var IteratorBundle_init = $module$Luposdate3000_Shared.lupos.s04logicalOperators.iterator.IteratorBundle_init_za3lpa$;
-  var ColumnIteratorEmpty = $module$Luposdate3000_Shared.lupos.s04logicalOperators.iterator.ColumnIteratorEmpty;
-  var IteratorBundle_init_0 = $module$Luposdate3000_Shared.lupos.s04logicalOperators.iterator.IteratorBundle_init_h0un2z$;
-  var ColumnIteratorChildIterator = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.iterator.ColumnIteratorChildIterator;
-  var ColumnIteratorChildIteratorEmpty = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.iterator.ColumnIteratorChildIteratorEmpty;
+  var IteratorBundle_init = $module$Luposdate3000_Shared.lupos.shared.operator.iterator.IteratorBundle_init_za3lpa$;
+  var printStackTrace = Kotlin.kotlin.printStackTrace_dbl4o4$;
+  var Throwable = Error;
+  var ColumnIteratorEmpty = $module$Luposdate3000_Shared.lupos.shared.operator.iterator.ColumnIteratorEmpty;
+  var IteratorBundle_init_0 = $module$Luposdate3000_Shared.lupos.shared.operator.iterator.IteratorBundle_init_8dvout$;
+  var ColumnIteratorChildIterator = $module$Luposdate3000_Operator_Base.lupos.operator.base.iterator.ColumnIteratorChildIterator;
+  var ColumnIteratorChildIteratorEmpty = $module$Luposdate3000_Operator_Base.lupos.operator.base.iterator.ColumnIteratorChildIteratorEmpty;
+  var toString = Kotlin.toString;
   var Array_0 = Array;
   var LinkedHashMap_init = Kotlin.kotlin.collections.LinkedHashMap_init_q3lmfv$;
   var Pair = Kotlin.kotlin.Pair;
   var mutableListOf = Kotlin.kotlin.collections.mutableListOf_i5x0yv$;
-  var IteratorBundle = $module$Luposdate3000_Shared.lupos.s04logicalOperators.iterator.IteratorBundle;
-  var ColumnIterator = $module$Luposdate3000_Shared.lupos.s04logicalOperators.iterator.ColumnIterator;
-  var AOPBase = $module$Luposdate3000_Operator_Arithmetik.lupos.s04arithmetikOperators.AOPBase;
-  var AOPVariable = $module$Luposdate3000_Operator_Arithmetik.lupos.s04arithmetikOperators.noinput.AOPVariable;
-  var AOPConstant_init = $module$Luposdate3000_Operator_Arithmetik.lupos.s04arithmetikOperators.noinput.AOPConstant_init_mtm5fp$;
-  var LOPTriple = $module$Luposdate3000_Operator_Logical.lupos.s04logicalOperators.noinput.LOPTriple;
-  var s00misc = $module$Luposdate3000_Shared.lupos.s00misc;
-  var s05tripleStore = $module$Luposdate3000_Shared.lupos.s05tripleStore;
-  var AOPConstant = $module$Luposdate3000_Operator_Arithmetik.lupos.s04arithmetikOperators.noinput.AOPConstant;
-  var AOPConstant_init_0 = $module$Luposdate3000_Operator_Arithmetik.lupos.s04arithmetikOperators.noinput.AOPConstant_init_ch9fty$;
-  var ColumnIteratorQueue = $module$Luposdate3000_Shared.lupos.s04logicalOperators.iterator.ColumnIteratorQueue;
-  var ColumnIteratorQueueEmpty = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.iterator.ColumnIteratorQueueEmpty;
+  var IteratorBundle = $module$Luposdate3000_Shared.lupos.shared.operator.iterator.IteratorBundle;
+  var ColumnIterator = $module$Luposdate3000_Shared.lupos.shared.operator.iterator.ColumnIterator;
+  var AOPBase = $module$Luposdate3000_Operator_Arithmetik.lupos.operator.arithmetik.AOPBase;
+  var AOPVariable = $module$Luposdate3000_Operator_Arithmetik.lupos.operator.arithmetik.noinput.AOPVariable;
+  var AOPConstant_init = $module$Luposdate3000_Operator_Arithmetik.lupos.operator.arithmetik.noinput.AOPConstant_init_ucc9c9$;
+  var LOPTriple = $module$Luposdate3000_Operator_Logical.lupos.operator.logical.noinput.LOPTriple;
+  var shared = $module$Luposdate3000_Shared.lupos.shared;
+  var AOPConstant = $module$Luposdate3000_Operator_Arithmetik.lupos.operator.arithmetik.noinput.AOPConstant;
+  var dictionary = $module$Luposdate3000_Shared.lupos.shared.dictionary;
+  var AOPConstant_init_0 = $module$Luposdate3000_Operator_Arithmetik.lupos.operator.arithmetik.noinput.AOPConstant_init_tmns5h$;
+  var ColumnIteratorQueue = $module$Luposdate3000_Shared.lupos.shared.operator.iterator.ColumnIteratorQueue;
+  var ColumnIteratorQueueEmpty = $module$Luposdate3000_Operator_Base.lupos.operator.base.iterator.ColumnIteratorQueueEmpty;
   var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
   var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
-  var IAOPBase = $module$Luposdate3000_Shared.lupos.s04arithmetikOperators.IAOPBase;
+  var IAOPBase = $module$Luposdate3000_Shared.lupos.shared.operator.IAOPBase;
   var copyToArray = Kotlin.kotlin.collections.copyToArray;
   var emptyList = Kotlin.kotlin.collections.emptyList_287e2$;
-  var RowIteratorMinus = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.iterator.RowIteratorMinus;
-  var IteratorBundle_init_1 = $module$Luposdate3000_Shared.lupos.s04logicalOperators.iterator.IteratorBundle_init_pgi1dw$;
+  var RowIteratorMinus = $module$Luposdate3000_Operator_Base.lupos.operator.base.iterator.RowIteratorMinus;
+  var IteratorBundle_init_1 = $module$Luposdate3000_Shared.lupos.shared.operator.iterator.IteratorBundle_init_nx3ndg$;
   var listOf = Kotlin.kotlin.collections.listOf_i5x0yv$;
-  var TripleStoreManager = $module$Luposdate3000_Shared.lupos.s05tripleStore.TripleStoreManager;
-  var XMLElement = $module$Luposdate3000_Shared.lupos.s00misc.XMLElement;
-  var parseFromAny = $module$Luposdate3000_Shared.lupos.s00misc.parseFromAny_imhnfa$;
-  var EvaluationException = $module$Luposdate3000_Shared.lupos.s00misc.EvaluationException;
+  var UnreachableException = $module$Luposdate3000_Shared.lupos.shared.UnreachableException;
+  var TripleStoreManager = $module$Luposdate3000_Shared.lupos.shared.TripleStoreManager;
+  var XMLElement = $module$Luposdate3000_Shared.lupos.shared.XMLElement;
+  var parseFromAny = $module$Luposdate3000_Shared.lupos.shared.parseFromAny_jz9sra$;
+  var EvaluationException = $module$Luposdate3000_Shared.lupos.shared.EvaluationException;
   var listOf_0 = Kotlin.kotlin.collections.listOf_mh5how$;
-  var GraphVariablesNotImplementedException = $module$Luposdate3000_Shared.lupos.s00misc.GraphVariablesNotImplementedException;
+  var GraphVariablesNotImplementedException = $module$Luposdate3000_Shared.lupos.shared.GraphVariablesNotImplementedException;
   var to = Kotlin.kotlin.to_ujzrz7$;
   var mapOf = Kotlin.kotlin.collections.mapOf_x2b85n$;
-  var ByteArrayWrapper_init = $module$Luposdate3000_Shared.lupos.s00misc.ByteArrayWrapper_init;
+  var ByteArrayWrapper_init = $module$Luposdate3000_Shared.lupos.shared.dynamicArray.ByteArrayWrapper_init;
   var distinct = Kotlin.kotlin.collections.distinct_7wnvza$;
-  var AOPValue = $module$Luposdate3000_Operator_Arithmetik.lupos.s04arithmetikOperators.noinput.AOPValue;
+  var AOPValue = $module$Luposdate3000_Operator_Arithmetik.lupos.operator.arithmetik.noinput.AOPValue;
   var emptyMap = Kotlin.kotlin.collections.emptyMap_q3lmfv$;
-  var toInt_0 = Kotlin.kotlin.text.toInt_6ic1pp$;
+  var toInt = Kotlin.kotlin.text.toInt_6ic1pp$;
   var toChar = Kotlin.toChar;
   var replace = Kotlin.kotlin.text.replace_680rmw$;
   var Regex_init = Kotlin.kotlin.text.Regex_init_61zpoe$;
   var first = Kotlin.kotlin.collections.first_2p1efm$;
-  var indexOf_0 = Kotlin.kotlin.collections.indexOf_bv23uc$;
+  var indexOf = Kotlin.kotlin.collections.indexOf_bv23uc$;
   var sorted = Kotlin.kotlin.collections.sorted_exjks8$;
   var mutableMapOf = Kotlin.kotlin.collections.mutableMapOf_qfcya0$;
-  var Partition = $module$Luposdate3000_Shared.lupos.s00misc.Partition;
-  var Partition_init = $module$Luposdate3000_Shared.lupos.s00misc.Partition_init_ldczg6$;
-  var RowIterator = $module$Luposdate3000_Shared.lupos.s04logicalOperators.iterator.RowIterator;
+  var Partition = $module$Luposdate3000_Shared.lupos.shared.Partition;
+  var Partition_init = $module$Luposdate3000_Shared.lupos.shared.Partition_init_ylttpy$;
+  var RowIterator = $module$Luposdate3000_Shared.lupos.shared.operator.iterator.RowIterator;
   var mapOf_0 = Kotlin.kotlin.collections.mapOf_qfcya0$;
-  var Partition_init_0 = $module$Luposdate3000_Shared.lupos.s00misc.Partition_init;
+  var decodeToString = Kotlin.kotlin.text.decodeToString_964n91$;
+  var println = Kotlin.kotlin.io.println_s8jyv4$;
+  var arrayCopy = Kotlin.kotlin.collections.arrayCopy;
+  var encodeToByteArray = Kotlin.kotlin.text.encodeToByteArray_pdl1vz$;
+  var Partition_init_0 = $module$Luposdate3000_Shared.lupos.shared.Partition_init;
+  var split = Kotlin.kotlin.text.split_ip8yn$;
+  var startsWith = Kotlin.kotlin.text.startsWith_7epoxm$;
+  var toInt_0 = Kotlin.kotlin.text.toInt_pdl1vz$;
   var L1 = Kotlin.Long.ONE;
-  var Partition_init_1 = $module$Luposdate3000_Shared.lupos.s00misc.Partition_init_1hsn2i$;
-  var Query = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.Query;
-  var OPBase = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.OPBase;
+  var Partition_init_1 = $module$Luposdate3000_Shared.lupos.shared.Partition_init_ovbqie$;
+  var Query = $module$Luposdate3000_Operator_Base.lupos.operator.base.Query;
+  var OPBase = $module$Luposdate3000_Operator_Base.lupos.operator.base.OPBase;
   var plus = Kotlin.kotlin.collections.plus_mydzjv$;
   var toMutableSet = Kotlin.kotlin.collections.toMutableSet_7wnvza$;
   var first_0 = Kotlin.kotlin.collections.first_7wnvza$;
-  var VariableNotDefinedSyntaxException = $module$Luposdate3000_Shared.lupos.s00misc.VariableNotDefinedSyntaxException;
-  var HistogramNotImplementedException = $module$Luposdate3000_Shared.lupos.s00misc.HistogramNotImplementedException;
-  var IPOPBase = $module$Luposdate3000_Shared.lupos.s09physicalOperators.IPOPBase;
-  var ColumnIteratorReduced = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.iterator.ColumnIteratorReduced;
-  var RowIteratorReduced = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.iterator.RowIteratorReduced;
+  var VariableNotDefinedSyntaxException = $module$Luposdate3000_Shared.lupos.shared.VariableNotDefinedSyntaxException;
+  var HistogramNotImplementedException = $module$Luposdate3000_Shared.lupos.shared.HistogramNotImplementedException;
+  var IPOPBase = $module$Luposdate3000_Shared.lupos.shared.operator.IPOPBase;
+  var ColumnIteratorReduced = $module$Luposdate3000_Operator_Base.lupos.operator.base.iterator.ColumnIteratorReduced;
+  var RowIteratorReduced = $module$Luposdate3000_Operator_Base.lupos.operator.base.iterator.RowIteratorReduced;
   var plus_0 = Kotlin.kotlin.collections.plus_qloxvw$;
   var toMutableList = Kotlin.kotlin.collections.toMutableList_us0mfu$;
   var toString_0 = Kotlin.kotlin.text.toString_dqglrj$;
-  var NotImplementedException = $module$Luposdate3000_Shared.lupos.s00misc.NotImplementedException;
-  var OPEmptyRow = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.noinput.OPEmptyRow;
-  var GroupByColumnMissing = $module$Luposdate3000_Shared.lupos.s00misc.GroupByColumnMissing;
-  var AOPAggregationBase = $module$Luposdate3000_Operator_Arithmetik.lupos.s04arithmetikOperators.AOPAggregationBase;
+  var NotImplementedException = $module$Luposdate3000_Shared.lupos.shared.NotImplementedException;
+  var OPEmptyRow = $module$Luposdate3000_Operator_Base.lupos.operator.base.noinput.OPEmptyRow;
+  var GroupByColumnMissing = $module$Luposdate3000_Shared.lupos.shared.GroupByColumnMissing;
+  var AOPAggregationBase = $module$Luposdate3000_Operator_Arithmetik.lupos.operator.arithmetik.AOPAggregationBase;
   var distinct_0 = Kotlin.kotlin.collections.distinct_us0mfu$;
-  var GroupByDuplicateColumnException = $module$Luposdate3000_Shared.lupos.s00misc.GroupByDuplicateColumnException;
-  var contains_1 = Kotlin.kotlin.collections.contains_mjy6jw$;
+  var GroupByDuplicateColumnException = $module$Luposdate3000_Shared.lupos.shared.GroupByDuplicateColumnException;
+  var contains = Kotlin.kotlin.collections.contains_mjy6jw$;
   var toList = Kotlin.kotlin.collections.toList_7wnvza$;
-  var AOPAggregationCOUNT = $module$Luposdate3000_Operator_Arithmetik.lupos.s04arithmetikOperators.singleinput.AOPAggregationCOUNT;
+  var AOPAggregationCOUNT = $module$Luposdate3000_Operator_Arithmetik.lupos.operator.arithmetik.singleinput.AOPAggregationCOUNT;
+  var BigInteger_init = $module$KotlinBigInteger_bignum_jsLegacy.com.ionspin.kotlin.bignum.integer.BigInteger_init_za3lpa$;
   var asReversed = Kotlin.kotlin.collections.asReversed_vvxzk3$;
   var toMutableList_0 = Kotlin.kotlin.collections.toMutableList_4c7yge$;
   var addAll = Kotlin.kotlin.collections.addAll_ipc267$;
-  var OPNothing = $module$Luposdate3000_Operator_Logical.lupos.s04logicalOperators.noinput.OPNothing;
+  var OPNothing = $module$Luposdate3000_Operator_Logical.lupos.operator.logical.noinput.OPNothing;
   var StringBuilder_init = Kotlin.kotlin.text.StringBuilder_init;
   var intersect = Kotlin.kotlin.collections.intersect_q4559j$;
-  var SortHelper = $module$Luposdate3000_Shared.lupos.s00misc.SortHelper;
-  var ValueComparatorASC = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueComparatorASC;
-  var ValueComparatorDESC = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueComparatorDESC;
-  var RowIteratorMerge = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.iterator.RowIteratorMerge;
+  var SortHelper = $module$Luposdate3000_Shared.lupos.shared.SortHelper;
+  var ValueComparatorASC = $module$Luposdate3000_Shared.lupos.shared.ValueComparatorASC;
+  var ValueComparatorDESC = $module$Luposdate3000_Shared.lupos.shared.ValueComparatorDESC;
+  var RowIteratorMerge = $module$Luposdate3000_Operator_Base.lupos.operator.base.iterator.RowIteratorMerge;
+  var indexOf_0 = Kotlin.kotlin.text.indexOf_8eortd$;
+  var BigInteger = $module$KotlinBigInteger_bignum_jsLegacy.com.ionspin.kotlin.bignum.integer.BigInteger;
+  var BigDecimal = $module$KotlinBigInteger_bignum_jsLegacy.com.ionspin.kotlin.bignum.decimal.BigDecimal;
+  var toByte = Kotlin.toByte;
+  var Sign = $module$KotlinBigInteger_bignum_jsLegacy.com.ionspin.kotlin.bignum.integer.Sign;
+  var padStart = Kotlin.kotlin.text.padStart_vrc1nu$;
+  var endsWith = Kotlin.kotlin.text.endsWith_sgbm27$;
+  var toBoxedChar = Kotlin.toBoxedChar;
+  var contains_0 = Kotlin.kotlin.text.contains_sgbm27$;
+  var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
+  var Exception = Kotlin.kotlin.Exception;
+  var endsWith_0 = Kotlin.kotlin.text.endsWith_7epoxm$;
+  var contains_1 = Kotlin.kotlin.text.contains_li3zpu$;
+  var lastIndexOf = Kotlin.kotlin.text.lastIndexOf_l5u8uk$;
+  var ValueBnode = $module$Luposdate3000_Shared.lupos.shared.ValueBnode;
+  var ValueDouble = $module$Luposdate3000_Shared.lupos.shared.ValueDouble;
+  var ValueFloat = $module$Luposdate3000_Shared.lupos.shared.ValueFloat;
+  var ValueInteger = $module$Luposdate3000_Shared.lupos.shared.ValueInteger;
+  var ValueDecimal = $module$Luposdate3000_Shared.lupos.shared.ValueDecimal;
+  var ValueIri = $module$Luposdate3000_Shared.lupos.shared.ValueIri;
+  var ValueSimpleLiteral = $module$Luposdate3000_Shared.lupos.shared.ValueSimpleLiteral;
+  var ValueLanguageTaggedLiteral = $module$Luposdate3000_Shared.lupos.shared.ValueLanguageTaggedLiteral;
+  var ValueTypedLiteral = $module$Luposdate3000_Shared.lupos.shared.ValueTypedLiteral;
+  var toByteArray = Kotlin.kotlin.collections.toByteArray_kdx1v$;
+  var IMyInputStream = $module$Luposdate3000_Shared.lupos.shared.IMyInputStream;
   var L255 = Kotlin.Long.fromInt(255);
   var fs = $module$Luposdate3000_Shared_JS.ext.fs;
-  var IMyOutputStream = $module$Luposdate3000_Shared.lupos.s00misc.IMyOutputStream;
-  var L0 = Kotlin.Long.ZERO;
+  var IMyOutputStream = $module$Luposdate3000_Shared.lupos.shared.IMyOutputStream;
   POPJoinCartesianProduct$evaluate$ObjectLiteral.prototype = Object.create(ColumnIteratorChildIterator.prototype);
   POPJoinCartesianProduct$evaluate$ObjectLiteral.prototype.constructor = POPJoinCartesianProduct$evaluate$ObjectLiteral;
   POPJoinCartesianProduct$evaluate$ObjectLiteral_0.prototype = Object.create(ColumnIteratorChildIterator.prototype);
@@ -296,1435 +295,6 @@
   POPSort.prototype.constructor = POPSort;
   POPVisualisation.prototype = Object.create(POPBase.prototype);
   POPVisualisation.prototype.constructor = POPVisualisation;
-  function _ColumnIteratorQueueExt() {
-    _ColumnIteratorQueueExt_instance = this;
-  }
-  _ColumnIteratorQueueExt.prototype._close_8sxreq$ = function (it) {
-    if (it.label !== 0) {
-      it.label = 0;
-      it.queue.clear();
-    }};
-  _ColumnIteratorQueueExt.prototype.nextHelper_lr87q6$ = function (it, onEmptyQueue, onClose) {
-    var tmp$, tmp$_0;
-    switch (it.label) {
-      case 1:
-        if (it.queue.size === 0) {
-          onEmptyQueue();
-          if (it.queue.size > 0) {
-            tmp$ = it.queue.removeAt_za3lpa$(0);
-          } else {
-            onClose();
-            tmp$ = 4;
-          }
-        } else {
-          tmp$ = it.queue.removeAt_za3lpa$(0);
-        }
-
-        return tmp$;
-      case 2:
-        if (it.queue.size === 0) {
-          onClose();
-          tmp$_0 = 4;
-        } else {
-          tmp$_0 = it.queue.removeAt_za3lpa$(0);
-        }
-
-        return tmp$_0;
-      default:return 4;
-    }
-  };
-  _ColumnIteratorQueueExt.prototype.closeOnEmptyQueue_8sxreq$ = function (it) {
-    if (it.label !== 0) {
-      it.label = 2;
-    }};
-  _ColumnIteratorQueueExt.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: '_ColumnIteratorQueueExt',
-    interfaces: []
-  };
-  var _ColumnIteratorQueueExt_instance = null;
-  function _ColumnIteratorQueueExt_getInstance() {
-    if (_ColumnIteratorQueueExt_instance === null) {
-      new _ColumnIteratorQueueExt();
-    }return _ColumnIteratorQueueExt_instance;
-  }
-  function _DictionaryHelper() {
-    _DictionaryHelper_instance = this;
-  }
-  _DictionaryHelper.prototype.errorToByteArray_jxlg18$ = function (buffer) {
-    buffer.setSize_za3lpa$(4);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 5);
-  };
-  _DictionaryHelper.prototype.undefToByteArray_jxlg18$ = function (buffer) {
-    buffer.setSize_za3lpa$(4);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 12);
-  };
-  _DictionaryHelper.prototype.dateTimeToByteArray_iqqgd6$ = function (buffer, str) {
-    var year;
-    var month;
-    var day;
-    var hours;
-    var minutes;
-    var seconds;
-    var timezoneHours;
-    var timezoneMinutes;
-    var idx = 0;
-    var idx2 = indexOf(str, 45, 1);
-    if (idx2 < idx) {
-      idx2 = str.length - 1 | 0;
-    }if (idx2 > idx) {
-      var startIndex = idx;
-      var endIndex = idx2;
-      year = str.substring(startIndex, endIndex);
-      idx = idx2;
-      idx2 = indexOf(str, 45, idx + 1 | 0);
-      if (idx2 < idx) {
-        idx2 = str.length - 1 | 0;
-      }if (idx2 > idx) {
-        var startIndex_0 = idx + 1 | 0;
-        var endIndex_0 = idx2;
-        month = toInt(str.substring(startIndex_0, endIndex_0));
-        idx = idx2;
-        idx2 = indexOf(str, 84, idx + 1 | 0);
-        if (idx2 < idx) {
-          idx2 = str.length - 1 | 0;
-        }if (idx2 > idx) {
-          var startIndex_1 = idx + 1 | 0;
-          var endIndex_1 = idx2;
-          day = toInt(str.substring(startIndex_1, endIndex_1));
-          idx = idx2;
-          idx2 = indexOf(str, 58, idx + 1 | 0);
-          if (idx2 < idx) {
-            idx2 = str.length - 1 | 0;
-          }if (idx2 > idx) {
-            var startIndex_2 = idx + 1 | 0;
-            var endIndex_2 = idx2;
-            hours = toInt(str.substring(startIndex_2, endIndex_2));
-            idx = idx2;
-            idx2 = indexOf(str, 58, idx + 1 | 0);
-            if (idx2 < idx) {
-              idx2 = str.length - 1 | 0;
-            }if (idx2 > idx) {
-              var startIndex_3 = idx + 1 | 0;
-              var endIndex_3 = idx2;
-              minutes = toInt(str.substring(startIndex_3, endIndex_3));
-              idx = idx2;
-              var idxa = indexOf(str, 90, idx + 1 | 0);
-              var idxb = indexOf(str, 43, idx + 1 | 0);
-              var idxc = indexOf(str, 45, idx + 1 | 0);
-              if (idxa > idx) {
-                var startIndex_4 = idx + 1 | 0;
-                seconds = str.substring(startIndex_4, idxa);
-                timezoneHours = 0;
-                timezoneMinutes = 0;
-              } else if (idxb > idx) {
-                var startIndex_5 = idx + 1 | 0;
-                seconds = str.substring(startIndex_5, idxb);
-                idx = idxb;
-                idx2 = indexOf(str, 58, idx + 1 | 0);
-                if (idx2 > idx) {
-                  var startIndex_6 = idx;
-                  var endIndex_4 = idx2;
-                  timezoneHours = toInt(str.substring(startIndex_6, endIndex_4));
-                  var startIndex_7 = idx2 + 1 | 0;
-                  var endIndex_5 = str.length;
-                  timezoneMinutes = toInt(str.substring(startIndex_7, endIndex_5));
-                } else {
-                  timezoneHours = -99;
-                  timezoneMinutes = -99;
-                }
-              } else if (idxc > idx) {
-                var startIndex_8 = idx + 1 | 0;
-                seconds = str.substring(startIndex_8, idxc);
-                idx = idxc;
-                idx2 = indexOf(str, 58, idx + 1 | 0);
-                if (idx2 > idx) {
-                  var startIndex_9 = idx;
-                  var endIndex_6 = idx2;
-                  timezoneHours = toInt(str.substring(startIndex_9, endIndex_6));
-                  var startIndex_10 = idx2 + 1 | 0;
-                  var endIndex_7 = str.length;
-                  timezoneMinutes = toInt(str.substring(startIndex_10, endIndex_7));
-                } else {
-                  timezoneHours = -99;
-                  timezoneMinutes = -99;
-                }
-              } else {
-                var startIndex_11 = idx + 1 | 0;
-                var endIndex_8 = str.length;
-                seconds = str.substring(startIndex_11, endIndex_8);
-                timezoneHours = -99;
-                timezoneMinutes = -99;
-              }
-            } else {
-              minutes = 0;
-              seconds = '0.0';
-              timezoneHours = -99;
-              timezoneMinutes = -99;
-            }
-          } else {
-            hours = 0;
-            minutes = 0;
-            seconds = '0.0';
-            timezoneHours = -99;
-            timezoneMinutes = -99;
-          }
-        } else {
-          day = 0;
-          hours = 0;
-          minutes = 0;
-          seconds = '0.0';
-          timezoneHours = -99;
-          timezoneMinutes = -99;
-        }
-      } else {
-        month = 0;
-        day = 0;
-        hours = 0;
-        minutes = 0;
-        seconds = '0.0';
-        timezoneHours = -99;
-        timezoneMinutes = -99;
-      }
-    } else {
-      year = '0';
-      month = 0;
-      day = 0;
-      hours = 0;
-      minutes = 0;
-      seconds = '0.0';
-      timezoneHours = -99;
-      timezoneMinutes = -99;
-    }
-    this.dateTimeToByteArray_dgf7ws$(buffer, BigInteger.Companion.parseString_bm4lxs$(year, 10), month, day, hours, minutes, BigDecimal.Companion.parseString_bm4lxs$(seconds, 10), timezoneHours, timezoneMinutes);
-  };
-  function _DictionaryHelper$dateTimeToByteArray$lambda(closure$month) {
-    return function () {
-      return closure$month >= 0;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_0(closure$month) {
-    return function () {
-      return closure$month <= 99;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_1(closure$day) {
-    return function () {
-      return closure$day >= 0;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_2(closure$day) {
-    return function () {
-      return closure$day <= 99;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_3(closure$hours) {
-    return function () {
-      return closure$hours >= 0;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_4(closure$hours) {
-    return function () {
-      return closure$hours <= 24;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_5(closure$minutes) {
-    return function () {
-      return closure$minutes >= 0;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_6(closure$minutes) {
-    return function () {
-      return closure$minutes <= 99;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_7(closure$timezoneHours) {
-    return function () {
-      return closure$timezoneHours >= -24;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_8(closure$timezoneHours) {
-    return function () {
-      return closure$timezoneHours <= 24;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_9(closure$timezoneMinutes) {
-    return function () {
-      return closure$timezoneMinutes >= 0;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_10(closure$timezoneMinutes) {
-    return function () {
-      return closure$timezoneMinutes <= 99;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_11(closure$off, closure$buffer) {
-    return function () {
-      return closure$off.v === closure$buffer.getSize();
-    };
-  }
-  _DictionaryHelper.prototype.dateTimeToByteArray_dgf7ws$ = function (buffer, year, month, day, hours, minutes, seconds, timezoneHours, timezoneMinutes) {
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda(month));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_0(month));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_1(day));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_2(day));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_3(hours));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_4(hours));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_5(minutes));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_6(minutes));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_7(timezoneHours));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_8(timezoneHours));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_9(timezoneMinutes));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_10(timezoneMinutes));
-    var buf1 = year.toByteArray();
-    var buf2 = seconds.significand.toByteArray();
-    var l1 = buf1.length;
-    var l2 = buf2.length;
-    buffer.setSize_za3lpa$(42 + l1 + l2 | 0);
-    var off = {v: 0};
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, 2);
-    off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, l1);
-    off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, month);
-    off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, day);
-    off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, hours);
-    off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, minutes);
-    off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, timezoneHours);
-    off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, timezoneMinutes);
-    off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeLong8_ul24ie$(buffer.getBuf(), off.v, seconds.exponent);
-    off.v = off.v + 8 | 0;
-    buffer.getBuf()[off.v] = toByte(year.signum());
-    off.v = off.v + 1 | 0;
-    buffer.getBuf()[off.v] = toByte(seconds.signum());
-    off.v = off.v + 1 | 0;
-    arrayCopy(buf1, buffer.getBuf(), off.v, 0, buf1.length);
-    off.v = off.v + l1 | 0;
-    arrayCopy(buf2, buffer.getBuf(), off.v, 0, buf2.length);
-    off.v = off.v + l2 | 0;
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_11(off, buffer));
-  };
-  function _DictionaryHelper$byteArrayToDateTime_Year$lambda(closure$off, closure$buffer) {
-    return function () {
-      return closure$off.v === closure$buffer.getSize();
-    };
-  }
-  _DictionaryHelper.prototype.byteArrayToDateTime_Year_jxlg18$ = function (buffer) {
-    var tmp$;
-    var off = {v: 0};
-    off.v = off.v + 4 | 0;
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 8 | 0;
-    switch (buffer.getBuf()[off.v]) {
-      case -1:
-        tmp$ = Sign.NEGATIVE;
-        break;
-      case 1:
-        tmp$ = Sign.POSITIVE;
-        break;
-      default:tmp$ = Sign.ZERO;
-        break;
-    }
-    var yearSignum = tmp$;
-    off.v = off.v + 1 | 0;
-    off.v = off.v + 1 | 0;
-    var buf1 = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf1, 0, off.v, off.v + l1 | 0);
-    off.v = off.v + l1 | 0;
-    var l2 = buffer.getSize() - l1 - 42 | 0;
-    off.v = off.v + l2 | 0;
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$byteArrayToDateTime_Year$lambda(off, buffer));
-    var year = BigInteger.Companion.fromByteArray_cz08zj$(buf1, yearSignum);
-    return year;
-  };
-  _DictionaryHelper.prototype.byteArrayToDateTime_Month_jxlg18$ = function (buffer) {
-    var off = 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    var month = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
-    return BigInteger_init(month);
-  };
-  _DictionaryHelper.prototype.byteArrayToDateTime_Day_jxlg18$ = function (buffer) {
-    var off = 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    var day = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
-    return BigInteger_init(day);
-  };
-  _DictionaryHelper.prototype.byteArrayToDateTime_Hours_jxlg18$ = function (buffer) {
-    var off = 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    var hours = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
-    return BigInteger_init(hours);
-  };
-  _DictionaryHelper.prototype.byteArrayToDateTime_Minutes_jxlg18$ = function (buffer) {
-    var off = 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    var minutes = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
-    return BigInteger_init(minutes);
-  };
-  function _DictionaryHelper$byteArrayToDateTime_Seconds$lambda(closure$off, closure$buffer) {
-    return function () {
-      return closure$off.v === closure$buffer.getSize();
-    };
-  }
-  _DictionaryHelper.prototype.byteArrayToDateTime_Seconds_jxlg18$ = function (buffer) {
-    var tmp$;
-    var off = {v: 0};
-    off.v = off.v + 4 | 0;
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    var secondsExponent = _ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 8 | 0;
-    off.v = off.v + 1 | 0;
-    switch (buffer.getBuf()[off.v]) {
-      case -1:
-        tmp$ = Sign.NEGATIVE;
-        break;
-      case 1:
-        tmp$ = Sign.POSITIVE;
-        break;
-      default:tmp$ = Sign.ZERO;
-        break;
-    }
-    var secondsSignum = tmp$;
-    off.v = off.v + 1 | 0;
-    off.v = off.v + l1 | 0;
-    var l2 = buffer.getSize() - l1 - 42 | 0;
-    var buf2 = new Int8Array(l2);
-    arrayCopy(buffer.getBuf(), buf2, 0, off.v, off.v + l2 | 0);
-    arrayCopy(buf2, buffer.getBuf(), off.v, 0, buf2.length);
-    off.v = off.v + l2 | 0;
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$byteArrayToDateTime_Seconds$lambda(off, buffer));
-    var seconds = BigDecimal.Companion.fromBigIntegerWithExponent_2w0s5z$(BigInteger.Companion.fromByteArray_cz08zj$(buf2, secondsSignum), secondsExponent);
-    return seconds;
-  };
-  function _DictionaryHelper$byteArrayToDateTimeAsTyped_Content$lambda(closure$off, closure$buffer) {
-    return function () {
-      return closure$off.v === closure$buffer.getSize();
-    };
-  }
-  _DictionaryHelper.prototype.byteArrayToDateTimeAsTyped_Content_jxlg18$ = function (buffer) {
-    var tmp$, tmp$_0, tmp$_1;
-    var off = {v: 0};
-    off.v = off.v + 4 | 0;
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    var month = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    var day = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    var hours = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    var minutes = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    var timezoneHours = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    var timezoneMinutes = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    var secondsExponent = _ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 8 | 0;
-    switch (buffer.getBuf()[off.v]) {
-      case -1:
-        tmp$ = Sign.NEGATIVE;
-        break;
-      case 1:
-        tmp$ = Sign.POSITIVE;
-        break;
-      default:tmp$ = Sign.ZERO;
-        break;
-    }
-    var yearSignum = tmp$;
-    off.v = off.v + 1 | 0;
-    switch (buffer.getBuf()[off.v]) {
-      case -1:
-        tmp$_0 = Sign.NEGATIVE;
-        break;
-      case 1:
-        tmp$_0 = Sign.POSITIVE;
-        break;
-      default:tmp$_0 = Sign.ZERO;
-        break;
-    }
-    var secondsSignum = tmp$_0;
-    off.v = off.v + 1 | 0;
-    var buf1 = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf1, 0, off.v, off.v + l1 | 0);
-    off.v = off.v + l1 | 0;
-    var l2 = buffer.getSize() - l1 - 42 | 0;
-    var buf2 = new Int8Array(l2);
-    arrayCopy(buffer.getBuf(), buf2, 0, off.v, off.v + l2 | 0);
-    arrayCopy(buf2, buffer.getBuf(), off.v, 0, buf2.length);
-    off.v = off.v + l2 | 0;
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$byteArrayToDateTimeAsTyped_Content$lambda(off, buffer));
-    var year = BigInteger.Companion.fromByteArray_cz08zj$(buf1, yearSignum);
-    var seconds = BigDecimal.Companion.fromBigIntegerWithExponent_2w0s5z$(BigInteger.Companion.fromByteArray_cz08zj$(buf2, secondsSignum), secondsExponent);
-    var secondsString2 = split(seconds.toStringExpanded(), ['.']);
-    var secondsString = padStart(secondsString2.get_za3lpa$(0), 2, 48);
-    if (secondsString2.size > 1) {
-      var tmp = secondsString2.get_za3lpa$(1);
-      while (endsWith(tmp, 48)) {
-        var $receiver = tmp;
-        var endIndex = tmp.length - 1 | 0;
-        tmp = $receiver.substring(0, endIndex);
-      }
-      if (tmp.length > 0) {
-        secondsString += '.' + tmp;
-      }}if (timezoneHours === -99 && timezoneMinutes === -99) {
-      tmp$_1 = year.toString() + '-' + padStart(month.toString(), 2, 48) + '-' + padStart(day.toString(), 2, 48) + 'T' + padStart(hours.toString(), 2, 48) + ':' + padStart(minutes.toString(), 2, 48) + ':' + secondsString;
-    } else if (timezoneHours === 0 && timezoneMinutes === 0) {
-      tmp$_1 = year.toString() + '-' + padStart(month.toString(), 2, 48) + '-' + padStart(day.toString(), 2, 48) + 'T' + padStart(hours.toString(), 2, 48) + ':' + padStart(minutes.toString(), 2, 48) + ':' + secondsString + 'Z';
-    } else {
-      var timezoneHoursLocal = timezoneHours.toString();
-      if (timezoneHoursLocal.charCodeAt(0) === 45 || timezoneHoursLocal.charCodeAt(0) === 43) {
-        timezoneHoursLocal = '' + String.fromCharCode(toBoxedChar(timezoneHoursLocal.charCodeAt(0))) + padStart(timezoneHoursLocal.substring(1), 2, 48);
-      } else {
-        timezoneHoursLocal = '+' + padStart(timezoneHoursLocal, 2, 48);
-      }
-      tmp$_1 = year.toString() + '-' + padStart(month.toString(), 2, 48) + '-' + padStart(day.toString(), 2, 48) + 'T' + padStart(hours.toString(), 2, 48) + ':' + padStart(minutes.toString(), 2, 48) + ':' + secondsString + timezoneHoursLocal + ':' + padStart(timezoneMinutes.toString(), 2, 48);
-    }
-    return tmp$_1;
-  };
-  _DictionaryHelper.prototype.byteArrayToDateTime_TZ_jxlg18$ = function (buffer) {
-    var off = 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    var timezoneHours = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
-    off = off + 4 | 0;
-    var timezoneMinutes = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
-    if (timezoneHours === 0 && timezoneMinutes === 0) {
-      return 'Z';
-    }if (timezoneHours === -1 && timezoneMinutes === -1) {
-      return '';
-    }return '-' + padStart(timezoneHours.toString(), 2, 48) + ':' + padStart(timezoneMinutes.toString(), 2, 48);
-  };
-  _DictionaryHelper.prototype.byteArrayToDateTime_TimeZone_jxlg18$ = function (buffer) {
-    var off = 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    var timezoneHours = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
-    off = off + 4 | 0;
-    var timezoneMinutes = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
-    if (timezoneHours === 0 && timezoneMinutes === 0) {
-      return '"PT0S"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>';
-    }if (timezoneHours >= 0 && timezoneMinutes === 0) {
-      return '"' + '-PT' + timezoneHours + 'H' + '"' + '^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>';
-    }return '';
-  };
-  _DictionaryHelper.prototype.booleanToByteArray_jezz1v$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(5);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 1);
-    if (value) {
-      buffer.getBuf()[4] = 1;
-    } else {
-      buffer.getBuf()[4] = 0;
-    }
-  };
-  _DictionaryHelper.prototype.byteArrayToBoolean_jxlg18$ = function (buffer) {
-    return buffer.getBuf()[4] !== toByte(0);
-  };
-  _DictionaryHelper.prototype.integerToByteArray_iqqgd6$ = function (buffer, value) {
-    this.integerToByteArray_znicy$(buffer, BigInteger.Companion.parseString_bm4lxs$(value, 10));
-  };
-  _DictionaryHelper.prototype.integerToByteArray_znicy$ = function (buffer, value) {
-    var buf1 = value.toByteArray();
-    buffer.setSize_za3lpa$(5 + buf1.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 7);
-    buffer.getBuf()[4] = toByte(value.signum());
-    arrayCopy(buf1, buffer.getBuf(), 5, 0, buf1.length);
-  };
-  _DictionaryHelper.prototype.byteArrayToInteger_S_jxlg18$ = function (buffer) {
-    return this.byteArrayToInteger_I_jxlg18$(buffer).toString();
-  };
-  _DictionaryHelper.prototype.byteArrayToInteger_I_jxlg18$ = function (buffer) {
-    var tmp$;
-    var l1 = buffer.getSize() - 5 | 0;
-    var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 5, 5 + l1 | 0);
-    switch (buffer.getBuf()[4]) {
-      case -1:
-        tmp$ = Sign.NEGATIVE;
-        break;
-      case 1:
-        tmp$ = Sign.POSITIVE;
-        break;
-      default:tmp$ = Sign.ZERO;
-        break;
-    }
-    var sign = tmp$;
-    return BigInteger.Companion.fromByteArray_cz08zj$(buf, sign);
-  };
-  _DictionaryHelper.prototype.decimalToByteArray_iqqgd6$ = function (buffer, value) {
-    this.decimalToByteArray_3ssfki$(buffer, BigDecimal.Companion.parseString_bm4lxs$(value, 10));
-  };
-  _DictionaryHelper.prototype.decimalToByteArray_3ssfki$ = function (buffer, value) {
-    var buf1 = value.significand.toByteArray();
-    buffer.setSize_za3lpa$(13 + buf1.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 3);
-    _ByteArrayHelper_getInstance().writeLong8_ul24ie$(buffer.getBuf(), 4, value.exponent);
-    buffer.getBuf()[12] = toByte(value.signum());
-    arrayCopy(buf1, buffer.getBuf(), 13, 0, buf1.length);
-  };
-  _DictionaryHelper.prototype.byteArrayToDecimal_I_jxlg18$ = function (buffer) {
-    var tmp$;
-    var l1 = buffer.getSize() - 13 | 0;
-    var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 13, 13 + l1 | 0);
-    var exponent = _ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.getBuf(), 4);
-    switch (buffer.getBuf()[12]) {
-      case -1:
-        tmp$ = Sign.NEGATIVE;
-        break;
-      case 1:
-        tmp$ = Sign.POSITIVE;
-        break;
-      default:tmp$ = Sign.ZERO;
-        break;
-    }
-    var sign = tmp$;
-    return BigDecimal.Companion.fromBigIntegerWithExponent_2w0s5z$(BigInteger.Companion.fromByteArray_cz08zj$(buf, sign), exponent);
-  };
-  _DictionaryHelper.prototype.byteArrayToDecimal_S_jxlg18$ = function (buffer) {
-    var tmp = this.byteArrayToDecimal_I_jxlg18$(buffer).toStringExpanded();
-    if (contains(tmp, 46)) {
-      return tmp;
-    }return tmp + '.0';
-  };
-  _DictionaryHelper.prototype.doubleToByteArray_px3ziy$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(12);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 4);
-    _ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.getBuf(), 4, value);
-  };
-  _DictionaryHelper.prototype.doubleToByteArray_iqqgd6$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(12);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 4);
-    _ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.getBuf(), 4, toDouble(value));
-  };
-  _DictionaryHelper.prototype.byteArrayToDouble_I_jxlg18$ = function (buffer) {
-    return _ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.getBuf(), 4);
-  };
-  _DictionaryHelper.prototype.byteArrayToDouble_S_jxlg18$ = function (buffer) {
-    return _ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.getBuf(), 4).toString();
-  };
-  _DictionaryHelper.prototype.floatToByteArray_px3ziy$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(12);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 6);
-    _ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.getBuf(), 4, value);
-  };
-  _DictionaryHelper.prototype.floatToByteArray_iqqgd6$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(12);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 6);
-    _ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.getBuf(), 4, toDouble(value));
-  };
-  _DictionaryHelper.prototype.byteArrayToFloat_I_jxlg18$ = function (buffer) {
-    return _ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.getBuf(), 4);
-  };
-  _DictionaryHelper.prototype.byteArrayToFloat_S_jxlg18$ = function (buffer) {
-    return _ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.getBuf(), 4).toString();
-  };
-  _DictionaryHelper.prototype.langToByteArray_os11rs$ = function (buffer, content, lang) {
-    var buf1 = encodeToByteArray(lang);
-    var buf2 = encodeToByteArray(content);
-    buffer.setSize_za3lpa$(9 + buf1.length + buf2.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 10);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 5 + buf1.length + buf2.length | 0, buf1.length);
-    arrayCopy(buf1, buffer.getBuf(), 4, 0, buf1.length);
-    buffer.getBuf()[4 + buf1.length | 0] = 0;
-    arrayCopy(buf2, buffer.getBuf(), 5 + buf1.length | 0, 0, buf2.length);
-  };
-  _DictionaryHelper.prototype.byteArrayToLang_Content_jxlg18$ = function (buffer) {
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), buffer.getSize() - 4 | 0);
-    var l2 = buffer.getSize() - 9 - l1 | 0;
-    var buf = new Int8Array(l2);
-    arrayCopy(buffer.getBuf(), buf, 0, 5 + l1 | 0, 5 + l1 + l2 | 0);
-    return decodeToString(buf);
-  };
-  _DictionaryHelper.prototype.byteArrayToLang_Lang_jxlg18$ = function (buffer) {
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), buffer.getSize() - 4 | 0);
-    var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 4, 4 + l1 | 0);
-    return decodeToString(buf);
-  };
-  _DictionaryHelper.prototype.typedToByteArray_os11rs$ = function (buffer, content, type) {
-    try {
-      switch (type) {
-        case 'http://www.w3.org/2001/XMLSchema#integer':
-          this.integerToByteArray_iqqgd6$(buffer, content);
-          break;
-        case 'http://www.w3.org/2001/XMLSchema#decimal':
-          this.decimalToByteArray_iqqgd6$(buffer, content);
-          break;
-        case 'http://www.w3.org/2001/XMLSchema#double':
-          this.doubleToByteArray_px3ziy$(buffer, toDouble(content));
-          break;
-        case 'http://www.w3.org/2001/XMLSchema#float':
-          this.floatToByteArray_px3ziy$(buffer, toDouble(content));
-          break;
-        case 'http://www.w3.org/2001/XMLSchema#boolean':
-          this.booleanToByteArray_jezz1v$(buffer, equals(content.toLowerCase(), 'true'));
-          break;
-        case 'http://www.w3.org/2001/XMLSchema#dateTime':
-          this.dateTimeToByteArray_iqqgd6$(buffer, content);
-          break;
-        default:var buf1 = encodeToByteArray(type);
-          var buf2 = encodeToByteArray(content);
-          buffer.setSize_za3lpa$(9 + buf1.length + buf2.length | 0);
-          _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 11);
-          _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 5 + buf1.length + buf2.length | 0, buf1.length);
-          arrayCopy(buf1, buffer.getBuf(), 4, 0, buf1.length);
-          buffer.getBuf()[4 + buf1.length | 0] = 0;
-          arrayCopy(buf2, buffer.getBuf(), 5 + buf1.length | 0, 0, buf2.length);
-          break;
-      }
-    } catch (e) {
-      if (Kotlin.isType(e, Throwable)) {
-        this.stringToByteArray_iqqgd6$(buffer, content);
-      } else
-        throw e;
-    }
-  };
-  _DictionaryHelper.prototype.byteArrayToTyped_Content_jxlg18$ = function (buffer) {
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), buffer.getSize() - 4 | 0);
-    var l2 = buffer.getSize() - 9 - l1 | 0;
-    var buf = new Int8Array(l2);
-    arrayCopy(buffer.getBuf(), buf, 0, 5 + l1 | 0, 5 + l1 + l2 | 0);
-    return decodeToString(buf);
-  };
-  _DictionaryHelper.prototype.byteArrayToTyped_Type_jxlg18$ = function (buffer) {
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), buffer.getSize() - 4 | 0);
-    var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 4, 4 + l1 | 0);
-    return decodeToString(buf);
-  };
-  function _DictionaryHelper$bnodeToByteArray$lambda(closure$value) {
-    return function () {
-      return closure$value.length > 0;
-    };
-  }
-  _DictionaryHelper.prototype.bnodeToByteArray_iqqgd6$ = function (buffer, value) {
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$bnodeToByteArray$lambda(value));
-    var buf1 = encodeToByteArray(value);
-    buffer.setSize_za3lpa$(8 + buf1.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 4, buf1.length);
-    arrayCopy(buf1, buffer.getBuf(), 8, 0, buf1.length);
-  };
-  _DictionaryHelper.prototype.bnodeToByteArray_rj5z7q$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(8);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 4, value);
-  };
-  _DictionaryHelper.prototype.byteArrayToBnode_I_jxlg18$ = function (buffer) {
-    if (buffer.getSize() === 8) {
-      return _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 4);
-    } else {
-      throw Exception_init('this is not ready to be used as instanciated value');
-    }
-  };
-  _DictionaryHelper.prototype.byteArrayToBnode_S_jxlg18$ = function (buffer) {
-    if (buffer.getSize() === 8) {
-      throw Exception_init('this is not ready to be used as import value');
-    } else {
-      var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 4);
-      var buf = new Int8Array(l1);
-      arrayCopy(buffer.getBuf(), buf, 0, 8, 8 + l1 | 0);
-      return decodeToString(buf);
-    }
-  };
-  _DictionaryHelper.prototype.byteArrayToBnode_A_jxlg18$ = function (buffer) {
-    if (buffer.getSize() === 8) {
-      return _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 4).toString();
-    } else {
-      var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 4);
-      var buf = new Int8Array(l1);
-      arrayCopy(buffer.getBuf(), buf, 0, 8, 8 + l1 | 0);
-      return decodeToString(buf);
-    }
-  };
-  _DictionaryHelper.prototype.iriToByteArray_iqqgd6$ = function (buffer, value) {
-    var buf1 = encodeToByteArray(value);
-    buffer.setSize_za3lpa$(4 + buf1.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 8);
-    arrayCopy(buf1, buffer.getBuf(), 4, 0, buf1.length);
-  };
-  _DictionaryHelper.prototype.byteArrayToIri_jxlg18$ = function (buffer) {
-    var l1 = buffer.getSize() - 4 | 0;
-    var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 4, 4 + l1 | 0);
-    return decodeToString(buf);
-  };
-  _DictionaryHelper.prototype.byteArrayToString_jxlg18$ = function (buffer) {
-    var l1 = buffer.getSize() - 4 | 0;
-    var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 4, 4 + l1 | 0);
-    return decodeToString(buf);
-  };
-  _DictionaryHelper.prototype.stringToByteArray_iqqgd6$ = function (buffer, value) {
-    var buf1 = encodeToByteArray(value);
-    buffer.setSize_za3lpa$(4 + buf1.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 9);
-    arrayCopy(buf1, buffer.getBuf(), 4, 0, buf1.length);
-  };
-  function _DictionaryHelper$sparqlToByteArray$lambda(closure$langIdx) {
-    return function () {
-      return closure$langIdx > 0;
-    };
-  }
-  _DictionaryHelper.prototype.sparqlToByteArray_crvnhj$ = function (buffer, value) {
-    var tmp$ = value == null;
-    if (!tmp$) {
-      tmp$ = value.length === 0;
-    }var tmp$_0 = tmp$;
-    if (!tmp$_0) {
-      tmp$_0 = equals(value.toLowerCase(), 'undef');
-    }if (tmp$_0) {
-      this.undefToByteArray_jxlg18$(buffer);
-      return;
-    }if (equals(value.toLowerCase(), 'error')) {
-      this.errorToByteArray_jxlg18$(buffer);
-      return;
-    }if (equals(value.toLowerCase(), 'true')) {
-      this.booleanToByteArray_jezz1v$(buffer, true);
-      return;
-    }if (equals(value.toLowerCase(), 'false')) {
-      this.booleanToByteArray_jezz1v$(buffer, false);
-      return;
-    }if (startsWith(value, '_:')) {
-      var endIndex = value.length;
-      this.bnodeToByteArray_iqqgd6$(buffer, value.substring(2, endIndex));
-      return;
-    }if (startsWith(value, '<') && endsWith_0(value, '>')) {
-      var endIndex_0 = value.length - 1 | 0;
-      this.iriToByteArray_iqqgd6$(buffer, value.substring(1, endIndex_0));
-      return;
-    }if (!contains(value, 46)) {
-      try {
-        var i = BigInteger.Companion.parseString_bm4lxs$(value, 10);
-        this.integerToByteArray_znicy$(buffer, i);
-        return;
-      } catch (e) {
-        if (!Kotlin.isType(e, Throwable))
-          throw e;
-      }
-    }if (!contains_0(value, 'e') && !contains_0(value, 'E')) {
-      try {
-        var d = BigDecimal.Companion.parseString_bm4lxs$(value, 10);
-        this.decimalToByteArray_3ssfki$(buffer, d);
-        return;
-      } catch (e) {
-        if (!Kotlin.isType(e, Throwable))
-          throw e;
-      }
-    }try {
-      var d_0 = toDouble(value);
-      this.doubleToByteArray_px3ziy$(buffer, d_0);
-      return;
-    } catch (e) {
-      if (!Kotlin.isType(e, Throwable))
-        throw e;
-    }
-    if (!endsWith_0(value, '' + String.fromCharCode(toBoxedChar(value.charCodeAt(0))))) {
-      var typeIdx = lastIndexOf(value, '' + String.fromCharCode(toBoxedChar(value.charCodeAt(0))) + '^^<');
-      var langIdx = lastIndexOf(value, '' + String.fromCharCode(toBoxedChar(value.charCodeAt(0))) + '@');
-      if (endsWith_0(value, '>') && typeIdx > 0) {
-        var endIndex_1 = typeIdx + 1 | 0;
-        var tmp$_1 = this.removeQuotesFromString_61zpoe$(value.substring(0, endIndex_1));
-        var startIndex = typeIdx + 4 | 0;
-        var endIndex_2 = value.length - 1 | 0;
-        this.typedToByteArray_os11rs$(buffer, tmp$_1, value.substring(startIndex, endIndex_2));
-        return;
-      } else {
-        SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$sparqlToByteArray$lambda(langIdx));
-        var endIndex_3 = langIdx + 1 | 0;
-        var tmp$_2 = this.removeQuotesFromString_61zpoe$(value.substring(0, endIndex_3));
-        var startIndex_0 = langIdx + 2 | 0;
-        var endIndex_4 = value.length;
-        this.langToByteArray_os11rs$(buffer, tmp$_2, value.substring(startIndex_0, endIndex_4));
-        return;
-      }
-    }this.stringToByteArray_iqqgd6$(buffer, this.removeQuotesFromString_61zpoe$(value));
-  };
-  _DictionaryHelper.prototype.removeQuotesFromString_61zpoe$ = function (s) {
-    var c = s.charCodeAt(0);
-    var cntLeft = 1;
-    var cntRight = 0;
-    if (c !== 39 && c !== 34 || c !== s.charCodeAt(s.length - 1 | 0)) {
-      throw Exception_init('invalid quoted string >' + s + '<');
-    }while (cntLeft < s.length && s.charCodeAt(cntLeft) === c) {
-      cntLeft = cntLeft + 1 | 0;
-    }
-    while (cntRight < s.length && s.charCodeAt(s.length - cntRight - 1 | 0) === c) {
-      cntRight = cntRight + 1 | 0;
-    }
-    if (cntLeft >= 3 && cntRight >= 3 && s.length >= 6) {
-      var endIndex = s.length - 3 | 0;
-      return s.substring(3, endIndex);
-    }var endIndex_0 = s.length - 1 | 0;
-    return s.substring(1, endIndex_0);
-  };
-  _DictionaryHelper.prototype.valueDefinitionToByteArray_km70l7$ = function (buffer, value) {
-    this.sparqlToByteArray_crvnhj$(buffer, value.valueToString());
-  };
-  function _DictionaryHelper$byteArrayToType$lambda(closure$res) {
-    return function () {
-      return closure$res >= 0;
-    };
-  }
-  function _DictionaryHelper$byteArrayToType$lambda_0(closure$res) {
-    return function () {
-      return closure$res.toString();
-    };
-  }
-  function _DictionaryHelper$byteArrayToType$lambda_1(closure$res) {
-    return function () {
-      return closure$res < 13;
-    };
-  }
-  function _DictionaryHelper$byteArrayToType$lambda_2(closure$res) {
-    return function () {
-      return closure$res.toString();
-    };
-  }
-  _DictionaryHelper.prototype.byteArrayToType_jxlg18$ = function (buffer) {
-    var res = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 0);
-    SanityCheckOn_getInstance().check_a3x0x2$(_DictionaryHelper$byteArrayToType$lambda(res), _DictionaryHelper$byteArrayToType$lambda_0(res));
-    SanityCheckOn_getInstance().check_a3x0x2$(_DictionaryHelper$byteArrayToType$lambda_1(res), _DictionaryHelper$byteArrayToType$lambda_2(res));
-    return res;
-  };
-  _DictionaryHelper.prototype.byteArrayToSparql_jxlg18$ = function (buffer) {
-    var tmp$;
-    var type = this.byteArrayToType_jxlg18$(buffer);
-    switch (type) {
-      case 12:
-        tmp$ = 'UNDEF';
-        break;
-      case 5:
-        tmp$ = 'ERROR';
-        break;
-      case 0:
-        tmp$ = this.byteArrayToBnode_A_jxlg18$(buffer);
-        break;
-      case 1:
-        if (this.byteArrayToBoolean_jxlg18$(buffer)) {
-          tmp$ = '"true"^^<http://www.w3.org/2001/XMLSchema#boolean>';
-        } else {
-          tmp$ = '"false"^^<http://www.w3.org/2001/XMLSchema#boolean>';
-        }
-
-        break;
-      case 4:
-        tmp$ = '"' + this.byteArrayToDouble_S_jxlg18$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#double>';
-        break;
-      case 6:
-        tmp$ = '"' + this.byteArrayToFloat_S_jxlg18$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#float>';
-        break;
-      case 7:
-        tmp$ = '"' + this.byteArrayToInteger_S_jxlg18$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#integer>';
-        break;
-      case 3:
-        tmp$ = '"' + this.byteArrayToDecimal_S_jxlg18$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#decimal>';
-        break;
-      case 8:
-        tmp$ = '<' + this.byteArrayToIri_jxlg18$(buffer) + '>';
-        break;
-      case 9:
-        tmp$ = '"' + this.byteArrayToString_jxlg18$(buffer) + '"';
-        break;
-      case 10:
-        tmp$ = '"' + this.byteArrayToLang_Content_jxlg18$(buffer) + '"@' + this.byteArrayToLang_Lang_jxlg18$(buffer);
-        break;
-      case 11:
-        tmp$ = '"' + this.byteArrayToTyped_Content_jxlg18$(buffer) + '"^^<' + this.byteArrayToTyped_Type_jxlg18$(buffer) + '>';
-        break;
-      case 2:
-        tmp$ = '"' + this.byteArrayToDateTimeAsTyped_Content_jxlg18$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#dateTime>';
-        break;
-      default:throw Exception_init('unreachable ' + type);
-    }
-    return tmp$;
-  };
-  _DictionaryHelper.prototype.byteArrayToValueDefinition_jxlg18$ = function (buffer) {
-    var tmp$;
-    var type = this.byteArrayToType_jxlg18$(buffer);
-    switch (type) {
-      case 12:
-        tmp$ = dictionary.DictionaryExt.undefValue2;
-        break;
-      case 5:
-        tmp$ = dictionary.DictionaryExt.errorValue2;
-        break;
-      case 0:
-        tmp$ = new ValueBnode('' + toString(this.byteArrayToBnode_I_jxlg18$(buffer)));
-        break;
-      case 1:
-        if (this.byteArrayToBoolean_jxlg18$(buffer)) {
-          tmp$ = dictionary.DictionaryExt.booleanTrueValue2;
-        } else {
-          tmp$ = dictionary.DictionaryExt.booleanFalseValue2;
-        }
-
-        break;
-      case 4:
-        tmp$ = new ValueDouble(this.byteArrayToDouble_I_jxlg18$(buffer));
-        break;
-      case 6:
-        tmp$ = new ValueFloat(this.byteArrayToFloat_I_jxlg18$(buffer));
-        break;
-      case 7:
-        tmp$ = new ValueInteger(this.byteArrayToInteger_I_jxlg18$(buffer));
-        break;
-      case 3:
-        tmp$ = new ValueDecimal(this.byteArrayToDecimal_I_jxlg18$(buffer));
-        break;
-      case 8:
-        tmp$ = new ValueIri(this.byteArrayToIri_jxlg18$(buffer));
-        break;
-      case 9:
-        tmp$ = new ValueSimpleLiteral('"', this.byteArrayToString_jxlg18$(buffer));
-        break;
-      case 10:
-        tmp$ = new ValueLanguageTaggedLiteral('"', this.byteArrayToLang_Content_jxlg18$(buffer), this.byteArrayToLang_Lang_jxlg18$(buffer));
-        break;
-      case 11:
-        tmp$ = ValueTypedLiteral.Companion.invoke_6hosri$('"', this.byteArrayToTyped_Content_jxlg18$(buffer), this.byteArrayToTyped_Type_jxlg18$(buffer));
-        break;
-      default:throw Exception_init('unreachable ' + type);
-    }
-    return tmp$;
-  };
-  _DictionaryHelper.prototype.byteArrayToCallback_5b03yp$ = function (buffer, onBNode, onBoolean, onLanguageTaggedLiteral, onSimpleLiteral, onTypedLiteral, onDecimal, onFloat, onDouble, onInteger, onIri, onError, onUndefined) {
-    var type = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 0);
-    switch (type) {
-      case 6:
-        onFloat(this.byteArrayToFloat_I_jxlg18$(buffer));
-        break;
-      case 4:
-        onDouble(this.byteArrayToDouble_I_jxlg18$(buffer));
-        break;
-      case 7:
-        onInteger(this.byteArrayToInteger_S_jxlg18$(buffer));
-        break;
-      case 3:
-        onDecimal(this.byteArrayToDecimal_S_jxlg18$(buffer));
-        break;
-      case 12:
-        onUndefined();
-        break;
-      case 5:
-        onError();
-        break;
-      case 0:
-        onBNode(this.byteArrayToBnode_I_jxlg18$(buffer));
-        break;
-      case 1:
-        onBoolean(this.byteArrayToBoolean_jxlg18$(buffer));
-        break;
-      case 8:
-        onIri(this.byteArrayToIri_jxlg18$(buffer));
-        break;
-      case 9:
-        onSimpleLiteral(this.byteArrayToString_jxlg18$(buffer));
-        break;
-      case 10:
-        onLanguageTaggedLiteral(this.byteArrayToLang_Content_jxlg18$(buffer), this.byteArrayToLang_Lang_jxlg18$(buffer));
-        break;
-      case 11:
-        onTypedLiteral(this.byteArrayToTyped_Content_jxlg18$(buffer), this.byteArrayToTyped_Type_jxlg18$(buffer));
-        break;
-      case 2:
-        onTypedLiteral(this.byteArrayToDateTimeAsTyped_Content_jxlg18$(buffer), 'http://www.w3.org/2001/XMLSchema#dateTime');
-        break;
-      default:throw Exception_init('unreachable ' + type);
-    }
-  };
-  _DictionaryHelper.prototype.byteArrayCompareAny_9in6wc$ = function (a, b) {
-    var typeA = this.byteArrayToType_jxlg18$(a);
-    var typeB = this.byteArrayToType_jxlg18$(b);
-    if (typeA !== typeB) {
-      if (typeA === 12) {
-        return -1;
-      } else if (typeB === 12) {
-        return 1;
-      } else if (typeA === 5) {
-        return -1;
-      } else if (typeB === 5) {
-        return 1;
-      } else if (typeA === 0) {
-        return -1;
-      } else if (typeB === 0) {
-        return 1;
-      } else if (typeA === 8) {
-        return -1;
-      } else if (typeB === 8) {
-        return 1;
-      } else if (typeA === 9) {
-        return -1;
-      } else if (typeB === 9) {
-        return 1;
-      } else {
-        return typeA - typeB | 0;
-      }
-    } else {
-      if (typeA === 12 || typeA === 5) {
-        return 0;
-      } else if (typeA === 0) {
-        if (a.getSize() === 8 && b.getSize() === 8) {
-          return _ByteArrayHelper_getInstance().readInt4_pao7sd$(a.getBuf(), 4) - _ByteArrayHelper_getInstance().readInt4_pao7sd$(b.getBuf(), 4) | 0;
-        } else {
-          return a.compareTo_11rb$(b);
-        }
-      } else if (typeA === 1) {
-        return a.getBuf()[4] - b.getBuf()[4];
-      } else if (typeA !== 2)
-        if (typeA !== 3)
-          if (typeA !== 4)
-            if (typeA !== 6)
-              if (typeA !== 7)
-                if (typeA === 10 || typeA === 11 || typeA === 8 || typeA === 9) {
-                  var lenA = a.getSize();
-                  var lenB = b.getSize();
-                  var i = 4;
-                  var res = 0;
-                  while (i < lenA && i < lenB && res === 0) {
-                    res = a.getBuf()[i] - b.getBuf()[i];
-                    i = i + 1 | 0;
-                  }
-                  if (res === 0) {
-                    res = lenA - lenB | 0;
-                  }return res;
-                }}
-    throw Exception_init('can not compare ' + typeA + ' ' + typeB);
-  };
-  _DictionaryHelper.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: '_DictionaryHelper',
-    interfaces: []
-  };
-  var _DictionaryHelper_instance = null;
-  function _DictionaryHelper_getInstance() {
-    if (_DictionaryHelper_instance === null) {
-      new _DictionaryHelper();
-    }return _DictionaryHelper_instance;
-  }
-  function _MyInputStreamFixedLength(stream, remainingBytes) {
-    this.stream = stream;
-    this.remainingBytes = remainingBytes;
-  }
-  _MyInputStreamFixedLength.prototype.readInt = function () {
-    if (this.remainingBytes >= 4) {
-      this.remainingBytes = this.remainingBytes - 4 | 0;
-      return this.stream.readInt();
-    } else {
-      throw Exception_init('not enough bytes available ' + this.remainingBytes);
-    }
-  };
-  _MyInputStreamFixedLength.prototype.readByte = function () {
-    if (this.remainingBytes >= 1) {
-      this.remainingBytes = this.remainingBytes - 1 | 0;
-      return this.stream.readByte();
-    } else {
-      throw Exception_init('not enough bytes available ' + this.remainingBytes);
-    }
-  };
-  _MyInputStreamFixedLength.prototype.read_fqrh44$ = function (buf) {
-    if (this.remainingBytes >= buf.length) {
-      this.remainingBytes = this.remainingBytes - buf.length | 0;
-      return this.stream.read_fqrh44$(buf);
-    } else {
-      throw Exception_init('not enough bytes available ' + this.remainingBytes);
-    }
-  };
-  _MyInputStreamFixedLength.prototype.read_ir89t6$ = function (buf, len) {
-    if (this.remainingBytes >= len) {
-      this.remainingBytes = this.remainingBytes - len | 0;
-      return this.stream.read_ir89t6$(buf, len);
-    } else {
-      throw Exception_init('not enough bytes available ' + this.remainingBytes);
-    }
-  };
-  _MyInputStreamFixedLength.prototype.read_mj6st8$ = function (buf, off, len) {
-    if (this.remainingBytes >= len) {
-      this.remainingBytes = this.remainingBytes - len | 0;
-      return this.stream.read_mj6st8$(buf, off, len);
-    } else {
-      throw Exception_init('not enough bytes available ' + this.remainingBytes);
-    }
-  };
-  _MyInputStreamFixedLength.prototype.close = function () {
-    this.stream.close();
-  };
-  _MyInputStreamFixedLength.prototype.readLine = function () {
-    var buf = ArrayList_init();
-    try {
-      var b = this.readByte();
-      while (b !== toByte(10 | 0)) {
-        if (b !== toByte(13 | 0)) {
-          buf.add_11rb$(b);
-        }b = this.readByte();
-      }
-    } catch (e) {
-      if (Kotlin.isType(e, Throwable)) {
-        if (buf.size === 0) {
-          return null;
-        }} else
-        throw e;
-    }
-    return decodeToString(toByteArray(buf));
-  };
-  _MyInputStreamFixedLength.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: '_MyInputStreamFixedLength',
-    interfaces: [IMyInputStream]
-  };
-  function _MyStringStream(str) {
-    this.buf4 = new Int8Array(4);
-    this.data = encodeToByteArray(str);
-    this.pos = 0;
-  }
-  _MyStringStream.prototype.close = function () {
-  };
-  _MyStringStream.prototype.read_fqrh44$ = function (buf) {
-    var s = this.pos + buf.length | 0;
-    var res = buf.length;
-    if (s > this.data.length) {
-      s = this.data.length;
-      res = s - this.pos | 0;
-    }arrayCopy(this.data, buf, 0, this.pos, s);
-    this.pos = s;
-    return res;
-  };
-  _MyStringStream.prototype.read_ir89t6$ = function (buf, len) {
-    var s = this.pos + len | 0;
-    var res = buf.length;
-    if (s > this.data.length) {
-      s = this.data.length;
-      res = s - this.pos | 0;
-    }arrayCopy(this.data, buf, 0, this.pos, s);
-    this.pos = s;
-    return res;
-  };
-  _MyStringStream.prototype.read_mj6st8$ = function (buf, off, len) {
-    var s = this.pos + len | 0;
-    var res = buf.length;
-    if (s > this.data.length) {
-      s = this.data.length;
-      res = s - this.pos | 0;
-    }arrayCopy(this.data, buf, off, this.pos, s);
-    this.pos = s;
-    return res;
-  };
-  _MyStringStream.prototype.readInt = function () {
-    this.read_ir89t6$(this.buf4, 4);
-    return _ByteArrayHelper_getInstance().readInt4_pao7sd$(this.buf4, 0);
-  };
-  _MyStringStream.prototype.readByte = function () {
-    this.read_ir89t6$(this.buf4, 1);
-    return this.buf4[0];
-  };
-  _MyStringStream.prototype.readLine = function () {
-    var buf = ArrayList_init();
-    try {
-      var b = this.readByte();
-      while (b !== toByte(10 | 0)) {
-        if (b !== toByte(13 | 0)) {
-          buf.add_11rb$(b);
-        }b = this.readByte();
-      }
-    } catch (e) {
-      if (Kotlin.isType(e, Throwable)) {
-        if (buf.size === 0) {
-          return null;
-        }} else
-        throw e;
-    }
-    return decodeToString(toByteArray(buf));
-  };
-  _MyStringStream.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: '_MyStringStream',
-    interfaces: [IMyInputStream]
-  };
-  function _PartitionExt() {
-    _PartitionExt_instance = this;
-  }
-  _PartitionExt.prototype.hashFunction_6xvm5r$ = function (v, k) {
-    var tmp$;
-    if (v < 0) {
-      tmp$ = (-v | 0) % k;
-    } else {
-      tmp$ = v % k;
-    }
-    return tmp$;
-  };
-  _PartitionExt.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: '_PartitionExt',
-    interfaces: []
-  };
-  var _PartitionExt_instance = null;
-  function _PartitionExt_getInstance() {
-    if (_PartitionExt_instance === null) {
-      new _PartitionExt();
-    }return _PartitionExt_instance;
-  }
-  function SanityCheckOff() {
-    SanityCheckOff_instance = this;
-  }
-  SanityCheckOff.prototype.println_buffermanager_lh572t$ = function (s) {
-  };
-  SanityCheckOff.prototype.println_nodemanager_lh572t$ = function (s) {
-  };
-  SanityCheckOff.prototype.println_lh572t$ = function (s) {
-  };
-  SanityCheckOff.prototype.invoke_ls4sck$ = function (action) {
-  };
-  SanityCheckOff.prototype.suspended_ls4sck$ = function (action) {
-  };
-  SanityCheckOff.prototype.helper_lx1jwy$ = function (action) {
-    return null;
-  };
-  SanityCheckOff.prototype.check_a3x0x2$ = function (value, msg) {
-  };
-  SanityCheckOff.prototype.check_8i7tro$ = function (value) {
-  };
-  SanityCheckOff.prototype.checkUnreachable_8be2vx$ = function () {
-    throw new UnreachableException();
-  };
-  SanityCheckOff.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: 'SanityCheckOff',
-    interfaces: []
-  };
-  var SanityCheckOff_instance = null;
-  function SanityCheckOff_getInstance() {
-    if (SanityCheckOff_instance === null) {
-      new SanityCheckOff();
-    }return SanityCheckOff_instance;
-  }
-  function SanityCheckOn() {
-    SanityCheckOn_instance = this;
-    this.SANITYCHECK_PRINTING = false;
-    this.SANITYCHECK_PRINTING_NODEMANAGER = false;
-    this.SANITYCHECK_PRINTING_BUFFERMANAGER = false;
-  }
-  SanityCheckOn.prototype.println_buffermanager_lh572t$ = function (s) {
-    if (this.SANITYCHECK_PRINTING_BUFFERMANAGER) {
-      println(s());
-    }};
-  SanityCheckOn.prototype.println_nodemanager_lh572t$ = function (s) {
-    if (this.SANITYCHECK_PRINTING_NODEMANAGER) {
-      println(s());
-    }};
-  SanityCheckOn.prototype.println_lh572t$ = function (s) {
-    if (this.SANITYCHECK_PRINTING) {
-      println(s());
-    }};
-  SanityCheckOn.prototype.invoke_ls4sck$ = function (action) {
-    try {
-      action();
-    } catch (e) {
-      if (Kotlin.isType(e, Throwable)) {
-        if (this.SANITYCHECK_PRINTING) {
-          println('Exception during SanityCheck.invoke');
-          printStackTrace(e);
-        }throw e;
-      } else
-        throw e;
-    }
-  };
-  SanityCheckOn.prototype.suspended_ls4sck$ = function (action) {
-    try {
-      action();
-    } catch (e) {
-      if (Kotlin.isType(e, Throwable)) {
-        if (this.SANITYCHECK_PRINTING) {
-          println('Exception during SanityCheck.suspended');
-          printStackTrace(e);
-        }throw e;
-      } else
-        throw e;
-    }
-  };
-  SanityCheckOn.prototype.helper_i3ch5z$ = function (action) {
-    return action();
-  };
-  SanityCheckOn.prototype.check_a3x0x2$ = function (value, msg) {
-    try {
-      if (!value()) {
-        throw Exception_init('SanityCheck failed :: ' + msg());
-      }} catch (e) {
-      if (Kotlin.isType(e, Throwable)) {
-        if (this.SANITYCHECK_PRINTING) {
-          println('Exception during SanityCheck.check');
-          printStackTrace(e);
-        }throw e;
-      } else
-        throw e;
-    }
-  };
-  SanityCheckOn.prototype.check_8i7tro$ = function (value) {
-    try {
-      if (!value()) {
-        throw Exception_init('SanityCheck failed');
-      }} catch (e) {
-      if (Kotlin.isType(e, Throwable)) {
-        if (this.SANITYCHECK_PRINTING) {
-          println('Exception during SanityCheck.check');
-          printStackTrace(e);
-        }throw e;
-      } else
-        throw e;
-    }
-  };
-  SanityCheckOn.prototype.checkUnreachable_8be2vx$ = function () {
-    throw new UnreachableException();
-  };
-  SanityCheckOn.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: 'SanityCheckOn',
-    interfaces: []
-  };
-  var SanityCheckOn_instance = null;
-  function SanityCheckOn_getInstance() {
-    if (SanityCheckOn_instance === null) {
-      new SanityCheckOn();
-    }return SanityCheckOn_instance;
-  }
   var ITERATOR_DEBUG_MODE;
   function MapKey(data) {
     this.data = data;
@@ -1771,7 +341,7 @@
       return closure$count > 0;
     };
   }
-  POPJoin.prototype.crossProduct_2hexa2$ = function (dataO0, dataO1, dataJ, outO0, outO1, outJ, countA, countB) {
+  POPJoin.prototype.crossProduct_bhr4mc$ = function (dataO0, dataO1, dataJ, outO0, outO1, outJ, countA, countB) {
     var count = Kotlin.imul(countA, countB);
     SanityCheckOn_getInstance().check_8i7tro$(POPJoin$crossProduct$lambda(count));
     if (count === 1) {
@@ -1793,7 +363,7 @@
             d[Kotlin.imul(j, countA) + i | 0] = x;
           }
         }
-        outO0.get_za3lpa$(columnIndex_2).addChild_k2jvps$(iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(d, count));
+        outO0.get_za3lpa$(columnIndex_2).addChild_l3pyjk$(iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(d, count));
       }
       for (var columnIndex_3 = 0; columnIndex_3 !== outO1.size; ++columnIndex_3) {
         var d_0 = new Int32Array(count);
@@ -1803,10 +373,10 @@
             d_0[Kotlin.imul(j_0, countA) + i_0 | 0] = x_0;
           }
         }
-        outO1.get_za3lpa$(columnIndex_3).addChild_k2jvps$(iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(d_0, count));
+        outO1.get_za3lpa$(columnIndex_3).addChild_l3pyjk$(iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(d_0, count));
       }
       for (var columnIndex_4 = 0; columnIndex_4 !== outJ.size; ++columnIndex_4) {
-        outJ.get_za3lpa$(columnIndex_4).addChild_k2jvps$(new ColumnIteratorRepeatValue(count, dataJ[columnIndex_4]));
+        outJ.get_za3lpa$(columnIndex_4).addChild_l3pyjk$(new ColumnIteratorRepeatValue(count, dataJ[columnIndex_4]));
       }
     } else {
       for (var columnIndex_5 = 0; columnIndex_5 !== outO0.size; ++columnIndex_5) {
@@ -1815,9 +385,9 @@
           iterators.add_11rb$(new ColumnIteratorRepeatValue(countB, dataO0[columnIndex_5].get_za3lpa$(i_1)));
         }
         if (iterators.size === 1) {
-          outO0.get_za3lpa$(columnIndex_5).addChild_k2jvps$(iterators.get_za3lpa$(0));
+          outO0.get_za3lpa$(columnIndex_5).addChild_l3pyjk$(iterators.get_za3lpa$(0));
         } else {
-          outO0.get_za3lpa$(columnIndex_5).addChild_k2jvps$(new ColumnIteratorMultiIterator(iterators));
+          outO0.get_za3lpa$(columnIndex_5).addChild_l3pyjk$(new ColumnIteratorMultiIterator(iterators));
         }
       }
       for (var columnIndex_6 = 0; columnIndex_6 !== outO1.size; ++columnIndex_6) {
@@ -1829,13 +399,13 @@
         }
         var d_1 = array;
         if (countA === 1) {
-          outO1.get_za3lpa$(columnIndex_6).addChild_k2jvps$(iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(d_1, countB));
+          outO1.get_za3lpa$(columnIndex_6).addChild_l3pyjk$(iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(d_1, countB));
         } else {
-          outO1.get_za3lpa$(columnIndex_6).addChild_k2jvps$(new ColumnIteratorRepeatIterator(countA, iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(d_1, countB)));
+          outO1.get_za3lpa$(columnIndex_6).addChild_l3pyjk$(new ColumnIteratorRepeatIterator(countA, iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(d_1, countB)));
         }
       }
       for (var columnIndex_7 = 0; columnIndex_7 !== outJ.size; ++columnIndex_7) {
-        outJ.get_za3lpa$(columnIndex_7).addChild_k2jvps$(new ColumnIteratorRepeatValue(count, dataJ[columnIndex_7]));
+        outJ.get_za3lpa$(columnIndex_7).addChild_l3pyjk$(new ColumnIteratorRepeatValue(count, dataJ[columnIndex_7]));
       }
     }
   };
@@ -1844,7 +414,7 @@
       return closure$count > 0;
     };
   }
-  POPJoin.prototype.crossProduct_l77amo$ = function (dataO0, dataO1, dataJ, outO0, outO1, outJ, countA, countB) {
+  POPJoin.prototype.crossProduct_sd8mb6$ = function (dataO0, dataO1, dataJ, outO0, outO1, outJ, countA, countB) {
     var count = Kotlin.imul(countA, countB);
     SanityCheckOn_getInstance().check_8i7tro$(POPJoin$crossProduct$lambda_0(count));
     if (count === 1) {
@@ -1866,7 +436,7 @@
             d[Kotlin.imul(j, countA) + i | 0] = x;
           }
         }
-        outO0.get_za3lpa$(columnIndex_2).addChild_k2jvps$(iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(d, count));
+        outO0.get_za3lpa$(columnIndex_2).addChild_l3pyjk$(iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(d, count));
       }
       for (var columnIndex_3 = 0; columnIndex_3 !== outO1.size; ++columnIndex_3) {
         var d_0 = new Int32Array(count);
@@ -1876,10 +446,10 @@
             d_0[Kotlin.imul(j_0, countA) + i_0 | 0] = x_0;
           }
         }
-        outO1.get_za3lpa$(columnIndex_3).addChild_k2jvps$(iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(d_0, count));
+        outO1.get_za3lpa$(columnIndex_3).addChild_l3pyjk$(iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(d_0, count));
       }
       for (var columnIndex_4 = 0; columnIndex_4 !== outJ.size; ++columnIndex_4) {
-        outJ.get_za3lpa$(columnIndex_4).addChild_k2jvps$(new ColumnIteratorRepeatValue(count, dataJ[columnIndex_4]));
+        outJ.get_za3lpa$(columnIndex_4).addChild_l3pyjk$(new ColumnIteratorRepeatValue(count, dataJ[columnIndex_4]));
       }
     } else {
       for (var columnIndex_5 = 0; columnIndex_5 !== outO0.size; ++columnIndex_5) {
@@ -1888,9 +458,9 @@
           iterators.add_11rb$(new ColumnIteratorRepeatValue(countB, dataO0[columnIndex_5][i_1]));
         }
         if (iterators.size === 1) {
-          outO0.get_za3lpa$(columnIndex_5).addChild_k2jvps$(iterators.get_za3lpa$(0));
+          outO0.get_za3lpa$(columnIndex_5).addChild_l3pyjk$(iterators.get_za3lpa$(0));
         } else {
-          outO0.get_za3lpa$(columnIndex_5).addChild_k2jvps$(new ColumnIteratorMultiIterator(iterators));
+          outO0.get_za3lpa$(columnIndex_5).addChild_l3pyjk$(new ColumnIteratorMultiIterator(iterators));
         }
       }
       for (var columnIndex_6 = 0; columnIndex_6 !== outO1.size; ++columnIndex_6) {
@@ -1902,13 +472,13 @@
         }
         var d_1 = array;
         if (countA === 1) {
-          outO1.get_za3lpa$(columnIndex_6).addChild_k2jvps$(iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(d_1, countB));
+          outO1.get_za3lpa$(columnIndex_6).addChild_l3pyjk$(iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(d_1, countB));
         } else {
-          outO1.get_za3lpa$(columnIndex_6).addChild_k2jvps$(new ColumnIteratorRepeatIterator(countA, iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(d_1, countB)));
+          outO1.get_za3lpa$(columnIndex_6).addChild_l3pyjk$(new ColumnIteratorRepeatIterator(countA, iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(d_1, countB)));
         }
       }
       for (var columnIndex_7 = 0; columnIndex_7 !== outJ.size; ++columnIndex_7) {
-        outJ.get_za3lpa$(columnIndex_7).addChild_k2jvps$(new ColumnIteratorRepeatValue(count, dataJ[columnIndex_7]));
+        outJ.get_za3lpa$(columnIndex_7).addChild_l3pyjk$(new ColumnIteratorRepeatValue(count, dataJ[columnIndex_7]));
       }
     }
   };
@@ -2020,12 +590,12 @@
             v.close();
           }
           break;
-        }closure$outO[0].get_za3lpa$(columnIndex).addChild_k2jvps$(new ColumnIteratorRepeatValue(1, value));
+        }closure$outO[0].get_za3lpa$(columnIndex).addChild_l3pyjk$(new ColumnIteratorRepeatValue(1, value));
       }
       if (!done) {
         tmp$_1 = closure$columnsINBO.size;
         for (var columnIndex_0 = 0; columnIndex_0 < tmp$_1; columnIndex_0++) {
-          closure$outO[1].get_za3lpa$(columnIndex_0).addChild_k2jvps$(new ColumnIteratorRepeatValue(1, 3));
+          closure$outO[1].get_za3lpa$(columnIndex_0).addChild_l3pyjk$(new ColumnIteratorRepeatValue(1, 3));
         }
       }return Unit;
     };
@@ -2086,12 +656,12 @@
             v.close();
           }
           break;
-        }closure$outO[0].get_za3lpa$(columnIndex).addChild_k2jvps$(new ColumnIteratorRepeatValue(closure$count, value));
+        }closure$outO[0].get_za3lpa$(columnIndex).addChild_l3pyjk$(new ColumnIteratorRepeatValue(closure$count, value));
       }
       if (!done) {
         tmp$_1 = closure$columnsINBO.size;
         for (var columnIndex_0 = 0; columnIndex_0 < tmp$_1; columnIndex_0++) {
-          closure$outO[1].get_za3lpa$(columnIndex_0).addChild_k2jvps$(iterator.ColumnIteratorMultiValue.invoke_hens66$(closure$data[columnIndex_0]));
+          closure$outO[1].get_za3lpa$(columnIndex_0).addChild_l3pyjk$(iterator.ColumnIteratorMultiValue.invoke_hens66$(closure$data[columnIndex_0]));
         }
       }return Unit;
     };
@@ -2109,13 +679,13 @@
     kind: Kind_CLASS,
     interfaces: [ColumnIteratorChildIterator]
   };
-  POPJoinCartesianProduct.prototype.evaluate_euq53c$ = function (parent) {
+  POPJoinCartesianProduct.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12;
     var columns = multiinput.LOPJoin_Helper.getColumns_2mkhiy$(this.children[0].getProvidedVariableNames(), this.children[1].getProvidedVariableNames());
     SanityCheckOn_getInstance().invoke_ls4sck$(POPJoinCartesianProduct$evaluate$lambda(this));
     SanityCheckOn_getInstance().check_8i7tro$(POPJoinCartesianProduct$evaluate$lambda_0(columns));
-    var childA = this.children[0].evaluate_euq53c$(parent);
-    var childB = this.children[1].evaluate_euq53c$(parent);
+    var childA = this.children[0].evaluate_t5uvj0$(parent);
+    var childB = this.children[1].evaluate_t5uvj0$(parent);
     var columnsINAO = ArrayList_init();
     var columnsINBO = ArrayList_init();
     var array = Array_0(2);
@@ -2143,6 +713,7 @@
         res = IteratorBundle_init(Kotlin.imul(childA.count(), childB.count()));
       } catch (e) {
         if (Kotlin.isType(e, Throwable)) {
+          printStackTrace(e);
           throw e;
         } else
           throw e;
@@ -2483,7 +1054,7 @@
               for (var i_3 = 0; i_3 <= tmp$_17; i_3++) {
                 array_2[i_3] = mutableListOf([3]);
               }
-              tmp$_16.crossProduct_2hexa2$(dataOA, array_2, dataJ, closure$outO[0], closure$outO[1], closure$outJ, closure$countA.v, closure$countB.v);
+              tmp$_16.crossProduct_bhr4mc$(dataOA, array_2, dataJ, closure$outO[0], closure$outO[1], closure$outJ, closure$countA.v, closure$countB.v);
             }} else {
             done = true;
             tmp$_8 = others.size;
@@ -2504,7 +1075,7 @@
                 array_3[i_4] = res2;
               }
               var dataJ_0 = array_3;
-              POPJoin_getInstance().crossProduct_2hexa2$(dataOA, others.get_za3lpa$(otherIndex).second.columns, dataJ_0, closure$outO[0], closure$outO[1], closure$outJ, closure$countA.v, closure$countB.v);
+              POPJoin_getInstance().crossProduct_bhr4mc$(dataOA, others.get_za3lpa$(otherIndex).second.columns, dataJ_0, closure$outO[0], closure$outO[1], closure$outJ, closure$countA.v, closure$countB.v);
             }
           }
           closure$map.v = closure$nextMap.v;
@@ -2552,12 +1123,12 @@
     kind: Kind_CLASS,
     interfaces: [IteratorBundle]
   };
-  POPJoinHashMap.prototype.evaluate_euq53c$ = function (parent) {
+  POPJoinHashMap.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9;
     var columns = multiinput.LOPJoin_Helper.getColumns_2mkhiy$(this.children[0].getProvidedVariableNames(), this.children[1].getProvidedVariableNames());
     SanityCheckOn_getInstance().check_8i7tro$(POPJoinHashMap$evaluate$lambda(columns));
-    var childA = this.children[0].evaluate_euq53c$(parent);
-    var childB = this.children[1].evaluate_euq53c$(parent);
+    var childA = this.children[0].evaluate_t5uvj0$(parent);
+    var childB = this.children[1].evaluate_t5uvj0$(parent);
     var columnsINAO = ArrayList_init();
     var columnsINBO = ArrayList_init();
     var columnsINAJ = ArrayList_init();
@@ -2788,11 +1359,11 @@
       return closure$columnsINJ0.size === closure$columnsINJ1.size;
     };
   }
-  POPJoinMerge.prototype.evaluate_euq53c$ = function (parent) {
+  POPJoinMerge.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5;
     SanityCheckOn_getInstance().check_8i7tro$(POPJoinMerge$evaluate$lambda(this));
-    var child0 = this.children[0].evaluate_euq53c$(parent);
-    var child1 = this.children[1].evaluate_euq53c$(parent);
+    var child0 = this.children[0].evaluate_t5uvj0$(parent);
+    var child1 = this.children[1].evaluate_t5uvj0$(parent);
     var columnsINO0 = ArrayList_init();
     var columnsINO1 = ArrayList_init();
     var columnsINJ0 = ArrayList_init();
@@ -2925,75 +1496,75 @@
   };
   function POPJoinMerge_Iterator(columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1) {
     ColumnIteratorChildIterator.call(this);
-    this.columnsINJ0 = columnsINJ0;
-    this.columnsINJ1 = columnsINJ1;
-    this.columnsINO0 = columnsINO0;
-    this.columnsINO1 = columnsINO1;
-    this.columnsOUT0 = columnsOUT0;
-    this.columnsOUT1 = columnsOUT1;
-    this.columnsOUTJ = columnsOUTJ;
-    this.key0 = key0;
-    this.key1 = key1;
-    var array = Array_0(this.columnsINO0.size);
+    this.columnsINJ0_8be2vx$ = columnsINJ0;
+    this.columnsINJ1_8be2vx$ = columnsINJ1;
+    this.columnsINO0_8be2vx$ = columnsINO0;
+    this.columnsINO1_8be2vx$ = columnsINO1;
+    this.columnsOUT0_8be2vx$ = columnsOUT0;
+    this.columnsOUT1_8be2vx$ = columnsOUT1;
+    this.columnsOUTJ_8be2vx$ = columnsOUTJ;
+    this.key0_8be2vx$ = key0;
+    this.key1_8be2vx$ = key1;
+    var array = Array_0(this.columnsINO0_8be2vx$.size);
     var tmp$;
     tmp$ = array.length - 1 | 0;
     for (var i = 0; i <= tmp$; i++) {
       array[i] = new Int32Array(100);
     }
-    this.data0 = array;
-    var array_0 = Array_0(this.columnsINO1.size);
+    this.data0_8be2vx$ = array;
+    var array_0 = Array_0(this.columnsINO1_8be2vx$.size);
     var tmp$_0;
     tmp$_0 = array_0.length - 1 | 0;
     for (var i_0 = 0; i_0 <= tmp$_0; i_0++) {
       array_0[i_0] = new Int32Array(100);
     }
-    this.data1 = array_0;
-    this.localNextI = 0;
-    this.localNextJ = 0;
-    this.localNextCounta = 0;
-    this.localNextCountb = 0;
-    this.localNextKeycopy = new Int32Array(this.columnsINJ0.size);
-    this.localCloseI = 0;
-    this.skipO0 = 0;
-    this.skipO1 = 0;
-    this.sipbuf = new Int32Array(2);
+    this.data1_8be2vx$ = array_0;
+    this.localNextI_8be2vx$ = 0;
+    this.localNextJ_8be2vx$ = 0;
+    this.localNextCounta_8be2vx$ = 0;
+    this.localNextCountb_8be2vx$ = 0;
+    this.localNextKeycopy_8be2vx$ = new Int32Array(this.columnsINJ0_8be2vx$.size);
+    this.localCloseI_8be2vx$ = 0;
+    this.skipO0_8be2vx$ = 0;
+    this.skipO1_8be2vx$ = 0;
+    this.sipbuf_8be2vx$ = new Int32Array(2);
   }
   POPJoinMerge_Iterator.prototype.__close_0 = function () {
     if (this.label !== 0) {
-      this.localCloseI = 0;
-      while (this.localCloseI < this.columnsOUT0.size) {
-        this.columnsOUT0.get_za3lpa$(this.localCloseI).closeOnNoMoreElements();
-        this.localCloseI = this.localCloseI + 1 | 0;
+      this.localCloseI_8be2vx$ = 0;
+      while (this.localCloseI_8be2vx$ < this.columnsOUT0_8be2vx$.size) {
+        this.columnsOUT0_8be2vx$.get_za3lpa$(this.localCloseI_8be2vx$).closeOnNoMoreElements();
+        this.localCloseI_8be2vx$ = this.localCloseI_8be2vx$ + 1 | 0;
       }
-      this.localCloseI = 0;
-      while (this.localCloseI < this.columnsOUT1.size) {
-        this.columnsOUT1.get_za3lpa$(this.localCloseI).closeOnNoMoreElements();
-        this.localCloseI = this.localCloseI + 1 | 0;
+      this.localCloseI_8be2vx$ = 0;
+      while (this.localCloseI_8be2vx$ < this.columnsOUT1_8be2vx$.size) {
+        this.columnsOUT1_8be2vx$.get_za3lpa$(this.localCloseI_8be2vx$).closeOnNoMoreElements();
+        this.localCloseI_8be2vx$ = this.localCloseI_8be2vx$ + 1 | 0;
       }
-      this.localCloseI = 0;
-      while (this.localCloseI < this.columnsOUTJ.size) {
-        this.columnsOUTJ.get_za3lpa$(this.localCloseI).closeOnNoMoreElements();
-        this.localCloseI = this.localCloseI + 1 | 0;
+      this.localCloseI_8be2vx$ = 0;
+      while (this.localCloseI_8be2vx$ < this.columnsOUTJ_8be2vx$.size) {
+        this.columnsOUTJ_8be2vx$.get_za3lpa$(this.localCloseI_8be2vx$).closeOnNoMoreElements();
+        this.localCloseI_8be2vx$ = this.localCloseI_8be2vx$ + 1 | 0;
       }
-      this.localCloseI = 0;
-      while (this.localCloseI < this.columnsINJ0.size) {
-        this.columnsINJ0.get_za3lpa$(this.localCloseI).close();
-        this.localCloseI = this.localCloseI + 1 | 0;
+      this.localCloseI_8be2vx$ = 0;
+      while (this.localCloseI_8be2vx$ < this.columnsINJ0_8be2vx$.size) {
+        this.columnsINJ0_8be2vx$.get_za3lpa$(this.localCloseI_8be2vx$).close();
+        this.localCloseI_8be2vx$ = this.localCloseI_8be2vx$ + 1 | 0;
       }
-      this.localCloseI = 0;
-      while (this.localCloseI < this.columnsINJ1.size) {
-        this.columnsINJ1.get_za3lpa$(this.localCloseI).close();
-        this.localCloseI = this.localCloseI + 1 | 0;
+      this.localCloseI_8be2vx$ = 0;
+      while (this.localCloseI_8be2vx$ < this.columnsINJ1_8be2vx$.size) {
+        this.columnsINJ1_8be2vx$.get_za3lpa$(this.localCloseI_8be2vx$).close();
+        this.localCloseI_8be2vx$ = this.localCloseI_8be2vx$ + 1 | 0;
       }
-      this.localCloseI = 0;
-      while (this.localCloseI < this.columnsINO0.size) {
-        this.columnsINO0.get_za3lpa$(this.localCloseI).close();
-        this.localCloseI = this.localCloseI + 1 | 0;
+      this.localCloseI_8be2vx$ = 0;
+      while (this.localCloseI_8be2vx$ < this.columnsINO0_8be2vx$.size) {
+        this.columnsINO0_8be2vx$.get_za3lpa$(this.localCloseI_8be2vx$).close();
+        this.localCloseI_8be2vx$ = this.localCloseI_8be2vx$ + 1 | 0;
       }
-      this.localCloseI = 0;
-      while (this.localCloseI < this.columnsINO1.size) {
-        this.columnsINO1.get_za3lpa$(this.localCloseI).close();
-        this.localCloseI = this.localCloseI + 1 | 0;
+      this.localCloseI_8be2vx$ = 0;
+      while (this.localCloseI_8be2vx$ < this.columnsINO1_8be2vx$.size) {
+        this.columnsINO1_8be2vx$.get_za3lpa$(this.localCloseI_8be2vx$).close();
+        this.localCloseI_8be2vx$ = this.localCloseI_8be2vx$ + 1 | 0;
       }
       this._close();
     }};
@@ -3002,249 +1573,249 @@
   };
   function POPJoinMerge_Iterator$next$lambda$lambda(this$POPJoinMerge_Iterator) {
     return function () {
-      return !this$POPJoinMerge_Iterator.columnsINJ0.isEmpty();
+      return !this$POPJoinMerge_Iterator.columnsINJ0_8be2vx$.isEmpty();
     };
   }
   function POPJoinMerge_Iterator$next$lambda$lambda_0(this$POPJoinMerge_Iterator) {
     return function () {
-      return this$POPJoinMerge_Iterator.key0[0] !== 3;
+      return this$POPJoinMerge_Iterator.key0_8be2vx$[0] !== 3;
     };
   }
   function POPJoinMerge_Iterator$next$lambda$lambda_1(this$POPJoinMerge_Iterator) {
     return function () {
-      return this$POPJoinMerge_Iterator.key1[0] !== 3;
+      return this$POPJoinMerge_Iterator.key1_8be2vx$[0] !== 3;
     };
   }
   function POPJoinMerge_Iterator$next$lambda$lambda_2(this$POPJoinMerge_Iterator) {
     return function () {
-      return this$POPJoinMerge_Iterator.key0[this$POPJoinMerge_Iterator.localNextJ] !== 3;
+      return this$POPJoinMerge_Iterator.key0_8be2vx$[this$POPJoinMerge_Iterator.localNextJ_8be2vx$] !== 3;
     };
   }
   function POPJoinMerge_Iterator$next$lambda$lambda_3(this$POPJoinMerge_Iterator) {
     return function () {
-      return this$POPJoinMerge_Iterator.key0[this$POPJoinMerge_Iterator.localNextJ] !== 4;
+      return this$POPJoinMerge_Iterator.key0_8be2vx$[this$POPJoinMerge_Iterator.localNextJ_8be2vx$] !== 4;
     };
   }
   function POPJoinMerge_Iterator$next$lambda$lambda_4(this$POPJoinMerge_Iterator) {
     return function () {
-      return this$POPJoinMerge_Iterator.key1[this$POPJoinMerge_Iterator.localNextJ] !== 3;
+      return this$POPJoinMerge_Iterator.key1_8be2vx$[this$POPJoinMerge_Iterator.localNextJ_8be2vx$] !== 3;
     };
   }
   function POPJoinMerge_Iterator$next$lambda$lambda_5(this$POPJoinMerge_Iterator) {
     return function () {
-      return this$POPJoinMerge_Iterator.key1[this$POPJoinMerge_Iterator.localNextJ] !== 4;
+      return this$POPJoinMerge_Iterator.key1_8be2vx$[this$POPJoinMerge_Iterator.localNextJ_8be2vx$] !== 4;
     };
   }
   function POPJoinMerge_Iterator$next$lambda$lambda_6(this$POPJoinMerge_Iterator) {
     return function () {
-      return this$POPJoinMerge_Iterator.key0[this$POPJoinMerge_Iterator.localNextJ] !== 3;
+      return this$POPJoinMerge_Iterator.key0_8be2vx$[this$POPJoinMerge_Iterator.localNextJ_8be2vx$] !== 3;
     };
   }
   function POPJoinMerge_Iterator$next$lambda$lambda_7(this$POPJoinMerge_Iterator) {
     return function () {
-      return this$POPJoinMerge_Iterator.localNextJ === 0;
+      return this$POPJoinMerge_Iterator.localNextJ_8be2vx$ === 0;
     };
   }
   function POPJoinMerge_Iterator$next$lambda$lambda_8(this$POPJoinMerge_Iterator) {
     return function () {
-      return this$POPJoinMerge_Iterator.key1[this$POPJoinMerge_Iterator.localNextJ] !== 3;
+      return this$POPJoinMerge_Iterator.key1_8be2vx$[this$POPJoinMerge_Iterator.localNextJ_8be2vx$] !== 3;
     };
   }
   function POPJoinMerge_Iterator$next$lambda$lambda_9(this$POPJoinMerge_Iterator) {
     return function () {
-      return this$POPJoinMerge_Iterator.localNextJ === 0;
+      return this$POPJoinMerge_Iterator.localNextJ_8be2vx$ === 0;
     };
   }
   function POPJoinMerge_Iterator$next$lambda$lambda_10(this$POPJoinMerge_Iterator) {
     return function () {
-      return this$POPJoinMerge_Iterator.key0[this$POPJoinMerge_Iterator.localNextI] !== 3;
+      return this$POPJoinMerge_Iterator.key0_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$] !== 3;
     };
   }
   function POPJoinMerge_Iterator$next$lambda$lambda_11(this$POPJoinMerge_Iterator) {
     return function () {
-      return this$POPJoinMerge_Iterator.key1[this$POPJoinMerge_Iterator.localNextI] !== 3;
+      return this$POPJoinMerge_Iterator.key1_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$] !== 3;
     };
   }
   function POPJoinMerge_Iterator$next$lambda(this$POPJoinMerge_Iterator) {
     return function () {
       var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13, tmp$_14, tmp$_15, tmp$_16, tmp$_17, tmp$_18, tmp$_19, tmp$_20;
-      if (this$POPJoinMerge_Iterator.key0[0] !== 4 && this$POPJoinMerge_Iterator.key1[0] !== 4) {
+      if (this$POPJoinMerge_Iterator.key0_8be2vx$[0] !== 4 && this$POPJoinMerge_Iterator.key1_8be2vx$[0] !== 4) {
         loop: while (true) {
           SanityCheckOn_getInstance().check_8i7tro$(POPJoinMerge_Iterator$next$lambda$lambda(this$POPJoinMerge_Iterator));
-          if (this$POPJoinMerge_Iterator.key0[0] !== this$POPJoinMerge_Iterator.key1[0]) {
+          if (this$POPJoinMerge_Iterator.key0_8be2vx$[0] !== this$POPJoinMerge_Iterator.key1_8be2vx$[0]) {
             var skip0 = 0;
             var skip1 = 0;
-            while (this$POPJoinMerge_Iterator.key0[0] !== this$POPJoinMerge_Iterator.key1[0]) {
-              if (this$POPJoinMerge_Iterator.key0[0] < this$POPJoinMerge_Iterator.key1[0]) {
-                this$POPJoinMerge_Iterator.columnsINJ0.get_za3lpa$(0).nextSIP_aio0fn$(this$POPJoinMerge_Iterator.key1[0], this$POPJoinMerge_Iterator.sipbuf);
-                this$POPJoinMerge_Iterator.key0[0] = this$POPJoinMerge_Iterator.sipbuf[1];
-                skip0 = skip0 + this$POPJoinMerge_Iterator.sipbuf[0] | 0;
-                this$POPJoinMerge_Iterator.skipO0 = this$POPJoinMerge_Iterator.skipO0 + this$POPJoinMerge_Iterator.sipbuf[0] | 0;
+            while (this$POPJoinMerge_Iterator.key0_8be2vx$[0] !== this$POPJoinMerge_Iterator.key1_8be2vx$[0]) {
+              if (this$POPJoinMerge_Iterator.key0_8be2vx$[0] < this$POPJoinMerge_Iterator.key1_8be2vx$[0]) {
+                this$POPJoinMerge_Iterator.columnsINJ0_8be2vx$.get_za3lpa$(0).nextSIP_aio0fn$(this$POPJoinMerge_Iterator.key1_8be2vx$[0], this$POPJoinMerge_Iterator.sipbuf_8be2vx$);
+                this$POPJoinMerge_Iterator.key0_8be2vx$[0] = this$POPJoinMerge_Iterator.sipbuf_8be2vx$[1];
+                skip0 = skip0 + this$POPJoinMerge_Iterator.sipbuf_8be2vx$[0] | 0;
+                this$POPJoinMerge_Iterator.skipO0_8be2vx$ = this$POPJoinMerge_Iterator.skipO0_8be2vx$ + this$POPJoinMerge_Iterator.sipbuf_8be2vx$[0] | 0;
                 skip0 = skip0 + 1 | 0;
-                tmp$ = this$POPJoinMerge_Iterator.skipO0;
-                this$POPJoinMerge_Iterator.skipO0 = tmp$ + 1 | 0;
+                tmp$ = this$POPJoinMerge_Iterator.skipO0_8be2vx$;
+                this$POPJoinMerge_Iterator.skipO0_8be2vx$ = tmp$ + 1 | 0;
                 SanityCheckOn_getInstance().check_8i7tro$(POPJoinMerge_Iterator$next$lambda$lambda_0(this$POPJoinMerge_Iterator));
-                if (this$POPJoinMerge_Iterator.key0[0] === 4) {
+                if (this$POPJoinMerge_Iterator.key0_8be2vx$[0] === 4) {
                   this$POPJoinMerge_Iterator.__close_0();
                   break loop;
                 }} else {
-                this$POPJoinMerge_Iterator.columnsINJ1.get_za3lpa$(0).nextSIP_aio0fn$(this$POPJoinMerge_Iterator.key0[0], this$POPJoinMerge_Iterator.sipbuf);
-                this$POPJoinMerge_Iterator.key1[0] = this$POPJoinMerge_Iterator.sipbuf[1];
-                skip1 = skip1 + this$POPJoinMerge_Iterator.sipbuf[0] | 0;
-                this$POPJoinMerge_Iterator.skipO1 = this$POPJoinMerge_Iterator.skipO1 + this$POPJoinMerge_Iterator.sipbuf[0] | 0;
+                this$POPJoinMerge_Iterator.columnsINJ1_8be2vx$.get_za3lpa$(0).nextSIP_aio0fn$(this$POPJoinMerge_Iterator.key0_8be2vx$[0], this$POPJoinMerge_Iterator.sipbuf_8be2vx$);
+                this$POPJoinMerge_Iterator.key1_8be2vx$[0] = this$POPJoinMerge_Iterator.sipbuf_8be2vx$[1];
+                skip1 = skip1 + this$POPJoinMerge_Iterator.sipbuf_8be2vx$[0] | 0;
+                this$POPJoinMerge_Iterator.skipO1_8be2vx$ = this$POPJoinMerge_Iterator.skipO1_8be2vx$ + this$POPJoinMerge_Iterator.sipbuf_8be2vx$[0] | 0;
                 skip1 = skip1 + 1 | 0;
-                tmp$_0 = this$POPJoinMerge_Iterator.skipO1;
-                this$POPJoinMerge_Iterator.skipO1 = tmp$_0 + 1 | 0;
+                tmp$_0 = this$POPJoinMerge_Iterator.skipO1_8be2vx$;
+                this$POPJoinMerge_Iterator.skipO1_8be2vx$ = tmp$_0 + 1 | 0;
                 SanityCheckOn_getInstance().check_8i7tro$(POPJoinMerge_Iterator$next$lambda$lambda_1(this$POPJoinMerge_Iterator));
-                if (this$POPJoinMerge_Iterator.key1[0] === 4) {
+                if (this$POPJoinMerge_Iterator.key1_8be2vx$[0] === 4) {
                   this$POPJoinMerge_Iterator.__close_0();
                   break loop;
                 }}
             }
             if (skip0 > 0) {
-              this$POPJoinMerge_Iterator.localNextJ = 1;
-              while (this$POPJoinMerge_Iterator.localNextJ < this$POPJoinMerge_Iterator.columnsINJ0.size) {
-                this$POPJoinMerge_Iterator.key0[this$POPJoinMerge_Iterator.localNextJ] = this$POPJoinMerge_Iterator.columnsINJ0.get_za3lpa$(this$POPJoinMerge_Iterator.localNextJ).skipSIP_za3lpa$(skip0);
+              this$POPJoinMerge_Iterator.localNextJ_8be2vx$ = 1;
+              while (this$POPJoinMerge_Iterator.localNextJ_8be2vx$ < this$POPJoinMerge_Iterator.columnsINJ0_8be2vx$.size) {
+                this$POPJoinMerge_Iterator.key0_8be2vx$[this$POPJoinMerge_Iterator.localNextJ_8be2vx$] = this$POPJoinMerge_Iterator.columnsINJ0_8be2vx$.get_za3lpa$(this$POPJoinMerge_Iterator.localNextJ_8be2vx$).skipSIP_za3lpa$(skip0);
                 SanityCheckOn_getInstance().check_8i7tro$(POPJoinMerge_Iterator$next$lambda$lambda_2(this$POPJoinMerge_Iterator));
                 SanityCheckOn_getInstance().check_8i7tro$(POPJoinMerge_Iterator$next$lambda$lambda_3(this$POPJoinMerge_Iterator));
-                tmp$_1 = this$POPJoinMerge_Iterator.localNextJ;
-                this$POPJoinMerge_Iterator.localNextJ = tmp$_1 + 1 | 0;
+                tmp$_1 = this$POPJoinMerge_Iterator.localNextJ_8be2vx$;
+                this$POPJoinMerge_Iterator.localNextJ_8be2vx$ = tmp$_1 + 1 | 0;
               }
             }if (skip1 > 0) {
-              this$POPJoinMerge_Iterator.localNextJ = 1;
-              while (this$POPJoinMerge_Iterator.localNextJ < this$POPJoinMerge_Iterator.columnsINJ1.size) {
-                this$POPJoinMerge_Iterator.key1[this$POPJoinMerge_Iterator.localNextJ] = this$POPJoinMerge_Iterator.columnsINJ1.get_za3lpa$(this$POPJoinMerge_Iterator.localNextJ).skipSIP_za3lpa$(skip1);
+              this$POPJoinMerge_Iterator.localNextJ_8be2vx$ = 1;
+              while (this$POPJoinMerge_Iterator.localNextJ_8be2vx$ < this$POPJoinMerge_Iterator.columnsINJ1_8be2vx$.size) {
+                this$POPJoinMerge_Iterator.key1_8be2vx$[this$POPJoinMerge_Iterator.localNextJ_8be2vx$] = this$POPJoinMerge_Iterator.columnsINJ1_8be2vx$.get_za3lpa$(this$POPJoinMerge_Iterator.localNextJ_8be2vx$).skipSIP_za3lpa$(skip1);
                 SanityCheckOn_getInstance().check_8i7tro$(POPJoinMerge_Iterator$next$lambda$lambda_4(this$POPJoinMerge_Iterator));
                 SanityCheckOn_getInstance().check_8i7tro$(POPJoinMerge_Iterator$next$lambda$lambda_5(this$POPJoinMerge_Iterator));
-                tmp$_2 = this$POPJoinMerge_Iterator.localNextJ;
-                this$POPJoinMerge_Iterator.localNextJ = tmp$_2 + 1 | 0;
+                tmp$_2 = this$POPJoinMerge_Iterator.localNextJ_8be2vx$;
+                this$POPJoinMerge_Iterator.localNextJ_8be2vx$ = tmp$_2 + 1 | 0;
               }
-            }}this$POPJoinMerge_Iterator.localNextI = 1;
-          while (this$POPJoinMerge_Iterator.localNextI < this$POPJoinMerge_Iterator.columnsINJ0.size) {
-            if (this$POPJoinMerge_Iterator.key0[this$POPJoinMerge_Iterator.localNextI] < this$POPJoinMerge_Iterator.key1[this$POPJoinMerge_Iterator.localNextI]) {
-              tmp$_3 = this$POPJoinMerge_Iterator.skipO0;
-              this$POPJoinMerge_Iterator.skipO0 = tmp$_3 + 1 | 0;
-              this$POPJoinMerge_Iterator.localNextJ = 0;
-              while (this$POPJoinMerge_Iterator.localNextJ < this$POPJoinMerge_Iterator.columnsINJ0.size) {
-                this$POPJoinMerge_Iterator.key0[this$POPJoinMerge_Iterator.localNextJ] = this$POPJoinMerge_Iterator.columnsINJ0.get_za3lpa$(this$POPJoinMerge_Iterator.localNextJ).next();
+            }}this$POPJoinMerge_Iterator.localNextI_8be2vx$ = 1;
+          while (this$POPJoinMerge_Iterator.localNextI_8be2vx$ < this$POPJoinMerge_Iterator.columnsINJ0_8be2vx$.size) {
+            if (this$POPJoinMerge_Iterator.key0_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$] < this$POPJoinMerge_Iterator.key1_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$]) {
+              tmp$_3 = this$POPJoinMerge_Iterator.skipO0_8be2vx$;
+              this$POPJoinMerge_Iterator.skipO0_8be2vx$ = tmp$_3 + 1 | 0;
+              this$POPJoinMerge_Iterator.localNextJ_8be2vx$ = 0;
+              while (this$POPJoinMerge_Iterator.localNextJ_8be2vx$ < this$POPJoinMerge_Iterator.columnsINJ0_8be2vx$.size) {
+                this$POPJoinMerge_Iterator.key0_8be2vx$[this$POPJoinMerge_Iterator.localNextJ_8be2vx$] = this$POPJoinMerge_Iterator.columnsINJ0_8be2vx$.get_za3lpa$(this$POPJoinMerge_Iterator.localNextJ_8be2vx$).next();
                 SanityCheckOn_getInstance().check_8i7tro$(POPJoinMerge_Iterator$next$lambda$lambda_6(this$POPJoinMerge_Iterator));
-                if (this$POPJoinMerge_Iterator.key0[this$POPJoinMerge_Iterator.localNextJ] === 4) {
+                if (this$POPJoinMerge_Iterator.key0_8be2vx$[this$POPJoinMerge_Iterator.localNextJ_8be2vx$] === 4) {
                   SanityCheckOn_getInstance().check_8i7tro$(POPJoinMerge_Iterator$next$lambda$lambda_7(this$POPJoinMerge_Iterator));
                   this$POPJoinMerge_Iterator.__close_0();
                   break loop;
-                }tmp$_4 = this$POPJoinMerge_Iterator.localNextJ;
-                this$POPJoinMerge_Iterator.localNextJ = tmp$_4 + 1 | 0;
+                }tmp$_4 = this$POPJoinMerge_Iterator.localNextJ_8be2vx$;
+                this$POPJoinMerge_Iterator.localNextJ_8be2vx$ = tmp$_4 + 1 | 0;
               }
               continue loop;
-            } else if (this$POPJoinMerge_Iterator.key0[this$POPJoinMerge_Iterator.localNextI] > this$POPJoinMerge_Iterator.key1[this$POPJoinMerge_Iterator.localNextI]) {
-              tmp$_5 = this$POPJoinMerge_Iterator.skipO1;
-              this$POPJoinMerge_Iterator.skipO1 = tmp$_5 + 1 | 0;
-              this$POPJoinMerge_Iterator.localNextJ = 0;
-              while (this$POPJoinMerge_Iterator.localNextJ < this$POPJoinMerge_Iterator.columnsINJ1.size) {
-                this$POPJoinMerge_Iterator.key1[this$POPJoinMerge_Iterator.localNextJ] = this$POPJoinMerge_Iterator.columnsINJ1.get_za3lpa$(this$POPJoinMerge_Iterator.localNextJ).next();
+            } else if (this$POPJoinMerge_Iterator.key0_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$] > this$POPJoinMerge_Iterator.key1_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$]) {
+              tmp$_5 = this$POPJoinMerge_Iterator.skipO1_8be2vx$;
+              this$POPJoinMerge_Iterator.skipO1_8be2vx$ = tmp$_5 + 1 | 0;
+              this$POPJoinMerge_Iterator.localNextJ_8be2vx$ = 0;
+              while (this$POPJoinMerge_Iterator.localNextJ_8be2vx$ < this$POPJoinMerge_Iterator.columnsINJ1_8be2vx$.size) {
+                this$POPJoinMerge_Iterator.key1_8be2vx$[this$POPJoinMerge_Iterator.localNextJ_8be2vx$] = this$POPJoinMerge_Iterator.columnsINJ1_8be2vx$.get_za3lpa$(this$POPJoinMerge_Iterator.localNextJ_8be2vx$).next();
                 SanityCheckOn_getInstance().check_8i7tro$(POPJoinMerge_Iterator$next$lambda$lambda_8(this$POPJoinMerge_Iterator));
-                if (this$POPJoinMerge_Iterator.key1[this$POPJoinMerge_Iterator.localNextJ] === 4) {
+                if (this$POPJoinMerge_Iterator.key1_8be2vx$[this$POPJoinMerge_Iterator.localNextJ_8be2vx$] === 4) {
                   SanityCheckOn_getInstance().check_8i7tro$(POPJoinMerge_Iterator$next$lambda$lambda_9(this$POPJoinMerge_Iterator));
                   this$POPJoinMerge_Iterator.__close_0();
                   break loop;
-                }tmp$_6 = this$POPJoinMerge_Iterator.localNextJ;
-                this$POPJoinMerge_Iterator.localNextJ = tmp$_6 + 1 | 0;
+                }tmp$_6 = this$POPJoinMerge_Iterator.localNextJ_8be2vx$;
+                this$POPJoinMerge_Iterator.localNextJ_8be2vx$ = tmp$_6 + 1 | 0;
               }
               continue loop;
-            }tmp$_7 = this$POPJoinMerge_Iterator.localNextI;
-            this$POPJoinMerge_Iterator.localNextI = tmp$_7 + 1 | 0;
+            }tmp$_7 = this$POPJoinMerge_Iterator.localNextI_8be2vx$;
+            this$POPJoinMerge_Iterator.localNextI_8be2vx$ = tmp$_7 + 1 | 0;
           }
-          this$POPJoinMerge_Iterator.localNextI = 0;
-          while (this$POPJoinMerge_Iterator.localNextI < this$POPJoinMerge_Iterator.columnsINJ0.size) {
-            this$POPJoinMerge_Iterator.localNextKeycopy[this$POPJoinMerge_Iterator.localNextI] = this$POPJoinMerge_Iterator.key0[this$POPJoinMerge_Iterator.localNextI];
-            tmp$_8 = this$POPJoinMerge_Iterator.localNextI;
-            this$POPJoinMerge_Iterator.localNextI = tmp$_8 + 1 | 0;
+          this$POPJoinMerge_Iterator.localNextI_8be2vx$ = 0;
+          while (this$POPJoinMerge_Iterator.localNextI_8be2vx$ < this$POPJoinMerge_Iterator.columnsINJ0_8be2vx$.size) {
+            this$POPJoinMerge_Iterator.localNextKeycopy_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$] = this$POPJoinMerge_Iterator.key0_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$];
+            tmp$_8 = this$POPJoinMerge_Iterator.localNextI_8be2vx$;
+            this$POPJoinMerge_Iterator.localNextI_8be2vx$ = tmp$_8 + 1 | 0;
           }
-          this$POPJoinMerge_Iterator.localNextCounta = 0;
+          this$POPJoinMerge_Iterator.localNextCounta_8be2vx$ = 0;
           loop2: while (true) {
-            if (!this$POPJoinMerge_Iterator.columnsINO0.isEmpty()) {
-              if (this$POPJoinMerge_Iterator.localNextCounta >= this$POPJoinMerge_Iterator.data0[0].length) {
-                this$POPJoinMerge_Iterator.localNextI = 0;
-                while (this$POPJoinMerge_Iterator.localNextI < this$POPJoinMerge_Iterator.data0.length) {
-                  var x = this$POPJoinMerge_Iterator.data0[this$POPJoinMerge_Iterator.localNextI];
-                  var d = new Int32Array(this$POPJoinMerge_Iterator.localNextCounta * 2 | 0);
-                  this$POPJoinMerge_Iterator.localNextJ = 0;
-                  while (this$POPJoinMerge_Iterator.localNextJ < this$POPJoinMerge_Iterator.localNextCounta) {
-                    d[this$POPJoinMerge_Iterator.localNextJ] = x[this$POPJoinMerge_Iterator.localNextJ];
-                    tmp$_9 = this$POPJoinMerge_Iterator.localNextJ;
-                    this$POPJoinMerge_Iterator.localNextJ = tmp$_9 + 1 | 0;
+            if (!this$POPJoinMerge_Iterator.columnsINO0_8be2vx$.isEmpty()) {
+              if (this$POPJoinMerge_Iterator.localNextCounta_8be2vx$ >= this$POPJoinMerge_Iterator.data0_8be2vx$[0].length) {
+                this$POPJoinMerge_Iterator.localNextI_8be2vx$ = 0;
+                while (this$POPJoinMerge_Iterator.localNextI_8be2vx$ < this$POPJoinMerge_Iterator.data0_8be2vx$.length) {
+                  var x = this$POPJoinMerge_Iterator.data0_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$];
+                  var d = new Int32Array(this$POPJoinMerge_Iterator.localNextCounta_8be2vx$ * 2 | 0);
+                  this$POPJoinMerge_Iterator.localNextJ_8be2vx$ = 0;
+                  while (this$POPJoinMerge_Iterator.localNextJ_8be2vx$ < this$POPJoinMerge_Iterator.localNextCounta_8be2vx$) {
+                    d[this$POPJoinMerge_Iterator.localNextJ_8be2vx$] = x[this$POPJoinMerge_Iterator.localNextJ_8be2vx$];
+                    tmp$_9 = this$POPJoinMerge_Iterator.localNextJ_8be2vx$;
+                    this$POPJoinMerge_Iterator.localNextJ_8be2vx$ = tmp$_9 + 1 | 0;
                   }
-                  this$POPJoinMerge_Iterator.data0[this$POPJoinMerge_Iterator.localNextI] = d;
-                  tmp$_10 = this$POPJoinMerge_Iterator.localNextI;
-                  this$POPJoinMerge_Iterator.localNextI = tmp$_10 + 1 | 0;
+                  this$POPJoinMerge_Iterator.data0_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$] = d;
+                  tmp$_10 = this$POPJoinMerge_Iterator.localNextI_8be2vx$;
+                  this$POPJoinMerge_Iterator.localNextI_8be2vx$ = tmp$_10 + 1 | 0;
                 }
-              }this$POPJoinMerge_Iterator.localNextI = 0;
-              while (this$POPJoinMerge_Iterator.localNextI < this$POPJoinMerge_Iterator.columnsINO0.size) {
-                this$POPJoinMerge_Iterator.data0[this$POPJoinMerge_Iterator.localNextI][this$POPJoinMerge_Iterator.localNextCounta] = this$POPJoinMerge_Iterator.columnsINO0.get_za3lpa$(this$POPJoinMerge_Iterator.localNextI).skipSIP_za3lpa$(this$POPJoinMerge_Iterator.skipO0);
-                tmp$_11 = this$POPJoinMerge_Iterator.localNextI;
-                this$POPJoinMerge_Iterator.localNextI = tmp$_11 + 1 | 0;
+              }this$POPJoinMerge_Iterator.localNextI_8be2vx$ = 0;
+              while (this$POPJoinMerge_Iterator.localNextI_8be2vx$ < this$POPJoinMerge_Iterator.columnsINO0_8be2vx$.size) {
+                this$POPJoinMerge_Iterator.data0_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$][this$POPJoinMerge_Iterator.localNextCounta_8be2vx$] = this$POPJoinMerge_Iterator.columnsINO0_8be2vx$.get_za3lpa$(this$POPJoinMerge_Iterator.localNextI_8be2vx$).skipSIP_za3lpa$(this$POPJoinMerge_Iterator.skipO0_8be2vx$);
+                tmp$_11 = this$POPJoinMerge_Iterator.localNextI_8be2vx$;
+                this$POPJoinMerge_Iterator.localNextI_8be2vx$ = tmp$_11 + 1 | 0;
               }
-              this$POPJoinMerge_Iterator.skipO0 = 0;
-            }tmp$_12 = this$POPJoinMerge_Iterator.localNextCounta;
-            this$POPJoinMerge_Iterator.localNextCounta = tmp$_12 + 1 | 0;
-            this$POPJoinMerge_Iterator.localNextI = 0;
-            while (this$POPJoinMerge_Iterator.localNextI < this$POPJoinMerge_Iterator.columnsINJ0.size) {
-              this$POPJoinMerge_Iterator.key0[this$POPJoinMerge_Iterator.localNextI] = this$POPJoinMerge_Iterator.columnsINJ0.get_za3lpa$(this$POPJoinMerge_Iterator.localNextI).next();
+              this$POPJoinMerge_Iterator.skipO0_8be2vx$ = 0;
+            }tmp$_12 = this$POPJoinMerge_Iterator.localNextCounta_8be2vx$;
+            this$POPJoinMerge_Iterator.localNextCounta_8be2vx$ = tmp$_12 + 1 | 0;
+            this$POPJoinMerge_Iterator.localNextI_8be2vx$ = 0;
+            while (this$POPJoinMerge_Iterator.localNextI_8be2vx$ < this$POPJoinMerge_Iterator.columnsINJ0_8be2vx$.size) {
+              this$POPJoinMerge_Iterator.key0_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$] = this$POPJoinMerge_Iterator.columnsINJ0_8be2vx$.get_za3lpa$(this$POPJoinMerge_Iterator.localNextI_8be2vx$).next();
               SanityCheckOn_getInstance().check_8i7tro$(POPJoinMerge_Iterator$next$lambda$lambda_10(this$POPJoinMerge_Iterator));
-              tmp$_13 = this$POPJoinMerge_Iterator.localNextI;
-              this$POPJoinMerge_Iterator.localNextI = tmp$_13 + 1 | 0;
+              tmp$_13 = this$POPJoinMerge_Iterator.localNextI_8be2vx$;
+              this$POPJoinMerge_Iterator.localNextI_8be2vx$ = tmp$_13 + 1 | 0;
             }
-            this$POPJoinMerge_Iterator.localNextI = 0;
-            while (this$POPJoinMerge_Iterator.localNextI < this$POPJoinMerge_Iterator.columnsINJ0.size) {
-              if (this$POPJoinMerge_Iterator.key0[this$POPJoinMerge_Iterator.localNextI] !== this$POPJoinMerge_Iterator.localNextKeycopy[this$POPJoinMerge_Iterator.localNextI]) {
+            this$POPJoinMerge_Iterator.localNextI_8be2vx$ = 0;
+            while (this$POPJoinMerge_Iterator.localNextI_8be2vx$ < this$POPJoinMerge_Iterator.columnsINJ0_8be2vx$.size) {
+              if (this$POPJoinMerge_Iterator.key0_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$] !== this$POPJoinMerge_Iterator.localNextKeycopy_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$]) {
                 break loop2;
-              }tmp$_14 = this$POPJoinMerge_Iterator.localNextI;
-              this$POPJoinMerge_Iterator.localNextI = tmp$_14 + 1 | 0;
+              }tmp$_14 = this$POPJoinMerge_Iterator.localNextI_8be2vx$;
+              this$POPJoinMerge_Iterator.localNextI_8be2vx$ = tmp$_14 + 1 | 0;
             }
           }
-          this$POPJoinMerge_Iterator.localNextCountb = 0;
+          this$POPJoinMerge_Iterator.localNextCountb_8be2vx$ = 0;
           loop2: while (true) {
-            if (!this$POPJoinMerge_Iterator.columnsINO1.isEmpty()) {
-              if (this$POPJoinMerge_Iterator.localNextCountb >= this$POPJoinMerge_Iterator.data1[0].length) {
-                this$POPJoinMerge_Iterator.localNextI = 0;
-                while (this$POPJoinMerge_Iterator.localNextI < this$POPJoinMerge_Iterator.data1.length) {
-                  var x_0 = this$POPJoinMerge_Iterator.data1[this$POPJoinMerge_Iterator.localNextI];
-                  var d_0 = new Int32Array(this$POPJoinMerge_Iterator.localNextCountb * 2 | 0);
-                  this$POPJoinMerge_Iterator.localNextJ = 0;
-                  while (this$POPJoinMerge_Iterator.localNextJ < this$POPJoinMerge_Iterator.localNextCountb) {
-                    d_0[this$POPJoinMerge_Iterator.localNextJ] = x_0[this$POPJoinMerge_Iterator.localNextJ];
-                    tmp$_15 = this$POPJoinMerge_Iterator.localNextJ;
-                    this$POPJoinMerge_Iterator.localNextJ = tmp$_15 + 1 | 0;
+            if (!this$POPJoinMerge_Iterator.columnsINO1_8be2vx$.isEmpty()) {
+              if (this$POPJoinMerge_Iterator.localNextCountb_8be2vx$ >= this$POPJoinMerge_Iterator.data1_8be2vx$[0].length) {
+                this$POPJoinMerge_Iterator.localNextI_8be2vx$ = 0;
+                while (this$POPJoinMerge_Iterator.localNextI_8be2vx$ < this$POPJoinMerge_Iterator.data1_8be2vx$.length) {
+                  var x_0 = this$POPJoinMerge_Iterator.data1_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$];
+                  var d_0 = new Int32Array(this$POPJoinMerge_Iterator.localNextCountb_8be2vx$ * 2 | 0);
+                  this$POPJoinMerge_Iterator.localNextJ_8be2vx$ = 0;
+                  while (this$POPJoinMerge_Iterator.localNextJ_8be2vx$ < this$POPJoinMerge_Iterator.localNextCountb_8be2vx$) {
+                    d_0[this$POPJoinMerge_Iterator.localNextJ_8be2vx$] = x_0[this$POPJoinMerge_Iterator.localNextJ_8be2vx$];
+                    tmp$_15 = this$POPJoinMerge_Iterator.localNextJ_8be2vx$;
+                    this$POPJoinMerge_Iterator.localNextJ_8be2vx$ = tmp$_15 + 1 | 0;
                   }
-                  this$POPJoinMerge_Iterator.data1[this$POPJoinMerge_Iterator.localNextI] = d_0;
-                  tmp$_16 = this$POPJoinMerge_Iterator.localNextI;
-                  this$POPJoinMerge_Iterator.localNextI = tmp$_16 + 1 | 0;
+                  this$POPJoinMerge_Iterator.data1_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$] = d_0;
+                  tmp$_16 = this$POPJoinMerge_Iterator.localNextI_8be2vx$;
+                  this$POPJoinMerge_Iterator.localNextI_8be2vx$ = tmp$_16 + 1 | 0;
                 }
-              }this$POPJoinMerge_Iterator.localNextI = 0;
-              while (this$POPJoinMerge_Iterator.localNextI < this$POPJoinMerge_Iterator.columnsINO1.size) {
-                this$POPJoinMerge_Iterator.data1[this$POPJoinMerge_Iterator.localNextI][this$POPJoinMerge_Iterator.localNextCountb] = this$POPJoinMerge_Iterator.columnsINO1.get_za3lpa$(this$POPJoinMerge_Iterator.localNextI).skipSIP_za3lpa$(this$POPJoinMerge_Iterator.skipO1);
-                tmp$_17 = this$POPJoinMerge_Iterator.localNextI;
-                this$POPJoinMerge_Iterator.localNextI = tmp$_17 + 1 | 0;
+              }this$POPJoinMerge_Iterator.localNextI_8be2vx$ = 0;
+              while (this$POPJoinMerge_Iterator.localNextI_8be2vx$ < this$POPJoinMerge_Iterator.columnsINO1_8be2vx$.size) {
+                this$POPJoinMerge_Iterator.data1_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$][this$POPJoinMerge_Iterator.localNextCountb_8be2vx$] = this$POPJoinMerge_Iterator.columnsINO1_8be2vx$.get_za3lpa$(this$POPJoinMerge_Iterator.localNextI_8be2vx$).skipSIP_za3lpa$(this$POPJoinMerge_Iterator.skipO1_8be2vx$);
+                tmp$_17 = this$POPJoinMerge_Iterator.localNextI_8be2vx$;
+                this$POPJoinMerge_Iterator.localNextI_8be2vx$ = tmp$_17 + 1 | 0;
               }
-              this$POPJoinMerge_Iterator.skipO1 = 0;
-            }tmp$_18 = this$POPJoinMerge_Iterator.localNextCountb;
-            this$POPJoinMerge_Iterator.localNextCountb = tmp$_18 + 1 | 0;
-            this$POPJoinMerge_Iterator.localNextI = 0;
-            while (this$POPJoinMerge_Iterator.localNextI < this$POPJoinMerge_Iterator.columnsINJ1.size) {
-              this$POPJoinMerge_Iterator.key1[this$POPJoinMerge_Iterator.localNextI] = this$POPJoinMerge_Iterator.columnsINJ1.get_za3lpa$(this$POPJoinMerge_Iterator.localNextI).next();
+              this$POPJoinMerge_Iterator.skipO1_8be2vx$ = 0;
+            }tmp$_18 = this$POPJoinMerge_Iterator.localNextCountb_8be2vx$;
+            this$POPJoinMerge_Iterator.localNextCountb_8be2vx$ = tmp$_18 + 1 | 0;
+            this$POPJoinMerge_Iterator.localNextI_8be2vx$ = 0;
+            while (this$POPJoinMerge_Iterator.localNextI_8be2vx$ < this$POPJoinMerge_Iterator.columnsINJ1_8be2vx$.size) {
+              this$POPJoinMerge_Iterator.key1_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$] = this$POPJoinMerge_Iterator.columnsINJ1_8be2vx$.get_za3lpa$(this$POPJoinMerge_Iterator.localNextI_8be2vx$).next();
               SanityCheckOn_getInstance().check_8i7tro$(POPJoinMerge_Iterator$next$lambda$lambda_11(this$POPJoinMerge_Iterator));
-              tmp$_19 = this$POPJoinMerge_Iterator.localNextI;
-              this$POPJoinMerge_Iterator.localNextI = tmp$_19 + 1 | 0;
+              tmp$_19 = this$POPJoinMerge_Iterator.localNextI_8be2vx$;
+              this$POPJoinMerge_Iterator.localNextI_8be2vx$ = tmp$_19 + 1 | 0;
             }
-            this$POPJoinMerge_Iterator.localNextI = 0;
-            while (this$POPJoinMerge_Iterator.localNextI < this$POPJoinMerge_Iterator.columnsINJ1.size) {
-              if (this$POPJoinMerge_Iterator.key1[this$POPJoinMerge_Iterator.localNextI] !== this$POPJoinMerge_Iterator.localNextKeycopy[this$POPJoinMerge_Iterator.localNextI]) {
+            this$POPJoinMerge_Iterator.localNextI_8be2vx$ = 0;
+            while (this$POPJoinMerge_Iterator.localNextI_8be2vx$ < this$POPJoinMerge_Iterator.columnsINJ1_8be2vx$.size) {
+              if (this$POPJoinMerge_Iterator.key1_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$] !== this$POPJoinMerge_Iterator.localNextKeycopy_8be2vx$[this$POPJoinMerge_Iterator.localNextI_8be2vx$]) {
                 break loop2;
-              }tmp$_20 = this$POPJoinMerge_Iterator.localNextI;
-              this$POPJoinMerge_Iterator.localNextI = tmp$_20 + 1 | 0;
+              }tmp$_20 = this$POPJoinMerge_Iterator.localNextI_8be2vx$;
+              this$POPJoinMerge_Iterator.localNextI_8be2vx$ = tmp$_20 + 1 | 0;
             }
           }
-          POPJoin_getInstance().crossProduct_l77amo$(this$POPJoinMerge_Iterator.data0, this$POPJoinMerge_Iterator.data1, this$POPJoinMerge_Iterator.localNextKeycopy, this$POPJoinMerge_Iterator.columnsOUT0, this$POPJoinMerge_Iterator.columnsOUT1, this$POPJoinMerge_Iterator.columnsOUTJ, this$POPJoinMerge_Iterator.localNextCounta, this$POPJoinMerge_Iterator.localNextCountb);
+          POPJoin_getInstance().crossProduct_sd8mb6$(this$POPJoinMerge_Iterator.data0_8be2vx$, this$POPJoinMerge_Iterator.data1_8be2vx$, this$POPJoinMerge_Iterator.localNextKeycopy_8be2vx$, this$POPJoinMerge_Iterator.columnsOUT0_8be2vx$, this$POPJoinMerge_Iterator.columnsOUT1_8be2vx$, this$POPJoinMerge_Iterator.columnsOUTJ_8be2vx$, this$POPJoinMerge_Iterator.localNextCounta_8be2vx$, this$POPJoinMerge_Iterator.localNextCountb_8be2vx$);
           break loop;
         }
       } else {
@@ -3368,9 +1939,9 @@
         array[i_0] = array_0;
       }
       var data = array;
-      var countA = this$POPJoinMergeOptional.sameElements_nx1vqv$(closure$key[0], closure$keyCopy, closure$columnsINJ[0], closure$columnsINO[0], data[0]);
-      var countB = this$POPJoinMergeOptional.sameElements_nx1vqv$(closure$key[1], closure$keyCopy, closure$columnsINJ[1], closure$columnsINO[1], data[1]);
-      closure$done.v = this$POPJoinMergeOptional.findNextKey_pqvjbu$(closure$key, closure$columnsINJ, closure$columnsINO);
+      var countA = this$POPJoinMergeOptional.sameElements_6r0cgn$(closure$key[0], closure$keyCopy, closure$columnsINJ[0], closure$columnsINO[0], data[0]);
+      var countB = this$POPJoinMergeOptional.sameElements_6r0cgn$(closure$key[1], closure$keyCopy, closure$columnsINJ[1], closure$columnsINO[1], data[1]);
+      closure$done.v = this$POPJoinMergeOptional.findNextKey_tmib2e$(closure$key, closure$columnsINJ, closure$columnsINO);
       if (closure$done.v) {
         tmp$_0 = closure$outIteratorsAllocated.iterator();
         while (tmp$_0.hasNext()) {
@@ -3387,7 +1958,7 @@
             closure$columnsINO[closeIndex2].get_za3lpa$(closeIndex_0).close();
           }
         }
-      }POPJoin_getInstance().crossProduct_2hexa2$(data[0], data[1], closure$keyCopy, closure$columnsOUT[0], closure$columnsOUT[1], closure$columnsOUTJ, countA, countB);
+      }POPJoin_getInstance().crossProduct_bhr4mc$(data[0], data[1], closure$keyCopy, closure$columnsOUT[0], closure$columnsOUT[1], closure$columnsOUTJ, countA, countB);
       return Unit;
     };
   }
@@ -3430,7 +2001,7 @@
     kind: Kind_CLASS,
     interfaces: [IteratorBundle]
   };
-  POPJoinMergeOptional.prototype.evaluate_euq53c$ = function (parent) {
+  POPJoinMergeOptional.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
     SanityCheckOn_getInstance().invoke_ls4sck$(POPJoinMergeOptional$evaluate$lambda(this));
     SanityCheckOn_getInstance().check_8i7tro$(POPJoinMergeOptional$evaluate$lambda_0(this));
@@ -3438,7 +2009,7 @@
     var tmp$_5;
     tmp$_5 = array.length - 1 | 0;
     for (var i = 0; i <= tmp$_5; i++) {
-      array[i] = this.children[i].evaluate_euq53c$(parent);
+      array[i] = this.children[i].evaluate_t5uvj0$(parent);
     }
     var child = array;
     var array_0 = Array_0(2);
@@ -3512,7 +2083,7 @@
       array_3[i_5] = array_4;
     }
     var key = array_3;
-    var done = {v: this.findNextKey_pqvjbu$(key, columnsINJ, columnsINO)};
+    var done = {v: this.findNextKey_tmib2e$(key, columnsINJ, columnsINO)};
     if (done.v) {
       for (var closeIndex2 = 0; closeIndex2 < 2; closeIndex2++) {
         tmp$_1 = columnsINJ[closeIndex2].size;
@@ -3598,7 +2169,7 @@
       return closure$key[closure$i] !== 3;
     };
   }
-  POPJoinMergeOptional.prototype.sameElements_nx1vqv$ = function (key, keyCopy, columnsINJ, columnsINO, data) {
+  POPJoinMergeOptional.prototype.sameElements_6r0cgn$ = function (key, keyCopy, columnsINJ, columnsINO, data) {
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3;
     SanityCheckOn_getInstance().check_8i7tro$(POPJoinMergeOptional$sameElements$lambda(keyCopy));
     tmp$ = columnsINJ.size;
@@ -3640,7 +2211,7 @@
       return closure$j === 0;
     };
   }
-  POPJoinMergeOptional.prototype.findNextKey_pqvjbu$ = function (key, columnsINJ, columnsINO) {
+  POPJoinMergeOptional.prototype.findNextKey_tmib2e$ = function (key, columnsINJ, columnsINO) {
     var tmp$, tmp$_0, tmp$_1;
     if (key[0][0] !== 4 && key[1][0] !== 4) {
       loop: while (true) {
@@ -3759,7 +2330,7 @@
       return equals(this$POPJoinMergeSingleColumn.children[1].getProvidedVariableNames().get_za3lpa$(0), this$POPJoinMergeSingleColumn.projectedVariables.get_za3lpa$(0));
     };
   }
-  POPJoinMergeSingleColumn.prototype.evaluate_euq53c$ = function (parent) {
+  POPJoinMergeSingleColumn.prototype.evaluate_t5uvj0$ = function (parent) {
     SanityCheckOn_getInstance().invoke_ls4sck$(POPJoinMergeSingleColumn$evaluate$lambda(this));
     SanityCheckOn_getInstance().check_8i7tro$(POPJoinMergeSingleColumn$evaluate$lambda_0(this));
     SanityCheckOn_getInstance().check_8i7tro$(POPJoinMergeSingleColumn$evaluate$lambda_1(this));
@@ -3767,8 +2338,8 @@
     SanityCheckOn_getInstance().check_8i7tro$(POPJoinMergeSingleColumn$evaluate$lambda_3(this));
     SanityCheckOn_getInstance().check_8i7tro$(POPJoinMergeSingleColumn$evaluate$lambda_4(this));
     SanityCheckOn_getInstance().check_8i7tro$(POPJoinMergeSingleColumn$evaluate$lambda_5(this));
-    var child0 = ensureNotNull(this.children[0].evaluate_euq53c$(parent).columns.get_11rb$(this.projectedVariables.get_za3lpa$(0)));
-    var child1 = ensureNotNull(this.children[1].evaluate_euq53c$(parent).columns.get_11rb$(this.projectedVariables.get_za3lpa$(0)));
+    var child0 = ensureNotNull(this.children[0].evaluate_t5uvj0$(parent).columns.get_11rb$(this.projectedVariables.get_za3lpa$(0)));
+    var child1 = ensureNotNull(this.children[1].evaluate_t5uvj0$(parent).columns.get_11rb$(this.projectedVariables.get_za3lpa$(0)));
     var outMap = LinkedHashMap_init();
     var a = child0.next();
     var b = child1.next();
@@ -3798,95 +2369,95 @@
   };
   function POPJoinMergeSingleColumn_Iterator(child0, child1, head0, head1) {
     ColumnIterator.call(this);
-    this.child0 = child0;
-    this.child1 = child1;
-    this.head0 = head0;
-    this.head1 = head1;
-    this.counter = 0;
-    this.value = this.head0;
-    this.label = 1;
-    this.sipbuf = new Int32Array(2);
+    this.child0_8be2vx$ = child0;
+    this.child1_8be2vx$ = child1;
+    this.head0_8be2vx$ = head0;
+    this.head1_8be2vx$ = head1;
+    this.counter_8be2vx$ = 0;
+    this.value_8be2vx$ = this.head0_8be2vx$;
+    this.label_8be2vx$ = 1;
+    this.sipbuf_8be2vx$ = new Int32Array(2);
   }
   POPJoinMergeSingleColumn_Iterator.prototype.next = function () {
-    switch (this.label) {
+    switch (this.label_8be2vx$) {
       case 1:
-        if (this.counter === 0) {
+        if (this.counter_8be2vx$ === 0) {
           var change = true;
           while (change) {
             change = false;
-            while (this.head0 < this.head1) {
-              this.child0.nextSIP_aio0fn$(this.head1, this.sipbuf);
-              var c = this.sipbuf[1];
+            while (this.head0_8be2vx$ < this.head1_8be2vx$) {
+              this.child0_8be2vx$.nextSIP_aio0fn$(this.head1_8be2vx$, this.sipbuf_8be2vx$);
+              var c = this.sipbuf_8be2vx$[1];
               if (c === 4) {
                 this._close_8be2vx$();
                 return 4;
               } else {
-                this.head0 = c;
+                this.head0_8be2vx$ = c;
               }
             }
-            while (this.head1 < this.head0) {
+            while (this.head1_8be2vx$ < this.head0_8be2vx$) {
               change = true;
-              this.child1.nextSIP_aio0fn$(this.head0, this.sipbuf);
-              var c_0 = this.sipbuf[1];
+              this.child1_8be2vx$.nextSIP_aio0fn$(this.head0_8be2vx$, this.sipbuf_8be2vx$);
+              var c_0 = this.sipbuf_8be2vx$[1];
               if (c_0 === 4) {
                 this._close_8be2vx$();
                 return 4;
               } else {
-                this.head1 = c_0;
+                this.head1_8be2vx$ = c_0;
               }
             }
           }
-          this.value = this.head0;
+          this.value_8be2vx$ = this.head0_8be2vx$;
           var hadnull = false;
           var count0 = 0;
-          while (this.head0 === this.value) {
+          while (this.head0_8be2vx$ === this.value_8be2vx$) {
             count0 = count0 + 1 | 0;
-            var d = this.child0.next();
+            var d = this.child0_8be2vx$.next();
             if (d === 4) {
               hadnull = true;
               break;
             } else {
-              this.head0 = d;
+              this.head0_8be2vx$ = d;
             }
           }
           var count1 = 0;
-          while (this.head1 === this.value) {
+          while (this.head1_8be2vx$ === this.value_8be2vx$) {
             count1 = count1 + 1 | 0;
-            var d_0 = this.child1.next();
+            var d_0 = this.child1_8be2vx$.next();
             if (d_0 === 4) {
               hadnull = true;
               break;
             } else {
-              this.head1 = d_0;
+              this.head1_8be2vx$ = d_0;
             }
           }
-          this.counter = Kotlin.imul(count0, count1);
+          this.counter_8be2vx$ = Kotlin.imul(count0, count1);
           if (hadnull) {
-            if (this.counter === 0) {
+            if (this.counter_8be2vx$ === 0) {
               this._close_8be2vx$();
             } else {
-              this.label = 2;
+              this.label_8be2vx$ = 2;
             }
           }}
-        this.counter = this.counter - 1 | 0;
-        return this.value;
+        this.counter_8be2vx$ = this.counter_8be2vx$ - 1 | 0;
+        return this.value_8be2vx$;
       case 2:
-        if (this.counter === 0) {
+        if (this.counter_8be2vx$ === 0) {
           this._close_8be2vx$();
           return 4;
         } else {
-          this.counter = this.counter - 1 | 0;
+          this.counter_8be2vx$ = this.counter_8be2vx$ - 1 | 0;
         }
 
-        return this.value;
+        return this.value_8be2vx$;
       default:return 4;
     }
   };
   POPJoinMergeSingleColumn_Iterator.prototype._close_8be2vx$ = function () {
-    if (this.label !== 0) {
-      this.label = 0;
-      this.child0.close();
-      this.child1.close();
+    if (this.label_8be2vx$ !== 0) {
+      this.label_8be2vx$ = 0;
+      this.child0_8be2vx$.close();
+      this.child1_8be2vx$.close();
     }};
   POPJoinMergeSingleColumn_Iterator.prototype.close = function () {
     this._close_8be2vx$();
@@ -4011,7 +2582,7 @@
   POPJoinWithStore$evaluate$ObjectLiteral.prototype.__close = function () {
     var tmp$, tmp$_0, tmp$_1, tmp$_2;
     if (this.label !== 0) {
-      _ColumnIteratorQueueExt_getInstance()._close_8sxreq$(this);
+      ColumnIteratorQueueExt_getInstance()._close_6z1dri$(this);
       tmp$ = this.closure$columnsInB;
       for (tmp$_0 = 0; tmp$_0 !== tmp$.length; ++tmp$_0) {
         var element = tmp$[tmp$_0];
@@ -4076,7 +2647,7 @@
             for (var i_4 = 0; i_4 < tmp$_6; i_4++) {
               closure$params[closure$indicesINBJ.get_za3lpa$(i_4)] = AOPConstant_init(this$POPJoinWithStore.query, closure$valuesAJ[i_4]);
             }
-            closure$columnsInBRoot.v = closure$distributedStore.getIterator_no1dp4$(this$POPJoinWithStore.query, closure$params, closure$index).evaluate_euq53c$(closure$parent);
+            closure$columnsInBRoot.v = closure$distributedStore.getIterator_8f34g7$(this$POPJoinWithStore.query, closure$params, closure$index).evaluate_t5uvj0$(closure$parent);
             tmp$_7 = closure$variablINBO.size;
             for (var i_5 = 0; i_5 < tmp$_7; i_5++) {
               closure$columnsInB[i_5] = ensureNotNull(closure$columnsInBRoot.v.columns.get_11rb$(closure$variablINBO.get_za3lpa$(i_5)));
@@ -4109,17 +2680,17 @@
     };
   }
   POPJoinWithStore$evaluate$ObjectLiteral.prototype.next = function () {
-    return _ColumnIteratorQueueExt_getInstance().nextHelper_lr87q6$(this, POPJoinWithStore$evaluate$ObjectLiteral$next$lambda(this.closure$variablINBO, this.closure$columnsInB, this.closure$columnsOUTB, this.closure$columnsOUTAO, this.closure$valuesAO, this.closure$columnsOUTAJ, this.closure$valuesAJ, this.closure$columnsINAO, this.closure$columnsINAJ, this.closure$indicesINBJ, this.this$POPJoinWithStore, this.closure$params, this.closure$distributedStore, this.closure$index, this.closure$parent, this.closure$columnsInBRoot), POPJoinWithStore$evaluate$ObjectLiteral$next$lambda_0(this));
+    return ColumnIteratorQueueExt_getInstance().nextHelper_tdqia6$(this, POPJoinWithStore$evaluate$ObjectLiteral$next$lambda(this.closure$variablINBO, this.closure$columnsInB, this.closure$columnsOUTB, this.closure$columnsOUTAO, this.closure$valuesAO, this.closure$columnsOUTAJ, this.closure$valuesAJ, this.closure$columnsINAO, this.closure$columnsINAJ, this.closure$indicesINBJ, this.this$POPJoinWithStore, this.closure$params, this.closure$distributedStore, this.closure$index, this.closure$parent, this.closure$columnsInBRoot), POPJoinWithStore$evaluate$ObjectLiteral$next$lambda_0(this));
   };
   POPJoinWithStore$evaluate$ObjectLiteral.$metadata$ = {
     kind: Kind_CLASS,
     interfaces: [ColumnIteratorQueue]
   };
-  POPJoinWithStore.prototype.evaluate_euq53c$ = function (parent) {
+  POPJoinWithStore.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6;
     SanityCheckOn_getInstance().check_8i7tro$(POPJoinWithStore$evaluate$lambda(this));
     SanityCheckOn_getInstance().check_8i7tro$(POPJoinWithStore$evaluate$lambda_0(this));
-    var childAv = this.children[0].evaluate_euq53c$(parent);
+    var childAv = this.children[0].evaluate_t5uvj0$(parent);
     var childA = this.children[0];
     var columnsINAO = ArrayList_init();
     var columnsINAJ = ArrayList_init();
@@ -4155,9 +2726,9 @@
       }array[i] = tmp;
     }
     var paramsHelper = array;
-    var index = LOPTriple.Companion.getIndex_ibv87m$(paramsHelper, localSortPriority);
+    var index = LOPTriple.Companion.getIndex_t4zqhu$(paramsHelper, localSortPriority);
     for (var i_0 = 0; i_0 < 3; i_0++) {
-      var j = s00misc.EIndexPatternHelper.tripleIndicees[index][i_0];
+      var j = shared.EIndexPatternHelper.tripleIndicees[index][i_0];
       var t = this.childB.children[j];
       if (Kotlin.isType(t, AOPVariable)) {
         var name = t.name;
@@ -4192,7 +2763,7 @@
         columnsINAO.add_wxm5ur$(0, ensureNotNull(childAv.columns.get_11rb$(name_0)));
       }}
     SanityCheckOn_getInstance().check_8i7tro$(POPJoinWithStore$evaluate$lambda_4(variablINBO));
-    var distributedStore = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(this.childB.graph);
+    var distributedStore = shared.tripleStoreManager.getGraph_61zpoe$(this.childB.graph);
     var array_0 = new Int32Array(columnsINAO.size);
     var tmp$_10;
     tmp$_10 = array_0.length - 1 | 0;
@@ -4245,7 +2816,7 @@
       for (var i_8 = 0; i_8 < tmp$_3; i_8++) {
         params[indicesINBJ.get_za3lpa$(i_8)] = AOPConstant_init(this.query, valuesAJ[i_8]);
       }
-      var columnsInBRoot = {v: distributedStore.getIterator_no1dp4$(this.query, params, index).evaluate_euq53c$(parent)};
+      var columnsInBRoot = {v: distributedStore.getIterator_8f34g7$(this.query, params, index).evaluate_t5uvj0$(parent)};
       tmp$_4 = variablINBO.size;
       for (var i_9 = 0; i_9 < tmp$_4; i_9++) {
         columnsInB[i_9] = ensureNotNull(columnsInBRoot.v.columns.get_11rb$(variablINBO.get_za3lpa$(i_9)));
@@ -4282,7 +2853,7 @@
   };
   POPJoinWithStore.prototype.toXMLElement_6taknv$ = function (partial) {
     var res = POPBase.prototype.toXMLElement_6taknv$.call(this, partial).addAttribute_puj7f4$('optional', '' + toString(this.optional));
-    ensureNotNull(res.get_61zpoe$('children')).addContent_w70l3r$(this.childB.toXMLElement_6taknv$(partial));
+    ensureNotNull(res.get_61zpoe$('children')).addContent_esm5gr$(this.childB.toXMLElement_6taknv$(partial));
     return res;
   };
   POPJoinWithStore.prototype.cloneOP = function () {
@@ -4374,7 +2945,7 @@
         }
       }
       if (!this.closure$done.v) {
-        this.closure$iteratorB.v = this.closure$distributedStore.getIterator_no1dp4$(this.this$POPJoinWithStoreExists.query, this.closure$params, this.closure$index).evaluate_euq53c$(this.closure$parent);
+        this.closure$iteratorB.v = this.closure$distributedStore.getIterator_8f34g7$(this.this$POPJoinWithStoreExists.query, this.closure$params, this.closure$index).evaluate_t5uvj0$(this.closure$parent);
       }}
     return t;
   };
@@ -4390,11 +2961,11 @@
     kind: Kind_CLASS,
     interfaces: [IteratorBundle]
   };
-  POPJoinWithStoreExists.prototype.evaluate_euq53c$ = function (parent) {
+  POPJoinWithStoreExists.prototype.evaluate_t5uvj0$ = function (parent) {
     SanityCheckOn_getInstance().check_8i7tro$(POPJoinWithStoreExists$evaluate$lambda(this));
     SanityCheckOn_getInstance().check_8i7tro$(POPJoinWithStoreExists$evaluate$lambda_0(this));
     SanityCheckOn_getInstance().check_8i7tro$(POPJoinWithStoreExists$evaluate$lambda_1(this));
-    var childAv = this.children[0].evaluate_euq53c$(parent);
+    var childAv = this.children[0].evaluate_t5uvj0$(parent);
     var iteratorsHelper = ArrayList_init();
     var array = Array_0(3);
     var tmp$;
@@ -4420,7 +2991,7 @@
       var item = params[tmp$_2];
       destination.add_11rb$(item);
     }
-    var index = tmp$_1.getIndex_ibv87m$(copyToArray(destination), emptyList());
+    var index = tmp$_1.getIndex_t4zqhu$(copyToArray(destination), emptyList());
     var done = {v: false};
     var iterators = copyToArray(iteratorsHelper);
     var array_0 = new Int32Array(mappingHelper.size);
@@ -4447,14 +3018,14 @@
       }
     }
     if (!done.v) {
-      var distributedStore = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(this.childB.graph);
-      var iteratorB = {v: distributedStore.getIterator_no1dp4$(this.query, params, index).evaluate_euq53c$(parent)};
+      var distributedStore = shared.tripleStoreManager.getGraph_61zpoe$(this.childB.graph);
+      var iteratorB = {v: distributedStore.getIterator_8f34g7$(this.query, params, index).evaluate_t5uvj0$(parent)};
       res = new POPJoinWithStoreExists$evaluate$ObjectLiteral(iteratorB, done, mapping, iterators, this, params, distributedStore, index, parent, 0);
     }return res;
   };
   POPJoinWithStoreExists.prototype.toXMLElement_6taknv$ = function (partial) {
     var res = POPBase.prototype.toXMLElement_6taknv$.call(this, partial).addAttribute_puj7f4$('optional', '' + toString(this.optional));
-    ensureNotNull(res.get_61zpoe$('children')).addContent_w70l3r$(this.childB.toXMLElement_6taknv$(partial));
+    ensureNotNull(res.get_61zpoe$('children')).addContent_esm5gr$(this.childB.toXMLElement_6taknv$(partial));
     return res;
   };
   POPJoinWithStoreExists.prototype.cloneOP = function () {
@@ -4537,13 +3108,13 @@
       return this$POPMinus.toString();
     };
   }
-  POPMinus.prototype.evaluate_euq53c$ = function (parent) {
+  POPMinus.prototype.evaluate_t5uvj0$ = function (parent) {
     var variables = this.getProvidedVariableNames();
     SanityCheckOn_getInstance().invoke_ls4sck$(POPMinus$evaluate$lambda(this));
     SanityCheckOn_getInstance().check_a3x0x2$(POPMinus$evaluate$lambda_0(this, variables), POPMinus$evaluate$lambda_1(this));
     SanityCheckOn_getInstance().check_a3x0x2$(POPMinus$evaluate$lambda_2(this, variables), POPMinus$evaluate$lambda_3(this));
-    var childA = this.children[0].evaluate_euq53c$(parent);
-    var childB = this.children[1].evaluate_euq53c$(parent);
+    var childA = this.children[0].evaluate_t5uvj0$(parent);
+    var childB = this.children[1].evaluate_t5uvj0$(parent);
     var rowA = childA.rows;
     var rowB = childB.rows;
     var x = new RowIteratorMinus(rowA, rowB, copyToArray(this.projectedVariables));
@@ -4642,15 +3213,15 @@
     kind: Kind_CLASS,
     interfaces: [IteratorBundle]
   };
-  POPUnion.prototype.evaluate_euq53c$ = function (parent) {
+  POPUnion.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$;
     var variables = this.getProvidedVariableNames();
     SanityCheckOn_getInstance().invoke_ls4sck$(POPUnion$evaluate$lambda(this));
     SanityCheckOn_getInstance().check_8i7tro$(POPUnion$evaluate$lambda_0(this, variables));
     SanityCheckOn_getInstance().check_8i7tro$(POPUnion$evaluate$lambda_1(this, variables));
     var outMap = LinkedHashMap_init();
-    var childA = this.children[0].evaluate_euq53c$(parent);
-    var childB = this.children[1].evaluate_euq53c$(parent);
+    var childA = this.children[0].evaluate_t5uvj0$(parent);
+    var childB = this.children[1].evaluate_t5uvj0$(parent);
     if (!variables.isEmpty()) {
       tmp$ = variables.iterator();
       while (tmp$.hasNext()) {
@@ -4684,7 +3255,7 @@
   POPEmptyRow.prototype.equals = function (other) {
     return Kotlin.isType(other, POPEmptyRow);
   };
-  POPEmptyRow.prototype.evaluate_euq53c$ = function (parent) {
+  POPEmptyRow.prototype.evaluate_t5uvj0$ = function (parent) {
     return IteratorBundle_init(1);
   };
   POPEmptyRow.$metadata$ = {
@@ -4798,35 +3369,36 @@
     return new POPGraphOperation(this.query, this.projectedVariables, this.silent, this.graph1type, this.graph1iri, this.graph2type, this.graph2iri, this.action);
   };
   POPGraphOperation.prototype.copyData_0 = function (source, target, parent) {
-    var row = source.getIterator_no1dp4$(this.query, [new AOPVariable(this.query, 's'), new AOPVariable(this.query, 'p'), new AOPVariable(this.query, 'o')], 14).evaluate_euq53c$(parent);
+    var row = source.getIterator_8f34g7$(this.query, [new AOPVariable(this.query, 's'), new AOPVariable(this.query, 'p'), new AOPVariable(this.query, 'o')], 14).evaluate_t5uvj0$(parent);
     var iterator = [ensureNotNull(row.columns.get_11rb$('s')), ensureNotNull(row.columns.get_11rb$('p')), ensureNotNull(row.columns.get_11rb$('o'))];
-    target.modify_m8mocp$(this.query, iterator, 1);
+    var cache = target.modify_create_cache_za3lpa$(1);
+    target.modify_cache_o413y8$(this.query, iterator, 1, cache, true);
   };
-  POPGraphOperation.prototype.evaluate_euq53c$ = function (parent) {
+  POPGraphOperation.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3;
     try {
       switch (this.action) {
         case 1:
           switch (this.graph1type) {
             case 0:
-              tmp$ = s05tripleStore.tripleStoreManager.getGraphNames_6taknv$(true).iterator();
+              tmp$ = shared.tripleStoreManager.getGraphNames_6taknv$(true).iterator();
               while (tmp$.hasNext()) {
                 var name = tmp$.next();
-                s05tripleStore.tripleStoreManager.clearGraph_36cr5x$(this.query, name);
+                shared.tripleStoreManager.clearGraph_7nf0jb$(this.query, name);
               }
 
               break;
             case 1:
-              s05tripleStore.tripleStoreManager.clearGraph_36cr5x$(this.query, TripleStoreManager.Companion.DEFAULT_GRAPH_NAME);
+              shared.tripleStoreManager.clearGraph_7nf0jb$(this.query, TripleStoreManager.Companion.DEFAULT_GRAPH_NAME);
               break;
             case 2:
-              s05tripleStore.tripleStoreManager.clearGraph_36cr5x$(this.query, ensureNotNull(this.graph1iri));
+              shared.tripleStoreManager.clearGraph_7nf0jb$(this.query, ensureNotNull(this.graph1iri));
               break;
             case 3:
-              tmp$_0 = s05tripleStore.tripleStoreManager.getGraphNames().iterator();
+              tmp$_0 = shared.tripleStoreManager.getGraphNames().iterator();
               while (tmp$_0.hasNext()) {
                 var name_0 = tmp$_0.next();
-                s05tripleStore.tripleStoreManager.clearGraph_36cr5x$(this.query, name_0);
+                shared.tripleStoreManager.clearGraph_7nf0jb$(this.query, name_0);
               }
 
               break;
@@ -4836,25 +3408,25 @@
         case 4:
           switch (this.graph1type) {
             case 0:
-              s05tripleStore.tripleStoreManager.clearGraph_36cr5x$(this.query, TripleStoreManager.Companion.DEFAULT_GRAPH_NAME);
-              tmp$_1 = s05tripleStore.tripleStoreManager.getGraphNames_6taknv$(false).iterator();
+              shared.tripleStoreManager.clearGraph_7nf0jb$(this.query, TripleStoreManager.Companion.DEFAULT_GRAPH_NAME);
+              tmp$_1 = shared.tripleStoreManager.getGraphNames_6taknv$(false).iterator();
               while (tmp$_1.hasNext()) {
                 var name_1 = tmp$_1.next();
-                s05tripleStore.tripleStoreManager.dropGraph_36cr5x$(this.query, name_1);
+                shared.tripleStoreManager.dropGraph_7nf0jb$(this.query, name_1);
               }
 
               break;
             case 1:
-              s05tripleStore.tripleStoreManager.clearGraph_36cr5x$(this.query, TripleStoreManager.Companion.DEFAULT_GRAPH_NAME);
+              shared.tripleStoreManager.clearGraph_7nf0jb$(this.query, TripleStoreManager.Companion.DEFAULT_GRAPH_NAME);
               break;
             case 2:
-              s05tripleStore.tripleStoreManager.dropGraph_36cr5x$(this.query, ensureNotNull(this.graph1iri));
+              shared.tripleStoreManager.dropGraph_7nf0jb$(this.query, ensureNotNull(this.graph1iri));
               break;
             case 3:
-              tmp$_2 = s05tripleStore.tripleStoreManager.getGraphNames_6taknv$(false).iterator();
+              tmp$_2 = shared.tripleStoreManager.getGraphNames_6taknv$(false).iterator();
               while (tmp$_2.hasNext()) {
                 var name_2 = tmp$_2.next();
-                s05tripleStore.tripleStoreManager.dropGraph_36cr5x$(this.query, name_2);
+                shared.tripleStoreManager.dropGraph_7nf0jb$(this.query, name_2);
               }
 
               break;
@@ -4863,7 +3435,7 @@
           break;
         case 3:
           if (this.graph1type === 2)
-            s05tripleStore.tripleStoreManager.createGraph_36cr5x$(this.query, ensureNotNull(this.graph1iri));
+            shared.tripleStoreManager.createGraph_7nf0jb$(this.query, ensureNotNull(this.graph1iri));
           else {
             SanityCheckOn_getInstance().checkUnreachable_8be2vx$();
           }
@@ -4872,17 +3444,18 @@
         case 5:
           var fileName = this.query.getWorkingDirectory() + this.graph1iri;
           if (this.graph2type === 1) {
-            tmp$_3 = s05tripleStore.tripleStoreManager.getDefaultGraph();
+            tmp$_3 = shared.tripleStoreManager.getDefaultGraph();
           } else {
-            tmp$_3 = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph2iri));
+            tmp$_3 = shared.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph2iri));
           }
 
           var target = tmp$_3;
-          var xml = ensureNotNull(parseFromAny(XMLElement.Companion, _File_init(fileName).readAsString_8be2vx$(), fileName));
+          var xml = ensureNotNull(parseFromAny(XMLElement.Companion, File_init(fileName).readAsString_8be2vx$(), fileName));
           var d = new POPValuesImportXML(this.query, listOf(['s', 'p', 'o']), xml);
-          var row = d.evaluate_euq53c$(parent);
+          var row = d.evaluate_t5uvj0$(parent);
           var iterator = [ensureNotNull(row.columns.get_11rb$('s')), ensureNotNull(row.columns.get_11rb$('p')), ensureNotNull(row.columns.get_11rb$('o'))];
-          target.modify_m8mocp$(this.query, iterator, 1);
+          var cache = target.modify_create_cache_za3lpa$(1);
+          target.modify_cache_o413y8$(this.query, iterator, 1, cache, true);
           break;
         case 2:
           switch (this.graph1type) {
@@ -4891,9 +3464,9 @@
                 case 1:
                   break;
                 case 2:
-                  var source = s05tripleStore.tripleStoreManager.getDefaultGraph();
-                  var target_0 = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph2iri));
-                  s05tripleStore.tripleStoreManager.clearGraph_36cr5x$(this.query, ensureNotNull(this.graph2iri));
+                  var source = shared.tripleStoreManager.getDefaultGraph();
+                  var target_0 = shared.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph2iri));
+                  shared.tripleStoreManager.clearGraph_7nf0jb$(this.query, ensureNotNull(this.graph2iri));
                   this.copyData_0(source, target_0, parent);
                   break;
                 default:SanityCheckOn_getInstance().checkUnreachable_8be2vx$();
@@ -4904,16 +3477,16 @@
             case 2:
               switch (this.graph2type) {
                 case 1:
-                  var source_0 = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph1iri));
-                  var target_1 = s05tripleStore.tripleStoreManager.getDefaultGraph();
-                  s05tripleStore.tripleStoreManager.clearGraph_36cr5x$(this.query, TripleStoreManager.Companion.DEFAULT_GRAPH_NAME);
+                  var source_0 = shared.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph1iri));
+                  var target_1 = shared.tripleStoreManager.getDefaultGraph();
+                  shared.tripleStoreManager.clearGraph_7nf0jb$(this.query, TripleStoreManager.Companion.DEFAULT_GRAPH_NAME);
                   this.copyData_0(source_0, target_1, parent);
                   break;
                 case 2:
                   if (!equals(this.graph1iri, this.graph2iri)) {
-                    var source_1 = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph1iri));
-                    var target_2 = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph2iri));
-                    s05tripleStore.tripleStoreManager.clearGraph_36cr5x$(this.query, ensureNotNull(this.graph2iri));
+                    var source_1 = shared.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph1iri));
+                    var target_2 = shared.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph2iri));
+                    shared.tripleStoreManager.clearGraph_7nf0jb$(this.query, ensureNotNull(this.graph2iri));
                     this.copyData_0(source_1, target_2, parent);
                   }
                   break;
@@ -4934,11 +3507,11 @@
                 case 1:
                   break;
                 case 2:
-                  var source_2 = s05tripleStore.tripleStoreManager.getDefaultGraph();
-                  var target_3 = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph2iri));
-                  s05tripleStore.tripleStoreManager.clearGraph_36cr5x$(this.query, ensureNotNull(this.graph2iri));
+                  var source_2 = shared.tripleStoreManager.getDefaultGraph();
+                  var target_3 = shared.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph2iri));
+                  shared.tripleStoreManager.clearGraph_7nf0jb$(this.query, ensureNotNull(this.graph2iri));
                   this.copyData_0(source_2, target_3, parent);
-                  s05tripleStore.tripleStoreManager.clearGraph_36cr5x$(this.query, TripleStoreManager.Companion.DEFAULT_GRAPH_NAME);
+                  shared.tripleStoreManager.clearGraph_7nf0jb$(this.query, TripleStoreManager.Companion.DEFAULT_GRAPH_NAME);
                   break;
                 default:SanityCheckOn_getInstance().checkUnreachable_8be2vx$();
                   break;
@@ -4948,19 +3521,19 @@
             case 2:
               switch (this.graph2type) {
                 case 1:
-                  var source_3 = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph1iri));
-                  var target_4 = s05tripleStore.tripleStoreManager.getDefaultGraph();
-                  s05tripleStore.tripleStoreManager.clearGraph_36cr5x$(this.query, TripleStoreManager.Companion.DEFAULT_GRAPH_NAME);
+                  var source_3 = shared.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph1iri));
+                  var target_4 = shared.tripleStoreManager.getDefaultGraph();
+                  shared.tripleStoreManager.clearGraph_7nf0jb$(this.query, TripleStoreManager.Companion.DEFAULT_GRAPH_NAME);
                   this.copyData_0(source_3, target_4, parent);
-                  s05tripleStore.tripleStoreManager.clearGraph_36cr5x$(this.query, ensureNotNull(this.graph1iri));
+                  shared.tripleStoreManager.clearGraph_7nf0jb$(this.query, ensureNotNull(this.graph1iri));
                   break;
                 case 2:
                   if (!equals(this.graph1iri, this.graph2iri)) {
-                    var source_4 = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph1iri));
-                    var target_5 = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph2iri));
-                    s05tripleStore.tripleStoreManager.clearGraph_36cr5x$(this.query, ensureNotNull(this.graph2iri));
+                    var source_4 = shared.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph1iri));
+                    var target_5 = shared.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph2iri));
+                    shared.tripleStoreManager.clearGraph_7nf0jb$(this.query, ensureNotNull(this.graph2iri));
                     this.copyData_0(source_4, target_5, parent);
-                    s05tripleStore.tripleStoreManager.clearGraph_36cr5x$(this.query, ensureNotNull(this.graph1iri));
+                    shared.tripleStoreManager.clearGraph_7nf0jb$(this.query, ensureNotNull(this.graph1iri));
                   }
                   break;
                 default:SanityCheckOn_getInstance().checkUnreachable_8be2vx$();
@@ -4980,8 +3553,8 @@
                 case 1:
                   break;
                 case 2:
-                  var source_5 = s05tripleStore.tripleStoreManager.getDefaultGraph();
-                  var target_6 = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph2iri));
+                  var source_5 = shared.tripleStoreManager.getDefaultGraph();
+                  var target_6 = shared.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph2iri));
                   this.copyData_0(source_5, target_6, parent);
                   break;
                 default:SanityCheckOn_getInstance().checkUnreachable_8be2vx$();
@@ -4992,14 +3565,14 @@
             case 2:
               switch (this.graph2type) {
                 case 1:
-                  var source_6 = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph1iri));
-                  var target_7 = s05tripleStore.tripleStoreManager.getDefaultGraph();
+                  var source_6 = shared.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph1iri));
+                  var target_7 = shared.tripleStoreManager.getDefaultGraph();
                   this.copyData_0(source_6, target_7, parent);
                   break;
                 case 2:
                   if (!equals(this.graph1iri, this.graph2iri)) {
-                    var source_7 = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph1iri));
-                    var target_8 = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph2iri));
+                    var source_7 = shared.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph1iri));
+                    var target_8 = shared.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(this.graph2iri));
                     this.copyData_0(source_7, target_8, parent);
                   }
                   break;
@@ -5016,6 +3589,7 @@
       }
     } catch (e) {
       if (Kotlin.isType(e, EvaluationException)) {
+        printStackTrace(e);
         if (!this.silent) {
           throw e;
         }} else if (Kotlin.isType(e, Throwable)) {
@@ -5092,11 +3666,11 @@
     tmp$ = this.data.iterator();
     while (tmp$.hasNext()) {
       var t = tmp$.next();
-      res.addContent_w70l3r$(t.toXMLElement_6taknv$(partial));
+      res.addContent_esm5gr$(t.toXMLElement_6taknv$(partial));
     }
     return res;
   };
-  POPModifyData.prototype.evaluate_euq53c$ = function (parent) {
+  POPModifyData.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0, tmp$_1;
     var iteratorDataMap = LinkedHashMap_init();
     tmp$ = this.data.iterator();
@@ -5123,7 +3697,8 @@
       var tmp$_3 = tmp$_1.next();
       var graph = tmp$_3.key;
       var iteratorData = tmp$_3.value;
-      var graphLocal = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(graph);
+      var graphLocal = shared.tripleStoreManager.getGraph_61zpoe$(graph);
+      var cache = graphLocal.modify_create_cache_za3lpa$(1);
       var tmp$_4 = this.query;
       var array_0 = Array_0(3);
       var tmp$_5;
@@ -5131,7 +3706,7 @@
       for (var i_1 = 0; i_1 <= tmp$_5; i_1++) {
         array_0[i_1] = iterator.ColumnIteratorMultiValue.invoke_hens66$(iteratorData[i_1]);
       }
-      graphLocal.modify_m8mocp$(tmp$_4, array_0, this.type);
+      graphLocal.modify_cache_o413y8$(tmp$_4, array_0, this.type, cache, true);
     }
     return IteratorBundle_init_0(mapOf(to('?success', new ColumnIteratorRepeatValue(1, 0))));
   };
@@ -5176,8 +3751,8 @@
           if (ensureNotNull(columns[v_0]).get_za3lpa$(i_0) === 3) {
             tmp$_3 = 'UNDEF ';
           } else {
-            this.query.getDictionary().getValue_rj5z7q$(buffer, ensureNotNull(columns[v_0]).get_za3lpa$(i_0));
-            tmp$_3 = _DictionaryHelper_getInstance().byteArrayToValueDefinition_jxlg18$(buffer).valueToString() + ' ';
+            this.query.getDictionary().getValue_v5fxe$(buffer, ensureNotNull(columns[v_0]).get_za3lpa$(i_0));
+            tmp$_3 = DictionaryHelper_getInstance().byteArrayToValueDefinition_b1q5io$(buffer).valueToString() + ' ';
           }
           res = tmp$_4 + tmp$_3;
         }
@@ -5243,7 +3818,7 @@
   POPValues.prototype.getRequiredVariableNames = function () {
     return ArrayList_init();
   };
-  POPValues.prototype.evaluate_euq53c$ = function (parent) {
+  POPValues.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0;
     if (this.rows === -1) {
       var outMap = LinkedHashMap_init();
@@ -5264,13 +3839,13 @@
     var res = POPBase.prototype.toXMLElement_6taknv$.call(this, partial);
     var xmlvariables = new XMLElement('variables');
     res.addAttribute_puj7f4$('rows', '' + toString(this.rows));
-    res.addContent_w70l3r$(xmlvariables);
+    res.addContent_esm5gr$(xmlvariables);
     var bindings = new XMLElement('bindings');
-    res.addContent_w70l3r$(bindings);
+    res.addContent_esm5gr$(bindings);
     tmp$ = this.variables.iterator();
     while (tmp$.hasNext()) {
       var variable = tmp$.next();
-      xmlvariables.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      xmlvariables.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     var array = Array_0(this.variables.size);
     var tmp$_2;
@@ -5284,15 +3859,15 @@
       tmp$_0 = ensureNotNull(columns[0]).size;
       for (var i_0 = 0; i_0 < tmp$_0; i_0++) {
         var b = new XMLElement('binding');
-        bindings.addContent_w70l3r$(b);
+        bindings.addContent_esm5gr$(b);
         tmp$_1 = this.variables;
         for (var variableIndex = 0; variableIndex !== tmp$_1.size; ++variableIndex) {
-          this.query.getDictionary().getValue_rj5z7q$(buffer, ensureNotNull(columns[variableIndex]).get_za3lpa$(i_0));
-          var value = _DictionaryHelper_getInstance().byteArrayToValueDefinition_jxlg18$(buffer).valueToString();
+          this.query.getDictionary().getValue_v5fxe$(buffer, ensureNotNull(columns[variableIndex]).get_za3lpa$(i_0));
+          var value = DictionaryHelper_getInstance().byteArrayToValueDefinition_b1q5io$(buffer).valueToString();
           if (value != null) {
-            b.addContent_w70l3r$((new XMLElement('value')).addAttribute_puj7f4$('name', this.variables.get_za3lpa$(variableIndex)).addAttribute_puj7f4$('content', value));
+            b.addContent_esm5gr$((new XMLElement('value')).addAttribute_puj7f4$('name', this.variables.get_za3lpa$(variableIndex)).addAttribute_puj7f4$('content', value));
           } else {
-            b.addContent_w70l3r$((new XMLElement('value')).addAttribute_puj7f4$('name', this.variables.get_za3lpa$(variableIndex)));
+            b.addContent_esm5gr$((new XMLElement('value')).addAttribute_puj7f4$('name', this.variables.get_za3lpa$(variableIndex)));
           }
         }
       }
@@ -5344,8 +3919,8 @@
         var tmp$_2;
         tmp$_2 = $this.variables;
         for (var variableIndex_0 = 0; variableIndex_0 !== tmp$_2.size; ++variableIndex_0) {
-          _DictionaryHelper_getInstance().sparqlToByteArray_crvnhj$(buffer, ensureNotNull(element.get_za3lpa$(variableIndex_0)));
-          columns[variableIndex_0].add_11rb$(query.getDictionary().createValue_jxlg18$(buffer));
+          DictionaryHelper_getInstance().sparqlToByteArray_r5mkub$(buffer, ensureNotNull(element.get_za3lpa$(variableIndex_0)));
+          columns[variableIndex_0].add_11rb$(query.getDictionary().createValue_b1q5io$(buffer));
         }
       }
       $this.rows = -1;
@@ -5418,7 +3993,7 @@
   POPValuesImportBase.prototype.getPartitionCount_61zpoe$ = function (variable) {
     return 1;
   };
-  POPValuesImportBase.prototype.cleanString_p6qe2i$_0 = function (s) {
+  POPValuesImportBase.prototype.cleanString_3hgafv$_0 = function (s) {
     var tmp$;
     if (s == null) {
       return null;
@@ -5428,7 +4003,7 @@
       if (tmp$ == null) {
         break;
       }var match = tmp$;
-      var $receiver = toChar(toInt_0(match.value.substring(2, 6), 16));
+      var $receiver = toChar(toInt(match.value.substring(2, 6), 16));
       var replacement = String.fromCharCode($receiver) + '';
       res = replace(res, match.value, replacement);
     }
@@ -5445,8 +4020,8 @@
     var buffer = ByteArrayWrapper_init();
     tmp$ = this.variables;
     for (var i = 0; i !== tmp$.size; ++i) {
-      _DictionaryHelper_getInstance().sparqlToByteArray_crvnhj$(buffer, this.cleanString_p6qe2i$_0(values[i]));
-      ensureNotNull(this.data.get_11rb$(this.variables.get_za3lpa$(i))).add_11rb$(this.query.getDictionary().createValue_jxlg18$(buffer));
+      DictionaryHelper_getInstance().sparqlToByteArray_r5mkub$(buffer, this.cleanString_3hgafv$_0(values[i]));
+      ensureNotNull(this.data.get_11rb$(this.variables.get_za3lpa$(i))).add_11rb$(this.query.getDictionary().createValue_b1q5io$(buffer));
     }
   };
   POPValuesImportBase.$metadata$ = {
@@ -5489,15 +4064,15 @@
         var lang = child.attributes.get_11rb$('xml:lang');
         SanityCheckOn_getInstance().check_8i7tro$(POPValuesImportXML_init$lambda_0(datatype, lang));
         if (equals(child.tag, 'uri'))
-          row[indexOf_0(variables, name)] = '<' + content + '>';
+          row[indexOf(variables, name)] = '<' + content + '>';
         else if (equals(child.tag, 'literal') && datatype != null)
-          row[indexOf_0(variables, name)] = '"' + content + '"' + '^^<' + toString(datatype) + '>';
+          row[indexOf(variables, name)] = '"' + content + '"' + '^^<' + toString(datatype) + '>';
         else if (equals(child.tag, 'literal') && lang != null)
-          row[indexOf_0(variables, name)] = '"' + content + '"' + '@' + toString(lang);
+          row[indexOf(variables, name)] = '"' + content + '"' + '@' + toString(lang);
         else if (equals(child.tag, 'bnode'))
-          row[indexOf_0(variables, name)] = '_:' + content;
+          row[indexOf(variables, name)] = '_:' + content;
         else {
-          row[indexOf_0(variables, name)] = '"' + content + '"';
+          row[indexOf(variables, name)] = '"' + content + '"';
         }
       }
       this.addRow_a3w2ab$(row);
@@ -5582,9 +4157,9 @@
     if (partial) {
       if (isRoot) {
         if (this.partitionCountTo > this.partitionCountFrom) {
-          tmp$ = (new XMLElement('POPDistributedSendMulti')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+          tmp$ = (new XMLElement('POPDistributedSendMulti')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
         } else {
-          tmp$ = (new XMLElement('POPDistributedSendSingle')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+          tmp$ = (new XMLElement('POPDistributedSendSingle')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
         }
       } else {
         if (this.partitionCountTo < this.partitionCountFrom) {
@@ -5600,22 +4175,22 @@
     var theKey = mutableMapOf([to(this.partitionVariable, 0)]);
     theKey.putAll_a2k3zr$(this.query.getDistributionKey());
     if (isRoot) {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       tmp$_0 = this.partitionCountTo / this.partitionCountFrom | 0;
       for (var i = 1; i < tmp$_0; i++) {
         var key = this.partitionVariable;
         var value = ensureNotNull(theKey.get_11rb$(this.partitionVariable)) + Kotlin.imul(i, this.partitionCountFrom) | 0;
         theKey.put_xwzc9p$(key, value);
-        res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+        res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       }
     } else {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       tmp$_1 = this.partitionCountFrom / this.partitionCountTo | 0;
       for (var i_0 = 1; i_0 < tmp$_1; i_0++) {
         var key_0 = this.partitionVariable;
         var value_0 = ensureNotNull(theKey.get_11rb$(this.partitionVariable)) + Kotlin.imul(i_0, this.partitionCountTo) | 0;
         theKey.put_xwzc9p$(key_0, value_0);
-        res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+        res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       }
     }
     res.addAttribute_puj7f4$('providedVariables', this.getProvidedVariableNames().toString());
@@ -5625,11 +4200,11 @@
     res.addAttribute_puj7f4$('partitionIDFrom', '' + toString(this.partitionIDFrom));
     res.addAttribute_puj7f4$('partitionIDTo', '' + toString(this.partitionIDTo));
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$_2 = this.projectedVariables.iterator();
     while (tmp$_2.hasNext()) {
       var variable = tmp$_2.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     return res;
   };
@@ -5693,7 +4268,7 @@
       var tmp$, tmp$_0, tmp$_1, tmp$_2;
       try {
         var childEval2;
-        childEval2 = this$POPChangePartitionOrderedByIntId.children[0].evaluate_euq53c$(Partition_init(closure$parent, this$POPChangePartitionOrderedByIntId.partitionVariable, closure$pChild, this$POPChangePartitionOrderedByIntId.partitionCountFrom));
+        childEval2 = this$POPChangePartitionOrderedByIntId.children[0].evaluate_t5uvj0$(Partition_init(closure$parent, this$POPChangePartitionOrderedByIntId.partitionVariable, closure$pChild, this$POPChangePartitionOrderedByIntId.partitionCountFrom));
         if (childEval2.hasColumnMode()) {
           var child = childEval2.columns;
           if (closure$variables.size === 1) {
@@ -5752,6 +4327,7 @@
                     closure$ringbuffer[closure$ringbufferWriteHead[closure$p1] + variableIdx + closure$ringbufferStart[closure$p1] | 0] = variableMapping[variableIdx].next();
                   } catch (e) {
                     if (Kotlin.isType(e, Throwable)) {
+                      printStackTrace(e);
                       tmp$_2 = closure$variables.size;
                       for (var variableIdx2 = 0; variableIdx2 < tmp$_2; variableIdx2++) {
                         variableMapping[variableIdx2].close();
@@ -5799,8 +4375,8 @@
         }
       } catch (e) {
         if (Kotlin.isType(e, Throwable)) {
-          closure$error.v = e;
           printStackTrace(e);
+          closure$error.v = e;
         } else
           throw e;
       }
@@ -5902,7 +4478,7 @@
       return Unit;
     };
   }
-  POPChangePartitionOrderedByIntId.prototype.evaluate_euq53c$ = function (parent) {
+  POPChangePartitionOrderedByIntId.prototype.evaluate_t5uvj0$ = function (parent) {
     SanityCheckOn_getInstance().check_8i7tro$(POPChangePartitionOrderedByIntId$evaluate$lambda(this));
     var partitionCountSrc = this.partitionCountFrom / this.partitionCountTo | 0;
     var error = {v: null};
@@ -6016,7 +4592,7 @@
   POPDistributedReceiveMulti.prototype.toXMLElementHelper2_0 = function (partial, isRoot) {
     var tmp$, tmp$_0, tmp$_1;
     if (partial) {
-      tmp$ = (new XMLElement(this.classname)).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+      tmp$ = (new XMLElement(this.classname)).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
     } else {
       tmp$ = POPBase.prototype.toXMLElementHelper_dqye30$.call(this, partial, partial && !isRoot);
     }
@@ -6024,15 +4600,15 @@
     var theKey = mutableMapOf([to(this.partitionVariable, 0)]);
     theKey.putAll_a2k3zr$(this.query.getDistributionKey());
     if (isRoot) {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     } else {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       tmp$_0 = this.partitionCount;
       for (var i = 1; i < tmp$_0; i++) {
         var key = this.partitionVariable;
         var value = ensureNotNull(theKey.get_11rb$(this.partitionVariable)) + 1 | 0;
         theKey.put_xwzc9p$(key, value);
-        res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+        res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       }
     }
     res.addAttribute_puj7f4$('providedVariables', this.getProvidedVariableNames().toString());
@@ -6040,11 +4616,11 @@
     res.addAttribute_puj7f4$('partitionCount', '' + toString(this.partitionCount));
     res.addAttribute_puj7f4$('partitionID', '' + toString(this.partitionID));
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$_1 = this.projectedVariables.iterator();
     while (tmp$_1.hasNext()) {
       var variable = tmp$_1.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     return res;
   };
@@ -6150,7 +4726,7 @@
       return Unit;
     };
   }
-  POPDistributedReceiveMulti.prototype.evaluate_euq53c$ = function (parent) {
+  POPDistributedReceiveMulti.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0, tmp$_1;
     var variables = ArrayList_init();
     variables.addAll_brywnq$(this.projectedVariables);
@@ -6167,7 +4743,7 @@
     var connections = {v: array};
     var openConnections = {v: 0};
     SanityCheckOn_getInstance().check_8i7tro$(POPDistributedReceiveMulti$evaluate$lambda(this));
-    var handler = s00misc.communicationHandler;
+    var handler = shared.communicationHandler;
     var allConnections = LinkedHashMap_init();
     tmp$ = this.hosts.entries.iterator();
     while (tmp$.hasNext()) {
@@ -6261,7 +4837,7 @@
   POPDistributedReceiveMultiCount.prototype.toXMLElementHelper2_0 = function (partial, isRoot) {
     var tmp$, tmp$_0, tmp$_1;
     if (partial) {
-      tmp$ = (new XMLElement(this.classname)).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+      tmp$ = (new XMLElement(this.classname)).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
     } else {
       tmp$ = POPBase.prototype.toXMLElementHelper_dqye30$.call(this, partial, partial && !isRoot);
     }
@@ -6269,15 +4845,15 @@
     var theKey = mutableMapOf([to(this.partitionVariable, 0)]);
     theKey.putAll_a2k3zr$(this.query.getDistributionKey());
     if (isRoot) {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     } else {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       tmp$_0 = this.partitionCount;
       for (var i = 1; i < tmp$_0; i++) {
         var key = this.partitionVariable;
         var value = ensureNotNull(theKey.get_11rb$(this.partitionVariable)) + 1 | 0;
         theKey.put_xwzc9p$(key, value);
-        res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+        res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       }
     }
     res.addAttribute_puj7f4$('providedVariables', this.getProvidedVariableNames().toString());
@@ -6285,11 +4861,11 @@
     res.addAttribute_puj7f4$('partitionCount', '' + toString(this.partitionCount));
     res.addAttribute_puj7f4$('partitionID', '' + toString(this.partitionID));
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$_1 = this.projectedVariables.iterator();
     while (tmp$_1.hasNext()) {
       var variable = tmp$_1.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     return res;
   };
@@ -6323,10 +4899,10 @@
       return this$POPDistributedReceiveMultiCount.hosts.size === this$POPDistributedReceiveMultiCount.partitionCount;
     };
   }
-  POPDistributedReceiveMultiCount.prototype.evaluate_euq53c$ = function (parent) {
+  POPDistributedReceiveMultiCount.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0;
     SanityCheckOn_getInstance().check_8i7tro$(POPDistributedReceiveMultiCount$evaluate$lambda(this));
-    var handler = s00misc.communicationHandler;
+    var handler = shared.communicationHandler;
     var allConnections = LinkedHashMap_init();
     tmp$ = this.hosts.entries.iterator();
     while (tmp$.hasNext()) {
@@ -6390,7 +4966,7 @@
   POPDistributedReceiveMultiOrdered.prototype.toXMLElementHelper2_0 = function (partial, isRoot) {
     var tmp$, tmp$_0, tmp$_1;
     if (partial) {
-      tmp$ = (new XMLElement(this.classname)).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+      tmp$ = (new XMLElement(this.classname)).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
     } else {
       tmp$ = POPBase.prototype.toXMLElementHelper_dqye30$.call(this, partial, partial && !isRoot);
     }
@@ -6398,15 +4974,15 @@
     var theKey = mutableMapOf([to(this.partitionVariable, 0)]);
     theKey.putAll_a2k3zr$(this.query.getDistributionKey());
     if (isRoot) {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     } else {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       tmp$_0 = this.partitionCount;
       for (var i = 1; i < tmp$_0; i++) {
         var key = this.partitionVariable;
         var value = ensureNotNull(theKey.get_11rb$(this.partitionVariable)) + 1 | 0;
         theKey.put_xwzc9p$(key, value);
-        res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+        res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       }
     }
     res.addAttribute_puj7f4$('providedVariables', this.getProvidedVariableNames().toString());
@@ -6414,11 +4990,11 @@
     res.addAttribute_puj7f4$('partitionCount', '' + toString(this.partitionCount));
     res.addAttribute_puj7f4$('partitionID', '' + toString(this.partitionID));
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$_1 = this.projectedVariables.iterator();
     while (tmp$_1.hasNext()) {
       var variable = tmp$_1.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     return res;
   };
@@ -6515,7 +5091,7 @@
       return Unit;
     };
   }
-  POPDistributedReceiveMultiOrdered.prototype.evaluate_euq53c$ = function (parent) {
+  POPDistributedReceiveMultiOrdered.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0, tmp$_1, tmp$_2;
     var variables = ArrayList_init();
     variables.addAll_brywnq$(this.projectedVariables);
@@ -6532,7 +5108,7 @@
     var connections = {v: array};
     var openConnections = {v: 0};
     SanityCheckOn_getInstance().check_8i7tro$(POPDistributedReceiveMultiOrdered$evaluate$lambda(this));
-    var handler = s00misc.communicationHandler;
+    var handler = shared.communicationHandler;
     var allConnections = LinkedHashMap_init();
     tmp$ = this.hosts.entries.iterator();
     while (tmp$.hasNext()) {
@@ -6627,7 +5203,7 @@
   POPDistributedReceiveSingle.prototype.toXMLElementHelper2_0 = function (partial, isRoot) {
     var tmp$, tmp$_0, tmp$_1;
     if (partial) {
-      tmp$ = (new XMLElement(this.classname)).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+      tmp$ = (new XMLElement(this.classname)).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
     } else {
       tmp$ = POPBase.prototype.toXMLElementHelper_dqye30$.call(this, partial, partial && !isRoot);
     }
@@ -6635,15 +5211,15 @@
     var theKey = mutableMapOf([to(this.partitionVariable, 0)]);
     theKey.putAll_a2k3zr$(this.query.getDistributionKey());
     if (isRoot) {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     } else {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       tmp$_0 = this.partitionCount;
       for (var i = 1; i < tmp$_0; i++) {
         var key = this.partitionVariable;
         var value = ensureNotNull(theKey.get_11rb$(this.partitionVariable)) + 1 | 0;
         theKey.put_xwzc9p$(key, value);
-        res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+        res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       }
     }
     res.addAttribute_puj7f4$('providedVariables', this.getProvidedVariableNames().toString());
@@ -6651,11 +5227,11 @@
     res.addAttribute_puj7f4$('partitionCount', '' + toString(this.partitionCount));
     res.addAttribute_puj7f4$('partitionID', '' + toString(this.partitionID));
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$_1 = this.projectedVariables.iterator();
     while (tmp$_1.hasNext()) {
       var variable = tmp$_1.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     return res;
   };
@@ -6731,11 +5307,11 @@
       return Unit;
     };
   }
-  POPDistributedReceiveSingle.prototype.evaluate_euq53c$ = function (parent) {
+  POPDistributedReceiveSingle.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0;
     var variables = ArrayList_init();
     variables.addAll_brywnq$(this.projectedVariables);
-    var handler = s00misc.communicationHandler;
+    var handler = shared.communicationHandler;
     var connection = {v: null};
     var mapping = {v: new Int32Array(variables.size)};
     tmp$ = this.hosts.entries.iterator();
@@ -6813,7 +5389,7 @@
   POPDistributedReceiveSingleCount.prototype.toXMLElementHelper2_0 = function (partial, isRoot) {
     var tmp$, tmp$_0, tmp$_1;
     if (partial) {
-      tmp$ = (new XMLElement(this.classname)).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+      tmp$ = (new XMLElement(this.classname)).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
     } else {
       tmp$ = POPBase.prototype.toXMLElementHelper_dqye30$.call(this, partial, partial && !isRoot);
     }
@@ -6821,15 +5397,15 @@
     var theKey = mutableMapOf([to(this.partitionVariable, 0)]);
     theKey.putAll_a2k3zr$(this.query.getDistributionKey());
     if (isRoot) {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     } else {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       tmp$_0 = this.partitionCount;
       for (var i = 1; i < tmp$_0; i++) {
         var key = this.partitionVariable;
         var value = ensureNotNull(theKey.get_11rb$(this.partitionVariable)) + 1 | 0;
         theKey.put_xwzc9p$(key, value);
-        res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+        res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       }
     }
     res.addAttribute_puj7f4$('providedVariables', this.getProvidedVariableNames().toString());
@@ -6837,11 +5413,11 @@
     res.addAttribute_puj7f4$('partitionCount', '' + toString(this.partitionCount));
     res.addAttribute_puj7f4$('partitionID', '' + toString(this.partitionID));
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$_1 = this.projectedVariables.iterator();
     while (tmp$_1.hasNext()) {
       var variable = tmp$_1.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     return res;
   };
@@ -6870,9 +5446,9 @@
   POPDistributedReceiveSingleCount.prototype.equals = function (other) {
     return Kotlin.isType(other, POPDistributedReceiveSingleCount) && equals(this.children[0], other.children[0]) && equals(this.partitionVariable, other.partitionVariable);
   };
-  POPDistributedReceiveSingleCount.prototype.evaluate_euq53c$ = function (parent) {
+  POPDistributedReceiveSingleCount.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$;
-    var handler = s00misc.communicationHandler;
+    var handler = shared.communicationHandler;
     var count = 0;
     tmp$ = this.hosts.entries.iterator();
     while (tmp$.hasNext()) {
@@ -6929,7 +5505,7 @@
   POPDistributedSendMulti.prototype.toXMLElementHelper2_0 = function (partial, isRoot) {
     var tmp$, tmp$_0, tmp$_1;
     if (partial) {
-      tmp$ = (new XMLElement(this.classname)).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+      tmp$ = (new XMLElement(this.classname)).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
     } else {
       tmp$ = POPBase.prototype.toXMLElementHelper_dqye30$.call(this, partial, partial && !isRoot);
     }
@@ -6937,15 +5513,15 @@
     var theKey = mutableMapOf([to(this.partitionVariable, 0)]);
     theKey.putAll_a2k3zr$(this.query.getDistributionKey());
     if (isRoot) {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     } else {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       tmp$_0 = this.partitionCount;
       for (var i = 1; i < tmp$_0; i++) {
         var key = this.partitionVariable;
         var value = ensureNotNull(theKey.get_11rb$(this.partitionVariable)) + 1 | 0;
         theKey.put_xwzc9p$(key, value);
-        res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+        res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       }
     }
     res.addAttribute_puj7f4$('providedVariables', this.getProvidedVariableNames().toString());
@@ -6953,11 +5529,11 @@
     res.addAttribute_puj7f4$('partitionCount', '' + toString(this.partitionCount));
     res.addAttribute_puj7f4$('partitionID', '' + toString(this.partitionID));
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$_1 = this.projectedVariables.iterator();
     while (tmp$_1.hasNext()) {
       var variable = tmp$_1.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     return res;
   };
@@ -6986,7 +5562,7 @@
   POPDistributedSendMulti.prototype.equals = function (other) {
     return Kotlin.isType(other, POPDistributedSendMulti) && equals(this.children[0], other.children[0]) && equals(this.partitionVariable, other.partitionVariable);
   };
-  POPDistributedSendMulti.prototype.evaluate_euq53c$ = function (parent) {
+  POPDistributedSendMulti.prototype.evaluate_t5uvj0$ = function (parent) {
     throw Exception_init('this must not be called !!');
   };
   function POPDistributedSendMulti$evaluate$lambda(closure$i, closure$variables) {
@@ -6994,7 +5570,7 @@
       return closure$i.v === closure$variables.v.length;
     };
   }
-  POPDistributedSendMulti.prototype.evaluate_g5nm6l$ = function (data) {
+  POPDistributedSendMulti.prototype.evaluate_q3wfwh$ = function (data) {
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8;
     var array = Array_0(this.projectedVariables.size);
     var tmp$_9;
@@ -7029,7 +5605,7 @@
       }}
     SanityCheckOn_getInstance().check_8i7tro$(POPDistributedSendMulti$evaluate$lambda(i_0, variables));
     var p = Partition_init_0();
-    var bundle = this.children[0].evaluate_euq53c$(p);
+    var bundle = this.children[0].evaluate_t5uvj0$(p);
     var array_0 = Array_0(variables.v.length);
     var tmp$_10;
     tmp$_10 = array_0.length - 1 | 0;
@@ -7108,7 +5684,7 @@
   POPDistributedSendSingle.prototype.toXMLElementHelper2_0 = function (partial, isRoot) {
     var tmp$, tmp$_0, tmp$_1;
     if (partial) {
-      tmp$ = (new XMLElement(this.classname)).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+      tmp$ = (new XMLElement(this.classname)).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
     } else {
       tmp$ = POPBase.prototype.toXMLElementHelper_dqye30$.call(this, partial, partial && !isRoot);
     }
@@ -7116,15 +5692,15 @@
     var theKey = mutableMapOf([to(this.partitionVariable, 0)]);
     theKey.putAll_a2k3zr$(this.query.getDistributionKey());
     if (isRoot) {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     } else {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       tmp$_0 = this.partitionCount;
       for (var i = 1; i < tmp$_0; i++) {
         var key = this.partitionVariable;
         var value = ensureNotNull(theKey.get_11rb$(this.partitionVariable)) + 1 | 0;
         theKey.put_xwzc9p$(key, value);
-        res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+        res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       }
     }
     res.addAttribute_puj7f4$('providedVariables', this.getProvidedVariableNames().toString());
@@ -7132,11 +5708,11 @@
     res.addAttribute_puj7f4$('partitionCount', '' + toString(this.partitionCount));
     res.addAttribute_puj7f4$('partitionID', '' + toString(this.partitionID));
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$_1 = this.projectedVariables.iterator();
     while (tmp$_1.hasNext()) {
       var variable = tmp$_1.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     return res;
   };
@@ -7165,7 +5741,7 @@
   POPDistributedSendSingle.prototype.equals = function (other) {
     return Kotlin.isType(other, POPDistributedSendSingle) && equals(this.children[0], other.children[0]) && equals(this.partitionVariable, other.partitionVariable);
   };
-  POPDistributedSendSingle.prototype.evaluate_euq53c$ = function (parent) {
+  POPDistributedSendSingle.prototype.evaluate_t5uvj0$ = function (parent) {
     throw Exception_init('this must not be called !!');
   };
   function POPDistributedSendSingle$evaluate$lambda(closure$partitionNumber, this$POPDistributedSendSingle) {
@@ -7173,7 +5749,7 @@
       return closure$partitionNumber.v >= 0 && closure$partitionNumber.v < this$POPDistributedSendSingle.partitionCount;
     };
   }
-  POPDistributedSendSingle.prototype.evaluate_i5af9g$ = function (connectionOut) {
+  POPDistributedSendSingle.prototype.evaluate_hnjwfk$ = function (connectionOut) {
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3;
     var partitionNumber = {v: -1};
     tmp$ = this.hosts.iterator();
@@ -7184,7 +5760,7 @@
         var k = tmp$_0.next();
         if (startsWith(k, this.partitionVariable + '=')) {
           var startIndex = (this.partitionVariable + '=').length;
-          partitionNumber.v = toInt(k.substring(startIndex));
+          partitionNumber.v = toInt_0(k.substring(startIndex));
           break;
         }}
     }
@@ -7207,7 +5783,7 @@
       connectionOut.write_fqrh44$(buf);
     }
     var p = Partition_init(Partition_init_0(), this.partitionVariable, partitionNumber.v, this.partitionCount);
-    var bundle = this.children[0].evaluate_euq53c$(p);
+    var bundle = this.children[0].evaluate_t5uvj0$(p);
     var $receiver = variables.v;
     var destination = ArrayList_init_0($receiver.length);
     var tmp$_5;
@@ -7289,7 +5865,7 @@
   POPDistributedSendSingleCount.prototype.toXMLElementHelper2_0 = function (partial, isRoot) {
     var tmp$, tmp$_0, tmp$_1;
     if (partial) {
-      tmp$ = (new XMLElement(this.classname)).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+      tmp$ = (new XMLElement(this.classname)).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
     } else {
       tmp$ = POPBase.prototype.toXMLElementHelper_dqye30$.call(this, partial, partial && !isRoot);
     }
@@ -7297,15 +5873,15 @@
     var theKey = mutableMapOf([to(this.partitionVariable, 0)]);
     theKey.putAll_a2k3zr$(this.query.getDistributionKey());
     if (isRoot) {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     } else {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       tmp$_0 = this.partitionCount;
       for (var i = 1; i < tmp$_0; i++) {
         var key = this.partitionVariable;
         var value = ensureNotNull(theKey.get_11rb$(this.partitionVariable)) + 1 | 0;
         theKey.put_xwzc9p$(key, value);
-        res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+        res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       }
     }
     res.addAttribute_puj7f4$('providedVariables', this.getProvidedVariableNames().toString());
@@ -7313,11 +5889,11 @@
     res.addAttribute_puj7f4$('partitionCount', '' + toString(this.partitionCount));
     res.addAttribute_puj7f4$('partitionID', '' + toString(this.partitionID));
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$_1 = this.projectedVariables.iterator();
     while (tmp$_1.hasNext()) {
       var variable = tmp$_1.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     return res;
   };
@@ -7346,7 +5922,7 @@
   POPDistributedSendSingleCount.prototype.equals = function (other) {
     return Kotlin.isType(other, POPDistributedSendSingleCount) && equals(this.children[0], other.children[0]) && equals(this.partitionVariable, other.partitionVariable);
   };
-  POPDistributedSendSingleCount.prototype.evaluate_euq53c$ = function (parent) {
+  POPDistributedSendSingleCount.prototype.evaluate_t5uvj0$ = function (parent) {
     throw Exception_init('this must not be called !!');
   };
   function POPDistributedSendSingleCount$evaluate$lambda(closure$partitionNumber, this$POPDistributedSendSingleCount) {
@@ -7354,7 +5930,7 @@
       return closure$partitionNumber.v >= 0 && closure$partitionNumber.v < this$POPDistributedSendSingleCount.partitionCount;
     };
   }
-  POPDistributedSendSingleCount.prototype.evaluate_i5af9g$ = function (connectionOut) {
+  POPDistributedSendSingleCount.prototype.evaluate_hnjwfk$ = function (connectionOut) {
     var tmp$, tmp$_0;
     var partitionNumber = {v: -1};
     tmp$ = this.hosts.iterator();
@@ -7365,13 +5941,13 @@
         var k = tmp$_0.next();
         if (startsWith(k, this.partitionVariable + '=')) {
           var startIndex = (this.partitionVariable + '=').length;
-          partitionNumber.v = toInt(k.substring(startIndex));
+          partitionNumber.v = toInt_0(k.substring(startIndex));
           break;
         }}
     }
     SanityCheckOn_getInstance().check_8i7tro$(POPDistributedSendSingleCount$evaluate$lambda(partitionNumber, this));
     var p = Partition_init(Partition_init_0(), this.partitionVariable, partitionNumber.v, this.partitionCount);
-    var bundle = this.children[0].evaluate_euq53c$(p);
+    var bundle = this.children[0].evaluate_t5uvj0$(p);
     connectionOut.writeInt_za3lpa$(bundle.count());
     connectionOut.flush();
   };
@@ -7421,7 +5997,7 @@
     var tmp$, tmp$_0, tmp$_1;
     if (partial) {
       if (isRoot) {
-        tmp$ = (new XMLElement('POPDistributedSendSingle')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+        tmp$ = (new XMLElement('POPDistributedSendSingle')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
       } else {
         if (this.partitionCount > 1) {
           tmp$ = (new XMLElement('POPDistributedReceiveMulti')).addAttribute_puj7f4$('uuid', this.uuid.toString());
@@ -7436,15 +6012,15 @@
     var theKey = mutableMapOf([to(this.partitionVariable, 0)]);
     theKey.putAll_a2k3zr$(this.query.getDistributionKey());
     if (isRoot) {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     } else {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       tmp$_0 = this.partitionCount;
       for (var i = 1; i < tmp$_0; i++) {
         var key = this.partitionVariable;
         var value = ensureNotNull(theKey.get_11rb$(this.partitionVariable)) + 1 | 0;
         theKey.put_xwzc9p$(key, value);
-        res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+        res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       }
     }
     res.addAttribute_puj7f4$('providedVariables', this.getProvidedVariableNames().toString());
@@ -7452,11 +6028,11 @@
     res.addAttribute_puj7f4$('partitionCount', '' + toString(this.partitionCount));
     res.addAttribute_puj7f4$('partitionID', '' + toString(this.partitionID));
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$_1 = this.projectedVariables.iterator();
     while (tmp$_1.hasNext()) {
       var variable = tmp$_1.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     return res;
   };
@@ -7515,7 +6091,7 @@
       var tmp$, tmp$_0, tmp$_1, tmp$_2;
       try {
         var childEval2;
-        childEval2 = this$POPMergePartition.children[0].evaluate_euq53c$(Partition_init(closure$parent, this$POPMergePartition.partitionVariable, closure$p, this$POPMergePartition.partitionCount));
+        childEval2 = this$POPMergePartition.children[0].evaluate_t5uvj0$(Partition_init(closure$parent, this$POPMergePartition.partitionVariable, closure$p, this$POPMergePartition.partitionCount));
         if (childEval2.hasColumnMode()) {
           var child = childEval2.columns;
           if (closure$variables.size === 1) {
@@ -7574,6 +6150,7 @@
                     closure$ringbuffer[closure$ringbufferWriteHead[closure$p] + variableIdx + closure$ringbufferStart[closure$p] | 0] = variableMapping[variableIdx].next();
                   } catch (e) {
                     if (Kotlin.isType(e, Throwable)) {
+                      printStackTrace(e);
                       tmp$_2 = closure$variables.size;
                       for (var variableIdx2 = 0; variableIdx2 < tmp$_2; variableIdx2++) {
                         variableMapping[variableIdx2].close();
@@ -7621,8 +6198,8 @@
         }
       } catch (e) {
         if (Kotlin.isType(e, Throwable)) {
-          closure$error.v = e;
           printStackTrace(e);
+          closure$error.v = e;
         } else
           throw e;
       }
@@ -7687,10 +6264,10 @@
       return Unit;
     };
   }
-  POPMergePartition.prototype.evaluate_euq53c$ = function (parent) {
+  POPMergePartition.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$;
     if (this.partitionCount === 1) {
-      return this.children[0].evaluate_euq53c$(parent);
+      return this.children[0].evaluate_t5uvj0$(parent);
     } else {
       var error = {v: null};
       var variables = this.getProvidedVariableNames();
@@ -7798,7 +6375,7 @@
     var tmp$, tmp$_0, tmp$_1;
     if (partial) {
       if (isRoot) {
-        tmp$ = (new XMLElement('POPDistributedSendSingleCount')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+        tmp$ = (new XMLElement('POPDistributedSendSingleCount')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
       } else {
         if (this.partitionCount > 1) {
           tmp$ = (new XMLElement('POPDistributedReceiveMultiCount')).addAttribute_puj7f4$('uuid', this.uuid.toString());
@@ -7813,15 +6390,15 @@
     var theKey = mutableMapOf([to(this.partitionVariable, 0)]);
     theKey.putAll_a2k3zr$(this.query.getDistributionKey());
     if (isRoot) {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     } else {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       tmp$_0 = this.partitionCount;
       for (var i = 1; i < tmp$_0; i++) {
         var key = this.partitionVariable;
         var value = ensureNotNull(theKey.get_11rb$(this.partitionVariable)) + 1 | 0;
         theKey.put_xwzc9p$(key, value);
-        res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+        res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       }
     }
     res.addAttribute_puj7f4$('providedVariables', this.getProvidedVariableNames().toString());
@@ -7829,11 +6406,11 @@
     res.addAttribute_puj7f4$('partitionCount', '' + toString(this.partitionCount));
     res.addAttribute_puj7f4$('partitionID', '' + toString(this.partitionID));
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$_1 = this.projectedVariables.iterator();
     while (tmp$_1.hasNext()) {
       var variable = tmp$_1.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     return res;
   };
@@ -7874,7 +6451,7 @@
   }
   function POPMergePartitionCount$evaluate$lambda_1(this$POPMergePartitionCount, closure$parent, closure$p, closure$readerFinished, closure$ringbufferWriteHead, closure$writerFinished) {
     return function () {
-      var child = this$POPMergePartitionCount.children[0].evaluate_euq53c$(Partition_init(closure$parent, this$POPMergePartitionCount.partitionVariable, closure$p, this$POPMergePartitionCount.partitionCount));
+      var child = this$POPMergePartitionCount.children[0].evaluate_t5uvj0$(Partition_init(closure$parent, this$POPMergePartitionCount.partitionVariable, closure$p, this$POPMergePartitionCount.partitionCount));
       loop: while (closure$readerFinished.v === 0) {
         var tmp = child.hasNext2();
         if (tmp) {
@@ -7925,10 +6502,10 @@
     kind: Kind_CLASS,
     interfaces: [IteratorBundle]
   };
-  POPMergePartitionCount.prototype.evaluate_euq53c$ = function (parent) {
+  POPMergePartitionCount.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$;
     if (this.partitionCount === 1) {
-      return this.children[0].evaluate_euq53c$(parent);
+      return this.children[0].evaluate_t5uvj0$(parent);
     } else {
       var variables = this.getProvidedVariableNames();
       var variables0 = this.children[0].getProvidedVariableNames();
@@ -8009,7 +6586,7 @@
     var tmp$, tmp$_0, tmp$_1;
     if (partial) {
       if (isRoot) {
-        tmp$ = (new XMLElement('POPDistributedSendSingle')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+        tmp$ = (new XMLElement('POPDistributedSendSingle')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
       } else {
         if (this.partitionCount > 1) {
           tmp$ = (new XMLElement('POPDistributedReceiveMulti')).addAttribute_puj7f4$('uuid', this.uuid.toString());
@@ -8024,15 +6601,15 @@
     var theKey = mutableMapOf([to(this.partitionVariable, 0)]);
     theKey.putAll_a2k3zr$(this.query.getDistributionKey());
     if (isRoot) {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     } else {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       tmp$_0 = this.partitionCount;
       for (var i = 1; i < tmp$_0; i++) {
         var key = this.partitionVariable;
         var value = ensureNotNull(theKey.get_11rb$(this.partitionVariable)) + 1 | 0;
         theKey.put_xwzc9p$(key, value);
-        res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+        res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       }
     }
     res.addAttribute_puj7f4$('providedVariables', this.getProvidedVariableNames().toString());
@@ -8040,11 +6617,11 @@
     res.addAttribute_puj7f4$('partitionCount', '' + toString(this.partitionCount));
     res.addAttribute_puj7f4$('partitionID', '' + toString(this.partitionID));
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$_1 = this.projectedVariables.iterator();
     while (tmp$_1.hasNext()) {
       var variable = tmp$_1.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     return res;
   };
@@ -8103,7 +6680,7 @@
       var tmp$, tmp$_0, tmp$_1, tmp$_2;
       try {
         var childEval2;
-        childEval2 = this$POPMergePartitionOrderedByIntId.children[0].evaluate_euq53c$(Partition_init(closure$parent, this$POPMergePartitionOrderedByIntId.partitionVariable, closure$p, this$POPMergePartitionOrderedByIntId.partitionCount));
+        childEval2 = this$POPMergePartitionOrderedByIntId.children[0].evaluate_t5uvj0$(Partition_init(closure$parent, this$POPMergePartitionOrderedByIntId.partitionVariable, closure$p, this$POPMergePartitionOrderedByIntId.partitionCount));
         if (childEval2.hasColumnMode()) {
           var child = childEval2.columns;
           if (closure$variables.size === 1) {
@@ -8162,6 +6739,7 @@
                     closure$ringbuffer[closure$ringbufferWriteHead[closure$p] + variableIdx + closure$ringbufferStart[closure$p] | 0] = variableMapping[variableIdx].next();
                   } catch (e) {
                     if (Kotlin.isType(e, Throwable)) {
+                      printStackTrace(e);
                       tmp$_2 = closure$variables.size;
                       for (var variableIdx2 = 0; variableIdx2 < tmp$_2; variableIdx2++) {
                         variableMapping[variableIdx2].close();
@@ -8209,8 +6787,8 @@
         }
       } catch (e) {
         if (Kotlin.isType(e, Throwable)) {
-          closure$error.v = e;
           printStackTrace(e);
+          closure$error.v = e;
         } else
           throw e;
       }
@@ -8312,10 +6890,10 @@
       return Unit;
     };
   }
-  POPMergePartitionOrderedByIntId.prototype.evaluate_euq53c$ = function (parent) {
+  POPMergePartitionOrderedByIntId.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$;
     if (this.partitionCount === 1) {
-      return this.children[0].evaluate_euq53c$(parent);
+      return this.children[0].evaluate_t5uvj0$(parent);
     } else {
       var error = {v: null};
       var variables = this.getProvidedVariableNames();
@@ -8433,9 +7011,9 @@
     if (partial) {
       if (isRoot) {
         if (this.partitionCount > 1) {
-          tmp$ = (new XMLElement('POPDistributedSendMulti')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+          tmp$ = (new XMLElement('POPDistributedSendMulti')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
         } else {
-          tmp$ = (new XMLElement('POPDistributedSendSingle')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+          tmp$ = (new XMLElement('POPDistributedSendSingle')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
         }
       } else {
         tmp$ = (new XMLElement('POPDistributedReceiveSingle')).addAttribute_puj7f4$('uuid', this.uuid.toString());
@@ -8447,27 +7025,27 @@
     var theKey = mutableMapOf([to(this.partitionVariable, 0)]);
     theKey.putAll_a2k3zr$(this.query.getDistributionKey());
     if (isRoot) {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       tmp$_0 = this.partitionCount;
       for (var i = 1; i < tmp$_0; i++) {
         var key = this.partitionVariable;
         var value = ensureNotNull(theKey.get_11rb$(this.partitionVariable)) + 1 | 0;
         theKey.put_xwzc9p$(key, value);
-        res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+        res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
       }
     } else {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     }
     res.addAttribute_puj7f4$('providedVariables', this.getProvidedVariableNames().toString());
     res.addAttribute_puj7f4$('partitionVariable', this.partitionVariable);
     res.addAttribute_puj7f4$('partitionCount', '' + toString(this.partitionCount));
     res.addAttribute_puj7f4$('partitionID', '' + toString(this.partitionID));
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$_1 = this.projectedVariables.iterator();
     while (tmp$_1.hasNext()) {
       var variable = tmp$_1.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     return res;
   };
@@ -8529,7 +7107,7 @@
       var tmp$, tmp$_0, tmp$_1, tmp$_2;
       var child2 = null;
       try {
-        var child = this$POPSplitPartition.children[0].evaluate_euq53c$(closure$childPartition).rows;
+        var child = this$POPSplitPartition.children[0].evaluate_t5uvj0$(closure$childPartition).rows;
         child2 = child;
         var hashVariableIndex = {v: -1};
         var variableMapping = new Int32Array(closure$variables.size);
@@ -8571,8 +7149,7 @@
               cacheArr[0] = 0;
             } else {
               cacheSize = 1;
-              q = _PartitionExt_getInstance().hashFunction_6xvm5r$(q, closure$partitionCount);
-              cacheArr[0] = q;
+              cacheArr[0] = q % closure$partitionCount;
             }
             tmp$_0 = cacheSize;
             loopcache: for (var i_0 = 0; i_0 < tmp$_0; i_0++) {
@@ -8596,6 +7173,7 @@
         }
       } catch (e) {
         if (Kotlin.isType(e, Throwable)) {
+          printStackTrace(e);
           closure$error.v = e;
         } else
           throw e;
@@ -8643,11 +7221,11 @@
       return Unit;
     };
   }
-  POPSplitPartition.prototype.evaluate_euq53c$ = function (parent) {
+  POPSplitPartition.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$;
     var partitionCount = ensureNotNull(parent.limit.get_11rb$(this.partitionVariable));
     if (partitionCount === 1) {
-      return this.children[0].evaluate_euq53c$(parent);
+      return this.children[0].evaluate_t5uvj0$(parent);
     } else {
       var iterators = null;
       var childPartition = Partition_init_1(parent, this.partitionVariable);
@@ -8782,7 +7360,7 @@
     var tmp$, tmp$_0;
     if (partial) {
       if (isRoot) {
-        tmp$ = (new XMLElement('POPDistributedSendSingle')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+        tmp$ = (new XMLElement('POPDistributedSendSingle')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
       } else {
         tmp$ = (new XMLElement('POPDistributedReceiveSingle')).addAttribute_puj7f4$('uuid', this.uuid.toString());
       }
@@ -8793,20 +7371,20 @@
     var theKey = mutableMapOf([to(this.partitionVariable, 0)]);
     theKey.putAll_a2k3zr$(this.query.getDistributionKey());
     if (isRoot) {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     } else {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     }
     res.addAttribute_puj7f4$('providedVariables', this.getProvidedVariableNames().toString());
     res.addAttribute_puj7f4$('partitionVariable', this.partitionVariable);
     res.addAttribute_puj7f4$('partitionCount', '' + toString(this.partitionCount));
     res.addAttribute_puj7f4$('partitionID', '' + toString(this.partitionID));
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$_0 = this.projectedVariables.iterator();
     while (tmp$_0.hasNext()) {
       var variable = tmp$_0.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     return res;
   };
@@ -8835,8 +7413,8 @@
   POPSplitPartitionFromStore.prototype.equals = function (other) {
     return Kotlin.isType(other, POPSplitPartitionFromStore) && equals(this.children[0], other.children[0]) && equals(this.partitionVariable, other.partitionVariable) && this.partitionCount === other.partitionCount;
   };
-  POPSplitPartitionFromStore.prototype.evaluate_euq53c$ = function (parent) {
-    return this.children[0].evaluate_euq53c$(parent);
+  POPSplitPartitionFromStore.prototype.evaluate_t5uvj0$ = function (parent) {
+    return this.children[0].evaluate_t5uvj0$(parent);
   };
   function POPSplitPartitionFromStore_init$lambda(closure$projectedVariables) {
     return function () {
@@ -8888,7 +7466,7 @@
     var tmp$, tmp$_0;
     if (partial) {
       if (isRoot) {
-        tmp$ = (new XMLElement('POPDistributedSendSingleCount')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+        tmp$ = (new XMLElement('POPDistributedSendSingleCount')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
       } else {
         tmp$ = (new XMLElement('POPDistributedReceiveSingleCount')).addAttribute_puj7f4$('uuid', this.uuid.toString());
       }
@@ -8899,20 +7477,20 @@
     var theKey = mutableMapOf([to(this.partitionVariable, 0)]);
     theKey.putAll_a2k3zr$(this.query.getDistributionKey());
     if (isRoot) {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     } else {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     }
     res.addAttribute_puj7f4$('providedVariables', this.getProvidedVariableNames().toString());
     res.addAttribute_puj7f4$('partitionVariable', this.partitionVariable);
     res.addAttribute_puj7f4$('partitionCount', '' + toString(this.partitionCount));
     res.addAttribute_puj7f4$('partitionID', '' + toString(this.partitionID));
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$_0 = this.projectedVariables.iterator();
     while (tmp$_0.hasNext()) {
       var variable = tmp$_0.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     return res;
   };
@@ -8941,8 +7519,8 @@
   POPSplitPartitionFromStoreCount.prototype.equals = function (other) {
     return Kotlin.isType(other, POPSplitPartitionFromStoreCount) && equals(this.children[0], other.children[0]) && equals(this.partitionVariable, other.partitionVariable) && this.partitionCount === other.partitionCount;
   };
-  POPSplitPartitionFromStoreCount.prototype.evaluate_euq53c$ = function (parent) {
-    return this.children[0].evaluate_euq53c$(parent);
+  POPSplitPartitionFromStoreCount.prototype.evaluate_t5uvj0$ = function (parent) {
+    return this.children[0].evaluate_t5uvj0$(parent);
   };
   POPSplitPartitionFromStoreCount.$metadata$ = {
     kind: Kind_CLASS,
@@ -8990,7 +7568,7 @@
     var tmp$, tmp$_0;
     if (partial) {
       if (isRoot) {
-        tmp$ = (new XMLElement('POPDistributedSendSingle')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+        tmp$ = (new XMLElement('POPDistributedSendSingle')).addAttribute_puj7f4$('uuid', this.uuid.toString()).addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
       } else {
         tmp$ = (new XMLElement('POPDistributedReceiveSingle')).addAttribute_puj7f4$('uuid', this.uuid.toString());
       }
@@ -9001,20 +7579,20 @@
     var theKey = mutableMapOf([to(this.partitionVariable, 0)]);
     theKey.putAll_a2k3zr$(this.query.getDistributionKey());
     if (isRoot) {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionProvideKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     } else {
-      res.addContent_w70l3r$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
+      res.addContent_esm5gr$((new XMLElement('partitionDistributionReceiveKey')).addAttribute_puj7f4$('key', this.theKeyToString_0(theKey)));
     }
     res.addAttribute_puj7f4$('providedVariables', this.getProvidedVariableNames().toString());
     res.addAttribute_puj7f4$('partitionVariable', this.partitionVariable);
     res.addAttribute_puj7f4$('partitionCount', '' + toString(this.partitionCount));
     res.addAttribute_puj7f4$('partitionID', '' + toString(this.partitionID));
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$_0 = this.projectedVariables.iterator();
     while (tmp$_0.hasNext()) {
       var variable = tmp$_0.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     return res;
   };
@@ -9043,14 +7621,14 @@
   POPSplitPartitionPassThrough.prototype.equals = function (other) {
     return Kotlin.isType(other, POPSplitPartitionPassThrough) && equals(this.children[0], other.children[0]) && equals(this.partitionVariable, other.partitionVariable) && this.partitionCount === other.partitionCount;
   };
-  POPSplitPartitionPassThrough.prototype.evaluate_euq53c$ = function (parent) {
+  POPSplitPartitionPassThrough.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$;
     var partitionCount = ensureNotNull(parent.limit.get_11rb$(this.partitionVariable));
     if (partitionCount === 1) {
-      tmp$ = this.children[0].evaluate_euq53c$(parent);
+      tmp$ = this.children[0].evaluate_t5uvj0$(parent);
     } else {
       var childPartition = Partition_init_1(parent, this.partitionVariable);
-      tmp$ = this.children[0].evaluate_euq53c$(childPartition);
+      tmp$ = this.children[0].evaluate_t5uvj0$(childPartition);
     }
     return tmp$;
   };
@@ -9078,11 +7656,11 @@
     var tmp$;
     var res = OPBase.prototype.toXMLElement_6taknv$.call(this, partial);
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$ = this.projectedVariables.iterator();
     while (tmp$.hasNext()) {
       var variable = tmp$.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     return res;
   };
@@ -9175,11 +7753,11 @@
     kind: Kind_CLASS,
     interfaces: [ColumnIterator]
   };
-  POPLimit.prototype.evaluate_euq53c$ = function (parent) {
+  POPLimit.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$;
     var variables = this.getProvidedVariableNames();
     var outMap = LinkedHashMap_init();
-    var child = this.children[0].evaluate_euq53c$(parent);
+    var child = this.children[0].evaluate_t5uvj0$(parent);
     tmp$ = variables.iterator();
     while (tmp$.hasNext()) {
       var variable = tmp$.next();
@@ -9222,11 +7800,11 @@
   POPOffset.prototype.cloneOP = function () {
     return new POPOffset(this.query, this.projectedVariables, this.offset, this.children[0].cloneOP());
   };
-  POPOffset.prototype.evaluate_euq53c$ = function (parent) {
+  POPOffset.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0, tmp$_1, tmp$_2;
     var variables = this.getProvidedVariableNames();
     var outMap = LinkedHashMap_init();
-    var child = this.children[0].evaluate_euq53c$(parent);
+    var child = this.children[0].evaluate_t5uvj0$(parent);
     var array = Array_0(variables.size);
     var tmp$_3;
     tmp$_3 = array.length - 1 | 0;
@@ -9285,9 +7863,9 @@
   POPReduced.prototype.cloneOP = function () {
     return new POPReduced(this.query, this.projectedVariables, this.children[0].cloneOP());
   };
-  POPReduced.prototype.evaluate_euq53c$ = function (parent) {
+  POPReduced.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$;
-    var child = this.children[0].evaluate_euq53c$(parent);
+    var child = this.children[0].evaluate_t5uvj0$(parent);
     if (this.projectedVariables.size === 1) {
       var reduced = new ColumnIteratorReduced(ensureNotNull(child.columns.get_11rb$(this.projectedVariables.get_za3lpa$(0))));
       tmp$ = IteratorBundle_init_0(mapOf(to(this.projectedVariables.get_za3lpa$(0), reduced)));
@@ -9372,7 +7950,7 @@
     ColumnIteratorQueue.call(this);
   }
   POPBind$evaluate$ObjectLiteral.prototype.close = function () {
-    _ColumnIteratorQueueExt_getInstance()._close_8sxreq$(this);
+    ColumnIteratorQueueExt_getInstance()._close_6z1dri$(this);
   };
   function POPBind$evaluate$ObjectLiteral$next$lambda$lambda(closure$variableIndex2, closure$boundIndex) {
     return function () {
@@ -9390,7 +7968,7 @@
             SanityCheckOn_getInstance().check_8i7tro$(POPBind$evaluate$ObjectLiteral$next$lambda$lambda(variableIndex2, closure$boundIndex));
             tmp$ = closure$variablesLocal.size;
             for (var variableIndex3 = 0; variableIndex3 < tmp$; variableIndex3++) {
-              _ColumnIteratorQueueExt_getInstance().closeOnEmptyQueue_8sxreq$(closure$columnsLocal[variableIndex3]);
+              ColumnIteratorQueueExt_getInstance().closeOnEmptyQueue_6z1dri$(closure$columnsLocal[variableIndex3]);
             }
             for (var closeIndex = 0; closeIndex !== closure$variablesLocal.size; ++closeIndex) {
               if (closure$boundIndex.v !== closeIndex) {
@@ -9410,12 +7988,12 @@
   }
   function POPBind$evaluate$ObjectLiteral$next$lambda_0(this$) {
     return function () {
-      _ColumnIteratorQueueExt_getInstance()._close_8sxreq$(this$);
+      ColumnIteratorQueueExt_getInstance()._close_6z1dri$(this$);
       return Unit;
     };
   }
   POPBind$evaluate$ObjectLiteral.prototype.next = function () {
-    return _ColumnIteratorQueueExt_getInstance().nextHelper_lr87q6$(this, POPBind$evaluate$ObjectLiteral$next$lambda(this.closure$variablesLocal, this.closure$boundIndex, this.closure$columnsIn, this.closure$columnsLocal, this.closure$expression, this.closure$columnsOut), POPBind$evaluate$ObjectLiteral$next$lambda_0(this));
+    return ColumnIteratorQueueExt_getInstance().nextHelper_tdqia6$(this, POPBind$evaluate$ObjectLiteral$next$lambda(this.closure$variablesLocal, this.closure$boundIndex, this.closure$columnsIn, this.closure$columnsLocal, this.closure$expression, this.closure$columnsOut), POPBind$evaluate$ObjectLiteral$next$lambda_0(this));
   };
   POPBind$evaluate$ObjectLiteral.$metadata$ = {
     kind: Kind_CLASS,
@@ -9426,13 +8004,13 @@
       return !closure$variablesLocal.isEmpty();
     };
   }
-  POPBind.prototype.evaluate_euq53c$ = function (parent) {
+  POPBind.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$;
     var variablesOut = this.getProvidedVariableNames();
     var variablesLocal = this.getProvidedVariableNamesInternal();
     var outMap = LinkedHashMap_init();
     var localMap = LinkedHashMap_init();
-    var child = this.children[0].evaluate_euq53c$(parent);
+    var child = this.children[0].evaluate_t5uvj0$(parent);
     var array = Array_0(variablesLocal.size);
     var tmp$_0;
     tmp$_0 = array.length - 1 | 0;
@@ -9483,7 +8061,7 @@
       var tmp$_3;
       columnsOut[it] = Kotlin.isType(tmp$_3 = localMap.get_11rb$(variablesOut.get_za3lpa$(it)), ColumnIteratorQueue) ? tmp$_3 : throwCCE();
     }
-    expression.v = (Kotlin.isType(tmp$ = this.children[1], AOPBase) ? tmp$ : throwCCE()).evaluateID_5hu1vg$(IteratorBundle_init_0(localMap));
+    expression.v = (Kotlin.isType(tmp$ = this.children[1], AOPBase) ? tmp$ : throwCCE()).evaluateID_zco9l8$(IteratorBundle_init_0(localMap));
     SanityCheckOn_getInstance().check_8i7tro$(POPBind$evaluate$lambda_1(variablesLocal));
     return IteratorBundle_init_0(outMap);
   };
@@ -9762,9 +8340,9 @@
       return Unit;
     };
   }
-  POPDebug.prototype.evaluate_euq53c$ = function (parent) {
+  POPDebug.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0;
-    var child = this.getChildren()[0].evaluate_euq53c$(parent);
+    var child = this.getChildren()[0].evaluate_t5uvj0$(parent);
     switch (ITERATOR_DEBUG_MODE) {
       case 2:
         return child;
@@ -9776,6 +8354,7 @@
             child.columns;
           } catch (e) {
             if (Kotlin.isType(e, Throwable)) {
+              printStackTrace(e);
               SanityCheckOn_getInstance().println_lh572t$(POPDebug$evaluate$lambda_0(this));
               throw e;
             } else
@@ -9803,6 +8382,7 @@
             child.columns;
           } catch (e) {
             if (Kotlin.isType(e, Throwable)) {
+              printStackTrace(e);
               SanityCheckOn_getInstance().println_lh572t$(POPDebug$evaluate$lambda_6(this));
               throw e;
             } else
@@ -9893,7 +8473,7 @@
   POPFilter$evaluate$ObjectLiteral.prototype.__close = function () {
     var tmp$;
     if (this.label !== 0) {
-      _ColumnIteratorQueueExt_getInstance()._close_8sxreq$(this);
+      ColumnIteratorQueueExt_getInstance()._close_6z1dri$(this);
       tmp$ = this.closure$child.columns.values.iterator();
       while (tmp$.hasNext()) {
         var v = tmp$.next();
@@ -9923,7 +8503,7 @@
               }
               tmp$_1 = closure$variables.size;
               for (var variableIndex3 = 0; variableIndex3 < tmp$_1; variableIndex3++) {
-                _ColumnIteratorQueueExt_getInstance().closeOnEmptyQueue_8sxreq$(closure$columnsLocal.get_za3lpa$(variableIndex3));
+                ColumnIteratorQueueExt_getInstance().closeOnEmptyQueue_6z1dri$(closure$columnsLocal.get_za3lpa$(variableIndex3));
               }
               done = true;
               break;
@@ -9937,6 +8517,7 @@
             }}}
       } catch (e) {
         if (Kotlin.isType(e, NotImplementedException)) {
+          printStackTrace(e);
           tmp$ = closure$child.columns.values.iterator();
           while (tmp$.hasNext()) {
             var v_0 = tmp$.next();
@@ -9956,7 +8537,7 @@
     };
   }
   POPFilter$evaluate$ObjectLiteral.prototype.next = function () {
-    return _ColumnIteratorQueueExt_getInstance().nextHelper_lr87q6$(this, POPFilter$evaluate$ObjectLiteral$next$lambda(this.closure$variables, this.closure$columnsIn, this.closure$columnsLocal, this.closure$child, this.closure$expression, this.closure$variablesOut, this.closure$columnsOut), POPFilter$evaluate$ObjectLiteral$next$lambda_0(this));
+    return ColumnIteratorQueueExt_getInstance().nextHelper_tdqia6$(this, POPFilter$evaluate$ObjectLiteral$next$lambda(this.closure$variables, this.closure$columnsIn, this.closure$columnsLocal, this.closure$child, this.closure$expression, this.closure$variablesOut, this.closure$columnsOut), POPFilter$evaluate$ObjectLiteral$next$lambda_0(this));
   };
   POPFilter$evaluate$ObjectLiteral.$metadata$ = {
     kind: Kind_CLASS,
@@ -10012,7 +8593,7 @@
             SanityCheckOn_getInstance().check_8i7tro$(POPFilter$evaluate$ObjectLiteral$hasNext2$lambda(variableIndex2));
             tmp$_2 = this.closure$variables.size;
             for (var variableIndex3 = 0; variableIndex3 < tmp$_2; variableIndex3++) {
-              _ColumnIteratorQueueExt_getInstance().closeOnEmptyQueue_8sxreq$(this.closure$columnsLocal.get_za3lpa$(variableIndex3));
+              ColumnIteratorQueueExt_getInstance().closeOnEmptyQueue_6z1dri$(this.closure$columnsLocal.get_za3lpa$(variableIndex3));
             }
             done = true;
             break;
@@ -10023,6 +8604,7 @@
           }}}
     } catch (e) {
       if (Kotlin.isType(e, NotImplementedException)) {
+        printStackTrace(e);
         tmp$_0 = this.closure$child.columns.values.iterator();
         while (tmp$_0.hasNext()) {
           var v_0 = tmp$_0.next();
@@ -10038,14 +8620,14 @@
     kind: Kind_CLASS,
     interfaces: [IteratorBundle]
   };
-  POPFilter.prototype.evaluate_euq53c$ = function (parent) {
+  POPFilter.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
     var variables = this.children[0].getProvidedVariableNames();
     var variablesOut = this.getProvidedVariableNames();
     var outMap = LinkedHashMap_init();
     var localMap = LinkedHashMap_init();
     var expression = {v: POPFilter$evaluate$lambda};
-    var child = this.children[0].evaluate_euq53c$(parent);
+    var child = this.children[0].evaluate_t5uvj0$(parent);
     var res;
     try {
       var array = Array_0(variables.size);
@@ -10080,7 +8662,7 @@
         var element = tmp$_0.next();
         columnsOut.add_11rb$(Kotlin.isType(tmp$_1 = ensureNotNull(resLocal.columns.get_11rb$(element)), ColumnIteratorQueue) ? tmp$_1 : throwCCE());
       }
-      expression.v = (Kotlin.isType(tmp$_2 = this.children[1], AOPBase) ? tmp$_2 : throwCCE()).evaluateAsBoolean_5hu1vg$(resLocal);
+      expression.v = (Kotlin.isType(tmp$_2 = this.children[1], AOPBase) ? tmp$_2 : throwCCE()).evaluateAsBoolean_zco9l8$(resLocal);
       if (variablesOut.isEmpty()) {
         if (variables.isEmpty()) {
           if (expression.v()) {
@@ -10097,6 +8679,7 @@
       }
     } catch (e) {
       if (Kotlin.isType(e, NotImplementedException)) {
+        printStackTrace(e);
         tmp$_4 = child.columns.values.iterator();
         while (tmp$_4.hasNext()) {
           var v = tmp$_4.next();
@@ -10142,7 +8725,7 @@
           break;
         }
       }
-      this.addToPrefixFreeList_q54rxq$(tmp, res);
+      this.addToPrefixFreeList_eylz9s$(tmp, res);
     }
     return res;
   };
@@ -10319,7 +8902,7 @@
   POPGroup$evaluate$ObjectLiteral.prototype.__close = function () {
     var tmp$, tmp$_0, tmp$_1, tmp$_2;
     if (this.label !== 0) {
-      _ColumnIteratorQueueExt_getInstance()._close_8sxreq$(this);
+      ColumnIteratorQueueExt_getInstance()._close_6z1dri$(this);
       tmp$ = this.closure$keyColumns;
       for (tmp$_0 = 0; tmp$_0 !== tmp$.length; ++tmp$_0) {
         var element = tmp$[tmp$_0];
@@ -10366,11 +8949,11 @@
             tmp$_8 = this$POPGroup.bindings.size;
             for (var columnIndex2_0 = 0; columnIndex2_0 < tmp$_8; columnIndex2_0++) {
               if (this$POPGroup.projectedVariables.contains_11rb$(this$POPGroup.bindings.get_za3lpa$(columnIndex2_0).first)) {
-                closure$output.get_za3lpa$(columnIndex2_0 + closure$keyColumnNames.length | 0).queue.add_11rb$(this$POPGroup.bindings.get_za3lpa$(columnIndex2_0).second.evaluateID_5hu1vg$(closure$localRowIterators.v)());
+                closure$output.get_za3lpa$(columnIndex2_0 + closure$keyColumnNames.length | 0).queue.add_11rb$(this$POPGroup.bindings.get_za3lpa$(columnIndex2_0).second.evaluateID_zco9l8$(closure$localRowIterators.v)());
               }}
             tmp$_9 = closure$output.size;
             for (var outIndex2 = 0; outIndex2 < tmp$_9; outIndex2++) {
-              _ColumnIteratorQueueExt_getInstance().closeOnEmptyQueue_8sxreq$(closure$output.get_za3lpa$(outIndex2));
+              ColumnIteratorQueueExt_getInstance().closeOnEmptyQueue_6z1dri$(closure$output.get_za3lpa$(outIndex2));
             }
             break loop;
           }if (closure$nextKey.v != null) {
@@ -10395,7 +8978,7 @@
           tmp$ = this$POPGroup.bindings.size;
           for (var columnIndex_1 = 0; columnIndex_1 < tmp$; columnIndex_1++) {
             if (this$POPGroup.projectedVariables.contains_11rb$(this$POPGroup.bindings.get_za3lpa$(columnIndex_1).first)) {
-              closure$output.get_za3lpa$(columnIndex_1 + closure$keyColumnNames.length | 0).queue.add_11rb$(this$POPGroup.bindings.get_za3lpa$(columnIndex_1).second.evaluateID_5hu1vg$(closure$localRowIterators.v)());
+              closure$output.get_za3lpa$(columnIndex_1 + closure$keyColumnNames.length | 0).queue.add_11rb$(this$POPGroup.bindings.get_za3lpa$(columnIndex_1).second.evaluateID_zco9l8$(closure$localRowIterators.v)());
             }}
           closure$localMap.clear();
           var tmp$_12 = closure$localRowColumns;
@@ -10430,7 +9013,7 @@
             var closure$aggregations_0 = closure$aggregations;
             var closure$localRowIterators_0 = closure$localRowIterators;
             var closure$localMap_0 = closure$localMap;
-            var tmp_0 = closure$aggregations_0.get_za3lpa$(i_1).createIterator_5hu1vg$(closure$localRowIterators_0.v);
+            var tmp_0 = closure$aggregations_0.get_za3lpa$(i_1).createIterator_zco9l8$(closure$localRowIterators_0.v);
             var key_1 = '#' + toString(closure$aggregations_0.get_za3lpa$(i_1).uuid);
             closure$localMap_0.put_xwzc9p$(key_1, tmp_0);
             array_1[i_1] = tmp_0;
@@ -10458,7 +9041,7 @@
     };
   }
   POPGroup$evaluate$ObjectLiteral.prototype.next = function () {
-    return _ColumnIteratorQueueExt_getInstance().nextHelper_lr87q6$(this, POPGroup$evaluate$ObjectLiteral$next$lambda(this.closure$nextKey, this.closure$currentKey, this.closure$keyColumnNames, this.closure$keyColumns, this.closure$valueColumns, this.this$POPGroup, this.closure$output, this.closure$localRowIterators, this.closure$localMap, this.closure$valueColumnNames, this.closure$localRowColumns, this.closure$aggregations, this.closure$localRowAggregates), POPGroup$evaluate$ObjectLiteral$next$lambda_0(this));
+    return ColumnIteratorQueueExt_getInstance().nextHelper_tdqia6$(this, POPGroup$evaluate$ObjectLiteral$next$lambda(this.closure$nextKey, this.closure$currentKey, this.closure$keyColumnNames, this.closure$keyColumns, this.closure$valueColumns, this.this$POPGroup, this.closure$output, this.closure$localRowIterators, this.closure$localMap, this.closure$valueColumnNames, this.closure$localRowColumns, this.closure$aggregations, this.closure$localRowAggregates), POPGroup$evaluate$ObjectLiteral$next$lambda_0(this));
   };
   POPGroup$evaluate$ObjectLiteral.$metadata$ = {
     kind: Kind_CLASS,
@@ -10469,12 +9052,12 @@
       return closure$columnIndex === 0;
     };
   }
-  POPGroup.prototype.evaluate_euq53c$ = function (parent) {
+  POPGroup.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13, tmp$_14, tmp$_15, tmp$_16, tmp$_17, tmp$_18, tmp$_19, tmp$_20, tmp$_21, tmp$_22, tmp$_23, tmp$_24, tmp$_25, tmp$_26, tmp$_27, tmp$_28;
     var buffer = ByteArrayWrapper_init();
     var localVariables = this.children[0].getProvidedVariableNames();
     var outMap = LinkedHashMap_init();
-    var child = this.children[0].evaluate_euq53c$(parent);
+    var child = this.children[0].evaluate_t5uvj0$(parent);
     var aggregations = ArrayList_init();
     tmp$ = this.bindings.iterator();
     while (tmp$.hasNext()) {
@@ -10501,7 +9084,7 @@
     tmp$_0 = localVariables.iterator();
     while (tmp$_0.hasNext()) {
       var name = tmp$_0.next();
-      if (!contains_1(keyColumnNames, name)) {
+      if (!contains(keyColumnNames, name)) {
         valueColumnNames.add_11rb$(name);
       }}
     var array_1 = Array_0(valueColumnNames.size);
@@ -10531,7 +9114,7 @@
       var tmp$_33;
       tmp$_33 = array_3.length - 1 | 0;
       for (var i_3 = 0; i_3 <= tmp$_33; i_3++) {
-        var tmp = aggregations.get_za3lpa$(i_3).createIterator_5hu1vg$(row);
+        var tmp = aggregations.get_za3lpa$(i_3).createIterator_zco9l8$(row);
         var key_0 = '#' + toString(aggregations.get_za3lpa$(i_3).uuid);
         localMap.put_xwzc9p$(key_0, tmp);
         array_3[i_3] = tmp;
@@ -10572,7 +9155,7 @@
       for (var columnIndex_1 = 0; columnIndex_1 < tmp$_9; columnIndex_1++) {
         var columnName = this.bindings.get_za3lpa$(columnIndex_1).first;
         if (this.projectedVariables.contains_11rb$(columnName)) {
-          var value_1 = this.bindings.get_za3lpa$(columnIndex_1).second.evaluateID_5hu1vg$(localRow.iterators)();
+          var value_1 = this.bindings.get_za3lpa$(columnIndex_1).second.evaluateID_zco9l8$(localRow.iterators)();
           var value_2 = new ColumnIteratorRepeatValue(1, value_1);
           outMap.put_xwzc9p$(columnName, value_2);
         }}
@@ -10665,7 +9248,7 @@
           var tmp$_40;
           tmp$_40 = array_6.length - 1 | 0;
           for (var i_7 = 0; i_7 <= tmp$_40; i_7++) {
-            var tmp_1 = aggregations.get_za3lpa$(i_7).createIterator_5hu1vg$(localRowIterators.v);
+            var tmp_1 = aggregations.get_za3lpa$(i_7).createIterator_zco9l8$(localRowIterators.v);
             var key_3 = '#' + toString(aggregations.get_za3lpa$(i_7).uuid);
             localMap_0.put_xwzc9p$(key_3, tmp_1);
             array_6[i_7] = tmp_1;
@@ -10727,8 +9310,8 @@
             var k = tmp$_41.key;
             var v_1 = tmp$_41.value;
             arrK[i_8] = k;
-            _DictionaryHelper_getInstance().integerToByteArray_znicy$(buffer, BigInteger_init(v_1));
-            arrV[i_8] = dict.createValue_jxlg18$(buffer);
+            DictionaryHelper_getInstance().integerToByteArray_ddz2hi$(buffer, BigInteger_init(v_1));
+            arrV[i_8] = dict.createValue_b1q5io$(buffer);
             i_8 = i_8 + 1 | 0;
           }
           var key_6 = keyColumnNames[0];
@@ -10791,7 +9374,7 @@
               var tmp$_46;
               tmp$_46 = array_9.length - 1 | 0;
               for (var i_11 = 0; i_11 <= tmp$_46; i_11++) {
-                var tmp_3 = aggregations.get_za3lpa$(i_11).createIterator_5hu1vg$(row_0);
+                var tmp_3 = aggregations.get_za3lpa$(i_11).createIterator_zco9l8$(row_0);
                 var key_11 = '#' + toString(aggregations.get_za3lpa$(i_11).uuid);
                 localMap_1.put_xwzc9p$(key_11, tmp_3);
                 array_9[i_11] = tmp_3;
@@ -10848,7 +9431,7 @@
               }
               tmp$_27 = this.bindings.size;
               for (var columnIndex_13 = 0; columnIndex_13 < tmp$_27; columnIndex_13++) {
-                outValues[columnIndex_13].add_11rb$(this.bindings.get_za3lpa$(columnIndex_13).second.evaluateID_5hu1vg$(v_3.iterators)());
+                outValues[columnIndex_13].add_11rb$(this.bindings.get_za3lpa$(columnIndex_13).second.evaluateID_zco9l8$(v_3.iterators)());
               }
             }
             for (var columnIndex_14 = 0; columnIndex_14 !== keyColumnNames.length; ++columnIndex_14) {
@@ -10872,20 +9455,20 @@
     var tmp$, tmp$_0;
     var res = POPBase.prototype.toXMLElement_6taknv$.call(this, partial);
     var byxml = new XMLElement('by');
-    res.addContent_w70l3r$(byxml);
+    res.addContent_esm5gr$(byxml);
     tmp$ = this.by.iterator();
     while (tmp$.hasNext()) {
       var b = tmp$.next();
-      byxml.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', b.name));
+      byxml.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', b.name));
     }
     var xmlbindings = new XMLElement('bindings');
-    res.addContent_w70l3r$(xmlbindings);
+    res.addContent_esm5gr$(xmlbindings);
     tmp$_0 = this.bindings.iterator();
     while (tmp$_0.hasNext()) {
       var tmp$_1 = tmp$_0.next();
       var first = tmp$_1.component1()
       , second = tmp$_1.component2();
-      xmlbindings.addContent_w70l3r$((new XMLElement('binding')).addAttribute_puj7f4$('name', first).addContent_w70l3r$(second.toXMLElement_6taknv$(partial)));
+      xmlbindings.addContent_esm5gr$((new XMLElement('binding')).addAttribute_puj7f4$('name', first).addContent_esm5gr$(second.toXMLElement_6taknv$(partial)));
     }
     return res;
   };
@@ -10953,7 +9536,7 @@
   POPMakeBooleanResult.prototype.getRequiredVariableNames = function () {
     return emptyList();
   };
-  POPMakeBooleanResult.prototype.evaluate_euq53c$ = function (parent) {
+  POPMakeBooleanResult.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0;
     var flag;
     var outMap = LinkedHashMap_init();
@@ -10963,7 +9546,7 @@
     } else if (Kotlin.isType(this.children[0], OPEmptyRow)) {
       flag = true;
     } else {
-      var child = this.children[0].evaluate_euq53c$(parent);
+      var child = this.children[0].evaluate_t5uvj0$(parent);
       if (!variables.isEmpty()) {
         flag = ensureNotNull(child.columns.get_11rb$(variables.get_za3lpa$(0))).next() !== 4;
         tmp$ = variables.iterator();
@@ -11017,13 +9600,13 @@
     for (tmp$_0 = 0; tmp$_0 !== tmp$.length; ++tmp$_0) {
       var m = tmp$[tmp$_0];
       if (m.second === 1) {
-        xmlInsert.addContent_w70l3r$(m.first.toXMLElement_6taknv$(false));
+        xmlInsert.addContent_esm5gr$(m.first.toXMLElement_6taknv$(false));
       } else {
-        xmlDelete.addContent_w70l3r$(m.first.toXMLElement_6taknv$(false));
+        xmlDelete.addContent_esm5gr$(m.first.toXMLElement_6taknv$(false));
       }
     }
-    res.addContent_w70l3r$(xmlInsert);
-    res.addContent_w70l3r$(xmlDelete);
+    res.addContent_esm5gr$(xmlInsert);
+    res.addContent_esm5gr$(xmlDelete);
     return res;
   };
   function POPModify$getPartitionCount$lambda(this$POPModify, closure$variable) {
@@ -11122,10 +9705,10 @@
       return closure$variables.contains_11rb$(closure$first.graph);
     };
   }
-  POPModify.prototype.evaluate_euq53c$ = function (parent) {
+  POPModify.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3;
     var variables = this.children[0].getProvidedVariableNames();
-    var child = this.children[0].evaluate_euq53c$(parent);
+    var child = this.children[0].evaluate_t5uvj0$(parent);
     var array = Array_0(variables.size);
     var tmp$_4;
     tmp$_4 = array.length - 1 | 0;
@@ -11168,8 +9751,8 @@
             graphVarIdx = graphVarIdx + 1 | 0;
           }
         }if (first.graphVar) {
-          this.query.getDictionary().getValue_rj5z7q$(buffer, row[graphVarIdx]);
-          tmp$_1 = ensureNotNull(_DictionaryHelper_getInstance().byteArrayToValueDefinition_jxlg18$(buffer).valueToString());
+          this.query.getDictionary().getValue_v5fxe$(buffer, row[graphVarIdx]);
+          tmp$_1 = ensureNotNull(DictionaryHelper_getInstance().byteArrayToValueDefinition_b1q5io$(buffer).valueToString());
         } else {
           tmp$_1 = first.graph;
         }
@@ -11219,9 +9802,10 @@
       var tmp$_10 = tmp$_3.next();
       var graphName_0 = tmp$_10.key;
       var iterator_0 = tmp$_10.value;
-      var store = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(graphName_0);
+      var store = shared.tripleStoreManager.getGraph_61zpoe$(graphName_0);
       for (var type = 0; type < 2; type++) {
         if (iterator_0[type][0].size > 0) {
+          var cache = store.modify_create_cache_za3lpa$(1);
           var tmp$_11 = this.query;
           var array_3 = Array_0(3);
           var tmp$_12;
@@ -11229,7 +9813,7 @@
           for (var i_3 = 0; i_3 <= tmp$_12; i_3++) {
             array_3[i_3] = iterator.ColumnIteratorMultiValue.invoke_hens66$(iterator_0[type][i_3]);
           }
-          store.modify_m8mocp$(tmp$_11, array_3, type);
+          store.modify_cache_o413y8$(tmp$_11, array_3, type, cache, true);
         }}
     }
     return IteratorBundle_init_0(mapOf(to('?success', new ColumnIteratorRepeatValue(1, 0))));
@@ -11311,10 +9895,10 @@
       return closure$child.columns.get_11rb$(closure$variable) != null;
     };
   }
-  POPProjection.prototype.evaluate_euq53c$ = function (parent) {
+  POPProjection.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$;
     var variables = this.getProvidedVariableNames();
-    var child = this.children[0].evaluate_euq53c$(parent);
+    var child = this.children[0].evaluate_t5uvj0$(parent);
     var outMap = LinkedHashMap_init();
     if (variables.containsAll_brywnq$(this.children[0].getProvidedVariableNames()))
       return child;
@@ -11413,19 +9997,19 @@
     var tmp$, tmp$_0, tmp$_1;
     var res = new XMLElement('POPSort');
     var projectedXML = new XMLElement('projectedVariables');
-    res.addContent_w70l3r$(projectedXML);
+    res.addContent_esm5gr$(projectedXML);
     tmp$ = this.projectedVariables.iterator();
     while (tmp$.hasNext()) {
       var variable = tmp$.next();
-      projectedXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
+      projectedXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', variable));
     }
     res.addAttribute_puj7f4$('uuid', '' + toString(this.uuid));
     var sortByXML = new XMLElement('by');
-    res.addContent_w70l3r$(sortByXML);
+    res.addContent_esm5gr$(sortByXML);
     tmp$_0 = this.sortBy;
     for (tmp$_1 = 0; tmp$_1 !== tmp$_0.length; ++tmp$_1) {
       var v = tmp$_0[tmp$_1];
-      sortByXML.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', v.name));
+      sortByXML.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', v.name));
     }
     if (this.sortOrder) {
       res.addAttribute_puj7f4$('order', 'ASC');
@@ -11436,7 +10020,7 @@
     res.addAttribute_puj7f4$('providedSort', this.getPossibleSortPriorities().toString());
     res.addAttribute_puj7f4$('filteredSort', this.sortPriorities.toString());
     res.addAttribute_puj7f4$('selectedSort', this.mySortPriority.toString());
-    res.addContent_w70l3r$(this.childrenToXML_6taknv$(partial));
+    res.addContent_esm5gr$(this.childrenToXML_6taknv$(partial));
     return res;
   };
   POPSort.prototype.getPossibleSortPriorities = function () {
@@ -11460,9 +10044,9 @@
     res.add_11rb$(tmp);
     return res;
   };
-  POPSort.prototype.evaluate_euq53c$ = function (parent) {
+  POPSort.prototype.evaluate_t5uvj0$ = function (parent) {
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
-    var child = this.children[0].evaluate_euq53c$(parent);
+    var child = this.children[0].evaluate_t5uvj0$(parent);
     var variablesOut = this.getProvidedVariableNames();
     if (this.sortOrder) {
       tmp$ = new ValueComparatorASC(this.query);
@@ -11474,9 +10058,9 @@
       return child;
     else if (variablesOut.size === 1) {
       if (this.sortBy.length === 1) {
-        tmp$_0 = IteratorBundle_init_0(mapOf(to(variablesOut.get_za3lpa$(0), iterator.ColumnIteratorMerge.invoke_k4lym1$(ensureNotNull(child.columns.get_11rb$(variablesOut.get_za3lpa$(0))), comparator))));
+        tmp$_0 = IteratorBundle_init_0(mapOf(to(variablesOut.get_za3lpa$(0), iterator.ColumnIteratorMerge.invoke_1aag2x$(ensureNotNull(child.columns.get_11rb$(variablesOut.get_za3lpa$(0))), comparator))));
       } else {
-        tmp$_0 = IteratorBundle_init_0(mapOf(to(variablesOut.get_za3lpa$(0), iterator.ColumnIteratorMerge.invoke_k2jvps$(ensureNotNull(child.columns.get_11rb$(variablesOut.get_za3lpa$(0)))))));
+        tmp$_0 = IteratorBundle_init_0(mapOf(to(variablesOut.get_za3lpa$(0), iterator.ColumnIteratorMerge.invoke_l3pyjk$(ensureNotNull(child.columns.get_11rb$(variablesOut.get_za3lpa$(0)))))));
       }
       return tmp$_0;
     } else {
@@ -11508,7 +10092,7 @@
           columnNamesTmp.add_11rb$(v_1);
         }}
       var columnNames = copyToArray(columnNamesTmp);
-      return IteratorBundle_init_1(RowIteratorMerge.Companion.invoke_q5tc5b$(child.rows, comparator, this.sortBy.length, columnNames));
+      return IteratorBundle_init_1(RowIteratorMerge.Companion.invoke_ywt9yp$(child.rows, comparator, this.sortBy.length, columnNames));
     }
   };
   POPSort.$metadata$ = {
@@ -11518,6 +10102,7 @@
   };
   function POPVisualisation(query, projectedVariables, child) {
     POPBase.call(this, query, projectedVariables, 102, 'POPVisualisation', [child], 6);
+    this.visualTest = null;
   }
   POPVisualisation.prototype.getPartitionCount_61zpoe$ = function (variable) {
     return this.getChildren()[0].getPartitionCount_61zpoe$(variable);
@@ -11541,7 +10126,7 @@
   POPVisualisation.prototype.toSparql = function () {
     return this.getChildren()[0].toSparql();
   };
-  function POPVisualisation$evaluate$lambda(this$POPVisualisation, closure$child, closure$iterator, closure$counter, closure$parent, closure$buffer) {
+  function POPVisualisation$evaluate$lambda(this$POPVisualisation, closure$child, closure$iterator, closure$counter, closure$parent, closure$buffer, closure$outputString) {
     return function () {
       var tmp$, tmp$_0;
       println(this$POPVisualisation.uuid.toString() + ' next call');
@@ -11564,9 +10149,13 @@
         println(tmp$_1 + destination);
         tmp$_0 = closure$iterator.columns.length - 1 | 0;
         for (var j = 0; j <= tmp$_0; j++) {
-          this$POPVisualisation.query.getDictionary().getValue_rj5z7q$(closure$buffer, closure$iterator.buf[res + j | 0]);
-          var string = '?' + this$POPVisualisation.projectedVariables.get_za3lpa$(j) + ' = ' + _DictionaryHelper_getInstance().byteArrayToSparql_jxlg18$(closure$buffer);
-          visual.sendData_le21x6$(this$POPVisualisation.getParent().getVisualUUUID(), this$POPVisualisation.getChildren()[0].getVisualUUUID(), closure$iterator.buf[res + j | 0], string);
+          this$POPVisualisation.query.getDictionary().getValue_v5fxe$(closure$buffer, closure$iterator.buf[res + j | 0]);
+          var string = '?' + this$POPVisualisation.projectedVariables.get_za3lpa$(j) + ' = ' + DictionaryHelper_getInstance().byteArrayToSparql_b1q5io$(closure$buffer);
+          closure$outputString.v = this$POPVisualisation.getChildren()[0].getVisualUUUID().toString() + '||';
+          closure$outputString.v += this$POPVisualisation.getParent().getVisualUUUID().toString() + '||';
+          closure$outputString.v += string + '||';
+          closure$outputString.v += closure$iterator.buf[res + j | 0].toString() + 'NEWDATA';
+          ensureNotNull(this$POPVisualisation.visualTest).sendData_61zpoe$(closure$outputString.v);
         }
       }
       return res;
@@ -11579,9 +10168,10 @@
       return Unit;
     };
   }
-  POPVisualisation.prototype.evaluate_euq53c$ = function (parent) {
+  POPVisualisation.prototype.evaluate_t5uvj0$ = function (parent) {
+    var outputString = {v: ''};
     var result = IteratorBundle_init_1(new RowIterator());
-    var child = this.getChildren()[0].evaluate_euq53c$(parent);
+    var child = this.getChildren()[0].evaluate_t5uvj0$(parent);
     var rowMode = toMutableList(child.rows.columns);
     var target = this.getChildren()[0].getProvidedVariableNames();
     rowMode = toMutableList(child.rows.columns);
@@ -11591,7 +10181,7 @@
     var counter = {v: 0};
     iterator.columns = child.rows.columns;
     var buffer = ByteArrayWrapper_init();
-    iterator.next = POPVisualisation$evaluate$lambda(this, child, iterator, counter, parent, buffer);
+    iterator.next = POPVisualisation$evaluate$lambda(this, child, iterator, counter, parent, buffer, outputString);
     iterator.close = POPVisualisation$evaluate$lambda_0(child, iterator);
     return IteratorBundle_init_1(iterator);
   };
@@ -11600,42 +10190,82 @@
     simpleName: 'POPVisualisation',
     interfaces: [POPBase]
   };
-  function _ByteArrayHelper() {
-    _ByteArrayHelper_instance = this;
+  function BufferManagerPage() {
+    BufferManagerPage_instance = this;
+    this.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES_8be2vx$ = 8192;
   }
-  _ByteArrayHelper.prototype.readDouble8_pao7sd$ = function (data, offset) {
-    var buffer = new ArrayBuffer(8);
-    var intView = new Int64Array(buffer);
-    var floatView = new Float64Array(buffer);
-    intView.set(0, this.readLong8_pao7sd$(data, offset));
-    return floatView.get(0);
+  BufferManagerPage.prototype.create_8be2vx$ = function () {
+    var data = new Int8Array(8196);
+    this.setPageID_pao7sd$(data, -1);
+    return data;
   };
-  _ByteArrayHelper.prototype.writeDouble8_aunrlr$ = function (data, offset, value) {
-    var buffer = new ArrayBuffer(8);
-    var intView = new Int64Array(buffer);
-    var floatView = new Float64Array(buffer);
-    floatView.set(0, value);
-    this.writeLong8_ul24ie$(data, offset, intView.get(0));
+  function BufferManagerPage$copyInto$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.copyInto_v35ddt$ = function (data, destination, destinationOffset, startIndex, endIndex) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$copyInto$lambda(data, this));
+    arrayCopy(data, destination, destinationOffset, startIndex, endIndex);
   };
-  _ByteArrayHelper.prototype.writeInt1_qibw1t$ = function (data, offset, value) {
-    data[offset] = toByte(value & 255);
+  function BufferManagerPage$copyFrom$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.copyFrom_v35ddt$ = function (data, source, destinationOffset, startIndex, endIndex) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$copyFrom$lambda(data, this));
+    arrayCopy(source, data, destinationOffset, startIndex, endIndex);
   };
-  _ByteArrayHelper.prototype.writeInt2_qibw1t$ = function (data, offset, value) {
-    data[offset] = toByte(value >> 8 & 255);
-    data[offset + 1 | 0] = toByte(value & 255);
+  BufferManagerPage.prototype.getPageID_ma41of$ = function (data) {
+    return ByteArrayHelper_getInstance().readInt4_pao7sd$(data, 8192);
   };
-  _ByteArrayHelper.prototype.writeInt3_qibw1t$ = function (data, offset, value) {
-    data[offset] = toByte(value >> 16 & 255);
-    data[offset + 1 | 0] = toByte(value >> 8 & 255);
-    data[offset + 2 | 0] = toByte(value & 255);
+  function BufferManagerPage$setPageID$lambda(closure$value, closure$data, this$BufferManagerPage) {
+    return function () {
+      return closure$value === -1 || this$BufferManagerPage.getPageID_ma41of$(closure$data) === -1;
+    };
+  }
+  BufferManagerPage.prototype.setPageID_pao7sd$ = function (data, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$setPageID$lambda(value, data, this));
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(data, 8192, value);
   };
-  _ByteArrayHelper.prototype.writeInt4_qibw1t$ = function (data, offset, value) {
-    data[offset] = toByte(value >> 24 & 255);
-    data[offset + 1 | 0] = toByte(value >> 16 & 255);
-    data[offset + 2 | 0] = toByte(value >> 8 & 255);
-    data[offset + 3 | 0] = toByte(value & 255);
+  function BufferManagerPage$writeInt1$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeInt1_qibw1t$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeInt1$lambda(data, this));
+    ByteArrayHelper_getInstance().writeInt1_qibw1t$(data, offset, value);
   };
-  _ByteArrayHelper.prototype.writeIntX_4f9ssz$ = function (data, offset, value, count) {
+  function BufferManagerPage$writeInt2$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeInt2_qibw1t$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeInt2$lambda(data, this));
+    ByteArrayHelper_getInstance().writeInt2_qibw1t$(data, offset, value);
+  };
+  function BufferManagerPage$writeInt3$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeInt3_qibw1t$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeInt3$lambda(data, this));
+    ByteArrayHelper_getInstance().writeInt3_qibw1t$(data, offset, value);
+  };
+  function BufferManagerPage$writeInt4$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeInt4_qibw1t$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeInt4$lambda(data, this));
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(data, offset, value);
+  };
+  BufferManagerPage.prototype.writeIntX_4f9ssz$ = function (data, offset, value, count) {
     switch (count) {
       case 0:
         break;
@@ -11652,37 +10282,70 @@
         break;
     }
   };
-  _ByteArrayHelper.prototype.writeLong8_ul24ie$ = function (data, offset, value) {
-    data[offset] = toByte(value.shiftRight(56).and(L255).toInt());
-    data[offset + 1 | 0] = toByte(value.shiftRight(48).and(L255).toInt());
-    data[offset + 2 | 0] = toByte(value.shiftRight(40).and(L255).toInt());
-    data[offset + 3 | 0] = toByte(value.shiftRight(32).and(L255).toInt());
-    data[offset + 4 | 0] = toByte(value.shiftRight(24).and(L255).toInt());
-    data[offset + 5 | 0] = toByte(value.shiftRight(16).and(L255).toInt());
-    data[offset + 6 | 0] = toByte(value.shiftRight(8).and(L255).toInt());
-    data[offset + 7 | 0] = toByte(value.and(L255).toInt());
+  function BufferManagerPage$writeLong8$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeLong8_ul24ie$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeLong8$lambda(data, this));
+    ByteArrayHelper_getInstance().writeLong8_ul24ie$(data, offset, value);
   };
-  _ByteArrayHelper.prototype.writeChar_ul80vw$ = function (data, offset, value) {
-    var v = value | 0;
-    data[offset] = toByte(v >> 8 & 255);
-    data[offset + 1 | 0] = toByte(v & 255);
+  function BufferManagerPage$writeChar$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeChar_ul80vw$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeChar$lambda(data, this));
+    ByteArrayHelper_getInstance().writeChar_ul80vw$(data, offset, value);
   };
-  _ByteArrayHelper.prototype.readLong8_pao7sd$ = function (data, offset) {
-    return Kotlin.Long.fromInt(data[offset]).and(L255).shiftLeft(56).or(Kotlin.Long.fromInt(data[offset + 1 | 0]).and(L255).shiftLeft(48)).or(Kotlin.Long.fromInt(data[offset + 2 | 0]).and(L255).shiftLeft(40)).or(Kotlin.Long.fromInt(data[offset + 3 | 0]).and(L255).shiftLeft(32)).or(Kotlin.Long.fromInt(data[offset + 4 | 0]).and(L255).shiftLeft(24)).or(Kotlin.Long.fromInt(data[offset + 5 | 0]).and(L255).shiftLeft(16)).or(Kotlin.Long.fromInt(data[offset + 6 | 0]).and(L255).shiftLeft(8)).or(Kotlin.Long.fromInt(data[offset + 7 | 0]).and(L255));
+  function BufferManagerPage$readLong8$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readLong8_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readLong8$lambda(data, this));
+    return ByteArrayHelper_getInstance().readLong8_pao7sd$(data, offset);
   };
-  _ByteArrayHelper.prototype.readInt4_pao7sd$ = function (data, offset) {
-    return (data[offset] & 255) << 24 | (data[offset + 1 | 0] & 255) << 16 | (data[offset + 2 | 0] & 255) << 8 | data[offset + 3 | 0] & 255;
+  function BufferManagerPage$readInt4$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readInt4_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readInt4$lambda(data, this));
+    return ByteArrayHelper_getInstance().readInt4_pao7sd$(data, offset);
   };
-  _ByteArrayHelper.prototype.readInt3_pao7sd$ = function (data, offset) {
-    return (data[offset] & 255) << 16 | (data[offset + 1 | 0] & 255) << 8 | data[offset + 2 | 0] & 255;
+  function BufferManagerPage$readInt3$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readInt3_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readInt3$lambda(data, this));
+    return ByteArrayHelper_getInstance().readInt3_pao7sd$(data, offset);
   };
-  _ByteArrayHelper.prototype.readInt2_pao7sd$ = function (data, offset) {
-    return (data[offset] & 255) << 8 | data[offset + 1 | 0] & 255;
+  function BufferManagerPage$readInt2$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readInt2_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readInt2$lambda(data, this));
+    return ByteArrayHelper_getInstance().readInt2_pao7sd$(data, offset);
   };
-  _ByteArrayHelper.prototype.readInt1_pao7sd$ = function (data, offset) {
-    return data[offset] & 255;
+  function BufferManagerPage$readInt1$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readInt1_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readInt1$lambda(data, this));
+    return ByteArrayHelper_getInstance().readInt1_pao7sd$(data, offset);
   };
-  _ByteArrayHelper.prototype.readIntX_qibw1t$ = function (data, offset, count) {
+  BufferManagerPage.prototype.readIntX_qibw1t$ = function (data, offset, count) {
     switch (count) {
       case 0:
         return 0;
@@ -11695,91 +10358,1711 @@
       default:return this.readInt4_pao7sd$(data, offset);
     }
   };
-  _ByteArrayHelper.prototype.readChar_pao7sd$ = function (data, offset) {
+  function BufferManagerPage$readChar$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readChar_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readChar$lambda(data, this));
+    return ByteArrayHelper_getInstance().readChar_pao7sd$(data, offset);
+  };
+  BufferManagerPage.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'BufferManagerPage',
+    interfaces: []
+  };
+  var BufferManagerPage_instance = null;
+  function BufferManagerPage_getInstance() {
+    if (BufferManagerPage_instance === null) {
+      new BufferManagerPage();
+    }return BufferManagerPage_instance;
+  }
+  function ColumnIteratorQueueExt() {
+    ColumnIteratorQueueExt_instance = this;
+  }
+  ColumnIteratorQueueExt.prototype._close_6z1dri$ = function (it) {
+    if (it.label !== 0) {
+      it.label = 0;
+      it.queue.clear();
+    }};
+  ColumnIteratorQueueExt.prototype.nextHelper_tdqia6$ = function (it, onEmptyQueue, onClose) {
+    var tmp$, tmp$_0;
+    switch (it.label) {
+      case 1:
+        if (it.queue.size === 0) {
+          onEmptyQueue();
+          if (it.queue.size > 0) {
+            tmp$ = it.queue.removeAt_za3lpa$(0);
+          } else {
+            onClose();
+            tmp$ = 4;
+          }
+        } else {
+          tmp$ = it.queue.removeAt_za3lpa$(0);
+        }
+
+        return tmp$;
+      case 2:
+        if (it.queue.size === 0) {
+          onClose();
+          tmp$_0 = 4;
+        } else {
+          tmp$_0 = it.queue.removeAt_za3lpa$(0);
+        }
+
+        return tmp$_0;
+      default:return 4;
+    }
+  };
+  ColumnIteratorQueueExt.prototype.closeOnEmptyQueue_6z1dri$ = function (it) {
+    if (it.label !== 0) {
+      it.label = 2;
+    }};
+  ColumnIteratorQueueExt.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'ColumnIteratorQueueExt',
+    interfaces: []
+  };
+  var ColumnIteratorQueueExt_instance = null;
+  function ColumnIteratorQueueExt_getInstance() {
+    if (ColumnIteratorQueueExt_instance === null) {
+      new ColumnIteratorQueueExt();
+    }return ColumnIteratorQueueExt_instance;
+  }
+  function DictionaryHelper() {
+    DictionaryHelper_instance = this;
+  }
+  DictionaryHelper.prototype.errorToByteArray_b1q5io$ = function (buffer) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 4);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 5);
+  };
+  DictionaryHelper.prototype.undefToByteArray_b1q5io$ = function (buffer) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 4);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 12);
+  };
+  DictionaryHelper.prototype.dateTimeToByteArray_akwfwi$ = function (buffer, str) {
+    var year;
+    var month;
+    var day;
+    var hours;
+    var minutes;
+    var seconds;
+    var timezoneHours;
+    var timezoneMinutes;
+    var idx = 0;
+    var idx2 = indexOf_0(str, 45, 1);
+    if (idx2 < idx) {
+      idx2 = str.length - 1 | 0;
+    }if (idx2 > idx) {
+      var startIndex = idx;
+      var endIndex = idx2;
+      year = str.substring(startIndex, endIndex);
+      idx = idx2;
+      idx2 = indexOf_0(str, 45, idx + 1 | 0);
+      if (idx2 < idx) {
+        idx2 = str.length - 1 | 0;
+      }if (idx2 > idx) {
+        var startIndex_0 = idx + 1 | 0;
+        var endIndex_0 = idx2;
+        month = toInt_0(str.substring(startIndex_0, endIndex_0));
+        idx = idx2;
+        idx2 = indexOf_0(str, 84, idx + 1 | 0);
+        if (idx2 < idx) {
+          idx2 = str.length - 1 | 0;
+        }if (idx2 > idx) {
+          var startIndex_1 = idx + 1 | 0;
+          var endIndex_1 = idx2;
+          day = toInt_0(str.substring(startIndex_1, endIndex_1));
+          idx = idx2;
+          idx2 = indexOf_0(str, 58, idx + 1 | 0);
+          if (idx2 < idx) {
+            idx2 = str.length - 1 | 0;
+          }if (idx2 > idx) {
+            var startIndex_2 = idx + 1 | 0;
+            var endIndex_2 = idx2;
+            hours = toInt_0(str.substring(startIndex_2, endIndex_2));
+            idx = idx2;
+            idx2 = indexOf_0(str, 58, idx + 1 | 0);
+            if (idx2 < idx) {
+              idx2 = str.length - 1 | 0;
+            }if (idx2 > idx) {
+              var startIndex_3 = idx + 1 | 0;
+              var endIndex_3 = idx2;
+              minutes = toInt_0(str.substring(startIndex_3, endIndex_3));
+              idx = idx2;
+              var idxa = indexOf_0(str, 90, idx + 1 | 0);
+              var idxb = indexOf_0(str, 43, idx + 1 | 0);
+              var idxc = indexOf_0(str, 45, idx + 1 | 0);
+              if (idxa > idx) {
+                var startIndex_4 = idx + 1 | 0;
+                seconds = str.substring(startIndex_4, idxa);
+                timezoneHours = 0;
+                timezoneMinutes = 0;
+              } else if (idxb > idx) {
+                var startIndex_5 = idx + 1 | 0;
+                seconds = str.substring(startIndex_5, idxb);
+                idx = idxb;
+                idx2 = indexOf_0(str, 58, idx + 1 | 0);
+                if (idx2 > idx) {
+                  var startIndex_6 = idx;
+                  var endIndex_4 = idx2;
+                  timezoneHours = toInt_0(str.substring(startIndex_6, endIndex_4));
+                  var startIndex_7 = idx2 + 1 | 0;
+                  var endIndex_5 = str.length;
+                  timezoneMinutes = toInt_0(str.substring(startIndex_7, endIndex_5));
+                } else {
+                  timezoneHours = -99;
+                  timezoneMinutes = -99;
+                }
+              } else if (idxc > idx) {
+                var startIndex_8 = idx + 1 | 0;
+                seconds = str.substring(startIndex_8, idxc);
+                idx = idxc;
+                idx2 = indexOf_0(str, 58, idx + 1 | 0);
+                if (idx2 > idx) {
+                  var startIndex_9 = idx;
+                  var endIndex_6 = idx2;
+                  timezoneHours = toInt_0(str.substring(startIndex_9, endIndex_6));
+                  var startIndex_10 = idx2 + 1 | 0;
+                  var endIndex_7 = str.length;
+                  timezoneMinutes = toInt_0(str.substring(startIndex_10, endIndex_7));
+                } else {
+                  timezoneHours = -99;
+                  timezoneMinutes = -99;
+                }
+              } else {
+                var startIndex_11 = idx + 1 | 0;
+                var endIndex_8 = str.length;
+                seconds = str.substring(startIndex_11, endIndex_8);
+                timezoneHours = -99;
+                timezoneMinutes = -99;
+              }
+            } else {
+              minutes = 0;
+              seconds = '0.0';
+              timezoneHours = -99;
+              timezoneMinutes = -99;
+            }
+          } else {
+            hours = 0;
+            minutes = 0;
+            seconds = '0.0';
+            timezoneHours = -99;
+            timezoneMinutes = -99;
+          }
+        } else {
+          day = 0;
+          hours = 0;
+          minutes = 0;
+          seconds = '0.0';
+          timezoneHours = -99;
+          timezoneMinutes = -99;
+        }
+      } else {
+        month = 0;
+        day = 0;
+        hours = 0;
+        minutes = 0;
+        seconds = '0.0';
+        timezoneHours = -99;
+        timezoneMinutes = -99;
+      }
+    } else {
+      year = '0';
+      month = 0;
+      day = 0;
+      hours = 0;
+      minutes = 0;
+      seconds = '0.0';
+      timezoneHours = -99;
+      timezoneMinutes = -99;
+    }
+    this.dateTimeToByteArray_o4mgi8$(buffer, BigInteger.Companion.parseString_bm4lxs$(year, 10), month, day, hours, minutes, BigDecimal.Companion.parseString_bm4lxs$(seconds, 10), timezoneHours, timezoneMinutes);
+  };
+  function DictionaryHelper$dateTimeToByteArray$lambda(closure$month) {
+    return function () {
+      return closure$month >= 0;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_0(closure$month) {
+    return function () {
+      return closure$month <= 99;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_1(closure$day) {
+    return function () {
+      return closure$day >= 0;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_2(closure$day) {
+    return function () {
+      return closure$day <= 99;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_3(closure$hours) {
+    return function () {
+      return closure$hours >= 0;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_4(closure$hours) {
+    return function () {
+      return closure$hours <= 24;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_5(closure$minutes) {
+    return function () {
+      return closure$minutes >= 0;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_6(closure$minutes) {
+    return function () {
+      return closure$minutes <= 99;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_7(closure$timezoneHours) {
+    return function () {
+      return closure$timezoneHours >= -24;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_8(closure$timezoneHours) {
+    return function () {
+      return closure$timezoneHours <= 24;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_9(closure$timezoneMinutes) {
+    return function () {
+      return closure$timezoneMinutes >= 0;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_10(closure$timezoneMinutes) {
+    return function () {
+      return closure$timezoneMinutes <= 99;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_11(closure$off, closure$buffer) {
+    return function () {
+      return closure$off.v === closure$buffer.size;
+    };
+  }
+  DictionaryHelper.prototype.dateTimeToByteArray_o4mgi8$ = function (buffer, year, month, day, hours, minutes, seconds, timezoneHours, timezoneMinutes) {
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda(month));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_0(month));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_1(day));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_2(day));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_3(hours));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_4(hours));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_5(minutes));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_6(minutes));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_7(timezoneHours));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_8(timezoneHours));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_9(timezoneMinutes));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_10(timezoneMinutes));
+    var buf1 = year.toByteArray();
+    var buf2 = seconds.significand.toByteArray();
+    var l1 = buf1.length;
+    var l2 = buf2.length;
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 42 + l1 + l2 | 0);
+    var off = {v: 0};
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, 2);
+    off.v = off.v + 4 | 0;
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, l1);
+    off.v = off.v + 4 | 0;
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, month);
+    off.v = off.v + 4 | 0;
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, day);
+    off.v = off.v + 4 | 0;
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, hours);
+    off.v = off.v + 4 | 0;
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, minutes);
+    off.v = off.v + 4 | 0;
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, timezoneHours);
+    off.v = off.v + 4 | 0;
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, timezoneMinutes);
+    off.v = off.v + 4 | 0;
+    ByteArrayHelper_getInstance().writeLong8_ul24ie$(buffer.buf, off.v, seconds.exponent);
+    off.v = off.v + 8 | 0;
+    buffer.buf[off.v] = toByte(year.signum());
+    off.v = off.v + 1 | 0;
+    buffer.buf[off.v] = toByte(seconds.signum());
+    off.v = off.v + 1 | 0;
+    arrayCopy(buf1, buffer.buf, off.v, 0, buf1.length);
+    off.v = off.v + l1 | 0;
+    arrayCopy(buf2, buffer.buf, off.v, 0, buf2.length);
+    off.v = off.v + l2 | 0;
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_11(off, buffer));
+  };
+  function DictionaryHelper$byteArrayToDateTime_Year$lambda(closure$off, closure$buffer) {
+    return function () {
+      return closure$off.v === closure$buffer.size;
+    };
+  }
+  DictionaryHelper.prototype.byteArrayToDateTime_Year_b1q5io$ = function (buffer) {
+    var tmp$;
+    var off = {v: 0};
+    off.v = off.v + 4 | 0;
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 8 | 0;
+    switch (buffer.buf[off.v]) {
+      case -1:
+        tmp$ = Sign.NEGATIVE;
+        break;
+      case 1:
+        tmp$ = Sign.POSITIVE;
+        break;
+      default:tmp$ = Sign.ZERO;
+        break;
+    }
+    var yearSignum = tmp$;
+    off.v = off.v + 1 | 0;
+    off.v = off.v + 1 | 0;
+    var buf1 = new Int8Array(l1);
+    arrayCopy(buffer.buf, buf1, 0, off.v, off.v + l1 | 0);
+    off.v = off.v + l1 | 0;
+    var l2 = buffer.size - l1 - 42 | 0;
+    off.v = off.v + l2 | 0;
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$byteArrayToDateTime_Year$lambda(off, buffer));
+    var year = BigInteger.Companion.fromByteArray_cz08zj$(buf1, yearSignum);
+    return year;
+  };
+  DictionaryHelper.prototype.byteArrayToDateTime_Month_b1q5io$ = function (buffer) {
+    var off = 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    var month = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
+    return BigInteger_init(month);
+  };
+  DictionaryHelper.prototype.byteArrayToDateTime_Day_b1q5io$ = function (buffer) {
+    var off = 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    var day = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
+    return BigInteger_init(day);
+  };
+  DictionaryHelper.prototype.byteArrayToDateTime_Hours_b1q5io$ = function (buffer) {
+    var off = 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    var hours = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
+    return BigInteger_init(hours);
+  };
+  DictionaryHelper.prototype.byteArrayToDateTime_Minutes_b1q5io$ = function (buffer) {
+    var off = 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    var minutes = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
+    return BigInteger_init(minutes);
+  };
+  function DictionaryHelper$byteArrayToDateTime_Seconds$lambda(closure$off, closure$buffer) {
+    return function () {
+      return closure$off.v === closure$buffer.size;
+    };
+  }
+  DictionaryHelper.prototype.byteArrayToDateTime_Seconds_b1q5io$ = function (buffer) {
+    var tmp$;
+    var off = {v: 0};
+    off.v = off.v + 4 | 0;
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    var secondsExponent = ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 8 | 0;
+    off.v = off.v + 1 | 0;
+    switch (buffer.buf[off.v]) {
+      case -1:
+        tmp$ = Sign.NEGATIVE;
+        break;
+      case 1:
+        tmp$ = Sign.POSITIVE;
+        break;
+      default:tmp$ = Sign.ZERO;
+        break;
+    }
+    var secondsSignum = tmp$;
+    off.v = off.v + 1 | 0;
+    off.v = off.v + l1 | 0;
+    var l2 = buffer.size - l1 - 42 | 0;
+    var buf2 = new Int8Array(l2);
+    arrayCopy(buffer.buf, buf2, 0, off.v, off.v + l2 | 0);
+    arrayCopy(buf2, buffer.buf, off.v, 0, buf2.length);
+    off.v = off.v + l2 | 0;
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$byteArrayToDateTime_Seconds$lambda(off, buffer));
+    var seconds = BigDecimal.Companion.fromBigIntegerWithExponent_2w0s5z$(BigInteger.Companion.fromByteArray_cz08zj$(buf2, secondsSignum), secondsExponent);
+    return seconds;
+  };
+  function DictionaryHelper$byteArrayToDateTimeAsTyped_Content$lambda(closure$off, closure$buffer) {
+    return function () {
+      return closure$off.v === closure$buffer.size;
+    };
+  }
+  DictionaryHelper.prototype.byteArrayToDateTimeAsTyped_Content_b1q5io$ = function (buffer) {
+    var tmp$, tmp$_0, tmp$_1;
+    var off = {v: 0};
+    off.v = off.v + 4 | 0;
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    var month = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    var day = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    var hours = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    var minutes = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    var timezoneHours = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    var timezoneMinutes = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    var secondsExponent = ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 8 | 0;
+    switch (buffer.buf[off.v]) {
+      case -1:
+        tmp$ = Sign.NEGATIVE;
+        break;
+      case 1:
+        tmp$ = Sign.POSITIVE;
+        break;
+      default:tmp$ = Sign.ZERO;
+        break;
+    }
+    var yearSignum = tmp$;
+    off.v = off.v + 1 | 0;
+    switch (buffer.buf[off.v]) {
+      case -1:
+        tmp$_0 = Sign.NEGATIVE;
+        break;
+      case 1:
+        tmp$_0 = Sign.POSITIVE;
+        break;
+      default:tmp$_0 = Sign.ZERO;
+        break;
+    }
+    var secondsSignum = tmp$_0;
+    off.v = off.v + 1 | 0;
+    var buf1 = new Int8Array(l1);
+    arrayCopy(buffer.buf, buf1, 0, off.v, off.v + l1 | 0);
+    off.v = off.v + l1 | 0;
+    var l2 = buffer.size - l1 - 42 | 0;
+    var buf2 = new Int8Array(l2);
+    arrayCopy(buffer.buf, buf2, 0, off.v, off.v + l2 | 0);
+    arrayCopy(buf2, buffer.buf, off.v, 0, buf2.length);
+    off.v = off.v + l2 | 0;
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$byteArrayToDateTimeAsTyped_Content$lambda(off, buffer));
+    var year = BigInteger.Companion.fromByteArray_cz08zj$(buf1, yearSignum);
+    var seconds = BigDecimal.Companion.fromBigIntegerWithExponent_2w0s5z$(BigInteger.Companion.fromByteArray_cz08zj$(buf2, secondsSignum), secondsExponent);
+    var secondsString2 = split(seconds.toStringExpanded(), ['.']);
+    var secondsString = padStart(secondsString2.get_za3lpa$(0), 2, 48);
+    if (secondsString2.size > 1) {
+      var tmp = secondsString2.get_za3lpa$(1);
+      while (endsWith(tmp, 48)) {
+        var $receiver = tmp;
+        var endIndex = tmp.length - 1 | 0;
+        tmp = $receiver.substring(0, endIndex);
+      }
+      if (tmp.length > 0) {
+        secondsString += '.' + tmp;
+      }}if (timezoneHours === -99 && timezoneMinutes === -99) {
+      tmp$_1 = year.toString() + '-' + padStart(month.toString(), 2, 48) + '-' + padStart(day.toString(), 2, 48) + 'T' + padStart(hours.toString(), 2, 48) + ':' + padStart(minutes.toString(), 2, 48) + ':' + secondsString;
+    } else if (timezoneHours === 0 && timezoneMinutes === 0) {
+      tmp$_1 = year.toString() + '-' + padStart(month.toString(), 2, 48) + '-' + padStart(day.toString(), 2, 48) + 'T' + padStart(hours.toString(), 2, 48) + ':' + padStart(minutes.toString(), 2, 48) + ':' + secondsString + 'Z';
+    } else {
+      var timezoneHoursLocal = timezoneHours.toString();
+      if (timezoneHoursLocal.charCodeAt(0) === 45 || timezoneHoursLocal.charCodeAt(0) === 43) {
+        timezoneHoursLocal = '' + String.fromCharCode(toBoxedChar(timezoneHoursLocal.charCodeAt(0))) + padStart(timezoneHoursLocal.substring(1), 2, 48);
+      } else {
+        timezoneHoursLocal = '+' + padStart(timezoneHoursLocal, 2, 48);
+      }
+      tmp$_1 = year.toString() + '-' + padStart(month.toString(), 2, 48) + '-' + padStart(day.toString(), 2, 48) + 'T' + padStart(hours.toString(), 2, 48) + ':' + padStart(minutes.toString(), 2, 48) + ':' + secondsString + timezoneHoursLocal + ':' + padStart(timezoneMinutes.toString(), 2, 48);
+    }
+    return tmp$_1;
+  };
+  DictionaryHelper.prototype.byteArrayToDateTime_TZ_b1q5io$ = function (buffer) {
+    var off = 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    var timezoneHours = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
+    off = off + 4 | 0;
+    var timezoneMinutes = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
+    if (timezoneHours === 0 && timezoneMinutes === 0) {
+      return 'Z';
+    }if (timezoneHours === -1 && timezoneMinutes === -1) {
+      return '';
+    }return '-' + padStart(timezoneHours.toString(), 2, 48) + ':' + padStart(timezoneMinutes.toString(), 2, 48);
+  };
+  DictionaryHelper.prototype.byteArrayToDateTime_TimeZone_b1q5io$ = function (buffer) {
+    var off = 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    var timezoneHours = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
+    off = off + 4 | 0;
+    var timezoneMinutes = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
+    if (timezoneHours === 0 && timezoneMinutes === 0) {
+      return '"PT0S"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>';
+    }if (timezoneHours >= 0 && timezoneMinutes === 0) {
+      return '"' + '-PT' + timezoneHours + 'H' + '"' + '^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>';
+    }return '';
+  };
+  DictionaryHelper.prototype.booleanToByteArray_5191p3$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 5);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 1);
+    if (value) {
+      buffer.buf[4] = 1;
+    } else {
+      buffer.buf[4] = 0;
+    }
+  };
+  DictionaryHelper.prototype.byteArrayToBoolean_b1q5io$ = function (buffer) {
+    return buffer.buf[4] !== toByte(0);
+  };
+  DictionaryHelper.prototype.integerToByteArray_akwfwi$ = function (buffer, value) {
+    this.integerToByteArray_ddz2hi$(buffer, BigInteger.Companion.parseString_bm4lxs$(value, 10));
+  };
+  DictionaryHelper.prototype.integerToByteArray_ddz2hi$ = function (buffer, value) {
+    var buf1 = value.toByteArray();
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 5 + buf1.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 7);
+    buffer.buf[4] = toByte(value.signum());
+    arrayCopy(buf1, buffer.buf, 5, 0, buf1.length);
+  };
+  DictionaryHelper.prototype.byteArrayToInteger_S_b1q5io$ = function (buffer) {
+    return this.byteArrayToInteger_I_b1q5io$(buffer).toString();
+  };
+  DictionaryHelper.prototype.byteArrayToInteger_I_b1q5io$ = function (buffer) {
+    var tmp$;
+    var l1 = buffer.size - 5 | 0;
+    var buf = new Int8Array(l1);
+    arrayCopy(buffer.buf, buf, 0, 5, 5 + l1 | 0);
+    switch (buffer.buf[4]) {
+      case -1:
+        tmp$ = Sign.NEGATIVE;
+        break;
+      case 1:
+        tmp$ = Sign.POSITIVE;
+        break;
+      default:tmp$ = Sign.ZERO;
+        break;
+    }
+    var sign = tmp$;
+    return BigInteger.Companion.fromByteArray_cz08zj$(buf, sign);
+  };
+  DictionaryHelper.prototype.decimalToByteArray_akwfwi$ = function (buffer, value) {
+    this.decimalToByteArray_g73zp2$(buffer, BigDecimal.Companion.parseString_bm4lxs$(value, 10));
+  };
+  DictionaryHelper.prototype.decimalToByteArray_g73zp2$ = function (buffer, value) {
+    var buf1 = value.significand.toByteArray();
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 13 + buf1.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 3);
+    ByteArrayHelper_getInstance().writeLong8_ul24ie$(buffer.buf, 4, value.exponent);
+    buffer.buf[12] = toByte(value.signum());
+    arrayCopy(buf1, buffer.buf, 13, 0, buf1.length);
+  };
+  DictionaryHelper.prototype.byteArrayToDecimal_I_b1q5io$ = function (buffer) {
+    var tmp$;
+    var l1 = buffer.size - 13 | 0;
+    var buf = new Int8Array(l1);
+    arrayCopy(buffer.buf, buf, 0, 13, 13 + l1 | 0);
+    var exponent = ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.buf, 4);
+    switch (buffer.buf[12]) {
+      case -1:
+        tmp$ = Sign.NEGATIVE;
+        break;
+      case 1:
+        tmp$ = Sign.POSITIVE;
+        break;
+      default:tmp$ = Sign.ZERO;
+        break;
+    }
+    var sign = tmp$;
+    return BigDecimal.Companion.fromBigIntegerWithExponent_2w0s5z$(BigInteger.Companion.fromByteArray_cz08zj$(buf, sign), exponent);
+  };
+  DictionaryHelper.prototype.byteArrayToDecimal_S_b1q5io$ = function (buffer) {
+    var tmp = this.byteArrayToDecimal_I_b1q5io$(buffer).toStringExpanded();
+    if (contains_0(tmp, 46)) {
+      return tmp;
+    }return tmp + '.0';
+  };
+  DictionaryHelper.prototype.doubleToByteArray_3eiwqq$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 12);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 4);
+    ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.buf, 4, value);
+  };
+  DictionaryHelper.prototype.doubleToByteArray_akwfwi$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 12);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 4);
+    ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.buf, 4, toDouble(value));
+  };
+  DictionaryHelper.prototype.byteArrayToDouble_I_b1q5io$ = function (buffer) {
+    return ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.buf, 4);
+  };
+  DictionaryHelper.prototype.byteArrayToDouble_S_b1q5io$ = function (buffer) {
+    return ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.buf, 4).toString();
+  };
+  DictionaryHelper.prototype.floatToByteArray_3eiwqq$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 12);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 6);
+    ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.buf, 4, value);
+  };
+  DictionaryHelper.prototype.floatToByteArray_akwfwi$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 12);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 6);
+    ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.buf, 4, toDouble(value));
+  };
+  DictionaryHelper.prototype.byteArrayToFloat_I_b1q5io$ = function (buffer) {
+    return ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.buf, 4);
+  };
+  DictionaryHelper.prototype.byteArrayToFloat_S_b1q5io$ = function (buffer) {
+    return ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.buf, 4).toString();
+  };
+  DictionaryHelper.prototype.langToByteArray_v5q3o4$ = function (buffer, content, lang) {
+    var buf1 = encodeToByteArray(lang);
+    var buf2 = encodeToByteArray(content);
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 9 + buf1.length + buf2.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 10);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 5 + buf1.length + buf2.length | 0, buf1.length);
+    arrayCopy(buf1, buffer.buf, 4, 0, buf1.length);
+    buffer.buf[4 + buf1.length | 0] = 0;
+    arrayCopy(buf2, buffer.buf, 5 + buf1.length | 0, 0, buf2.length);
+  };
+  DictionaryHelper.prototype.byteArrayToLang_Content_b1q5io$ = function (buffer) {
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, buffer.size - 4 | 0);
+    var l2 = buffer.size - 9 - l1 | 0;
+    var buf = new Int8Array(l2);
+    arrayCopy(buffer.buf, buf, 0, 5 + l1 | 0, 5 + l1 + l2 | 0);
+    return decodeToString(buf);
+  };
+  DictionaryHelper.prototype.byteArrayToLang_Lang_b1q5io$ = function (buffer) {
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, buffer.size - 4 | 0);
+    var buf = new Int8Array(l1);
+    arrayCopy(buffer.buf, buf, 0, 4, 4 + l1 | 0);
+    return decodeToString(buf);
+  };
+  DictionaryHelper.prototype.typedToByteArray_v5q3o4$ = function (buffer, content, type) {
+    try {
+      switch (type) {
+        case 'http://www.w3.org/2001/XMLSchema#integer':
+          this.integerToByteArray_akwfwi$(buffer, content);
+          break;
+        case 'http://www.w3.org/2001/XMLSchema#decimal':
+          this.decimalToByteArray_akwfwi$(buffer, content);
+          break;
+        case 'http://www.w3.org/2001/XMLSchema#double':
+          this.doubleToByteArray_3eiwqq$(buffer, toDouble(content));
+          break;
+        case 'http://www.w3.org/2001/XMLSchema#float':
+          this.floatToByteArray_3eiwqq$(buffer, toDouble(content));
+          break;
+        case 'http://www.w3.org/2001/XMLSchema#boolean':
+          this.booleanToByteArray_5191p3$(buffer, equals(content.toLowerCase(), 'true'));
+          break;
+        case 'http://www.w3.org/2001/XMLSchema#dateTime':
+          this.dateTimeToByteArray_akwfwi$(buffer, content);
+          break;
+        default:var buf1 = encodeToByteArray(type);
+          var buf2 = encodeToByteArray(content);
+          ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 9 + buf1.length + buf2.length | 0);
+          ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 11);
+          ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 5 + buf1.length + buf2.length | 0, buf1.length);
+          arrayCopy(buf1, buffer.buf, 4, 0, buf1.length);
+          buffer.buf[4 + buf1.length | 0] = 0;
+          arrayCopy(buf2, buffer.buf, 5 + buf1.length | 0, 0, buf2.length);
+          break;
+      }
+    } catch (e) {
+      if (Kotlin.isType(e, Exception)) {
+        printStackTrace(e);
+        this.stringToByteArray_akwfwi$(buffer, content);
+      } else
+        throw e;
+    }
+  };
+  DictionaryHelper.prototype.byteArrayToTyped_Content_b1q5io$ = function (buffer) {
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, buffer.size - 4 | 0);
+    var l2 = buffer.size - 9 - l1 | 0;
+    var buf = new Int8Array(l2);
+    arrayCopy(buffer.buf, buf, 0, 5 + l1 | 0, 5 + l1 + l2 | 0);
+    return decodeToString(buf);
+  };
+  DictionaryHelper.prototype.byteArrayToTyped_Type_b1q5io$ = function (buffer) {
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, buffer.size - 4 | 0);
+    var buf = new Int8Array(l1);
+    arrayCopy(buffer.buf, buf, 0, 4, 4 + l1 | 0);
+    return decodeToString(buf);
+  };
+  function DictionaryHelper$bnodeToByteArray$lambda(closure$value) {
+    return function () {
+      return closure$value.length > 0;
+    };
+  }
+  DictionaryHelper.prototype.bnodeToByteArray_akwfwi$ = function (buffer, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$bnodeToByteArray$lambda(value));
+    var buf1 = encodeToByteArray(value);
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 8 + buf1.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 4, buf1.length);
+    arrayCopy(buf1, buffer.buf, 8, 0, buf1.length);
+  };
+  DictionaryHelper.prototype.bnodeToByteArray_v5fxe$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 8);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 4, value);
+  };
+  DictionaryHelper.prototype.byteArrayToBnode_I_b1q5io$ = function (buffer) {
+    if (buffer.size === 8) {
+      return ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 4);
+    } else {
+      throw Exception_init('this is not ready to be used as instanciated value');
+    }
+  };
+  DictionaryHelper.prototype.byteArrayToBnode_S_b1q5io$ = function (buffer) {
+    if (buffer.size === 8) {
+      throw Exception_init('this is not ready to be used as import value');
+    } else {
+      var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 4);
+      var buf = new Int8Array(l1);
+      arrayCopy(buffer.buf, buf, 0, 8, 8 + l1 | 0);
+      return decodeToString(buf);
+    }
+  };
+  DictionaryHelper.prototype.byteArrayToBnode_A_b1q5io$ = function (buffer) {
+    if (buffer.size === 8) {
+      return ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 4).toString();
+    } else {
+      var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 4);
+      var buf = new Int8Array(l1);
+      arrayCopy(buffer.buf, buf, 0, 8, 8 + l1 | 0);
+      return decodeToString(buf);
+    }
+  };
+  DictionaryHelper.prototype.iriToByteArray_akwfwi$ = function (buffer, value) {
+    var buf1 = encodeToByteArray(value);
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 4 + buf1.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 8);
+    arrayCopy(buf1, buffer.buf, 4, 0, buf1.length);
+  };
+  DictionaryHelper.prototype.byteArrayToIri_b1q5io$ = function (buffer) {
+    var l1 = buffer.size - 4 | 0;
+    var buf = new Int8Array(l1);
+    arrayCopy(buffer.buf, buf, 0, 4, 4 + l1 | 0);
+    return decodeToString(buf);
+  };
+  DictionaryHelper.prototype.byteArrayToString_b1q5io$ = function (buffer) {
+    var l1 = buffer.size - 4 | 0;
+    var buf = new Int8Array(l1);
+    arrayCopy(buffer.buf, buf, 0, 4, 4 + l1 | 0);
+    return decodeToString(buf);
+  };
+  DictionaryHelper.prototype.stringToByteArray_akwfwi$ = function (buffer, value) {
+    var buf1 = encodeToByteArray(value);
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 4 + buf1.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 9);
+    arrayCopy(buf1, buffer.buf, 4, 0, buf1.length);
+  };
+  function DictionaryHelper$sparqlToByteArray$lambda(closure$langIdx) {
+    return function () {
+      return closure$langIdx > 0;
+    };
+  }
+  DictionaryHelper.prototype.sparqlToByteArray_r5mkub$ = function (buffer, value) {
+    var tmp$ = value == null;
+    if (!tmp$) {
+      tmp$ = value.length === 0;
+    }var tmp$_0 = tmp$;
+    if (!tmp$_0) {
+      tmp$_0 = equals(value.toLowerCase(), 'undef');
+    }if (tmp$_0) {
+      this.undefToByteArray_b1q5io$(buffer);
+      return;
+    }if (equals(value.toLowerCase(), 'error')) {
+      this.errorToByteArray_b1q5io$(buffer);
+      return;
+    }if (equals(value.toLowerCase(), 'true')) {
+      this.booleanToByteArray_5191p3$(buffer, true);
+      return;
+    }if (equals(value.toLowerCase(), 'false')) {
+      this.booleanToByteArray_5191p3$(buffer, false);
+      return;
+    }if (startsWith(value, '_:')) {
+      var endIndex = value.length;
+      this.bnodeToByteArray_akwfwi$(buffer, value.substring(2, endIndex));
+      return;
+    }if (startsWith(value, '<') && endsWith_0(value, '>')) {
+      var endIndex_0 = value.length - 1 | 0;
+      this.iriToByteArray_akwfwi$(buffer, value.substring(1, endIndex_0));
+      return;
+    }if (!contains_0(value, 46)) {
+      try {
+        var i = BigInteger.Companion.parseString_bm4lxs$(value, 10);
+        this.integerToByteArray_ddz2hi$(buffer, i);
+        return;
+      } catch (e) {
+        if (!Kotlin.isType(e, Exception))
+          throw e;
+      }
+    }if (!contains_1(value, 'e') && !contains_1(value, 'E')) {
+      try {
+        var d = BigDecimal.Companion.parseString_bm4lxs$(value, 10);
+        this.decimalToByteArray_g73zp2$(buffer, d);
+        return;
+      } catch (e) {
+        if (!Kotlin.isType(e, Exception))
+          throw e;
+      }
+    }try {
+      var d_0 = toDouble(value);
+      this.doubleToByteArray_3eiwqq$(buffer, d_0);
+      return;
+    } catch (e) {
+      if (!Kotlin.isType(e, Exception))
+        throw e;
+    }
+    if (!endsWith_0(value, '' + String.fromCharCode(toBoxedChar(value.charCodeAt(0))))) {
+      var typeIdx = lastIndexOf(value, '' + String.fromCharCode(toBoxedChar(value.charCodeAt(0))) + '^^<');
+      var langIdx = lastIndexOf(value, '' + String.fromCharCode(toBoxedChar(value.charCodeAt(0))) + '@');
+      if (endsWith_0(value, '>') && typeIdx > 0) {
+        var endIndex_1 = typeIdx + 1 | 0;
+        var tmp$_1 = this.removeQuotesFromString_61zpoe$(value.substring(0, endIndex_1));
+        var startIndex = typeIdx + 4 | 0;
+        var endIndex_2 = value.length - 1 | 0;
+        this.typedToByteArray_v5q3o4$(buffer, tmp$_1, value.substring(startIndex, endIndex_2));
+        return;
+      } else {
+        SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$sparqlToByteArray$lambda(langIdx));
+        var endIndex_3 = langIdx + 1 | 0;
+        var tmp$_2 = this.removeQuotesFromString_61zpoe$(value.substring(0, endIndex_3));
+        var startIndex_0 = langIdx + 2 | 0;
+        var endIndex_4 = value.length;
+        this.langToByteArray_v5q3o4$(buffer, tmp$_2, value.substring(startIndex_0, endIndex_4));
+        return;
+      }
+    }this.stringToByteArray_akwfwi$(buffer, this.removeQuotesFromString_61zpoe$(value));
+  };
+  DictionaryHelper.prototype.removeQuotesFromString_61zpoe$ = function (s) {
+    var c = s.charCodeAt(0);
+    var cntLeft = 1;
+    var cntRight = 0;
+    if (c !== 39 && c !== 34 || c !== s.charCodeAt(s.length - 1 | 0)) {
+      throw Exception_init('invalid quoted string >' + s + '<');
+    }while (cntLeft < s.length && s.charCodeAt(cntLeft) === c) {
+      cntLeft = cntLeft + 1 | 0;
+    }
+    while (cntRight < s.length && s.charCodeAt(s.length - cntRight - 1 | 0) === c) {
+      cntRight = cntRight + 1 | 0;
+    }
+    if (cntLeft >= 3 && cntRight >= 3 && s.length >= 6) {
+      var endIndex = s.length - 3 | 0;
+      return s.substring(3, endIndex);
+    }var endIndex_0 = s.length - 1 | 0;
+    return s.substring(1, endIndex_0);
+  };
+  DictionaryHelper.prototype.valueDefinitionToByteArray_a55a6y$ = function (buffer, value) {
+    this.sparqlToByteArray_r5mkub$(buffer, value.valueToString());
+  };
+  function DictionaryHelper$byteArrayToType$lambda(closure$res) {
+    return function () {
+      return closure$res >= 0;
+    };
+  }
+  function DictionaryHelper$byteArrayToType$lambda_0(closure$res) {
+    return function () {
+      return closure$res.toString();
+    };
+  }
+  function DictionaryHelper$byteArrayToType$lambda_1(closure$res) {
+    return function () {
+      return closure$res < 13;
+    };
+  }
+  function DictionaryHelper$byteArrayToType$lambda_2(closure$res) {
+    return function () {
+      return closure$res.toString();
+    };
+  }
+  DictionaryHelper.prototype.byteArrayToType_b1q5io$ = function (buffer) {
+    var res = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 0);
+    SanityCheckOn_getInstance().check_a3x0x2$(DictionaryHelper$byteArrayToType$lambda(res), DictionaryHelper$byteArrayToType$lambda_0(res));
+    SanityCheckOn_getInstance().check_a3x0x2$(DictionaryHelper$byteArrayToType$lambda_1(res), DictionaryHelper$byteArrayToType$lambda_2(res));
+    return res;
+  };
+  DictionaryHelper.prototype.byteArrayToSparql_b1q5io$ = function (buffer) {
+    var tmp$;
+    var type = this.byteArrayToType_b1q5io$(buffer);
+    switch (type) {
+      case 12:
+        tmp$ = 'UNDEF';
+        break;
+      case 5:
+        tmp$ = 'ERROR';
+        break;
+      case 0:
+        tmp$ = this.byteArrayToBnode_A_b1q5io$(buffer);
+        break;
+      case 1:
+        if (this.byteArrayToBoolean_b1q5io$(buffer)) {
+          tmp$ = '"true"^^<http://www.w3.org/2001/XMLSchema#boolean>';
+        } else {
+          tmp$ = '"false"^^<http://www.w3.org/2001/XMLSchema#boolean>';
+        }
+
+        break;
+      case 4:
+        tmp$ = '"' + this.byteArrayToDouble_S_b1q5io$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#double>';
+        break;
+      case 6:
+        tmp$ = '"' + this.byteArrayToFloat_S_b1q5io$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#float>';
+        break;
+      case 7:
+        tmp$ = '"' + this.byteArrayToInteger_S_b1q5io$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#integer>';
+        break;
+      case 3:
+        tmp$ = '"' + this.byteArrayToDecimal_S_b1q5io$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#decimal>';
+        break;
+      case 8:
+        tmp$ = '<' + this.byteArrayToIri_b1q5io$(buffer) + '>';
+        break;
+      case 9:
+        tmp$ = '"' + this.byteArrayToString_b1q5io$(buffer) + '"';
+        break;
+      case 10:
+        tmp$ = '"' + this.byteArrayToLang_Content_b1q5io$(buffer) + '"@' + this.byteArrayToLang_Lang_b1q5io$(buffer);
+        break;
+      case 11:
+        tmp$ = '"' + this.byteArrayToTyped_Content_b1q5io$(buffer) + '"^^<' + this.byteArrayToTyped_Type_b1q5io$(buffer) + '>';
+        break;
+      case 2:
+        tmp$ = '"' + this.byteArrayToDateTimeAsTyped_Content_b1q5io$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#dateTime>';
+        break;
+      default:throw Exception_init('unreachable ' + type);
+    }
+    return tmp$;
+  };
+  DictionaryHelper.prototype.byteArrayToValueDefinition_b1q5io$ = function (buffer) {
+    var tmp$;
+    var type = this.byteArrayToType_b1q5io$(buffer);
+    switch (type) {
+      case 12:
+        tmp$ = dictionary.DictionaryExt.undefValue2;
+        break;
+      case 5:
+        tmp$ = dictionary.DictionaryExt.errorValue2;
+        break;
+      case 0:
+        tmp$ = new ValueBnode('' + toString(this.byteArrayToBnode_I_b1q5io$(buffer)));
+        break;
+      case 1:
+        if (this.byteArrayToBoolean_b1q5io$(buffer)) {
+          tmp$ = dictionary.DictionaryExt.booleanTrueValue2;
+        } else {
+          tmp$ = dictionary.DictionaryExt.booleanFalseValue2;
+        }
+
+        break;
+      case 4:
+        tmp$ = new ValueDouble(this.byteArrayToDouble_I_b1q5io$(buffer));
+        break;
+      case 6:
+        tmp$ = new ValueFloat(this.byteArrayToFloat_I_b1q5io$(buffer));
+        break;
+      case 7:
+        tmp$ = new ValueInteger(this.byteArrayToInteger_I_b1q5io$(buffer));
+        break;
+      case 3:
+        tmp$ = new ValueDecimal(this.byteArrayToDecimal_I_b1q5io$(buffer));
+        break;
+      case 8:
+        tmp$ = new ValueIri(this.byteArrayToIri_b1q5io$(buffer));
+        break;
+      case 9:
+        tmp$ = new ValueSimpleLiteral('"', this.byteArrayToString_b1q5io$(buffer));
+        break;
+      case 10:
+        tmp$ = new ValueLanguageTaggedLiteral('"', this.byteArrayToLang_Content_b1q5io$(buffer), this.byteArrayToLang_Lang_b1q5io$(buffer));
+        break;
+      case 11:
+        tmp$ = ValueTypedLiteral.Companion.invoke_6hosri$('"', this.byteArrayToTyped_Content_b1q5io$(buffer), this.byteArrayToTyped_Type_b1q5io$(buffer));
+        break;
+      default:throw Exception_init('unreachable ' + type);
+    }
+    return tmp$;
+  };
+  DictionaryHelper.prototype.byteArrayToCallback_6o198z$ = function (buffer, onBNode, onBoolean, onLanguageTaggedLiteral, onSimpleLiteral, onTypedLiteral, onDecimal, onFloat, onDouble, onInteger, onIri, onError, onUndefined) {
+    var type = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 0);
+    switch (type) {
+      case 6:
+        onFloat(this.byteArrayToFloat_I_b1q5io$(buffer));
+        break;
+      case 4:
+        onDouble(this.byteArrayToDouble_I_b1q5io$(buffer));
+        break;
+      case 7:
+        onInteger(this.byteArrayToInteger_S_b1q5io$(buffer));
+        break;
+      case 3:
+        onDecimal(this.byteArrayToDecimal_S_b1q5io$(buffer));
+        break;
+      case 12:
+        onUndefined();
+        break;
+      case 5:
+        onError();
+        break;
+      case 0:
+        onBNode(this.byteArrayToBnode_I_b1q5io$(buffer));
+        break;
+      case 1:
+        onBoolean(this.byteArrayToBoolean_b1q5io$(buffer));
+        break;
+      case 8:
+        onIri(this.byteArrayToIri_b1q5io$(buffer));
+        break;
+      case 9:
+        onSimpleLiteral(this.byteArrayToString_b1q5io$(buffer));
+        break;
+      case 10:
+        onLanguageTaggedLiteral(this.byteArrayToLang_Content_b1q5io$(buffer), this.byteArrayToLang_Lang_b1q5io$(buffer));
+        break;
+      case 11:
+        onTypedLiteral(this.byteArrayToTyped_Content_b1q5io$(buffer), this.byteArrayToTyped_Type_b1q5io$(buffer));
+        break;
+      case 2:
+        onTypedLiteral(this.byteArrayToDateTimeAsTyped_Content_b1q5io$(buffer), 'http://www.w3.org/2001/XMLSchema#dateTime');
+        break;
+      default:throw Exception_init('unreachable ' + type);
+    }
+  };
+  DictionaryHelper.prototype.byteArrayCompareAny_sllwic$ = function (a, b) {
+    var typeA = this.byteArrayToType_b1q5io$(a);
+    var typeB = this.byteArrayToType_b1q5io$(b);
+    if (typeA !== typeB) {
+      if (typeA === 12) {
+        return -1;
+      } else if (typeB === 12) {
+        return 1;
+      } else if (typeA === 5) {
+        return -1;
+      } else if (typeB === 5) {
+        return 1;
+      } else if (typeA === 0) {
+        return -1;
+      } else if (typeB === 0) {
+        return 1;
+      } else if (typeA === 8) {
+        return -1;
+      } else if (typeB === 8) {
+        return 1;
+      } else if (typeA === 9) {
+        return -1;
+      } else if (typeB === 9) {
+        return 1;
+      } else {
+        return typeA - typeB | 0;
+      }
+    } else {
+      if (typeA === 12 || typeA === 5) {
+        return 0;
+      } else if (typeA === 0) {
+        if (a.size === 8 && b.size === 8) {
+          return ByteArrayHelper_getInstance().readInt4_pao7sd$(a.buf, 4) - ByteArrayHelper_getInstance().readInt4_pao7sd$(b.buf, 4) | 0;
+        } else {
+          return a.compareTo_11rb$(b);
+        }
+      } else if (typeA === 1) {
+        return a.buf[4] - b.buf[4];
+      } else if (typeA !== 2)
+        if (typeA !== 3)
+          if (typeA !== 4)
+            if (typeA !== 6)
+              if (typeA !== 7)
+                if (typeA === 10 || typeA === 11 || typeA === 8 || typeA === 9) {
+                  var lenA = a.size;
+                  var lenB = b.size;
+                  var i = 4;
+                  var res = 0;
+                  while (i < lenA && i < lenB && res === 0) {
+                    res = a.buf[i] - b.buf[i];
+                    i = i + 1 | 0;
+                  }
+                  if (res === 0) {
+                    res = lenA - lenB | 0;
+                  }return res;
+                }}
+    throw Exception_init('can not compare ' + typeA + ' ' + typeB);
+  };
+  DictionaryHelper.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'DictionaryHelper',
+    interfaces: []
+  };
+  var DictionaryHelper_instance = null;
+  function DictionaryHelper_getInstance() {
+    if (DictionaryHelper_instance === null) {
+      new DictionaryHelper();
+    }return DictionaryHelper_instance;
+  }
+  function ByteArrayWrapperExt() {
+    ByteArrayWrapperExt_instance = this;
+  }
+  ByteArrayWrapperExt.prototype.setSize_v5fxe$ = function (data, c) {
+    data.size = c;
+    if (c > data.buf.length) {
+      data.buf = new Int8Array(c);
+    }};
+  ByteArrayWrapperExt.prototype.setSizeCopy_v5fxe$ = function (data, c) {
+    data.size = c;
+    if (c > data.buf.length) {
+      var oldBuf = data.buf;
+      data.buf = new Int8Array(c);
+      arrayCopy(oldBuf, data.buf, 0, 0, oldBuf.length);
+    }};
+  ByteArrayWrapperExt.prototype.commonBytes_sllwic$ = function (a, b) {
+    var i = 0;
+    while (i < a.size && i < b.size) {
+      if (a.buf[i] === b.buf[i]) {
+        i = i + 1 | 0;
+      } else {
+        break;
+      }
+    }
+    return i;
+  };
+  ByteArrayWrapperExt.prototype.copyInto_sllwic$ = function (a, b) {
+    this.setSize_v5fxe$(b, a.size);
+    arrayCopy(a.buf, b.buf, 0, 0, a.size);
+  };
+  ByteArrayWrapperExt.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'ByteArrayWrapperExt',
+    interfaces: []
+  };
+  var ByteArrayWrapperExt_instance = null;
+  function ByteArrayWrapperExt_getInstance() {
+    if (ByteArrayWrapperExt_instance === null) {
+      new ByteArrayWrapperExt();
+    }return ByteArrayWrapperExt_instance;
+  }
+  function IntArrayWrapperExt() {
+    IntArrayWrapperExt_instance = this;
+  }
+  IntArrayWrapperExt.prototype.setSize_b39gz4$ = function (data, c) {
+    data.size = c;
+    if (c > data.buf.length) {
+      data.buf = new Int32Array(c);
+    }};
+  IntArrayWrapperExt.prototype.setSizeCopy_b39gz4$ = function (data, c) {
+    data.size = c;
+    if (c > data.buf.length) {
+      var oldBuf = data.buf;
+      data.buf = new Int32Array(c);
+      arrayCopy(oldBuf, data.buf, 0, 0, oldBuf.length);
+    }};
+  IntArrayWrapperExt.prototype.copyInto_rs6nqr$ = function (a, b) {
+    this.setSize_b39gz4$(b, a.size);
+    arrayCopy(a.buf, b.buf, 0, 0, a.size);
+  };
+  IntArrayWrapperExt.prototype.append_b39gz4$ = function (data, v) {
+    var tmp$;
+    if (data.buf.length === data.size) {
+      var oldBuf = data.buf;
+      data.buf = new Int32Array(data.size * 2 | 0);
+      arrayCopy(oldBuf, data.buf, 0, 0, oldBuf.length);
+    }data.buf[tmp$ = data.size, data.size = tmp$ + 1 | 0, tmp$] = v;
+  };
+  IntArrayWrapperExt.prototype.removeLast_j4ucjm$ = function (data) {
+    data.size = data.size - 1 | 0;
+    return data.buf[data.size];
+  };
+  IntArrayWrapperExt.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'IntArrayWrapperExt',
+    interfaces: []
+  };
+  var IntArrayWrapperExt_instance = null;
+  function IntArrayWrapperExt_getInstance() {
+    if (IntArrayWrapperExt_instance === null) {
+      new IntArrayWrapperExt();
+    }return IntArrayWrapperExt_instance;
+  }
+  function MyInputStreamFixedLength(stream, remainingBytes) {
+    this.stream = stream;
+    this.remainingBytes = remainingBytes;
+  }
+  MyInputStreamFixedLength.prototype.readInt = function () {
+    if (this.remainingBytes >= 4) {
+      this.remainingBytes = this.remainingBytes - 4 | 0;
+      return this.stream.readInt();
+    } else {
+      throw Exception_init('not enough bytes available ' + this.remainingBytes);
+    }
+  };
+  MyInputStreamFixedLength.prototype.readByte = function () {
+    if (this.remainingBytes >= 1) {
+      this.remainingBytes = this.remainingBytes - 1 | 0;
+      return this.stream.readByte();
+    } else {
+      throw Exception_init('not enough bytes available ' + this.remainingBytes);
+    }
+  };
+  MyInputStreamFixedLength.prototype.read_fqrh44$ = function (buf) {
+    if (this.remainingBytes >= buf.length) {
+      this.remainingBytes = this.remainingBytes - buf.length | 0;
+      return this.stream.read_fqrh44$(buf);
+    } else {
+      throw Exception_init('not enough bytes available ' + this.remainingBytes);
+    }
+  };
+  MyInputStreamFixedLength.prototype.read_ir89t6$ = function (buf, len) {
+    if (this.remainingBytes >= len) {
+      this.remainingBytes = this.remainingBytes - len | 0;
+      return this.stream.read_ir89t6$(buf, len);
+    } else {
+      throw Exception_init('not enough bytes available ' + this.remainingBytes);
+    }
+  };
+  MyInputStreamFixedLength.prototype.read_mj6st8$ = function (buf, off, len) {
+    if (this.remainingBytes >= len) {
+      this.remainingBytes = this.remainingBytes - len | 0;
+      return this.stream.read_mj6st8$(buf, off, len);
+    } else {
+      throw Exception_init('not enough bytes available ' + this.remainingBytes);
+    }
+  };
+  MyInputStreamFixedLength.prototype.close = function () {
+    this.stream.close();
+  };
+  MyInputStreamFixedLength.prototype.readLine = function () {
+    var buf = ArrayList_init();
+    try {
+      var b = this.readByte();
+      while (b !== toByte(10 | 0)) {
+        if (b !== toByte(13 | 0)) {
+          buf.add_11rb$(b);
+        }b = this.readByte();
+      }
+    } catch (e) {
+      if (Kotlin.isType(e, Throwable)) {
+        printStackTrace(e);
+        if (buf.size === 0) {
+          return null;
+        }} else
+        throw e;
+    }
+    return decodeToString(toByteArray(buf));
+  };
+  MyInputStreamFixedLength.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'MyInputStreamFixedLength',
+    interfaces: [IMyInputStream]
+  };
+  function MyStringStream(str) {
+    this.buf4 = new Int8Array(4);
+    this.data = encodeToByteArray(str);
+    this.pos = 0;
+  }
+  MyStringStream.prototype.close = function () {
+  };
+  MyStringStream.prototype.read_fqrh44$ = function (buf) {
+    var s = this.pos + buf.length | 0;
+    var res = buf.length;
+    if (s > this.data.length) {
+      s = this.data.length;
+      res = s - this.pos | 0;
+    }arrayCopy(this.data, buf, 0, this.pos, s);
+    this.pos = s;
+    return res;
+  };
+  MyStringStream.prototype.read_ir89t6$ = function (buf, len) {
+    var s = this.pos + len | 0;
+    var res = buf.length;
+    if (s > this.data.length) {
+      s = this.data.length;
+      res = s - this.pos | 0;
+    }arrayCopy(this.data, buf, 0, this.pos, s);
+    this.pos = s;
+    return res;
+  };
+  MyStringStream.prototype.read_mj6st8$ = function (buf, off, len) {
+    var s = this.pos + len | 0;
+    var res = buf.length;
+    if (s > this.data.length) {
+      s = this.data.length;
+      res = s - this.pos | 0;
+    }arrayCopy(this.data, buf, off, this.pos, s);
+    this.pos = s;
+    return res;
+  };
+  MyStringStream.prototype.readInt = function () {
+    this.read_ir89t6$(this.buf4, 4);
+    return ByteArrayHelper_getInstance().readInt4_pao7sd$(this.buf4, 0);
+  };
+  MyStringStream.prototype.readByte = function () {
+    this.read_ir89t6$(this.buf4, 1);
+    return this.buf4[0];
+  };
+  MyStringStream.prototype.readLine = function () {
+    var buf = ArrayList_init();
+    try {
+      var b = this.readByte();
+      while (b !== toByte(10 | 0)) {
+        if (b !== toByte(13 | 0)) {
+          buf.add_11rb$(b);
+        }b = this.readByte();
+      }
+    } catch (e) {
+      if (Kotlin.isType(e, Throwable)) {
+        printStackTrace(e);
+        if (buf.size === 0) {
+          return null;
+        }} else
+        throw e;
+    }
+    return decodeToString(toByteArray(buf));
+  };
+  MyStringStream.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'MyStringStream',
+    interfaces: [IMyInputStream]
+  };
+  function SanityCheckOff() {
+    SanityCheckOff_instance = this;
+  }
+  SanityCheckOff.prototype.println_buffermanager_lh572t$ = function (s) {
+  };
+  SanityCheckOff.prototype.println_nodemanager_lh572t$ = function (s) {
+  };
+  SanityCheckOff.prototype.println_lh572t$ = function (s) {
+  };
+  SanityCheckOff.prototype.invoke_ls4sck$ = function (action) {
+  };
+  SanityCheckOff.prototype.suspended_ls4sck$ = function (action) {
+  };
+  SanityCheckOff.prototype.helper_lx1jwy$ = function (action) {
+    return null;
+  };
+  SanityCheckOff.prototype.check_a3x0x2$ = function (value, msg) {
+  };
+  SanityCheckOff.prototype.check_8i7tro$ = function (value) {
+  };
+  SanityCheckOff.prototype.checkUnreachable_8be2vx$ = function () {
+    throw new UnreachableException();
+  };
+  SanityCheckOff.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'SanityCheckOff',
+    interfaces: []
+  };
+  var SanityCheckOff_instance = null;
+  function SanityCheckOff_getInstance() {
+    if (SanityCheckOff_instance === null) {
+      new SanityCheckOff();
+    }return SanityCheckOff_instance;
+  }
+  function SanityCheckOn() {
+    SanityCheckOn_instance = this;
+    this.SANITYCHECK_PRINTING_8be2vx$ = false;
+    this.SANITYCHECK_PRINTING_NODEMANAGER_8be2vx$ = false;
+    this.SANITYCHECK_PRINTING_BUFFERMANAGER_8be2vx$ = false;
+  }
+  SanityCheckOn.prototype.println_buffermanager_lh572t$ = function (s) {
+    if (this.SANITYCHECK_PRINTING_BUFFERMANAGER_8be2vx$) {
+      println(s());
+    }};
+  SanityCheckOn.prototype.println_nodemanager_lh572t$ = function (s) {
+    if (this.SANITYCHECK_PRINTING_NODEMANAGER_8be2vx$) {
+      println(s());
+    }};
+  SanityCheckOn.prototype.println_lh572t$ = function (s) {
+    if (this.SANITYCHECK_PRINTING_8be2vx$) {
+      println(s());
+    }};
+  SanityCheckOn.prototype.invoke_ls4sck$ = function (action) {
+    try {
+      action();
+    } catch (e) {
+      if (Kotlin.isType(e, Throwable)) {
+        if (this.SANITYCHECK_PRINTING_8be2vx$) {
+          println('Exception during SanityCheck.invoke');
+          printStackTrace(e);
+        }throw e;
+      } else
+        throw e;
+    }
+  };
+  SanityCheckOn.prototype.suspended_ls4sck$ = function (action) {
+    try {
+      action();
+    } catch (e) {
+      if (Kotlin.isType(e, Throwable)) {
+        if (this.SANITYCHECK_PRINTING_8be2vx$) {
+          println('Exception during SanityCheck.suspended');
+          printStackTrace(e);
+        }throw e;
+      } else
+        throw e;
+    }
+  };
+  SanityCheckOn.prototype.helper_i3ch5z$ = function (action) {
+    return action();
+  };
+  SanityCheckOn.prototype.check_a3x0x2$ = function (value, msg) {
+    try {
+      if (!value()) {
+        throw Exception_init('SanityCheck failed :: ' + msg());
+      }} catch (e) {
+      if (Kotlin.isType(e, Throwable)) {
+        if (this.SANITYCHECK_PRINTING_8be2vx$) {
+          println('Exception during SanityCheck.check');
+          printStackTrace(e);
+        }throw e;
+      } else
+        throw e;
+    }
+  };
+  SanityCheckOn.prototype.check_8i7tro$ = function (value) {
+    try {
+      if (!value()) {
+        throw Exception_init('SanityCheck failed');
+      }} catch (e) {
+      if (Kotlin.isType(e, Throwable)) {
+        if (this.SANITYCHECK_PRINTING_8be2vx$) {
+          println('Exception during SanityCheck.check');
+          printStackTrace(e);
+        }throw e;
+      } else
+        throw e;
+    }
+  };
+  SanityCheckOn.prototype.checkUnreachable_8be2vx$ = function () {
+    throw new UnreachableException();
+  };
+  SanityCheckOn.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'SanityCheckOn',
+    interfaces: []
+  };
+  var SanityCheckOn_instance = null;
+  function SanityCheckOn_getInstance() {
+    if (SanityCheckOn_instance === null) {
+      new SanityCheckOn();
+    }return SanityCheckOn_instance;
+  }
+  function Visualisation() {
+  }
+  Visualisation.prototype.sendData_le21x6$ = function (parentUUID, childUUID, index, string) {
+    receiveAnimation(childUUID, parentUUID, index, string);
+  };
+  Visualisation.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'Visualisation',
+    interfaces: []
+  };
+  function ByteArrayHelper() {
+    ByteArrayHelper_instance = this;
+  }
+  ByteArrayHelper.prototype.readDouble8_pao7sd$ = function (data, offset) {
+    var buffer = new ArrayBuffer(8);
+    var intView = new Int64Array(buffer);
+    var floatView = new Float64Array(buffer);
+    intView.set(0, this.readLong8_pao7sd$(data, offset));
+    return floatView.get(0);
+  };
+  ByteArrayHelper.prototype.writeDouble8_aunrlr$ = function (data, offset, value) {
+    var buffer = new ArrayBuffer(8);
+    var intView = new Int64Array(buffer);
+    var floatView = new Float64Array(buffer);
+    floatView.set(0, value);
+    this.writeLong8_ul24ie$(data, offset, intView.get(0));
+  };
+  ByteArrayHelper.prototype.writeInt1_qibw1t$ = function (data, offset, value) {
+    data[offset] = toByte(value & 255);
+  };
+  ByteArrayHelper.prototype.writeInt2_qibw1t$ = function (data, offset, value) {
+    data[offset] = toByte(value >> 8 & 255);
+    data[offset + 1 | 0] = toByte(value & 255);
+  };
+  ByteArrayHelper.prototype.writeInt3_qibw1t$ = function (data, offset, value) {
+    data[offset] = toByte(value >> 16 & 255);
+    data[offset + 1 | 0] = toByte(value >> 8 & 255);
+    data[offset + 2 | 0] = toByte(value & 255);
+  };
+  ByteArrayHelper.prototype.writeInt4_qibw1t$ = function (data, offset, value) {
+    data[offset] = toByte(value >> 24 & 255);
+    data[offset + 1 | 0] = toByte(value >> 16 & 255);
+    data[offset + 2 | 0] = toByte(value >> 8 & 255);
+    data[offset + 3 | 0] = toByte(value & 255);
+  };
+  ByteArrayHelper.prototype.writeIntX_4f9ssz$ = function (data, offset, value, count) {
+    switch (count) {
+      case 0:
+        break;
+      case 1:
+        this.writeInt1_qibw1t$(data, offset, value);
+        break;
+      case 2:
+        this.writeInt2_qibw1t$(data, offset, value);
+        break;
+      case 3:
+        this.writeInt3_qibw1t$(data, offset, value);
+        break;
+      default:this.writeInt4_qibw1t$(data, offset, value);
+        break;
+    }
+  };
+  ByteArrayHelper.prototype.writeLong8_ul24ie$ = function (data, offset, value) {
+    data[offset] = toByte(value.shiftRight(56).and(L255).toInt());
+    data[offset + 1 | 0] = toByte(value.shiftRight(48).and(L255).toInt());
+    data[offset + 2 | 0] = toByte(value.shiftRight(40).and(L255).toInt());
+    data[offset + 3 | 0] = toByte(value.shiftRight(32).and(L255).toInt());
+    data[offset + 4 | 0] = toByte(value.shiftRight(24).and(L255).toInt());
+    data[offset + 5 | 0] = toByte(value.shiftRight(16).and(L255).toInt());
+    data[offset + 6 | 0] = toByte(value.shiftRight(8).and(L255).toInt());
+    data[offset + 7 | 0] = toByte(value.and(L255).toInt());
+  };
+  ByteArrayHelper.prototype.writeChar_ul80vw$ = function (data, offset, value) {
+    var v = value | 0;
+    data[offset] = toByte(v >> 8 & 255);
+    data[offset + 1 | 0] = toByte(v & 255);
+  };
+  ByteArrayHelper.prototype.readLong8_pao7sd$ = function (data, offset) {
+    return Kotlin.Long.fromInt(data[offset]).and(L255).shiftLeft(56).or(Kotlin.Long.fromInt(data[offset + 1 | 0]).and(L255).shiftLeft(48)).or(Kotlin.Long.fromInt(data[offset + 2 | 0]).and(L255).shiftLeft(40)).or(Kotlin.Long.fromInt(data[offset + 3 | 0]).and(L255).shiftLeft(32)).or(Kotlin.Long.fromInt(data[offset + 4 | 0]).and(L255).shiftLeft(24)).or(Kotlin.Long.fromInt(data[offset + 5 | 0]).and(L255).shiftLeft(16)).or(Kotlin.Long.fromInt(data[offset + 6 | 0]).and(L255).shiftLeft(8)).or(Kotlin.Long.fromInt(data[offset + 7 | 0]).and(L255));
+  };
+  ByteArrayHelper.prototype.readInt4_pao7sd$ = function (data, offset) {
+    return (data[offset] & 255) << 24 | (data[offset + 1 | 0] & 255) << 16 | (data[offset + 2 | 0] & 255) << 8 | data[offset + 3 | 0] & 255;
+  };
+  ByteArrayHelper.prototype.readInt3_pao7sd$ = function (data, offset) {
+    return (data[offset] & 255) << 16 | (data[offset + 1 | 0] & 255) << 8 | data[offset + 2 | 0] & 255;
+  };
+  ByteArrayHelper.prototype.readInt2_pao7sd$ = function (data, offset) {
+    return (data[offset] & 255) << 8 | data[offset + 1 | 0] & 255;
+  };
+  ByteArrayHelper.prototype.readInt1_pao7sd$ = function (data, offset) {
+    return data[offset] & 255;
+  };
+  ByteArrayHelper.prototype.readIntX_qibw1t$ = function (data, offset, count) {
+    switch (count) {
+      case 0:
+        return 0;
+      case 1:
+        return this.readInt1_pao7sd$(data, offset);
+      case 2:
+        return this.readInt2_pao7sd$(data, offset);
+      case 3:
+        return this.readInt3_pao7sd$(data, offset);
+      default:return this.readInt4_pao7sd$(data, offset);
+    }
+  };
+  ByteArrayHelper.prototype.readChar_pao7sd$ = function (data, offset) {
     return toChar((data[offset] & 255) << 8 | data[offset + 1 | 0] & 255);
   };
-  _ByteArrayHelper.$metadata$ = {
+  ByteArrayHelper.$metadata$ = {
     kind: Kind_OBJECT,
-    simpleName: '_ByteArrayHelper',
+    simpleName: 'ByteArrayHelper',
     interfaces: []
   };
-  var _ByteArrayHelper_instance = null;
-  function _ByteArrayHelper_getInstance() {
-    if (_ByteArrayHelper_instance === null) {
-      new _ByteArrayHelper();
-    }return _ByteArrayHelper_instance;
+  var ByteArrayHelper_instance = null;
+  function ByteArrayHelper_getInstance() {
+    if (ByteArrayHelper_instance === null) {
+      new ByteArrayHelper();
+    }return ByteArrayHelper_instance;
   }
-  function _DateHelper() {
+  function DateHelper() {
     this.time_8be2vx$ = new Date();
   }
-  _DateHelper.prototype.year_8be2vx$ = function () {
+  DateHelper.prototype.year_8be2vx$ = function () {
     return this.time_8be2vx$.getFullYear();
   };
-  _DateHelper.prototype.month_8be2vx$ = function () {
+  DateHelper.prototype.month_8be2vx$ = function () {
     return this.time_8be2vx$.getMonth();
   };
-  _DateHelper.prototype.day_8be2vx$ = function () {
+  DateHelper.prototype.day_8be2vx$ = function () {
     return this.time_8be2vx$.getDay();
   };
-  _DateHelper.prototype.hours_8be2vx$ = function () {
+  DateHelper.prototype.hours_8be2vx$ = function () {
     return this.time_8be2vx$.getHours();
   };
-  _DateHelper.prototype.minutes_8be2vx$ = function () {
+  DateHelper.prototype.minutes_8be2vx$ = function () {
     return this.time_8be2vx$.getMinutes();
   };
-  _DateHelper.prototype.seconds_8be2vx$ = function () {
+  DateHelper.prototype.seconds_8be2vx$ = function () {
     return this.time_8be2vx$.getSeconds();
   };
-  _DateHelper.$metadata$ = {
+  DateHelper.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: '_DateHelper',
+    simpleName: 'DateHelper',
     interfaces: []
   };
-  function _DateHelper_init($this) {
-    $this = $this || Object.create(_DateHelper.prototype);
-    _DateHelper.call($this);
+  function DateHelper_init($this) {
+    $this = $this || Object.create(DateHelper.prototype);
+    DateHelper.call($this);
     return $this;
   }
-  function _File() {
-    this.filename = null;
+  function File() {
+    this.filename_8be2vx$ = null;
   }
-  _File.prototype.createTempFile_p1hijf$ = function (prefix, suffix, directory) {
+  File.prototype.createTempFile_p1hijf$ = function (prefix, suffix, directory) {
     throw new NotImplementedException('File', 'createTempFile not implemented');
   };
-  _File.prototype.exists_8be2vx$ = function () {
+  File.prototype.exists_8be2vx$ = function () {
     throw new NotImplementedException('File', 'exists not implemented');
   };
-  _File.prototype.mkdirs_8be2vx$ = function () {
+  File.prototype.mkdirs_8be2vx$ = function () {
     throw new NotImplementedException('File', 'mkdirs not implemented');
   };
-  _File.prototype.deleteRecursively_8be2vx$ = function () {
+  File.prototype.deleteRecursively_8be2vx$ = function () {
     throw new NotImplementedException('File', 'deleteRecursively not implemented');
   };
-  _File.prototype.length_8be2vx$ = function () {
+  File.prototype.length_8be2vx$ = function () {
     throw new NotImplementedException('File', 'length not implemented');
   };
-  function _File$readAsString$lambda(closure$res) {
+  function File$readAsString$lambda(closure$res) {
     return function (it) {
       closure$res.v.append_pdl1vj$(it).append_s8itvh$(10);
       return Unit;
     };
   }
-  _File.prototype.readAsString_8be2vx$ = function () {
+  File.prototype.readAsString_8be2vx$ = function () {
     var res = {v: StringBuilder_init()};
-    this.forEachLine_5y588g$(_File$readAsString$lambda(res));
+    this.forEachLine_5y588g$(File$readAsString$lambda(res));
     return res.v.toString();
   };
-  _File.prototype.readAsCharIterator_8be2vx$ = function () {
+  File.prototype.readAsCharIterator_8be2vx$ = function () {
     throw new NotImplementedException('File', 'readAsCharIterator not implemented');
   };
-  _File.prototype.openInputStream_8be2vx$ = function () {
+  File.prototype.openInputStream_8be2vx$ = function () {
     throw new NotImplementedException('File', 'openInputStream not implemented');
   };
-  _File.prototype.walk_5y588g$ = function (action) {
+  File.prototype.walk_5y588g$ = function (action) {
     throw new NotImplementedException('File', 'walk not implemented');
   };
-  _File.prototype.forEachLine_5y588g$ = function (action) {
-    var stream = _MyInputStream_init(this.filename);
+  File.prototype.walk_4gst40$ = function (maxdepth, action) {
+    throw new NotImplementedException('File', 'walk not implemented');
+  };
+  File.prototype.forEachLine_5y588g$ = function (action) {
+    var stream = MyInputStream_init(this.filename_8be2vx$);
     var buffer = new Int8Array(8192);
     var pos = 0;
     var s = ArrayList_init();
@@ -11801,35 +12084,35 @@
     action(decodeToString(toByteArray(s)));
     stream.close();
   };
-  _File.prototype.withOutputStream_jyd7u$ = function (action) {
+  File.prototype.withOutputStream_2hu0ja$ = function (action) {
     throw new NotImplementedException('File', 'withOutputStream not implemented');
   };
-  _File.prototype.withInputStream_txlftf$ = function (action) {
-    var stream = _MyInputStream_init(this.filename);
+  File.prototype.withInputStream_2c7cab$ = function (action) {
+    var stream = MyInputStream_init(this.filename_8be2vx$);
     action(stream);
     stream.close();
   };
-  _File.prototype.equals = function (other) {
+  File.prototype.equals = function (other) {
     throw new NotImplementedException('File', 'equals not implemented');
   };
-  _File.prototype.openOutputStream_vft4zs$ = function (append) {
+  File.prototype.openOutputStream_vft4zs$ = function (append) {
     throw new NotImplementedException('File', 'openOutputStream not implemented');
   };
-  _File.$metadata$ = {
+  File.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: '_File',
+    simpleName: 'File',
     interfaces: []
   };
-  function _File_init(filename, $this) {
-    $this = $this || Object.create(_File.prototype);
-    _File.call($this);
-    $this.filename = filename;
+  function File_init(filename, $this) {
+    $this = $this || Object.create(File.prototype);
+    File.call($this);
+    $this.filename_8be2vx$ = filename;
     return $this;
   }
-  function _IntegerExt() {
-    _IntegerExt_instance = this;
+  function IntegerExt() {
+    IntegerExt_instance = this;
   }
-  _IntegerExt.prototype.numberOfLeadingZeros_kcn2v3$ = function (value) {
+  IntegerExt.prototype.numberOfLeadingZeros_kcn2v3$ = function (value) {
     var i = 31;
     while (i >= 0) {
       if ((value & 1 << i) !== 0) {
@@ -11838,30 +12121,30 @@
     }
     return 32;
   };
-  _IntegerExt.$metadata$ = {
+  IntegerExt.$metadata$ = {
     kind: Kind_OBJECT,
-    simpleName: '_IntegerExt',
+    simpleName: 'IntegerExt',
     interfaces: []
   };
-  var _IntegerExt_instance = null;
-  function _IntegerExt_getInstance() {
-    if (_IntegerExt_instance === null) {
-      new _IntegerExt();
-    }return _IntegerExt_instance;
+  var IntegerExt_instance = null;
+  function IntegerExt_getInstance() {
+    if (IntegerExt_instance === null) {
+      new IntegerExt();
+    }return IntegerExt_instance;
   }
-  function _MyInputStream() {
+  function MyInputStream() {
     this.fd_8be2vx$ = 0;
     this.pos_8be2vx$ = 0;
   }
-  _MyInputStream.prototype.readInt = function () {
+  MyInputStream.prototype.readInt = function () {
     var buffer = new Int8Array(4);
     var l = fs.ExternalModule_fs.readSync_ir43ts$(this.fd_8be2vx$, buffer, 0, buffer.length, this.pos_8be2vx$);
     if (l !== 4) {
       throw Exception_init('invalid len ' + l);
     }this.pos_8be2vx$ = this.pos_8be2vx$ + l | 0;
-    return _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer, 0);
+    return ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer, 0);
   };
-  _MyInputStream.prototype.readByte = function () {
+  MyInputStream.prototype.readByte = function () {
     var buffer = new Int8Array(1);
     var l = fs.ExternalModule_fs.readSync_ir43ts$(this.fd_8be2vx$, buffer, 0, buffer.length, this.pos_8be2vx$);
     if (l !== 1) {
@@ -11869,12 +12152,12 @@
     }this.pos_8be2vx$ = this.pos_8be2vx$ + l | 0;
     return buffer[0];
   };
-  _MyInputStream.prototype.read_mj6st8$ = function (buf, off, len) {
+  MyInputStream.prototype.read_mj6st8$ = function (buf, off, len) {
     var l = fs.ExternalModule_fs.readSync_ir43ts$(this.fd_8be2vx$, buf, off, len, this.pos_8be2vx$);
     this.pos_8be2vx$ = this.pos_8be2vx$ + l | 0;
     return l;
   };
-  _MyInputStream.prototype.read_ir89t6$ = function (buf, len) {
+  MyInputStream.prototype.read_ir89t6$ = function (buf, len) {
     var off = 0;
     var l = len;
     while (l > 0) {
@@ -11887,13 +12170,13 @@
     }
     return len;
   };
-  _MyInputStream.prototype.read_fqrh44$ = function (buf) {
+  MyInputStream.prototype.read_fqrh44$ = function (buf) {
     return this.read_ir89t6$(buf, buf.length);
   };
-  _MyInputStream.prototype.close = function () {
+  MyInputStream.prototype.close = function () {
     fs.ExternalModule_fs.closeSync_za3lpa$(this.fd_8be2vx$);
   };
-  _MyInputStream.prototype.readLine = function () {
+  MyInputStream.prototype.readLine = function () {
     var buf = ArrayList_init();
     try {
       var b = this.readByte();
@@ -11904,6 +12187,7 @@
       }
     } catch (e) {
       if (Kotlin.isType(e, Throwable)) {
+        printStackTrace(e);
         if (buf.size === 0) {
           return null;
         }} else
@@ -11911,243 +12195,173 @@
     }
     return decodeToString(toByteArray(buf));
   };
-  _MyInputStream.$metadata$ = {
+  MyInputStream.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: '_MyInputStream',
+    simpleName: 'MyInputStream',
     interfaces: [IMyInputStream]
   };
-  function _MyInputStream_init(filename, $this) {
-    $this = $this || Object.create(_MyInputStream.prototype);
-    _MyInputStream.call($this);
+  function MyInputStream_init(filename, $this) {
+    $this = $this || Object.create(MyInputStream.prototype);
+    MyInputStream.call($this);
     $this.fd_8be2vx$ = fs.ExternalModule_fs.openSync_puj7f4$(filename, 'r');
     return $this;
   }
-  function _MyInputStream_init_0(fd, $this) {
-    $this = $this || Object.create(_MyInputStream.prototype);
-    _MyInputStream.call($this);
+  function MyInputStream_init_0(fd, $this) {
+    $this = $this || Object.create(MyInputStream.prototype);
+    MyInputStream.call($this);
     $this.fd_8be2vx$ = fd;
     return $this;
   }
-  function _MyOutputStream() {
+  function MyOutputStream() {
   }
-  _MyOutputStream.prototype.writeInt_za3lpa$ = function (value) {
+  MyOutputStream.prototype.writeInt_za3lpa$ = function (value) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.close = function () {
+  MyOutputStream.prototype.close = function () {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.flush = function () {
+  MyOutputStream.prototype.flush = function () {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.write_fqrh44$ = function (buf) {
+  MyOutputStream.prototype.write_fqrh44$ = function (buf) {
     this.write_ir89t6$(buf, buf.length);
   };
-  _MyOutputStream.prototype.write_ir89t6$ = function (buf, len) {
+  MyOutputStream.prototype.write_ir89t6$ = function (buf, len) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.println_61zpoe$ = function (x) {
+  MyOutputStream.prototype.println_61zpoe$ = function (x) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.print_61zpoe$ = function (x) {
+  MyOutputStream.prototype.print_61zpoe$ = function (x) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.print_6taknv$ = function (x) {
+  MyOutputStream.prototype.print_6taknv$ = function (x) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.print_za3lpa$ = function (x) {
+  MyOutputStream.prototype.print_za3lpa$ = function (x) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.print_14dthe$ = function (x) {
+  MyOutputStream.prototype.print_14dthe$ = function (x) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.println = function () {
+  MyOutputStream.prototype.println = function () {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.$metadata$ = {
+  MyOutputStream.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: '_MyOutputStream',
+    simpleName: 'MyOutputStream',
     interfaces: [IMyOutputStream]
   };
-  function _MyOutputStream_init($this) {
-    $this = $this || Object.create(_MyOutputStream.prototype);
-    _MyOutputStream.call($this);
+  function MyOutputStream_init($this) {
+    $this = $this || Object.create(MyOutputStream.prototype);
+    MyOutputStream.call($this);
     return $this;
   }
-  function _MyPrintWriter() {
-    this.buffer = StringBuilder_init();
-    this.bufferMode = 0;
-    this.fileName = null;
-    this.file = 0;
-    this.filePos = 0;
+  function MyPrintWriter() {
+    this.buffer_8be2vx$ = StringBuilder_init();
+    this.bufferMode_8be2vx$ = 0;
+    this.fileName_8be2vx$ = null;
+    this.file_8be2vx$ = 0;
+    this.filePos_8be2vx$ = 0;
   }
-  _MyPrintWriter.prototype.clearBuffer = function () {
-    if (this.bufferMode === 0) {
-      this.buffer.clear();
+  MyPrintWriter.prototype.clearBuffer = function () {
+    if (this.bufferMode_8be2vx$ === 0) {
+      this.buffer_8be2vx$.clear();
     } else {
       throw Exception_init('not supported');
     }
   };
-  _MyPrintWriter.prototype.toString = function () {
-    if (this.bufferMode === 0) {
-      return this.buffer.toString();
+  MyPrintWriter.prototype.toString = function () {
+    if (this.bufferMode_8be2vx$ === 0) {
+      return this.buffer_8be2vx$.toString();
     } else {
       throw Exception_init('not supported');
     }
   };
-  _MyPrintWriter.prototype.println_61zpoe$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_pdl1vj$(x).append_s8itvh$(10);
+  MyPrintWriter.prototype.println_61zpoe$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_pdl1vj$(x).append_s8itvh$(10);
     }};
-  _MyPrintWriter.prototype.print_61zpoe$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_pdl1vj$(x);
+  MyPrintWriter.prototype.print_61zpoe$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_pdl1vj$(x);
     }};
-  _MyPrintWriter.prototype.println_6taknv$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_6taknv$(x).append_s8itvh$(10);
+  MyPrintWriter.prototype.println_6taknv$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_6taknv$(x).append_s8itvh$(10);
     }};
-  _MyPrintWriter.prototype.print_6taknv$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_6taknv$(x);
+  MyPrintWriter.prototype.print_6taknv$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_6taknv$(x);
     }};
-  _MyPrintWriter.prototype.println_za3lpa$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_s8jyv4$(x).append_s8itvh$(10);
+  MyPrintWriter.prototype.println_za3lpa$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_s8jyv4$(x).append_s8itvh$(10);
     }};
-  _MyPrintWriter.prototype.print_za3lpa$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_s8jyv4$(x);
+  MyPrintWriter.prototype.print_za3lpa$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_s8jyv4$(x);
     }};
-  _MyPrintWriter.prototype.println_14dthe$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_s8jyv4$(x).append_s8itvh$(10);
+  MyPrintWriter.prototype.println_14dthe$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_s8jyv4$(x).append_s8itvh$(10);
     }};
-  _MyPrintWriter.prototype.print_14dthe$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_s8jyv4$(x);
+  MyPrintWriter.prototype.print_14dthe$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_s8jyv4$(x);
     }};
-  _MyPrintWriter.prototype.println = function () {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_s8itvh$(10);
+  MyPrintWriter.prototype.println = function () {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_s8itvh$(10);
     }};
-  _MyPrintWriter.prototype.write_ir89t6$ = function (buf, len) {
+  MyPrintWriter.prototype.write_ir89t6$ = function (buf, len) {
     throw Exception_init('not supported');
   };
-  _MyPrintWriter.prototype.write_fqrh44$ = function (buf) {
+  MyPrintWriter.prototype.write_fqrh44$ = function (buf) {
     throw Exception_init('not supported');
   };
-  _MyPrintWriter.prototype.writeInt_za3lpa$ = function (value) {
+  MyPrintWriter.prototype.writeInt_za3lpa$ = function (value) {
     throw Exception_init('not supported');
   };
-  _MyPrintWriter.prototype.close = function () {
+  MyPrintWriter.prototype.close = function () {
     throw Exception_init('not supported');
   };
-  _MyPrintWriter.prototype.flush = function () {
+  MyPrintWriter.prototype.flush = function () {
     throw Exception_init('not supported');
   };
-  _MyPrintWriter.$metadata$ = {
+  MyPrintWriter.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: '_MyPrintWriter',
+    simpleName: 'MyPrintWriter',
     interfaces: [IMyOutputStream]
   };
-  function _MyPrintWriter_init(hasBuffer, $this) {
+  function MyPrintWriter_init(hasBuffer, $this) {
     if (hasBuffer === void 0)
       hasBuffer = true;
-    $this = $this || Object.create(_MyPrintWriter.prototype);
-    _MyPrintWriter.call($this);
+    $this = $this || Object.create(MyPrintWriter.prototype);
+    MyPrintWriter.call($this);
     if (hasBuffer) {
-      $this.bufferMode = 0;
+      $this.bufferMode_8be2vx$ = 0;
     } else {
-      $this.bufferMode = 1;
+      $this.bufferMode_8be2vx$ = 1;
     }
-    $this.fileName = '';
-    $this.file = -1;
+    $this.fileName_8be2vx$ = '';
+    $this.file_8be2vx$ = -1;
     return $this;
   }
-  function _Platform() {
-    _Platform_instance = this;
-    this.operatingSystem = 0;
-  }
-  _Platform.prototype.getHostName_8be2vx$ = function () {
-    throw Exception_init('not available on this platform');
-  };
-  _Platform.prototype.getOperatingSystem_8be2vx$ = function () {
-    return this.operatingSystem;
-  };
-  _Platform.prototype.getUserHome_8be2vx$ = function () {
-    throw Exception_init('not available on this platform');
-  };
-  _Platform.prototype.getPathSeparator_8be2vx$ = function () {
-    throw Exception_init('not available on this platform');
-  };
-  _Platform.prototype.findNamedFileInDirectory_wdz5eb$ = function (dir, name) {
-    throw Exception_init('not available on this platform');
-  };
-  _Platform.prototype.getNullFileName_8be2vx$ = function () {
-    throw Exception_init('not available on this platform');
-  };
-  _Platform.prototype.getEnv_9lovpo$ = function (key, default_0) {
-    if (default_0 === void 0)
-      default_0 = null;
-    return default_0;
-  };
-  _Platform.prototype.getBenchmarkHome_8be2vx$ = function () {
-    return ensureNotNull(this.getEnv_9lovpo$('LUPOS_BENCHMARK_HOME', this.getPathSeparator_8be2vx$() + 'mnt'));
-  };
-  _Platform.prototype.getGradleCache_8be2vx$ = function () {
-    return ensureNotNull(this.getEnv_9lovpo$('LUPOS_GRADLE_CACHE', this.getUserHome_8be2vx$() + this.getPathSeparator_8be2vx$() + '.gradle' + this.getPathSeparator_8be2vx$() + 'caches' + this.getPathSeparator_8be2vx$()));
-  };
-  _Platform.prototype.getMavenCache_8be2vx$ = function () {
-    return ensureNotNull(this.getEnv_9lovpo$('LUPOS_MAVEN_CACHE', this.getUserHome_8be2vx$() + this.getPathSeparator_8be2vx$() + '.m2' + this.getPathSeparator_8be2vx$() + 'repository' + this.getPathSeparator_8be2vx$()));
-  };
-  _Platform.prototype.getAvailableRam_8be2vx$ = function () {
-    return toInt(ensureNotNull(this.getEnv_9lovpo$('LUPOS_RAM', '60')));
-  };
-  _Platform.prototype.setShutdownHock_ls4sck$ = function (action) {
-    println('registering shutdown hook not implemented');
-  };
-  _Platform.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: '_Platform',
-    interfaces: []
-  };
-  var _Platform_instance = null;
-  function _Platform_getInstance() {
-    if (_Platform_instance === null) {
-      new _Platform();
-    }return _Platform_instance;
-  }
   function MyThreadReadWriteLock() {
-    MyThreadReadWriteLock$Companion_getInstance();
-    var tmp$;
-    this.uuid = (tmp$ = MyThreadReadWriteLock$Companion_getInstance().uuidCounter, MyThreadReadWriteLock$Companion_getInstance().uuidCounter = tmp$.inc(), tmp$);
-    this.lockedRead = 0;
-    this.lockedWrite = false;
-  }
-  function MyThreadReadWriteLock$Companion() {
-    MyThreadReadWriteLock$Companion_instance = this;
-    this.uuidCounter = L0;
-  }
-  MyThreadReadWriteLock$Companion.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: 'Companion',
-    interfaces: []
-  };
-  var MyThreadReadWriteLock$Companion_instance = null;
-  function MyThreadReadWriteLock$Companion_getInstance() {
-    if (MyThreadReadWriteLock$Companion_instance === null) {
-      new MyThreadReadWriteLock$Companion();
-    }return MyThreadReadWriteLock$Companion_instance;
+    this.uuid_8be2vx$ = shared.UUID_Counter.getNextUUID();
+    this.lockedRead_8be2vx$ = 0;
+    this.lockedWrite_8be2vx$ = false;
   }
   MyThreadReadWriteLock.prototype.getUUID_8be2vx$ = function () {
-    return this.uuid;
+    return this.uuid_8be2vx$;
   };
   function MyThreadReadWriteLock$downgradeToReadLock$lambda(this$MyThreadReadWriteLock) {
     return function () {
-      if (!this$MyThreadReadWriteLock.lockedWrite) {
+      if (!this$MyThreadReadWriteLock.lockedWrite_8be2vx$) {
         throw Exception_init('something went wrong 1');
-      }this$MyThreadReadWriteLock.lockedRead = 1;
-      this$MyThreadReadWriteLock.lockedWrite = false;
+      }this$MyThreadReadWriteLock.lockedRead_8be2vx$ = 1;
+      this$MyThreadReadWriteLock.lockedWrite_8be2vx$ = false;
       return Unit;
     };
   }
@@ -12157,10 +12371,10 @@
   function MyThreadReadWriteLock$readLock$lambda(this$MyThreadReadWriteLock) {
     return function () {
       var tmp$;
-      if (this$MyThreadReadWriteLock.lockedWrite) {
+      if (this$MyThreadReadWriteLock.lockedWrite_8be2vx$) {
         throw Exception_init('something went wrong 2');
-      }tmp$ = this$MyThreadReadWriteLock.lockedRead;
-      this$MyThreadReadWriteLock.lockedRead = tmp$ + 1 | 0;
+      }tmp$ = this$MyThreadReadWriteLock.lockedRead_8be2vx$;
+      this$MyThreadReadWriteLock.lockedRead_8be2vx$ = tmp$ + 1 | 0;
       return Unit;
     };
   }
@@ -12170,10 +12384,10 @@
   function MyThreadReadWriteLock$readUnlock$lambda(this$MyThreadReadWriteLock) {
     return function () {
       var tmp$;
-      if (this$MyThreadReadWriteLock.lockedRead <= 0) {
+      if (this$MyThreadReadWriteLock.lockedRead_8be2vx$ <= 0) {
         throw Exception_init('something went wrong 3');
-      }tmp$ = this$MyThreadReadWriteLock.lockedRead;
-      this$MyThreadReadWriteLock.lockedRead = tmp$ - 1 | 0;
+      }tmp$ = this$MyThreadReadWriteLock.lockedRead_8be2vx$;
+      this$MyThreadReadWriteLock.lockedRead_8be2vx$ = tmp$ - 1 | 0;
       return Unit;
     };
   }
@@ -12182,9 +12396,9 @@
   };
   function MyThreadReadWriteLock$writeLock$lambda(this$MyThreadReadWriteLock) {
     return function () {
-      if (this$MyThreadReadWriteLock.lockedRead > 0 || this$MyThreadReadWriteLock.lockedWrite) {
-        throw Exception_init('something went wrong 4 ' + this$MyThreadReadWriteLock.lockedRead + ' ' + this$MyThreadReadWriteLock.lockedWrite);
-      }this$MyThreadReadWriteLock.lockedWrite = true;
+      if (this$MyThreadReadWriteLock.lockedRead_8be2vx$ > 0 || this$MyThreadReadWriteLock.lockedWrite_8be2vx$) {
+        throw Exception_init('something went wrong 4 ' + this$MyThreadReadWriteLock.lockedRead_8be2vx$ + ' ' + this$MyThreadReadWriteLock.lockedWrite_8be2vx$);
+      }this$MyThreadReadWriteLock.lockedWrite_8be2vx$ = true;
       return Unit;
     };
   }
@@ -12193,9 +12407,9 @@
   };
   function MyThreadReadWriteLock$tryWriteLock$lambda(this$MyThreadReadWriteLock) {
     return function () {
-      if (this$MyThreadReadWriteLock.lockedRead > 0 || this$MyThreadReadWriteLock.lockedWrite) {
-        throw Exception_init('something went wrong 5 ' + this$MyThreadReadWriteLock.lockedRead + ' ' + this$MyThreadReadWriteLock.lockedWrite);
-      }this$MyThreadReadWriteLock.lockedWrite = true;
+      if (this$MyThreadReadWriteLock.lockedRead_8be2vx$ > 0 || this$MyThreadReadWriteLock.lockedWrite_8be2vx$) {
+        throw Exception_init('something went wrong 5 ' + this$MyThreadReadWriteLock.lockedRead_8be2vx$ + ' ' + this$MyThreadReadWriteLock.lockedWrite_8be2vx$);
+      }this$MyThreadReadWriteLock.lockedWrite_8be2vx$ = true;
       return Unit;
     };
   }
@@ -12205,9 +12419,9 @@
   };
   function MyThreadReadWriteLock$writeUnlock$lambda(this$MyThreadReadWriteLock) {
     return function () {
-      if (!this$MyThreadReadWriteLock.lockedWrite) {
+      if (!this$MyThreadReadWriteLock.lockedWrite_8be2vx$) {
         throw Exception_init('something went wrong 6');
-      }this$MyThreadReadWriteLock.lockedWrite = false;
+      }this$MyThreadReadWriteLock.lockedWrite_8be2vx$ = false;
       return Unit;
     };
   }
@@ -12302,44 +12516,66 @@
     $this.terminalValue = terminationValue;
     return $this;
   }
-  function Visualisation() {
+  function Platform() {
+    Platform_instance = this;
+    this.operatingSystem = 0;
   }
-  Visualisation.prototype.sendData_le21x6$ = function (parentUUID, childUUID, index, string) {
-    receiveAnimation(childUUID, parentUUID, index, string);
+  Platform.prototype.getHostName_8be2vx$ = function () {
+    throw Exception_init('not available on this platform');
   };
-  Visualisation.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'Visualisation',
+  Platform.prototype.getOperatingSystem_8be2vx$ = function () {
+    return this.operatingSystem;
+  };
+  Platform.prototype.getUserHome_8be2vx$ = function () {
+    throw Exception_init('not available on this platform');
+  };
+  Platform.prototype.getPathSeparator_8be2vx$ = function () {
+    throw Exception_init('not available on this platform');
+  };
+  Platform.prototype.findNamedFileInDirectory_wdz5eb$ = function (dir, name) {
+    throw Exception_init('not available on this platform');
+  };
+  Platform.prototype.getNullFileName_8be2vx$ = function () {
+    throw Exception_init('not available on this platform');
+  };
+  Platform.prototype.getEnv_9lovpo$ = function (key, default_0) {
+    if (default_0 === void 0)
+      default_0 = null;
+    return default_0;
+  };
+  Platform.prototype.getGradleCache_8be2vx$ = function () {
+    return ensureNotNull(this.getEnv_9lovpo$('LUPOS_GRADLE_CACHE', this.getUserHome_8be2vx$() + this.getPathSeparator_8be2vx$() + '.gradle' + this.getPathSeparator_8be2vx$() + 'caches' + this.getPathSeparator_8be2vx$()));
+  };
+  Platform.prototype.getMavenCache_8be2vx$ = function () {
+    return ensureNotNull(this.getEnv_9lovpo$('LUPOS_MAVEN_CACHE', this.getUserHome_8be2vx$() + this.getPathSeparator_8be2vx$() + '.m2' + this.getPathSeparator_8be2vx$() + 'repository' + this.getPathSeparator_8be2vx$()));
+  };
+  Platform.prototype.getAvailableRam_8be2vx$ = function () {
+    return toInt_0(ensureNotNull(this.getEnv_9lovpo$('LUPOS_RAM', '4')));
+  };
+  Platform.prototype.setShutdownHock_ls4sck$ = function (action) {
+    println('registering shutdown hook not implemented');
+  };
+  Platform.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Platform',
     interfaces: []
   };
+  var Platform_instance = null;
+  function Platform_getInstance() {
+    if (Platform_instance === null) {
+      new Platform();
+    }return Platform_instance;
+  }
   var package$lupos = _.lupos || (_.lupos = {});
-  var package$Luposdate3000_Operator_Physical = package$lupos.Luposdate3000_Operator_Physical || (package$lupos.Luposdate3000_Operator_Physical = {});
-  Object.defineProperty(package$Luposdate3000_Operator_Physical, '_ColumnIteratorQueueExt', {
-    get: _ColumnIteratorQueueExt_getInstance
-  });
-  Object.defineProperty(package$Luposdate3000_Operator_Physical, '_DictionaryHelper', {
-    get: _DictionaryHelper_getInstance
-  });
-  package$Luposdate3000_Operator_Physical._MyInputStreamFixedLength = _MyInputStreamFixedLength;
-  package$Luposdate3000_Operator_Physical._MyStringStream = _MyStringStream;
-  Object.defineProperty(package$Luposdate3000_Operator_Physical, '_PartitionExt', {
-    get: _PartitionExt_getInstance
-  });
-  Object.defineProperty(package$Luposdate3000_Operator_Physical, 'SanityCheckOff', {
-    get: SanityCheckOff_getInstance
-  });
-  Object.defineProperty(package$Luposdate3000_Operator_Physical, 'SanityCheckOn', {
-    get: SanityCheckOn_getInstance
-  });
-  var package$s00misc = package$lupos.s00misc || (package$lupos.s00misc = {});
-  Object.defineProperty(package$s00misc, 'ITERATOR_DEBUG_MODE_8be2vx$', {
+  var package$operator = package$lupos.operator || (package$lupos.operator = {});
+  var package$physical = package$operator.physical || (package$operator.physical = {});
+  Object.defineProperty(package$physical, 'ITERATOR_DEBUG_MODE_8be2vx$', {
     get: function () {
       return ITERATOR_DEBUG_MODE;
     }
   });
-  var package$s09physicalOperators = package$lupos.s09physicalOperators || (package$lupos.s09physicalOperators = {});
-  package$s09physicalOperators.MapKey = MapKey;
-  var package$multiinput = package$s09physicalOperators.multiinput || (package$s09physicalOperators.multiinput = {});
+  package$physical.MapKey = MapKey;
+  var package$multiinput = package$physical.multiinput || (package$physical.multiinput = {});
   Object.defineProperty(package$multiinput, 'POPJoin', {
     get: POPJoin_getInstance
   });
@@ -12356,18 +12592,18 @@
   package$multiinput.POPJoinWithStoreExists = POPJoinWithStoreExists;
   package$multiinput.POPMinus = POPMinus;
   package$multiinput.POPUnion = POPUnion;
-  var package$noinput = package$s09physicalOperators.noinput || (package$s09physicalOperators.noinput = {});
+  var package$noinput = package$physical.noinput || (package$physical.noinput = {});
   package$noinput.POPEmptyRow = POPEmptyRow;
   package$noinput.POPGraphOperation = POPGraphOperation;
   package$noinput.POPModifyData = POPModifyData;
-  package$noinput.POPValues_init_mtm5fp$ = POPValues_init;
-  package$noinput.POPValues_init_cxi1tr$ = POPValues_init_0;
-  package$noinput.POPValues_init_oyi63m$ = POPValues_init_1;
-  package$noinput.POPValues_init_jy50xw$ = POPValues_init_2;
+  package$noinput.POPValues_init_ucc9c9$ = POPValues_init;
+  package$noinput.POPValues_init_wi8efj$ = POPValues_init_0;
+  package$noinput.POPValues_init_k76w0g$ = POPValues_init_1;
+  package$noinput.POPValues_init_twwug2$ = POPValues_init_2;
   package$noinput.POPValues = POPValues;
   package$noinput.POPValuesImportBase = POPValuesImportBase;
   package$noinput.POPValuesImportXML = POPValuesImportXML;
-  var package$partition = package$s09physicalOperators.partition || (package$s09physicalOperators.partition = {});
+  var package$partition = package$physical.partition || (package$physical.partition = {});
   package$partition.MyConnection = MyConnection;
   package$partition.POPChangePartitionOrderedByIntId = POPChangePartitionOrderedByIntId;
   package$partition.POPDistributedReceiveMulti = POPDistributedReceiveMulti;
@@ -12385,8 +12621,8 @@
   package$partition.POPSplitPartitionFromStore = POPSplitPartitionFromStore;
   package$partition.POPSplitPartitionFromStoreCount = POPSplitPartitionFromStoreCount;
   package$partition.POPSplitPartitionPassThrough = POPSplitPartitionPassThrough;
-  package$s09physicalOperators.POPBase = POPBase;
-  var package$singleinput = package$s09physicalOperators.singleinput || (package$s09physicalOperators.singleinput = {});
+  package$physical.POPBase = POPBase;
+  var package$singleinput = package$physical.singleinput || (package$physical.singleinput = {});
   var package$modifiers = package$singleinput.modifiers || (package$singleinput.modifiers = {});
   package$modifiers.POPLimit = POPLimit;
   package$modifiers.POPOffset = POPOffset;
@@ -12394,8 +12630,8 @@
   package$singleinput.POPBind = POPBind;
   package$singleinput.POPDebug = POPDebug;
   package$singleinput.POPFilter = POPFilter;
-  package$singleinput.POPGroup_init_895gc$ = POPGroup_init;
-  package$singleinput.POPGroup_init_zhfc1s$ = POPGroup_init_0;
+  package$singleinput.POPGroup_init_o9ffe1$ = POPGroup_init;
+  package$singleinput.POPGroup_init_99qn5e$ = POPGroup_init_0;
   package$singleinput.POPGroup = POPGroup;
   package$singleinput.POPGroup_Row = POPGroup_Row;
   package$singleinput.POPMakeBooleanResult = POPMakeBooleanResult;
@@ -12403,29 +12639,49 @@
   package$singleinput.POPProjection = POPProjection;
   package$singleinput.POPSort = POPSort;
   package$singleinput.POPVisualisation = POPVisualisation;
-  Object.defineProperty(package$Luposdate3000_Operator_Physical, '_ByteArrayHelper', {
-    get: _ByteArrayHelper_getInstance
+  var package$Luposdate3000_Operator_Physical = package$lupos.Luposdate3000_Operator_Physical || (package$lupos.Luposdate3000_Operator_Physical = {});
+  Object.defineProperty(package$Luposdate3000_Operator_Physical, 'BufferManagerPage', {
+    get: BufferManagerPage_getInstance
   });
-  package$Luposdate3000_Operator_Physical._DateHelper_init = _DateHelper_init;
-  package$Luposdate3000_Operator_Physical._DateHelper = _DateHelper;
-  package$Luposdate3000_Operator_Physical._File_init_61zpoe$ = _File_init;
-  package$Luposdate3000_Operator_Physical._File = _File;
-  Object.defineProperty(package$Luposdate3000_Operator_Physical, '_IntegerExt', {
-    get: _IntegerExt_getInstance
+  Object.defineProperty(package$Luposdate3000_Operator_Physical, 'ColumnIteratorQueueExt', {
+    get: ColumnIteratorQueueExt_getInstance
   });
-  package$Luposdate3000_Operator_Physical._MyInputStream_init_y4putb$ = _MyInputStream_init;
-  package$Luposdate3000_Operator_Physical._MyInputStream_init_kcn2v3$ = _MyInputStream_init_0;
-  package$Luposdate3000_Operator_Physical._MyInputStream = _MyInputStream;
-  package$Luposdate3000_Operator_Physical._MyOutputStream_init_8be2vx$ = _MyOutputStream_init;
-  package$Luposdate3000_Operator_Physical._MyOutputStream = _MyOutputStream;
-  package$Luposdate3000_Operator_Physical._MyPrintWriter_init_6taknv$ = _MyPrintWriter_init;
-  package$Luposdate3000_Operator_Physical._MyPrintWriter = _MyPrintWriter;
-  Object.defineProperty(package$Luposdate3000_Operator_Physical, '_Platform', {
-    get: _Platform_getInstance
+  Object.defineProperty(package$Luposdate3000_Operator_Physical, 'DictionaryHelper', {
+    get: DictionaryHelper_getInstance
   });
-  Object.defineProperty(MyThreadReadWriteLock, 'Companion', {
-    get: MyThreadReadWriteLock$Companion_getInstance
+  var package$dynamicArray = package$Luposdate3000_Operator_Physical.dynamicArray || (package$Luposdate3000_Operator_Physical.dynamicArray = {});
+  Object.defineProperty(package$dynamicArray, 'ByteArrayWrapperExt', {
+    get: ByteArrayWrapperExt_getInstance
   });
+  Object.defineProperty(package$dynamicArray, 'IntArrayWrapperExt', {
+    get: IntArrayWrapperExt_getInstance
+  });
+  package$Luposdate3000_Operator_Physical.MyInputStreamFixedLength = MyInputStreamFixedLength;
+  package$Luposdate3000_Operator_Physical.MyStringStream = MyStringStream;
+  Object.defineProperty(package$Luposdate3000_Operator_Physical, 'SanityCheckOff', {
+    get: SanityCheckOff_getInstance
+  });
+  Object.defineProperty(package$Luposdate3000_Operator_Physical, 'SanityCheckOn', {
+    get: SanityCheckOn_getInstance
+  });
+  package$singleinput.Visualisation = Visualisation;
+  Object.defineProperty(package$Luposdate3000_Operator_Physical, 'ByteArrayHelper', {
+    get: ByteArrayHelper_getInstance
+  });
+  package$Luposdate3000_Operator_Physical.DateHelper_init = DateHelper_init;
+  package$Luposdate3000_Operator_Physical.DateHelper = DateHelper;
+  package$Luposdate3000_Operator_Physical.File_init_61zpoe$ = File_init;
+  package$Luposdate3000_Operator_Physical.File = File;
+  Object.defineProperty(package$Luposdate3000_Operator_Physical, 'IntegerExt', {
+    get: IntegerExt_getInstance
+  });
+  package$Luposdate3000_Operator_Physical.MyInputStream_init_y4putb$ = MyInputStream_init;
+  package$Luposdate3000_Operator_Physical.MyInputStream_init_kcn2v3$ = MyInputStream_init_0;
+  package$Luposdate3000_Operator_Physical.MyInputStream = MyInputStream;
+  package$Luposdate3000_Operator_Physical.MyOutputStream_init_8be2vx$ = MyOutputStream_init;
+  package$Luposdate3000_Operator_Physical.MyOutputStream = MyOutputStream;
+  package$Luposdate3000_Operator_Physical.MyPrintWriter_init_6taknv$ = MyPrintWriter_init;
+  package$Luposdate3000_Operator_Physical.MyPrintWriter = MyPrintWriter;
   package$Luposdate3000_Operator_Physical.MyThreadReadWriteLock = MyThreadReadWriteLock;
   Object.defineProperty(package$Luposdate3000_Operator_Physical, 'ParallelThread', {
     get: ParallelThread_getInstance
@@ -12433,7 +12689,9 @@
   package$Luposdate3000_Operator_Physical.ParallelThreadCondition = ParallelThreadCondition;
   package$Luposdate3000_Operator_Physical.ParallelThreadQueue_init_mh5how$ = ParallelThreadQueue_init;
   package$Luposdate3000_Operator_Physical.ParallelThreadQueue = ParallelThreadQueue;
-  package$singleinput.Visualisation = Visualisation;
+  Object.defineProperty(package$Luposdate3000_Operator_Physical, 'Platform', {
+    get: Platform_getInstance
+  });
   ITERATOR_DEBUG_MODE = 2;
   Kotlin.defineModule('Luposdate3000_Operator_Physical', _);
   return _;

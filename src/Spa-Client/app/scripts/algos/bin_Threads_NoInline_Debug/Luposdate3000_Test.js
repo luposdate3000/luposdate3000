@@ -41,6 +41,7 @@
 }(this, function (_, Kotlin, $module$KotlinBigInteger_bignum_jsLegacy, $module$Luposdate3000_Shared, $module$Luposdate3000_Result_Format, $module$Luposdate3000_Dictionary, $module$Luposdate3000_Operator_Base, $module$Luposdate3000_Operator_Arithmetik, $module$Luposdate3000_Operator_Physical, $module$Luposdate3000_Parser, $module$Luposdate3000_Optimizer_Ast, $module$Luposdate3000_Optimizer_Logical, $module$Luposdate3000_Optimizer_Physical, $module$Luposdate3000_Jena_Wrapper, $module$Luposdate3000_Endpoint, $module$Luposdate3000_Operator_Factory, $module$Luposdate3000_Shared_JS) {
   'use strict';
   var Kind_OBJECT = Kotlin.Kind.OBJECT;
+  var arrayCopy = Kotlin.kotlin.collections.arrayCopy;
   var indexOf = Kotlin.kotlin.text.indexOf_8eortd$;
   var toInt = Kotlin.kotlin.text.toInt_pdl1vz$;
   var BigInteger = $module$KotlinBigInteger_bignum_jsLegacy.com.ionspin.kotlin.bignum.integer.BigInteger;
@@ -57,71 +58,71 @@
   var encodeToByteArray = Kotlin.kotlin.text.encodeToByteArray_pdl1vz$;
   var decodeToString = Kotlin.kotlin.text.decodeToString_964n91$;
   var equals = Kotlin.equals;
-  var Throwable = Error;
+  var printStackTrace = Kotlin.kotlin.printStackTrace_dbl4o4$;
+  var Exception = Kotlin.kotlin.Exception;
   var Exception_init = Kotlin.kotlin.Exception_init_pdl1vj$;
   var startsWith = Kotlin.kotlin.text.startsWith_7epoxm$;
   var endsWith_0 = Kotlin.kotlin.text.endsWith_7epoxm$;
   var contains_0 = Kotlin.kotlin.text.contains_li3zpu$;
   var lastIndexOf = Kotlin.kotlin.text.lastIndexOf_l5u8uk$;
-  var dictionary = $module$Luposdate3000_Shared.lupos.dictionary;
+  var dictionary = $module$Luposdate3000_Shared.lupos.shared.dictionary;
   var toString = Kotlin.toString;
-  var ValueBnode = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueBnode;
-  var ValueDouble = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueDouble;
-  var ValueFloat = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueFloat;
-  var ValueInteger = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueInteger;
-  var ValueDecimal = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueDecimal;
-  var ValueIri = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueIri;
-  var ValueSimpleLiteral = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueSimpleLiteral;
-  var ValueLanguageTaggedLiteral = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueLanguageTaggedLiteral;
-  var ValueTypedLiteral = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueTypedLiteral;
-  var arrayCopy = Kotlin.kotlin.collections.arrayCopy;
+  var ValueBnode = $module$Luposdate3000_Shared.lupos.shared.ValueBnode;
+  var ValueDouble = $module$Luposdate3000_Shared.lupos.shared.ValueDouble;
+  var ValueFloat = $module$Luposdate3000_Shared.lupos.shared.ValueFloat;
+  var ValueInteger = $module$Luposdate3000_Shared.lupos.shared.ValueInteger;
+  var ValueDecimal = $module$Luposdate3000_Shared.lupos.shared.ValueDecimal;
+  var ValueIri = $module$Luposdate3000_Shared.lupos.shared.ValueIri;
+  var ValueSimpleLiteral = $module$Luposdate3000_Shared.lupos.shared.ValueSimpleLiteral;
+  var ValueLanguageTaggedLiteral = $module$Luposdate3000_Shared.lupos.shared.ValueLanguageTaggedLiteral;
+  var ValueTypedLiteral = $module$Luposdate3000_Shared.lupos.shared.ValueTypedLiteral;
+  var Throwable = Error;
   var toByteArray = Kotlin.kotlin.collections.toByteArray_kdx1v$;
   var Kind_CLASS = Kotlin.Kind.CLASS;
-  var IMyInputStream = $module$Luposdate3000_Shared.lupos.s00misc.IMyInputStream;
+  var IMyInputStream = $module$Luposdate3000_Shared.lupos.shared.IMyInputStream;
   var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
-  var UnreachableException = $module$Luposdate3000_Shared.lupos.s00misc.UnreachableException;
+  var UnreachableException = $module$Luposdate3000_Shared.lupos.shared.UnreachableException;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
-  var printStackTrace = Kotlin.kotlin.printStackTrace_dbl4o4$;
   var toInt_0 = Kotlin.kotlin.text.toInt_6ic1pp$;
   var toChar = Kotlin.toChar;
   var replace = Kotlin.kotlin.text.replace_680rmw$;
   var Unit = Kotlin.kotlin.Unit;
-  var Partition_init = $module$Luposdate3000_Shared.lupos.s00misc.Partition_init;
-  var s11outputResult = $module$Luposdate3000_Result_Format.lupos.s11outputResult;
-  var ByteArrayWrapper_init = $module$Luposdate3000_Shared.lupos.s00misc.ByteArrayWrapper_init;
+  var Partition_init = $module$Luposdate3000_Shared.lupos.shared.Partition_init;
+  var result_format = $module$Luposdate3000_Result_Format.lupos.result_format;
+  var ByteArrayWrapper_init = $module$Luposdate3000_Shared.lupos.shared.dynamicArray.ByteArrayWrapper_init;
   var indexOf_0 = Kotlin.kotlin.collections.indexOf_mjy6jw$;
   var ensureNotNull = Kotlin.ensureNotNull;
   var dictionary_0 = $module$Luposdate3000_Dictionary.lupos.dictionary;
   var sortWith = Kotlin.kotlin.collections.sortWith_nqfjgj$;
   var to = Kotlin.kotlin.to_ujzrz7$;
   var mutableMapOf = Kotlin.kotlin.collections.mutableMapOf_qfcya0$;
-  var NotImplementedException = $module$Luposdate3000_Shared.lupos.s00misc.NotImplementedException;
-  var MemoryTable = $module$Luposdate3000_Shared.lupos.s00misc.MemoryTable;
-  var Query_init = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.Query_init;
-  var s05tripleStore = $module$Luposdate3000_Shared.lupos.s05tripleStore;
-  var TripleStoreManager = $module$Luposdate3000_Shared.lupos.s05tripleStore.TripleStoreManager;
-  var s00misc = $module$Luposdate3000_Shared.lupos.s00misc;
+  var NotImplementedException = $module$Luposdate3000_Shared.lupos.shared.NotImplementedException;
+  var MemoryTable = $module$Luposdate3000_Shared.lupos.shared.MemoryTable;
+  var Query_init = $module$Luposdate3000_Operator_Base.lupos.operator.base.Query_init;
+  var shared = $module$Luposdate3000_Shared.lupos.shared;
+  var TripleStoreManager = $module$Luposdate3000_Shared.lupos.shared.TripleStoreManager;
   var mapOf = Kotlin.kotlin.collections.mapOf_x2b85n$;
-  var iterator = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.iterator;
-  var listOf = Kotlin.kotlin.collections.listOf_i5x0yv$;
-  var AOPVariable = $module$Luposdate3000_Operator_Arithmetik.lupos.s04arithmetikOperators.noinput.AOPVariable;
-  var POPBase = $module$Luposdate3000_Operator_Physical.lupos.s09physicalOperators.POPBase;
+  var iterator = $module$Luposdate3000_Operator_Base.lupos.operator.base.iterator;
+  var ColumnIterator = $module$Luposdate3000_Shared.lupos.shared.operator.iterator.ColumnIterator;
   var throwCCE = Kotlin.throwCCE;
-  var POPSplitPartitionFromStore = $module$Luposdate3000_Operator_Physical.lupos.s09physicalOperators.partition.POPSplitPartitionFromStore;
-  var POPMergePartition = $module$Luposdate3000_Operator_Physical.lupos.s09physicalOperators.partition.POPMergePartition;
+  var listOf = Kotlin.kotlin.collections.listOf_i5x0yv$;
+  var AOPVariable = $module$Luposdate3000_Operator_Arithmetik.lupos.operator.arithmetik.noinput.AOPVariable;
+  var POPBase = $module$Luposdate3000_Operator_Physical.lupos.operator.physical.POPBase;
+  var POPSplitPartitionFromStore = $module$Luposdate3000_Operator_Physical.lupos.operator.physical.partition.POPSplitPartitionFromStore;
+  var POPMergePartition = $module$Luposdate3000_Operator_Physical.lupos.operator.physical.partition.POPMergePartition;
   var listOf_0 = Kotlin.kotlin.collections.listOf_mh5how$;
-  var OPBaseCompound = $module$Luposdate3000_Operator_Base.lupos.s04logicalOperators.OPBaseCompound;
-  var LexerCharIterator_init = $module$Luposdate3000_Parser.lupos.s02buildSyntaxTree.LexerCharIterator_init_61zpoe$;
-  var TokenIteratorSPARQLParser = $module$Luposdate3000_Parser.lupos.s02buildSyntaxTree.sparql1_1.TokenIteratorSPARQLParser;
-  var LookAheadTokenIterator = $module$Luposdate3000_Parser.lupos.s02buildSyntaxTree.LookAheadTokenIterator;
-  var SPARQLParser = $module$Luposdate3000_Parser.lupos.s02buildSyntaxTree.sparql1_1.SPARQLParser;
+  var OPBaseCompound = $module$Luposdate3000_Operator_Base.lupos.operator.base.OPBaseCompound;
+  var LexerCharIterator_init = $module$Luposdate3000_Parser.lupos.parser.LexerCharIterator_init_61zpoe$;
+  var TokenIteratorSPARQLParser = $module$Luposdate3000_Parser.lupos.parser.sparql1_1.TokenIteratorSPARQLParser;
+  var LookAheadTokenIterator = $module$Luposdate3000_Parser.lupos.parser.LookAheadTokenIterator;
+  var SPARQLParser = $module$Luposdate3000_Parser.lupos.parser.sparql1_1.SPARQLParser;
   var OperatorGraphVisitor = $module$Luposdate3000_Optimizer_Ast.lupos.optimizer.ast.OperatorGraphVisitor;
   var LogicalOptimizer = $module$Luposdate3000_Optimizer_Logical.lupos.optimizer.logical.LogicalOptimizer;
   var PhysicalOptimizer = $module$Luposdate3000_Optimizer_Physical.lupos.optimizer.physical.PhysicalOptimizer;
-  var XMLElement = $module$Luposdate3000_Shared.lupos.s00misc.XMLElement;
-  var parseFromAny = $module$Luposdate3000_Shared.lupos.s00misc.parseFromAny_imhnfa$;
+  var XMLElement = $module$Luposdate3000_Shared.lupos.shared.XMLElement;
+  var parseFromAny = $module$Luposdate3000_Shared.lupos.shared.parseFromAny_jz9sra$;
   var first = Kotlin.kotlin.collections.first_2p1efm$;
-  var UnknownDataFileException = $module$Luposdate3000_Shared.lupos.s00misc.UnknownDataFileException;
+  var UnknownDataFileException = $module$Luposdate3000_Shared.lupos.shared.UnknownDataFileException;
   var mutableSetOf = Kotlin.kotlin.collections.mutableSetOf_i5x0yv$;
   var Array_0 = Array;
   var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
@@ -130,49 +131,236 @@
   var copyToArray = Kotlin.kotlin.collections.copyToArray;
   var Comparator = Kotlin.kotlin.Comparator;
   var Pair = Kotlin.kotlin.Pair;
-  var ID_Triple = $module$Luposdate3000_Parser.lupos.s02buildSyntaxTree.rdf.ID_Triple;
+  var ID_Triple = $module$Luposdate3000_Parser.lupos.parser.rdf.ID_Triple;
   var toMutableSet = Kotlin.kotlin.collections.toMutableSet_us0mfu$;
   var toMutableSet_0 = Kotlin.kotlin.collections.toMutableSet_se6h4x$;
   var toLongArray = Kotlin.kotlin.collections.toLongArray_558emf$;
   var LinkedHashSet_init = Kotlin.kotlin.collections.LinkedHashSet_init_287e2$;
   var primitiveArrayConcat = Kotlin.primitiveArrayConcat;
-  var jena = $module$Luposdate3000_Jena_Wrapper.lupos.jena;
-  var XMLElementFromXML = $module$Luposdate3000_Shared.lupos.s00misc.XMLElementFromXML;
-  var rdf = $module$Luposdate3000_Parser.lupos.s02buildSyntaxTree.rdf;
-  var TurtleScanner = $module$Luposdate3000_Parser.lupos.s02buildSyntaxTree.turtle.TurtleScanner;
-  var TurtleParserWithDictionary = $module$Luposdate3000_Parser.lupos.s02buildSyntaxTree.turtle.TurtleParserWithDictionary;
-  var ParseError = $module$Luposdate3000_Parser.lupos.s02buildSyntaxTree.ParseError;
+  var jena_wrapper = $module$Luposdate3000_Jena_Wrapper.lupos.jena_wrapper;
+  var XMLElementFromXML = $module$Luposdate3000_Shared.lupos.shared.XMLElementFromXML;
+  var rdf = $module$Luposdate3000_Parser.lupos.parser.rdf;
+  var TurtleScanner = $module$Luposdate3000_Parser.lupos.parser.turtle.TurtleScanner;
+  var TurtleParserWithDictionary = $module$Luposdate3000_Parser.lupos.parser.turtle.TurtleParserWithDictionary;
+  var ParseError = $module$Luposdate3000_Parser.lupos.parser.ParseError;
   var getCallableRef = Kotlin.getCallableRef;
   var substringBeforeLast = Kotlin.kotlin.text.substringBeforeLast_j4ogox$;
-  var IRI = $module$Luposdate3000_Parser.lupos.s02buildSyntaxTree.rdf.IRI;
-  var SimpleLiteral = $module$Luposdate3000_Parser.lupos.s02buildSyntaxTree.rdf.SimpleLiteral;
-  var UnknownManifestException = $module$Luposdate3000_Shared.lupos.s00misc.UnknownManifestException;
-  var BlankNode = $module$Luposdate3000_Parser.lupos.s02buildSyntaxTree.rdf.BlankNode;
+  var IRI = $module$Luposdate3000_Parser.lupos.parser.rdf.IRI;
+  var SimpleLiteral = $module$Luposdate3000_Parser.lupos.parser.rdf.SimpleLiteral;
+  var UnknownManifestException = $module$Luposdate3000_Shared.lupos.shared.UnknownManifestException;
+  var BlankNode = $module$Luposdate3000_Parser.lupos.parser.rdf.BlankNode;
   var endpoint = $module$Luposdate3000_Endpoint.lupos.endpoint;
-  var POPValuesImportXML = $module$Luposdate3000_Operator_Physical.lupos.s09physicalOperators.noinput.POPValuesImportXML;
-  var JenaBugException = $module$Luposdate3000_Shared.lupos.s00misc.JenaBugException;
+  var POPValuesImportXML = $module$Luposdate3000_Operator_Physical.lupos.operator.physical.noinput.POPValuesImportXML;
+  var JenaBugException = $module$Luposdate3000_Shared.lupos.shared.JenaBugException;
   var factory = $module$Luposdate3000_Operator_Factory.lupos.operator.factory;
-  var Luposdate3000Exception = $module$Luposdate3000_Shared.lupos.s00misc.Luposdate3000Exception;
+  var Luposdate3000Exception = $module$Luposdate3000_Shared.lupos.shared.Luposdate3000Exception;
   var L255 = Kotlin.Long.fromInt(255);
   var StringBuilder_init = Kotlin.kotlin.text.StringBuilder_init;
   var fs = $module$Luposdate3000_Shared_JS.ext.fs;
-  var IMyOutputStream = $module$Luposdate3000_Shared.lupos.s00misc.IMyOutputStream;
-  var L0 = Kotlin.Long.ZERO;
+  var IMyOutputStream = $module$Luposdate3000_Shared.lupos.shared.IMyOutputStream;
   BinaryTestCase$executeTestCase$lambda$lambda$lambda$lambda$ObjectLiteral.prototype = Object.create(NotImplementedException.prototype);
   BinaryTestCase$executeTestCase$lambda$lambda$lambda$lambda$ObjectLiteral.prototype.constructor = BinaryTestCase$executeTestCase$lambda$lambda$lambda$lambda$ObjectLiteral;
   BinaryTestCase$executeTestCase$lambda$lambda$lambda$lambda$ObjectLiteral_0.prototype = Object.create(NotImplementedException.prototype);
   BinaryTestCase$executeTestCase$lambda$lambda$lambda$lambda$ObjectLiteral_0.prototype.constructor = BinaryTestCase$executeTestCase$lambda$lambda$lambda$lambda$ObjectLiteral_0;
   SparqlTestSuiteConverter.prototype = Object.create(SparqlTestSuite.prototype);
   SparqlTestSuiteConverter.prototype.constructor = SparqlTestSuiteConverter;
-  function _ColumnIteratorQueueExt() {
-    _ColumnIteratorQueueExt_instance = this;
+  function BufferManagerPage() {
+    BufferManagerPage_instance = this;
+    this.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES_8be2vx$ = 8192;
   }
-  _ColumnIteratorQueueExt.prototype._close_8sxreq$ = function (it) {
+  BufferManagerPage.prototype.create_8be2vx$ = function () {
+    var data = new Int8Array(8196);
+    this.setPageID_pao7sd$(data, -1);
+    return data;
+  };
+  function BufferManagerPage$copyInto$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.copyInto_v35ddt$ = function (data, destination, destinationOffset, startIndex, endIndex) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$copyInto$lambda(data, this));
+    arrayCopy(data, destination, destinationOffset, startIndex, endIndex);
+  };
+  function BufferManagerPage$copyFrom$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.copyFrom_v35ddt$ = function (data, source, destinationOffset, startIndex, endIndex) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$copyFrom$lambda(data, this));
+    arrayCopy(source, data, destinationOffset, startIndex, endIndex);
+  };
+  BufferManagerPage.prototype.getPageID_ma41of$ = function (data) {
+    return ByteArrayHelper_getInstance().readInt4_pao7sd$(data, 8192);
+  };
+  function BufferManagerPage$setPageID$lambda(closure$value, closure$data, this$BufferManagerPage) {
+    return function () {
+      return closure$value === -1 || this$BufferManagerPage.getPageID_ma41of$(closure$data) === -1;
+    };
+  }
+  BufferManagerPage.prototype.setPageID_pao7sd$ = function (data, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$setPageID$lambda(value, data, this));
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(data, 8192, value);
+  };
+  function BufferManagerPage$writeInt1$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeInt1_qibw1t$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeInt1$lambda(data, this));
+    ByteArrayHelper_getInstance().writeInt1_qibw1t$(data, offset, value);
+  };
+  function BufferManagerPage$writeInt2$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeInt2_qibw1t$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeInt2$lambda(data, this));
+    ByteArrayHelper_getInstance().writeInt2_qibw1t$(data, offset, value);
+  };
+  function BufferManagerPage$writeInt3$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeInt3_qibw1t$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeInt3$lambda(data, this));
+    ByteArrayHelper_getInstance().writeInt3_qibw1t$(data, offset, value);
+  };
+  function BufferManagerPage$writeInt4$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeInt4_qibw1t$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeInt4$lambda(data, this));
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(data, offset, value);
+  };
+  BufferManagerPage.prototype.writeIntX_4f9ssz$ = function (data, offset, value, count) {
+    switch (count) {
+      case 0:
+        break;
+      case 1:
+        this.writeInt1_qibw1t$(data, offset, value);
+        break;
+      case 2:
+        this.writeInt2_qibw1t$(data, offset, value);
+        break;
+      case 3:
+        this.writeInt3_qibw1t$(data, offset, value);
+        break;
+      default:this.writeInt4_qibw1t$(data, offset, value);
+        break;
+    }
+  };
+  function BufferManagerPage$writeLong8$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeLong8_ul24ie$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeLong8$lambda(data, this));
+    ByteArrayHelper_getInstance().writeLong8_ul24ie$(data, offset, value);
+  };
+  function BufferManagerPage$writeChar$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeChar_ul80vw$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeChar$lambda(data, this));
+    ByteArrayHelper_getInstance().writeChar_ul80vw$(data, offset, value);
+  };
+  function BufferManagerPage$readLong8$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readLong8_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readLong8$lambda(data, this));
+    return ByteArrayHelper_getInstance().readLong8_pao7sd$(data, offset);
+  };
+  function BufferManagerPage$readInt4$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readInt4_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readInt4$lambda(data, this));
+    return ByteArrayHelper_getInstance().readInt4_pao7sd$(data, offset);
+  };
+  function BufferManagerPage$readInt3$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readInt3_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readInt3$lambda(data, this));
+    return ByteArrayHelper_getInstance().readInt3_pao7sd$(data, offset);
+  };
+  function BufferManagerPage$readInt2$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readInt2_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readInt2$lambda(data, this));
+    return ByteArrayHelper_getInstance().readInt2_pao7sd$(data, offset);
+  };
+  function BufferManagerPage$readInt1$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readInt1_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readInt1$lambda(data, this));
+    return ByteArrayHelper_getInstance().readInt1_pao7sd$(data, offset);
+  };
+  BufferManagerPage.prototype.readIntX_qibw1t$ = function (data, offset, count) {
+    switch (count) {
+      case 0:
+        return 0;
+      case 1:
+        return this.readInt1_pao7sd$(data, offset);
+      case 2:
+        return this.readInt2_pao7sd$(data, offset);
+      case 3:
+        return this.readInt3_pao7sd$(data, offset);
+      default:return this.readInt4_pao7sd$(data, offset);
+    }
+  };
+  function BufferManagerPage$readChar$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readChar_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readChar$lambda(data, this));
+    return ByteArrayHelper_getInstance().readChar_pao7sd$(data, offset);
+  };
+  BufferManagerPage.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'BufferManagerPage',
+    interfaces: []
+  };
+  var BufferManagerPage_instance = null;
+  function BufferManagerPage_getInstance() {
+    if (BufferManagerPage_instance === null) {
+      new BufferManagerPage();
+    }return BufferManagerPage_instance;
+  }
+  function ColumnIteratorQueueExt() {
+    ColumnIteratorQueueExt_instance = this;
+  }
+  ColumnIteratorQueueExt.prototype._close_6z1dri$ = function (it) {
     if (it.label !== 0) {
       it.label = 0;
       it.queue.clear();
     }};
-  _ColumnIteratorQueueExt.prototype.nextHelper_lr87q6$ = function (it, onEmptyQueue, onClose) {
+  ColumnIteratorQueueExt.prototype.nextHelper_tdqia6$ = function (it, onEmptyQueue, onClose) {
     var tmp$, tmp$_0;
     switch (it.label) {
       case 1:
@@ -201,33 +389,33 @@
       default:return 4;
     }
   };
-  _ColumnIteratorQueueExt.prototype.closeOnEmptyQueue_8sxreq$ = function (it) {
+  ColumnIteratorQueueExt.prototype.closeOnEmptyQueue_6z1dri$ = function (it) {
     if (it.label !== 0) {
       it.label = 2;
     }};
-  _ColumnIteratorQueueExt.$metadata$ = {
+  ColumnIteratorQueueExt.$metadata$ = {
     kind: Kind_OBJECT,
-    simpleName: '_ColumnIteratorQueueExt',
+    simpleName: 'ColumnIteratorQueueExt',
     interfaces: []
   };
-  var _ColumnIteratorQueueExt_instance = null;
-  function _ColumnIteratorQueueExt_getInstance() {
-    if (_ColumnIteratorQueueExt_instance === null) {
-      new _ColumnIteratorQueueExt();
-    }return _ColumnIteratorQueueExt_instance;
+  var ColumnIteratorQueueExt_instance = null;
+  function ColumnIteratorQueueExt_getInstance() {
+    if (ColumnIteratorQueueExt_instance === null) {
+      new ColumnIteratorQueueExt();
+    }return ColumnIteratorQueueExt_instance;
   }
-  function _DictionaryHelper() {
-    _DictionaryHelper_instance = this;
+  function DictionaryHelper() {
+    DictionaryHelper_instance = this;
   }
-  _DictionaryHelper.prototype.errorToByteArray_jxlg18$ = function (buffer) {
-    buffer.setSize_za3lpa$(4);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 5);
+  DictionaryHelper.prototype.errorToByteArray_b1q5io$ = function (buffer) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 4);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 5);
   };
-  _DictionaryHelper.prototype.undefToByteArray_jxlg18$ = function (buffer) {
-    buffer.setSize_za3lpa$(4);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 12);
+  DictionaryHelper.prototype.undefToByteArray_b1q5io$ = function (buffer) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 4);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 12);
   };
-  _DictionaryHelper.prototype.dateTimeToByteArray_iqqgd6$ = function (buffer, str) {
+  DictionaryHelper.prototype.dateTimeToByteArray_akwfwi$ = function (buffer, str) {
     var year;
     var month;
     var day;
@@ -364,130 +552,130 @@
       timezoneHours = -99;
       timezoneMinutes = -99;
     }
-    this.dateTimeToByteArray_dgf7ws$(buffer, BigInteger.Companion.parseString_bm4lxs$(year, 10), month, day, hours, minutes, BigDecimal.Companion.parseString_bm4lxs$(seconds, 10), timezoneHours, timezoneMinutes);
+    this.dateTimeToByteArray_o4mgi8$(buffer, BigInteger.Companion.parseString_bm4lxs$(year, 10), month, day, hours, minutes, BigDecimal.Companion.parseString_bm4lxs$(seconds, 10), timezoneHours, timezoneMinutes);
   };
-  function _DictionaryHelper$dateTimeToByteArray$lambda(closure$month) {
+  function DictionaryHelper$dateTimeToByteArray$lambda(closure$month) {
     return function () {
       return closure$month >= 0;
     };
   }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_0(closure$month) {
+  function DictionaryHelper$dateTimeToByteArray$lambda_0(closure$month) {
     return function () {
       return closure$month <= 99;
     };
   }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_1(closure$day) {
+  function DictionaryHelper$dateTimeToByteArray$lambda_1(closure$day) {
     return function () {
       return closure$day >= 0;
     };
   }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_2(closure$day) {
+  function DictionaryHelper$dateTimeToByteArray$lambda_2(closure$day) {
     return function () {
       return closure$day <= 99;
     };
   }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_3(closure$hours) {
+  function DictionaryHelper$dateTimeToByteArray$lambda_3(closure$hours) {
     return function () {
       return closure$hours >= 0;
     };
   }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_4(closure$hours) {
+  function DictionaryHelper$dateTimeToByteArray$lambda_4(closure$hours) {
     return function () {
       return closure$hours <= 24;
     };
   }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_5(closure$minutes) {
+  function DictionaryHelper$dateTimeToByteArray$lambda_5(closure$minutes) {
     return function () {
       return closure$minutes >= 0;
     };
   }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_6(closure$minutes) {
+  function DictionaryHelper$dateTimeToByteArray$lambda_6(closure$minutes) {
     return function () {
       return closure$minutes <= 99;
     };
   }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_7(closure$timezoneHours) {
+  function DictionaryHelper$dateTimeToByteArray$lambda_7(closure$timezoneHours) {
     return function () {
       return closure$timezoneHours >= -24;
     };
   }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_8(closure$timezoneHours) {
+  function DictionaryHelper$dateTimeToByteArray$lambda_8(closure$timezoneHours) {
     return function () {
       return closure$timezoneHours <= 24;
     };
   }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_9(closure$timezoneMinutes) {
+  function DictionaryHelper$dateTimeToByteArray$lambda_9(closure$timezoneMinutes) {
     return function () {
       return closure$timezoneMinutes >= 0;
     };
   }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_10(closure$timezoneMinutes) {
+  function DictionaryHelper$dateTimeToByteArray$lambda_10(closure$timezoneMinutes) {
     return function () {
       return closure$timezoneMinutes <= 99;
     };
   }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_11(closure$off, closure$buffer) {
+  function DictionaryHelper$dateTimeToByteArray$lambda_11(closure$off, closure$buffer) {
     return function () {
-      return closure$off.v === closure$buffer.getSize();
+      return closure$off.v === closure$buffer.size;
     };
   }
-  _DictionaryHelper.prototype.dateTimeToByteArray_dgf7ws$ = function (buffer, year, month, day, hours, minutes, seconds, timezoneHours, timezoneMinutes) {
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda(month));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_0(month));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_1(day));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_2(day));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_3(hours));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_4(hours));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_5(minutes));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_6(minutes));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_7(timezoneHours));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_8(timezoneHours));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_9(timezoneMinutes));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_10(timezoneMinutes));
+  DictionaryHelper.prototype.dateTimeToByteArray_o4mgi8$ = function (buffer, year, month, day, hours, minutes, seconds, timezoneHours, timezoneMinutes) {
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda(month));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_0(month));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_1(day));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_2(day));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_3(hours));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_4(hours));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_5(minutes));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_6(minutes));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_7(timezoneHours));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_8(timezoneHours));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_9(timezoneMinutes));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_10(timezoneMinutes));
     var buf1 = year.toByteArray();
     var buf2 = seconds.significand.toByteArray();
     var l1 = buf1.length;
     var l2 = buf2.length;
-    buffer.setSize_za3lpa$(42 + l1 + l2 | 0);
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 42 + l1 + l2 | 0);
     var off = {v: 0};
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, 2);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, 2);
     off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, l1);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, l1);
     off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, month);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, month);
     off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, day);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, day);
     off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, hours);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, hours);
     off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, minutes);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, minutes);
     off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, timezoneHours);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, timezoneHours);
     off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, timezoneMinutes);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, timezoneMinutes);
     off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeLong8_ul24ie$(buffer.getBuf(), off.v, seconds.exponent);
+    ByteArrayHelper_getInstance().writeLong8_ul24ie$(buffer.buf, off.v, seconds.exponent);
     off.v = off.v + 8 | 0;
-    buffer.getBuf()[off.v] = toByte(year.signum());
+    buffer.buf[off.v] = toByte(year.signum());
     off.v = off.v + 1 | 0;
-    buffer.getBuf()[off.v] = toByte(seconds.signum());
+    buffer.buf[off.v] = toByte(seconds.signum());
     off.v = off.v + 1 | 0;
-    arrayCopy(buf1, buffer.getBuf(), off.v, 0, buf1.length);
+    arrayCopy(buf1, buffer.buf, off.v, 0, buf1.length);
     off.v = off.v + l1 | 0;
-    arrayCopy(buf2, buffer.getBuf(), off.v, 0, buf2.length);
+    arrayCopy(buf2, buffer.buf, off.v, 0, buf2.length);
     off.v = off.v + l2 | 0;
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_11(off, buffer));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_11(off, buffer));
   };
-  function _DictionaryHelper$byteArrayToDateTime_Year$lambda(closure$off, closure$buffer) {
+  function DictionaryHelper$byteArrayToDateTime_Year$lambda(closure$off, closure$buffer) {
     return function () {
-      return closure$off.v === closure$buffer.getSize();
+      return closure$off.v === closure$buffer.size;
     };
   }
-  _DictionaryHelper.prototype.byteArrayToDateTime_Year_jxlg18$ = function (buffer) {
+  DictionaryHelper.prototype.byteArrayToDateTime_Year_b1q5io$ = function (buffer) {
     var tmp$;
     var off = {v: 0};
     off.v = off.v + 4 | 0;
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
     off.v = off.v + 4 | 0;
     off.v = off.v + 4 | 0;
     off.v = off.v + 4 | 0;
@@ -496,7 +684,7 @@
     off.v = off.v + 4 | 0;
     off.v = off.v + 4 | 0;
     off.v = off.v + 8 | 0;
-    switch (buffer.getBuf()[off.v]) {
+    switch (buffer.buf[off.v]) {
       case -1:
         tmp$ = Sign.NEGATIVE;
         break;
@@ -510,58 +698,58 @@
     off.v = off.v + 1 | 0;
     off.v = off.v + 1 | 0;
     var buf1 = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf1, 0, off.v, off.v + l1 | 0);
+    arrayCopy(buffer.buf, buf1, 0, off.v, off.v + l1 | 0);
     off.v = off.v + l1 | 0;
-    var l2 = buffer.getSize() - l1 - 42 | 0;
+    var l2 = buffer.size - l1 - 42 | 0;
     off.v = off.v + l2 | 0;
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$byteArrayToDateTime_Year$lambda(off, buffer));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$byteArrayToDateTime_Year$lambda(off, buffer));
     var year = BigInteger.Companion.fromByteArray_cz08zj$(buf1, yearSignum);
     return year;
   };
-  _DictionaryHelper.prototype.byteArrayToDateTime_Month_jxlg18$ = function (buffer) {
+  DictionaryHelper.prototype.byteArrayToDateTime_Month_b1q5io$ = function (buffer) {
     var off = 0;
     off = off + 4 | 0;
     off = off + 4 | 0;
-    var month = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
+    var month = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
     return BigInteger_init(month);
   };
-  _DictionaryHelper.prototype.byteArrayToDateTime_Day_jxlg18$ = function (buffer) {
+  DictionaryHelper.prototype.byteArrayToDateTime_Day_b1q5io$ = function (buffer) {
     var off = 0;
     off = off + 4 | 0;
     off = off + 4 | 0;
     off = off + 4 | 0;
-    var day = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
+    var day = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
     return BigInteger_init(day);
   };
-  _DictionaryHelper.prototype.byteArrayToDateTime_Hours_jxlg18$ = function (buffer) {
+  DictionaryHelper.prototype.byteArrayToDateTime_Hours_b1q5io$ = function (buffer) {
     var off = 0;
     off = off + 4 | 0;
     off = off + 4 | 0;
     off = off + 4 | 0;
     off = off + 4 | 0;
-    var hours = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
+    var hours = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
     return BigInteger_init(hours);
   };
-  _DictionaryHelper.prototype.byteArrayToDateTime_Minutes_jxlg18$ = function (buffer) {
+  DictionaryHelper.prototype.byteArrayToDateTime_Minutes_b1q5io$ = function (buffer) {
     var off = 0;
     off = off + 4 | 0;
     off = off + 4 | 0;
     off = off + 4 | 0;
     off = off + 4 | 0;
     off = off + 4 | 0;
-    var minutes = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
+    var minutes = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
     return BigInteger_init(minutes);
   };
-  function _DictionaryHelper$byteArrayToDateTime_Seconds$lambda(closure$off, closure$buffer) {
+  function DictionaryHelper$byteArrayToDateTime_Seconds$lambda(closure$off, closure$buffer) {
     return function () {
-      return closure$off.v === closure$buffer.getSize();
+      return closure$off.v === closure$buffer.size;
     };
   }
-  _DictionaryHelper.prototype.byteArrayToDateTime_Seconds_jxlg18$ = function (buffer) {
+  DictionaryHelper.prototype.byteArrayToDateTime_Seconds_b1q5io$ = function (buffer) {
     var tmp$;
     var off = {v: 0};
     off.v = off.v + 4 | 0;
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
     off.v = off.v + 4 | 0;
     off.v = off.v + 4 | 0;
     off.v = off.v + 4 | 0;
@@ -569,10 +757,10 @@
     off.v = off.v + 4 | 0;
     off.v = off.v + 4 | 0;
     off.v = off.v + 4 | 0;
-    var secondsExponent = _ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.getBuf(), off.v);
+    var secondsExponent = ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.buf, off.v);
     off.v = off.v + 8 | 0;
     off.v = off.v + 1 | 0;
-    switch (buffer.getBuf()[off.v]) {
+    switch (buffer.buf[off.v]) {
       case -1:
         tmp$ = Sign.NEGATIVE;
         break;
@@ -585,41 +773,41 @@
     var secondsSignum = tmp$;
     off.v = off.v + 1 | 0;
     off.v = off.v + l1 | 0;
-    var l2 = buffer.getSize() - l1 - 42 | 0;
+    var l2 = buffer.size - l1 - 42 | 0;
     var buf2 = new Int8Array(l2);
-    arrayCopy(buffer.getBuf(), buf2, 0, off.v, off.v + l2 | 0);
-    arrayCopy(buf2, buffer.getBuf(), off.v, 0, buf2.length);
+    arrayCopy(buffer.buf, buf2, 0, off.v, off.v + l2 | 0);
+    arrayCopy(buf2, buffer.buf, off.v, 0, buf2.length);
     off.v = off.v + l2 | 0;
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$byteArrayToDateTime_Seconds$lambda(off, buffer));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$byteArrayToDateTime_Seconds$lambda(off, buffer));
     var seconds = BigDecimal.Companion.fromBigIntegerWithExponent_2w0s5z$(BigInteger.Companion.fromByteArray_cz08zj$(buf2, secondsSignum), secondsExponent);
     return seconds;
   };
-  function _DictionaryHelper$byteArrayToDateTimeAsTyped_Content$lambda(closure$off, closure$buffer) {
+  function DictionaryHelper$byteArrayToDateTimeAsTyped_Content$lambda(closure$off, closure$buffer) {
     return function () {
-      return closure$off.v === closure$buffer.getSize();
+      return closure$off.v === closure$buffer.size;
     };
   }
-  _DictionaryHelper.prototype.byteArrayToDateTimeAsTyped_Content_jxlg18$ = function (buffer) {
+  DictionaryHelper.prototype.byteArrayToDateTimeAsTyped_Content_b1q5io$ = function (buffer) {
     var tmp$, tmp$_0, tmp$_1;
     var off = {v: 0};
     off.v = off.v + 4 | 0;
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
     off.v = off.v + 4 | 0;
-    var month = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
+    var month = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
     off.v = off.v + 4 | 0;
-    var day = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
+    var day = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
     off.v = off.v + 4 | 0;
-    var hours = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
+    var hours = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
     off.v = off.v + 4 | 0;
-    var minutes = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
+    var minutes = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
     off.v = off.v + 4 | 0;
-    var timezoneHours = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
+    var timezoneHours = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
     off.v = off.v + 4 | 0;
-    var timezoneMinutes = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
+    var timezoneMinutes = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
     off.v = off.v + 4 | 0;
-    var secondsExponent = _ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.getBuf(), off.v);
+    var secondsExponent = ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.buf, off.v);
     off.v = off.v + 8 | 0;
-    switch (buffer.getBuf()[off.v]) {
+    switch (buffer.buf[off.v]) {
       case -1:
         tmp$ = Sign.NEGATIVE;
         break;
@@ -631,7 +819,7 @@
     }
     var yearSignum = tmp$;
     off.v = off.v + 1 | 0;
-    switch (buffer.getBuf()[off.v]) {
+    switch (buffer.buf[off.v]) {
       case -1:
         tmp$_0 = Sign.NEGATIVE;
         break;
@@ -644,14 +832,14 @@
     var secondsSignum = tmp$_0;
     off.v = off.v + 1 | 0;
     var buf1 = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf1, 0, off.v, off.v + l1 | 0);
+    arrayCopy(buffer.buf, buf1, 0, off.v, off.v + l1 | 0);
     off.v = off.v + l1 | 0;
-    var l2 = buffer.getSize() - l1 - 42 | 0;
+    var l2 = buffer.size - l1 - 42 | 0;
     var buf2 = new Int8Array(l2);
-    arrayCopy(buffer.getBuf(), buf2, 0, off.v, off.v + l2 | 0);
-    arrayCopy(buf2, buffer.getBuf(), off.v, 0, buf2.length);
+    arrayCopy(buffer.buf, buf2, 0, off.v, off.v + l2 | 0);
+    arrayCopy(buf2, buffer.buf, off.v, 0, buf2.length);
     off.v = off.v + l2 | 0;
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$byteArrayToDateTimeAsTyped_Content$lambda(off, buffer));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$byteArrayToDateTimeAsTyped_Content$lambda(off, buffer));
     var year = BigInteger.Companion.fromByteArray_cz08zj$(buf1, yearSignum);
     var seconds = BigDecimal.Companion.fromBigIntegerWithExponent_2w0s5z$(BigInteger.Companion.fromByteArray_cz08zj$(buf2, secondsSignum), secondsExponent);
     var secondsString2 = split(seconds.toStringExpanded(), ['.']);
@@ -680,7 +868,7 @@
     }
     return tmp$_1;
   };
-  _DictionaryHelper.prototype.byteArrayToDateTime_TZ_jxlg18$ = function (buffer) {
+  DictionaryHelper.prototype.byteArrayToDateTime_TZ_b1q5io$ = function (buffer) {
     var off = 0;
     off = off + 4 | 0;
     off = off + 4 | 0;
@@ -688,16 +876,16 @@
     off = off + 4 | 0;
     off = off + 4 | 0;
     off = off + 4 | 0;
-    var timezoneHours = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
+    var timezoneHours = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
     off = off + 4 | 0;
-    var timezoneMinutes = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
+    var timezoneMinutes = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
     if (timezoneHours === 0 && timezoneMinutes === 0) {
       return 'Z';
     }if (timezoneHours === -1 && timezoneMinutes === -1) {
       return '';
     }return '-' + padStart(timezoneHours.toString(), 2, 48) + ':' + padStart(timezoneMinutes.toString(), 2, 48);
   };
-  _DictionaryHelper.prototype.byteArrayToDateTime_TimeZone_jxlg18$ = function (buffer) {
+  DictionaryHelper.prototype.byteArrayToDateTime_TimeZone_b1q5io$ = function (buffer) {
     var off = 0;
     off = off + 4 | 0;
     off = off + 4 | 0;
@@ -705,46 +893,46 @@
     off = off + 4 | 0;
     off = off + 4 | 0;
     off = off + 4 | 0;
-    var timezoneHours = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
+    var timezoneHours = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
     off = off + 4 | 0;
-    var timezoneMinutes = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
+    var timezoneMinutes = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
     if (timezoneHours === 0 && timezoneMinutes === 0) {
       return '"PT0S"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>';
     }if (timezoneHours >= 0 && timezoneMinutes === 0) {
       return '"' + '-PT' + timezoneHours + 'H' + '"' + '^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>';
     }return '';
   };
-  _DictionaryHelper.prototype.booleanToByteArray_jezz1v$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(5);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 1);
+  DictionaryHelper.prototype.booleanToByteArray_5191p3$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 5);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 1);
     if (value) {
-      buffer.getBuf()[4] = 1;
+      buffer.buf[4] = 1;
     } else {
-      buffer.getBuf()[4] = 0;
+      buffer.buf[4] = 0;
     }
   };
-  _DictionaryHelper.prototype.byteArrayToBoolean_jxlg18$ = function (buffer) {
-    return buffer.getBuf()[4] !== toByte(0);
+  DictionaryHelper.prototype.byteArrayToBoolean_b1q5io$ = function (buffer) {
+    return buffer.buf[4] !== toByte(0);
   };
-  _DictionaryHelper.prototype.integerToByteArray_iqqgd6$ = function (buffer, value) {
-    this.integerToByteArray_znicy$(buffer, BigInteger.Companion.parseString_bm4lxs$(value, 10));
+  DictionaryHelper.prototype.integerToByteArray_akwfwi$ = function (buffer, value) {
+    this.integerToByteArray_ddz2hi$(buffer, BigInteger.Companion.parseString_bm4lxs$(value, 10));
   };
-  _DictionaryHelper.prototype.integerToByteArray_znicy$ = function (buffer, value) {
+  DictionaryHelper.prototype.integerToByteArray_ddz2hi$ = function (buffer, value) {
     var buf1 = value.toByteArray();
-    buffer.setSize_za3lpa$(5 + buf1.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 7);
-    buffer.getBuf()[4] = toByte(value.signum());
-    arrayCopy(buf1, buffer.getBuf(), 5, 0, buf1.length);
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 5 + buf1.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 7);
+    buffer.buf[4] = toByte(value.signum());
+    arrayCopy(buf1, buffer.buf, 5, 0, buf1.length);
   };
-  _DictionaryHelper.prototype.byteArrayToInteger_S_jxlg18$ = function (buffer) {
-    return this.byteArrayToInteger_I_jxlg18$(buffer).toString();
+  DictionaryHelper.prototype.byteArrayToInteger_S_b1q5io$ = function (buffer) {
+    return this.byteArrayToInteger_I_b1q5io$(buffer).toString();
   };
-  _DictionaryHelper.prototype.byteArrayToInteger_I_jxlg18$ = function (buffer) {
+  DictionaryHelper.prototype.byteArrayToInteger_I_b1q5io$ = function (buffer) {
     var tmp$;
-    var l1 = buffer.getSize() - 5 | 0;
+    var l1 = buffer.size - 5 | 0;
     var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 5, 5 + l1 | 0);
-    switch (buffer.getBuf()[4]) {
+    arrayCopy(buffer.buf, buf, 0, 5, 5 + l1 | 0);
+    switch (buffer.buf[4]) {
       case -1:
         tmp$ = Sign.NEGATIVE;
         break;
@@ -757,24 +945,24 @@
     var sign = tmp$;
     return BigInteger.Companion.fromByteArray_cz08zj$(buf, sign);
   };
-  _DictionaryHelper.prototype.decimalToByteArray_iqqgd6$ = function (buffer, value) {
-    this.decimalToByteArray_3ssfki$(buffer, BigDecimal.Companion.parseString_bm4lxs$(value, 10));
+  DictionaryHelper.prototype.decimalToByteArray_akwfwi$ = function (buffer, value) {
+    this.decimalToByteArray_g73zp2$(buffer, BigDecimal.Companion.parseString_bm4lxs$(value, 10));
   };
-  _DictionaryHelper.prototype.decimalToByteArray_3ssfki$ = function (buffer, value) {
+  DictionaryHelper.prototype.decimalToByteArray_g73zp2$ = function (buffer, value) {
     var buf1 = value.significand.toByteArray();
-    buffer.setSize_za3lpa$(13 + buf1.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 3);
-    _ByteArrayHelper_getInstance().writeLong8_ul24ie$(buffer.getBuf(), 4, value.exponent);
-    buffer.getBuf()[12] = toByte(value.signum());
-    arrayCopy(buf1, buffer.getBuf(), 13, 0, buf1.length);
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 13 + buf1.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 3);
+    ByteArrayHelper_getInstance().writeLong8_ul24ie$(buffer.buf, 4, value.exponent);
+    buffer.buf[12] = toByte(value.signum());
+    arrayCopy(buf1, buffer.buf, 13, 0, buf1.length);
   };
-  _DictionaryHelper.prototype.byteArrayToDecimal_I_jxlg18$ = function (buffer) {
+  DictionaryHelper.prototype.byteArrayToDecimal_I_b1q5io$ = function (buffer) {
     var tmp$;
-    var l1 = buffer.getSize() - 13 | 0;
+    var l1 = buffer.size - 13 | 0;
     var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 13, 13 + l1 | 0);
-    var exponent = _ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.getBuf(), 4);
-    switch (buffer.getBuf()[12]) {
+    arrayCopy(buffer.buf, buf, 0, 13, 13 + l1 | 0);
+    var exponent = ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.buf, 4);
+    switch (buffer.buf[12]) {
       case -1:
         tmp$ = Sign.NEGATIVE;
         break;
@@ -787,193 +975,194 @@
     var sign = tmp$;
     return BigDecimal.Companion.fromBigIntegerWithExponent_2w0s5z$(BigInteger.Companion.fromByteArray_cz08zj$(buf, sign), exponent);
   };
-  _DictionaryHelper.prototype.byteArrayToDecimal_S_jxlg18$ = function (buffer) {
-    var tmp = this.byteArrayToDecimal_I_jxlg18$(buffer).toStringExpanded();
+  DictionaryHelper.prototype.byteArrayToDecimal_S_b1q5io$ = function (buffer) {
+    var tmp = this.byteArrayToDecimal_I_b1q5io$(buffer).toStringExpanded();
     if (contains(tmp, 46)) {
       return tmp;
     }return tmp + '.0';
   };
-  _DictionaryHelper.prototype.doubleToByteArray_px3ziy$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(12);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 4);
-    _ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.getBuf(), 4, value);
+  DictionaryHelper.prototype.doubleToByteArray_3eiwqq$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 12);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 4);
+    ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.buf, 4, value);
   };
-  _DictionaryHelper.prototype.doubleToByteArray_iqqgd6$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(12);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 4);
-    _ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.getBuf(), 4, toDouble(value));
+  DictionaryHelper.prototype.doubleToByteArray_akwfwi$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 12);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 4);
+    ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.buf, 4, toDouble(value));
   };
-  _DictionaryHelper.prototype.byteArrayToDouble_I_jxlg18$ = function (buffer) {
-    return _ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.getBuf(), 4);
+  DictionaryHelper.prototype.byteArrayToDouble_I_b1q5io$ = function (buffer) {
+    return ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.buf, 4);
   };
-  _DictionaryHelper.prototype.byteArrayToDouble_S_jxlg18$ = function (buffer) {
-    return _ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.getBuf(), 4).toString();
+  DictionaryHelper.prototype.byteArrayToDouble_S_b1q5io$ = function (buffer) {
+    return ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.buf, 4).toString();
   };
-  _DictionaryHelper.prototype.floatToByteArray_px3ziy$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(12);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 6);
-    _ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.getBuf(), 4, value);
+  DictionaryHelper.prototype.floatToByteArray_3eiwqq$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 12);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 6);
+    ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.buf, 4, value);
   };
-  _DictionaryHelper.prototype.floatToByteArray_iqqgd6$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(12);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 6);
-    _ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.getBuf(), 4, toDouble(value));
+  DictionaryHelper.prototype.floatToByteArray_akwfwi$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 12);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 6);
+    ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.buf, 4, toDouble(value));
   };
-  _DictionaryHelper.prototype.byteArrayToFloat_I_jxlg18$ = function (buffer) {
-    return _ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.getBuf(), 4);
+  DictionaryHelper.prototype.byteArrayToFloat_I_b1q5io$ = function (buffer) {
+    return ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.buf, 4);
   };
-  _DictionaryHelper.prototype.byteArrayToFloat_S_jxlg18$ = function (buffer) {
-    return _ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.getBuf(), 4).toString();
+  DictionaryHelper.prototype.byteArrayToFloat_S_b1q5io$ = function (buffer) {
+    return ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.buf, 4).toString();
   };
-  _DictionaryHelper.prototype.langToByteArray_os11rs$ = function (buffer, content, lang) {
+  DictionaryHelper.prototype.langToByteArray_v5q3o4$ = function (buffer, content, lang) {
     var buf1 = encodeToByteArray(lang);
     var buf2 = encodeToByteArray(content);
-    buffer.setSize_za3lpa$(9 + buf1.length + buf2.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 10);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 5 + buf1.length + buf2.length | 0, buf1.length);
-    arrayCopy(buf1, buffer.getBuf(), 4, 0, buf1.length);
-    buffer.getBuf()[4 + buf1.length | 0] = 0;
-    arrayCopy(buf2, buffer.getBuf(), 5 + buf1.length | 0, 0, buf2.length);
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 9 + buf1.length + buf2.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 10);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 5 + buf1.length + buf2.length | 0, buf1.length);
+    arrayCopy(buf1, buffer.buf, 4, 0, buf1.length);
+    buffer.buf[4 + buf1.length | 0] = 0;
+    arrayCopy(buf2, buffer.buf, 5 + buf1.length | 0, 0, buf2.length);
   };
-  _DictionaryHelper.prototype.byteArrayToLang_Content_jxlg18$ = function (buffer) {
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), buffer.getSize() - 4 | 0);
-    var l2 = buffer.getSize() - 9 - l1 | 0;
+  DictionaryHelper.prototype.byteArrayToLang_Content_b1q5io$ = function (buffer) {
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, buffer.size - 4 | 0);
+    var l2 = buffer.size - 9 - l1 | 0;
     var buf = new Int8Array(l2);
-    arrayCopy(buffer.getBuf(), buf, 0, 5 + l1 | 0, 5 + l1 + l2 | 0);
+    arrayCopy(buffer.buf, buf, 0, 5 + l1 | 0, 5 + l1 + l2 | 0);
     return decodeToString(buf);
   };
-  _DictionaryHelper.prototype.byteArrayToLang_Lang_jxlg18$ = function (buffer) {
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), buffer.getSize() - 4 | 0);
+  DictionaryHelper.prototype.byteArrayToLang_Lang_b1q5io$ = function (buffer) {
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, buffer.size - 4 | 0);
     var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 4, 4 + l1 | 0);
+    arrayCopy(buffer.buf, buf, 0, 4, 4 + l1 | 0);
     return decodeToString(buf);
   };
-  _DictionaryHelper.prototype.typedToByteArray_os11rs$ = function (buffer, content, type) {
+  DictionaryHelper.prototype.typedToByteArray_v5q3o4$ = function (buffer, content, type) {
     try {
       switch (type) {
         case 'http://www.w3.org/2001/XMLSchema#integer':
-          this.integerToByteArray_iqqgd6$(buffer, content);
+          this.integerToByteArray_akwfwi$(buffer, content);
           break;
         case 'http://www.w3.org/2001/XMLSchema#decimal':
-          this.decimalToByteArray_iqqgd6$(buffer, content);
+          this.decimalToByteArray_akwfwi$(buffer, content);
           break;
         case 'http://www.w3.org/2001/XMLSchema#double':
-          this.doubleToByteArray_px3ziy$(buffer, toDouble(content));
+          this.doubleToByteArray_3eiwqq$(buffer, toDouble(content));
           break;
         case 'http://www.w3.org/2001/XMLSchema#float':
-          this.floatToByteArray_px3ziy$(buffer, toDouble(content));
+          this.floatToByteArray_3eiwqq$(buffer, toDouble(content));
           break;
         case 'http://www.w3.org/2001/XMLSchema#boolean':
-          this.booleanToByteArray_jezz1v$(buffer, equals(content.toLowerCase(), 'true'));
+          this.booleanToByteArray_5191p3$(buffer, equals(content.toLowerCase(), 'true'));
           break;
         case 'http://www.w3.org/2001/XMLSchema#dateTime':
-          this.dateTimeToByteArray_iqqgd6$(buffer, content);
+          this.dateTimeToByteArray_akwfwi$(buffer, content);
           break;
         default:var buf1 = encodeToByteArray(type);
           var buf2 = encodeToByteArray(content);
-          buffer.setSize_za3lpa$(9 + buf1.length + buf2.length | 0);
-          _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 11);
-          _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 5 + buf1.length + buf2.length | 0, buf1.length);
-          arrayCopy(buf1, buffer.getBuf(), 4, 0, buf1.length);
-          buffer.getBuf()[4 + buf1.length | 0] = 0;
-          arrayCopy(buf2, buffer.getBuf(), 5 + buf1.length | 0, 0, buf2.length);
+          ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 9 + buf1.length + buf2.length | 0);
+          ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 11);
+          ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 5 + buf1.length + buf2.length | 0, buf1.length);
+          arrayCopy(buf1, buffer.buf, 4, 0, buf1.length);
+          buffer.buf[4 + buf1.length | 0] = 0;
+          arrayCopy(buf2, buffer.buf, 5 + buf1.length | 0, 0, buf2.length);
           break;
       }
     } catch (e) {
-      if (Kotlin.isType(e, Throwable)) {
-        this.stringToByteArray_iqqgd6$(buffer, content);
+      if (Kotlin.isType(e, Exception)) {
+        printStackTrace(e);
+        this.stringToByteArray_akwfwi$(buffer, content);
       } else
         throw e;
     }
   };
-  _DictionaryHelper.prototype.byteArrayToTyped_Content_jxlg18$ = function (buffer) {
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), buffer.getSize() - 4 | 0);
-    var l2 = buffer.getSize() - 9 - l1 | 0;
+  DictionaryHelper.prototype.byteArrayToTyped_Content_b1q5io$ = function (buffer) {
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, buffer.size - 4 | 0);
+    var l2 = buffer.size - 9 - l1 | 0;
     var buf = new Int8Array(l2);
-    arrayCopy(buffer.getBuf(), buf, 0, 5 + l1 | 0, 5 + l1 + l2 | 0);
+    arrayCopy(buffer.buf, buf, 0, 5 + l1 | 0, 5 + l1 + l2 | 0);
     return decodeToString(buf);
   };
-  _DictionaryHelper.prototype.byteArrayToTyped_Type_jxlg18$ = function (buffer) {
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), buffer.getSize() - 4 | 0);
+  DictionaryHelper.prototype.byteArrayToTyped_Type_b1q5io$ = function (buffer) {
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, buffer.size - 4 | 0);
     var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 4, 4 + l1 | 0);
+    arrayCopy(buffer.buf, buf, 0, 4, 4 + l1 | 0);
     return decodeToString(buf);
   };
-  function _DictionaryHelper$bnodeToByteArray$lambda(closure$value) {
+  function DictionaryHelper$bnodeToByteArray$lambda(closure$value) {
     return function () {
       return closure$value.length > 0;
     };
   }
-  _DictionaryHelper.prototype.bnodeToByteArray_iqqgd6$ = function (buffer, value) {
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$bnodeToByteArray$lambda(value));
+  DictionaryHelper.prototype.bnodeToByteArray_akwfwi$ = function (buffer, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$bnodeToByteArray$lambda(value));
     var buf1 = encodeToByteArray(value);
-    buffer.setSize_za3lpa$(8 + buf1.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 4, buf1.length);
-    arrayCopy(buf1, buffer.getBuf(), 8, 0, buf1.length);
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 8 + buf1.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 4, buf1.length);
+    arrayCopy(buf1, buffer.buf, 8, 0, buf1.length);
   };
-  _DictionaryHelper.prototype.bnodeToByteArray_rj5z7q$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(8);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 4, value);
+  DictionaryHelper.prototype.bnodeToByteArray_v5fxe$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 8);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 4, value);
   };
-  _DictionaryHelper.prototype.byteArrayToBnode_I_jxlg18$ = function (buffer) {
-    if (buffer.getSize() === 8) {
-      return _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 4);
+  DictionaryHelper.prototype.byteArrayToBnode_I_b1q5io$ = function (buffer) {
+    if (buffer.size === 8) {
+      return ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 4);
     } else {
       throw Exception_init('this is not ready to be used as instanciated value');
     }
   };
-  _DictionaryHelper.prototype.byteArrayToBnode_S_jxlg18$ = function (buffer) {
-    if (buffer.getSize() === 8) {
+  DictionaryHelper.prototype.byteArrayToBnode_S_b1q5io$ = function (buffer) {
+    if (buffer.size === 8) {
       throw Exception_init('this is not ready to be used as import value');
     } else {
-      var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 4);
+      var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 4);
       var buf = new Int8Array(l1);
-      arrayCopy(buffer.getBuf(), buf, 0, 8, 8 + l1 | 0);
+      arrayCopy(buffer.buf, buf, 0, 8, 8 + l1 | 0);
       return decodeToString(buf);
     }
   };
-  _DictionaryHelper.prototype.byteArrayToBnode_A_jxlg18$ = function (buffer) {
-    if (buffer.getSize() === 8) {
-      return _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 4).toString();
+  DictionaryHelper.prototype.byteArrayToBnode_A_b1q5io$ = function (buffer) {
+    if (buffer.size === 8) {
+      return ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 4).toString();
     } else {
-      var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 4);
+      var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 4);
       var buf = new Int8Array(l1);
-      arrayCopy(buffer.getBuf(), buf, 0, 8, 8 + l1 | 0);
+      arrayCopy(buffer.buf, buf, 0, 8, 8 + l1 | 0);
       return decodeToString(buf);
     }
   };
-  _DictionaryHelper.prototype.iriToByteArray_iqqgd6$ = function (buffer, value) {
+  DictionaryHelper.prototype.iriToByteArray_akwfwi$ = function (buffer, value) {
     var buf1 = encodeToByteArray(value);
-    buffer.setSize_za3lpa$(4 + buf1.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 8);
-    arrayCopy(buf1, buffer.getBuf(), 4, 0, buf1.length);
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 4 + buf1.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 8);
+    arrayCopy(buf1, buffer.buf, 4, 0, buf1.length);
   };
-  _DictionaryHelper.prototype.byteArrayToIri_jxlg18$ = function (buffer) {
-    var l1 = buffer.getSize() - 4 | 0;
+  DictionaryHelper.prototype.byteArrayToIri_b1q5io$ = function (buffer) {
+    var l1 = buffer.size - 4 | 0;
     var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 4, 4 + l1 | 0);
+    arrayCopy(buffer.buf, buf, 0, 4, 4 + l1 | 0);
     return decodeToString(buf);
   };
-  _DictionaryHelper.prototype.byteArrayToString_jxlg18$ = function (buffer) {
-    var l1 = buffer.getSize() - 4 | 0;
+  DictionaryHelper.prototype.byteArrayToString_b1q5io$ = function (buffer) {
+    var l1 = buffer.size - 4 | 0;
     var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 4, 4 + l1 | 0);
+    arrayCopy(buffer.buf, buf, 0, 4, 4 + l1 | 0);
     return decodeToString(buf);
   };
-  _DictionaryHelper.prototype.stringToByteArray_iqqgd6$ = function (buffer, value) {
+  DictionaryHelper.prototype.stringToByteArray_akwfwi$ = function (buffer, value) {
     var buf1 = encodeToByteArray(value);
-    buffer.setSize_za3lpa$(4 + buf1.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 9);
-    arrayCopy(buf1, buffer.getBuf(), 4, 0, buf1.length);
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 4 + buf1.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 9);
+    arrayCopy(buf1, buffer.buf, 4, 0, buf1.length);
   };
-  function _DictionaryHelper$sparqlToByteArray$lambda(closure$langIdx) {
+  function DictionaryHelper$sparqlToByteArray$lambda(closure$langIdx) {
     return function () {
       return closure$langIdx > 0;
     };
   }
-  _DictionaryHelper.prototype.sparqlToByteArray_crvnhj$ = function (buffer, value) {
+  DictionaryHelper.prototype.sparqlToByteArray_r5mkub$ = function (buffer, value) {
     var tmp$ = value == null;
     if (!tmp$) {
       tmp$ = value.length === 0;
@@ -981,49 +1170,49 @@
     if (!tmp$_0) {
       tmp$_0 = equals(value.toLowerCase(), 'undef');
     }if (tmp$_0) {
-      this.undefToByteArray_jxlg18$(buffer);
+      this.undefToByteArray_b1q5io$(buffer);
       return;
     }if (equals(value.toLowerCase(), 'error')) {
-      this.errorToByteArray_jxlg18$(buffer);
+      this.errorToByteArray_b1q5io$(buffer);
       return;
     }if (equals(value.toLowerCase(), 'true')) {
-      this.booleanToByteArray_jezz1v$(buffer, true);
+      this.booleanToByteArray_5191p3$(buffer, true);
       return;
     }if (equals(value.toLowerCase(), 'false')) {
-      this.booleanToByteArray_jezz1v$(buffer, false);
+      this.booleanToByteArray_5191p3$(buffer, false);
       return;
     }if (startsWith(value, '_:')) {
       var endIndex = value.length;
-      this.bnodeToByteArray_iqqgd6$(buffer, value.substring(2, endIndex));
+      this.bnodeToByteArray_akwfwi$(buffer, value.substring(2, endIndex));
       return;
     }if (startsWith(value, '<') && endsWith_0(value, '>')) {
       var endIndex_0 = value.length - 1 | 0;
-      this.iriToByteArray_iqqgd6$(buffer, value.substring(1, endIndex_0));
+      this.iriToByteArray_akwfwi$(buffer, value.substring(1, endIndex_0));
       return;
     }if (!contains(value, 46)) {
       try {
         var i = BigInteger.Companion.parseString_bm4lxs$(value, 10);
-        this.integerToByteArray_znicy$(buffer, i);
+        this.integerToByteArray_ddz2hi$(buffer, i);
         return;
       } catch (e) {
-        if (!Kotlin.isType(e, Throwable))
+        if (!Kotlin.isType(e, Exception))
           throw e;
       }
     }if (!contains_0(value, 'e') && !contains_0(value, 'E')) {
       try {
         var d = BigDecimal.Companion.parseString_bm4lxs$(value, 10);
-        this.decimalToByteArray_3ssfki$(buffer, d);
+        this.decimalToByteArray_g73zp2$(buffer, d);
         return;
       } catch (e) {
-        if (!Kotlin.isType(e, Throwable))
+        if (!Kotlin.isType(e, Exception))
           throw e;
       }
     }try {
       var d_0 = toDouble(value);
-      this.doubleToByteArray_px3ziy$(buffer, d_0);
+      this.doubleToByteArray_3eiwqq$(buffer, d_0);
       return;
     } catch (e) {
-      if (!Kotlin.isType(e, Throwable))
+      if (!Kotlin.isType(e, Exception))
         throw e;
     }
     if (!endsWith_0(value, '' + String.fromCharCode(toBoxedChar(value.charCodeAt(0))))) {
@@ -1034,20 +1223,20 @@
         var tmp$_1 = this.removeQuotesFromString_61zpoe$(value.substring(0, endIndex_1));
         var startIndex = typeIdx + 4 | 0;
         var endIndex_2 = value.length - 1 | 0;
-        this.typedToByteArray_os11rs$(buffer, tmp$_1, value.substring(startIndex, endIndex_2));
+        this.typedToByteArray_v5q3o4$(buffer, tmp$_1, value.substring(startIndex, endIndex_2));
         return;
       } else {
-        SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$sparqlToByteArray$lambda(langIdx));
+        SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$sparqlToByteArray$lambda(langIdx));
         var endIndex_3 = langIdx + 1 | 0;
         var tmp$_2 = this.removeQuotesFromString_61zpoe$(value.substring(0, endIndex_3));
         var startIndex_0 = langIdx + 2 | 0;
         var endIndex_4 = value.length;
-        this.langToByteArray_os11rs$(buffer, tmp$_2, value.substring(startIndex_0, endIndex_4));
+        this.langToByteArray_v5q3o4$(buffer, tmp$_2, value.substring(startIndex_0, endIndex_4));
         return;
       }
-    }this.stringToByteArray_iqqgd6$(buffer, this.removeQuotesFromString_61zpoe$(value));
+    }this.stringToByteArray_akwfwi$(buffer, this.removeQuotesFromString_61zpoe$(value));
   };
-  _DictionaryHelper.prototype.removeQuotesFromString_61zpoe$ = function (s) {
+  DictionaryHelper.prototype.removeQuotesFromString_61zpoe$ = function (s) {
     var c = s.charCodeAt(0);
     var cntLeft = 1;
     var cntRight = 0;
@@ -1065,38 +1254,38 @@
     }var endIndex_0 = s.length - 1 | 0;
     return s.substring(1, endIndex_0);
   };
-  _DictionaryHelper.prototype.valueDefinitionToByteArray_km70l7$ = function (buffer, value) {
-    this.sparqlToByteArray_crvnhj$(buffer, value.valueToString());
+  DictionaryHelper.prototype.valueDefinitionToByteArray_a55a6y$ = function (buffer, value) {
+    this.sparqlToByteArray_r5mkub$(buffer, value.valueToString());
   };
-  function _DictionaryHelper$byteArrayToType$lambda(closure$res) {
+  function DictionaryHelper$byteArrayToType$lambda(closure$res) {
     return function () {
       return closure$res >= 0;
     };
   }
-  function _DictionaryHelper$byteArrayToType$lambda_0(closure$res) {
+  function DictionaryHelper$byteArrayToType$lambda_0(closure$res) {
     return function () {
       return closure$res.toString();
     };
   }
-  function _DictionaryHelper$byteArrayToType$lambda_1(closure$res) {
+  function DictionaryHelper$byteArrayToType$lambda_1(closure$res) {
     return function () {
       return closure$res < 13;
     };
   }
-  function _DictionaryHelper$byteArrayToType$lambda_2(closure$res) {
+  function DictionaryHelper$byteArrayToType$lambda_2(closure$res) {
     return function () {
       return closure$res.toString();
     };
   }
-  _DictionaryHelper.prototype.byteArrayToType_jxlg18$ = function (buffer) {
-    var res = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 0);
-    SanityCheckOn_getInstance().check_a3x0x2$(_DictionaryHelper$byteArrayToType$lambda(res), _DictionaryHelper$byteArrayToType$lambda_0(res));
-    SanityCheckOn_getInstance().check_a3x0x2$(_DictionaryHelper$byteArrayToType$lambda_1(res), _DictionaryHelper$byteArrayToType$lambda_2(res));
+  DictionaryHelper.prototype.byteArrayToType_b1q5io$ = function (buffer) {
+    var res = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 0);
+    SanityCheckOn_getInstance().check_a3x0x2$(DictionaryHelper$byteArrayToType$lambda(res), DictionaryHelper$byteArrayToType$lambda_0(res));
+    SanityCheckOn_getInstance().check_a3x0x2$(DictionaryHelper$byteArrayToType$lambda_1(res), DictionaryHelper$byteArrayToType$lambda_2(res));
     return res;
   };
-  _DictionaryHelper.prototype.byteArrayToSparql_jxlg18$ = function (buffer) {
+  DictionaryHelper.prototype.byteArrayToSparql_b1q5io$ = function (buffer) {
     var tmp$;
-    var type = this.byteArrayToType_jxlg18$(buffer);
+    var type = this.byteArrayToType_b1q5io$(buffer);
     switch (type) {
       case 12:
         tmp$ = 'UNDEF';
@@ -1105,10 +1294,10 @@
         tmp$ = 'ERROR';
         break;
       case 0:
-        tmp$ = this.byteArrayToBnode_A_jxlg18$(buffer);
+        tmp$ = this.byteArrayToBnode_A_b1q5io$(buffer);
         break;
       case 1:
-        if (this.byteArrayToBoolean_jxlg18$(buffer)) {
+        if (this.byteArrayToBoolean_b1q5io$(buffer)) {
           tmp$ = '"true"^^<http://www.w3.org/2001/XMLSchema#boolean>';
         } else {
           tmp$ = '"false"^^<http://www.w3.org/2001/XMLSchema#boolean>';
@@ -1116,39 +1305,39 @@
 
         break;
       case 4:
-        tmp$ = '"' + this.byteArrayToDouble_S_jxlg18$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#double>';
+        tmp$ = '"' + this.byteArrayToDouble_S_b1q5io$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#double>';
         break;
       case 6:
-        tmp$ = '"' + this.byteArrayToFloat_S_jxlg18$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#float>';
+        tmp$ = '"' + this.byteArrayToFloat_S_b1q5io$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#float>';
         break;
       case 7:
-        tmp$ = '"' + this.byteArrayToInteger_S_jxlg18$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#integer>';
+        tmp$ = '"' + this.byteArrayToInteger_S_b1q5io$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#integer>';
         break;
       case 3:
-        tmp$ = '"' + this.byteArrayToDecimal_S_jxlg18$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#decimal>';
+        tmp$ = '"' + this.byteArrayToDecimal_S_b1q5io$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#decimal>';
         break;
       case 8:
-        tmp$ = '<' + this.byteArrayToIri_jxlg18$(buffer) + '>';
+        tmp$ = '<' + this.byteArrayToIri_b1q5io$(buffer) + '>';
         break;
       case 9:
-        tmp$ = '"' + this.byteArrayToString_jxlg18$(buffer) + '"';
+        tmp$ = '"' + this.byteArrayToString_b1q5io$(buffer) + '"';
         break;
       case 10:
-        tmp$ = '"' + this.byteArrayToLang_Content_jxlg18$(buffer) + '"@' + this.byteArrayToLang_Lang_jxlg18$(buffer);
+        tmp$ = '"' + this.byteArrayToLang_Content_b1q5io$(buffer) + '"@' + this.byteArrayToLang_Lang_b1q5io$(buffer);
         break;
       case 11:
-        tmp$ = '"' + this.byteArrayToTyped_Content_jxlg18$(buffer) + '"^^<' + this.byteArrayToTyped_Type_jxlg18$(buffer) + '>';
+        tmp$ = '"' + this.byteArrayToTyped_Content_b1q5io$(buffer) + '"^^<' + this.byteArrayToTyped_Type_b1q5io$(buffer) + '>';
         break;
       case 2:
-        tmp$ = '"' + this.byteArrayToDateTimeAsTyped_Content_jxlg18$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#dateTime>';
+        tmp$ = '"' + this.byteArrayToDateTimeAsTyped_Content_b1q5io$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#dateTime>';
         break;
       default:throw Exception_init('unreachable ' + type);
     }
     return tmp$;
   };
-  _DictionaryHelper.prototype.byteArrayToValueDefinition_jxlg18$ = function (buffer) {
+  DictionaryHelper.prototype.byteArrayToValueDefinition_b1q5io$ = function (buffer) {
     var tmp$;
-    var type = this.byteArrayToType_jxlg18$(buffer);
+    var type = this.byteArrayToType_b1q5io$(buffer);
     switch (type) {
       case 12:
         tmp$ = dictionary.DictionaryExt.undefValue2;
@@ -1157,10 +1346,10 @@
         tmp$ = dictionary.DictionaryExt.errorValue2;
         break;
       case 0:
-        tmp$ = new ValueBnode('' + toString(this.byteArrayToBnode_I_jxlg18$(buffer)));
+        tmp$ = new ValueBnode('' + toString(this.byteArrayToBnode_I_b1q5io$(buffer)));
         break;
       case 1:
-        if (this.byteArrayToBoolean_jxlg18$(buffer)) {
+        if (this.byteArrayToBoolean_b1q5io$(buffer)) {
           tmp$ = dictionary.DictionaryExt.booleanTrueValue2;
         } else {
           tmp$ = dictionary.DictionaryExt.booleanFalseValue2;
@@ -1168,47 +1357,47 @@
 
         break;
       case 4:
-        tmp$ = new ValueDouble(this.byteArrayToDouble_I_jxlg18$(buffer));
+        tmp$ = new ValueDouble(this.byteArrayToDouble_I_b1q5io$(buffer));
         break;
       case 6:
-        tmp$ = new ValueFloat(this.byteArrayToFloat_I_jxlg18$(buffer));
+        tmp$ = new ValueFloat(this.byteArrayToFloat_I_b1q5io$(buffer));
         break;
       case 7:
-        tmp$ = new ValueInteger(this.byteArrayToInteger_I_jxlg18$(buffer));
+        tmp$ = new ValueInteger(this.byteArrayToInteger_I_b1q5io$(buffer));
         break;
       case 3:
-        tmp$ = new ValueDecimal(this.byteArrayToDecimal_I_jxlg18$(buffer));
+        tmp$ = new ValueDecimal(this.byteArrayToDecimal_I_b1q5io$(buffer));
         break;
       case 8:
-        tmp$ = new ValueIri(this.byteArrayToIri_jxlg18$(buffer));
+        tmp$ = new ValueIri(this.byteArrayToIri_b1q5io$(buffer));
         break;
       case 9:
-        tmp$ = new ValueSimpleLiteral('"', this.byteArrayToString_jxlg18$(buffer));
+        tmp$ = new ValueSimpleLiteral('"', this.byteArrayToString_b1q5io$(buffer));
         break;
       case 10:
-        tmp$ = new ValueLanguageTaggedLiteral('"', this.byteArrayToLang_Content_jxlg18$(buffer), this.byteArrayToLang_Lang_jxlg18$(buffer));
+        tmp$ = new ValueLanguageTaggedLiteral('"', this.byteArrayToLang_Content_b1q5io$(buffer), this.byteArrayToLang_Lang_b1q5io$(buffer));
         break;
       case 11:
-        tmp$ = ValueTypedLiteral.Companion.invoke_6hosri$('"', this.byteArrayToTyped_Content_jxlg18$(buffer), this.byteArrayToTyped_Type_jxlg18$(buffer));
+        tmp$ = ValueTypedLiteral.Companion.invoke_6hosri$('"', this.byteArrayToTyped_Content_b1q5io$(buffer), this.byteArrayToTyped_Type_b1q5io$(buffer));
         break;
       default:throw Exception_init('unreachable ' + type);
     }
     return tmp$;
   };
-  _DictionaryHelper.prototype.byteArrayToCallback_5b03yp$ = function (buffer, onBNode, onBoolean, onLanguageTaggedLiteral, onSimpleLiteral, onTypedLiteral, onDecimal, onFloat, onDouble, onInteger, onIri, onError, onUndefined) {
-    var type = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 0);
+  DictionaryHelper.prototype.byteArrayToCallback_6o198z$ = function (buffer, onBNode, onBoolean, onLanguageTaggedLiteral, onSimpleLiteral, onTypedLiteral, onDecimal, onFloat, onDouble, onInteger, onIri, onError, onUndefined) {
+    var type = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 0);
     switch (type) {
       case 6:
-        onFloat(this.byteArrayToFloat_I_jxlg18$(buffer));
+        onFloat(this.byteArrayToFloat_I_b1q5io$(buffer));
         break;
       case 4:
-        onDouble(this.byteArrayToDouble_I_jxlg18$(buffer));
+        onDouble(this.byteArrayToDouble_I_b1q5io$(buffer));
         break;
       case 7:
-        onInteger(this.byteArrayToInteger_S_jxlg18$(buffer));
+        onInteger(this.byteArrayToInteger_S_b1q5io$(buffer));
         break;
       case 3:
-        onDecimal(this.byteArrayToDecimal_S_jxlg18$(buffer));
+        onDecimal(this.byteArrayToDecimal_S_b1q5io$(buffer));
         break;
       case 12:
         onUndefined();
@@ -1217,32 +1406,32 @@
         onError();
         break;
       case 0:
-        onBNode(this.byteArrayToBnode_I_jxlg18$(buffer));
+        onBNode(this.byteArrayToBnode_I_b1q5io$(buffer));
         break;
       case 1:
-        onBoolean(this.byteArrayToBoolean_jxlg18$(buffer));
+        onBoolean(this.byteArrayToBoolean_b1q5io$(buffer));
         break;
       case 8:
-        onIri(this.byteArrayToIri_jxlg18$(buffer));
+        onIri(this.byteArrayToIri_b1q5io$(buffer));
         break;
       case 9:
-        onSimpleLiteral(this.byteArrayToString_jxlg18$(buffer));
+        onSimpleLiteral(this.byteArrayToString_b1q5io$(buffer));
         break;
       case 10:
-        onLanguageTaggedLiteral(this.byteArrayToLang_Content_jxlg18$(buffer), this.byteArrayToLang_Lang_jxlg18$(buffer));
+        onLanguageTaggedLiteral(this.byteArrayToLang_Content_b1q5io$(buffer), this.byteArrayToLang_Lang_b1q5io$(buffer));
         break;
       case 11:
-        onTypedLiteral(this.byteArrayToTyped_Content_jxlg18$(buffer), this.byteArrayToTyped_Type_jxlg18$(buffer));
+        onTypedLiteral(this.byteArrayToTyped_Content_b1q5io$(buffer), this.byteArrayToTyped_Type_b1q5io$(buffer));
         break;
       case 2:
-        onTypedLiteral(this.byteArrayToDateTimeAsTyped_Content_jxlg18$(buffer), 'http://www.w3.org/2001/XMLSchema#dateTime');
+        onTypedLiteral(this.byteArrayToDateTimeAsTyped_Content_b1q5io$(buffer), 'http://www.w3.org/2001/XMLSchema#dateTime');
         break;
       default:throw Exception_init('unreachable ' + type);
     }
   };
-  _DictionaryHelper.prototype.byteArrayCompareAny_9in6wc$ = function (a, b) {
-    var typeA = this.byteArrayToType_jxlg18$(a);
-    var typeB = this.byteArrayToType_jxlg18$(b);
+  DictionaryHelper.prototype.byteArrayCompareAny_sllwic$ = function (a, b) {
+    var typeA = this.byteArrayToType_b1q5io$(a);
+    var typeB = this.byteArrayToType_b1q5io$(b);
     if (typeA !== typeB) {
       if (typeA === 12) {
         return -1;
@@ -1271,25 +1460,25 @@
       if (typeA === 12 || typeA === 5) {
         return 0;
       } else if (typeA === 0) {
-        if (a.getSize() === 8 && b.getSize() === 8) {
-          return _ByteArrayHelper_getInstance().readInt4_pao7sd$(a.getBuf(), 4) - _ByteArrayHelper_getInstance().readInt4_pao7sd$(b.getBuf(), 4) | 0;
+        if (a.size === 8 && b.size === 8) {
+          return ByteArrayHelper_getInstance().readInt4_pao7sd$(a.buf, 4) - ByteArrayHelper_getInstance().readInt4_pao7sd$(b.buf, 4) | 0;
         } else {
           return a.compareTo_11rb$(b);
         }
       } else if (typeA === 1) {
-        return a.getBuf()[4] - b.getBuf()[4];
+        return a.buf[4] - b.buf[4];
       } else if (typeA !== 2)
         if (typeA !== 3)
           if (typeA !== 4)
             if (typeA !== 6)
               if (typeA !== 7)
                 if (typeA === 10 || typeA === 11 || typeA === 8 || typeA === 9) {
-                  var lenA = a.getSize();
-                  var lenB = b.getSize();
+                  var lenA = a.size;
+                  var lenB = b.size;
                   var i = 4;
                   var res = 0;
                   while (i < lenA && i < lenB && res === 0) {
-                    res = a.getBuf()[i] - b.getBuf()[i];
+                    res = a.buf[i] - b.buf[i];
                     i = i + 1 | 0;
                   }
                   if (res === 0) {
@@ -1298,22 +1487,105 @@
                 }}
     throw Exception_init('can not compare ' + typeA + ' ' + typeB);
   };
-  _DictionaryHelper.$metadata$ = {
+  DictionaryHelper.$metadata$ = {
     kind: Kind_OBJECT,
-    simpleName: '_DictionaryHelper',
+    simpleName: 'DictionaryHelper',
     interfaces: []
   };
-  var _DictionaryHelper_instance = null;
-  function _DictionaryHelper_getInstance() {
-    if (_DictionaryHelper_instance === null) {
-      new _DictionaryHelper();
-    }return _DictionaryHelper_instance;
+  var DictionaryHelper_instance = null;
+  function DictionaryHelper_getInstance() {
+    if (DictionaryHelper_instance === null) {
+      new DictionaryHelper();
+    }return DictionaryHelper_instance;
   }
-  function _MyInputStreamFixedLength(stream, remainingBytes) {
+  function ByteArrayWrapperExt() {
+    ByteArrayWrapperExt_instance = this;
+  }
+  ByteArrayWrapperExt.prototype.setSize_v5fxe$ = function (data, c) {
+    data.size = c;
+    if (c > data.buf.length) {
+      data.buf = new Int8Array(c);
+    }};
+  ByteArrayWrapperExt.prototype.setSizeCopy_v5fxe$ = function (data, c) {
+    data.size = c;
+    if (c > data.buf.length) {
+      var oldBuf = data.buf;
+      data.buf = new Int8Array(c);
+      arrayCopy(oldBuf, data.buf, 0, 0, oldBuf.length);
+    }};
+  ByteArrayWrapperExt.prototype.commonBytes_sllwic$ = function (a, b) {
+    var i = 0;
+    while (i < a.size && i < b.size) {
+      if (a.buf[i] === b.buf[i]) {
+        i = i + 1 | 0;
+      } else {
+        break;
+      }
+    }
+    return i;
+  };
+  ByteArrayWrapperExt.prototype.copyInto_sllwic$ = function (a, b) {
+    this.setSize_v5fxe$(b, a.size);
+    arrayCopy(a.buf, b.buf, 0, 0, a.size);
+  };
+  ByteArrayWrapperExt.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'ByteArrayWrapperExt',
+    interfaces: []
+  };
+  var ByteArrayWrapperExt_instance = null;
+  function ByteArrayWrapperExt_getInstance() {
+    if (ByteArrayWrapperExt_instance === null) {
+      new ByteArrayWrapperExt();
+    }return ByteArrayWrapperExt_instance;
+  }
+  function IntArrayWrapperExt() {
+    IntArrayWrapperExt_instance = this;
+  }
+  IntArrayWrapperExt.prototype.setSize_b39gz4$ = function (data, c) {
+    data.size = c;
+    if (c > data.buf.length) {
+      data.buf = new Int32Array(c);
+    }};
+  IntArrayWrapperExt.prototype.setSizeCopy_b39gz4$ = function (data, c) {
+    data.size = c;
+    if (c > data.buf.length) {
+      var oldBuf = data.buf;
+      data.buf = new Int32Array(c);
+      arrayCopy(oldBuf, data.buf, 0, 0, oldBuf.length);
+    }};
+  IntArrayWrapperExt.prototype.copyInto_rs6nqr$ = function (a, b) {
+    this.setSize_b39gz4$(b, a.size);
+    arrayCopy(a.buf, b.buf, 0, 0, a.size);
+  };
+  IntArrayWrapperExt.prototype.append_b39gz4$ = function (data, v) {
+    var tmp$;
+    if (data.buf.length === data.size) {
+      var oldBuf = data.buf;
+      data.buf = new Int32Array(data.size * 2 | 0);
+      arrayCopy(oldBuf, data.buf, 0, 0, oldBuf.length);
+    }data.buf[tmp$ = data.size, data.size = tmp$ + 1 | 0, tmp$] = v;
+  };
+  IntArrayWrapperExt.prototype.removeLast_j4ucjm$ = function (data) {
+    data.size = data.size - 1 | 0;
+    return data.buf[data.size];
+  };
+  IntArrayWrapperExt.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'IntArrayWrapperExt',
+    interfaces: []
+  };
+  var IntArrayWrapperExt_instance = null;
+  function IntArrayWrapperExt_getInstance() {
+    if (IntArrayWrapperExt_instance === null) {
+      new IntArrayWrapperExt();
+    }return IntArrayWrapperExt_instance;
+  }
+  function MyInputStreamFixedLength(stream, remainingBytes) {
     this.stream = stream;
     this.remainingBytes = remainingBytes;
   }
-  _MyInputStreamFixedLength.prototype.readInt = function () {
+  MyInputStreamFixedLength.prototype.readInt = function () {
     if (this.remainingBytes >= 4) {
       this.remainingBytes = this.remainingBytes - 4 | 0;
       return this.stream.readInt();
@@ -1321,7 +1593,7 @@
       throw Exception_init('not enough bytes available ' + this.remainingBytes);
     }
   };
-  _MyInputStreamFixedLength.prototype.readByte = function () {
+  MyInputStreamFixedLength.prototype.readByte = function () {
     if (this.remainingBytes >= 1) {
       this.remainingBytes = this.remainingBytes - 1 | 0;
       return this.stream.readByte();
@@ -1329,7 +1601,7 @@
       throw Exception_init('not enough bytes available ' + this.remainingBytes);
     }
   };
-  _MyInputStreamFixedLength.prototype.read_fqrh44$ = function (buf) {
+  MyInputStreamFixedLength.prototype.read_fqrh44$ = function (buf) {
     if (this.remainingBytes >= buf.length) {
       this.remainingBytes = this.remainingBytes - buf.length | 0;
       return this.stream.read_fqrh44$(buf);
@@ -1337,7 +1609,7 @@
       throw Exception_init('not enough bytes available ' + this.remainingBytes);
     }
   };
-  _MyInputStreamFixedLength.prototype.read_ir89t6$ = function (buf, len) {
+  MyInputStreamFixedLength.prototype.read_ir89t6$ = function (buf, len) {
     if (this.remainingBytes >= len) {
       this.remainingBytes = this.remainingBytes - len | 0;
       return this.stream.read_ir89t6$(buf, len);
@@ -1345,7 +1617,7 @@
       throw Exception_init('not enough bytes available ' + this.remainingBytes);
     }
   };
-  _MyInputStreamFixedLength.prototype.read_mj6st8$ = function (buf, off, len) {
+  MyInputStreamFixedLength.prototype.read_mj6st8$ = function (buf, off, len) {
     if (this.remainingBytes >= len) {
       this.remainingBytes = this.remainingBytes - len | 0;
       return this.stream.read_mj6st8$(buf, off, len);
@@ -1353,10 +1625,10 @@
       throw Exception_init('not enough bytes available ' + this.remainingBytes);
     }
   };
-  _MyInputStreamFixedLength.prototype.close = function () {
+  MyInputStreamFixedLength.prototype.close = function () {
     this.stream.close();
   };
-  _MyInputStreamFixedLength.prototype.readLine = function () {
+  MyInputStreamFixedLength.prototype.readLine = function () {
     var buf = ArrayList_init();
     try {
       var b = this.readByte();
@@ -1367,6 +1639,7 @@
       }
     } catch (e) {
       if (Kotlin.isType(e, Throwable)) {
+        printStackTrace(e);
         if (buf.size === 0) {
           return null;
         }} else
@@ -1374,19 +1647,19 @@
     }
     return decodeToString(toByteArray(buf));
   };
-  _MyInputStreamFixedLength.$metadata$ = {
+  MyInputStreamFixedLength.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: '_MyInputStreamFixedLength',
+    simpleName: 'MyInputStreamFixedLength',
     interfaces: [IMyInputStream]
   };
-  function _MyStringStream(str) {
+  function MyStringStream(str) {
     this.buf4 = new Int8Array(4);
     this.data = encodeToByteArray(str);
     this.pos = 0;
   }
-  _MyStringStream.prototype.close = function () {
+  MyStringStream.prototype.close = function () {
   };
-  _MyStringStream.prototype.read_fqrh44$ = function (buf) {
+  MyStringStream.prototype.read_fqrh44$ = function (buf) {
     var s = this.pos + buf.length | 0;
     var res = buf.length;
     if (s > this.data.length) {
@@ -1396,7 +1669,7 @@
     this.pos = s;
     return res;
   };
-  _MyStringStream.prototype.read_ir89t6$ = function (buf, len) {
+  MyStringStream.prototype.read_ir89t6$ = function (buf, len) {
     var s = this.pos + len | 0;
     var res = buf.length;
     if (s > this.data.length) {
@@ -1406,7 +1679,7 @@
     this.pos = s;
     return res;
   };
-  _MyStringStream.prototype.read_mj6st8$ = function (buf, off, len) {
+  MyStringStream.prototype.read_mj6st8$ = function (buf, off, len) {
     var s = this.pos + len | 0;
     var res = buf.length;
     if (s > this.data.length) {
@@ -1416,15 +1689,15 @@
     this.pos = s;
     return res;
   };
-  _MyStringStream.prototype.readInt = function () {
+  MyStringStream.prototype.readInt = function () {
     this.read_ir89t6$(this.buf4, 4);
-    return _ByteArrayHelper_getInstance().readInt4_pao7sd$(this.buf4, 0);
+    return ByteArrayHelper_getInstance().readInt4_pao7sd$(this.buf4, 0);
   };
-  _MyStringStream.prototype.readByte = function () {
+  MyStringStream.prototype.readByte = function () {
     this.read_ir89t6$(this.buf4, 1);
     return this.buf4[0];
   };
-  _MyStringStream.prototype.readLine = function () {
+  MyStringStream.prototype.readLine = function () {
     var buf = ArrayList_init();
     try {
       var b = this.readByte();
@@ -1435,6 +1708,7 @@
       }
     } catch (e) {
       if (Kotlin.isType(e, Throwable)) {
+        printStackTrace(e);
         if (buf.size === 0) {
           return null;
         }} else
@@ -1442,34 +1716,11 @@
     }
     return decodeToString(toByteArray(buf));
   };
-  _MyStringStream.$metadata$ = {
+  MyStringStream.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: '_MyStringStream',
+    simpleName: 'MyStringStream',
     interfaces: [IMyInputStream]
   };
-  function _PartitionExt() {
-    _PartitionExt_instance = this;
-  }
-  _PartitionExt.prototype.hashFunction_6xvm5r$ = function (v, k) {
-    var tmp$;
-    if (v < 0) {
-      tmp$ = (-v | 0) % k;
-    } else {
-      tmp$ = v % k;
-    }
-    return tmp$;
-  };
-  _PartitionExt.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: '_PartitionExt',
-    interfaces: []
-  };
-  var _PartitionExt_instance = null;
-  function _PartitionExt_getInstance() {
-    if (_PartitionExt_instance === null) {
-      new _PartitionExt();
-    }return _PartitionExt_instance;
-  }
   function SanityCheckOff() {
     SanityCheckOff_instance = this;
   }
@@ -1506,20 +1757,20 @@
   }
   function SanityCheckOn() {
     SanityCheckOn_instance = this;
-    this.SANITYCHECK_PRINTING = false;
-    this.SANITYCHECK_PRINTING_NODEMANAGER = false;
-    this.SANITYCHECK_PRINTING_BUFFERMANAGER = false;
+    this.SANITYCHECK_PRINTING_8be2vx$ = false;
+    this.SANITYCHECK_PRINTING_NODEMANAGER_8be2vx$ = false;
+    this.SANITYCHECK_PRINTING_BUFFERMANAGER_8be2vx$ = false;
   }
   SanityCheckOn.prototype.println_buffermanager_lh572t$ = function (s) {
-    if (this.SANITYCHECK_PRINTING_BUFFERMANAGER) {
+    if (this.SANITYCHECK_PRINTING_BUFFERMANAGER_8be2vx$) {
       println(s());
     }};
   SanityCheckOn.prototype.println_nodemanager_lh572t$ = function (s) {
-    if (this.SANITYCHECK_PRINTING_NODEMANAGER) {
+    if (this.SANITYCHECK_PRINTING_NODEMANAGER_8be2vx$) {
       println(s());
     }};
   SanityCheckOn.prototype.println_lh572t$ = function (s) {
-    if (this.SANITYCHECK_PRINTING) {
+    if (this.SANITYCHECK_PRINTING_8be2vx$) {
       println(s());
     }};
   SanityCheckOn.prototype.invoke_ls4sck$ = function (action) {
@@ -1527,7 +1778,7 @@
       action();
     } catch (e) {
       if (Kotlin.isType(e, Throwable)) {
-        if (this.SANITYCHECK_PRINTING) {
+        if (this.SANITYCHECK_PRINTING_8be2vx$) {
           println('Exception during SanityCheck.invoke');
           printStackTrace(e);
         }throw e;
@@ -1540,7 +1791,7 @@
       action();
     } catch (e) {
       if (Kotlin.isType(e, Throwable)) {
-        if (this.SANITYCHECK_PRINTING) {
+        if (this.SANITYCHECK_PRINTING_8be2vx$) {
           println('Exception during SanityCheck.suspended');
           printStackTrace(e);
         }throw e;
@@ -1557,7 +1808,7 @@
         throw Exception_init('SanityCheck failed :: ' + msg());
       }} catch (e) {
       if (Kotlin.isType(e, Throwable)) {
-        if (this.SANITYCHECK_PRINTING) {
+        if (this.SANITYCHECK_PRINTING_8be2vx$) {
           println('Exception during SanityCheck.check');
           printStackTrace(e);
         }throw e;
@@ -1571,7 +1822,7 @@
         throw Exception_init('SanityCheck failed');
       }} catch (e) {
       if (Kotlin.isType(e, Throwable)) {
-        if (this.SANITYCHECK_PRINTING) {
+        if (this.SANITYCHECK_PRINTING_8be2vx$) {
           println('Exception during SanityCheck.check');
           printStackTrace(e);
         }throw e;
@@ -1593,18 +1844,17 @@
       new SanityCheckOn();
     }return SanityCheckOn_instance;
   }
-  var MAX_TRIPLES_DURING_TEST;
   function BinaryTestCase() {
     BinaryTestCase_instance = this;
-    this.outSummary_0 = _MyPrintWriter_init(false);
+    this.outSummary_8be2vx$ = MyPrintWriter_init(false);
     var array = Array_0(0);
     var tmp$;
     tmp$ = array.length - 1 | 0;
     for (var i = 0; i <= tmp$; i++) {
       array[i] = '';
     }
-    this.lastInput_0 = new MemoryTable(array);
-    this.notImplementedFeaturesList_0 = mutableSetOf(['rdfs:subPropertyOf', 'rdfs:subClassOf', 'rdfs:domain', 'rdfs:range', 'owl:allValuesFrom', 'owl:complementOf', 'owl:DatatypeProperty', 'owl:intersectionOf', 'owl:maxQualifiedCardinality', 'owl:minCardinality', 'owl:minQualifiedCardinality', 'owl:Nothing', 'owl:ObjectProperty', 'owl:onClass', 'owl:onProperty', 'owl:qualifiedCardinality', 'owl:Restriction', 'owl:sameAs', 'owl:someValuesFrom', 'owl:Thing', 'owl:unionOf', '<http://www.w3.org/2000/01/rdf-schema#domain>', '<http://www.w3.org/2000/01/rdf-schema#range>', '<http://www.w3.org/2000/01/rdf-schema#seeAlso>', '<http://www.w3.org/2000/01/rdf-schema#subClassOf>', '<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>', '<http://www.w3.org/2002/07/owl#allValuesFrom>', '<http://www.w3.org/2002/07/owl#DatatypeProperty>', '<http://www.w3.org/2002/07/owl#disjointWith>', '<http://www.w3.org/2002/07/owl#equivalentClass>', '<http://www.w3.org/2002/07/owl#FunctionalProperty>', '<http://www.w3.org/2002/07/owl#intersectionOf>', '<http://www.w3.org/2002/07/owl#inverseOf>', '<http://www.w3.org/2002/07/owl#minCardinality>', '<http://www.w3.org/2002/07/owl#NamedIndividual>', '<http://www.w3.org/2002/07/owl#Nothing>', '<http://www.w3.org/2002/07/owl#ObjectProperty>', '<http://www.w3.org/2002/07/owl#oneOf>', '<http://www.w3.org/2002/07/owl#onProperty>', '<http://www.w3.org/2002/07/owl#Ontology>', '<http://www.w3.org/2002/07/owl#Restriction>', '<http://www.w3.org/2002/07/owl#sameAs>', '<http://www.w3.org/2002/07/owl#someValuesFrom>', '<http://www.w3.org/2002/07/owl#Thing>']);
+    this.lastInput_8be2vx$ = new MemoryTable(array);
+    this.notImplementedFeaturesList_8be2vx$ = mutableSetOf(['rdfs:subPropertyOf', 'rdfs:subClassOf', 'rdfs:domain', 'rdfs:range', 'owl:allValuesFrom', 'owl:complementOf', 'owl:DatatypeProperty', 'owl:intersectionOf', 'owl:maxQualifiedCardinality', 'owl:minCardinality', 'owl:minQualifiedCardinality', 'owl:Nothing', 'owl:ObjectProperty', 'owl:onClass', 'owl:onProperty', 'owl:qualifiedCardinality', 'owl:Restriction', 'owl:sameAs', 'owl:someValuesFrom', 'owl:Thing', 'owl:unionOf', '<http://www.w3.org/2000/01/rdf-schema#domain>', '<http://www.w3.org/2000/01/rdf-schema#range>', '<http://www.w3.org/2000/01/rdf-schema#seeAlso>', '<http://www.w3.org/2000/01/rdf-schema#subClassOf>', '<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>', '<http://www.w3.org/2002/07/owl#allValuesFrom>', '<http://www.w3.org/2002/07/owl#DatatypeProperty>', '<http://www.w3.org/2002/07/owl#disjointWith>', '<http://www.w3.org/2002/07/owl#equivalentClass>', '<http://www.w3.org/2002/07/owl#FunctionalProperty>', '<http://www.w3.org/2002/07/owl#intersectionOf>', '<http://www.w3.org/2002/07/owl#inverseOf>', '<http://www.w3.org/2002/07/owl#minCardinality>', '<http://www.w3.org/2002/07/owl#NamedIndividual>', '<http://www.w3.org/2002/07/owl#Nothing>', '<http://www.w3.org/2002/07/owl#ObjectProperty>', '<http://www.w3.org/2002/07/owl#oneOf>', '<http://www.w3.org/2002/07/owl#onProperty>', '<http://www.w3.org/2002/07/owl#Ontology>', '<http://www.w3.org/2002/07/owl#Restriction>', '<http://www.w3.org/2002/07/owl#sameAs>', '<http://www.w3.org/2002/07/owl#someValuesFrom>', '<http://www.w3.org/2002/07/owl#Thing>']);
   }
   BinaryTestCase.prototype.rowToString_0 = function (row, dict) {
     var destination = ArrayList_init_0(row.length);
@@ -1684,19 +1934,19 @@
   }
   function BinaryTestCase$executeAllTestCase$lambda(closure$folder, this$BinaryTestCase) {
     return function (newConfig) {
-      _File_init(closure$folder + '/config').forEachLine_5y588g$(BinaryTestCase$executeAllTestCase$lambda$lambda(closure$folder, this$BinaryTestCase, newConfig));
-      this$BinaryTestCase.outSummary_0.close();
+      File_init(closure$folder + '/config').forEachLine_5y588g$(BinaryTestCase$executeAllTestCase$lambda$lambda(closure$folder, this$BinaryTestCase, newConfig));
+      this$BinaryTestCase.outSummary_8be2vx$.close();
       return Unit;
     };
   }
   BinaryTestCase.prototype.executeAllTestCase_61zpoe$ = function (folder) {
-    this.outSummary_0 = _File_init('log/error').openOutputStream_vft4zs$(false);
-    _File_init(folder + '/config2').withOutputStream_jyd7u$(BinaryTestCase$executeAllTestCase$lambda(folder, this));
+    this.outSummary_8be2vx$ = File_init('log/error').openOutputStream_vft4zs$(false);
+    File_init(folder + '/config2').withOutputStream_2hu0ja$(BinaryTestCase$executeAllTestCase$lambda(folder, this));
   };
   BinaryTestCase.prototype.operatorGraphToTable_0 = function (node, partition) {
     if (partition === void 0)
       partition = Partition_init();
-    var tmp = s11outputResult.QueryResultToMemoryTable.invoke_bk6urx$(node, partition);
+    var tmp = result_format.QueryResultToMemoryTable.invoke_76ws8p$(node, partition);
     if (tmp.size !== 1) {
       throw Exception_init('multi-queries are not supported right now');
     }return tmp.get_za3lpa$(0);
@@ -1777,8 +2027,8 @@
       for (var i_1 = 0; i_1 !== row.length; ++i_1) {
         var col = row[i_1];
         var m = mapping_live_to_target.get_11rb$(col);
-        actualDict.getValue_rj5z7q$(buffer, col);
-        var value = _DictionaryHelper_getInstance().byteArrayToValueDefinition_jxlg18$(buffer).valueToString();
+        actualDict.getValue_v5fxe$(buffer, col);
+        var value = DictionaryHelper_getInstance().byteArrayToValueDefinition_b1q5io$(buffer).valueToString();
         if (m == null) {
           if (value != null && !startsWith(value, '_:')) {
             out.println_61zpoe$('found wrong ' + toString(value));
@@ -1787,8 +2037,8 @@
             for (tmp$_8 = 0; tmp$_8 !== row.length; ++tmp$_8) {
               var item_3 = row[tmp$_8];
               var tmp$_9 = destination_3.add_11rb$;
-              actualDict.getValue_rj5z7q$(buffer, item_3);
-              tmp$_9.call(destination_3, _DictionaryHelper_getInstance().byteArrayToValueDefinition_jxlg18$(buffer).valueToString());
+              actualDict.getValue_v5fxe$(buffer, item_3);
+              tmp$_9.call(destination_3, DictionaryHelper_getInstance().byteArrayToValueDefinition_b1q5io$(buffer).valueToString());
             }
             out.println_61zpoe$('row :: ' + destination_3);
             out.println_61zpoe$('dict :: ' + dict);
@@ -1817,8 +2067,8 @@
       for (var i_3 = 0; i_3 !== row_0.length; ++i_3) {
         var col_0 = row_0[i_3];
         var m_0 = mapping_live_to_target.get_11rb$(col_0);
-        expectedDict.getValue_rj5z7q$(buffer, col_0);
-        var value_0 = _DictionaryHelper_getInstance().byteArrayToValueDefinition_jxlg18$(buffer).valueToString();
+        expectedDict.getValue_v5fxe$(buffer, col_0);
+        var value_0 = DictionaryHelper_getInstance().byteArrayToValueDefinition_b1q5io$(buffer).valueToString();
         if (m_0 == null) {
           if (value_0 != null && !startsWith(value_0, '_:')) {
             out.println_61zpoe$('found wrong ' + toString(value_0));
@@ -1827,8 +2077,8 @@
             for (tmp$_11 = 0; tmp$_11 !== row_0.length; ++tmp$_11) {
               var item_4 = row_0[tmp$_11];
               var tmp$_12 = destination_4.add_11rb$;
-              expectedDict.getValue_rj5z7q$(buffer, item_4);
-              tmp$_12.call(destination_4, _DictionaryHelper_getInstance().byteArrayToValueDefinition_jxlg18$(buffer).valueToString());
+              expectedDict.getValue_v5fxe$(buffer, item_4);
+              tmp$_12.call(destination_4, DictionaryHelper_getInstance().byteArrayToValueDefinition_b1q5io$(buffer).valueToString());
             }
             out.println_61zpoe$('row :: ' + destination_4);
             out.println_61zpoe$('dict :: ' + dict);
@@ -1881,13 +2131,13 @@
     }return true;
   };
   BinaryTestCase.prototype.verifyEqual_1 = function (expected, actual, mapping_live_to_target, dict, dict2, allowOrderBy, query_name, query_folder, tag) {
-    var out = _MyPrintWriter_init(true);
+    var out = MyPrintWriter_init(true);
     var res = this.verifyEqual_0(expected, actual, mapping_live_to_target, dict, dict2, allowOrderBy, out);
     if (!res && !equals(tag, 'this is no error')) {
       out.println_61zpoe$('----------Failed(' + tag + ')');
       var x = out.toString();
-      this.outSummary_0.println_61zpoe$('Test: ' + query_folder + ' named: ' + query_name);
-      this.outSummary_0.println_61zpoe$(x);
+      this.outSummary_8be2vx$.println_61zpoe$('Test: ' + query_folder + ' named: ' + query_name);
+      this.outSummary_8be2vx$.println_61zpoe$(x);
     }return res;
   };
   function BinaryTestCase$executeTestCase$lambda$lambda$lambda$lambda$ObjectLiteral(classname, msg) {
@@ -1908,7 +2158,7 @@
   };
   function BinaryTestCase$executeTestCase$lambda$lambda$lambda$lambda(closure$targetStat, closure$query_folder, closure$returnValue, closure$targetDictionary, this$BinaryTestCase, closure$buffer, closure$targetTriples) {
     return function (targetResult) {
-      var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6;
+      var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9;
       func: while (true) {
         var mode = closure$targetStat.readInt();
         var variables = ArrayList_init();
@@ -1938,9 +2188,9 @@
         }
         var len_0 = closure$targetStat.readInt();
         var array = new Int8Array(len_0);
-        var tmp$_7;
-        tmp$_7 = array.length - 1 | 0;
-        for (var i_0 = 0; i_0 <= tmp$_7; i_0++) {
+        var tmp$_10;
+        tmp$_10 = array.length - 1 | 0;
+        for (var i_0 = 0; i_0 <= tmp$_10; i_0++) {
           array[i_0] = 0;
         }
         var buf_0 = array;
@@ -1958,16 +2208,16 @@
           break func;
         }var targetDict = LinkedHashMap_init();
         var array_0 = Array_0(dictionarySize);
-        var tmp$_8;
-        tmp$_8 = array_0.length - 1 | 0;
-        for (var i_1 = 0; i_1 <= tmp$_8; i_1++) {
+        var tmp$_11;
+        tmp$_11 = array_0.length - 1 | 0;
+        for (var i_1 = 0; i_1 <= tmp$_11; i_1++) {
           array_0[i_1] = '';
         }
         var targetDict2 = array_0;
         var array_1 = new Int32Array(dictionarySize);
-        var tmp$_9;
-        tmp$_9 = array_1.length - 1 | 0;
-        for (var i_2 = 0; i_2 <= tmp$_9; i_2++) {
+        var tmp$_12;
+        tmp$_12 = array_1.length - 1 | 0;
+        for (var i_2 = 0; i_2 <= tmp$_12; i_2++) {
           array_1[i_2] = 0;
         }
         var mappingTargetToLive = array_1;
@@ -1979,14 +2229,14 @@
           if (read2 < len2) {
             throw Exception_init('not enough data available');
           }var s = decodeToString(buf2);
-          if (this$BinaryTestCase.notImplementedFeaturesList_0.contains_11rb$(s)) {
+          if (this$BinaryTestCase.notImplementedFeaturesList_8be2vx$.contains_11rb$(s)) {
             throw new BinaryTestCase$executeTestCase$lambda$lambda$lambda$lambda$ObjectLiteral('NotImplementedException', "Inference not implemented '" + s + "'");
           }if (startsWith(s, '<http://www.w3.org/2000/01/rdf-schema') || startsWith(s, '<http://www.w3.org/2002/07/owl')) {
-            this$BinaryTestCase.outSummary_0.println_61zpoe$(s);
+            this$BinaryTestCase.outSummary_8be2vx$.println_61zpoe$(s);
           }targetDict.put_xwzc9p$(s, i_3);
           targetDict2[i_3] = s;
-          _DictionaryHelper_getInstance().sparqlToByteArray_crvnhj$(closure$buffer, s);
-          var tmp = dictionary.nodeGlobalDictionary.createValue_jxlg18$(closure$buffer);
+          DictionaryHelper_getInstance().sparqlToByteArray_r5mkub$(closure$buffer, s);
+          var tmp = dictionary.nodeGlobalDictionary.createValue_b1q5io$(closure$buffer);
           mappingTargetToLive[i_3] = tmp;
           mappingLiveToTarget.put_xwzc9p$(tmp, i_3);
         }
@@ -2001,60 +2251,68 @@
           var o = mappingTargetToLive[o1];
           tableInput.data.add_11rb$(new Int32Array([s_0, p, o]));
         }
-        if (!this$BinaryTestCase.verifyEqual_1(this$BinaryTestCase.lastInput_0, tableInput, mappingLiveToTarget, targetDict, targetDict2, true, queryName, closure$query_folder, 'this is no error')) {
+        if (!this$BinaryTestCase.verifyEqual_1(this$BinaryTestCase.lastInput_8be2vx$, tableInput, mappingLiveToTarget, targetDict, targetDict2, true, queryName, closure$query_folder, 'this is no error')) {
           var query1 = Query_init();
-          s05tripleStore.tripleStoreManager.clearGraph_36cr5x$(query1, TripleStoreManager.Companion.DEFAULT_GRAPH_NAME);
-          tmp$ = s05tripleStore.tripleStoreManager.getGraphNames().iterator();
+          shared.tripleStoreManager.clearGraph_7nf0jb$(query1, TripleStoreManager.Companion.DEFAULT_GRAPH_NAME);
+          tmp$ = shared.tripleStoreManager.getGraphNames().iterator();
           while (tmp$.hasNext()) {
             var g = tmp$.next();
-            s05tripleStore.tripleStoreManager.dropGraph_36cr5x$(query1, g);
+            shared.tripleStoreManager.dropGraph_7nf0jb$(query1, g);
           }
-          s05tripleStore.tripleStoreManager.commit_zhvcmr$(query1);
+          shared.tripleStoreManager.commit_ekbuhx$(query1);
           query1.commited = true;
           var query2 = Query_init();
           var key = query2.getTransactionID().toString();
-          if (s05tripleStore.tripleStoreManager.getPartitionMode() === 1) {
-            s00misc.communicationHandler.sendData_hq2gfh$(s05tripleStore.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/register', mapOf(to('key', key)));
-            query2.setDictionaryUrl_61zpoe$(s05tripleStore.tripleStoreManager.getLocalhost() + '/distributed/query/dictionary?key=' + key);
-          }var store = s05tripleStore.tripleStoreManager.getDefaultGraph();
+          if (shared.tripleStoreManager.getPartitionMode() === 1) {
+            shared.communicationHandler.sendData_hq2gfh$(shared.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/register', mapOf(to('key', key)));
+            query2.setDictionaryUrl_61zpoe$(shared.tripleStoreManager.getLocalhost() + '/distributed/query/dictionary?key=' + key);
+          }var store = shared.tripleStoreManager.getDefaultGraph();
           var bufS = new Int32Array(1048576);
           var bufP = new Int32Array(1048576);
           var bufO = new Int32Array(1048576);
           var bufPos = 0;
-          tmp$_0 = tableInput.data.iterator();
-          while (tmp$_0.hasNext()) {
-            var row = tmp$_0.next();
+          var arr = [iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(bufS, bufPos), iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(bufP, bufPos), iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(bufO, bufPos)];
+          var arr2 = [Kotlin.isType(tmp$_0 = arr[0], ColumnIterator) ? tmp$_0 : throwCCE(), Kotlin.isType(tmp$_1 = arr[1], ColumnIterator) ? tmp$_1 : throwCCE(), Kotlin.isType(tmp$_2 = arr[2], ColumnIterator) ? tmp$_2 : throwCCE()];
+          var cache = store.modify_create_cache_za3lpa$(1);
+          tmp$_3 = tableInput.data.iterator();
+          while (tmp$_3.hasNext()) {
+            var row = tmp$_3.next();
             if (bufPos === bufS.length) {
-              store.modify_m8mocp$(query2, [iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(bufS, bufPos), iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(bufP, bufPos), iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(bufO, bufPos)], 1);
+              for (var i_5 = 0; i_5 < 3; i_5++) {
+                arr[i_5].reset_za3lpa$(bufPos);
+              }
+              store.modify_cache_o413y8$(query2, arr2, 1, cache, false);
               bufPos = 0;
             }bufS[bufPos] = row[0];
             bufP[bufPos] = row[1];
             bufO[bufPos] = row[2];
             bufPos = bufPos + 1 | 0;
           }
-          if (bufPos > 0) {
-            store.modify_m8mocp$(query2, [iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(bufS, bufPos), iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(bufP, bufPos), iterator.ColumnIteratorMultiValue.invoke_u4kcgn$(bufO, bufPos)], 1);
-          }s05tripleStore.tripleStoreManager.commit_zhvcmr$(query2);
-          if (s05tripleStore.tripleStoreManager.getPartitionMode() === 1) {
-            s00misc.communicationHandler.sendData_hq2gfh$(s05tripleStore.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key)));
-          }var graph = s05tripleStore.tripleStoreManager.getDefaultGraph();
+          for (var i_6 = 0; i_6 < 3; i_6++) {
+            arr[i_6].reset_za3lpa$(bufPos);
+          }
+          store.modify_cache_o413y8$(query2, arr2, 1, cache, true);
+          shared.tripleStoreManager.commit_ekbuhx$(query2);
+          if (shared.tripleStoreManager.getPartitionMode() === 1) {
+            shared.communicationHandler.sendData_hq2gfh$(shared.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key)));
+          }var graph = shared.tripleStoreManager.getDefaultGraph();
           var success = true;
-          tmp$_1 = listOf([14, 12, 8, 6, 2, 0]).iterator();
-          while (tmp$_1.hasNext()) {
-            var idx = tmp$_1.next();
+          tmp$_4 = listOf([14, 12, 8, 6, 2, 0]).iterator();
+          while (tmp$_4.hasNext()) {
+            var idx = tmp$_4.next();
             var query3 = Query_init();
             var queryParam = [new AOPVariable(query3, 's'), new AOPVariable(query3, 'p'), new AOPVariable(query3, 'o')];
             var key2 = query3.getTransactionID().toString();
-            if (s05tripleStore.tripleStoreManager.getPartitionMode() === 1) {
-              s00misc.communicationHandler.sendData_hq2gfh$(s05tripleStore.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/register', mapOf(to('key', key2)));
-              query3.setDictionaryUrl_61zpoe$(s05tripleStore.tripleStoreManager.getLocalhost() + '/distributed/query/dictionary?key=' + key2);
-            }var iterator_0 = graph.getIterator_no1dp4$(query3, queryParam, idx);
+            if (shared.tripleStoreManager.getPartitionMode() === 1) {
+              shared.communicationHandler.sendData_hq2gfh$(shared.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/register', mapOf(to('key', key2)));
+              query3.setDictionaryUrl_61zpoe$(shared.tripleStoreManager.getLocalhost() + '/distributed/query/dictionary?key=' + key2);
+            }var iterator_0 = graph.getIterator_8f34g7$(query3, queryParam, idx);
             var tmpTable;
             var partitionCount = 1;
             var partitionVariable = '';
-            tmp$_2 = listOf(['s', 'p', 'o']).iterator();
-            while (tmp$_2.hasNext()) {
-              var variable = tmp$_2.next();
+            tmp$_5 = listOf(['s', 'p', 'o']).iterator();
+            while (tmp$_5.hasNext()) {
+              var variable = tmp$_5.next();
               var tmp_0 = iterator_0.getPartitionCount_61zpoe$(variable);
               if (tmp_0 > partitionCount) {
                 partitionCount = tmp_0;
@@ -2062,15 +2320,15 @@
               }}
             var node;
             if (partitionCount === 1) {
-              node = Kotlin.isType(tmp$_3 = iterator_0, POPBase) ? tmp$_3 : throwCCE();
+              node = Kotlin.isType(tmp$_6 = iterator_0, POPBase) ? tmp$_6 : throwCCE();
             } else {
               node = new POPMergePartition(query3, listOf(['s', 'p', 'o']), partitionVariable, partitionCount, -1, new POPSplitPartitionFromStore(query3, listOf(['s', 'p', 'o']), partitionVariable, partitionCount, -1, iterator_0));
             }
             tmpTable = this$BinaryTestCase.operatorGraphToTable_0(new OPBaseCompound(query3, [node], listOf_0(listOf(['s', 'p', 'o']))));
-            success = (this$BinaryTestCase.verifyEqual_1(tableInput, tmpTable, mappingLiveToTarget, targetDict, targetDict2, true, queryName, closure$query_folder, 'import (' + s00misc.EIndexPatternExt.names[idx] + ' ' + partitionCount + ')') && success);
+            success = (this$BinaryTestCase.verifyEqual_1(tableInput, tmpTable, mappingLiveToTarget, targetDict, targetDict2, true, queryName, closure$query_folder, 'import (' + shared.EIndexPatternExt.names[idx] + ' ' + partitionCount + ')') && success);
             println('success ' + success + ' ' + idx);
-            if (s05tripleStore.tripleStoreManager.getPartitionMode() === 1) {
-              s00misc.communicationHandler.sendData_hq2gfh$(s05tripleStore.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key2)));
+            if (shared.tripleStoreManager.getPartitionMode() === 1) {
+              shared.communicationHandler.sendData_hq2gfh$(shared.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key2)));
             }}
           if (!success) {
             closure$returnValue.v = false;
@@ -2080,17 +2338,17 @@
         if (mode === 0) {
           tableOutput.booleanResult = targetResult.readInt() === 1;
         } else {
-          tmp$_4 = targetResultCount;
-          for (var i_5 = 0; i_5 < tmp$_4; i_5++) {
+          tmp$_7 = targetResultCount;
+          for (var i_7 = 0; i_7 < tmp$_7; i_7++) {
             var array_2 = new Int32Array(variables.size);
-            var tmp$_10;
-            tmp$_10 = array_2.length - 1 | 0;
-            for (var i_6 = 0; i_6 <= tmp$_10; i_6++) {
-              array_2[i_6] = -1;
+            var tmp$_13;
+            tmp$_13 = array_2.length - 1 | 0;
+            for (var i_8 = 0; i_8 <= tmp$_13; i_8++) {
+              array_2[i_8] = -1;
             }
             var row_0 = array_2;
-            tmp$_5 = variables.size;
-            for (var j = 0; j < tmp$_5; j++) {
+            tmp$_8 = variables.size;
+            for (var j = 0; j < tmp$_8; j++) {
               var tmp_1 = targetResult.readInt();
               if (tmp_1 === -1) {
                 row_0[j] = 3;
@@ -2102,11 +2360,11 @@
           }
         }
         println('----------String query');
-        var toParse = _File_init(closure$query_folder + '/query.sparql').readAsString_8be2vx$();
+        var toParse = File_init(closure$query_folder + '/query.sparql').readAsString_8be2vx$();
         println(toParse);
-        tmp$_6 = this$BinaryTestCase.notImplementedFeaturesList_0.iterator();
-        while (tmp$_6.hasNext()) {
-          var f = tmp$_6.next();
+        tmp$_9 = this$BinaryTestCase.notImplementedFeaturesList_8be2vx$.iterator();
+        while (tmp$_9.hasNext()) {
+          var f = tmp$_9.next();
           if (contains_0(toParse, f)) {
             throw new BinaryTestCase$executeTestCase$lambda$lambda$lambda$lambda$ObjectLiteral_0('NotImplementedException', "Inference not implemented '" + f + "'");
           }}
@@ -2120,49 +2378,49 @@
         println('----------Logical Operatorgraph');
         var query4 = Query_init();
         var key4 = query4.getTransactionID().toString();
-        if (s05tripleStore.tripleStoreManager.getPartitionMode() === 1) {
-          s00misc.communicationHandler.sendData_hq2gfh$(s05tripleStore.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/register', mapOf(to('key', key4)));
-          query4.setDictionaryUrl_61zpoe$(s05tripleStore.tripleStoreManager.getLocalhost() + '/distributed/query/dictionary?key=' + key4);
-        }var lopNode = astNode.visit_f778iz$(new OperatorGraphVisitor(query4));
+        if (shared.tripleStoreManager.getPartitionMode() === 1) {
+          shared.communicationHandler.sendData_hq2gfh$(shared.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/register', mapOf(to('key', key4)));
+          query4.setDictionaryUrl_61zpoe$(shared.tripleStoreManager.getLocalhost() + '/distributed/query/dictionary?key=' + key4);
+        }var lopNode = astNode.visit_x5uy1c$(new OperatorGraphVisitor(query4));
         println(lopNode.toString());
         println('----------Logical Operatorgraph optimized');
-        var lopNode2 = (new LogicalOptimizer(query4)).optimizeCall_xe8q07$(lopNode);
+        var lopNode2 = (new LogicalOptimizer(query4)).optimizeCall_tpi62f$(lopNode);
         println(lopNode2.toString());
         println('----------Physical Operatorgraph optimized');
         var popOptimizer = new PhysicalOptimizer(query4);
-        var popNode = popOptimizer.optimizeCall_xe8q07$(lopNode2);
+        var popNode = popOptimizer.optimizeCall_tpi62f$(lopNode2);
         println(popNode.toString());
         var allowOrderBy = !contains_0(toParse.toLowerCase(), 'order');
         if (mode === 1) {
-          var resultWriter = _MyPrintWriter_init(false);
-          s11outputResult.QueryResultToXMLStream.invoke_6fq45d$(popNode, resultWriter);
+          var resultWriter = MyPrintWriter_init(false);
+          result_format.QueryResultToXMLStream.invoke_yn6l39$(popNode, resultWriter);
           var query5 = Query_init();
           var key5 = query5.getTransactionID().toString();
-          if (s05tripleStore.tripleStoreManager.getPartitionMode() === 1) {
-            s00misc.communicationHandler.sendData_hq2gfh$(s05tripleStore.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/register', mapOf(to('key', key5)));
-            query5.setDictionaryUrl_61zpoe$(s05tripleStore.tripleStoreManager.getLocalhost() + '/distributed/query/dictionary?key=' + key5);
+          if (shared.tripleStoreManager.getPartitionMode() === 1) {
+            shared.communicationHandler.sendData_hq2gfh$(shared.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/register', mapOf(to('key', key5)));
+            query5.setDictionaryUrl_61zpoe$(shared.tripleStoreManager.getLocalhost() + '/distributed/query/dictionary?key=' + key5);
           }var popOptimizer2 = new PhysicalOptimizer(query5);
-          var actualResult = this$BinaryTestCase.operatorGraphToTable_0(popOptimizer2.optimizeCall_xe8q07$(s05tripleStore.tripleStoreManager.getDefaultGraph().getIterator_no1dp4$(query5, [new AOPVariable(query5, 's'), new AOPVariable(query5, 'p'), new AOPVariable(query5, 'o')], 14)));
+          var actualResult = this$BinaryTestCase.operatorGraphToTable_0(popOptimizer2.optimizeCall_tpi62f$(shared.tripleStoreManager.getDefaultGraph().getIterator_8f34g7$(query5, [new AOPVariable(query5, 's'), new AOPVariable(query5, 'p'), new AOPVariable(query5, 'o')], 14)));
           if (!this$BinaryTestCase.verifyEqual_1(tableOutput, actualResult, mappingLiveToTarget, targetDict, targetDict2, allowOrderBy, queryName, closure$query_folder, 'result in store (SPO) is wrong')) {
             closure$returnValue.v = false;
-            if (s05tripleStore.tripleStoreManager.getPartitionMode() === 1) {
-              s00misc.communicationHandler.sendData_hq2gfh$(s05tripleStore.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key5)));
-              s00misc.communicationHandler.sendData_hq2gfh$(s05tripleStore.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key4)));
+            if (shared.tripleStoreManager.getPartitionMode() === 1) {
+              shared.communicationHandler.sendData_hq2gfh$(shared.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key5)));
+              shared.communicationHandler.sendData_hq2gfh$(shared.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key4)));
             }break func;
-          }s05tripleStore.tripleStoreManager.commit_zhvcmr$(query5);
+          }shared.tripleStoreManager.commit_ekbuhx$(query5);
           query5.commited = true;
-          if (s05tripleStore.tripleStoreManager.getPartitionMode() === 1) {
-            s00misc.communicationHandler.sendData_hq2gfh$(s05tripleStore.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key5)));
+          if (shared.tripleStoreManager.getPartitionMode() === 1) {
+            shared.communicationHandler.sendData_hq2gfh$(shared.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key5)));
           }} else {
           var actualResult_0 = this$BinaryTestCase.operatorGraphToTable_0(popNode);
           if (!this$BinaryTestCase.verifyEqual_1(tableOutput, actualResult_0, mappingLiveToTarget, targetDict, targetDict2, allowOrderBy, queryName, closure$query_folder, 'query result is wrong')) {
             closure$returnValue.v = false;
-            if (s05tripleStore.tripleStoreManager.getPartitionMode() === 1) {
-              s00misc.communicationHandler.sendData_hq2gfh$(s05tripleStore.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key4)));
+            if (shared.tripleStoreManager.getPartitionMode() === 1) {
+              shared.communicationHandler.sendData_hq2gfh$(shared.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key4)));
             }break func;
           }}
-        if (s05tripleStore.tripleStoreManager.getPartitionMode() === 1) {
-          s00misc.communicationHandler.sendData_hq2gfh$(s05tripleStore.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key4)));
+        if (shared.tripleStoreManager.getPartitionMode() === 1) {
+          shared.communicationHandler.sendData_hq2gfh$(shared.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key4)));
         }println('----------Success');
         closure$returnValue.v = true;
         break func;
@@ -2172,19 +2430,19 @@
   }
   function BinaryTestCase$executeTestCase$lambda$lambda$lambda(closure$query_folder, closure$targetStat, closure$returnValue, closure$targetDictionary, this$BinaryTestCase, closure$buffer) {
     return function (targetTriples) {
-      _File_init(closure$query_folder + '/query.result').withInputStream_txlftf$(BinaryTestCase$executeTestCase$lambda$lambda$lambda$lambda(closure$targetStat, closure$query_folder, closure$returnValue, closure$targetDictionary, this$BinaryTestCase, closure$buffer, targetTriples));
+      File_init(closure$query_folder + '/query.result').withInputStream_2c7cab$(BinaryTestCase$executeTestCase$lambda$lambda$lambda$lambda(closure$targetStat, closure$query_folder, closure$returnValue, closure$targetDictionary, this$BinaryTestCase, closure$buffer, targetTriples));
       return Unit;
     };
   }
   function BinaryTestCase$executeTestCase$lambda$lambda(closure$query_folder, closure$targetStat, closure$returnValue, this$BinaryTestCase, closure$buffer) {
     return function (targetDictionary) {
-      _File_init(closure$query_folder + '/query.triples').withInputStream_txlftf$(BinaryTestCase$executeTestCase$lambda$lambda$lambda(closure$query_folder, closure$targetStat, closure$returnValue, targetDictionary, this$BinaryTestCase, closure$buffer));
+      File_init(closure$query_folder + '/query.triples').withInputStream_2c7cab$(BinaryTestCase$executeTestCase$lambda$lambda$lambda(closure$query_folder, closure$targetStat, closure$returnValue, targetDictionary, this$BinaryTestCase, closure$buffer));
       return Unit;
     };
   }
   function BinaryTestCase$executeTestCase$lambda(closure$query_folder, closure$returnValue, this$BinaryTestCase, closure$buffer) {
     return function (targetStat) {
-      _File_init(closure$query_folder + '/query.dictionary').withInputStream_txlftf$(BinaryTestCase$executeTestCase$lambda$lambda(closure$query_folder, targetStat, closure$returnValue, this$BinaryTestCase, closure$buffer));
+      File_init(closure$query_folder + '/query.dictionary').withInputStream_2c7cab$(BinaryTestCase$executeTestCase$lambda$lambda(closure$query_folder, targetStat, closure$returnValue, this$BinaryTestCase, closure$buffer));
       return Unit;
     };
   }
@@ -2192,7 +2450,7 @@
     var buffer = ByteArrayWrapper_init();
     println('executeTestCase ' + query_folder);
     var returnValue = {v: true};
-    _File_init(query_folder + '/query.stat').withInputStream_txlftf$(BinaryTestCase$executeTestCase$lambda(query_folder, returnValue, this, buffer));
+    File_init(query_folder + '/query.stat').withInputStream_2c7cab$(BinaryTestCase$executeTestCase$lambda(query_folder, returnValue, this, buffer));
     return returnValue.v;
   };
   function BinaryTestCase$generateTestcase$lambda$lambda(closure$containsOrderBy, closure$out) {
@@ -2206,7 +2464,7 @@
   }
   function BinaryTestCase$generateTestcase$lambda(closure$query_file, closure$containsOrderBy) {
     return function (out) {
-      _File_init(closure$query_file).forEachLine_5y588g$(BinaryTestCase$generateTestcase$lambda$lambda(closure$containsOrderBy, out));
+      File_init(closure$query_file).forEachLine_5y588g$(BinaryTestCase$generateTestcase$lambda$lambda(closure$containsOrderBy, out));
       return Unit;
     };
   }
@@ -2335,14 +2593,14 @@
   }
   function BinaryTestCase$generateTestcase$lambda$lambda$lambda(closure$output_folder, closure$outputMode, closure$target, this$BinaryTestCase, closure$dict, closure$dictBnodeCount, closure$outDictionary, closure$containsOrderBy, closure$query_name, closure$inputCounter, closure$output_mode_tmp, closure$query_input_file, closure$query_output_file, closure$query_file) {
     return function (outStat) {
-      _File_init(closure$output_folder + '/query.result').withOutputStream_jyd7u$(BinaryTestCase$generateTestcase$lambda$lambda$lambda$lambda(closure$outputMode, closure$target, outStat, this$BinaryTestCase, closure$dict, closure$dictBnodeCount, closure$outDictionary, closure$containsOrderBy, closure$query_name, closure$inputCounter, closure$output_folder, closure$output_mode_tmp, closure$query_input_file, closure$query_output_file, closure$query_file));
+      File_init(closure$output_folder + '/query.result').withOutputStream_2hu0ja$(BinaryTestCase$generateTestcase$lambda$lambda$lambda$lambda(closure$outputMode, closure$target, outStat, this$BinaryTestCase, closure$dict, closure$dictBnodeCount, closure$outDictionary, closure$containsOrderBy, closure$query_name, closure$inputCounter, closure$output_folder, closure$output_mode_tmp, closure$query_input_file, closure$query_output_file, closure$query_file));
       return Unit;
     };
   }
   function BinaryTestCase$generateTestcase$lambda$lambda_0(closure$query_input_file, this$BinaryTestCase, closure$dict, closure$dictBnodeCount, closure$outDictionary, closure$query_output_file, closure$outputMode, closure$output_folder, closure$containsOrderBy, closure$query_name, closure$output_mode_tmp, closure$query_file) {
     return function (outTriples) {
       var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
-      var data = ensureNotNull(parseFromAny(XMLElement.Companion, _File_init(closure$query_input_file).readAsString_8be2vx$(), closure$query_input_file));
+      var data = ensureNotNull(parseFromAny(XMLElement.Companion, File_init(closure$query_input_file).readAsString_8be2vx$(), closure$query_input_file));
       var inputCounter = {v: 0};
       tmp$ = ensureNotNull(data.get_61zpoe$('results')).childs.iterator();
       while (tmp$.hasNext()) {
@@ -2410,16 +2668,16 @@
           outTriples.writeInt_za3lpa$(row[i_1]);
         }
       }
-      var target = ensureNotNull(parseFromAny(XMLElement.Companion, _File_init(closure$query_output_file).readAsString_8be2vx$(), closure$query_output_file));
+      var target = ensureNotNull(parseFromAny(XMLElement.Companion, File_init(closure$query_output_file).readAsString_8be2vx$(), closure$query_output_file));
       if (target.get_61zpoe$('results') == null && target.get_61zpoe$('boolean') != null) {
         closure$outputMode.v = 0;
-      }_File_init(closure$output_folder + '/query.stat').withOutputStream_jyd7u$(BinaryTestCase$generateTestcase$lambda$lambda$lambda(closure$output_folder, closure$outputMode, target, this$BinaryTestCase, closure$dict, closure$dictBnodeCount, closure$outDictionary, closure$containsOrderBy, closure$query_name, inputCounter, closure$output_mode_tmp, closure$query_input_file, closure$query_output_file, closure$query_file));
+      }File_init(closure$output_folder + '/query.stat').withOutputStream_2hu0ja$(BinaryTestCase$generateTestcase$lambda$lambda$lambda(closure$output_folder, closure$outputMode, target, this$BinaryTestCase, closure$dict, closure$dictBnodeCount, closure$outDictionary, closure$containsOrderBy, closure$query_name, inputCounter, closure$output_mode_tmp, closure$query_input_file, closure$query_output_file, closure$query_file));
       return Unit;
     };
   }
   function BinaryTestCase$generateTestcase$lambda_0(closure$output_folder, closure$query_input_file, this$BinaryTestCase, closure$dict, closure$dictBnodeCount, closure$query_output_file, closure$outputMode, closure$containsOrderBy, closure$query_name, closure$output_mode_tmp, closure$query_file) {
     return function (outDictionary) {
-      _File_init(closure$output_folder + '/query.triples').withOutputStream_jyd7u$(BinaryTestCase$generateTestcase$lambda$lambda_0(closure$query_input_file, this$BinaryTestCase, closure$dict, closure$dictBnodeCount, outDictionary, closure$query_output_file, closure$outputMode, closure$output_folder, closure$containsOrderBy, closure$query_name, closure$output_mode_tmp, closure$query_file));
+      File_init(closure$output_folder + '/query.triples').withOutputStream_2hu0ja$(BinaryTestCase$generateTestcase$lambda$lambda_0(closure$query_input_file, this$BinaryTestCase, closure$dict, closure$dictBnodeCount, outDictionary, closure$query_output_file, closure$outputMode, closure$output_folder, closure$containsOrderBy, closure$query_name, closure$output_mode_tmp, closure$query_file));
       return Unit;
     };
   }
@@ -2427,17 +2685,17 @@
     try {
       println('generating for ' + query_input_file + ' ' + query_file + ' ' + query_output_file + ' ' + output_folder + ' ' + query_name + ' ' + BinaryTestCaseOutputModeExt_getInstance().names[output_mode_tmp]);
       var outputMode = {v: output_mode_tmp};
-      _File_init(output_folder).deleteRecursively_8be2vx$();
-      _File_init(output_folder).mkdirs_8be2vx$();
+      File_init(output_folder).deleteRecursively_8be2vx$();
+      File_init(output_folder).mkdirs_8be2vx$();
       var containsOrderBy = {v: false};
-      _File_init(output_folder + '/query.sparql').withOutputStream_jyd7u$(BinaryTestCase$generateTestcase$lambda(query_file, containsOrderBy));
+      File_init(output_folder + '/query.sparql').withOutputStream_2hu0ja$(BinaryTestCase$generateTestcase$lambda(query_file, containsOrderBy));
       var dict = LinkedHashMap_init();
       var dictBnodeCount = {v: 0};
-      _File_init(output_folder + '/query.dictionary').withOutputStream_jyd7u$(BinaryTestCase$generateTestcase$lambda_0(output_folder, query_input_file, this, dict, dictBnodeCount, query_output_file, outputMode, containsOrderBy, query_name, output_mode_tmp, query_file));
+      File_init(output_folder + '/query.dictionary').withOutputStream_2hu0ja$(BinaryTestCase$generateTestcase$lambda_0(output_folder, query_input_file, this, dict, dictBnodeCount, query_output_file, outputMode, containsOrderBy, query_name, output_mode_tmp, query_file));
       return true;
     } catch (e) {
       if (Kotlin.isType(e, UnknownDataFileException)) {
-        _File_init(output_folder).deleteRecursively_8be2vx$();
+        File_init(output_folder).deleteRecursively_8be2vx$();
         printStackTrace(e);
         return false;
       } else
@@ -2475,6 +2733,7 @@
       new BinaryTestCaseOutputModeExt();
     }return BinaryTestCaseOutputModeExt_instance;
   }
+  var MAX_TRIPLES_DURING_TEST;
   function IntArrayComparator() {
   }
   IntArrayComparator.prototype.compare = function (a, b) {
@@ -2492,41 +2751,41 @@
     interfaces: [Comparator]
   };
   function SevenIndices() {
-    this.s_0 = LinkedHashMap_init();
-    this.p_0 = LinkedHashMap_init();
-    this.o_0 = LinkedHashMap_init();
-    this.sp_0 = LinkedHashMap_init();
-    this.so_0 = LinkedHashMap_init();
-    this.po_0 = LinkedHashMap_init();
+    this.s_8be2vx$ = LinkedHashMap_init();
+    this.p_8be2vx$ = LinkedHashMap_init();
+    this.o_8be2vx$ = LinkedHashMap_init();
+    this.sp_8be2vx$ = LinkedHashMap_init();
+    this.so_8be2vx$ = LinkedHashMap_init();
+    this.po_8be2vx$ = LinkedHashMap_init();
     this.spo = LinkedHashSet_init();
   }
   SevenIndices.prototype.s_s8cxhz$ = function (key) {
     var tmp$;
-    return (tmp$ = this.s_0.get_11rb$(key)) != null ? tmp$ : [];
+    return (tmp$ = this.s_8be2vx$.get_11rb$(key)) != null ? tmp$ : [];
   };
   SevenIndices.prototype.sp_3pjtqy$ = function (key1, key2) {
     var tmp$;
-    return (tmp$ = this.sp_0.get_11rb$(new Pair(key1, key2))) != null ? tmp$ : Kotlin.longArrayOf();
+    return (tmp$ = this.sp_8be2vx$.get_11rb$(new Pair(key1, key2))) != null ? tmp$ : Kotlin.longArrayOf();
   };
   SevenIndices.prototype.po_3pjtqy$ = function (key1, key2) {
     var tmp$;
-    return (tmp$ = this.po_0.get_11rb$(new Pair(key1, key2))) != null ? tmp$ : Kotlin.longArrayOf();
+    return (tmp$ = this.po_8be2vx$.get_11rb$(new Pair(key1, key2))) != null ? tmp$ : Kotlin.longArrayOf();
   };
   SevenIndices.prototype.distinct = function () {
-    this.distinctOneKeyMap_0(this.s_0);
-    this.distinctOneKeyMap_0(this.p_0);
-    this.distinctOneKeyMap_0(this.o_0);
-    this.distinctTwoKeysMap_0(this.sp_0);
-    this.distinctTwoKeysMap_0(this.so_0);
-    this.distinctTwoKeysMap_0(this.po_0);
+    this.distinctOneKeyMap_0(this.s_8be2vx$);
+    this.distinctOneKeyMap_0(this.p_8be2vx$);
+    this.distinctOneKeyMap_0(this.o_8be2vx$);
+    this.distinctTwoKeysMap_0(this.sp_8be2vx$);
+    this.distinctTwoKeysMap_0(this.so_8be2vx$);
+    this.distinctTwoKeysMap_0(this.po_8be2vx$);
   };
   SevenIndices.prototype.add_b9bd0d$ = function (triple_s, triple_p, triple_o) {
-    this.addToOneKeyMap_0(this.s_0, triple_s, triple_p, triple_o);
-    this.addToOneKeyMap_0(this.p_0, triple_p, triple_s, triple_o);
-    this.addToOneKeyMap_0(this.o_0, triple_o, triple_s, triple_p);
-    this.addToTwoKeysMap_0(this.sp_0, triple_s, triple_p, triple_o);
-    this.addToTwoKeysMap_0(this.so_0, triple_s, triple_o, triple_p);
-    this.addToTwoKeysMap_0(this.po_0, triple_p, triple_o, triple_s);
+    this.addToOneKeyMap_0(this.s_8be2vx$, triple_s, triple_p, triple_o);
+    this.addToOneKeyMap_0(this.p_8be2vx$, triple_p, triple_s, triple_o);
+    this.addToOneKeyMap_0(this.o_8be2vx$, triple_o, triple_s, triple_p);
+    this.addToTwoKeysMap_0(this.sp_8be2vx$, triple_s, triple_p, triple_o);
+    this.addToTwoKeysMap_0(this.so_8be2vx$, triple_s, triple_o, triple_p);
+    this.addToTwoKeysMap_0(this.po_8be2vx$, triple_p, triple_o, triple_s);
     var $receiver = this.spo;
     var element = new ID_Triple(triple_s, triple_p, triple_o);
     $receiver.add_11rb$(element);
@@ -2601,9 +2860,6 @@
       return Unit;
     };
   }
-  function SparqlTestSuite$testMain$lambda$lambda$lambda_0() {
-    return 'TODO exception 39';
-  }
   function SparqlTestSuite$testMain$lambda$lambda(closure$prefix, closure$lastinput, this$SparqlTestSuite) {
     return function (it2) {
       var line = split(it2, [',']);
@@ -2612,21 +2868,20 @@
         var queryFile = SparqlTestSuite$Companion_getInstance().prefixDirectory + '/' + closure$prefix + line.get_za3lpa$(1);
         var inputFile = SparqlTestSuite$Companion_getInstance().prefixDirectory + '/' + closure$prefix + line.get_za3lpa$(2);
         var outputFile = SparqlTestSuite$Companion_getInstance().prefixDirectory + '/' + closure$prefix + line.get_za3lpa$(3);
-        if (!_File_init(outputFile).exists_8be2vx$()) {
+        if (!File_init(outputFile).exists_8be2vx$()) {
           try {
-            jena.JenaWrapper.loadFromFile_61zpoe$('/src/luposdate3000/' + inputFile);
-            var jenaResult = jena.JenaWrapper.execQuery_61zpoe$(_File_init(queryFile).readAsString_8be2vx$());
+            jena_wrapper.JenaWrapper.loadFromFile_61zpoe$('/src/luposdate3000/' + inputFile);
+            var jenaResult = jena_wrapper.JenaWrapper.execQuery_61zpoe$(File_init(queryFile).readAsString_8be2vx$());
             var jenaXML = ensureNotNull((new XMLElementFromXML()).invoke_61zpoe$(jenaResult));
-            _File_init(outputFile).withOutputStream_jyd7u$(SparqlTestSuite$testMain$lambda$lambda$lambda(jenaXML));
+            File_init(outputFile).withOutputStream_2hu0ja$(SparqlTestSuite$testMain$lambda$lambda$lambda(jenaXML));
           } catch (e) {
             if (Kotlin.isType(e, Throwable)) {
-              println(SparqlTestSuite$testMain$lambda$lambda$lambda_0);
               printStackTrace(e);
             } else
               throw e;
           }
           finally {
-            jena.JenaWrapper.dropAll();
+            jena_wrapper.JenaWrapper.dropAll();
           }
         }if (equals(closure$lastinput.v, inputFile)) {
           inputFile = '#keep-data#';
@@ -2651,7 +2906,7 @@
       while (tmp$.hasNext()) {
         var prefix = tmp$.next();
         var lastinput = {v: null};
-        _File_init(SparqlTestSuite$Companion_getInstance().prefixDirectory + prefix + 'config.csv').forEachLine_5y588g$(SparqlTestSuite$testMain$lambda$lambda(prefix, lastinput, this));
+        File_init(SparqlTestSuite$Companion_getInstance().prefixDirectory + prefix + 'config.csv').forEachLine_5y588g$(SparqlTestSuite$testMain$lambda$lambda(prefix, lastinput, this));
       }
     }
   };
@@ -2687,19 +2942,13 @@
     var recursiveListMembers = SparqlTestSuite$listMembers$recursiveListMembers(data, firstIri, f, restIri, nilIri, this);
     recursiveListMembers(start);
   };
-  function SparqlTestSuite$readTurtleData$lambda(closure$e) {
-    return function () {
-      printStackTrace(closure$e);
-      return Unit;
-    };
-  }
   SparqlTestSuite.prototype.readTurtleData_fa7k0c$_0 = function (filename, consume_triple) {
-    var ltit = new LookAheadTokenIterator(new TurtleScanner(LexerCharIterator_init(_File_init(filename).readAsString_8be2vx$())), 3);
+    var ltit = new LookAheadTokenIterator(new TurtleScanner(LexerCharIterator_init(File_init(filename).readAsString_8be2vx$())), 3);
     try {
       (new TurtleParserWithDictionary(consume_triple, ltit)).parse();
     } catch (e) {
       if (Kotlin.isType(e, ParseError)) {
-        SanityCheckOn_getInstance().invoke_ls4sck$(SparqlTestSuite$readTurtleData$lambda(e));
+        printStackTrace(e);
         println('Error in the following line:');
         println(e.lineNumber);
       } else
@@ -2772,7 +3021,7 @@
   SparqlTestSuite.prototype.readFileOrNull_mlj8dx$_0 = function (name) {
     if (name == null) {
       return null;
-    }return _File_init(name).readAsString_8be2vx$();
+    }return File_init(name).readAsString_8be2vx$();
   };
   function SparqlTestSuite$testOneEntry$lambda$lambda(closure$resultFile) {
     return function () {
@@ -3179,50 +3428,97 @@
       return "'" + closure$testName + "' is in WhiteList of Unit-Tests";
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_1(closure$e) {
-    return function () {
-      return closure$e.message;
-    };
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_2() {
-    return 'TODO exception 41';
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda(closure$e) {
-    return function () {
-      return closure$e.message;
-    };
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_0() {
-    return 'TODO exception 42';
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_3() {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_1() {
     return '----------String Query';
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_4() {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_2() {
     return '----------Abstract Syntax Tree';
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_5(closure$astNode) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_3(closure$astNode) {
     return function () {
       return closure$astNode;
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_6() {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_4() {
     return '----------Logical Operator Graph';
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_7(closure$lopNode, closure$testName2) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_5(closure$lopNode, closure$testName2) {
     return function (it) {
-      it.println_61zpoe$(s00misc.OperatorGraphToLatex.invoke_jyasbz$(closure$lopNode.toString(), closure$testName2));
+      it.println_61zpoe$(shared.OperatorGraphToLatex.invoke_jyasbz$(closure$lopNode.toString(), closure$testName2));
       return Unit;
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_8(closure$lopNode) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_6(closure$lopNode) {
     return function () {
       return equals(closure$lopNode, closure$lopNode.cloneOP());
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_9(closure$lopNode) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_7(closure$lopNode) {
     return function () {
       return closure$lopNode.toString() + ' - ' + closure$lopNode.cloneOP().toString();
+    };
+  }
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda(closure$x) {
+    return function () {
+      return closure$x;
+    };
+  }
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_8(closure$lopNode) {
+    return function () {
+      var x = closure$lopNode.toString();
+      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda(x));
+      return Unit;
+    };
+  }
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_9() {
+    return '----------Logical Operator Graph optimized';
+  }
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_10(closure$lopNode2) {
+    return function () {
+      return equals(closure$lopNode2, closure$lopNode2.cloneOP());
+    };
+  }
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_11(closure$lopNode2, closure$testName2) {
+    return function (it) {
+      it.println_61zpoe$(shared.OperatorGraphToLatex.invoke_jyasbz$(closure$lopNode2.toString(), closure$testName2));
+      return Unit;
+    };
+  }
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_0(closure$x) {
+    return function () {
+      return closure$x;
+    };
+  }
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_12(closure$lopNode2) {
+    return function () {
+      var x = closure$lopNode2.toString();
+      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_0(x));
+      return Unit;
+    };
+  }
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_13() {
+    return '----------Physical Operator Graph';
+  }
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_14(closure$popNode) {
+    return function () {
+      return equals(closure$popNode, closure$popNode.cloneOP());
+    };
+  }
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_15(closure$popNode) {
+    return function () {
+      return closure$popNode.toString() + ' - ' + closure$popNode.cloneOP().toString();
+    };
+  }
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_16(closure$popNode) {
+    return function () {
+      closure$popNode.toSparqlQuery();
+      return Unit;
+    };
+  }
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_17(closure$popNode, closure$testName2) {
+    return function (it) {
+      it.println_61zpoe$(shared.OperatorGraphToLatex.invoke_jyasbz$(closure$popNode.toString(), closure$testName2));
+      return Unit;
     };
   }
   function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_1(closure$x) {
@@ -3230,167 +3526,93 @@
       return closure$x;
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_10(closure$lopNode) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_18(closure$popNode) {
     return function () {
-      var x = closure$lopNode.toString();
+      var x = closure$popNode.toString();
       SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_1(x));
       return Unit;
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_11() {
-    return '----------Logical Operator Graph optimized';
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_12(closure$lopNode2) {
-    return function () {
-      return equals(closure$lopNode2, closure$lopNode2.cloneOP());
-    };
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_13(closure$lopNode2, closure$testName2) {
-    return function (it) {
-      it.println_61zpoe$(s00misc.OperatorGraphToLatex.invoke_jyasbz$(closure$lopNode2.toString(), closure$testName2));
-      return Unit;
-    };
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_2(closure$x) {
-    return function () {
-      return closure$x;
-    };
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_14(closure$lopNode2) {
-    return function () {
-      var x = closure$lopNode2.toString();
-      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_2(x));
-      return Unit;
-    };
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_15() {
-    return '----------Physical Operator Graph';
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_16(closure$popNode) {
-    return function () {
-      return equals(closure$popNode, closure$popNode.cloneOP());
-    };
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_17(closure$popNode) {
-    return function () {
-      return closure$popNode.toString() + ' - ' + closure$popNode.cloneOP().toString();
-    };
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_18(closure$popNode) {
-    return function () {
-      closure$popNode.toSparqlQuery();
-      return Unit;
-    };
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_19(closure$popNode, closure$testName2) {
-    return function (it) {
-      it.println_61zpoe$(s00misc.OperatorGraphToLatex.invoke_jyasbz$(closure$popNode.toString(), closure$testName2));
-      return Unit;
-    };
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_3(closure$x) {
-    return function () {
-      return closure$x;
-    };
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_20(closure$popNode) {
-    return function () {
-      var x = closure$popNode.toString();
-      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_3(x));
-      return Unit;
-    };
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_21() {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_19() {
     return '----------Query Result';
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_22(closure$xmlQueryResult) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_20(closure$xmlQueryResult) {
     return function () {
       return 'test xmlQueryResult :: ' + closure$xmlQueryResult.v.toPrettyString();
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_4(closure$it) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_2(closure$it) {
     return function () {
       return 'OutputData Graph[' + toString(closure$it.get_11rb$('name')) + '] Original';
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_5(closure$outputData) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_3(closure$outputData) {
     return function () {
       return closure$outputData;
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_6(closure$it) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_4(closure$it) {
     return function () {
       return '----------Verify Output Data Graph[' + toString(closure$it.get_11rb$('name')) + '] ... target,actual';
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_7(closure$xmlGraphTarget) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_5(closure$xmlGraphTarget) {
     return function () {
       return 'test xmlGraphTarget :: ' + closure$xmlGraphTarget.toPrettyString();
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_8(closure$xmlGraphActual) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_6(closure$xmlGraphActual) {
     return function () {
       return 'test xmlGraphActual :: ' + closure$xmlGraphActual.toPrettyString();
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_23() {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_21() {
     return '----------Target Result';
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_24(closure$xmlQueryTarget) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_22(closure$xmlQueryTarget) {
     return function () {
       return 'test xmlQueryTarget :: ' + closure$xmlQueryTarget.toPrettyString();
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_25(closure$resultData) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_23(closure$resultData) {
     return function () {
       return closure$resultData;
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_26(closure$e) {
-    return function () {
-      return closure$e.message;
-    };
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_27() {
-    return 'TODO exception 43';
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_28(closure$xmlPOP) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_24(closure$xmlPOP) {
     return function () {
       return closure$xmlPOP.toPrettyString();
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_9(closure$x) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_7(closure$x) {
     return function () {
       return closure$x;
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_29(closure$popNodeRecovered) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_25(closure$popNodeRecovered) {
     return function () {
       var x = closure$popNodeRecovered.toString();
-      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_9(x));
+      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_7(x));
       return Unit;
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_30(closure$xmlQueryResultRecovered) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_26(closure$xmlQueryResultRecovered) {
     return function () {
       return 'test xmlQueryResultRecovered :: ' + closure$xmlQueryResultRecovered.toPrettyString();
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_31(closure$e) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_27(closure$e) {
     return function () {
       return closure$e;
     };
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_32() {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_28() {
     return 'Error in the following line:';
   }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_33(closure$e) {
+  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_29(closure$e) {
     return function () {
       return closure$e.lineNumber;
     };
-  }
-  function SparqlTestSuite$parseSPARQLAndEvaluate$lambda_34() {
-    return 'TODO exception 44';
   }
   SparqlTestSuite.prototype.parseSPARQLAndEvaluate_e9gtbf$ = function (executeJena, testName, expectedResult, queryFile, inputDataFileName, resultDataFileName, services, inputDataGraph, outputDataGraph) {
     var tmp$, tmp$_0, tmp$_1;
@@ -3400,13 +3622,13 @@
     } else {
       println(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_0(testName));
     }
-    _File_init('log/storetest').mkdirs_8be2vx$();
+    File_init('log/storetest').mkdirs_8be2vx$();
     var ignoreJena = {v: !executeJena};
-    var timer = s00misc.DateHelperRelative.markNow();
+    var timer = shared.DateHelperRelative.markNow();
     try {
       var toParse = ensureNotNull(this.readFileOrNull_mlj8dx$_0(queryFile));
       if (contains_0(toParse, 'service', true)) {
-        println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+        println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
         println('----------Failed(Service)');
         return false;
       }var resultData = this.readFileOrNull_mlj8dx$_0(resultDataFileName);
@@ -3414,21 +3636,21 @@
         var query2 = Query_init();
         var endIndex = lastIndexOf(queryFile, '/');
         query2.setWorkingDirectory_61zpoe$(queryFile.substring(0, endIndex));
-        s05tripleStore.tripleStoreManager.clearGraph_36cr5x$(query2, TripleStoreManager.Companion.DEFAULT_GRAPH_NAME);
-        tmp$ = s05tripleStore.tripleStoreManager.getGraphNames().iterator();
+        shared.tripleStoreManager.clearGraph_7nf0jb$(query2, TripleStoreManager.Companion.DEFAULT_GRAPH_NAME);
+        tmp$ = shared.tripleStoreManager.getGraphNames().iterator();
         while (tmp$.hasNext()) {
           var g = tmp$.next();
-          s05tripleStore.tripleStoreManager.dropGraph_36cr5x$(query2, g);
+          shared.tripleStoreManager.dropGraph_7nf0jb$(query2, g);
         }
-        s05tripleStore.tripleStoreManager.commit_zhvcmr$(query2);
+        shared.tripleStoreManager.commit_ekbuhx$(query2);
         query2.commited = true;
-        jena.JenaWrapper.dropAll();
+        jena_wrapper.JenaWrapper.dropAll();
         var inputData = this.readFileOrNull_mlj8dx$_0(inputDataFileName);
         if (inputData != null && inputDataFileName != null) {
           this.lastTripleCount = split(inputData, ['\n']).size;
           tmp$_0 = this.lastTripleCount;
           if (1 <= 2000 && 2000 < tmp$_0) {
-            println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+            println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
             println('----------Success(Skipped)');
             return true;
           }println('InputData Graph[] Original');
@@ -3440,12 +3662,12 @@
             var endIndex_0 = lastIndexOf(queryFile, '/');
             query.setWorkingDirectory_61zpoe$(queryFile.substring(0, endIndex_0));
             endpoint.LuposdateEndpoint.import_turtle_files(inputDataFileName, LinkedHashMap_init());
-            var bulkSelect = s05tripleStore.tripleStoreManager.getDefaultGraph().getIterator_no1dp4$(query, [new AOPVariable(query, 's'), new AOPVariable(query, 'p'), new AOPVariable(query, 'o')], 14);
-            var xmlGraphBulk = s11outputResult.QueryResultToXMLElement.toXML_xe8q07$(bulkSelect);
-            if (!xmlGraphBulk.myEqualsUnclean_k2svtt$(xmlQueryInput, true, true, true)) {
+            var bulkSelect = shared.tripleStoreManager.getDefaultGraph().getIterator_8f34g7$(query, [new AOPVariable(query, 's'), new AOPVariable(query, 'p'), new AOPVariable(query, 'o')], 14);
+            var xmlGraphBulk = result_format.QueryResultToXMLElement.toXML_tpi62f$(bulkSelect);
+            if (!xmlGraphBulk.myEqualsUnclean_npi1n1$(xmlQueryInput, true, true, true)) {
               println('test xmlQueryInput :: ' + xmlQueryInput.toPrettyString());
               println('test xmlGraphBulk :: ' + xmlGraphBulk.toPrettyString());
-              println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+              println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
               println('----------Failed(BulkImport)');
               return false;
             }} else {
@@ -3454,26 +3676,27 @@
             query_0.setWorkingDirectory_61zpoe$(queryFile.substring(0, endIndex_1));
             var tmp2 = new POPValuesImportXML(query_0, listOf(['s', 'p', 'o']), xmlQueryInput);
             var key = query_0.getTransactionID().toString();
-            if (s05tripleStore.tripleStoreManager.getPartitionMode() === 1) {
-              s00misc.communicationHandler.sendData_hq2gfh$(s05tripleStore.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/register', mapOf(to('key', key)));
-              query_0.setDictionaryUrl_61zpoe$(s05tripleStore.tripleStoreManager.getLocalhost() + '/distributed/query/dictionary?key=' + key);
+            if (shared.tripleStoreManager.getPartitionMode() === 1) {
+              shared.communicationHandler.sendData_hq2gfh$(shared.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/register', mapOf(to('key', key)));
+              query_0.setDictionaryUrl_61zpoe$(shared.tripleStoreManager.getLocalhost() + '/distributed/query/dictionary?key=' + key);
             }var tmp = tmp2.evaluateRoot();
-            s05tripleStore.tripleStoreManager.getDefaultGraph().modify_m8mocp$(query_0, [ensureNotNull(tmp.columns.get_11rb$('s')), ensureNotNull(tmp.columns.get_11rb$('p')), ensureNotNull(tmp.columns.get_11rb$('o'))], 1);
-            s05tripleStore.tripleStoreManager.commit_zhvcmr$(query_0);
+            var sstore = shared.tripleStoreManager.getDefaultGraph();
+            var cache = sstore.modify_create_cache_za3lpa$(1);
+            sstore.modify_cache_o413y8$(query_0, [ensureNotNull(tmp.columns.get_11rb$('s')), ensureNotNull(tmp.columns.get_11rb$('p')), ensureNotNull(tmp.columns.get_11rb$('o'))], 1, cache, true);
+            shared.tripleStoreManager.commit_ekbuhx$(query_0);
             query_0.commited = true;
-            if (s05tripleStore.tripleStoreManager.getPartitionMode() === 1) {
-              s00misc.communicationHandler.sendData_hq2gfh$(s05tripleStore.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key)));
+            if (shared.tripleStoreManager.getPartitionMode() === 1) {
+              shared.communicationHandler.sendData_hq2gfh$(shared.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key)));
             }}
           println('test InputData Graph[] ::' + xmlQueryInput.toPrettyString());
           try {
             if (!ignoreJena.v) {
-              jena.JenaWrapper.loadFromFile_61zpoe$('/src/luposdate3000/' + toString(inputDataFileName));
+              jena_wrapper.JenaWrapper.loadFromFile_61zpoe$('/src/luposdate3000/' + toString(inputDataFileName));
             }} catch (e) {
             if (Kotlin.isType(e, JenaBugException)) {
-              println(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_1(e));
+              printStackTrace(e);
               ignoreJena.v = true;
             } else if (Kotlin.isType(e, Throwable)) {
-              println(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_2);
               printStackTrace(e);
               ignoreJena.v = true;
             } else
@@ -3493,25 +3716,26 @@
           query_1.setWorkingDirectory_61zpoe$(queryFile.substring(0, endIndex_2));
           var tmp2_0 = new POPValuesImportXML(query_1, listOf(['s', 'p', 'o']), xmlQueryInput_0);
           var key_0 = query_1.getTransactionID().toString();
-          if (s05tripleStore.tripleStoreManager.getPartitionMode() === 1) {
-            s00misc.communicationHandler.sendData_hq2gfh$(s05tripleStore.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/register', mapOf(to('key', key_0)));
-            query_1.setDictionaryUrl_61zpoe$(s05tripleStore.tripleStoreManager.getLocalhost() + '/distributed/query/dictionary?key=' + key_0);
+          if (shared.tripleStoreManager.getPartitionMode() === 1) {
+            shared.communicationHandler.sendData_hq2gfh$(shared.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/register', mapOf(to('key', key_0)));
+            query_1.setDictionaryUrl_61zpoe$(shared.tripleStoreManager.getLocalhost() + '/distributed/query/dictionary?key=' + key_0);
           }var tmp_0 = tmp2_0.evaluateRoot();
-          s05tripleStore.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(element.get_11rb$('name'))).modify_m8mocp$(query_1, [ensureNotNull(tmp_0.columns.get_11rb$('s')), ensureNotNull(tmp_0.columns.get_11rb$('p')), ensureNotNull(tmp_0.columns.get_11rb$('o'))], 1);
-          s05tripleStore.tripleStoreManager.commit_zhvcmr$(query_1);
-          if (s05tripleStore.tripleStoreManager.getPartitionMode() === 1) {
-            s00misc.communicationHandler.sendData_hq2gfh$(s05tripleStore.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key_0)));
+          var sstore_0 = shared.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(element.get_11rb$('name')));
+          var cache_0 = sstore_0.modify_create_cache_za3lpa$(1);
+          sstore_0.modify_cache_o413y8$(query_1, [ensureNotNull(tmp_0.columns.get_11rb$('s')), ensureNotNull(tmp_0.columns.get_11rb$('p')), ensureNotNull(tmp_0.columns.get_11rb$('o'))], 1, cache_0, true);
+          shared.tripleStoreManager.commit_ekbuhx$(query_1);
+          if (shared.tripleStoreManager.getPartitionMode() === 1) {
+            shared.communicationHandler.sendData_hq2gfh$(shared.tripleStoreManager.getLocalhost(), '/distributed/query/dictionary/remove', mapOf(to('key', key_0)));
           }query_1.commited = true;
           println('test Input Graph[' + ensureNotNull(element.get_11rb$('name')) + '] :: ' + xmlQueryInput_0.toPrettyString());
           try {
             if (!ignoreJena.v) {
-              jena.JenaWrapper.loadFromFile_puj7f4$('/src/luposdate3000/' + ensureNotNull(element.get_11rb$('filename')), ensureNotNull(element.get_11rb$('name')));
+              jena_wrapper.JenaWrapper.loadFromFile_puj7f4$('/src/luposdate3000/' + ensureNotNull(element.get_11rb$('filename')), ensureNotNull(element.get_11rb$('name')));
             }} catch (e_0) {
             if (Kotlin.isType(e_0, JenaBugException)) {
-              println(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda(e_0));
+              printStackTrace(e_0);
               ignoreJena.v = true;
             } else if (Kotlin.isType(e_0, Throwable)) {
-              println(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_0);
               printStackTrace(e_0);
               ignoreJena.v = true;
             } else
@@ -3521,7 +3745,7 @@
       } else {
         tmp$_1 = this.lastTripleCount;
         if (1 <= 2000 && 2000 < tmp$_1) {
-          println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+          println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
           println('----------Success(Skipped)');
           return true;
         }}
@@ -3530,38 +3754,38 @@
       var endIndex_3 = lastIndexOf(queryFile, '/');
       query_2.setWorkingDirectory_61zpoe$(queryFile.substring(0, endIndex_3));
       var res;
-      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_3);
+      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_1);
       println(toParse);
-      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_4);
+      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_2);
       var lcit = LexerCharIterator_init(toParse);
       var tit = new TokenIteratorSPARQLParser(lcit);
       var ltit = new LookAheadTokenIterator(tit, 3);
       var parser = new SPARQLParser(ltit);
       var astNode = parser.expr();
-      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_5(astNode));
-      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_6);
-      var lopNode = astNode.visit_f778iz$(new OperatorGraphVisitor(query_2));
-      _File_init('log/' + testName2 + '-Logical-Operator-Graph.tex').withOutputStream_jyd7u$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_7(lopNode, testName2));
-      SanityCheckOn_getInstance().check_a3x0x2$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_8(lopNode), SparqlTestSuite$parseSPARQLAndEvaluate$lambda_9(lopNode));
-      SanityCheckOn_getInstance().suspended_ls4sck$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_10(lopNode));
-      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_11);
-      var lopNode2 = (new LogicalOptimizer(query_2)).optimizeCall_xe8q07$(lopNode);
-      SanityCheckOn_getInstance().check_8i7tro$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_12(lopNode2));
-      _File_init('log/' + testName2 + '-Logical-Operator-Graph-Optimized.tex').withOutputStream_jyd7u$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_13(lopNode2, testName2));
-      SanityCheckOn_getInstance().suspended_ls4sck$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_14(lopNode2));
-      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_15);
+      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_3(astNode));
+      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_4);
+      var lopNode = astNode.visit_x5uy1c$(new OperatorGraphVisitor(query_2));
+      File_init('log/' + testName2 + '-Logical-Operator-Graph.tex').withOutputStream_2hu0ja$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_5(lopNode, testName2));
+      SanityCheckOn_getInstance().check_a3x0x2$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_6(lopNode), SparqlTestSuite$parseSPARQLAndEvaluate$lambda_7(lopNode));
+      SanityCheckOn_getInstance().suspended_ls4sck$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_8(lopNode));
+      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_9);
+      var lopNode2 = (new LogicalOptimizer(query_2)).optimizeCall_tpi62f$(lopNode);
+      SanityCheckOn_getInstance().check_8i7tro$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_10(lopNode2));
+      File_init('log/' + testName2 + '-Logical-Operator-Graph-Optimized.tex').withOutputStream_2hu0ja$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_11(lopNode2, testName2));
+      SanityCheckOn_getInstance().suspended_ls4sck$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_12(lopNode2));
+      SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_13);
       var popOptimizer = new PhysicalOptimizer(query_2);
-      var popNode = popOptimizer.optimizeCall_xe8q07$(lopNode2);
-      SanityCheckOn_getInstance().check_a3x0x2$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_16(popNode), SparqlTestSuite$parseSPARQLAndEvaluate$lambda_17(popNode));
-      SanityCheckOn_getInstance().invoke_ls4sck$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_18(popNode));
-      _File_init('log/' + testName2 + '-Physical-Operator-Graph.tex').withOutputStream_jyd7u$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_19(popNode, testName2));
-      SanityCheckOn_getInstance().suspended_ls4sck$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_20(popNode));
+      var popNode = popOptimizer.optimizeCall_tpi62f$(lopNode2);
+      SanityCheckOn_getInstance().check_a3x0x2$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_14(popNode), SparqlTestSuite$parseSPARQLAndEvaluate$lambda_15(popNode));
+      SanityCheckOn_getInstance().invoke_ls4sck$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_16(popNode));
+      File_init('log/' + testName2 + '-Physical-Operator-Graph.tex').withOutputStream_2hu0ja$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_17(popNode, testName2));
+      SanityCheckOn_getInstance().suspended_ls4sck$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_18(popNode));
       var xmlQueryResult = {v: null};
       if (!outputDataGraph.isEmpty() || (resultData != null && resultDataFileName != null)) {
-        SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_21);
-        xmlQueryResult.v = s11outputResult.QueryResultToXMLElement.toXML_xe8q07$(popNode);
-        SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_22(xmlQueryResult));
-        s05tripleStore.tripleStoreManager.commit_zhvcmr$(query_2);
+        SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_19);
+        xmlQueryResult.v = result_format.QueryResultToXMLElement.toXML_tpi62f$(popNode);
+        SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_20(xmlQueryResult));
+        shared.tripleStoreManager.commit_ekbuhx$(query_2);
         query_2.commited = true;
       }var verifiedOutput = {v: false};
       var tmp$_3;
@@ -3570,121 +3794,120 @@
         var element_0 = tmp$_3.next();
         var outputData = this.readFileOrNull_mlj8dx$_0(element_0.get_11rb$('filename'));
         var xmlGraphTarget = ensureNotNull(parseFromAny(XMLElement.Companion, ensureNotNull(outputData), ensureNotNull(element_0.get_11rb$('filename'))));
-        var tmp_1 = s05tripleStore.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(element_0.get_11rb$('name'))).getIterator_no1dp4$(query_2, [new AOPVariable(query_2, 's'), new AOPVariable(query_2, 'p'), new AOPVariable(query_2, 'o')], 14);
-        var xmlGraphActual = s11outputResult.QueryResultToXMLElement.toXML_xe8q07$(tmp_1);
-        if (!xmlGraphTarget.myEqualsUnclean_k2svtt$(xmlGraphActual, true, true, true)) {
+        var tmp_1 = shared.tripleStoreManager.getGraph_61zpoe$(ensureNotNull(element_0.get_11rb$('name'))).getIterator_8f34g7$(query_2, [new AOPVariable(query_2, 's'), new AOPVariable(query_2, 'p'), new AOPVariable(query_2, 'o')], 14);
+        var xmlGraphActual = result_format.QueryResultToXMLElement.toXML_tpi62f$(tmp_1);
+        if (!xmlGraphTarget.myEqualsUnclean_npi1n1$(xmlGraphActual, true, true, true)) {
           println('OutputData Graph[' + toString(element_0.get_11rb$('name')) + '] Original');
           println(outputData);
           println('----------Verify Output Data Graph[' + toString(element_0.get_11rb$('name')) + '] ... target,actual');
           println('test xmlGraphTarget :: ' + xmlGraphTarget.toPrettyString());
           println('test xmlGraphActual :: ' + xmlGraphActual.toPrettyString());
-          println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+          println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
           println('----------Failed(PersistentStore Graph)');
           return false;
         } else {
+          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_2(element_0));
+          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_3(outputData));
           SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_4(element_0));
-          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_5(outputData));
-          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_6(element_0));
-          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_7(xmlGraphTarget));
-          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_8(xmlGraphActual));
+          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_5(xmlGraphTarget));
+          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda$lambda_6(xmlGraphActual));
         }
         verifiedOutput.v = true;
       }
       if (resultData != null && resultDataFileName != null) {
-        SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_23);
+        SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_21);
         var xmlQueryTarget = ensureNotNull(parseFromAny(XMLElement.Companion, resultData, resultDataFileName));
-        SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_24(xmlQueryTarget));
-        SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_25(resultData));
+        SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_22(xmlQueryTarget));
+        SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_23(resultData));
         if (!ignoreJena.v) {
           try {
-            var jenaResult = jena.JenaWrapper.execQuery_61zpoe$(toParse);
+            var jenaResult = jena_wrapper.JenaWrapper.execQuery_61zpoe$(toParse);
             var jenaXML = (new XMLElementFromXML()).invoke_61zpoe$(jenaResult);
-            if (jenaXML != null && !jenaXML.myEqualsUnclean_k2svtt$(xmlQueryResult.v, true, true, true)) {
+            if (jenaXML != null && !jenaXML.myEqualsUnclean_npi1n1$(xmlQueryResult.v, true, true, true)) {
               println('----------Verify Output Jena jena,actual');
               println('test jenaOriginal :: ' + jenaResult);
               println('test xmlJena :: ' + jenaXML.toPrettyString());
               println('test xmlActual :: ' + ensureNotNull(xmlQueryResult.v).toPrettyString());
               println('test xmlTarget :: ' + xmlQueryTarget.toPrettyString());
-              println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+              println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
               println('----------Failed(Jena)');
               return false;
             }} catch (e) {
             if (Kotlin.isType(e, JenaBugException)) {
-              println(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_26(e));
+              printStackTrace(e);
               ignoreJena.v = true;
             } else if (Kotlin.isType(e, Throwable)) {
-              println(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_27);
               printStackTrace(e);
               ignoreJena.v = true;
             } else
               throw e;
           }
-        }res = ensureNotNull(xmlQueryResult.v).myEquals_3lxemg$(xmlQueryTarget);
+        }res = ensureNotNull(xmlQueryResult.v).myEquals_wgedmc$(xmlQueryTarget);
         if (res) {
           var xmlPOP = popNode.toXMLElementRoot_6taknv$(false);
           var query4 = Query_init();
           var endIndex_4 = lastIndexOf(queryFile, '/');
           query4.setWorkingDirectory_61zpoe$(queryFile.substring(0, endIndex_4));
-          var popNodeRecovered = factory.XMLElementToOPBase.invoke_d8op79$(query4, xmlPOP);
-          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_28(xmlPOP));
-          SanityCheckOn_getInstance().suspended_ls4sck$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_29(popNodeRecovered));
-          var xmlQueryResultRecovered = s11outputResult.QueryResultToXMLElement.toXML_xe8q07$(popNodeRecovered);
-          s05tripleStore.tripleStoreManager.commit_zhvcmr$(query4);
+          var popNodeRecovered = factory.XMLElementToOPBase.invoke_ldixbd$(query4, xmlPOP);
+          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_24(xmlPOP));
+          SanityCheckOn_getInstance().suspended_ls4sck$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_25(popNodeRecovered));
+          var xmlQueryResultRecovered = result_format.QueryResultToXMLElement.toXML_tpi62f$(popNodeRecovered);
+          shared.tripleStoreManager.commit_ekbuhx$(query4);
           query4.commited = true;
-          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_30(xmlQueryResultRecovered));
-          if (xmlQueryResultRecovered.myEqualsUnclean_k2svtt$(xmlQueryResult.v, true, true, true)) {
+          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_26(xmlQueryResultRecovered));
+          if (xmlQueryResultRecovered.myEqualsUnclean_npi1n1$(xmlQueryResult.v, true, true, true)) {
             if (expectedResult) {
-              println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+              println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
               println('----------Success');
             } else {
-              println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+              println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
               println('----------Failed(expectFalse)');
             }
           } else {
-            println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+            println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
             println('----------Failed(RecoverFromXMLOperatorGraph)');
             res = false;
           }
         } else {
           var containsOrderBy = contains_0(toParse, 'ORDER', true);
-          var correctIfIgnoreOrderBy = xmlQueryResult.v.myEqualsUnclean_k2svtt$(xmlQueryTarget, false, false, true);
-          var correctIfIgnoreString = xmlQueryResult.v.myEqualsUnclean_k2svtt$(xmlQueryTarget, true, false, true);
-          var correctIfIgnoreNumber = xmlQueryResult.v.myEqualsUnclean_k2svtt$(xmlQueryTarget, true, true, true);
-          var correctIfIgnoreAllExceptOrder = xmlQueryResult.v.myEqualsUnclean_k2svtt$(xmlQueryTarget, true, true, false);
+          var correctIfIgnoreOrderBy = xmlQueryResult.v.myEqualsUnclean_npi1n1$(xmlQueryTarget, false, false, true);
+          var correctIfIgnoreString = xmlQueryResult.v.myEqualsUnclean_npi1n1$(xmlQueryTarget, true, false, true);
+          var correctIfIgnoreNumber = xmlQueryResult.v.myEqualsUnclean_npi1n1$(xmlQueryTarget, true, true, true);
+          var correctIfIgnoreAllExceptOrder = xmlQueryResult.v.myEqualsUnclean_npi1n1$(xmlQueryTarget, true, true, false);
           if (correctIfIgnoreNumber) {
             if (expectedResult) {
               if (containsOrderBy) {
                 if (correctIfIgnoreAllExceptOrder) {
-                  println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+                  println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
                   println('----------Success');
                 } else {
-                  println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+                  println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
                   println('----------Success(Unordered)');
                 }
               } else if (correctIfIgnoreOrderBy) {
-                println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+                println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
                 println('----------Success');
               } else if (correctIfIgnoreString) {
-                println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+                println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
                 println('----------Success(String)');
               } else if (correctIfIgnoreNumber) {
-                println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+                println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
                 println('----------Success(Number & String)');
               } else {
                 SanityCheckOn_getInstance().checkUnreachable_8be2vx$();
               }
             } else {
-              println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+              println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
               println('----------Failed(expectFalse,Simplified)');
             }
           } else {
             if (expectedResult) {
               println('test xmlQueryTarget :: ' + xmlQueryTarget.toPrettyString());
               println('test xmlQueryResult :: ' + xmlQueryResult.v.toPrettyString());
-              println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+              println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
               println('----------Failed(Incorrect)');
             } else {
-              println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+              println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
               println('----------Success(ExpectFalse)');
             }
           }
@@ -3693,18 +3916,18 @@
       } else {
         if (verifiedOutput.v) {
           if (expectedResult) {
-            println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+            println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
             println('----------Success(Graph)');
           } else {
-            println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+            println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
             println('----------Failed(ExpectFalse,Graph)');
           }
         } else {
           if (expectedResult) {
-            println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+            println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
             println('----------Success(Syntax)');
           } else {
-            println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+            println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
             println('----------Failed(ExpectFalse,Syntax)');
           }
         }
@@ -3712,43 +3935,42 @@
       }
     } catch (e) {
       if (Kotlin.isType(e, ParseError)) {
+        printStackTrace(e);
         if (expectedResult) {
-          printStackTrace(e);
-          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_31(e));
-          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_32);
-          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_33(e));
-          println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_27(e));
+          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_28);
+          SanityCheckOn_getInstance().println_lh572t$(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_29(e));
+          println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
           println('----------Failed(ParseError)');
         } else {
-          println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+          println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
           println('----------Success(ExpectFalse,ParseError)');
         }
         return false;
       } else if (Kotlin.isType(e, NotImplementedException)) {
-        println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
-        println('----------Failed(NotImplemented)');
         printStackTrace(e);
+        println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+        println('----------Failed(NotImplemented)');
         return false;
       } else if (Kotlin.isType(e, Luposdate3000Exception)) {
+        printStackTrace(e);
         if (expectedResult) {
-          println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+          println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
           println('----------Failed(' + e.classname + ')');
-          printStackTrace(e);
         } else {
-          println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+          println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
           println('----------Success(ExpectFalse,' + e.classname + ')');
         }
         return false;
       } else if (Kotlin.isType(e, Throwable)) {
-        println(SparqlTestSuite$parseSPARQLAndEvaluate$lambda_34);
         printStackTrace(e);
         if (expectedResult) {
-          println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+          println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
           println('----------Failed(Throwable)');
           printStackTrace(e);
           throw e;
         } else {
-          println('----------Time(' + s00misc.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
+          println('----------Time(' + shared.DateHelperRelative.elapsedSeconds_s8cxhz$(timer) + ')');
           println('----------Success(ExpectFalse,Throwable)');
           printStackTrace(e);
         }
@@ -3764,9 +3986,9 @@
   };
   function SparqlTestSuiteConverter(resource_folder, output_folder) {
     SparqlTestSuite.call(this);
-    this.output_folder_0 = output_folder;
-    this.counter_0 = 0;
-    this.lastFile_0 = '';
+    this.output_folder_8be2vx$ = output_folder;
+    this.counter_8be2vx$ = 0;
+    this.lastFile_8be2vx$ = '';
     SparqlTestSuite$Companion_getInstance().prefixDirectory = resource_folder + '/';
   }
   SparqlTestSuiteConverter.prototype.parseSPARQLAndEvaluate_e9gtbf$ = function (executeJena, testName, expectedResult, queryFile, inputDataFileName, resultDataFileName, services, inputDataGraph, outputDataGraph) {
@@ -3782,8 +4004,8 @@
       return false;
     }var inputFile = inputDataFileName;
     if (equals(inputFile, '#keep-data#')) {
-      inputFile = this.lastFile_0;
-    }this.lastFile_0 = inputFile;
+      inputFile = this.lastFile_8be2vx$;
+    }this.lastFile_8be2vx$ = inputFile;
     var outputFile = resultDataFileName;
     var mode = 2;
     if (outputFile == null) {
@@ -3797,9 +4019,9 @@
       if (outputDataGraph.size > 0) {
         return false;
       }}
-    var tmp = BinaryTestCase_getInstance().generateTestcase_ymfrns$(inputFile, queryFile, ensureNotNull(outputFile), this.output_folder_0 + ('/' + (tmp$ = this.counter_0, this.counter_0 = tmp$ + 1 | 0, tmp$) + '/'), testName, mode);
+    var tmp = BinaryTestCase_getInstance().generateTestcase_ymfrns$(inputFile, queryFile, ensureNotNull(outputFile), this.output_folder_8be2vx$ + ('/' + (tmp$ = this.counter_8be2vx$, this.counter_8be2vx$ = tmp$ + 1 | 0, tmp$) + '/'), testName, mode);
     if (!tmp) {
-      this.counter_0 = this.counter_0 - 1 | 0;
+      this.counter_8be2vx$ = this.counter_8be2vx$ - 1 | 0;
     }return true;
   };
   SparqlTestSuiteConverter.$metadata$ = {
@@ -3807,42 +4029,42 @@
     simpleName: 'SparqlTestSuiteConverter',
     interfaces: [SparqlTestSuite]
   };
-  function _ByteArrayHelper() {
-    _ByteArrayHelper_instance = this;
+  function ByteArrayHelper() {
+    ByteArrayHelper_instance = this;
   }
-  _ByteArrayHelper.prototype.readDouble8_pao7sd$ = function (data, offset) {
+  ByteArrayHelper.prototype.readDouble8_pao7sd$ = function (data, offset) {
     var buffer = new ArrayBuffer(8);
     var intView = new Int64Array(buffer);
     var floatView = new Float64Array(buffer);
     intView.set(0, this.readLong8_pao7sd$(data, offset));
     return floatView.get(0);
   };
-  _ByteArrayHelper.prototype.writeDouble8_aunrlr$ = function (data, offset, value) {
+  ByteArrayHelper.prototype.writeDouble8_aunrlr$ = function (data, offset, value) {
     var buffer = new ArrayBuffer(8);
     var intView = new Int64Array(buffer);
     var floatView = new Float64Array(buffer);
     floatView.set(0, value);
     this.writeLong8_ul24ie$(data, offset, intView.get(0));
   };
-  _ByteArrayHelper.prototype.writeInt1_qibw1t$ = function (data, offset, value) {
+  ByteArrayHelper.prototype.writeInt1_qibw1t$ = function (data, offset, value) {
     data[offset] = toByte(value & 255);
   };
-  _ByteArrayHelper.prototype.writeInt2_qibw1t$ = function (data, offset, value) {
+  ByteArrayHelper.prototype.writeInt2_qibw1t$ = function (data, offset, value) {
     data[offset] = toByte(value >> 8 & 255);
     data[offset + 1 | 0] = toByte(value & 255);
   };
-  _ByteArrayHelper.prototype.writeInt3_qibw1t$ = function (data, offset, value) {
+  ByteArrayHelper.prototype.writeInt3_qibw1t$ = function (data, offset, value) {
     data[offset] = toByte(value >> 16 & 255);
     data[offset + 1 | 0] = toByte(value >> 8 & 255);
     data[offset + 2 | 0] = toByte(value & 255);
   };
-  _ByteArrayHelper.prototype.writeInt4_qibw1t$ = function (data, offset, value) {
+  ByteArrayHelper.prototype.writeInt4_qibw1t$ = function (data, offset, value) {
     data[offset] = toByte(value >> 24 & 255);
     data[offset + 1 | 0] = toByte(value >> 16 & 255);
     data[offset + 2 | 0] = toByte(value >> 8 & 255);
     data[offset + 3 | 0] = toByte(value & 255);
   };
-  _ByteArrayHelper.prototype.writeIntX_4f9ssz$ = function (data, offset, value, count) {
+  ByteArrayHelper.prototype.writeIntX_4f9ssz$ = function (data, offset, value, count) {
     switch (count) {
       case 0:
         break;
@@ -3859,7 +4081,7 @@
         break;
     }
   };
-  _ByteArrayHelper.prototype.writeLong8_ul24ie$ = function (data, offset, value) {
+  ByteArrayHelper.prototype.writeLong8_ul24ie$ = function (data, offset, value) {
     data[offset] = toByte(value.shiftRight(56).and(L255).toInt());
     data[offset + 1 | 0] = toByte(value.shiftRight(48).and(L255).toInt());
     data[offset + 2 | 0] = toByte(value.shiftRight(40).and(L255).toInt());
@@ -3869,27 +4091,27 @@
     data[offset + 6 | 0] = toByte(value.shiftRight(8).and(L255).toInt());
     data[offset + 7 | 0] = toByte(value.and(L255).toInt());
   };
-  _ByteArrayHelper.prototype.writeChar_ul80vw$ = function (data, offset, value) {
+  ByteArrayHelper.prototype.writeChar_ul80vw$ = function (data, offset, value) {
     var v = value | 0;
     data[offset] = toByte(v >> 8 & 255);
     data[offset + 1 | 0] = toByte(v & 255);
   };
-  _ByteArrayHelper.prototype.readLong8_pao7sd$ = function (data, offset) {
+  ByteArrayHelper.prototype.readLong8_pao7sd$ = function (data, offset) {
     return Kotlin.Long.fromInt(data[offset]).and(L255).shiftLeft(56).or(Kotlin.Long.fromInt(data[offset + 1 | 0]).and(L255).shiftLeft(48)).or(Kotlin.Long.fromInt(data[offset + 2 | 0]).and(L255).shiftLeft(40)).or(Kotlin.Long.fromInt(data[offset + 3 | 0]).and(L255).shiftLeft(32)).or(Kotlin.Long.fromInt(data[offset + 4 | 0]).and(L255).shiftLeft(24)).or(Kotlin.Long.fromInt(data[offset + 5 | 0]).and(L255).shiftLeft(16)).or(Kotlin.Long.fromInt(data[offset + 6 | 0]).and(L255).shiftLeft(8)).or(Kotlin.Long.fromInt(data[offset + 7 | 0]).and(L255));
   };
-  _ByteArrayHelper.prototype.readInt4_pao7sd$ = function (data, offset) {
+  ByteArrayHelper.prototype.readInt4_pao7sd$ = function (data, offset) {
     return (data[offset] & 255) << 24 | (data[offset + 1 | 0] & 255) << 16 | (data[offset + 2 | 0] & 255) << 8 | data[offset + 3 | 0] & 255;
   };
-  _ByteArrayHelper.prototype.readInt3_pao7sd$ = function (data, offset) {
+  ByteArrayHelper.prototype.readInt3_pao7sd$ = function (data, offset) {
     return (data[offset] & 255) << 16 | (data[offset + 1 | 0] & 255) << 8 | data[offset + 2 | 0] & 255;
   };
-  _ByteArrayHelper.prototype.readInt2_pao7sd$ = function (data, offset) {
+  ByteArrayHelper.prototype.readInt2_pao7sd$ = function (data, offset) {
     return (data[offset] & 255) << 8 | data[offset + 1 | 0] & 255;
   };
-  _ByteArrayHelper.prototype.readInt1_pao7sd$ = function (data, offset) {
+  ByteArrayHelper.prototype.readInt1_pao7sd$ = function (data, offset) {
     return data[offset] & 255;
   };
-  _ByteArrayHelper.prototype.readIntX_qibw1t$ = function (data, offset, count) {
+  ByteArrayHelper.prototype.readIntX_qibw1t$ = function (data, offset, count) {
     switch (count) {
       case 0:
         return 0;
@@ -3902,91 +4124,94 @@
       default:return this.readInt4_pao7sd$(data, offset);
     }
   };
-  _ByteArrayHelper.prototype.readChar_pao7sd$ = function (data, offset) {
+  ByteArrayHelper.prototype.readChar_pao7sd$ = function (data, offset) {
     return toChar((data[offset] & 255) << 8 | data[offset + 1 | 0] & 255);
   };
-  _ByteArrayHelper.$metadata$ = {
+  ByteArrayHelper.$metadata$ = {
     kind: Kind_OBJECT,
-    simpleName: '_ByteArrayHelper',
+    simpleName: 'ByteArrayHelper',
     interfaces: []
   };
-  var _ByteArrayHelper_instance = null;
-  function _ByteArrayHelper_getInstance() {
-    if (_ByteArrayHelper_instance === null) {
-      new _ByteArrayHelper();
-    }return _ByteArrayHelper_instance;
+  var ByteArrayHelper_instance = null;
+  function ByteArrayHelper_getInstance() {
+    if (ByteArrayHelper_instance === null) {
+      new ByteArrayHelper();
+    }return ByteArrayHelper_instance;
   }
-  function _DateHelper() {
+  function DateHelper() {
     this.time_8be2vx$ = new Date();
   }
-  _DateHelper.prototype.year_8be2vx$ = function () {
+  DateHelper.prototype.year_8be2vx$ = function () {
     return this.time_8be2vx$.getFullYear();
   };
-  _DateHelper.prototype.month_8be2vx$ = function () {
+  DateHelper.prototype.month_8be2vx$ = function () {
     return this.time_8be2vx$.getMonth();
   };
-  _DateHelper.prototype.day_8be2vx$ = function () {
+  DateHelper.prototype.day_8be2vx$ = function () {
     return this.time_8be2vx$.getDay();
   };
-  _DateHelper.prototype.hours_8be2vx$ = function () {
+  DateHelper.prototype.hours_8be2vx$ = function () {
     return this.time_8be2vx$.getHours();
   };
-  _DateHelper.prototype.minutes_8be2vx$ = function () {
+  DateHelper.prototype.minutes_8be2vx$ = function () {
     return this.time_8be2vx$.getMinutes();
   };
-  _DateHelper.prototype.seconds_8be2vx$ = function () {
+  DateHelper.prototype.seconds_8be2vx$ = function () {
     return this.time_8be2vx$.getSeconds();
   };
-  _DateHelper.$metadata$ = {
+  DateHelper.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: '_DateHelper',
+    simpleName: 'DateHelper',
     interfaces: []
   };
-  function _DateHelper_init($this) {
-    $this = $this || Object.create(_DateHelper.prototype);
-    _DateHelper.call($this);
+  function DateHelper_init($this) {
+    $this = $this || Object.create(DateHelper.prototype);
+    DateHelper.call($this);
     return $this;
   }
-  function _File() {
-    this.filename = null;
+  function File() {
+    this.filename_8be2vx$ = null;
   }
-  _File.prototype.createTempFile_p1hijf$ = function (prefix, suffix, directory) {
+  File.prototype.createTempFile_p1hijf$ = function (prefix, suffix, directory) {
     throw new NotImplementedException('File', 'createTempFile not implemented');
   };
-  _File.prototype.exists_8be2vx$ = function () {
+  File.prototype.exists_8be2vx$ = function () {
     throw new NotImplementedException('File', 'exists not implemented');
   };
-  _File.prototype.mkdirs_8be2vx$ = function () {
+  File.prototype.mkdirs_8be2vx$ = function () {
     throw new NotImplementedException('File', 'mkdirs not implemented');
   };
-  _File.prototype.deleteRecursively_8be2vx$ = function () {
+  File.prototype.deleteRecursively_8be2vx$ = function () {
     throw new NotImplementedException('File', 'deleteRecursively not implemented');
   };
-  _File.prototype.length_8be2vx$ = function () {
+  File.prototype.length_8be2vx$ = function () {
     throw new NotImplementedException('File', 'length not implemented');
   };
-  function _File$readAsString$lambda(closure$res) {
+  function File$readAsString$lambda(closure$res) {
     return function (it) {
       closure$res.v.append_pdl1vj$(it).append_s8itvh$(10);
       return Unit;
     };
   }
-  _File.prototype.readAsString_8be2vx$ = function () {
+  File.prototype.readAsString_8be2vx$ = function () {
     var res = {v: StringBuilder_init()};
-    this.forEachLine_5y588g$(_File$readAsString$lambda(res));
+    this.forEachLine_5y588g$(File$readAsString$lambda(res));
     return res.v.toString();
   };
-  _File.prototype.readAsCharIterator_8be2vx$ = function () {
+  File.prototype.readAsCharIterator_8be2vx$ = function () {
     throw new NotImplementedException('File', 'readAsCharIterator not implemented');
   };
-  _File.prototype.openInputStream_8be2vx$ = function () {
+  File.prototype.openInputStream_8be2vx$ = function () {
     throw new NotImplementedException('File', 'openInputStream not implemented');
   };
-  _File.prototype.walk_5y588g$ = function (action) {
+  File.prototype.walk_5y588g$ = function (action) {
     throw new NotImplementedException('File', 'walk not implemented');
   };
-  _File.prototype.forEachLine_5y588g$ = function (action) {
-    var stream = _MyInputStream_init(this.filename);
+  File.prototype.walk_4gst40$ = function (maxdepth, action) {
+    throw new NotImplementedException('File', 'walk not implemented');
+  };
+  File.prototype.forEachLine_5y588g$ = function (action) {
+    var stream = MyInputStream_init(this.filename_8be2vx$);
     var buffer = new Int8Array(8192);
     var pos = 0;
     var s = ArrayList_init();
@@ -4008,35 +4233,35 @@
     action(decodeToString(toByteArray(s)));
     stream.close();
   };
-  _File.prototype.withOutputStream_jyd7u$ = function (action) {
+  File.prototype.withOutputStream_2hu0ja$ = function (action) {
     throw new NotImplementedException('File', 'withOutputStream not implemented');
   };
-  _File.prototype.withInputStream_txlftf$ = function (action) {
-    var stream = _MyInputStream_init(this.filename);
+  File.prototype.withInputStream_2c7cab$ = function (action) {
+    var stream = MyInputStream_init(this.filename_8be2vx$);
     action(stream);
     stream.close();
   };
-  _File.prototype.equals = function (other) {
+  File.prototype.equals = function (other) {
     throw new NotImplementedException('File', 'equals not implemented');
   };
-  _File.prototype.openOutputStream_vft4zs$ = function (append) {
+  File.prototype.openOutputStream_vft4zs$ = function (append) {
     throw new NotImplementedException('File', 'openOutputStream not implemented');
   };
-  _File.$metadata$ = {
+  File.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: '_File',
+    simpleName: 'File',
     interfaces: []
   };
-  function _File_init(filename, $this) {
-    $this = $this || Object.create(_File.prototype);
-    _File.call($this);
-    $this.filename = filename;
+  function File_init(filename, $this) {
+    $this = $this || Object.create(File.prototype);
+    File.call($this);
+    $this.filename_8be2vx$ = filename;
     return $this;
   }
-  function _IntegerExt() {
-    _IntegerExt_instance = this;
+  function IntegerExt() {
+    IntegerExt_instance = this;
   }
-  _IntegerExt.prototype.numberOfLeadingZeros_kcn2v3$ = function (value) {
+  IntegerExt.prototype.numberOfLeadingZeros_kcn2v3$ = function (value) {
     var i = 31;
     while (i >= 0) {
       if ((value & 1 << i) !== 0) {
@@ -4045,30 +4270,30 @@
     }
     return 32;
   };
-  _IntegerExt.$metadata$ = {
+  IntegerExt.$metadata$ = {
     kind: Kind_OBJECT,
-    simpleName: '_IntegerExt',
+    simpleName: 'IntegerExt',
     interfaces: []
   };
-  var _IntegerExt_instance = null;
-  function _IntegerExt_getInstance() {
-    if (_IntegerExt_instance === null) {
-      new _IntegerExt();
-    }return _IntegerExt_instance;
+  var IntegerExt_instance = null;
+  function IntegerExt_getInstance() {
+    if (IntegerExt_instance === null) {
+      new IntegerExt();
+    }return IntegerExt_instance;
   }
-  function _MyInputStream() {
+  function MyInputStream() {
     this.fd_8be2vx$ = 0;
     this.pos_8be2vx$ = 0;
   }
-  _MyInputStream.prototype.readInt = function () {
+  MyInputStream.prototype.readInt = function () {
     var buffer = new Int8Array(4);
     var l = fs.ExternalModule_fs.readSync_ir43ts$(this.fd_8be2vx$, buffer, 0, buffer.length, this.pos_8be2vx$);
     if (l !== 4) {
       throw Exception_init('invalid len ' + l);
     }this.pos_8be2vx$ = this.pos_8be2vx$ + l | 0;
-    return _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer, 0);
+    return ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer, 0);
   };
-  _MyInputStream.prototype.readByte = function () {
+  MyInputStream.prototype.readByte = function () {
     var buffer = new Int8Array(1);
     var l = fs.ExternalModule_fs.readSync_ir43ts$(this.fd_8be2vx$, buffer, 0, buffer.length, this.pos_8be2vx$);
     if (l !== 1) {
@@ -4076,12 +4301,12 @@
     }this.pos_8be2vx$ = this.pos_8be2vx$ + l | 0;
     return buffer[0];
   };
-  _MyInputStream.prototype.read_mj6st8$ = function (buf, off, len) {
+  MyInputStream.prototype.read_mj6st8$ = function (buf, off, len) {
     var l = fs.ExternalModule_fs.readSync_ir43ts$(this.fd_8be2vx$, buf, off, len, this.pos_8be2vx$);
     this.pos_8be2vx$ = this.pos_8be2vx$ + l | 0;
     return l;
   };
-  _MyInputStream.prototype.read_ir89t6$ = function (buf, len) {
+  MyInputStream.prototype.read_ir89t6$ = function (buf, len) {
     var off = 0;
     var l = len;
     while (l > 0) {
@@ -4094,13 +4319,13 @@
     }
     return len;
   };
-  _MyInputStream.prototype.read_fqrh44$ = function (buf) {
+  MyInputStream.prototype.read_fqrh44$ = function (buf) {
     return this.read_ir89t6$(buf, buf.length);
   };
-  _MyInputStream.prototype.close = function () {
+  MyInputStream.prototype.close = function () {
     fs.ExternalModule_fs.closeSync_za3lpa$(this.fd_8be2vx$);
   };
-  _MyInputStream.prototype.readLine = function () {
+  MyInputStream.prototype.readLine = function () {
     var buf = ArrayList_init();
     try {
       var b = this.readByte();
@@ -4111,6 +4336,7 @@
       }
     } catch (e) {
       if (Kotlin.isType(e, Throwable)) {
+        printStackTrace(e);
         if (buf.size === 0) {
           return null;
         }} else
@@ -4118,243 +4344,173 @@
     }
     return decodeToString(toByteArray(buf));
   };
-  _MyInputStream.$metadata$ = {
+  MyInputStream.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: '_MyInputStream',
+    simpleName: 'MyInputStream',
     interfaces: [IMyInputStream]
   };
-  function _MyInputStream_init(filename, $this) {
-    $this = $this || Object.create(_MyInputStream.prototype);
-    _MyInputStream.call($this);
+  function MyInputStream_init(filename, $this) {
+    $this = $this || Object.create(MyInputStream.prototype);
+    MyInputStream.call($this);
     $this.fd_8be2vx$ = fs.ExternalModule_fs.openSync_puj7f4$(filename, 'r');
     return $this;
   }
-  function _MyInputStream_init_0(fd, $this) {
-    $this = $this || Object.create(_MyInputStream.prototype);
-    _MyInputStream.call($this);
+  function MyInputStream_init_0(fd, $this) {
+    $this = $this || Object.create(MyInputStream.prototype);
+    MyInputStream.call($this);
     $this.fd_8be2vx$ = fd;
     return $this;
   }
-  function _MyOutputStream() {
+  function MyOutputStream() {
   }
-  _MyOutputStream.prototype.writeInt_za3lpa$ = function (value) {
+  MyOutputStream.prototype.writeInt_za3lpa$ = function (value) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.close = function () {
+  MyOutputStream.prototype.close = function () {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.flush = function () {
+  MyOutputStream.prototype.flush = function () {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.write_fqrh44$ = function (buf) {
+  MyOutputStream.prototype.write_fqrh44$ = function (buf) {
     this.write_ir89t6$(buf, buf.length);
   };
-  _MyOutputStream.prototype.write_ir89t6$ = function (buf, len) {
+  MyOutputStream.prototype.write_ir89t6$ = function (buf, len) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.println_61zpoe$ = function (x) {
+  MyOutputStream.prototype.println_61zpoe$ = function (x) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.print_61zpoe$ = function (x) {
+  MyOutputStream.prototype.print_61zpoe$ = function (x) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.print_6taknv$ = function (x) {
+  MyOutputStream.prototype.print_6taknv$ = function (x) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.print_za3lpa$ = function (x) {
+  MyOutputStream.prototype.print_za3lpa$ = function (x) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.print_14dthe$ = function (x) {
+  MyOutputStream.prototype.print_14dthe$ = function (x) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.println = function () {
+  MyOutputStream.prototype.println = function () {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.$metadata$ = {
+  MyOutputStream.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: '_MyOutputStream',
+    simpleName: 'MyOutputStream',
     interfaces: [IMyOutputStream]
   };
-  function _MyOutputStream_init($this) {
-    $this = $this || Object.create(_MyOutputStream.prototype);
-    _MyOutputStream.call($this);
+  function MyOutputStream_init($this) {
+    $this = $this || Object.create(MyOutputStream.prototype);
+    MyOutputStream.call($this);
     return $this;
   }
-  function _MyPrintWriter() {
-    this.buffer = StringBuilder_init();
-    this.bufferMode = 0;
-    this.fileName = null;
-    this.file = 0;
-    this.filePos = 0;
+  function MyPrintWriter() {
+    this.buffer_8be2vx$ = StringBuilder_init();
+    this.bufferMode_8be2vx$ = 0;
+    this.fileName_8be2vx$ = null;
+    this.file_8be2vx$ = 0;
+    this.filePos_8be2vx$ = 0;
   }
-  _MyPrintWriter.prototype.clearBuffer = function () {
-    if (this.bufferMode === 0) {
-      this.buffer.clear();
+  MyPrintWriter.prototype.clearBuffer = function () {
+    if (this.bufferMode_8be2vx$ === 0) {
+      this.buffer_8be2vx$.clear();
     } else {
       throw Exception_init('not supported');
     }
   };
-  _MyPrintWriter.prototype.toString = function () {
-    if (this.bufferMode === 0) {
-      return this.buffer.toString();
+  MyPrintWriter.prototype.toString = function () {
+    if (this.bufferMode_8be2vx$ === 0) {
+      return this.buffer_8be2vx$.toString();
     } else {
       throw Exception_init('not supported');
     }
   };
-  _MyPrintWriter.prototype.println_61zpoe$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_pdl1vj$(x).append_s8itvh$(10);
+  MyPrintWriter.prototype.println_61zpoe$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_pdl1vj$(x).append_s8itvh$(10);
     }};
-  _MyPrintWriter.prototype.print_61zpoe$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_pdl1vj$(x);
+  MyPrintWriter.prototype.print_61zpoe$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_pdl1vj$(x);
     }};
-  _MyPrintWriter.prototype.println_6taknv$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_6taknv$(x).append_s8itvh$(10);
+  MyPrintWriter.prototype.println_6taknv$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_6taknv$(x).append_s8itvh$(10);
     }};
-  _MyPrintWriter.prototype.print_6taknv$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_6taknv$(x);
+  MyPrintWriter.prototype.print_6taknv$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_6taknv$(x);
     }};
-  _MyPrintWriter.prototype.println_za3lpa$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_s8jyv4$(x).append_s8itvh$(10);
+  MyPrintWriter.prototype.println_za3lpa$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_s8jyv4$(x).append_s8itvh$(10);
     }};
-  _MyPrintWriter.prototype.print_za3lpa$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_s8jyv4$(x);
+  MyPrintWriter.prototype.print_za3lpa$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_s8jyv4$(x);
     }};
-  _MyPrintWriter.prototype.println_14dthe$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_s8jyv4$(x).append_s8itvh$(10);
+  MyPrintWriter.prototype.println_14dthe$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_s8jyv4$(x).append_s8itvh$(10);
     }};
-  _MyPrintWriter.prototype.print_14dthe$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_s8jyv4$(x);
+  MyPrintWriter.prototype.print_14dthe$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_s8jyv4$(x);
     }};
-  _MyPrintWriter.prototype.println = function () {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_s8itvh$(10);
+  MyPrintWriter.prototype.println = function () {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_s8itvh$(10);
     }};
-  _MyPrintWriter.prototype.write_ir89t6$ = function (buf, len) {
+  MyPrintWriter.prototype.write_ir89t6$ = function (buf, len) {
     throw Exception_init('not supported');
   };
-  _MyPrintWriter.prototype.write_fqrh44$ = function (buf) {
+  MyPrintWriter.prototype.write_fqrh44$ = function (buf) {
     throw Exception_init('not supported');
   };
-  _MyPrintWriter.prototype.writeInt_za3lpa$ = function (value) {
+  MyPrintWriter.prototype.writeInt_za3lpa$ = function (value) {
     throw Exception_init('not supported');
   };
-  _MyPrintWriter.prototype.close = function () {
+  MyPrintWriter.prototype.close = function () {
     throw Exception_init('not supported');
   };
-  _MyPrintWriter.prototype.flush = function () {
+  MyPrintWriter.prototype.flush = function () {
     throw Exception_init('not supported');
   };
-  _MyPrintWriter.$metadata$ = {
+  MyPrintWriter.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: '_MyPrintWriter',
+    simpleName: 'MyPrintWriter',
     interfaces: [IMyOutputStream]
   };
-  function _MyPrintWriter_init(hasBuffer, $this) {
+  function MyPrintWriter_init(hasBuffer, $this) {
     if (hasBuffer === void 0)
       hasBuffer = true;
-    $this = $this || Object.create(_MyPrintWriter.prototype);
-    _MyPrintWriter.call($this);
+    $this = $this || Object.create(MyPrintWriter.prototype);
+    MyPrintWriter.call($this);
     if (hasBuffer) {
-      $this.bufferMode = 0;
+      $this.bufferMode_8be2vx$ = 0;
     } else {
-      $this.bufferMode = 1;
+      $this.bufferMode_8be2vx$ = 1;
     }
-    $this.fileName = '';
-    $this.file = -1;
+    $this.fileName_8be2vx$ = '';
+    $this.file_8be2vx$ = -1;
     return $this;
   }
-  function _Platform() {
-    _Platform_instance = this;
-    this.operatingSystem = 0;
-  }
-  _Platform.prototype.getHostName_8be2vx$ = function () {
-    throw Exception_init('not available on this platform');
-  };
-  _Platform.prototype.getOperatingSystem_8be2vx$ = function () {
-    return this.operatingSystem;
-  };
-  _Platform.prototype.getUserHome_8be2vx$ = function () {
-    throw Exception_init('not available on this platform');
-  };
-  _Platform.prototype.getPathSeparator_8be2vx$ = function () {
-    throw Exception_init('not available on this platform');
-  };
-  _Platform.prototype.findNamedFileInDirectory_wdz5eb$ = function (dir, name) {
-    throw Exception_init('not available on this platform');
-  };
-  _Platform.prototype.getNullFileName_8be2vx$ = function () {
-    throw Exception_init('not available on this platform');
-  };
-  _Platform.prototype.getEnv_9lovpo$ = function (key, default_0) {
-    if (default_0 === void 0)
-      default_0 = null;
-    return default_0;
-  };
-  _Platform.prototype.getBenchmarkHome_8be2vx$ = function () {
-    return ensureNotNull(this.getEnv_9lovpo$('LUPOS_BENCHMARK_HOME', this.getPathSeparator_8be2vx$() + 'mnt'));
-  };
-  _Platform.prototype.getGradleCache_8be2vx$ = function () {
-    return ensureNotNull(this.getEnv_9lovpo$('LUPOS_GRADLE_CACHE', this.getUserHome_8be2vx$() + this.getPathSeparator_8be2vx$() + '.gradle' + this.getPathSeparator_8be2vx$() + 'caches' + this.getPathSeparator_8be2vx$()));
-  };
-  _Platform.prototype.getMavenCache_8be2vx$ = function () {
-    return ensureNotNull(this.getEnv_9lovpo$('LUPOS_MAVEN_CACHE', this.getUserHome_8be2vx$() + this.getPathSeparator_8be2vx$() + '.m2' + this.getPathSeparator_8be2vx$() + 'repository' + this.getPathSeparator_8be2vx$()));
-  };
-  _Platform.prototype.getAvailableRam_8be2vx$ = function () {
-    return toInt(ensureNotNull(this.getEnv_9lovpo$('LUPOS_RAM', '60')));
-  };
-  _Platform.prototype.setShutdownHock_ls4sck$ = function (action) {
-    println('registering shutdown hook not implemented');
-  };
-  _Platform.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: '_Platform',
-    interfaces: []
-  };
-  var _Platform_instance = null;
-  function _Platform_getInstance() {
-    if (_Platform_instance === null) {
-      new _Platform();
-    }return _Platform_instance;
-  }
   function MyThreadReadWriteLock() {
-    MyThreadReadWriteLock$Companion_getInstance();
-    var tmp$;
-    this.uuid = (tmp$ = MyThreadReadWriteLock$Companion_getInstance().uuidCounter, MyThreadReadWriteLock$Companion_getInstance().uuidCounter = tmp$.inc(), tmp$);
-    this.lockedRead = 0;
-    this.lockedWrite = false;
-  }
-  function MyThreadReadWriteLock$Companion() {
-    MyThreadReadWriteLock$Companion_instance = this;
-    this.uuidCounter = L0;
-  }
-  MyThreadReadWriteLock$Companion.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: 'Companion',
-    interfaces: []
-  };
-  var MyThreadReadWriteLock$Companion_instance = null;
-  function MyThreadReadWriteLock$Companion_getInstance() {
-    if (MyThreadReadWriteLock$Companion_instance === null) {
-      new MyThreadReadWriteLock$Companion();
-    }return MyThreadReadWriteLock$Companion_instance;
+    this.uuid_8be2vx$ = shared.UUID_Counter.getNextUUID();
+    this.lockedRead_8be2vx$ = 0;
+    this.lockedWrite_8be2vx$ = false;
   }
   MyThreadReadWriteLock.prototype.getUUID_8be2vx$ = function () {
-    return this.uuid;
+    return this.uuid_8be2vx$;
   };
   function MyThreadReadWriteLock$downgradeToReadLock$lambda(this$MyThreadReadWriteLock) {
     return function () {
-      if (!this$MyThreadReadWriteLock.lockedWrite) {
+      if (!this$MyThreadReadWriteLock.lockedWrite_8be2vx$) {
         throw Exception_init('something went wrong 1');
-      }this$MyThreadReadWriteLock.lockedRead = 1;
-      this$MyThreadReadWriteLock.lockedWrite = false;
+      }this$MyThreadReadWriteLock.lockedRead_8be2vx$ = 1;
+      this$MyThreadReadWriteLock.lockedWrite_8be2vx$ = false;
       return Unit;
     };
   }
@@ -4364,10 +4520,10 @@
   function MyThreadReadWriteLock$readLock$lambda(this$MyThreadReadWriteLock) {
     return function () {
       var tmp$;
-      if (this$MyThreadReadWriteLock.lockedWrite) {
+      if (this$MyThreadReadWriteLock.lockedWrite_8be2vx$) {
         throw Exception_init('something went wrong 2');
-      }tmp$ = this$MyThreadReadWriteLock.lockedRead;
-      this$MyThreadReadWriteLock.lockedRead = tmp$ + 1 | 0;
+      }tmp$ = this$MyThreadReadWriteLock.lockedRead_8be2vx$;
+      this$MyThreadReadWriteLock.lockedRead_8be2vx$ = tmp$ + 1 | 0;
       return Unit;
     };
   }
@@ -4377,10 +4533,10 @@
   function MyThreadReadWriteLock$readUnlock$lambda(this$MyThreadReadWriteLock) {
     return function () {
       var tmp$;
-      if (this$MyThreadReadWriteLock.lockedRead <= 0) {
+      if (this$MyThreadReadWriteLock.lockedRead_8be2vx$ <= 0) {
         throw Exception_init('something went wrong 3');
-      }tmp$ = this$MyThreadReadWriteLock.lockedRead;
-      this$MyThreadReadWriteLock.lockedRead = tmp$ - 1 | 0;
+      }tmp$ = this$MyThreadReadWriteLock.lockedRead_8be2vx$;
+      this$MyThreadReadWriteLock.lockedRead_8be2vx$ = tmp$ - 1 | 0;
       return Unit;
     };
   }
@@ -4389,9 +4545,9 @@
   };
   function MyThreadReadWriteLock$writeLock$lambda(this$MyThreadReadWriteLock) {
     return function () {
-      if (this$MyThreadReadWriteLock.lockedRead > 0 || this$MyThreadReadWriteLock.lockedWrite) {
-        throw Exception_init('something went wrong 4 ' + this$MyThreadReadWriteLock.lockedRead + ' ' + this$MyThreadReadWriteLock.lockedWrite);
-      }this$MyThreadReadWriteLock.lockedWrite = true;
+      if (this$MyThreadReadWriteLock.lockedRead_8be2vx$ > 0 || this$MyThreadReadWriteLock.lockedWrite_8be2vx$) {
+        throw Exception_init('something went wrong 4 ' + this$MyThreadReadWriteLock.lockedRead_8be2vx$ + ' ' + this$MyThreadReadWriteLock.lockedWrite_8be2vx$);
+      }this$MyThreadReadWriteLock.lockedWrite_8be2vx$ = true;
       return Unit;
     };
   }
@@ -4400,9 +4556,9 @@
   };
   function MyThreadReadWriteLock$tryWriteLock$lambda(this$MyThreadReadWriteLock) {
     return function () {
-      if (this$MyThreadReadWriteLock.lockedRead > 0 || this$MyThreadReadWriteLock.lockedWrite) {
-        throw Exception_init('something went wrong 5 ' + this$MyThreadReadWriteLock.lockedRead + ' ' + this$MyThreadReadWriteLock.lockedWrite);
-      }this$MyThreadReadWriteLock.lockedWrite = true;
+      if (this$MyThreadReadWriteLock.lockedRead_8be2vx$ > 0 || this$MyThreadReadWriteLock.lockedWrite_8be2vx$) {
+        throw Exception_init('something went wrong 5 ' + this$MyThreadReadWriteLock.lockedRead_8be2vx$ + ' ' + this$MyThreadReadWriteLock.lockedWrite_8be2vx$);
+      }this$MyThreadReadWriteLock.lockedWrite_8be2vx$ = true;
       return Unit;
     };
   }
@@ -4412,9 +4568,9 @@
   };
   function MyThreadReadWriteLock$writeUnlock$lambda(this$MyThreadReadWriteLock) {
     return function () {
-      if (!this$MyThreadReadWriteLock.lockedWrite) {
+      if (!this$MyThreadReadWriteLock.lockedWrite_8be2vx$) {
         throw Exception_init('something went wrong 6');
-      }this$MyThreadReadWriteLock.lockedWrite = false;
+      }this$MyThreadReadWriteLock.lockedWrite_8be2vx$ = false;
       return Unit;
     };
   }
@@ -4509,30 +4665,81 @@
     $this.terminalValue = terminationValue;
     return $this;
   }
+  function Platform() {
+    Platform_instance = this;
+    this.operatingSystem = 0;
+  }
+  Platform.prototype.getHostName_8be2vx$ = function () {
+    throw Exception_init('not available on this platform');
+  };
+  Platform.prototype.getOperatingSystem_8be2vx$ = function () {
+    return this.operatingSystem;
+  };
+  Platform.prototype.getUserHome_8be2vx$ = function () {
+    throw Exception_init('not available on this platform');
+  };
+  Platform.prototype.getPathSeparator_8be2vx$ = function () {
+    throw Exception_init('not available on this platform');
+  };
+  Platform.prototype.findNamedFileInDirectory_wdz5eb$ = function (dir, name) {
+    throw Exception_init('not available on this platform');
+  };
+  Platform.prototype.getNullFileName_8be2vx$ = function () {
+    throw Exception_init('not available on this platform');
+  };
+  Platform.prototype.getEnv_9lovpo$ = function (key, default_0) {
+    if (default_0 === void 0)
+      default_0 = null;
+    return default_0;
+  };
+  Platform.prototype.getGradleCache_8be2vx$ = function () {
+    return ensureNotNull(this.getEnv_9lovpo$('LUPOS_GRADLE_CACHE', this.getUserHome_8be2vx$() + this.getPathSeparator_8be2vx$() + '.gradle' + this.getPathSeparator_8be2vx$() + 'caches' + this.getPathSeparator_8be2vx$()));
+  };
+  Platform.prototype.getMavenCache_8be2vx$ = function () {
+    return ensureNotNull(this.getEnv_9lovpo$('LUPOS_MAVEN_CACHE', this.getUserHome_8be2vx$() + this.getPathSeparator_8be2vx$() + '.m2' + this.getPathSeparator_8be2vx$() + 'repository' + this.getPathSeparator_8be2vx$()));
+  };
+  Platform.prototype.getAvailableRam_8be2vx$ = function () {
+    return toInt(ensureNotNull(this.getEnv_9lovpo$('LUPOS_RAM', '4')));
+  };
+  Platform.prototype.setShutdownHock_ls4sck$ = function (action) {
+    println('registering shutdown hook not implemented');
+  };
+  Platform.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Platform',
+    interfaces: []
+  };
+  var Platform_instance = null;
+  function Platform_getInstance() {
+    if (Platform_instance === null) {
+      new Platform();
+    }return Platform_instance;
+  }
   var package$lupos = _.lupos || (_.lupos = {});
   var package$Luposdate3000_Test = package$lupos.Luposdate3000_Test || (package$lupos.Luposdate3000_Test = {});
-  Object.defineProperty(package$Luposdate3000_Test, '_ColumnIteratorQueueExt', {
-    get: _ColumnIteratorQueueExt_getInstance
+  Object.defineProperty(package$Luposdate3000_Test, 'BufferManagerPage', {
+    get: BufferManagerPage_getInstance
   });
-  Object.defineProperty(package$Luposdate3000_Test, '_DictionaryHelper', {
-    get: _DictionaryHelper_getInstance
+  Object.defineProperty(package$Luposdate3000_Test, 'ColumnIteratorQueueExt', {
+    get: ColumnIteratorQueueExt_getInstance
   });
-  package$Luposdate3000_Test._MyInputStreamFixedLength = _MyInputStreamFixedLength;
-  package$Luposdate3000_Test._MyStringStream = _MyStringStream;
-  Object.defineProperty(package$Luposdate3000_Test, '_PartitionExt', {
-    get: _PartitionExt_getInstance
+  Object.defineProperty(package$Luposdate3000_Test, 'DictionaryHelper', {
+    get: DictionaryHelper_getInstance
   });
+  var package$dynamicArray = package$Luposdate3000_Test.dynamicArray || (package$Luposdate3000_Test.dynamicArray = {});
+  Object.defineProperty(package$dynamicArray, 'ByteArrayWrapperExt', {
+    get: ByteArrayWrapperExt_getInstance
+  });
+  Object.defineProperty(package$dynamicArray, 'IntArrayWrapperExt', {
+    get: IntArrayWrapperExt_getInstance
+  });
+  package$Luposdate3000_Test.MyInputStreamFixedLength = MyInputStreamFixedLength;
+  package$Luposdate3000_Test.MyStringStream = MyStringStream;
   Object.defineProperty(package$Luposdate3000_Test, 'SanityCheckOff', {
     get: SanityCheckOff_getInstance
   });
   Object.defineProperty(package$Luposdate3000_Test, 'SanityCheckOn', {
     get: SanityCheckOn_getInstance
-  });
-  var package$s00misc = package$lupos.s00misc || (package$lupos.s00misc = {});
-  Object.defineProperty(package$s00misc, 'MAX_TRIPLES_DURING_TEST_8be2vx$', {
-    get: function () {
-      return MAX_TRIPLES_DURING_TEST;
-    }
   });
   var package$test = package$lupos.test || (package$lupos.test = {});
   Object.defineProperty(package$test, 'BinaryTestCase', {
@@ -4541,6 +4748,11 @@
   Object.defineProperty(package$test, 'BinaryTestCaseOutputModeExt', {
     get: BinaryTestCaseOutputModeExt_getInstance
   });
+  Object.defineProperty(package$test, 'MAX_TRIPLES_DURING_TEST_8be2vx$', {
+    get: function () {
+      return MAX_TRIPLES_DURING_TEST;
+    }
+  });
   package$test.IntArrayComparator = IntArrayComparator;
   package$test.SevenIndices = SevenIndices;
   Object.defineProperty(SparqlTestSuite, 'Companion', {
@@ -4548,29 +4760,23 @@
   });
   package$test.SparqlTestSuite = SparqlTestSuite;
   package$test.SparqlTestSuiteConverter = SparqlTestSuiteConverter;
-  Object.defineProperty(package$Luposdate3000_Test, '_ByteArrayHelper', {
-    get: _ByteArrayHelper_getInstance
+  Object.defineProperty(package$Luposdate3000_Test, 'ByteArrayHelper', {
+    get: ByteArrayHelper_getInstance
   });
-  package$Luposdate3000_Test._DateHelper_init = _DateHelper_init;
-  package$Luposdate3000_Test._DateHelper = _DateHelper;
-  package$Luposdate3000_Test._File_init_61zpoe$ = _File_init;
-  package$Luposdate3000_Test._File = _File;
-  Object.defineProperty(package$Luposdate3000_Test, '_IntegerExt', {
-    get: _IntegerExt_getInstance
+  package$Luposdate3000_Test.DateHelper_init = DateHelper_init;
+  package$Luposdate3000_Test.DateHelper = DateHelper;
+  package$Luposdate3000_Test.File_init_61zpoe$ = File_init;
+  package$Luposdate3000_Test.File = File;
+  Object.defineProperty(package$Luposdate3000_Test, 'IntegerExt', {
+    get: IntegerExt_getInstance
   });
-  package$Luposdate3000_Test._MyInputStream_init_y4putb$ = _MyInputStream_init;
-  package$Luposdate3000_Test._MyInputStream_init_kcn2v3$ = _MyInputStream_init_0;
-  package$Luposdate3000_Test._MyInputStream = _MyInputStream;
-  package$Luposdate3000_Test._MyOutputStream_init_8be2vx$ = _MyOutputStream_init;
-  package$Luposdate3000_Test._MyOutputStream = _MyOutputStream;
-  package$Luposdate3000_Test._MyPrintWriter_init_6taknv$ = _MyPrintWriter_init;
-  package$Luposdate3000_Test._MyPrintWriter = _MyPrintWriter;
-  Object.defineProperty(package$Luposdate3000_Test, '_Platform', {
-    get: _Platform_getInstance
-  });
-  Object.defineProperty(MyThreadReadWriteLock, 'Companion', {
-    get: MyThreadReadWriteLock$Companion_getInstance
-  });
+  package$Luposdate3000_Test.MyInputStream_init_y4putb$ = MyInputStream_init;
+  package$Luposdate3000_Test.MyInputStream_init_kcn2v3$ = MyInputStream_init_0;
+  package$Luposdate3000_Test.MyInputStream = MyInputStream;
+  package$Luposdate3000_Test.MyOutputStream_init_8be2vx$ = MyOutputStream_init;
+  package$Luposdate3000_Test.MyOutputStream = MyOutputStream;
+  package$Luposdate3000_Test.MyPrintWriter_init_6taknv$ = MyPrintWriter_init;
+  package$Luposdate3000_Test.MyPrintWriter = MyPrintWriter;
   package$Luposdate3000_Test.MyThreadReadWriteLock = MyThreadReadWriteLock;
   Object.defineProperty(package$Luposdate3000_Test, 'ParallelThread', {
     get: ParallelThread_getInstance
@@ -4578,6 +4784,9 @@
   package$Luposdate3000_Test.ParallelThreadCondition = ParallelThreadCondition;
   package$Luposdate3000_Test.ParallelThreadQueue_init_mh5how$ = ParallelThreadQueue_init;
   package$Luposdate3000_Test.ParallelThreadQueue = ParallelThreadQueue;
+  Object.defineProperty(package$Luposdate3000_Test, 'Platform', {
+    get: Platform_getInstance
+  });
   MAX_TRIPLES_DURING_TEST = 2000;
   Kotlin.defineModule('Luposdate3000_Test', _);
   return _;

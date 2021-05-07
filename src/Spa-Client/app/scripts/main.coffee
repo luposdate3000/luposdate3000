@@ -241,9 +241,10 @@ App.bindEvents = ->
             $('#getLuposdate3000Graph').show()
             $('#getLuposdate3000GraphSon').show()
         else
-            #$('#getLuposdate3000Graph').hide()
-            #$('#getgraphdata').show()
-            #$('#getopgraphdata').show()
+            $('#getLuposdate3000GraphSon').hide()
+            $('#getLuposdate3000Graph').hide()
+            $('#getgraphdata').show()
+            $('#getopgraphdata').show()
             # Copy changes to textarea
             for key of App.cm
                 App.cm[key].save()

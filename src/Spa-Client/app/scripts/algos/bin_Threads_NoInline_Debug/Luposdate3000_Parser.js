@@ -1,24 +1,63 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd)
-    define(['exports', 'kotlin', 'KotlinBigInteger-bignum-jsLegacy', 'Luposdate3000_Shared', 'Luposdate3000_Shared_JS'], factory);
+    define(['exports', 'kotlin', 'Luposdate3000_Shared', 'KotlinBigInteger-bignum-jsLegacy', 'Luposdate3000_Shared_JS'], factory);
   else if (typeof exports === 'object')
-    factory(module.exports, require('kotlin'), require('KotlinBigInteger-bignum-jsLegacy'), require('Luposdate3000_Shared'), require('Luposdate3000_Shared_JS'));
+    factory(module.exports, require('kotlin'), require('Luposdate3000_Shared'), require('KotlinBigInteger-bignum-jsLegacy'), require('Luposdate3000_Shared_JS'));
   else {
     if (typeof kotlin === 'undefined') {
       throw new Error("Error loading module 'Luposdate3000_Parser'. Its dependency 'kotlin' was not found. Please, check whether 'kotlin' is loaded prior to 'Luposdate3000_Parser'.");
-    }if (typeof this['KotlinBigInteger-bignum-jsLegacy'] === 'undefined') {
-      throw new Error("Error loading module 'Luposdate3000_Parser'. Its dependency 'KotlinBigInteger-bignum-jsLegacy' was not found. Please, check whether 'KotlinBigInteger-bignum-jsLegacy' is loaded prior to 'Luposdate3000_Parser'.");
     }if (typeof Luposdate3000_Shared === 'undefined') {
       throw new Error("Error loading module 'Luposdate3000_Parser'. Its dependency 'Luposdate3000_Shared' was not found. Please, check whether 'Luposdate3000_Shared' is loaded prior to 'Luposdate3000_Parser'.");
+    }if (typeof this['KotlinBigInteger-bignum-jsLegacy'] === 'undefined') {
+      throw new Error("Error loading module 'Luposdate3000_Parser'. Its dependency 'KotlinBigInteger-bignum-jsLegacy' was not found. Please, check whether 'KotlinBigInteger-bignum-jsLegacy' is loaded prior to 'Luposdate3000_Parser'.");
     }if (typeof Luposdate3000_Shared_JS === 'undefined') {
       throw new Error("Error loading module 'Luposdate3000_Parser'. Its dependency 'Luposdate3000_Shared_JS' was not found. Please, check whether 'Luposdate3000_Shared_JS' is loaded prior to 'Luposdate3000_Parser'.");
-    }root.Luposdate3000_Parser = factory(typeof Luposdate3000_Parser === 'undefined' ? {} : Luposdate3000_Parser, kotlin, this['KotlinBigInteger-bignum-jsLegacy'], Luposdate3000_Shared, Luposdate3000_Shared_JS);
+    }root.Luposdate3000_Parser = factory(typeof Luposdate3000_Parser === 'undefined' ? {} : Luposdate3000_Parser, kotlin, Luposdate3000_Shared, this['KotlinBigInteger-bignum-jsLegacy'], Luposdate3000_Shared_JS);
   }
-}(this, function (_, Kotlin, $module$KotlinBigInteger_bignum_jsLegacy, $module$Luposdate3000_Shared, $module$Luposdate3000_Shared_JS) {
+}(this, function (_, Kotlin, $module$Luposdate3000_Shared, $module$KotlinBigInteger_bignum_jsLegacy, $module$Luposdate3000_Shared_JS) {
   'use strict';
+  var Unit = Kotlin.kotlin.Unit;
+  var ByteArrayWrapper_init = $module$Luposdate3000_Shared.lupos.shared.dynamicArray.ByteArrayWrapper_init;
+  var Kind_CLASS = Kotlin.Kind.CLASS;
+  var Array_0 = Array;
+  var Luposdate3000Exception = $module$Luposdate3000_Shared.lupos.shared.Luposdate3000Exception;
+  var toString = Kotlin.kotlin.text.toString_dqglrj$;
   var Kind_OBJECT = Kotlin.Kind.OBJECT;
-  var indexOf = Kotlin.kotlin.text.indexOf_8eortd$;
+  var toChar = Kotlin.toChar;
+  var StringBuilder_init = Kotlin.kotlin.text.StringBuilder_init;
+  var shared = $module$Luposdate3000_Shared.lupos.shared;
+  var LinkedHashMap_init = Kotlin.kotlin.collections.LinkedHashMap_init_q3lmfv$;
+  var toString_0 = Kotlin.toString;
+  var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
+  var Throwable = Error;
+  var contentToString = Kotlin.arrayToString;
+  var unboxChar = Kotlin.unboxChar;
+  var toBoxedChar = Kotlin.toBoxedChar;
+  var downTo = Kotlin.kotlin.ranges.downTo_dqglrj$;
+  var iterator = Kotlin.kotlin.text.iterator_gw00vp$;
+  var Any = Object;
+  var Math_0 = Math;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
+  var joinToString = Kotlin.kotlin.collections.joinToString_cgipc5$;
   var toInt = Kotlin.kotlin.text.toInt_pdl1vz$;
+  var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
+  var equals = Kotlin.equals;
+  var addAll = Kotlin.kotlin.collections.addAll_ye1y7v$;
+  var mutableListOf = Kotlin.kotlin.collections.mutableListOf_i5x0yv$;
+  var ensureNotNull = Kotlin.ensureNotNull;
+  var to = Kotlin.kotlin.to_ujzrz7$;
+  var mutableMapOf = Kotlin.kotlin.collections.mutableMapOf_qfcya0$;
+  var copyToArray = Kotlin.kotlin.collections.copyToArray;
+  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  var CharRange = Kotlin.kotlin.ranges.CharRange;
+  var endsWith = Kotlin.kotlin.text.endsWith_7epoxm$;
+  var throwCCE = Kotlin.throwCCE;
+  var startsWith = Kotlin.kotlin.text.startsWith_sgbm27$;
+  var XMLElement = $module$Luposdate3000_Shared.lupos.shared.XMLElement;
+  var printStackTrace = Kotlin.kotlin.printStackTrace_dbl4o4$;
+  var XMLElementParser = $module$Luposdate3000_Shared.lupos.shared.XMLElementParser;
+  var arrayCopy = Kotlin.kotlin.collections.arrayCopy;
+  var indexOf = Kotlin.kotlin.text.indexOf_8eortd$;
   var BigInteger = $module$KotlinBigInteger_bignum_jsLegacy.com.ionspin.kotlin.bignum.integer.BigInteger;
   var BigDecimal = $module$KotlinBigInteger_bignum_jsLegacy.com.ionspin.kotlin.bignum.decimal.BigDecimal;
   var toByte = Kotlin.toByte;
@@ -26,74 +65,33 @@
   var BigInteger_init = $module$KotlinBigInteger_bignum_jsLegacy.com.ionspin.kotlin.bignum.integer.BigInteger_init_za3lpa$;
   var split = Kotlin.kotlin.text.split_ip8yn$;
   var padStart = Kotlin.kotlin.text.padStart_vrc1nu$;
-  var endsWith = Kotlin.kotlin.text.endsWith_sgbm27$;
-  var toBoxedChar = Kotlin.toBoxedChar;
+  var endsWith_0 = Kotlin.kotlin.text.endsWith_sgbm27$;
   var contains = Kotlin.kotlin.text.contains_sgbm27$;
-  var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
   var encodeToByteArray = Kotlin.kotlin.text.encodeToByteArray_pdl1vz$;
   var decodeToString = Kotlin.kotlin.text.decodeToString_964n91$;
-  var equals = Kotlin.equals;
-  var Throwable = Error;
+  var Exception = Kotlin.kotlin.Exception;
   var Exception_init = Kotlin.kotlin.Exception_init_pdl1vj$;
-  var startsWith = Kotlin.kotlin.text.startsWith_7epoxm$;
-  var endsWith_0 = Kotlin.kotlin.text.endsWith_7epoxm$;
+  var startsWith_0 = Kotlin.kotlin.text.startsWith_7epoxm$;
   var contains_0 = Kotlin.kotlin.text.contains_li3zpu$;
   var lastIndexOf = Kotlin.kotlin.text.lastIndexOf_l5u8uk$;
-  var dictionary = $module$Luposdate3000_Shared.lupos.dictionary;
-  var toString = Kotlin.toString;
-  var ValueBnode = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueBnode;
-  var ValueDouble = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueDouble;
-  var ValueFloat = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueFloat;
-  var ValueInteger = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueInteger;
-  var ValueDecimal = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueDecimal;
-  var ValueIri = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueIri;
-  var ValueSimpleLiteral = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueSimpleLiteral;
-  var ValueLanguageTaggedLiteral = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueLanguageTaggedLiteral;
-  var ValueTypedLiteral = $module$Luposdate3000_Shared.lupos.s03resultRepresentation.ValueTypedLiteral;
-  var arrayCopy = Kotlin.kotlin.collections.arrayCopy;
+  var dictionary = $module$Luposdate3000_Shared.lupos.shared.dictionary;
+  var ValueBnode = $module$Luposdate3000_Shared.lupos.shared.ValueBnode;
+  var ValueDouble = $module$Luposdate3000_Shared.lupos.shared.ValueDouble;
+  var ValueFloat = $module$Luposdate3000_Shared.lupos.shared.ValueFloat;
+  var ValueInteger = $module$Luposdate3000_Shared.lupos.shared.ValueInteger;
+  var ValueDecimal = $module$Luposdate3000_Shared.lupos.shared.ValueDecimal;
+  var ValueIri = $module$Luposdate3000_Shared.lupos.shared.ValueIri;
+  var ValueSimpleLiteral = $module$Luposdate3000_Shared.lupos.shared.ValueSimpleLiteral;
+  var ValueLanguageTaggedLiteral = $module$Luposdate3000_Shared.lupos.shared.ValueLanguageTaggedLiteral;
+  var ValueTypedLiteral = $module$Luposdate3000_Shared.lupos.shared.ValueTypedLiteral;
   var toByteArray = Kotlin.kotlin.collections.toByteArray_kdx1v$;
-  var Kind_CLASS = Kotlin.Kind.CLASS;
-  var IMyInputStream = $module$Luposdate3000_Shared.lupos.s00misc.IMyInputStream;
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
-  var UnreachableException = $module$Luposdate3000_Shared.lupos.s00misc.UnreachableException;
+  var IMyInputStream = $module$Luposdate3000_Shared.lupos.shared.IMyInputStream;
+  var UnreachableException = $module$Luposdate3000_Shared.lupos.shared.UnreachableException;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
-  var printStackTrace = Kotlin.kotlin.printStackTrace_dbl4o4$;
-  var XMLElement = $module$Luposdate3000_Shared.lupos.s00misc.XMLElement;
-  var XMLElementParser = $module$Luposdate3000_Shared.lupos.s00misc.XMLElementParser;
-  var Unit = Kotlin.kotlin.Unit;
-  var ByteArrayWrapper_init = $module$Luposdate3000_Shared.lupos.s00misc.ByteArrayWrapper_init;
-  var Array_0 = Array;
-  var Luposdate3000Exception = $module$Luposdate3000_Shared.lupos.s00misc.Luposdate3000Exception;
-  var toString_0 = Kotlin.kotlin.text.toString_dqglrj$;
-  var toChar = Kotlin.toChar;
-  var StringBuilder_init = Kotlin.kotlin.text.StringBuilder_init;
-  var L0 = Kotlin.Long.ZERO;
-  var LinkedHashMap_init = Kotlin.kotlin.collections.LinkedHashMap_init_q3lmfv$;
-  var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
-  var contentToString = Kotlin.arrayToString;
-  var unboxChar = Kotlin.unboxChar;
-  var downTo = Kotlin.kotlin.ranges.downTo_dqglrj$;
-  var iterator = Kotlin.kotlin.text.iterator_gw00vp$;
-  var Any = Object;
-  var Math_0 = Math;
-  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
-  var joinToString = Kotlin.kotlin.collections.joinToString_cgipc5$;
-  var sparql1_1 = $module$Luposdate3000_Shared.lupos.s02buildSyntaxTree.sparql1_1;
-  var addAll = Kotlin.kotlin.collections.addAll_ye1y7v$;
-  var mutableListOf = Kotlin.kotlin.collections.mutableListOf_i5x0yv$;
-  var copyToArray = Kotlin.kotlin.collections.copyToArray;
-  var CharRange = Kotlin.kotlin.ranges.CharRange;
-  var ensureNotNull = Kotlin.ensureNotNull;
-  var throwCCE = Kotlin.throwCCE;
-  var startsWith_0 = Kotlin.kotlin.text.startsWith_sgbm27$;
   var L255 = Kotlin.Long.fromInt(255);
-  var NotImplementedException = $module$Luposdate3000_Shared.lupos.s00misc.NotImplementedException;
+  var NotImplementedException = $module$Luposdate3000_Shared.lupos.shared.NotImplementedException;
   var fs = $module$Luposdate3000_Shared_JS.ext.fs;
-  var IMyOutputStream = $module$Luposdate3000_Shared.lupos.s00misc.IMyOutputStream;
-  XMLElementFromN3$invoke$ObjectLiteral.prototype = Object.create(Turtle2Parser.prototype);
-  XMLElementFromN3$invoke$ObjectLiteral.prototype.constructor = XMLElementFromN3$invoke$ObjectLiteral;
-  XMLElementFromN3$invoke$ObjectLiteral_0.prototype = Object.create(TurtleParserWithStringTriples.prototype);
-  XMLElementFromN3$invoke$ObjectLiteral_0.prototype.constructor = XMLElementFromN3$invoke$ObjectLiteral_0;
+  var IMyOutputStream = $module$Luposdate3000_Shared.lupos.shared.IMyOutputStream;
   ParserException.prototype = Object.create(Luposdate3000Exception.prototype);
   ParserException.prototype.constructor = ParserException;
   ParserExceptionEOF.prototype = Object.create(ParserException.prototype);
@@ -440,1506 +438,10 @@
   POSSIBLE_KEYWORD_0.prototype.constructor = POSSIBLE_KEYWORD_0;
   UnexpectedEndOfLine_0.prototype = Object.create(ParseError.prototype);
   UnexpectedEndOfLine_0.prototype.constructor = UnexpectedEndOfLine_0;
-  function _ColumnIteratorQueueExt() {
-    _ColumnIteratorQueueExt_instance = this;
-  }
-  _ColumnIteratorQueueExt.prototype._close_8sxreq$ = function (it) {
-    if (it.label !== 0) {
-      it.label = 0;
-      it.queue.clear();
-    }};
-  _ColumnIteratorQueueExt.prototype.nextHelper_lr87q6$ = function (it, onEmptyQueue, onClose) {
-    var tmp$, tmp$_0;
-    switch (it.label) {
-      case 1:
-        if (it.queue.size === 0) {
-          onEmptyQueue();
-          if (it.queue.size > 0) {
-            tmp$ = it.queue.removeAt_za3lpa$(0);
-          } else {
-            onClose();
-            tmp$ = 4;
-          }
-        } else {
-          tmp$ = it.queue.removeAt_za3lpa$(0);
-        }
-
-        return tmp$;
-      case 2:
-        if (it.queue.size === 0) {
-          onClose();
-          tmp$_0 = 4;
-        } else {
-          tmp$_0 = it.queue.removeAt_za3lpa$(0);
-        }
-
-        return tmp$_0;
-      default:return 4;
-    }
-  };
-  _ColumnIteratorQueueExt.prototype.closeOnEmptyQueue_8sxreq$ = function (it) {
-    if (it.label !== 0) {
-      it.label = 2;
-    }};
-  _ColumnIteratorQueueExt.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: '_ColumnIteratorQueueExt',
-    interfaces: []
-  };
-  var _ColumnIteratorQueueExt_instance = null;
-  function _ColumnIteratorQueueExt_getInstance() {
-    if (_ColumnIteratorQueueExt_instance === null) {
-      new _ColumnIteratorQueueExt();
-    }return _ColumnIteratorQueueExt_instance;
-  }
-  function _DictionaryHelper() {
-    _DictionaryHelper_instance = this;
-  }
-  _DictionaryHelper.prototype.errorToByteArray_jxlg18$ = function (buffer) {
-    buffer.setSize_za3lpa$(4);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 5);
-  };
-  _DictionaryHelper.prototype.undefToByteArray_jxlg18$ = function (buffer) {
-    buffer.setSize_za3lpa$(4);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 12);
-  };
-  _DictionaryHelper.prototype.dateTimeToByteArray_iqqgd6$ = function (buffer, str) {
-    var year;
-    var month;
-    var day;
-    var hours;
-    var minutes;
-    var seconds;
-    var timezoneHours;
-    var timezoneMinutes;
-    var idx = 0;
-    var idx2 = indexOf(str, 45, 1);
-    if (idx2 < idx) {
-      idx2 = str.length - 1 | 0;
-    }if (idx2 > idx) {
-      var startIndex = idx;
-      var endIndex = idx2;
-      year = str.substring(startIndex, endIndex);
-      idx = idx2;
-      idx2 = indexOf(str, 45, idx + 1 | 0);
-      if (idx2 < idx) {
-        idx2 = str.length - 1 | 0;
-      }if (idx2 > idx) {
-        var startIndex_0 = idx + 1 | 0;
-        var endIndex_0 = idx2;
-        month = toInt(str.substring(startIndex_0, endIndex_0));
-        idx = idx2;
-        idx2 = indexOf(str, 84, idx + 1 | 0);
-        if (idx2 < idx) {
-          idx2 = str.length - 1 | 0;
-        }if (idx2 > idx) {
-          var startIndex_1 = idx + 1 | 0;
-          var endIndex_1 = idx2;
-          day = toInt(str.substring(startIndex_1, endIndex_1));
-          idx = idx2;
-          idx2 = indexOf(str, 58, idx + 1 | 0);
-          if (idx2 < idx) {
-            idx2 = str.length - 1 | 0;
-          }if (idx2 > idx) {
-            var startIndex_2 = idx + 1 | 0;
-            var endIndex_2 = idx2;
-            hours = toInt(str.substring(startIndex_2, endIndex_2));
-            idx = idx2;
-            idx2 = indexOf(str, 58, idx + 1 | 0);
-            if (idx2 < idx) {
-              idx2 = str.length - 1 | 0;
-            }if (idx2 > idx) {
-              var startIndex_3 = idx + 1 | 0;
-              var endIndex_3 = idx2;
-              minutes = toInt(str.substring(startIndex_3, endIndex_3));
-              idx = idx2;
-              var idxa = indexOf(str, 90, idx + 1 | 0);
-              var idxb = indexOf(str, 43, idx + 1 | 0);
-              var idxc = indexOf(str, 45, idx + 1 | 0);
-              if (idxa > idx) {
-                var startIndex_4 = idx + 1 | 0;
-                seconds = str.substring(startIndex_4, idxa);
-                timezoneHours = 0;
-                timezoneMinutes = 0;
-              } else if (idxb > idx) {
-                var startIndex_5 = idx + 1 | 0;
-                seconds = str.substring(startIndex_5, idxb);
-                idx = idxb;
-                idx2 = indexOf(str, 58, idx + 1 | 0);
-                if (idx2 > idx) {
-                  var startIndex_6 = idx;
-                  var endIndex_4 = idx2;
-                  timezoneHours = toInt(str.substring(startIndex_6, endIndex_4));
-                  var startIndex_7 = idx2 + 1 | 0;
-                  var endIndex_5 = str.length;
-                  timezoneMinutes = toInt(str.substring(startIndex_7, endIndex_5));
-                } else {
-                  timezoneHours = -99;
-                  timezoneMinutes = -99;
-                }
-              } else if (idxc > idx) {
-                var startIndex_8 = idx + 1 | 0;
-                seconds = str.substring(startIndex_8, idxc);
-                idx = idxc;
-                idx2 = indexOf(str, 58, idx + 1 | 0);
-                if (idx2 > idx) {
-                  var startIndex_9 = idx;
-                  var endIndex_6 = idx2;
-                  timezoneHours = toInt(str.substring(startIndex_9, endIndex_6));
-                  var startIndex_10 = idx2 + 1 | 0;
-                  var endIndex_7 = str.length;
-                  timezoneMinutes = toInt(str.substring(startIndex_10, endIndex_7));
-                } else {
-                  timezoneHours = -99;
-                  timezoneMinutes = -99;
-                }
-              } else {
-                var startIndex_11 = idx + 1 | 0;
-                var endIndex_8 = str.length;
-                seconds = str.substring(startIndex_11, endIndex_8);
-                timezoneHours = -99;
-                timezoneMinutes = -99;
-              }
-            } else {
-              minutes = 0;
-              seconds = '0.0';
-              timezoneHours = -99;
-              timezoneMinutes = -99;
-            }
-          } else {
-            hours = 0;
-            minutes = 0;
-            seconds = '0.0';
-            timezoneHours = -99;
-            timezoneMinutes = -99;
-          }
-        } else {
-          day = 0;
-          hours = 0;
-          minutes = 0;
-          seconds = '0.0';
-          timezoneHours = -99;
-          timezoneMinutes = -99;
-        }
-      } else {
-        month = 0;
-        day = 0;
-        hours = 0;
-        minutes = 0;
-        seconds = '0.0';
-        timezoneHours = -99;
-        timezoneMinutes = -99;
-      }
-    } else {
-      year = '0';
-      month = 0;
-      day = 0;
-      hours = 0;
-      minutes = 0;
-      seconds = '0.0';
-      timezoneHours = -99;
-      timezoneMinutes = -99;
-    }
-    this.dateTimeToByteArray_dgf7ws$(buffer, BigInteger.Companion.parseString_bm4lxs$(year, 10), month, day, hours, minutes, BigDecimal.Companion.parseString_bm4lxs$(seconds, 10), timezoneHours, timezoneMinutes);
-  };
-  function _DictionaryHelper$dateTimeToByteArray$lambda(closure$month) {
-    return function () {
-      return closure$month >= 0;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_0(closure$month) {
-    return function () {
-      return closure$month <= 99;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_1(closure$day) {
-    return function () {
-      return closure$day >= 0;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_2(closure$day) {
-    return function () {
-      return closure$day <= 99;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_3(closure$hours) {
-    return function () {
-      return closure$hours >= 0;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_4(closure$hours) {
-    return function () {
-      return closure$hours <= 24;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_5(closure$minutes) {
-    return function () {
-      return closure$minutes >= 0;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_6(closure$minutes) {
-    return function () {
-      return closure$minutes <= 99;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_7(closure$timezoneHours) {
-    return function () {
-      return closure$timezoneHours >= -24;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_8(closure$timezoneHours) {
-    return function () {
-      return closure$timezoneHours <= 24;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_9(closure$timezoneMinutes) {
-    return function () {
-      return closure$timezoneMinutes >= 0;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_10(closure$timezoneMinutes) {
-    return function () {
-      return closure$timezoneMinutes <= 99;
-    };
-  }
-  function _DictionaryHelper$dateTimeToByteArray$lambda_11(closure$off, closure$buffer) {
-    return function () {
-      return closure$off.v === closure$buffer.getSize();
-    };
-  }
-  _DictionaryHelper.prototype.dateTimeToByteArray_dgf7ws$ = function (buffer, year, month, day, hours, minutes, seconds, timezoneHours, timezoneMinutes) {
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda(month));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_0(month));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_1(day));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_2(day));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_3(hours));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_4(hours));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_5(minutes));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_6(minutes));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_7(timezoneHours));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_8(timezoneHours));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_9(timezoneMinutes));
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_10(timezoneMinutes));
-    var buf1 = year.toByteArray();
-    var buf2 = seconds.significand.toByteArray();
-    var l1 = buf1.length;
-    var l2 = buf2.length;
-    buffer.setSize_za3lpa$(42 + l1 + l2 | 0);
-    var off = {v: 0};
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, 2);
-    off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, l1);
-    off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, month);
-    off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, day);
-    off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, hours);
-    off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, minutes);
-    off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, timezoneHours);
-    off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), off.v, timezoneMinutes);
-    off.v = off.v + 4 | 0;
-    _ByteArrayHelper_getInstance().writeLong8_ul24ie$(buffer.getBuf(), off.v, seconds.exponent);
-    off.v = off.v + 8 | 0;
-    buffer.getBuf()[off.v] = toByte(year.signum());
-    off.v = off.v + 1 | 0;
-    buffer.getBuf()[off.v] = toByte(seconds.signum());
-    off.v = off.v + 1 | 0;
-    arrayCopy(buf1, buffer.getBuf(), off.v, 0, buf1.length);
-    off.v = off.v + l1 | 0;
-    arrayCopy(buf2, buffer.getBuf(), off.v, 0, buf2.length);
-    off.v = off.v + l2 | 0;
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$dateTimeToByteArray$lambda_11(off, buffer));
-  };
-  function _DictionaryHelper$byteArrayToDateTime_Year$lambda(closure$off, closure$buffer) {
-    return function () {
-      return closure$off.v === closure$buffer.getSize();
-    };
-  }
-  _DictionaryHelper.prototype.byteArrayToDateTime_Year_jxlg18$ = function (buffer) {
-    var tmp$;
-    var off = {v: 0};
-    off.v = off.v + 4 | 0;
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 8 | 0;
-    switch (buffer.getBuf()[off.v]) {
-      case -1:
-        tmp$ = Sign.NEGATIVE;
-        break;
-      case 1:
-        tmp$ = Sign.POSITIVE;
-        break;
-      default:tmp$ = Sign.ZERO;
-        break;
-    }
-    var yearSignum = tmp$;
-    off.v = off.v + 1 | 0;
-    off.v = off.v + 1 | 0;
-    var buf1 = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf1, 0, off.v, off.v + l1 | 0);
-    off.v = off.v + l1 | 0;
-    var l2 = buffer.getSize() - l1 - 42 | 0;
-    off.v = off.v + l2 | 0;
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$byteArrayToDateTime_Year$lambda(off, buffer));
-    var year = BigInteger.Companion.fromByteArray_cz08zj$(buf1, yearSignum);
-    return year;
-  };
-  _DictionaryHelper.prototype.byteArrayToDateTime_Month_jxlg18$ = function (buffer) {
-    var off = 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    var month = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
-    return BigInteger_init(month);
-  };
-  _DictionaryHelper.prototype.byteArrayToDateTime_Day_jxlg18$ = function (buffer) {
-    var off = 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    var day = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
-    return BigInteger_init(day);
-  };
-  _DictionaryHelper.prototype.byteArrayToDateTime_Hours_jxlg18$ = function (buffer) {
-    var off = 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    var hours = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
-    return BigInteger_init(hours);
-  };
-  _DictionaryHelper.prototype.byteArrayToDateTime_Minutes_jxlg18$ = function (buffer) {
-    var off = 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    var minutes = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
-    return BigInteger_init(minutes);
-  };
-  function _DictionaryHelper$byteArrayToDateTime_Seconds$lambda(closure$off, closure$buffer) {
-    return function () {
-      return closure$off.v === closure$buffer.getSize();
-    };
-  }
-  _DictionaryHelper.prototype.byteArrayToDateTime_Seconds_jxlg18$ = function (buffer) {
-    var tmp$;
-    var off = {v: 0};
-    off.v = off.v + 4 | 0;
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    off.v = off.v + 4 | 0;
-    var secondsExponent = _ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 8 | 0;
-    off.v = off.v + 1 | 0;
-    switch (buffer.getBuf()[off.v]) {
-      case -1:
-        tmp$ = Sign.NEGATIVE;
-        break;
-      case 1:
-        tmp$ = Sign.POSITIVE;
-        break;
-      default:tmp$ = Sign.ZERO;
-        break;
-    }
-    var secondsSignum = tmp$;
-    off.v = off.v + 1 | 0;
-    off.v = off.v + l1 | 0;
-    var l2 = buffer.getSize() - l1 - 42 | 0;
-    var buf2 = new Int8Array(l2);
-    arrayCopy(buffer.getBuf(), buf2, 0, off.v, off.v + l2 | 0);
-    arrayCopy(buf2, buffer.getBuf(), off.v, 0, buf2.length);
-    off.v = off.v + l2 | 0;
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$byteArrayToDateTime_Seconds$lambda(off, buffer));
-    var seconds = BigDecimal.Companion.fromBigIntegerWithExponent_2w0s5z$(BigInteger.Companion.fromByteArray_cz08zj$(buf2, secondsSignum), secondsExponent);
-    return seconds;
-  };
-  function _DictionaryHelper$byteArrayToDateTimeAsTyped_Content$lambda(closure$off, closure$buffer) {
-    return function () {
-      return closure$off.v === closure$buffer.getSize();
-    };
-  }
-  _DictionaryHelper.prototype.byteArrayToDateTimeAsTyped_Content_jxlg18$ = function (buffer) {
-    var tmp$, tmp$_0, tmp$_1;
-    var off = {v: 0};
-    off.v = off.v + 4 | 0;
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    var month = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    var day = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    var hours = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    var minutes = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    var timezoneHours = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    var timezoneMinutes = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 4 | 0;
-    var secondsExponent = _ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.getBuf(), off.v);
-    off.v = off.v + 8 | 0;
-    switch (buffer.getBuf()[off.v]) {
-      case -1:
-        tmp$ = Sign.NEGATIVE;
-        break;
-      case 1:
-        tmp$ = Sign.POSITIVE;
-        break;
-      default:tmp$ = Sign.ZERO;
-        break;
-    }
-    var yearSignum = tmp$;
-    off.v = off.v + 1 | 0;
-    switch (buffer.getBuf()[off.v]) {
-      case -1:
-        tmp$_0 = Sign.NEGATIVE;
-        break;
-      case 1:
-        tmp$_0 = Sign.POSITIVE;
-        break;
-      default:tmp$_0 = Sign.ZERO;
-        break;
-    }
-    var secondsSignum = tmp$_0;
-    off.v = off.v + 1 | 0;
-    var buf1 = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf1, 0, off.v, off.v + l1 | 0);
-    off.v = off.v + l1 | 0;
-    var l2 = buffer.getSize() - l1 - 42 | 0;
-    var buf2 = new Int8Array(l2);
-    arrayCopy(buffer.getBuf(), buf2, 0, off.v, off.v + l2 | 0);
-    arrayCopy(buf2, buffer.getBuf(), off.v, 0, buf2.length);
-    off.v = off.v + l2 | 0;
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$byteArrayToDateTimeAsTyped_Content$lambda(off, buffer));
-    var year = BigInteger.Companion.fromByteArray_cz08zj$(buf1, yearSignum);
-    var seconds = BigDecimal.Companion.fromBigIntegerWithExponent_2w0s5z$(BigInteger.Companion.fromByteArray_cz08zj$(buf2, secondsSignum), secondsExponent);
-    var secondsString2 = split(seconds.toStringExpanded(), ['.']);
-    var secondsString = padStart(secondsString2.get_za3lpa$(0), 2, 48);
-    if (secondsString2.size > 1) {
-      var tmp = secondsString2.get_za3lpa$(1);
-      while (endsWith(tmp, 48)) {
-        var $receiver = tmp;
-        var endIndex = tmp.length - 1 | 0;
-        tmp = $receiver.substring(0, endIndex);
-      }
-      if (tmp.length > 0) {
-        secondsString += '.' + tmp;
-      }}if (timezoneHours === -99 && timezoneMinutes === -99) {
-      tmp$_1 = year.toString() + '-' + padStart(month.toString(), 2, 48) + '-' + padStart(day.toString(), 2, 48) + 'T' + padStart(hours.toString(), 2, 48) + ':' + padStart(minutes.toString(), 2, 48) + ':' + secondsString;
-    } else if (timezoneHours === 0 && timezoneMinutes === 0) {
-      tmp$_1 = year.toString() + '-' + padStart(month.toString(), 2, 48) + '-' + padStart(day.toString(), 2, 48) + 'T' + padStart(hours.toString(), 2, 48) + ':' + padStart(minutes.toString(), 2, 48) + ':' + secondsString + 'Z';
-    } else {
-      var timezoneHoursLocal = timezoneHours.toString();
-      if (timezoneHoursLocal.charCodeAt(0) === 45 || timezoneHoursLocal.charCodeAt(0) === 43) {
-        timezoneHoursLocal = '' + String.fromCharCode(toBoxedChar(timezoneHoursLocal.charCodeAt(0))) + padStart(timezoneHoursLocal.substring(1), 2, 48);
-      } else {
-        timezoneHoursLocal = '+' + padStart(timezoneHoursLocal, 2, 48);
-      }
-      tmp$_1 = year.toString() + '-' + padStart(month.toString(), 2, 48) + '-' + padStart(day.toString(), 2, 48) + 'T' + padStart(hours.toString(), 2, 48) + ':' + padStart(minutes.toString(), 2, 48) + ':' + secondsString + timezoneHoursLocal + ':' + padStart(timezoneMinutes.toString(), 2, 48);
-    }
-    return tmp$_1;
-  };
-  _DictionaryHelper.prototype.byteArrayToDateTime_TZ_jxlg18$ = function (buffer) {
-    var off = 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    var timezoneHours = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
-    off = off + 4 | 0;
-    var timezoneMinutes = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
-    if (timezoneHours === 0 && timezoneMinutes === 0) {
-      return 'Z';
-    }if (timezoneHours === -1 && timezoneMinutes === -1) {
-      return '';
-    }return '-' + padStart(timezoneHours.toString(), 2, 48) + ':' + padStart(timezoneMinutes.toString(), 2, 48);
-  };
-  _DictionaryHelper.prototype.byteArrayToDateTime_TimeZone_jxlg18$ = function (buffer) {
-    var off = 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    off = off + 4 | 0;
-    var timezoneHours = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
-    off = off + 4 | 0;
-    var timezoneMinutes = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), off);
-    if (timezoneHours === 0 && timezoneMinutes === 0) {
-      return '"PT0S"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>';
-    }if (timezoneHours >= 0 && timezoneMinutes === 0) {
-      return '"' + '-PT' + timezoneHours + 'H' + '"' + '^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>';
-    }return '';
-  };
-  _DictionaryHelper.prototype.booleanToByteArray_jezz1v$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(5);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 1);
-    if (value) {
-      buffer.getBuf()[4] = 1;
-    } else {
-      buffer.getBuf()[4] = 0;
-    }
-  };
-  _DictionaryHelper.prototype.byteArrayToBoolean_jxlg18$ = function (buffer) {
-    return buffer.getBuf()[4] !== toByte(0);
-  };
-  _DictionaryHelper.prototype.integerToByteArray_iqqgd6$ = function (buffer, value) {
-    this.integerToByteArray_znicy$(buffer, BigInteger.Companion.parseString_bm4lxs$(value, 10));
-  };
-  _DictionaryHelper.prototype.integerToByteArray_znicy$ = function (buffer, value) {
-    var buf1 = value.toByteArray();
-    buffer.setSize_za3lpa$(5 + buf1.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 7);
-    buffer.getBuf()[4] = toByte(value.signum());
-    arrayCopy(buf1, buffer.getBuf(), 5, 0, buf1.length);
-  };
-  _DictionaryHelper.prototype.byteArrayToInteger_S_jxlg18$ = function (buffer) {
-    return this.byteArrayToInteger_I_jxlg18$(buffer).toString();
-  };
-  _DictionaryHelper.prototype.byteArrayToInteger_I_jxlg18$ = function (buffer) {
-    var tmp$;
-    var l1 = buffer.getSize() - 5 | 0;
-    var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 5, 5 + l1 | 0);
-    switch (buffer.getBuf()[4]) {
-      case -1:
-        tmp$ = Sign.NEGATIVE;
-        break;
-      case 1:
-        tmp$ = Sign.POSITIVE;
-        break;
-      default:tmp$ = Sign.ZERO;
-        break;
-    }
-    var sign = tmp$;
-    return BigInteger.Companion.fromByteArray_cz08zj$(buf, sign);
-  };
-  _DictionaryHelper.prototype.decimalToByteArray_iqqgd6$ = function (buffer, value) {
-    this.decimalToByteArray_3ssfki$(buffer, BigDecimal.Companion.parseString_bm4lxs$(value, 10));
-  };
-  _DictionaryHelper.prototype.decimalToByteArray_3ssfki$ = function (buffer, value) {
-    var buf1 = value.significand.toByteArray();
-    buffer.setSize_za3lpa$(13 + buf1.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 3);
-    _ByteArrayHelper_getInstance().writeLong8_ul24ie$(buffer.getBuf(), 4, value.exponent);
-    buffer.getBuf()[12] = toByte(value.signum());
-    arrayCopy(buf1, buffer.getBuf(), 13, 0, buf1.length);
-  };
-  _DictionaryHelper.prototype.byteArrayToDecimal_I_jxlg18$ = function (buffer) {
-    var tmp$;
-    var l1 = buffer.getSize() - 13 | 0;
-    var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 13, 13 + l1 | 0);
-    var exponent = _ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.getBuf(), 4);
-    switch (buffer.getBuf()[12]) {
-      case -1:
-        tmp$ = Sign.NEGATIVE;
-        break;
-      case 1:
-        tmp$ = Sign.POSITIVE;
-        break;
-      default:tmp$ = Sign.ZERO;
-        break;
-    }
-    var sign = tmp$;
-    return BigDecimal.Companion.fromBigIntegerWithExponent_2w0s5z$(BigInteger.Companion.fromByteArray_cz08zj$(buf, sign), exponent);
-  };
-  _DictionaryHelper.prototype.byteArrayToDecimal_S_jxlg18$ = function (buffer) {
-    var tmp = this.byteArrayToDecimal_I_jxlg18$(buffer).toStringExpanded();
-    if (contains(tmp, 46)) {
-      return tmp;
-    }return tmp + '.0';
-  };
-  _DictionaryHelper.prototype.doubleToByteArray_px3ziy$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(12);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 4);
-    _ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.getBuf(), 4, value);
-  };
-  _DictionaryHelper.prototype.doubleToByteArray_iqqgd6$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(12);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 4);
-    _ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.getBuf(), 4, toDouble(value));
-  };
-  _DictionaryHelper.prototype.byteArrayToDouble_I_jxlg18$ = function (buffer) {
-    return _ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.getBuf(), 4);
-  };
-  _DictionaryHelper.prototype.byteArrayToDouble_S_jxlg18$ = function (buffer) {
-    return _ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.getBuf(), 4).toString();
-  };
-  _DictionaryHelper.prototype.floatToByteArray_px3ziy$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(12);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 6);
-    _ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.getBuf(), 4, value);
-  };
-  _DictionaryHelper.prototype.floatToByteArray_iqqgd6$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(12);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 6);
-    _ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.getBuf(), 4, toDouble(value));
-  };
-  _DictionaryHelper.prototype.byteArrayToFloat_I_jxlg18$ = function (buffer) {
-    return _ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.getBuf(), 4);
-  };
-  _DictionaryHelper.prototype.byteArrayToFloat_S_jxlg18$ = function (buffer) {
-    return _ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.getBuf(), 4).toString();
-  };
-  _DictionaryHelper.prototype.langToByteArray_os11rs$ = function (buffer, content, lang) {
-    var buf1 = encodeToByteArray(lang);
-    var buf2 = encodeToByteArray(content);
-    buffer.setSize_za3lpa$(9 + buf1.length + buf2.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 10);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 5 + buf1.length + buf2.length | 0, buf1.length);
-    arrayCopy(buf1, buffer.getBuf(), 4, 0, buf1.length);
-    buffer.getBuf()[4 + buf1.length | 0] = 0;
-    arrayCopy(buf2, buffer.getBuf(), 5 + buf1.length | 0, 0, buf2.length);
-  };
-  _DictionaryHelper.prototype.byteArrayToLang_Content_jxlg18$ = function (buffer) {
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), buffer.getSize() - 4 | 0);
-    var l2 = buffer.getSize() - 9 - l1 | 0;
-    var buf = new Int8Array(l2);
-    arrayCopy(buffer.getBuf(), buf, 0, 5 + l1 | 0, 5 + l1 + l2 | 0);
-    return decodeToString(buf);
-  };
-  _DictionaryHelper.prototype.byteArrayToLang_Lang_jxlg18$ = function (buffer) {
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), buffer.getSize() - 4 | 0);
-    var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 4, 4 + l1 | 0);
-    return decodeToString(buf);
-  };
-  _DictionaryHelper.prototype.typedToByteArray_os11rs$ = function (buffer, content, type) {
-    try {
-      switch (type) {
-        case 'http://www.w3.org/2001/XMLSchema#integer':
-          this.integerToByteArray_iqqgd6$(buffer, content);
-          break;
-        case 'http://www.w3.org/2001/XMLSchema#decimal':
-          this.decimalToByteArray_iqqgd6$(buffer, content);
-          break;
-        case 'http://www.w3.org/2001/XMLSchema#double':
-          this.doubleToByteArray_px3ziy$(buffer, toDouble(content));
-          break;
-        case 'http://www.w3.org/2001/XMLSchema#float':
-          this.floatToByteArray_px3ziy$(buffer, toDouble(content));
-          break;
-        case 'http://www.w3.org/2001/XMLSchema#boolean':
-          this.booleanToByteArray_jezz1v$(buffer, equals(content.toLowerCase(), 'true'));
-          break;
-        case 'http://www.w3.org/2001/XMLSchema#dateTime':
-          this.dateTimeToByteArray_iqqgd6$(buffer, content);
-          break;
-        default:var buf1 = encodeToByteArray(type);
-          var buf2 = encodeToByteArray(content);
-          buffer.setSize_za3lpa$(9 + buf1.length + buf2.length | 0);
-          _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 11);
-          _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 5 + buf1.length + buf2.length | 0, buf1.length);
-          arrayCopy(buf1, buffer.getBuf(), 4, 0, buf1.length);
-          buffer.getBuf()[4 + buf1.length | 0] = 0;
-          arrayCopy(buf2, buffer.getBuf(), 5 + buf1.length | 0, 0, buf2.length);
-          break;
-      }
-    } catch (e) {
-      if (Kotlin.isType(e, Throwable)) {
-        this.stringToByteArray_iqqgd6$(buffer, content);
-      } else
-        throw e;
-    }
-  };
-  _DictionaryHelper.prototype.byteArrayToTyped_Content_jxlg18$ = function (buffer) {
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), buffer.getSize() - 4 | 0);
-    var l2 = buffer.getSize() - 9 - l1 | 0;
-    var buf = new Int8Array(l2);
-    arrayCopy(buffer.getBuf(), buf, 0, 5 + l1 | 0, 5 + l1 + l2 | 0);
-    return decodeToString(buf);
-  };
-  _DictionaryHelper.prototype.byteArrayToTyped_Type_jxlg18$ = function (buffer) {
-    var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), buffer.getSize() - 4 | 0);
-    var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 4, 4 + l1 | 0);
-    return decodeToString(buf);
-  };
-  function _DictionaryHelper$bnodeToByteArray$lambda(closure$value) {
-    return function () {
-      return closure$value.length > 0;
-    };
-  }
-  _DictionaryHelper.prototype.bnodeToByteArray_iqqgd6$ = function (buffer, value) {
-    SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$bnodeToByteArray$lambda(value));
-    var buf1 = encodeToByteArray(value);
-    buffer.setSize_za3lpa$(8 + buf1.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 4, buf1.length);
-    arrayCopy(buf1, buffer.getBuf(), 8, 0, buf1.length);
-  };
-  _DictionaryHelper.prototype.bnodeToByteArray_rj5z7q$ = function (buffer, value) {
-    buffer.setSize_za3lpa$(8);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 4, value);
-  };
-  _DictionaryHelper.prototype.byteArrayToBnode_I_jxlg18$ = function (buffer) {
-    if (buffer.getSize() === 8) {
-      return _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 4);
-    } else {
-      throw Exception_init('this is not ready to be used as instanciated value');
-    }
-  };
-  _DictionaryHelper.prototype.byteArrayToBnode_S_jxlg18$ = function (buffer) {
-    if (buffer.getSize() === 8) {
-      throw Exception_init('this is not ready to be used as import value');
-    } else {
-      var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 4);
-      var buf = new Int8Array(l1);
-      arrayCopy(buffer.getBuf(), buf, 0, 8, 8 + l1 | 0);
-      return decodeToString(buf);
-    }
-  };
-  _DictionaryHelper.prototype.byteArrayToBnode_A_jxlg18$ = function (buffer) {
-    if (buffer.getSize() === 8) {
-      return _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 4).toString();
-    } else {
-      var l1 = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 4);
-      var buf = new Int8Array(l1);
-      arrayCopy(buffer.getBuf(), buf, 0, 8, 8 + l1 | 0);
-      return decodeToString(buf);
-    }
-  };
-  _DictionaryHelper.prototype.iriToByteArray_iqqgd6$ = function (buffer, value) {
-    var buf1 = encodeToByteArray(value);
-    buffer.setSize_za3lpa$(4 + buf1.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 8);
-    arrayCopy(buf1, buffer.getBuf(), 4, 0, buf1.length);
-  };
-  _DictionaryHelper.prototype.byteArrayToIri_jxlg18$ = function (buffer) {
-    var l1 = buffer.getSize() - 4 | 0;
-    var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 4, 4 + l1 | 0);
-    return decodeToString(buf);
-  };
-  _DictionaryHelper.prototype.byteArrayToString_jxlg18$ = function (buffer) {
-    var l1 = buffer.getSize() - 4 | 0;
-    var buf = new Int8Array(l1);
-    arrayCopy(buffer.getBuf(), buf, 0, 4, 4 + l1 | 0);
-    return decodeToString(buf);
-  };
-  _DictionaryHelper.prototype.stringToByteArray_iqqgd6$ = function (buffer, value) {
-    var buf1 = encodeToByteArray(value);
-    buffer.setSize_za3lpa$(4 + buf1.length | 0);
-    _ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.getBuf(), 0, 9);
-    arrayCopy(buf1, buffer.getBuf(), 4, 0, buf1.length);
-  };
-  function _DictionaryHelper$sparqlToByteArray$lambda(closure$langIdx) {
-    return function () {
-      return closure$langIdx > 0;
-    };
-  }
-  _DictionaryHelper.prototype.sparqlToByteArray_crvnhj$ = function (buffer, value) {
-    var tmp$ = value == null;
-    if (!tmp$) {
-      tmp$ = value.length === 0;
-    }var tmp$_0 = tmp$;
-    if (!tmp$_0) {
-      tmp$_0 = equals(value.toLowerCase(), 'undef');
-    }if (tmp$_0) {
-      this.undefToByteArray_jxlg18$(buffer);
-      return;
-    }if (equals(value.toLowerCase(), 'error')) {
-      this.errorToByteArray_jxlg18$(buffer);
-      return;
-    }if (equals(value.toLowerCase(), 'true')) {
-      this.booleanToByteArray_jezz1v$(buffer, true);
-      return;
-    }if (equals(value.toLowerCase(), 'false')) {
-      this.booleanToByteArray_jezz1v$(buffer, false);
-      return;
-    }if (startsWith(value, '_:')) {
-      var endIndex = value.length;
-      this.bnodeToByteArray_iqqgd6$(buffer, value.substring(2, endIndex));
-      return;
-    }if (startsWith(value, '<') && endsWith_0(value, '>')) {
-      var endIndex_0 = value.length - 1 | 0;
-      this.iriToByteArray_iqqgd6$(buffer, value.substring(1, endIndex_0));
-      return;
-    }if (!contains(value, 46)) {
-      try {
-        var i = BigInteger.Companion.parseString_bm4lxs$(value, 10);
-        this.integerToByteArray_znicy$(buffer, i);
-        return;
-      } catch (e) {
-        if (!Kotlin.isType(e, Throwable))
-          throw e;
-      }
-    }if (!contains_0(value, 'e') && !contains_0(value, 'E')) {
-      try {
-        var d = BigDecimal.Companion.parseString_bm4lxs$(value, 10);
-        this.decimalToByteArray_3ssfki$(buffer, d);
-        return;
-      } catch (e) {
-        if (!Kotlin.isType(e, Throwable))
-          throw e;
-      }
-    }try {
-      var d_0 = toDouble(value);
-      this.doubleToByteArray_px3ziy$(buffer, d_0);
-      return;
-    } catch (e) {
-      if (!Kotlin.isType(e, Throwable))
-        throw e;
-    }
-    if (!endsWith_0(value, '' + String.fromCharCode(toBoxedChar(value.charCodeAt(0))))) {
-      var typeIdx = lastIndexOf(value, '' + String.fromCharCode(toBoxedChar(value.charCodeAt(0))) + '^^<');
-      var langIdx = lastIndexOf(value, '' + String.fromCharCode(toBoxedChar(value.charCodeAt(0))) + '@');
-      if (endsWith_0(value, '>') && typeIdx > 0) {
-        var endIndex_1 = typeIdx + 1 | 0;
-        var tmp$_1 = this.removeQuotesFromString_61zpoe$(value.substring(0, endIndex_1));
-        var startIndex = typeIdx + 4 | 0;
-        var endIndex_2 = value.length - 1 | 0;
-        this.typedToByteArray_os11rs$(buffer, tmp$_1, value.substring(startIndex, endIndex_2));
-        return;
-      } else {
-        SanityCheckOn_getInstance().check_8i7tro$(_DictionaryHelper$sparqlToByteArray$lambda(langIdx));
-        var endIndex_3 = langIdx + 1 | 0;
-        var tmp$_2 = this.removeQuotesFromString_61zpoe$(value.substring(0, endIndex_3));
-        var startIndex_0 = langIdx + 2 | 0;
-        var endIndex_4 = value.length;
-        this.langToByteArray_os11rs$(buffer, tmp$_2, value.substring(startIndex_0, endIndex_4));
-        return;
-      }
-    }this.stringToByteArray_iqqgd6$(buffer, this.removeQuotesFromString_61zpoe$(value));
-  };
-  _DictionaryHelper.prototype.removeQuotesFromString_61zpoe$ = function (s) {
-    var c = s.charCodeAt(0);
-    var cntLeft = 1;
-    var cntRight = 0;
-    if (c !== 39 && c !== 34 || c !== s.charCodeAt(s.length - 1 | 0)) {
-      throw Exception_init('invalid quoted string >' + s + '<');
-    }while (cntLeft < s.length && s.charCodeAt(cntLeft) === c) {
-      cntLeft = cntLeft + 1 | 0;
-    }
-    while (cntRight < s.length && s.charCodeAt(s.length - cntRight - 1 | 0) === c) {
-      cntRight = cntRight + 1 | 0;
-    }
-    if (cntLeft >= 3 && cntRight >= 3 && s.length >= 6) {
-      var endIndex = s.length - 3 | 0;
-      return s.substring(3, endIndex);
-    }var endIndex_0 = s.length - 1 | 0;
-    return s.substring(1, endIndex_0);
-  };
-  _DictionaryHelper.prototype.valueDefinitionToByteArray_km70l7$ = function (buffer, value) {
-    this.sparqlToByteArray_crvnhj$(buffer, value.valueToString());
-  };
-  function _DictionaryHelper$byteArrayToType$lambda(closure$res) {
-    return function () {
-      return closure$res >= 0;
-    };
-  }
-  function _DictionaryHelper$byteArrayToType$lambda_0(closure$res) {
-    return function () {
-      return closure$res.toString();
-    };
-  }
-  function _DictionaryHelper$byteArrayToType$lambda_1(closure$res) {
-    return function () {
-      return closure$res < 13;
-    };
-  }
-  function _DictionaryHelper$byteArrayToType$lambda_2(closure$res) {
-    return function () {
-      return closure$res.toString();
-    };
-  }
-  _DictionaryHelper.prototype.byteArrayToType_jxlg18$ = function (buffer) {
-    var res = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 0);
-    SanityCheckOn_getInstance().check_a3x0x2$(_DictionaryHelper$byteArrayToType$lambda(res), _DictionaryHelper$byteArrayToType$lambda_0(res));
-    SanityCheckOn_getInstance().check_a3x0x2$(_DictionaryHelper$byteArrayToType$lambda_1(res), _DictionaryHelper$byteArrayToType$lambda_2(res));
-    return res;
-  };
-  _DictionaryHelper.prototype.byteArrayToSparql_jxlg18$ = function (buffer) {
-    var tmp$;
-    var type = this.byteArrayToType_jxlg18$(buffer);
-    switch (type) {
-      case 12:
-        tmp$ = 'UNDEF';
-        break;
-      case 5:
-        tmp$ = 'ERROR';
-        break;
-      case 0:
-        tmp$ = this.byteArrayToBnode_A_jxlg18$(buffer);
-        break;
-      case 1:
-        if (this.byteArrayToBoolean_jxlg18$(buffer)) {
-          tmp$ = '"true"^^<http://www.w3.org/2001/XMLSchema#boolean>';
-        } else {
-          tmp$ = '"false"^^<http://www.w3.org/2001/XMLSchema#boolean>';
-        }
-
-        break;
-      case 4:
-        tmp$ = '"' + this.byteArrayToDouble_S_jxlg18$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#double>';
-        break;
-      case 6:
-        tmp$ = '"' + this.byteArrayToFloat_S_jxlg18$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#float>';
-        break;
-      case 7:
-        tmp$ = '"' + this.byteArrayToInteger_S_jxlg18$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#integer>';
-        break;
-      case 3:
-        tmp$ = '"' + this.byteArrayToDecimal_S_jxlg18$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#decimal>';
-        break;
-      case 8:
-        tmp$ = '<' + this.byteArrayToIri_jxlg18$(buffer) + '>';
-        break;
-      case 9:
-        tmp$ = '"' + this.byteArrayToString_jxlg18$(buffer) + '"';
-        break;
-      case 10:
-        tmp$ = '"' + this.byteArrayToLang_Content_jxlg18$(buffer) + '"@' + this.byteArrayToLang_Lang_jxlg18$(buffer);
-        break;
-      case 11:
-        tmp$ = '"' + this.byteArrayToTyped_Content_jxlg18$(buffer) + '"^^<' + this.byteArrayToTyped_Type_jxlg18$(buffer) + '>';
-        break;
-      case 2:
-        tmp$ = '"' + this.byteArrayToDateTimeAsTyped_Content_jxlg18$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#dateTime>';
-        break;
-      default:throw Exception_init('unreachable ' + type);
-    }
-    return tmp$;
-  };
-  _DictionaryHelper.prototype.byteArrayToValueDefinition_jxlg18$ = function (buffer) {
-    var tmp$;
-    var type = this.byteArrayToType_jxlg18$(buffer);
-    switch (type) {
-      case 12:
-        tmp$ = dictionary.DictionaryExt.undefValue2;
-        break;
-      case 5:
-        tmp$ = dictionary.DictionaryExt.errorValue2;
-        break;
-      case 0:
-        tmp$ = new ValueBnode('' + toString(this.byteArrayToBnode_I_jxlg18$(buffer)));
-        break;
-      case 1:
-        if (this.byteArrayToBoolean_jxlg18$(buffer)) {
-          tmp$ = dictionary.DictionaryExt.booleanTrueValue2;
-        } else {
-          tmp$ = dictionary.DictionaryExt.booleanFalseValue2;
-        }
-
-        break;
-      case 4:
-        tmp$ = new ValueDouble(this.byteArrayToDouble_I_jxlg18$(buffer));
-        break;
-      case 6:
-        tmp$ = new ValueFloat(this.byteArrayToFloat_I_jxlg18$(buffer));
-        break;
-      case 7:
-        tmp$ = new ValueInteger(this.byteArrayToInteger_I_jxlg18$(buffer));
-        break;
-      case 3:
-        tmp$ = new ValueDecimal(this.byteArrayToDecimal_I_jxlg18$(buffer));
-        break;
-      case 8:
-        tmp$ = new ValueIri(this.byteArrayToIri_jxlg18$(buffer));
-        break;
-      case 9:
-        tmp$ = new ValueSimpleLiteral('"', this.byteArrayToString_jxlg18$(buffer));
-        break;
-      case 10:
-        tmp$ = new ValueLanguageTaggedLiteral('"', this.byteArrayToLang_Content_jxlg18$(buffer), this.byteArrayToLang_Lang_jxlg18$(buffer));
-        break;
-      case 11:
-        tmp$ = ValueTypedLiteral.Companion.invoke_6hosri$('"', this.byteArrayToTyped_Content_jxlg18$(buffer), this.byteArrayToTyped_Type_jxlg18$(buffer));
-        break;
-      default:throw Exception_init('unreachable ' + type);
-    }
-    return tmp$;
-  };
-  _DictionaryHelper.prototype.byteArrayToCallback_5b03yp$ = function (buffer, onBNode, onBoolean, onLanguageTaggedLiteral, onSimpleLiteral, onTypedLiteral, onDecimal, onFloat, onDouble, onInteger, onIri, onError, onUndefined) {
-    var type = _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.getBuf(), 0);
-    switch (type) {
-      case 6:
-        onFloat(this.byteArrayToFloat_I_jxlg18$(buffer));
-        break;
-      case 4:
-        onDouble(this.byteArrayToDouble_I_jxlg18$(buffer));
-        break;
-      case 7:
-        onInteger(this.byteArrayToInteger_S_jxlg18$(buffer));
-        break;
-      case 3:
-        onDecimal(this.byteArrayToDecimal_S_jxlg18$(buffer));
-        break;
-      case 12:
-        onUndefined();
-        break;
-      case 5:
-        onError();
-        break;
-      case 0:
-        onBNode(this.byteArrayToBnode_I_jxlg18$(buffer));
-        break;
-      case 1:
-        onBoolean(this.byteArrayToBoolean_jxlg18$(buffer));
-        break;
-      case 8:
-        onIri(this.byteArrayToIri_jxlg18$(buffer));
-        break;
-      case 9:
-        onSimpleLiteral(this.byteArrayToString_jxlg18$(buffer));
-        break;
-      case 10:
-        onLanguageTaggedLiteral(this.byteArrayToLang_Content_jxlg18$(buffer), this.byteArrayToLang_Lang_jxlg18$(buffer));
-        break;
-      case 11:
-        onTypedLiteral(this.byteArrayToTyped_Content_jxlg18$(buffer), this.byteArrayToTyped_Type_jxlg18$(buffer));
-        break;
-      case 2:
-        onTypedLiteral(this.byteArrayToDateTimeAsTyped_Content_jxlg18$(buffer), 'http://www.w3.org/2001/XMLSchema#dateTime');
-        break;
-      default:throw Exception_init('unreachable ' + type);
-    }
-  };
-  _DictionaryHelper.prototype.byteArrayCompareAny_9in6wc$ = function (a, b) {
-    var typeA = this.byteArrayToType_jxlg18$(a);
-    var typeB = this.byteArrayToType_jxlg18$(b);
-    if (typeA !== typeB) {
-      if (typeA === 12) {
-        return -1;
-      } else if (typeB === 12) {
-        return 1;
-      } else if (typeA === 5) {
-        return -1;
-      } else if (typeB === 5) {
-        return 1;
-      } else if (typeA === 0) {
-        return -1;
-      } else if (typeB === 0) {
-        return 1;
-      } else if (typeA === 8) {
-        return -1;
-      } else if (typeB === 8) {
-        return 1;
-      } else if (typeA === 9) {
-        return -1;
-      } else if (typeB === 9) {
-        return 1;
-      } else {
-        return typeA - typeB | 0;
-      }
-    } else {
-      if (typeA === 12 || typeA === 5) {
-        return 0;
-      } else if (typeA === 0) {
-        if (a.getSize() === 8 && b.getSize() === 8) {
-          return _ByteArrayHelper_getInstance().readInt4_pao7sd$(a.getBuf(), 4) - _ByteArrayHelper_getInstance().readInt4_pao7sd$(b.getBuf(), 4) | 0;
-        } else {
-          return a.compareTo_11rb$(b);
-        }
-      } else if (typeA === 1) {
-        return a.getBuf()[4] - b.getBuf()[4];
-      } else if (typeA !== 2)
-        if (typeA !== 3)
-          if (typeA !== 4)
-            if (typeA !== 6)
-              if (typeA !== 7)
-                if (typeA === 10 || typeA === 11 || typeA === 8 || typeA === 9) {
-                  var lenA = a.getSize();
-                  var lenB = b.getSize();
-                  var i = 4;
-                  var res = 0;
-                  while (i < lenA && i < lenB && res === 0) {
-                    res = a.getBuf()[i] - b.getBuf()[i];
-                    i = i + 1 | 0;
-                  }
-                  if (res === 0) {
-                    res = lenA - lenB | 0;
-                  }return res;
-                }}
-    throw Exception_init('can not compare ' + typeA + ' ' + typeB);
-  };
-  _DictionaryHelper.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: '_DictionaryHelper',
-    interfaces: []
-  };
-  var _DictionaryHelper_instance = null;
-  function _DictionaryHelper_getInstance() {
-    if (_DictionaryHelper_instance === null) {
-      new _DictionaryHelper();
-    }return _DictionaryHelper_instance;
-  }
-  function _MyInputStreamFixedLength(stream, remainingBytes) {
-    this.stream = stream;
-    this.remainingBytes = remainingBytes;
-  }
-  _MyInputStreamFixedLength.prototype.readInt = function () {
-    if (this.remainingBytes >= 4) {
-      this.remainingBytes = this.remainingBytes - 4 | 0;
-      return this.stream.readInt();
-    } else {
-      throw Exception_init('not enough bytes available ' + this.remainingBytes);
-    }
-  };
-  _MyInputStreamFixedLength.prototype.readByte = function () {
-    if (this.remainingBytes >= 1) {
-      this.remainingBytes = this.remainingBytes - 1 | 0;
-      return this.stream.readByte();
-    } else {
-      throw Exception_init('not enough bytes available ' + this.remainingBytes);
-    }
-  };
-  _MyInputStreamFixedLength.prototype.read_fqrh44$ = function (buf) {
-    if (this.remainingBytes >= buf.length) {
-      this.remainingBytes = this.remainingBytes - buf.length | 0;
-      return this.stream.read_fqrh44$(buf);
-    } else {
-      throw Exception_init('not enough bytes available ' + this.remainingBytes);
-    }
-  };
-  _MyInputStreamFixedLength.prototype.read_ir89t6$ = function (buf, len) {
-    if (this.remainingBytes >= len) {
-      this.remainingBytes = this.remainingBytes - len | 0;
-      return this.stream.read_ir89t6$(buf, len);
-    } else {
-      throw Exception_init('not enough bytes available ' + this.remainingBytes);
-    }
-  };
-  _MyInputStreamFixedLength.prototype.read_mj6st8$ = function (buf, off, len) {
-    if (this.remainingBytes >= len) {
-      this.remainingBytes = this.remainingBytes - len | 0;
-      return this.stream.read_mj6st8$(buf, off, len);
-    } else {
-      throw Exception_init('not enough bytes available ' + this.remainingBytes);
-    }
-  };
-  _MyInputStreamFixedLength.prototype.close = function () {
-    this.stream.close();
-  };
-  _MyInputStreamFixedLength.prototype.readLine = function () {
-    var buf = ArrayList_init();
-    try {
-      var b = this.readByte();
-      while (b !== toByte(10 | 0)) {
-        if (b !== toByte(13 | 0)) {
-          buf.add_11rb$(b);
-        }b = this.readByte();
-      }
-    } catch (e) {
-      if (Kotlin.isType(e, Throwable)) {
-        if (buf.size === 0) {
-          return null;
-        }} else
-        throw e;
-    }
-    return decodeToString(toByteArray(buf));
-  };
-  _MyInputStreamFixedLength.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: '_MyInputStreamFixedLength',
-    interfaces: [IMyInputStream]
-  };
-  function _MyStringStream(str) {
-    this.buf4 = new Int8Array(4);
-    this.data = encodeToByteArray(str);
-    this.pos = 0;
-  }
-  _MyStringStream.prototype.close = function () {
-  };
-  _MyStringStream.prototype.read_fqrh44$ = function (buf) {
-    var s = this.pos + buf.length | 0;
-    var res = buf.length;
-    if (s > this.data.length) {
-      s = this.data.length;
-      res = s - this.pos | 0;
-    }arrayCopy(this.data, buf, 0, this.pos, s);
-    this.pos = s;
-    return res;
-  };
-  _MyStringStream.prototype.read_ir89t6$ = function (buf, len) {
-    var s = this.pos + len | 0;
-    var res = buf.length;
-    if (s > this.data.length) {
-      s = this.data.length;
-      res = s - this.pos | 0;
-    }arrayCopy(this.data, buf, 0, this.pos, s);
-    this.pos = s;
-    return res;
-  };
-  _MyStringStream.prototype.read_mj6st8$ = function (buf, off, len) {
-    var s = this.pos + len | 0;
-    var res = buf.length;
-    if (s > this.data.length) {
-      s = this.data.length;
-      res = s - this.pos | 0;
-    }arrayCopy(this.data, buf, off, this.pos, s);
-    this.pos = s;
-    return res;
-  };
-  _MyStringStream.prototype.readInt = function () {
-    this.read_ir89t6$(this.buf4, 4);
-    return _ByteArrayHelper_getInstance().readInt4_pao7sd$(this.buf4, 0);
-  };
-  _MyStringStream.prototype.readByte = function () {
-    this.read_ir89t6$(this.buf4, 1);
-    return this.buf4[0];
-  };
-  _MyStringStream.prototype.readLine = function () {
-    var buf = ArrayList_init();
-    try {
-      var b = this.readByte();
-      while (b !== toByte(10 | 0)) {
-        if (b !== toByte(13 | 0)) {
-          buf.add_11rb$(b);
-        }b = this.readByte();
-      }
-    } catch (e) {
-      if (Kotlin.isType(e, Throwable)) {
-        if (buf.size === 0) {
-          return null;
-        }} else
-        throw e;
-    }
-    return decodeToString(toByteArray(buf));
-  };
-  _MyStringStream.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: '_MyStringStream',
-    interfaces: [IMyInputStream]
-  };
-  function _PartitionExt() {
-    _PartitionExt_instance = this;
-  }
-  _PartitionExt.prototype.hashFunction_6xvm5r$ = function (v, k) {
-    var tmp$;
-    if (v < 0) {
-      tmp$ = (-v | 0) % k;
-    } else {
-      tmp$ = v % k;
-    }
-    return tmp$;
-  };
-  _PartitionExt.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: '_PartitionExt',
-    interfaces: []
-  };
-  var _PartitionExt_instance = null;
-  function _PartitionExt_getInstance() {
-    if (_PartitionExt_instance === null) {
-      new _PartitionExt();
-    }return _PartitionExt_instance;
-  }
-  function SanityCheckOff() {
-    SanityCheckOff_instance = this;
-  }
-  SanityCheckOff.prototype.println_buffermanager_lh572t$ = function (s) {
-  };
-  SanityCheckOff.prototype.println_nodemanager_lh572t$ = function (s) {
-  };
-  SanityCheckOff.prototype.println_lh572t$ = function (s) {
-  };
-  SanityCheckOff.prototype.invoke_ls4sck$ = function (action) {
-  };
-  SanityCheckOff.prototype.suspended_ls4sck$ = function (action) {
-  };
-  SanityCheckOff.prototype.helper_lx1jwy$ = function (action) {
-    return null;
-  };
-  SanityCheckOff.prototype.check_a3x0x2$ = function (value, msg) {
-  };
-  SanityCheckOff.prototype.check_8i7tro$ = function (value) {
-  };
-  SanityCheckOff.prototype.checkUnreachable_8be2vx$ = function () {
-    throw new UnreachableException();
-  };
-  SanityCheckOff.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: 'SanityCheckOff',
-    interfaces: []
-  };
-  var SanityCheckOff_instance = null;
-  function SanityCheckOff_getInstance() {
-    if (SanityCheckOff_instance === null) {
-      new SanityCheckOff();
-    }return SanityCheckOff_instance;
-  }
-  function SanityCheckOn() {
-    SanityCheckOn_instance = this;
-    this.SANITYCHECK_PRINTING = false;
-    this.SANITYCHECK_PRINTING_NODEMANAGER = false;
-    this.SANITYCHECK_PRINTING_BUFFERMANAGER = false;
-  }
-  SanityCheckOn.prototype.println_buffermanager_lh572t$ = function (s) {
-    if (this.SANITYCHECK_PRINTING_BUFFERMANAGER) {
-      println(s());
-    }};
-  SanityCheckOn.prototype.println_nodemanager_lh572t$ = function (s) {
-    if (this.SANITYCHECK_PRINTING_NODEMANAGER) {
-      println(s());
-    }};
-  SanityCheckOn.prototype.println_lh572t$ = function (s) {
-    if (this.SANITYCHECK_PRINTING) {
-      println(s());
-    }};
-  SanityCheckOn.prototype.invoke_ls4sck$ = function (action) {
-    try {
-      action();
-    } catch (e) {
-      if (Kotlin.isType(e, Throwable)) {
-        if (this.SANITYCHECK_PRINTING) {
-          println('Exception during SanityCheck.invoke');
-          printStackTrace(e);
-        }throw e;
-      } else
-        throw e;
-    }
-  };
-  SanityCheckOn.prototype.suspended_ls4sck$ = function (action) {
-    try {
-      action();
-    } catch (e) {
-      if (Kotlin.isType(e, Throwable)) {
-        if (this.SANITYCHECK_PRINTING) {
-          println('Exception during SanityCheck.suspended');
-          printStackTrace(e);
-        }throw e;
-      } else
-        throw e;
-    }
-  };
-  SanityCheckOn.prototype.helper_i3ch5z$ = function (action) {
-    return action();
-  };
-  SanityCheckOn.prototype.check_a3x0x2$ = function (value, msg) {
-    try {
-      if (!value()) {
-        throw Exception_init('SanityCheck failed :: ' + msg());
-      }} catch (e) {
-      if (Kotlin.isType(e, Throwable)) {
-        if (this.SANITYCHECK_PRINTING) {
-          println('Exception during SanityCheck.check');
-          printStackTrace(e);
-        }throw e;
-      } else
-        throw e;
-    }
-  };
-  SanityCheckOn.prototype.check_8i7tro$ = function (value) {
-    try {
-      if (!value()) {
-        throw Exception_init('SanityCheck failed');
-      }} catch (e) {
-      if (Kotlin.isType(e, Throwable)) {
-        if (this.SANITYCHECK_PRINTING) {
-          println('Exception during SanityCheck.check');
-          printStackTrace(e);
-        }throw e;
-      } else
-        throw e;
-    }
-  };
-  SanityCheckOn.prototype.checkUnreachable_8be2vx$ = function () {
-    throw new UnreachableException();
-  };
-  SanityCheckOn.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: 'SanityCheckOn',
-    interfaces: []
-  };
-  var SanityCheckOn_instance = null;
-  function SanityCheckOn_getInstance() {
-    if (SanityCheckOn_instance === null) {
-      new SanityCheckOn();
-    }return SanityCheckOn_instance;
-  }
-  function XMLElementFromN3() {
-  }
-  function XMLElementFromN3$invoke$ObjectLiteral(closure$nodeResults, input) {
-    this.closure$nodeResults = closure$nodeResults;
-    Turtle2Parser.call(this, input);
-  }
-  XMLElementFromN3$invoke$ObjectLiteral.prototype.onTriple = function () {
-    var nodeResult = new XMLElement('result');
-    this.closure$nodeResults.addContent_w70l3r$(nodeResult);
-    XMLElement.Companion.parseBindingFromByteArrayWrapper_qpkhgb$(nodeResult, this.triple[0], 's');
-    XMLElement.Companion.parseBindingFromByteArrayWrapper_qpkhgb$(nodeResult, this.triple[1], 'p');
-    XMLElement.Companion.parseBindingFromByteArrayWrapper_qpkhgb$(nodeResult, this.triple[2], 'o');
-  };
-  XMLElementFromN3$invoke$ObjectLiteral.$metadata$ = {
-    kind: Kind_CLASS,
-    interfaces: [Turtle2Parser]
-  };
-  function XMLElementFromN3$invoke$ObjectLiteral_0(closure$nodeResults) {
-    this.closure$nodeResults = closure$nodeResults;
-    TurtleParserWithStringTriples.call(this);
-  }
-  XMLElementFromN3$invoke$ObjectLiteral_0.prototype.consume_triple_6hosri$ = function (s, p, o) {
-    var nodeResult = new XMLElement('result');
-    this.closure$nodeResults.addContent_w70l3r$(nodeResult);
-    XMLElement.Companion.parseBindingFromString_5dl588$(nodeResult, s, 's');
-    XMLElement.Companion.parseBindingFromString_5dl588$(nodeResult, p, 'p');
-    XMLElement.Companion.parseBindingFromString_5dl588$(nodeResult, o, 'o');
-  };
-  XMLElementFromN3$invoke$ObjectLiteral_0.$metadata$ = {
-    kind: Kind_CLASS,
-    interfaces: [TurtleParserWithStringTriples]
-  };
-  XMLElementFromN3.prototype.invoke_61zpoe$ = function (data) {
-    var nodeSparql = (new XMLElement('sparql')).addAttribute_puj7f4$('xmlns', 'http://www.w3.org/2005/sparql-results#');
-    try {
-      var nodeHead = new XMLElement('head');
-      var nodeResults = new XMLElement('results');
-      nodeSparql.addContent_w70l3r$(nodeHead);
-      nodeSparql.addContent_w70l3r$(nodeResults);
-      nodeHead.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', 's'));
-      nodeHead.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', 'p'));
-      nodeHead.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', 'o'));
-      var inputstream = new _MyStringStream(data);
-      var parser = new XMLElementFromN3$invoke$ObjectLiteral(nodeResults, inputstream);
-      parser.parse();
-    } catch (e) {
-      if (Kotlin.isType(e, Throwable)) {
-        nodeSparql = (new XMLElement('sparql')).addAttribute_puj7f4$('xmlns', 'http://www.w3.org/2005/sparql-results#');
-        var nodeHead_0 = new XMLElement('head');
-        var nodeResults_0 = new XMLElement('results');
-        nodeSparql.addContent_w70l3r$(nodeHead_0);
-        nodeSparql.addContent_w70l3r$(nodeResults_0);
-        nodeHead_0.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', 's'));
-        nodeHead_0.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', 'p'));
-        nodeHead_0.addContent_w70l3r$((new XMLElement('variable')).addAttribute_puj7f4$('name', 'o'));
-        var lcit = LexerCharIterator_init(data);
-        var tit = new TurtleScanner(lcit);
-        var ltit = new LookAheadTokenIterator(tit, 3);
-        var x = new XMLElementFromN3$invoke$ObjectLiteral_0(nodeResults_0);
-        x.ltit = ltit;
-        x.parse();
-      } else
-        throw e;
-    }
-    return nodeSparql;
-  };
-  XMLElementFromN3.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'XMLElementFromN3',
-    interfaces: [XMLElementParser]
-  };
+  XMLElementFromN3$invoke$ObjectLiteral.prototype = Object.create(Turtle2Parser.prototype);
+  XMLElementFromN3$invoke$ObjectLiteral.prototype.constructor = XMLElementFromN3$invoke$ObjectLiteral;
+  XMLElementFromN3$invoke$ObjectLiteral_0.prototype = Object.create(TurtleParserWithStringTriples.prototype);
+  XMLElementFromN3$invoke$ObjectLiteral_0.prototype.constructor = XMLElementFromN3$invoke$ObjectLiteral_0;
   function NQuads2Parser(input) {
     this.context_8be2vx$ = new ParserContext(input);
     var array = Array_0(4);
@@ -1956,16 +458,16 @@
   function NQuads2Parser$parse$lambda_0(this$NQuads2Parser) {
     return function () {
       var value = this$NQuads2Parser.context_8be2vx$.getValue_8be2vx$();
-      var tmp$ = _DictionaryHelper_getInstance();
+      var tmp$ = DictionaryHelper_getInstance();
       var tmp$_0 = this$NQuads2Parser.quad[0];
       var endIndex = value.length - 1 | 0;
-      tmp$.iriToByteArray_iqqgd6$(tmp$_0, value.substring(1, endIndex));
+      tmp$.iriToByteArray_akwfwi$(tmp$_0, value.substring(1, endIndex));
       return Unit;
     };
   }
   function NQuads2Parser$parse$lambda_1(this$NQuads2Parser) {
     return function () {
-      _DictionaryHelper_getInstance().bnodeToByteArray_iqqgd6$(this$NQuads2Parser.quad[0], this$NQuads2Parser.context_8be2vx$.getValue_8be2vx$());
+      DictionaryHelper_getInstance().bnodeToByteArray_akwfwi$(this$NQuads2Parser.quad[0], this$NQuads2Parser.context_8be2vx$.getValue_8be2vx$());
       return Unit;
     };
   }
@@ -1975,10 +477,10 @@
   function NQuads2Parser$parse$lambda_3(this$NQuads2Parser) {
     return function () {
       var value = this$NQuads2Parser.context_8be2vx$.getValue_8be2vx$();
-      var tmp$ = _DictionaryHelper_getInstance();
+      var tmp$ = DictionaryHelper_getInstance();
       var tmp$_0 = this$NQuads2Parser.quad[1];
       var endIndex = value.length - 1 | 0;
-      tmp$.iriToByteArray_iqqgd6$(tmp$_0, value.substring(1, endIndex));
+      tmp$.iriToByteArray_akwfwi$(tmp$_0, value.substring(1, endIndex));
       return Unit;
     };
   }
@@ -1991,10 +493,10 @@
   function NQuads2Parser$parse$lambda_5(this$NQuads2Parser) {
     return function () {
       var value = this$NQuads2Parser.context_8be2vx$.getValue_8be2vx$();
-      var tmp$ = _DictionaryHelper_getInstance();
+      var tmp$ = DictionaryHelper_getInstance();
       var tmp$_0 = this$NQuads2Parser.quad[2];
       var endIndex = value.length - 1 | 0;
-      tmp$.iriToByteArray_iqqgd6$(tmp$_0, value.substring(1, endIndex));
+      tmp$.iriToByteArray_akwfwi$(tmp$_0, value.substring(1, endIndex));
       parse_ws_forced(this$NQuads2Parser.context_8be2vx$, NQuads2Parser$parse$lambda$lambda);
       return Unit;
     };
@@ -2004,7 +506,7 @@
   }
   function NQuads2Parser$parse$lambda_6(this$NQuads2Parser) {
     return function () {
-      _DictionaryHelper_getInstance().bnodeToByteArray_iqqgd6$(this$NQuads2Parser.quad[2], this$NQuads2Parser.context_8be2vx$.getValue_8be2vx$());
+      DictionaryHelper_getInstance().bnodeToByteArray_akwfwi$(this$NQuads2Parser.quad[2], this$NQuads2Parser.context_8be2vx$.getValue_8be2vx$());
       parse_ws_forced(this$NQuads2Parser.context_8be2vx$, NQuads2Parser$parse$lambda$lambda_0);
       return Unit;
     };
@@ -2014,7 +516,7 @@
   }
   function NQuads2Parser$parse$lambda$lambda$lambda(this$NQuads2Parser, closure$s) {
     return function () {
-      _DictionaryHelper_getInstance().typedToByteArray_os11rs$(this$NQuads2Parser.quad[2], closure$s, this$NQuads2Parser.context_8be2vx$.getValue_8be2vx$());
+      DictionaryHelper_getInstance().typedToByteArray_v5q3o4$(this$NQuads2Parser.quad[2], closure$s, this$NQuads2Parser.context_8be2vx$.getValue_8be2vx$());
       parse_ws_forced(this$NQuads2Parser.context_8be2vx$, NQuads2Parser$parse$lambda$lambda$lambda$lambda);
       return Unit;
     };
@@ -2030,14 +532,14 @@
   }
   function NQuads2Parser$parse$lambda$lambda_2(this$NQuads2Parser, closure$s) {
     return function () {
-      _DictionaryHelper_getInstance().langToByteArray_os11rs$(this$NQuads2Parser.quad[2], closure$s, this$NQuads2Parser.context_8be2vx$.getValue_8be2vx$());
+      DictionaryHelper_getInstance().langToByteArray_v5q3o4$(this$NQuads2Parser.quad[2], closure$s, this$NQuads2Parser.context_8be2vx$.getValue_8be2vx$().substring(1));
       parse_ws_forced(this$NQuads2Parser.context_8be2vx$, NQuads2Parser$parse$lambda$lambda$lambda_0);
       return Unit;
     };
   }
   function NQuads2Parser$parse$lambda$lambda_3(this$NQuads2Parser, closure$s) {
     return function () {
-      _DictionaryHelper_getInstance().stringToByteArray_iqqgd6$(this$NQuads2Parser.quad[2], closure$s);
+      DictionaryHelper_getInstance().stringToByteArray_akwfwi$(this$NQuads2Parser.quad[2], closure$s);
       return Unit;
     };
   }
@@ -2051,22 +553,22 @@
   function NQuads2Parser$parse$lambda_8(this$NQuads2Parser) {
     return function () {
       var value = this$NQuads2Parser.context_8be2vx$.getValue_8be2vx$();
-      var tmp$ = _DictionaryHelper_getInstance();
+      var tmp$ = DictionaryHelper_getInstance();
       var tmp$_0 = this$NQuads2Parser.quad[3];
       var endIndex = value.length - 1 | 0;
-      tmp$.iriToByteArray_iqqgd6$(tmp$_0, value.substring(1, endIndex));
+      tmp$.iriToByteArray_akwfwi$(tmp$_0, value.substring(1, endIndex));
       return Unit;
     };
   }
   function NQuads2Parser$parse$lambda_9(this$NQuads2Parser) {
     return function () {
-      _DictionaryHelper_getInstance().bnodeToByteArray_iqqgd6$(this$NQuads2Parser.quad[3], this$NQuads2Parser.context_8be2vx$.getValue_8be2vx$());
+      DictionaryHelper_getInstance().bnodeToByteArray_akwfwi$(this$NQuads2Parser.quad[3], this$NQuads2Parser.context_8be2vx$.getValue_8be2vx$());
       return Unit;
     };
   }
   function NQuads2Parser$parse$lambda_10(this$NQuads2Parser) {
     return function () {
-      _DictionaryHelper_getInstance().iriToByteArray_iqqgd6$(this$NQuads2Parser.quad[3], '');
+      DictionaryHelper_getInstance().iriToByteArray_akwfwi$(this$NQuads2Parser.quad[3], '');
       return Unit;
     };
   }
@@ -2116,7 +618,7 @@
     interfaces: [ParserException]
   };
   function ParserExceptionUnexpectedChar(context) {
-    ParserException.call(this, 'unexpected char 0x' + toString_0(context.c_8be2vx$, 16) + ' at ' + context.line_8be2vx$ + ':' + context.column_8be2vx$);
+    ParserException.call(this, 'unexpected char 0x' + toString(context.c_8be2vx$, 16) + ' at ' + context.line_8be2vx$ + ':' + context.column_8be2vx$);
     this.name = 'ParserExceptionUnexpectedChar';
   }
   ParserExceptionUnexpectedChar.$metadata$ = {
@@ -3153,26 +1655,30 @@
   }
   function Dictionary() {
     Dictionary_instance = this;
-    this.max_id_0 = L0;
-    this.RDFTerm_to_ID_0 = LinkedHashMap_init();
-    this.ID_to_RDFTerm_0 = LinkedHashMap_init();
+    this.RDFTerm_to_ID_8be2vx$ = LinkedHashMap_init();
+    this.ID_to_RDFTerm_8be2vx$ = LinkedHashMap_init();
   }
   Dictionary.prototype.addRDFTerm_0 = function (term) {
-    var tmp$;
-    var result = (tmp$ = this.max_id_0, this.max_id_0 = tmp$.inc(), tmp$);
-    var $receiver = this.RDFTerm_to_ID_0;
+    var result = this.RDFTerm_to_ID_8be2vx$.get_11rb$(term.toN3String());
+    if (result != null) {
+      return result;
+    }result = shared.UUID_Counter.getNextUUID();
+    var $receiver = this.RDFTerm_to_ID_8be2vx$;
     var key = term.toN3String();
-    $receiver.put_xwzc9p$(key, result);
-    this.ID_to_RDFTerm_0.put_xwzc9p$(result, term);
+    var value = result;
+    $receiver.put_xwzc9p$(key, value);
+    var $receiver_0 = this.ID_to_RDFTerm_8be2vx$;
+    var key_0 = result;
+    $receiver_0.put_xwzc9p$(key_0, term);
     return result;
   };
   Dictionary.prototype.IRI_61zpoe$ = function (iri) {
     var tmp$;
-    return (tmp$ = this.RDFTerm_to_ID_0.get_11rb$('<' + iri + '>')) != null ? tmp$ : this.addRDFTerm_0(new IRI(iri));
+    return (tmp$ = this.RDFTerm_to_ID_8be2vx$.get_11rb$('<' + iri + '>')) != null ? tmp$ : this.addRDFTerm_0(new IRI(iri));
   };
   Dictionary.prototype.BlankNode_61zpoe$ = function (local_name) {
     var tmp$;
-    return (tmp$ = this.RDFTerm_to_ID_0.get_11rb$('_:' + local_name)) != null ? tmp$ : this.addRDFTerm_0(new BlankNode(local_name));
+    return (tmp$ = this.RDFTerm_to_ID_8be2vx$.get_11rb$('_:' + local_name)) != null ? tmp$ : this.addRDFTerm_0(new BlankNode(local_name));
   };
   Dictionary.prototype.BlankNode = function () {
     return this.addRDFTerm_0(BlankNode_init());
@@ -3181,22 +1687,22 @@
     if (delimiter === void 0)
       delimiter = '"';
     var tmp$;
-    return (tmp$ = this.RDFTerm_to_ID_0.get_11rb$(delimiter + content + delimiter)) != null ? tmp$ : this.addRDFTerm_0(new SimpleLiteral(content, delimiter));
+    return (tmp$ = this.RDFTerm_to_ID_8be2vx$.get_11rb$(delimiter + content + delimiter)) != null ? tmp$ : this.addRDFTerm_0(new SimpleLiteral(content, delimiter));
   };
   Dictionary.prototype.LanguageTaggedLiteral_6hosri$ = function (content, delimiter, language) {
     if (delimiter === void 0)
       delimiter = '"';
     var tmp$;
-    return (tmp$ = this.RDFTerm_to_ID_0.get_11rb$(delimiter + content + delimiter + '@' + language)) != null ? tmp$ : this.addRDFTerm_0(new LanguageTaggedLiteral(content, delimiter, language));
+    return (tmp$ = this.RDFTerm_to_ID_8be2vx$.get_11rb$(delimiter + content + delimiter + '@' + language)) != null ? tmp$ : this.addRDFTerm_0(new LanguageTaggedLiteral(content, delimiter, language));
   };
   Dictionary.prototype.TypedLiteral_6hosri$ = function (content, delimiter, type) {
     if (delimiter === void 0)
       delimiter = '"';
     var tmp$;
-    return (tmp$ = this.RDFTerm_to_ID_0.get_11rb$(delimiter + content + delimiter + '^^<' + type + '>')) != null ? tmp$ : this.addRDFTerm_0(new TypedLiteral(content, delimiter, type));
+    return (tmp$ = this.RDFTerm_to_ID_8be2vx$.get_11rb$(delimiter + content + delimiter + '^^<' + type + '>')) != null ? tmp$ : this.addRDFTerm_0(new TypedLiteral(content, delimiter, type));
   };
   Dictionary.prototype.get_s8cxhz$ = function (id) {
-    return this.ID_to_RDFTerm_0.get_11rb$(id);
+    return this.ID_to_RDFTerm_8be2vx$.get_11rb$(id);
   };
   Dictionary.$metadata$ = {
     kind: Kind_OBJECT,
@@ -3247,32 +1753,12 @@
     interfaces: [RDFResource]
   };
   function BlankNode(local_name) {
-    BlankNode$NewNameCreator_getInstance();
     RDFResource.call(this);
     this.local_name = local_name;
   }
   BlankNode.prototype.toN3String = function () {
     return '_:' + this.local_name;
   };
-  function BlankNode$NewNameCreator() {
-    BlankNode$NewNameCreator_instance = this;
-    this.counter_0 = L0;
-  }
-  BlankNode$NewNameCreator.prototype.createNewName = function () {
-    var tmp$;
-    return '_' + toString((tmp$ = this.counter_0, this.counter_0 = tmp$.inc(), tmp$));
-  };
-  BlankNode$NewNameCreator.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: 'NewNameCreator',
-    interfaces: []
-  };
-  var BlankNode$NewNameCreator_instance = null;
-  function BlankNode$NewNameCreator_getInstance() {
-    if (BlankNode$NewNameCreator_instance === null) {
-      new BlankNode$NewNameCreator();
-    }return BlankNode$NewNameCreator_instance;
-  }
   BlankNode.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'BlankNode',
@@ -3280,7 +1766,7 @@
   };
   function BlankNode_init($this) {
     $this = $this || Object.create(BlankNode.prototype);
-    BlankNode.call($this, BlankNode$NewNameCreator_getInstance().createNewName());
+    BlankNode.call($this, '_' + toString_0(shared.UUID_Counter.getNextUUID()));
     return $this;
   }
   function Literal(content, delimiter) {
@@ -3344,7 +1830,7 @@
     for (var i = 0; i <= tmp$; i++) {
       array[i] = new EOF_0(0);
     }
-    this.tokens_0 = array;
+    this.tokens_8be2vx$ = array;
     this.index1 = 0;
     this.index2 = 0;
     this.buffered = 0;
@@ -3352,8 +1838,8 @@
   LookAheadTokenIterator.prototype.nextToken = function () {
     var tmp$;
     if (this.buffered > 0) {
-      var result = this.tokens_0[this.index1];
-      this.index1 = (this.index1 + 1 | 0) % this.tokens_0.length;
+      var result = this.tokens_8be2vx$[this.index1];
+      this.index1 = (this.index1 + 1 | 0) % this.tokens_8be2vx$.length;
       this.buffered = this.buffered - 1 | 0;
       tmp$ = result;
     } else {
@@ -3364,16 +1850,16 @@
   LookAheadTokenIterator.prototype.lookahead_za3lpa$ = function (number) {
     if (number === void 0)
       number = 0;
-    if (number >= this.tokens_0.length) {
-      throw new LookAheadOverLimit(this.tokens_0.length, number, this.tokenIterator.getIndex(), this.tokenIterator.getLineNumber(), this.tokenIterator.getColumnNumber());
+    if (number >= this.tokens_8be2vx$.length) {
+      throw new LookAheadOverLimit(this.tokens_8be2vx$.length, number, this.tokenIterator.getIndex(), this.tokenIterator.getLineNumber(), this.tokenIterator.getColumnNumber());
     }for (var i = this.buffered; i <= number; i++) {
-      this.tokens_0[this.index2] = this.tokenIterator.nextToken();
-      this.index2 = (this.index2 + 1 | 0) % this.tokens_0.length;
+      this.tokens_8be2vx$[this.index2] = this.tokenIterator.nextToken();
+      this.index2 = (this.index2 + 1 | 0) % this.tokens_8be2vx$.length;
     }
     var a = this.buffered;
     var b = number + 1 | 0;
     this.buffered = Math_0.max(a, b);
-    return this.tokens_0[(this.index1 + number | 0) % this.tokens_0.length];
+    return this.tokens_8be2vx$[(this.index1 + number | 0) % this.tokens_8be2vx$.length];
   };
   LookAheadTokenIterator.$metadata$ = {
     kind: Kind_CLASS,
@@ -3382,8 +1868,8 @@
   };
   function ParseError(message, lineNumber, columnNumber) {
     Throwable.call(this);
-    this.message_fwxbcr$_0 = message + ' in line ' + lineNumber + ' at column ' + columnNumber;
-    this.cause_ph2eef$_0 = null;
+    this.message_l1avi8$_0 = message + ' in line ' + lineNumber + ' at column ' + columnNumber;
+    this.cause_ngmrry$_0 = null;
     this.lineNumber = lineNumber;
     this.columnNumber = columnNumber;
     Kotlin.captureStack(Throwable, this);
@@ -3391,12 +1877,12 @@
   }
   Object.defineProperty(ParseError.prototype, 'message', {
     get: function () {
-      return this.message_fwxbcr$_0;
+      return this.message_l1avi8$_0;
     }
   });
   Object.defineProperty(ParseError.prototype, 'cause', {
     get: function () {
-      return this.cause_ph2eef$_0;
+      return this.cause_ngmrry$_0;
     }
   });
   ParseError.$metadata$ = {
@@ -3437,7 +1923,7 @@
     interfaces: [ParseError]
   };
   function UnexpectedToken(token, expectedTokens, lineNumber, columnNumber) {
-    ParseError.call(this, 'Unexpected Token ' + toString(token) + ', expected: ' + contentToString(expectedTokens), lineNumber, columnNumber);
+    ParseError.call(this, 'Unexpected Token ' + toString_0(token) + ', expected: ' + contentToString(expectedTokens), lineNumber, columnNumber);
     this.name = 'UnexpectedToken';
   }
   UnexpectedToken.$metadata$ = {
@@ -3605,10 +2091,10 @@
   };
   ASTNode.prototype.toString_61zpoe$ = function (indentation) {
     var result = indentation + this.nodeToString() + '\r\n';
-    result += this.toString_t9ol06$(this.children, indentation + '  ');
+    result += this.toString_564x1r$(this.children, indentation + '  ');
     return result;
   };
-  ASTNode.prototype.toString_t9ol06$ = function (nodes, indentation) {
+  ASTNode.prototype.toString_564x1r$ = function (nodes, indentation) {
     var tmp$;
     var result = '';
     for (tmp$ = 0; tmp$ !== nodes.length; ++tmp$) {
@@ -3620,23 +2106,23 @@
   ASTNode.prototype.nodeToString = function () {
     return 'classname';
   };
-  ASTNode.prototype.propertyToString_me1116$ = function (indentation2, indentation3, propertyname, property) {
+  ASTNode.prototype.propertyToString_uv3ysr$ = function (indentation2, indentation3, propertyname, property) {
     var result = '';
     if (!(property.length === 0)) {
       result += indentation2 + propertyname + ':' + '\r' + '\n';
-      result += this.toString_t9ol06$(property, indentation3);
+      result += this.toString_564x1r$(property, indentation3);
     }return result;
   };
-  ASTNode.prototype.getChildrensValues_jjajtk$ = function (visitor) {
+  ASTNode.prototype.getChildrensValues_4i4ost$ = function (visitor) {
     var size = this.children.length;
-    var list = ArrayList_init_0(size);
+    var list = ArrayList_init(size);
     for (var index = 0; index < size; index++) {
-      list.add_11rb$(this.children[index].visit_f778iz$(visitor));
+      list.add_11rb$(this.children[index].visit_x5uy1c$(visitor));
     }
     return list;
   };
-  ASTNode.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_6fkxtp$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTNode.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_qrmhhe$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTNode.$metadata$ = {
     kind: Kind_CLASS,
@@ -3697,8 +2183,8 @@
   ASTBase.prototype.nodeToString = function () {
     return 'BASE <' + this.iri + '>';
   };
-  ASTBase.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_myb7bg$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTBase.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_rqrazz$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTBase.$metadata$ = {
     kind: Kind_CLASS,
@@ -3713,8 +2199,8 @@
   ASTPrefix.prototype.nodeToString = function () {
     return 'PREFIX ' + this.name + ': <' + this.iri + '>';
   };
-  ASTPrefix.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_vtibg3$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTPrefix.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_nu7n5a$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTPrefix.$metadata$ = {
     kind: Kind_CLASS,
@@ -3724,8 +2210,8 @@
   function ASTQuery(children) {
     ASTNode.call(this, children);
   }
-  ASTQuery.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_rvdm09$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTQuery.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_iyp1ms$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTQuery.$metadata$ = {
     kind: Kind_CLASS,
@@ -3747,8 +2233,8 @@
   ASTValues.prototype.nodeToString = function () {
     return 'Values for variables: ' + joinToString(this.variables, ', ', void 0, void 0, void 0, void 0, ASTValues$nodeToString$lambda);
   };
-  ASTValues.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_35pazn$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTValues.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_4tldb6$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTValues.$metadata$ = {
     kind: Kind_CLASS,
@@ -3770,8 +2256,8 @@
   function ASTValue(children) {
     ASTNode.call(this, children);
   }
-  ASTValue.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_22q55e$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTValue.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_6tyf83$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTValue.$metadata$ = {
     kind: Kind_CLASS,
@@ -3791,8 +2277,8 @@
   function ASTUndef() {
     ASTLeafNode.call(this);
   }
-  ASTUndef.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_q6xhv1$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTUndef.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_ha8xhk$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTUndef.$metadata$ = {
     kind: Kind_CLASS,
@@ -3831,19 +2317,19 @@
     var result = indentation + this.nodeToString() + '\r\n';
     var indentation2 = indentation + '  ';
     var indentation3 = indentation2 + '  ';
-    result += this.propertyToString_me1116$(indentation2, indentation3, 'Datasets', this.datasets);
-    result += this.propertyToString_me1116$(indentation2, indentation3, 'Where', this.where);
-    result += this.propertyToString_me1116$(indentation2, indentation3, 'Group By', this.groupBy);
-    result += this.propertyToString_me1116$(indentation2, indentation3, 'Having', this.having);
-    result += this.propertyToString_me1116$(indentation2, indentation3, 'Order By', this.orderBy);
+    result += this.propertyToString_uv3ysr$(indentation2, indentation3, 'Datasets', this.datasets);
+    result += this.propertyToString_uv3ysr$(indentation2, indentation3, 'Where', this.where);
+    result += this.propertyToString_uv3ysr$(indentation2, indentation3, 'Group By', this.groupBy);
+    result += this.propertyToString_uv3ysr$(indentation2, indentation3, 'Having', this.having);
+    result += this.propertyToString_uv3ysr$(indentation2, indentation3, 'Order By', this.orderBy);
     if (this.existsLimit()) {
-      result += indentation2 + 'LIMIT: ' + toString(this.limit) + '\r\n';
+      result += indentation2 + 'LIMIT: ' + toString_0(this.limit) + '\r\n';
     }if (this.existsOffset()) {
-      result += indentation2 + 'OFFSET: ' + toString(this.offset) + '\r\n';
+      result += indentation2 + 'OFFSET: ' + toString_0(this.offset) + '\r\n';
     }return result;
   };
-  ASTQueryBaseClass.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_iwzqti$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTQueryBaseClass.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_b836dd$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTQueryBaseClass.$metadata$ = {
     kind: Kind_CLASS,
@@ -3866,10 +2352,10 @@
     return (this.distinct ? ' DISTINCT' : '') + (this.reduced ? ' REDUCED ' : '') + (this.selectAll() ? ' *' : '');
   };
   ASTSelectQuery.prototype.toString_61zpoe$ = function (indentation) {
-    return ASTQueryBaseClass.prototype.toString_61zpoe$.call(this, indentation) + this.propertyToString_me1116$(indentation + '  ', indentation + '    ', 'Select', this.select);
+    return ASTQueryBaseClass.prototype.toString_61zpoe$.call(this, indentation) + this.propertyToString_uv3ysr$(indentation + '  ', indentation + '    ', 'Select', this.select);
   };
-  ASTSelectQuery.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_b8x0wd$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTSelectQuery.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_s0050o$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTSelectQuery.$metadata$ = {
     kind: Kind_CLASS,
@@ -3890,8 +2376,8 @@
     var tmp$;
     return ASTSelectQuery.prototype.toString_61zpoe$.call(this, indentation) + (this.values == null ? '' : (tmp$ = this.values) != null ? tmp$.toString_61zpoe$(indentation + '  ') : null);
   };
-  ASTSubSelectQuery.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_81wk07$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTSubSelectQuery.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_fqt4gc$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTSubSelectQuery.$metadata$ = {
     kind: Kind_CLASS,
@@ -3903,10 +2389,10 @@
     this.template = template;
   }
   ASTConstructQuery.prototype.toString_61zpoe$ = function (indentation) {
-    return ASTQueryBaseClass.prototype.toString_61zpoe$.call(this, indentation) + this.propertyToString_me1116$(indentation + '  ', indentation + '    ', 'Template', this.template);
+    return ASTQueryBaseClass.prototype.toString_61zpoe$.call(this, indentation) + this.propertyToString_uv3ysr$(indentation + '  ', indentation + '    ', 'Template', this.template);
   };
-  ASTConstructQuery.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_r13coc$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTConstructQuery.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_ypzx4h$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTConstructQuery.$metadata$ = {
     kind: Kind_CLASS,
@@ -3924,10 +2410,10 @@
     return 'ASTSelectQuery' + (this.selectAll_0() ? ' *' : '');
   };
   ASTDescribeQuery.prototype.toString_61zpoe$ = function (indentation) {
-    return ASTQueryBaseClass.prototype.toString_61zpoe$.call(this, indentation) + this.propertyToString_me1116$(indentation + '  ', indentation + '    ', 'Select', this.select);
+    return ASTQueryBaseClass.prototype.toString_61zpoe$.call(this, indentation) + this.propertyToString_uv3ysr$(indentation + '  ', indentation + '    ', 'Select', this.select);
   };
-  ASTDescribeQuery.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_4gwkyq$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTDescribeQuery.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_tfc2fb$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTDescribeQuery.$metadata$ = {
     kind: Kind_CLASS,
@@ -3937,8 +2423,8 @@
   function ASTAskQuery() {
     ASTQueryBaseClass.call(this);
   }
-  ASTAskQuery.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_go91hm$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTAskQuery.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_ek1slr$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTAskQuery.$metadata$ = {
     kind: Kind_CLASS,
@@ -3960,8 +2446,8 @@
     result += this.variable.toString_61zpoe$(indentation3);
     return result;
   };
-  ASTAs.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_il6je5$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTAs.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_1gm8c2$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTAs.$metadata$ = {
     kind: Kind_CLASS,
@@ -3975,8 +2461,8 @@
   ASTDatasetClause.prototype.nodeToString = function () {
     return ASTLeafNode.prototype.nodeToString.call(this) + ' <' + this.source_iri + '>';
   };
-  ASTDatasetClause.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_iyegd4$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTDatasetClause.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_r4a45f$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTDatasetClause.$metadata$ = {
     kind: Kind_CLASS,
@@ -3991,8 +2477,8 @@
   function ASTDefaultGraph(source_iri) {
     ASTDatasetClause_init(source_iri, this);
   }
-  ASTDefaultGraph.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_37jfyg$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTDefaultGraph.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_pbflu5$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTDefaultGraph.$metadata$ = {
     kind: Kind_CLASS,
@@ -4002,8 +2488,8 @@
   function ASTNamedGraph(source_iri) {
     ASTDatasetClause_init(source_iri, this);
   }
-  ASTNamedGraph.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_lqxjcg$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTNamedGraph.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_3zvvf9$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTNamedGraph.$metadata$ = {
     kind: Kind_CLASS,
@@ -4017,8 +2503,8 @@
   ASTOrderCondition.prototype.toString_61zpoe$ = function (indentation) {
     return indentation + this.nodeToString() + ' ' + (this.asc ? 'ASC' : 'DESC') + '\r\n' + this.children[0].toString_61zpoe$(indentation + '  ');
   };
-  ASTOrderCondition.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_d6slp4$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTOrderCondition.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_5hw18z$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTOrderCondition.$metadata$ = {
     kind: Kind_CLASS,
@@ -4032,8 +2518,8 @@
   ASTVar.prototype.nodeToString = function () {
     return ASTLeafNode.prototype.nodeToString.call(this) + ' ' + this.name;
   };
-  ASTVar.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_c8gfaw$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTVar.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_p2yhpf$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTVar.$metadata$ = {
     kind: Kind_CLASS,
@@ -4043,8 +2529,8 @@
   function ASTRDFTerm() {
     ASTLeafNode.call(this);
   }
-  ASTRDFTerm.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_1z7zmp$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTRDFTerm.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_yr1ays$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTRDFTerm.$metadata$ = {
     kind: Kind_CLASS,
@@ -4059,8 +2545,8 @@
   ASTLiteral.prototype.nodeToString = function () {
     return this.delimiter + this.content + this.delimiter;
   };
-  ASTLiteral.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_c9trbk$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTLiteral.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_ogfj9x$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTLiteral.$metadata$ = {
     kind: Kind_CLASS,
@@ -4070,8 +2556,8 @@
   function ASTSimpleLiteral(content, delimiter) {
     ASTLiteral.call(this, content, delimiter);
   }
-  ASTSimpleLiteral.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_2gxmf2$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTSimpleLiteral.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_mhhv1j$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTSimpleLiteral.$metadata$ = {
     kind: Kind_CLASS,
@@ -4085,8 +2571,8 @@
   ASTTypedLiteral.prototype.nodeToString = function () {
     return ASTLiteral.prototype.nodeToString.call(this) + '^^<' + this.type_iri + '>';
   };
-  ASTTypedLiteral.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_e53dwg$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTTypedLiteral.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_7ysrz9$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTTypedLiteral.$metadata$ = {
     kind: Kind_CLASS,
@@ -4100,8 +2586,8 @@
   ASTLanguageTaggedLiteral.prototype.nodeToString = function () {
     return ASTLiteral.prototype.nodeToString.call(this) + '@' + this.language;
   };
-  ASTLanguageTaggedLiteral.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_lgql2s$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTLanguageTaggedLiteral.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_31107t$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTLanguageTaggedLiteral.$metadata$ = {
     kind: Kind_CLASS,
@@ -4115,8 +2601,8 @@
   ASTIri.prototype.nodeToString = function () {
     return '<' + this.iri + '>';
   };
-  ASTIri.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_i1ki67$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTIri.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_j9ueu4$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTIri.$metadata$ = {
     kind: Kind_CLASS,
@@ -4124,34 +2610,14 @@
     interfaces: [ASTRDFTerm]
   };
   function ASTBlankNode(name) {
-    ASTBlankNode$Companion_getInstance();
     ASTRDFTerm.call(this);
     this.name = name;
   }
   ASTBlankNode.prototype.nodeToString = function () {
     return '_:' + this.name;
   };
-  function ASTBlankNode$Companion() {
-    ASTBlankNode$Companion_instance = this;
-    this.label_index = L0;
-  }
-  ASTBlankNode$Companion.prototype.getNewName = function () {
-    var tmp$;
-    return '_' + toString((tmp$ = this.label_index, this.label_index = tmp$.inc(), tmp$));
-  };
-  ASTBlankNode$Companion.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: 'Companion',
-    interfaces: []
-  };
-  var ASTBlankNode$Companion_instance = null;
-  function ASTBlankNode$Companion_getInstance() {
-    if (ASTBlankNode$Companion_instance === null) {
-      new ASTBlankNode$Companion();
-    }return ASTBlankNode$Companion_instance;
-  }
-  ASTBlankNode.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_vsqe21$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTBlankNode.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_qduzim$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTBlankNode.$metadata$ = {
     kind: Kind_CLASS,
@@ -4160,7 +2626,7 @@
   };
   function ASTBlankNode_init($this) {
     $this = $this || Object.create(ASTBlankNode.prototype);
-    ASTBlankNode.call($this, ASTBlankNode$Companion_getInstance().getNewName());
+    ASTBlankNode.call($this, '_' + toString_0(shared.UUID_Counter.getNextUUID()));
     return $this;
   }
   function ASTBooleanLiteral(value) {
@@ -4170,8 +2636,8 @@
   ASTBooleanLiteral.prototype.nodeToString = function () {
     return this.value ? 'true' : 'false';
   };
-  ASTBooleanLiteral.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_w8v9gi$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTBooleanLiteral.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_v3c82h$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTBooleanLiteral.$metadata$ = {
     kind: Kind_CLASS,
@@ -4181,8 +2647,8 @@
   function ASTNumericLiteral() {
     ASTRDFTerm.call(this);
   }
-  ASTNumericLiteral.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_ti5ter$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTNumericLiteral.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_lt98ym$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTNumericLiteral.$metadata$ = {
     kind: Kind_CLASS,
@@ -4194,10 +2660,10 @@
     this.value = value;
   }
   ASTInteger.prototype.nodeToString = function () {
-    return '' + toString(this.value);
+    return '' + toString_0(this.value);
   };
-  ASTInteger.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_u36jtr$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTInteger.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_6n2qrq$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTInteger.$metadata$ = {
     kind: Kind_CLASS,
@@ -4219,8 +2685,8 @@
   ASTDouble.prototype.nodeToString = function () {
     return this.image;
   };
-  ASTDouble.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_ei7rsk$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTDouble.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_6ix3hr$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTDouble.$metadata$ = {
     kind: Kind_CLASS,
@@ -4237,8 +2703,8 @@
   ASTDecimal.prototype.nodeToString = function () {
     return this.image;
   };
-  ASTDecimal.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_t3pm7m$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTDecimal.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_7mjodv$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTDecimal.$metadata$ = {
     kind: Kind_CLASS,
@@ -4253,8 +2719,8 @@
   ASTFunctionCall.prototype.nodeToString = function () {
     return 'ASTFunctionCall <' + this.iri + '>' + (this.distinct ? 'DISTINCT' : '');
   };
-  ASTFunctionCall.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_3n9gtr$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTFunctionCall.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_igmp1y$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTFunctionCall.$metadata$ = {
     kind: Kind_CLASS,
@@ -4264,8 +2730,8 @@
   function ASTTriple(s, p, o) {
     ASTNode.call(this, [s, p, o]);
   }
-  ASTTriple.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_k4dmxl$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTTriple.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_s3ob8e$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTTriple.$metadata$ = {
     kind: Kind_CLASS,
@@ -4275,8 +2741,8 @@
   function ASTGraphRef() {
     ASTLeafNode.call(this);
   }
-  ASTGraphRef.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_vapyao$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTGraphRef.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_t6ipet$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTGraphRef.$metadata$ = {
     kind: Kind_CLASS,
@@ -4290,8 +2756,8 @@
   ASTIriGraphRef.prototype.nodeToString = function () {
     return ASTGraphRef.prototype.nodeToString.call(this) + ' <' + this.iri + '>';
   };
-  ASTIriGraphRef.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_s2bdty$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTIriGraphRef.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_q7pk0v$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTIriGraphRef.$metadata$ = {
     kind: Kind_CLASS,
@@ -4305,8 +2771,8 @@
   ASTNamedIriGraphRef.prototype.nodeToString = function () {
     return ASTGraphRef.prototype.nodeToString.call(this) + ' <' + this.iri + '>';
   };
-  ASTNamedIriGraphRef.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_6pfn4p$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTNamedIriGraphRef.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_23rhqs$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTNamedIriGraphRef.$metadata$ = {
     kind: Kind_CLASS,
@@ -4316,8 +2782,8 @@
   function ASTDefaultGraphRef() {
     ASTGraphRef.call(this);
   }
-  ASTDefaultGraphRef.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_r6irvd$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTDefaultGraphRef.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_1ttbwe$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTDefaultGraphRef.$metadata$ = {
     kind: Kind_CLASS,
@@ -4327,8 +2793,8 @@
   function ASTNamedGraphRef() {
     ASTGraphRef.call(this);
   }
-  ASTNamedGraphRef.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_e2ltsv$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTNamedGraphRef.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_avtnnq$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTNamedGraphRef.$metadata$ = {
     kind: Kind_CLASS,
@@ -4338,8 +2804,8 @@
   function ASTAllGraphRef() {
     ASTGraphRef.call(this);
   }
-  ASTAllGraphRef.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_mblcg7$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTAllGraphRef.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_vyflem$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTAllGraphRef.$metadata$ = {
     kind: Kind_CLASS,
@@ -4361,8 +2827,8 @@
       result += indentation + '  INTO:\r\n' + this.into.toString_61zpoe$(indentation + '    ');
     }return result;
   };
-  ASTLoad.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_4l76cf$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTLoad.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_fqudba$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTLoad.$metadata$ = {
     kind: Kind_CLASS,
@@ -4380,8 +2846,8 @@
   ASTGrapOperation.prototype.toString_61zpoe$ = function (indentation) {
     return indentation + this.nodeToString() + '\r\n' + this.graphref.toString_61zpoe$(indentation + '  ');
   };
-  ASTGrapOperation.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_ysq4s2$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTGrapOperation.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_b9yfqh$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTGrapOperation.$metadata$ = {
     kind: Kind_CLASS,
@@ -4391,8 +2857,8 @@
   function ASTClear(silent, graphref) {
     ASTGrapOperation.call(this, silent, graphref);
   }
-  ASTClear.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_93tri$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTClear.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_8nkqlz$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTClear.$metadata$ = {
     kind: Kind_CLASS,
@@ -4402,8 +2868,8 @@
   function ASTDrop(silent, graphref) {
     ASTGrapOperation.call(this, silent, graphref);
   }
-  ASTDrop.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_54bixi$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTDrop.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_f7q0q7$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTDrop.$metadata$ = {
     kind: Kind_CLASS,
@@ -4413,8 +2879,8 @@
   function ASTCreate(silent, graphref) {
     ASTGrapOperation.call(this, silent, graphref);
   }
-  ASTCreate.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_yvi5x3$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTCreate.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_s6b7r8$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTCreate.$metadata$ = {
     kind: Kind_CLASS,
@@ -4438,8 +2904,8 @@
     result += indentation2 + 'TO:\r\n' + this.toGraph.toString_61zpoe$(indentation3);
     return result;
   };
-  ASTUpdateGrapOperation.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_pjqfsr$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTUpdateGrapOperation.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_hzmsps$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTUpdateGrapOperation.$metadata$ = {
     kind: Kind_CLASS,
@@ -4449,8 +2915,8 @@
   function ASTAdd(silent, fromGraph, toGraph) {
     ASTUpdateGrapOperation.call(this, silent, fromGraph, toGraph);
   }
-  ASTAdd.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_31g4u6$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTAdd.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_y9ys65$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTAdd.$metadata$ = {
     kind: Kind_CLASS,
@@ -4460,8 +2926,8 @@
   function ASTMove(silent, fromGraph, toGraph) {
     ASTUpdateGrapOperation.call(this, silent, fromGraph, toGraph);
   }
-  ASTMove.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_udak0c$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTMove.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_kbryb3$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTMove.$metadata$ = {
     kind: Kind_CLASS,
@@ -4471,8 +2937,8 @@
   function ASTCopy(silent, fromGraph, toGraph) {
     ASTUpdateGrapOperation.call(this, silent, fromGraph, toGraph);
   }
-  ASTCopy.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_y7a4q8$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTCopy.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_ghsdl7$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTCopy.$metadata$ = {
     kind: Kind_CLASS,
@@ -4486,8 +2952,8 @@
   ASTGraph.prototype.nodeToString = function () {
     return ASTNode.prototype.nodeToString.call(this) + ' ' + this.iriOrVar.nodeToString();
   };
-  ASTGraph.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_h1d9db$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTGraph.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_84oozu$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTGraph.$metadata$ = {
     kind: Kind_CLASS,
@@ -4502,8 +2968,8 @@
   ASTService.prototype.nodeToString = function () {
     return ASTNode.prototype.nodeToString.call(this) + (this.silent ? 'SILENT' : '') + ' ' + this.iriOrVar.nodeToString();
   };
-  ASTService.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_fg579y$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTService.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_la43bj$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTService.$metadata$ = {
     kind: Kind_CLASS,
@@ -4513,8 +2979,8 @@
   function ASTModify(children) {
     ASTNode.call(this, children);
   }
-  ASTModify.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_kva7gr$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTModify.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_cvzj5y$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTModify.$metadata$ = {
     kind: Kind_CLASS,
@@ -4524,8 +2990,8 @@
   function ASTDeleteData(data) {
     ASTModify.call(this, data);
   }
-  ASTDeleteData.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_443hlc$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTDeleteData.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_lmpx6d$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTDeleteData.$metadata$ = {
     kind: Kind_CLASS,
@@ -4535,8 +3001,8 @@
   function ASTDeleteWhere(pattern) {
     ASTModify.call(this, pattern);
   }
-  ASTDeleteWhere.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_62hp5p$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTDeleteWhere.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_mtkta0$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTDeleteWhere.$metadata$ = {
     kind: Kind_CLASS,
@@ -4546,8 +3012,8 @@
   function ASTInsertData(data) {
     ASTModify.call(this, data);
   }
-  ASTInsertData.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_yr5txa$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTInsertData.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_aj4ta5$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTInsertData.$metadata$ = {
     kind: Kind_CLASS,
@@ -4562,17 +3028,17 @@
     this.using = using;
   }
   ASTModifyWithWhere.prototype.toString_61zpoe$ = function (indentation) {
-    var result = indentation + this.nodeToString() + (this.iri != null ? ' <' + toString(this.iri) + '>' : '') + '\r\n';
+    var result = indentation + this.nodeToString() + (this.iri != null ? ' <' + toString_0(this.iri) + '>' : '') + '\r\n';
     var indentation2 = indentation + '  ';
     var indentation3 = indentation2 + '  ';
-    result += this.propertyToString_me1116$(indentation2, indentation3, 'Delete', this.delete);
-    result += this.propertyToString_me1116$(indentation2, indentation3, 'Insert', this.insert);
-    result += this.propertyToString_me1116$(indentation2, indentation3, 'Using', this.using);
-    result += this.propertyToString_me1116$(indentation2, indentation3, 'WHERE', this.children);
+    result += this.propertyToString_uv3ysr$(indentation2, indentation3, 'Delete', this.delete);
+    result += this.propertyToString_uv3ysr$(indentation2, indentation3, 'Insert', this.insert);
+    result += this.propertyToString_uv3ysr$(indentation2, indentation3, 'Using', this.using);
+    result += this.propertyToString_uv3ysr$(indentation2, indentation3, 'WHERE', this.children);
     return result;
   };
-  ASTModifyWithWhere.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_6dr308$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTModifyWithWhere.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_iyycyr$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTModifyWithWhere.$metadata$ = {
     kind: Kind_CLASS,
@@ -4582,8 +3048,8 @@
   function ASTPathAlternatives(children) {
     ASTNode.call(this, children);
   }
-  ASTPathAlternatives.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_gbczbu$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTPathAlternatives.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_bpotxx$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTPathAlternatives.$metadata$ = {
     kind: Kind_CLASS,
@@ -4593,8 +3059,8 @@
   function ASTPathSequence(children) {
     ASTNode.call(this, children);
   }
-  ASTPathSequence.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_gq4y81$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTPathSequence.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_w72xve$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTPathSequence.$metadata$ = {
     kind: Kind_CLASS,
@@ -4604,8 +3070,8 @@
   function ASTPathInverse(child) {
     ASTUnaryOperation.call(this, child);
   }
-  ASTPathInverse.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_d13u7g$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTPathInverse.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_ts6ybr$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTPathInverse.$metadata$ = {
     kind: Kind_CLASS,
@@ -4615,8 +3081,8 @@
   function ASTPathArbitraryOccurrences(child) {
     ASTUnaryOperation.call(this, child);
   }
-  ASTPathArbitraryOccurrences.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_453eeo$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTPathArbitraryOccurrences.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_w2wnp1$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTPathArbitraryOccurrences.$metadata$ = {
     kind: Kind_CLASS,
@@ -4626,8 +3092,8 @@
   function ASTPathOptionalOccurrence(child) {
     ASTUnaryOperation.call(this, child);
   }
-  ASTPathOptionalOccurrence.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_2k4qj5$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTPathOptionalOccurrence.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_5u99ee$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTPathOptionalOccurrence.$metadata$ = {
     kind: Kind_CLASS,
@@ -4637,8 +3103,8 @@
   function ASTPathArbitraryOccurrencesNotZero(child) {
     ASTUnaryOperation.call(this, child);
   }
-  ASTPathArbitraryOccurrencesNotZero.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_r4l0w7$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTPathArbitraryOccurrencesNotZero.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_tzlgpu$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTPathArbitraryOccurrencesNotZero.$metadata$ = {
     kind: Kind_CLASS,
@@ -4648,8 +3114,8 @@
   function ASTPathNegatedPropertySet(children) {
     ASTNode.call(this, children);
   }
-  ASTPathNegatedPropertySet.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_rxatdh$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTPathNegatedPropertySet.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_on6ai8$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTPathNegatedPropertySet.$metadata$ = {
     kind: Kind_CLASS,
@@ -4659,8 +3125,8 @@
   function ASTOptional(children) {
     ASTNode.call(this, children);
   }
-  ASTOptional.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_45tb39$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTOptional.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_6a0jz4$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTOptional.$metadata$ = {
     kind: Kind_CLASS,
@@ -4670,8 +3136,8 @@
   function ASTMinusGroup(children) {
     ASTNode.call(this, children);
   }
-  ASTMinusGroup.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_hrwiwa$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTMinusGroup.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_rie4b5$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTMinusGroup.$metadata$ = {
     kind: Kind_CLASS,
@@ -4681,8 +3147,8 @@
   function ASTUnion(children) {
     ASTNode.call(this, children);
   }
-  ASTUnion.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_e7p6kw$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTUnion.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_n4dqyd$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTUnion.$metadata$ = {
     kind: Kind_CLASS,
@@ -4692,8 +3158,8 @@
   function ASTGroup(children) {
     ASTNode.call(this, children);
   }
-  ASTGroup.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_uwya00$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTGroup.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_m09pmj$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTGroup.$metadata$ = {
     kind: Kind_CLASS,
@@ -4703,8 +3169,8 @@
   function ASTFilter(child) {
     ASTUnaryOperation.call(this, child);
   }
-  ASTFilter.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_nhwxkj$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTFilter.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_vh7lvc$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTFilter.$metadata$ = {
     kind: Kind_CLASS,
@@ -4714,8 +3180,8 @@
   function ASTSet(children) {
     ASTNode.call(this, children);
   }
-  ASTSet.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_p9hdvh$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTSet.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_c1xj4u$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTSet.$metadata$ = {
     kind: Kind_CLASS,
@@ -4725,8 +3191,8 @@
   function ASTOr(children) {
     ASTNode.call(this, children);
   }
-  ASTOr.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_qfp0f6$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTOr.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_rguqhv$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTOr.$metadata$ = {
     kind: Kind_CLASS,
@@ -4736,8 +3202,8 @@
   function ASTAnd(children) {
     ASTNode.call(this, children);
   }
-  ASTAnd.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_joh4jc$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTAnd.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_e180fh$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTAnd.$metadata$ = {
     kind: Kind_CLASS,
@@ -4747,8 +3213,8 @@
   function ASTEQ(left, right) {
     ASTBinaryOperationFixedName.call(this, left, right, '=');
   }
-  ASTEQ.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_rikho9$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTEQ.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_qdz98s$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTEQ.$metadata$ = {
     kind: Kind_CLASS,
@@ -4758,8 +3224,8 @@
   function ASTNEQ(left, right) {
     ASTBinaryOperationFixedName.call(this, left, right, '!=');
   }
-  ASTNEQ.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_llwnuj$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTNEQ.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_c3sh4a$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTNEQ.$metadata$ = {
     kind: Kind_CLASS,
@@ -4769,8 +3235,8 @@
   function ASTLEQ(left, right) {
     ASTBinaryOperationFixedName.call(this, left, right, '<=');
   }
-  ASTLEQ.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_mt05o9$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTLEQ.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_awozak$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTLEQ.$metadata$ = {
     kind: Kind_CLASS,
@@ -4780,8 +3246,8 @@
   function ASTGEQ(left, right) {
     ASTBinaryOperationFixedName.call(this, left, right, '>=');
   }
-  ASTGEQ.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_9pt4r0$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTGEQ.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_rlls9b$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTGEQ.$metadata$ = {
     kind: Kind_CLASS,
@@ -4791,8 +3257,8 @@
   function ASTLT(left, right) {
     ASTBinaryOperationFixedName.call(this, left, right, '<');
   }
-  ASTLT.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_tq097h$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTLT.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_o6jhpk$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTLT.$metadata$ = {
     kind: Kind_CLASS,
@@ -4802,8 +3268,8 @@
   function ASTGT(left, right) {
     ASTBinaryOperationFixedName.call(this, left, right, '>');
   }
-  ASTGT.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_5keuwo$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTGT.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_moz5yr$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTGT.$metadata$ = {
     kind: Kind_CLASS,
@@ -4813,8 +3279,8 @@
   function ASTIn(left, right) {
     ASTBinaryOperationFixedName.call(this, left, right, 'In');
   }
-  ASTIn.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_7r8g2o$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTIn.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_9dbuzf$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTIn.$metadata$ = {
     kind: Kind_CLASS,
@@ -4824,8 +3290,8 @@
   function ASTNotIn(left, right) {
     ASTBinaryOperationFixedName.call(this, left, right, 'Not In');
   }
-  ASTNotIn.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_tpke9l$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTNotIn.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_ksvtw4$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTNotIn.$metadata$ = {
     kind: Kind_CLASS,
@@ -4835,8 +3301,8 @@
   function ASTAddition(left, right) {
     ASTBinaryOperationFixedName.call(this, left, right, '+');
   }
-  ASTAddition.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_fo2bpl$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTAddition.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_hs9klg$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTAddition.$metadata$ = {
     kind: Kind_CLASS,
@@ -4846,8 +3312,8 @@
   function ASTSubtraction(left, right) {
     ASTBinaryOperationFixedName.call(this, left, right, '-');
   }
-  ASTSubtraction.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_vffzf9$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTSubtraction.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_mukyfk$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTSubtraction.$metadata$ = {
     kind: Kind_CLASS,
@@ -4857,8 +3323,8 @@
   function ASTMultiplication(left, right) {
     ASTBinaryOperationFixedName.call(this, left, right, '*');
   }
-  ASTMultiplication.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_xms48v$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTMultiplication.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_pxvjsq$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTMultiplication.$metadata$ = {
     kind: Kind_CLASS,
@@ -4868,8 +3334,8 @@
   function ASTDivision(left, right) {
     ASTBinaryOperationFixedName.call(this, left, right, '/');
   }
-  ASTDivision.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_gya2p4$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTDivision.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_eu2tt9$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTDivision.$metadata$ = {
     kind: Kind_CLASS,
@@ -4879,8 +3345,8 @@
   function ASTNot(child) {
     ASTUnaryOperationFixedName.call(this, child, '!');
   }
-  ASTNot.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_z2dex8$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTNot.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_291i33$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTNot.$metadata$ = {
     kind: Kind_CLASS,
@@ -4890,8 +3356,8 @@
   function ASTPlus(child) {
     ASTUnaryOperationFixedName.call(this, child, '+');
   }
-  ASTPlus.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_jxkrf9$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTPlus.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_urhqw6$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTPlus.$metadata$ = {
     kind: Kind_CLASS,
@@ -4901,8 +3367,8 @@
   function ASTMinus(child) {
     ASTUnaryOperationFixedName.call(this, child, '-');
   }
-  ASTMinus.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_vze635$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTMinus.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_n2plpo$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTMinus.$metadata$ = {
     kind: Kind_CLASS,
@@ -4914,10 +3380,10 @@
     this.function = function_0;
   }
   ASTBuiltInCall.prototype.nodeToString = function () {
-    return sparql1_1.BuiltInFunctionsExt.names[this.function];
+    return shared.BuiltInFunctionsExt.names[this.function];
   };
-  ASTBuiltInCall.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_b7thb2$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTBuiltInCall.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_5j9mt9$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTBuiltInCall.$metadata$ = {
     kind: Kind_CLASS,
@@ -4950,10 +3416,10 @@
     this.distinct = distinct;
   }
   ASTAggregation.prototype.nodeToString = function () {
-    return sparql1_1.AggregationExt.names[this.type] + (this.distinct ? ' DISTINCT' : '');
+    return shared.AggregationExt.names[this.type] + (this.distinct ? ' DISTINCT' : '');
   };
-  ASTAggregation.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_8liyv1$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTAggregation.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_85k59a$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTAggregation.$metadata$ = {
     kind: Kind_CLASS,
@@ -4972,8 +3438,8 @@
   ASTGroupConcat.prototype.nodeToString = function () {
     return ASTAggregation.prototype.nodeToString.call(this) + ' separator="' + this.separator + '"';
   };
-  ASTGroupConcat.prototype.visit_f778iz$ = function (visitor) {
-    return visitor.visit_8o2ehg$(this, this.getChildrensValues_jjajtk$(visitor));
+  ASTGroupConcat.prototype.visit_x5uy1c$ = function (visitor) {
+    return visitor.visit_pf5ilr$(this, this.getChildrensValues_4i4ost$(visitor));
   };
   ASTGroupConcat.$metadata$ = {
     kind: Kind_CLASS,
@@ -4982,16 +3448,16 @@
   };
   function SPARQLParser(ltit) {
     this.ltit = ltit;
-    this.prefixes_0 = LinkedHashMap_init();
-    this.rdf_0 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
-    this.nil_0 = this.rdf_0 + 'nil';
-    this.first_0 = this.rdf_0 + 'first';
-    this.rest_0 = this.rdf_0 + 'rest';
-    this.type_0 = this.rdf_0 + 'type';
-    this.ASTNil_0 = new ASTIri(this.nil_0);
-    this.ASTFirst_0 = new ASTIri(this.first_0);
-    this.ASTRest_0 = new ASTIri(this.rest_0);
-    this.ASTType_0 = new ASTIri(this.type_0);
+    this.prefixes_8be2vx$ = mutableMapOf([to('', '')]);
+    this.rdf_8be2vx$ = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
+    this.nil_8be2vx$ = this.rdf_8be2vx$ + 'nil';
+    this.first_8be2vx$ = this.rdf_8be2vx$ + 'first';
+    this.rest_8be2vx$ = this.rdf_8be2vx$ + 'rest';
+    this.type_8be2vx$ = this.rdf_8be2vx$ + 'type';
+    this.ASTNil_8be2vx$ = new ASTIri(this.nil_8be2vx$);
+    this.ASTFirst_8be2vx$ = new ASTIri(this.first_8be2vx$);
+    this.ASTRest_8be2vx$ = new ASTIri(this.rest_8be2vx$);
+    this.ASTType_8be2vx$ = new ASTIri(this.type_8be2vx$);
   }
   SPARQLParser.prototype.expr = function () {
     var result = this.QueryOrUpdate_0();
@@ -5002,7 +3468,7 @@
   };
   SPARQLParser.prototype.QueryOrUpdate_0 = function () {
     var token;
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     var t1 = this.ltit.lookahead_za3lpa$();
     if (equals(t1.image, 'BASE') || equals(t1.image, 'PREFIX')) {
       var list = this.Prologue_0();
@@ -5073,7 +3539,7 @@
   };
   SPARQLParser.prototype.Prologue_0 = function () {
     var token;
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     do {
       var t11 = this.ltit.lookahead_za3lpa$();
       switch (t11.image) {
@@ -5099,7 +3565,7 @@
     }token = this.ltit.nextToken();
     if (!Kotlin.isType(token, IRI_0)) {
       throw UnexpectedToken_init(token, ['IRI'], this.ltit);
-    }var $receiver = this.prefixes_0;
+    }var $receiver = this.prefixes_8be2vx$;
     var value = token.content;
     $receiver.put_xwzc9p$('', value);
     return new ASTBase(token.content);
@@ -5115,7 +3581,7 @@
     token = this.ltit.nextToken();
     if (!Kotlin.isType(token, IRI_0)) {
       throw UnexpectedToken_init(token, ['IRI'], this.ltit);
-    }var $receiver = this.prefixes_0;
+    }var $receiver = this.prefixes_8be2vx$;
     var value = token.content;
     $receiver.put_xwzc9p$(key, value);
     return new ASTPrefix(key, token.content);
@@ -5123,7 +3589,7 @@
   SPARQLParser.prototype.SelectQuery_0 = function () {
     var token;
     var select = this.SelectClause_0();
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     var t13 = this.ltit.lookahead_za3lpa$();
     while (equals(t13.image, 'FROM')) {
       var dataset = this.DatasetClause_0();
@@ -5173,7 +3639,7 @@
           break;
         default:throw UnexpectedToken_init(t15, ['DISTINCT', 'REDUCED'], this.ltit);
       }
-    }var collect = ArrayList_init();
+    }var collect = ArrayList_init_0();
     var t19 = this.ltit.lookahead_za3lpa$();
     if (Kotlin.isType(t19, VAR) || equals(t19.image, '('))
       do {
@@ -5226,7 +3692,7 @@
           break;
         default:throw UnexpectedToken_init(t20, ['DISTINCT', 'REDUCED'], this.ltit);
       }
-    }var collect = ArrayList_init();
+    }var collect = ArrayList_init_0();
     var t24 = this.ltit.lookahead_za3lpa$();
     if (Kotlin.isType(t24, VAR) || equals(t24.image, '('))
       do {
@@ -5268,7 +3734,7 @@
   };
   SPARQLParser.prototype.ConstructQuery_0 = function () {
     var construct;
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     var token = this.ltit.nextToken();
     if (!equals(token.image, 'CONSTRUCT')) {
       throw UnexpectedToken_init(token, ['CONSTRUCT'], this.ltit);
@@ -5327,7 +3793,7 @@
     token = this.ltit.nextToken();
     if (!equals(token.image, 'DESCRIBE')) {
       throw UnexpectedToken_init(token, ['DESCRIBE'], this.ltit);
-    }var vois = ArrayList_init();
+    }var vois = ArrayList_init_0();
     var t30 = this.ltit.lookahead_za3lpa$();
     if (Kotlin.isType(t30, VAR) || Kotlin.isType(t30, IRI_0) || Kotlin.isType(t30, PNAME_LN) || Kotlin.isType(t30, PNAME_NS))
       do {
@@ -5344,7 +3810,7 @@
       throw UnexpectedToken_init(t30, ['VAR', 'IRI', 'PNAME_LN', 'PNAME_NS', '*'], this.ltit);
     }
     var describe = new ASTDescribeQuery(copyToArray(vois));
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     var t31 = this.ltit.lookahead_za3lpa$();
     while (equals(t31.image, 'FROM')) {
       var dataset = this.DatasetClause_0();
@@ -5363,7 +3829,7 @@
     var token = this.ltit.nextToken();
     if (!equals(token.image, 'ASK')) {
       throw UnexpectedToken_init(token, ['ASK'], this.ltit);
-    }var collect = ArrayList_init();
+    }var collect = ArrayList_init_0();
     var t33 = this.ltit.lookahead_za3lpa$();
     while (equals(t33.image, 'FROM')) {
       var dataset = this.DatasetClause_0();
@@ -5434,7 +3900,7 @@
       this.LimitOffsetClauses_0(query);
     }};
   SPARQLParser.prototype.GroupClause_0 = function (query) {
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     var token = this.ltit.nextToken();
     if (!equals(token.image, 'GROUP')) {
       throw UnexpectedToken_init(token, ['GROUP'], this.ltit);
@@ -5480,7 +3946,7 @@
     return result;
   };
   SPARQLParser.prototype.HavingClause_0 = function (query) {
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     var token = this.ltit.nextToken();
     if (!equals(token.image, 'HAVING')) {
       throw UnexpectedToken_init(token, ['HAVING'], this.ltit);
@@ -5497,7 +3963,7 @@
     return this.Constraint_0();
   };
   SPARQLParser.prototype.OrderClause_0 = function (query) {
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     var token = this.ltit.nextToken();
     if (!equals(token.image, 'ORDER')) {
       throw UnexpectedToken_init(token, ['ORDER'], this.ltit);
@@ -5624,7 +4090,7 @@
     var token = this.ltit.nextToken();
     if (!equals(token.image, '{')) {
       throw UnexpectedToken_init(token, ['{'], this.ltit);
-    }var collect = ArrayList_init();
+    }var collect = ArrayList_init_0();
     var t52 = this.ltit.lookahead_za3lpa$();
     while (Kotlin.isType(t52, IRI_0) || Kotlin.isType(t52, PNAME_LN) || Kotlin.isType(t52, PNAME_NS) || Kotlin.isType(t52, STRING) || Kotlin.isType(t52, INTEGER) || Kotlin.isType(t52, DECIMAL) || Kotlin.isType(t52, DOUBLE) || equals(t52.image, '+') || equals(t52.image, '-') || equals(t52.image, 'TRUE') || equals(t52.image, 'FALSE') || equals(t52.image, 'UNDEF')) {
       var value = this.DataBlockValueOneVar_0();
@@ -5643,8 +4109,8 @@
   };
   SPARQLParser.prototype.InlineDataFull_0 = function () {
     var token;
-    var variables = ArrayList_init();
-    var collect = ArrayList_init();
+    var variables = ArrayList_init_0();
+    var collect = ArrayList_init_0();
     var t54 = this.ltit.lookahead_za3lpa$();
     if (Kotlin.isType(t54, NIL)) {
       token = this.ltit.nextToken();
@@ -5682,7 +4148,7 @@
   };
   SPARQLParser.prototype.sequenceOfDataBlockValues_0 = function () {
     var token;
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     var t57 = this.ltit.lookahead_za3lpa$();
     if (Kotlin.isType(t57, NIL)) {
       token = this.ltit.nextToken();
@@ -5971,7 +4437,7 @@
         break;
       default:throw UnexpectedToken_init(t76, ['WITH', 'DELETE', 'INSERT'], this.ltit);
     }
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     var t77 = this.ltit.lookahead_za3lpa$();
     while (equals(t77.image, 'USING')) {
       var ref = this.UsingClause_0();
@@ -6091,7 +4557,7 @@
   };
   SPARQLParser.prototype.Quads_0 = function () {
     var token;
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     var t82 = this.ltit.lookahead_za3lpa$();
     if (equals(t82.image, '(') || equals(t82.image, '[') || Kotlin.isType(t82, VAR) || Kotlin.isType(t82, IRI_0) || Kotlin.isType(t82, PNAME_LN) || Kotlin.isType(t82, PNAME_NS) || Kotlin.isType(t82, STRING) || Kotlin.isType(t82, INTEGER) || Kotlin.isType(t82, DECIMAL) || Kotlin.isType(t82, DOUBLE) || equals(t82.image, '+') || equals(t82.image, '-') || equals(t82.image, 'TRUE') || equals(t82.image, 'FALSE') || Kotlin.isType(t82, BNODE) || Kotlin.isType(t82, ANON_BNODE) || Kotlin.isType(t82, NIL)) {
       var triples = this.TriplesTemplate_0();
@@ -6132,7 +4598,7 @@
   };
   SPARQLParser.prototype.TriplesTemplate_0 = function () {
     var token;
-    var result = ArrayList_init();
+    var result = ArrayList_init_0();
     this.TriplesSameSubject_0(result);
     var t88 = this.ltit.lookahead_za3lpa$();
     while (equals(t88.image, '.')) {
@@ -6147,7 +4613,7 @@
     return copyToArray(result);
   };
   SPARQLParser.prototype.GroupGraphPattern_0 = function () {
-    var result = ArrayList_init();
+    var result = ArrayList_init_0();
     var token = this.ltit.nextToken();
     if (!equals(token.image, '{')) {
       throw UnexpectedToken_init(token, ['{'], this.ltit);
@@ -6170,7 +4636,7 @@
   };
   SPARQLParser.prototype.GroupGraphPatternSub_0 = function () {
     var token;
-    var result = ArrayList_init();
+    var result = ArrayList_init_0();
     var t91 = this.ltit.lookahead_za3lpa$();
     if (equals(t91.image, '(') || equals(t91.image, '[') || Kotlin.isType(t91, VAR) || Kotlin.isType(t91, IRI_0) || Kotlin.isType(t91, PNAME_LN) || Kotlin.isType(t91, PNAME_NS) || Kotlin.isType(t91, STRING) || Kotlin.isType(t91, INTEGER) || Kotlin.isType(t91, DECIMAL) || Kotlin.isType(t91, DOUBLE) || equals(t91.image, '+') || equals(t91.image, '-') || equals(t91.image, 'TRUE') || equals(t91.image, 'FALSE') || Kotlin.isType(t91, BNODE) || Kotlin.isType(t91, ANON_BNODE) || Kotlin.isType(t91, NIL)) {
       this.TriplesBlock_0(result);
@@ -6293,7 +4759,7 @@
   SPARQLParser.prototype.GroupOrUnionGraphPattern_0 = function () {
     var tmp$;
     var token;
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     var first = this.GroupGraphPattern_0();
     if (first.length === 1)
       collect.add_11rb$(first[0]);
@@ -6351,7 +4817,7 @@
   };
   SPARQLParser.prototype.ArgList_0 = function (iri) {
     var token;
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     var distinct = false;
     var t103 = this.ltit.lookahead_za3lpa$();
     if (Kotlin.isType(t103, NIL)) {
@@ -6389,7 +4855,7 @@
   };
   SPARQLParser.prototype.ExpressionList_0 = function () {
     var token;
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     var t105 = this.ltit.lookahead_za3lpa$();
     if (Kotlin.isType(t105, NIL)) {
       token = this.ltit.nextToken();
@@ -6419,7 +4885,7 @@
     return copyToArray(collect);
   };
   SPARQLParser.prototype.ConstructTemplate_0 = function () {
-    var result = ArrayList_init();
+    var result = ArrayList_init_0();
     var token = this.ltit.nextToken();
     if (!equals(token.image, '{')) {
       throw UnexpectedToken_init(token, ['{'], this.ltit);
@@ -6506,7 +4972,7 @@
       token = this.ltit.nextToken();
       if (!equals(token.image, 'A')) {
         throw UnexpectedToken_init(token, ['A'], this.ltit);
-      }tmp$ = this.ASTType_0;
+      }tmp$ = this.ASTType_8be2vx$;
     } else {
       throw UnexpectedToken_init(t114, ['VAR', 'IRI', 'PNAME_LN', 'PNAME_NS', 'A'], this.ltit);
     }
@@ -6560,17 +5026,17 @@
     if (!equals(token.image, '(')) {
       throw UnexpectedToken_init(token, ['('], this.ltit);
     }var gn = this.GraphNodePath_0(result);
-    result.add_11rb$(new ASTTriple(current, this.ASTFirst_0, gn));
+    result.add_11rb$(new ASTTriple(current, this.ASTFirst_8be2vx$, gn));
     var t117 = this.ltit.lookahead_za3lpa$();
     while (Kotlin.isType(t117, VAR) || Kotlin.isType(t117, IRI_0) || Kotlin.isType(t117, PNAME_LN) || Kotlin.isType(t117, PNAME_NS) || Kotlin.isType(t117, STRING) || Kotlin.isType(t117, INTEGER) || Kotlin.isType(t117, DECIMAL) || Kotlin.isType(t117, DOUBLE) || equals(t117.image, '+') || equals(t117.image, '-') || equals(t117.image, 'TRUE') || equals(t117.image, 'FALSE') || Kotlin.isType(t117, BNODE) || Kotlin.isType(t117, ANON_BNODE) || Kotlin.isType(t117, NIL) || equals(t117.image, '(') || equals(t117.image, '[')) {
       var gn2 = this.GraphNodePath_0(result);
       var next = ASTBlankNode_init();
-      result.add_11rb$(new ASTTriple(current, this.ASTRest_0, next));
-      result.add_11rb$(new ASTTriple(next, this.ASTFirst_0, gn2));
+      result.add_11rb$(new ASTTriple(current, this.ASTRest_8be2vx$, next));
+      result.add_11rb$(new ASTTriple(next, this.ASTFirst_8be2vx$, gn2));
       current = next;
       t117 = this.ltit.lookahead_za3lpa$();
     }
-    result.add_11rb$(new ASTTriple(current, this.ASTRest_0, this.ASTNil_0));
+    result.add_11rb$(new ASTTriple(current, this.ASTRest_8be2vx$, this.ASTNil_8be2vx$));
     token = this.ltit.nextToken();
     if (!equals(token.image, ')')) {
       throw UnexpectedToken_init(token, [')'], this.ltit);
@@ -6755,7 +5221,7 @@
       token = this.ltit.nextToken();
       if (!equals(token.image, 'A')) {
         throw UnexpectedToken_init(token, ['A'], this.ltit);
-      }return this.ASTType_0;
+      }return this.ASTType_8be2vx$;
     } else if (equals(t130.image, '!')) {
       token = this.ltit.nextToken();
       if (!equals(token.image, '!')) {
@@ -6776,7 +5242,7 @@
   };
   SPARQLParser.prototype.PathNegatedPropertySet_0 = function () {
     var token;
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     var t133 = this.ltit.lookahead_za3lpa$();
     if (Kotlin.isType(t133, IRI_0) || Kotlin.isType(t133, PNAME_LN) || Kotlin.isType(t133, PNAME_NS) || equals(t133.image, 'A') || equals(t133.image, '^')) {
       var one = this.PathOneInPropertySet_0();
@@ -6815,7 +5281,7 @@
       token = this.ltit.nextToken();
       if (!equals(token.image, 'A')) {
         throw UnexpectedToken_init(token, ['A'], this.ltit);
-      }return this.ASTType_0;
+      }return this.ASTType_8be2vx$;
     } else if (equals(t135.image, '^')) {
       token = this.ltit.nextToken();
       if (!equals(token.image, '^')) {
@@ -6828,7 +5294,7 @@
         token = this.ltit.nextToken();
         if (!equals(token.image, 'A')) {
           throw UnexpectedToken_init(token, ['A'], this.ltit);
-        }inner = this.ASTType_0;
+        }inner = this.ASTType_8be2vx$;
       } else {
         throw UnexpectedToken_init(t134, ['IRI', 'PNAME_LN', 'PNAME_NS', 'A'], this.ltit);
       }
@@ -6871,17 +5337,17 @@
     if (!equals(token.image, '(')) {
       throw UnexpectedToken_init(token, ['('], this.ltit);
     }var gn = this.GraphNode_0(result);
-    result.add_11rb$(new ASTTriple(current, this.ASTFirst_0, gn));
+    result.add_11rb$(new ASTTriple(current, this.ASTFirst_8be2vx$, gn));
     var t137 = this.ltit.lookahead_za3lpa$();
     while (Kotlin.isType(t137, VAR) || Kotlin.isType(t137, IRI_0) || Kotlin.isType(t137, PNAME_LN) || Kotlin.isType(t137, PNAME_NS) || Kotlin.isType(t137, STRING) || Kotlin.isType(t137, INTEGER) || Kotlin.isType(t137, DECIMAL) || Kotlin.isType(t137, DOUBLE) || equals(t137.image, '+') || equals(t137.image, '-') || equals(t137.image, 'TRUE') || equals(t137.image, 'FALSE') || Kotlin.isType(t137, BNODE) || Kotlin.isType(t137, ANON_BNODE) || Kotlin.isType(t137, NIL) || equals(t137.image, '(') || equals(t137.image, '[')) {
       var gn2 = this.GraphNode_0(result);
       var next = ASTBlankNode_init();
-      result.add_11rb$(new ASTTriple(current, this.ASTRest_0, next));
-      result.add_11rb$(new ASTTriple(next, this.ASTFirst_0, gn2));
+      result.add_11rb$(new ASTTriple(current, this.ASTRest_8be2vx$, next));
+      result.add_11rb$(new ASTTriple(next, this.ASTFirst_8be2vx$, gn2));
       current = next;
       t137 = this.ltit.lookahead_za3lpa$();
     }
-    result.add_11rb$(new ASTTriple(current, this.ASTRest_0, this.ASTNil_0));
+    result.add_11rb$(new ASTTriple(current, this.ASTRest_8be2vx$, this.ASTNil_8be2vx$));
     token = this.ltit.nextToken();
     if (!equals(token.image, ')')) {
       throw UnexpectedToken_init(token, [')'], this.ltit);
@@ -6954,7 +5420,7 @@
       token = this.ltit.nextToken();
       if (!Kotlin.isType(token, NIL)) {
         throw UnexpectedToken_init(token, ['NIL'], this.ltit);
-      }result = new ASTIri(this.nil_0);
+      }result = new ASTIri(this.nil_8be2vx$);
     } else {
       throw UnexpectedToken_init(t141, ['IRI', 'PNAME_LN', 'PNAME_NS', 'STRING', 'INTEGER', 'DECIMAL', 'DOUBLE', '+', '-', 'TRUE', 'FALSE', 'BNODE', 'ANON_BNODE', 'NIL'], this.ltit);
     }
@@ -6967,7 +5433,7 @@
   SPARQLParser.prototype.ConditionalOrExpression_0 = function () {
     var tmp$;
     var token;
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     var first = this.ConditionalAndExpression_0();
     collect.add_11rb$(first);
     var t142 = this.ltit.lookahead_za3lpa$();
@@ -6989,7 +5455,7 @@
   SPARQLParser.prototype.ConditionalAndExpression_0 = function () {
     var tmp$;
     var token;
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     var first = this.ValueLogical_0();
     collect.add_11rb$(first);
     var t143 = this.ltit.lookahead_za3lpa$();
@@ -8099,7 +6565,7 @@
   };
   SPARQLParser.prototype.RegexExpression_0 = function () {
     var token;
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     token = this.ltit.nextToken();
     if (!equals(token.image, 'REGEX')) {
       throw UnexpectedToken_init(token, ['REGEX'], this.ltit);
@@ -8127,7 +6593,7 @@
   };
   SPARQLParser.prototype.SubstringExpression_0 = function () {
     var token;
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     token = this.ltit.nextToken();
     if (!equals(token.image, 'SUBSTR')) {
       throw UnexpectedToken_init(token, ['SUBSTR'], this.ltit);
@@ -8155,7 +6621,7 @@
   };
   SPARQLParser.prototype.StrReplaceExpression_0 = function () {
     var token;
-    var collect = ArrayList_init();
+    var collect = ArrayList_init_0();
     token = this.ltit.nextToken();
     if (!equals(token.image, 'REPLACE')) {
       throw UnexpectedToken_init(token, ['REPLACE'], this.ltit);
@@ -8555,7 +7021,7 @@
     var token = this.ltit.nextToken();
     if (!Kotlin.isType(token, IRI_0)) {
       throw UnexpectedToken_init(token, ['IRI'], this.ltit);
-    }return new ASTIri(token.content);
+    }return new ASTIri(ensureNotNull(this.prefixes_8be2vx$.get_11rb$('')) + token.content);
   };
   SPARQLParser.prototype.PrefixedName_0 = function () {
     var token;
@@ -8580,7 +7046,7 @@
     } else {
       throw UnexpectedToken_init(t179, ['PNAME_LN', 'PNAME_NS'], this.ltit);
     }
-    var alias = this.prefixes_0.get_11rb$(prefix);
+    var alias = this.prefixes_8be2vx$.get_11rb$(prefix);
     if (alias == null) {
       throw ParseError_init('Undefined Prefix ' + prefix, iriToken, this.ltit);
     } else {
@@ -9522,7 +7988,7 @@
   };
   function Turtle2Parser(input) {
     this.context_8be2vx$ = new ParserContext_0(input);
-    this.prefixMap_8be2vx$ = LinkedHashMap_init();
+    this.prefixMap_8be2vx$ = mutableMapOf([to(':', '')]);
     var array = Array_0(3);
     var tmp$;
     tmp$ = array.length - 1 | 0;
@@ -9540,21 +8006,21 @@
         case 0:
           break loop;
         case 3:
-          this.statement_3ci9cr$_0();
+          this.statement_6riady$_0();
           break;
         case 2:
-          this.predicate_jel719$_0();
+          this.predicate_fzl602$_0();
           break;
         case 1:
-          this.obj_x8wt9$_0();
+          this.obj_pjr06a$_0();
           break;
         case 4:
-          this.triple_end_regf22$_0();
+          this.triple_end_8qqsv5$_0();
           break;
       }
     }
   };
-  function Turtle2Parser$statement_helper_1$lambda(this$Turtle2Parser) {
+  function Turtle2Parser$statement_helper_base$lambda(this$Turtle2Parser) {
     return function () {
       var s = this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$();
       var tmp$ = this$Turtle2Parser.prefixMap_8be2vx$;
@@ -9564,13 +8030,13 @@
       return Unit;
     };
   }
-  Turtle2Parser.prototype.statement_helper_1_28ohww$_0 = function () {
-    parse_base(this.context_8be2vx$, Turtle2Parser$statement_helper_1$lambda(this));
+  Turtle2Parser.prototype.statement_helper_base_8jtmm1$_0 = function () {
+    parse_base(this.context_8be2vx$, Turtle2Parser$statement_helper_base$lambda(this));
   };
-  function Turtle2Parser$statement_helper_2$lambda$lambda() {
+  function Turtle2Parser$statement_helper_prefix$lambda$lambda() {
     return Unit;
   }
-  function Turtle2Parser$statement_helper_2$lambda$lambda_0(this$Turtle2Parser, closure$prefix) {
+  function Turtle2Parser$statement_helper_prefix$lambda$lambda_0(this$Turtle2Parser, closure$prefix) {
     return function () {
       var s = this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$();
       var tmp$ = this$Turtle2Parser.prefixMap_8be2vx$;
@@ -9581,35 +8047,35 @@
       return Unit;
     };
   }
-  function Turtle2Parser$statement_helper_2$lambda(this$Turtle2Parser) {
+  function Turtle2Parser$statement_helper_prefix$lambda(this$Turtle2Parser) {
     return function () {
       var prefix = this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$();
-      parse_ws_forced_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$statement_helper_2$lambda$lambda);
-      parse_prefix2(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$statement_helper_2$lambda$lambda_0(this$Turtle2Parser, prefix));
+      parse_ws_forced_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$statement_helper_prefix$lambda$lambda);
+      parse_prefix2(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$statement_helper_prefix$lambda$lambda_0(this$Turtle2Parser, prefix));
       return Unit;
     };
   }
-  Turtle2Parser.prototype.statement_helper_2_28ohw1$_0 = function () {
-    parse_prefix(this.context_8be2vx$, Turtle2Parser$statement_helper_2$lambda(this));
+  Turtle2Parser.prototype.statement_helper_prefix_mnhpgm$_0 = function () {
+    parse_prefix(this.context_8be2vx$, Turtle2Parser$statement_helper_prefix$lambda(this));
   };
   function Turtle2Parser$statement_helper_3$lambda$lambda() {
     return Unit;
   }
-  function Turtle2Parser$statement_helper_3$lambda(this$Turtle2Parser, closure$iri) {
+  function Turtle2Parser$statement_helper_3$lambda(this$Turtle2Parser, closure$prefix) {
     return function () {
-      _DictionaryHelper_getInstance().iriToByteArray_iqqgd6$(this$Turtle2Parser.triple[0], closure$iri + this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
+      DictionaryHelper_getInstance().iriToByteArray_akwfwi$(this$Turtle2Parser.triple[0], ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$prefix)) + this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
       parse_ws_forced_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$statement_helper_3$lambda$lambda);
       return Unit;
     };
   }
-  function Turtle2Parser$statement_helper_3$lambda_0(this$Turtle2Parser, closure$iri) {
+  function Turtle2Parser$statement_helper_3$lambda_0(this$Turtle2Parser, closure$prefix) {
     return function () {
-      _DictionaryHelper_getInstance().iriToByteArray_iqqgd6$(this$Turtle2Parser.triple[0], closure$iri);
+      DictionaryHelper_getInstance().iriToByteArray_akwfwi$(this$Turtle2Parser.triple[0], ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$prefix)));
       return Unit;
     };
   }
-  Turtle2Parser.prototype.statement_helper_3_gdrawg$_0 = function (iri) {
-    parse_subject_iri_or_ws(this.context_8be2vx$, Turtle2Parser$statement_helper_3$lambda(this, iri), Turtle2Parser$statement_helper_3$lambda_0(this, iri));
+  Turtle2Parser.prototype.statement_helper_3_swjcaz$_0 = function (prefix) {
+    parse_subject_iri_or_ws(this.context_8be2vx$, Turtle2Parser$statement_helper_3$lambda(this, prefix), Turtle2Parser$statement_helper_3$lambda_0(this, prefix));
   };
   function Turtle2Parser$statement$lambda() {
     return Unit;
@@ -9620,7 +8086,7 @@
   function Turtle2Parser$statement$lambda_0(this$Turtle2Parser) {
     return function () {
       parse_ws_forced_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$statement$lambda$lambda);
-      this$Turtle2Parser.statement_helper_1_28ohww$_0();
+      this$Turtle2Parser.statement_helper_base_8jtmm1$_0();
       this$Turtle2Parser.state_8be2vx$ = 3;
       return Unit;
     };
@@ -9631,7 +8097,7 @@
   function Turtle2Parser$statement$lambda_1(this$Turtle2Parser) {
     return function () {
       parse_ws_forced_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$statement$lambda$lambda_0);
-      this$Turtle2Parser.statement_helper_2_28ohw1$_0();
+      this$Turtle2Parser.statement_helper_prefix_mnhpgm$_0();
       this$Turtle2Parser.state_8be2vx$ = 3;
       return Unit;
     };
@@ -9648,7 +8114,7 @@
   function Turtle2Parser$statement$lambda_2(this$Turtle2Parser) {
     return function () {
       parse_ws_forced_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$statement$lambda$lambda_1);
-      this$Turtle2Parser.statement_helper_1_28ohww$_0();
+      this$Turtle2Parser.statement_helper_base_8jtmm1$_0();
       parse_ws_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$statement$lambda$lambda_2);
       parse_dot_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$statement$lambda$lambda_3);
       this$Turtle2Parser.state_8be2vx$ = 3;
@@ -9667,7 +8133,7 @@
   function Turtle2Parser$statement$lambda_3(this$Turtle2Parser) {
     return function () {
       parse_ws_forced_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$statement$lambda$lambda_4);
-      this$Turtle2Parser.statement_helper_2_28ohw1$_0();
+      this$Turtle2Parser.statement_helper_prefix_mnhpgm$_0();
       parse_ws_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$statement$lambda$lambda_5);
       parse_dot_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$statement$lambda$lambda_6);
       this$Turtle2Parser.state_8be2vx$ = 3;
@@ -9680,10 +8146,11 @@
   function Turtle2Parser$statement$lambda_4(this$Turtle2Parser) {
     return function () {
       var value = this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$();
-      var tmp$ = _DictionaryHelper_getInstance();
+      var tmp$ = DictionaryHelper_getInstance();
       var tmp$_0 = this$Turtle2Parser.triple[0];
+      var tmp$_1 = ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(':'));
       var endIndex = value.length - 1 | 0;
-      tmp$.iriToByteArray_iqqgd6$(tmp$_0, value.substring(1, endIndex));
+      tmp$.iriToByteArray_akwfwi$(tmp$_0, tmp$_1 + value.substring(1, endIndex));
       parse_ws_forced_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$statement$lambda$lambda_7);
       this$Turtle2Parser.state_8be2vx$ = 2;
       return Unit;
@@ -9691,7 +8158,7 @@
   }
   function Turtle2Parser$statement$lambda_5(this$Turtle2Parser) {
     return function () {
-      this$Turtle2Parser.statement_helper_3_gdrawg$_0(this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
+      this$Turtle2Parser.statement_helper_3_swjcaz$_0(this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
       this$Turtle2Parser.state_8be2vx$ = 2;
       return Unit;
     };
@@ -9701,13 +8168,13 @@
   }
   function Turtle2Parser$statement$lambda_6(this$Turtle2Parser) {
     return function () {
-      _DictionaryHelper_getInstance().bnodeToByteArray_iqqgd6$(this$Turtle2Parser.triple[0], this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
+      DictionaryHelper_getInstance().bnodeToByteArray_akwfwi$(this$Turtle2Parser.triple[0], this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
       parse_ws_forced_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$statement$lambda$lambda_8);
       this$Turtle2Parser.state_8be2vx$ = 2;
       return Unit;
     };
   }
-  Turtle2Parser.prototype.statement_3ci9cr$_0 = function () {
+  Turtle2Parser.prototype.statement_6riady$_0 = function () {
     parse_ws_0(this.context_8be2vx$, Turtle2Parser$statement$lambda);
     if (this.context_8be2vx$.c_8be2vx$ === 2147483647) {
       this.state_8be2vx$ = 0;
@@ -9717,28 +8184,28 @@
   function Turtle2Parser$predicate_helper_1$lambda$lambda() {
     return Unit;
   }
-  function Turtle2Parser$predicate_helper_1$lambda(this$Turtle2Parser, closure$iri) {
+  function Turtle2Parser$predicate_helper_1$lambda(this$Turtle2Parser, closure$prefix) {
     return function () {
-      _DictionaryHelper_getInstance().iriToByteArray_iqqgd6$(this$Turtle2Parser.triple[1], ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$iri)) + this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
+      DictionaryHelper_getInstance().iriToByteArray_akwfwi$(this$Turtle2Parser.triple[1], ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$prefix)) + this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
       parse_ws_forced_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$predicate_helper_1$lambda$lambda);
       return Unit;
     };
   }
-  function Turtle2Parser$predicate_helper_1$lambda_0(this$Turtle2Parser, closure$iri) {
+  function Turtle2Parser$predicate_helper_1$lambda_0(this$Turtle2Parser, closure$prefix) {
     return function () {
-      _DictionaryHelper_getInstance().iriToByteArray_iqqgd6$(this$Turtle2Parser.triple[1], ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$iri)));
+      DictionaryHelper_getInstance().iriToByteArray_akwfwi$(this$Turtle2Parser.triple[1], ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$prefix)));
       return Unit;
     };
   }
-  Turtle2Parser.prototype.predicate_helper_1_1rv19i$_0 = function (iri) {
-    parse_predicate_iri_or_ws(this.context_8be2vx$, Turtle2Parser$predicate_helper_1$lambda(this, iri), Turtle2Parser$predicate_helper_1$lambda_0(this, iri));
+  Turtle2Parser.prototype.predicate_helper_1_riog17$_0 = function (prefix) {
+    parse_predicate_iri_or_ws(this.context_8be2vx$, Turtle2Parser$predicate_helper_1$lambda(this, prefix), Turtle2Parser$predicate_helper_1$lambda_0(this, prefix));
   };
   function Turtle2Parser$predicate$lambda$lambda() {
     return Unit;
   }
   function Turtle2Parser$predicate$lambda(this$Turtle2Parser) {
     return function () {
-      _DictionaryHelper_getInstance().iriToByteArray_iqqgd6$(this$Turtle2Parser.triple[1], 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type');
+      DictionaryHelper_getInstance().iriToByteArray_akwfwi$(this$Turtle2Parser.triple[1], 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type');
       parse_ws_forced_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$predicate$lambda$lambda);
       return Unit;
     };
@@ -9749,21 +8216,22 @@
   function Turtle2Parser$predicate$lambda_0(this$Turtle2Parser) {
     return function () {
       var value = this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$();
-      var tmp$ = _DictionaryHelper_getInstance();
+      var tmp$ = DictionaryHelper_getInstance();
       var tmp$_0 = this$Turtle2Parser.triple[1];
+      var tmp$_1 = ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(':'));
       var endIndex = value.length - 1 | 0;
-      tmp$.iriToByteArray_iqqgd6$(tmp$_0, value.substring(1, endIndex));
+      tmp$.iriToByteArray_akwfwi$(tmp$_0, tmp$_1 + value.substring(1, endIndex));
       parse_ws_forced_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$predicate$lambda$lambda_0);
       return Unit;
     };
   }
   function Turtle2Parser$predicate$lambda_1(this$Turtle2Parser) {
     return function () {
-      this$Turtle2Parser.predicate_helper_1_1rv19i$_0(this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
+      this$Turtle2Parser.predicate_helper_1_riog17$_0(this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
       return Unit;
     };
   }
-  Turtle2Parser.prototype.predicate_jel719$_0 = function () {
+  Turtle2Parser.prototype.predicate_fzl602$_0 = function () {
     parse_predicate_0(this.context_8be2vx$, Turtle2Parser$predicate$lambda(this), Turtle2Parser$predicate$lambda_0(this), Turtle2Parser$predicate$lambda_1(this));
     this.state_8be2vx$ = 1;
   };
@@ -9773,10 +8241,11 @@
   function Turtle2Parser$obj$lambda(this$Turtle2Parser) {
     return function () {
       var value = this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$();
-      var tmp$ = _DictionaryHelper_getInstance();
+      var tmp$ = DictionaryHelper_getInstance();
       var tmp$_0 = this$Turtle2Parser.triple[2];
+      var tmp$_1 = ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(':'));
       var endIndex = value.length - 1 | 0;
-      tmp$.iriToByteArray_iqqgd6$(tmp$_0, value.substring(1, endIndex));
+      tmp$.iriToByteArray_akwfwi$(tmp$_0, tmp$_1 + value.substring(1, endIndex));
       parse_ws_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$obj$lambda$lambda);
       this$Turtle2Parser.state_8be2vx$ = 4;
       return Unit;
@@ -9784,7 +8253,7 @@
   }
   function Turtle2Parser$obj$lambda_0(this$Turtle2Parser) {
     return function () {
-      this$Turtle2Parser.triple_end_or_object_iri_cyrrnv$_0(this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
+      this$Turtle2Parser.triple_end_or_object_iri_8d3m9y$_0(this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
       return Unit;
     };
   }
@@ -9794,15 +8263,15 @@
   function Turtle2Parser$obj$lambda_1(this$Turtle2Parser) {
     return function () {
       var v = this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$();
-      if (endsWith_0(v, '.')) {
-        var tmp$ = _DictionaryHelper_getInstance();
+      if (endsWith(v, '.')) {
+        var tmp$ = DictionaryHelper_getInstance();
         var tmp$_0 = this$Turtle2Parser.triple[2];
         var endIndex = v.length - 1 | 0;
-        tmp$.bnodeToByteArray_iqqgd6$(tmp$_0, v.substring(0, endIndex));
+        tmp$.bnodeToByteArray_akwfwi$(tmp$_0, v.substring(0, endIndex));
         this$Turtle2Parser.onTriple();
         this$Turtle2Parser.state_8be2vx$ = 3;
       } else {
-        _DictionaryHelper_getInstance().bnodeToByteArray_iqqgd6$(this$Turtle2Parser.triple[2], v);
+        DictionaryHelper_getInstance().bnodeToByteArray_akwfwi$(this$Turtle2Parser.triple[2], v);
         parse_ws_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$obj$lambda$lambda_0);
         this$Turtle2Parser.state_8be2vx$ = 4;
       }
@@ -9811,25 +8280,37 @@
   }
   function Turtle2Parser$obj$lambda_2(this$Turtle2Parser) {
     return function () {
-      this$Turtle2Parser.triple_end_or_object_string_3bkjms$_0(_DictionaryHelper_getInstance().removeQuotesFromString_61zpoe$(this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$()));
+      var s = this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$();
+      var tmp$ = this$Turtle2Parser;
+      var endIndex = s.length - 1 | 0;
+      tmp$.triple_end_or_object_string_avo6pr$_0(s.substring(1, endIndex));
       return Unit;
     };
   }
   function Turtle2Parser$obj$lambda_3(this$Turtle2Parser) {
     return function () {
-      this$Turtle2Parser.triple_end_or_object_string_3bkjms$_0(_DictionaryHelper_getInstance().removeQuotesFromString_61zpoe$(this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$()));
+      var s = this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$();
+      var tmp$ = this$Turtle2Parser;
+      var endIndex = s.length - 1 | 0;
+      tmp$.triple_end_or_object_string_avo6pr$_0(s.substring(1, endIndex));
       return Unit;
     };
   }
   function Turtle2Parser$obj$lambda_4(this$Turtle2Parser) {
     return function () {
-      this$Turtle2Parser.triple_end_or_object_string_3bkjms$_0(_DictionaryHelper_getInstance().removeQuotesFromString_61zpoe$(this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$()));
+      var s = this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$();
+      var tmp$ = this$Turtle2Parser;
+      var endIndex = s.length - 3 | 0;
+      tmp$.triple_end_or_object_string_avo6pr$_0(s.substring(3, endIndex));
       return Unit;
     };
   }
   function Turtle2Parser$obj$lambda_5(this$Turtle2Parser) {
     return function () {
-      this$Turtle2Parser.triple_end_or_object_string_3bkjms$_0(_DictionaryHelper_getInstance().removeQuotesFromString_61zpoe$(this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$()));
+      var s = this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$();
+      var tmp$ = this$Turtle2Parser;
+      var endIndex = s.length - 3 | 0;
+      tmp$.triple_end_or_object_string_avo6pr$_0(s.substring(3, endIndex));
       return Unit;
     };
   }
@@ -9838,7 +8319,7 @@
   }
   function Turtle2Parser$obj$lambda_6(this$Turtle2Parser) {
     return function () {
-      _DictionaryHelper_getInstance().integerToByteArray_iqqgd6$(this$Turtle2Parser.triple[2], this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
+      DictionaryHelper_getInstance().integerToByteArray_akwfwi$(this$Turtle2Parser.triple[2], this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
       parse_ws_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$obj$lambda$lambda_1);
       this$Turtle2Parser.state_8be2vx$ = 4;
       return Unit;
@@ -9849,7 +8330,7 @@
   }
   function Turtle2Parser$obj$lambda_7(this$Turtle2Parser) {
     return function () {
-      _DictionaryHelper_getInstance().decimalToByteArray_iqqgd6$(this$Turtle2Parser.triple[2], this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
+      DictionaryHelper_getInstance().decimalToByteArray_akwfwi$(this$Turtle2Parser.triple[2], this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
       parse_ws_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$obj$lambda$lambda_2);
       this$Turtle2Parser.state_8be2vx$ = 4;
       return Unit;
@@ -9860,7 +8341,7 @@
   }
   function Turtle2Parser$obj$lambda_8(this$Turtle2Parser) {
     return function () {
-      _DictionaryHelper_getInstance().doubleToByteArray_px3ziy$(this$Turtle2Parser.triple[2], toDouble(this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$()));
+      DictionaryHelper_getInstance().doubleToByteArray_3eiwqq$(this$Turtle2Parser.triple[2], toDouble(this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$()));
       parse_ws_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$obj$lambda$lambda_3);
       this$Turtle2Parser.state_8be2vx$ = 4;
       return Unit;
@@ -9871,13 +8352,13 @@
   }
   function Turtle2Parser$obj$lambda_9(this$Turtle2Parser) {
     return function () {
-      _DictionaryHelper_getInstance().booleanToByteArray_jezz1v$(this$Turtle2Parser.triple[2], equals(this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$().toLowerCase(), 'true'));
+      DictionaryHelper_getInstance().booleanToByteArray_5191p3$(this$Turtle2Parser.triple[2], equals(this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$().toLowerCase(), 'true'));
       parse_ws_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$obj$lambda$lambda_4);
       this$Turtle2Parser.state_8be2vx$ = 4;
       return Unit;
     };
   }
-  Turtle2Parser.prototype.obj_x8wt9$_0 = function () {
+  Turtle2Parser.prototype.obj_pjr06a$_0 = function () {
     parse_obj(this.context_8be2vx$, Turtle2Parser$obj$lambda(this), Turtle2Parser$obj$lambda_0(this), Turtle2Parser$obj$lambda_1(this), Turtle2Parser$obj$lambda_2(this), Turtle2Parser$obj$lambda_3(this), Turtle2Parser$obj$lambda_4(this), Turtle2Parser$obj$lambda_5(this), Turtle2Parser$obj$lambda_6(this), Turtle2Parser$obj$lambda_7(this), Turtle2Parser$obj$lambda_8(this), Turtle2Parser$obj$lambda_9(this));
   };
   function Turtle2Parser$triple_end$lambda$lambda() {
@@ -9909,7 +8390,7 @@
       return Unit;
     };
   }
-  Turtle2Parser.prototype.triple_end_regf22$_0 = function () {
+  Turtle2Parser.prototype.triple_end_8qqsv5$_0 = function () {
     parse_triple_end(this.context_8be2vx$, Turtle2Parser$triple_end$lambda(this), Turtle2Parser$triple_end$lambda_0(this), Turtle2Parser$triple_end$lambda_1(this));
   };
   function Turtle2Parser$triple_end_or_object_iri$lambda$lambda() {
@@ -9918,16 +8399,16 @@
   function Turtle2Parser$triple_end_or_object_iri$lambda(this$Turtle2Parser, closure$arg) {
     return function () {
       var v = this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$();
-      if (endsWith_0(v, '.')) {
-        var tmp$ = _DictionaryHelper_getInstance();
+      if (endsWith(v, '.')) {
+        var tmp$ = DictionaryHelper_getInstance();
         var tmp$_0 = this$Turtle2Parser.triple[2];
         var tmp$_1 = ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$arg));
         var endIndex = v.length - 1 | 0;
-        tmp$.iriToByteArray_iqqgd6$(tmp$_0, tmp$_1 + v.substring(0, endIndex));
+        tmp$.iriToByteArray_akwfwi$(tmp$_0, tmp$_1 + v.substring(0, endIndex));
         this$Turtle2Parser.onTriple();
         this$Turtle2Parser.state_8be2vx$ = 3;
       } else {
-        _DictionaryHelper_getInstance().iriToByteArray_iqqgd6$(this$Turtle2Parser.triple[2], ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$arg)) + v);
+        DictionaryHelper_getInstance().iriToByteArray_akwfwi$(this$Turtle2Parser.triple[2], ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$arg)) + v);
         parse_ws_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$triple_end_or_object_iri$lambda$lambda);
         this$Turtle2Parser.state_8be2vx$ = 4;
       }
@@ -9936,14 +8417,14 @@
   }
   function Turtle2Parser$triple_end_or_object_iri$lambda_0(this$Turtle2Parser, closure$arg) {
     return function () {
-      _DictionaryHelper_getInstance().iriToByteArray_iqqgd6$(this$Turtle2Parser.triple[2], ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$arg)));
+      DictionaryHelper_getInstance().iriToByteArray_akwfwi$(this$Turtle2Parser.triple[2], ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$arg)));
       this$Turtle2Parser.state_8be2vx$ = 4;
       return Unit;
     };
   }
   function Turtle2Parser$triple_end_or_object_iri$lambda_1(this$Turtle2Parser, closure$arg) {
     return function () {
-      _DictionaryHelper_getInstance().iriToByteArray_iqqgd6$(this$Turtle2Parser.triple[2], ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$arg)));
+      DictionaryHelper_getInstance().iriToByteArray_akwfwi$(this$Turtle2Parser.triple[2], ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$arg)));
       this$Turtle2Parser.onTriple();
       this$Turtle2Parser.state_8be2vx$ = 2;
       return Unit;
@@ -9951,7 +8432,7 @@
   }
   function Turtle2Parser$triple_end_or_object_iri$lambda_2(this$Turtle2Parser, closure$arg) {
     return function () {
-      _DictionaryHelper_getInstance().iriToByteArray_iqqgd6$(this$Turtle2Parser.triple[2], ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$arg)));
+      DictionaryHelper_getInstance().iriToByteArray_akwfwi$(this$Turtle2Parser.triple[2], ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$arg)));
       this$Turtle2Parser.onTriple();
       this$Turtle2Parser.state_8be2vx$ = 1;
       return Unit;
@@ -9959,13 +8440,13 @@
   }
   function Turtle2Parser$triple_end_or_object_iri$lambda_3(this$Turtle2Parser, closure$arg) {
     return function () {
-      _DictionaryHelper_getInstance().iriToByteArray_iqqgd6$(this$Turtle2Parser.triple[2], ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$arg)));
+      DictionaryHelper_getInstance().iriToByteArray_akwfwi$(this$Turtle2Parser.triple[2], ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$arg)));
       this$Turtle2Parser.onTriple();
       this$Turtle2Parser.state_8be2vx$ = 3;
       return Unit;
     };
   }
-  Turtle2Parser.prototype.triple_end_or_object_iri_cyrrnv$_0 = function (arg) {
+  Turtle2Parser.prototype.triple_end_or_object_iri_8d3m9y$_0 = function (arg) {
     parse_triple_end_or_object_iri(this.context_8be2vx$, Turtle2Parser$triple_end_or_object_iri$lambda(this, arg), Turtle2Parser$triple_end_or_object_iri$lambda_1(this, arg), Turtle2Parser$triple_end_or_object_iri$lambda_2(this, arg), Turtle2Parser$triple_end_or_object_iri$lambda_3(this, arg), Turtle2Parser$triple_end_or_object_iri$lambda_0(this, arg));
   };
   function Turtle2Parser$triple_end_or_object_string_helper_2$lambda$lambda() {
@@ -9974,17 +8455,17 @@
   function Turtle2Parser$triple_end_or_object_string_helper_2$lambda(this$Turtle2Parser, closure$arg, closure$prefix) {
     return function () {
       var v = this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$();
-      if (endsWith_0(v, '.')) {
-        var tmp$ = _DictionaryHelper_getInstance();
+      if (endsWith(v, '.')) {
+        var tmp$ = DictionaryHelper_getInstance();
         var tmp$_0 = this$Turtle2Parser.triple[2];
         var tmp$_1 = closure$arg;
         var tmp$_2 = ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$prefix));
         var endIndex = v.length - 1 | 0;
-        tmp$.typedToByteArray_os11rs$(tmp$_0, tmp$_1, tmp$_2 + v.substring(0, endIndex));
+        tmp$.typedToByteArray_v5q3o4$(tmp$_0, tmp$_1, tmp$_2 + v.substring(0, endIndex));
         this$Turtle2Parser.onTriple();
         this$Turtle2Parser.state_8be2vx$ = 3;
       } else {
-        _DictionaryHelper_getInstance().typedToByteArray_os11rs$(this$Turtle2Parser.triple[2], closure$arg, ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$prefix)) + v);
+        DictionaryHelper_getInstance().typedToByteArray_v5q3o4$(this$Turtle2Parser.triple[2], closure$arg, ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$prefix)) + v);
         parse_ws_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$triple_end_or_object_string_helper_2$lambda$lambda);
         this$Turtle2Parser.state_8be2vx$ = 4;
       }
@@ -9993,14 +8474,14 @@
   }
   function Turtle2Parser$triple_end_or_object_string_helper_2$lambda_0(this$Turtle2Parser, closure$arg, closure$prefix) {
     return function () {
-      _DictionaryHelper_getInstance().typedToByteArray_os11rs$(this$Turtle2Parser.triple[2], closure$arg, ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$prefix)));
+      DictionaryHelper_getInstance().typedToByteArray_v5q3o4$(this$Turtle2Parser.triple[2], closure$arg, ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$prefix)));
       this$Turtle2Parser.state_8be2vx$ = 4;
       return Unit;
     };
   }
   function Turtle2Parser$triple_end_or_object_string_helper_2$lambda_1(this$Turtle2Parser, closure$arg, closure$prefix) {
     return function () {
-      _DictionaryHelper_getInstance().typedToByteArray_os11rs$(this$Turtle2Parser.triple[2], closure$arg, ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$prefix)));
+      DictionaryHelper_getInstance().typedToByteArray_v5q3o4$(this$Turtle2Parser.triple[2], closure$arg, ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$prefix)));
       this$Turtle2Parser.onTriple();
       this$Turtle2Parser.state_8be2vx$ = 2;
       return Unit;
@@ -10008,7 +8489,7 @@
   }
   function Turtle2Parser$triple_end_or_object_string_helper_2$lambda_2(this$Turtle2Parser, closure$arg, closure$prefix) {
     return function () {
-      _DictionaryHelper_getInstance().typedToByteArray_os11rs$(this$Turtle2Parser.triple[2], closure$arg, ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$prefix)));
+      DictionaryHelper_getInstance().typedToByteArray_v5q3o4$(this$Turtle2Parser.triple[2], closure$arg, ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$prefix)));
       this$Turtle2Parser.onTriple();
       this$Turtle2Parser.state_8be2vx$ = 1;
       return Unit;
@@ -10016,14 +8497,13 @@
   }
   function Turtle2Parser$triple_end_or_object_string_helper_2$lambda_3(this$Turtle2Parser, closure$arg, closure$prefix) {
     return function () {
-      _DictionaryHelper_getInstance().typedToByteArray_os11rs$(this$Turtle2Parser.triple[2], closure$arg, ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$prefix)));
+      DictionaryHelper_getInstance().typedToByteArray_v5q3o4$(this$Turtle2Parser.triple[2], closure$arg, ensureNotNull(this$Turtle2Parser.prefixMap_8be2vx$.get_11rb$(closure$prefix)));
       this$Turtle2Parser.onTriple();
       this$Turtle2Parser.state_8be2vx$ = 3;
       return Unit;
     };
   }
-  Turtle2Parser.prototype.triple_end_or_object_string_helper_2_c8fe5g$_0 = function (arg) {
-    var prefix = this.context_8be2vx$.getValue_8be2vx$();
+  Turtle2Parser.prototype.triple_end_or_object_string_helper_2_bjb6nv$_0 = function (arg, prefix) {
     parse_triple_end_or_object_string_typed_iri(this.context_8be2vx$, Turtle2Parser$triple_end_or_object_string_helper_2$lambda(this, arg, prefix), Turtle2Parser$triple_end_or_object_string_helper_2$lambda_1(this, arg, prefix), Turtle2Parser$triple_end_or_object_string_helper_2$lambda_2(this, arg, prefix), Turtle2Parser$triple_end_or_object_string_helper_2$lambda_3(this, arg, prefix), Turtle2Parser$triple_end_or_object_string_helper_2$lambda_0(this, arg, prefix));
   };
   function Turtle2Parser$triple_end_or_object_string_helper_1$lambda$lambda() {
@@ -10031,27 +8511,28 @@
   }
   function Turtle2Parser$triple_end_or_object_string_helper_1$lambda(this$Turtle2Parser, closure$arg) {
     return function () {
-      _DictionaryHelper_getInstance().typedToByteArray_os11rs$(this$Turtle2Parser.triple[2], closure$arg, this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
+      DictionaryHelper_getInstance().typedToByteArray_v5q3o4$(this$Turtle2Parser.triple[2], closure$arg, this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
       parse_ws_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$triple_end_or_object_string_helper_1$lambda$lambda);
       this$Turtle2Parser.state_8be2vx$ = 4;
       return Unit;
     };
   }
-  function Turtle2Parser$triple_end_or_object_string_helper_1$lambda_0(closure$arg, this$Turtle2Parser) {
+  function Turtle2Parser$triple_end_or_object_string_helper_1$lambda_0(this$Turtle2Parser, closure$arg) {
     return function () {
-      this$Turtle2Parser.triple_end_or_object_string_helper_2_c8fe5g$_0(closure$arg);
+      var prefix = this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$();
+      this$Turtle2Parser.triple_end_or_object_string_helper_2_bjb6nv$_0(closure$arg, prefix);
       return Unit;
     };
   }
-  Turtle2Parser.prototype.triple_end_or_object_string_helper_1_cp4o9p$_0 = function (arg) {
-    parse_triple_end_or_object_string_typed(this.context_8be2vx$, Turtle2Parser$triple_end_or_object_string_helper_1$lambda(this, arg), Turtle2Parser$triple_end_or_object_string_helper_1$lambda_0(arg, this));
+  Turtle2Parser.prototype.triple_end_or_object_string_helper_1_9qrymw$_0 = function (arg) {
+    parse_triple_end_or_object_string_typed(this.context_8be2vx$, Turtle2Parser$triple_end_or_object_string_helper_1$lambda(this, arg), Turtle2Parser$triple_end_or_object_string_helper_1$lambda_0(this, arg));
   };
   function Turtle2Parser$triple_end_or_object_string$lambda$lambda() {
     return Unit;
   }
   function Turtle2Parser$triple_end_or_object_string$lambda(this$Turtle2Parser, closure$arg) {
     return function () {
-      _DictionaryHelper_getInstance().langToByteArray_os11rs$(this$Turtle2Parser.triple[2], closure$arg, this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$());
+      DictionaryHelper_getInstance().langToByteArray_v5q3o4$(this$Turtle2Parser.triple[2], closure$arg, this$Turtle2Parser.context_8be2vx$.getValue_8be2vx$().substring(1));
       parse_ws_0(this$Turtle2Parser.context_8be2vx$, Turtle2Parser$triple_end_or_object_string$lambda$lambda);
       this$Turtle2Parser.state_8be2vx$ = 4;
       return Unit;
@@ -10059,13 +8540,13 @@
   }
   function Turtle2Parser$triple_end_or_object_string$lambda_0(closure$arg, this$Turtle2Parser) {
     return function () {
-      this$Turtle2Parser.triple_end_or_object_string_helper_1_cp4o9p$_0(closure$arg);
+      this$Turtle2Parser.triple_end_or_object_string_helper_1_9qrymw$_0(closure$arg);
       return Unit;
     };
   }
   function Turtle2Parser$triple_end_or_object_string$lambda_1(this$Turtle2Parser, closure$arg) {
     return function () {
-      _DictionaryHelper_getInstance().stringToByteArray_iqqgd6$(this$Turtle2Parser.triple[2], closure$arg);
+      DictionaryHelper_getInstance().stringToByteArray_akwfwi$(this$Turtle2Parser.triple[2], closure$arg);
       this$Turtle2Parser.onTriple();
       this$Turtle2Parser.state_8be2vx$ = 2;
       return Unit;
@@ -10073,7 +8554,7 @@
   }
   function Turtle2Parser$triple_end_or_object_string$lambda_2(this$Turtle2Parser, closure$arg) {
     return function () {
-      _DictionaryHelper_getInstance().stringToByteArray_iqqgd6$(this$Turtle2Parser.triple[2], closure$arg);
+      DictionaryHelper_getInstance().stringToByteArray_akwfwi$(this$Turtle2Parser.triple[2], closure$arg);
       this$Turtle2Parser.onTriple();
       this$Turtle2Parser.state_8be2vx$ = 1;
       return Unit;
@@ -10081,20 +8562,21 @@
   }
   function Turtle2Parser$triple_end_or_object_string$lambda_3(this$Turtle2Parser, closure$arg) {
     return function () {
-      _DictionaryHelper_getInstance().stringToByteArray_iqqgd6$(this$Turtle2Parser.triple[2], closure$arg);
+      DictionaryHelper_getInstance().stringToByteArray_akwfwi$(this$Turtle2Parser.triple[2], closure$arg);
       this$Turtle2Parser.onTriple();
       this$Turtle2Parser.state_8be2vx$ = 3;
       return Unit;
     };
   }
-  function Turtle2Parser$triple_end_or_object_string$lambda_4(this$Turtle2Parser) {
+  function Turtle2Parser$triple_end_or_object_string$lambda_4(this$Turtle2Parser, closure$arg) {
     return function () {
+      DictionaryHelper_getInstance().stringToByteArray_akwfwi$(this$Turtle2Parser.triple[2], closure$arg);
       this$Turtle2Parser.state_8be2vx$ = 4;
       return Unit;
     };
   }
-  Turtle2Parser.prototype.triple_end_or_object_string_3bkjms$_0 = function (arg) {
-    parse_triple_end_or_object_string(this.context_8be2vx$, Turtle2Parser$triple_end_or_object_string$lambda(this, arg), Turtle2Parser$triple_end_or_object_string$lambda_0(arg, this), Turtle2Parser$triple_end_or_object_string$lambda_1(this, arg), Turtle2Parser$triple_end_or_object_string$lambda_2(this, arg), Turtle2Parser$triple_end_or_object_string$lambda_3(this, arg), Turtle2Parser$triple_end_or_object_string$lambda_4(this));
+  Turtle2Parser.prototype.triple_end_or_object_string_avo6pr$_0 = function (arg) {
+    parse_triple_end_or_object_string(this.context_8be2vx$, Turtle2Parser$triple_end_or_object_string$lambda(this, arg), Turtle2Parser$triple_end_or_object_string$lambda_0(arg, this), Turtle2Parser$triple_end_or_object_string$lambda_1(this, arg), Turtle2Parser$triple_end_or_object_string$lambda_2(this, arg), Turtle2Parser$triple_end_or_object_string$lambda_3(this, arg), Turtle2Parser$triple_end_or_object_string$lambda_4(this, arg));
   };
   Turtle2Parser.$metadata$ = {
     kind: Kind_CLASS,
@@ -10120,7 +8602,7 @@
     interfaces: [ParserException_0]
   };
   function ParserExceptionUnexpectedChar_0(context) {
-    ParserException_0.call(this, 'unexpected char 0x' + toString_0(context.c_8be2vx$, 16) + ' at ' + context.line_8be2vx$ + ':' + context.column_8be2vx$);
+    ParserException_0.call(this, 'unexpected char 0x' + toString(context.c_8be2vx$, 16) + ' at ' + context.line_8be2vx$ + ':' + context.column_8be2vx$);
     this.name = 'ParserExceptionUnexpectedChar';
   }
   ParserExceptionUnexpectedChar_0.$metadata$ = {
@@ -17715,20 +16197,20 @@
   function TurtleParserWithDictionary(consume_triple, ltit) {
     this.consume_triple = consume_triple;
     this.ltit = ltit;
-    this.prefixes_0 = LinkedHashMap_init();
-    this.xsd_0 = 'http://www.w3.org/2001/XMLSchema#';
-    this.xsd_boolean_0 = this.xsd_0 + 'boolean';
-    this.xsd_integer_0 = this.xsd_0 + 'integer';
-    this.xsd_decimal_0 = this.xsd_0 + 'decimal';
-    this.xsd_double_0 = this.xsd_0 + 'double';
-    this.rdf_0 = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
-    this.nil_0 = this.rdf_0 + 'nil';
-    this.first_0 = this.rdf_0 + 'first';
-    this.rest_0 = this.rdf_0 + 'rest';
-    this.nil_iri_0 = Dictionary_getInstance().IRI_61zpoe$(this.nil_0);
-    this.first_iri_0 = Dictionary_getInstance().IRI_61zpoe$(this.first_0);
-    this.rest_iri_0 = Dictionary_getInstance().IRI_61zpoe$(this.rest_0);
-    this.type_iri_0 = Dictionary_getInstance().IRI_61zpoe$(this.rdf_0 + 'type');
+    this.prefixes_8be2vx$ = LinkedHashMap_init();
+    this.xsd_8be2vx$ = 'http://www.w3.org/2001/XMLSchema#';
+    this.xsd_boolean_8be2vx$ = this.xsd_8be2vx$ + 'boolean';
+    this.xsd_integer_8be2vx$ = this.xsd_8be2vx$ + 'integer';
+    this.xsd_decimal_8be2vx$ = this.xsd_8be2vx$ + 'decimal';
+    this.xsd_double_8be2vx$ = this.xsd_8be2vx$ + 'double';
+    this.rdf_8be2vx$ = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#';
+    this.nil_8be2vx$ = this.rdf_8be2vx$ + 'nil';
+    this.first_8be2vx$ = this.rdf_8be2vx$ + 'first';
+    this.rest_8be2vx$ = this.rdf_8be2vx$ + 'rest';
+    this.nil_iri_8be2vx$ = Dictionary_getInstance().IRI_61zpoe$(this.nil_8be2vx$);
+    this.first_iri_8be2vx$ = Dictionary_getInstance().IRI_61zpoe$(this.first_8be2vx$);
+    this.rest_iri_8be2vx$ = Dictionary_getInstance().IRI_61zpoe$(this.rest_8be2vx$);
+    this.type_iri_8be2vx$ = Dictionary_getInstance().IRI_61zpoe$(this.rdf_8be2vx$ + 'type');
   }
   TurtleParserWithDictionary.prototype.parse = function () {
     var t1 = this.ltit.lookahead_za3lpa$();
@@ -17784,7 +16266,7 @@
     token = this.ltit.nextToken();
     if (!Kotlin.isType(token, IRI_1)) {
       throw UnexpectedToken_init(token, ['IRI'], this.ltit);
-    }var $receiver = this.prefixes_0;
+    }var $receiver = this.prefixes_8be2vx$;
     var value = token.content;
     $receiver.put_xwzc9p$(key, value);
     token = this.ltit.nextToken();
@@ -17798,7 +16280,7 @@
     }token = this.ltit.nextToken();
     if (!Kotlin.isType(token, IRI_1)) {
       throw UnexpectedToken_init(token, ['IRI'], this.ltit);
-    }var $receiver = this.prefixes_0;
+    }var $receiver = this.prefixes_8be2vx$;
     var value = token.content;
     $receiver.put_xwzc9p$('', value);
     token = this.ltit.nextToken();
@@ -17812,7 +16294,7 @@
     }token = this.ltit.nextToken();
     if (!Kotlin.isType(token, IRI_1)) {
       throw UnexpectedToken_init(token, ['IRI'], this.ltit);
-    }var $receiver = this.prefixes_0;
+    }var $receiver = this.prefixes_8be2vx$;
     var value = token.content;
     $receiver.put_xwzc9p$('', value);
   };
@@ -17827,7 +16309,7 @@
     token = this.ltit.nextToken();
     if (!Kotlin.isType(token, IRI_1)) {
       throw UnexpectedToken_init(token, ['IRI'], this.ltit);
-    }var $receiver = this.prefixes_0;
+    }var $receiver = this.prefixes_8be2vx$;
     var value = token.content;
     $receiver.put_xwzc9p$(key, value);
   };
@@ -17889,7 +16371,7 @@
       }if (!equals((Kotlin.isType(tmp$ = token, POSSIBLE_KEYWORD_0) ? tmp$ : throwCCE()).original_image, 'a')) {
         throw UnexpectedToken_init(token, ['a'], this.ltit);
       } else {
-        return this.type_iri_0;
+        return this.type_iri_8be2vx$;
       }
     } else {
       throw UnexpectedToken_init(t9, ['IRI', 'PNAME_LN', 'PNAME_NS', 'A'], this.ltit);
@@ -17964,29 +16446,29 @@
     }return result;
   };
   TurtleParserWithDictionary.prototype.collection_0 = function () {
-    var first = this.nil_iri_0;
-    var current = this.nil_iri_0;
+    var first = this.nil_iri_8be2vx$;
+    var current = this.nil_iri_8be2vx$;
     var token = this.ltit.nextToken();
     if (!equals(token.image, '(')) {
       throw UnexpectedToken_init(token, ['('], this.ltit);
     }var t13 = this.ltit.lookahead_za3lpa$();
     while (Kotlin.isType(t13, IRI_1) || Kotlin.isType(t13, PNAME_LN_0) || Kotlin.isType(t13, PNAME_NS_0) || Kotlin.isType(t13, BNODE_0) || Kotlin.isType(t13, ANON_BNODE_0) || equals(t13.image, '(') || equals(t13.image, '[') || Kotlin.isType(t13, STRING_0) || Kotlin.isType(t13, INTEGER_0) || Kotlin.isType(t13, DECIMAL_0) || Kotlin.isType(t13, DOUBLE_0) || equals(t13.image, 'true') || equals(t13.image, 'false')) {
       var next = Dictionary_getInstance().BlankNode();
-      if (equals(current, this.nil_iri_0)) {
+      if (equals(current, this.nil_iri_8be2vx$)) {
         first = next;
       } else {
-        this.consume_triple(current, this.rest_iri_0, next);
+        this.consume_triple(current, this.rest_iri_8be2vx$, next);
       }
       current = next;
       var o = this.triple_object_0();
-      this.consume_triple(current, this.first_iri_0, o);
+      this.consume_triple(current, this.first_iri_8be2vx$, o);
       t13 = this.ltit.lookahead_za3lpa$();
     }
     token = this.ltit.nextToken();
     if (!equals(token.image, ')')) {
       throw UnexpectedToken_init(token, [')'], this.ltit);
-    }if (!equals(current, this.nil_iri_0)) {
-      this.consume_triple(current, this.rest_iri_0, this.nil_iri_0);
+    }if (!equals(current, this.nil_iri_8be2vx$)) {
+      this.consume_triple(current, this.rest_iri_8be2vx$, this.nil_iri_8be2vx$);
     }return first;
   };
   TurtleParserWithDictionary.prototype.NumericLiteral_0 = function () {
@@ -17996,17 +16478,17 @@
       token = this.ltit.nextToken();
       if (!Kotlin.isType(token, INTEGER_0)) {
         throw UnexpectedToken_init(token, ['INTEGER'], this.ltit);
-      }return Dictionary_getInstance().TypedLiteral_6hosri$(token.image, void 0, this.xsd_integer_0);
+      }return Dictionary_getInstance().TypedLiteral_6hosri$(token.image, void 0, this.xsd_integer_8be2vx$);
     } else if (Kotlin.isType(t14, DECIMAL_0)) {
       token = this.ltit.nextToken();
       if (!Kotlin.isType(token, DECIMAL_0)) {
         throw UnexpectedToken_init(token, ['DECIMAL'], this.ltit);
-      }return Dictionary_getInstance().TypedLiteral_6hosri$(token.image, void 0, this.xsd_decimal_0);
+      }return Dictionary_getInstance().TypedLiteral_6hosri$(token.image, void 0, this.xsd_decimal_8be2vx$);
     } else if (Kotlin.isType(t14, DOUBLE_0)) {
       token = this.ltit.nextToken();
       if (!Kotlin.isType(token, DOUBLE_0)) {
         throw UnexpectedToken_init(token, ['DOUBLE'], this.ltit);
-      }return Dictionary_getInstance().TypedLiteral_6hosri$(token.image, void 0, this.xsd_double_0);
+      }return Dictionary_getInstance().TypedLiteral_6hosri$(token.image, void 0, this.xsd_double_8be2vx$);
     } else {
       throw UnexpectedToken_init(t14, ['INTEGER', 'DECIMAL', 'DOUBLE'], this.ltit);
     }
@@ -18050,7 +16532,7 @@
         if (!equals((Kotlin.isType(tmp$ = token, POSSIBLE_KEYWORD_0) ? tmp$ : throwCCE()).original_image, 'true')) {
           throw UnexpectedToken_init(token, ['true'], this.ltit);
         }
-        return Dictionary_getInstance().TypedLiteral_6hosri$('true', void 0, this.xsd_boolean_0);
+        return Dictionary_getInstance().TypedLiteral_6hosri$('true', void 0, this.xsd_boolean_8be2vx$);
       case 'false':
         token = this.ltit.nextToken();
         if (!equals(token.image, 'false')) {
@@ -18059,7 +16541,7 @@
         if (!equals((Kotlin.isType(tmp$_0 = token, POSSIBLE_KEYWORD_0) ? tmp$_0 : throwCCE()).original_image, 'false')) {
           throw UnexpectedToken_init(token, ['false'], this.ltit);
         }
-        return Dictionary_getInstance().TypedLiteral_6hosri$('false', void 0, this.xsd_boolean_0);
+        return Dictionary_getInstance().TypedLiteral_6hosri$('false', void 0, this.xsd_boolean_8be2vx$);
       default:throw UnexpectedToken_init(t17, ['true', 'false'], this.ltit);
     }
   };
@@ -18077,8 +16559,8 @@
     else {
       throw UnexpectedToken_init(t18, ['IRI', 'PNAME_LN', 'PNAME_NS'], this.ltit);
     }
-    if (startsWith_0(iri, 47) || startsWith_0(iri, 35)) {
-      var base = this.prefixes_0.get_11rb$('');
+    if (startsWith(iri, 47) || startsWith(iri, 35)) {
+      var base = this.prefixes_8be2vx$.get_11rb$('');
       if (base != null) {
         return Dictionary_getInstance().IRI_61zpoe$(base + iri.substring(1));
       }}return Dictionary_getInstance().IRI_61zpoe$(iri);
@@ -18097,8 +16579,8 @@
     else {
       throw UnexpectedToken_init(t19, ['IRI', 'PNAME_LN', 'PNAME_NS'], this.ltit);
     }
-    if (startsWith_0(iri, 47) || startsWith_0(iri, 35)) {
-      var base = this.prefixes_0.get_11rb$('');
+    if (startsWith(iri, 47) || startsWith(iri, 35)) {
+      var base = this.prefixes_8be2vx$.get_11rb$('');
       if (base != null) {
         return base + iri.substring(1);
       }}return iri;
@@ -18111,7 +16593,7 @@
       if (!Kotlin.isType(token, PNAME_LN_0)) {
         throw UnexpectedToken_init(token, ['PNAME_LN'], this.ltit);
       }var key = token.beforeColon;
-      var result = this.prefixes_0.get_11rb$(key);
+      var result = this.prefixes_8be2vx$.get_11rb$(key);
       if (result == null)
         throw ParseError_init('Prefix ' + key + ' has not been defined', token, this.ltit);
       else
@@ -18121,7 +16603,7 @@
       if (!Kotlin.isType(token, PNAME_NS_0)) {
         throw UnexpectedToken_init(token, ['PNAME_NS'], this.ltit);
       }var key_0 = token.beforeColon;
-      var result_0 = this.prefixes_0.get_11rb$(key_0);
+      var result_0 = this.prefixes_8be2vx$.get_11rb$(key_0);
       if (result_0 == null)
         throw ParseError_init('Prefix ' + key_0 + ' has not been defined', token, this.ltit);
       else
@@ -18188,20 +16670,20 @@
   TurtleParserWithStringTriples.prototype.parse = function () {
     var t1 = ensureNotNull(this.ltit).lookahead_za3lpa$();
     while (equals(t1.image, '@prefix') || equals(t1.image, '@base') || equals(t1.image, 'PREFIX') || equals(t1.image, 'BASE') || Kotlin.isType(t1, IRI_1) || Kotlin.isType(t1, PNAME_LN_0) || Kotlin.isType(t1, PNAME_NS_0) || Kotlin.isType(t1, BNODE_0) || Kotlin.isType(t1, ANON_BNODE_0) || equals(t1.image, '(') || equals(t1.image, '[')) {
-      this.statement_itqiyf$_0();
+      this.statement_vvbzd0$_0();
       t1 = ensureNotNull(this.ltit).lookahead_za3lpa$();
     }
     var token = ensureNotNull(this.ltit).nextToken();
     if (!Kotlin.isType(token, EOF_0)) {
       throw UnexpectedToken_init(token, ['EOF'], ensureNotNull(this.ltit));
     }};
-  TurtleParserWithStringTriples.prototype.statement_itqiyf$_0 = function () {
+  TurtleParserWithStringTriples.prototype.statement_vvbzd0$_0 = function () {
     var token;
     var t2 = ensureNotNull(this.ltit).lookahead_za3lpa$();
     if (equals(t2.image, '@prefix') || equals(t2.image, '@base') || equals(t2.image, 'PREFIX') || equals(t2.image, 'BASE'))
-      this.directive_q3flav$_0();
+      this.directive_olmx0k$_0();
     else if (Kotlin.isType(t2, IRI_1) || Kotlin.isType(t2, PNAME_LN_0) || Kotlin.isType(t2, PNAME_NS_0) || Kotlin.isType(t2, BNODE_0) || Kotlin.isType(t2, ANON_BNODE_0) || equals(t2.image, '(') || equals(t2.image, '[')) {
-      this.triples_t8b967$_0();
+      this.triples_oo8hqu$_0();
       token = ensureNotNull(this.ltit).nextToken();
       if (!equals(token.image, '.')) {
         throw UnexpectedToken_init(token, ['.'], ensureNotNull(this.ltit));
@@ -18209,26 +16691,26 @@
       throw UnexpectedToken_init(t2, ['@prefix', '@base', 'PREFIX', 'BASE', 'IRI', 'PNAME_LN', 'PNAME_NS', 'BNODE', 'ANON_BNODE', '(', '['], ensureNotNull(this.ltit));
     }
   };
-  TurtleParserWithStringTriples.prototype.directive_q3flav$_0 = function () {
+  TurtleParserWithStringTriples.prototype.directive_olmx0k$_0 = function () {
     var token;
     var t3 = ensureNotNull(this.ltit).lookahead_za3lpa$();
     switch (t3.image) {
       case '@prefix':
-        this.prefixID_2aqdsx$_0();
+        this.prefixID_veyr5w$_0();
         break;
       case '@base':
-        this.base_r76xbx$_0();
+        this.base_9vqh0o$_0();
         break;
       case 'PREFIX':
-        this.sparqlPrefix_8ab8z$_0();
+        this.sparqlPrefix_yj52mm$_0();
         break;
       case 'BASE':
-        this.sparqlBase_3rpdxw$_0();
+        this.sparqlBase_54z6fl$_0();
         break;
       default:throw UnexpectedToken_init(t3, ['@prefix', '@base', 'PREFIX', 'BASE'], ensureNotNull(this.ltit));
     }
   };
-  TurtleParserWithStringTriples.prototype.prefixID_2aqdsx$_0 = function () {
+  TurtleParserWithStringTriples.prototype.prefixID_veyr5w$_0 = function () {
     var token = ensureNotNull(this.ltit).nextToken();
     if (!equals(token.image, '@prefix')) {
       throw UnexpectedToken_init(token, ['@prefix'], ensureNotNull(this.ltit));
@@ -18246,7 +16728,7 @@
     if (!equals(token.image, '.')) {
       throw UnexpectedToken_init(token, ['.'], ensureNotNull(this.ltit));
     }};
-  TurtleParserWithStringTriples.prototype.base_r76xbx$_0 = function () {
+  TurtleParserWithStringTriples.prototype.base_9vqh0o$_0 = function () {
     var token = ensureNotNull(this.ltit).nextToken();
     if (!equals(token.image, '@base')) {
       throw UnexpectedToken_init(token, ['@base'], ensureNotNull(this.ltit));
@@ -18260,7 +16742,7 @@
     if (!equals(token.image, '.')) {
       throw UnexpectedToken_init(token, ['.'], ensureNotNull(this.ltit));
     }};
-  TurtleParserWithStringTriples.prototype.sparqlBase_3rpdxw$_0 = function () {
+  TurtleParserWithStringTriples.prototype.sparqlBase_54z6fl$_0 = function () {
     var token = ensureNotNull(this.ltit).nextToken();
     if (!equals(token.image, 'BASE')) {
       throw UnexpectedToken_init(token, ['BASE'], ensureNotNull(this.ltit));
@@ -18271,7 +16753,7 @@
     var value = token.content;
     $receiver.put_xwzc9p$('', value);
   };
-  TurtleParserWithStringTriples.prototype.sparqlPrefix_8ab8z$_0 = function () {
+  TurtleParserWithStringTriples.prototype.sparqlPrefix_yj52mm$_0 = function () {
     var token = ensureNotNull(this.ltit).nextToken();
     if (!equals(token.image, 'PREFIX')) {
       throw UnexpectedToken_init(token, ['PREFIX'], ensureNotNull(this.ltit));
@@ -18286,25 +16768,25 @@
     var value = token.content;
     $receiver.put_xwzc9p$(key, value);
   };
-  TurtleParserWithStringTriples.prototype.triples_t8b967$_0 = function () {
+  TurtleParserWithStringTriples.prototype.triples_oo8hqu$_0 = function () {
     var token;
     var t5 = ensureNotNull(this.ltit).lookahead_za3lpa$();
     if (Kotlin.isType(t5, IRI_1) || Kotlin.isType(t5, PNAME_LN_0) || Kotlin.isType(t5, PNAME_NS_0) || Kotlin.isType(t5, BNODE_0) || Kotlin.isType(t5, ANON_BNODE_0) || equals(t5.image, '(')) {
-      var s = this.subject_hfhi92$_0();
-      this.predicateObjectList_jl6yoc$_0(s);
+      var s = this.subject_yk1tb5$_0();
+      this.predicateObjectList_he4x47$_0(s);
     } else if (equals(t5.image, '[')) {
-      var s2 = this.blankNodePropertyList_k8jblp$_0();
+      var s2 = this.blankNodePropertyList_ou7gzm$_0();
       var t4 = ensureNotNull(this.ltit).lookahead_za3lpa$();
       if (Kotlin.isType(t4, IRI_1) || Kotlin.isType(t4, PNAME_LN_0) || Kotlin.isType(t4, PNAME_NS_0) || equals(t4.image, 'A')) {
-        this.predicateObjectList_jl6yoc$_0(s2);
+        this.predicateObjectList_he4x47$_0(s2);
       }} else {
       throw UnexpectedToken_init(t5, ['IRI', 'PNAME_LN', 'PNAME_NS', 'BNODE', 'ANON_BNODE', '(', '['], ensureNotNull(this.ltit));
     }
   };
-  TurtleParserWithStringTriples.prototype.predicateObjectList_jl6yoc$_0 = function (s) {
+  TurtleParserWithStringTriples.prototype.predicateObjectList_he4x47$_0 = function (s) {
     var token;
-    var p = this.verb_ri9cbz$_0();
-    this.objectList_xdsgwv$_0(s, p);
+    var p = this.verb_9ko20m$_0();
+    this.objectList_jz20ik$_0(s, p);
     var t7 = ensureNotNull(this.ltit).lookahead_za3lpa$();
     while (equals(t7.image, ';')) {
       token = ensureNotNull(this.ltit).nextToken();
@@ -18312,28 +16794,28 @@
         throw UnexpectedToken_init(token, [';'], ensureNotNull(this.ltit));
       }var t6 = ensureNotNull(this.ltit).lookahead_za3lpa$();
       if (Kotlin.isType(t6, IRI_1) || Kotlin.isType(t6, PNAME_LN_0) || Kotlin.isType(t6, PNAME_NS_0) || equals(t6.image, 'A')) {
-        var p2 = this.verb_ri9cbz$_0();
-        this.objectList_xdsgwv$_0(s, p2);
+        var p2 = this.verb_9ko20m$_0();
+        this.objectList_jz20ik$_0(s, p2);
       }t7 = ensureNotNull(this.ltit).lookahead_za3lpa$();
     }
   };
-  TurtleParserWithStringTriples.prototype.objectList_xdsgwv$_0 = function (s, p) {
-    var o = this.triple_object_wa535m$_0();
+  TurtleParserWithStringTriples.prototype.objectList_jz20ik$_0 = function (s, p) {
+    var o = this.triple_object_yecc1h$_0();
     this.consume_triple_6hosri$(s, p, o);
     var t8 = ensureNotNull(this.ltit).lookahead_za3lpa$();
     while (equals(t8.image, ',')) {
       ensureNotNull(this.ltit).nextToken();
-      var o2 = this.triple_object_wa535m$_0();
+      var o2 = this.triple_object_yecc1h$_0();
       this.consume_triple_6hosri$(s, p, o2);
       t8 = ensureNotNull(this.ltit).lookahead_za3lpa$();
     }
   };
-  TurtleParserWithStringTriples.prototype.verb_ri9cbz$_0 = function () {
+  TurtleParserWithStringTriples.prototype.verb_9ko20m$_0 = function () {
     var tmp$;
     var token;
     var t9 = ensureNotNull(this.ltit).lookahead_za3lpa$();
     if (Kotlin.isType(t9, IRI_1) || Kotlin.isType(t9, PNAME_LN_0) || Kotlin.isType(t9, PNAME_NS_0))
-      return this.predicate_tga2mp$_0();
+      return this.predicate_948iz0$_0();
     else if (equals(t9.image, 'A')) {
       token = ensureNotNull(this.ltit).nextToken();
       if (!equals(token.image, 'A')) {
@@ -18347,7 +16829,7 @@
       throw UnexpectedToken_init(t9, ['IRI', 'PNAME_LN', 'PNAME_NS', 'A'], ensureNotNull(this.ltit));
     }
   };
-  TurtleParserWithStringTriples.prototype.subject_hfhi92$_0 = function () {
+  TurtleParserWithStringTriples.prototype.subject_yk1tb5$_0 = function () {
     var tmp$;
     var token;
     var result;
@@ -18355,68 +16837,68 @@
     if (Kotlin.isType(t10, IRI_1) || Kotlin.isType(t10, PNAME_LN_0) || Kotlin.isType(t10, PNAME_NS_0))
       tmp$ = this.iri();
     else if (Kotlin.isType(t10, BNODE_0) || Kotlin.isType(t10, ANON_BNODE_0))
-      tmp$ = this.BlankNode_nmyn4g$_0();
+      tmp$ = this.BlankNode_3ax3gr$_0();
     else if (equals(t10.image, '('))
-      tmp$ = this.collection_e89mvk$_0();
+      tmp$ = this.collection_5bl2i3$_0();
     else {
       throw UnexpectedToken_init(t10, ['IRI', 'PNAME_LN', 'PNAME_NS', 'BNODE', 'ANON_BNODE', '('], ensureNotNull(this.ltit));
     }
     result = tmp$;
     return result;
   };
-  TurtleParserWithStringTriples.prototype.predicate_tga2mp$_0 = function () {
+  TurtleParserWithStringTriples.prototype.predicate_948iz0$_0 = function () {
     var token;
     return this.iri();
   };
-  TurtleParserWithStringTriples.prototype.triple_object_wa535m$_0 = function () {
+  TurtleParserWithStringTriples.prototype.triple_object_yecc1h$_0 = function () {
     var token;
     var result;
     var t11 = ensureNotNull(this.ltit).lookahead_za3lpa$();
     if (Kotlin.isType(t11, IRI_1) || Kotlin.isType(t11, PNAME_LN_0) || Kotlin.isType(t11, PNAME_NS_0))
       result = this.iri();
     else if (Kotlin.isType(t11, BNODE_0) || Kotlin.isType(t11, ANON_BNODE_0))
-      result = this.BlankNode_nmyn4g$_0();
+      result = this.BlankNode_3ax3gr$_0();
     else if (equals(t11.image, '('))
-      result = this.collection_e89mvk$_0();
+      result = this.collection_5bl2i3$_0();
     else if (equals(t11.image, '['))
-      result = this.blankNodePropertyList_k8jblp$_0();
+      result = this.blankNodePropertyList_ou7gzm$_0();
     else if (Kotlin.isType(t11, STRING_0) || Kotlin.isType(t11, INTEGER_0) || Kotlin.isType(t11, DECIMAL_0) || Kotlin.isType(t11, DOUBLE_0) || equals(t11.image, 'true') || equals(t11.image, 'false'))
-      result = this.literal_vprh6x$_0();
+      result = this.literal_m6s9q4$_0();
     else {
       throw UnexpectedToken_init(t11, ['IRI', 'PNAME_LN', 'PNAME_NS', 'BNODE', 'ANON_BNODE', '(', '[', 'STRING', 'INTEGER', 'DECIMAL', 'DOUBLE', 'true', 'false'], ensureNotNull(this.ltit));
     }
     return result;
   };
-  TurtleParserWithStringTriples.prototype.literal_vprh6x$_0 = function () {
+  TurtleParserWithStringTriples.prototype.literal_m6s9q4$_0 = function () {
     var tmp$;
     var token;
     var result;
     var t12 = ensureNotNull(this.ltit).lookahead_za3lpa$();
     if (Kotlin.isType(t12, STRING_0))
-      tmp$ = this.RDFLiteral_fvvrmb$_0();
+      tmp$ = this.RDFLiteral_6z778u$_0();
     else if (Kotlin.isType(t12, INTEGER_0) || Kotlin.isType(t12, DECIMAL_0) || Kotlin.isType(t12, DOUBLE_0))
-      tmp$ = this.NumericLiteral_vxk53o$_0();
+      tmp$ = this.NumericLiteral_qioqk9$_0();
     else if (equals(t12.image, 'true') || equals(t12.image, 'false'))
-      tmp$ = this.BooleanLiteral_kwl9af$_0();
+      tmp$ = this.BooleanLiteral_qbgntu$_0();
     else {
       throw UnexpectedToken_init(t12, ['STRING', 'INTEGER', 'DECIMAL', 'DOUBLE', 'true', 'false'], ensureNotNull(this.ltit));
     }
     result = tmp$;
     return result;
   };
-  TurtleParserWithStringTriples.prototype.blankNodePropertyList_k8jblp$_0 = function () {
+  TurtleParserWithStringTriples.prototype.blankNodePropertyList_ou7gzm$_0 = function () {
     var result = '_:_' + this.bnodeCounter;
     this.bnodeCounter = this.bnodeCounter + 1 | 0;
     var token = ensureNotNull(this.ltit).nextToken();
     if (!equals(token.image, '[')) {
       throw UnexpectedToken_init(token, ['['], ensureNotNull(this.ltit));
-    }this.predicateObjectList_jl6yoc$_0(result);
+    }this.predicateObjectList_he4x47$_0(result);
     token = ensureNotNull(this.ltit).nextToken();
     if (!equals(token.image, ']')) {
       throw UnexpectedToken_init(token, [']'], ensureNotNull(this.ltit));
     }return result;
   };
-  TurtleParserWithStringTriples.prototype.collection_e89mvk$_0 = function () {
+  TurtleParserWithStringTriples.prototype.collection_5bl2i3$_0 = function () {
     var first = TurtleParserWithStringTriples$Companion_getInstance().nil_iri;
     var current = TurtleParserWithStringTriples$Companion_getInstance().nil_iri;
     var token = ensureNotNull(this.ltit).nextToken();
@@ -18432,7 +16914,7 @@
         this.consume_triple_6hosri$(current, TurtleParserWithStringTriples$Companion_getInstance().rest_iri, next);
       }
       current = next;
-      var o = this.triple_object_wa535m$_0();
+      var o = this.triple_object_yecc1h$_0();
       this.consume_triple_6hosri$(current, TurtleParserWithStringTriples$Companion_getInstance().first_iri, o);
       t13 = ensureNotNull(this.ltit).lookahead_za3lpa$();
     }
@@ -18443,7 +16925,7 @@
       this.consume_triple_6hosri$(current, TurtleParserWithStringTriples$Companion_getInstance().rest_iri, TurtleParserWithStringTriples$Companion_getInstance().nil_iri);
     }return first;
   };
-  TurtleParserWithStringTriples.prototype.NumericLiteral_vxk53o$_0 = function () {
+  TurtleParserWithStringTriples.prototype.NumericLiteral_qioqk9$_0 = function () {
     var token;
     var t14 = ensureNotNull(this.ltit).lookahead_za3lpa$();
     if (Kotlin.isType(t14, INTEGER_0)) {
@@ -18465,7 +16947,7 @@
       throw UnexpectedToken_init(t14, ['INTEGER', 'DECIMAL', 'DOUBLE'], ensureNotNull(this.ltit));
     }
   };
-  TurtleParserWithStringTriples.prototype.RDFLiteral_fvvrmb$_0 = function () {
+  TurtleParserWithStringTriples.prototype.RDFLiteral_6z778u$_0 = function () {
     var token;
     token = ensureNotNull(this.ltit).nextToken();
     if (!Kotlin.isType(token, STRING_0)) {
@@ -18484,14 +16966,14 @@
         token = ensureNotNull(this.ltit).nextToken();
         if (!equals(token.image, '^^')) {
           throw UnexpectedToken_init(token, ['^^'], ensureNotNull(this.ltit));
-        }var type_iri = this.iri_string_w93oiq$_0();
+        }var type_iri = this.iri_string_tvbt2x$_0();
         return delimiter + content + delimiter + '^^<' + type_iri + '>';
       } else {
         throw UnexpectedToken_init(t15, ['LANGTAG', '^^'], ensureNotNull(this.ltit));
       }
     }return delimiter + content + delimiter;
   };
-  TurtleParserWithStringTriples.prototype.BooleanLiteral_kwl9af$_0 = function () {
+  TurtleParserWithStringTriples.prototype.BooleanLiteral_qbgntu$_0 = function () {
     var tmp$, tmp$_0;
     var token;
     var t17 = ensureNotNull(this.ltit).lookahead_za3lpa$();
@@ -18527,17 +17009,17 @@
         throw UnexpectedToken_init(token, ['IRI'], ensureNotNull(this.ltit));
       }iri = token.content;
     } else if (Kotlin.isType(t18, PNAME_LN_0) || Kotlin.isType(t18, PNAME_NS_0))
-      iri = this.PrefixedName_dppswe$_0();
+      iri = this.PrefixedName_kl4yh9$_0();
     else {
       throw UnexpectedToken_init(t18, ['IRI', 'PNAME_LN', 'PNAME_NS'], ensureNotNull(this.ltit));
     }
-    if (startsWith_0(iri, 47) || startsWith_0(iri, 35)) {
+    if (startsWith(iri, 47) || startsWith(iri, 35)) {
       var base = this.prefixes.get_11rb$('');
       if (base != null) {
         return '<' + base + iri.substring(1) + '>';
       }}return '<' + iri + '>';
   };
-  TurtleParserWithStringTriples.prototype.iri_string_w93oiq$_0 = function () {
+  TurtleParserWithStringTriples.prototype.iri_string_tvbt2x$_0 = function () {
     var token;
     var iri;
     var t19 = ensureNotNull(this.ltit).lookahead_za3lpa$();
@@ -18547,17 +17029,17 @@
         throw UnexpectedToken_init(token, ['IRI'], ensureNotNull(this.ltit));
       }iri = token.content;
     } else if (Kotlin.isType(t19, PNAME_LN_0) || Kotlin.isType(t19, PNAME_NS_0))
-      iri = this.PrefixedName_dppswe$_0();
+      iri = this.PrefixedName_kl4yh9$_0();
     else {
       throw UnexpectedToken_init(t19, ['IRI', 'PNAME_LN', 'PNAME_NS'], ensureNotNull(this.ltit));
     }
-    if (startsWith_0(iri, 47) || startsWith_0(iri, 35)) {
+    if (startsWith(iri, 47) || startsWith(iri, 35)) {
       var base = this.prefixes.get_11rb$('');
       if (base != null) {
         return base + iri.substring(1);
       }}return iri;
   };
-  TurtleParserWithStringTriples.prototype.PrefixedName_dppswe$_0 = function () {
+  TurtleParserWithStringTriples.prototype.PrefixedName_kl4yh9$_0 = function () {
     var token;
     var t20 = ensureNotNull(this.ltit).lookahead_za3lpa$();
     if (Kotlin.isType(t20, PNAME_LN_0)) {
@@ -18584,7 +17066,7 @@
       throw UnexpectedToken_init(t20, ['PNAME_LN', 'PNAME_NS'], ensureNotNull(this.ltit));
     }
   };
-  TurtleParserWithStringTriples.prototype.BlankNode_nmyn4g$_0 = function () {
+  TurtleParserWithStringTriples.prototype.BlankNode_3ax3gr$_0 = function () {
     var token;
     var t21 = ensureNotNull(this.ltit).lookahead_za3lpa$();
     if (Kotlin.isType(t21, BNODE_0)) {
@@ -19265,42 +17747,154 @@
     simpleName: 'TurtleScanner',
     interfaces: [TokenIterator]
   };
-  function _ByteArrayHelper() {
-    _ByteArrayHelper_instance = this;
+  function XMLElementFromN3() {
   }
-  _ByteArrayHelper.prototype.readDouble8_pao7sd$ = function (data, offset) {
-    var buffer = new ArrayBuffer(8);
-    var intView = new Int64Array(buffer);
-    var floatView = new Float64Array(buffer);
-    intView.set(0, this.readLong8_pao7sd$(data, offset));
-    return floatView.get(0);
+  function XMLElementFromN3$invoke$ObjectLiteral(closure$nodeResults, input) {
+    this.closure$nodeResults = closure$nodeResults;
+    Turtle2Parser.call(this, input);
+  }
+  XMLElementFromN3$invoke$ObjectLiteral.prototype.onTriple = function () {
+    var nodeResult = new XMLElement('result');
+    this.closure$nodeResults.addContent_esm5gr$(nodeResult);
+    XMLElement.Companion.parseBindingFromByteArrayWrapper_xgyfbx$(nodeResult, this.triple[0], 's');
+    XMLElement.Companion.parseBindingFromByteArrayWrapper_xgyfbx$(nodeResult, this.triple[1], 'p');
+    XMLElement.Companion.parseBindingFromByteArrayWrapper_xgyfbx$(nodeResult, this.triple[2], 'o');
   };
-  _ByteArrayHelper.prototype.writeDouble8_aunrlr$ = function (data, offset, value) {
-    var buffer = new ArrayBuffer(8);
-    var intView = new Int64Array(buffer);
-    var floatView = new Float64Array(buffer);
-    floatView.set(0, value);
-    this.writeLong8_ul24ie$(data, offset, intView.get(0));
+  XMLElementFromN3$invoke$ObjectLiteral.$metadata$ = {
+    kind: Kind_CLASS,
+    interfaces: [Turtle2Parser]
   };
-  _ByteArrayHelper.prototype.writeInt1_qibw1t$ = function (data, offset, value) {
-    data[offset] = toByte(value & 255);
+  function XMLElementFromN3$invoke$ObjectLiteral_0(closure$nodeResults) {
+    this.closure$nodeResults = closure$nodeResults;
+    TurtleParserWithStringTriples.call(this);
+  }
+  XMLElementFromN3$invoke$ObjectLiteral_0.prototype.consume_triple_6hosri$ = function (s, p, o) {
+    var nodeResult = new XMLElement('result');
+    this.closure$nodeResults.addContent_esm5gr$(nodeResult);
+    XMLElement.Companion.parseBindingFromString_ooawdw$(nodeResult, s, 's');
+    XMLElement.Companion.parseBindingFromString_ooawdw$(nodeResult, p, 'p');
+    XMLElement.Companion.parseBindingFromString_ooawdw$(nodeResult, o, 'o');
   };
-  _ByteArrayHelper.prototype.writeInt2_qibw1t$ = function (data, offset, value) {
-    data[offset] = toByte(value >> 8 & 255);
-    data[offset + 1 | 0] = toByte(value & 255);
+  XMLElementFromN3$invoke$ObjectLiteral_0.$metadata$ = {
+    kind: Kind_CLASS,
+    interfaces: [TurtleParserWithStringTriples]
   };
-  _ByteArrayHelper.prototype.writeInt3_qibw1t$ = function (data, offset, value) {
-    data[offset] = toByte(value >> 16 & 255);
-    data[offset + 1 | 0] = toByte(value >> 8 & 255);
-    data[offset + 2 | 0] = toByte(value & 255);
+  XMLElementFromN3.prototype.invoke_61zpoe$ = function (data) {
+    var nodeSparql = (new XMLElement('sparql')).addAttribute_puj7f4$('xmlns', 'http://www.w3.org/2005/sparql-results#');
+    try {
+      var nodeHead = new XMLElement('head');
+      var nodeResults = new XMLElement('results');
+      nodeSparql.addContent_esm5gr$(nodeHead);
+      nodeSparql.addContent_esm5gr$(nodeResults);
+      nodeHead.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', 's'));
+      nodeHead.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', 'p'));
+      nodeHead.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', 'o'));
+      var inputstream = new MyStringStream(data);
+      var parser = new XMLElementFromN3$invoke$ObjectLiteral(nodeResults, inputstream);
+      parser.parse();
+    } catch (e) {
+      if (Kotlin.isType(e, Throwable)) {
+        printStackTrace(e);
+        nodeSparql = (new XMLElement('sparql')).addAttribute_puj7f4$('xmlns', 'http://www.w3.org/2005/sparql-results#');
+        var nodeHead_0 = new XMLElement('head');
+        var nodeResults_0 = new XMLElement('results');
+        nodeSparql.addContent_esm5gr$(nodeHead_0);
+        nodeSparql.addContent_esm5gr$(nodeResults_0);
+        nodeHead_0.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', 's'));
+        nodeHead_0.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', 'p'));
+        nodeHead_0.addContent_esm5gr$((new XMLElement('variable')).addAttribute_puj7f4$('name', 'o'));
+        var lcit = LexerCharIterator_init(data);
+        var tit = new TurtleScanner(lcit);
+        var ltit = new LookAheadTokenIterator(tit, 3);
+        var x = new XMLElementFromN3$invoke$ObjectLiteral_0(nodeResults_0);
+        x.ltit = ltit;
+        x.parse();
+      } else
+        throw e;
+    }
+    return nodeSparql;
   };
-  _ByteArrayHelper.prototype.writeInt4_qibw1t$ = function (data, offset, value) {
-    data[offset] = toByte(value >> 24 & 255);
-    data[offset + 1 | 0] = toByte(value >> 16 & 255);
-    data[offset + 2 | 0] = toByte(value >> 8 & 255);
-    data[offset + 3 | 0] = toByte(value & 255);
+  XMLElementFromN3.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'XMLElementFromN3',
+    interfaces: [XMLElementParser]
   };
-  _ByteArrayHelper.prototype.writeIntX_4f9ssz$ = function (data, offset, value, count) {
+  function BufferManagerPage() {
+    BufferManagerPage_instance = this;
+    this.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES_8be2vx$ = 8192;
+  }
+  BufferManagerPage.prototype.create_8be2vx$ = function () {
+    var data = new Int8Array(8196);
+    this.setPageID_pao7sd$(data, -1);
+    return data;
+  };
+  function BufferManagerPage$copyInto$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.copyInto_v35ddt$ = function (data, destination, destinationOffset, startIndex, endIndex) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$copyInto$lambda(data, this));
+    arrayCopy(data, destination, destinationOffset, startIndex, endIndex);
+  };
+  function BufferManagerPage$copyFrom$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.copyFrom_v35ddt$ = function (data, source, destinationOffset, startIndex, endIndex) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$copyFrom$lambda(data, this));
+    arrayCopy(source, data, destinationOffset, startIndex, endIndex);
+  };
+  BufferManagerPage.prototype.getPageID_ma41of$ = function (data) {
+    return ByteArrayHelper_getInstance().readInt4_pao7sd$(data, 8192);
+  };
+  function BufferManagerPage$setPageID$lambda(closure$value, closure$data, this$BufferManagerPage) {
+    return function () {
+      return closure$value === -1 || this$BufferManagerPage.getPageID_ma41of$(closure$data) === -1;
+    };
+  }
+  BufferManagerPage.prototype.setPageID_pao7sd$ = function (data, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$setPageID$lambda(value, data, this));
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(data, 8192, value);
+  };
+  function BufferManagerPage$writeInt1$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeInt1_qibw1t$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeInt1$lambda(data, this));
+    ByteArrayHelper_getInstance().writeInt1_qibw1t$(data, offset, value);
+  };
+  function BufferManagerPage$writeInt2$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeInt2_qibw1t$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeInt2$lambda(data, this));
+    ByteArrayHelper_getInstance().writeInt2_qibw1t$(data, offset, value);
+  };
+  function BufferManagerPage$writeInt3$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeInt3_qibw1t$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeInt3$lambda(data, this));
+    ByteArrayHelper_getInstance().writeInt3_qibw1t$(data, offset, value);
+  };
+  function BufferManagerPage$writeInt4$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeInt4_qibw1t$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeInt4$lambda(data, this));
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(data, offset, value);
+  };
+  BufferManagerPage.prototype.writeIntX_4f9ssz$ = function (data, offset, value, count) {
     switch (count) {
       case 0:
         break;
@@ -19317,37 +17911,70 @@
         break;
     }
   };
-  _ByteArrayHelper.prototype.writeLong8_ul24ie$ = function (data, offset, value) {
-    data[offset] = toByte(value.shiftRight(56).and(L255).toInt());
-    data[offset + 1 | 0] = toByte(value.shiftRight(48).and(L255).toInt());
-    data[offset + 2 | 0] = toByte(value.shiftRight(40).and(L255).toInt());
-    data[offset + 3 | 0] = toByte(value.shiftRight(32).and(L255).toInt());
-    data[offset + 4 | 0] = toByte(value.shiftRight(24).and(L255).toInt());
-    data[offset + 5 | 0] = toByte(value.shiftRight(16).and(L255).toInt());
-    data[offset + 6 | 0] = toByte(value.shiftRight(8).and(L255).toInt());
-    data[offset + 7 | 0] = toByte(value.and(L255).toInt());
+  function BufferManagerPage$writeLong8$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeLong8_ul24ie$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeLong8$lambda(data, this));
+    ByteArrayHelper_getInstance().writeLong8_ul24ie$(data, offset, value);
   };
-  _ByteArrayHelper.prototype.writeChar_ul80vw$ = function (data, offset, value) {
-    var v = value | 0;
-    data[offset] = toByte(v >> 8 & 255);
-    data[offset + 1 | 0] = toByte(v & 255);
+  function BufferManagerPage$writeChar$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.writeChar_ul80vw$ = function (data, offset, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$writeChar$lambda(data, this));
+    ByteArrayHelper_getInstance().writeChar_ul80vw$(data, offset, value);
   };
-  _ByteArrayHelper.prototype.readLong8_pao7sd$ = function (data, offset) {
-    return Kotlin.Long.fromInt(data[offset]).and(L255).shiftLeft(56).or(Kotlin.Long.fromInt(data[offset + 1 | 0]).and(L255).shiftLeft(48)).or(Kotlin.Long.fromInt(data[offset + 2 | 0]).and(L255).shiftLeft(40)).or(Kotlin.Long.fromInt(data[offset + 3 | 0]).and(L255).shiftLeft(32)).or(Kotlin.Long.fromInt(data[offset + 4 | 0]).and(L255).shiftLeft(24)).or(Kotlin.Long.fromInt(data[offset + 5 | 0]).and(L255).shiftLeft(16)).or(Kotlin.Long.fromInt(data[offset + 6 | 0]).and(L255).shiftLeft(8)).or(Kotlin.Long.fromInt(data[offset + 7 | 0]).and(L255));
+  function BufferManagerPage$readLong8$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readLong8_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readLong8$lambda(data, this));
+    return ByteArrayHelper_getInstance().readLong8_pao7sd$(data, offset);
   };
-  _ByteArrayHelper.prototype.readInt4_pao7sd$ = function (data, offset) {
-    return (data[offset] & 255) << 24 | (data[offset + 1 | 0] & 255) << 16 | (data[offset + 2 | 0] & 255) << 8 | data[offset + 3 | 0] & 255;
+  function BufferManagerPage$readInt4$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readInt4_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readInt4$lambda(data, this));
+    return ByteArrayHelper_getInstance().readInt4_pao7sd$(data, offset);
   };
-  _ByteArrayHelper.prototype.readInt3_pao7sd$ = function (data, offset) {
-    return (data[offset] & 255) << 16 | (data[offset + 1 | 0] & 255) << 8 | data[offset + 2 | 0] & 255;
+  function BufferManagerPage$readInt3$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readInt3_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readInt3$lambda(data, this));
+    return ByteArrayHelper_getInstance().readInt3_pao7sd$(data, offset);
   };
-  _ByteArrayHelper.prototype.readInt2_pao7sd$ = function (data, offset) {
-    return (data[offset] & 255) << 8 | data[offset + 1 | 0] & 255;
+  function BufferManagerPage$readInt2$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readInt2_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readInt2$lambda(data, this));
+    return ByteArrayHelper_getInstance().readInt2_pao7sd$(data, offset);
   };
-  _ByteArrayHelper.prototype.readInt1_pao7sd$ = function (data, offset) {
-    return data[offset] & 255;
+  function BufferManagerPage$readInt1$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readInt1_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readInt1$lambda(data, this));
+    return ByteArrayHelper_getInstance().readInt1_pao7sd$(data, offset);
   };
-  _ByteArrayHelper.prototype.readIntX_qibw1t$ = function (data, offset, count) {
+  BufferManagerPage.prototype.readIntX_qibw1t$ = function (data, offset, count) {
     switch (count) {
       case 0:
         return 0;
@@ -19360,94 +17987,1704 @@
       default:return this.readInt4_pao7sd$(data, offset);
     }
   };
-  _ByteArrayHelper.prototype.readChar_pao7sd$ = function (data, offset) {
+  function BufferManagerPage$readChar$lambda(closure$data, this$BufferManagerPage) {
+    return function () {
+      return this$BufferManagerPage.getPageID_ma41of$(closure$data) !== -1;
+    };
+  }
+  BufferManagerPage.prototype.readChar_pao7sd$ = function (data, offset) {
+    SanityCheckOn_getInstance().check_8i7tro$(BufferManagerPage$readChar$lambda(data, this));
+    return ByteArrayHelper_getInstance().readChar_pao7sd$(data, offset);
+  };
+  BufferManagerPage.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'BufferManagerPage',
+    interfaces: []
+  };
+  var BufferManagerPage_instance = null;
+  function BufferManagerPage_getInstance() {
+    if (BufferManagerPage_instance === null) {
+      new BufferManagerPage();
+    }return BufferManagerPage_instance;
+  }
+  function ColumnIteratorQueueExt() {
+    ColumnIteratorQueueExt_instance = this;
+  }
+  ColumnIteratorQueueExt.prototype._close_6z1dri$ = function (it) {
+    if (it.label !== 0) {
+      it.label = 0;
+      it.queue.clear();
+    }};
+  ColumnIteratorQueueExt.prototype.nextHelper_tdqia6$ = function (it, onEmptyQueue, onClose) {
+    var tmp$, tmp$_0;
+    switch (it.label) {
+      case 1:
+        if (it.queue.size === 0) {
+          onEmptyQueue();
+          if (it.queue.size > 0) {
+            tmp$ = it.queue.removeAt_za3lpa$(0);
+          } else {
+            onClose();
+            tmp$ = 4;
+          }
+        } else {
+          tmp$ = it.queue.removeAt_za3lpa$(0);
+        }
+
+        return tmp$;
+      case 2:
+        if (it.queue.size === 0) {
+          onClose();
+          tmp$_0 = 4;
+        } else {
+          tmp$_0 = it.queue.removeAt_za3lpa$(0);
+        }
+
+        return tmp$_0;
+      default:return 4;
+    }
+  };
+  ColumnIteratorQueueExt.prototype.closeOnEmptyQueue_6z1dri$ = function (it) {
+    if (it.label !== 0) {
+      it.label = 2;
+    }};
+  ColumnIteratorQueueExt.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'ColumnIteratorQueueExt',
+    interfaces: []
+  };
+  var ColumnIteratorQueueExt_instance = null;
+  function ColumnIteratorQueueExt_getInstance() {
+    if (ColumnIteratorQueueExt_instance === null) {
+      new ColumnIteratorQueueExt();
+    }return ColumnIteratorQueueExt_instance;
+  }
+  function DictionaryHelper() {
+    DictionaryHelper_instance = this;
+  }
+  DictionaryHelper.prototype.errorToByteArray_b1q5io$ = function (buffer) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 4);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 5);
+  };
+  DictionaryHelper.prototype.undefToByteArray_b1q5io$ = function (buffer) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 4);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 12);
+  };
+  DictionaryHelper.prototype.dateTimeToByteArray_akwfwi$ = function (buffer, str) {
+    var year;
+    var month;
+    var day;
+    var hours;
+    var minutes;
+    var seconds;
+    var timezoneHours;
+    var timezoneMinutes;
+    var idx = 0;
+    var idx2 = indexOf(str, 45, 1);
+    if (idx2 < idx) {
+      idx2 = str.length - 1 | 0;
+    }if (idx2 > idx) {
+      var startIndex = idx;
+      var endIndex = idx2;
+      year = str.substring(startIndex, endIndex);
+      idx = idx2;
+      idx2 = indexOf(str, 45, idx + 1 | 0);
+      if (idx2 < idx) {
+        idx2 = str.length - 1 | 0;
+      }if (idx2 > idx) {
+        var startIndex_0 = idx + 1 | 0;
+        var endIndex_0 = idx2;
+        month = toInt(str.substring(startIndex_0, endIndex_0));
+        idx = idx2;
+        idx2 = indexOf(str, 84, idx + 1 | 0);
+        if (idx2 < idx) {
+          idx2 = str.length - 1 | 0;
+        }if (idx2 > idx) {
+          var startIndex_1 = idx + 1 | 0;
+          var endIndex_1 = idx2;
+          day = toInt(str.substring(startIndex_1, endIndex_1));
+          idx = idx2;
+          idx2 = indexOf(str, 58, idx + 1 | 0);
+          if (idx2 < idx) {
+            idx2 = str.length - 1 | 0;
+          }if (idx2 > idx) {
+            var startIndex_2 = idx + 1 | 0;
+            var endIndex_2 = idx2;
+            hours = toInt(str.substring(startIndex_2, endIndex_2));
+            idx = idx2;
+            idx2 = indexOf(str, 58, idx + 1 | 0);
+            if (idx2 < idx) {
+              idx2 = str.length - 1 | 0;
+            }if (idx2 > idx) {
+              var startIndex_3 = idx + 1 | 0;
+              var endIndex_3 = idx2;
+              minutes = toInt(str.substring(startIndex_3, endIndex_3));
+              idx = idx2;
+              var idxa = indexOf(str, 90, idx + 1 | 0);
+              var idxb = indexOf(str, 43, idx + 1 | 0);
+              var idxc = indexOf(str, 45, idx + 1 | 0);
+              if (idxa > idx) {
+                var startIndex_4 = idx + 1 | 0;
+                seconds = str.substring(startIndex_4, idxa);
+                timezoneHours = 0;
+                timezoneMinutes = 0;
+              } else if (idxb > idx) {
+                var startIndex_5 = idx + 1 | 0;
+                seconds = str.substring(startIndex_5, idxb);
+                idx = idxb;
+                idx2 = indexOf(str, 58, idx + 1 | 0);
+                if (idx2 > idx) {
+                  var startIndex_6 = idx;
+                  var endIndex_4 = idx2;
+                  timezoneHours = toInt(str.substring(startIndex_6, endIndex_4));
+                  var startIndex_7 = idx2 + 1 | 0;
+                  var endIndex_5 = str.length;
+                  timezoneMinutes = toInt(str.substring(startIndex_7, endIndex_5));
+                } else {
+                  timezoneHours = -99;
+                  timezoneMinutes = -99;
+                }
+              } else if (idxc > idx) {
+                var startIndex_8 = idx + 1 | 0;
+                seconds = str.substring(startIndex_8, idxc);
+                idx = idxc;
+                idx2 = indexOf(str, 58, idx + 1 | 0);
+                if (idx2 > idx) {
+                  var startIndex_9 = idx;
+                  var endIndex_6 = idx2;
+                  timezoneHours = toInt(str.substring(startIndex_9, endIndex_6));
+                  var startIndex_10 = idx2 + 1 | 0;
+                  var endIndex_7 = str.length;
+                  timezoneMinutes = toInt(str.substring(startIndex_10, endIndex_7));
+                } else {
+                  timezoneHours = -99;
+                  timezoneMinutes = -99;
+                }
+              } else {
+                var startIndex_11 = idx + 1 | 0;
+                var endIndex_8 = str.length;
+                seconds = str.substring(startIndex_11, endIndex_8);
+                timezoneHours = -99;
+                timezoneMinutes = -99;
+              }
+            } else {
+              minutes = 0;
+              seconds = '0.0';
+              timezoneHours = -99;
+              timezoneMinutes = -99;
+            }
+          } else {
+            hours = 0;
+            minutes = 0;
+            seconds = '0.0';
+            timezoneHours = -99;
+            timezoneMinutes = -99;
+          }
+        } else {
+          day = 0;
+          hours = 0;
+          minutes = 0;
+          seconds = '0.0';
+          timezoneHours = -99;
+          timezoneMinutes = -99;
+        }
+      } else {
+        month = 0;
+        day = 0;
+        hours = 0;
+        minutes = 0;
+        seconds = '0.0';
+        timezoneHours = -99;
+        timezoneMinutes = -99;
+      }
+    } else {
+      year = '0';
+      month = 0;
+      day = 0;
+      hours = 0;
+      minutes = 0;
+      seconds = '0.0';
+      timezoneHours = -99;
+      timezoneMinutes = -99;
+    }
+    this.dateTimeToByteArray_o4mgi8$(buffer, BigInteger.Companion.parseString_bm4lxs$(year, 10), month, day, hours, minutes, BigDecimal.Companion.parseString_bm4lxs$(seconds, 10), timezoneHours, timezoneMinutes);
+  };
+  function DictionaryHelper$dateTimeToByteArray$lambda(closure$month) {
+    return function () {
+      return closure$month >= 0;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_0(closure$month) {
+    return function () {
+      return closure$month <= 99;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_1(closure$day) {
+    return function () {
+      return closure$day >= 0;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_2(closure$day) {
+    return function () {
+      return closure$day <= 99;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_3(closure$hours) {
+    return function () {
+      return closure$hours >= 0;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_4(closure$hours) {
+    return function () {
+      return closure$hours <= 24;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_5(closure$minutes) {
+    return function () {
+      return closure$minutes >= 0;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_6(closure$minutes) {
+    return function () {
+      return closure$minutes <= 99;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_7(closure$timezoneHours) {
+    return function () {
+      return closure$timezoneHours >= -24;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_8(closure$timezoneHours) {
+    return function () {
+      return closure$timezoneHours <= 24;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_9(closure$timezoneMinutes) {
+    return function () {
+      return closure$timezoneMinutes >= 0;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_10(closure$timezoneMinutes) {
+    return function () {
+      return closure$timezoneMinutes <= 99;
+    };
+  }
+  function DictionaryHelper$dateTimeToByteArray$lambda_11(closure$off, closure$buffer) {
+    return function () {
+      return closure$off.v === closure$buffer.size;
+    };
+  }
+  DictionaryHelper.prototype.dateTimeToByteArray_o4mgi8$ = function (buffer, year, month, day, hours, minutes, seconds, timezoneHours, timezoneMinutes) {
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda(month));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_0(month));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_1(day));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_2(day));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_3(hours));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_4(hours));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_5(minutes));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_6(minutes));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_7(timezoneHours));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_8(timezoneHours));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_9(timezoneMinutes));
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_10(timezoneMinutes));
+    var buf1 = year.toByteArray();
+    var buf2 = seconds.significand.toByteArray();
+    var l1 = buf1.length;
+    var l2 = buf2.length;
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 42 + l1 + l2 | 0);
+    var off = {v: 0};
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, 2);
+    off.v = off.v + 4 | 0;
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, l1);
+    off.v = off.v + 4 | 0;
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, month);
+    off.v = off.v + 4 | 0;
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, day);
+    off.v = off.v + 4 | 0;
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, hours);
+    off.v = off.v + 4 | 0;
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, minutes);
+    off.v = off.v + 4 | 0;
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, timezoneHours);
+    off.v = off.v + 4 | 0;
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, off.v, timezoneMinutes);
+    off.v = off.v + 4 | 0;
+    ByteArrayHelper_getInstance().writeLong8_ul24ie$(buffer.buf, off.v, seconds.exponent);
+    off.v = off.v + 8 | 0;
+    buffer.buf[off.v] = toByte(year.signum());
+    off.v = off.v + 1 | 0;
+    buffer.buf[off.v] = toByte(seconds.signum());
+    off.v = off.v + 1 | 0;
+    arrayCopy(buf1, buffer.buf, off.v, 0, buf1.length);
+    off.v = off.v + l1 | 0;
+    arrayCopy(buf2, buffer.buf, off.v, 0, buf2.length);
+    off.v = off.v + l2 | 0;
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$dateTimeToByteArray$lambda_11(off, buffer));
+  };
+  function DictionaryHelper$byteArrayToDateTime_Year$lambda(closure$off, closure$buffer) {
+    return function () {
+      return closure$off.v === closure$buffer.size;
+    };
+  }
+  DictionaryHelper.prototype.byteArrayToDateTime_Year_b1q5io$ = function (buffer) {
+    var tmp$;
+    var off = {v: 0};
+    off.v = off.v + 4 | 0;
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 8 | 0;
+    switch (buffer.buf[off.v]) {
+      case -1:
+        tmp$ = Sign.NEGATIVE;
+        break;
+      case 1:
+        tmp$ = Sign.POSITIVE;
+        break;
+      default:tmp$ = Sign.ZERO;
+        break;
+    }
+    var yearSignum = tmp$;
+    off.v = off.v + 1 | 0;
+    off.v = off.v + 1 | 0;
+    var buf1 = new Int8Array(l1);
+    arrayCopy(buffer.buf, buf1, 0, off.v, off.v + l1 | 0);
+    off.v = off.v + l1 | 0;
+    var l2 = buffer.size - l1 - 42 | 0;
+    off.v = off.v + l2 | 0;
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$byteArrayToDateTime_Year$lambda(off, buffer));
+    var year = BigInteger.Companion.fromByteArray_cz08zj$(buf1, yearSignum);
+    return year;
+  };
+  DictionaryHelper.prototype.byteArrayToDateTime_Month_b1q5io$ = function (buffer) {
+    var off = 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    var month = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
+    return BigInteger_init(month);
+  };
+  DictionaryHelper.prototype.byteArrayToDateTime_Day_b1q5io$ = function (buffer) {
+    var off = 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    var day = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
+    return BigInteger_init(day);
+  };
+  DictionaryHelper.prototype.byteArrayToDateTime_Hours_b1q5io$ = function (buffer) {
+    var off = 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    var hours = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
+    return BigInteger_init(hours);
+  };
+  DictionaryHelper.prototype.byteArrayToDateTime_Minutes_b1q5io$ = function (buffer) {
+    var off = 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    var minutes = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
+    return BigInteger_init(minutes);
+  };
+  function DictionaryHelper$byteArrayToDateTime_Seconds$lambda(closure$off, closure$buffer) {
+    return function () {
+      return closure$off.v === closure$buffer.size;
+    };
+  }
+  DictionaryHelper.prototype.byteArrayToDateTime_Seconds_b1q5io$ = function (buffer) {
+    var tmp$;
+    var off = {v: 0};
+    off.v = off.v + 4 | 0;
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    off.v = off.v + 4 | 0;
+    var secondsExponent = ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 8 | 0;
+    off.v = off.v + 1 | 0;
+    switch (buffer.buf[off.v]) {
+      case -1:
+        tmp$ = Sign.NEGATIVE;
+        break;
+      case 1:
+        tmp$ = Sign.POSITIVE;
+        break;
+      default:tmp$ = Sign.ZERO;
+        break;
+    }
+    var secondsSignum = tmp$;
+    off.v = off.v + 1 | 0;
+    off.v = off.v + l1 | 0;
+    var l2 = buffer.size - l1 - 42 | 0;
+    var buf2 = new Int8Array(l2);
+    arrayCopy(buffer.buf, buf2, 0, off.v, off.v + l2 | 0);
+    arrayCopy(buf2, buffer.buf, off.v, 0, buf2.length);
+    off.v = off.v + l2 | 0;
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$byteArrayToDateTime_Seconds$lambda(off, buffer));
+    var seconds = BigDecimal.Companion.fromBigIntegerWithExponent_2w0s5z$(BigInteger.Companion.fromByteArray_cz08zj$(buf2, secondsSignum), secondsExponent);
+    return seconds;
+  };
+  function DictionaryHelper$byteArrayToDateTimeAsTyped_Content$lambda(closure$off, closure$buffer) {
+    return function () {
+      return closure$off.v === closure$buffer.size;
+    };
+  }
+  DictionaryHelper.prototype.byteArrayToDateTimeAsTyped_Content_b1q5io$ = function (buffer) {
+    var tmp$, tmp$_0, tmp$_1;
+    var off = {v: 0};
+    off.v = off.v + 4 | 0;
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    var month = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    var day = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    var hours = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    var minutes = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    var timezoneHours = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    var timezoneMinutes = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 4 | 0;
+    var secondsExponent = ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.buf, off.v);
+    off.v = off.v + 8 | 0;
+    switch (buffer.buf[off.v]) {
+      case -1:
+        tmp$ = Sign.NEGATIVE;
+        break;
+      case 1:
+        tmp$ = Sign.POSITIVE;
+        break;
+      default:tmp$ = Sign.ZERO;
+        break;
+    }
+    var yearSignum = tmp$;
+    off.v = off.v + 1 | 0;
+    switch (buffer.buf[off.v]) {
+      case -1:
+        tmp$_0 = Sign.NEGATIVE;
+        break;
+      case 1:
+        tmp$_0 = Sign.POSITIVE;
+        break;
+      default:tmp$_0 = Sign.ZERO;
+        break;
+    }
+    var secondsSignum = tmp$_0;
+    off.v = off.v + 1 | 0;
+    var buf1 = new Int8Array(l1);
+    arrayCopy(buffer.buf, buf1, 0, off.v, off.v + l1 | 0);
+    off.v = off.v + l1 | 0;
+    var l2 = buffer.size - l1 - 42 | 0;
+    var buf2 = new Int8Array(l2);
+    arrayCopy(buffer.buf, buf2, 0, off.v, off.v + l2 | 0);
+    arrayCopy(buf2, buffer.buf, off.v, 0, buf2.length);
+    off.v = off.v + l2 | 0;
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$byteArrayToDateTimeAsTyped_Content$lambda(off, buffer));
+    var year = BigInteger.Companion.fromByteArray_cz08zj$(buf1, yearSignum);
+    var seconds = BigDecimal.Companion.fromBigIntegerWithExponent_2w0s5z$(BigInteger.Companion.fromByteArray_cz08zj$(buf2, secondsSignum), secondsExponent);
+    var secondsString2 = split(seconds.toStringExpanded(), ['.']);
+    var secondsString = padStart(secondsString2.get_za3lpa$(0), 2, 48);
+    if (secondsString2.size > 1) {
+      var tmp = secondsString2.get_za3lpa$(1);
+      while (endsWith_0(tmp, 48)) {
+        var $receiver = tmp;
+        var endIndex = tmp.length - 1 | 0;
+        tmp = $receiver.substring(0, endIndex);
+      }
+      if (tmp.length > 0) {
+        secondsString += '.' + tmp;
+      }}if (timezoneHours === -99 && timezoneMinutes === -99) {
+      tmp$_1 = year.toString() + '-' + padStart(month.toString(), 2, 48) + '-' + padStart(day.toString(), 2, 48) + 'T' + padStart(hours.toString(), 2, 48) + ':' + padStart(minutes.toString(), 2, 48) + ':' + secondsString;
+    } else if (timezoneHours === 0 && timezoneMinutes === 0) {
+      tmp$_1 = year.toString() + '-' + padStart(month.toString(), 2, 48) + '-' + padStart(day.toString(), 2, 48) + 'T' + padStart(hours.toString(), 2, 48) + ':' + padStart(minutes.toString(), 2, 48) + ':' + secondsString + 'Z';
+    } else {
+      var timezoneHoursLocal = timezoneHours.toString();
+      if (timezoneHoursLocal.charCodeAt(0) === 45 || timezoneHoursLocal.charCodeAt(0) === 43) {
+        timezoneHoursLocal = '' + String.fromCharCode(toBoxedChar(timezoneHoursLocal.charCodeAt(0))) + padStart(timezoneHoursLocal.substring(1), 2, 48);
+      } else {
+        timezoneHoursLocal = '+' + padStart(timezoneHoursLocal, 2, 48);
+      }
+      tmp$_1 = year.toString() + '-' + padStart(month.toString(), 2, 48) + '-' + padStart(day.toString(), 2, 48) + 'T' + padStart(hours.toString(), 2, 48) + ':' + padStart(minutes.toString(), 2, 48) + ':' + secondsString + timezoneHoursLocal + ':' + padStart(timezoneMinutes.toString(), 2, 48);
+    }
+    return tmp$_1;
+  };
+  DictionaryHelper.prototype.byteArrayToDateTime_TZ_b1q5io$ = function (buffer) {
+    var off = 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    var timezoneHours = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
+    off = off + 4 | 0;
+    var timezoneMinutes = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
+    if (timezoneHours === 0 && timezoneMinutes === 0) {
+      return 'Z';
+    }if (timezoneHours === -1 && timezoneMinutes === -1) {
+      return '';
+    }return '-' + padStart(timezoneHours.toString(), 2, 48) + ':' + padStart(timezoneMinutes.toString(), 2, 48);
+  };
+  DictionaryHelper.prototype.byteArrayToDateTime_TimeZone_b1q5io$ = function (buffer) {
+    var off = 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    off = off + 4 | 0;
+    var timezoneHours = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
+    off = off + 4 | 0;
+    var timezoneMinutes = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, off);
+    if (timezoneHours === 0 && timezoneMinutes === 0) {
+      return '"PT0S"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>';
+    }if (timezoneHours >= 0 && timezoneMinutes === 0) {
+      return '"' + '-PT' + timezoneHours + 'H' + '"' + '^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>';
+    }return '';
+  };
+  DictionaryHelper.prototype.booleanToByteArray_5191p3$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 5);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 1);
+    if (value) {
+      buffer.buf[4] = 1;
+    } else {
+      buffer.buf[4] = 0;
+    }
+  };
+  DictionaryHelper.prototype.byteArrayToBoolean_b1q5io$ = function (buffer) {
+    return buffer.buf[4] !== toByte(0);
+  };
+  DictionaryHelper.prototype.integerToByteArray_akwfwi$ = function (buffer, value) {
+    this.integerToByteArray_ddz2hi$(buffer, BigInteger.Companion.parseString_bm4lxs$(value, 10));
+  };
+  DictionaryHelper.prototype.integerToByteArray_ddz2hi$ = function (buffer, value) {
+    var buf1 = value.toByteArray();
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 5 + buf1.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 7);
+    buffer.buf[4] = toByte(value.signum());
+    arrayCopy(buf1, buffer.buf, 5, 0, buf1.length);
+  };
+  DictionaryHelper.prototype.byteArrayToInteger_S_b1q5io$ = function (buffer) {
+    return this.byteArrayToInteger_I_b1q5io$(buffer).toString();
+  };
+  DictionaryHelper.prototype.byteArrayToInteger_I_b1q5io$ = function (buffer) {
+    var tmp$;
+    var l1 = buffer.size - 5 | 0;
+    var buf = new Int8Array(l1);
+    arrayCopy(buffer.buf, buf, 0, 5, 5 + l1 | 0);
+    switch (buffer.buf[4]) {
+      case -1:
+        tmp$ = Sign.NEGATIVE;
+        break;
+      case 1:
+        tmp$ = Sign.POSITIVE;
+        break;
+      default:tmp$ = Sign.ZERO;
+        break;
+    }
+    var sign = tmp$;
+    return BigInteger.Companion.fromByteArray_cz08zj$(buf, sign);
+  };
+  DictionaryHelper.prototype.decimalToByteArray_akwfwi$ = function (buffer, value) {
+    this.decimalToByteArray_g73zp2$(buffer, BigDecimal.Companion.parseString_bm4lxs$(value, 10));
+  };
+  DictionaryHelper.prototype.decimalToByteArray_g73zp2$ = function (buffer, value) {
+    var buf1 = value.significand.toByteArray();
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 13 + buf1.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 3);
+    ByteArrayHelper_getInstance().writeLong8_ul24ie$(buffer.buf, 4, value.exponent);
+    buffer.buf[12] = toByte(value.signum());
+    arrayCopy(buf1, buffer.buf, 13, 0, buf1.length);
+  };
+  DictionaryHelper.prototype.byteArrayToDecimal_I_b1q5io$ = function (buffer) {
+    var tmp$;
+    var l1 = buffer.size - 13 | 0;
+    var buf = new Int8Array(l1);
+    arrayCopy(buffer.buf, buf, 0, 13, 13 + l1 | 0);
+    var exponent = ByteArrayHelper_getInstance().readLong8_pao7sd$(buffer.buf, 4);
+    switch (buffer.buf[12]) {
+      case -1:
+        tmp$ = Sign.NEGATIVE;
+        break;
+      case 1:
+        tmp$ = Sign.POSITIVE;
+        break;
+      default:tmp$ = Sign.ZERO;
+        break;
+    }
+    var sign = tmp$;
+    return BigDecimal.Companion.fromBigIntegerWithExponent_2w0s5z$(BigInteger.Companion.fromByteArray_cz08zj$(buf, sign), exponent);
+  };
+  DictionaryHelper.prototype.byteArrayToDecimal_S_b1q5io$ = function (buffer) {
+    var tmp = this.byteArrayToDecimal_I_b1q5io$(buffer).toStringExpanded();
+    if (contains(tmp, 46)) {
+      return tmp;
+    }return tmp + '.0';
+  };
+  DictionaryHelper.prototype.doubleToByteArray_3eiwqq$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 12);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 4);
+    ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.buf, 4, value);
+  };
+  DictionaryHelper.prototype.doubleToByteArray_akwfwi$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 12);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 4);
+    ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.buf, 4, toDouble(value));
+  };
+  DictionaryHelper.prototype.byteArrayToDouble_I_b1q5io$ = function (buffer) {
+    return ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.buf, 4);
+  };
+  DictionaryHelper.prototype.byteArrayToDouble_S_b1q5io$ = function (buffer) {
+    return ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.buf, 4).toString();
+  };
+  DictionaryHelper.prototype.floatToByteArray_3eiwqq$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 12);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 6);
+    ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.buf, 4, value);
+  };
+  DictionaryHelper.prototype.floatToByteArray_akwfwi$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 12);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 6);
+    ByteArrayHelper_getInstance().writeDouble8_aunrlr$(buffer.buf, 4, toDouble(value));
+  };
+  DictionaryHelper.prototype.byteArrayToFloat_I_b1q5io$ = function (buffer) {
+    return ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.buf, 4);
+  };
+  DictionaryHelper.prototype.byteArrayToFloat_S_b1q5io$ = function (buffer) {
+    return ByteArrayHelper_getInstance().readDouble8_pao7sd$(buffer.buf, 4).toString();
+  };
+  DictionaryHelper.prototype.langToByteArray_v5q3o4$ = function (buffer, content, lang) {
+    var buf1 = encodeToByteArray(lang);
+    var buf2 = encodeToByteArray(content);
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 9 + buf1.length + buf2.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 10);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 5 + buf1.length + buf2.length | 0, buf1.length);
+    arrayCopy(buf1, buffer.buf, 4, 0, buf1.length);
+    buffer.buf[4 + buf1.length | 0] = 0;
+    arrayCopy(buf2, buffer.buf, 5 + buf1.length | 0, 0, buf2.length);
+  };
+  DictionaryHelper.prototype.byteArrayToLang_Content_b1q5io$ = function (buffer) {
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, buffer.size - 4 | 0);
+    var l2 = buffer.size - 9 - l1 | 0;
+    var buf = new Int8Array(l2);
+    arrayCopy(buffer.buf, buf, 0, 5 + l1 | 0, 5 + l1 + l2 | 0);
+    return decodeToString(buf);
+  };
+  DictionaryHelper.prototype.byteArrayToLang_Lang_b1q5io$ = function (buffer) {
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, buffer.size - 4 | 0);
+    var buf = new Int8Array(l1);
+    arrayCopy(buffer.buf, buf, 0, 4, 4 + l1 | 0);
+    return decodeToString(buf);
+  };
+  DictionaryHelper.prototype.typedToByteArray_v5q3o4$ = function (buffer, content, type) {
+    try {
+      switch (type) {
+        case 'http://www.w3.org/2001/XMLSchema#integer':
+          this.integerToByteArray_akwfwi$(buffer, content);
+          break;
+        case 'http://www.w3.org/2001/XMLSchema#decimal':
+          this.decimalToByteArray_akwfwi$(buffer, content);
+          break;
+        case 'http://www.w3.org/2001/XMLSchema#double':
+          this.doubleToByteArray_3eiwqq$(buffer, toDouble(content));
+          break;
+        case 'http://www.w3.org/2001/XMLSchema#float':
+          this.floatToByteArray_3eiwqq$(buffer, toDouble(content));
+          break;
+        case 'http://www.w3.org/2001/XMLSchema#boolean':
+          this.booleanToByteArray_5191p3$(buffer, equals(content.toLowerCase(), 'true'));
+          break;
+        case 'http://www.w3.org/2001/XMLSchema#dateTime':
+          this.dateTimeToByteArray_akwfwi$(buffer, content);
+          break;
+        default:var buf1 = encodeToByteArray(type);
+          var buf2 = encodeToByteArray(content);
+          ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 9 + buf1.length + buf2.length | 0);
+          ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 11);
+          ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 5 + buf1.length + buf2.length | 0, buf1.length);
+          arrayCopy(buf1, buffer.buf, 4, 0, buf1.length);
+          buffer.buf[4 + buf1.length | 0] = 0;
+          arrayCopy(buf2, buffer.buf, 5 + buf1.length | 0, 0, buf2.length);
+          break;
+      }
+    } catch (e) {
+      if (Kotlin.isType(e, Exception)) {
+        printStackTrace(e);
+        this.stringToByteArray_akwfwi$(buffer, content);
+      } else
+        throw e;
+    }
+  };
+  DictionaryHelper.prototype.byteArrayToTyped_Content_b1q5io$ = function (buffer) {
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, buffer.size - 4 | 0);
+    var l2 = buffer.size - 9 - l1 | 0;
+    var buf = new Int8Array(l2);
+    arrayCopy(buffer.buf, buf, 0, 5 + l1 | 0, 5 + l1 + l2 | 0);
+    return decodeToString(buf);
+  };
+  DictionaryHelper.prototype.byteArrayToTyped_Type_b1q5io$ = function (buffer) {
+    var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, buffer.size - 4 | 0);
+    var buf = new Int8Array(l1);
+    arrayCopy(buffer.buf, buf, 0, 4, 4 + l1 | 0);
+    return decodeToString(buf);
+  };
+  function DictionaryHelper$bnodeToByteArray$lambda(closure$value) {
+    return function () {
+      return closure$value.length > 0;
+    };
+  }
+  DictionaryHelper.prototype.bnodeToByteArray_akwfwi$ = function (buffer, value) {
+    SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$bnodeToByteArray$lambda(value));
+    var buf1 = encodeToByteArray(value);
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 8 + buf1.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 4, buf1.length);
+    arrayCopy(buf1, buffer.buf, 8, 0, buf1.length);
+  };
+  DictionaryHelper.prototype.bnodeToByteArray_v5fxe$ = function (buffer, value) {
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 8);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 4, value);
+  };
+  DictionaryHelper.prototype.byteArrayToBnode_I_b1q5io$ = function (buffer) {
+    if (buffer.size === 8) {
+      return ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 4);
+    } else {
+      throw Exception_init('this is not ready to be used as instanciated value');
+    }
+  };
+  DictionaryHelper.prototype.byteArrayToBnode_S_b1q5io$ = function (buffer) {
+    if (buffer.size === 8) {
+      throw Exception_init('this is not ready to be used as import value');
+    } else {
+      var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 4);
+      var buf = new Int8Array(l1);
+      arrayCopy(buffer.buf, buf, 0, 8, 8 + l1 | 0);
+      return decodeToString(buf);
+    }
+  };
+  DictionaryHelper.prototype.byteArrayToBnode_A_b1q5io$ = function (buffer) {
+    if (buffer.size === 8) {
+      return ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 4).toString();
+    } else {
+      var l1 = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 4);
+      var buf = new Int8Array(l1);
+      arrayCopy(buffer.buf, buf, 0, 8, 8 + l1 | 0);
+      return decodeToString(buf);
+    }
+  };
+  DictionaryHelper.prototype.iriToByteArray_akwfwi$ = function (buffer, value) {
+    var buf1 = encodeToByteArray(value);
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 4 + buf1.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 8);
+    arrayCopy(buf1, buffer.buf, 4, 0, buf1.length);
+  };
+  DictionaryHelper.prototype.byteArrayToIri_b1q5io$ = function (buffer) {
+    var l1 = buffer.size - 4 | 0;
+    var buf = new Int8Array(l1);
+    arrayCopy(buffer.buf, buf, 0, 4, 4 + l1 | 0);
+    return decodeToString(buf);
+  };
+  DictionaryHelper.prototype.byteArrayToString_b1q5io$ = function (buffer) {
+    var l1 = buffer.size - 4 | 0;
+    var buf = new Int8Array(l1);
+    arrayCopy(buffer.buf, buf, 0, 4, 4 + l1 | 0);
+    return decodeToString(buf);
+  };
+  DictionaryHelper.prototype.stringToByteArray_akwfwi$ = function (buffer, value) {
+    var buf1 = encodeToByteArray(value);
+    ByteArrayWrapperExt_getInstance().setSize_v5fxe$(buffer, 4 + buf1.length | 0);
+    ByteArrayHelper_getInstance().writeInt4_qibw1t$(buffer.buf, 0, 9);
+    arrayCopy(buf1, buffer.buf, 4, 0, buf1.length);
+  };
+  function DictionaryHelper$sparqlToByteArray$lambda(closure$langIdx) {
+    return function () {
+      return closure$langIdx > 0;
+    };
+  }
+  DictionaryHelper.prototype.sparqlToByteArray_r5mkub$ = function (buffer, value) {
+    var tmp$ = value == null;
+    if (!tmp$) {
+      tmp$ = value.length === 0;
+    }var tmp$_0 = tmp$;
+    if (!tmp$_0) {
+      tmp$_0 = equals(value.toLowerCase(), 'undef');
+    }if (tmp$_0) {
+      this.undefToByteArray_b1q5io$(buffer);
+      return;
+    }if (equals(value.toLowerCase(), 'error')) {
+      this.errorToByteArray_b1q5io$(buffer);
+      return;
+    }if (equals(value.toLowerCase(), 'true')) {
+      this.booleanToByteArray_5191p3$(buffer, true);
+      return;
+    }if (equals(value.toLowerCase(), 'false')) {
+      this.booleanToByteArray_5191p3$(buffer, false);
+      return;
+    }if (startsWith_0(value, '_:')) {
+      var endIndex = value.length;
+      this.bnodeToByteArray_akwfwi$(buffer, value.substring(2, endIndex));
+      return;
+    }if (startsWith_0(value, '<') && endsWith(value, '>')) {
+      var endIndex_0 = value.length - 1 | 0;
+      this.iriToByteArray_akwfwi$(buffer, value.substring(1, endIndex_0));
+      return;
+    }if (!contains(value, 46)) {
+      try {
+        var i = BigInteger.Companion.parseString_bm4lxs$(value, 10);
+        this.integerToByteArray_ddz2hi$(buffer, i);
+        return;
+      } catch (e) {
+        if (!Kotlin.isType(e, Exception))
+          throw e;
+      }
+    }if (!contains_0(value, 'e') && !contains_0(value, 'E')) {
+      try {
+        var d = BigDecimal.Companion.parseString_bm4lxs$(value, 10);
+        this.decimalToByteArray_g73zp2$(buffer, d);
+        return;
+      } catch (e) {
+        if (!Kotlin.isType(e, Exception))
+          throw e;
+      }
+    }try {
+      var d_0 = toDouble(value);
+      this.doubleToByteArray_3eiwqq$(buffer, d_0);
+      return;
+    } catch (e) {
+      if (!Kotlin.isType(e, Exception))
+        throw e;
+    }
+    if (!endsWith(value, '' + String.fromCharCode(toBoxedChar(value.charCodeAt(0))))) {
+      var typeIdx = lastIndexOf(value, '' + String.fromCharCode(toBoxedChar(value.charCodeAt(0))) + '^^<');
+      var langIdx = lastIndexOf(value, '' + String.fromCharCode(toBoxedChar(value.charCodeAt(0))) + '@');
+      if (endsWith(value, '>') && typeIdx > 0) {
+        var endIndex_1 = typeIdx + 1 | 0;
+        var tmp$_1 = this.removeQuotesFromString_61zpoe$(value.substring(0, endIndex_1));
+        var startIndex = typeIdx + 4 | 0;
+        var endIndex_2 = value.length - 1 | 0;
+        this.typedToByteArray_v5q3o4$(buffer, tmp$_1, value.substring(startIndex, endIndex_2));
+        return;
+      } else {
+        SanityCheckOn_getInstance().check_8i7tro$(DictionaryHelper$sparqlToByteArray$lambda(langIdx));
+        var endIndex_3 = langIdx + 1 | 0;
+        var tmp$_2 = this.removeQuotesFromString_61zpoe$(value.substring(0, endIndex_3));
+        var startIndex_0 = langIdx + 2 | 0;
+        var endIndex_4 = value.length;
+        this.langToByteArray_v5q3o4$(buffer, tmp$_2, value.substring(startIndex_0, endIndex_4));
+        return;
+      }
+    }this.stringToByteArray_akwfwi$(buffer, this.removeQuotesFromString_61zpoe$(value));
+  };
+  DictionaryHelper.prototype.removeQuotesFromString_61zpoe$ = function (s) {
+    var c = s.charCodeAt(0);
+    var cntLeft = 1;
+    var cntRight = 0;
+    if (c !== 39 && c !== 34 || c !== s.charCodeAt(s.length - 1 | 0)) {
+      throw Exception_init('invalid quoted string >' + s + '<');
+    }while (cntLeft < s.length && s.charCodeAt(cntLeft) === c) {
+      cntLeft = cntLeft + 1 | 0;
+    }
+    while (cntRight < s.length && s.charCodeAt(s.length - cntRight - 1 | 0) === c) {
+      cntRight = cntRight + 1 | 0;
+    }
+    if (cntLeft >= 3 && cntRight >= 3 && s.length >= 6) {
+      var endIndex = s.length - 3 | 0;
+      return s.substring(3, endIndex);
+    }var endIndex_0 = s.length - 1 | 0;
+    return s.substring(1, endIndex_0);
+  };
+  DictionaryHelper.prototype.valueDefinitionToByteArray_a55a6y$ = function (buffer, value) {
+    this.sparqlToByteArray_r5mkub$(buffer, value.valueToString());
+  };
+  function DictionaryHelper$byteArrayToType$lambda(closure$res) {
+    return function () {
+      return closure$res >= 0;
+    };
+  }
+  function DictionaryHelper$byteArrayToType$lambda_0(closure$res) {
+    return function () {
+      return closure$res.toString();
+    };
+  }
+  function DictionaryHelper$byteArrayToType$lambda_1(closure$res) {
+    return function () {
+      return closure$res < 13;
+    };
+  }
+  function DictionaryHelper$byteArrayToType$lambda_2(closure$res) {
+    return function () {
+      return closure$res.toString();
+    };
+  }
+  DictionaryHelper.prototype.byteArrayToType_b1q5io$ = function (buffer) {
+    var res = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 0);
+    SanityCheckOn_getInstance().check_a3x0x2$(DictionaryHelper$byteArrayToType$lambda(res), DictionaryHelper$byteArrayToType$lambda_0(res));
+    SanityCheckOn_getInstance().check_a3x0x2$(DictionaryHelper$byteArrayToType$lambda_1(res), DictionaryHelper$byteArrayToType$lambda_2(res));
+    return res;
+  };
+  DictionaryHelper.prototype.byteArrayToSparql_b1q5io$ = function (buffer) {
+    var tmp$;
+    var type = this.byteArrayToType_b1q5io$(buffer);
+    switch (type) {
+      case 12:
+        tmp$ = 'UNDEF';
+        break;
+      case 5:
+        tmp$ = 'ERROR';
+        break;
+      case 0:
+        tmp$ = this.byteArrayToBnode_A_b1q5io$(buffer);
+        break;
+      case 1:
+        if (this.byteArrayToBoolean_b1q5io$(buffer)) {
+          tmp$ = '"true"^^<http://www.w3.org/2001/XMLSchema#boolean>';
+        } else {
+          tmp$ = '"false"^^<http://www.w3.org/2001/XMLSchema#boolean>';
+        }
+
+        break;
+      case 4:
+        tmp$ = '"' + this.byteArrayToDouble_S_b1q5io$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#double>';
+        break;
+      case 6:
+        tmp$ = '"' + this.byteArrayToFloat_S_b1q5io$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#float>';
+        break;
+      case 7:
+        tmp$ = '"' + this.byteArrayToInteger_S_b1q5io$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#integer>';
+        break;
+      case 3:
+        tmp$ = '"' + this.byteArrayToDecimal_S_b1q5io$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#decimal>';
+        break;
+      case 8:
+        tmp$ = '<' + this.byteArrayToIri_b1q5io$(buffer) + '>';
+        break;
+      case 9:
+        tmp$ = '"' + this.byteArrayToString_b1q5io$(buffer) + '"';
+        break;
+      case 10:
+        tmp$ = '"' + this.byteArrayToLang_Content_b1q5io$(buffer) + '"@' + this.byteArrayToLang_Lang_b1q5io$(buffer);
+        break;
+      case 11:
+        tmp$ = '"' + this.byteArrayToTyped_Content_b1q5io$(buffer) + '"^^<' + this.byteArrayToTyped_Type_b1q5io$(buffer) + '>';
+        break;
+      case 2:
+        tmp$ = '"' + this.byteArrayToDateTimeAsTyped_Content_b1q5io$(buffer) + '"^^<http://www.w3.org/2001/XMLSchema#dateTime>';
+        break;
+      default:throw Exception_init('unreachable ' + type);
+    }
+    return tmp$;
+  };
+  DictionaryHelper.prototype.byteArrayToValueDefinition_b1q5io$ = function (buffer) {
+    var tmp$;
+    var type = this.byteArrayToType_b1q5io$(buffer);
+    switch (type) {
+      case 12:
+        tmp$ = dictionary.DictionaryExt.undefValue2;
+        break;
+      case 5:
+        tmp$ = dictionary.DictionaryExt.errorValue2;
+        break;
+      case 0:
+        tmp$ = new ValueBnode('' + toString_0(this.byteArrayToBnode_I_b1q5io$(buffer)));
+        break;
+      case 1:
+        if (this.byteArrayToBoolean_b1q5io$(buffer)) {
+          tmp$ = dictionary.DictionaryExt.booleanTrueValue2;
+        } else {
+          tmp$ = dictionary.DictionaryExt.booleanFalseValue2;
+        }
+
+        break;
+      case 4:
+        tmp$ = new ValueDouble(this.byteArrayToDouble_I_b1q5io$(buffer));
+        break;
+      case 6:
+        tmp$ = new ValueFloat(this.byteArrayToFloat_I_b1q5io$(buffer));
+        break;
+      case 7:
+        tmp$ = new ValueInteger(this.byteArrayToInteger_I_b1q5io$(buffer));
+        break;
+      case 3:
+        tmp$ = new ValueDecimal(this.byteArrayToDecimal_I_b1q5io$(buffer));
+        break;
+      case 8:
+        tmp$ = new ValueIri(this.byteArrayToIri_b1q5io$(buffer));
+        break;
+      case 9:
+        tmp$ = new ValueSimpleLiteral('"', this.byteArrayToString_b1q5io$(buffer));
+        break;
+      case 10:
+        tmp$ = new ValueLanguageTaggedLiteral('"', this.byteArrayToLang_Content_b1q5io$(buffer), this.byteArrayToLang_Lang_b1q5io$(buffer));
+        break;
+      case 11:
+        tmp$ = ValueTypedLiteral.Companion.invoke_6hosri$('"', this.byteArrayToTyped_Content_b1q5io$(buffer), this.byteArrayToTyped_Type_b1q5io$(buffer));
+        break;
+      default:throw Exception_init('unreachable ' + type);
+    }
+    return tmp$;
+  };
+  DictionaryHelper.prototype.byteArrayToCallback_6o198z$ = function (buffer, onBNode, onBoolean, onLanguageTaggedLiteral, onSimpleLiteral, onTypedLiteral, onDecimal, onFloat, onDouble, onInteger, onIri, onError, onUndefined) {
+    var type = ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer.buf, 0);
+    switch (type) {
+      case 6:
+        onFloat(this.byteArrayToFloat_I_b1q5io$(buffer));
+        break;
+      case 4:
+        onDouble(this.byteArrayToDouble_I_b1q5io$(buffer));
+        break;
+      case 7:
+        onInteger(this.byteArrayToInteger_S_b1q5io$(buffer));
+        break;
+      case 3:
+        onDecimal(this.byteArrayToDecimal_S_b1q5io$(buffer));
+        break;
+      case 12:
+        onUndefined();
+        break;
+      case 5:
+        onError();
+        break;
+      case 0:
+        onBNode(this.byteArrayToBnode_I_b1q5io$(buffer));
+        break;
+      case 1:
+        onBoolean(this.byteArrayToBoolean_b1q5io$(buffer));
+        break;
+      case 8:
+        onIri(this.byteArrayToIri_b1q5io$(buffer));
+        break;
+      case 9:
+        onSimpleLiteral(this.byteArrayToString_b1q5io$(buffer));
+        break;
+      case 10:
+        onLanguageTaggedLiteral(this.byteArrayToLang_Content_b1q5io$(buffer), this.byteArrayToLang_Lang_b1q5io$(buffer));
+        break;
+      case 11:
+        onTypedLiteral(this.byteArrayToTyped_Content_b1q5io$(buffer), this.byteArrayToTyped_Type_b1q5io$(buffer));
+        break;
+      case 2:
+        onTypedLiteral(this.byteArrayToDateTimeAsTyped_Content_b1q5io$(buffer), 'http://www.w3.org/2001/XMLSchema#dateTime');
+        break;
+      default:throw Exception_init('unreachable ' + type);
+    }
+  };
+  DictionaryHelper.prototype.byteArrayCompareAny_sllwic$ = function (a, b) {
+    var typeA = this.byteArrayToType_b1q5io$(a);
+    var typeB = this.byteArrayToType_b1q5io$(b);
+    if (typeA !== typeB) {
+      if (typeA === 12) {
+        return -1;
+      } else if (typeB === 12) {
+        return 1;
+      } else if (typeA === 5) {
+        return -1;
+      } else if (typeB === 5) {
+        return 1;
+      } else if (typeA === 0) {
+        return -1;
+      } else if (typeB === 0) {
+        return 1;
+      } else if (typeA === 8) {
+        return -1;
+      } else if (typeB === 8) {
+        return 1;
+      } else if (typeA === 9) {
+        return -1;
+      } else if (typeB === 9) {
+        return 1;
+      } else {
+        return typeA - typeB | 0;
+      }
+    } else {
+      if (typeA === 12 || typeA === 5) {
+        return 0;
+      } else if (typeA === 0) {
+        if (a.size === 8 && b.size === 8) {
+          return ByteArrayHelper_getInstance().readInt4_pao7sd$(a.buf, 4) - ByteArrayHelper_getInstance().readInt4_pao7sd$(b.buf, 4) | 0;
+        } else {
+          return a.compareTo_11rb$(b);
+        }
+      } else if (typeA === 1) {
+        return a.buf[4] - b.buf[4];
+      } else if (typeA !== 2)
+        if (typeA !== 3)
+          if (typeA !== 4)
+            if (typeA !== 6)
+              if (typeA !== 7)
+                if (typeA === 10 || typeA === 11 || typeA === 8 || typeA === 9) {
+                  var lenA = a.size;
+                  var lenB = b.size;
+                  var i = 4;
+                  var res = 0;
+                  while (i < lenA && i < lenB && res === 0) {
+                    res = a.buf[i] - b.buf[i];
+                    i = i + 1 | 0;
+                  }
+                  if (res === 0) {
+                    res = lenA - lenB | 0;
+                  }return res;
+                }}
+    throw Exception_init('can not compare ' + typeA + ' ' + typeB);
+  };
+  DictionaryHelper.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'DictionaryHelper',
+    interfaces: []
+  };
+  var DictionaryHelper_instance = null;
+  function DictionaryHelper_getInstance() {
+    if (DictionaryHelper_instance === null) {
+      new DictionaryHelper();
+    }return DictionaryHelper_instance;
+  }
+  function ByteArrayWrapperExt() {
+    ByteArrayWrapperExt_instance = this;
+  }
+  ByteArrayWrapperExt.prototype.setSize_v5fxe$ = function (data, c) {
+    data.size = c;
+    if (c > data.buf.length) {
+      data.buf = new Int8Array(c);
+    }};
+  ByteArrayWrapperExt.prototype.setSizeCopy_v5fxe$ = function (data, c) {
+    data.size = c;
+    if (c > data.buf.length) {
+      var oldBuf = data.buf;
+      data.buf = new Int8Array(c);
+      arrayCopy(oldBuf, data.buf, 0, 0, oldBuf.length);
+    }};
+  ByteArrayWrapperExt.prototype.commonBytes_sllwic$ = function (a, b) {
+    var i = 0;
+    while (i < a.size && i < b.size) {
+      if (a.buf[i] === b.buf[i]) {
+        i = i + 1 | 0;
+      } else {
+        break;
+      }
+    }
+    return i;
+  };
+  ByteArrayWrapperExt.prototype.copyInto_sllwic$ = function (a, b) {
+    this.setSize_v5fxe$(b, a.size);
+    arrayCopy(a.buf, b.buf, 0, 0, a.size);
+  };
+  ByteArrayWrapperExt.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'ByteArrayWrapperExt',
+    interfaces: []
+  };
+  var ByteArrayWrapperExt_instance = null;
+  function ByteArrayWrapperExt_getInstance() {
+    if (ByteArrayWrapperExt_instance === null) {
+      new ByteArrayWrapperExt();
+    }return ByteArrayWrapperExt_instance;
+  }
+  function IntArrayWrapperExt() {
+    IntArrayWrapperExt_instance = this;
+  }
+  IntArrayWrapperExt.prototype.setSize_b39gz4$ = function (data, c) {
+    data.size = c;
+    if (c > data.buf.length) {
+      data.buf = new Int32Array(c);
+    }};
+  IntArrayWrapperExt.prototype.setSizeCopy_b39gz4$ = function (data, c) {
+    data.size = c;
+    if (c > data.buf.length) {
+      var oldBuf = data.buf;
+      data.buf = new Int32Array(c);
+      arrayCopy(oldBuf, data.buf, 0, 0, oldBuf.length);
+    }};
+  IntArrayWrapperExt.prototype.copyInto_rs6nqr$ = function (a, b) {
+    this.setSize_b39gz4$(b, a.size);
+    arrayCopy(a.buf, b.buf, 0, 0, a.size);
+  };
+  IntArrayWrapperExt.prototype.append_b39gz4$ = function (data, v) {
+    var tmp$;
+    if (data.buf.length === data.size) {
+      var oldBuf = data.buf;
+      data.buf = new Int32Array(data.size * 2 | 0);
+      arrayCopy(oldBuf, data.buf, 0, 0, oldBuf.length);
+    }data.buf[tmp$ = data.size, data.size = tmp$ + 1 | 0, tmp$] = v;
+  };
+  IntArrayWrapperExt.prototype.removeLast_j4ucjm$ = function (data) {
+    data.size = data.size - 1 | 0;
+    return data.buf[data.size];
+  };
+  IntArrayWrapperExt.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'IntArrayWrapperExt',
+    interfaces: []
+  };
+  var IntArrayWrapperExt_instance = null;
+  function IntArrayWrapperExt_getInstance() {
+    if (IntArrayWrapperExt_instance === null) {
+      new IntArrayWrapperExt();
+    }return IntArrayWrapperExt_instance;
+  }
+  function MyInputStreamFixedLength(stream, remainingBytes) {
+    this.stream = stream;
+    this.remainingBytes = remainingBytes;
+  }
+  MyInputStreamFixedLength.prototype.readInt = function () {
+    if (this.remainingBytes >= 4) {
+      this.remainingBytes = this.remainingBytes - 4 | 0;
+      return this.stream.readInt();
+    } else {
+      throw Exception_init('not enough bytes available ' + this.remainingBytes);
+    }
+  };
+  MyInputStreamFixedLength.prototype.readByte = function () {
+    if (this.remainingBytes >= 1) {
+      this.remainingBytes = this.remainingBytes - 1 | 0;
+      return this.stream.readByte();
+    } else {
+      throw Exception_init('not enough bytes available ' + this.remainingBytes);
+    }
+  };
+  MyInputStreamFixedLength.prototype.read_fqrh44$ = function (buf) {
+    if (this.remainingBytes >= buf.length) {
+      this.remainingBytes = this.remainingBytes - buf.length | 0;
+      return this.stream.read_fqrh44$(buf);
+    } else {
+      throw Exception_init('not enough bytes available ' + this.remainingBytes);
+    }
+  };
+  MyInputStreamFixedLength.prototype.read_ir89t6$ = function (buf, len) {
+    if (this.remainingBytes >= len) {
+      this.remainingBytes = this.remainingBytes - len | 0;
+      return this.stream.read_ir89t6$(buf, len);
+    } else {
+      throw Exception_init('not enough bytes available ' + this.remainingBytes);
+    }
+  };
+  MyInputStreamFixedLength.prototype.read_mj6st8$ = function (buf, off, len) {
+    if (this.remainingBytes >= len) {
+      this.remainingBytes = this.remainingBytes - len | 0;
+      return this.stream.read_mj6st8$(buf, off, len);
+    } else {
+      throw Exception_init('not enough bytes available ' + this.remainingBytes);
+    }
+  };
+  MyInputStreamFixedLength.prototype.close = function () {
+    this.stream.close();
+  };
+  MyInputStreamFixedLength.prototype.readLine = function () {
+    var buf = ArrayList_init_0();
+    try {
+      var b = this.readByte();
+      while (b !== toByte(10 | 0)) {
+        if (b !== toByte(13 | 0)) {
+          buf.add_11rb$(b);
+        }b = this.readByte();
+      }
+    } catch (e) {
+      if (Kotlin.isType(e, Throwable)) {
+        printStackTrace(e);
+        if (buf.size === 0) {
+          return null;
+        }} else
+        throw e;
+    }
+    return decodeToString(toByteArray(buf));
+  };
+  MyInputStreamFixedLength.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'MyInputStreamFixedLength',
+    interfaces: [IMyInputStream]
+  };
+  function MyStringStream(str) {
+    this.buf4 = new Int8Array(4);
+    this.data = encodeToByteArray(str);
+    this.pos = 0;
+  }
+  MyStringStream.prototype.close = function () {
+  };
+  MyStringStream.prototype.read_fqrh44$ = function (buf) {
+    var s = this.pos + buf.length | 0;
+    var res = buf.length;
+    if (s > this.data.length) {
+      s = this.data.length;
+      res = s - this.pos | 0;
+    }arrayCopy(this.data, buf, 0, this.pos, s);
+    this.pos = s;
+    return res;
+  };
+  MyStringStream.prototype.read_ir89t6$ = function (buf, len) {
+    var s = this.pos + len | 0;
+    var res = buf.length;
+    if (s > this.data.length) {
+      s = this.data.length;
+      res = s - this.pos | 0;
+    }arrayCopy(this.data, buf, 0, this.pos, s);
+    this.pos = s;
+    return res;
+  };
+  MyStringStream.prototype.read_mj6st8$ = function (buf, off, len) {
+    var s = this.pos + len | 0;
+    var res = buf.length;
+    if (s > this.data.length) {
+      s = this.data.length;
+      res = s - this.pos | 0;
+    }arrayCopy(this.data, buf, off, this.pos, s);
+    this.pos = s;
+    return res;
+  };
+  MyStringStream.prototype.readInt = function () {
+    this.read_ir89t6$(this.buf4, 4);
+    return ByteArrayHelper_getInstance().readInt4_pao7sd$(this.buf4, 0);
+  };
+  MyStringStream.prototype.readByte = function () {
+    this.read_ir89t6$(this.buf4, 1);
+    return this.buf4[0];
+  };
+  MyStringStream.prototype.readLine = function () {
+    var buf = ArrayList_init_0();
+    try {
+      var b = this.readByte();
+      while (b !== toByte(10 | 0)) {
+        if (b !== toByte(13 | 0)) {
+          buf.add_11rb$(b);
+        }b = this.readByte();
+      }
+    } catch (e) {
+      if (Kotlin.isType(e, Throwable)) {
+        printStackTrace(e);
+        if (buf.size === 0) {
+          return null;
+        }} else
+        throw e;
+    }
+    return decodeToString(toByteArray(buf));
+  };
+  MyStringStream.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'MyStringStream',
+    interfaces: [IMyInputStream]
+  };
+  function SanityCheckOff() {
+    SanityCheckOff_instance = this;
+  }
+  SanityCheckOff.prototype.println_buffermanager_lh572t$ = function (s) {
+  };
+  SanityCheckOff.prototype.println_nodemanager_lh572t$ = function (s) {
+  };
+  SanityCheckOff.prototype.println_lh572t$ = function (s) {
+  };
+  SanityCheckOff.prototype.invoke_ls4sck$ = function (action) {
+  };
+  SanityCheckOff.prototype.suspended_ls4sck$ = function (action) {
+  };
+  SanityCheckOff.prototype.helper_lx1jwy$ = function (action) {
+    return null;
+  };
+  SanityCheckOff.prototype.check_a3x0x2$ = function (value, msg) {
+  };
+  SanityCheckOff.prototype.check_8i7tro$ = function (value) {
+  };
+  SanityCheckOff.prototype.checkUnreachable_8be2vx$ = function () {
+    throw new UnreachableException();
+  };
+  SanityCheckOff.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'SanityCheckOff',
+    interfaces: []
+  };
+  var SanityCheckOff_instance = null;
+  function SanityCheckOff_getInstance() {
+    if (SanityCheckOff_instance === null) {
+      new SanityCheckOff();
+    }return SanityCheckOff_instance;
+  }
+  function SanityCheckOn() {
+    SanityCheckOn_instance = this;
+    this.SANITYCHECK_PRINTING_8be2vx$ = false;
+    this.SANITYCHECK_PRINTING_NODEMANAGER_8be2vx$ = false;
+    this.SANITYCHECK_PRINTING_BUFFERMANAGER_8be2vx$ = false;
+  }
+  SanityCheckOn.prototype.println_buffermanager_lh572t$ = function (s) {
+    if (this.SANITYCHECK_PRINTING_BUFFERMANAGER_8be2vx$) {
+      println(s());
+    }};
+  SanityCheckOn.prototype.println_nodemanager_lh572t$ = function (s) {
+    if (this.SANITYCHECK_PRINTING_NODEMANAGER_8be2vx$) {
+      println(s());
+    }};
+  SanityCheckOn.prototype.println_lh572t$ = function (s) {
+    if (this.SANITYCHECK_PRINTING_8be2vx$) {
+      println(s());
+    }};
+  SanityCheckOn.prototype.invoke_ls4sck$ = function (action) {
+    try {
+      action();
+    } catch (e) {
+      if (Kotlin.isType(e, Throwable)) {
+        if (this.SANITYCHECK_PRINTING_8be2vx$) {
+          println('Exception during SanityCheck.invoke');
+          printStackTrace(e);
+        }throw e;
+      } else
+        throw e;
+    }
+  };
+  SanityCheckOn.prototype.suspended_ls4sck$ = function (action) {
+    try {
+      action();
+    } catch (e) {
+      if (Kotlin.isType(e, Throwable)) {
+        if (this.SANITYCHECK_PRINTING_8be2vx$) {
+          println('Exception during SanityCheck.suspended');
+          printStackTrace(e);
+        }throw e;
+      } else
+        throw e;
+    }
+  };
+  SanityCheckOn.prototype.helper_i3ch5z$ = function (action) {
+    return action();
+  };
+  SanityCheckOn.prototype.check_a3x0x2$ = function (value, msg) {
+    try {
+      if (!value()) {
+        throw Exception_init('SanityCheck failed :: ' + msg());
+      }} catch (e) {
+      if (Kotlin.isType(e, Throwable)) {
+        if (this.SANITYCHECK_PRINTING_8be2vx$) {
+          println('Exception during SanityCheck.check');
+          printStackTrace(e);
+        }throw e;
+      } else
+        throw e;
+    }
+  };
+  SanityCheckOn.prototype.check_8i7tro$ = function (value) {
+    try {
+      if (!value()) {
+        throw Exception_init('SanityCheck failed');
+      }} catch (e) {
+      if (Kotlin.isType(e, Throwable)) {
+        if (this.SANITYCHECK_PRINTING_8be2vx$) {
+          println('Exception during SanityCheck.check');
+          printStackTrace(e);
+        }throw e;
+      } else
+        throw e;
+    }
+  };
+  SanityCheckOn.prototype.checkUnreachable_8be2vx$ = function () {
+    throw new UnreachableException();
+  };
+  SanityCheckOn.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'SanityCheckOn',
+    interfaces: []
+  };
+  var SanityCheckOn_instance = null;
+  function SanityCheckOn_getInstance() {
+    if (SanityCheckOn_instance === null) {
+      new SanityCheckOn();
+    }return SanityCheckOn_instance;
+  }
+  function ByteArrayHelper() {
+    ByteArrayHelper_instance = this;
+  }
+  ByteArrayHelper.prototype.readDouble8_pao7sd$ = function (data, offset) {
+    var buffer = new ArrayBuffer(8);
+    var intView = new Int64Array(buffer);
+    var floatView = new Float64Array(buffer);
+    intView.set(0, this.readLong8_pao7sd$(data, offset));
+    return floatView.get(0);
+  };
+  ByteArrayHelper.prototype.writeDouble8_aunrlr$ = function (data, offset, value) {
+    var buffer = new ArrayBuffer(8);
+    var intView = new Int64Array(buffer);
+    var floatView = new Float64Array(buffer);
+    floatView.set(0, value);
+    this.writeLong8_ul24ie$(data, offset, intView.get(0));
+  };
+  ByteArrayHelper.prototype.writeInt1_qibw1t$ = function (data, offset, value) {
+    data[offset] = toByte(value & 255);
+  };
+  ByteArrayHelper.prototype.writeInt2_qibw1t$ = function (data, offset, value) {
+    data[offset] = toByte(value >> 8 & 255);
+    data[offset + 1 | 0] = toByte(value & 255);
+  };
+  ByteArrayHelper.prototype.writeInt3_qibw1t$ = function (data, offset, value) {
+    data[offset] = toByte(value >> 16 & 255);
+    data[offset + 1 | 0] = toByte(value >> 8 & 255);
+    data[offset + 2 | 0] = toByte(value & 255);
+  };
+  ByteArrayHelper.prototype.writeInt4_qibw1t$ = function (data, offset, value) {
+    data[offset] = toByte(value >> 24 & 255);
+    data[offset + 1 | 0] = toByte(value >> 16 & 255);
+    data[offset + 2 | 0] = toByte(value >> 8 & 255);
+    data[offset + 3 | 0] = toByte(value & 255);
+  };
+  ByteArrayHelper.prototype.writeIntX_4f9ssz$ = function (data, offset, value, count) {
+    switch (count) {
+      case 0:
+        break;
+      case 1:
+        this.writeInt1_qibw1t$(data, offset, value);
+        break;
+      case 2:
+        this.writeInt2_qibw1t$(data, offset, value);
+        break;
+      case 3:
+        this.writeInt3_qibw1t$(data, offset, value);
+        break;
+      default:this.writeInt4_qibw1t$(data, offset, value);
+        break;
+    }
+  };
+  ByteArrayHelper.prototype.writeLong8_ul24ie$ = function (data, offset, value) {
+    data[offset] = toByte(value.shiftRight(56).and(L255).toInt());
+    data[offset + 1 | 0] = toByte(value.shiftRight(48).and(L255).toInt());
+    data[offset + 2 | 0] = toByte(value.shiftRight(40).and(L255).toInt());
+    data[offset + 3 | 0] = toByte(value.shiftRight(32).and(L255).toInt());
+    data[offset + 4 | 0] = toByte(value.shiftRight(24).and(L255).toInt());
+    data[offset + 5 | 0] = toByte(value.shiftRight(16).and(L255).toInt());
+    data[offset + 6 | 0] = toByte(value.shiftRight(8).and(L255).toInt());
+    data[offset + 7 | 0] = toByte(value.and(L255).toInt());
+  };
+  ByteArrayHelper.prototype.writeChar_ul80vw$ = function (data, offset, value) {
+    var v = value | 0;
+    data[offset] = toByte(v >> 8 & 255);
+    data[offset + 1 | 0] = toByte(v & 255);
+  };
+  ByteArrayHelper.prototype.readLong8_pao7sd$ = function (data, offset) {
+    return Kotlin.Long.fromInt(data[offset]).and(L255).shiftLeft(56).or(Kotlin.Long.fromInt(data[offset + 1 | 0]).and(L255).shiftLeft(48)).or(Kotlin.Long.fromInt(data[offset + 2 | 0]).and(L255).shiftLeft(40)).or(Kotlin.Long.fromInt(data[offset + 3 | 0]).and(L255).shiftLeft(32)).or(Kotlin.Long.fromInt(data[offset + 4 | 0]).and(L255).shiftLeft(24)).or(Kotlin.Long.fromInt(data[offset + 5 | 0]).and(L255).shiftLeft(16)).or(Kotlin.Long.fromInt(data[offset + 6 | 0]).and(L255).shiftLeft(8)).or(Kotlin.Long.fromInt(data[offset + 7 | 0]).and(L255));
+  };
+  ByteArrayHelper.prototype.readInt4_pao7sd$ = function (data, offset) {
+    return (data[offset] & 255) << 24 | (data[offset + 1 | 0] & 255) << 16 | (data[offset + 2 | 0] & 255) << 8 | data[offset + 3 | 0] & 255;
+  };
+  ByteArrayHelper.prototype.readInt3_pao7sd$ = function (data, offset) {
+    return (data[offset] & 255) << 16 | (data[offset + 1 | 0] & 255) << 8 | data[offset + 2 | 0] & 255;
+  };
+  ByteArrayHelper.prototype.readInt2_pao7sd$ = function (data, offset) {
+    return (data[offset] & 255) << 8 | data[offset + 1 | 0] & 255;
+  };
+  ByteArrayHelper.prototype.readInt1_pao7sd$ = function (data, offset) {
+    return data[offset] & 255;
+  };
+  ByteArrayHelper.prototype.readIntX_qibw1t$ = function (data, offset, count) {
+    switch (count) {
+      case 0:
+        return 0;
+      case 1:
+        return this.readInt1_pao7sd$(data, offset);
+      case 2:
+        return this.readInt2_pao7sd$(data, offset);
+      case 3:
+        return this.readInt3_pao7sd$(data, offset);
+      default:return this.readInt4_pao7sd$(data, offset);
+    }
+  };
+  ByteArrayHelper.prototype.readChar_pao7sd$ = function (data, offset) {
     return toChar((data[offset] & 255) << 8 | data[offset + 1 | 0] & 255);
   };
-  _ByteArrayHelper.$metadata$ = {
+  ByteArrayHelper.$metadata$ = {
     kind: Kind_OBJECT,
-    simpleName: '_ByteArrayHelper',
+    simpleName: 'ByteArrayHelper',
     interfaces: []
   };
-  var _ByteArrayHelper_instance = null;
-  function _ByteArrayHelper_getInstance() {
-    if (_ByteArrayHelper_instance === null) {
-      new _ByteArrayHelper();
-    }return _ByteArrayHelper_instance;
+  var ByteArrayHelper_instance = null;
+  function ByteArrayHelper_getInstance() {
+    if (ByteArrayHelper_instance === null) {
+      new ByteArrayHelper();
+    }return ByteArrayHelper_instance;
   }
-  function _DateHelper() {
+  function DateHelper() {
     this.time_8be2vx$ = new Date();
   }
-  _DateHelper.prototype.year_8be2vx$ = function () {
+  DateHelper.prototype.year_8be2vx$ = function () {
     return this.time_8be2vx$.getFullYear();
   };
-  _DateHelper.prototype.month_8be2vx$ = function () {
+  DateHelper.prototype.month_8be2vx$ = function () {
     return this.time_8be2vx$.getMonth();
   };
-  _DateHelper.prototype.day_8be2vx$ = function () {
+  DateHelper.prototype.day_8be2vx$ = function () {
     return this.time_8be2vx$.getDay();
   };
-  _DateHelper.prototype.hours_8be2vx$ = function () {
+  DateHelper.prototype.hours_8be2vx$ = function () {
     return this.time_8be2vx$.getHours();
   };
-  _DateHelper.prototype.minutes_8be2vx$ = function () {
+  DateHelper.prototype.minutes_8be2vx$ = function () {
     return this.time_8be2vx$.getMinutes();
   };
-  _DateHelper.prototype.seconds_8be2vx$ = function () {
+  DateHelper.prototype.seconds_8be2vx$ = function () {
     return this.time_8be2vx$.getSeconds();
   };
-  _DateHelper.$metadata$ = {
+  DateHelper.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: '_DateHelper',
+    simpleName: 'DateHelper',
     interfaces: []
   };
-  function _DateHelper_init($this) {
-    $this = $this || Object.create(_DateHelper.prototype);
-    _DateHelper.call($this);
+  function DateHelper_init($this) {
+    $this = $this || Object.create(DateHelper.prototype);
+    DateHelper.call($this);
     return $this;
   }
-  function _File() {
-    this.filename = null;
+  function File() {
+    this.filename_8be2vx$ = null;
   }
-  _File.prototype.createTempFile_p1hijf$ = function (prefix, suffix, directory) {
+  File.prototype.createTempFile_p1hijf$ = function (prefix, suffix, directory) {
     throw new NotImplementedException('File', 'createTempFile not implemented');
   };
-  _File.prototype.exists_8be2vx$ = function () {
+  File.prototype.exists_8be2vx$ = function () {
     throw new NotImplementedException('File', 'exists not implemented');
   };
-  _File.prototype.mkdirs_8be2vx$ = function () {
+  File.prototype.mkdirs_8be2vx$ = function () {
     throw new NotImplementedException('File', 'mkdirs not implemented');
   };
-  _File.prototype.deleteRecursively_8be2vx$ = function () {
+  File.prototype.deleteRecursively_8be2vx$ = function () {
     throw new NotImplementedException('File', 'deleteRecursively not implemented');
   };
-  _File.prototype.length_8be2vx$ = function () {
+  File.prototype.length_8be2vx$ = function () {
     throw new NotImplementedException('File', 'length not implemented');
   };
-  function _File$readAsString$lambda(closure$res) {
+  function File$readAsString$lambda(closure$res) {
     return function (it) {
       closure$res.v.append_pdl1vj$(it).append_s8itvh$(10);
       return Unit;
     };
   }
-  _File.prototype.readAsString_8be2vx$ = function () {
+  File.prototype.readAsString_8be2vx$ = function () {
     var res = {v: StringBuilder_init()};
-    this.forEachLine_5y588g$(_File$readAsString$lambda(res));
+    this.forEachLine_5y588g$(File$readAsString$lambda(res));
     return res.v.toString();
   };
-  _File.prototype.readAsCharIterator_8be2vx$ = function () {
+  File.prototype.readAsCharIterator_8be2vx$ = function () {
     throw new NotImplementedException('File', 'readAsCharIterator not implemented');
   };
-  _File.prototype.openInputStream_8be2vx$ = function () {
+  File.prototype.openInputStream_8be2vx$ = function () {
     throw new NotImplementedException('File', 'openInputStream not implemented');
   };
-  _File.prototype.walk_5y588g$ = function (action) {
+  File.prototype.walk_5y588g$ = function (action) {
     throw new NotImplementedException('File', 'walk not implemented');
   };
-  _File.prototype.forEachLine_5y588g$ = function (action) {
-    var stream = _MyInputStream_init(this.filename);
+  File.prototype.walk_4gst40$ = function (maxdepth, action) {
+    throw new NotImplementedException('File', 'walk not implemented');
+  };
+  File.prototype.forEachLine_5y588g$ = function (action) {
+    var stream = MyInputStream_init(this.filename_8be2vx$);
     var buffer = new Int8Array(8192);
     var pos = 0;
-    var s = ArrayList_init();
+    var s = ArrayList_init_0();
     while (true) {
       var len = stream.read_ir89t6$(buffer, buffer.length);
       if (len === 0) {
@@ -19466,35 +19703,35 @@
     action(decodeToString(toByteArray(s)));
     stream.close();
   };
-  _File.prototype.withOutputStream_jyd7u$ = function (action) {
+  File.prototype.withOutputStream_2hu0ja$ = function (action) {
     throw new NotImplementedException('File', 'withOutputStream not implemented');
   };
-  _File.prototype.withInputStream_txlftf$ = function (action) {
-    var stream = _MyInputStream_init(this.filename);
+  File.prototype.withInputStream_2c7cab$ = function (action) {
+    var stream = MyInputStream_init(this.filename_8be2vx$);
     action(stream);
     stream.close();
   };
-  _File.prototype.equals = function (other) {
+  File.prototype.equals = function (other) {
     throw new NotImplementedException('File', 'equals not implemented');
   };
-  _File.prototype.openOutputStream_vft4zs$ = function (append) {
+  File.prototype.openOutputStream_vft4zs$ = function (append) {
     throw new NotImplementedException('File', 'openOutputStream not implemented');
   };
-  _File.$metadata$ = {
+  File.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: '_File',
+    simpleName: 'File',
     interfaces: []
   };
-  function _File_init(filename, $this) {
-    $this = $this || Object.create(_File.prototype);
-    _File.call($this);
-    $this.filename = filename;
+  function File_init(filename, $this) {
+    $this = $this || Object.create(File.prototype);
+    File.call($this);
+    $this.filename_8be2vx$ = filename;
     return $this;
   }
-  function _IntegerExt() {
-    _IntegerExt_instance = this;
+  function IntegerExt() {
+    IntegerExt_instance = this;
   }
-  _IntegerExt.prototype.numberOfLeadingZeros_kcn2v3$ = function (value) {
+  IntegerExt.prototype.numberOfLeadingZeros_kcn2v3$ = function (value) {
     var i = 31;
     while (i >= 0) {
       if ((value & 1 << i) !== 0) {
@@ -19503,30 +19740,30 @@
     }
     return 32;
   };
-  _IntegerExt.$metadata$ = {
+  IntegerExt.$metadata$ = {
     kind: Kind_OBJECT,
-    simpleName: '_IntegerExt',
+    simpleName: 'IntegerExt',
     interfaces: []
   };
-  var _IntegerExt_instance = null;
-  function _IntegerExt_getInstance() {
-    if (_IntegerExt_instance === null) {
-      new _IntegerExt();
-    }return _IntegerExt_instance;
+  var IntegerExt_instance = null;
+  function IntegerExt_getInstance() {
+    if (IntegerExt_instance === null) {
+      new IntegerExt();
+    }return IntegerExt_instance;
   }
-  function _MyInputStream() {
+  function MyInputStream() {
     this.fd_8be2vx$ = 0;
     this.pos_8be2vx$ = 0;
   }
-  _MyInputStream.prototype.readInt = function () {
+  MyInputStream.prototype.readInt = function () {
     var buffer = new Int8Array(4);
     var l = fs.ExternalModule_fs.readSync_ir43ts$(this.fd_8be2vx$, buffer, 0, buffer.length, this.pos_8be2vx$);
     if (l !== 4) {
       throw Exception_init('invalid len ' + l);
     }this.pos_8be2vx$ = this.pos_8be2vx$ + l | 0;
-    return _ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer, 0);
+    return ByteArrayHelper_getInstance().readInt4_pao7sd$(buffer, 0);
   };
-  _MyInputStream.prototype.readByte = function () {
+  MyInputStream.prototype.readByte = function () {
     var buffer = new Int8Array(1);
     var l = fs.ExternalModule_fs.readSync_ir43ts$(this.fd_8be2vx$, buffer, 0, buffer.length, this.pos_8be2vx$);
     if (l !== 1) {
@@ -19534,12 +19771,12 @@
     }this.pos_8be2vx$ = this.pos_8be2vx$ + l | 0;
     return buffer[0];
   };
-  _MyInputStream.prototype.read_mj6st8$ = function (buf, off, len) {
+  MyInputStream.prototype.read_mj6st8$ = function (buf, off, len) {
     var l = fs.ExternalModule_fs.readSync_ir43ts$(this.fd_8be2vx$, buf, off, len, this.pos_8be2vx$);
     this.pos_8be2vx$ = this.pos_8be2vx$ + l | 0;
     return l;
   };
-  _MyInputStream.prototype.read_ir89t6$ = function (buf, len) {
+  MyInputStream.prototype.read_ir89t6$ = function (buf, len) {
     var off = 0;
     var l = len;
     while (l > 0) {
@@ -19552,14 +19789,14 @@
     }
     return len;
   };
-  _MyInputStream.prototype.read_fqrh44$ = function (buf) {
+  MyInputStream.prototype.read_fqrh44$ = function (buf) {
     return this.read_ir89t6$(buf, buf.length);
   };
-  _MyInputStream.prototype.close = function () {
+  MyInputStream.prototype.close = function () {
     fs.ExternalModule_fs.closeSync_za3lpa$(this.fd_8be2vx$);
   };
-  _MyInputStream.prototype.readLine = function () {
-    var buf = ArrayList_init();
+  MyInputStream.prototype.readLine = function () {
+    var buf = ArrayList_init_0();
     try {
       var b = this.readByte();
       while (b !== toByte(10 | 0)) {
@@ -19569,6 +19806,7 @@
       }
     } catch (e) {
       if (Kotlin.isType(e, Throwable)) {
+        printStackTrace(e);
         if (buf.size === 0) {
           return null;
         }} else
@@ -19576,243 +19814,173 @@
     }
     return decodeToString(toByteArray(buf));
   };
-  _MyInputStream.$metadata$ = {
+  MyInputStream.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: '_MyInputStream',
+    simpleName: 'MyInputStream',
     interfaces: [IMyInputStream]
   };
-  function _MyInputStream_init(filename, $this) {
-    $this = $this || Object.create(_MyInputStream.prototype);
-    _MyInputStream.call($this);
+  function MyInputStream_init(filename, $this) {
+    $this = $this || Object.create(MyInputStream.prototype);
+    MyInputStream.call($this);
     $this.fd_8be2vx$ = fs.ExternalModule_fs.openSync_puj7f4$(filename, 'r');
     return $this;
   }
-  function _MyInputStream_init_0(fd, $this) {
-    $this = $this || Object.create(_MyInputStream.prototype);
-    _MyInputStream.call($this);
+  function MyInputStream_init_0(fd, $this) {
+    $this = $this || Object.create(MyInputStream.prototype);
+    MyInputStream.call($this);
     $this.fd_8be2vx$ = fd;
     return $this;
   }
-  function _MyOutputStream() {
+  function MyOutputStream() {
   }
-  _MyOutputStream.prototype.writeInt_za3lpa$ = function (value) {
+  MyOutputStream.prototype.writeInt_za3lpa$ = function (value) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.close = function () {
+  MyOutputStream.prototype.close = function () {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.flush = function () {
+  MyOutputStream.prototype.flush = function () {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.write_fqrh44$ = function (buf) {
+  MyOutputStream.prototype.write_fqrh44$ = function (buf) {
     this.write_ir89t6$(buf, buf.length);
   };
-  _MyOutputStream.prototype.write_ir89t6$ = function (buf, len) {
+  MyOutputStream.prototype.write_ir89t6$ = function (buf, len) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.println_61zpoe$ = function (x) {
+  MyOutputStream.prototype.println_61zpoe$ = function (x) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.print_61zpoe$ = function (x) {
+  MyOutputStream.prototype.print_61zpoe$ = function (x) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.print_6taknv$ = function (x) {
+  MyOutputStream.prototype.print_6taknv$ = function (x) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.print_za3lpa$ = function (x) {
+  MyOutputStream.prototype.print_za3lpa$ = function (x) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.print_14dthe$ = function (x) {
+  MyOutputStream.prototype.print_14dthe$ = function (x) {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.prototype.println = function () {
+  MyOutputStream.prototype.println = function () {
     throw new NotImplementedException('MyOutputStream', 'xyz not implemented');
   };
-  _MyOutputStream.$metadata$ = {
+  MyOutputStream.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: '_MyOutputStream',
+    simpleName: 'MyOutputStream',
     interfaces: [IMyOutputStream]
   };
-  function _MyOutputStream_init($this) {
-    $this = $this || Object.create(_MyOutputStream.prototype);
-    _MyOutputStream.call($this);
+  function MyOutputStream_init($this) {
+    $this = $this || Object.create(MyOutputStream.prototype);
+    MyOutputStream.call($this);
     return $this;
   }
-  function _MyPrintWriter() {
-    this.buffer = StringBuilder_init();
-    this.bufferMode = 0;
-    this.fileName = null;
-    this.file = 0;
-    this.filePos = 0;
+  function MyPrintWriter() {
+    this.buffer_8be2vx$ = StringBuilder_init();
+    this.bufferMode_8be2vx$ = 0;
+    this.fileName_8be2vx$ = null;
+    this.file_8be2vx$ = 0;
+    this.filePos_8be2vx$ = 0;
   }
-  _MyPrintWriter.prototype.clearBuffer = function () {
-    if (this.bufferMode === 0) {
-      this.buffer.clear();
+  MyPrintWriter.prototype.clearBuffer = function () {
+    if (this.bufferMode_8be2vx$ === 0) {
+      this.buffer_8be2vx$.clear();
     } else {
       throw Exception_init('not supported');
     }
   };
-  _MyPrintWriter.prototype.toString = function () {
-    if (this.bufferMode === 0) {
-      return this.buffer.toString();
+  MyPrintWriter.prototype.toString = function () {
+    if (this.bufferMode_8be2vx$ === 0) {
+      return this.buffer_8be2vx$.toString();
     } else {
       throw Exception_init('not supported');
     }
   };
-  _MyPrintWriter.prototype.println_61zpoe$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_pdl1vj$(x).append_s8itvh$(10);
+  MyPrintWriter.prototype.println_61zpoe$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_pdl1vj$(x).append_s8itvh$(10);
     }};
-  _MyPrintWriter.prototype.print_61zpoe$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_pdl1vj$(x);
+  MyPrintWriter.prototype.print_61zpoe$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_pdl1vj$(x);
     }};
-  _MyPrintWriter.prototype.println_6taknv$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_6taknv$(x).append_s8itvh$(10);
+  MyPrintWriter.prototype.println_6taknv$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_6taknv$(x).append_s8itvh$(10);
     }};
-  _MyPrintWriter.prototype.print_6taknv$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_6taknv$(x);
+  MyPrintWriter.prototype.print_6taknv$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_6taknv$(x);
     }};
-  _MyPrintWriter.prototype.println_za3lpa$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_s8jyv4$(x).append_s8itvh$(10);
+  MyPrintWriter.prototype.println_za3lpa$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_s8jyv4$(x).append_s8itvh$(10);
     }};
-  _MyPrintWriter.prototype.print_za3lpa$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_s8jyv4$(x);
+  MyPrintWriter.prototype.print_za3lpa$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_s8jyv4$(x);
     }};
-  _MyPrintWriter.prototype.println_14dthe$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_s8jyv4$(x).append_s8itvh$(10);
+  MyPrintWriter.prototype.println_14dthe$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_s8jyv4$(x).append_s8itvh$(10);
     }};
-  _MyPrintWriter.prototype.print_14dthe$ = function (x) {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_s8jyv4$(x);
+  MyPrintWriter.prototype.print_14dthe$ = function (x) {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_s8jyv4$(x);
     }};
-  _MyPrintWriter.prototype.println = function () {
-    if (this.bufferMode !== 1) {
-      this.buffer.append_s8itvh$(10);
+  MyPrintWriter.prototype.println = function () {
+    if (this.bufferMode_8be2vx$ !== 1) {
+      this.buffer_8be2vx$.append_s8itvh$(10);
     }};
-  _MyPrintWriter.prototype.write_ir89t6$ = function (buf, len) {
+  MyPrintWriter.prototype.write_ir89t6$ = function (buf, len) {
     throw Exception_init('not supported');
   };
-  _MyPrintWriter.prototype.write_fqrh44$ = function (buf) {
+  MyPrintWriter.prototype.write_fqrh44$ = function (buf) {
     throw Exception_init('not supported');
   };
-  _MyPrintWriter.prototype.writeInt_za3lpa$ = function (value) {
+  MyPrintWriter.prototype.writeInt_za3lpa$ = function (value) {
     throw Exception_init('not supported');
   };
-  _MyPrintWriter.prototype.close = function () {
+  MyPrintWriter.prototype.close = function () {
     throw Exception_init('not supported');
   };
-  _MyPrintWriter.prototype.flush = function () {
+  MyPrintWriter.prototype.flush = function () {
     throw Exception_init('not supported');
   };
-  _MyPrintWriter.$metadata$ = {
+  MyPrintWriter.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: '_MyPrintWriter',
+    simpleName: 'MyPrintWriter',
     interfaces: [IMyOutputStream]
   };
-  function _MyPrintWriter_init(hasBuffer, $this) {
+  function MyPrintWriter_init(hasBuffer, $this) {
     if (hasBuffer === void 0)
       hasBuffer = true;
-    $this = $this || Object.create(_MyPrintWriter.prototype);
-    _MyPrintWriter.call($this);
+    $this = $this || Object.create(MyPrintWriter.prototype);
+    MyPrintWriter.call($this);
     if (hasBuffer) {
-      $this.bufferMode = 0;
+      $this.bufferMode_8be2vx$ = 0;
     } else {
-      $this.bufferMode = 1;
+      $this.bufferMode_8be2vx$ = 1;
     }
-    $this.fileName = '';
-    $this.file = -1;
+    $this.fileName_8be2vx$ = '';
+    $this.file_8be2vx$ = -1;
     return $this;
   }
-  function _Platform() {
-    _Platform_instance = this;
-    this.operatingSystem = 0;
-  }
-  _Platform.prototype.getHostName_8be2vx$ = function () {
-    throw Exception_init('not available on this platform');
-  };
-  _Platform.prototype.getOperatingSystem_8be2vx$ = function () {
-    return this.operatingSystem;
-  };
-  _Platform.prototype.getUserHome_8be2vx$ = function () {
-    throw Exception_init('not available on this platform');
-  };
-  _Platform.prototype.getPathSeparator_8be2vx$ = function () {
-    throw Exception_init('not available on this platform');
-  };
-  _Platform.prototype.findNamedFileInDirectory_wdz5eb$ = function (dir, name) {
-    throw Exception_init('not available on this platform');
-  };
-  _Platform.prototype.getNullFileName_8be2vx$ = function () {
-    throw Exception_init('not available on this platform');
-  };
-  _Platform.prototype.getEnv_9lovpo$ = function (key, default_0) {
-    if (default_0 === void 0)
-      default_0 = null;
-    return default_0;
-  };
-  _Platform.prototype.getBenchmarkHome_8be2vx$ = function () {
-    return ensureNotNull(this.getEnv_9lovpo$('LUPOS_BENCHMARK_HOME', this.getPathSeparator_8be2vx$() + 'mnt'));
-  };
-  _Platform.prototype.getGradleCache_8be2vx$ = function () {
-    return ensureNotNull(this.getEnv_9lovpo$('LUPOS_GRADLE_CACHE', this.getUserHome_8be2vx$() + this.getPathSeparator_8be2vx$() + '.gradle' + this.getPathSeparator_8be2vx$() + 'caches' + this.getPathSeparator_8be2vx$()));
-  };
-  _Platform.prototype.getMavenCache_8be2vx$ = function () {
-    return ensureNotNull(this.getEnv_9lovpo$('LUPOS_MAVEN_CACHE', this.getUserHome_8be2vx$() + this.getPathSeparator_8be2vx$() + '.m2' + this.getPathSeparator_8be2vx$() + 'repository' + this.getPathSeparator_8be2vx$()));
-  };
-  _Platform.prototype.getAvailableRam_8be2vx$ = function () {
-    return toInt(ensureNotNull(this.getEnv_9lovpo$('LUPOS_RAM', '60')));
-  };
-  _Platform.prototype.setShutdownHock_ls4sck$ = function (action) {
-    println('registering shutdown hook not implemented');
-  };
-  _Platform.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: '_Platform',
-    interfaces: []
-  };
-  var _Platform_instance = null;
-  function _Platform_getInstance() {
-    if (_Platform_instance === null) {
-      new _Platform();
-    }return _Platform_instance;
-  }
   function MyThreadReadWriteLock() {
-    MyThreadReadWriteLock$Companion_getInstance();
-    var tmp$;
-    this.uuid = (tmp$ = MyThreadReadWriteLock$Companion_getInstance().uuidCounter, MyThreadReadWriteLock$Companion_getInstance().uuidCounter = tmp$.inc(), tmp$);
-    this.lockedRead = 0;
-    this.lockedWrite = false;
-  }
-  function MyThreadReadWriteLock$Companion() {
-    MyThreadReadWriteLock$Companion_instance = this;
-    this.uuidCounter = L0;
-  }
-  MyThreadReadWriteLock$Companion.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: 'Companion',
-    interfaces: []
-  };
-  var MyThreadReadWriteLock$Companion_instance = null;
-  function MyThreadReadWriteLock$Companion_getInstance() {
-    if (MyThreadReadWriteLock$Companion_instance === null) {
-      new MyThreadReadWriteLock$Companion();
-    }return MyThreadReadWriteLock$Companion_instance;
+    this.uuid_8be2vx$ = shared.UUID_Counter.getNextUUID();
+    this.lockedRead_8be2vx$ = 0;
+    this.lockedWrite_8be2vx$ = false;
   }
   MyThreadReadWriteLock.prototype.getUUID_8be2vx$ = function () {
-    return this.uuid;
+    return this.uuid_8be2vx$;
   };
   function MyThreadReadWriteLock$downgradeToReadLock$lambda(this$MyThreadReadWriteLock) {
     return function () {
-      if (!this$MyThreadReadWriteLock.lockedWrite) {
+      if (!this$MyThreadReadWriteLock.lockedWrite_8be2vx$) {
         throw Exception_init('something went wrong 1');
-      }this$MyThreadReadWriteLock.lockedRead = 1;
-      this$MyThreadReadWriteLock.lockedWrite = false;
+      }this$MyThreadReadWriteLock.lockedRead_8be2vx$ = 1;
+      this$MyThreadReadWriteLock.lockedWrite_8be2vx$ = false;
       return Unit;
     };
   }
@@ -19822,10 +19990,10 @@
   function MyThreadReadWriteLock$readLock$lambda(this$MyThreadReadWriteLock) {
     return function () {
       var tmp$;
-      if (this$MyThreadReadWriteLock.lockedWrite) {
+      if (this$MyThreadReadWriteLock.lockedWrite_8be2vx$) {
         throw Exception_init('something went wrong 2');
-      }tmp$ = this$MyThreadReadWriteLock.lockedRead;
-      this$MyThreadReadWriteLock.lockedRead = tmp$ + 1 | 0;
+      }tmp$ = this$MyThreadReadWriteLock.lockedRead_8be2vx$;
+      this$MyThreadReadWriteLock.lockedRead_8be2vx$ = tmp$ + 1 | 0;
       return Unit;
     };
   }
@@ -19835,10 +20003,10 @@
   function MyThreadReadWriteLock$readUnlock$lambda(this$MyThreadReadWriteLock) {
     return function () {
       var tmp$;
-      if (this$MyThreadReadWriteLock.lockedRead <= 0) {
+      if (this$MyThreadReadWriteLock.lockedRead_8be2vx$ <= 0) {
         throw Exception_init('something went wrong 3');
-      }tmp$ = this$MyThreadReadWriteLock.lockedRead;
-      this$MyThreadReadWriteLock.lockedRead = tmp$ - 1 | 0;
+      }tmp$ = this$MyThreadReadWriteLock.lockedRead_8be2vx$;
+      this$MyThreadReadWriteLock.lockedRead_8be2vx$ = tmp$ - 1 | 0;
       return Unit;
     };
   }
@@ -19847,9 +20015,9 @@
   };
   function MyThreadReadWriteLock$writeLock$lambda(this$MyThreadReadWriteLock) {
     return function () {
-      if (this$MyThreadReadWriteLock.lockedRead > 0 || this$MyThreadReadWriteLock.lockedWrite) {
-        throw Exception_init('something went wrong 4 ' + this$MyThreadReadWriteLock.lockedRead + ' ' + this$MyThreadReadWriteLock.lockedWrite);
-      }this$MyThreadReadWriteLock.lockedWrite = true;
+      if (this$MyThreadReadWriteLock.lockedRead_8be2vx$ > 0 || this$MyThreadReadWriteLock.lockedWrite_8be2vx$) {
+        throw Exception_init('something went wrong 4 ' + this$MyThreadReadWriteLock.lockedRead_8be2vx$ + ' ' + this$MyThreadReadWriteLock.lockedWrite_8be2vx$);
+      }this$MyThreadReadWriteLock.lockedWrite_8be2vx$ = true;
       return Unit;
     };
   }
@@ -19858,9 +20026,9 @@
   };
   function MyThreadReadWriteLock$tryWriteLock$lambda(this$MyThreadReadWriteLock) {
     return function () {
-      if (this$MyThreadReadWriteLock.lockedRead > 0 || this$MyThreadReadWriteLock.lockedWrite) {
-        throw Exception_init('something went wrong 5 ' + this$MyThreadReadWriteLock.lockedRead + ' ' + this$MyThreadReadWriteLock.lockedWrite);
-      }this$MyThreadReadWriteLock.lockedWrite = true;
+      if (this$MyThreadReadWriteLock.lockedRead_8be2vx$ > 0 || this$MyThreadReadWriteLock.lockedWrite_8be2vx$) {
+        throw Exception_init('something went wrong 5 ' + this$MyThreadReadWriteLock.lockedRead_8be2vx$ + ' ' + this$MyThreadReadWriteLock.lockedWrite_8be2vx$);
+      }this$MyThreadReadWriteLock.lockedWrite_8be2vx$ = true;
       return Unit;
     };
   }
@@ -19870,9 +20038,9 @@
   };
   function MyThreadReadWriteLock$writeUnlock$lambda(this$MyThreadReadWriteLock) {
     return function () {
-      if (!this$MyThreadReadWriteLock.lockedWrite) {
+      if (!this$MyThreadReadWriteLock.lockedWrite_8be2vx$) {
         throw Exception_init('something went wrong 6');
-      }this$MyThreadReadWriteLock.lockedWrite = false;
+      }this$MyThreadReadWriteLock.lockedWrite_8be2vx$ = false;
       return Unit;
     };
   }
@@ -19942,7 +20110,7 @@
     interfaces: []
   };
   function ParallelThreadQueue() {
-    this.queue = ArrayList_init();
+    this.queue = ArrayList_init_0();
     this.terminalValue = null;
   }
   ParallelThreadQueue.prototype.send_1c3m6u$ = function (value) {
@@ -19967,29 +20135,59 @@
     $this.terminalValue = terminationValue;
     return $this;
   }
+  function Platform() {
+    Platform_instance = this;
+    this.operatingSystem = 0;
+  }
+  Platform.prototype.getHostName_8be2vx$ = function () {
+    throw Exception_init('not available on this platform');
+  };
+  Platform.prototype.getOperatingSystem_8be2vx$ = function () {
+    return this.operatingSystem;
+  };
+  Platform.prototype.getUserHome_8be2vx$ = function () {
+    throw Exception_init('not available on this platform');
+  };
+  Platform.prototype.getPathSeparator_8be2vx$ = function () {
+    throw Exception_init('not available on this platform');
+  };
+  Platform.prototype.findNamedFileInDirectory_wdz5eb$ = function (dir, name) {
+    throw Exception_init('not available on this platform');
+  };
+  Platform.prototype.getNullFileName_8be2vx$ = function () {
+    throw Exception_init('not available on this platform');
+  };
+  Platform.prototype.getEnv_9lovpo$ = function (key, default_0) {
+    if (default_0 === void 0)
+      default_0 = null;
+    return default_0;
+  };
+  Platform.prototype.getGradleCache_8be2vx$ = function () {
+    return ensureNotNull(this.getEnv_9lovpo$('LUPOS_GRADLE_CACHE', this.getUserHome_8be2vx$() + this.getPathSeparator_8be2vx$() + '.gradle' + this.getPathSeparator_8be2vx$() + 'caches' + this.getPathSeparator_8be2vx$()));
+  };
+  Platform.prototype.getMavenCache_8be2vx$ = function () {
+    return ensureNotNull(this.getEnv_9lovpo$('LUPOS_MAVEN_CACHE', this.getUserHome_8be2vx$() + this.getPathSeparator_8be2vx$() + '.m2' + this.getPathSeparator_8be2vx$() + 'repository' + this.getPathSeparator_8be2vx$()));
+  };
+  Platform.prototype.getAvailableRam_8be2vx$ = function () {
+    return toInt(ensureNotNull(this.getEnv_9lovpo$('LUPOS_RAM', '4')));
+  };
+  Platform.prototype.setShutdownHock_ls4sck$ = function (action) {
+    println('registering shutdown hook not implemented');
+  };
+  Platform.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Platform',
+    interfaces: []
+  };
+  var Platform_instance = null;
+  function Platform_getInstance() {
+    if (Platform_instance === null) {
+      new Platform();
+    }return Platform_instance;
+  }
   var package$lupos = _.lupos || (_.lupos = {});
-  var package$Luposdate3000_Parser = package$lupos.Luposdate3000_Parser || (package$lupos.Luposdate3000_Parser = {});
-  Object.defineProperty(package$Luposdate3000_Parser, '_ColumnIteratorQueueExt', {
-    get: _ColumnIteratorQueueExt_getInstance
-  });
-  Object.defineProperty(package$Luposdate3000_Parser, '_DictionaryHelper', {
-    get: _DictionaryHelper_getInstance
-  });
-  package$Luposdate3000_Parser._MyInputStreamFixedLength = _MyInputStreamFixedLength;
-  package$Luposdate3000_Parser._MyStringStream = _MyStringStream;
-  Object.defineProperty(package$Luposdate3000_Parser, '_PartitionExt', {
-    get: _PartitionExt_getInstance
-  });
-  Object.defineProperty(package$Luposdate3000_Parser, 'SanityCheckOff', {
-    get: SanityCheckOff_getInstance
-  });
-  Object.defineProperty(package$Luposdate3000_Parser, 'SanityCheckOn', {
-    get: SanityCheckOn_getInstance
-  });
-  var package$s00misc = package$lupos.s00misc || (package$lupos.s00misc = {});
-  package$s00misc.XMLElementFromN3 = XMLElementFromN3;
-  var package$s02buildSyntaxTree = package$lupos.s02buildSyntaxTree || (package$lupos.s02buildSyntaxTree = {});
-  var package$nQuads = package$s02buildSyntaxTree.nQuads || (package$s02buildSyntaxTree.nQuads = {});
+  var package$parser = package$lupos.parser || (package$lupos.parser = {});
+  var package$nQuads = package$parser.nQuads || (package$parser.nQuads = {});
   package$nQuads.NQuads2Parser = NQuads2Parser;
   package$nQuads.ParserException = ParserException;
   package$nQuads.ParserExceptionEOF = ParserExceptionEOF;
@@ -19998,16 +20196,41 @@
     get: ParserContext$Companion_getInstance
   });
   package$nQuads.ParserContext = ParserContext;
-  package$nQuads.parse_dot_woxayp$ = parse_dot;
-  package$nQuads.parse_ws_woxayp$ = parse_ws;
-  package$nQuads.parse_ws_forced_woxayp$ = parse_ws_forced;
-  package$nQuads.parse_subject_d3spx0$ = parse_subject;
-  package$nQuads.parse_predicate_woxayp$ = parse_predicate;
-  package$nQuads.parse_object_7rhpr3$ = parse_object;
-  package$nQuads.parse_object_string_7rhpr3$ = parse_object_string;
-  package$nQuads.parse_object_typed_woxayp$ = parse_object_typed;
-  package$nQuads.parse_graph_7rhpr3$ = parse_graph;
-  var package$rdf = package$s02buildSyntaxTree.rdf || (package$s02buildSyntaxTree.rdf = {});
+  package$nQuads.parse_dot_sty684$ = parse_dot;
+  package$nQuads.parse_dot_helper_0_kcn2v3$ = parse_dot_helper_0;
+  package$nQuads.parse_ws_sty684$ = parse_ws;
+  package$nQuads.parse_ws_forced_sty684$ = parse_ws_forced;
+  package$nQuads.parse_ws_forced_helper_0_kcn2v3$ = parse_ws_forced_helper_0;
+  package$nQuads.parse_subject_g8l1an$ = parse_subject;
+  package$nQuads.parse_subject_helper_0_kcn2v3$ = parse_subject_helper_0;
+  package$nQuads.parse_subject_helper_1_kcn2v3$ = parse_subject_helper_1;
+  package$nQuads.parse_subject_helper_2_kcn2v3$ = parse_subject_helper_2;
+  package$nQuads.parse_subject_helper_3_kcn2v3$ = parse_subject_helper_3;
+  package$nQuads.parse_predicate_sty684$ = parse_predicate;
+  package$nQuads.parse_predicate_helper_0_kcn2v3$ = parse_predicate_helper_0;
+  package$nQuads.parse_predicate_helper_1_kcn2v3$ = parse_predicate_helper_1;
+  package$nQuads.parse_object_ih1b50$ = parse_object;
+  package$nQuads.parse_object_helper_0_kcn2v3$ = parse_object_helper_0;
+  package$nQuads.parse_object_helper_1_kcn2v3$ = parse_object_helper_1;
+  package$nQuads.parse_object_helper_2_kcn2v3$ = parse_object_helper_2;
+  package$nQuads.parse_object_helper_3_kcn2v3$ = parse_object_helper_3;
+  package$nQuads.parse_object_helper_4_kcn2v3$ = parse_object_helper_4;
+  package$nQuads.parse_object_helper_5_kcn2v3$ = parse_object_helper_5;
+  package$nQuads.parse_object_helper_6_kcn2v3$ = parse_object_helper_6;
+  package$nQuads.parse_object_helper_7_kcn2v3$ = parse_object_helper_7;
+  package$nQuads.parse_object_string_ih1b50$ = parse_object_string;
+  package$nQuads.parse_object_string_helper_0_kcn2v3$ = parse_object_string_helper_0;
+  package$nQuads.parse_object_string_helper_1_kcn2v3$ = parse_object_string_helper_1;
+  package$nQuads.parse_object_string_helper_2_kcn2v3$ = parse_object_string_helper_2;
+  package$nQuads.parse_object_typed_sty684$ = parse_object_typed;
+  package$nQuads.parse_object_typed_helper_0_kcn2v3$ = parse_object_typed_helper_0;
+  package$nQuads.parse_object_typed_helper_1_kcn2v3$ = parse_object_typed_helper_1;
+  package$nQuads.parse_graph_ih1b50$ = parse_graph;
+  package$nQuads.parse_graph_helper_0_kcn2v3$ = parse_graph_helper_0;
+  package$nQuads.parse_graph_helper_1_kcn2v3$ = parse_graph_helper_1;
+  package$nQuads.parse_graph_helper_2_kcn2v3$ = parse_graph_helper_2;
+  package$nQuads.parse_graph_helper_3_kcn2v3$ = parse_graph_helper_3;
+  var package$rdf = package$parser.rdf || (package$parser.rdf = {});
   Object.defineProperty(package$rdf, 'Dictionary', {
     get: Dictionary_getInstance
   });
@@ -20015,31 +20238,28 @@
   package$rdf.RDFTerm = RDFTerm;
   package$rdf.RDFResource = RDFResource;
   package$rdf.IRI = IRI;
-  Object.defineProperty(BlankNode, 'NewNameCreator', {
-    get: BlankNode$NewNameCreator_getInstance
-  });
   package$rdf.BlankNode_init = BlankNode_init;
   package$rdf.BlankNode = BlankNode;
   package$rdf.Literal = Literal;
   package$rdf.SimpleLiteral = SimpleLiteral;
   package$rdf.LanguageTaggedLiteral = LanguageTaggedLiteral;
   package$rdf.TypedLiteral = TypedLiteral;
-  package$s02buildSyntaxTree.TokenIterator = TokenIterator;
-  package$s02buildSyntaxTree.LookAheadTokenIterator = LookAheadTokenIterator;
-  package$s02buildSyntaxTree.ParseError_init_wfpsm8$ = ParseError_init;
-  package$s02buildSyntaxTree.ParseError = ParseError;
-  package$s02buildSyntaxTree.UnexpectedEndOfFile = UnexpectedEndOfFile;
-  package$s02buildSyntaxTree.LookAheadOverLimit = LookAheadOverLimit;
-  package$s02buildSyntaxTree.PutBackOverLimit = PutBackOverLimit;
-  package$s02buildSyntaxTree.UnexpectedToken_init_2zxe16$ = UnexpectedToken_init;
-  package$s02buildSyntaxTree.UnexpectedToken = UnexpectedToken;
+  package$parser.TokenIterator = TokenIterator;
+  package$parser.LookAheadTokenIterator = LookAheadTokenIterator;
+  package$parser.ParseError_init_w9xagw$ = ParseError_init;
+  package$parser.ParseError = ParseError;
+  package$parser.UnexpectedEndOfFile = UnexpectedEndOfFile;
+  package$parser.LookAheadOverLimit = LookAheadOverLimit;
+  package$parser.PutBackOverLimit = PutBackOverLimit;
+  package$parser.UnexpectedToken_init_y535wq$ = UnexpectedToken_init;
+  package$parser.UnexpectedToken = UnexpectedToken;
   Object.defineProperty(LexerCharIterator, 'Companion', {
     get: LexerCharIterator$Companion_getInstance
   });
-  package$s02buildSyntaxTree.LexerCharIterator_init_61zpoe$ = LexerCharIterator_init;
-  package$s02buildSyntaxTree.LexerCharIterator = LexerCharIterator;
-  package$s02buildSyntaxTree.Token = Token;
-  var package$sparql1_1 = package$s02buildSyntaxTree.sparql1_1 || (package$s02buildSyntaxTree.sparql1_1 = {});
+  package$parser.LexerCharIterator_init_61zpoe$ = LexerCharIterator_init;
+  package$parser.LexerCharIterator = LexerCharIterator;
+  package$parser.Token = Token;
+  var package$sparql1_1 = package$parser.sparql1_1 || (package$parser.sparql1_1 = {});
   package$sparql1_1.ASTNode = ASTNode;
   package$sparql1_1.ASTUnaryOperation = ASTUnaryOperation;
   package$sparql1_1.ASTUnaryOperationFixedName = ASTUnaryOperationFixedName;
@@ -20048,13 +20268,13 @@
   package$sparql1_1.Visitor = Visitor;
   package$sparql1_1.ASTBase = ASTBase;
   package$sparql1_1.ASTPrefix = ASTPrefix;
-  package$sparql1_1.ASTQuery_init_vmbfjo$ = ASTQuery_init;
+  package$sparql1_1.ASTQuery_init_gr7gh3$ = ASTQuery_init;
   package$sparql1_1.ASTQuery = ASTQuery;
-  package$sparql1_1.ASTValues_init_f8qln6$ = ASTValues_init;
-  package$sparql1_1.ASTValues_init_3c0kb3$ = ASTValues_init_0;
+  package$sparql1_1.ASTValues_init_lbnxfy$ = ASTValues_init;
+  package$sparql1_1.ASTValues_init_fspu6x$ = ASTValues_init_0;
   package$sparql1_1.ASTValues = ASTValues;
-  package$sparql1_1.ASTValue_init_vmbfjo$ = ASTValue_init;
-  package$sparql1_1.ASTValue_init_gf3eyp$ = ASTValue_init_0;
+  package$sparql1_1.ASTValue_init_gr7gh3$ = ASTValue_init;
+  package$sparql1_1.ASTValue_init_wilr7o$ = ASTValue_init_0;
   package$sparql1_1.ASTValue = ASTValue;
   package$sparql1_1.ASTUndef = ASTUndef;
   package$sparql1_1.ASTQueryBaseClass = ASTQueryBaseClass;
@@ -20064,7 +20284,7 @@
   package$sparql1_1.ASTDescribeQuery = ASTDescribeQuery;
   package$sparql1_1.ASTAskQuery = ASTAskQuery;
   package$sparql1_1.ASTAs = ASTAs;
-  package$sparql1_1.ASTDatasetClause_init_41wkeb$ = ASTDatasetClause_init;
+  package$sparql1_1.ASTDatasetClause_init_v12e3m$ = ASTDatasetClause_init;
   package$sparql1_1.ASTDatasetClause = ASTDatasetClause;
   package$sparql1_1.ASTDefaultGraph = ASTDefaultGraph;
   package$sparql1_1.ASTNamedGraph = ASTNamedGraph;
@@ -20139,11 +20359,11 @@
   package$sparql1_1.ASTPlus = ASTPlus;
   package$sparql1_1.ASTMinus = ASTMinus;
   package$sparql1_1.ASTBuiltInCall_init_za3lpa$ = ASTBuiltInCall_init;
-  package$sparql1_1.ASTBuiltInCall_init_30mgi1$ = ASTBuiltInCall_init_0;
-  package$sparql1_1.ASTBuiltInCall_init_lmq5mm$ = ASTBuiltInCall_init_1;
-  package$sparql1_1.ASTBuiltInCall_init_7in52h$ = ASTBuiltInCall_init_2;
+  package$sparql1_1.ASTBuiltInCall_init_vmkk26$ = ASTBuiltInCall_init_0;
+  package$sparql1_1.ASTBuiltInCall_init_j0u78e$ = ASTBuiltInCall_init_1;
+  package$sparql1_1.ASTBuiltInCall_init_gwmrqq$ = ASTBuiltInCall_init_2;
   package$sparql1_1.ASTBuiltInCall = ASTBuiltInCall;
-  package$sparql1_1.ASTAggregation_init_svhazq$ = ASTAggregation_init;
+  package$sparql1_1.ASTAggregation_init_3iweln$ = ASTAggregation_init;
   package$sparql1_1.ASTAggregation = ASTAggregation;
   package$sparql1_1.ASTGroupConcat = ASTGroupConcat;
   package$sparql1_1.SPARQLParser = SPARQLParser;
@@ -20190,7 +20410,7 @@
   package$sparql1_1.VAR = VAR;
   package$sparql1_1.UnexpectedEndOfLine = UnexpectedEndOfLine;
   package$sparql1_1.TokenIteratorSPARQLParser = TokenIteratorSPARQLParser;
-  var package$turtle = package$s02buildSyntaxTree.turtle || (package$s02buildSyntaxTree.turtle = {});
+  var package$turtle = package$parser.turtle || (package$parser.turtle = {});
   package$turtle.Turtle2Parser = Turtle2Parser;
   package$turtle.ParserException = ParserException_0;
   package$turtle.ParserExceptionEOF = ParserExceptionEOF_0;
@@ -20199,22 +20419,126 @@
     get: ParserContext$Companion_getInstance_0
   });
   package$turtle.ParserContext = ParserContext_0;
-  package$turtle.parse_dot_4ztiin$ = parse_dot_0;
-  package$turtle.parse_ws_4ztiin$ = parse_ws_0;
-  package$turtle.parse_ws_forced_4ztiin$ = parse_ws_forced_0;
-  package$turtle.parse_statement_wnarfj$ = parse_statement;
-  package$turtle.parse_base_4ztiin$ = parse_base;
-  package$turtle.parse_prefix_4ztiin$ = parse_prefix;
-  package$turtle.parse_prefix2_4ztiin$ = parse_prefix2;
-  package$turtle.parse_predicate_71pgdb$ = parse_predicate_0;
-  package$turtle.parse_obj_aca3kv$ = parse_obj;
-  package$turtle.parse_triple_end_71pgdb$ = parse_triple_end;
-  package$turtle.parse_triple_end_or_object_iri_v5bcn5$ = parse_triple_end_or_object_iri;
-  package$turtle.parse_triple_end_or_object_string_sxjmoe$ = parse_triple_end_or_object_string;
-  package$turtle.parse_triple_end_or_object_string_typed_ykqx8u$ = parse_triple_end_or_object_string_typed;
-  package$turtle.parse_triple_end_or_object_string_typed_iri_v5bcn5$ = parse_triple_end_or_object_string_typed_iri;
-  package$turtle.parse_subject_iri_or_ws_ykqx8u$ = parse_subject_iri_or_ws;
-  package$turtle.parse_predicate_iri_or_ws_ykqx8u$ = parse_predicate_iri_or_ws;
+  package$turtle.parse_dot_ei23ay$ = parse_dot_0;
+  package$turtle.parse_dot_helper_0_kcn2v3$ = parse_dot_helper_0_0;
+  package$turtle.parse_ws_ei23ay$ = parse_ws_0;
+  package$turtle.parse_ws_forced_ei23ay$ = parse_ws_forced_0;
+  package$turtle.parse_ws_forced_helper_0_kcn2v3$ = parse_ws_forced_helper_0_0;
+  package$turtle.parse_statement_ibu692$ = parse_statement;
+  package$turtle.parse_statement_helper_0_kcn2v3$ = parse_statement_helper_0;
+  package$turtle.parse_statement_helper_1_kcn2v3$ = parse_statement_helper_1;
+  package$turtle.parse_statement_helper_2_kcn2v3$ = parse_statement_helper_2;
+  package$turtle.parse_statement_helper_3_kcn2v3$ = parse_statement_helper_3;
+  package$turtle.parse_statement_helper_4_kcn2v3$ = parse_statement_helper_4;
+  package$turtle.parse_statement_helper_5_kcn2v3$ = parse_statement_helper_5;
+  package$turtle.parse_statement_helper_6_kcn2v3$ = parse_statement_helper_6;
+  package$turtle.parse_statement_helper_7_kcn2v3$ = parse_statement_helper_7;
+  package$turtle.parse_statement_helper_8_kcn2v3$ = parse_statement_helper_8;
+  package$turtle.parse_statement_helper_9_kcn2v3$ = parse_statement_helper_9;
+  package$turtle.parse_statement_helper_10_kcn2v3$ = parse_statement_helper_10;
+  package$turtle.parse_statement_helper_11_kcn2v3$ = parse_statement_helper_11;
+  package$turtle.parse_statement_helper_12_kcn2v3$ = parse_statement_helper_12;
+  package$turtle.parse_statement_helper_13_kcn2v3$ = parse_statement_helper_13;
+  package$turtle.parse_statement_helper_14_kcn2v3$ = parse_statement_helper_14;
+  package$turtle.parse_statement_helper_15_kcn2v3$ = parse_statement_helper_15;
+  package$turtle.parse_statement_helper_16_kcn2v3$ = parse_statement_helper_16;
+  package$turtle.parse_statement_helper_17_kcn2v3$ = parse_statement_helper_17;
+  package$turtle.parse_statement_helper_18_kcn2v3$ = parse_statement_helper_18;
+  package$turtle.parse_statement_helper_19_kcn2v3$ = parse_statement_helper_19;
+  package$turtle.parse_statement_helper_20_kcn2v3$ = parse_statement_helper_20;
+  package$turtle.parse_statement_helper_21_kcn2v3$ = parse_statement_helper_21;
+  package$turtle.parse_statement_helper_22_kcn2v3$ = parse_statement_helper_22;
+  package$turtle.parse_base_ei23ay$ = parse_base;
+  package$turtle.parse_base_helper_0_kcn2v3$ = parse_base_helper_0;
+  package$turtle.parse_base_helper_1_kcn2v3$ = parse_base_helper_1;
+  package$turtle.parse_base_helper_2_kcn2v3$ = parse_base_helper_2;
+  package$turtle.parse_base_helper_3_kcn2v3$ = parse_base_helper_3;
+  package$turtle.parse_base_helper_4_kcn2v3$ = parse_base_helper_4;
+  package$turtle.parse_prefix_ei23ay$ = parse_prefix;
+  package$turtle.parse_prefix_helper_0_kcn2v3$ = parse_prefix_helper_0;
+  package$turtle.parse_prefix_helper_1_kcn2v3$ = parse_prefix_helper_1;
+  package$turtle.parse_prefix_helper_2_kcn2v3$ = parse_prefix_helper_2;
+  package$turtle.parse_prefix2_ei23ay$ = parse_prefix2;
+  package$turtle.parse_prefix2_helper_0_kcn2v3$ = parse_prefix2_helper_0;
+  package$turtle.parse_prefix2_helper_1_kcn2v3$ = parse_prefix2_helper_1;
+  package$turtle.parse_prefix2_helper_2_kcn2v3$ = parse_prefix2_helper_2;
+  package$turtle.parse_prefix2_helper_3_kcn2v3$ = parse_prefix2_helper_3;
+  package$turtle.parse_prefix2_helper_4_kcn2v3$ = parse_prefix2_helper_4;
+  package$turtle.parse_predicate_3nu50m$ = parse_predicate_0;
+  package$turtle.parse_predicate_helper_0_kcn2v3$ = parse_predicate_helper_0_0;
+  package$turtle.parse_predicate_helper_1_kcn2v3$ = parse_predicate_helper_1_0;
+  package$turtle.parse_predicate_helper_2_kcn2v3$ = parse_predicate_helper_2;
+  package$turtle.parse_predicate_helper_3_kcn2v3$ = parse_predicate_helper_3;
+  package$turtle.parse_predicate_helper_4_kcn2v3$ = parse_predicate_helper_4;
+  package$turtle.parse_predicate_helper_5_kcn2v3$ = parse_predicate_helper_5;
+  package$turtle.parse_predicate_helper_6_kcn2v3$ = parse_predicate_helper_6;
+  package$turtle.parse_obj_1uy7bu$ = parse_obj;
+  package$turtle.parse_obj_helper_0_kcn2v3$ = parse_obj_helper_0;
+  package$turtle.parse_obj_helper_1_kcn2v3$ = parse_obj_helper_1;
+  package$turtle.parse_obj_helper_2_kcn2v3$ = parse_obj_helper_2;
+  package$turtle.parse_obj_helper_3_kcn2v3$ = parse_obj_helper_3;
+  package$turtle.parse_obj_helper_4_kcn2v3$ = parse_obj_helper_4;
+  package$turtle.parse_obj_helper_5_kcn2v3$ = parse_obj_helper_5;
+  package$turtle.parse_obj_helper_6_kcn2v3$ = parse_obj_helper_6;
+  package$turtle.parse_obj_helper_7_kcn2v3$ = parse_obj_helper_7;
+  package$turtle.parse_obj_helper_8_kcn2v3$ = parse_obj_helper_8;
+  package$turtle.parse_obj_helper_9_kcn2v3$ = parse_obj_helper_9;
+  package$turtle.parse_obj_helper_10_kcn2v3$ = parse_obj_helper_10;
+  package$turtle.parse_obj_helper_11_kcn2v3$ = parse_obj_helper_11;
+  package$turtle.parse_obj_helper_12_kcn2v3$ = parse_obj_helper_12;
+  package$turtle.parse_obj_helper_13_kcn2v3$ = parse_obj_helper_13;
+  package$turtle.parse_obj_helper_14_kcn2v3$ = parse_obj_helper_14;
+  package$turtle.parse_obj_helper_15_kcn2v3$ = parse_obj_helper_15;
+  package$turtle.parse_obj_helper_16_kcn2v3$ = parse_obj_helper_16;
+  package$turtle.parse_obj_helper_17_kcn2v3$ = parse_obj_helper_17;
+  package$turtle.parse_obj_helper_18_kcn2v3$ = parse_obj_helper_18;
+  package$turtle.parse_obj_helper_19_kcn2v3$ = parse_obj_helper_19;
+  package$turtle.parse_obj_helper_20_kcn2v3$ = parse_obj_helper_20;
+  package$turtle.parse_obj_helper_21_kcn2v3$ = parse_obj_helper_21;
+  package$turtle.parse_obj_helper_22_kcn2v3$ = parse_obj_helper_22;
+  package$turtle.parse_obj_helper_23_kcn2v3$ = parse_obj_helper_23;
+  package$turtle.parse_obj_helper_24_kcn2v3$ = parse_obj_helper_24;
+  package$turtle.parse_obj_helper_25_kcn2v3$ = parse_obj_helper_25;
+  package$turtle.parse_obj_helper_26_kcn2v3$ = parse_obj_helper_26;
+  package$turtle.parse_obj_helper_27_kcn2v3$ = parse_obj_helper_27;
+  package$turtle.parse_obj_helper_28_kcn2v3$ = parse_obj_helper_28;
+  package$turtle.parse_obj_helper_29_kcn2v3$ = parse_obj_helper_29;
+  package$turtle.parse_triple_end_3nu50m$ = parse_triple_end;
+  package$turtle.parse_triple_end_helper_0_kcn2v3$ = parse_triple_end_helper_0;
+  package$turtle.parse_triple_end_or_object_iri_704kxy$ = parse_triple_end_or_object_iri;
+  package$turtle.parse_triple_end_or_object_iri_helper_0_kcn2v3$ = parse_triple_end_or_object_iri_helper_0;
+  package$turtle.parse_triple_end_or_object_iri_helper_1_kcn2v3$ = parse_triple_end_or_object_iri_helper_1;
+  package$turtle.parse_triple_end_or_object_iri_helper_2_kcn2v3$ = parse_triple_end_or_object_iri_helper_2;
+  package$turtle.parse_triple_end_or_object_iri_helper_3_kcn2v3$ = parse_triple_end_or_object_iri_helper_3;
+  package$turtle.parse_triple_end_or_object_string_8h2qh9$ = parse_triple_end_or_object_string;
+  package$turtle.parse_triple_end_or_object_string_helper_0_kcn2v3$ = parse_triple_end_or_object_string_helper_0;
+  package$turtle.parse_triple_end_or_object_string_helper_1_kcn2v3$ = parse_triple_end_or_object_string_helper_1;
+  package$turtle.parse_triple_end_or_object_string_helper_2_kcn2v3$ = parse_triple_end_or_object_string_helper_2;
+  package$turtle.parse_triple_end_or_object_string_helper_3_kcn2v3$ = parse_triple_end_or_object_string_helper_3;
+  package$turtle.parse_triple_end_or_object_string_helper_4_kcn2v3$ = parse_triple_end_or_object_string_helper_4;
+  package$turtle.parse_triple_end_or_object_string_typed_vfylv7$ = parse_triple_end_or_object_string_typed;
+  package$turtle.parse_triple_end_or_object_string_typed_helper_0_kcn2v3$ = parse_triple_end_or_object_string_typed_helper_0;
+  package$turtle.parse_triple_end_or_object_string_typed_helper_1_kcn2v3$ = parse_triple_end_or_object_string_typed_helper_1;
+  package$turtle.parse_triple_end_or_object_string_typed_helper_2_kcn2v3$ = parse_triple_end_or_object_string_typed_helper_2;
+  package$turtle.parse_triple_end_or_object_string_typed_helper_3_kcn2v3$ = parse_triple_end_or_object_string_typed_helper_3;
+  package$turtle.parse_triple_end_or_object_string_typed_helper_4_kcn2v3$ = parse_triple_end_or_object_string_typed_helper_4;
+  package$turtle.parse_triple_end_or_object_string_typed_helper_5_kcn2v3$ = parse_triple_end_or_object_string_typed_helper_5;
+  package$turtle.parse_triple_end_or_object_string_typed_helper_6_kcn2v3$ = parse_triple_end_or_object_string_typed_helper_6;
+  package$turtle.parse_triple_end_or_object_string_typed_iri_704kxy$ = parse_triple_end_or_object_string_typed_iri;
+  package$turtle.parse_triple_end_or_object_string_typed_iri_helper_0_kcn2v3$ = parse_triple_end_or_object_string_typed_iri_helper_0;
+  package$turtle.parse_triple_end_or_object_string_typed_iri_helper_1_kcn2v3$ = parse_triple_end_or_object_string_typed_iri_helper_1;
+  package$turtle.parse_triple_end_or_object_string_typed_iri_helper_2_kcn2v3$ = parse_triple_end_or_object_string_typed_iri_helper_2;
+  package$turtle.parse_triple_end_or_object_string_typed_iri_helper_3_kcn2v3$ = parse_triple_end_or_object_string_typed_iri_helper_3;
+  package$turtle.parse_subject_iri_or_ws_vfylv7$ = parse_subject_iri_or_ws;
+  package$turtle.parse_subject_iri_or_ws_helper_0_kcn2v3$ = parse_subject_iri_or_ws_helper_0;
+  package$turtle.parse_subject_iri_or_ws_helper_1_kcn2v3$ = parse_subject_iri_or_ws_helper_1;
+  package$turtle.parse_subject_iri_or_ws_helper_2_kcn2v3$ = parse_subject_iri_or_ws_helper_2;
+  package$turtle.parse_subject_iri_or_ws_helper_3_kcn2v3$ = parse_subject_iri_or_ws_helper_3;
+  package$turtle.parse_predicate_iri_or_ws_vfylv7$ = parse_predicate_iri_or_ws;
+  package$turtle.parse_predicate_iri_or_ws_helper_0_kcn2v3$ = parse_predicate_iri_or_ws_helper_0;
+  package$turtle.parse_predicate_iri_or_ws_helper_1_kcn2v3$ = parse_predicate_iri_or_ws_helper_1;
+  package$turtle.parse_predicate_iri_or_ws_helper_2_kcn2v3$ = parse_predicate_iri_or_ws_helper_2;
+  package$turtle.parse_predicate_iri_or_ws_helper_3_kcn2v3$ = parse_predicate_iri_or_ws_helper_3;
   Object.defineProperty(package$turtle, 'Turtle2ParserStateExt', {
     get: Turtle2ParserStateExt_getInstance
   });
@@ -20246,29 +20570,49 @@
   package$turtle.POSSIBLE_KEYWORD = POSSIBLE_KEYWORD_0;
   package$turtle.UnexpectedEndOfLine = UnexpectedEndOfLine_0;
   package$turtle.TurtleScanner = TurtleScanner;
-  Object.defineProperty(package$Luposdate3000_Parser, '_ByteArrayHelper', {
-    get: _ByteArrayHelper_getInstance
+  package$parser.XMLElementFromN3 = XMLElementFromN3;
+  var package$Luposdate3000_Parser = package$lupos.Luposdate3000_Parser || (package$lupos.Luposdate3000_Parser = {});
+  Object.defineProperty(package$Luposdate3000_Parser, 'BufferManagerPage', {
+    get: BufferManagerPage_getInstance
   });
-  package$Luposdate3000_Parser._DateHelper_init = _DateHelper_init;
-  package$Luposdate3000_Parser._DateHelper = _DateHelper;
-  package$Luposdate3000_Parser._File_init_61zpoe$ = _File_init;
-  package$Luposdate3000_Parser._File = _File;
-  Object.defineProperty(package$Luposdate3000_Parser, '_IntegerExt', {
-    get: _IntegerExt_getInstance
+  Object.defineProperty(package$Luposdate3000_Parser, 'ColumnIteratorQueueExt', {
+    get: ColumnIteratorQueueExt_getInstance
   });
-  package$Luposdate3000_Parser._MyInputStream_init_y4putb$ = _MyInputStream_init;
-  package$Luposdate3000_Parser._MyInputStream_init_kcn2v3$ = _MyInputStream_init_0;
-  package$Luposdate3000_Parser._MyInputStream = _MyInputStream;
-  package$Luposdate3000_Parser._MyOutputStream_init_8be2vx$ = _MyOutputStream_init;
-  package$Luposdate3000_Parser._MyOutputStream = _MyOutputStream;
-  package$Luposdate3000_Parser._MyPrintWriter_init_6taknv$ = _MyPrintWriter_init;
-  package$Luposdate3000_Parser._MyPrintWriter = _MyPrintWriter;
-  Object.defineProperty(package$Luposdate3000_Parser, '_Platform', {
-    get: _Platform_getInstance
+  Object.defineProperty(package$Luposdate3000_Parser, 'DictionaryHelper', {
+    get: DictionaryHelper_getInstance
   });
-  Object.defineProperty(MyThreadReadWriteLock, 'Companion', {
-    get: MyThreadReadWriteLock$Companion_getInstance
+  var package$dynamicArray = package$Luposdate3000_Parser.dynamicArray || (package$Luposdate3000_Parser.dynamicArray = {});
+  Object.defineProperty(package$dynamicArray, 'ByteArrayWrapperExt', {
+    get: ByteArrayWrapperExt_getInstance
   });
+  Object.defineProperty(package$dynamicArray, 'IntArrayWrapperExt', {
+    get: IntArrayWrapperExt_getInstance
+  });
+  package$Luposdate3000_Parser.MyInputStreamFixedLength = MyInputStreamFixedLength;
+  package$Luposdate3000_Parser.MyStringStream = MyStringStream;
+  Object.defineProperty(package$Luposdate3000_Parser, 'SanityCheckOff', {
+    get: SanityCheckOff_getInstance
+  });
+  Object.defineProperty(package$Luposdate3000_Parser, 'SanityCheckOn', {
+    get: SanityCheckOn_getInstance
+  });
+  Object.defineProperty(package$Luposdate3000_Parser, 'ByteArrayHelper', {
+    get: ByteArrayHelper_getInstance
+  });
+  package$Luposdate3000_Parser.DateHelper_init = DateHelper_init;
+  package$Luposdate3000_Parser.DateHelper = DateHelper;
+  package$Luposdate3000_Parser.File_init_61zpoe$ = File_init;
+  package$Luposdate3000_Parser.File = File;
+  Object.defineProperty(package$Luposdate3000_Parser, 'IntegerExt', {
+    get: IntegerExt_getInstance
+  });
+  package$Luposdate3000_Parser.MyInputStream_init_y4putb$ = MyInputStream_init;
+  package$Luposdate3000_Parser.MyInputStream_init_kcn2v3$ = MyInputStream_init_0;
+  package$Luposdate3000_Parser.MyInputStream = MyInputStream;
+  package$Luposdate3000_Parser.MyOutputStream_init_8be2vx$ = MyOutputStream_init;
+  package$Luposdate3000_Parser.MyOutputStream = MyOutputStream;
+  package$Luposdate3000_Parser.MyPrintWriter_init_6taknv$ = MyPrintWriter_init;
+  package$Luposdate3000_Parser.MyPrintWriter = MyPrintWriter;
   package$Luposdate3000_Parser.MyThreadReadWriteLock = MyThreadReadWriteLock;
   Object.defineProperty(package$Luposdate3000_Parser, 'ParallelThread', {
     get: ParallelThread_getInstance
@@ -20276,6 +20620,9 @@
   package$Luposdate3000_Parser.ParallelThreadCondition = ParallelThreadCondition;
   package$Luposdate3000_Parser.ParallelThreadQueue_init_mh5how$ = ParallelThreadQueue_init;
   package$Luposdate3000_Parser.ParallelThreadQueue = ParallelThreadQueue;
+  Object.defineProperty(package$Luposdate3000_Parser, 'Platform', {
+    get: Platform_getInstance
+  });
   Kotlin.defineModule('Luposdate3000_Parser', _);
   return _;
 }));
