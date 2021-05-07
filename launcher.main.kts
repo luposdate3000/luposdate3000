@@ -1213,7 +1213,7 @@ fun onSetupSPAClient() {
         .directory(dir)
     val bproc = pbin.start()
     val reader = bproc.getInputStream().reader()
-    val pwd = reader.readText().trim()
+    val pwd = reader.readText().trim().replace("\\", "\\\\")
     reader.close()
     val commands = listOf(
         listOf("npm", "install"),
