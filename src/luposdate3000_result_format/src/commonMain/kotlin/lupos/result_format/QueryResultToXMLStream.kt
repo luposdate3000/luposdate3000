@@ -222,7 +222,7 @@ public object QueryResultToXMLStream {
                     for (variable in variables) {
                         output.print("  <variable name=\"")
                         output.print(variable)
-                        output.print("\">\n")
+                        output.print("\"/>\n")
                     }
                     output.print(" </head>\n")
                 }
@@ -258,7 +258,7 @@ public object QueryResultToXMLStream {
                         for (variable in variables) {
                             output.print("  <variable name=\"")
                             output.print(variable)
-                            output.print("\">\n")
+                            output.print("\"/>\n")
                         }
                         output.print(" </head>\n <results>\n")
                         writeNodeResult(variables, node, output)

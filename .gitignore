@@ -31,3 +31,4 @@ external_jvm_dependencies
 external_jar_dependencies
 src/Spa-Client/app/scripts/algos/samples/*
 src/Spa-Client/node_modules/*
+dist-js

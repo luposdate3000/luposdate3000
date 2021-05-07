@@ -45,7 +45,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
-    val rootPage = bufferManager.allocPage(lupos.SOURCE_FILE)
+    val rootPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_triple_index_insert_sequentiel/src/commonMain/kotlin/lupos/launch/test_triple_index_insert_sequentiel/MainFunc.kt:47")
     val order = intArrayOf(0, 1, 2)
     var index: TripleStoreIndex = TripleStoreIndexIDTriple(bufferManager, rootPage, false)
     var counterBuf = 0 // all s are '0' and p are '1', objects count from 0 until '$counter'

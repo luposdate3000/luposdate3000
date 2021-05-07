@@ -17,11 +17,12 @@
 package lupos.test
 
 import lupos.endpoint.LuposdateEndpoint
+import lupos.endpoint.MemoryTableFromXML
 import lupos.jena_wrapper.JenaWrapper
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.factory.XMLElementToOPBase
-import lupos.operator.physical.noinput.POPValuesImportXML
+import lupos.operator.physical.noinput.POPValues2
 import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
@@ -36,22 +37,21 @@ import lupos.parser.sparql1_1.SPARQLParser
 import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
 import lupos.parser.turtle.TurtleParserWithDictionary
 import lupos.parser.turtle.TurtleScanner
-import lupos.result_format.QueryResultToXMLElement
+import lupos.result_format.QueryResultToMemoryTable
 import lupos.shared.DateHelperRelative
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EPartitionModeExt
 import lupos.shared.JenaBugException
 import lupos.shared.Luposdate3000Exception
+import lupos.shared.MemoryTable
 import lupos.shared.NotImplementedException
 import lupos.shared.OperatorGraphToLatex
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnknownManifestException
-import lupos.shared.XMLElement
 import lupos.shared.XMLElementFromXML
 import lupos.shared.communicationHandler
-import lupos.shared.parseFromAny
 import lupos.shared.tripleStoreManager
 import lupos.shared_inline.File
 import kotlin.jvm.JvmField
@@ -463,16 +463,14 @@ public open class SparqlTestSuite {
                     println("InputData Graph[] Original")
                     println(inputData)
                     println("----------Input Data Graph[]")
-                    val xmlQueryInput = XMLElement.parseFromAny(inputData, inputDataFileName)!!
                     if (inputDataFileName.endsWith(".ttl") || inputDataFileName.endsWith(".n3")) {
                         val query = Query()
                         query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
+                        val xmlQueryInput = MemoryTable.parseFromAny(inputData, inputDataFileName, query)!!
                         LuposdateEndpoint.importTurtleFiles(inputDataFileName, mutableMapOf())
                         val bulkSelect = tripleStoreManager.getDefaultGraph().getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO)
-                        val xmlGraphBulk = QueryResultToXMLElement.toXML(bulkSelect)
-                        if (!xmlGraphBulk.myEqualsUnclean(xmlQueryInput, true, true, true)) {
-                            println("test xmlQueryInput :: " + xmlQueryInput.toPrettyString())
-                            println("test xmlGraphBulk :: " + xmlGraphBulk.toPrettyString())
+                        val xmlGraphBulk = QueryResultToMemoryTable(bulkSelect)
+                        if (xmlGraphBulk.first() != xmlQueryInput) {
                             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                             println("----------Failed(BulkImport)")
                             return false
@@ -480,7 +478,8 @@ public open class SparqlTestSuite {
                     } else {
                         val query = Query()
                         query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
-                        val tmp2 = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput)
+                        val xmlQueryInput = MemoryTable.parseFromAny(inputData, inputDataFileName, query)!!
+                        val tmp2 = POPValues2(query, xmlQueryInput)
                         val key = "${query.getTransactionID()}"
                         if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
                             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
@@ -496,7 +495,6 @@ public open class SparqlTestSuite {
                             communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                         }
                     }
-                    println("test InputData Graph[] ::" + xmlQueryInput.toPrettyString())
                     try {
                         if (!ignoreJena) {
                             JenaWrapper.loadFromFile("/src/luposdate3000/$inputDataFileName")
@@ -514,10 +512,10 @@ public open class SparqlTestSuite {
                     val inputData2 = readFileOrNull(it["filename"])
                     println(inputData2)
                     println("----------Input Data Graph[${it["name"]}]")
-                    val xmlQueryInput = XMLElement.parseFromAny(inputData2!!, it["filename"]!!)!!
                     val query = Query()
                     query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
-                    val tmp2 = POPValuesImportXML(query, listOf("s", "p", "o"), xmlQueryInput)
+                    val xmlQueryInput = MemoryTable.parseFromAny(inputData2!!, it["filename"]!!, query)!!
+                    val tmp2 = POPValues2(query, xmlQueryInput)
                     val key = "${query.getTransactionID()}"
                     if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
                         communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
@@ -532,7 +530,7 @@ public open class SparqlTestSuite {
                         communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
                     }
                     query.commited = true
-                    println("test Input Graph[${it["name"]!!}] :: " + xmlQueryInput.toPrettyString())
+
                     try {
                         if (!ignoreJena) {
                             JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
@@ -607,26 +605,23 @@ public open class SparqlTestSuite {
                 val x = popNode.toString()
                 SanityCheck.println { x }
             }
-            var xmlQueryResult: XMLElement? = null
+            var xmlQueryResult: MemoryTable? = null
             if (outputDataGraph.isNotEmpty() || (resultData != null && resultDataFileName != null)) {
                 SanityCheck.println { "----------Query Result" }
-                xmlQueryResult = QueryResultToXMLElement.toXML(popNode)
-                SanityCheck.println { "test xmlQueryResult :: " + xmlQueryResult.toPrettyString() }
                 tripleStoreManager.commit(query)
                 query.commited = true
             }
             var verifiedOutput = false
             outputDataGraph.forEach {
                 val outputData = readFileOrNull(it["filename"])
-                val xmlGraphTarget = XMLElement.parseFromAny(outputData!!, it["filename"]!!)!!
+                val xmlGraphTarget = MemoryTable.parseFromAny(outputData!!, it["filename"]!!, query)!!
                 val tmp = tripleStoreManager.getGraph(it["name"]!!).getIterator(query, arrayOf(AOPVariable(query, "s"), AOPVariable(query, "p"), AOPVariable(query, "o")), EIndexPatternExt.SPO)
-                val xmlGraphActual = QueryResultToXMLElement.toXML(tmp)
-                if (!xmlGraphTarget.myEqualsUnclean(xmlGraphActual, true, true, true)) {
+                val xmlGraphActual = QueryResultToMemoryTable(tmp)
+                if (xmlGraphTarget != xmlGraphActual.first()) {
                     println("OutputData Graph[${it["name"]}] Original")
                     println(outputData)
                     println("----------Verify Output Data Graph[${it["name"]}] ... target,actual")
-                    println("test xmlGraphTarget :: " + xmlGraphTarget.toPrettyString())
-                    println("test xmlGraphActual :: " + xmlGraphActual.toPrettyString())
+
                     println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                     println("----------Failed(PersistentStore Graph)")
                     return false
@@ -634,27 +629,23 @@ public open class SparqlTestSuite {
                     SanityCheck.println { "OutputData Graph[${it["name"]}] Original" }
                     SanityCheck.println { outputData }
                     SanityCheck.println { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" }
-                    SanityCheck.println { "test xmlGraphTarget :: " + xmlGraphTarget.toPrettyString() }
-                    SanityCheck.println { "test xmlGraphActual :: " + xmlGraphActual.toPrettyString() }
                 }
                 verifiedOutput = true
             }
             if (resultData != null && resultDataFileName != null) {
                 SanityCheck.println { "----------Target Result" }
-                val xmlQueryTarget = XMLElement.parseFromAny(resultData, resultDataFileName)!!
-                SanityCheck.println { "test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString() }
+                val xmlQueryTarget = MemoryTable.parseFromAny(resultData, resultDataFileName, query)!!
+
                 SanityCheck.println { resultData }
                 if (!ignoreJena) {
                     try {
                         val jenaResult = JenaWrapper.execQuery(toParse)
-                        val jenaXML = XMLElementFromXML()(jenaResult)
+                        val jenaXML = MemoryTableFromXML()(jenaResult, xmlQueryResult!!.query!!)
 // println("test xmlJena >>>>>"+jenaResult+"<<<<<")
-                        if (jenaXML != null && !jenaXML.myEqualsUnclean(xmlQueryResult, true, true, true)) {
+                        if (jenaXML != null && !jenaXML.equalsVerbose(xmlQueryResult, false, true)) {
                             println("----------Verify Output Jena jena,actual")
                             println("test jenaOriginal :: $jenaResult")
-                            println("test xmlJena :: " + jenaXML.toPrettyString())
-                            println("test xmlActual :: " + xmlQueryResult!!.toPrettyString())
-                            println("test xmlTarget :: " + xmlQueryTarget.toPrettyString())
+
                             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                             println("----------Failed(Jena)")
                             return false
@@ -667,7 +658,7 @@ public open class SparqlTestSuite {
                         ignoreJena = true
                     }
                 }
-                res = xmlQueryResult!!.myEquals(xmlQueryTarget)
+                res = xmlQueryResult!!.equalsVerbose(xmlQueryTarget, toParse.toLowerCase().contains("order", true), true)
                 if (res) {
                     val xmlPOP = popNode.toXMLElementRoot(false)
                     val query4 = Query()
@@ -678,11 +669,11 @@ public open class SparqlTestSuite {
                         val x = popNodeRecovered.toString()
                         SanityCheck.println { x }
                     }
-                    val xmlQueryResultRecovered = QueryResultToXMLElement.toXML(popNodeRecovered)
+                    val xmlQueryResultRecovered = QueryResultToMemoryTable(popNodeRecovered)
                     tripleStoreManager.commit(query4)
                     query4.commited = true
-                    SanityCheck.println { "test xmlQueryResultRecovered :: " + xmlQueryResultRecovered.toPrettyString() }
-                    if (xmlQueryResultRecovered.myEqualsUnclean(xmlQueryResult, true, true, true)) {
+
+                    if (xmlQueryResultRecovered.first().equalsVerbose(xmlQueryResult!!, false, true)) {
                         if (expectedResult) {
                             println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                             println("----------Success")
@@ -696,47 +687,13 @@ public open class SparqlTestSuite {
                         res = false
                     }
                 } else {
-                    val containsOrderBy = toParse.contains("ORDER", true)
-                    val correctIfIgnoreOrderBy = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, false, false, true)
-                    val correctIfIgnoreString = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, true, false, true)
-                    val correctIfIgnoreNumber = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, true, true, true)
-                    val correctIfIgnoreAllExceptOrder = xmlQueryResult.myEqualsUnclean(xmlQueryTarget, true, true, false)
-                    if (correctIfIgnoreNumber) {
-                        if (expectedResult) {
-                            if (containsOrderBy) {
-                                if (correctIfIgnoreAllExceptOrder) {
-                                    println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                                    println("----------Success")
-                                } else {
-                                    println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                                    println("----------Success(Unordered)")
-                                }
-                            } else if (correctIfIgnoreOrderBy) {
-                                println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                                println("----------Success")
-                            } else if (correctIfIgnoreString) {
-                                println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                                println("----------Success(String)")
-                            } else if (correctIfIgnoreNumber) {
-                                println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                                println("----------Success(Number & String)")
-                            } else {
-                                SanityCheck.checkUnreachable()
-                            }
-                        } else {
-                            println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                            println("----------Failed(expectFalse,Simplified)")
-                        }
+                    if (expectedResult) {
+
+                        println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                        println("----------Failed(Incorrect)")
                     } else {
-                        if (expectedResult) {
-                            println("test xmlQueryTarget :: " + xmlQueryTarget.toPrettyString())
-                            println("test xmlQueryResult :: " + xmlQueryResult.toPrettyString())
-                            println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                            println("----------Failed(Incorrect)")
-                        } else {
-                            println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
-                            println("----------Success(ExpectFalse)")
-                        }
+                        println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
+                        println("----------Success(ExpectFalse)")
                     }
                 }
                 return res

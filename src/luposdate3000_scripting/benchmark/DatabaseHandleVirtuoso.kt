@@ -36,13 +36,13 @@ class DatabaseHandleVirtuoso(val workDir: String) : DatabaseHandle() {
                         out.println("DirsAllowed = /")
                     }
                     line.startsWith("NumberOfBuffers") -> {
-                        out.println("NumberOfBuffers = 5450000")
+                        out.println("NumberOfBuffers = 2720000")
                     }
                     line.startsWith("MaxDirtyBuffers") -> {
-                        out.println("MaxDirtyBuffers = 4000000")
+                        out.println("MaxDirtyBuffers = 2000000")
                     }
                     line.startsWith("ResultSetMaxRows") -> {
-                        out.println("ResultSetMaxRows = 1048576")
+                        out.println("ResultSetMaxRows = 100000")
                     }
                     else -> {
                         out.println(line.replace("${virtuosoBasePath}var/lib/virtuoso/db/", "$workDir/").replace("$workDir/virtuoso.log", "/dev/stdout"))

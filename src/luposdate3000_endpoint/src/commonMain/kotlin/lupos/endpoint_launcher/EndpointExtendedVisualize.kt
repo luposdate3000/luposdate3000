@@ -254,16 +254,16 @@ public fun getOptimizedStepsLogical(query: String): Array<String> {
             // -> Different variables are containing the needed information for visualization
             if (x is AOPVariable) {
                 label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
-                    "?" + x.getName().replace("\n", "").replace("\"", "\\\"")
+                "?" + x.getName().replace("\n", "").replace("\"", "\\\"")
                 }\""
             } else if (x is AOPConstant) {
                 label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
-                    x.toSparql().replace("\n", "").replace("\"", "\\\"")
+                x.toSparql().replace("\n", "").replace("\"", "\\\"")
                 }\""
                 // In general: All IOPBase nodes
             } else {
                 label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
-                    x.getProvidedVariableNames().toString().replace("\n", "").replace("\"", "\\\"")
+                x.getProvidedVariableNames().toString().replace("\n", "").replace("\"", "\\\"")
                 }\""
             }
             // In case getProvidedVariableNames is not defined for a given operator.

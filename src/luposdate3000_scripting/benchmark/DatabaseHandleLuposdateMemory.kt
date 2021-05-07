@@ -16,6 +16,7 @@
  */
 package lupos.benchmark
 
+import lupos.shared_inline.Platform
 import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
@@ -25,18 +26,29 @@ class DatabaseHandleLuposdateMemory(val port: Int) : DatabaseHandle() {
     override fun getThreads() = -1
     override fun getName(): String = "LuposdateMemory"
     override fun launch(import_file_name: String, abort: () -> Unit, action: () -> Unit) {
-        val args = listOf(
-            "java",
-            "-cp",
-            luposdateJar,
-            "lupos.endpoint.server.Endpoint",
-            import_file_name,
-            "port$port",
-            "MEMORY"
-        )
-        println(args)
+        val javaFileName = "/usr/lib/jvm/java-16-openjdk-amd64/bin/java"
+        val javaFile = File(javaFileName)
+        val cmd = mutableListOf<String>()
+        if (javaFile.exists()) {
+            cmd.add(javaFileName)
+            cmd.add("-XX:+UnlockExperimentalVMOptions")
+            cmd.add("-XX:+UseShenandoahGC")
+            cmd.add("-XX:ShenandoahUncommitDelay=1000")
+            cmd.add("-XX:ShenandoahGuaranteedGCInterval=10000")
+        } else {
+            cmd.add("java")
+        }
+        cmd.add("-server")
+        cmd.add("-Xmx${Platform.getAvailableRam()}g")
+        cmd.add("-cp")
+        cmd.add(luposdateJar)
+        cmd.add("lupos.endpoint.server.Endpoint")
+        cmd.add(import_file_name)
+        cmd.add("port$port")
+        cmd.add("MEMORY")
+        println(cmd)
         val p = ProcessBuilder(
-            args
+            cmd
         ).directory(File("."))
         processInstance = p.start()
         val inputstream = processInstance!!.getInputStream()

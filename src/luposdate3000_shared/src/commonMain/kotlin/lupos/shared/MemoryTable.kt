@@ -16,21 +16,170 @@
  */
 package lupos.shared
 
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared_inline.DictionaryHelper
 import kotlin.jvm.JvmField
 
 public class MemoryTable public constructor(@JvmField public val columns: Array<String>) {
+
     @JvmField
-    public val data: MutableList<IntArray> = mutableListOf()
+    public val data: MutableList<IntArray> = mutableListOf() // array of rows
 
     @JvmField
     public var booleanResult: Boolean? = null
 
     @JvmField
     public var query: IQuery? = null
+    public fun column(name: String): IntArray? {
+        val j = columns.indexOf(name)
+        if (j < 0) {
+            return null
+        }
+        var res = IntArray(data.size)
+        var i = 0
+        for (row in data) {
+            res[i] = row[j]
+            i++
+        }
+        return res
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return equalsVerbose(other, false, false)
+    }
+
+    public fun equalsVerbose(other: Any?, ignoreOrder: Boolean, verbose: Boolean): Boolean {
+        if (other !is MemoryTable) {
+            return false
+        }
+        if (columns.size != other.columns.size) {
+            if (verbose) {
+                println("columns differ : ${columns.map { it }} vs ${other.columns.map { it }}")
+            }
+            return false
+        }
+        for (i in 0 until columns.size) {
+            if (columns[i] != other.columns[i]) {
+                if (verbose) {
+                    println("columns differ : ${columns.map { it }} vs ${other.columns.map { it }}")
+                }
+                return false
+            }
+        }
+        if (booleanResult != null || other.booleanResult != null) {
+            if (booleanResult == other.booleanResult) {
+                return true
+            } else {
+                if (verbose) {
+                    println("boolean result differ : $booleanResult vs ${other.booleanResult}")
+                }
+                return false
+            }
+        }
+        val buffer1 = ByteArrayWrapper()
+        val buffer2 = ByteArrayWrapper()
+        var dict1 = query!!.getDictionary()
+        var dict2 = other.query!!.getDictionary()
+        var flags1 = IntArray(data.size) { -1 }
+        var flags2 = IntArray(other.data.size) { -1 }
+        for (i in 0 until data.size) {
+            loop2@ for (j in 0 until other.data.size) {
+                if (flags2[j] == -1) {
+                    var flag = true
+                    loop1@ for (k in 0 until columns.size) {
+                        dict1.getValue(buffer1, data[i][k])
+                        dict2.getValue(buffer2, other.data[j][k])
+                        if (buffer1 != buffer2) {
+                            flag = false
+                            break@loop1
+                        }
+                    }
+                    if (flag) {
+                        flags2[j] = i
+                        flags1[i] = j
+                        break@loop2
+                    }
+                }
+            }
+        }
+        if (ignoreOrder) {
+            var i = 0
+            while (i < data.size || i < other.data.size) {
+                if (i < data.size) {
+                    if (flags1[i] == -1) {
+                        if (verbose) {
+                            println(
+                                "left has ${data[i].map { it }} : ${
+                                data[i].map { it ->
+                                    dict1.getValue(buffer1, it)
+                                    DictionaryHelper.byteArrayToSparql(buffer1)
+                                }
+                                }"
+                            )
+                        }
+                    }
+                }
+                if (i < other.data.size) {
+                    if (flags2[i] == -1) {
+                        if (verbose) {
+                            println(
+                                "right has ${other.data[i].map { it }} : ${
+                                other.data[i].map { it ->
+                                    dict2.getValue(buffer2, it)
+                                    DictionaryHelper.byteArrayToSparql(buffer2)
+                                }
+                                }"
+                            )
+                        }
+                    }
+                }
+                i++
+            }
+        } else {
+            var i = 0
+            while (i < data.size || i < other.data.size) {
+                if (i < data.size) {
+                    if (flags1[i] != i) {
+                        if (verbose) {
+                            println(
+                                "left has ${data[i].map { it }} : ${
+                                data[i].map { it ->
+                                    dict1.getValue(buffer1, it)
+                                    DictionaryHelper.byteArrayToSparql(buffer1)
+                                }
+                                }"
+                            )
+                        }
+                    }
+                }
+                if (i < other.data.size) {
+                    if (flags2[i] != i) {
+                        if (verbose) {
+                            println(
+                                "right has ${other.data[i].map { it }} : ${
+                                other.data[i].map { it ->
+                                    dict2.getValue(buffer2, it)
+                                    DictionaryHelper.byteArrayToSparql(buffer2)
+                                }
+                                }"
+                            )
+                        }
+                    }
+                }
+                i++
+            }
+        }
+
+        return true
+    }
 
     public companion object {
+
+        @JvmField
+        public val parseFromAnyRegistered: MutableMap<String, MemoryTableParser> = mutableMapOf()
+
         @Suppress("NOTHING_TO_INLINE")
-        internal inline operator fun invoke(a: MemoryTable, b: MemoryTable): MemoryTable {
+        internal inline fun merge(a: MemoryTable, b: MemoryTable): MemoryTable {
             if (a.columns.size != b.columns.size) {
                 throw Exception("incompatible input")
             }
@@ -49,6 +198,16 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
             res.data.addAll(a.data)
             res.data.addAll(b.data)
             return res
+        }
+
+        public fun parseFromAny(data: String, filename: String, query: IQuery): MemoryTable? {
+            val ext = filename.substring(filename.lastIndexOf(".") + 1)
+            val parser = parseFromAnyRegistered[ext]
+            if (parser == null) {
+                throw UnknownDataFileException("$filename ($ext)")
+            } else {
+                return parser(data, query)
+            }
         }
     }
 }

@@ -16,8 +16,8 @@
  */
 package lupos.benchmark
 
-const val blazeGraphJar = "documentation/paper/Flexible_data_partitioning_schemes_for_parallel_merge_joins_in_semantic_web_queries/blazegraph.jar"
-const val luposdateJar = "documentation/paper/Flexible_data_partitioning_schemes_for_parallel_merge_joins_in_semantic_web_queries/luposdate.jar"
-const val luposdateParallelJar = "documentation/paper/Flexible_data_partitioning_schemes_for_parallel_merge_joins_in_semantic_web_queries/luposdate-parallel.jar"
+const val blazeGraphJar = "./documentation/paper/Flexible_data_partitioning_schemes_for_parallel_merge_joins_in_semantic_web_queries/blazegraph.jar"
+const val luposdateJar = "./documentation/paper/Flexible_data_partitioning_schemes_for_parallel_merge_joins_in_semantic_web_queries/luposdate.jar"
+const val luposdateParallelJar = "./documentation/paper/Flexible_data_partitioning_schemes_for_parallel_merge_joins_in_semantic_web_queries/luposdate-parallel.jar"
 const val virtuosoBasePath = "/opt/virtuoso-dist/" /*this folder contains the folders "bin", and "var/lib/virtuosodb" */
 const val workDir = "/data/benchmark/"

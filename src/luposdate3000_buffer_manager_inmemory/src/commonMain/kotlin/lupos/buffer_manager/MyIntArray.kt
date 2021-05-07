@@ -126,8 +126,8 @@ public class MyIntArray internal constructor(@JvmField internal val filename: St
         SanityCheck.check { !closed }
         close()
         if (bufferManagerPage != null) {
-            bufferManager?.getPage(lupos.SOURCE_FILE, bufferManagerPage!!)
-            bufferManager?.deletePage(lupos.SOURCE_FILE, bufferManagerPage!!)
+            bufferManager?.getPage("/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/MyIntArray.kt:128", bufferManagerPage!!)
+            bufferManager?.deletePage("/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/MyIntArray.kt:129", bufferManagerPage!!)
             bufferManager = null
             bufferManagerPage = null
         }

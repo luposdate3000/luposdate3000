@@ -72,8 +72,8 @@ public class DictionaryInMemory : ADictionary {
                         val buf = dataI2V[value and ADictionary.maskValue]
                         ByteArrayWrapperExt.copyInto(buf, buffer)
                     } else {
-                        SanityCheck.check { value < bNodeCounter }
-                        SanityCheck.check { value >= 0 }
+                        SanityCheck.check({ value < bNodeCounter }, { "$value < $bNodeCounter" })
+                        SanityCheck.check({ value >= 0 }, { " $value >= 0" })
                         DictionaryHelper.bnodeToByteArray(buffer, value and ADictionary.maskValue)
                     }
                 } else {
@@ -85,8 +85,14 @@ public class DictionaryInMemory : ADictionary {
 
     public override fun createValue(buffer: ByteArrayWrapper): Int {
         val type = DictionaryHelper.byteArrayToType(buffer)
-        SanityCheck.check { type != ETripleComponentTypeExt.BLANK_NODE }
         when (type) {
+            ETripleComponentTypeExt.BLANK_NODE -> {
+                if (buffer.size == 8) {
+                    return DictionaryHelper.byteArrayToBnode_I(buffer)
+                } else {
+                    return createNewBNode(DictionaryHelper.byteArrayToBnode_S(buffer))
+                }
+            }
             ETripleComponentTypeExt.BOOLEAN -> {
                 if (DictionaryHelper.byteArrayToBoolean(buffer)) {
                     return DictionaryExt.booleanTrueValue

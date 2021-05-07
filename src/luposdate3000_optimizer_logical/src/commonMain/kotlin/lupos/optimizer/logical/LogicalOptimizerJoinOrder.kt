@@ -92,13 +92,13 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
             var max = 0
             var maxIdx = 0
             for (i in 0 until allVariables.size) {
-                if (allVariablesSortCounters[i] > max) {
+                if (allVariablesSortCounters[i] >= max) {
                     max = allVariablesSortCounters[i]
                     maxIdx = i
                 }
             }
             println("c $max $maxIdx")
-            SanityCheck.check { max > 0 }
+
             val current = mutableListOf<IOPBase>()
             var groupIds = mutableSetOf<Int>()
             for (i in remainingNodes.toList()) {
@@ -107,8 +107,15 @@ public class LogicalOptimizerJoinOrder(query: Query) : OptimizerBase(query, EOpt
                     node.selectSortPriority(listOf(SortHelper(allVariables[maxIdx], ESortTypeExt.FAST)))
                     groupIds.add(i)
                     remainingNodes.remove(i)
-                    current.add(nodes[i])
+                    current.add(node)
                 }
+            }
+            if (groupIds.size == 0) {
+                val i = remainingNodes.first()
+                val node = nodes[i]
+                groupIds.add(i)
+                remainingNodes.remove(i)
+                current.add(node)
             }
             println("grouped $groupIds")
             SanityCheck.check { max == current.size }

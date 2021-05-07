@@ -33,24 +33,24 @@ internal class NodeManager(bufferManager: BufferManager) {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun releaseNode(call_location: String, nodeid: Int) {
         SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $call_location" }
-        bufferManager.releasePage(lupos.SOURCE_FILE, nodeid)
+        bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:35", nodeid)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun flushNode(call_location: String, nodeid: Int) {
         SanityCheck.println_nodemanager { "NodeManager.flushNode($nodeid) : $call_location" }
-        bufferManager.flushPage(lupos.SOURCE_FILE, nodeid)
+        bufferManager.flushPage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:41", nodeid)
     }
 
     internal inline fun getNodeLeaf(call_location: String, nodeid: Int, crossinline actionLeaf: (ByteArray) -> Unit) {
         SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($nodeid) : $call_location" }
-        val node = bufferManager.getPage(lupos.SOURCE_FILE, nodeid)
+        val node = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:46", nodeid)
         actionLeaf(node)
     }
 
     internal inline fun getNodeAny(call_location: String, nodeid: Int, crossinline actionLeaf: (ByteArray) -> Unit, crossinline actionInner: (ByteArray) -> Unit) {
         SanityCheck.println_nodemanager { "NodeManager.getNodeAny($nodeid) : $call_location" }
-        val node = bufferManager.getPage(lupos.SOURCE_FILE, nodeid)
+        val node = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:52", nodeid)
         when (NodeShared.getNodeType(node)) {
             nodeTypeInner -> {
                 actionInner(node)
@@ -66,7 +66,7 @@ internal class NodeManager(bufferManager: BufferManager) {
 
     /*suspend*/ internal inline fun getNodeAnySuspended(call_location: String, nodeid: Int, crossinline actionLeaf: /*suspend*/ (ByteArray) -> Unit, crossinline actionInner: /*suspend*/ (ByteArray) -> Unit) {
         SanityCheck.println_nodemanager { "NodeManager.getNodeAnySuspended($nodeid) : $call_location" }
-        val node = bufferManager.getPage(lupos.SOURCE_FILE, nodeid)
+        val node = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:68", nodeid)
         when (NodeShared.getNodeType(node)) {
             nodeTypeInner -> {
                 actionInner(node)
@@ -81,8 +81,8 @@ internal class NodeManager(bufferManager: BufferManager) {
     }
 
     internal inline /*suspend*/ fun allocateNodeLeaf(call_location: String, crossinline action: /*suspend*/ (ByteArray, Int) -> Unit) {
-        var nodeid = bufferManager.allocPage(lupos.SOURCE_FILE)
-        var node = bufferManager.getPage(lupos.SOURCE_FILE, nodeid)
+        var nodeid = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:83")
+        var node = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:84", nodeid)
         NodeShared.setNodeType(node, nodeTypeLeaf)
         NodeShared.setNextNode(node, nodeNullPointer)
         NodeShared.setTripleCount(node, 0)
@@ -91,8 +91,8 @@ internal class NodeManager(bufferManager: BufferManager) {
     }
 
     internal inline /*suspend*/ fun allocateNodeInner(call_location: String, crossinline action: /*suspend*/ (ByteArray, Int) -> Unit) {
-        val nodeid = bufferManager.allocPage(lupos.SOURCE_FILE)
-        val node = bufferManager.getPage(lupos.SOURCE_FILE, nodeid)
+        val nodeid = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:93")
+        val node = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:94", nodeid)
         NodeShared.setNodeType(node, nodeTypeInner)
         NodeShared.setNextNode(node, nodeNullPointer)
         NodeShared.setTripleCount(node, 0)
@@ -103,14 +103,14 @@ internal class NodeManager(bufferManager: BufferManager) {
     @Suppress("NOTHING_TO_INLINE")
     internal inline /*suspend*/ fun freeNode(call_location: String, nodeid: Int) {
         SanityCheck.println_nodemanager { "NodeManager.freeNode($nodeid) : $call_location" }
-        bufferManager.deletePage(lupos.SOURCE_FILE, nodeid)
+        bufferManager.deletePage("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:105", nodeid)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline /*suspend*/ fun freeNodeAndAllRelated(call_location: String, nodeid: Int) {
         SanityCheck.println_nodemanager { "NodeManager.freeNodeAndAllRelated($nodeid) : $call_location" }
-        releaseNode(lupos.SOURCE_FILE, nodeid)
-        freeNodeAndAllRelatedInternal(lupos.SOURCE_FILE, nodeid)
+        releaseNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:111", nodeid)
+        freeNodeAndAllRelatedInternal("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:112", nodeid)
     }
 
     /*suspend*/ private fun freeNodeAndAllRelatedInternal(call_location: String, nodeid: Int) {
@@ -118,7 +118,7 @@ internal class NodeManager(bufferManager: BufferManager) {
         if (nodeid != nodeNullPointer) {
             var node: ByteArray? = null
             getNodeAny(
-                lupos.SOURCE_FILE,
+                "/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:120",
                 nodeid,
                 {
                 },
@@ -128,10 +128,10 @@ internal class NodeManager(bufferManager: BufferManager) {
             )
             if (node != null) {
                 NodeInner.forEachChild(node!!) {
-                    freeNodeAndAllRelatedInternal(lupos.SOURCE_FILE, it)
+                    freeNodeAndAllRelatedInternal("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:130", it)
                 }
             }
-            freeNode(lupos.SOURCE_FILE, nodeid)
+            freeNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:133", nodeid)
         }
     }
 
@@ -141,11 +141,11 @@ internal class NodeManager(bufferManager: BufferManager) {
         var pageid = nodeid
         while (pageid != nodeNullPointer) {
             val id = pageid
-            getNodeLeaf(lupos.SOURCE_FILE, pageid) { node ->
+            getNodeLeaf("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:143", pageid) { node ->
                 val tmp = NodeShared.getNextNode(node)
                 pageid = tmp
             }
-            freeNode(lupos.SOURCE_FILE, id)
+            freeNode("/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:147", id)
         }
     }
 }

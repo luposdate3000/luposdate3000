@@ -54,7 +54,7 @@ object ParserGenerator {
             out.println("internal class ParserExceptionEOF : ParserException(\"EOF\")")
             out.println("internal class ParserExceptionUnexpectedChar(context: ParserContext) : ParserException(\"unexpected char 0x\${context.c.toString(16)} at \${context.line}:\${context.column}\")")
             for (args in generatingArgs) {
-                val generator = ParserGenerator_Helper(grammar, out)(args)
+                ParserGenerator_Helper(grammar, out)(args)
             }
         }
     }
@@ -232,9 +232,9 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                     changed = false
                     ranges.clear()
                     ranges.add(arr[0])
-                    for (a in 1 until arr.size) {
+                    for (a1 in 1 until arr.size) {
                         val last = ranges[ranges.size - 1]
-                        val current = arr[a]
+                        val current = arr[a1]
                         var a = last.second
                         var b = current.first
                         if (b <= a) {
@@ -303,7 +303,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                     }
                 }
             }
-            loop@ for ((k, v) in identicalIdsMap) {
+            loop@ for (v in identicalIdsMap.values) {
                 val min = v.minOrNull()!!
                 v.clear()
                 v.add(min)
@@ -521,18 +521,18 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                                 helperFunctionContent.appendLine("   when (c) {")
                                 for (cIdx in 0 until localChilds.size) {
                                     val c = localChilds[cIdx]
-                                    var r2 = ""
+                                    var r3 = ""
                                     loop@ for (r in c.ranges) {
                                         if (r.second >= maxValueBelowLimit) {
                                             if (r.first == r.second) {
-                                                r2 += ",${charToString(r.first)}"
+                                                r3 += ",${charToString(r.first)}"
                                             } else {
-                                                r2 += ",in (${charToString(r.first)}..${charToString(r.second)})"
+                                                r3 += ",in (${charToString(r.first)}..${charToString(r.second)})"
                                             }
                                         }
                                     }
-                                    if (r2.length > 0) {
-                                        helperFunctionContent.appendLine("    ${r2.substring(1)}->return $cIdx")
+                                    if (r3.length > 0) {
+                                        helperFunctionContent.appendLine("    ${r3.substring(1)}->return $cIdx")
                                     }
                                 }
                                 helperFunctionContent.appendLine("    else->return ${localChilds.size}")
@@ -886,7 +886,7 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
             for (c in childs) {
                 collapseIdenticalHelper(map, c)
             }
-            for ((k, v) in map) {
+            for (v in map.values) {
                 res.childs.add(v.collapseIdentical())
             }
             return res
@@ -1064,14 +1064,14 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                         while (change) {
                             change = false
                             loop@ for (toRemove in tmp) {
-                                for (idx in 0 until t.size) {
-                                    val content = t[idx]
+                                for (idx2 in 0 until t.size) {
+                                    val content = t[idx2]
                                     if (toRemove.first <= content.first && toRemove.second >= content.second) {
-                                        t.removeAt(idx)
+                                        t.removeAt(idx2)
                                         change = true
                                         break
                                     } else if (content.first <= toRemove.first && content.second >= toRemove.second) {
-                                        t.removeAt(idx)
+                                        t.removeAt(idx2)
                                         if (toRemove.first.toInt() > 0) {
                                             t.add(MyPair(content.first, toRemove.first - 1))
                                         }

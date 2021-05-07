@@ -2206,7 +2206,6 @@ public object OperatorBuilder {
             MyOperator(
                 name = "Division",
                 type = OperatorType.Basic,
-                additionalParametersName = arrayOf("prefix"),
                 implementations = MyOperatorPartFactory()
                     .addNumericBinaryOperatorStub("/")
                     .add(
@@ -2232,20 +2231,14 @@ public object OperatorBuilder {
             MyOperator(
                 name = "Addition",
                 type = OperatorType.Basic,
-                additionalParametersName = arrayOf("prefix"),
                 implementations = MyOperatorPartFactory()
                     .addNumericBinaryOperatorStub("+")
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.INTEGER),
                             generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
-                                imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
-                                onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                                target.appendLine("$indention} else {")
                                 target.appendLine("$indention    val $outputName: BigInteger = ${inputNames[0]} + ${inputNames[1]}")
                                 onResult(indention + "    ", ETripleComponentTypeExt.INTEGER)
-                                target.appendLine("$indention}")
                             },
                         ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
@@ -2258,7 +2251,6 @@ public object OperatorBuilder {
             MyOperator(
                 name = "Subtraction",
                 type = OperatorType.Basic,
-                additionalParametersName = arrayOf("prefix"),
                 implementations =
                 MyOperatorPartFactory()
                     .addNumericBinaryOperatorStub("-")
@@ -2266,13 +2258,8 @@ public object OperatorBuilder {
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.INTEGER),
                             generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
-                                imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
-                                onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                                target.appendLine("$indention} else {")
                                 target.appendLine("$indention    val $outputName: BigInteger = ${inputNames[0]} - ${inputNames[1]}")
                                 onResult(indention + "    ", ETripleComponentTypeExt.INTEGER)
-                                target.appendLine("$indention}")
                             },
                         ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
@@ -2285,20 +2272,14 @@ public object OperatorBuilder {
             MyOperator(
                 name = "Multiplication",
                 type = OperatorType.Basic,
-                additionalParametersName = arrayOf("prefix"),
                 implementations = MyOperatorPartFactory()
                     .addNumericBinaryOperatorStub("*")
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.INTEGER),
                             generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                target.appendLine("${indention}if (${inputNames[1]} == BigInteger.ZERO) {")
-                                imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
-                                onResult(indention + "    ", ETripleComponentTypeExt.ERROR)
-                                target.appendLine("$indention} else {")
                                 target.appendLine("$indention    val $outputName: BigInteger = ${inputNames[0]} * ${inputNames[1]}")
                                 onResult(indention + "    ", ETripleComponentTypeExt.INTEGER)
-                                target.appendLine("$indention}")
                             },
                         ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),

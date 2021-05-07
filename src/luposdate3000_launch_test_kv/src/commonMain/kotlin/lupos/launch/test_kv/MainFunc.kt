@@ -40,7 +40,7 @@ internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
 private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRandom: () -> Unit) {
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
-    val rootPage = bufferManager.allocPage(lupos.SOURCE_FILE)
+    val rootPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_kv/src/commonMain/kotlin/lupos/launch/test_kv/MainFunc.kt:42")
     var kv = KeyValueStore(bufferManager, rootPage, false)
 
     val values = mutableListOf<ByteArray>()

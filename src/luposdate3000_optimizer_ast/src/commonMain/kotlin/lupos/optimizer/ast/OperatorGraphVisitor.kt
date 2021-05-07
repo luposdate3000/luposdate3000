@@ -121,7 +121,7 @@ import lupos.operator.logical.singleinput.modifiers.LOPLimit
 import lupos.operator.logical.singleinput.modifiers.LOPOffset
 import lupos.operator.logical.singleinput.modifiers.LOPPrefix
 import lupos.operator.logical.singleinput.modifiers.LOPReduced
-import lupos.operator.physical.noinput.POPValuesImportXML
+import lupos.operator.physical.noinput.POPValues2
 import lupos.parser.rdf.IRI
 import lupos.parser.sparql1_1.ASTAdd
 import lupos.parser.sparql1_1.ASTAddition
@@ -221,6 +221,7 @@ import lupos.shared.EGraphRefType
 import lupos.shared.EGraphRefTypeExt
 import lupos.shared.EModifyTypeExt
 import lupos.shared.GroupByClauseNotUsedException
+import lupos.shared.MemoryTable
 import lupos.shared.ProjectionDoubleDefinitionOfVariableSyntaxException
 import lupos.shared.RecoursiveVariableDefinitionSyntaxException
 import lupos.shared.SanityCheck
@@ -238,9 +239,7 @@ import lupos.shared.ValueIri
 import lupos.shared.ValueLanguageTaggedLiteral
 import lupos.shared.ValueSimpleLiteral
 import lupos.shared.ValueUndef
-import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
-import lupos.shared.parseFromAny
 import lupos.shared_inline.File
 import kotlin.jvm.JvmField
 
@@ -573,7 +572,7 @@ public class OperatorGraphVisitor(@JvmField public val query: Query) : Visitor<I
             val datasets = mutableMapOf<String, IOPBase>()
             for (d in node.datasets) {
                 try {
-                    val data = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElement.parseFromAny(File(query.getWorkingDirectory() + d.source_iri).readAsString(), d.source_iri)!!)
+                    val data = POPValues2(query, MemoryTable.parseFromAny(File(query.getWorkingDirectory() + d.source_iri).readAsString(), d.source_iri, query)!!)
                     when (d) {
                         is ASTDefaultGraph -> {
                             datasets[TripleStoreManager.DEFAULT_GRAPH_NAME] = data
@@ -1307,7 +1306,7 @@ return tmp
                 return AOPBuildInCallExists(query, parseGroup(node.children))
             }
             else -> {
-                throw SparqlFeatureNotImplementedException("BuiltInFunctionsExt." + node.function.toString())
+                throw SparqlFeatureNotImplementedException("BuiltInFunctionsExt." + BuiltInFunctionsExt.names[node.function])
             }
         }
         /*Coverage Unreachable*/

@@ -16,30 +16,43 @@
  */
 package lupos.endpoint_launcher
 
-import lupos.shared.IMyOutputStream
 import lupos.shared_inline.File
 import lupos.shared_inline.MyInputStream
 import lupos.shared_inline.MyOutputStream
 
 internal object WebRootEndpoint {
-    private fun printHeaderSuccess(stream: IMyOutputStream) {
-        stream.println("HTTP/1.1 200 OK")
-        stream.println("Content-Type: text/plain")
-        stream.println()
-    }
 
     internal fun initialize(paths: MutableMap<String, PathMappingHelper>, params: Map<String, String>, connectionInMy: MyInputStream, connectionOutMy: MyOutputStream) {
-        val webroot = "documentation/" // relative to luposdate3000 or absolute path including trailling slash
-        val basepath = "/doc/" // base path in the browser url. this may be the empty path. this must include a trailing slash
+        val webroot = "src/luposdate3000_spa_client/app/" // relative to luposdate3000 or absolute path including trailling slash
+        val basepath = "/" // base path in the browser url. this may be the empty path. this must include a trailing slash
         File(webroot).walk { p ->
             if (p.length > webroot.length) {
                 val targetPath = basepath + p.substring(webroot.length).replace("\\", "/").replace("//", "/")
                 paths[targetPath] = PathMappingHelper(true, mapOf()) {
-                    printHeaderSuccess(connectionOutMy)
+                    connectionOutMy.println("HTTP/1.1 200 OK")
+                    if (targetPath.endsWith(".html")) {
+                        connectionOutMy.println("Content-Type: text/html")
+                    } else if (targetPath.endsWith(".css")) {
+                        connectionOutMy.println("Content-Type: text/css")
+                    } else if (targetPath.endsWith(".woff")) {
+                        connectionOutMy.println("Content-Type: font/woff")
+                    } else if (targetPath.endsWith(".svg")) {
+                        connectionOutMy.println("Content-Type: image/svg+xml")
+                    } else if (targetPath.endsWith(".js")) {
+                        connectionOutMy.println("Content-Type: application/javascript")
+                    } else {
+                        connectionOutMy.println("Content-Type: text/plain")
+                    }
+                    val f = File(p)
+                    connectionOutMy.println("Content-Length: ${f.length()}")
+                    connectionOutMy.println()
                     val buf = ByteArray(4096)
-                    File(p).withInputStream { input ->
-                        val len = input.read(buf)
-                        connectionOutMy.write(buf, len)
+                    f.withInputStream { input ->
+                        var len = input.read(buf)
+                        while (len > 0) {
+                            connectionOutMy.write(buf, len)
+                            len = input.read(buf)
+                        }
                     }
                 }
             }

@@ -22,6 +22,7 @@
 @file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
+@file:Import("src/luposdate3000_scripting/generate-buildfile-helper.kt")
 @file:Import("src/luposdate3000_scripting/parsergenerator.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryTypeExt.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/dictionary/EDictionaryType.kt")
@@ -31,6 +32,17 @@
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EGarbageCollectorExt.kt")
 @file:CompilerOptions("-Xmulti-platform")
 
+import launcher.CreateModuleArgs
+import launcher.DryMode
+import launcher.ExecMode
+import launcher.InlineMode
+import launcher.IntellijMode
+import launcher.ParamClassMode
+import launcher.ReleaseMode
+import launcher.SuspendMode
+import launcher.TargetMode2
+import launcher.createBuildFileForModule
+import launcher.targetModeCompatible
 import lupos.shared.EGarbageCollectorExt
 import lupos.shared.EOperatingSystemExt
 import lupos.shared.EPartitionModeExt
@@ -48,29 +60,22 @@ import java.util.jar.JarFile
 var compilerVersion = ""
 var compileModuleArgs = mutableMapOf<String, MutableMap<String, String>>()
 var jsBrowserMode = true
-var releaseMode = ""
-var suspendMode = ""
-var inlineMode = ""
+var releaseMode = ReleaseMode.Disable
+var dryMode = DryMode.Disable
+var suspendMode = SuspendMode.Disable
+var inlineMode = InlineMode.Enable
 var partitionMode = ""
 var dictionaryMode = ""
-var proguardMode = ""
 var mainClass = ""
-var dryMode = ""
-var target = ""
-var intellijMode = ""
+var target = TargetMode2.JVM
 var runArgs = mutableListOf<String>()
 var skipArgs = false
-var compileSpecific: String? = null
-var compileSince: String? = null
 var threadCount = 1
 var processUrls = ""
 var garbageCollector = 0
 val optionsForPackages = mutableMapOf<String, MutableSet<String>>()
 val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Endpoint_Launcher" to "None", "Jena_Wrapper" to "Off")
-
-enum class ExecMode { RUN, COMPILE, HELP, COMPILE_AND_RUN, GENERATE_PARSER, GENERATE_LAUNCHER, GENERATE_ENUMS, SETUP_INTELLIJ_IDEA, SETUP_JS, UNKNOWN }
-enum class ParamClassMode { VALUES, NO_VALUE, FREE_VALUE }
-
+var intellijMode = IntellijMode.Enable
 var execMode = ExecMode.UNKNOWN
 
 fun makeUppercaseStart(s: String): String {
@@ -88,19 +93,12 @@ fun makeUppercaseStart(s: String): String {
 }
 
 fun getAllModuleConfigurations(): List<CreateModuleArgs> {
-    var releaseMode2 = ReleaseMode.valueOf(releaseMode)
-    var suspendMode2 = SuspendMode.valueOf(suspendMode)
-    var inlineMode2 = InlineMode.valueOf(inlineMode)
-    var dryMode2 = DryMode.valueOf(dryMode)
-    var target2 = TargetMode.valueOf(target)
-    var intellijMode2 = IntellijMode.valueOf(intellijMode)
     val localArgs = CreateModuleArgs()
-        .ssetReleaseMode(releaseMode2)
-        .ssetSuspendMode(suspendMode2)
-        .ssetInlineMode(inlineMode2)
-        .ssetDryMode(dryMode2)
-        .ssetTarget(target2)
-        .ssetIdeaBuildfile(intellijMode2)
+        .ssetReleaseMode(releaseMode)
+        .ssetSuspendMode(suspendMode)
+        .ssetInlineMode(inlineMode)
+        .ssetIntellijMode(intellijMode)
+        .ssetTarget(target)
         .ssetCodegenKSP(false)
         .ssetCodegenKAPT(false)
         .ssetCompilerVersion(compilerVersion)
@@ -108,6 +106,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         .ssetEnabledRunFunc { true }
     var allpackages = mutableSetOf<String>()
     var modules = mutableMapOf<String, CreateModuleArgs>()
+    val dependencyMap = mutableMapOf<String, MutableSet<String>>()
     Files.walk(Paths.get("src"), 1).forEach { it ->
         val filename = it.toString()
         val f = File(filename + "/module_config")
@@ -116,10 +115,11 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                 .ssetModuleName(makeUppercaseStart(filename.substring(filename.indexOf("luposdate3000"))))
                 .ssetModulePrefix(makeUppercaseStart(filename.substring(filename.indexOf("luposdate3000"))))
             if (filename.endsWith("_browserjs")) {
-                currentArgs = currentArgs.ssetEnabledRunFunc { jsBrowserMode && target == "JS" }
+                currentArgs = currentArgs.ssetEnabledRunFunc { jsBrowserMode && targetModeCompatible(target, TargetMode2.JS) }
             } else if (filename.endsWith("_nodejs")) {
-                currentArgs = currentArgs.ssetEnabledRunFunc { !jsBrowserMode && target == "JS" }
+                currentArgs = currentArgs.ssetEnabledRunFunc { !jsBrowserMode && targetModeCompatible(target, TargetMode2.JS) }
             }
+            val dep = mutableSetOf<String>()
             f.forEachLine { line ->
                 when {
                     line == "codegenKAPT=true" -> {
@@ -127,6 +127,9 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                     }
                     line == "codegenKSP=true" -> {
                         currentArgs = currentArgs.ssetCodegenKSP(true)
+                    }
+                    line.startsWith("dependencyLuposdate=") -> {
+                        dep.add(line.substring("dependencyLuposdate=".length))
                     }
                     line.startsWith("dependencyCommon=") -> {
                         currentArgs.dependenciesCommon.add(line.substring("dependencyCommon=".length))
@@ -148,8 +151,8 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                     }
                     line.startsWith("enabled=") -> {
                         when (line) {
-                            "enabled=intellijOnly" -> {
-                                currentArgs = currentArgs.ssetEnabledFunc { intellijMode == "Enable" }
+                            "enabled=never" -> {
+                                currentArgs = currentArgs.ssetEnabledRunFunc { false }
                             }
                             else -> {
                                 throw Exception("unknown value")
@@ -189,22 +192,18 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             }
             currentArgs = currentArgs.ssetArgs2(compileModuleArgs)
             modules[currentArgs.moduleName] = currentArgs
+            dependencyMap[currentArgs.moduleName] = dep
             allpackages.add(currentArgs.modulePrefix.toLowerCase())
         }
     }
-    val dependencyMap = mutableMapOf<String, MutableSet<String>>()
     for ((k, v) in modules) {
-        val dep = mutableSetOf<String>()
-        dependencyMap[k] = dep
-        if (v.modulePrefix != "Luposdate3000_Shared_JS" && target == "JS") {
-            dep.add("Luposdate3000_Shared_BrowserJS")
-        }
+        val dep = dependencyMap[k]!!
         if (!v.moduleName.startsWith("Luposdate3000_Shared")) {
             dep.add("Luposdate3000_Shared")
         }
-        Files.walk(Paths.get(v.moduleFolder)).forEach { it ->
-            val name = it.toString()
-            val f = java.io.File(name)
+        Files.walk(Paths.get(v.moduleFolder)).forEach { it2 ->
+            val name = it2.toString()
+            val f = File(name)
             if (f.isFile() && name.endsWith(".kt")) {
                 f.forEachLine { it ->
                     if (it.startsWith("import lupos.")) {
@@ -217,7 +216,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                             }
                             if (allpackages.contains(s)) {
                                 var found = false
-                                for ((x, y) in modules) {
+                                for (y in modules.values) {
                                     if (y.modulePrefix.toLowerCase() == s && y.enabledRunFunc()) {
                                         found = true
                                         dep.add(y.moduleName)
@@ -225,7 +224,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                                     }
                                 }
                                 if (!found) {
-                                    for ((x, y) in modules) {
+                                    for (y in modules.values) {
                                         if (y.modulePrefix.toLowerCase() == s) {
                                             found = true
                                             dep.add(y.moduleName)
@@ -248,7 +247,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         dep.remove(v.moduleName)
     }
 // add explicit dependencies
-    for ((k, v) in modules) {
+    for (v in modules.values) {
         val c = modules["Luposdate3000_Shared_Inline"]!!
         v.dependenciesCommon.addAll(c.dependenciesCommon)
         v.dependenciesJvm.addAll(c.dependenciesJvm)
@@ -336,6 +335,13 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             optionsForPackages.remove(k)
         }
     }
+    for (v in modules.values) {
+        v.dependenciesCommon.remove("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
+        v.dependenciesJvm.remove("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
+        v.dependenciesNative.remove("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
+        v.dependenciesJvmRecoursive.remove("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
+    }
+    modules["Luposdate3000_Shared"]!!.dependenciesJs.add("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
     return res
 }
 
@@ -430,22 +436,6 @@ class ParamClass {
 fun getAllModuleSpecificParams(): List<ParamClass> {
     val res = mutableListOf<ParamClass>()
     for (module in getAllModuleConfigurations()) {
-        for (opt in module.getPossibleOptions()) {
-            res.add(
-                ParamClass(
-                    "--compileArgument_${module.moduleName}:$opt",
-                    "",
-                    {
-                        var t = compileModuleArgs[module.moduleName]
-                        if (t == null) {
-                            t = mutableMapOf<String, String>()
-                            compileModuleArgs[module.moduleName] = t
-                        }
-                        t[opt] = it
-                    }
-                )
-            )
-        }
         if (module.modulePrefix == "Luposdate3000_Main") {
             if (File(File(module.moduleFolder), "runOptions").exists()) {
                 File(File(module.moduleFolder), "runOptions").forEachLine { opt ->
@@ -469,30 +459,14 @@ val compileParams = mutableListOf<ParamClass>()
 var enabledParams = mutableListOf<ParamClass>()
 val defaultParams = mutableListOf(
     ParamClass(
-        "--dryMode",
-        "Disable",
-        mapOf(
-            "Enable" to { dryMode = "Enable" },
-            "Disable" to { dryMode = "Disable" },
-        )
-    ),
-    ParamClass(
-        "--intellijMode",
-        "Disable",
-        mapOf(
-            "Enable" to { intellijMode = "Enable" },
-            "Disable" to { intellijMode = "Disable" },
-        )
-    ),
-    ParamClass(
         "--target",
-        "JVM",
-        mapOf(
-            "JVM" to { target = "JVM" },
-            "JS" to { target = "JS" },
-            "Native" to { target = "Native" },
-            "All" to { target = "All" },
-        )
+        TargetMode2.JVM.toString(),
+        TargetMode2.values().map { it -> it.toString() to { target = it } }.toMap()
+    ),
+    ParamClass(
+        "--dryMode",
+        DryMode.Disable.toString(),
+        DryMode.values().map { it -> it.toString() to { dryMode = it } }.toMap()
     ),
     ParamClass(
         "--threadCount",
@@ -510,19 +484,13 @@ val defaultParams = mutableListOf(
     ),
     ParamClass(
         "--releaseMode",
-        "Disable",
-        mapOf(
-            "Enable" to { releaseMode = "Enable" },
-            "Disable" to { releaseMode = "Disable" },
-        )
+        ReleaseMode.Disable.toString(),
+        ReleaseMode.values().map { it -> it.toString() to { releaseMode = it } }.toMap()
     ),
     ParamClass(
         "--suspendMode",
-        "Disable",
-        mapOf(
-            "Enable" to { suspendMode = "Enable" },
-            "Disable" to { suspendMode = "Disable" },
-        )
+        SuspendMode.Disable.toString(),
+        SuspendMode.values().map { it -> it.toString() to { suspendMode = it } }.toMap()
     ),
     ParamClass(
         "--compilerVersion",
@@ -536,11 +504,8 @@ val defaultParams = mutableListOf(
     ),
     ParamClass(
         "--inlineMode",
-        "Disable",
-        mapOf(
-            "Enable" to { inlineMode = "Enable" },
-            "Disable" to { inlineMode = "Disable" },
-        )
+        InlineMode.Enable.toString(),
+        InlineMode.values().map { it -> it.toString() to { inlineMode = it } }.toMap()
     ),
     ParamClass(
         "--partitionMode",
@@ -556,14 +521,6 @@ val defaultParams = mutableListOf(
         "--dictionaryMode",
         EDictionaryTypeExt.names[EDictionaryTypeExt.KV],
         EDictionaryTypeExt.names.map { it to { dictionaryMode = it } }.toMap(),
-    ),
-    ParamClass(
-        "--proguardMode",
-        "Off",
-        mapOf(
-            "On" to { proguardMode = "-pro" },
-            "Off" to { proguardMode = "" },
-        )
     ),
     ParamClass(
         "--help",
@@ -600,35 +557,6 @@ val defaultParams = mutableListOf(
         }
     ),
     ParamClass(
-        "--compile",
-        "",
-        {
-            enableParams(compileParams)
-            compileSpecific = it
-            execMode = ExecMode.COMPILE
-        }
-    ),
-    ParamClass(
-        "--compileSince",
-        "",
-        {
-            enableParams(compileParams)
-            compileSince = it
-            execMode = ExecMode.COMPILE
-        }
-    ),
-    ParamClass(
-        "--compileAll",
-        {
-            enableParams(compileParams)
-            execMode = ExecMode.COMPILE
-        }
-    ).setAdditionalHelp {
-        for (param in compileParams) {
-            param.help(it)
-        }
-    },
-    ParamClass(
         "--clearCaches",
         {
             if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
@@ -640,7 +568,6 @@ val defaultParams = mutableListOf(
             File(Platform.getGradleCache() + "${Platform.getPathSeparator()}jars-8").deleteRecursively()
             File(Platform.getGradleCache() + "${Platform.getPathSeparator()}jars-3").deleteRecursively()
             File(Platform.getMavenCache() + "${Platform.getPathSeparator()}luposdate3000").deleteRecursively()
-            File("build-cache").deleteRecursively()
             System.exit(0)
         }
     ),
@@ -649,20 +576,31 @@ val defaultParams = mutableListOf(
         {
             enableParams(compileParams)
             execMode = ExecMode.SETUP_JS
-            target = "JS"
+            target = TargetMode2.JS
+        }
+    ),
+    ParamClass(
+        "--setupSPAClient",
+        {
+            enableParams(compileParams)
+            execMode = ExecMode.SETUP_SPACLIENT
+            target = TargetMode2.JS
         }
     ),
     ParamClass(
         "--setupIntellijIdea",
         {
             enableParams(compileParams)
-            execMode = ExecMode.SETUP_INTELLIJ_IDEA
-            releaseMode = "Disable"
-            suspendMode = "Disable"
-            inlineMode = "Disable"
-            dryMode = "Enable"
-            target = "JVM"
-            intellijMode = "Enable"
+            intellijMode = IntellijMode.Enable
+            execMode = ExecMode.SETUP_GRADLE
+        }
+    ),
+    ParamClass(
+        "--setupCommandline",
+        {
+            enableParams(compileParams)
+            intellijMode = IntellijMode.Disable
+            execMode = ExecMode.SETUP_GRADLE
         }
     ),
 )
@@ -716,34 +654,30 @@ loop@ for (arg in args) {
     throw Exception("unknown argument $arg")
 }
 var appendix = ""
-if (suspendMode == "Enable") {
+if (suspendMode == SuspendMode.Enable) {
     appendix += "_Coroutines"
 } else {
     appendix += "_Threads"
 }
-if (inlineMode == "Enable") {
+if (inlineMode == InlineMode.Enable) {
     appendix += "_Inline"
 } else {
     appendix += "_NoInline"
 }
-if (releaseMode == "Enable") {
+if (releaseMode == ReleaseMode.Enable) {
     appendix += "_Release"
 } else {
     appendix += "_Debug"
 }
 when (execMode) {
     ExecMode.HELP -> onHelp()
-    ExecMode.COMPILE -> onCompile()
     ExecMode.RUN -> onRun()
     ExecMode.GENERATE_PARSER -> onGenerateParser()
     ExecMode.GENERATE_LAUNCHER -> onGenerateLauncherMain()
     ExecMode.GENERATE_ENUMS -> onGenerateEnums()
-    ExecMode.SETUP_INTELLIJ_IDEA -> onSetupIntellijIdea()
+    ExecMode.SETUP_GRADLE -> onSetupGradle()
     ExecMode.SETUP_JS -> onSetupJS()
-    ExecMode.COMPILE_AND_RUN -> {
-        onCompile()
-        onRun()
-    }
+    ExecMode.SETUP_SPACLIENT -> onSetupSPAClient()
     else -> {
         throw Exception("unknown execMode $execMode")
     }
@@ -762,36 +696,13 @@ fun onHelp() {
     }
 }
 
-fun onCompile() {
+fun onSetupGradle() {
+    File(".idea").deleteRecursively()
+    File("log").mkdirs()
     println(compileModuleArgs)
-    var foundit = false
-    if (compileSpecific != null) {
-        for (module in getAllModuleConfigurations()) {
-            if (module.enabledFunc()) {
-                if (compileSpecific!!.toLowerCase() == module.moduleName.toLowerCase()) {
-                    createBuildFileForModule(module)
-                    foundit = true
-                }
-            }
-        }
-    }
-    if (compileSince != null) {
-        for (module in getAllModuleConfigurations()) {
-            if (module.enabledFunc()) {
-                if (compileSince!!.toLowerCase() == module.moduleName.toLowerCase() || foundit) {
-                    createBuildFileForModule(module)
-                    foundit = true
-                }
-            }
-        }
-    }
-    if (foundit == false) {
-        for (module in getAllModuleConfigurations()) {
-            if (module.enabledFunc()) {
-                if (compileSpecific == null || module.moduleName.toLowerCase().startsWith(compileSpecific!!.toLowerCase())) {
-                    createBuildFileForModule(module)
-                }
-            }
+    for (module in getAllModuleConfigurations()) {
+        if (module.enabledFunc()) {
+            createBuildFileForModule(module)
         }
     }
     if (compileModuleArgs.size > 0) {
@@ -800,12 +711,6 @@ fun onCompile() {
         }
         throw Exception("there are unkown arguments")
     }
-}
-
-fun onSetupIntellijIdea() {
-    File(".idea").deleteRecursively()
-    File("log").mkdirs()
-    onCompile()
     File("build.gradle.kts").printWriter().use { outBuildGradle ->
         outBuildGradle.println("dependencies {")
         outBuildGradle.println("    project(\":src\")")
@@ -850,19 +755,17 @@ fun onSetupIntellijIdea() {
 
 fun onRun() {
     File("log").mkdirs()
-    when (target) {
-        "JVM", "All" -> {
+    when {
+        targetModeCompatible(target, TargetMode2.JVM) -> {
             val jarsLuposdate3000 = mutableListOf<String>()
+            val jars = mutableSetOf<String>()
             for (module in getAllModuleConfigurations()) {
                 if (module.enabledRunFunc()) {
-                    jarsLuposdate3000.add("build-cache${Platform.getPathSeparator()}bin$appendix${Platform.getPathSeparator()}${module.moduleName}-jvm$proguardMode.jar")
-                }
-            }
-            val jars = mutableSetOf<String>()
-            for (jar in jarsLuposdate3000) {
-                jars.add(jar)
-                File("${jar.substring(0, jar.length - 4 - proguardMode.length)}.classpath").forEachLine {
-                    jars.add(it)
+                    jarsLuposdate3000.add("${module.moduleFolder}/build/libs/${module.moduleName.toLowerCase()}-jvm-0.0.1.jar")
+                    jars.add("${module.moduleFolder}/build/libs/${module.moduleName.toLowerCase()}-jvm-0.0.1.jar")
+                    File("${module.moduleFolder}/build/external_jvm_dependencies").forEachLine {
+                        jars.add(it)
+                    }
                 }
             }
             var classpath = ""
@@ -908,8 +811,7 @@ fun onRun() {
             cmd.add("MainKt")
             cmd.addAll(runArgs)
             println(cmd)
-            println("dryMode=$dryMode")
-            if (dryMode == "Enable") {
+            if (dryMode == DryMode.Enable) {
                 println("export LUPOS_PROCESS_URLS=$processUrls")
                 println("export LUPOS_THREAD_COUNT=$threadCount")
                 println("export LUPOS_PARTITION_MODE=$partitionMode")
@@ -933,77 +835,6 @@ fun onRun() {
                         throw Exception("exit-code:: " + it.exitValue())
                     }
                 }
-            }
-        }
-        "JS" -> {
-            if (optionsChoosenForPackages["Buffer_Manager"]!! != "Inmemory") {
-                throw Exception("JS can only use 'Inmemory' as Buffer_Manager")
-            }
-            if (optionsChoosenForPackages["Jena_Wrapper"]!! != "Off") {
-                throw Exception("JS can only use 'Off' as jenaWrapper")
-            }
-            if (partitionMode != "None") {
-                throw Exception("JS can only use 'None' as partitionMode")
-            }
-            File("build-cache${Platform.getPathSeparator()}node_modules").deleteRecursively()
-            File("build-cache${Platform.getPathSeparator()}node_modules").mkdirs()
-            jsBrowserMode = false
-            val dependencies = mutableListOf<String>()
-            val scripts = mutableListOf<String>()
-            for (module in getAllModuleConfigurations()) {
-                if (module.enabledRunFunc()) {
-                    val s: String
-                    if (module.modulePrefix == module.moduleName) {
-                        s = "bin$appendix/${module.modulePrefix}.js"
-                    } else {
-                        s = "bin$appendix/${module.moduleName}/${module.modulePrefix}.js"
-                    }
-                    File("build-cache/${s.substring(0, s.length - 3)}-js.classpath").forEachLine { it ->
-                        if (!dependencies.contains(it)) {
-                            dependencies.add(it)
-                        }
-                    }
-                    if (!scripts.contains(s)) {
-                        scripts.add(s)
-                    }
-                }
-            }
-            for (s in dependencies) {
-                if (s.endsWith(".js")) {
-                    Files.copy(File(s).toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${File(s).getName()}").toPath(), REPLACE_EXISTING)
-                    Files.copy(File("$s.map").toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${File(s).getName()}.map").toPath(), REPLACE_EXISTING)
-                } else if (s.endsWith(".jar")) {
-                    val f = JarFile(File(s))
-                    for (e in f.entries()) {
-                        val name = e.getName()
-                        if (name.endsWith(".js.map")) {
-                            copyFromJar(f.getInputStream(e), "build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}$name")
-                        } else if (name.endsWith(".js") && !name.endsWith("meta.js")) {
-                            copyFromJar(f.getInputStream(e), "build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}$name")
-                        }
-                    }
-                } else {
-                    throw Exception("unknown dependency '$s'")
-                }
-            }
-            for (s in scripts) {
-                Files.copy(File("build-cache${Platform.getPathSeparator()}$s").toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${File(s).getName()}").toPath(), REPLACE_EXISTING)
-                Files.copy(File("build-cache${Platform.getPathSeparator()}$s.map").toPath(), File("build-cache${Platform.getPathSeparator()}node_modules${Platform.getPathSeparator()}${File(s).getName()}.map").toPath(), REPLACE_EXISTING)
-            }
-            File("build-cache${Platform.getPathSeparator()}nodeJsMain.js").printWriter().use { out ->
-                out.println("var mainLauncher = require(\"Luposdate3000_Main.js\")")
-                out.println("mainLauncher.mainFunc(process.argv.slice(2))")
-            }
-            val cmd = mutableListOf("node", "build-cache${Platform.getPathSeparator()}nodeJsMain.js")
-            cmd.addAll(runArgs)
-            println(cmd)
-            val p = ProcessBuilder(cmd)
-                .redirectOutput(Redirect.INHERIT)
-                .redirectError(Redirect.INHERIT)
-                .start()
-            p.waitFor()
-            if (p.exitValue() != 0) {
-                throw Exception("exit-code:: " + p.exitValue())
             }
         }
     }
@@ -1320,54 +1151,141 @@ fun copyFromJar(source: InputStream, dest: String) {
     source.close()
 }
 
+fun onSetupSPAClient() {
+// depends on "apt install nodejs npm"
+    println("onSetupSPAClient")
+    val dirname = "${File(".").absolutePath.replace("\\", "\\\\")}/src/luposdate3000_spa_client"
+    val dirluposdatejs = "$dirname/app/scripts/algos/luposdate3000"
+    val relativeUrlJs = "scripts/algos/luposdate3000"
+    val dir = File(dirname)
+    val scriptFiles = getJSScriptFiles()
+    println(File(dirluposdatejs).absolutePath)
+    File(dirluposdatejs).mkdirs()
+    val imports = mutableListOf<String>(
+        "<script>Int64Array = BigInt64Array</script>", // fix an error in kotlin compiler ..... .
+    )
+    println("scriptFiles :: $scriptFiles")
+    for (script in scriptFiles) {
+        val src = "dist-js/$script"
+        val dest = "$dirluposdatejs/${src.substring(src.lastIndexOf("/") + 1)}"
+        val dest2 = "$relativeUrlJs/${src.substring(src.lastIndexOf("/") + 1)}"
+        try {
+            Files.copy(File(src).toPath(), File(dest).toPath(), REPLACE_EXISTING)
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
+        try {
+            Files.copy(File("$src.map").toPath(), File("$dest.map").toPath(), REPLACE_EXISTING)
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
+        imports.add("<script src=\"$dest2\" ></script>")
+    }
+    val cache = mutableListOf<String>()
+    var mode = 0
+    println("$dirname/app/index.html")
+    File("$dirname/app/index.html").forEachLine { line ->
+        when (mode) {
+            0 -> {
+                cache.add(line)
+                if (line == "<!-- LUPOSDATE3000 GENERATED CODE START-->") {
+                    mode = 1
+                    cache.addAll(imports)
+                }
+            }
+            1 -> {
+                if (line == "<!-- LUPOSDATE3000 GENERATED CODE END-->") {
+                    cache.add(line)
+                    mode = 2
+                }
+            }
+            2 -> {
+                cache.add(line)
+            }
+        }
+    }
+    File("$dirname/app/index.html").printWriter().use { out ->
+        for (c in cache) {
+            out.println(c)
+        }
+    }
+    val pbin = ProcessBuilder("npm", "bin")
+        .directory(dir)
+    val bproc = pbin.start()
+    val reader = bproc.getInputStream().reader()
+    val pwd = reader.readText().trim().replace("\\", "\\\\")
+    reader.close()
+    val commands = listOf(
+        listOf("npm", "install"),
+        listOf("$pwd/bower", "install", "--allow-root"),
+        listOf("touch", "app/scripts/jst.js"),
+        listOf("$pwd/gulp"),
+    )
+    for (cmd in commands) {
+        println("cmd :: $cmd")
+        val p = ProcessBuilder(cmd)
+            .redirectOutput(Redirect.INHERIT)
+            .redirectError(Redirect.INHERIT)
+            .directory(dir)
+        val env = p.environment()
+        env["DISABLE_NOTIFIER"] = "true"
+        val p2 = p.start()
+        p2.waitFor()
+        if (p2.exitValue() != 0) {
+            throw Exception("exit-code:: " + p2.exitValue())
+        }
+    }
+}
+
+fun getJSScriptFiles(): List<String> {
+    File("dist-js").deleteRecursively()
+    File("dist-js").mkdirs()
+    val dependencies = mutableListOf<String>()
+    val scripts = mutableListOf<String>()
+    for (module in getAllModuleConfigurations()) {
+        if (module.enabledRunFunc() && module.modulePrefix != "Luposdate3000_Main") {
+            var s = "${module.moduleFolder}/build/libs/${module.moduleName.toLowerCase()}-js-0.0.1.jar"
+            if (!dependencies.contains(s)) {
+                dependencies.add(s)
+            }
+            File("${module.moduleFolder}/build/external_js_dependencies").forEachLine {
+                if (!dependencies.contains(it)) {
+                    dependencies.add(it)
+                }
+            }
+        }
+    }
+    for (s in dependencies) {
+        if (s.endsWith(".js")) {
+            scripts.add(s)
+        } else if (s.endsWith(".jar")) {
+            println(s)
+            val f = JarFile(File(s))
+            for (e in f.entries()) {
+                val name = e.getName()
+                if (name.endsWith(".js.map")) {
+                    copyFromJar(f.getInputStream(e), "dist-js/$name")
+                } else if (name.endsWith(".js") && !name.endsWith("meta.js")) {
+                    copyFromJar(f.getInputStream(e), "dist-js/$name")
+                    scripts.add(name)
+                }
+            }
+        } else {
+            throw Exception("unknown dependency '$s'")
+        }
+    }
+    return scripts
+}
+
 fun onSetupJS() {
     jsBrowserMode = true
-    File("build-cache${Platform.getPathSeparator()}index.html").printWriter().use { out ->
+    File("dist-js${Platform.getPathSeparator()}index.html").printWriter().use { out ->
         out.println("<!DOCTYPE html>")
         out.println("<html lang=\"en\">")
         out.println("<head>")
         out.println("    <meta charset=\"utf-8\">")
         out.println("    <title>Luposdate3000</title>")
-        val dependencies = mutableListOf<String>()
-        val scripts = mutableListOf<String>()
-        for (module in getAllModuleConfigurations()) {
-            if (module.enabledRunFunc() && module.modulePrefix != "Luposdate3000_Main") {
-                val s: String
-                if (module.modulePrefix == module.moduleName) {
-                    s = "bin$appendix/${module.modulePrefix}.js"
-                } else {
-                    s = "bin$appendix/${module.moduleName}/${module.modulePrefix}.js"
-                }
-                File("build-cache/${s.substring(0, s.length - 3)}-js.classpath").forEachLine { it ->
-                    if (!dependencies.contains(it)) {
-                        dependencies.add(it)
-                    }
-                }
-                if (!scripts.contains(s)) {
-                    scripts.add(s)
-                }
-            }
-        }
-        for (s in dependencies) {
-            if (s.endsWith(".js")) {
-                out.println("    <script src=\"$s\"></script>")
-            } else if (s.endsWith(".jar")) {
-                println(s)
-                val f = JarFile(File(s))
-                for (e in f.entries()) {
-                    val name = e.getName()
-                    if (name.endsWith(".js.map")) {
-                        copyFromJar(f.getInputStream(e), "build-cache/$name")
-                    } else if (name.endsWith(".js") && !name.endsWith("meta.js")) {
-                        copyFromJar(f.getInputStream(e), "build-cache/$name")
-                        out.println("    <script src=\"$name\"></script>")
-                    }
-                }
-            } else {
-                throw Exception("unknown dependency '$s'")
-            }
-        }
-        for (s in scripts) {
+        for (s in getJSScriptFiles()) {
             out.println("    <script src=\"$s\"></script>")
         }
         out.println("</head>")

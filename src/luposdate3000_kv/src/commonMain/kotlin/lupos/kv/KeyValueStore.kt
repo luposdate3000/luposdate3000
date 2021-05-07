@@ -56,26 +56,26 @@ public class KeyValueStore {
     public constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) {
         this.bufferManager = bufferManager
         this.rootPageID = rootPageID
-        rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
+        rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:58", rootPageID)
         var id1 = 0
         var id2 = 0
         if (initFromRootPage) {
             lastPage = BufferManagerPage.readInt4(rootPage, 0)
-            lastPageBuf = bufferManager.getPage(lupos.SOURCE_FILE, lastPage)
+            lastPageBuf = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:63", lastPage)
             lastPageOffset = BufferManagerPage.readInt4(rootPage, 4)
             nextID = BufferManagerPage.readInt4(rootPage, 8)
             id1 = BufferManagerPage.readInt4(rootPage, 12)
             id2 = BufferManagerPage.readInt4(rootPage, 16)
         } else {
             lastPageOffset = 4
-            lastPage = bufferManager.allocPage(lupos.SOURCE_FILE)
-            lastPageBuf = bufferManager.getPage(lupos.SOURCE_FILE, lastPage)
+            lastPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:70")
+            lastPageBuf = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:71", lastPage)
             BufferManagerPage.writeInt4(rootPage, 0, lastPage)
             BufferManagerPage.writeInt4(rootPage, 4, lastPageOffset)
             nextID = 0
             BufferManagerPage.writeInt4(rootPage, 8, nextID)
-            id1 = bufferManager.allocPage(lupos.SOURCE_FILE)
-            id2 = bufferManager.allocPage(lupos.SOURCE_FILE)
+            id1 = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:76")
+            id2 = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:77")
             BufferManagerPage.writeInt4(rootPage, 12, id1)
             BufferManagerPage.writeInt4(rootPage, 16, id2)
         }
@@ -85,38 +85,38 @@ public class KeyValueStore {
 
     @ProguardTestAnnotation
     public fun delete() {
-        bufferManager.releasePage(lupos.SOURCE_FILE, lastPage)
+        bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:87", lastPage)
         var pageid = -1
         if (nextID == 0) {
             pageid = lastPage
         } else {
             pageid = mappingID2Page[0]
             while (pageid != lastPage) {
-                val page = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
+                val page = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:94", pageid)
                 var nextPage = BufferManagerPage.readInt4(page, 0)
-                bufferManager.deletePage(lupos.SOURCE_FILE, pageid)
+                bufferManager.deletePage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:96", pageid)
                 pageid = nextPage
             }
         }
         SanityCheck.check { pageid == lastPage }
-        bufferManager.getPage(lupos.SOURCE_FILE, lastPage)
-        bufferManager.deletePage(lupos.SOURCE_FILE, lastPage)
+        bufferManager.getPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:101", lastPage)
+        bufferManager.deletePage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:102", lastPage)
         mappingID2Page.delete()
         mappingID2Off.delete()
-        bufferManager.deletePage(lupos.SOURCE_FILE, rootPageID)
+        bufferManager.deletePage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:105", rootPageID)
     }
 
     @ProguardTestAnnotation
     public fun close() {
         mappingID2Page.close()
         mappingID2Off.close()
-        bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
-        bufferManager.releasePage(lupos.SOURCE_FILE, lastPage)
+        bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:112", rootPageID)
+        bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:113", lastPage)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     private inline fun readData(data: ByteArrayWrapper, page: Int, off: Int) {
-        var p = bufferManager.getPage(lupos.SOURCE_FILE, page)
+        var p = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:118", page)
         var pid = page
         val l = BufferManagerPage.readInt4(p, off)
         ByteArrayWrapperExt.setSize(data, l)
@@ -127,8 +127,8 @@ public class KeyValueStore {
             var available = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - pageoff
             if (available == 0) {
                 var id = BufferManagerPage.readInt4(p, 0)
-                bufferManager.releasePage(lupos.SOURCE_FILE, pid)
-                p = bufferManager.getPage(lupos.SOURCE_FILE, id)
+                bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:129", pid)
+                p = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:130", id)
                 pid = id
                 pageoff = 4
                 available = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - pageoff
@@ -143,15 +143,15 @@ public class KeyValueStore {
             pageoff += len
             toread -= len
         }
-        bufferManager.releasePage(lupos.SOURCE_FILE, pid)
+        bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:145", pid)
     }
 
     private inline fun writeData(data: ByteArrayWrapper, crossinline action: (page: Int, off: Int) -> Unit) {
         if (lastPageOffset >= BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8) {
-            val pageid = bufferManager.allocPage(lupos.SOURCE_FILE)
+            val pageid = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:150")
             BufferManagerPage.writeInt4(lastPageBuf, 0, pageid)
-            bufferManager.releasePage(lupos.SOURCE_FILE, lastPage)
-            lastPageBuf = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
+            bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:152", lastPage)
+            lastPageBuf = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:153", pageid)
             lastPage = pageid
             BufferManagerPage.writeInt4(rootPage, 0, lastPage)
             lastPageOffset = 4
@@ -167,10 +167,10 @@ public class KeyValueStore {
         while (towrite > 0) {
             var available = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - lastPageOffset
             if (available == 0) {
-                val pageid = bufferManager.allocPage(lupos.SOURCE_FILE)
+                val pageid = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:169")
                 BufferManagerPage.writeInt4(lastPageBuf, 0, pageid)
-                bufferManager.releasePage(lupos.SOURCE_FILE, lastPage)
-                lastPageBuf = bufferManager.getPage(lupos.SOURCE_FILE, pageid)
+                bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:171", lastPage)
+                lastPageBuf = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:172", pageid)
                 lastPage = pageid
                 BufferManagerPage.writeInt4(rootPage, 0, lastPage)
                 lastPageOffset = 4
