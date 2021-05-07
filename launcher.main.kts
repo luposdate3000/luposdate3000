@@ -589,10 +589,6 @@ val defaultParams = mutableListOf(
         {
             enableParams(compileParams)
             execMode = ExecMode.SETUP_INTELLIJ_IDEA
-            releaseMode = ReleaseMode.Disable
-            suspendMode = SuspendMode.Disable
-            inlineMode = InlineMode.Disable
-            target = TargetMode2.JVM
         }
     ),
 )
@@ -1249,7 +1245,7 @@ fun getJSScriptFiles(): List<String> {
     }
     for (s in dependencies) {
         if (s.endsWith(".js")) {
-            scripts.add(0, s)
+            scripts.add(s)
         } else if (s.endsWith(".jar")) {
             println(s)
             val f = JarFile(File(s))
@@ -1259,7 +1255,7 @@ fun getJSScriptFiles(): List<String> {
                     copyFromJar(f.getInputStream(e), "dist-js/$name")
                 } else if (name.endsWith(".js") && !name.endsWith("meta.js")) {
                     copyFromJar(f.getInputStream(e), "dist-js/$name")
-                    scripts.add(0, name)
+                    scripts.add(name)
                 }
             }
         } else {
