@@ -40,7 +40,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     var bufferManager = BufferManager()
     var dataSize = 0
     val data = IntArray(maxSize)
-    val rootPage = bufferManager.allocPage(lupos.SOURCE_FILE)
+    val rootPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_int_array/src/commonMain/kotlin/lupos/launch/test_int_array/MainFunc.kt:42")
     var arr = MyIntArray(bufferManager, rootPage, false)
 
     fun testSetSizeOk(size: Int) {

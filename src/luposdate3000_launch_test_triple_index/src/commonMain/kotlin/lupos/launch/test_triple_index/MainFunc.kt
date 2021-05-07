@@ -46,7 +46,7 @@ private fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetRa
     var maxClearCalls = 10
     BufferManagerExt.allowInitFromDisk = false
     var bufferManager = BufferManager()
-    val rootPage = bufferManager.allocPage(lupos.SOURCE_FILE)
+    val rootPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_launch_test_triple_index/src/commonMain/kotlin/lupos/launch/test_triple_index/MainFunc.kt:48")
     val order = intArrayOf(0, 1, 2)
     var index: TripleStoreIndex = TripleStoreIndexIDTriple(bufferManager, rootPage, false)
     val dataBuffer = mutableSetOf<Int>() // 2Bytes S, 1 Byte P, 1 Byte O -> this allows fast and easy sorting

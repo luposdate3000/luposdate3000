@@ -53,13 +53,13 @@ public class DictionaryKV : ADictionary {
     public override fun close() {
         kv.close()
         vk.close()
-        bufferManager.releasePage(lupos.SOURCE_FILE, rootPageID)
+        bufferManager.releasePage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:55", rootPageID)
     }
 
     public override fun delete() {
         kv.delete()
         vk.delete()
-        bufferManager.deletePage(lupos.SOURCE_FILE, rootPageID)
+        bufferManager.deletePage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:61", rootPageID)
         File(BUFFER_HOME + "dict.page").deleteRecursively()
     }
 
@@ -68,7 +68,7 @@ public class DictionaryKV : ADictionary {
     internal constructor(bufferManager: BufferManager, rootPageID: Int, initFromRootPage: Boolean) : super() {
         isLocal = false
         this.bufferManager = bufferManager
-        rootPage = bufferManager.getPage(lupos.SOURCE_FILE, rootPageID)
+        rootPage = bufferManager.getPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:70", rootPageID)
         this.rootPageID = rootPageID
         var kvPage = 0
         var vkPage = 0
@@ -77,8 +77,8 @@ public class DictionaryKV : ADictionary {
             kvPage = BufferManagerPage.readInt4(rootPage, 4)
             vkPage = BufferManagerPage.readInt4(rootPage, 8)
         } else {
-            kvPage = bufferManager.allocPage(lupos.SOURCE_FILE)
-            vkPage = bufferManager.allocPage(lupos.SOURCE_FILE)
+            kvPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:79")
+            vkPage = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:80")
             BufferManagerPage.writeInt4(rootPage, 0, bNodeCounter)
             BufferManagerPage.writeInt4(rootPage, 4, kvPage)
             BufferManagerPage.writeInt4(rootPage, 8, vkPage)
