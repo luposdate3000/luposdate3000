@@ -98,6 +98,7 @@ class CreateModuleArgs() {
     var releaseMode: ReleaseMode = ReleaseMode.Disable
     var suspendMode: SuspendMode = SuspendMode.Disable
     var inlineMode: InlineMode = InlineMode.Disable
+    var intellijMode: IntellijMode = IntellijMode.Disable
     var target: TargetMode2 = TargetMode2.JVM
     var codegenKAPT: Boolean = false
     var codegenKSP: Boolean = false
@@ -133,6 +134,7 @@ class CreateModuleArgs() {
         res.releaseMode = releaseMode
         res.suspendMode = suspendMode
         res.inlineMode = inlineMode
+        res.intellijMode = intellijMode
         res.target = target
         res.codegenKAPT = codegenKAPT
         res.codegenKSP = codegenKSP
@@ -222,6 +224,12 @@ class CreateModuleArgs() {
     fun ssetInlineMode(inlineMode: InlineMode): CreateModuleArgs {
         val res = clone()
         res.inlineMode = inlineMode
+        return res
+    }
+
+    fun ssetIntellijMode(intellijMode: IntellijMode): CreateModuleArgs {
+        val res = clone()
+        res.intellijMode = intellijMode
         return res
     }
 
@@ -332,6 +340,15 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         val nativeDependencies = mutableSetOf<String>()
         nativeDependencies.addAll(moduleArgs.dependenciesNative)
         nativeDependencies.removeAll(commonDependencies)
+        var shared_inline_base_folder = "${File(".").absolutePath}${pathSeparatorEscaped}src$pathSeparatorEscaped"
+        var shared_config_base_folder = ""
+        if (moduleArgs.intellijMode == IntellijMode.Enable) {
+            shared_inline_base_folder += "xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}"
+            shared_config_base_folder = shared_inline_base_folder
+        } else {
+            shared_config_base_folder = shared_inline_base_folder + "xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}"
+            shared_inline_base_folder += "luposdate3000_shared_inline"
+        }
         for (filename in listOf("${moduleArgs.moduleFolder}${pathSeparator}build.gradle.kts")) {
             File(filename).printWriter().use { out ->
                 out.println("import org.jetbrains.kotlin.gradle.tasks.KotlinCompile")
@@ -517,30 +534,29 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("        }")
                 }
                 out.println("    }")
-                if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
-                    out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
-                    out.println("    sourceSets[\"commonMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}resources\")")
-                }
-                if (enableJVM) {
+                for (bb in setOf(shared_inline_base_folder, shared_config_base_folder)) {
                     if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
-                        out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
-                        out.println("    sourceSets[\"jvmMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}resources\")")
-                    }
-                }
-                if (enableJS) {
-                    if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
-                        out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
-                        out.println("    sourceSets[\"jsMain\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}resources\")")
+                        out.println("    sourceSets[\"commonMain\"].kotlin.srcDir(\"${bb}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}kotlin\")")
+                        out.println("    sourceSets[\"commonMain\"].resources.srcDir(\"${bb}${pathSeparatorEscaped}src${pathSeparatorEscaped}commonMain${pathSeparatorEscaped}resources\")")
+
+                        if (enableJVM) {
+                            out.println("    sourceSets[\"jvmMain\"].kotlin.srcDir(\"${bb}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}kotlin\")")
+                            out.println("    sourceSets[\"jvmMain\"].resources.srcDir(\"${bb}${pathSeparatorEscaped}src${pathSeparatorEscaped}jvmMain${pathSeparatorEscaped}resources\")")
+                        }
+                        if (enableJS) {
+                            out.println("    sourceSets[\"jsMain\"].kotlin.srcDir(\"${bb}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}kotlin\")")
+                            out.println("    sourceSets[\"jsMain\"].resources.srcDir(\"${bb}${pathSeparatorEscaped}src${pathSeparatorEscaped}jsMain${pathSeparatorEscaped}resources\")")
+                        }
+                        if (enableNative) {
+                            out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"${bb}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
+                            out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"${bb}${pathSeparatorEscaped}src${pathSeparatorEscaped}${moduleArgs.platform}Main${pathSeparatorEscaped}resources\")")
+                            out.println("    sourceSets[\"${moduleArgs.platform}Main\"].resources.srcDir(\"${bb}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
+                            out.println("    sourceSets[\"${moduleArgs.platform}Main\"].resources.srcDir(\"${bb}${pathSeparatorEscaped}src${pathSeparatorEscaped}${moduleArgs.platform}Main${pathSeparatorEscaped}resources\")")
+                        }
                     }
                 }
                 if (enableNative) {
                     out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"nativeMain${pathSeparatorEscaped}kotlin\")")
-                    if (!moduleArgs.moduleName.startsWith("Luposdate3000_Shared_")) {
-                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
-                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].kotlin.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}${moduleArgs.platform}Main${pathSeparatorEscaped}resources\")")
-                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}nativeMain${pathSeparatorEscaped}kotlin\")")
-                        out.println("    sourceSets[\"${moduleArgs.platform}Main\"].resources.srcDir(\"..${pathSeparatorEscaped}xxx_generated_xxx${pathSeparatorEscaped}${moduleArgs.moduleFolder}${pathSeparatorEscaped}src${pathSeparatorEscaped}${moduleArgs.platform}Main${pathSeparatorEscaped}resources\")")
-                    }
                 }
                 out.println("}")
                 if (!buildLibrary && moduleArgs.codegenKAPT) {
@@ -729,36 +745,34 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     }
                 }
             }
-            var configPathBase = "src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleArgs.moduleFolder}${pathSeparator}src"
-            var configPath = "${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}shared"
-            File(configPath).mkdirs()
+            File("${shared_inline_base_folder}${pathSeparator}src${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}shared").mkdirs()
             typeAliasUsed.putAll(typeAliasAll)
-            try {
-                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}commonMain"), ("${configPathBase}${pathSeparator}commonMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
-            } catch (e: Throwable) {
-                e.printStackTrace()
-            }
-            try {
-                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jvmMain"), ("${configPathBase}${pathSeparator}jvmMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
-            } catch (e: Throwable) {
-                e.printStackTrace()
-            }
-            try {
-                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jsMain"), ("${configPathBase}${pathSeparator}jsMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
-            } catch (e: Throwable) {
-                e.printStackTrace()
-            }
-            try {
-                copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}nativeMain"), ("${configPathBase}${pathSeparator}nativeMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
-            } catch (e: Throwable) {
-                e.printStackTrace()
+            if (moduleArgs.intellijMode == IntellijMode.Enable) {
+                try {
+                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}commonMain"), ("${shared_inline_base_folder}${pathSeparator}src${pathSeparator}commonMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
+                try {
+                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jvmMain"), ("${shared_inline_base_folder}${pathSeparator}src${pathSeparator}jvmMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
+                try {
+                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}jsMain"), ("${shared_inline_base_folder}${pathSeparator}src${pathSeparator}jsMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
+                try {
+                    copyFilesWithReplacement(("src${pathSeparator}luposdate3000_shared_inline${pathSeparator}src${pathSeparator}nativeMain"), ("${shared_inline_base_folder}${pathSeparator}src${pathSeparator}nativeMain"), replacementsDefault, pathSeparator, sharedInlineReferences)
+                } catch (e: Throwable) {
+                    e.printStackTrace()
+                }
             }
         }
         var configFile: String
-        var configPathBase = "src${pathSeparator}xxx_generated_xxx${pathSeparator}${moduleArgs.moduleFolder}${pathSeparator}src"
-        var configPath = "${configPathBase}${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}shared"
-        File(configPath).mkdirs()
-        configFile = "${configPath}${pathSeparator}Config-${moduleArgs.moduleName}.kt"
+        File("${shared_config_base_folder}${pathSeparator}src${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}shared").mkdirs()
+        configFile = "${shared_config_base_folder}${pathSeparator}src${pathSeparator}commonMain${pathSeparator}kotlin${pathSeparator}lupos${pathSeparator}shared${pathSeparator}Config-${moduleArgs.moduleName}.kt"
         println(typeAliasUsed.keys)
         println()
         // selectively copy classes which are inlined from the inline internal module <-

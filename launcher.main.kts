@@ -36,6 +36,7 @@ import launcher.CreateModuleArgs
 import launcher.DryMode
 import launcher.ExecMode
 import launcher.InlineMode
+import launcher.IntellijMode
 import launcher.ParamClassMode
 import launcher.ReleaseMode
 import launcher.SuspendMode
@@ -74,7 +75,7 @@ var processUrls = ""
 var garbageCollector = 0
 val optionsForPackages = mutableMapOf<String, MutableSet<String>>()
 val optionsChoosenForPackages = mutableMapOf<String, String>("Buffer_Manager" to "Inmemory", "Endpoint_Launcher" to "None", "Jena_Wrapper" to "Off")
-
+var intellijMode = IntellijMode.Enable
 var execMode = ExecMode.UNKNOWN
 
 fun makeUppercaseStart(s: String): String {
@@ -96,6 +97,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         .ssetReleaseMode(releaseMode)
         .ssetSuspendMode(suspendMode)
         .ssetInlineMode(inlineMode)
+        .ssetIntellijMode(intellijMode)
         .ssetTarget(target)
         .ssetCodegenKSP(false)
         .ssetCodegenKAPT(false)
@@ -149,7 +151,8 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                     }
                     line.startsWith("enabled=") -> {
                         when (line) {
-                            "enabled=intellijOnly" -> {
+                            "enabled=never" -> {
+                                currentArgs = currentArgs.ssetEnabledRunFunc { false }
                             }
                             else -> {
                                 throw Exception("unknown value")
@@ -588,7 +591,16 @@ val defaultParams = mutableListOf(
         "--setupIntellijIdea",
         {
             enableParams(compileParams)
-            execMode = ExecMode.SETUP_INTELLIJ_IDEA
+            intellijMode = IntellijMode.Enable
+            execMode = ExecMode.SETUP_GRADLE
+        }
+    ),
+    ParamClass(
+        "--setupCommandline",
+        {
+            enableParams(compileParams)
+            intellijMode = IntellijMode.Disable
+            execMode = ExecMode.SETUP_GRADLE
         }
     ),
 )
@@ -663,7 +675,7 @@ when (execMode) {
     ExecMode.GENERATE_PARSER -> onGenerateParser()
     ExecMode.GENERATE_LAUNCHER -> onGenerateLauncherMain()
     ExecMode.GENERATE_ENUMS -> onGenerateEnums()
-    ExecMode.SETUP_INTELLIJ_IDEA -> onSetupIntellijIdea()
+    ExecMode.SETUP_GRADLE -> onSetupGradle()
     ExecMode.SETUP_JS -> onSetupJS()
     ExecMode.SETUP_SPACLIENT -> onSetupSPAClient()
     else -> {
@@ -684,7 +696,7 @@ fun onHelp() {
     }
 }
 
-fun onSetupIntellijIdea() {
+fun onSetupGradle() {
     File(".idea").deleteRecursively()
     File("log").mkdirs()
     println(compileModuleArgs)
