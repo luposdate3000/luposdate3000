@@ -30,6 +30,7 @@ import lupos.operator.physical.POPBase
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
+import lupos.shared.IVisualisation
 import lupos.shared.Partition
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.operator.IOPBase

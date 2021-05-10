@@ -1156,14 +1156,12 @@ fun onSetupSPAClient() {
     println("onSetupSPAClient")
     val dirname = "${File(".").absolutePath.replace("\\", "\\\\")}/src/luposdate3000_spa_client"
     val dirluposdatejs = "$dirname/app/scripts/algos/luposdate3000"
-    val relativeUrlJs = "scripts/algos/luposdate3000"
+    val relativeUrlJs = "app/scripts/algos/luposdate3000"
     val dir = File(dirname)
     val scriptFiles = getJSScriptFiles()
     println(File(dirluposdatejs).absolutePath)
     File(dirluposdatejs).mkdirs()
-    val imports = mutableListOf<String>(
-        "<script>Int64Array = BigInt64Array</script>", // fix an error in kotlin compiler ..... .
-    )
+    val imports = mutableListOf<String>()
     println("scriptFiles :: $scriptFiles")
     for (script in scriptFiles) {
         val src = "dist-js/$script"
@@ -1188,13 +1186,13 @@ fun onSetupSPAClient() {
         when (mode) {
             0 -> {
                 cache.add(line)
-                if (line == "LUPOSDATE3000 GENERATED CODE START") {
+                if (line.contains("LUPOSDATE3000 GENERATED CODE START")) {
                     mode = 1
                     cache.addAll(imports)
                 }
             }
             1 -> {
-                if (line == "LUPOSDATE3000 GENERATED CODE END") {
+                if (line.contains("LUPOSDATE3000 GENERATED CODE END")) {
                     cache.add(line)
                     mode = 2
                 }
