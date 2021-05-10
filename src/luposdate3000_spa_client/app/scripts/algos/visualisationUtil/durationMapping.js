@@ -7,6 +7,9 @@ var durationDataVariable = [];
 
 function getDuration(string, id, label, index){
     switch(string){
+        case 'Simple':
+            return durationDataIndex.value;
+            break;
         case 'Operator-ID':
             var i;
             var j = 0;
@@ -56,7 +59,21 @@ function getDuration(string, id, label, index){
             }
             break;
         case 'Data-Index':
-            return durationDataIndex.value;
+            var max = 0;
+            var min = 999999999999999;
+            var i;
+            for (i = 0; i <= globalAnimationList.length - 1; i++) {
+                var k = parseInt(globalAnimationList[i][3],10);
+                if (k > max) {
+                    max = k;
+                }if (k < min) {
+                    min = k;
+                }
+            }
+            var durations = [1, 2, 4, 8, 16];
+            var tmp2 = scale(index,min,max,1,16);
+            var output = durations.reduce((prev, curr) => Math.abs(curr - tmp2) < Math.abs(prev - tmp2) ? curr : prev);
+            return output+'n';
             break;
         case 'Data-Variable':
             var i,j;
@@ -71,30 +88,59 @@ function getDuration(string, id, label, index){
             }
             break;
         case 'Query-Progress':
-            return durationDataIndex.value;
+            var durations = [1, 2, 4, 8, 16];
+            var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
+            var tmp2 = scale(tmp,0,100,1,16);
+            var output = durations.reduce((prev, curr) => Math.abs(curr - tmp2) < Math.abs(prev - tmp2) ? curr : prev);
+            return output+'n';
             break;
     }
 }
 
 function mappingDuration(string) {
     switch (string) {
+        case 'Simple':
+            $('#durationSettings').show();
+            $('#durationSettings').empty();
+
+            var html = '<fieldset>';
+            html += '<h7>Select a global setting.</h7><br><br>';
+            html += '<div style=overflow:hidden;>'
+            html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
+            html += '<div nexus-ui=select id=durationDataIndex style=float:left;margin-right:10px;></div>';
+            html += '</div>';
+
+            html += '</fieldset>';
+            $('#durationSettings').html(html);
+
+            durationDataIndex = new Nexus.Select('#durationDataIndex', {
+                'size': [100, 40],
+                'options': App.operators.tones
+            });
+            break;
         case 'Operator-ID':
             $('#durationSettings').show();
             $('#durationSettings').empty();
             var html = '<fieldset>';
-            html += 'Duration Settings<br>';
+
             var j;
             for (j = 0; j <= dataNodes.length - 1; j++) {
                 if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
-                    html += '' + dataNodes[j].label.split("\n")[0] + ' ';
-                    html += '<div nexus-ui=select id=durationOperator-' + j + '></div><br>';
+                    html += '<h7>'+ dataNodes[j].label.split("\n")[0] + '</h7><br>';
+                    html += '<div style=overflow:hidden;>';
+                    html += '<p style=float:left;margin-right:10px;margin-top:9px;>Duration: </p>';
+                    html += '<div nexus-ui=select id=durationOperator-'+j+' style=float:left;margin-right:10px;></div>';
+                    html += '</div>';
                 }
             }
             html+='</fieldset>';
+
+            durationOperator = [];
             $('#durationSettings').html(html);
             for (j = 0; j <= dataNodes.length - 1; j++) {
                 if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
                     var string = '#durationOperator-' + j;
+
                     durationOperator.push(new Nexus.Select(string, {
                         'size': [100, 40],
                         'options': App.operators.tones
@@ -108,12 +154,19 @@ function mappingDuration(string) {
             $('#durationSettings').empty();
 
             calcDifferentPositions();
-            html += "Duration Settings<br>";
+            var html = "<fieldset>";
+
             for (i = 0; i <= differentPositions.length - 1; i++) {
-                html += 'Layer ' + i;
-                html += '<div nexus-ui=select id=durationOperatorDepth-' + i + '></div><br>';
+                html += '<h7>Layer: '+ i + '</h7><br>';
+                html += '<div style=overflow:hidden;>';
+                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Duration: </p>';
+                html += '<div nexus-ui=select id=durationOperatorDepth-'+i+' style=float:left;margin-right:10px;></div>';
+                html += '</div>';
             }
 
+            html+="</fieldset>";
+
+            durationOperatorDepth = [];
             $('#durationSettings').html(html);
             for (i = 0; i <= differentPositions.length - 1; i++) {
                 var string = '#durationOperatorDepth-' + i;
@@ -126,14 +179,20 @@ function mappingDuration(string) {
         case 'Operator-Type':
             $('#durationSettings').show();
             $('#durationSettings').empty();
-            var html = 'Duration Seetings';
+            var html = '<fieldset>';
             calcDifferentTypes();
 
             for (i = 0; i <= differentTypes.length - 1; i++) {
-                html += 'Type: ' + differentTypes[i];
-                html += '<div nexus-ui=select id=durationOperatorType-' + i + '></div><br>';
+                html += '<h7>Type: '+ differentTypes[i] + '</h7><br>';
+                html += '<div style=overflow:hidden;>';
+                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Duration: </p>';
+                html += '<div nexus-ui=select id=durationOperatorType-'+i+' style=float:left;margin-right:10px;></div>';
+                html += '</div>';
             }
 
+            html += '</fieldset>';
+
+            durationOperatorType = [];
             $('#durationSettings').html(html);
             for (i = 0; i <= differentTypes.length - 1; i++) {
                 var string = '#durationOperatorType-' + i;
@@ -146,17 +205,22 @@ function mappingDuration(string) {
         case 'Operator-Variable':
             $('#durationSettings').show();
             $('#durationSettings').empty();
-            var html = 'Duration Settings';
+            var html = '<fieldset>';
 
             calcDifferentOperatorVariables();
 
             var i;
-
             for (i = 0; i <= differentOperatorVariables.length - 1; i++) {
-                html += 'Variable: ' + differentOperatorVariables[i];
-                html += '<div nexus-ui=select id=durationOperatorVariable-' + i + '></div><br>';
+                html += '<h7>Variable: '+ differentOperatorVariables[i] + '</h7><br>';
+                html += '<div style=overflow:hidden;>';
+                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Duration: </p>';
+                html += '<div nexus-ui=select id=durationOperatorVariable-'+i+' style=float:left;margin-right:10px;></div>';
+                html += '</div>';
             }
 
+            html += '</fieldset>';
+
+            durationOperatorType = [];
             $('#durationSettings').html(html);
             for (i = 0; i <= differentOperatorVariables.length - 1; i++) {
                 var string = '#durationOperatorVariable-' + i;
@@ -167,34 +231,33 @@ function mappingDuration(string) {
             }
             break;
         case 'Data-Index':
-            //This setting does not make much sense.
-            //Instead, simple selection will be used.
             $('#durationSettings').show();
             $('#durationSettings').empty();
-            var html = "Duration Settings<br>";
-            html += 'Duration'
-            html += '<div nexus-ui=select id=durationDataIndex></div><br>';
+            var html = "<fieldset>";
+            html += '<h7>Query progress will be mapped to note duration.</h7>';
+            html += '</fieldset>';
             $('#durationSettings').html(html);
-
-            durationDataIndex = new Nexus.Select('#durationDataIndex', {
-                'size': [100, 40],
-                'options': App.operators.tones
-            });
             break;
         case 'Data-Variable':
             $('#durationSettings').show();
             $('#durationSettings').empty();
 
-            var html = 'Duration Settings<br>';
+            var html = '<fieldset>';
 
             var i;
             calcDifferentDataVariables();
 
             for (i = 0; i <= differentDataVariables.length - 1; i++) {
-                html += 'Variable: ' + differentDataVariables[i];
-                html += '<div nexus-ui=select id=durationDataVariable-' + i + '></div><br>';
+                html += '<h7>Variable: '+ differentOperatorVariables[i] + '</h7><br>';
+                html += '<div style=overflow:hidden;>';
+                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Duration: </p>';
+                html += '<div nexus-ui=select id=durationDataVariable-'+i+' style=float:left;margin-right:10px;></div>';
+                html += '</div>';
             }
 
+            html += '</fieldset>';
+
+            durationDataIndex = [];
             $('#durationSettings').html(html);
             for (i = 0; i <= differentDataVariables.length - 1; i++) {
                 var string = '#durationDataVariable-' + i;
@@ -205,19 +268,12 @@ function mappingDuration(string) {
             }
             break;
         case 'Query-Progress':
-            //This setting does not make much sense.
-            //Instead, simple selection will be used.
             $('#durationSettings').show();
             $('#durationSettings').empty();
-            var html = "Duration Settings<br>";
-            html += 'Duration'
-            html += '<div nexus-ui=select id=durationDataIndex></div><br>';
+            var html = "<fieldset>";
+            html += '<h7>Query progress will be mapped to note duration.</h7>';
+            html += '</fieldset>';
             $('#durationSettings').html(html);
-
-            durationDataIndex = new Nexus.Select('#durationDataIndex', {
-                'size': [100, 40],
-                'options': App.operators.tones
-            });
             break;
     }
 }

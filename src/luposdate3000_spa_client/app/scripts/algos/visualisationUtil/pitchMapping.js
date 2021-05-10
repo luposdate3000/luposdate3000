@@ -3,11 +3,12 @@ var pitchOperatorDepth = [];
 var pitchOperatorType = [];
 var pitchOperatorVariable = [];
 var pitchDataVariable = [];
+var pitchSimple;
 
 function getPitch(string, id, label, index){
     switch(string){
-        case "None":
-            return 'C4';
+        case 'Simple':
+            return pitchSimple.value;
             break;
         case "Operator-ID":
             var pitchMode = parseInt($('input[type=radio][name=pitch]:checked').val(),10);
@@ -25,15 +26,15 @@ function getPitch(string, id, label, index){
                         min = k;
                     }
                 }
-                return scale(parseInt(label.split(" ")[1].split("\n")[0],10), min, max, parseInt($('#sonHz-numberMin').val(),10), parseInt($('#sonHz-numberMax').val(),10));
+                return scale(parseInt(label.split(" ")[1].split("\n")[0],10),min,max,30,800);
+                break;
             }else{
                 var i;
                 var j = 0;
                 for(i=0;i<=dataNodes.length-1;i++){
                     if(!(dataNodes[i].label.includes('AOP')||dataNodes[i].label.includes('OPBaseCompound'))) {
                         if (dataNodes[i].id == id) {
-                            var t = pitchOperator[j].value;
-                            return t;
+                            return ''+pitchOperator[j].value;
                         }
                         j++;
                     }
@@ -56,15 +57,14 @@ function getPitch(string, id, label, index){
                         min = positions[i].y;
                     }
                 }
-                return scale(networkSon.getPosition(id).y, min, max, parseInt($('#sonHz-numberMin').val(),10), parseInt($('#sonHz-numberMax').val(),10));
-
+                return  scale(networkSon.getPosition(id).y,min,max,30,800);
+                break;
             }else{
                 for(i=0;i<=dataNodes.length-1;i++){
                     if(dataNodes[i].id == id){
                         for(j=0;j<=differentPositions.length-1;j++){
                             if(Object.values(networkSon.getPositions(id))[0].y == parseInt(differentPositions[j],10)){
-                                var t = pitchOperatorDepth[j].value;
-                                return t;
+                                return ''+pitchOperatorDepth[j].value;
                             }
                         }
                     }
@@ -77,7 +77,7 @@ function getPitch(string, id, label, index){
                 if(dataNodes[i].id == id){
                     for(j=0;j<=differentTypes.length;j++){
                         if(dataNodes[i].label.split(" ")[0] == differentTypes[j]){
-                            return pitchOperatorType[j].value;
+                            return ''+pitchOperatorType[j].value;
                         }
                     }
                 }
@@ -89,7 +89,7 @@ function getPitch(string, id, label, index){
                 if(dataNodes[i].id == id){
                     for(j=0;j<=differentOperatorVariables.length;j++){
                         if(dataNodes[i].label.split("\n")[1] == differentOperatorVariables[j]){
-                            return pitchOperatorVariable[j].value;
+                            return ''+pitchOperatorVariable[j].value;
                         }
                     }
                 }
@@ -108,7 +108,7 @@ function getPitch(string, id, label, index){
                     min = k;
                 }
             }
-            return scale(index, min, max, parseInt($('#sonHz-numberMin').val(),10), parseInt($('#sonHz-numberMax').val(),10));
+            return scale(index,min,max,30,800);
             break;
         case 'Data-Variable':
             var i,j;
@@ -116,7 +116,7 @@ function getPitch(string, id, label, index){
                 if(globalAnimationList[i][3] == index){
                     for(j=0;j<=differentDataVariables.length;j++){
                         if(globalAnimationList[i][2].split(" ")[0] == differentDataVariables[j]){
-                            return pitchDataVariable[j].value;
+                            return ''+pitchDataVariable[j].value;
                         }
                     }
                 }
@@ -124,18 +124,12 @@ function getPitch(string, id, label, index){
             break;
         case 'Query-Progress':
             var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
-            return scale(tmp,0,100,parseInt($('#sonHz-numberMin').val(),10), parseInt($('#sonHz-numberMax').val(),10));
+            return scale(tmp,0,100,30,800);
             break;
     }
 }
 
 function mappingPitch(string){
-
-    //Double Handle Slider for Min & Max Frequencies
-    //Pitch Slider
-    sliderHz = document.getElementById("sonHz");
-    $('#sonHz-numberMin').val(Nexus.scale(30, 0, 100, 30, 1500));
-    $('#sonHz-numberMax').val(Nexus.scale(100, 0, 100, 30, 1500));
 
     var o;
     unusableOperators = [];
@@ -146,28 +140,46 @@ function mappingPitch(string){
     }
 
     switch (string){
+        case 'Simple':
+            $('#radioPitch').hide();
+            $('#pitchSettings').show();
+            $('#pitchSettingsExplicit').show();
+            $('#pitchSettingsExplicit').empty();
+
+            var html = '';
+            html += '<h7>Select a global setting.</h7><br><br>';
+            html += '<div style=overflow:hidden;>'
+            html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
+            html += '<div nexus-ui=select id=pitchSimple style=float:left;margin-right:10px;></div>';
+            html += '</div>';
+
+            $('#pitchSettingsExplicit').html(html);
+
+            pitchSimple = new Nexus.Select('#pitchSimple', {
+                'size': [100, 40],
+                'options': App.operators.frequence
+            });
+            break;
         case 'Operator-ID':
             $('#radioPitch').show();
             $('#pitchSettings').show();
-            $('#sonHz').show();
-            $('#sonHz-numberMin').show();
-            $('#sonHz-numberMax').show();
             $('#pitchSettingsExplicit').empty();
-            var html = '<div id=pitchHeader>Pitch Settings</div>';
-            //html += '<div id=pitchContent>';
-
-            var j;
-            for (j=0;j<=dataNodes.length-1;j++){
-                if(!(dataNodes[j].label.includes('AOP')||dataNodes[j].label.includes('OPBaseCompound'))) {
-                    html += '' + dataNodes[j].label.split("\n")[0] + ' ';
-                    html += '<div nexus-ui=select id=pitchOperator-' + j + '></div><br>';
+            var html = '<hr>';
+            var i;
+            for (i=0;i<=dataNodes.length-1;i++){
+                if(!(dataNodes[i].label.includes('AOP')||dataNodes[i].label.includes('OPBaseCompound'))) {
+                    html += '<h7>'+ dataNodes[i].label.split("\n")[0] + '</h7><br>';
+                    html += '<div style=overflow:hidden;>';
+                    html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
+                    html += '<div nexus-ui=select id=pitchOperator-'+i+' style=float:left;margin-right:10px;></div>';
+                    html += '</div>';
                 }
             }
-            //html+='</div>';
+            pitchOperator = [];
             $('#pitchSettingsExplicit').html(html);
-            for (j=0;j<=dataNodes.length-1;j++) {
-                if(!(dataNodes[j].label.includes('AOP')||dataNodes[j].label.includes('OPBaseCompound'))) {
-                    var string = '#pitchOperator-' + j;
+            for (i=0;i<=dataNodes.length-1;i++) {
+                if(!(dataNodes[i].label.includes('AOP')||dataNodes[i].label.includes('OPBaseCompound'))) {
+                    var string = '#pitchOperator-' + i;
                     pitchOperator.push(new Nexus.Select(string, {
                         'size': [100, 40],
                         'options': App.operators.frequence
@@ -179,19 +191,19 @@ function mappingPitch(string){
         case 'Operator-Depth':
             $('#radioPitch').show();
             $('#pitchSettings').show();
-            $('#sonHz').show();
-            $('#sonHz-numberMin').show();
-            $('#sonHz-numberMax').show();
             $('#pitchSettingsExplicit').empty();
-            var html = '';
+            var html = '<hr>';
 
             calcDifferentPositions();
 
             for(i=0;i<=differentPositions.length-1;i++){
-                html+='Layer '+i;
-                html += '<div nexus-ui=select id=pitchOperatorDepth-' + i + '></div><br>';
+                html += '<h7>Layer '+i+'</h7><br>';
+                html += '<div style=overflow:hidden;>'
+                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
+                html += '<div nexus-ui=select id=pitchOperatorDepth-' + i + ' style=float:left;margin-right:10px;></div>';
+                html += '</div>';
             }
-
+            pitchOperatorDepth = [];
             $('#pitchSettingsExplicit').html(html);
             for (i=0;i<=differentPositions.length-1;i++) {
                 var string = '#pitchOperatorDepth-' + i;
@@ -202,25 +214,26 @@ function mappingPitch(string){
             }
             break;
         case 'Operator-Type':
-            $('#pitchSettings').show();
-            $('#pitchSettingsExplicit').empty();
-            $('#pitchSettingsExplicit').show();
-            $('#sonHz').show();
-            $('#sonHz-numberMin').show();
-            $('#sonHz-numberMax').show();
-            $('#pitchDynamic').prop("checked",false);
-            $('#pitchExplicit').prop("checked",true);
             $('#radioPitch').hide();
+            $('#pitchSettings').show();
+            $('#pitchExplicit').prop('checked',true);
+            $('#pitchDynamic').prop('checked',false);
+            $('#pitchSettingsExplicit').show();
+            $('#pitchSettingsExplicit').empty();
             var html = '';
 
             calcDifferentTypes();
             var i;
 
             for(i=0;i<=differentTypes.length-1;i++){
-                html+='Type: '+differentTypes[i];
-                html += '<div nexus-ui=select id=pitchOperatorType-' + i + '></div><br>';
+                html += '<h7>Type: '+differentTypes[i]+'</h7><br>';
+                html += '<div style=overflow:hidden;>'
+                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
+                html += '<div nexus-ui=select id=pitchOperatorType-' + i + ' style=float:left;margin-right:10px;></div>';
+                html += '</div>';
             }
 
+            pitchOperatorType = [];
             $('#pitchSettingsExplicit').html(html);
             for (i=0;i<=differentTypes.length-1;i++) {
                 var string = '#pitchOperatorType-' + i;
@@ -231,24 +244,25 @@ function mappingPitch(string){
             }
             break;
         case 'Operator-Variable':
-            $('#pitchSettings').show();
-            $('#pitchSettingsExplicit').empty();
-            $('#pitchSettingsExplicit').show();
-            $('#sonHz').show();
-            $('#sonHz-numberMin').show();
-            $('#sonHz-numberMax').show();
-            $('#pitchDynamic').prop("checked",false);
-            $('#pitchExplicit').prop("checked",true);
             $('#radioPitch').hide();
+            $('#pitchSettings').show();
+            $('#pitchExplicit').prop('checked',true);
+            $('#pitchDynamic').prop('checked',false);
+            $('#pitchSettingsExplicit').show();
+            $('#pitchSettingsExplicit').empty();
             var html = '';
             var i;
             calcDifferentOperatorVariables();
 
             for(i=0;i<=differentOperatorVariables.length-1;i++){
-                html+='Variable: '+differentOperatorVariables[i];
-                html += '<div nexus-ui=select id=pitchOperatorVariable-' + i + '></div><br>';
+                html+='<h7>Variable: '+differentOperatorVariables[i]+'</h7><br>';
+                html += '<div style=overflow:hidden;>'
+                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
+                html += '<div nexus-ui=select id=pitchOperatorVariable-' + i + ' style=float:left;margin-right:10px;></div>';
+                html += '</div>';
             }
 
+            pitchOperatorVariable = [];
             $('#pitchSettingsExplicit').html(html);
             for (i=0;i<=differentOperatorVariables.length-1;i++) {
                 var string = '#pitchOperatorVariable-' + i;
@@ -259,27 +273,20 @@ function mappingPitch(string){
             }
             break;
         case 'Data-Index':
-            $('#pitchSettings').show();
-            $('#pitchSettingsExplicit').empty();
-            $('#pitchSettingsExplicit').show();
-            $('#sonHz').show();
-            $('#sonHz-numberMin').show();
-            $('#sonHz-numberMax').show();
-            $('#pitchDynamic').prop("checked",false);
-            $('#pitchExplicit').prop("checked",true);
             $('#radioPitch').hide();
+            $('#pitchSettings').show();
+            $('#pitchExplicit').prop('checked',true);
+            $('#pitchDynamic').prop('checked',false);
+            $('#pitchSettingsExplicit').show();
+            $('#pitchSettingsExplicit').empty();
+            var html = '<h7>Data index will be mapped to the note.</h7>';
+            $('#pitchSettingsExplicit').html(html);
             break;
         case 'Data-Variable':
+            $('#radioPitch').hide();
             $('#pitchSettings').show();
             $('#pitchSettingsExplicit').empty();
             $('#pitchSettingsExplicit').show();
-            $('#sonHz').show();
-            $('#sonHz-numberMin').show();
-            $('#sonHz-numberMax').show();
-            $('#pitchDynamic').prop("checked",false);
-            $('#pitchExplicit').prop("checked",true);
-            $('#radioPitch').hide();
-
             var html = '';
             var i;
             differentDataVariables = [];
@@ -290,10 +297,14 @@ function mappingPitch(string){
             }
 
             for(i=0;i<=differentDataVariables.length-1;i++){
-                html+='Variable: '+differentDataVariables[i];
-                html += '<div nexus-ui=select id=pitchDataVariable-' + i + '></div><br>';
+                html+='<h7>Variable: '+differentDataVariables[i]+'</h7><br>';
+                html += '<div style=overflow:hidden;>'
+                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
+                html += '<div nexus-ui=select id=pitchDataVariable-' + i + ' style=float:left;margin-right:10px;></div>';
+                html += '</div>';
             }
 
+            pitchDataVariable = [];
             $('#pitchSettingsExplicit').html(html);
             for (i=0;i<=differentDataVariables.length-1;i++) {
                 var string = '#pitchDataVariable-' + i;
@@ -304,15 +315,14 @@ function mappingPitch(string){
             }
             break;
         case 'Query-Progress':
-            $('#pitchSettings').show();
-            $('#pitchSettingsExplicit').empty();
-            $('#pitchSettingsExplicit').show();
-            $('#sonHz').show();
-            $('#sonHz-numberMin').show();
-            $('#sonHz-numberMax').show();
-            $('#pitchDynamic').prop("checked",false);
-            $('#pitchExplicit').prop("checked",true);
             $('#radioPitch').hide();
+            $('#pitchSettings').show();
+            $('#pitchExplicit').prop('checked',true);
+            $('#pitchDynamic').prop('checked',false);
+            $('#pitchSettingsExplicit').show();
+            $('#pitchSettingsExplicit').empty();
+            var html = '<h7>Query progress will be mapped to the note.</h7>';
+            $('#pitchSettingsExplicit').html(html);
             break;
     }
 }

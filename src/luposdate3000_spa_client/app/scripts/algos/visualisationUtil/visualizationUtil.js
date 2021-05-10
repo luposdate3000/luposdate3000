@@ -156,14 +156,22 @@ function getAnimationDataFromEndpoint(sessionID, url){
     var formData = {
         'sessionID': sessionID,
     };
-    var tmpResult;
     $.ajax({
         type: 'POST',
         url: url+'sparql/getVisualisationData',
         data: formData
     })
         .done(function(data) {
-            globalAnimationList = data;
+            var tmpResult = data.split("NEWDATA");
+            var i;
+            for (i=0;i<=tmpResult.length-2;i++){
+                var tmp;
+                tmp = tmpResult[i].split("NEWDATA")[0].split("||");
+                tmp[0] = parseInt(tmp[0],10);
+                tmp[1] = parseInt(tmp[1],10);
+                tmp[3] = parseInt(tmp[2],10);
+                globalAnimationList.push(tmp);
+            }
             closeSessionWithEndpoint(sessionID, url);
         });
 }
@@ -197,10 +205,10 @@ function formatResultData(){
     $("#luposdate3000_graph-select").val(physGraph.length);
     $("#luposdate3000_graph-select").trigger('change');
 
+
+
     //Load final optimized step of the physical operator graph by default
     loadData(physGraph[physGraph.length-1].split("SPLITHERE"), false);
     loadData(physGraph[physGraph.length-1].split("SPLITHERE"), true);
     replacePrefix();
-
-
 }
