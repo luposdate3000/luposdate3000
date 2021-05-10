@@ -30,7 +30,8 @@
     "main-bower-files": "^2.13.1",
     "napa": "^3.0.0",
     "opn": "^1.0.0",
-    "streamqueue": "^0.1.1"
+    "streamqueue": "^0.1.1",
+    "tone": "^14.7.77"
   },
   "engines": {
     "node": ">=0.10.0"

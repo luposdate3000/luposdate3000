@@ -91,7 +91,7 @@ gulp.task('concatJS', function(){
  "bower_components/foundation/js/foundation/foundation.tooltip.js",
  "bower_components/foundation/js/foundation/foundation.topbar.js",
  "bower_components/please-wait/build/please-wait.js",
-  "app/scripts/algos/visualisationUtil/Tone.js",
+  "node_modules/tone/build/Tone.js",
   "node_modules/tonejs-instruments#8ec9f43d6f07fdeb15e684df5a6c7efa2c3eedf6/Tonejs-Instruments.js",
   "app/scripts/algos/visualisationUtil/vis-network.min.js",
   "app/scripts/algos/visualisationUtil/NexusUI.js",

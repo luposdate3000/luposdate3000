@@ -63,17 +63,14 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
         iterator.columns = child.rows.columns
         val buffer = ByteArrayWrapper()
         iterator.next = {
-            println("$uuid next call")
             var visual = Visualisation()
             var res = child.rows.next()
             iterator.buf = child.rows.buf
             if (res < 0) {
-                println("$uuid next return closed $counter ${parent.data} ResultSetDictionaryExt.nullValue")
             } else {
                 // For each Column the data is received from the Dictionary and send to the
                 // visualization framework.
                 counter++
-                println("$uuid next return $counter ${parent.data} ${iterator.buf.map { it.toString(16) }}")
                 // Columns auf ein mal senden
                 for (j in 0..iterator.columns.size - 1) {
                     query.getDictionary().getValue(buffer, iterator.buf[res + j])
