@@ -189,7 +189,7 @@ gulp.task('images', function () {
 gulp.task('fonts', function () {
     var streamqueue = require('streamqueue');
     return streamqueue({objectMode: true},
-        gulp.src('app/bower_components/font-source-sans-pro/{EOT,OTF,TTF,WOFF}/**/*.{eot,svg,ttf,woff,otf}')
+        gulp.src('bower_components/font-source-sans-pro/{EOT,OTF,TTF,WOFF}/**/*.{eot,svg,ttf,woff,otf}')
     )
         .pipe(gulp.dest('dist/styles'));
 });
@@ -199,7 +199,7 @@ gulp.task('clean', function () {
 });
 
 
-gulp.task('build', gulp.series('html', 'svg', 'images', 'fonts', 'resources', 'instruments', function (done) {
+gulp.task('build', gulp.series('html', 'svg', 'images', 'resources', 'fonts', 'instruments', function (done) {
     console.log('build done');
 	done();
 }));
