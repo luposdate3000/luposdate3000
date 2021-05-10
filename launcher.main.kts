@@ -1216,7 +1216,6 @@ fun onSetupSPAClient() {
     val commands = listOf(
         listOf("npm", "install"),
         listOf("$pwd/bower", "install", "--allow-root"),
-        listOf("touch", "app/scripts/jst.js"),
         listOf("$pwd/gulp"),
     )
     for (cmd in commands) {
