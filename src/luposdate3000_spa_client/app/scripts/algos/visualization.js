@@ -19,7 +19,7 @@ var prefixes = []; //Stores all prefixes from the SPARQL and RDF editor
 var result;
 var currentIndex;
 //NexusUI Variables (graphical elements i.e. slider, etc)
-var slider, toggle, instrumentSimpleSelect, instrumentSimpleSelectTone;
+var slider, sliderHz, toggle, instrumentSimpleSelect, instrumentSimpleSelectTone;
 var selectArray = [];
 var selectToneArray = [];
 var selectAudio = [];
@@ -28,42 +28,28 @@ var resultValue;
 
 const panner = new Tone.Panner(0).toDestination();
 
+
+
 //Initialize all interactive elements and Luposdate3000
 // -> If evaluate Button is clicked
+// TODO: Only if checkbox "graph" is activated
 $('.query .evaluate').click(function (){
     if($('#eval-graph-sparql').prop('checked')) {
         //Loading all isntruments and the "none" Option
         var instrumentList = Object.keys(App.samples);
         instrumentList.push("None");
-        // loop through instruments and set release, connect to master output
-        for (var property in App.samples) {
-            if (App.samples.hasOwnProperty(property)) {
-                App.samples[property].release = .5;
-                App.samples[property].toDestination();
-            }
-        }
-        current = App.samples['piano'];
-        current.connect(panner)
 
         //If network was already build up:
         //Delete current Animation List and Netowrk
         if (network != null) {
-            console.log("Network already established");
             network.destroy();
-            if(networkSon != null){
-                networkSon.destroy();
-            }
+            networkSon.destroy();
             globalAnimationList = [];
-            var i;
-            for(i=0; i<=selectAudio.length-1; i++){
-                if(i==5){
-                    selectAudio[i].value = 'No';
-                }else{
-                    selectAudio[i].value = 'None';
-                }
-            }
-            $('.results-tab a').click()
-        //First time initialization
+            $('#instrumentAdvanced-select').html("")
+            $('#instrumentSimple-select').show();
+            $('#instrumentSimpleTone-select').show();
+
+            //First time initialization
         } else {
             Luposdate3000_Endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
 
@@ -84,14 +70,47 @@ $('.query .evaluate').click(function (){
                 $('#sonification-animation-speed-number').val(v);
             });
 
+
+
             //Toogle-Button for the Follow Mode
             toggle = new Nexus.Toggle('#sonification-follow', {
                 'size': [40, 30],
                 'state': false
             });
 
-            createMapping();
+            //Sonification Mode Select Box
+            /*var i;
+            for (i = 0; i <= App.operators.modes.length - 1; i++) {
+                $('#sonification-mode').append($('<option>', {
+                    value: App.operators.modes[i],
+                    text: App.operators.modes[i]
+                }));
+            }
+            $('#sonification-mode').val("Binding"); //Binding = default*/
+
+            //Select Box for the simple instrument mode
+            /*instrumentSimpleSelect = new Nexus.Select('#instrumentSimple-select', {
+                'size': [100, 40],
+                'options': instrumentList
+            });
+            //Select Box (tone duration) for the simple instrument mode
+            instrumentSimpleSelectTone = new Nexus.Select('#instrumentSimpleTone-select', {
+                'size': [50, 40],
+                'options': App.operators.tones
+            });*/
+
         }
+
+        // loop through instruments and set release, connect to master output
+        for (var property in App.samples) {
+            if (App.samples.hasOwnProperty(property)) {
+                App.samples[property].release = .5;
+                App.samples[property].toDestination();
+            }
+        }
+        //Default instrument = piano
+        current = App.samples['piano'];
+        current.connect(panner)
 
         //Show necessary elements, hide pause animation Button
         $('#luposdate3000-graph-tab').show();
@@ -101,13 +120,40 @@ $('.query .evaluate').click(function (){
         $('#luposdate3000_forward').hide();
         $('#luposdate3000_backward').hide();
 
+        //Evaluate the SPARQL Query
         evaluateSPARQL();
+        //Replace prefixes in results and animation
+
+        //Present the Results
+
+
+        //Deactivate the RDF checkbox, due to a bug when re-importing the same data
+        $('#send_rdf').prop("checked", false);
+        $('#send_rdf').prop("disabled", true);
+
+        createMapping();
 
         //Default: Simple Instrument Mode
         $('#instrumentAdvanced-select').show();
         //$('#instrumentSimple').prop("checked", true);
         $('#pitchDynamic').prop("checked",true);
-        $('#dataSorting').prop('checked',false);
+
+        /*$("#pitchHeader").on('click',function (e) {
+            console.log("clicked");
+            $header = $(this);
+            //getting the next element
+            $content = $header.next();
+            //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
+            $content.slideToggle(500, function () {
+                //execute this after slideToggle is done
+                //change text of header based on visibility of content div
+                $header.text(function () {
+                    //change text based on condition
+                    return $content.is(":visible") ? "Collapse" : "Expand";
+                });
+            });
+
+        });*/
     }
 });
 
@@ -115,7 +161,7 @@ function createMapping(){
     var html = '';
     var i;
     for (i=0;i<=App.operators.audioDimension.length-1;i++){
-        html+='<h7>'+App.operators.audioDimension[i]+' Settings</h7><br><br>';
+        html+=''+App.operators.audioDimension[i]+' ';
         html+='<div nexus-ui=select id=selectAudio-'+ i +'></div><br>';
     }
     $('#instrumentAdvanced-select').html(html);
@@ -226,19 +272,6 @@ function createMapping(){
                 });
                 $('#selectAudio-6').after($('#chordSettings'));
                 break;
-            case 7:
-                //Octave
-                selectAudio[i].on('change',function(v){
-                    //Chord
-                    if(v.value == 'None'){
-                        $('#octaveSettings').hide();
-                    }else{
-                        $('#octaveSettings').show();
-                        mappingOctave(v.value);
-                    }
-                });
-                $('#selectAudio-7').after($('#octaveSettings'));
-                break;
         }
     }
 
@@ -288,17 +321,64 @@ $('#sonification-animation-speed-number').change(function(){
     }
 });
 
-$('#pitchDynamic').click(function(){
-        $('#pitchDynamic').prop('checked',true);
-        $('#pitchExplicit').prop('checked',false);
-        $('#pitchSettingsExplicit').hide();
+//Event Listener
+//Change min Slider Handler, if the matching textfield has changed
+$('#sonHz-numberMin').change(function(){
+    var tmp = $('#sonHz-numberMin');
+    if(tmp.val() >= 30 && tmp.val() <= 1500){
+        sliderHz.valueLow = Nexus.scale(tmp.val(),30,1500,0,100);
+    }else if(tmp.val < 30){
+        $('#sonHz-numberMin').val(30);
+        sliderHz.valueLow = Nexus.scale(30,30,1500,0,100);
+    }else if(tmp.val > 1500){
+        $('#sonHz-numberMin').val(1500);
+        sliderHz.valueLow = Nexus.scale(1500,30,1500,0,100);
+    }
 });
 
-$('#pitchExplicit').click(function(){
-    $('#pitchDynamic').prop('checked',false);
-    $('#pitchExplicit').prop('checked',true);
-    $('#pitchSettingsExplicit').show();
+//Event Listener
+//Change max Slider Handler, if the matching textfield has changed
+$('#sonHz-numberMax').change(function(){
+    var tmp = $('#sonHz-numberMax');
+    if(tmp.val() >= 30 && tmp.val() <= 1500){
+        sliderHz.valueHigh = Nexus.scale(tmp.val(),30,1500,0,100);
+    }else if(tmp.val < 30){
+        $('#sonHz-numberMax').val(30);
+        sliderHz.valueHigh = Nexus.scale(30,30,1500,0,100);
+    }else if(tmp.val > 1500){
+        $('#sonHz-numberMax').val(1500);
+        sliderHz.valueHigh = Nexus.scale(1500,30,1500,0,100);
+    }
 });
+
+//Event Listener
+//Radio Buttons for the Instrument Mode
+//Show/Hide matching elements based on selection
+$('input[type=radio][name=instr]').change(function(){
+    var index = parseInt($(this).val(),10);
+    $(this).val(index);
+    if (index==0){
+        $('#instrumentSimple-select').show();
+        $('#instrumentAdvanced-select').hide();
+        $('#instrumentSimpleTone-select').show();
+
+    }else{
+        $('#instrumentSimple-select').hide();
+        $('#instrumentAdvanced-select').show();
+        $('#instrumentSimpleTone-select').hide();
+    }
+})
+
+$('input[type=radio][name=pitch]').change(function(){
+    var index = parseInt($(this).val(),10);
+    $(this).val(index);
+    if (index==0){
+        $('#pitchSettingsExplicit').hide();
+
+    }else{
+        $('#pitchSettingsExplicit').show();
+    }
+})
 
 //Event Listener
 //Check when the Graph Step Selector is changed if its at the minimum or maximum
@@ -423,89 +503,6 @@ $('#luposdate3000_play').click(function () {
     $('#luposdate3000_backward').prop('disabled', true);
     stopFlag=false;
     pauseFlag=false;
-});
-
-$('#dataSorting').click(function(){
-    //Pitch
-    selectAudio[0].value = 'Data-Index';
-    selectAudio[1].value = 'None';
-    selectAudio[2].value = 'None';
-    //Spatalization
-    selectAudio[3].value = 'Query-Progress';
-    selectAudio[4].value = 'None';
-    selectAudio[5].value = 'No';
-    selectAudio[6].value = 'None';
-    selectAudio[7].value = 'None';
-});
-
-$('#joinHighlight').click(function(){
-    selectAudio[0].value = 'None';
-    selectAudio[1].value = 'Operator-Type';
-    var i;
-    for (i=0;i<=instrumentOperatorType.length-1;i++){
-        if(differentTypes[i].includes("TripleStore")){
-            instrumentOperatorType[i].value = 'guitar-acoustic';
-        }else if(differentTypes[i].includes("Join")){
-            instrumentOperatorType[i].value = 'xylophone';
-        }else{
-            instrumentOperatorType[i].value = 'piano';
-        }
-    }
-    selectAudio[2].value = 'None';
-    selectAudio[3].value = 'None';
-    selectAudio[4].value = 'None';
-    selectAudio[5].value = 'No';
-    selectAudio[6].value = 'None';
-    selectAudio[7].value = 'None';
-})
-
-$('#reset').click(function(){
-    $('#dataSorting').prop('checked',false);
-    $('#joinHighlight').prop('checked', false);
-    $('#dataVariableDepth').prop('checked',false);
-    selectAudio[0].value = 'None';
-    selectAudio[1].value = 'None';
-    selectAudio[2].value = 'None';
-    selectAudio[3].value = 'None';
-    selectAudio[4].value = 'None';
-    selectAudio[5].value = 'No';
-    selectAudio[6].value = 'None';
-    selectAudio[7].value = 'None';
-});
-
-$('#dataVariableDepth').click(function(){
-    selectAudio[0].value = 'Data-Variable';
-    var i;
-    for (i=0;i<=differentDataVariables.length-1;i++){
-        pitchDataVariable[i].value = App.operators.frequence[i*2];
-    }
-    selectAudio[1].value = 'None';
-    selectAudio[2].value = 'None';
-    selectAudio[3].value = 'None';
-    $('#pitchExplicit').prop('checked',true);
-    selectAudio[4].value = 'Operator-Depth';
-    for (i=0;i<=differentPositions.length-1;i++){
-        switch(i) {
-            case 0:
-                durationOperatorDepth[i].value = '16n';
-                break;
-            case 1:
-                durationOperatorDepth[i].value = '8n';
-                break;
-            case 2:
-                durationOperatorDepth[i].value = '4n';
-                break;
-            case 3:
-                durationOperatorDepth[i].value = '2n';
-                break;
-            default:
-                durationOperatorDepth[i].value = '1n';
-                break;
-        }
-    }
-    selectAudio[5].value = 'No';
-    selectAudio[6].value = 'None';
-    selectAudio[7].value = 'None';
 });
 
 //Event Listener
@@ -660,8 +657,8 @@ function replacePrefix(){
 
 //Function that is getting called by the Luposdate3000 Library and pushing the data
 //to animate
-function receiveAnimation(childUUID, parentUUID, string, index){
-    //globalAnimationList.push([childUUID, parentUUID, string, index]);
+function receiveAnimation(childUUID, parentUUID, index, string){
+    globalAnimationList.push([childUUID, parentUUID, string, index]);
 }
 
 function getInstrument(string){
@@ -671,7 +668,7 @@ function getInstrument(string){
     }
 }
 
-function playNoteMapping(id, label, index) {
+function playNoteMapping(id, label, index){
     evaluateMapping();
 
     var pitchType = audioMapping[0];
@@ -681,79 +678,119 @@ function playNoteMapping(id, label, index) {
     var durationType = audioMapping[4];
     var melodyType = audioMapping[5];
     var chordType = audioMapping[6];
-    var octaveType = audioMapping[7];
 
-    var tone, velocity, duration, octave;
+    var tone, velocity, duration;
 
     //Which Instrument?
-    if (instrumentType == 'None') {
+    if(instrumentType == 'None'){
         current = App.samples['piano']; //Default = piano
-    } else {
+    }else{
         current = App.samples[getInstrument(instrumentType, id, label, index)];
     }
 
     //Loudness of the Tone
-    if (loudnessType != 'None') {
+    if (loudnessType != 'None'){
         velocity = getLoudness(loudnessType, id, label, index)
-    } else {
+    }else{
         velocity = 1;
     }
 
     //Spatialization
-    if (spatializationType != 'None') {
+    if (spatializationType != 'None'){
         panner.pan.value = getSpatialization(spatializationType, id, label, index);
-    } else {
+    }else{
         panner.pan.value = 0;
     }
 
     //Duration
-    if (durationType != 'None') {
+    if(durationType != 'None'){
         duration = getDuration(durationType, id, label, index);
-    } else {
+    }else{
         duration = '4n';
     }
 
-    //Octave
-    var b1 = pitchType == 'Operator-ID' && $('#pitchDynamic').is(':checked');
-    var b2 = pitchType == 'Operator-Depth' && $('#pitchDynamic').is(':checked');
-    var b3 = pitchType == 'Data-Index';
-    var b4 = pitchType == 'Query-Progress';
-    var b5 = chordType == 'None' && melodyType == 'No';
-    if ((b1 || b2 || b3 || b4) && b5) {
-        octave = '';
-    } else {
-        if (octaveType != 'None') {
-            octave = getOctave(octaveType, id, label, index);
-        } else {
-            octave = '3';
-        }
-    }
+    //Melody
+    //How to use melody?
 
     //What Pitch, or maybe what Chord
     //If Chord is selected the pitch settings will be ignored/overwritten
-    if(melodyType == 'No') {
-        if(chordType != 'None'){
-            tone = getChord(chordType, id, label, index);
-        }else if(pitchType != 'None'){
-            tone = getPitch(pitchType, id, label, index);
-            current.connect(panner).triggerAttackRelease(tone+octave, duration,"+0", velocity);
-        }else{
-            current.connect(panner).triggerAttackRelease('C'+octave, duration,"+0", velocity);
-        }
-    }else{
-        tone = getMelody(melodyType, id, label, index);
-    }
+    if(chordType == 'None'){
+        //No Chord selected, Pitch settings are used
 
-    if(melodyType != 'No' || chordType != 'None') {
-        if (tone[0]) {
-            current.connect(panner).triggerAttackRelease(tone[1] + octave, duration, "+0", velocity);
-            current.connect(panner).triggerAttackRelease(tone[2] + octave, duration, "+0.15", velocity);
-            current.connect(panner).triggerAttackRelease(tone[3] + octave, duration, "+0.3", velocity);
-        } else {
-            var chord = [tone[1] + octave, tone[2] + octave, tone[3] + octave];
+        //Getting the Min&Max Pitchs
+        //Getting Min&Max parameters selected
+        tone = getPitch(pitchType, id, label, index);
+        current.connect(panner).triggerAttackRelease(tone, duration,"+0", velocity);
+
+    }else{
+        //Chord selected -> Using Chord settings
+        if(melodyType == 'No') {
+            tone = getChord(chordType, id, label, index);
+        }else{
+            tone = getMelody(melodyType, id, label, index);
+        }
+        //Arpeggio?
+        if(tone[0]){
+            current.connect(panner).triggerAttackRelease(tone[1], duration, "+0", velocity);
+            current.connect(panner).triggerAttackRelease(tone[2], duration, "+0.15", velocity);
+            current.connect(panner).triggerAttackRelease(tone[3], duration, "+0.3", velocity);
+        }else{
+            var chord = [tone[1],tone[2],tone[3]];
             current.connect(panner).triggerAttackRelease(chord, duration, "+0", velocity);
         }
     }
+}
+
+//Plays the note according to the settings the user has choosen
+function playNote(id, string, index, mode, instrumentMode) {
+    var currentTone;
+    switch (instrumentMode){
+        case "0":
+            if(instrumentSimpleSelect.value == "None"){
+                current = 0;
+            }else {
+                current = App.samples[instrumentSimpleSelect.value];
+                currentTone = instrumentSimpleSelectTone.value;
+            }
+            break;
+        case "1":
+            var s = string.split("\n")[0].replace(" ","-");
+            var i;
+            for(i=0;i<=selectArray.length-1;i++){
+                if(selectArray[i].parent.id.includes(s)){
+                    if(selectArray[i].value == "None"){
+                        current = 0;
+                    }else {
+                        current = App.samples[selectArray[i].value];
+                        currentTone = selectToneArray[i].value;
+                    }
+                }
+            }
+            break;
+    }
+
+    var i;
+    var tmp = [];
+    if(mode == "Binding") {
+        for (i = 0; i <= globalAnimationList.length - 1; i++) {
+            tmp.push(globalAnimationList[i][3]);
+        }
+    }else if(mode == "Operator"){
+        index = Object.values(networkSon.getPositions(id))[0].y
+        for(i=0;i<=Object.keys(networkSon.getPositions()).length-1;i++){
+            tmp.push(Object.values(networkSon.getPositions())[i].y*(-1));
+        }
+    }
+    var maxHz = ((1500-30)/(100))*(sliderHz.valueHigh-100)+1500;
+    var minHz = ((1500-30)/(100))*(sliderHz.valueLow-100)+1500;
+    var maxIndex = Math.max(...tmp);
+    var minIndex = Math.min(...tmp);
+    //4186Hz - 30Hz
+    var newValue = ((maxHz-minHz)/(maxIndex-minIndex))*(index-maxIndex)+maxHz
+    if(current!=0) {
+        current.triggerAttackRelease(newValue, currentTone);
+    }
+
 }
 
 function addNewNode(){
@@ -761,15 +798,6 @@ function addNewNode(){
     var x_start = positions[queue[0][0]].x, y_start = positions[queue[0][0]].y - 32;
     dataSet.add([{id: 999, label: queue[0][2], group: 1}]);
     networkSon.moveNode(999, x_start, y_start);
-    if(toggle.state) {
-        networkSon.focus("999", {
-            scale: 1,
-            offset: {x: 0, y: 0},
-            locked: true,
-        });
-    }else{
-        networkSon.fit();
-    }
     playNoteMapping(dataNodes.find(element => element.id == queue[0][0]).id, dataNodes.find(element => element.id == queue[0][0]).label, queue[0][3]);
 }
 
@@ -777,7 +805,15 @@ function addNewNode(){
 async function animation(queue){
 
         //Set focus to new node if Follow-Mode is active
-
+        if(toggle.state) {
+            networkSon.focus("999", {
+                scale: 1,
+                offset: {x: 0, y: 0},
+                locked: true,
+            });
+        }else{
+            networkSon.fit();
+        }
 
         // Parameters for the animation
         var positions = networkSon.getPositions();
@@ -840,7 +876,6 @@ async function animation(queue){
                                 networkSon.fit();
                                 $('#luposdate3000_play').show();
                                 $('#luposdate3000_stop').hide();
-                                $('#luposdate3000_pause').hide();
                                 stopFlag = true;
                             }
                         })
@@ -962,21 +997,11 @@ function evaluateSPARQL(){
             var rdf = Luposdate3000_Endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string_a(App.cm['rdf'].getValue());
         }
         //Receive optimized steps for logical and physical operator graph
-        var eev = new Luposdate3000_Endpoint.lupos.endpoint_launcher.EndpointExtendedVisualize(inputValue)
+        var eev = new Luposdate3000_Endpoint.lupos.s16network.EndpointExtendedVisualize(inputValue)
         logGraph = eev.getOptimizedStepsLogical();
         physGraph = eev.getOptimizedStepsPhysical();
         //Result from the query
         result = eev.getResult();
-        var tmpResult = eev.getDataSteps();
-        var i;
-        for (i=0;i<=tmpResult.length-2;i++){
-            var tmp;
-            tmp = tmpResult[i].split("NEWDATA")[0].split("||");
-            tmp[0] = parseInt(tmp[0],10);
-            tmp[1] = parseInt(tmp[1],10);
-            tmp[3] = parseInt(tmp[3],10);
-            globalAnimationList.push(tmp);
-        }
         formatResultData();
 
     }else if(version == 'Luposdate3000 - Endpoint'){

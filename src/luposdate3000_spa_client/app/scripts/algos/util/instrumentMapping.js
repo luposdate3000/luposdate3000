@@ -7,9 +7,6 @@ var instrumentDataVariable = [];
 
 function getInstrument(string, id, label, index){
     switch(string){
-        case 'Simple':
-            return instrumentDataIndex.value;
-            break;
         case 'Operator-ID':
             var i;
             var j = 0;
@@ -85,46 +82,24 @@ function mappingInstrument(string){
         case 'None':
             $('#instrumentSettings').hide();
             break;
-        case 'Simple':
-            $('#instrumentSettings').show();
-            $('#instrumentSettings').empty();
-            var html="<fieldset>";
-
-            html+= '<h7>Select a global setting.</h7><br><br>';
-            html += '<div style=overflow:hidden;>';
-            html += '<p style=float:left;margin-right:10px;margin-top:9px;>Instrument: </p>';
-            html += '<div nexus-ui=select id=instrumentDataIndex style=float:left;margin-right:10px;></div>';
-            html += '</div>';
-
-            html+='</fieldset>';
-            $('#instrumentSettings').html(html);
-
-            instrumentDataIndex = new Nexus.Select('#instrumentDataIndex', {
-                'size': [100, 40],
-                'options': Object.keys(App.samples)
-            });
-            break;
         case 'Operator-ID':
             $('#instrumentSettings').show();
             $('#instrumentSettings').empty();
             var html = '<fieldset>';
+            html += 'Instrument Settings<br>';
             var j;
             for (j=0;j<=dataNodes.length-1;j++){
                 if(!(dataNodes[j].label.includes('AOP')||dataNodes[j].label.includes('OPBaseCompound'))) {
-                    html += '<h7>'+ dataNodes[j].label.split("\n")[0] + '</h7><br>';
-                    html += '<div style=overflow:hidden;>';
-                    html += '<p style=float:left;margin-right:10px;margin-top:9px;>Instrument: </p>';
-                    html += '<div nexus-ui=select id=instrumentOperator-'+j+' style=float:left;margin-right:10px;></div>';
-                    html += '</div>';
+                    html += '' + dataNodes[j].label.split("\n")[0] + ' ';
+                    html += '<div nexus-ui=select id=instrumentOperator-' + j + '></div><br>';
                 }
             }
             html += '</fieldset>';
             $('#instrumentSettings').html(html);
-
-            instrumentOperator = [];
             for (j=0;j<=dataNodes.length-1;j++) {
                 if(!(dataNodes[j].label.includes('AOP')||dataNodes[j].label.includes('OPBaseCompound'))) {
                     var string = '#instrumentOperator-' + j;
+                    console.log(string);
                     instrumentOperator.push(new Nexus.Select(string, {
                         'size': [100, 40],
                         'options': Object.keys(App.samples)
@@ -138,18 +113,13 @@ function mappingInstrument(string){
             $('#instrumentSettings').empty();
 
             calcDifferentPositions();
-            var html ="<fieldset>";
+            html+="Instrument Settings<br>"
             for(i=0;i<=differentPositions.length-1;i++){
-                html+='<h7>Layer '+i+'</h7><br>';
-                html += '<div style=overflow:hidden;>';
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Instrument: </p>';
-                html += '<div nexus-ui=select id=instrumentOperatorDepth-'+i+' style=float:left;margin-right:10px;></div>';
-                html += '</div>';
+                html+='Layer '+i;
+                html += '<div nexus-ui=select id=instrumentOperatorDepth-' + i + '></div><br>';
             }
-            html += '</fieldset>';
-            $('#instrumentSettings').html(html);
 
-            instrumentOperatorDepth = [];
+            $('#instrumentSettings').html(html);
             for (i=0;i<=differentPositions.length-1;i++) {
                 var string = '#instrumentOperatorDepth-' + i;
                 instrumentOperatorDepth.push(new Nexus.Select(string, {
@@ -161,21 +131,15 @@ function mappingInstrument(string){
         case 'Operator-Type':
             $('#instrumentSettings').show();
             $('#instrumentSettings').empty();
-            var html = '<fieldset>';
+            var html = 'Instrument Seetings';
             calcDifferentTypes();
-            instrumentOperatorType = [];
+
             for(i=0;i<=differentTypes.length-1;i++){
-                html+='<h7>Type: '+differentTypes[i]+'</h7><br>';
-                html += '<div style=overflow:hidden;>';
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Instrument: </p>';
-                html += '<div nexus-ui=select id=instrumentOperatorType-'+i+' style=float:left;margin-right:10px;></div>';
-                html += '</div>';
+                html+='Type: '+differentTypes[i];
+                html += '<div nexus-ui=select id=instrumentOperatorType-' + i + '></div><br>';
             }
 
-            html += '</fieldset>';
             $('#instrumentSettings').html(html);
-
-            instrumentOperatorType = [];
             for (i=0;i<=differentTypes.length-1;i++) {
                 var string = '#instrumentOperatorType-' + i;
                 instrumentOperatorType.push(new Nexus.Select(string, {
@@ -187,24 +151,18 @@ function mappingInstrument(string){
         case 'Operator-Variable':
             $('#instrumentSettings').show();
             $('#instrumentSettings').empty();
-            var html = '<fieldset>';
+            var html = 'Instrument Settings';
 
             calcDifferentOperatorVariables();
 
             var i;
 
             for(i=0;i<=differentOperatorVariables.length-1;i++){
-                html+='<h7>Variable: '+differentOperatorVariables[i]+'</h7><br>';
-                html += '<div style=overflow:hidden;>';
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Instrument: </p>';
-                html += '<div nexus-ui=select id=instrumentOperatorVariable-'+i+' style=float:left;margin-right:10px;></div>';
-                html += '</div>';
+                html+='Variable: '+differentOperatorVariables[i];
+                html += '<div nexus-ui=select id=instrumentOperatorVariable-' + i + '></div><br>';
             }
 
-            html += '</fieldset>';
             $('#instrumentSettings').html(html);
-
-            instrumentOperatorVariable = [];
             for (i=0;i<=differentOperatorVariables.length-1;i++) {
                 var string = '#instrumentOperatorVariable-' + i;
                 instrumentOperatorVariable.push(new Nexus.Select(string, {
@@ -218,16 +176,11 @@ function mappingInstrument(string){
             //Instead, simple selection will be used.
             $('#instrumentSettings').show();
             $('#instrumentSettings').empty();
-            var html="<fieldset>";
-
-            html+= '<h7>Mapping the data index to an instrument is not available. Instead choose an global instrument</h7><br><br>';
-            html += '<div style=overflow:hidden;>';
-            html += '<p style=float:left;margin-right:10px;margin-top:9px;>Instrument: </p>';
-            html += '<div nexus-ui=select id=instrumentDataIndex style=float:left;margin-right:10px;></div>';
-            html += '</div>';
-
-            html += '</fieldset>';
+            var html="Instrument Settings<br>";
+            html+='Instrument'
+            html += '<div nexus-ui=select id=instrumentDataIndex></div><br>';
             $('#instrumentSettings').html(html);
+
             instrumentDataIndex = new Nexus.Select('#instrumentDataIndex', {
                 'size': [100, 40],
                 'options': Object.keys(App.samples)
@@ -237,22 +190,16 @@ function mappingInstrument(string){
             $('#instrumentSettings').show();
             $('#instrumentSettings').empty();
 
-            var html = '<fieldset>';
+            var html = 'Instrument Settings<br>';
 
             var i;
             calcDifferentDataVariables();
 
             for(i=0;i<=differentDataVariables.length-1;i++){
-                html+='<h7>Variable: '+differentDataVariables[i]+'</h7><br>';
-                html += '<div style=overflow:hidden;>';
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Instrument: </p>';
-                html += '<div nexus-ui=select id=instrumentDataVariable-'+i+' style=float:left;margin-right:10px;></div>';
-                html += '</div>';
+                html+='Variable: '+differentDataVariables[i];
+                html += '<div nexus-ui=select id=instrumentDataVariable-' + i + '></div><br>';
             }
 
-            html += '</fieldset>';
-
-            instrumentDataVariable = [];
             $('#instrumentSettings').html(html);
             for (i=0;i<=differentDataVariables.length-1;i++) {
                 var string = '#instrumentDataVariable-' + i;
@@ -267,15 +214,9 @@ function mappingInstrument(string){
             //Instead, simple selection will be used.
             $('#instrumentSettings').show();
             $('#instrumentSettings').empty();
-            var html="<fieldset>";
-
-            html+= '<h7>Mapping the query progress to an instrument is not available. Instead choose an global instrument</h7><br><br>';
-            html += '<div style=overflow:hidden;>';
-            html += '<p style=float:left;margin-right:10px;margin-top:9px;>Instrument: </p>';
-            html += '<div nexus-ui=select id=instrumentDataIndex style=float:left;margin-right:10px;></div>';
-            html += '</div>';
-
-            html+='</fieldset>';
+            var html="Instrument Settings<br>";
+            html+='Instrument'
+            html += '<div nexus-ui=select id=instrumentDataIndex></div><br>';
             $('#instrumentSettings').html(html);
 
             instrumentDataIndex = new Nexus.Select('#instrumentDataIndex', {

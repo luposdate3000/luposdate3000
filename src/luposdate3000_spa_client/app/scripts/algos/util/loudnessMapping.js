@@ -3,13 +3,9 @@ var loudnessOperatorDepth = [];
 var loudnessOperatorType = [];
 var loudnessOperatorVariable = [];
 var loudnessDataVariable = [];
-var loudnessDataIndex;
 
 function getLoudness(string, id, label, index){
     switch(string){
-        case 'Simple':
-            return loudnessDataIndex.value;
-            break;
         case 'Operator-ID':
             var i;
             var j = 0;
@@ -72,7 +68,7 @@ function getLoudness(string, id, label, index){
                     min = k;
                 }
             }
-            return scale(index, min, max, 0, loudnessDataIndex.value);
+            return scale(index, min, max, 0, 1);
             break;
         case 'Data-Variable':
             var i,j;
@@ -88,7 +84,7 @@ function getLoudness(string, id, label, index){
             break;
         case 'Query-Progress':
             var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
-            return scale(tmp,0,100,0, loudnessDataIndex.value);
+            return scale(tmp,0,100,0, 1);
             break;
     }
 }
@@ -96,45 +92,19 @@ function getLoudness(string, id, label, index){
 function mappingLoudness(string){
     //Show Slider with min&max Loudness
     switch(string){
-        case 'Simple':
-            $('#loudnessSettings').show();
-            $('#loudnessSettings').empty();
-
-            var html = '<fieldset>';
-            html += '<h7>Select a global setting.</h7><br><br>';
-            html += '<div style=overflow:hidden;>';
-            html += '<p style=float:left;margin-right:10px;margin-top:9px;>Loudness: </p>';
-            html += '<div nexus-ui=select id=loudnessDataIndex style=float:left;margin-right:10px;></div>';
-            html += '</div>';
-
-            html += '</fieldset>';
-            $('#loudnessSettings').html(html);
-            loudnessDataIndex = new Nexus.Slider('#loudnessDataIndex', {
-                'size': [120, 40],
-                'mode': 'relative',
-                'min': 0,
-                'max': 1,
-                'step':0.05,
-                'value':0.5
-            });
-            break;
         case 'Operator-ID':
             $('#loudnessSettings').show();
             $('#loudnessSettings').empty();
-            var html = '<fieldset>';
+            var html = '</fieldset>';
+            html += 'Loudness Settings<br>';
             var j;
             for (j=0;j<=dataNodes.length-1;j++){
                 if(!(dataNodes[j].label.includes('AOP')||dataNodes[j].label.includes('OPBaseCompound'))) {
-                    html += '<h7>'+ dataNodes[j].label.split("\n")[0] + '</h7><br>';
-                    html += '<div style=overflow:hidden;>';
-                    html += '<p style=float:left;margin-right:10px;margin-top:9px;>Loudness: </p>';
-                    html += '<div nexus-ui=select id=loudnessOperator-'+j+' style=float:left;margin-right:10px;></div>';
-                    html += '</div>';
+                    html += '' + dataNodes[j].label.split("\n")[0] + ' ';
+                    html += '<div nexus-ui=select id=loudnessOperator-' + j + '></div><br>';
                 }
             }
             html += '</fieldset>';
-
-            loudnessOperator = [];
             $('#loudnessSettings').html(html);
             for (j=0;j<=dataNodes.length-1;j++) {
                 if(!(dataNodes[j].label.includes('AOP')||dataNodes[j].label.includes('OPBaseCompound'))) {
@@ -155,18 +125,12 @@ function mappingLoudness(string){
             $('#loudnessSettings').empty();
 
             calcDifferentPositions();
-            var html="<fieldset>"
+            html+="Loudness Settings<br>"
             for(i=0;i<=differentPositions.length-1;i++){
-                html += '<h7>Layer: '+i+ '</h7><br>';
-                html += '<div style=overflow:hidden;>';
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Loudness: </p>';
-                html += '<div nexus-ui=select id=loudnessOperatorDepth-'+i+' style=float:left;margin-right:10px;></div>';
-                html += '</div>';
+                html+='Layer '+i;
+                html += '<div nexus-ui=select id=loudnessOperatorDepth-' + i + '></div><br>';
             }
 
-            html += '</fieldset>';
-
-            loudnessOperatorDepth = [];
             $('#loudnessSettings').html(html);
             for (i=0;i<=differentPositions.length-1;i++) {
                 var string = '#loudnessOperatorDepth-' + i;
@@ -183,20 +147,14 @@ function mappingLoudness(string){
         case 'Operator-Type':
             $('#loudnessSettings').show();
             $('#loudnessSettings').empty();
-            var html = '<fieldset>';
+            var html = 'Loudness Seetings';
             calcDifferentTypes();
 
             for(i=0;i<=differentTypes.length-1;i++){
-                html += '<h7>Type: '+differentTypes[i]+ '</h7><br>';
-                html += '<div style=overflow:hidden;>';
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Loudness: </p>';
-                html += '<div nexus-ui=select id=loudnessOperatorType-'+i+' style=float:left;margin-right:10px;></div>';
-                html += '</div>';
+                html+='Type: '+differentTypes[i];
+                html += '<div nexus-ui=select id=loudnessOperatorType-' + i + '></div><br>';
             }
 
-            html+='</fieldset>';
-
-            loudnessOperatorType = [];
             $('#loudnessSettings').html(html);
             for (i=0;i<=differentTypes.length-1;i++) {
                 var string = '#loudnessOperatorType-' + i;
@@ -213,23 +171,17 @@ function mappingLoudness(string){
         case 'Operator-Variable':
             $('#loudnessSettings').show();
             $('#loudnessSettings').empty();
-            var html = '<fieldset>';
+            var html = 'Loudness Settings';
 
             calcDifferentOperatorVariables();
 
             var i;
 
             for(i=0;i<=differentOperatorVariables.length-1;i++){
-                html += '<h7>Variable: '+differentOperatorVariables[i]+ '</h7><br>';
-                html += '<div style=overflow:hidden;>';
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Loudness: </p>';
-                html += '<div nexus-ui=select id=loudnessOperatorVariable-'+i+' style=float:left;margin-right:10px;></div>';
-                html += '</div>';
+                html+='Variable: '+differentOperatorVariables[i];
+                html += '<div nexus-ui=select id=loudnessOperatorVariable-' + i + '></div><br>';
             }
 
-            html += '</fieldset>';
-
-            loudnessOperatorVariable = [];
             $('#loudnessSettings').html(html);
             for (i=0;i<=differentOperatorVariables.length-1;i++) {
                 var string = '#loudnessOperatorVariable-' + i;
@@ -246,46 +198,21 @@ function mappingLoudness(string){
         case 'Data-Index':
             $('#loudnessSettings').show();
             $('#loudnessSettings').empty();
-
-            var html = '<fieldset>';
-                html += '<h7>Please choose maximum loudness.</h7><br><br>';
-                html += '<div style=overflow:hidden;>';
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Loudness: </p>';
-                html += '<div nexus-ui=select id=loudnessDataIndex style=float:left;margin-right:10px;></div>';
-                html += '</div>';
-
-            html += '</fieldset>';
-            $('#loudnessSettings').html(html);
-            loudnessDataIndex = new Nexus.Slider('#loudnessDataIndex', {
-                'size': [120, 40],
-                'mode': 'relative',
-                'min': 0,
-                'max': 1,
-                'step':0.05,
-                'value':0.5
-            });
-
             break;
         case 'Data-Variable':
             $('#loudnessSettings').show();
             $('#loudnessSettings').empty();
 
-            var html = '<fieldset>';
+            var html = 'Loudness Settings<br>';
 
             var i;
             calcDifferentDataVariables();
 
             for(i=0;i<=differentDataVariables.length-1;i++){
-                html += '<h7>Variable: '+differentDataVariables[i]+ '</h7><br>';
-                html += '<div style=overflow:hidden;>';
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Loudness: </p>';
-                html += '<div nexus-ui=select id=loudnessDataVariable-'+i+' style=float:left;margin-right:10px;></div>';
-                html += '</div>';
+                html+='Variable: '+differentDataVariables[i];
+                html += '<div nexus-ui=select id=loudnessDataVariable-' + i + '></div><br>';
             }
 
-            html += '</fieldset>';
-
-            loudnessDataVariable = [];
             $('#loudnessSettings').html(html);
             for (i=0;i<=differentDataVariables.length-1;i++) {
                 var string = '#loudnessDataVariable-' + i;
@@ -302,24 +229,6 @@ function mappingLoudness(string){
         case 'Query-Progress':
             $('#loudnessSettings').show();
             $('#loudnessSettings').empty();
-
-            var html = '<fieldset>';
-            html += '<h7>Please choose maximum loudness.</h7><br><br>';
-            html += '<div style=overflow:hidden;>';
-            html += '<p style=float:left;margin-right:10px;margin-top:9px;>Loudness: </p>';
-            html += '<div nexus-ui=select id=loudnessDataIndex style=float:left;margin-right:10px;></div>';
-            html += '</div>';
-
-            html += '</fieldset>';
-            $('#loudnessSettings').html(html);
-            loudnessDataIndex = new Nexus.Slider('#loudnessDataIndex', {
-                'size': [120, 40],
-                'mode': 'relative',
-                'min': 0,
-                'max': 1,
-                'step':0.05,
-                'value':0.5
-            });
             break;
     }
 }
