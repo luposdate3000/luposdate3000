@@ -1243,13 +1243,17 @@ fun getJSScriptFiles(): List<String> {
     for (module in getAllModuleConfigurations()) {
         if (module.enabledRunFunc() && module.modulePrefix != "Luposdate3000_Main") {
             var s = "${module.moduleFolder}/build/libs/${module.moduleName.toLowerCase()}-js-0.0.1.jar"
-            if (!dependencies.contains(s)) {
-                dependencies.add(s)
-            }
             File("${module.moduleFolder}/build/external_js_dependencies").forEachLine {
                 if (!dependencies.contains(it)) {
-                    dependencies.add(it)
+                    if (it.contains("kotlin-stdlib")) {
+                        dependencies.add(0, it)
+                    } else {
+                        dependencies.add(it)
+                    }
                 }
+            }
+            if (!dependencies.contains(s)) {
+                dependencies.add(s)
             }
         }
     }

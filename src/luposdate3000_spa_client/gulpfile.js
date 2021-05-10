@@ -106,9 +106,9 @@ gulp.task('concatJS', function(){
   "app/scripts/algos/visualisationUtil/octaveMapping.js",
   "app/scripts/algos/visualisationUtil/spectrum.js",
 //LUPOSDATE3000 GENERATED CODE START
-"app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
-"app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",
 "app/scripts/algos/luposdate3000/kotlin.js",
+"app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",
+"app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
 "app/scripts/algos/luposdate3000/Luposdate3000_Shared.js",
 "app/scripts/algos/luposdate3000/Luposdate3000_Parser.js",
 "app/scripts/algos/luposdate3000/Luposdate3000_Jena_Wrapper.js",
