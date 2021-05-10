@@ -29,6 +29,5 @@ afl.*.log
 erroredTests
 external_jvm_dependencies
 external_jar_dependencies
-src/Spa-Client/app/scripts/algos/samples/*
-src/Spa-Client/node_modules/*
+src/luposdate3000_spa_client/app/scripts/algos/samples/*
 dist-js

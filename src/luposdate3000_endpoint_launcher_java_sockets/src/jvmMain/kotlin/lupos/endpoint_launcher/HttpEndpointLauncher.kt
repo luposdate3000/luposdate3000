@@ -129,7 +129,8 @@ public actual object HttpEndpointLauncher {
                                     xml,
                                     Array<IMyInputStream?>(keys.size) { null },
                                     Array<IMyOutputStream?>(keys.size) { null },
-                                    Array<Socket?>(keys.size) { null })
+                                    Array<Socket?>(keys.size) { null }
+                                )
                                 for (key in keys) {
                                     queryMappings[key] = container
                                 }

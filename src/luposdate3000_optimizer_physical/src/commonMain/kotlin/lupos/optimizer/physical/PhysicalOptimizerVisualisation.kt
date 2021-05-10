@@ -38,7 +38,7 @@ public class PhysicalOptimizerVisualisation(query: Query) : OptimizerBase(query,
                     }
                     onChange()
                 }
-           }
+            }
         }
         return res
     }

@@ -20,7 +20,6 @@ import lupos.shared.*
 import lupos.shared.SanityCheck
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
-import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 public class OPBaseCompound public constructor(query: IQuery, children: Array<IOPBase>, @JvmField public val columnProjectionOrder: List<List<String>>) : OPBase(query, EOperatorIDExt.OPCompoundID, "OPBaseCompound", children, ESortPriorityExt.PREVENT_ANY) {

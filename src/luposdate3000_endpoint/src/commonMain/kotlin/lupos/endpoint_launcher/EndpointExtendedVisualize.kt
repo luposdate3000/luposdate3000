@@ -16,11 +16,9 @@
  */
 package lupos.endpoint_launcher
 
-import kotlin.js.JsName
 import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.base.OPBaseCompound
 import lupos.operator.base.Query
 import lupos.operator.physical.singleinput.POPVisualisation
 import lupos.optimizer.ast.OperatorGraphVisitor
@@ -32,21 +30,19 @@ import lupos.parser.LookAheadTokenIterator
 import lupos.parser.sparql1_1.ASTNode
 import lupos.parser.sparql1_1.SPARQLParser
 import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
-import lupos.result_format.QueryResultToXMLStream
 import lupos.shared.IVisualisation
-import lupos.shared.MyLock
-import lupos.shared.Partition
-import lupos.shared_inline.MyPrintWriter
 import lupos.shared.operator.IOPBase
+import lupos.shared_inline.MyPrintWriter
+import kotlin.js.JsName
 
-public class EndpointExtendedVisualize (input: String): IVisualisation {
+public class EndpointExtendedVisualize(input: String) : IVisualisation {
     private var resultLog: Array<String>
     private var resultPhys: Array<String>
     private var result: String
     private var animationData: MutableList<String> = mutableListOf()
 
     init {
-        val query: String = input;
+        val query: String = input
         val q: Query = Query()
         val lcit: LexerCharIterator = LexerCharIterator(query)
         val tit: TokenIteratorSPARQLParser = TokenIteratorSPARQLParser(lcit)
@@ -82,16 +78,16 @@ public class EndpointExtendedVisualize (input: String): IVisualisation {
         result = buf.toString()
     }
 
-    private fun recursive(node: IOPBase){
+    private fun recursive(node: IOPBase) {
         for (i in node.getChildren()) {
             recursive(i)
         }
-        if (node is POPVisualisation){
+        if (node is POPVisualisation) {
             node.visualTest = this
         }
     }
 
-    @JsName ("getDataSteps")
+    @JsName("getDataSteps")
     public fun getDataSteps(): Array<String> {
         return animationData.toTypedArray()
     }
@@ -110,7 +106,6 @@ public class EndpointExtendedVisualize (input: String): IVisualisation {
     public fun getResult(): String {
         return result
     }
-
 
 // Optimising the physical operator graph and is returning each step of the process for visualisation
 /*@JsName("getOptimizedStepsPhysical")

@@ -1183,8 +1183,8 @@ fun onSetupSPAClient() {
     }
     val cache = mutableListOf<String>()
     var mode = 0
-    println("$dirname/app/index.html")
-    File("$dirname/app/index.html").forEachLine { line ->
+    println("$dirname/gulpfile.js")
+    File("$dirname/gulpfile.js").forEachLine { line ->
         when (mode) {
             0 -> {
                 cache.add(line)
@@ -1204,7 +1204,7 @@ fun onSetupSPAClient() {
             }
         }
     }
-    File("$dirname/app/index.html").printWriter().use { out ->
+    File("$dirname/gulpfile.js").printWriter().use { out ->
         for (c in cache) {
             out.println(c)
         }

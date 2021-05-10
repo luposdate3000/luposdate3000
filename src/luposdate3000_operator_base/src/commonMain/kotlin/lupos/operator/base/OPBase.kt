@@ -16,7 +16,6 @@
  */
 package lupos.operator.base
 
-import lupos.Luposdate3000_Operator_Base.MyPrintWriter
 import lupos.operator.base.multiinput.LOPJoin_Helper
 import lupos.operator.base.singleinput.LOPNOOP
 import lupos.shared.BugException
@@ -147,6 +146,7 @@ public abstract class OPBase public constructor(
         val res = node.evaluate(partition)
         return res
     }
+
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = throw EvaluateNotImplementedException(classname)
     override fun getChildrenCountRecoursive(): Int {
         var res = children.size

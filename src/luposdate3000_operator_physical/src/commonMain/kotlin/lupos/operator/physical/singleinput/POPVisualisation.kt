@@ -26,7 +26,6 @@
 
 package lupos.operator.physical.singleinput
 
-import lupos.Luposdate3000_Operator_Physical.MyOutputStream
 import lupos.operator.physical.POPBase
 import lupos.shared.*
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -75,11 +74,11 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
                 for (j in 0..iterator.columns.size - 1) {
                     query.getDictionary().getValue(buffer, iterator.buf[res + j])
                     var string = "?" + this.projectedVariables[j] + " = " + DictionaryHelper.byteArrayToSparql(buffer)
-                    //visual.sendData(getParent().getVisualUUUID(), getChildren()[0].getVisualUUUID(), iterator.buf[res + j], string)
-                    outputString = getChildren()[0].getVisualUUUID().toString()+"||"
-                    outputString += getParent().getVisualUUUID().toString()+"||"
-                    outputString += string+"||"
-                    outputString += iterator.buf[res + j].toString()+"NEWDATA"
+                    // visual.sendData(getParent().getVisualUUUID(), getChildren()[0].getVisualUUUID(), iterator.buf[res + j], string)
+                    outputString = getChildren()[0].getVisualUUUID().toString() + "||"
+                    outputString += getParent().getVisualUUUID().toString() + "||"
+                    outputString += string + "||"
+                    outputString += iterator.buf[res + j].toString() + "NEWDATA"
                     visualTest!!.sendData(outputString)
                 }
             }

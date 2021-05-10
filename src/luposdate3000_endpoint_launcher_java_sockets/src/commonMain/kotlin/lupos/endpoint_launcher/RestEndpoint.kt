@@ -97,7 +97,7 @@ internal object RestEndpoint {
                 Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement,
                 Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt,
             )
-        ){
+        ) {
             val e = params["evaluator"]
             val evaluator = if (e == null) {
                 EQueryResultToStreamExt.DEFAULT_STREAM
@@ -111,11 +111,11 @@ internal object RestEndpoint {
             }
             println("choosen ${EQueryResultToStreamExt.names[evaluator]} ${EQueryResultToStreamExt.names.map { it }}")
             var eev = EndpointExtendedVisualize(params["query"].toString())
-            val key = sessionMap.size+1
+            val key = sessionMap.size + 1
             sessionMap[key] = eev
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print(key.toString())
-            //LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+            // LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
             /*Coverage Unreachable*/
         }
 
@@ -124,15 +124,15 @@ internal object RestEndpoint {
             mapOf(
                 Pair("sessionID", "") to ::inputElement,
             )
-        ){
+        ) {
             val eev = params["sessionID"]?.let { sessionMap.get(it.toInt()) }
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
-                for (step in eev.getOptimizedStepsLogical()){
+                for (step in eev.getOptimizedStepsLogical()) {
                     connectionOutMy.print(step)
                     connectionOutMy.print("NEWTREE")
                 }
-            }else{
+            } else {
                 connectionOutMy.print("SessionNotFoundException")
             }
         }
@@ -142,15 +142,15 @@ internal object RestEndpoint {
             mapOf(
                 Pair("sessionID", "") to ::inputElement,
             )
-        ){
+        ) {
             val eev = params["sessionID"]?.let { sessionMap.get(it.toInt()) }
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
-                for (step in eev.getOptimizedStepsPhysical()){
+                for (step in eev.getOptimizedStepsPhysical()) {
                     connectionOutMy.print(step)
                     connectionOutMy.print("NEWTREE")
                 }
-            }else{
+            } else {
                 connectionOutMy.print("SessionNotFoundException")
             }
         }
@@ -159,15 +159,15 @@ internal object RestEndpoint {
             mapOf(
                 Pair("sessionID", "") to ::inputElement,
             )
-        ){
+        ) {
             val eev = params["sessionID"]?.let { sessionMap.get(it.toInt()) }
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
                 connectionOutMy.print(eev.getResult())
-            }else{
+            } else {
                 connectionOutMy.print("SessionNotFoundException")
             }
-            //LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+            // LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
             /*Coverage Unreachable*/
         }
 
@@ -176,18 +176,18 @@ internal object RestEndpoint {
             mapOf(
                 Pair("sessionID", "") to ::inputElement,
             )
-        ){
+        ) {
             val eev = params["sessionID"]?.let { sessionMap.get(it.toInt()) }
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
                 val tmp = eev.getDataSteps()
-                for (i in tmp){
+                for (i in tmp) {
                     connectionOutMy.print(i)
                 }
-            }else{
+            } else {
                 connectionOutMy.print("SessionNotFoundException")
             }
-            //LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+            // LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
             /*Coverage Unreachable*/
         }
 
@@ -196,12 +196,12 @@ internal object RestEndpoint {
             mapOf(
                 Pair("sessionID", "") to ::inputElement,
             )
-        ){
+        ) {
 
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print("SessionClosedACK")
             sessionMap.remove(params["sessionID"])
-            //LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+            // LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
             /*Coverage Unreachable*/
         }
         paths["/sparql/query"] = PathMappingHelper(
