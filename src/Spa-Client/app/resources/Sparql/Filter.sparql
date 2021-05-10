@@ -1,6 +1,0 @@
-PREFIX instance:<http://www.Department0.University0.edu/>
-
-SELECT *
-WHERE {
-  ?s ?p ?o. 
-FILTER(?o != instance:GraduateCourse0)}

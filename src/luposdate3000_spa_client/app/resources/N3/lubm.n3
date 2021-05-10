@@ -2,7 +2,7 @@
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
-@prefix instance: <http://www.Department0.University0.edu/> .
+@prefix instance:<http://www.Department0.University0.edu/> .
 
 instance:GraduateStudent1 rdf:type ub:GraduateStudent .
 instance:GraduateStudent1 ub:name "GraduateStudent1" .

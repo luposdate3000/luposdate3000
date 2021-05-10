@@ -1179,7 +1179,7 @@ fun onSetupSPAClient() {
         } catch (e: Throwable) {
             e.printStackTrace()
         }
-        imports.add("<script src=\"$dest2\" ></script>")
+        imports.add("\"$dest2\",")
     }
     val cache = mutableListOf<String>()
     var mode = 0
@@ -1188,13 +1188,13 @@ fun onSetupSPAClient() {
         when (mode) {
             0 -> {
                 cache.add(line)
-                if (line == "<!-- LUPOSDATE3000 GENERATED CODE START-->") {
+                if (line == "LUPOSDATE3000 GENERATED CODE START") {
                     mode = 1
                     cache.addAll(imports)
                 }
             }
             1 -> {
-                if (line == "<!-- LUPOSDATE3000 GENERATED CODE END-->") {
+                if (line == "LUPOSDATE3000 GENERATED CODE END") {
                     cache.add(line)
                     mode = 2
                 }
