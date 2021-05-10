@@ -31,3 +31,4 @@ external_jvm_dependencies
 external_jar_dependencies
 src/luposdate3000_spa_client/app/scripts/algos/samples/*
 dist-js
+settings.gradle
