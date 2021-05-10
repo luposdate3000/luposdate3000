@@ -16,13 +16,11 @@
  */
 package lupos.operator.base
 
-import lupos.shared.EOperatorIDExt
-import lupos.shared.ESortPriorityExt
-import lupos.shared.IQuery
+import lupos.shared.*
 import lupos.shared.SanityCheck
-import lupos.shared.XMLElement
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IOPBase
+import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
 
 public class OPBaseCompound public constructor(query: IQuery, children: Array<IOPBase>, @JvmField public val columnProjectionOrder: List<List<String>>) : OPBase(query, EOperatorIDExt.OPCompoundID, "OPBaseCompound", children, ESortPriorityExt.PREVENT_ANY) {
@@ -45,6 +43,7 @@ public class OPBaseCompound public constructor(query: IQuery, children: Array<IO
     }
 
     override /*suspend*/ fun calculateHistogram(): HistogramResult = SanityCheck.checkUnreachable()
+
     override fun equals(other: Any?): Boolean {
         if (other !is OPBaseCompound) {
             return false

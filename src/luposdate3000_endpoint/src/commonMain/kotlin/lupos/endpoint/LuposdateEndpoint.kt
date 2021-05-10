@@ -67,12 +67,12 @@ import lupos.shared.optimizer.distributedOptimizerQueryFactory
 import lupos.shared.tripleStoreManager
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File
-import lupos.shared_inline.MyPrintWriter
 import lupos.shared_inline.MyStringStream
 import lupos.shared_inline.Platform
 import lupos.triple_store_manager.TripleStoreManagerImpl
 import kotlin.js.JsName
 import kotlin.jvm.JvmField
+import lupos.shared_inline.MyPrintWriter
 
 /*
  * This is the _interface_ of the database

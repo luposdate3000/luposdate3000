@@ -125,7 +125,11 @@ public actual object HttpEndpointLauncher {
                                     }
                                 }
                                 println("register ... :: $hostname:$port -> $keys")
-                                val container = QueryMappingContainer(xml, Array<IMyInputStream?>(keys.size) { null }, Array<IMyOutputStream?>(keys.size) { null }, Array<Socket?>(keys.size) { null })
+                                val container = QueryMappingContainer(
+                                    xml,
+                                    Array<IMyInputStream?>(keys.size) { null },
+                                    Array<IMyOutputStream?>(keys.size) { null },
+                                    Array<Socket?>(keys.size) { null })
                                 for (key in keys) {
                                     queryMappings[key] = container
                                 }
@@ -164,7 +168,10 @@ public actual object HttpEndpointLauncher {
 // only launch if all receivers are started
 // init dictionary
                                         var idx2 = dictionaryURL.indexOf("/")
-                                        val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n")
+                                        val conn = comm.openConnection(
+                                            dictionaryURL.substring(0, idx2),
+                                            "POST " + dictionaryURL.substring(idx2) + "\n\n"
+                                        )
                                         val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second)
                                         val query = Query(remoteDictionary)
                                         query.setDictionaryUrl(dictionaryURL)
@@ -207,6 +214,7 @@ public actual object HttpEndpointLauncher {
                                 dontCloseSockets = true
                                 queryMappings.remove(key)
                             }
+
                             paths["/distributed/query/list"] = PathMappingHelper(true, mapOf()) {
                                 printHeaderSuccess(connectionOutMy)
                                 for ((k, v) in queryMappings) {

@@ -1,0 +1,41 @@
+{
+  "name": "ld-spa",
+  "version": "0.1.0",
+  "dependencies": {
+    "node-sass": "^4.9.1"
+  },
+  "devDependencies": {
+    "bower": "^1.8.12",
+    "coffeelint": "^1.8.1",
+    "coffeelint-use-strict": "0.0.1",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.3.1",
+    "gulp-coffee": "^2.2.0",
+    "gulp-coffeelint": "^0.4.0",
+    "gulp-filter": "^5.1.0",
+    "gulp-flatten": "^0.0.4",
+    "gulp-hjson": "^1.5.0",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-jshint": "^2.1.0",
+    "gulp-jst-concat": "hauptbenutzer/gulp-jst-concat",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-notify": "^2.0.1",
+    "gulp-plumber": "^0.6.6",
+    "gulp-sass": "^4.0.1",
+    "gulp-size": "^1.1.0",
+    "gulp-svg-sprite": "^1.0.11",
+    "gulp-useref": "^3.1.5",
+    "gulp-util": "^3.0.1",
+    "gulp-concat": "^2.6.1",
+    "main-bower-files": "^2.13.1",
+    "opn": "^1.0.0",
+    "streamqueue": "^0.1.1"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hauptbenutzer/luposdate-spa-client.git"
+  }
+}

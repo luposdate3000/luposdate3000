@@ -39,6 +39,7 @@ import kotlin.jvm.JvmField
 internal object RestEndpoint {
     @JvmField
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
+    internal var sessionMap = mutableMapOf<Int, EndpointExtendedVisualize>()
 
     @Suppress("NOTHING_TO_INLNE")
     private inline fun registerDictionary(key: String): RemoteDictionaryServer {
@@ -89,6 +90,119 @@ internal object RestEndpoint {
             JenaWrapper.loadFromFile(params["file"]!!)
             printHeaderSuccess(connectionOutMy)
             connectionOutMy.print("success")
+        }
+        paths["/sparql/startSession"] = PathMappingHelper(
+            true,
+            mapOf(
+                Pair("query", "SELECT * WHERE { ?s ?p ?o . }") to ::inputElement,
+                Pair("evaluator", "") to ::selectElementEQueryResultToStreamExt,
+            )
+        ){
+            val e = params["evaluator"]
+            val evaluator = if (e == null) {
+                EQueryResultToStreamExt.DEFAULT_STREAM
+            } else {
+                val e2 = EQueryResultToStreamExt.names.indexOf(e)
+                if (e2 >= 0) {
+                    e2
+                } else {
+                    EQueryResultToStreamExt.DEFAULT_STREAM
+                }
+            }
+            println("choosen ${EQueryResultToStreamExt.names[evaluator]} ${EQueryResultToStreamExt.names.map { it }}")
+            var eev = EndpointExtendedVisualize(params["query"].toString())
+            val key = sessionMap.size+1
+            sessionMap[key] = eev
+            printHeaderSuccess(connectionOutMy)
+            connectionOutMy.print(key.toString())
+            //LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+            /*Coverage Unreachable*/
+        }
+
+        paths["/sparql/getLogicalVisual"] = PathMappingHelper(
+            true,
+            mapOf(
+                Pair("sessionID", "") to ::inputElement,
+            )
+        ){
+            val eev = params["sessionID"]?.let { sessionMap.get(it.toInt()) }
+            printHeaderSuccess(connectionOutMy)
+            if (eev != null) {
+                for (step in eev.getOptimizedStepsLogical()){
+                    connectionOutMy.print(step)
+                    connectionOutMy.print("NEWTREE")
+                }
+            }else{
+                connectionOutMy.print("SessionNotFoundException")
+            }
+        }
+
+        paths["/sparql/getPhysicalVisual"] = PathMappingHelper(
+            true,
+            mapOf(
+                Pair("sessionID", "") to ::inputElement,
+            )
+        ){
+            val eev = params["sessionID"]?.let { sessionMap.get(it.toInt()) }
+            printHeaderSuccess(connectionOutMy)
+            if (eev != null) {
+                for (step in eev.getOptimizedStepsPhysical()){
+                    connectionOutMy.print(step)
+                    connectionOutMy.print("NEWTREE")
+                }
+            }else{
+                connectionOutMy.print("SessionNotFoundException")
+            }
+        }
+        paths["/sparql/getResult"] = PathMappingHelper(
+            true,
+            mapOf(
+                Pair("sessionID", "") to ::inputElement,
+            )
+        ){
+            val eev = params["sessionID"]?.let { sessionMap.get(it.toInt()) }
+            printHeaderSuccess(connectionOutMy)
+            if (eev != null) {
+                connectionOutMy.print(eev.getResult())
+            }else{
+                connectionOutMy.print("SessionNotFoundException")
+            }
+            //LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+            /*Coverage Unreachable*/
+        }
+
+        paths["/sparql/getVisualisationData"] = PathMappingHelper(
+            true,
+            mapOf(
+                Pair("sessionID", "") to ::inputElement,
+            )
+        ){
+            val eev = params["sessionID"]?.let { sessionMap.get(it.toInt()) }
+            printHeaderSuccess(connectionOutMy)
+            if (eev != null) {
+                val tmp = eev.getDataSteps()
+                for (i in tmp){
+                    connectionOutMy.print(i)
+                }
+            }else{
+                connectionOutMy.print("SessionNotFoundException")
+            }
+            //LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+            /*Coverage Unreachable*/
+        }
+
+        paths["/sparql/closeSession"] = PathMappingHelper(
+            true,
+            mapOf(
+                Pair("sessionID", "") to ::inputElement,
+            )
+        ){
+
+            printHeaderSuccess(connectionOutMy)
+            connectionOutMy.print("SessionClosedACK")
+            sessionMap.remove(params["sessionID"])
+            //LuposdateEndpoint.evaluateOperatorgraphToResultA(node, connectionOutMy, evaluator)
+            /*Coverage Unreachable*/
         }
         paths["/sparql/query"] = PathMappingHelper(
             true,

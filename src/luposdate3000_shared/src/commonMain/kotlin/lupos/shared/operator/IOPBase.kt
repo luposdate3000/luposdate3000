@@ -16,6 +16,7 @@
  */
 package lupos.shared.operator
 
+import lupos.Luposdate3000_Shared.MyPrintWriter
 import lupos.shared.IQuery
 import lupos.shared.Partition
 import lupos.shared.SortHelper
