@@ -41,7 +41,7 @@ dependencieshome=/opt
     cd $dependencieshome
     # the default settings use an precompiled-compiler from maven-repository such that this is not necessary
 
-    apt install openjdk-16-jdk-headless
+    apt install openjdk-16-jdk
     git clone https://github.com/JetBrains/kotlin.git --depth=1
     cd kotlin
     echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >> ~/.bashrc

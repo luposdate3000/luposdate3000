@@ -16,15 +16,11 @@
  */
 package lupos.shared
 
-import com.soywiz.krypto.md5 as _md5
 import com.soywiz.krypto.sha1 as _sha1
 import com.soywiz.krypto.sha256 as _sha256
 
 @OptIn(ExperimentalStdlibApi::class)
 public actual object Crypto {
-    public actual fun md5(value: String): String {
-        return toHexString(value.encodeToByteArray()._md5())
-    }
 
     public actual fun sha256(value: String): String {
         return toHexString(value.encodeToByteArray()._sha256())

@@ -9,19 +9,41 @@ dependencieshome=/opt
 #list from https://www.w3.org/wiki/SparqlImplementations ->
 
 
-#4store(distributed)
+#4store
 {
-    apt install docker-compose docker
-    git clone https://github.com/big-data-europe/docker-4store.git --depth=1
-    cd docker-4store
-    docker-compose -f docker-compose-cluster.yml up -d
+    # distributed
+    apt install 4store
+
+
+    # config by parameters
 }
 #Amazon Neptune
 {
     #pay to use
 }
 #Apache ARQ/Jena/Fuseki/Joseki/Sesame ->
+{
+    # not-distributed
+    #luposdate3000 provides a wrapper for jena
+}
 #Apache Marmotta ->
+{
+    # distributed
+    # sparql2sql interface
+    cd $dependencieshome
+    wget http://archive.apache.org/dist/marmotta/3.4.0/apache-marmotta-3.4.0-installer.tar.gz
+    tar -xf apache-marmotta-3.4.0-installer.tar.gz
+    cd apache-marmotta-3.4.0
+    # the following launches an gui
+    # choose $dependencieshome/marmotta as installation dir
+    java -jar marmotta-installer-3.4.0.jar
+    cd ../marmotta
+    # on first run, the following launches an gui to select the network-interface
+    ./startup.sh
+
+
+    # config in "$dependencieshome/marmotta/marmotta-home/system-config.properties"
+}
 #AllegroGraph
 {
     #pay to use

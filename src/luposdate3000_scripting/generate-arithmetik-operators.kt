@@ -1683,8 +1683,8 @@ public object OperatorBuilder {
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
                             generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                imports.add("lupos.shared.Crypto")
-                                target.appendLine("${indention}val $outputName: String = Crypto.md5(${inputNames[0]})")
+                                imports.add("lupos.shared.Crypto_MD5")
+                                target.appendLine("${indention}val $outputName: String = Crypto_MD5.md5(${inputNames[0]})")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1693,8 +1693,8 @@ public object OperatorBuilder {
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
                             generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                imports.add("lupos.shared.Crypto")
-                                target.appendLine("${indention}val $outputName: String = Crypto.md5(${inputNames[0]}_content)")
+                                imports.add("lupos.shared.Crypto_MD5")
+                                target.appendLine("${indention}val $outputName: String = Crypto_MD5.md5(${inputNames[0]}_content)")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
@@ -1703,8 +1703,8 @@ public object OperatorBuilder {
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
                             generateInstantiated = { indention, inputNames, outputName, _, imports, target, _, onResult ->
-                                imports.add("lupos.shared.Crypto")
-                                target.appendLine("${indention}val $outputName: String = Crypto.md5(${inputNames[0]}_content)")
+                                imports.add("lupos.shared.Crypto_MD5")
+                                target.appendLine("${indention}val $outputName: String = Crypto_MD5.md5(${inputNames[0]}_content)")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
                         )
