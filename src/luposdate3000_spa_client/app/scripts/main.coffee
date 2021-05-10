@@ -40,7 +40,7 @@ App.play = ->
     #Rico: Load instruments
     App.samples = SampleLibrary.load(
         instruments: ['piano', 'bass-electric', 'bassoon', 'cello', 'clarinet', 'contrabass', 'flute', 'french-horn', 'guitar-acoustic', 'guitar-electric','guitar-nylon', 'harmonium', 'harp', 'organ', 'saxophone', 'trombone', 'trumpet', 'tuba', 'violin', 'xylophone'],
-        baseUrl: "./scripts/algos/samples/"
+        baseUrl: "./resources/samples/"
     )
 
     # CodeMirror is display:none during loading screen so we need

@@ -91,8 +91,8 @@ gulp.task('concatJS', function(){
  "bower_components/foundation/js/foundation/foundation.tooltip.js",
  "bower_components/foundation/js/foundation/foundation.topbar.js",
  "bower_components/please-wait/build/please-wait.js",
- "app/scripts/algos/visualisationUtil/Tonejs-Instruments.js",
   "app/scripts/algos/visualisationUtil/Tone.js",
+  "node_modules/tonejs-instruments#8ec9f43d6f07fdeb15e684df5a6c7efa2c3eedf6/Tonejs-Instruments.js",
   "app/scripts/algos/visualisationUtil/vis-network.min.js",
   "app/scripts/algos/visualisationUtil/NexusUI.js",
   "app/scripts/algos/visualisationUtil/visualizationUtil.js",
@@ -176,6 +176,10 @@ gulp.task('resources', function () {
     return gulp.src('app/resources/**/*')
         .pipe(gulp.dest('dist/resources'));
 });
+gulp.task('instruments', function () {
+    return gulp.src('node_modules/tonejs-instruments#8ec9f43d6f07fdeb15e684df5a6c7efa2c3eedf6/samples/**/*')
+        .pipe(gulp.dest('dist/resources/samples'));
+});
 
 gulp.task('images', function () {
     return gulp.src('app/images/**/*')
@@ -195,7 +199,7 @@ gulp.task('clean', function () {
 });
 
 
-gulp.task('build', gulp.series('html', 'svg', 'images', 'fonts', 'resources', function (done) {
+gulp.task('build', gulp.series('html', 'svg', 'images', 'fonts', 'resources', 'instruments', function (done) {
     console.log('build done');
 	done();
 }));
