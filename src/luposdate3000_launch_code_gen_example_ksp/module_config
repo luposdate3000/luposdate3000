@@ -1,2 +1,4 @@
 package=Luposdate3000_Main
 codegenKSP=true
+disableJS=true
+disableNative=true

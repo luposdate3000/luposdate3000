@@ -48,14 +48,12 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         File(outputFolderSrc).mkdirs()
         File(outputFolderRoot + "/module_config").withOutputStream { out ->
             out.println("package=Luposdate3000_Main")
+            out.println("disableJS=true")
             if (useCodeGen) {
                 out.println("codegenKAPT=true")
             }
         }
         File(outputFolderRoot + "/runOptions").withOutputStream {}
-        File(outputFolderRoot + "/disableTarget").withOutputStream { out ->
-            out.println("js")
-        }
     }
 
     public fun finish() {

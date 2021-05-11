@@ -143,6 +143,16 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                     line.startsWith("dependencyNative=") -> {
                         currentArgs.dependenciesNative.add(line.substring("dependencyNative=".length))
                     }
+                    line.startsWith("disableJS=") -> {
+                        currentArgs.disableJS = line.substring("disableJS=".length).toBoolean()
+                    }
+                    line.startsWith("disableJVM=") -> {
+                        currentArgs.disableJVM = line.substring("disableJVM=".length).toBoolean()
+                    }
+                    line.startsWith("disableNative=") -> {
+                        currentArgs.disableNative = line.substring("disableNative=".length).toBoolean()
+                    }
+
                     line.startsWith("name=") -> {
                         currentArgs = currentArgs.ssetModuleName(line.substring("name=".length))
                     }

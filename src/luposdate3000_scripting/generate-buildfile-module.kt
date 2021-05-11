@@ -108,6 +108,9 @@ class CreateModuleArgs() {
     var dependenciesJvmRecoursive: MutableSet<String> = mutableSetOf<String>()
     var dependenciesJs: MutableSet<String> = mutableSetOf<String>()
     var dependenciesNative: MutableSet<String> = mutableSetOf<String>()
+    var disableJS = false
+    var disableJVM = false
+    var disableNative = false
 
     init {
         if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
@@ -119,6 +122,9 @@ class CreateModuleArgs() {
 
     fun clone(): CreateModuleArgs {
         var res = CreateModuleArgs()
+        res.disableJS = disableJS
+        res.disableJVM = disableJVM
+        res.disableNative = disableNative
         res.dependenciesCommon.addAll(dependenciesCommon)
         res.dependenciesJvm.addAll(dependenciesJvm)
         res.dependenciesJvmRecoursive.addAll(dependenciesJvmRecoursive)
@@ -215,6 +221,24 @@ class CreateModuleArgs() {
         return res
     }
 
+    fun ssetDisableJS(disableJs: Boolean): CreateModuleArgs {
+        val res = clone()
+        res.disableJS = disableJS
+        return res
+    }
+
+    fun ssetDisableJVM(disableJVM: Boolean): CreateModuleArgs {
+        val res = clone()
+        res.disableJVM = disableJVM
+        return res
+    }
+
+    fun ssetDisableNative(disableNative: Boolean): CreateModuleArgs {
+        val res = clone()
+        res.disableNative = disableNative
+        return res
+    }
+
     fun ssetSuspendMode(suspendMode: SuspendMode): CreateModuleArgs {
         val res = clone()
         res.suspendMode = suspendMode
@@ -268,9 +292,12 @@ class CreateModuleArgs() {
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
     try {
         val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
-        var enableJVM = targetModeCompatible(moduleArgs.target, TargetMode2.JVM)
-        var enableJS = targetModeCompatible(moduleArgs.target, TargetMode2.JS)
-        var enableNative = targetModeCompatible(moduleArgs.target, TargetMode2.Native)
+        val enableJVM = targetModeCompatible(moduleArgs.target, TargetMode2.JVM) && !moduleArgs.disableJVM
+        val enableJS = targetModeCompatible(moduleArgs.target, TargetMode2.JS) && !moduleArgs.disableJS
+        val enableNative = targetModeCompatible(moduleArgs.target, TargetMode2.Native) && !moduleArgs.disableNative
+        if (!(enableJVM || enableJS || enableNative)) {
+            return
+        }
         val replacementsDefault = mutableMapOf<String, String>()
         if (buildLibrary) {
             replacementsDefault[" public "] = " @lupos.ProguardKeepAnnotation public "
@@ -302,20 +329,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         } else {
             pathSeparator = "/"
             pathSeparatorEscaped = "/"
-        }
-        if (File("${moduleArgs.moduleFolder}/disableTarget").exists()) {
-            File("${moduleArgs.moduleFolder}/disableTarget").forEachLine {
-                when (it) {
-                    "jvm" -> enableJVM = false
-                    "js" -> {
-                        enableJS = false
-                    }
-                    moduleArgs.platform, "native" -> enableNative = false
-                }
-            }
-        }
-        if (!(enableJVM || enableJS || enableNative)) {
-            return
         }
         println("generating buildfile for ${moduleArgs.moduleName}")
         if (!buildLibrary && moduleArgs.codegenKSP) {
