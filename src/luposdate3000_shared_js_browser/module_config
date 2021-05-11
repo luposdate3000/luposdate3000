@@ -1,4 +1,4 @@
 package=Luposdate3000_Shared_JS
-name=Luposdate3000_Shared_BrowserJS
+name=Luposdate3000_Shared_JS_Browser
 disableNative=true
 disableJVM=true

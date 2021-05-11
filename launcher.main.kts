@@ -347,12 +347,12 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
         }
     }
     for (v in modules.values) {
-        v.dependenciesCommon.remove("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
-        v.dependenciesJvm.remove("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
-        v.dependenciesNative.remove("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
-        v.dependenciesJvmRecoursive.remove("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
+        v.dependenciesCommon.remove("luposdate3000:Luposdate3000_Shared_JS_Browser:0.0.1")
+        v.dependenciesJvm.remove("luposdate3000:Luposdate3000_Shared_JS_Browser:0.0.1")
+        v.dependenciesNative.remove("luposdate3000:Luposdate3000_Shared_JS_Browser:0.0.1")
+        v.dependenciesJvmRecoursive.remove("luposdate3000:Luposdate3000_Shared_JS_Browser:0.0.1")
     }
-    modules["Luposdate3000_Shared"]!!.dependenciesJs.add("luposdate3000:Luposdate3000_Shared_BrowserJS:0.0.1")
+    modules["Luposdate3000_Shared"]!!.dependenciesJs.add("luposdate3000:Luposdate3000_Shared_JS_Browser:0.0.1")
     return res
 }
 
