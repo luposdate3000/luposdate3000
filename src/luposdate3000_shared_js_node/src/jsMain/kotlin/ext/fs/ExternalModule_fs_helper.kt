@@ -14,12 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package ext.fs
+@file:JsModule("fs")
+@file:JsNonModule
 
-public object ExternalModule_fs {
-    public fun openSync(filename: String, flags: String): Int = throw Exception("not implemented")
-    public fun readSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int = throw Exception("not implemented")
-    public fun writeSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int = throw Exception("not implemented")
-    public fun closeSync(fd: Int): Unit = throw Exception("not implemented")
-    public fun readFileSync(filename: String): ByteArray = throw Exception("not implemented")
-}
+package lupos.shared.js
+
+import kotlin.js.JsName
+
+@JsName("openSync")
+public external fun openSync_(filename: String, flags: String): Int
+
+@JsName("readSync")
+public external fun readSync_(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int
+
+@JsName("writeSync")
+public external fun writeSync_(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int
+
+@JsName("closeSync")
+public external fun closeSync_(fd: Int)
+
+@JsName("readFileSync")
+public external fun readFileSync_(filename: String): ByteArray

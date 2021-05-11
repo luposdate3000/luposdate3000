@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package ext.fs
+package lupos.shared.js
 
 public object ExternalModule_fs {
-    public fun openSync(filename: String, flags: String): Int = openSync_(filename, flags)
-    public fun readSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int = readSync_(fd, buffer, offset, length, position)
-    public fun writeSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int = writeSync_(fd, buffer, offset, length, position)
-    public fun closeSync(fd: Int): Unit = closeSync_(fd)
-    public fun readFileSync(filename: String): ByteArray = readFileSync_(filename)
+    public fun openSync(filename: String, flags: String): Int = throw Exception("not implemented")
+    public fun readSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int = throw Exception("not implemented")
+    public fun writeSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int = throw Exception("not implemented")
+    public fun closeSync(fd: Int): Unit = throw Exception("not implemented")
+    public fun readFileSync(filename: String): ByteArray = throw Exception("not implemented")
 }

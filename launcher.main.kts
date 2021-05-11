@@ -115,9 +115,9 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             var currentArgs = localArgs
                 .ssetModuleName(makeUppercaseStart(filename.substring(filename.indexOf("luposdate3000"))))
                 .ssetModulePrefix(makeUppercaseStart(filename.substring(filename.indexOf("luposdate3000"))))
-            if (filename.endsWith("_browserjs")) {
+            if (filename.endsWith("_js_browser")) {
                 currentArgs = currentArgs.ssetEnabledRunFunc { jsBrowserMode && targetModeCompatible(target, TargetMode2.JS) }
-            } else if (filename.endsWith("_nodejs")) {
+            } else if (filename.endsWith("_js_node")) {
                 currentArgs = currentArgs.ssetEnabledRunFunc { !jsBrowserMode && targetModeCompatible(target, TargetMode2.JS) }
             }
             val dep = mutableSetOf<String>()
@@ -1166,6 +1166,7 @@ fun onSetupSPAClient() {
 // depends on "apt install nodejs npm"
     println("onSetupSPAClient")
     val dirname = fixPathNames("${File(".").absolutePath}/src/luposdate3000_spa_client/")
+    println("dirname : $dirname")
     val dirluposdatejs = fixPathNames("$dirname/app/scripts/algos/luposdate3000/")
     val relativeUrlJs = fixPathNames("app/scripts/algos/luposdate3000/")
     val dir = File(dirname)
@@ -1175,9 +1176,9 @@ fun onSetupSPAClient() {
     val imports = mutableListOf<String>()
     println("scriptFiles :: $scriptFiles")
     for (script in scriptFiles) {
-        val src = script
-        val dest = "$dirluposdatejs/${src.substring(src.lastIndexOf("/") + 1)}"
-        val dest2 = "$relativeUrlJs/${src.substring(src.lastIndexOf("/") + 1)}"
+        val src = fixPathNames(script)
+        val dest = fixPathNames("$dirluposdatejs/${src.substring(src.lastIndexOf("/") + 1)}")
+        val dest2 = fixPathNames("$relativeUrlJs/${src.substring(src.lastIndexOf("/") + 1)}")
         try {
             Files.copy(File(src).toPath(), File(dest).toPath(), REPLACE_EXISTING)
         } catch (e: Throwable) {
