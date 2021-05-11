@@ -33,3 +33,13 @@ fun targetModeCompatible(base: TargetMode2, check: TargetMode2): Boolean {
         else -> throw Exception("")
     }
 }
+
+fun fixPathNames(s: String): String {
+    var res = s
+    var back = ""
+    while (back != res) {
+        back = res
+        res = res.replace("\\", "/").replace("/./", "/").replace("//", "/")
+    }
+    return res
+}

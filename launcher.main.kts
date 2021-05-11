@@ -42,6 +42,7 @@ import launcher.ReleaseMode
 import launcher.SuspendMode
 import launcher.TargetMode2
 import launcher.createBuildFileForModule
+import launcher.fixPathNames
 import launcher.targetModeCompatible
 import lupos.shared.EGarbageCollectorExt
 import lupos.shared.EOperatingSystemExt
@@ -108,7 +109,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
     var modules = mutableMapOf<String, CreateModuleArgs>()
     val dependencyMap = mutableMapOf<String, MutableSet<String>>()
     Files.walk(Paths.get("src"), 1).forEach { it ->
-        val filename = it.toString()
+        val filename = fixPathNames(it.toString())
         val f = File(filename + "/module_config")
         if (f.exists()) {
             var currentArgs = localArgs
@@ -212,7 +213,7 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
             dep.add("Luposdate3000_Shared")
         }
         Files.walk(Paths.get(v.moduleFolder)).forEach { it2 ->
-            val name = it2.toString()
+            val name = fixPathNames(it2.toString())
             val f = File(name)
             if (f.isFile() && name.endsWith(".kt")) {
                 f.forEachLine { it ->
@@ -570,14 +571,14 @@ val defaultParams = mutableListOf(
         "--clearCaches",
         {
             if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
-                File("${System.getenv("LOCALAPPDATA")}${Platform.getPathSeparator()}main.kts.compiled.cache").deleteRecursively()
+                File("${System.getenv("LOCALAPPDATA")}/main.kts.compiled.cache").deleteRecursively()
             } else {
-                File("${System.getProperty("user.home")}${Platform.getPathSeparator()}.cache${Platform.getPathSeparator()}main.kts.compiled.cache").deleteRecursively()
+                File("${System.getProperty("user.home")}/.cache/main.kts.compiled.cache").deleteRecursively()
             }
-            File(Platform.getGradleCache() + "${Platform.getPathSeparator()}modules-2").deleteRecursively()
-            File(Platform.getGradleCache() + "${Platform.getPathSeparator()}jars-8").deleteRecursively()
-            File(Platform.getGradleCache() + "${Platform.getPathSeparator()}jars-3").deleteRecursively()
-            File(Platform.getMavenCache() + "${Platform.getPathSeparator()}luposdate3000").deleteRecursively()
+            File(Platform.getGradleCache() + "/modules-2").deleteRecursively()
+            File(Platform.getGradleCache() + "/jars-8").deleteRecursively()
+            File(Platform.getGradleCache() + "/jars-3").deleteRecursively()
+            File(Platform.getMavenCache() + "/luposdate3000").deleteRecursively()
             System.exit(0)
         }
     ),
@@ -727,7 +728,7 @@ fun onSetupGradle() {
         outBuildGradle.println("}")
     }
     File("settings.gradle.kts").printWriter().use { outSettingsGradle ->
-        File("src${Platform.getPathSeparator()}build.gradle.kts").printWriter().use { outBuildGradle ->
+        File("src/build.gradle.kts").printWriter().use { outBuildGradle ->
             outSettingsGradle.println("pluginManagement {")
             outSettingsGradle.println("    resolutionStrategy {")
             outSettingsGradle.println("        eachPlugin {")
@@ -749,7 +750,7 @@ fun onSetupGradle() {
             outSettingsGradle.println("include(\":src\")")
             outBuildGradle.println("dependencies {")
             Files.walk(Paths.get("src"), 1).forEach { it ->
-                val name = it.toString()
+                val name = fixPathNames(it.toString())
                 println(name)
                 if (name.startsWith("src/lupos") || name.startsWith("src\\lupos")) {
                     if (!name.contains("shared_inline") && !name.contains("luposdate3000_scripting")) {
@@ -917,7 +918,7 @@ fun onGenerateParser() {
         "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
         "SKIP_WS" to "[#x20#x9#xD#xA]*",
     )
-    val turtleFilename = "src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}parser${Platform.getPathSeparator()}turtle${Platform.getPathSeparator()}Turtle2ParserGenerated.kt"
+    val turtleFilename = "src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/turtle/Turtle2ParserGenerated.kt"
     val turtlePackage = "lupos.parser.turtle"
     val xmlGeneratingArgs = arrayOf(
         listOf("PARSER_CONTEXT"),
@@ -945,7 +946,7 @@ fun onGenerateParser() {
         "SKIP_WS" to "[#x20#x9#xD#xA]*",
         "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
     )
-    val xmlFilename = "src${Platform.getPathSeparator()}luposdate3000_shared${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}shared${Platform.getPathSeparator()}xmlParser${Platform.getPathSeparator()}XMLParserGenerated.kt"
+    val xmlFilename = "src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/xmlParser/XMLParserGenerated.kt"
     val xmlPackage = "lupos.shared.xmlParser"
     val nQuadsGeneratingArgs = arrayOf(
         listOf("PARSER_CONTEXT"),
@@ -972,7 +973,7 @@ fun onGenerateParser() {
         "DOT" to "('.')",
         "IRI1" to "('^') ('^')",
     )
-    val nQuadsFilename = "src${Platform.getPathSeparator()}luposdate3000_parser${Platform.getPathSeparator()}src${Platform.getPathSeparator()}commonMain${Platform.getPathSeparator()}kotlin${Platform.getPathSeparator()}lupos${Platform.getPathSeparator()}parser${Platform.getPathSeparator()}nQuads${Platform.getPathSeparator()}NQuads2ParserGenerated.kt"
+    val nQuadsFilename = "src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/nQuads/NQuads2ParserGenerated.kt"
     val nQuadsPackage = "lupos.parser.nQuads"
     ParserGenerator(turtleGeneratingArgs, turtleGrammar, turtleFilename, turtlePackage)
     ParserGenerator(xmlGeneratingArgs, xmlGrammar, xmlFilename, xmlPackage)
@@ -1164,9 +1165,9 @@ fun copyFromJar(source: InputStream, dest: String) {
 fun onSetupSPAClient() {
 // depends on "apt install nodejs npm"
     println("onSetupSPAClient")
-    val dirname = "${File(".").absolutePath.replace("\\", "\\\\")}/src/luposdate3000_spa_client"
-    val dirluposdatejs = "$dirname/app/scripts/algos/luposdate3000"
-    val relativeUrlJs = "app/scripts/algos/luposdate3000"
+    val dirname = fixPathNames("${File(".").absolutePath}/src/luposdate3000_spa_client/")
+    val dirluposdatejs = fixPathNames("$dirname/app/scripts/algos/luposdate3000/")
+    val relativeUrlJs = fixPathNames("app/scripts/algos/luposdate3000/")
     val dir = File(dirname)
     val scriptFiles = getJSScriptFiles()
     println(File(dirluposdatejs).absolutePath)
@@ -1268,7 +1269,7 @@ fun getJSScriptFiles(): List<String> {
     }
     for (s in dependencies) {
         if (s.endsWith(".js")) {
-            scripts.add(File(".", s).absolutePath)
+            scripts.add(fixPathNames(File(".", s).absolutePath))
         } else if (s.endsWith(".jar")) {
             val f = JarFile(File(s))
             for (e in f.entries()) {
@@ -1277,7 +1278,7 @@ fun getJSScriptFiles(): List<String> {
                     copyFromJar(f.getInputStream(e), "dist-js/$name")
                 } else if (name.endsWith(".js") && !name.endsWith("meta.js")) {
                     copyFromJar(f.getInputStream(e), "dist-js/$name")
-                    scripts.add(File(".", "dist-js/$name").absolutePath)
+                    scripts.add(fixPathNames(File(".", "dist-js/$name").absolutePath))
                 }
             }
         } else {
@@ -1289,7 +1290,7 @@ fun getJSScriptFiles(): List<String> {
 
 fun onSetupJS() {
     jsBrowserMode = true
-    File("dist-js${Platform.getPathSeparator()}index.html").printWriter().use { out ->
+    File("dist-js/index.html").printWriter().use { out ->
         out.println("<!DOCTYPE html>")
         out.println("<html lang=\"en\">")
         out.println("<head>")

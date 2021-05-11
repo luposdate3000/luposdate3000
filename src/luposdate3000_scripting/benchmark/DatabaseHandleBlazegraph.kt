@@ -30,7 +30,7 @@ class DatabaseHandleBlazegraph(val workDir: String) : DatabaseHandle() {
         File(workDir).mkdirs()
         var pwd = blazeGraphJar
         if (pwd.startsWith("./")) {
-            pwd = File(".").getAbsolutePath() + "/" + pwd
+            pwd = File(".").absolutePath + "/" + pwd
         }
         val javaFileName = "/usr/lib/jvm/java-16-openjdk-amd64/bin/java"
         val javaFile = File(javaFileName)
@@ -109,7 +109,7 @@ class DatabaseHandleBlazegraph(val workDir: String) : DatabaseHandle() {
     }
 
     fun importData(file: String) {
-        val encodedData = "update=LOAD <file://${File(file).getAbsolutePath()}>;".encodeToByteArray()
+        val encodedData = "update=LOAD <file://${File(file).absolutePath}>;".encodeToByteArray()
         val u = URL("http://$hostname:9999/blazegraph/namespace/kb/sparql")
         val conn = u.openConnection() as HttpURLConnection
         conn.setDoOutput(true)

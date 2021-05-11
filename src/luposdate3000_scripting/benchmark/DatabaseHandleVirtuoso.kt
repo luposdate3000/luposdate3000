@@ -125,7 +125,7 @@ class DatabaseHandleVirtuoso(val workDir: String) : DatabaseHandle() {
     }
 
     fun importData(file: String) {
-        val encodedData = "default-graph-uri=${encode("http://benchmark")}&query=${encode("LOAD <file://${File(file).getAbsolutePath()}> into GRAPH <http://benchmark>")}&format=xml&timeout=0&debug=off&run=${encode(" Run Query")}".encodeToByteArray()
+        val encodedData = "default-graph-uri=${encode("http://benchmark")}&query=${encode("LOAD <file://${File(file).absolutePath}> into GRAPH <http://benchmark>")}&format=xml&timeout=0&debug=off&run=${encode(" Run Query")}".encodeToByteArray()
         val u = URL("http://$hostname:8890/sparql/")
         val conn = u.openConnection() as HttpURLConnection
         conn.setDoOutput(true)
