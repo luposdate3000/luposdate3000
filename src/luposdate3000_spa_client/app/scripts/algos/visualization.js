@@ -65,7 +65,7 @@ $('.query .evaluate').click(function (){
             $('.results-tab a').click()
         //First time initialization
         } else {
-            Luposdate3000_Endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
+            luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
 
             //Slider for the Animation Speed
             slider = new Nexus.Slider('#sonification-animation-speed', {
@@ -959,10 +959,10 @@ function evaluateSPARQL(){
     if(version == 'Luposdate3000 - Browser') {
         //Import RDF data if checkbox is checked
         if ($('#send_rdf').is(':checked')) {
-            var rdf = Luposdate3000_Endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string_a(App.cm['rdf'].getValue());
+            var rdf = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string_a(App.cm['rdf'].getValue());
         }
         //Receive optimized steps for logical and physical operator graph
-        var eev = new Luposdate3000_Endpoint.lupos.endpoint_launcher.EndpointExtendedVisualize(inputValue)
+        var eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(inputValue)
         logGraph = eev.getOptimizedStepsLogical();
         physGraph = eev.getOptimizedStepsPhysical();
         //Result from the query

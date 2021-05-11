@@ -14,9 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package lupos.endpoint_launcher
+package lupos.endpoint
 
-import lupos.endpoint.LuposdateEndpoint
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query

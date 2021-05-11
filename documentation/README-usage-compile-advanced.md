@@ -1,16 +1,23 @@
 ## Usage / Compile (advanced)
 
-To compile everything the first time you must perform a complete rebuild, which is done by using:
+To compile everything the first time you need to setup the buildfiles first.
+Here you can specify many options like ("target, inlineMode, releaseMode, compiler").
 
 ```bash
-./launcher.main.kts --compileAll
+./launcher.main.kts --setupCommandline
 ```
 
-This takes a lot of time (depending on the settings: on my computer up to 15 Minutes using a 4GHz CPU with NVME-SSD and lots of available RAM).
-The final compiled jars, js and native-libs can be found in the subfolders of [build-cache](../build-cache)
+afterwards you can compile it using gradle.
 
-Take a look into the function "onCompile" in the file [./launcher.main.kts](../launcher.main.kts)
-If you change something, compile only the necessary module (and the ones depending on it) instead of everything.
-If you only need the jars you can use "--target=JVM" - otherwise use "--target=All".
+```bash
+./gradlew build --parallel
+```
 
-Compiling just a single Module for JVM only takes a few Seconds - which is much faster than multiple minutes for everything.
+
+If you want to build the SPAClient:
+```bash
+./launcher.main.kts --setupCommandline --target=JVM_JS
+./gradlew build --parallel
+./launcher.main.kts --setupSPAClient
+./launcher.main.kts --run  --target=JVM --Endpoint_Launcher=Java_Sockets --processUrls=localhost:80
+```

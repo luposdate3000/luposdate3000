@@ -17,6 +17,7 @@
 package lupos.endpoint_launcher
 
 import lupos.dictionary.DictionaryFactory
+import lupos.endpoint.EndpointExtendedVisualize
 import lupos.endpoint.LuposdateEndpoint
 import lupos.jena_wrapper.JenaWrapper
 import lupos.operator.base.Query

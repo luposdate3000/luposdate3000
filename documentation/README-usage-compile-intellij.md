@@ -9,6 +9,7 @@ Prepare the project for intellij using:
 ./launcher.main.kts --setupIntellijIdea
 ```
 
+You can append many options, which are shown by using the "--help" parameter
 This should be fast.
 
 If you pull again from the git, than execute this setup-script again.
