@@ -75,7 +75,7 @@ private fun copyFileWithReplacement(src: File, dest: File, replacement: Map<Stri
     out?.close()
 }
 
-private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map<String, String>, psharedInlineReferences: MutableSet<String>) {
+private fun copyFilesWithReplacement(src: String, dest: String, replacement: Map<String, String>, sharedInlineReferences: MutableSet<String>) {
     for (it in File(src).walk()) {
         val tmp = fixPathNames(it.toString())
         val t = tmp.substring(src.length)
