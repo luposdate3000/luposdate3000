@@ -109,6 +109,8 @@ class CreateModuleArgs() {
     var dependenciesJs: MutableSet<String> = mutableSetOf<String>()
     var dependenciesNative: MutableSet<String> = mutableSetOf<String>()
     var disableJS = false
+    var disableJSNode = false
+    var disableJSBrowser = false
     var disableJVM = false
     var disableNative = false
 
@@ -123,6 +125,8 @@ class CreateModuleArgs() {
     fun clone(): CreateModuleArgs {
         var res = CreateModuleArgs()
         res.disableJS = disableJS
+        res.disableJSNode = disableJSNode
+        res.disableJSBrowser = disableJSBrowser
         res.disableJVM = disableJVM
         res.disableNative = disableNative
         res.dependenciesCommon.addAll(dependenciesCommon)
@@ -218,6 +222,18 @@ class CreateModuleArgs() {
     fun ssetDisableJS(disableJs: Boolean): CreateModuleArgs {
         val res = clone()
         res.disableJS = disableJS
+        return res
+    }
+
+    fun ssetDisableJSNode(disableJsNode: Boolean): CreateModuleArgs {
+        val res = clone()
+        res.disableJSNode = disableJSNode
+        return res
+    }
+
+    fun ssetDisableJSBrowser(disableJsBrowser: Boolean): CreateModuleArgs {
+        val res = clone()
+        res.disableJSBrowser = disableJSBrowser
         return res
     }
 
@@ -432,31 +448,35 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 if (enableJS) {
                     out.println("    js {")
                     out.println("        moduleName = \"${moduleArgs.modulePrefix}\"")
-                    out.println("        browser {")
-                    out.println("            compilations.forEach{")
-                    out.println("                it.kotlinOptions {")
-                    out.println("                    freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
-                    out.println("                    freeCompilerArgs += \"-Xnew-inference\"")
-                    out.println("                }")
-                    out.println("            }")
-                    out.println("            dceTask {")
-                    out.println("                dceOptions.devMode = true")
-                    out.println("            }")
-                    out.println("            testTask {")
-                    out.println("                enabled = false")
-                    out.println("            }")
-                    out.println("        }")
-                    out.println("        nodejs {")
-                    out.println("            compilations.forEach{")
-                    out.println("                it.kotlinOptions {")
-                    out.println("                    freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
-                    out.println("                    freeCompilerArgs += \"-Xnew-inference\"")
-                    out.println("                }")
-                    out.println("            }")
-                    out.println("            testTask {")
-                    out.println("                enabled = false")
-                    out.println("            }")
-                    out.println("        }")
+                    if (!moduleArgs.disableJSBrowser) {
+                        out.println("        browser {")
+                        out.println("            compilations.forEach{")
+                        out.println("                it.kotlinOptions {")
+                        out.println("                    freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
+                        out.println("                    freeCompilerArgs += \"-Xnew-inference\"")
+                        out.println("                }")
+                        out.println("            }")
+                        //                    out.println("            dceTask {")
+                        //                  out.println("                dceOptions.devMode = true")
+                        //                out.println("            }")
+                        out.println("            testTask {")
+                        out.println("                enabled = false")
+                        out.println("            }")
+                        out.println("        }")
+                    }
+                    if (!moduleArgs.disableJSNode) {
+                        out.println("        nodejs {")
+                        out.println("            compilations.forEach{")
+                        out.println("                it.kotlinOptions {")
+                        out.println("                    freeCompilerArgs += \"-Xopt-in=kotlin.RequiresOptIn\"")
+                        out.println("                    freeCompilerArgs += \"-Xnew-inference\"")
+                        out.println("                }")
+                        out.println("            }")
+                        out.println("            testTask {")
+                        out.println("                enabled = false")
+                        out.println("            }")
+                        out.println("        }")
+                    }
                     out.println("        binaries.executable()")
                     out.println("    }")
                 }

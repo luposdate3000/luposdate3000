@@ -147,6 +147,12 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
                     line.startsWith("disableJS=") -> {
                         currentArgs.disableJS = line.substring("disableJS=".length).toBoolean()
                     }
+                    line.startsWith("disableJSBrowser=") -> {
+                        currentArgs.disableJSBrowser = line.substring("disableJSBrowser=".length).toBoolean()
+                    }
+                    line.startsWith("disableJSNode=") -> {
+                        currentArgs.disableJSNode = line.substring("disableJSNode=".length).toBoolean()
+                    }
                     line.startsWith("disableJVM=") -> {
                         currentArgs.disableJVM = line.substring("disableJVM=".length).toBoolean()
                     }
