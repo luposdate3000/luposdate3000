@@ -196,7 +196,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("            val result = LuposdateEndpoint.evaluateOperatorgraphToResultA(op2, buf, EQueryResultToStreamExt.MEMORY_TABLE)")
             }
             val ordered = queryFileContentClean.toLowerCase().contains("order", true)
-            out.println("            if (target.equalsVerbose(result, ${!ordered}, true)) {")
+            out.println("            if (!target.equalsVerbose(result, ${!ordered}, true)) {")
             out.println("                success = false")
             out.println("            }")
             out.println("        } catch (e:Throwable) {")
@@ -228,7 +228,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                     out.println("                val result = LuposdateEndpoint.evaluateOperatorgraphToResultA(op2, buf, EQueryResultToStreamExt.MEMORY_TABLE)")
                 }
                 val ordered = queryFileContentClean.toLowerCase().contains("order", true)
-                out.println("                if (target.equalsVerbose(result, ${!ordered}, true)) {")
+                out.println("                if (!target.equalsVerbose(result, ${!ordered}, true)) {")
                 out.println("                    success2 = false")
                 out.println("                }")
                 out.println("            } catch (e:Throwable) {")
