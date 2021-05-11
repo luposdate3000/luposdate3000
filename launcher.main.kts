@@ -1174,7 +1174,7 @@ fun onSetupSPAClient() {
     val imports = mutableListOf<String>()
     println("scriptFiles :: $scriptFiles")
     for (script in scriptFiles) {
-        val src = "dist-js/$script"
+        val src = script
         val dest = "$dirluposdatejs/${src.substring(src.lastIndexOf("/") + 1)}"
         val dest2 = "$relativeUrlJs/${src.substring(src.lastIndexOf("/") + 1)}"
         try {
@@ -1251,7 +1251,7 @@ fun getJSScriptFiles(): List<String> {
     val scripts = mutableListOf<String>()
     for (module in getAllModuleConfigurations()) {
         if (module.enabledRunFunc() && module.modulePrefix != "Luposdate3000_Main") {
-            var s = "${module.moduleFolder}/build/libs/${module.moduleName.toLowerCase()}-js-0.0.1.jar"
+            var s = "${module.moduleFolder}/build/distributions/${module.moduleName.toLowerCase()}.js"
             File("${module.moduleFolder}/build/external_js_dependencies").forEachLine {
                 if (!dependencies.contains(it)) {
                     if (it.contains("kotlin-stdlib")) {
@@ -1268,9 +1268,8 @@ fun getJSScriptFiles(): List<String> {
     }
     for (s in dependencies) {
         if (s.endsWith(".js")) {
-            scripts.add(s)
+            scripts.add(File(".", s).absolutePath)
         } else if (s.endsWith(".jar")) {
-            println(s)
             val f = JarFile(File(s))
             for (e in f.entries()) {
                 val name = e.getName()
@@ -1278,7 +1277,7 @@ fun getJSScriptFiles(): List<String> {
                     copyFromJar(f.getInputStream(e), "dist-js/$name")
                 } else if (name.endsWith(".js") && !name.endsWith("meta.js")) {
                     copyFromJar(f.getInputStream(e), "dist-js/$name")
-                    scripts.add(name)
+                    scripts.add(File(".", "dist-js/$name").absolutePath)
                 }
             }
         } else {
