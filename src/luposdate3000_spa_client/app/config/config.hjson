@@ -5,7 +5,7 @@
 	    },
 	    {
 	        "name": "Luposdate3000 - Endpoint"
-	        "url": "http://localhost:81/",
+	        "url": "/",
 	    },
 		{
             // URL with ending slash

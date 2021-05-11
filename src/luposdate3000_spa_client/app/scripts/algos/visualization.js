@@ -943,7 +943,7 @@ function testAjax(){
     };
     $.ajax({
         type: 'POST',
-        url: 'http://localhost:81/sparql/query',
+        url: '/sparql/query',
         data: formData
     })
         .done(function(data) {
