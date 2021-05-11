@@ -32,3 +32,4 @@ external_jar_dependencies
 src/luposdate3000_spa_client/app/scripts/algos/luposdate3000
 dist-js
 settings.gradle
+src/luposdate3000_launch_code_gen_test
