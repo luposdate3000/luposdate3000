@@ -196,11 +196,12 @@ public class AOPBuildInCallSTRDT public constructor(query: IQuery, child0: AOPBa
                             res = DictionaryExt.errorValue
                         }
                     }
-                    else -> {
-                        res = DictionaryExt.errorValue
-                    }
                 }
-                res
+                else -> {
+                    res = DictionaryExt.errorValue
+                }
             }
+            res
         }
     }
+}

@@ -382,11 +382,12 @@ public class AOPDivision public constructor(query: IQuery, child0: AOPBase, chil
                             res = DictionaryExt.errorValue
                         }
                     }
-                    else -> {
-                        res = DictionaryExt.errorValue
-                    }
                 }
-                res
+                else -> {
+                    res = DictionaryExt.errorValue
+                }
             }
+            res
         }
     }
+}

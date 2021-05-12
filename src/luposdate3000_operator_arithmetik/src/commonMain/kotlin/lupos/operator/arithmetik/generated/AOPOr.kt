@@ -217,11 +217,12 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
                             res = DictionaryExt.errorValue
                         }
                     }
-                    else -> {
-                        res = DictionaryExt.errorValue
-                    }
                 }
-                res
+                else -> {
+                    res = DictionaryExt.errorValue
+                }
             }
+            res
         }
     }
+}

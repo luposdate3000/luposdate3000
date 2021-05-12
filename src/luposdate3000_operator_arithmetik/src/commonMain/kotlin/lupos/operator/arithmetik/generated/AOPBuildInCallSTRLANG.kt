@@ -196,11 +196,12 @@ public class AOPBuildInCallSTRLANG public constructor(query: IQuery, child0: AOP
                             res = DictionaryExt.errorValue
                         }
                     }
-                    else -> {
-                        res = DictionaryExt.errorValue
-                    }
                 }
-                res
+                else -> {
+                    res = DictionaryExt.errorValue
+                }
             }
+            res
         }
     }
+}

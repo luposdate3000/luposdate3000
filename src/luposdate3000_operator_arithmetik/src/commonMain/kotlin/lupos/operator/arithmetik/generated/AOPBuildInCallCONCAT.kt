@@ -277,11 +277,12 @@ public class AOPBuildInCallCONCAT public constructor(query: IQuery, child0: AOPB
                             res = DictionaryExt.errorValue
                         }
                     }
-                    else -> {
-                        res = DictionaryExt.errorValue
-                    }
                 }
-                res
+                else -> {
+                    res = DictionaryExt.errorValue
+                }
             }
+            res
         }
     }
+}

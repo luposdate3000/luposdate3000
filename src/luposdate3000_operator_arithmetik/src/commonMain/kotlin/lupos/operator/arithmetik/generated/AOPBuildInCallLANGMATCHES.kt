@@ -195,11 +195,12 @@ public class AOPBuildInCallLANGMATCHES public constructor(query: IQuery, child0:
                             res = DictionaryExt.errorValue
                         }
                     }
-                    else -> {
-                        res = DictionaryExt.errorValue
-                    }
                 }
-                res
+                else -> {
+                    res = DictionaryExt.errorValue
+                }
             }
+            res
         }
     }
+}

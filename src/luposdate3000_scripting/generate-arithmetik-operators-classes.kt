@@ -197,14 +197,18 @@ public class MyOperator(
         var openWhenStatements = -1
         var localindention = indention
         val currentStatements = mutableMapOf<String, String>() // content -> keys
-        fun closeWhenStatements(first: Int) {
+        fun closeWhenStatements(first: Int, max: Int) {
             while (openWhenStatements > first) {
-                for ((k, v) in currentStatements) {
-                    target.appendLine("${localindention.substring(4)}$v -> {")
-                    target.append(k)
+                if (openWhenStatements == max - 1) {
+                    for ((k, v) in currentStatements) {
+                        target.appendLine("${localindention.substring(4)}$v -> {")
+                        target.append(k)
+                        target.appendLine("${localindention.substring(4)}}")
+                    }
+                    currentStatements.clear()
+                } else {
                     target.appendLine("${localindention.substring(4)}}")
                 }
-                currentStatements.clear()
                 target.appendLine("${localindention.substring(4)}else -> {")
                 if (representation == EParamRepresentation.ID) {
                     generateIDOther(localindention, outputName, "${prefix}_${prefix_counter++}", imports, target, globalVariables) { _, _ ->
@@ -219,9 +223,12 @@ public class MyOperator(
                 openWhenStatements--
             }
         }
+
+        var variableCount = -1
         for (implementation in implementations) {
+            variableCount = implementation.childrenTypes.size
             fun createWhenStatements(first: Int, last: Int) {
-                closeWhenStatements(first)
+                closeWhenStatements(first, variableCount)
                 for (i in first until last) {
                     if (openWhenStatements < i) {
                         target.appendLine("${localindention}when (${typeNames[i]}) {")
@@ -280,7 +287,7 @@ public class MyOperator(
                 currentStatements[localtargetS] = tmp + ", ETripleComponentTypeExt." + ETripleComponentTypeExt.names[implementation.childrenTypes[implementation.childrenTypes.size - 1]]
             }
         }
-        closeWhenStatements(-1)
+        closeWhenStatements(-1, variableCount)
     }
 
     public fun generateAOP(): StringBuilder {

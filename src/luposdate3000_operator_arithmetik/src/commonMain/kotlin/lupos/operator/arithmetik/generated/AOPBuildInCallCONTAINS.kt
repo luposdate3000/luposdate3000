@@ -211,11 +211,12 @@ public class AOPBuildInCallCONTAINS public constructor(query: IQuery, child0: AO
                             res = DictionaryExt.errorValue
                         }
                     }
-                    else -> {
-                        res = DictionaryExt.errorValue
-                    }
                 }
-                res
+                else -> {
+                    res = DictionaryExt.errorValue
+                }
             }
+            res
         }
     }
+}

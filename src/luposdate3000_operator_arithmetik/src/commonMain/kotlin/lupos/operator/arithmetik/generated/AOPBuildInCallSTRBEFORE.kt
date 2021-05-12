@@ -332,11 +332,12 @@ public class AOPBuildInCallSTRBEFORE public constructor(query: IQuery, child0: A
                             res = DictionaryExt.errorValue
                         }
                     }
-                    else -> {
-                        res = DictionaryExt.errorValue
-                    }
                 }
-                res
+                else -> {
+                    res = DictionaryExt.errorValue
+                }
             }
+            res
         }
     }
+}
