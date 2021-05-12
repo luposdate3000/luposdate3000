@@ -50,6 +50,9 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
 
     public fun equalsVerbose(other: Any?, ignoreOrder: Boolean, verbose: Boolean): Boolean {
         if (other !is MemoryTable) {
+            if (verbose) {
+                println("other is not a MemoryTable")
+            }
             return false
         }
         if (columns.size != other.columns.size) {
@@ -102,11 +105,13 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                 }
             }
         }
+        var result = true
         if (ignoreOrder) {
             var i = 0
             while (i < data.size || i < other.data.size) {
                 if (i < data.size) {
                     if (flags1[i] == -1) {
+                        result = false
                         if (verbose) {
                             println(
                                 "left has ${data[i].map { it }} : ${
@@ -121,6 +126,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                 }
                 if (i < other.data.size) {
                     if (flags2[i] == -1) {
+                        result = false
                         if (verbose) {
                             println(
                                 "right has ${other.data[i].map { it }} : ${
@@ -140,6 +146,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
             while (i < data.size || i < other.data.size) {
                 if (i < data.size) {
                     if (flags1[i] != i) {
+                        result = false
                         if (verbose) {
                             println(
                                 "left has ${data[i].map { it }} : ${
@@ -154,6 +161,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                 }
                 if (i < other.data.size) {
                     if (flags2[i] != i) {
+                        result = false
                         if (verbose) {
                             println(
                                 "right has ${other.data[i].map { it }} : ${
@@ -169,8 +177,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                 i++
             }
         }
-
-        return true
+        return result
     }
 
     public companion object {

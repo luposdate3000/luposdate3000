@@ -10,10 +10,12 @@ This module needs to be explicitly generated, because it has an significant impa
 If you are using the commandline, the tests can be generated and executed using:
 
 ```bash
-./launcher.main.kts --compileAll
+./launcher.main.kts --setupIntellijIdea
+./gradlew build
 ./launcher.main.kts --run --mainClass=Generate_Unit_Test_Suite_Multi
 ./launcher.main.kts --generateLauncher
-./launcher.main.kts --compile=luposdate3000_launch_code_gen_test
+./launcher.main.kts --setupIntellijIdea
+./gradlew build
 ./launcher.main.kts --run --mainClass=Code_Gen_Test
 ```
 
