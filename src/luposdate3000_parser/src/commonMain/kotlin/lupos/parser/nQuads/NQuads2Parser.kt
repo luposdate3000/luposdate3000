@@ -19,6 +19,7 @@ package lupos.parser.nQuads
 import lupos.shared.IMyInputStream
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.DictionaryHelper
+import lupos.shared_inline.MyStringExt
 import kotlin.jvm.JvmField
 
 public abstract class NQuads2Parser(input: IMyInputStream) {
@@ -39,7 +40,7 @@ public abstract class NQuads2Parser(input: IMyInputStream) {
                 context,
                 onIRIREF = {
                     val value = context.getValue()
-                    DictionaryHelper.iriToByteArray(quad[0], value.substring(1, value.length - 1))
+                    DictionaryHelper.iriToByteArray(quad[0], MyStringExt.replaceEscapes(value.substring(1, value.length - 1), false))
                 },
                 onBLANK_NODE_LABEL = {
                     DictionaryHelper.bnodeToByteArray(quad[0], context.getValue())
@@ -50,7 +51,7 @@ public abstract class NQuads2Parser(input: IMyInputStream) {
                 context,
                 onIRIREF = {
                     val value = context.getValue()
-                    DictionaryHelper.iriToByteArray(quad[1], value.substring(1, value.length - 1))
+                    DictionaryHelper.iriToByteArray(quad[1], MyStringExt.replaceEscapes(value.substring(1, value.length - 1), false))
                 },
             )
             parse_ws_forced(context) {}
@@ -58,7 +59,7 @@ public abstract class NQuads2Parser(input: IMyInputStream) {
                 context,
                 onIRIREF = {
                     val value = context.getValue()
-                    DictionaryHelper.iriToByteArray(quad[2], value.substring(1, value.length - 1))
+                    DictionaryHelper.iriToByteArray(quad[2], MyStringExt.replaceEscapes(value.substring(1, value.length - 1), false))
                     parse_ws_forced(context) {}
                 },
                 onBLANK_NODE_LABEL = {
@@ -73,17 +74,17 @@ public abstract class NQuads2Parser(input: IMyInputStream) {
                             parse_object_typed(
                                 context,
                                 onIRIREF = {
-                                    DictionaryHelper.typedToByteArray(quad[2], s, context.getValue())
+                                    DictionaryHelper.typedToByteArray(quad[2], MyStringExt.replaceEscapes(s, false), MyStringExt.replaceEscapes(context.getValue(), false))
                                     parse_ws_forced(context) {}
                                 }
                             )
                         },
                         onLANGTAG = {
-                            DictionaryHelper.langToByteArray(quad[2], s, context.getValue().substring(1))
+                            DictionaryHelper.langToByteArray(quad[2], MyStringExt.replaceEscapes(s, false), MyStringExt.replaceEscapes(context.getValue().substring(1), false))
                             parse_ws_forced(context) {}
                         },
                         onSKIP_WS = {
-                            DictionaryHelper.stringToByteArray(quad[2], s)
+                            DictionaryHelper.stringToByteArray(quad[2], MyStringExt.replaceEscapes(s, false))
                         },
                     )
                 }
@@ -92,7 +93,7 @@ public abstract class NQuads2Parser(input: IMyInputStream) {
                 context,
                 onIRIREF = {
                     val value = context.getValue()
-                    DictionaryHelper.iriToByteArray(quad[3], value.substring(1, value.length - 1))
+                    DictionaryHelper.iriToByteArray(quad[3], MyStringExt.replaceEscapes(value.substring(1, value.length - 1), false))
                 },
                 onBLANK_NODE_LABEL = {
                     DictionaryHelper.bnodeToByteArray(quad[3], context.getValue())

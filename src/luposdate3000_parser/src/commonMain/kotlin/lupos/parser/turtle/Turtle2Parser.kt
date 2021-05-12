@@ -19,6 +19,7 @@ package lupos.parser.turtle
 import lupos.shared.IMyInputStream
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared_inline.DictionaryHelper
+import lupos.shared_inline.MyStringExt
 import kotlin.jvm.JvmField
 
 public abstract class Turtle2Parser(input: IMyInputStream) {
@@ -89,11 +90,11 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
         parse_subject_iri_or_ws(
             context,
             onPN_LOCAL = {
-                DictionaryHelper.iriToByteArray(triple[0], prefixMap[prefix]!! + context.getValue())
+                DictionaryHelper.iriToByteArray(triple[0], MyStringExt.replaceEscapes(prefixMap[prefix]!! + context.getValue(), false))
                 parse_ws_forced(context) {}
             },
             onSKIP_WS_FORCED = {
-                DictionaryHelper.iriToByteArray(triple[0], prefixMap[prefix]!!)
+                DictionaryHelper.iriToByteArray(triple[0], MyStringExt.replaceEscapes(prefixMap[prefix]!!, false))
             }
         )
     }
@@ -132,7 +133,7 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
             },
             onIRIREF = {
                 val value = context.getValue()
-                DictionaryHelper.iriToByteArray(triple[0], prefixMap[":"]!! + value.substring(1, value.length - 1))
+                DictionaryHelper.iriToByteArray(triple[0], MyStringExt.replaceEscapes(prefixMap[":"]!! + value.substring(1, value.length - 1), false))
                 parse_ws_forced(context) {}
                 state = Turtle2ParserStateExt.PREDICATE
             },
@@ -152,11 +153,11 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
         parse_predicate_iri_or_ws(
             context,
             onPN_LOCAL = {
-                DictionaryHelper.iriToByteArray(triple[1], prefixMap[prefix]!! + context.getValue())
+                DictionaryHelper.iriToByteArray(triple[1], MyStringExt.replaceEscapes(prefixMap[prefix]!! + context.getValue(), false))
                 parse_ws_forced(context) {}
             },
             onSKIP_WS_FORCED = {
-                DictionaryHelper.iriToByteArray(triple[1], prefixMap[prefix]!!)
+                DictionaryHelper.iriToByteArray(triple[1], MyStringExt.replaceEscapes(prefixMap[prefix]!!, false))
             }
         )
     }
@@ -170,7 +171,7 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
             },
             onIRIREF = {
                 val value = context.getValue()
-                DictionaryHelper.iriToByteArray(triple[1], prefixMap[":"]!! + value.substring(1, value.length - 1))
+                DictionaryHelper.iriToByteArray(triple[1], MyStringExt.replaceEscapes(prefixMap[":"]!! + value.substring(1, value.length - 1), false))
                 parse_ws_forced(context) {}
             },
             onPNAME_NS = {
@@ -185,7 +186,7 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
             context,
             onIRIREF = {
                 val value = context.getValue()
-                DictionaryHelper.iriToByteArray(triple[2], prefixMap[":"]!! + value.substring(1, value.length - 1))
+                DictionaryHelper.iriToByteArray(triple[2], MyStringExt.replaceEscapes(prefixMap[":"]!! + value.substring(1, value.length - 1), false))
                 parse_ws(context) {}
                 state = Turtle2ParserStateExt.TRIPLE_END
             },
@@ -271,31 +272,31 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
                 val v = context.getValue()
                 if (v.endsWith(".")) {
                     // TODO fix the underlying bug in the parser
-                    DictionaryHelper.iriToByteArray(triple[2], prefixMap[arg]!! + v.substring(0, v.length - 1))
+                    DictionaryHelper.iriToByteArray(triple[2], MyStringExt.replaceEscapes(prefixMap[arg]!! + v.substring(0, v.length - 1), false))
                     onTriple()
                     state = Turtle2ParserStateExt.STATEMENT
                 } else {
-                    DictionaryHelper.iriToByteArray(triple[2], prefixMap[arg]!! + v)
+                    DictionaryHelper.iriToByteArray(triple[2], MyStringExt.replaceEscapes(prefixMap[arg]!! + v, false))
                     parse_ws(context) {}
                     state = Turtle2ParserStateExt.TRIPLE_END
                 }
             },
             onSKIP_WS_FORCED = {
-                DictionaryHelper.iriToByteArray(triple[2], prefixMap[arg]!!)
+                DictionaryHelper.iriToByteArray(triple[2], MyStringExt.replaceEscapes(prefixMap[arg]!!, false))
                 state = Turtle2ParserStateExt.TRIPLE_END
             },
             onPREDICATE_LIST1 = {
-                DictionaryHelper.iriToByteArray(triple[2], prefixMap[arg]!!)
+                DictionaryHelper.iriToByteArray(triple[2], MyStringExt.replaceEscapes(prefixMap[arg]!!, false))
                 onTriple()
                 state = Turtle2ParserStateExt.PREDICATE
             },
             onOBJECT_LIST1 = {
-                DictionaryHelper.iriToByteArray(triple[2], prefixMap[arg]!!)
+                DictionaryHelper.iriToByteArray(triple[2], MyStringExt.replaceEscapes(prefixMap[arg]!!, false))
                 onTriple()
                 state = Turtle2ParserStateExt.OBJECT
             },
             onDOT = {
-                DictionaryHelper.iriToByteArray(triple[2], prefixMap[arg]!!)
+                DictionaryHelper.iriToByteArray(triple[2], MyStringExt.replaceEscapes(prefixMap[arg]!!, false))
                 onTriple()
                 state = Turtle2ParserStateExt.STATEMENT
             }
@@ -309,42 +310,46 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
                 val v = context.getValue()
                 if (v.endsWith(".")) {
 // TODO fix the underlying bug in the parser
-                    DictionaryHelper.typedToByteArray(triple[2], arg, prefixMap[prefix]!! + v.substring(0, v.length - 1))
+                    DictionaryHelper.typedToByteArray(triple[2], replaceEscapes(arg, false), replaceEscapes(prefixMap[prefix]!! + v.substring(0, v.length - 1), false))
                     onTriple()
                     state = Turtle2ParserStateExt.STATEMENT
                 } else {
-                    DictionaryHelper.typedToByteArray(triple[2], arg, prefixMap[prefix]!! + v)
+                    DictionaryHelper.typedToByteArray(triple[2], replaceEscapes(arg, false), replaceEscapes(prefixMap[prefix]!! + v, false))
                     parse_ws(context) {}
                     state = Turtle2ParserStateExt.TRIPLE_END
                 }
             },
             onSKIP_WS_FORCED = {
-                DictionaryHelper.typedToByteArray(triple[2], arg, prefixMap[prefix]!!)
+                DictionaryHelper.typedToByteArray(triple[2], replaceEscapes(arg, false), replaceEscapes(prefixMap[prefix]!!, false))
                 state = Turtle2ParserStateExt.TRIPLE_END
             },
             onPREDICATE_LIST1 = {
-                DictionaryHelper.typedToByteArray(triple[2], arg, prefixMap[prefix]!!)
+                DictionaryHelper.typedToByteArray(triple[2], replaceEscapes(arg, false), replaceEscapes(prefixMap[prefix]!!, false))
                 onTriple()
                 state = Turtle2ParserStateExt.PREDICATE
             },
             onOBJECT_LIST1 = {
-                DictionaryHelper.typedToByteArray(triple[2], arg, prefixMap[prefix]!!)
+                DictionaryHelper.typedToByteArray(triple[2], replaceEscapes(arg, false), replaceEscapes(prefixMap[prefix]!!, false))
                 onTriple()
                 state = Turtle2ParserStateExt.OBJECT
             },
             onDOT = {
-                DictionaryHelper.typedToByteArray(triple[2], arg, prefixMap[prefix]!!)
+                DictionaryHelper.typedToByteArray(triple[2], replaceEscapes(arg, false), replaceEscapes(prefixMap[prefix]!!, false))
                 onTriple()
                 state = Turtle2ParserStateExt.STATEMENT
             }
         )
     }
 
+    private fun replaceEscapes(s: String, strictMode: Boolean): String {
+        return MyStringExt.replaceEscapes(s, strictMode)
+    }
+
     private fun triple_end_or_object_string_helper_1(arg: String) {
         parse_triple_end_or_object_string_typed(
             context,
             onIRIREF = {
-                DictionaryHelper.typedToByteArray(triple[2], arg, context.getValue())
+                DictionaryHelper.typedToByteArray(triple[2], MyStringExt.replaceEscapes(arg, false), MyStringExt.replaceEscapes(context.getValue(), false))
                 parse_ws(context) {}
                 state = Turtle2ParserStateExt.TRIPLE_END
             },
@@ -359,7 +364,7 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
         parse_triple_end_or_object_string(
             context,
             onLANGTAG = {
-                DictionaryHelper.langToByteArray(triple[2], arg, context.getValue().substring(1))
+                DictionaryHelper.langToByteArray(triple[2], MyStringExt.replaceEscapes(arg, false), MyStringExt.replaceEscapes(context.getValue().substring(1), false))
                 parse_ws(context) {}
                 state = Turtle2ParserStateExt.TRIPLE_END
             },
@@ -367,22 +372,22 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
                 triple_end_or_object_string_helper_1(arg)
             },
             onPREDICATE_LIST1 = {
-                DictionaryHelper.stringToByteArray(triple[2], arg)
+                DictionaryHelper.stringToByteArray(triple[2], MyStringExt.replaceEscapes(arg, false))
                 onTriple()
                 state = Turtle2ParserStateExt.PREDICATE
             },
             onOBJECT_LIST1 = {
-                DictionaryHelper.stringToByteArray(triple[2], arg)
+                DictionaryHelper.stringToByteArray(triple[2], MyStringExt.replaceEscapes(arg, false))
                 onTriple()
                 state = Turtle2ParserStateExt.OBJECT
             },
             onDOT = {
-                DictionaryHelper.stringToByteArray(triple[2], arg)
+                DictionaryHelper.stringToByteArray(triple[2], MyStringExt.replaceEscapes(arg, false))
                 onTriple()
                 state = Turtle2ParserStateExt.STATEMENT
             },
             onSKIP_WS_FORCED = {
-                DictionaryHelper.stringToByteArray(triple[2], arg)
+                DictionaryHelper.stringToByteArray(triple[2], MyStringExt.replaceEscapes(arg, false))
                 state = Turtle2ParserStateExt.TRIPLE_END
             }
         )

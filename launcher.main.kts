@@ -921,8 +921,8 @@ fun onGenerateParser() {
         "PREDICATE_LIST1" to "(';')",
         "VERB1" to "('a')",
         "IRI1" to "('^') ('^')",
-        "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
-        "SKIP_WS" to "[#x20#x9#xD#xA]*",
+        "SKIP_WS" to "([#x20#x9#xD#xA]|('#'[^#xD#xA]*[#xD#xA]))*",
+        "SKIP_WS_FORCED" to "([#x20#x9#xD#xA]|('#'[^#xD#xA]*[#xD#xA]))+",
     )
     val turtleFilename = "src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/turtle/Turtle2ParserGenerated.kt"
     val turtlePackage = "lupos.parser.turtle"
@@ -968,8 +968,6 @@ fun onGenerateParser() {
     )
     val nQuadsGrammar = mapOf(
         "LANGTAG" to "'@' [a-zA-Z0-9_,#x2D]+", // ATTENTION ",", and "_" are not allowed according to the official gramar, and the ordering allows more combinations
-        "SKIP_WS_FORCED" to "[#x20#x9#xD#xA]+",
-        "SKIP_WS" to "[#x20#x9#xD#xA]*",
         "IRIREF" to "'<' [^>]* '>'", // ATTENTION this is definetly wrong according to official grammar
         "STRING_LITERAL_QUOTE" to "('\"') ([^#x22#x5C#xA#xD] | ECHAR | UCHAR)* ('\"')",
         "ECHAR" to "('\\\\') ([tbnrf\"'\\])",
@@ -978,6 +976,8 @@ fun onGenerateParser() {
         "HEX" to "([0-9] | [A-F] | [a-f])",
         "DOT" to "('.')",
         "IRI1" to "('^') ('^')",
+        "SKIP_WS" to "([#x20#x9#xD#xA]|('#'[^#xD#xA]*[#xD#xA]))*",
+        "SKIP_WS_FORCED" to "([#x20#x9#xD#xA]|('#'[^#xD#xA]*[#xD#xA]))+",
     )
     val nQuadsFilename = "src/luposdate3000_parser/src/commonMain/kotlin/lupos/parser/nQuads/NQuads2ParserGenerated.kt"
     val nQuadsPackage = "lupos.parser.nQuads"
