@@ -117,14 +117,14 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
                 statement_helper_prefix()
                 state = Turtle2ParserStateExt.STATEMENT
             },
-            onBASE2 = {
+            onBASEA = {
                 parse_ws_forced(context) {}
                 statement_helper_base()
                 parse_ws(context) {}
                 parse_dot(context) {}
                 state = Turtle2ParserStateExt.STATEMENT
             },
-            onPREFIX2 = {
+            onPREFIXA = {
                 parse_ws_forced(context) {}
                 statement_helper_prefix()
                 parse_ws(context) {}
@@ -165,7 +165,7 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
     private fun predicate() {
         parse_predicate(
             context,
-            onVERB1 = {
+            onVERBA = {
                 DictionaryHelper.iriToByteArray(triple[1], "http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
                 parse_ws_forced(context) {}
             },
@@ -248,12 +248,12 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
     private fun triple_end() {
         parse_triple_end(
             context,
-            onPREDICATE_LIST1 = {
+            onPREDICATE_LISTA = {
                 onTriple()
                 parse_ws(context) {}
                 state = Turtle2ParserStateExt.PREDICATE
             },
-            onOBJECT_LIST1 = {
+            onOBJECT_LISTA = {
                 onTriple()
                 parse_ws(context) {}
                 state = Turtle2ParserStateExt.OBJECT
@@ -285,12 +285,12 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
                 DictionaryHelper.iriToByteArray(triple[2], MyStringExt.replaceEscapes(prefixMap[arg]!!, false))
                 state = Turtle2ParserStateExt.TRIPLE_END
             },
-            onPREDICATE_LIST1 = {
+            onPREDICATE_LISTA = {
                 DictionaryHelper.iriToByteArray(triple[2], MyStringExt.replaceEscapes(prefixMap[arg]!!, false))
                 onTriple()
                 state = Turtle2ParserStateExt.PREDICATE
             },
-            onOBJECT_LIST1 = {
+            onOBJECT_LISTA = {
                 DictionaryHelper.iriToByteArray(triple[2], MyStringExt.replaceEscapes(prefixMap[arg]!!, false))
                 onTriple()
                 state = Turtle2ParserStateExt.OBJECT
@@ -323,12 +323,12 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
                 DictionaryHelper.typedToByteArray(triple[2], replaceEscapes(arg, false), replaceEscapes(prefixMap[prefix]!!, false))
                 state = Turtle2ParserStateExt.TRIPLE_END
             },
-            onPREDICATE_LIST1 = {
+            onPREDICATE_LISTA = {
                 DictionaryHelper.typedToByteArray(triple[2], replaceEscapes(arg, false), replaceEscapes(prefixMap[prefix]!!, false))
                 onTriple()
                 state = Turtle2ParserStateExt.PREDICATE
             },
-            onOBJECT_LIST1 = {
+            onOBJECT_LISTA = {
                 DictionaryHelper.typedToByteArray(triple[2], replaceEscapes(arg, false), replaceEscapes(prefixMap[prefix]!!, false))
                 onTriple()
                 state = Turtle2ParserStateExt.OBJECT
@@ -368,15 +368,15 @@ public abstract class Turtle2Parser(input: IMyInputStream) {
                 parse_ws(context) {}
                 state = Turtle2ParserStateExt.TRIPLE_END
             },
-            onIRI1 = {
+            onIRIA = {
                 triple_end_or_object_string_helper_1(arg)
             },
-            onPREDICATE_LIST1 = {
+            onPREDICATE_LISTA = {
                 DictionaryHelper.stringToByteArray(triple[2], MyStringExt.replaceEscapes(arg, false))
                 onTriple()
                 state = Turtle2ParserStateExt.PREDICATE
             },
-            onOBJECT_LIST1 = {
+            onOBJECT_LISTA = {
                 DictionaryHelper.stringToByteArray(triple[2], MyStringExt.replaceEscapes(arg, false))
                 onTriple()
                 state = Turtle2ParserStateExt.OBJECT

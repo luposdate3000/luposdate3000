@@ -858,7 +858,7 @@ internal inline fun parse_object_helper_7(c: Int): Int {
 
 internal inline fun parse_object_string(
     context: ParserContext,
-    crossinline onIRI1: () -> Unit,
+    crossinline onIRIA: () -> Unit,
     crossinline onLANGTAG: () -> Unit,
     crossinline onSKIP_WS: () -> Unit
 ) {
@@ -872,7 +872,7 @@ internal inline fun parse_object_string(
                 when (localswitch3) {
                     0 -> {
                         context.append()
-                        onIRI1()
+                        onIRIA()
                         return
                     }
                     else -> {

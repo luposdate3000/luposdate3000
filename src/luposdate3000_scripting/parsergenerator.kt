@@ -1241,7 +1241,12 @@ class ParserGenerator_Helper(val allTokens: Map<String/*gramar token*/, String/*
                                 if (hadOr) {
                                     res.append(parseRegex(allTokens[token2]!!, tail))
                                 } else {
-                                    res.append(parseRegex(allTokens[token2]!!, parseRegex(str.substring(idx), tail)))
+                                    try {
+                                        res.append(parseRegex(allTokens[token2]!!, parseRegex(str.substring(idx), tail)))
+                                    } catch (e: Throwable) {
+                                        println("$token2 .. ${allTokens.keys}")
+                                        throw e
+                                    }
                                     return res.compile()
                                 }
                             }

@@ -70,7 +70,7 @@ public abstract class NQuads2Parser(input: IMyInputStream) {
                     val s = context.getValue()
                     parse_object_string(
                         context,
-                        onIRI1 = {
+                        onIRIA = {
                             parse_object_typed(
                                 context,
                                 onIRIREF = {
