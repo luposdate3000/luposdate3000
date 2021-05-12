@@ -790,7 +790,7 @@ public class AOPBuildInCallCONCAT public constructor(query: IQuery, child0: AOPB
                             if (tmp_194_type == "http://www.w3.org/2001/XMLSchema#string" && tmp_195_type == "http://www.w3.org/2001/XMLSchema#string") {
                                 val tmp_196_content: String = tmp_194_content + tmp_195_content
                                 val tmp_196_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                                DictionaryHelper.langToByteArray(tmp_4, tmp_196_content, tmp_196_type)
+                                DictionaryHelper.typedToByteArray(tmp_4, tmp_196_content, tmp_196_type)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
                                 val tmp_196: String = tmp_194_content + tmp_195_content

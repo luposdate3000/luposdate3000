@@ -811,11 +811,11 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                             val tmp_188_type: String = tmp_186_type
                             if (tmp_189_idx >= 0) {
                                 val tmp_188_content: String = tmp_186_content.substring(tmp_189_idx + tmp_187.length, tmp_186_content.length)
-                                DictionaryHelper.langToByteArray(tmp_4, tmp_188_content, tmp_188_type)
+                                DictionaryHelper.typedToByteArray(tmp_4, tmp_188_content, tmp_188_type)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
                                 val tmp_188_content: String = ""
-                                DictionaryHelper.langToByteArray(tmp_4, tmp_188_content, tmp_188_type)
+                                DictionaryHelper.typedToByteArray(tmp_4, tmp_188_content, tmp_188_type)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
                         }
@@ -828,11 +828,11 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                             val tmp_192_type: String = tmp_190_type
                             if (tmp_193_idx >= 0) {
                                 val tmp_192_content: String = tmp_190_content.substring(tmp_193_idx + tmp_191_content.length, tmp_190_content.length)
-                                DictionaryHelper.langToByteArray(tmp_4, tmp_192_content, tmp_192_type)
+                                DictionaryHelper.typedToByteArray(tmp_4, tmp_192_content, tmp_192_type)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
                                 val tmp_192_content: String = ""
-                                DictionaryHelper.langToByteArray(tmp_4, tmp_192_content, tmp_192_type)
+                                DictionaryHelper.typedToByteArray(tmp_4, tmp_192_content, tmp_192_type)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
                         }
@@ -845,11 +845,11 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                             val tmp_196_type: String = tmp_194_type
                             if (tmp_197_idx >= 0) {
                                 val tmp_196_content: String = tmp_194_content.substring(tmp_197_idx + tmp_195_content.length, tmp_194_content.length)
-                                DictionaryHelper.langToByteArray(tmp_4, tmp_196_content, tmp_196_type)
+                                DictionaryHelper.typedToByteArray(tmp_4, tmp_196_content, tmp_196_type)
                                 res = query.getDictionary().createValue(tmp_4)
                             } else {
                                 val tmp_196_content: String = ""
-                                DictionaryHelper.langToByteArray(tmp_4, tmp_196_content, tmp_196_type)
+                                DictionaryHelper.typedToByteArray(tmp_4, tmp_196_content, tmp_196_type)
                                 res = query.getDictionary().createValue(tmp_4)
                             }
                         }

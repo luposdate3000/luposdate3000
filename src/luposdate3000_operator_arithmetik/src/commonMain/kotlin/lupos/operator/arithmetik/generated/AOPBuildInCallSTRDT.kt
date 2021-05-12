@@ -616,7 +616,7 @@ public class AOPBuildInCallSTRDT public constructor(query: IQuery, child0: AOPBa
                             val tmp_140: String = DictionaryHelper.byteArrayToIri(tmp_1)
                             val tmp_141_content: String = tmp_139
                             val tmp_141_type: String = tmp_140
-                            DictionaryHelper.langToByteArray(tmp_4, tmp_141_content, tmp_141_type)
+                            DictionaryHelper.typedToByteArray(tmp_4, tmp_141_content, tmp_141_type)
                             res = query.getDictionary().createValue(tmp_4)
                         }
                         ETripleComponentTypeExt.STRING -> {

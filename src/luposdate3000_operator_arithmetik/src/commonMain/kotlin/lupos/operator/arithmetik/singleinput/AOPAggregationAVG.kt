@@ -17,6 +17,8 @@
 package lupos.operator.arithmetik.singleinput
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.DecimalMode
+import com.ionspin.kotlin.bignum.decimal.RoundingMode
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import lupos.operator.arithmetik.AOPAggregationBase
 import lupos.operator.arithmetik.AOPBase
@@ -97,7 +99,9 @@ public class AOPAggregationAVG public constructor(query: IQuery, @JvmField publi
                     ValueFloat(tmp1.toDouble() / tmp.count)
                 }
                 is ValueDecimal -> {
-                    ValueDecimal(tmp1.value / tmp.count.toBigDecimal())
+                    val a = tmp1.value
+                    val b = tmp.count.toBigDecimal()
+                    ValueDecimal(a.divide(b, DecimalMode(decimalPrecision = a.precision + b.precision, roundingMode = RoundingMode.ROUND_HALF_AWAY_FROM_ZERO)))
                 }
                 else -> {
                     ValueError()

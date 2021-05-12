@@ -51,7 +51,7 @@ public class AOPFunctionCallString public constructor(query: IQuery, child0: AOP
                     val tmp_4: Boolean = DictionaryHelper.byteArrayToBoolean(tmp_0)
                     val tmp_5_content: String = tmp_4.toString()
                     val tmp_5_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                    DictionaryHelper.langToByteArray(tmp_2, tmp_5_content, tmp_5_type)
+                    DictionaryHelper.typedToByteArray(tmp_2, tmp_5_content, tmp_5_type)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.DATE_TIME -> {
@@ -66,21 +66,21 @@ public class AOPFunctionCallString public constructor(query: IQuery, child0: AOP
                     val tmp_7_timezone: String = DictionaryHelper.byteArrayToDateTime_TimeZone(tmp_0)
                     val tmp_8_content: String = tmp_7_typed_content
                     val tmp_8_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                    DictionaryHelper.langToByteArray(tmp_2, tmp_8_content, tmp_8_type)
+                    DictionaryHelper.typedToByteArray(tmp_2, tmp_8_content, tmp_8_type)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.DECIMAL -> {
                     val tmp_10: BigDecimal = DictionaryHelper.byteArrayToDecimal_I(tmp_0)
                     val tmp_11_content: String = tmp_10.toString()
                     val tmp_11_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                    DictionaryHelper.langToByteArray(tmp_2, tmp_11_content, tmp_11_type)
+                    DictionaryHelper.typedToByteArray(tmp_2, tmp_11_content, tmp_11_type)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.DOUBLE -> {
                     val tmp_13: Double = DictionaryHelper.byteArrayToDouble_I(tmp_0)
                     val tmp_14_content: String = tmp_13.toString()
                     val tmp_14_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                    DictionaryHelper.langToByteArray(tmp_2, tmp_14_content, tmp_14_type)
+                    DictionaryHelper.typedToByteArray(tmp_2, tmp_14_content, tmp_14_type)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.ERROR -> {
@@ -91,14 +91,14 @@ public class AOPFunctionCallString public constructor(query: IQuery, child0: AOP
                     val tmp_17: Double = DictionaryHelper.byteArrayToFloat_I(tmp_0)
                     val tmp_18_content: String = tmp_17.toString()
                     val tmp_18_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                    DictionaryHelper.langToByteArray(tmp_2, tmp_18_content, tmp_18_type)
+                    DictionaryHelper.typedToByteArray(tmp_2, tmp_18_content, tmp_18_type)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.INTEGER -> {
                     val tmp_20: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
                     val tmp_21_content: String = tmp_20.toString()
                     val tmp_21_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                    DictionaryHelper.langToByteArray(tmp_2, tmp_21_content, tmp_21_type)
+                    DictionaryHelper.typedToByteArray(tmp_2, tmp_21_content, tmp_21_type)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.IRI -> {
@@ -109,7 +109,7 @@ public class AOPFunctionCallString public constructor(query: IQuery, child0: AOP
                     val tmp_24: String = DictionaryHelper.byteArrayToString(tmp_0)
                     val tmp_25_content: String = tmp_24
                     val tmp_25_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                    DictionaryHelper.langToByteArray(tmp_2, tmp_25_content, tmp_25_type)
+                    DictionaryHelper.typedToByteArray(tmp_2, tmp_25_content, tmp_25_type)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING_LANG -> {
@@ -117,7 +117,7 @@ public class AOPFunctionCallString public constructor(query: IQuery, child0: AOP
                     val tmp_27_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_0)
                     val tmp_28_content: String = tmp_27_content
                     val tmp_28_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                    DictionaryHelper.langToByteArray(tmp_2, tmp_28_content, tmp_28_type)
+                    DictionaryHelper.typedToByteArray(tmp_2, tmp_28_content, tmp_28_type)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING_TYPED -> {
@@ -125,7 +125,7 @@ public class AOPFunctionCallString public constructor(query: IQuery, child0: AOP
                     val tmp_30_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
                     val tmp_31_content: String = tmp_30_content
                     val tmp_31_type: String = "http://www.w3.org/2001/XMLSchema#string"
-                    DictionaryHelper.langToByteArray(tmp_2, tmp_31_content, tmp_31_type)
+                    DictionaryHelper.typedToByteArray(tmp_2, tmp_31_content, tmp_31_type)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.UNDEF -> {

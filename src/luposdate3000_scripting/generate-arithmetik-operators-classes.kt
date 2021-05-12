@@ -862,7 +862,7 @@ public val converters = listOf(
             imports.add("lupos.shared.dynamicArray.ByteArrayWrapper")
             imports.add("lupos.shared_inline.DictionaryHelper")
             globalVariables.add("val $outputName: ByteArrayWrapper = ByteArrayWrapper()")
-            target.appendLine("${indention}DictionaryHelper.langToByteArray($outputName, ${inputName}_content, ${inputName}_type)")
+            target.appendLine("${indention}DictionaryHelper.typedToByteArray($outputName, ${inputName}_content, ${inputName}_type)")
         }
     ),
 

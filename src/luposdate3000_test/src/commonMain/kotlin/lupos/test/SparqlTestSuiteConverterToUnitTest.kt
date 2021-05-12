@@ -178,7 +178,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             }
             out.println("    internal const val query = \"${queryFileContentClean}\"")
             out.println("    internal operator fun invoke(){")
-            out.println("        println(\"Test: '$testName'\")")
+            out.println("        println(\"Test #$counter: '$testName'\")")
             out.println("        var success = true")
             out.println("        try {")
             out.println("            LuposdateEndpoint.initialize()")

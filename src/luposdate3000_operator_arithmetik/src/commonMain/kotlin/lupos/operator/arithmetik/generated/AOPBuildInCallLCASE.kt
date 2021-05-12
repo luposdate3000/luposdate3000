@@ -96,7 +96,7 @@ public class AOPBuildInCallLCASE public constructor(query: IQuery, child0: AOPBa
                     val tmp_18_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
                     val tmp_19_content: String = tmp_18_content.toLowerCase()
                     val tmp_19_type: String = tmp_18_type
-                    DictionaryHelper.langToByteArray(tmp_2, tmp_19_content, tmp_19_type)
+                    DictionaryHelper.typedToByteArray(tmp_2, tmp_19_content, tmp_19_type)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.UNDEF -> {

@@ -614,14 +614,9 @@ public class AOPAddition public constructor(query: IQuery, child0: AOPBase, chil
                         ETripleComponentTypeExt.INTEGER -> {
                             val tmp_155: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_0)
                             val tmp_156: BigInteger = DictionaryHelper.byteArrayToInteger_I(tmp_1)
-                            if (tmp_156 == BigInteger.ZERO) {
-                                DictionaryHelper.errorToByteArray(tmp_4)
-                                res = query.getDictionary().createValue(tmp_4)
-                            } else {
-                                val tmp_157: BigInteger = tmp_155 + tmp_156
-                                DictionaryHelper.integerToByteArray(tmp_4, tmp_157)
-                                res = query.getDictionary().createValue(tmp_4)
-                            }
+                            val tmp_157: BigInteger = tmp_155 + tmp_156
+                            DictionaryHelper.integerToByteArray(tmp_4, tmp_157)
+                            res = query.getDictionary().createValue(tmp_4)
                         }
                         ETripleComponentTypeExt.IRI -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
