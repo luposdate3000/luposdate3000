@@ -30,3 +30,6 @@ public val LUPOS_HOME: String = Platform.getEnv("LUPOS_HOME", "/tmp/luposdate300
 
 @JvmField
 public val BUFFER_HOME: String = LUPOS_HOME + "/" + Platform.getEnv("LUPOS_PROCESS_ID", "0")!! + "/" // the root path, where the buffermanager stores its data
+
+@JvmField
+public val LUPOS_VISUALIZE: Boolean = Platform.getEnv("LUPOS_VISUALIZE", "false")!!.toBoolean() // if iterator data should be traced for the visualization
