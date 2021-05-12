@@ -7,29 +7,26 @@ luposdate3000 can be used as a wrapper for apache jena
 ```bash
 dependencieshome=/opt
 #list from https://www.w3.org/wiki/SparqlImplementations ->
-
+#list from wikipedia
 
 #4store
 {
-    # distributed
+    # class: distributed
     apt install 4store
-
-
-    # config by parameters
+    # using fixed path "/var/lib/4store" which makes it hard to simulate multiple instances
 }
 #Amazon Neptune
 {
-    #pay to use
+    # pay to use
 }
 #Apache ARQ/Jena/Fuseki/Joseki/Sesame ->
 {
-    # not-distributed
-    #luposdate3000 provides a wrapper for jena
+    # class: not distributed, Maven, NoEndpoint
+    # luposdate3000 provides a wrapper for jena
 }
 #Apache Marmotta ->
 {
-    # distributed
-    # sparql2sql interface
+    # class: distributed, sparql2sql
     cd $dependencieshome
     wget http://archive.apache.org/dist/marmotta/3.4.0/apache-marmotta-3.4.0-installer.tar.gz
     tar -xf apache-marmotta-3.4.0-installer.tar.gz
@@ -46,19 +43,38 @@ dependencieshome=/opt
 }
 #AllegroGraph
 {
-    #pay to use
+    # pay to use
 }
-#Bigdata(R)(distributed)
-#Blazegraphopen source, precompiled
+#Blazegraph Bigdata(R)
 {
+    # class: not distributed
     cd $dependencieshome
     wget https://github.com/blazegraph/database/releases/download/BLAZEGRAPH_2_1_6_RC/blazegraph.jar
 }
 #Eclipse RDF4J ->
+{
+    # class: SHACL, GeoSPARQL, Maven, NoEndpoint
+}
 #Corese - Conceptual Resource Search Engine ->
+{
+    # class SHACL, only validation???
+    cd $dependencieshome
+    wget http://files.inria.fr/corese/distrib/corese-server-4.1.6d.jar
+}
 #Cray Urika-GD ->
+{
+    # no download available?
+}
 #cwm ->
+{
+    # class: commandline-parser?!?
+    cd $dependencieshome
+    git clone https://github.com/linkeddata/swap
+}
 #Hercules(distributed js)
+{
+    git clone http://lab.arielworks.com/hg/hercules
+}
 #Joost's Lib B ->
 #KAON2 ->
 #MarkLogic ->
