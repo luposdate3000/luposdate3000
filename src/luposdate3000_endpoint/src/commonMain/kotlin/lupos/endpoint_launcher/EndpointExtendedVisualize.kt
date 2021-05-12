@@ -106,51 +106,15 @@ public class EndpointExtendedVisualize(input: String) : IVisualisation {
         return result
     }
 
-// Optimising the physical operator graph and is returning each step of the process for visualisation
-/*@JsName("getOptimizedStepsPhysical")
-public fun getOptimizedStepsPhysical(query: String): Array<String> {
-    val q = Query()
-    val lcit = LexerCharIterator(query)
-    val tit = TokenIteratorSPARQLParser(lcit)
-    val ltit = LookAheadTokenIterator(tit, 3)
-    val parser = SPARQLParser(ltit)
-    val astNode = parser.expr()
-    val lopNode = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
-    val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode) // Log Operatorgraph Optimized
-    val popOptimizer = PhysicalOptimizer(q)
-    var tmp = mutableListOf<IOPBase>()
-    val tmp3 = popOptimizer.optimizeCall(lopNode2, {}, { tmp.add(it.cloneOP()) }) // Physical Operatorgraph
-    val tmp2 = PhysicalOptimizerVisualisation(q).optimizeCall(tmp3)
-    var result = mutableListOf<String>()
-    // Change the UUIDs in each step beginning from 1 via DFS.
-    for (i in tmp) {
-        traverseNetwork(i, mutableMapOf<IOPBase, Int>())
-        result.add(getJsonData(i))
+    @JsName("closeEEV")
+    public fun closeEEV(){
+        LuposdateEndpoint.close()
     }
-    return result.toTypedArray()
-}
 
-// Optimising the logical operator graph and is returning each step of the process for visualisation
-@JsName("getOptimizedStepsLogical")
-public fun getOptimizedStepsLogical(query: String): Array<String> {
-    val q = Query()
-    val lcit = LexerCharIterator(query)
-    val tit = TokenIteratorSPARQLParser(lcit)
-    val ltit = LookAheadTokenIterator(tit, 3)
-    val parser = SPARQLParser(ltit)
-    val astNode = parser.expr()
-    val lopNode = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
-    var tmp = mutableListOf<IOPBase>()
-    var tmp2 = LogicalOptimizer(q).optimizeCall(lopNode, {}, { tmp.add(it.cloneOP()) }) // Log Operatorgraph Optimized
-    var result = mutableListOf<String>()
-    // Change the UUIDs in each step beginning from 1 via DFS.
-    for (i in tmp) {
-        traverseNetwork(i, mutableMapOf<IOPBase, Int>())
-        result.add(getJsonData(i))
+    @JsName("initEEV")
+    public fun initEEV(){
+        LuposdateEndpoint.initialize()
     }
-    return result.toTypedArray()
-}
-*/
 
     // Input: (Sub)-Tree of the Query
 // Output: Node and Edge Information as String for each node of the tree

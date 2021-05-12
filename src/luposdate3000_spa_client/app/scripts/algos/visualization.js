@@ -961,12 +961,14 @@ function evaluateSPARQL(){
         if ($('#send_rdf').is(':checked')) {
             var rdf = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string_a(App.cm['rdf'].getValue());
         }
-        //Receive optimized steps for logical and physical operator graph
         var eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(inputValue)
+        //Receive optimized steps for logical and physical operator graph
         logGraph = eev.getOptimizedStepsLogical();
         physGraph = eev.getOptimizedStepsPhysical();
         //Result from the query
         result = eev.getResult();
+        eev.closeEEV();
+        eev.initEEV();
         var tmpResult = eev.getDataSteps();
         var i;
         for (i=0;i<=tmpResult.length-2;i++){
