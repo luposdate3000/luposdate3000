@@ -41,7 +41,7 @@ public class AOPBuildInCallDATATYPE public constructor(query: IQuery, child0: AO
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
-                ETripleComponentTypeExt.BLANK_NODE -> {
+                ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.UNDEF -> {
                     DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
@@ -61,20 +61,12 @@ public class AOPBuildInCallDATATYPE public constructor(query: IQuery, child0: AO
                     DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#double")
                     res = query.getDictionary().createValue(tmp_2)
                 }
-                ETripleComponentTypeExt.ERROR -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
                 ETripleComponentTypeExt.FLOAT -> {
                     DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#float")
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.INTEGER -> {
                     DictionaryHelper.stringToByteArray(tmp_2, "http://www.w3.org/2001/XMLSchema#integer")
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.IRI -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.STRING -> {
@@ -90,10 +82,6 @@ public class AOPBuildInCallDATATYPE public constructor(query: IQuery, child0: AO
                     val tmp_14_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
                     val tmp_15: String = tmp_14_type
                     DictionaryHelper.stringToByteArray(tmp_2, tmp_15)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.UNDEF -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {

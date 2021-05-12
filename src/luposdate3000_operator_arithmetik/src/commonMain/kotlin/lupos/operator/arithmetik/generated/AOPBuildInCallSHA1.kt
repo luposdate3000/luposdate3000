@@ -42,39 +42,7 @@ public class AOPBuildInCallSHA1 public constructor(query: IQuery, child0: AOPBas
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
-                ETripleComponentTypeExt.BLANK_NODE -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.BOOLEAN -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.DATE_TIME -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.DECIMAL -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.DOUBLE -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.ERROR -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.FLOAT -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.INTEGER -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.IRI -> {
+                ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.UNDEF -> {
                     DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
@@ -96,10 +64,6 @@ public class AOPBuildInCallSHA1 public constructor(query: IQuery, child0: AOPBas
                     val tmp_18_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
                     val tmp_19: String = Crypto.sha1(tmp_18_content)
                     DictionaryHelper.stringToByteArray(tmp_2, tmp_19)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.UNDEF -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {

@@ -41,55 +41,15 @@ public class AOPBuildInCallIsNUMERIC public constructor(query: IQuery, child0: A
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
-                ETripleComponentTypeExt.BLANK_NODE -> {
+                ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED -> {
                     DictionaryHelper.booleanToByteArray(tmp_2, false)
                     res = query.getDictionary().createValue(tmp_2)
                 }
-                ETripleComponentTypeExt.BOOLEAN -> {
-                    DictionaryHelper.booleanToByteArray(tmp_2, false)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.DATE_TIME -> {
-                    DictionaryHelper.booleanToByteArray(tmp_2, false)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.DECIMAL -> {
+                ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER -> {
                     DictionaryHelper.booleanToByteArray(tmp_2, true)
                     res = query.getDictionary().createValue(tmp_2)
                 }
-                ETripleComponentTypeExt.DOUBLE -> {
-                    DictionaryHelper.booleanToByteArray(tmp_2, true)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.ERROR -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.FLOAT -> {
-                    DictionaryHelper.booleanToByteArray(tmp_2, true)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.INTEGER -> {
-                    DictionaryHelper.booleanToByteArray(tmp_2, true)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.IRI -> {
-                    DictionaryHelper.booleanToByteArray(tmp_2, false)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.STRING -> {
-                    DictionaryHelper.booleanToByteArray(tmp_2, false)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.STRING_LANG -> {
-                    DictionaryHelper.booleanToByteArray(tmp_2, false)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.STRING_TYPED -> {
-                    DictionaryHelper.booleanToByteArray(tmp_2, false)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.UNDEF -> {
+                ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF -> {
                     DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }

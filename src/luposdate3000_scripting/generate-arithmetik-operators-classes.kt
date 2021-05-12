@@ -196,9 +196,15 @@ public class MyOperator(
         var lastOperatorTypes = Array(implementations[0].childrenTypes.size) { -1 }
         var openWhenStatements = -1
         var localindention = indention
+        val currentStatements = mutableMapOf<String, String>() // content -> keys
         fun closeWhenStatements(first: Int) {
             while (openWhenStatements > first) {
-                target.appendLine("${localindention.substring(4)}}")
+                for ((k, v) in currentStatements) {
+                    target.appendLine("${localindention.substring(4)}$v -> {")
+                    target.append(k)
+                    target.appendLine("${localindention.substring(4)}}")
+                }
+                currentStatements.clear()
                 target.appendLine("${localindention.substring(4)}else -> {")
                 if (representation == EParamRepresentation.ID) {
                     generateIDOther(localindention, outputName, "${prefix}_${prefix_counter++}", imports, target, globalVariables) { _, _ ->
@@ -222,11 +228,15 @@ public class MyOperator(
                         openWhenStatements++
                         localindention += "        "
                     } else {
-                        target.appendLine("${localindention.substring(4)}}")
+                        if (i < implementation.childrenTypes.size - 1) {
+                            target.appendLine("${localindention.substring(4)}}")
+                        }
                     }
                     imports.add("lupos.shared.ETripleComponentTypeExt")
                     lastOperatorTypes[i] = implementation.childrenTypes[i]
-                    target.appendLine("${localindention.substring(4)}ETripleComponentTypeExt.${ETripleComponentTypeExt.names[implementation.childrenTypes[i]]} -> {")
+                    if (i < implementation.childrenTypes.size - 1) {
+                        target.appendLine("${localindention.substring(4)}ETripleComponentTypeExt.${ETripleComponentTypeExt.names[implementation.childrenTypes[i]]} -> {")
+                    }
                 }
             }
 
@@ -236,10 +246,11 @@ public class MyOperator(
                 commonOperatorTypes++
             }
             createWhenStatements(commonOperatorTypes, implementation.childrenTypes.size)
+            val localtarget = StringBuilder()
             if (generateByteArrayWrapper != null) {
-                generateByteArrayWrapper(localindention, myInputNames, myOutputName, "${prefix}_${prefix_counter++}", imports, target, globalVariables) { indention2, _ ->
+                generateByteArrayWrapper(localindention, myInputNames, myOutputName, "${prefix}_${prefix_counter++}", imports, localtarget, globalVariables) { indention2, _ ->
                     if (representation == EParamRepresentation.ID) {
-                        target.appendLine("$indention2$outputName = query.getDictionary().createValue($myOutputName)")
+                        localtarget.appendLine("$indention2$outputName = query.getDictionary().createValue($myOutputName)")
                     }
                 }
             } else {
@@ -247,19 +258,26 @@ public class MyOperator(
                 var myOutputInstance = "${prefix}_${prefix_counter++}"
                 for (i in 0 until inputNames.size) {
                     val converter = getRepresentationConversionFunction(implementation.childrenTypes[i], EParamRepresentation.BYTEARRAYWRAPPER, EParamRepresentation.INSTANTIATED)
-                    converter.generate(localindention, myInputNames[i], myInputInstances[i], imports, target, globalVariables)
+                    converter.generate(localindention, myInputNames[i], myInputInstances[i], imports, localtarget, globalVariables)
                 }
-                implementation.generateInstantiated(localindention, myInputInstances, myOutputInstance, "${prefix}_${prefix_counter++}", imports, target, globalVariables) { indention2, resultType ->
+                implementation.generateInstantiated(localindention, myInputInstances, myOutputInstance, "${prefix}_${prefix_counter++}", imports, localtarget, globalVariables) { indention2, resultType ->
                     if (resultType == ETripleComponentTypeExt.BLANK_NODE) {
-                        target.appendLine("$indention2$outputName = $myOutputInstance")
+                        localtarget.appendLine("$indention2$outputName = $myOutputInstance")
                     } else {
                         val converter = getRepresentationConversionFunction(resultType, EParamRepresentation.INSTANTIATED, EParamRepresentation.BYTEARRAYWRAPPER)
-                        converter.generate(indention2, myOutputInstance, myOutputName, imports, target, globalVariables)
+                        converter.generate(indention2, myOutputInstance, myOutputName, imports, localtarget, globalVariables)
                         if (representation == EParamRepresentation.ID) {
-                            target.appendLine("$indention2$outputName = query.getDictionary().createValue($myOutputName)")
+                            localtarget.appendLine("$indention2$outputName = query.getDictionary().createValue($myOutputName)")
                         }
                     }
                 }
+            }
+            val localtargetS = localtarget.toString()
+            val tmp = currentStatements[localtargetS]
+            if (tmp == null) {
+                currentStatements[localtargetS] = "ETripleComponentTypeExt." + ETripleComponentTypeExt.names[implementation.childrenTypes[implementation.childrenTypes.size - 1]]
+            } else {
+                currentStatements[localtargetS] = tmp + ", ETripleComponentTypeExt." + ETripleComponentTypeExt.names[implementation.childrenTypes[implementation.childrenTypes.size - 1]]
             }
         }
         closeWhenStatements(-1)

@@ -48,55 +48,7 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
             when (tmp_2) {
                 ETripleComponentTypeExt.BLANK_NODE -> {
                     when (tmp_3) {
-                        ETripleComponentTypeExt.BLANK_NODE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.BOOLEAN -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DATE_TIME -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DECIMAL -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DOUBLE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.ERROR -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.FLOAT -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.INTEGER -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.IRI -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_LANG -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_TYPED -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.UNDEF -> {
+                        ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
                             res = query.getDictionary().createValue(tmp_4)
                         }
@@ -107,7 +59,7 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
                 }
                 ETripleComponentTypeExt.BOOLEAN -> {
                     when (tmp_3) {
-                        ETripleComponentTypeExt.BLANK_NODE -> {
+                        ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
                             res = query.getDictionary().createValue(tmp_4)
                         }
@@ -116,18 +68,6 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
                             val tmp_21: Boolean = DictionaryHelper.byteArrayToBoolean(tmp_1)
                             val tmp_22: Boolean = tmp_20 || tmp_21
                             DictionaryHelper.booleanToByteArray(tmp_4, tmp_22)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DATE_TIME -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DECIMAL -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DOUBLE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
                             res = query.getDictionary().createValue(tmp_4)
                         }
                         ETripleComponentTypeExt.ERROR -> {
@@ -141,34 +81,6 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
                                 res = query.getDictionary().createValue(tmp_4)
                             }
                         }
-                        ETripleComponentTypeExt.FLOAT -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.INTEGER -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.IRI -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_LANG -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_TYPED -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.UNDEF -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
                         else -> {
                             res = DictionaryExt.errorValue
                         }
@@ -176,55 +88,7 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
                 }
                 ETripleComponentTypeExt.DATE_TIME -> {
                     when (tmp_3) {
-                        ETripleComponentTypeExt.BLANK_NODE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.BOOLEAN -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DATE_TIME -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DECIMAL -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DOUBLE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.ERROR -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.FLOAT -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.INTEGER -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.IRI -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_LANG -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_TYPED -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.UNDEF -> {
+                        ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
                             res = query.getDictionary().createValue(tmp_4)
                         }
@@ -235,55 +99,7 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
                 }
                 ETripleComponentTypeExt.DECIMAL -> {
                     when (tmp_3) {
-                        ETripleComponentTypeExt.BLANK_NODE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.BOOLEAN -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DATE_TIME -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DECIMAL -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DOUBLE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.ERROR -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.FLOAT -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.INTEGER -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.IRI -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_LANG -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_TYPED -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.UNDEF -> {
+                        ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
                             res = query.getDictionary().createValue(tmp_4)
                         }
@@ -294,55 +110,7 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
                 }
                 ETripleComponentTypeExt.DOUBLE -> {
                     when (tmp_3) {
-                        ETripleComponentTypeExt.BLANK_NODE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.BOOLEAN -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DATE_TIME -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DECIMAL -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DOUBLE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.ERROR -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.FLOAT -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.INTEGER -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.IRI -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_LANG -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_TYPED -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.UNDEF -> {
+                        ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
                             res = query.getDictionary().createValue(tmp_4)
                         }
@@ -353,7 +121,7 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
                 }
                 ETripleComponentTypeExt.ERROR -> {
                     when (tmp_3) {
-                        ETripleComponentTypeExt.BLANK_NODE -> {
+                        ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
                             res = query.getDictionary().createValue(tmp_4)
                         }
@@ -368,50 +136,6 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
                                 res = query.getDictionary().createValue(tmp_4)
                             }
                         }
-                        ETripleComponentTypeExt.DATE_TIME -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DECIMAL -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DOUBLE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.ERROR -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.FLOAT -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.INTEGER -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.IRI -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_LANG -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_TYPED -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.UNDEF -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
                         else -> {
                             res = DictionaryExt.errorValue
                         }
@@ -419,55 +143,7 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
                 }
                 ETripleComponentTypeExt.FLOAT -> {
                     when (tmp_3) {
-                        ETripleComponentTypeExt.BLANK_NODE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.BOOLEAN -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DATE_TIME -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DECIMAL -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DOUBLE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.ERROR -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.FLOAT -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.INTEGER -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.IRI -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_LANG -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_TYPED -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.UNDEF -> {
+                        ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
                             res = query.getDictionary().createValue(tmp_4)
                         }
@@ -478,55 +154,7 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
                 }
                 ETripleComponentTypeExt.INTEGER -> {
                     when (tmp_3) {
-                        ETripleComponentTypeExt.BLANK_NODE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.BOOLEAN -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DATE_TIME -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DECIMAL -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DOUBLE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.ERROR -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.FLOAT -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.INTEGER -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.IRI -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_LANG -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_TYPED -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.UNDEF -> {
+                        ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
                             res = query.getDictionary().createValue(tmp_4)
                         }
@@ -537,55 +165,7 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
                 }
                 ETripleComponentTypeExt.IRI -> {
                     when (tmp_3) {
-                        ETripleComponentTypeExt.BLANK_NODE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.BOOLEAN -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DATE_TIME -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DECIMAL -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DOUBLE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.ERROR -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.FLOAT -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.INTEGER -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.IRI -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_LANG -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_TYPED -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.UNDEF -> {
+                        ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
                             res = query.getDictionary().createValue(tmp_4)
                         }
@@ -596,55 +176,7 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
                 }
                 ETripleComponentTypeExt.STRING -> {
                     when (tmp_3) {
-                        ETripleComponentTypeExt.BLANK_NODE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.BOOLEAN -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DATE_TIME -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DECIMAL -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DOUBLE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.ERROR -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.FLOAT -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.INTEGER -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.IRI -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_LANG -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_TYPED -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.UNDEF -> {
+                        ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
                             res = query.getDictionary().createValue(tmp_4)
                         }
@@ -655,55 +187,7 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
                 }
                 ETripleComponentTypeExt.STRING_LANG -> {
                     when (tmp_3) {
-                        ETripleComponentTypeExt.BLANK_NODE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.BOOLEAN -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DATE_TIME -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DECIMAL -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DOUBLE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.ERROR -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.FLOAT -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.INTEGER -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.IRI -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_LANG -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_TYPED -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.UNDEF -> {
+                        ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
                             res = query.getDictionary().createValue(tmp_4)
                         }
@@ -714,55 +198,7 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
                 }
                 ETripleComponentTypeExt.STRING_TYPED -> {
                     when (tmp_3) {
-                        ETripleComponentTypeExt.BLANK_NODE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.BOOLEAN -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DATE_TIME -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DECIMAL -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DOUBLE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.ERROR -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.FLOAT -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.INTEGER -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.IRI -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_LANG -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_TYPED -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.UNDEF -> {
+                        ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
                             res = query.getDictionary().createValue(tmp_4)
                         }
@@ -773,55 +209,7 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
                 }
                 ETripleComponentTypeExt.UNDEF -> {
                     when (tmp_3) {
-                        ETripleComponentTypeExt.BLANK_NODE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.BOOLEAN -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DATE_TIME -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DECIMAL -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.DOUBLE -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.ERROR -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.FLOAT -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.INTEGER -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.IRI -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_LANG -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.STRING_TYPED -> {
-                            DictionaryHelper.errorToByteArray(tmp_4)
-                            res = query.getDictionary().createValue(tmp_4)
-                        }
-                        ETripleComponentTypeExt.UNDEF -> {
+                        ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.IRI, ETripleComponentTypeExt.STRING, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.STRING_TYPED, ETripleComponentTypeExt.UNDEF -> {
                             DictionaryHelper.errorToByteArray(tmp_4)
                             res = query.getDictionary().createValue(tmp_4)
                         }
@@ -829,12 +217,11 @@ public class AOPOr public constructor(query: IQuery, child0: AOPBase, child1: AO
                             res = DictionaryExt.errorValue
                         }
                     }
+                    else -> {
+                        res = DictionaryExt.errorValue
+                    }
                 }
-                else -> {
-                    res = DictionaryExt.errorValue
-                }
+                res
             }
-            res
         }
     }
-}

@@ -43,35 +43,7 @@ public class AOPBuildInCallIRI public constructor(query: IQuery, child0: AOPBase
             query.getDictionary().getValue(tmp_0, childIn0)
             val tmp_1: ETripleComponentType = DictionaryHelper.byteArrayToType(tmp_0)
             when (tmp_1) {
-                ETripleComponentTypeExt.BLANK_NODE -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.BOOLEAN -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.DATE_TIME -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.DECIMAL -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.DOUBLE -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.ERROR -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.FLOAT -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
-                ETripleComponentTypeExt.INTEGER -> {
+                ETripleComponentTypeExt.BLANK_NODE, ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.DATE_TIME, ETripleComponentTypeExt.DECIMAL, ETripleComponentTypeExt.DOUBLE, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.FLOAT, ETripleComponentTypeExt.INTEGER, ETripleComponentTypeExt.STRING_LANG, ETripleComponentTypeExt.UNDEF -> {
                     DictionaryHelper.errorToByteArray(tmp_2)
                     res = query.getDictionary().createValue(tmp_2)
                 }
@@ -89,10 +61,6 @@ public class AOPBuildInCallIRI public constructor(query: IQuery, child0: AOPBase
                     DictionaryHelper.iriToByteArray(tmp_2, tmp_13)
                     res = query.getDictionary().createValue(tmp_2)
                 }
-                ETripleComponentTypeExt.STRING_LANG -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
-                }
                 ETripleComponentTypeExt.STRING_TYPED -> {
                     val tmp_16_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
                     val tmp_16_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
@@ -108,10 +76,6 @@ public class AOPBuildInCallIRI public constructor(query: IQuery, child0: AOPBase
                         DictionaryHelper.errorToByteArray(tmp_2)
                         res = query.getDictionary().createValue(tmp_2)
                     }
-                }
-                ETripleComponentTypeExt.UNDEF -> {
-                    DictionaryHelper.errorToByteArray(tmp_2)
-                    res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {
                     res = DictionaryExt.errorValue
