@@ -1,0 +1,63 @@
+PREFIX swrc: http://swrc.ontoware.org/ontology
+PREFIX rdf:  http://www.w3.org/1999/02/22-rdf-syntax-ns# 
+
+SELECT ?article, ?pages
+WHERE { ?autors rdf:type http://localhost/vocabulary/bench/Article
+		?article swrc:pages ?pages .
+		FILTER(?pages > 100) }
+
+## FILTER ONLY
+fun open
+	var pages = data(PSO, "swrc:pages")		// "dc:title" ist Konstante
+	var close = false
+
+fun next
+	if(closed){
+		return endsymbol
+	}
+	var tmp = name.next()
+	if(tmp == endsymbol){
+		name.close()
+	}else{
+		if(tmp.pages > 100 && tmp.pages.type == DOUBLE OR INTEGER){
+			return tmp
+		}
+	}
+
+fun close
+	closed = true
+	name.close()
+
+## CODE 
+val x = TripleStoreIteratorGlobal(query,
+        listOf("article"),                   //Variablen fuer den output: VAR ohne das ?
+        "",                       //Leerer String = Standardgraph
+        arrayOf(AOPVariable(query, "article"),            //Triple-Pattern mit Var article
+            AOPConstant(query, ValueIri("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")),    //Konstante, Iri müssen explizit ausgeschrieben werden
+            AOPConstant(query, ValueIri("http://localhost/vocabulary/bench/Article"))),         //Konstante, Iri muss ausgeschrieben sein
+        EIndexPattern.PO_S,
+        xP) //Partition
+
+val y = TripleStoreIteratorGlobal(query,
+        listOf("article","pages"),                   //Variablen fuer den output
+        "",                       //Leerer String = Standardgraph
+        arrayOf(AOPVariable(query, "article"),
+            AOPConstant(query, ValueIri("http://swrc.ontoware.org/ontology#pages")),    //Konstante
+            AOPVariable(query, "pages")),           //Variable Objekt
+        EIndexPattern.P_SO,                  //Indexsortierung nach PSO, Variablen mit Namen _ kommen zum Schluss
+        xP) //Partition
+
+val f = POPFilter(query,
+        listOf("article","pages"),
+        AOPGEQ(query,
+            y.children[2] as AOPBase,
+            AOPConstant(query,ValueDefinition.invoke("100"))
+        ),
+        y)
+
+val z = POPJoinMerge(query,
+        listOf("article","pages"),               	 // Ausgabe der Variablen
+        x,                              			// Welche TripleStores sollen denn gemerged werden
+        f as OPBase,false)               			 // Optional ist false
+
+val c:IteratorBundle = f.evaluate(Partition())     

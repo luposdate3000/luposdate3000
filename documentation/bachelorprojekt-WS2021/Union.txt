@@ -1,0 +1,27 @@
+PREFIX dc10: http://purl.org/dc/elements/1.0/
+PREFIX dc11: http://purl.org/dc/elements/1.1/
+        
+SELECT ?title
+        WHERE { { ?book dc10:title ?title } UNION { ?book dc11:title ?title } }
+
+fun open
+        var dc10 = data(PSO,"dc10:title")               //Konstante
+        var dc11 = data(PSO,"dc11:title")               //Konstante
+        var closed=false
+
+fun next
+       if(closed){ 
+                return endsymbol
+        }
+        var tmp = dc10.next()
+        if( tmp==endsymbol){ 
+                dc10.close()
+                return dc11.next()
+        }else{ 
+            return tmp
+        }
+
+fun close
+        closed=true
+        dc10.close()
+        dc11.close()

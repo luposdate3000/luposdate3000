@@ -1,0 +1,50 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT ?name ?mbox
+	WHERE{ ?x foaf:name ?name .
+		?x foaf:mbox ?mbox 
+	}
+
+fun open
+        var name= data(PSO,"foaf:name")               //konstannte
+        var mbox = data(PSO,"foaf:mbox")               //konstannte
+        var closed=false
+	var temp
+
+fun next
+        IF(temp.hasNext())
+ 		RETURN temp.next()
+ 	IF(name.x == endsymbol or mbox.x == endsymbol)
+		RETURN endsymbol
+	WHILE(name.x != mbox.x){
+ 		IF(name.x < mbox.x){
+ 			name.next()
+ 			IF(name.x == endsymbol)	
+				RETURN endsymbol
+ 		}
+ 		ELSE { 										// r < s (siehe WHILE- und IF-Bedingung!)
+ 			mbox.next()
+ 			IF(mbox.x == endsymbol) 
+				RETURN endsymbol
+ 		}
+ 	}
+ 	cmp = name.x 										// = πJoin Attributes(r) (siehe WHILE-Bedingung)
+ 	ts = {}; 
+	WHILE(name.x == cmp) { 
+		ts.add(name.name);
+		name.next() 
+	}
+ 	tr = {};
+ 	WHILE(mbox.x == cmp) {
+		tr.add(mbox.mbox);
+		mbox.next()
+	}
+ 	temp = ts × tr; 
+	temp.open()
+ 	RETURN temp.next()
+
+
+fun close
+        closed=true
+        name.close()
+        mbox.close()
+	temp.next()
