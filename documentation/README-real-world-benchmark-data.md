@@ -46,6 +46,7 @@ export LUPOS_REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 ```bash
 #bsbm
 {
+#syntetic data
     cd $dependencieshome
     wget https://ayera.dl.sourceforge.net/project/bsbmtools/bsbmtools/bsbmtools-0.2/bsbmtools-v0.2.zip
     unzip bsbmtools-v0.2.zip
@@ -62,6 +63,7 @@ export LUPOS_REAL_WORLD_DATA_ROOT=/mnt/luposdate-testdata/
 }
 #sp2b
 {
+#syntetic data
     cd $dependencieshome
     wget http://dbis.informatik.uni-freiburg.de/content/projects/SP2B/docs/sp2b-v1_00-full.tar.gz
     tar -xzf sp2b-v1_00-full.tar.gz

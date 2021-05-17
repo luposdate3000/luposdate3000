@@ -20,7 +20,6 @@ import lupos.operator.base.Query
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.optimizer.logical.OptimizerCompoundBase
-import lupos.shared.LUPOS_VISUALIZE
 
 public class PhysicalOptimizer public constructor(query: Query) : OptimizerCompoundBase(query, EOptimizerIDExt.PhysicalOptimizerID, "PhysicalOptimizer") {
     override val childrenOptimizers: Array<Array<OptimizerBase>> = arrayOf(
@@ -51,11 +50,5 @@ public class PhysicalOptimizer public constructor(query: Query) : OptimizerCompo
         arrayOf(
             // PhysicalOptimizerDebug(query), //
         ),
-        if (LUPOS_VISUALIZE) {
-            arrayOf<OptimizerBase>(PhysicalOptimizerVisualisation(query))
-        } else {
-            arrayOf<OptimizerBase>()
-        },
-
     )
 }
