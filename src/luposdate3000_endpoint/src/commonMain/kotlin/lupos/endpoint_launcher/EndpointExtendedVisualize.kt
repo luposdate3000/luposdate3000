@@ -107,12 +107,12 @@ public class EndpointExtendedVisualize(input: String) : IVisualisation {
     }
 
     @JsName("closeEEV")
-    public fun closeEEV(){
+    public fun closeEEV() {
         LuposdateEndpoint.close()
     }
 
     @JsName("initEEV")
-    public fun initEEV(){
+    public fun initEEV() {
         LuposdateEndpoint.initialize()
     }
 
