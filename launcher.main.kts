@@ -1204,8 +1204,7 @@ fun onSetupSPAClient() {
     }
     val cache = mutableListOf<String>()
     var mode = 0
-    println("$dirname/gulpfile.js")
-    File("$dirname/gulpfile.js").forEachLine { line ->
+    File(dir, "gulpfile.js").forEachLine { line ->
         when (mode) {
             0 -> {
                 cache.add(line)
@@ -1225,21 +1224,25 @@ fun onSetupSPAClient() {
             }
         }
     }
-    File("$dirname/gulpfile.js").printWriter().use { out ->
+    File(dir, "gulpfile.js").printWriter().use { out ->
         for (c in cache) {
             out.println(c)
         }
     }
-    val pbin = ProcessBuilder("npm", "bin")
-        .directory(dir)
-    val bproc = pbin.start()
-    val reader = bproc.getInputStream().reader()
-    val pwd = reader.readText().trim().replace("\\", "\\\\")
-    reader.close()
+    val bin_npm = fixPathNames(commandToString(ProcessBuilder("which", "npm")).trim())
+    println("bin_npm: " + bin_npm)
+    val pwd = commandToString(
+        ProcessBuilder(bin_npm, "bin")
+            .directory(dir)
+    ).trim()
+    val bin_bower = fixPathNames("$pwd/bower")
+    val bin_gulp = fixPathNames("$pwd/gulp")
+    println("bin_bower :" + bin_bower)
+    println("bin_gulp :" + bin_gulp)
     val commands = listOf(
-        listOf("npm", "install"),
-        listOf("$pwd/bower", "install", "--allow-root"),
-        listOf("$pwd/gulp"),
+        listOf(bin_npm, "install"),
+        listOf(bin_bower, "install", "--allow-root"),
+        listOf(bin_gulp),
     )
     for (cmd in commands) {
         println("cmd :: $cmd")
@@ -1255,6 +1258,14 @@ fun onSetupSPAClient() {
             throw Exception("exit-code:: " + p2.exitValue())
         }
     }
+}
+
+fun commandToString(pbin: ProcessBuilder): String {
+    val bproc = pbin.start()
+    val reader = bproc.getInputStream().reader()
+    val res = reader.readText()
+    reader.close()
+    return res
 }
 
 fun getJSScriptFiles(): List<String> {

@@ -35,7 +35,7 @@ fun targetModeCompatible(base: TargetMode2, check: TargetMode2): Boolean {
 }
 
 fun fixPathNames(s: String): String {
-    var res = s
+    var res = s.trim()
     var back = ""
     while (back != res) {
         back = res
