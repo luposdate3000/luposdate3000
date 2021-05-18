@@ -69,19 +69,21 @@ public class JSOutputStream(private val filename: String, append: Boolean) {
             val v = ExternalModule_fs.inmemoryFs[filename]
             if (v != null) {
                 buffer = v
+                bufferSize = v.size
             } else {
                 buffer = ByteArray(1024)
+                bufferSize = 0
             }
         } else {
             buffer = ByteArray(1024)
+            bufferSize = 0
         }
-        bufferSize = buffer.size
     }
 
     private fun reserveSpace(size: Int) {
         if (bufferSize + size > buffer.size) {
             var destSize = 1024
-            while (destSize < size) {
+            while (destSize < size + bufferSize) {
                 destSize = destSize * 2
             }
             val b = ByteArray(destSize)
@@ -123,6 +125,7 @@ public class JSOutputStream(private val filename: String, append: Boolean) {
     }
 
     public fun print(x: String) {
+        var p = bufferSize
         write(x.encodeToByteArray())
     }
 
@@ -167,23 +170,26 @@ public class JSInputStream {
     }
 
     public fun read(buf: ByteArray, off: Int, len: Int): Int {
-        var l = len
-        if (len + off > buffer.size - pos) {
-            l = buffer.size - pos
+        var l = len + off
+        if (len + off > buffer.size) {
+            l = buffer.size
         }
-        if (l > 0) {
-            buffer.copyInto(buf, 0, off, len)
-            pos += l
+        if (l > off) {
+            buffer.copyInto(buf, 0, off, l)
         }
-        return l
+        return l - off
     }
 
     public fun read(buf: ByteArray, len: Int): Int {
-        return read(buf, 0, len)
+        val l = read(buf, pos, len)
+        pos += l
+        return l
     }
 
     public fun read(buf: ByteArray): Int {
-        return read(buf, 0, buf.size)
+        val l = read(buf, pos, buf.size)
+        pos += l
+        return l
     }
 
     public fun close() {
@@ -206,6 +212,7 @@ public class JSInputStream {
                 return null
             }
         }
-        return buf.toByteArray().decodeToString()
+        val res = buf.toByteArray().decodeToString()
+        return res
     }
 }

@@ -231,6 +231,7 @@ public object InputToIntermediate {
                 val f = File(inputFileName)
                 val lcit: LexerCharIterator = if (f.length() < Int.MAX_VALUE) {
                     val data = f.readAsString()
+                    println("fulldata '''$data'''")
                     LexerCharIterator(data)
                 } else {
                     val data = f.readAsCharIterator()
