@@ -29,15 +29,19 @@ public abstract class DictionaryIntermediate(internal val filename: String) {
     @JvmField
     public var streamIn: IMyInputStream? = null
     public abstract fun close()
+    public fun fileExists(): Boolean {
+        return getFile().exists()
+    }
+
+    internal fun getFile(): File {
+        return File("$filename$filenameEnding")
+    }
 
     public companion object {
         internal const val filenameEnding = ".dictionary"
-        public fun getFile(): File {
-            return File("$filename$filenameEnding")
-        }
 
         public fun delete(filename: String) {
-            getFile().deleteRecursively()
+            DictionaryIntermediateReader(filename).getFile().deleteRecursively()
         }
     }
 }

@@ -30,9 +30,7 @@ import lupos.shared.LUPOS_REAL_WORLD_DATA_ROOT
 import lupos.shared.XMLElementFromXML
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
-import lupos.shared.dictionary.nodeGlobalDictionary
 import lupos.shared.tripleStoreManager
-import lupos.shared_inline.File
 import lupos.shared_inline.MyInputStream
 import lupos.shared_inline.MyOutputStream
 import kotlin.jvm.JvmField
@@ -218,27 +216,13 @@ internal object RestEndpoint {
             /*Coverage Unreachable*/
         }
         paths["/import/turtle"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3") to ::inputElement)) {
-            val dict = mutableMapOf<String, Int>()
-            val dictfile = params["bnodeList"]
-            if (dictfile != null) {
-                File(dictfile).forEachLine {
-                    dict[it] = nodeGlobalDictionary.createNewBNode()
-                }
-            }
             printHeaderSuccess(connectionOutMy)
-            connectionOutMy.print(LuposdateEndpoint.importTurtleFiles(params["file"]!!, dict))
+            connectionOutMy.print(LuposdateEndpoint.importTurtleFile(params["file"]!!))
             /*Coverage Unreachable*/
         }
         paths["/import/turtledata"] = PathMappingHelper(true, mapOf(Pair("data", "<s> <p> <o> .") to ::inputElement)) {
-            val dict = mutableMapOf<String, Int>()
-            val dictfile = params["bnodeList"]
-            if (dictfile != null) {
-                File(dictfile).forEachLine {
-                    dict[it] = nodeGlobalDictionary.createNewBNode()
-                }
-            }
             printHeaderSuccess(connectionOutMy)
-            connectionOutMy.print(LuposdateEndpoint.importTurtleString(params["data"]!!, dict))
+            connectionOutMy.print(LuposdateEndpoint.importTurtleString(params["data"]!!))
             /*Coverage Unreachable*/
         }
         paths["/import/estimatedPartitions"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3.partitions") to ::inputElement)) {
@@ -247,7 +231,7 @@ internal object RestEndpoint {
         }
         paths["/import/intermediate"] = PathMappingHelper(true, mapOf(Pair("file", "$LUPOS_REAL_WORLD_DATA_ROOT/sp2b/1024/complete.n3") to ::inputElement)) {
             printHeaderSuccess(connectionOutMy)
-            connectionOutMy.print(LuposdateEndpoint.importIntermediateFiles(params["file"]!!))
+            connectionOutMy.print(LuposdateEndpoint.importIntermediateFile(params["file"]!!))
             /*Coverage Unreachable*/
         }
         paths["/import/xml"] = PathMappingHelper(true, mapOf(Pair("xml", "") to ::inputElement)) {

@@ -26,6 +26,7 @@ import lupos.optimizer.ast.OperatorGraphVisitor
 import lupos.optimizer.distributed.query.DistributedOptimizerQuery
 import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
+import lupos.parser.InputToIntermediate
 import lupos.parser.LexerCharIterator
 import lupos.parser.LookAheadTokenIterator
 import lupos.parser.sparql1_1.SPARQLParser
@@ -54,6 +55,7 @@ import lupos.shared.XMLElement
 import lupos.shared.XMLElementFromXML
 import lupos.shared.communicationHandler
 import lupos.shared.dictionary.nodeGlobalDictionary
+import lupos.shared.fileformat.DictionaryIntermediateReader
 import lupos.shared.fileformat.TriplesIntermediateReader
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
@@ -82,7 +84,7 @@ public object LuposdateEndpoint {
 
     @JsName("import_turtle_file")
     /*suspend*/ public fun importTurtleFile(fileName: String): String {
-        if (!DictionaryIntermediateReader(fileName).getFile().exists()) {
+        if (!DictionaryIntermediateReader(fileName).fileExists()) {
             InputToIntermediate.process(fileName)
         }
         return importIntermediateFile(fileName)
@@ -97,6 +99,7 @@ public object LuposdateEndpoint {
         }
         val res = importTurtleFile(fileName)
         File(dir).deleteRecursively()
+        return res
     }
 
     public fun setEstimatedPartitionsFromFile(filename: String) {
