@@ -1239,11 +1239,18 @@ fun onSetupSPAClient() {
     val bin_gulp = fixPathNames("$pwd/gulp")
     println("bin_bower :" + bin_bower)
     println("bin_gulp :" + bin_gulp)
-    val commands = listOf(
-        listOf(bin_npm, "install"),
-        listOf(bin_bower, "install", "--allow-root"),
-        listOf(bin_gulp),
-    )
+    val commands: List<String>
+    if (dryMode = DryMode.Enable) {
+        commands = listOf(
+            listOf(bin_gulp),
+        )
+    } else {
+        commands = listOf(
+            listOf(bin_npm, "install"),
+            listOf(bin_bower, "install", "--allow-root"),
+            listOf(bin_gulp),
+        )
+    }
     for (cmd in commands) {
         println("cmd :: $cmd")
         val p = ProcessBuilder(cmd)
@@ -1275,7 +1282,6 @@ fun getJSScriptFiles(): List<String> {
     val scripts = mutableListOf<String>()
     for (module in getAllModuleConfigurations()) {
         if (module.enabledRunFunc() && module.modulePrefix != "Luposdate3000_Main") {
-            var s = "${module.moduleFolder}/build/distributions/${module.moduleName.toLowerCase()}.js"
             File("${module.moduleFolder}/build/external_js_dependencies").forEachLine {
                 if (!dependencies.contains(it)) {
                     if (it.contains("kotlin-stdlib")) {
@@ -1284,6 +1290,12 @@ fun getJSScriptFiles(): List<String> {
                         dependencies.add(it)
                     }
                 }
+            }
+            var s: String
+            if (releaseMode == ReleaseMode.Enable) {
+                s = "${module.moduleFolder}/build/distributions/${module.moduleName.toLowerCase()}.js"
+            } else {
+                s = "${module.moduleFolder}/build/libs/${module.moduleName.toLowerCase()}-js-0.0.1.jar"
             }
             if (!dependencies.contains(s)) {
                 dependencies.add(s)

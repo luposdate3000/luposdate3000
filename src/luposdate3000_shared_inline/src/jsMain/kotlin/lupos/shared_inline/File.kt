@@ -84,7 +84,15 @@ internal actual class File {
         stream.close()
     }
 
-    internal actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit): Unit = throw NotImplementedException("File", "withOutputStream not implemented")
+    internal actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit) {
+        val stream = openOutputStream(false)
+        try {
+            action(stream)
+        } finally {
+            stream.close()
+        }
+    }
+
     internal actual inline fun withInputStream(crossinline action: (IMyInputStream) -> Unit) {
         val stream = MyInputStream(filename)
         action(stream)
@@ -94,5 +102,20 @@ internal actual class File {
     actual override fun equals(other: Any?): Boolean = throw NotImplementedException("File", "equals not implemented")
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun openOutputStream(append: Boolean): IMyOutputStream = throw NotImplementedException("File", "openOutputStream not implemented")
+    internal actual inline fun openOutputStream(append: Boolean): IMyOutputStream {
+        return object : IMyOutputStream {
+            val tmp = ExternalModule_fs.openOutputStream(filename, append)
+            public override fun writeInt(value: Int): Unit = tmp.writeInt(value)
+            public override fun write(buf: ByteArray): Unit = tmp.write(buf)
+            public override fun write(buf: ByteArray, len: Int): Unit = tmp.write(buf, len)
+            public override fun close(): Unit = tmp.close()
+            public override fun flush(): Unit = tmp.flush()
+            public override fun println(x: String) = tmp.println(x)
+            public override fun print(x: String) = tmp.print(x)
+            public override fun print(x: Boolean) = tmp.print(x)
+            public override fun print(x: Int) = tmp.print(x)
+            public override fun print(x: Double) = tmp.print(x)
+            public override fun println() = tmp.println()
+        }
+    }
 }

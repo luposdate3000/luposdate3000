@@ -55,7 +55,7 @@ import lupos.shared.XMLElement
 import lupos.shared.XMLElementFromXML
 import lupos.shared.communicationHandler
 import lupos.shared.dictionary.nodeGlobalDictionary
-import lupos.shared.fileformat.DictionaryIntermediateReader
+import lupos.shared.fileformat.DictionaryIntermediate
 import lupos.shared.fileformat.TriplesIntermediateReader
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
@@ -84,7 +84,7 @@ public object LuposdateEndpoint {
 
     @JsName("import_turtle_file")
     /*suspend*/ public fun importTurtleFile(fileName: String): String {
-        if (!DictionaryIntermediateReader(fileName).fileExists()) {
+        if (!DictionaryIntermediate.fileExists(fileName)) {
             InputToIntermediate.process(fileName)
         }
         return importIntermediateFile(fileName)

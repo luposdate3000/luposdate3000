@@ -17,13 +17,8 @@
 package lupos.shared.js
 
 public object ExternalModule_fs {
-    private val inmemoryFs = mutableMapOf<String, ByteArray>()
+    internal val inmemoryFs = mutableMapOf<String, ByteArray>()
     private var tmpCounter = 0
-    public fun openSync(filename: String, flags: String): Int = throw Exception("not implemented openSync")
-    public fun readSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int = throw Exception("not implemented readSync")
-    public fun writeSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int = throw Exception("not implemented writeSync")
-    public fun closeSync(fd: Int): Unit = throw Exception("not implemented closeSync")
-    public fun readFileSync(filename: String): ByteArray = throw Exception("not implemented readFileSync")
     public fun createTempDirectory(): String {
         return "tmp${tmpCounter++}"
     }
@@ -58,5 +53,147 @@ public object ExternalModule_fs {
         } else {
             return f.size.toLong()
         }
+    }
+
+    public fun openOutputStream(filename: String, append: Boolean): JSOutputStream {
+        return JSOutputStream(filename, append)
+    }
+}
+
+public class JSOutputStream(private val filename: String, append: Boolean) {
+    private var buffer: ByteArray
+
+    init {
+        if (append) {
+            val v = ExternalModule_fs.inmemoryFs[filename]
+            if (v != null) {
+                buffer = v
+            } else {
+                buffer = ByteArray(0)
+            }
+        } else {
+            buffer = ByteArray(0)
+        }
+    }
+
+    public fun writeInt(value: Int) {
+        val b = ByteArray(buffer.size + 4)
+        buffer.copyInto(b)
+        b[buffer.size] = ((value shr 24) and 0xFF).toByte()
+        b[buffer.size + 1] = ((value shr 16) and 0xFF).toByte()
+        b[buffer.size + 2] = ((value shr 8) and 0xFF).toByte()
+        b[buffer.size + 3] = (value and 0xFF).toByte()
+        buffer = b
+    }
+
+    public fun write(buf: ByteArray) {
+        val b = ByteArray(buffer.size + buf.size)
+        buffer.copyInto(b)
+        buf.copyInto(b, buffer.size)
+        buffer = b
+    }
+
+    public fun write(buf: ByteArray, len: Int) {
+        val b = ByteArray(buffer.size + len)
+        buffer.copyInto(b)
+        buf.copyInto(b, buffer.size, 0, len)
+        buffer = b
+    }
+
+    public fun close() {
+        ExternalModule_fs.inmemoryFs[filename] = buffer
+    }
+
+    public fun flush() {
+    }
+
+    public fun println(x: String) {
+        print("$x\n")
+    }
+
+    public fun print(x: String) {
+        write(x.encodeToByteArray())
+    }
+
+    public fun print(x: Boolean) {
+        print("$x")
+    }
+
+    public fun print(x: Int) {
+        print("$x")
+    }
+
+    public fun print(x: Double) {
+        print("$x")
+    }
+
+    public fun println() {
+        print("\n")
+    }
+}
+
+public class JSInputStream {
+    internal var pos = 0
+    internal lateinit var buffer: ByteArray
+
+    public constructor(filename: String) {
+        buffer = ExternalModule_fs.inmemoryFs[filename]!!
+    }
+
+    public constructor(fd: Int) {
+        buffer = ByteArray(0)
+        throw Exception("not implemented")
+    }
+
+    public fun readInt(): Int {
+        val res = (((buffer[pos].toInt() and 0xFF) shl 24) or ((buffer[pos + 1].toInt() and 0xFF) shl 16) or ((buffer[pos + 2].toInt() and 0xFF) shl 8) or ((buffer[pos + 3].toInt() and 0xFF)))
+        pos += 4
+        return res
+    }
+
+    public fun readByte(): Byte {
+        return buffer[pos++]
+    }
+
+    public fun read(buf: ByteArray, off: Int, len: Int): Int {
+        var l = len
+        if (len + off > buffer.size - pos) {
+            l = buffer.size - pos
+        }
+        if (l > 0) {
+            buffer.copyInto(buf, 0, off, len)
+        }
+        return l
+    }
+
+    public fun read(buf: ByteArray, len: Int): Int {
+        return read(buf, 0, len)
+    }
+
+    public fun read(buf: ByteArray): Int {
+        return read(buf, 0, buf.size)
+    }
+
+    public fun close() {
+    }
+
+    public fun readLine(): String? {
+// TODO this may break on utf-8
+        var buf = mutableListOf<Byte>()
+        try {
+            var b = readByte()
+            while (b != '\n'.toByte()) {
+                if (b != '\r'.toByte()) {
+                    buf.add(b)
+                }
+                b = readByte()
+            }
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            if (buf.size == 0) {
+                return null
+            }
+        }
+        return buf.toByteArray().decodeToString()
     }
 }

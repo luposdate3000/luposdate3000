@@ -17,86 +17,44 @@
 package lupos.shared_inline
 
 import lupos.shared.IMyInputStream
-import lupos.shared.js.ExternalModule_fs
+import lupos.shared.js.JSInputStream
 
 internal actual class MyInputStream : IMyInputStream {
-    internal val fd: Int
-    internal var pos = 0
+    val tmp: JSInputStream
 
     internal constructor(filename: String) {
-        this.fd = ExternalModule_fs.openSync(filename, "r")
+        tmp = JSInputStream(filename)
     }
 
     internal constructor(fd: Int) {
-        this.fd = fd
+        tmp = JSInputStream(fd)
     }
 
     public actual override fun readInt(): Int {
-        val buffer = ByteArray(4)
-        val l = ExternalModule_fs.readSync(fd, buffer, 0, buffer.size, pos)
-        if (l != 4) {
-            throw Exception("invalid len $l")
-        }
-        pos += l
-        return ByteArrayHelper.readInt4(buffer, 0)
+        return tmp.readInt()
     }
 
     public actual override fun readByte(): Byte {
-        val buffer = ByteArray(1)
-        val l = ExternalModule_fs.readSync(fd, buffer, 0, buffer.size, pos)
-        if (l != 1) {
-            throw Exception("invalid len $l")
-        }
-        pos += l
-        return buffer[0]
+        return tmp.readByte()
     }
 
     public actual override fun read(buf: ByteArray, off: Int, len: Int): Int {
-        val l = ExternalModule_fs.readSync(fd, buf, off, len, pos)
-        pos += l
-        return l
+        return tmp.read(buf, off, len)
     }
 
     public actual override fun read(buf: ByteArray, len: Int): Int {
-        var off = 0
-        var l = len
-        while (l > 0) {
-            val tmp = ExternalModule_fs.readSync(fd, buf, off, len, pos)
-            if (tmp <= 0) {
-                return len - l
-            }
-            l -= len
-            off += len
-            pos += tmp
-        }
-        return len
+        return tmp.read(buf, len)
     }
 
     public actual override fun read(buf: ByteArray): Int {
-        return read(buf, buf.size)
+        return tmp.read(buf)
     }
 
     public actual override fun close() {
-        ExternalModule_fs.closeSync(fd)
+        tmp.close()
     }
 
     public actual override fun readLine(): String? {
-// TODO this may break on utf-8
-        var buf = mutableListOf<Byte>()
-        try {
-            var b = readByte()
-            while (b != '\n'.toByte()) {
-                if (b != '\r'.toByte()) {
-                    buf.add(b)
-                }
-                b = readByte()
-            }
-        } catch (e: Throwable) {
-            e.printStackTrace()
-            if (buf.size == 0) {
-                return null
-            }
-        }
-        return buf.toByteArray().decodeToString()
+        return tmp.readLine()
     }
 }

@@ -27,7 +27,9 @@ var audioMapping = [];
 var resultValue;
 
 const panner = new Tone.Panner(0).toDestination();
-
+if(typeof luposdate3000_endpoint==="undefined"){
+luposdate3000_endpoint=Luposdate3000_Endpoint
+}
 //Initialize all interactive elements and Luposdate3000
 // -> If evaluate Button is clicked
 $('.query .evaluate').click(function (){
