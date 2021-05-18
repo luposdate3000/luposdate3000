@@ -30,7 +30,6 @@ import lupos.parser.LexerCharIterator
 import lupos.parser.LookAheadTokenIterator
 import lupos.parser.sparql1_1.SPARQLParser
 import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
-import lupos.parser.turtle.Turtle2Parser
 import lupos.result_format.EQueryResultToStream
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.QueryResultToEmptyStream
@@ -64,8 +63,8 @@ import lupos.shared.optimizer.distributedOptimizerQueryFactory
 import lupos.shared.tripleStoreManager
 import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File
+import lupos.shared_inline.FileExt
 import lupos.shared_inline.MyPrintWriter
-import lupos.shared_inline.MyStringStream
 import lupos.shared_inline.Platform
 import lupos.triple_store_manager.TripleStoreManagerImpl
 import kotlin.js.JsName
@@ -131,75 +130,21 @@ public object LuposdateEndpoint {
 
     @JsName("import_turtle_file")
     /*suspend*/ public fun importTurtleFile(fileName: String): String {
-        if (!File(DictionaryIntermediateReader(fileName).getFileName()).exists()) {
+        if (!DictionaryIntermediateReader(fileName).getFile().exists()) {
             InputToIntermediate.process(fileName)
         }
         return importIntermediateFile(fileName)
     }
 
-    @JsName("import_turtle_string_a")
-    /*suspend*/ public fun importTurtleString_a(data: String): String {
-        return importTurtleString(data, mutableMapOf())
-    }
-
     @JsName("import_turtle_string")
-    /*suspend*/ public fun importTurtleString(data: String, bnodeDict: MutableMap<String, Int>): String {
-        val query = Query()
-        val key = "${query.getTransactionID()}"
-        try {
-            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-                query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
-            }
-            var counter = 0
-            val store = tripleStoreManager.getDefaultGraph()
-            val bufS = IntArray(LUPOS_BUFFER_SIZE)
-            val bufP = IntArray(LUPOS_BUFFER_SIZE)
-            val bufO = IntArray(LUPOS_BUFFER_SIZE)
-            var bufPos = 0
-            val iter = MyStringStream(data)
-            try {
-                val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
-                val arr2 = arrayOf(arr[0] as ColumnIterator, arr[1] as ColumnIterator, arr[2] as ColumnIterator)
-                val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
-                val x = object : Turtle2Parser(iter) {
-                    override fun onTriple() {
-                        counter++
-                        if (bufPos == bufS.size) {
-                            for (i in 0 until 3) {
-                                arr[i].reset(bufPos)
-                            }
-                            store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, false)
-                            bufPos = 0
-                        }
-                        bufS[bufPos] = helperImportRaw(bnodeDict, triple[0])
-                        bufP[bufPos] = helperImportRaw(bnodeDict, triple[1])
-                        bufO[bufPos] = helperImportRaw(bnodeDict, triple[2])
-                        bufPos++
-                    }
-                }
-                x.parse()
-                for (i in 0 until 3) {
-                    arr[i].reset(bufPos)
-                }
-                store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, true)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                println("fast_parser :: error in turtle-string")
-                throw e
-            }
-            tripleStoreManager.commit(query)
-            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
-            }
-            return "successfully imported $counter Triples"
-        } catch (e: Exception) {
-            e.printStackTrace()
-            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
-            }
-            throw e
+    /*suspend*/ public fun importTurtleString(data: String): String {
+        val dir = FileExt.createTempDirectory()
+        val fileName = dir + "data.n3"
+        File(fileName).withOutputStream { out ->
+            out.println(data)
         }
+        val res = importTurtleFile(fileName)
+        File(dir).deleteRecursively()
     }
 
     public fun setEstimatedPartitionsFromFile(filename: String) {

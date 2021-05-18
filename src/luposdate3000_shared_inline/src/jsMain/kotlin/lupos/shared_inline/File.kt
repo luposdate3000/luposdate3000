@@ -28,9 +28,6 @@ internal actual class File {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun createTempFile(prefix: String, suffix: String, directory: String): String = throw NotImplementedException("File", "createTempFile not implemented")
-
-    @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun exists(): Boolean = throw NotImplementedException("File", "exists not implemented")
 
     @Suppress("NOTHING_TO_INLINE")

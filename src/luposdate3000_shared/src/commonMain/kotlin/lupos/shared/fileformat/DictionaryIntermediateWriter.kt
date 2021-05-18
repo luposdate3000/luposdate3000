@@ -17,11 +17,10 @@
 package lupos.shared.fileformat
 
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.File
 
 public class DictionaryIntermediateWriter : DictionaryIntermediate {
     public constructor(filename: String) : super(filename) {
-        streamOut = File(getFileName()).openOutputStream(false)
+        streamOut = getFile().openOutputStream(false)
     }
 
     @Suppress("NOTHING_TO_INLINE")

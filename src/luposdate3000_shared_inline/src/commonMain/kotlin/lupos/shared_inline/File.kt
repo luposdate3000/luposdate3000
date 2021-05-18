@@ -20,7 +20,6 @@ import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 
 internal expect class File(filename: String) {
-    internal inline fun createTempFile(prefix: String, suffix: String, directory: String): String
     internal inline fun exists(): Boolean
     internal inline fun mkdirs(): Boolean
     internal inline fun deleteRecursively(): Boolean

@@ -14,30 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+package lupos.shared_inline
 
-package lupos.shared.fileformat
-
-import lupos.shared.IMyInputStream
-import lupos.shared.IMyOutputStream
-import lupos.shared_inline.File
-import kotlin.jvm.JvmField
-
-public abstract class DictionaryIntermediate(internal val filename: String) {
-    @JvmField
-    public var streamOut: IMyOutputStream? = null
-
-    @JvmField
-    public var streamIn: IMyInputStream? = null
-    public abstract fun close()
-
-    public companion object {
-        internal const val filenameEnding = ".dictionary"
-        public fun getFile(): File {
-            return File("$filename$filenameEnding")
-        }
-
-        public fun delete(filename: String) {
-            getFile().deleteRecursively()
-        }
-    }
+internal expect object FileExt {
+    internal inline fun createTempDirectory(): String
 }

@@ -18,12 +18,11 @@
 package lupos.shared.fileformat
 
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared_inline.File
 import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 
 public class DictionaryIntermediateReader(filename: String) : DictionaryIntermediate(filename) {
     init {
-        streamIn = File(getFileName()).openInputStream()
+        streamIn = getFile().openInputStream()
     }
 
     public inline fun readAll(buffer: ByteArrayWrapper, crossinline action: (id: Int) -> Unit) {
