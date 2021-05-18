@@ -1239,8 +1239,8 @@ fun onSetupSPAClient() {
     val bin_gulp = fixPathNames("$pwd/gulp")
     println("bin_bower :" + bin_bower)
     println("bin_gulp :" + bin_gulp)
-    val commands: List<String>
-    if (dryMode = DryMode.Enable) {
+    val commands: List<List<String>>
+    if (dryMode == DryMode.Enable) {
         commands = listOf(
             listOf(bin_gulp),
         )

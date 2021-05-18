@@ -62,6 +62,7 @@ public object ExternalModule_fs {
 
 public class JSOutputStream(private val filename: String, append: Boolean) {
     private var buffer: ByteArray
+    private var bufferSize: Int
 
     init {
         if (append) {
@@ -69,39 +70,49 @@ public class JSOutputStream(private val filename: String, append: Boolean) {
             if (v != null) {
                 buffer = v
             } else {
-                buffer = ByteArray(0)
+                buffer = ByteArray(1024)
             }
         } else {
-            buffer = ByteArray(0)
+            buffer = ByteArray(1024)
+        }
+        bufferSize = buffer.size
+    }
+
+    private fun reserveSpace(size: Int) {
+        if (bufferSize + size > buffer.size) {
+            var destSize = 1024
+            while (destSize < size) {
+                destSize = destSize * 2
+            }
+            val b = ByteArray(destSize)
+            buffer.copyInto(b)
+            buffer = b
         }
     }
 
     public fun writeInt(value: Int) {
-        val b = ByteArray(buffer.size + 4)
-        buffer.copyInto(b)
-        b[buffer.size] = ((value shr 24) and 0xFF).toByte()
-        b[buffer.size + 1] = ((value shr 16) and 0xFF).toByte()
-        b[buffer.size + 2] = ((value shr 8) and 0xFF).toByte()
-        b[buffer.size + 3] = (value and 0xFF).toByte()
-        buffer = b
+        reserveSpace(4)
+        buffer[bufferSize] = ((value shr 24) and 0xFF).toByte()
+        buffer[bufferSize + 1] = ((value shr 16) and 0xFF).toByte()
+        buffer[bufferSize + 2] = ((value shr 8) and 0xFF).toByte()
+        buffer[bufferSize + 3] = (value and 0xFF).toByte()
+        bufferSize += 4
     }
 
     public fun write(buf: ByteArray) {
-        val b = ByteArray(buffer.size + buf.size)
-        buffer.copyInto(b)
-        buf.copyInto(b, buffer.size)
-        buffer = b
+        write(buf, buf.size)
     }
 
     public fun write(buf: ByteArray, len: Int) {
-        val b = ByteArray(buffer.size + len)
-        buffer.copyInto(b)
-        buf.copyInto(b, buffer.size, 0, len)
-        buffer = b
+        reserveSpace(len)
+        buf.copyInto(buffer, bufferSize, 0, len)
+        bufferSize += len
     }
 
     public fun close() {
-        ExternalModule_fs.inmemoryFs[filename] = buffer
+        val b = ByteArray(bufferSize)
+        buffer.copyInto(b, 0, 0, bufferSize)
+        ExternalModule_fs.inmemoryFs[filename] = b
     }
 
     public fun flush() {
@@ -162,6 +173,7 @@ public class JSInputStream {
         }
         if (l > 0) {
             buffer.copyInto(buf, 0, off, len)
+            pos += l
         }
         return l
     }
