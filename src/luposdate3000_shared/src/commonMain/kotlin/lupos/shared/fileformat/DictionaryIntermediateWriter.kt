@@ -21,7 +21,7 @@ import lupos.shared_inline.File
 
 public class DictionaryIntermediateWriter : DictionaryIntermediate {
     public constructor(filename: String) : super(filename) {
-        streamOut = File("$filename$filenameEnding").openOutputStream(false)
+        streamOut = File(getFileName()).openOutputStream(false)
     }
 
     @Suppress("NOTHING_TO_INLINE")

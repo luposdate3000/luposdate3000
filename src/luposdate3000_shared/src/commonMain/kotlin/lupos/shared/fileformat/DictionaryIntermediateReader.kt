@@ -23,7 +23,7 @@ import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 
 public class DictionaryIntermediateReader(filename: String) : DictionaryIntermediate(filename) {
     init {
-        streamIn = File("$filename$filenameEnding").openInputStream()
+        streamIn = File(getFileName()).openInputStream()
     }
 
     public inline fun readAll(buffer: ByteArrayWrapper, crossinline action: (id: Int) -> Unit) {

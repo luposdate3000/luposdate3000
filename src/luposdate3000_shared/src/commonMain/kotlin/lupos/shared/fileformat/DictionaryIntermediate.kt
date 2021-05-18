@@ -32,8 +32,12 @@ public abstract class DictionaryIntermediate(internal val filename: String) {
 
     public companion object {
         internal const val filenameEnding = ".dictionary"
+        public fun getFileName(): String {
+            return "$filename$filenameEnding"
+        }
+
         public fun delete(filename: String) {
-            File("$filename$filenameEnding").deleteRecursively()
+            File(getFileName()).deleteRecursively()
         }
     }
 }

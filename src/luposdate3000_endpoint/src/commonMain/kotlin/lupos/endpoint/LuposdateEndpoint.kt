@@ -28,12 +28,9 @@ import lupos.optimizer.logical.LogicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.parser.LexerCharIterator
 import lupos.parser.LookAheadTokenIterator
-import lupos.parser.ParseError
 import lupos.parser.sparql1_1.SPARQLParser
 import lupos.parser.sparql1_1.TokenIteratorSPARQLParser
 import lupos.parser.turtle.Turtle2Parser
-import lupos.parser.turtle.TurtleParserWithStringTriples
-import lupos.parser.turtle.TurtleScanner
 import lupos.result_format.EQueryResultToStream
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.QueryResultToEmptyStream
@@ -132,143 +129,12 @@ public object LuposdateEndpoint {
         }
     }
 
-    @JsName("import_turtle_files_old")
-/*suspend*/ public fun importTurtleFilesOld(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
-        val query = Query()
-        val key = "${query.getTransactionID()}"
-        try {
-            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-                query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
-            }
-            var counter = 0
-            val store = tripleStoreManager.getDefaultGraph()
-            val bufS = IntArray(LUPOS_BUFFER_SIZE)
-            val bufP = IntArray(LUPOS_BUFFER_SIZE)
-            val bufO = IntArray(LUPOS_BUFFER_SIZE)
-            var bufPos = 0
-            for (fileName in fileNames.split(";")) {
-                println("importing file '$fileName'")
-                val f = File(fileName)
-                val lcit: LexerCharIterator = if (f.length() < Int.MAX_VALUE) {
-                    val data = f.readAsString()
-                    LexerCharIterator(data)
-                } else {
-                    val data = f.readAsCharIterator()
-                    LexerCharIterator(data)
-                }
-                val tit = TurtleScanner(lcit)
-                val ltit = LookAheadTokenIterator(tit, 3)
-                try {
-                    val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
-                    val arr2 = arrayOf(arr[0] as ColumnIterator, arr[1] as ColumnIterator, arr[2] as ColumnIterator)
-                    val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
-                    val x = object : TurtleParserWithStringTriples() {
-                        /*suspend*/ override fun consume_triple(s: String, p: String, o: String) {
-                            counter++
-                            if (bufPos == bufS.size) {
-                                for (i in 0 until 3) {
-                                    arr[i].reset(bufPos)
-                                }
-                                store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, false)
-                                bufPos = 0
-                            }
-                            bufS[bufPos] = helperImportRaw(bnodeDict, s)
-                            bufP[bufPos] = helperImportRaw(bnodeDict, p)
-                            bufO[bufPos] = helperImportRaw(bnodeDict, o)
-                            bufPos++
-                        }
-                    }
-                    x.ltit = ltit
-                    x.parse()
-                    for (i in 0 until 3) {
-                        arr[i].reset(bufPos)
-                    }
-                    store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, true)
-                } catch (e: lupos.parser.ParseError) {
-                    e.printStackTrace()
-                    println("error in file '$fileName'")
-                    throw e
-                }
-            }
-            tripleStoreManager.commit(query)
-            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
-            }
-            return "successfully imported $counter Triples"
-        } catch (e: Throwable) {
-            e.printStackTrace()
-            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
-            }
-            throw e
+    @JsName("import_turtle_file")
+    /*suspend*/ public fun importTurtleFile(fileName: String): String {
+        if (!File(DictionaryIntermediateReader(fileName).getFileName()).exists()) {
+            InputToIntermediate.process(fileName)
         }
-/*Coverage Unreachable*/
-    }
-
-    @JsName("import_turtle_files")
-    /*suspend*/ public fun importTurtleFiles(fileNames: String, bnodeDict: MutableMap<String, Int>): String {
-        val query = Query()
-        val key = "${query.getTransactionID()}"
-        try {
-            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
-                query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
-            }
-            var counter = 0
-            val store = tripleStoreManager.getDefaultGraph()
-            val bufS = IntArray(LUPOS_BUFFER_SIZE)
-            val bufP = IntArray(LUPOS_BUFFER_SIZE)
-            val bufO = IntArray(LUPOS_BUFFER_SIZE)
-            var bufPos = 0
-            for (fileName in fileNames.split(";")) {
-                println("importing file '$fileName'")
-                val f = File(fileName)
-                val iter = f.openInputStream()
-                try {
-                    val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
-                    val arr2 = arrayOf(arr[0] as ColumnIterator, arr[1] as ColumnIterator, arr[2] as ColumnIterator)
-                    val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
-                    val x = object : Turtle2Parser(iter) {
-                        override fun onTriple() {
-                            counter++
-                            if (bufPos == bufS.size) {
-                                for (i in 0 until 3) {
-                                    arr[i].reset(bufPos)
-                                }
-                                store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, false)
-                                bufPos = 0
-                            }
-                            bufS[bufPos] = helperImportRaw(bnodeDict, triple[0])
-                            bufP[bufPos] = helperImportRaw(bnodeDict, triple[1])
-                            bufO[bufPos] = helperImportRaw(bnodeDict, triple[2])
-                            bufPos++
-                        }
-                    }
-                    x.parse()
-                    for (i in 0 until 3) {
-                        arr[i].reset(bufPos)
-                    }
-                    store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, true)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    println("fast_parser :: error in file '$fileName'")
-                    throw e
-                }
-            }
-            tripleStoreManager.commit(query)
-            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
-            }
-            return "successfully imported $counter Triples"
-        } catch (e: Throwable) {
-            e.printStackTrace()
-            if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
-            }
-            return importTurtleFilesOld(fileNames, bnodeDict)
-        }
-/*Coverage Unreachable*/
+        return importIntermediateFile(fileName)
     }
 
     @JsName("import_turtle_string_a")
@@ -336,11 +202,6 @@ public object LuposdateEndpoint {
         }
     }
 
-    @JsName("import_intermediate_files")
-    /*suspend*/ public fun importIntermediateFiles(fileNames: String): String {
-        return importIntermediateFiles(fileNames, false)
-    }
-
     public fun setEstimatedPartitionsFromFile(filename: String) {
         val filePartitions = File("$filename")
         if (filePartitions.exists()) {
@@ -364,8 +225,8 @@ public object LuposdateEndpoint {
         }
     }
 
-    @JsName("import_intermediate_files_a")
-    /*suspend*/ public fun importIntermediateFiles(fileNames: String, convert_to_bnodes: Boolean): String {
+    @JsName("import_intermediate_file")
+    /*suspend*/ public fun importIntermediateFile(fileName: String): String {
         val query = Query()
         val key = "${query.getTransactionID()}"
         try {
@@ -381,115 +242,110 @@ public object LuposdateEndpoint {
             val bufP = IntArray(LUPOS_BUFFER_SIZE)
             val bufO = IntArray(LUPOS_BUFFER_SIZE)
             var bufPos = 0
-            val fileNamesS = fileNames.split(";")
-            for (fileName in fileNamesS) {
-                println("importing intermediate file '$fileName'")
-                val startTime = DateHelperRelative.markNow()
-                if (fileNamesS.size == 1) {
-                    setEstimatedPartitionsFromFile("$fileName.partitions")
-                    tripleStoreManager.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
+            println("importing intermediate file '$fileName'")
+            val startTime = DateHelperRelative.markNow()
+            setEstimatedPartitionsFromFile("$fileName.partitions")
+            tripleStoreManager.resetGraph(query, TripleStoreManager.DEFAULT_GRAPH_NAME)
+            val (mapping, mappingLength) = nodeGlobalDictionary.importFromDictionaryFile(fileName)
+            val dictTime = DateHelperRelative.elapsedSeconds(startTime)
+            val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
+            val arr2 = arrayOf(arr[0] as ColumnIterator, arr[1] as ColumnIterator, arr[2] as ColumnIterator)
+            var requireSorting = false
+            for (i in 1 until mappingLength) {
+                if (mapping[i] < mapping[i - 1]) {
+                    println("${mapping[i]} < ${mapping[i - 1]} -> requireSorting")
+                    requireSorting = true
+                    break
                 }
-                val (mapping, mappingLength) = nodeGlobalDictionary.importFromDictionaryFile(fileName)
-                val dictTime = DateHelperRelative.elapsedSeconds(startTime)
-                val arr = arrayOf(ColumnIteratorMultiValue3(bufS, bufPos), ColumnIteratorMultiValue3(bufP, bufPos), ColumnIteratorMultiValue3(bufO, bufPos))
-                val arr2 = arrayOf(arr[0] as ColumnIterator, arr[1] as ColumnIterator, arr[2] as ColumnIterator)
-                var requireSorting = false
-                for (i in 1 until mappingLength) {
-                    if (mapping[i] < mapping[i - 1]) {
-                        println("${mapping[i]} < ${mapping[i - 1]} -> requireSorting")
-                        requireSorting = true
-                        break
+            }
+            if (requireSorting) {
+                val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
+                val fileTriples = TriplesIntermediateReader("$fileName.spo")
+                bufPos = 0
+                fileTriples.readAll { it ->
+                    if (bufPos == bufS.size) {
+                        for (i in 0 until 3) {
+                            arr[i].reset(bufPos)
+                        }
+                        store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, false)
+                        bufPos = 0
+                    }
+                    bufS[bufPos] = mapping[it[0]]
+                    bufP[bufPos] = mapping[it[1]]
+                    bufO[bufPos] = mapping[it[2]]
+                    bufPos++
+                    counter++
+                    if (counter % 10000 == 0L) {
+                        println("imported $counter triples without sorting")
                     }
                 }
-                if (requireSorting) {
-                    val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
-                    val fileTriples = TriplesIntermediateReader("$fileName.spo")
+                for (i in 0 until 3) {
+                    arr[i].reset(bufPos)
+                }
+                store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, true)
+            } else {
+                val orders = arrayOf(
+                    intArrayOf(0, 1, 2), // "spo" -> "spo" -> "spo"
+                    intArrayOf(0, 2, 1), // "spo" -> "sop" -> "spo"
+                    intArrayOf(1, 0, 2), // "spo" -> "pso" -> "spo"
+                    intArrayOf(1, 2, 0), // "spo" -> "pos" -> "osp" !!!
+                    intArrayOf(2, 0, 1), // "spo" -> "osp" -> "pos" !!!
+                    intArrayOf(2, 1, 0), // "spo" -> "ops" -> "spo"
+                )
+                val ordersReverse = arrayOf(
+                    orders[0],
+                    orders[1],
+                    orders[2],
+                    orders[4], // swapped here !!!! intentionally
+                    orders[3],
+                    orders[5]
+                )
+                val orderNames = arrayOf("spo", "sop", "pso", "pos", "osp", "ops")
+                val orderPatterns = arrayOf(
+                    EIndexPatternExt.SPO,
+                    EIndexPatternExt.SOP,
+                    EIndexPatternExt.PSO,
+                    EIndexPatternExt.POS,
+                    EIndexPatternExt.OSP,
+                    EIndexPatternExt.OPS,
+                )
+                for (o in 0 until 6) {
+                    counter = 0
+                    val order = ordersReverse[o]
+                    val orderName = orderNames[o]
+                    val sortedBy = orderPatterns[o]
+                    val cache = store.modify_create_cache_sorted(EModifyTypeExt.INSERT, sortedBy)
+                    val fileTriples = TriplesIntermediateReader("$fileName.$orderName")
+//                        val debugFile = File("debug-input-$orderName").openOutputStream(false)
                     bufPos = 0
                     fileTriples.readAll { it ->
                         if (bufPos == bufS.size) {
                             for (i in 0 until 3) {
                                 arr[i].reset(bufPos)
                             }
-                            store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, false)
+                            store.modify_cache_sorted(query, arr2, EModifyTypeExt.INSERT, cache, sortedBy, false)
                             bufPos = 0
                         }
-                        bufS[bufPos] = mapping[it[0]]
-                        bufP[bufPos] = mapping[it[1]]
-                        bufO[bufPos] = mapping[it[2]]
+                        // debugFile.println("${mapping[it[0]]} ${mapping[it[1]]} ${mapping[it[2]]}")
+                        bufS[bufPos] = mapping[it[order[0]]]
+                        bufP[bufPos] = mapping[it[order[1]]]
+                        bufO[bufPos] = mapping[it[order[2]]]
                         bufPos++
                         counter++
                         if (counter % 10000 == 0L) {
-                            println("imported $counter triples without sorting")
+                            println("imported $counter triples for index $orderName")
                         }
                     }
+                    // debugFile.close()
                     for (i in 0 until 3) {
                         arr[i].reset(bufPos)
                     }
-                    store.modify_cache(query, arr2, EModifyTypeExt.INSERT, cache, true)
-                } else {
-                    val orders = arrayOf(
-                        intArrayOf(0, 1, 2), // "spo" -> "spo" -> "spo"
-                        intArrayOf(0, 2, 1), // "spo" -> "sop" -> "spo"
-                        intArrayOf(1, 0, 2), // "spo" -> "pso" -> "spo"
-                        intArrayOf(1, 2, 0), // "spo" -> "pos" -> "osp" !!!
-                        intArrayOf(2, 0, 1), // "spo" -> "osp" -> "pos" !!!
-                        intArrayOf(2, 1, 0), // "spo" -> "ops" -> "spo"
-                    )
-                    val ordersReverse = arrayOf(
-                        orders[0],
-                        orders[1],
-                        orders[2],
-                        orders[4], // swapped here !!!! intentionally
-                        orders[3],
-                        orders[5]
-                    )
-                    val orderNames = arrayOf("spo", "sop", "pso", "pos", "osp", "ops")
-                    val orderPatterns = arrayOf(
-                        EIndexPatternExt.SPO,
-                        EIndexPatternExt.SOP,
-                        EIndexPatternExt.PSO,
-                        EIndexPatternExt.POS,
-                        EIndexPatternExt.OSP,
-                        EIndexPatternExt.OPS,
-                    )
-                    for (o in 0 until 6) {
-                        counter = 0
-                        val order = ordersReverse[o]
-                        val orderName = orderNames[o]
-                        val sortedBy = orderPatterns[o]
-                        val cache = store.modify_create_cache_sorted(EModifyTypeExt.INSERT, sortedBy)
-                        val fileTriples = TriplesIntermediateReader("$fileName.$orderName")
-//                        val debugFile = File("debug-input-$orderName").openOutputStream(false)
-                        bufPos = 0
-                        fileTriples.readAll { it ->
-                            if (bufPos == bufS.size) {
-                                for (i in 0 until 3) {
-                                    arr[i].reset(bufPos)
-                                }
-                                store.modify_cache_sorted(query, arr2, EModifyTypeExt.INSERT, cache, sortedBy, false)
-                                bufPos = 0
-                            }
-                            // debugFile.println("${mapping[it[0]]} ${mapping[it[1]]} ${mapping[it[2]]}")
-                            bufS[bufPos] = mapping[it[order[0]]]
-                            bufP[bufPos] = mapping[it[order[1]]]
-                            bufO[bufPos] = mapping[it[order[2]]]
-                            bufPos++
-                            counter++
-                            if (counter % 10000 == 0L) {
-                                println("imported $counter triples for index $orderName")
-                            }
-                        }
-                        // debugFile.close()
-                        for (i in 0 until 3) {
-                            arr[i].reset(bufPos)
-                        }
-                        store.modify_cache_sorted(query, arr2, EModifyTypeExt.INSERT, cache, sortedBy, true)
-                    }
+                    store.modify_cache_sorted(query, arr2, EModifyTypeExt.INSERT, cache, sortedBy, true)
                 }
-                val totalTime = DateHelperRelative.elapsedSeconds(startTime)
-                val storeTime = totalTime - dictTime
-                println("imported file $fileName,$counter,$totalTime,$dictTime,$storeTime")
             }
+            val totalTime = DateHelperRelative.elapsedSeconds(startTime)
+            val storeTime = totalTime - dictTime
+            println("imported file $fileName,$counter,$totalTime,$dictTime,$storeTime")
             tripleStoreManager.commit(query)
             if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
                 communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
