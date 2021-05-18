@@ -959,7 +959,7 @@ function evaluateSPARQL(){
     if(version == 'Luposdate3000 - Browser') {
         //Import RDF data if checkbox is checked
         if ($('#send_rdf').is(':checked')) {
-            var rdf = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string_a(App.cm['rdf'].getValue());
+            var rdf = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.cm['rdf'].getValue());
         }
         var eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(inputValue)
         //Receive optimized steps for logical and physical operator graph

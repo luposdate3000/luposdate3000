@@ -16,6 +16,10 @@
  */
 package lupos.shared_inline
 
+import lupos.shared.js.ExternalModule_fs
+
 internal actual object FileExt {
-    internal actual inline fun createTempDirectory(): String = throw NotImplementedException("File", "createTempDirectory not implemented")
+    internal actual inline fun createTempDirectory(): String {
+        return ExternalModule_fs.createTempDirectory()
+    }
 }

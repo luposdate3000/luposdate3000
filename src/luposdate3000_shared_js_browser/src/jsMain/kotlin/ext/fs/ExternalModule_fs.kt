@@ -17,9 +17,46 @@
 package lupos.shared.js
 
 public object ExternalModule_fs {
-    public fun openSync(filename: String, flags: String): Int = throw Exception("not implemented")
-    public fun readSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int = throw Exception("not implemented")
-    public fun writeSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int = throw Exception("not implemented")
-    public fun closeSync(fd: Int): Unit = throw Exception("not implemented")
-    public fun readFileSync(filename: String): ByteArray = throw Exception("not implemented")
+    private val inmemoryFs = mutableMapOf<String, ByteArray>()
+    private var tmpCounter = 0
+    public fun openSync(filename: String, flags: String): Int = throw Exception("not implemented openSync")
+    public fun readSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int = throw Exception("not implemented readSync")
+    public fun writeSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int = throw Exception("not implemented writeSync")
+    public fun closeSync(fd: Int): Unit = throw Exception("not implemented closeSync")
+    public fun readFileSync(filename: String): ByteArray = throw Exception("not implemented readFileSync")
+    public fun createTempDirectory(): String {
+        return "tmp${tmpCounter++}"
+    }
+
+    public fun exists(filename: String): Boolean {
+        return inmemoryFs[filename] != null
+    }
+
+    public fun mkdirs(filename: String): Boolean {
+        return true
+    }
+
+    public fun deleteRecursively(filename: String): Boolean {
+        var changed = true
+        loop@ while (changed) {
+            changed = false
+            for (k in inmemoryFs.keys) {
+                if (k.startsWith(filename)) {
+                    inmemoryFs.remove(k)
+                    changed = true
+                    continue@loop
+                }
+            }
+        }
+        return true
+    }
+
+    public fun length(filename: String): Long {
+        val f = inmemoryFs[filename]
+        if (f == null) {
+            return 0
+        } else {
+            return f.size.toLong()
+        }
+    }
 }

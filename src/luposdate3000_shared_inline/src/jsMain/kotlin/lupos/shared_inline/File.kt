@@ -19,6 +19,7 @@ package lupos.shared_inline
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.NotImplementedException
+import lupos.shared.js.ExternalModule_fs
 
 internal actual class File {
     internal val filename: String
@@ -28,16 +29,16 @@ internal actual class File {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun exists(): Boolean = throw NotImplementedException("File", "exists not implemented")
+    internal actual inline fun exists(): Boolean = ExternalModule_fs.exists(filename)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun mkdirs(): Boolean = throw NotImplementedException("File", "mkdirs not implemented")
+    internal actual inline fun mkdirs(): Boolean = ExternalModule_fs.mkdirs(filename)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun deleteRecursively(): Boolean = throw NotImplementedException("File", "deleteRecursively not implemented")
+    internal actual inline fun deleteRecursively(): Boolean = ExternalModule_fs.deleteRecursively(filename)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun length(): Long = throw NotImplementedException("File", "length not implemented")
+    internal actual inline fun length(): Long = ExternalModule_fs.length(filename)
 
     @Suppress("NOTHING_TO_INLINE")
     internal actual inline fun readAsString(): String {
@@ -52,7 +53,10 @@ internal actual class File {
     internal actual inline fun readAsCharIterator(): CharIterator = throw NotImplementedException("File", "readAsCharIterator not implemented")
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun openInputStream(): IMyInputStream = throw NotImplementedException("File", "openInputStream not implemented")
+    internal actual inline fun openInputStream(): IMyInputStream {
+        return MyInputStream(filename)
+    }
+
     internal actual inline fun walk(crossinline action: (String) -> Unit): Unit = throw NotImplementedException("File", "walk not implemented")
     internal actual inline fun walk(maxdepth: Int, crossinline action: (String) -> Unit): Unit = throw NotImplementedException("File", "walk not implemented")
     internal actual inline fun forEachLine(crossinline action: (String) -> Unit) {

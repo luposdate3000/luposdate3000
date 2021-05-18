@@ -22,4 +22,9 @@ public object ExternalModule_fs {
     public fun writeSync(fd: Int, buffer: ByteArray, offset: Int, length: Int, position: Int): Int = writeSync_(fd, buffer, offset, length, position)
     public fun closeSync(fd: Int): Unit = closeSync_(fd)
     public fun readFileSync(filename: String): ByteArray = readFileSync_(filename)
+    public fun exists(filename: String): Boolean = throw Exception("not implemented")
+    public fun mkdirs(filename: String): Boolean = throw Exception("not implemented")
+    public fun deleteRecursively(filename: String): Boolean = throw Exception("not implemented")
+    public fun length(filename: String): Long = throw Exception("not implemented")
+    public fun createTempDirectory(): String = throw Exception("not implemented")
 }
