@@ -303,6 +303,7 @@ internal object RestEndpoint {
             val key = params["key"]!!
             val idx2 = EIndexPatternExt.names.indexOf(params["idx"]!!)
             val mode = EModifyTypeExt.names.indexOf(params["mode"]!!)
+            println(params)
             tripleStoreManager.remoteModifySorted(query, key, mode, idx2, connectionInMy)
         }
         paths["/debugLocalStore"] = PathMappingHelper(false, mapOf()) {

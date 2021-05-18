@@ -17,6 +17,7 @@
 package lupos.triple_store_manager
 
 import lupos.shared.EIndexPattern
+import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
@@ -67,7 +68,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
         idx = Array(usedIndices.size) { EIndexPatternHelper.tripleIndicees[usedIndices[it].idx_set[0]] }
         allBuf = Array(usedIndices.size) { index -> Array(usedIndices[index].getAllLocations().size) { MyBuf() } }
         allStore = Array(usedIndices.size) { usedIndices[it].getAllLocations() }
-        allStoreParams = Array(allStore.size) { allStore[it].map { j -> mapOf("key" to j.second, "idx" to idx[it].toString(), "mode" to EModifyTypeExt.names[type]) }.toTypedArray() }
+        allStoreParams = Array(allStore.size) { allStore[it].map { j -> mapOf("key" to j.second, "idx" to EIndexPatternExt.names[idx[it].first()], "mode" to EModifyTypeExt.names[type]) }.toTypedArray() }
         allStoreLocal = Array(allStore.size) { allStore[it].map { j -> (tripleStoreManager as TripleStoreManagerImpl).localStoresGet()[j.second]!! }.toTypedArray() }
     }
 
