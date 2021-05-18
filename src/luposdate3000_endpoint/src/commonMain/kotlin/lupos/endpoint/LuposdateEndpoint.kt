@@ -42,7 +42,6 @@ import lupos.shared.DateHelperRelative
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EModifyTypeExt
 import lupos.shared.EPartitionModeExt
-import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.LUPOS_BUFFER_SIZE
 import lupos.shared.MemoryTable
@@ -55,13 +54,11 @@ import lupos.shared.XMLElement
 import lupos.shared.XMLElementFromXML
 import lupos.shared.communicationHandler
 import lupos.shared.dictionary.nodeGlobalDictionary
-import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.TriplesIntermediateReader
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.optimizer.distributedOptimizerQueryFactory
 import lupos.shared.tripleStoreManager
-import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.File
 import lupos.shared_inline.FileExt
 import lupos.shared_inline.MyPrintWriter
@@ -82,51 +79,6 @@ public object LuposdateEndpoint {
 
     @JvmField
     internal val initializerLock = MyLock()
-    private fun helperCleanString(s: String): String {
-        var res: String = s
-        while (true) {
-            val match = "\\\\u[0-9a-fA-f]{4}".toRegex().find(res) ?: break
-            val replacement = match.value.substring(2, 6).toInt(16).toChar() + ""
-            res = res.replace(match.value, replacement)
-        }
-        return res
-    }
-
-    internal fun helperImportRaw(dict: MutableMap<String, Int>, v: String): Int {
-        val v2 = helperCleanString(v)
-        val res: Int
-        if (v2.startsWith("_:")) {
-            val tmp = dict[v2]
-            if (tmp != null) {
-                res = tmp
-            } else {
-                res = nodeGlobalDictionary.createNewBNode()
-                dict[v2] = res
-            }
-        } else {
-            val buffer = ByteArrayWrapper()
-            DictionaryHelper.sparqlToByteArray(buffer, v2)
-            res = nodeGlobalDictionary.createValue(buffer)
-        }
-        return res
-/*Coverage Unreachable*/
-    }
-
-    internal fun helperImportRaw(dict: MutableMap<String, Int>, v: ByteArrayWrapper): Int {
-        val type = DictionaryHelper.byteArrayToType(v)
-        if (type == ETripleComponentTypeExt.BLANK_NODE) {
-            val tmp = DictionaryHelper.byteArrayToBnode_S(v)
-            var res = dict[tmp]
-            if (res != null) {
-                return res
-            }
-            res = nodeGlobalDictionary.createNewBNode()
-            dict[tmp] = res
-            return res
-        } else {
-            return nodeGlobalDictionary.createValue(v)
-        }
-    }
 
     @JsName("import_turtle_file")
     /*suspend*/ public fun importTurtleFile(fileName: String): String {
