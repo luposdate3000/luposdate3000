@@ -56,6 +56,7 @@ gulp.task('concatCSS', function() {
 gulp.task('concatJS', function() {
     return merge(
             gulp.src([
+//the order of files doe NOT matter here
 // dependencies of dependencies ...
                 "bower_components/modernizr/modernizr.js", // dependency of "foundation.js"
 //
@@ -83,6 +84,11 @@ gulp.task('concatJS', function() {
                 "app/scripts/algos/visualisationUtil/chordMapping.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/octaveMapping.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/spectrum.js", // used by sonification
+                "app/scripts/algos/createGraph.js", 
+                "app/scripts/algos/createOPGraph.js", 
+                "app/scripts/codemirror-modes/rif/rif.js", 
+                "app/scripts/codemirror-modes/N3/N3.js", 
+                "app/scripts/algos/visualization.js", // used by sonification
                 //LUPOSDATE3000 GENERATED CODE START
                 "app/scripts/algos/luposdate3000/kotlin.js",
                 "app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",
@@ -110,11 +116,6 @@ gulp.task('concatJS', function() {
                 "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
                 //LUPOSDATE3000 GENERATED CODE END
-                "app/scripts/algos/createGraph.js", 
-                "app/scripts/algos/createOPGraph.js", 
-                "app/scripts/codemirror-modes/rif/rif.js", 
-                "app/scripts/codemirror-modes/N3/N3.js", 
-                "app/scripts/algos/visualization.js", // used by sonification
             ]),
             gulp.src([
                 "app/scripts/main.coffee", 
@@ -141,46 +142,17 @@ gulp.task('concatJS', function() {
             largeFile: true
         }))
         .pipe(order([
+//the order of files IS important here
             "bower_components/modernizr/modernizr.js",
             "bower_components/jquery/dist/jquery.js",
             "bower_components/fastclick/lib/fastclick.js",
-            "bower_components/jquery.cookie/jquery.cookie.js",
-            "bower_components/jquery-placeholder/jquery.placeholder.js",
             "bower_components/foundation/js/foundation.js",
             "bower_components/underscore/underscore.js",
-            "bower_components/backbone/backbone.js",
             "bower_components/codemirror/lib/codemirror.js",
             "bower_components/x2js/xml2json.min.js",
             "bower_components/randomcolor/randomColor.js",
             "bower_components/uri.js/src/URI.js",
-            "bower_components/uri.js/src/IPv6.js",
-            "bower_components/uri.js/src/SecondLevelDomains.js",
-            "bower_components/uri.js/src/punycode.js",
-            "bower_components/uri.js/src/URITemplate.js",
-            "bower_components/uri.js/src/jquery.URI.js",
-            "bower_components/uri.js/src/URI.min.js",
-            "bower_components/uri.js/src/URI.fragmentQuery.js",
-            "bower_components/uri.js/src/URI.fragmentURI.js",
-            "bower_components/codemirror/addon/edit/matchbrackets.js",
-            "bower_components/codemirror/addon/edit/closebrackets.js",
             "bower_components/codemirror/mode/sparql/sparql.js",
-            "bower_components/foundation/js/foundation/foundation.abide.js",
-            "bower_components/foundation/js/foundation/foundation.accordion.js",
-            "bower_components/foundation/js/foundation/foundation.alert.js",
-            "bower_components/foundation/js/foundation/foundation.clearing.js",
-            "bower_components/foundation/js/foundation/foundation.dropdown.js",
-            "bower_components/foundation/js/foundation/foundation.equalizer.js",
-            "bower_components/foundation/js/foundation/foundation.interchange.js",
-            "bower_components/foundation/js/foundation/foundation.joyride.js",
-            "bower_components/foundation/js/foundation/foundation.js",
-            "bower_components/foundation/js/foundation/foundation.magellan.js",
-            "bower_components/foundation/js/foundation/foundation.offcanvas.js",
-            "bower_components/foundation/js/foundation/foundation.orbit.js",
-            "bower_components/foundation/js/foundation/foundation.reveal.js",
-            "bower_components/foundation/js/foundation/foundation.slider.js",
-            "bower_components/foundation/js/foundation/foundation.tab.js",
-            "bower_components/foundation/js/foundation/foundation.tooltip.js",
-            "bower_components/foundation/js/foundation/foundation.topbar.js",
             "bower_components/please-wait/build/please-wait.js",
             "node_modules/tone/build/Tone.js",
             "node_modules/tonejs-instruments#8ec9f43d6f07fdeb15e684df5a6c7efa2c3eedf6/Tonejs-Instruments.js",
