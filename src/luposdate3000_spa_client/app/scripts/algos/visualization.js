@@ -50,7 +50,6 @@ $('.query .evaluate').click(function (){
         //If network was already build up:
         //Delete current Animation List and Netowrk
         if (network != null) {
-            console.log("Network already established");
             network.destroy();
             if(networkSon != null){
                 networkSon.destroy();
@@ -649,7 +648,6 @@ function replacePrefix(){
     for(j=0;j<=dataNodes.length-1;j++){
         for (i=0;i<=prefixes.length-1;i++){
             if(dataNodes[j].label.includes(prefixes[i][1])){
-                console.log("replaced");
                 var string = dataNodes[j].label.replaceAll(prefixes[i][1], "" + prefixes[i][0] + ":");
                 string = string.replaceAll("<","");
                 string = string.replaceAll(">","");

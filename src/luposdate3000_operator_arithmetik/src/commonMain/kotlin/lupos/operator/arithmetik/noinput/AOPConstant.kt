@@ -40,6 +40,10 @@ public class AOPConstant : AOPBase, IAOPConstant {
         value = query.getDictionary().createValue(buffer)
     }
 
+    public constructor(query: IQuery, buffer: ByteArrayWrapper) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
+        value = query.getDictionary().createValue(buffer)
+    }
+
     public constructor(query: IQuery, value2: Int) : super(query, EOperatorIDExt.AOPConstantID, "AOPConstant", arrayOf()) {
         value = value2
     }

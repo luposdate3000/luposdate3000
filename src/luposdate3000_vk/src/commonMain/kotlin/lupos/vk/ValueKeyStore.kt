@@ -110,8 +110,8 @@ public class ValueKeyStore {
 
     public fun hasValue(data: ByteArrayWrapper): Int {
         val buffer = ByteArrayWrapper()
-        var iterator = ValueKeyStoreIteratorSearch(bufferManager, firstLeafID, buffer)
-        return iterator.search(data)
+        var iterator = ValueKeyStoreIteratorSearch()
+        return iterator.search(data, firstLeafID, bufferManager, buffer)
     }
 
     public fun createValue(data: ByteArrayWrapper, value: () -> Int): Int {
@@ -417,12 +417,11 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
     }
 }
 
-internal class ValueKeyStoreIteratorSearch internal constructor(@JvmField internal val bufferManager: BufferManager, startPageID: Int, @JvmField internal val buffer: ByteArrayWrapper) {
-    @JvmField
-    internal var pageid = startPageID
+internal class ValueKeyStoreIteratorSearch {
 
     @Suppress("NOTHING_TO_INLNE")
-    internal inline fun search(target: ByteArrayWrapper): Int {
+    internal inline fun search(target: ByteArrayWrapper, startpageid: Int, bufferManager: BufferManager, buffer: ByteArrayWrapper): Int {
+        var pageid = startpageid
         // println("searching start")
         while (true) {
             // println("searching at $pageid")

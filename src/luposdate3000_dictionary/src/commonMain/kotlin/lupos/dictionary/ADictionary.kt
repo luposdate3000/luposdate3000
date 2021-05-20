@@ -82,7 +82,7 @@ public abstract class ADictionary : IDictionary {
         var lastId = -1
         val buffer = ByteArrayWrapper()
         DictionaryIntermediateReader(filename).readAll(buffer) { id ->
-            if (lastId % 10000 == 0) {
+            if (lastId % 10000 == 0 && lastId != 0) {
                 println("imported $lastId dictionaryItems")
             }
             val type = DictionaryHelper.byteArrayToType(buffer)

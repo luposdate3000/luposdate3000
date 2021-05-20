@@ -470,7 +470,6 @@ public class TripleStoreManagerImpl : TripleStoreManager {
             for (store in index.getAllLocations()) {
                 if (store.first == localhost) {
                     val page = bufferManager.allocPage("/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:471")
-                    println("allocated store-root page :: $page")
                     localStoresAdd(store.second, page, TripleStoreIndexIDTriple(page, false))
                 }
             }

@@ -225,6 +225,12 @@ internal object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
+    public inline fun dateTimeToByteArray(buffer: ByteArrayWrapper) {
+        val dateNow = DateHelper()
+        return dateTimeToByteArray(buffer, BigInteger.parseString(dateNow.year().toString(), 10), dateNow.month(), dateNow.day(), dateNow.hours(), dateNow.minutes(), BigDecimal.parseString(dateNow.seconds().toString(), 10), -99, -99, false)
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
     public inline fun dateTimeToByteArray(buffer: ByteArrayWrapper, year: BigInteger, month: Int, day: Int, hours: Int, minutes: Int, seconds: BigDecimal, timezoneHours: Int, timezoneMinutes: Int, hasTimeZone: Boolean) {
         SanityCheck.check({ month >= 0 }, { "dateTimeToByteArray.month : $month" })
         SanityCheck.check({ month <= 99 }, { "dateTimeToByteArray.month : $month" })

@@ -155,7 +155,7 @@ public class DictionaryKV : ADictionary {
                 throw Exception("ERROR !! $lastId -> $id")
             }
             lastId = id
-            if (lastId % 10000 == 0) {
+            if (lastId % 10000 == 0 && lastId != 0) {
                 println("imported $lastId dictionaryItems")
             }
             if (mymapping.size <= id) {

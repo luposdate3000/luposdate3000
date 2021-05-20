@@ -1166,8 +1166,11 @@ fun onGenerateLauncherMain() {
 
 fun copyFromJar(source: InputStream, dest: String) {
     val out = FileOutputStream(dest)
-    while (source.available() > 0) {
-        out.write(source.read())
+    val buf = ByteArray(4096)
+    var count = source.read(buf)
+    while (count > 0) {
+        out.write(buf, 0, count)
+        count = source.read(buf)
     }
     out.close()
     source.close()
