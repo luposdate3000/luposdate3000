@@ -13,6 +13,7 @@ const sass = require("gulp-sass");
 const hjson = require("gulp-hjson");
 const util = require("gulp-util");
 const svgSprite = require("gulp-svg-sprite")
+
 const handleError = function(err) {
     new util.log(err);
     this.emit('end');
@@ -152,10 +153,8 @@ gulp.task('concatJS', function() {
             })).on('error', handleError),
             gulp.src([
                 "app/templates/spinner.html",
-                "app/templates/results/boolean.html",
                 "app/templates/results/standalone.html",
                 "app/templates/results/error.html",
-                "app/templates/results/none.html",
                 "app/templates/results/prefixes.html",
                 "app/templates/results/prefix.html",
                 "app/templates/results.html",
@@ -262,7 +261,6 @@ gulp.task('concatJS', function() {
         ], {
             base: './'
         }))
-        .pipe(debug())
         .pipe(concat('vendor.js'))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('dist/scripts/'));
@@ -271,15 +269,6 @@ gulp.task('concatJS', function() {
 gulp.task('html', gulp.series('concatCSS', 'concatJS', 'hjson', function() {
     return gulp.src([
             "app/index.html",
-            "app/templates/spinner.html",
-            "app/templates/results/boolean.html",
-            "app/templates/results/standalone.html",
-            "app/templates/results/error.html",
-            "app/templates/results/none.html",
-            "app/templates/results/prefixes.html",
-            "app/templates/results/prefix.html",
-            "app/templates/results.html",
-            "app/templates/query_picker.html",
         ])
         .pipe(gulp.dest('dist'));
 }));
@@ -350,10 +339,12 @@ gulp.task('images', function() {
 });
 
 gulp.task('fonts', function() {
-    return gulp.src(
-            "bower_components/font-source-sans-pro/{EOT,OTF,TTF,WOFF}/**/*.{eot,svg,ttf,woff,otf}",
-        )
-        .pipe(gulp.dest('dist/styles'));
+    return gulp.src([
+            "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-BoldIt.otf.woff",
+            "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-Bold.otf.woff",
+            "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-Regular.otf.woff",
+        ])
+        .pipe(gulp.dest('dist/styles/WOFF/OTF'));
 });
 
 gulp.task('clean', function() {
