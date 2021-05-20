@@ -50,7 +50,7 @@
             resources/Sparql/OneTriplePattern.sparql
             resources/Sparql/Filter.sparql
             resources/Sparql/Merge.sparql
-            resources/Sparql/Optional-clause.sparql
+            resources/Sparql/Optional-Clause.sparql
             resources/Sparql/Hash-Map.sparql
             ]
         "rdf": [
