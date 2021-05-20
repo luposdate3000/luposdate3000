@@ -1,4 +1,3 @@
-'use strict'
 # Attach App as global variable for debugging
 @App =
     isMergeView: false

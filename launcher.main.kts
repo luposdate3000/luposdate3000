@@ -1219,11 +1219,8 @@ fun onSetupSPAClient() {
             1 -> {
                 if (line.contains("LUPOSDATE3000 GENERATED CODE END")) {
                     cache.add(line)
-                    mode = 2
+                    mode = 0
                 }
-            }
-            2 -> {
-                cache.add(line)
             }
         }
     }
