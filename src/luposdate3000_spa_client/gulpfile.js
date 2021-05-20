@@ -1,7 +1,7 @@
 'use strict';
 
 const gulp = require('gulp');
-const jstConcat=require("gulp-jst-concat")
+const jstConcat = require("gulp-jst-concat")
 const concat = require('gulp-concat');
 const clean = require('gulp-clean');
 const coffee = require('gulp-coffee');
@@ -21,8 +21,8 @@ const handleError = function(err) {
 gulp.task('hjson', function() {
     return gulp
         .src([
-"app/config/config.hjson",
-"app/config/operators.hjson",
+            "app/config/config.hjson",
+            "app/config/operators.hjson",
         ])
         .pipe(hjson({
             to: 'json'
@@ -30,19 +30,9 @@ gulp.task('hjson', function() {
         .pipe(gulp.dest('dist/config'));
 });
 
-gulp.task('styles', function() {
-    return gulp
-        .src([
-            "app/styles/main.scss",
-        ])
-        .pipe(sass({
-            errLogToConsole: true
-        }))
-        .pipe(gulp.dest('dist/styles'));
-});
 
 gulp.task('concatCSS', function() {
-    return gulp
+    var css_other = gulp
         .src([
             "bower_components/foundation/css/foundation.css",
             "bower_components/codemirror/lib/codemirror.css",
@@ -51,6 +41,14 @@ gulp.task('concatCSS', function() {
             "bower_components/codemirror/addon/fold/foldgutter.css",
             "app/styles/spectrum.css",
         ])
+    var css_sass = gulp
+        .src([
+            "app/styles/main.scss",
+        ])
+        .pipe(sass({
+            errLogToConsole: true
+        }))
+    return merge(css_other, css_sass)
         .pipe(concat('vendor.css'))
         .pipe(gulp.dest('dist/styles/'));
 });
@@ -115,31 +113,31 @@ gulp.task('concatJS', function() {
             "app/scripts/algos/visualisationUtil/octaveMapping.js",
             "app/scripts/algos/visualisationUtil/spectrum.js",
             //LUPOSDATE3000 GENERATED CODE START
-"app/scripts/algos/luposdate3000/kotlin.js",
-"app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Shared.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Parser.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Jena_Wrapper.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Endpoint_Launcher.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Buffer_Manager.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_KV.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Id_Triple.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_VK.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Dictionary.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Base.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Arithmetik.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Logical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Physical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Ast.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Logical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Manager.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Result_Format.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Physical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Factory.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
+            "app/scripts/algos/luposdate3000/kotlin.js",
+            "app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Shared.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Parser.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Jena_Wrapper.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint_Launcher.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Buffer_Manager.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_KV.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Id_Triple.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_VK.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Dictionary.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Base.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Arithmetik.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Logical.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Physical.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Ast.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Logical.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Manager.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Result_Format.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Physical.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Factory.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
             //LUPOSDATE3000 GENERATED CODE END
             "app/scripts/algos/createGraph.js",
             "app/scripts/algos/createOPGraph.js",
@@ -157,7 +155,7 @@ gulp.task('concatJS', function() {
         })).on('error', handleError)
     var js_jst = gulp
         .src([
-"app/templates/spinner.html",
+            "app/templates/spinner.html",
             "app/templates/results/boolean.html",
             "app/templates/results/standalone.html",
             "app/templates/results/error.html",
@@ -166,7 +164,7 @@ gulp.task('concatJS', function() {
             "app/templates/results/prefix.html",
             "app/templates/results.html",
             "app/templates/query_picker.html",
-])
+        ])
         .pipe(jstConcat('jst.js', {
             renameKeys: ['^.*templates/(.*).html$', '$1']
         })).on('error', handleError)
@@ -232,31 +230,31 @@ gulp.task('concatJS', function() {
             "app/scripts/algos/visualisationUtil/octaveMapping.js",
             "app/scripts/algos/visualisationUtil/spectrum.js",
             //LUPOSDATE3000 GENERATED CODE START
-"app/scripts/algos/luposdate3000/kotlin.js",
-"app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Shared.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Parser.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Jena_Wrapper.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Endpoint_Launcher.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Buffer_Manager.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_KV.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Id_Triple.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_VK.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Dictionary.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Base.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Arithmetik.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Logical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Physical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Ast.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Logical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Manager.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Result_Format.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Physical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Factory.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
+            "app/scripts/algos/luposdate3000/kotlin.js",
+            "app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Shared.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Parser.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Jena_Wrapper.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint_Launcher.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Buffer_Manager.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_KV.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Id_Triple.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_VK.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Dictionary.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Base.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Arithmetik.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Logical.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Physical.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Ast.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Logical.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Manager.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Result_Format.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Physical.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Factory.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
             //LUPOSDATE3000 GENERATED CODE END
             "app/scripts/algos/createGraph.js",
             "app/scripts/algos/createOPGraph.js",
@@ -274,28 +272,7 @@ gulp.task('concatJS', function() {
         .pipe(gulp.dest('dist/scripts/'));
 });
 
-gulp.task('svg', function() {
-    return gulp
-        .src([
-            "app/images/icons/**/*.svg",
-        ])
-        .pipe(svgSprite({
-            shape: {
-                id: {
-                    separator: '-'
-                }
-            },
-            mode: {
-                symbol: {
-                    dest: 'sprites',
-                    sprite: 'svgs.svg'
-                }
-            }
-        }))
-        .pipe(gulp.dest('dist/images'));
-});
-
-gulp.task('html', gulp.series('styles', 'concatCSS', 'concatJS', 'hjson', function() {
+gulp.task('html', gulp.series('concatCSS', 'concatJS', 'hjson', function() {
     return gulp
         .src([
             "app/index.html",
@@ -313,9 +290,38 @@ gulp.task('html', gulp.series('styles', 'concatCSS', 'concatJS', 'hjson', functi
 }));
 
 gulp.task('resources', function() {
-    return gulp
-        .src('app/resources/**/*')
-        .pipe(gulp.dest('dist/resources'));
+    var resources_n3 = gulp
+        .src([
+            "app/resources/N3/lubm.n3",
+            "app/resources/N3/yagodata.n3",
+            "app/resources/N3/sp2b.n3",
+        ])
+        .pipe(gulp.dest('dist/resources/N3'));
+    var resources_sparql = gulp
+        .src([
+            "app/resources/Sparql/lubm_asktest.sparql",
+            "app/resources/Sparql/lubm_test.sparql",
+            "app/resources/Sparql/Merge.sparql",
+            "app/resources/Sparql/OneTriplePattern.sparql",
+            "app/resources/Sparql/endpoint_test.sparql",
+            "app/resources/Sparql/lubm_constructtest.sparql",
+            "app/resources/Sparql/Filter.sparql",
+            "app/resources/Sparql/Optional-Clause.sparql",
+            "app/resources/Sparql/Hash-Map.sparql",
+        ])
+        .pipe(gulp.dest('dist/resources/Sparql'));
+    var resources_rif = gulp
+        .src([
+            "app/resources/RIF/rule_equality.rif",
+            "app/resources/RIF/rule_And.rif",
+            "app/resources/RIF/rule_comparison.rif",
+            "app/resources/RIF/rule_fibonacci.rif",
+            "app/resources/RIF/rule_exists.rif",
+            "app/resources/RIF/rule_functional.rif",
+            "app/resources/RIF/rule_assignment.rif",
+        ])
+        .pipe(gulp.dest('dist/resources/RIF'));
+    return merge(resources_n3, resources_sparql, resources_rif)
 });
 gulp.task('instruments', function() {
     return gulp
@@ -324,8 +330,32 @@ gulp.task('instruments', function() {
 });
 
 gulp.task('images', function() {
-    return gulp
-        .src('app/images/**/*')
+    var image_svgs = gulp
+        .src([
+            "app/images/icons/fullscreen.svg",
+            "app/images/icons/fullscreen-close.svg",
+            "app/images/icons/screen-query.svg",
+            "app/images/icons/screen-both.svg",
+        ])
+        .pipe(svgSprite({
+            shape: {
+                id: {
+                    separator: '-'
+                }
+            },
+            mode: {
+                symbol: {
+                    dest: 'sprites',
+                    sprite: 'svgs.svg'
+                }
+            }
+        }))
+    var image_other = gulp
+        .src([
+            "app/images/logo.svg",
+            "app/images/favicon.png",
+        ])
+    return merge(image_svgs, image_other)
         .pipe(gulp.dest('dist/images'));
 });
 
@@ -348,7 +378,7 @@ gulp.task('clean', function() {
 });
 
 
-gulp.task('build', gulp.series('html', 'svg', 'images', 'resources', 'fonts', 'instruments', function(done) {
+gulp.task('build', gulp.series('html', 'images', 'resources', 'fonts', 'instruments', function(done) {
     console.log('build done');
     done();
 }));
