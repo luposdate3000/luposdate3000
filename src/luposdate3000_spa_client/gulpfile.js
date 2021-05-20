@@ -56,13 +56,13 @@ gulp.task('concatCSS', function() {
 gulp.task('concatJS', function() {
     return merge(
             gulp.src([
-                "bower_components/modernizr/modernizr.js",
+                "bower_components/modernizr/modernizr.js", // not in bower.json ??
                 "bower_components/jquery/dist/jquery.js",
-                "bower_components/fastclick/lib/fastclick.js",
+                "bower_components/fastclick/lib/fastclick.js", // not in bower.json ??
                 "bower_components/jquery.cookie/jquery.cookie.js",
                 "bower_components/jquery-placeholder/jquery.placeholder.js",
                 "bower_components/foundation/js/foundation.js",
-                "bower_components/underscore/underscore.js",
+                "bower_components/underscore/underscore.js", // not in bower.json ??
                 "bower_components/backbone/backbone.js",
                 "bower_components/codemirror/lib/codemirror.js",
                 "bower_components/x2js/xml2json.min.js",
