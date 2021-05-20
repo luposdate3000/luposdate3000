@@ -27,17 +27,17 @@ var graphSettings = {
 };
 
 
-$('#getgraphdata').click(function () {
+$('#getgraphdata').click(function() {
     fitNetworkAST();
 });
 
-$('input[type=radio][name=ASTGraph]').change(function () {
+$('input[type=radio][name=ASTGraph]').change(function() {
     index = parseInt($(this).val(), 10);
     draw(index);
 });
 
 
-$('#lupo-setting-levelseparation, #lupo-setting-treespacing,#lupo-setting-nodespacing,#lupo-setting-direction').on("change input propertychange paste", function () {
+$('#lupo-setting-levelseparation, #lupo-setting-treespacing,#lupo-setting-nodespacing,#lupo-setting-direction').on("change input propertychange paste", function() {
     var $this = $(this);
     var id = $this.attr("id");
     switch (id) {
@@ -58,7 +58,7 @@ $('#lupo-setting-levelseparation, #lupo-setting-treespacing,#lupo-setting-nodesp
 });
 
 
-function createGraph(data,target) {
+function createGraph(data, target) {
     astType = target;
     $('#lupo-setting-levelseparation').val(graphSettings.levelseparation);
     $('#lupo-setting-nodespacing').val(graphSettings.nodespacing);
@@ -84,10 +84,10 @@ function createGraph(data,target) {
             nodes: nodes[0],
             edges: edges[0]
         };
-        if(astType == "sparql"){
+        if (astType == "sparql") {
             createLegend();
             $("label[for='coreASTradio']").text("CoreSPARQL AST")
-        }else{
+        } else {
             $("label[for='coreASTradio']").text("Rule AST")
             $("#luposlegend").hide();
         }
@@ -112,8 +112,7 @@ function createGraph(data,target) {
             nodes: nodes[1],
             edges: edges[1]
         };
-    }
-    else if (data.hasOwnProperty("rulesAST")) {
+    } else if (data.hasOwnProperty("rulesAST")) {
         var rulesAST = data.rulesAST;
         nodes[1].clear();
         edges[1].clear();
@@ -133,8 +132,7 @@ function createGraph(data,target) {
     draw(index);
 }
 
-function createQueryNode(coreSparql)
-{
+function createQueryNode(coreSparql) {
     //var coreSparql = coreSparql.replace(/</g, '&lt;').replace(/>/g, '&gt;');
     var currentNode = {};
     currentNode.id = QUERY_NODE_ID;
@@ -143,8 +141,7 @@ function createQueryNode(coreSparql)
     currentNode.label = coreSparql;
     currentNode.shape = 'box';
     //currentNode.operandPosition = data.operandPosition;
-    currentNode.color =
-    {
+    currentNode.color = {
         background: "#FFFFFF",
         border: "#FFFFFF"
     };
@@ -154,11 +151,12 @@ function createQueryNode(coreSparql)
 
     tempNodesArray.push(currentNode);
 }
+
 function getOptions() {
     var options = null;
     switch (astType) {
-        case "sparql" :
-        case "rif" :
+        case "sparql":
+        case "rif":
             options = {
                 physics: {
                     enabled: false,
@@ -190,7 +188,7 @@ function getOptions() {
             };
             break;
 
-        case "rifBACKUP" :
+        case "rifBACKUP":
             options = {
                 "edges": {
                     "smooth": false
@@ -202,15 +200,16 @@ function getOptions() {
                 }
             };
             break;
-        default : console.error("falscher astType",astType)
+        default:
+            console.error("falscher astType", astType)
     }
     return options;
 }
 
 function draw(index) {
-    if(index === 1 && astType == "sparql"){
+    if (index === 1 && astType == "sparql") {
         $("#coreSparqlQuery").show();
-    }else{
+    } else {
         $("#coreSparqlQuery").hide();
     }
     container = document.getElementById('luposgraph');
@@ -223,12 +222,13 @@ function draw(index) {
 
 function fitNetworkAST() {
     if (typeof networ_ast != "undefined") {
-        setTimeout(function () {
+        setTimeout(function() {
             networ_ast.fit();
         }, 100)
     }
 
 }
+
 function extractNodeData(data, parentId, index) {
 
     var currentNode = {};
@@ -238,8 +238,7 @@ function extractNodeData(data, parentId, index) {
     currentNode.label = data.description;
     currentNode.shape = 'box';
     currentNode.operandPosition = data.operandPosition;
-    currentNode.color =
-    {
+    currentNode.color = {
         background: generateColor(data.classification),
         border: generateColor(data.classification)
     };
@@ -249,20 +248,31 @@ function extractNodeData(data, parentId, index) {
     var isIn = isIdInArray(tempNodesArray, currentNode.id);
     if (!isIn) {
         tempNodesArray.push(currentNode);
-    }else{
+    } else {
 
-        currentNode.id = currentNode.id+"_"+Date.now();
-        currentNode.color =  'lime';
+        currentNode.id = currentNode.id + "_" + Date.now();
+        currentNode.color = 'lime';
         tempNodesArray[isIn].color = "red";
         tempNodesArray.push(currentNode);
     }
 
-    if(parentId === QUERY_NODE_ID){
-        var edge = {from: parentId, to: currentNode.id, hidden: true};
+    if (parentId === QUERY_NODE_ID) {
+        var edge = {
+            from: parentId,
+            to: currentNode.id,
+            hidden: true
+        };
         tempEdgesArray.push(edge);
-    }
-    else if (typeof parentId != "undefined") {
-        var edge = {from: parentId, to: currentNode.id,arrows:'to',label:currentNode.operandPosition , font: {align: 'horizontal'}};
+    } else if (typeof parentId != "undefined") {
+        var edge = {
+            from: parentId,
+            to: currentNode.id,
+            arrows: 'to',
+            label: currentNode.operandPosition,
+            font: {
+                align: 'horizontal'
+            }
+        };
         //edges[index].add(edge);
         tempEdgesArray.push(edge);
     }
@@ -270,6 +280,7 @@ function extractNodeData(data, parentId, index) {
         extractChildren(data.children, data.id, index)
     }
 }
+
 function extractChildren(children, parentId, index) {
     for (var i in children) {
         var child = children[i];
@@ -290,19 +301,19 @@ function isIdInArray(array, id) {
 function generateColor(type) {
     var color = "#BEBEBE";
     switch (type) {
-        case  "TerminalNode" :
+        case "TerminalNode":
             color = "#FF4A4A"; //red
             break;
-        case  "QueryHead":
+        case "QueryHead":
             color = "#C67CE4"; //violette
             break;
-        case  "NonTerminalNode":
+        case "NonTerminalNode":
             color = "#8DE668"; //green
             break;
-        case  "UnknownNode":
+        case "UnknownNode":
             color = "#FF4A4A"; //red
             break;
-        case  "HighLevelOperator":
+        case "HighLevelOperator":
             color = "#8DE668"; //green
             break;
     }

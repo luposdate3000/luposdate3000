@@ -19,11 +19,11 @@ var graphOPSetting = {
     direction: "UD"
 };
 
-$('#getopgraphdata').click(function () {
+$('#getopgraphdata').click(function() {
     fitNetworkOP();
 });
 
-$("#graph-select").change(function () {
+$("#graph-select").change(function() {
     var value = $(this).val();
     changeOptimizationStep(value);
 
@@ -44,7 +44,7 @@ $("#graph-select").change(function () {
 });
 
 
-$('#lupo-op-setting-levelseparation, #lupo-op-setting-treespacing,#lupo-op-setting-nodespacing,#lupo-op-setting-direction').on("change input propertychange paste", function () {
+$('#lupo-op-setting-levelseparation, #lupo-op-setting-treespacing,#lupo-op-setting-nodespacing,#lupo-op-setting-direction').on("change input propertychange paste", function() {
     var $this = $(this);
     var id = $this.attr("id");
     switch (id) {
@@ -158,7 +158,7 @@ function changeOptimizationStep(stepNo) {
         var containerOP = document.getElementById('luposgraphOP');
         network = new vis.Network(containerOP, graphSteps[stepNo], getOPOptions());
 
-        setTimeout(function () {
+        setTimeout(function() {
             network.fit();
         }, 500)
     }
@@ -193,14 +193,26 @@ function generateGraphStep(step, stepNr) {
             var endId = value[i].nodeId;
             var operandPosition = value[i].operandPosition;
             endId = parseInt(endId, 10);
-            newGraph.edges.add({from: startId, to: endId,arrows:'to',label:operandPosition , font: {align: 'horizontal'}});
+            newGraph.edges.add({
+                from: startId,
+                to: endId,
+                arrows: 'to',
+                label: operandPosition,
+                font: {
+                    align: 'horizontal'
+                }
+            });
         }
     }
 
     // Add the Prefix Node to the graph
     if (prefixNode) {
         newGraph.nodes.add(prefixNode);
-        newGraph.edges.add({from: node.id, to: prefixNode.id, hidden: true});
+        newGraph.edges.add({
+            from: node.id,
+            to: prefixNode.id,
+            hidden: true
+        });
     }
     return newGraph;
 }
@@ -212,8 +224,7 @@ function createNode(data) {
     currentNode.label = data.description;
     currentNode.shape = 'box';
     currentNode.id = data.id;
-    currentNode.color =
-    {
+    currentNode.color = {
         background: NODECOLOR,
         border: NODECOLOR
     };
@@ -257,7 +268,7 @@ function createPrefixNode(prefix) {
 
 function fitNetworkOP() {
     if (typeof network != "undefined") {
-        setTimeout(function () {
+        setTimeout(function() {
             network.fit();
         }, 100)
     }

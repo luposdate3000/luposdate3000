@@ -1,16 +1,16 @@
 var iterator = 0;
 
-function getMelody(string, id, label, index){
+function getMelody(string, id, label, index) {
     var radios = document.getElementsByName('melody');
     var i;
-    for (i=0;i<=radios.length-1;i++){
-        if(radios[i].checked){
-            switch(radios[i].value){
+    for (i = 0; i <= radios.length - 1; i++) {
+        if (radios[i].checked) {
+            switch (radios[i].value) {
                 case 'durCad':
-                    if(iterator >= 3){
+                    if (iterator >= 3) {
                         iterator = 0;
                     }
-                    switch(iterator){
+                    switch (iterator) {
                         case 0:
                             var basicTone = App.operators.chords["C"].basic;
                             var firstTone = App.operators.chords["C"].first;
@@ -35,15 +35,15 @@ function getMelody(string, id, label, index){
                     iterator++;
                     if ($('#arpeggioMelody').is(':checked')) {
                         return [true, basicTone, firstTone, secondTone];
-                    }else{
+                    } else {
                         return [false, basicTone, firstTone, secondTone];
                     }
                     break;
                 case '50s':
-                    if(iterator >= 3){
+                    if (iterator >= 3) {
                         iterator = 0;
                     }
-                    switch(iterator){
+                    switch (iterator) {
                         case 0:
                             var basicTone = App.operators.chords["C"].basic;
                             var firstTone = App.operators.chords["C"].first;
@@ -68,15 +68,15 @@ function getMelody(string, id, label, index){
                     iterator++;
                     if ($('#arpeggioMelody').is(':checked')) {
                         return [true, basicTone, firstTone, secondTone];
-                    }else{
+                    } else {
                         return [false, basicTone, firstTone, secondTone];
                     }
                     break;
                 case 'hit':
-                    if(iterator >= 3){
+                    if (iterator >= 3) {
                         iterator = 0;
                     }
-                    switch(iterator){
+                    switch (iterator) {
                         case 0:
                             var basicTone = App.operators.chords["C"].basic;
                             var firstTone = App.operators.chords["C"].first;
@@ -101,15 +101,15 @@ function getMelody(string, id, label, index){
                     iterator++;
                     if ($('#arpeggioMelody').is(':checked')) {
                         return [true, basicTone, firstTone, secondTone];
-                    }else{
+                    } else {
                         return [false, basicTone, firstTone, secondTone];
                     }
                     break;
                 case 'hitTurned':
-                    if(iterator >= 3){
+                    if (iterator >= 3) {
                         iterator = 0;
                     }
-                    switch(iterator){
+                    switch (iterator) {
                         case 0:
                             var basicTone = App.operators.chords["Am"].basic;
                             var firstTone = App.operators.chords["Am"].first;
@@ -134,15 +134,15 @@ function getMelody(string, id, label, index){
                     iterator++;
                     if ($('#arpeggioMelody').is(':checked')) {
                         return [true, basicTone, firstTone, secondTone];
-                    }else{
+                    } else {
                         return [false, basicTone, firstTone, secondTone];
                     }
                     break;
                 case 'mill':
-                    if(iterator >= 3){
+                    if (iterator >= 3) {
                         iterator = 0;
                     }
-                    switch(iterator){
+                    switch (iterator) {
                         case 0:
                             var basicTone = App.operators.chords["Dm"].basic;
                             var firstTone = App.operators.chords["Dm"].first;
@@ -167,15 +167,15 @@ function getMelody(string, id, label, index){
                     iterator++;
                     if ($('#arpeggioMelody').is(':checked')) {
                         return [true, basicTone, firstTone, secondTone];
-                    }else{
+                    } else {
                         return [false, basicTone, firstTone, secondTone];
                     }
                     break;
                 case '251':
-                    if(iterator >= 3){
+                    if (iterator >= 3) {
                         iterator = 0;
                     }
-                    switch(iterator){
+                    switch (iterator) {
                         case 0:
                             var basicTone = App.operators.chords["Dm"].basic;
                             var firstTone = App.operators.chords["Dm"].first;
@@ -200,15 +200,15 @@ function getMelody(string, id, label, index){
                     iterator++;
                     if ($('#arpeggioMelody').is(':checked')) {
                         return [true, basicTone, firstTone, secondTone];
-                    }else{
+                    } else {
                         return [false, basicTone, firstTone, secondTone];
                     }
                     break;
                 case 'pachebel':
-                    if(iterator >= 7){
+                    if (iterator >= 7) {
                         iterator = 0;
                     }
-                    switch(iterator){
+                    switch (iterator) {
                         case 0:
                             var basicTone = App.operators.chords["C"].basic;
                             var firstTone = App.operators.chords["C"].first;
@@ -253,7 +253,7 @@ function getMelody(string, id, label, index){
                     iterator++;
                     if ($('#arpeggioMelody').is(':checked')) {
                         return [true, basicTone, firstTone, secondTone];
-                    }else{
+                    } else {
                         return [false, basicTone, firstTone, secondTone];
                     }
                     break;
@@ -263,7 +263,7 @@ function getMelody(string, id, label, index){
 
 }
 
-function mappingMelody(string){
+function mappingMelody(string) {
     //Mapping of melody is a bit different
     $('#melodySettings').show();
     $('#melodySettings').empty();
@@ -275,13 +275,13 @@ function mappingMelody(string){
     html += '<input type=checkbox id=arpeggioMelody style=float:left;margin-right:10px;margin-top:3px;><br>';
     html += '</div>';
     html += '<p>Select a melody: </p>';
-    html+='<input type=radio id=durCad name=melody cadence value=durCad checked> Dur cadence<br>';
-    html+='<input type=radio id=50s name=melody value=50s> 50s formula<br>';
-    html+='<input type=radio id=hit name=melody value=hit> Hit formula<br>';
-    html+='<input type=radio id=hitTurned name=melody value=hitTurned> Turned hit formula<br>';
-    html+='<input type=radio id=mill name=melody value=mill> Millennium cadence<br>';
-    html+='<input type=radio id=251 name=melody value=251> 2-5-1 connection<br>';
-    html+='<input type=radio id=pachebel name=melody value=pachebel> Pachebel Canon<br>';
+    html += '<input type=radio id=durCad name=melody cadence value=durCad checked> Dur cadence<br>';
+    html += '<input type=radio id=50s name=melody value=50s> 50s formula<br>';
+    html += '<input type=radio id=hit name=melody value=hit> Hit formula<br>';
+    html += '<input type=radio id=hitTurned name=melody value=hitTurned> Turned hit formula<br>';
+    html += '<input type=radio id=mill name=melody value=mill> Millennium cadence<br>';
+    html += '<input type=radio id=251 name=melody value=251> 2-5-1 connection<br>';
+    html += '<input type=radio id=pachebel name=melody value=pachebel> Pachebel Canon<br>';
 
     $('#melodySettings').html(html);
 

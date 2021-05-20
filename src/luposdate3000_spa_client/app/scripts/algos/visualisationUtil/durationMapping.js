@@ -5,16 +5,16 @@ var durationOperatorVariable = [];
 var durationDataIndex;
 var durationDataVariable = [];
 
-function getDuration(string, id, label, index){
-    switch(string){
+function getDuration(string, id, label, index) {
+    switch (string) {
         case 'Simple':
             return durationDataIndex.value;
             break;
         case 'Operator-ID':
             var i;
             var j = 0;
-            for(i=0;i<=dataNodes.length-1;i++){
-                if(!(dataNodes[i].label.includes('AOP')||dataNodes[i].label.includes('OPBaseCompound'))) {
+            for (i = 0; i <= dataNodes.length - 1; i++) {
+                if (!(dataNodes[i].label.includes('AOP') || dataNodes[i].label.includes('OPBaseCompound'))) {
                     if (dataNodes[i].id == id) {
                         var t = durationOperator[j].value;
                         return t;
@@ -24,10 +24,10 @@ function getDuration(string, id, label, index){
             }
             break;
         case 'Operator-Depth':
-            for(i=0;i<=dataNodes.length-1;i++){
-                if(dataNodes[i].id == id){
-                    for(j=0;j<=differentPositions.length-1;j++){
-                        if(Object.values(networkSon.getPositions(id))[0].y == parseInt(differentPositions[j],10)){
+            for (i = 0; i <= dataNodes.length - 1; i++) {
+                if (dataNodes[i].id == id) {
+                    for (j = 0; j <= differentPositions.length - 1; j++) {
+                        if (Object.values(networkSon.getPositions(id))[0].y == parseInt(differentPositions[j], 10)) {
                             return durationOperatorDepth[j].value;
                         }
                     }
@@ -35,11 +35,11 @@ function getDuration(string, id, label, index){
             }
             break;
         case 'Operator-Type':
-            var i,j;
-            for(i=0;i<=dataNodes.length-1;i++){
-                if(dataNodes[i].id == id){
-                    for(j=0;j<=differentTypes.length;j++){
-                        if(dataNodes[i].label.split(" ")[0] == differentTypes[j]){
+            var i, j;
+            for (i = 0; i <= dataNodes.length - 1; i++) {
+                if (dataNodes[i].id == id) {
+                    for (j = 0; j <= differentTypes.length; j++) {
+                        if (dataNodes[i].label.split(" ")[0] == differentTypes[j]) {
                             return durationOperatorType[j].value;
                         }
                     }
@@ -47,11 +47,11 @@ function getDuration(string, id, label, index){
             }
             break;
         case 'Operator-Variable':
-            var i,j;
-            for(i=0;i<=dataNodes.length-1;i++){
-                if(dataNodes[i].id == id){
-                    for(j=0;j<=differentOperatorVariables.length;j++){
-                        if(dataNodes[i].label.split("\n")[1] == differentOperatorVariables[j]){
+            var i, j;
+            for (i = 0; i <= dataNodes.length - 1; i++) {
+                if (dataNodes[i].id == id) {
+                    for (j = 0; j <= differentOperatorVariables.length; j++) {
+                        if (dataNodes[i].label.split("\n")[1] == differentOperatorVariables[j]) {
                             return durationOperatorVariable[j].value;
                         }
                     }
@@ -63,24 +63,25 @@ function getDuration(string, id, label, index){
             var min = 999999999999999;
             var i;
             for (i = 0; i <= globalAnimationList.length - 1; i++) {
-                var k = parseInt(globalAnimationList[i][3],10);
+                var k = parseInt(globalAnimationList[i][3], 10);
                 if (k > max) {
                     max = k;
-                }if (k < min) {
+                }
+                if (k < min) {
                     min = k;
                 }
             }
             var durations = [1, 2, 4, 8, 16];
-            var tmp2 = scale(index,min,max,1,16);
+            var tmp2 = scale(index, min, max, 1, 16);
             var output = durations.reduce((prev, curr) => Math.abs(curr - tmp2) < Math.abs(prev - tmp2) ? curr : prev);
-            return output+'n';
+            return output + 'n';
             break;
         case 'Data-Variable':
-            var i,j;
-            for(i=0;i<=globalAnimationList.length-1;i++){
-                if(globalAnimationList[i][3] == index){
-                    for(j=0;j<=differentDataVariables.length;j++){
-                        if(globalAnimationList[i][2].split(" ")[0] == differentDataVariables[j]){
+            var i, j;
+            for (i = 0; i <= globalAnimationList.length - 1; i++) {
+                if (globalAnimationList[i][3] == index) {
+                    for (j = 0; j <= differentDataVariables.length; j++) {
+                        if (globalAnimationList[i][2].split(" ")[0] == differentDataVariables[j]) {
                             return durationDataVariable[j].value;
                         }
                     }
@@ -90,9 +91,9 @@ function getDuration(string, id, label, index){
         case 'Query-Progress':
             var durations = [1, 2, 4, 8, 16];
             var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
-            var tmp2 = scale(tmp,0,100,1,16);
+            var tmp2 = scale(tmp, 0, 100, 1, 16);
             var output = durations.reduce((prev, curr) => Math.abs(curr - tmp2) < Math.abs(prev - tmp2) ? curr : prev);
-            return output+'n';
+            return output + 'n';
             break;
     }
 }
@@ -126,14 +127,14 @@ function mappingDuration(string) {
             var j;
             for (j = 0; j <= dataNodes.length - 1; j++) {
                 if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
-                    html += '<h7>'+ dataNodes[j].label.split("\n")[0] + '</h7><br>';
+                    html += '<h7>' + dataNodes[j].label.split("\n")[0] + '</h7><br>';
                     html += '<div style=overflow:hidden;>';
                     html += '<p style=float:left;margin-right:10px;margin-top:9px;>Duration: </p>';
-                    html += '<div nexus-ui=select id=durationOperator-'+j+' style=float:left;margin-right:10px;></div>';
+                    html += '<div nexus-ui=select id=durationOperator-' + j + ' style=float:left;margin-right:10px;></div>';
                     html += '</div>';
                 }
             }
-            html+='</fieldset>';
+            html += '</fieldset>';
 
             durationOperator = [];
             $('#durationSettings').html(html);
@@ -157,14 +158,14 @@ function mappingDuration(string) {
             var html = "<fieldset>";
 
             for (i = 0; i <= differentPositions.length - 1; i++) {
-                html += '<h7>Layer: '+ i + '</h7><br>';
+                html += '<h7>Layer: ' + i + '</h7><br>';
                 html += '<div style=overflow:hidden;>';
                 html += '<p style=float:left;margin-right:10px;margin-top:9px;>Duration: </p>';
-                html += '<div nexus-ui=select id=durationOperatorDepth-'+i+' style=float:left;margin-right:10px;></div>';
+                html += '<div nexus-ui=select id=durationOperatorDepth-' + i + ' style=float:left;margin-right:10px;></div>';
                 html += '</div>';
             }
 
-            html+="</fieldset>";
+            html += "</fieldset>";
 
             durationOperatorDepth = [];
             $('#durationSettings').html(html);
@@ -183,10 +184,10 @@ function mappingDuration(string) {
             calcDifferentTypes();
 
             for (i = 0; i <= differentTypes.length - 1; i++) {
-                html += '<h7>Type: '+ differentTypes[i] + '</h7><br>';
+                html += '<h7>Type: ' + differentTypes[i] + '</h7><br>';
                 html += '<div style=overflow:hidden;>';
                 html += '<p style=float:left;margin-right:10px;margin-top:9px;>Duration: </p>';
-                html += '<div nexus-ui=select id=durationOperatorType-'+i+' style=float:left;margin-right:10px;></div>';
+                html += '<div nexus-ui=select id=durationOperatorType-' + i + ' style=float:left;margin-right:10px;></div>';
                 html += '</div>';
             }
 
@@ -211,10 +212,10 @@ function mappingDuration(string) {
 
             var i;
             for (i = 0; i <= differentOperatorVariables.length - 1; i++) {
-                html += '<h7>Variable: '+ differentOperatorVariables[i] + '</h7><br>';
+                html += '<h7>Variable: ' + differentOperatorVariables[i] + '</h7><br>';
                 html += '<div style=overflow:hidden;>';
                 html += '<p style=float:left;margin-right:10px;margin-top:9px;>Duration: </p>';
-                html += '<div nexus-ui=select id=durationOperatorVariable-'+i+' style=float:left;margin-right:10px;></div>';
+                html += '<div nexus-ui=select id=durationOperatorVariable-' + i + ' style=float:left;margin-right:10px;></div>';
                 html += '</div>';
             }
 
@@ -248,10 +249,10 @@ function mappingDuration(string) {
             calcDifferentDataVariables();
 
             for (i = 0; i <= differentDataVariables.length - 1; i++) {
-                html += '<h7>Variable: '+ differentOperatorVariables[i] + '</h7><br>';
+                html += '<h7>Variable: ' + differentOperatorVariables[i] + '</h7><br>';
                 html += '<div style=overflow:hidden;>';
                 html += '<p style=float:left;margin-right:10px;margin-top:9px;>Duration: </p>';
-                html += '<div nexus-ui=select id=durationDataVariable-'+i+' style=float:left;margin-right:10px;></div>';
+                html += '<div nexus-ui=select id=durationDataVariable-' + i + ' style=float:left;margin-right:10px;></div>';
                 html += '</div>';
             }
 

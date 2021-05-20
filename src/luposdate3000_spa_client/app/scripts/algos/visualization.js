@@ -27,13 +27,13 @@ var audioMapping = [];
 var resultValue;
 
 const panner = new Tone.Panner(0).toDestination();
-if(typeof luposdate3000_endpoint==="undefined"){
-luposdate3000_endpoint=Luposdate3000_Endpoint
+if (typeof luposdate3000_endpoint === "undefined") {
+    luposdate3000_endpoint = Luposdate3000_Endpoint
 }
 //Initialize all interactive elements and Luposdate3000
 // -> If evaluate Button is clicked
-$('.query .evaluate').click(function (){
-    if($('#eval-graph-sparql').prop('checked')) {
+$('.query .evaluate').click(function() {
+    if ($('#eval-graph-sparql').prop('checked')) {
         //Loading all isntruments and the "none" Option
         var instrumentList = Object.keys(App.samples);
         instrumentList.push("None");
@@ -51,27 +51,27 @@ $('.query .evaluate').click(function (){
         //Delete current Animation List and Netowrk
         if (network != null) {
             network.destroy();
-            if(networkSon != null){
+            if (networkSon != null) {
                 networkSon.destroy();
             }
             globalAnimationList = [];
             var i;
-            for(i=0; i<=selectAudio.length-1; i++){
-                if(i==5){
+            for (i = 0; i <= selectAudio.length - 1; i++) {
+                if (i == 5) {
                     selectAudio[i].value = 'No';
-                }else{
+                } else {
                     selectAudio[i].value = 'None';
                 }
             }
             $('.results-tab a').click()
-        //First time initialization
+            //First time initialization
         } else {
             luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
 
             //Slider for the Animation Speed
             slider = new Nexus.Slider('#sonification-animation-speed', {
                 'size': [130, 30],
-                'mode': 'relative',  // 'relative' or 'absolute'
+                'mode': 'relative', // 'relative' or 'absolute'
                 'min': 40,
                 'max': 1000,
                 'step': 10,
@@ -81,7 +81,7 @@ $('.query .evaluate').click(function (){
             // Textfield for Animation Speed Slider
             // And Event Listener
             $('#sonification-animation-speed-number').val(80);
-            slider.on('change', function (v) {
+            slider.on('change', function(v) {
                 $('#sonification-animation-speed-number').val(v);
             });
 
@@ -107,42 +107,42 @@ $('.query .evaluate').click(function (){
         //Default: Simple Instrument Mode
         $('#instrumentAdvanced-select').show();
         //$('#instrumentSimple').prop("checked", true);
-        $('#pitchDynamic').prop("checked",true);
-        $('#dataSorting').prop('checked',false);
+        $('#pitchDynamic').prop("checked", true);
+        $('#dataSorting').prop('checked', false);
     }
 });
 
-function createMapping(){
+function createMapping() {
     var html = '';
     var i;
-    for (i=0;i<=App.operators.audioDimension.length-1;i++){
-        html+='<h7>'+App.operators.audioDimension[i]+' Settings</h7><br><br>';
-        html+='<div nexus-ui=select id=selectAudio-'+ i +'></div><br>';
+    for (i = 0; i <= App.operators.audioDimension.length - 1; i++) {
+        html += '<h7>' + App.operators.audioDimension[i] + ' Settings</h7><br><br>';
+        html += '<div nexus-ui=select id=selectAudio-' + i + '></div><br>';
     }
     $('#instrumentAdvanced-select').html(html);
-    for (i=0;i<=App.operators.audioDimension.length-1;i++){
-        var string = '#selectAudio-'+i;
-        if (i==5){ //If Melody
-        selectAudio.push(new Nexus.Select(string, {
-            'size': [100,40],
-            'options': ["No","Yes"]
-
-        }));
-        }else{
+    for (i = 0; i <= App.operators.audioDimension.length - 1; i++) {
+        var string = '#selectAudio-' + i;
+        if (i == 5) { //If Melody
             selectAudio.push(new Nexus.Select(string, {
-                'size': [100,40],
+                'size': [100, 40],
+                'options': ["No", "Yes"]
+
+            }));
+        } else {
+            selectAudio.push(new Nexus.Select(string, {
+                'size': [100, 40],
                 'options': App.operators.information
 
             }));
         }
-        switch(i){
+        switch (i) {
             case 0:
                 //Pitch
-                selectAudio[i].on('change',function(v){
+                selectAudio[i].on('change', function(v) {
                     //Pitch
-                    if(v.value == 'None'){
+                    if (v.value == 'None') {
                         $('#pitchSettings').hide();
-                    }else{
+                    } else {
                         $('#pitchSettings').show();
                         mappingPitch(v.value);
                     }
@@ -151,11 +151,11 @@ function createMapping(){
                 break;
             case 1:
                 //Instrument
-                selectAudio[i].on('change',function(v){
+                selectAudio[i].on('change', function(v) {
                     //Instrument
-                    if(v.value == 'None'){
+                    if (v.value == 'None') {
                         $('#instrumentSettings').hide();
-                    }else{
+                    } else {
                         $('#instrumentSettings').show();
                         mappingInstrument(v.value);
                     }
@@ -164,11 +164,11 @@ function createMapping(){
                 break;
             case 2:
                 //Loudness
-                selectAudio[i].on('change',function(v){
-                     //Loudness
-                    if(v.value == 'None'){
+                selectAudio[i].on('change', function(v) {
+                    //Loudness
+                    if (v.value == 'None') {
                         $('#loudnessSettings').hide();
-                    }else{
+                    } else {
                         $('#loudnessSettings').show();
                         mappingLoudness(v.value);
                     }
@@ -177,11 +177,11 @@ function createMapping(){
                 break;
             case 3:
                 //Spatialization
-                selectAudio[i].on('change',function(v){
+                selectAudio[i].on('change', function(v) {
                     //spatialization
-                    if(v.value == 'None'){
+                    if (v.value == 'None') {
                         $('#spatializationSettings').hide();
-                    }else{
+                    } else {
                         $('#spatializationSettings').show();
                         mappingSpatialization(v.value);
                     }
@@ -190,11 +190,11 @@ function createMapping(){
                 break;
             case 4:
                 //Duration
-                selectAudio[i].on('change',function(v){
+                selectAudio[i].on('change', function(v) {
                     //Duration
-                    if(v.value == 'None'){
+                    if (v.value == 'None') {
                         $('#durationSettings').hide();
-                    }else{
+                    } else {
                         $('#durationSettings').show();
                         mappingDuration(v.value);
                     }
@@ -203,11 +203,11 @@ function createMapping(){
                 break;
             case 5:
                 //Melody
-                selectAudio[i].on('change',function(v){
+                selectAudio[i].on('change', function(v) {
                     //Melody
-                    if(v.value == 'No'){
+                    if (v.value == 'No') {
                         $('#melodySettings').hide();
-                    }else{
+                    } else {
                         $('#melodySettings').show();
                         mappingMelody(v.value);
                     }
@@ -216,11 +216,11 @@ function createMapping(){
                 break;
             case 6:
                 //Chord
-                selectAudio[i].on('change',function(v){
+                selectAudio[i].on('change', function(v) {
                     //Chord
-                    if(v.value == 'None'){
+                    if (v.value == 'None') {
                         $('#chordSettings').hide();
-                    }else{
+                    } else {
                         $('#chordSettings').show();
                         mappingChord(v.value);
                     }
@@ -229,11 +229,11 @@ function createMapping(){
                 break;
             case 7:
                 //Octave
-                selectAudio[i].on('change',function(v){
+                selectAudio[i].on('change', function(v) {
                     //Chord
-                    if(v.value == 'None'){
+                    if (v.value == 'None') {
                         $('#octaveSettings').hide();
-                    }else{
+                    } else {
                         $('#octaveSettings').show();
                         mappingOctave(v.value);
                     }
@@ -253,17 +253,17 @@ function createMapping(){
     $('#chordSettings').hide();
 }
 
-function evaluateMapping(){
+function evaluateMapping() {
     var i;
-    for(i=0;i<=App.operators.audioDimension.length-1;i++){
-            audioMapping[i] = selectAudio[i].value;
+    for (i = 0; i <= App.operators.audioDimension.length - 1; i++) {
+        audioMapping[i] = selectAudio[i].value;
     }
 }
 
 // Event Listener
 // Re-fit the canvas if the "Sonification" tab is clicked
-$('#getLuposdate3000Graphlink').click(function(){
-    if($('#eval-graph-sparql').prop('checked')) {
+$('#getLuposdate3000Graphlink').click(function() {
+    if ($('#eval-graph-sparql').prop('checked')) {
         sleep(50).then(() => {
             network.redraw();
             network.fit();
@@ -274,48 +274,48 @@ $('#getLuposdate3000Graphlink').click(function(){
 //Event Listener
 //Change the Slider value of the Animation Speed if the matching
 //Textfield has changed
-$('#sonification-animation-speed-number').change(function(){
+$('#sonification-animation-speed-number').change(function() {
     var tmp = $('#sonification-animation-speed-number');
-    if(tmp.val() >= 40 && tmp.val() <= 1000){
+    if (tmp.val() >= 40 && tmp.val() <= 1000) {
         slider.value = tmp.val();
-    }else if(tmp.val < 40){
+    } else if (tmp.val < 40) {
         $('#sonification-animation-speed-number').mouseleave
         $('#sonification-animation-speed-number').val("40");
         slider.value = 40;
-    }else if(tmp.val > 1000){
+    } else if (tmp.val > 1000) {
         $('#sonification-animation-speed-number').blur();
         $('#sonification-animation-speed-number').val("1000");
         slider.value = 1000;
     }
 });
 
-$('#pitchDynamic').click(function(){
-        $('#pitchDynamic').prop('checked',true);
-        $('#pitchExplicit').prop('checked',false);
-        $('#pitchSettingsExplicit').hide();
+$('#pitchDynamic').click(function() {
+    $('#pitchDynamic').prop('checked', true);
+    $('#pitchExplicit').prop('checked', false);
+    $('#pitchSettingsExplicit').hide();
 });
 
-$('#pitchExplicit').click(function(){
-    $('#pitchDynamic').prop('checked',false);
-    $('#pitchExplicit').prop('checked',true);
+$('#pitchExplicit').click(function() {
+    $('#pitchDynamic').prop('checked', false);
+    $('#pitchExplicit').prop('checked', true);
     $('#pitchSettingsExplicit').show();
 });
 
 //Event Listener
 //Check when the Graph Step Selector is changed if its at the minimum or maximum
 //and is disabling/enabling the up/down Buttons accordingly
-$("#luposdate3000_graph-select").change(function () {
+$("#luposdate3000_graph-select").change(function() {
     var value = $(this).val();
     var index = parseInt($('input[type=radio][name=L3Graph]:checked').val(), 10);
-    if(index == 0){
-        loadData(logGraph[value-1].split("SPLITHERE"), false);
-    }else if(index == 1){
-        loadData(physGraph[value-1].split("SPLITHERE"), false);
+    if (index == 0) {
+        loadData(logGraph[value - 1].split("SPLITHERE"), false);
+    } else if (index == 1) {
+        loadData(physGraph[value - 1].split("SPLITHERE"), false);
     }
 
-    if (index == 0){
+    if (index == 0) {
         var max = logGraph.length;
-    }else if(index == 1){
+    } else if (index == 1) {
         var max = physGraph.length;
     }
 
@@ -334,13 +334,13 @@ $("#luposdate3000_graph-select").change(function () {
 // Event Listener
 // Radio Buttons for Logical/Physical Operator Graph
 // Load matching graph and change the select box
-$('input[type=radio][name=L3Graph]').change(function (){
-    var index = parseInt($(this).val(),10);
+$('input[type=radio][name=L3Graph]').change(function() {
+    var index = parseInt($(this).val(), 10);
     $("#luposdate3000_graph-select").val(1);
-    if (index==0){
+    if (index == 0) {
         var graph = logGraph;
         loadData(logGraph[1].split("SPLITHERE"), false);
-    }else{
+    } else {
         var graph = physGraph;
         loadData(physGraph[1].split("SPLITHERE"), false);
     }
@@ -356,7 +356,7 @@ $('input[type=radio][name=L3Graph]').change(function (){
 
 });
 
-$('#getLuposdate3000Graphlink').click(function(){
+$('#getLuposdate3000Graphlink').click(function() {
     sleep(50).then(() => {
         network.redraw();
         network.fit();
@@ -364,17 +364,17 @@ $('#getLuposdate3000Graphlink').click(function(){
 });
 
 
-$('#getLuposdate3000GraphSonlink').click(function(){
+$('#getLuposdate3000GraphSonlink').click(function() {
     sleep(50).then(() => {
-        loadData(physGraph[physGraph.length-1].split("SPLITHERE"), true);
+        loadData(physGraph[physGraph.length - 1].split("SPLITHERE"), true);
     })
 });
 
 //Event Listener
 //Change select menu when down button is clicked
-$('#luposdate3000-op-graph-down').click(function(){
+$('#luposdate3000-op-graph-down').click(function() {
     var value = parseInt($('#luposdate3000_graph-select').val(), 10);
-    if(value != 1)
+    if (value != 1)
         value--;
     $('#luposdate3000_graph-select').val(value);
     $('#luposdate3000_graph-select').trigger('change');
@@ -382,15 +382,15 @@ $('#luposdate3000-op-graph-down').click(function(){
 
 //Event Listener
 //Change select menu when up button is clicked
-$('#luposdate3000-op-graph-up').click(function (){
+$('#luposdate3000-op-graph-up').click(function() {
     var value = parseInt($('#luposdate3000_graph-select').val(), 10);
     var index = parseInt($('input[type=radio][name=L3Graph]:checked').val(), 10);
-    if (index == 0){
+    if (index == 0) {
         var max = logGraph.length;
-    }else if(index == 1){
+    } else if (index == 1) {
         var max = physGraph.length;
     }
-    if(value != max)
+    if (value != max)
         value++;
     $('#luposdate3000_graph-select').val(value)
     $('#luposdate3000_graph-select').trigger('change')
@@ -398,19 +398,22 @@ $('#luposdate3000-op-graph-up').click(function (){
 
 //Event Listener
 // Trigger animation method when play button is pressed.
-$('#luposdate3000_play').click(function () {
+$('#luposdate3000_play').click(function() {
     if (!pauseFlag) {
-        queue = globalAnimationList.map(function (arr) {
+        queue = globalAnimationList.map(function(arr) {
             return arr.slice();
         });
         currentIndex = 0;
     }
-    if(stopFlag){
+    if (stopFlag) {
         var i;
-        for(i=0;i<=dataSetEdges.getIds().length-1;i++){
+        for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
             var edgeId = dataSetEdges.getIds()[i];
             var newWidth = 1;
-            dataSetEdges.update([{id: edgeId, width: newWidth}]);
+            dataSetEdges.update([{
+                id: edgeId,
+                width: newWidth
+            }]);
         }
     }
     $('#getLuposdate3000Graphlink').css("pointer-events", "none");
@@ -422,11 +425,11 @@ $('#luposdate3000_play').click(function () {
     animation(queue);
     $('#luposdate3000_forward').prop('disabled', true);
     $('#luposdate3000_backward').prop('disabled', true);
-    stopFlag=false;
-    pauseFlag=false;
+    stopFlag = false;
+    pauseFlag = false;
 });
 
-$('#dataSorting').click(function(){
+$('#dataSorting').click(function() {
     //Pitch
     selectAudio[0].value = 'Data-Index';
     selectAudio[1].value = 'None';
@@ -439,16 +442,16 @@ $('#dataSorting').click(function(){
     selectAudio[7].value = 'None';
 });
 
-$('#joinHighlight').click(function(){
+$('#joinHighlight').click(function() {
     selectAudio[0].value = 'None';
     selectAudio[1].value = 'Operator-Type';
     var i;
-    for (i=0;i<=instrumentOperatorType.length-1;i++){
-        if(differentTypes[i].includes("TripleStore")){
+    for (i = 0; i <= instrumentOperatorType.length - 1; i++) {
+        if (differentTypes[i].includes("TripleStore")) {
             instrumentOperatorType[i].value = 'guitar-acoustic';
-        }else if(differentTypes[i].includes("Join")){
+        } else if (differentTypes[i].includes("Join")) {
             instrumentOperatorType[i].value = 'xylophone';
-        }else{
+        } else {
             instrumentOperatorType[i].value = 'piano';
         }
     }
@@ -460,10 +463,10 @@ $('#joinHighlight').click(function(){
     selectAudio[7].value = 'None';
 })
 
-$('#reset').click(function(){
-    $('#dataSorting').prop('checked',false);
+$('#reset').click(function() {
+    $('#dataSorting').prop('checked', false);
     $('#joinHighlight').prop('checked', false);
-    $('#dataVariableDepth').prop('checked',false);
+    $('#dataVariableDepth').prop('checked', false);
     selectAudio[0].value = 'None';
     selectAudio[1].value = 'None';
     selectAudio[2].value = 'None';
@@ -474,19 +477,19 @@ $('#reset').click(function(){
     selectAudio[7].value = 'None';
 });
 
-$('#dataVariableDepth').click(function(){
+$('#dataVariableDepth').click(function() {
     selectAudio[0].value = 'Data-Variable';
     var i;
-    for (i=0;i<=differentDataVariables.length-1;i++){
-        pitchDataVariable[i].value = App.operators.frequence[i*2];
+    for (i = 0; i <= differentDataVariables.length - 1; i++) {
+        pitchDataVariable[i].value = App.operators.frequence[i * 2];
     }
     selectAudio[1].value = 'None';
     selectAudio[2].value = 'None';
     selectAudio[3].value = 'None';
-    $('#pitchExplicit').prop('checked',true);
+    $('#pitchExplicit').prop('checked', true);
     selectAudio[4].value = 'Operator-Depth';
-    for (i=0;i<=differentPositions.length-1;i++){
-        switch(i) {
+    for (i = 0; i <= differentPositions.length - 1; i++) {
+        switch (i) {
             case 0:
                 durationOperatorDepth[i].value = '16n';
                 break;
@@ -511,42 +514,45 @@ $('#dataVariableDepth').click(function(){
 
 //Event Listener
 // Set stopFlag to stop Animation when stop button is pressed
-$('#luposdate3000_stop').click(function (){
-    $('#getLuposdate3000Graphlink').css("pointer-events","");
+$('#luposdate3000_stop').click(function() {
+    $('#getLuposdate3000Graphlink').css("pointer-events", "");
     $('#luposdate3000_stop').hide();
     $('#luposdate3000_play').show();
     $('#luposdate3000_pause').hide();
     $('#luposdate3000_forward').hide();
     $('#luposdate3000_backward').hide();
     $('.meter').css("width", 0 + "%");
-    pauseFlag=false;
-    stopFlag=true;
+    pauseFlag = false;
+    stopFlag = true;
     var i;
-    for(i=0;i<=dataSetEdges.getIds().length-1;i++){
+    for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
         var edgeId = dataSetEdges.getIds()[i];
         var newWidth = 1;
-        dataSetEdges.update([{id: edgeId, width: newWidth}]);
+        dataSetEdges.update([{
+            id: edgeId,
+            width: newWidth
+        }]);
     }
-    if(dataSet.getIds().includes(999)){
+    if (dataSet.getIds().includes(999)) {
         dataSet.remove(999);
     }
     $('#luposdate3000_forward').prop('disabled', true);
     $('#luposdate3000_backward').prop('disabled', true);
 });
 
-$('#luposdate3000_pause').click(function (){
+$('#luposdate3000_pause').click(function() {
     $('#luposdate3000_stop').show();
     $('#luposdate3000_play').show();
     $('#luposdate3000_pause').hide();
     $('#luposdate3000_forward').show();
     $('#luposdate3000_backward').show();
-    pauseFlag=true;
+    pauseFlag = true;
     $('#luposdate3000_forward').prop('disabled', false);
     $('#luposdate3000_backward').prop('disabled', false);
 
 });
 
-$('#luposdate3000_forward').click(function (){
+$('#luposdate3000_forward').click(function() {
     dataSet.remove(999);
     queue.shift();
     currentIndex++;
@@ -555,9 +561,9 @@ $('#luposdate3000_forward').click(function (){
     addNewNode();
 });
 
-$('#luposdate3000_backward').click(function (){
+$('#luposdate3000_backward').click(function() {
     dataSet.remove(999);
-    queue = globalAnimationList.map(function (arr) {
+    queue = globalAnimationList.map(function(arr) {
         return arr.slice();
     });
     currentIndex--;
@@ -568,89 +574,89 @@ $('#luposdate3000_backward').click(function (){
 });
 
 //Creates a table on the result Tab and show the results from the query
-function calculateResult(){
+function calculateResult() {
     var parser = new DOMParser();
-    var xml = parser.parseFromString(result.split("</head>")[1].replace("</sparql>",""),"text/xml");
-    var variables = result.split("<head>\n")[1].split("</head>")[0].replaceAll("variable name=","").replaceAll(/[<> \"]/g,"").split("\n");
-    var i,j,k;
+    var xml = parser.parseFromString(result.split("</head>")[1].replace("</sparql>", ""), "text/xml");
+    var variables = result.split("<head>\n")[1].split("</head>")[0].replaceAll("variable name=", "").replaceAll(/[<> \"]/g, "").split("\n");
+    var i, j, k;
 
     var resultshtml = '<h4>Prefixes</h4>';
-    resultshtml+= '<table>';
-    for (i=0;i<=prefixes.length-1;i++){
-        resultshtml += '<tr><td>'+prefixes[i][0]+'</td><td>'+prefixes[i][1]+'</td></tr>';
+    resultshtml += '<table>';
+    for (i = 0; i <= prefixes.length - 1; i++) {
+        resultshtml += '<tr><td>' + prefixes[i][0] + '</td><td>' + prefixes[i][1] + '</td></tr>';
     }
-    resultshtml+= '</table>';
+    resultshtml += '</table>';
 
-    resultshtml += '<h4>Results ('+xml.getElementsByTagName("result").length+')</h4>';
+    resultshtml += '<h4>Results (' + xml.getElementsByTagName("result").length + ')</h4>';
     resultshtml += '<table><tr><td></td>';
-    for (i=0;i<=variables.length-2;i++){
-        resultshtml+='<td>?'+variables[i]+'</td>';
+    for (i = 0; i <= variables.length - 2; i++) {
+        resultshtml += '<td>?' + variables[i] + '</td>';
     }
-    resultshtml+='</tr>';
-    for (i=0;i<=xml.getElementsByTagName("result").length-1;i++){
-        resultshtml+='<tr><td>'+(i+1)+'</td>';
+    resultshtml += '</tr>';
+    for (i = 0; i <= xml.getElementsByTagName("result").length - 1; i++) {
+        resultshtml += '<tr><td>' + (i + 1) + '</td>';
         var tmp = [];
-        for (j=0;j<=xml.getElementsByTagName("result")[i].children.length-1;j++){
-            if(!tmp.includes(xml.getElementsByTagName("result")[i].children[j].getAttribute("name"))){
+        for (j = 0; j <= xml.getElementsByTagName("result")[i].children.length - 1; j++) {
+            if (!tmp.includes(xml.getElementsByTagName("result")[i].children[j].getAttribute("name"))) {
                 tmp.push(xml.getElementsByTagName("result")[i].children[j].getAttribute("name"));
                 var s = xml.getElementsByTagName("result")[i].children[j].children[0].innerHTML;
 
                 for (k = 0; k <= prefixes.length - 1; k++) {
                     if (s.includes(prefixes[k][1])) {
                         var string = s.replaceAll(prefixes[k][1], "" + prefixes[k][0] + ":");
-                        string = string.replaceAll("<","");
-                        string = string.replaceAll(">","");
+                        string = string.replaceAll("<", "");
+                        string = string.replaceAll(">", "");
                         s = string;
                     }
                 }
-                resultshtml+='<td>'+s+'</td>';
+                resultshtml += '<td>' + s + '</td>';
             }
         }
-        resultshtml+='</tr>';
+        resultshtml += '</tr>';
     }
-    resultshtml+='</table>';
+    resultshtml += '</table>';
     $('#results-tab').html(resultshtml);
 }
 
 //Function to pause the thread.
 //Needed as javascript is asynchronous
-function sleep(ms){
+function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 //Goes through all prefixes from the SPARQL and RDF editor and replaces the data within
 //the current saved data.
-function replacePrefix(){
+function replacePrefix() {
     prefixes = [];
     var i;
     var rdfPrefix = App.parseRDFPrefixes(App.cm['rdf'].getValue());
     var SPARQLPrefix = App.parseSPARQLPrefixes(App.cm['sparql'].getValue());
-    for(i=0;i<=Object.keys(rdfPrefix).length-1;i++){
+    for (i = 0; i <= Object.keys(rdfPrefix).length - 1; i++) {
         var tmp = [Object.keys(rdfPrefix)[i], Object.values(rdfPrefix)[i]];
         prefixes.push(tmp);
     }
-    for(i=0;i<=Object.keys(SPARQLPrefix).length-1;i++){
+    for (i = 0; i <= Object.keys(SPARQLPrefix).length - 1; i++) {
         var tmp = [Object.keys(SPARQLPrefix)[i], Object.values(SPARQLPrefix)[i]];
         prefixes.push(tmp);
     }
 
     var j;
-    for(j=0;j<=globalAnimationList.length-1;j++) {
+    for (j = 0; j <= globalAnimationList.length - 1; j++) {
         for (i = 0; i <= prefixes.length - 1; i++) {
             if (globalAnimationList[j][2].includes(prefixes[i][1])) {
                 var string = globalAnimationList[j][2].replaceAll(prefixes[i][1], "" + prefixes[i][0] + ":");
-                string = string.replaceAll("<","");
-                string = string.replaceAll(">","");
+                string = string.replaceAll("<", "");
+                string = string.replaceAll(">", "");
                 globalAnimationList[j][2] = string;
             }
         }
     }
-    for(j=0;j<=dataNodes.length-1;j++){
-        for (i=0;i<=prefixes.length-1;i++){
-            if(dataNodes[j].label.includes(prefixes[i][1])){
+    for (j = 0; j <= dataNodes.length - 1; j++) {
+        for (i = 0; i <= prefixes.length - 1; i++) {
+            if (dataNodes[j].label.includes(prefixes[i][1])) {
                 var string = dataNodes[j].label.replaceAll(prefixes[i][1], "" + prefixes[i][0] + ":");
-                string = string.replaceAll("<","");
-                string = string.replaceAll(">","");
+                string = string.replaceAll("<", "");
+                string = string.replaceAll(">", "");
                 dataNodes[j].label = string;
             }
         }
@@ -660,12 +666,12 @@ function replacePrefix(){
 
 //Function that is getting called by the Luposdate3000 Library and pushing the data
 //to animate
-function receiveAnimation(childUUID, parentUUID, string, index){
+function receiveAnimation(childUUID, parentUUID, string, index) {
     //globalAnimationList.push([childUUID, parentUUID, string, index]);
 }
 
-function getInstrument(string){
-    switch(string){
+function getInstrument(string) {
+    switch (string) {
         case 'Operator-ID':
 
     }
@@ -731,20 +737,20 @@ function playNoteMapping(id, label, index) {
 
     //What Pitch, or maybe what Chord
     //If Chord is selected the pitch settings will be ignored/overwritten
-    if(melodyType == 'No') {
-        if(chordType != 'None'){
+    if (melodyType == 'No') {
+        if (chordType != 'None') {
             tone = getChord(chordType, id, label, index);
-        }else if(pitchType != 'None'){
+        } else if (pitchType != 'None') {
             tone = getPitch(pitchType, id, label, index);
-            current.connect(panner).triggerAttackRelease(tone+octave, duration,"+0", velocity);
-        }else{
-            current.connect(panner).triggerAttackRelease('C'+octave, duration,"+0", velocity);
+            current.connect(panner).triggerAttackRelease(tone + octave, duration, "+0", velocity);
+        } else {
+            current.connect(panner).triggerAttackRelease('C' + octave, duration, "+0", velocity);
         }
-    }else{
+    } else {
         tone = getMelody(melodyType, id, label, index);
     }
 
-    if(melodyType != 'No' || chordType != 'None') {
+    if (melodyType != 'No' || chordType != 'None') {
         if (tone[0]) {
             current.connect(panner).triggerAttackRelease(tone[1] + octave, duration, "+0", velocity);
             current.connect(panner).triggerAttackRelease(tone[2] + octave, duration, "+0.15", velocity);
@@ -756,171 +762,190 @@ function playNoteMapping(id, label, index) {
     }
 }
 
-function addNewNode(){
+function addNewNode() {
     var positions = networkSon.getPositions();
-    var x_start = positions[queue[0][0]].x, y_start = positions[queue[0][0]].y - 32;
-    dataSet.add([{id: 999, label: queue[0][2], group: 1}]);
+    var x_start = positions[queue[0][0]].x,
+        y_start = positions[queue[0][0]].y - 32;
+    dataSet.add([{
+        id: 999,
+        label: queue[0][2],
+        group: 1
+    }]);
     networkSon.moveNode(999, x_start, y_start);
-    if(toggle.state) {
+    if (toggle.state) {
         networkSon.focus("999", {
             scale: 1,
-            offset: {x: 0, y: 0},
+            offset: {
+                x: 0,
+                y: 0
+            },
             locked: true,
         });
-    }else{
+    } else {
         networkSon.fit();
     }
     playNoteMapping(dataNodes.find(element => element.id == queue[0][0]).id, dataNodes.find(element => element.id == queue[0][0]).label, queue[0][3]);
 }
 
 //Function that handles the animation for one data triple from one operator to the other
-async function animation(queue){
+async function animation(queue) {
 
-        //Set focus to new node if Follow-Mode is active
+    //Set focus to new node if Follow-Mode is active
 
 
-        // Parameters for the animation
-        var positions = networkSon.getPositions();
-        var val = slider.max + slider.min - slider.value;
-        var k = 0, lambda = 0, tick = 10, totalTime = val;
-        var x_start = positions[queue[0][0]].x, y_start = positions[queue[0][0]].y - 32;
-        var nrOfSteps = Math.floor(totalTime / tick);
+    // Parameters for the animation
+    var positions = networkSon.getPositions();
+    var val = slider.max + slider.min - slider.value;
+    var k = 0,
+        lambda = 0,
+        tick = 10,
+        totalTime = val;
+    var x_start = positions[queue[0][0]].x,
+        y_start = positions[queue[0][0]].y - 32;
+    var nrOfSteps = Math.floor(totalTime / tick);
 
-        if(!pauseFlag) {
-            addNewNode();
-        }
+    if (!pauseFlag) {
+        addNewNode();
+    }
 
-        //Wait a few miliseconds and then move the node a bit
-            sleep(val / 10).then(() => {
-                timer = setInterval(function () {
+    //Wait a few miliseconds and then move the node a bit
+    sleep(val / 10).then(() => {
+        timer = setInterval(function() {
 
-                    this.pause
+            this.pause
 
-                    k++;
-                    var l = k / nrOfSteps;
+            k++;
+            var l = k / nrOfSteps;
 
-                    // get target positions
-                    var x_target = positions[queue[0][1]].x;
-                    var y_target = positions[queue[0][1]].y + 32;
+            // get target positions
+            var x_target = positions[queue[0][1]].x;
+            var y_target = positions[queue[0][1]].y + 32;
 
-                    // compute the convex combination of x_start and x_target to find intermediate x and move node to it, same for y
-                    var xt = x_start * (1 - l) + x_target * l;
-                    var yt = y_start * (1 - l) + y_target * l;
+            // compute the convex combination of x_start and x_target to find intermediate x and move node to it, same for y
+            var xt = x_start * (1 - l) + x_target * l;
+            var yt = y_start * (1 - l) + y_target * l;
 
-                    // move node
-                    networkSon.moveNode(999, xt, yt);
+            // move node
+            networkSon.moveNode(999, xt, yt);
 
-                    // stop if we have reached nr of steps
-                    if (k == nrOfSteps) {
-                        clearInterval(timer)
+            // stop if we have reached nr of steps
+            if (k == nrOfSteps) {
+                clearInterval(timer)
+            }
+
+            //If node reached the end point
+            if (k == totalTime / tick && !pauseFlag) {
+                sleep(val / 2).then(() => {
+                    //Delete node, delete data triple in the queue and change the progress meter
+                    networkSon.releaseNode();
+                    dataSet.remove(999);
+                    updateEdgeSize(queue[0][0], queue[0][1]);
+                    queue.shift();
+                    currentIndex++;
+                    var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
+                    if (!stopFlag) {
+                        $('.meter').css("width", tmp + "%");
+                    } else {
+                        $('.meter').css("width", 0 + "%");
+                        queue = [];
                     }
 
-                    //If node reached the end point
-                    if (k == totalTime / tick && !pauseFlag) {
-                        sleep(val / 2).then(() => {
-                            //Delete node, delete data triple in the queue and change the progress meter
-                            networkSon.releaseNode();
-                            dataSet.remove(999);
-                            updateEdgeSize(queue[0][0], queue[0][1]);
-                            queue.shift();
-                            currentIndex++;
-                            var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
-                            if (!stopFlag) {
-                                $('.meter').css("width", tmp + "%");
-                            } else {
-                                $('.meter').css("width", 0 + "%");
-                                queue = [];
-                            }
-
-                            //call animation method again if queue is not empty
-                            //otherwise set stopFlag to stop animation
-                            if (queue.length != 0) {
-                                animation(queue);
-                            } else {
-                                networkSon.fit();
-                                $('#luposdate3000_play').show();
-                                $('#luposdate3000_stop').hide();
-                                $('#luposdate3000_pause').hide();
-                                stopFlag = true;
-                            }
-                        })
+                    //call animation method again if queue is not empty
+                    //otherwise set stopFlag to stop animation
+                    if (queue.length != 0) {
+                        animation(queue);
+                    } else {
+                        networkSon.fit();
+                        $('#luposdate3000_play').show();
+                        $('#luposdate3000_stop').hide();
+                        $('#luposdate3000_pause').hide();
+                        stopFlag = true;
                     }
+                })
+            }
 
-                }, tick);
-            })
+        }, tick);
+    })
 }
 
-function updateEdgeSize(startID, endID){
+function updateEdgeSize(startID, endID) {
     var i;
     var edgeId;
-    for(i=0; i<=dataSetEdges.getIds().length-1;i++){
-        if(dataSetEdges.get(dataSetEdges.getIds()[i]).from == startID && dataSetEdges.get(dataSetEdges.getIds()[i]).to == endID){
+    for (i = 0; i <= dataSetEdges.getIds().length - 1; i++) {
+        if (dataSetEdges.get(dataSetEdges.getIds()[i]).from == startID && dataSetEdges.get(dataSetEdges.getIds()[i]).to == endID) {
             edgeId = dataSetEdges.get(dataSetEdges.getIds()[i]).id;
-            var updateStep = 15/globalAnimationList.length;
+            var updateStep = 15 / globalAnimationList.length;
             var newWidth = dataSetEdges.get(dataSetEdges.getIds()[i]).width + updateStep;
-            if(newWidth > 15){
+            if (newWidth > 15) {
                 newWidth = 15;
             }
-            dataSetEdges.update([{id:edgeId, width:newWidth}]);
+            dataSetEdges.update([{
+                id: edgeId,
+                width: newWidth
+            }]);
         }
     }
 }
 
 //This function removes the POPRico Operator and is recalculating the edges that are going out
 //and in to this operator.
-function deleteDebugOperator(){
+function deleteDebugOperator() {
     var i;
     var tmp = [];
 
-    for(i=0;i<= dataNodes.length-1;i++){
-        if(dataNodes[i].label.includes('POPVisualisation')){
+    for (i = 0; i <= dataNodes.length - 1; i++) {
+        if (dataNodes[i].label.includes('POPVisualisation')) {
             tmp.push(dataNodes[i].id);
             var fromV;
             var toV;
             var j;
-            for (j=0;j<=dataEdges.length-1;j++){
-                if(dataEdges[j].from == dataNodes[i].id){
+            for (j = 0; j <= dataEdges.length - 1; j++) {
+                if (dataEdges[j].from == dataNodes[i].id) {
                     toV = dataEdges[j].to;
-                }else if(dataEdges[j].to == dataNodes[i].id){
+                } else if (dataEdges[j].to == dataNodes[i].id) {
                     fromV = dataEdges[j].from;
                 }
             }
-            dataEdges.push({from: fromV, to: toV, width: 2});
+            dataEdges.push({
+                from: fromV,
+                to: toV,
+                width: 2
+            });
         }
     }
 
     var tmpFlag = true;
-    while(tmpFlag){
-        for (i=0; i<=dataEdges.length-1;i++){
-            if(tmp.includes(dataEdges[i].from)){
-                dataEdges.splice(i,1);
+    while (tmpFlag) {
+        for (i = 0; i <= dataEdges.length - 1; i++) {
+            if (tmp.includes(dataEdges[i].from)) {
+                dataEdges.splice(i, 1);
                 tmpFlag = true;
                 break;
-            }else if(tmp.includes(dataEdges[i].to)) {
+            } else if (tmp.includes(dataEdges[i].to)) {
                 dataEdges.splice(i, 1);
                 tmpFlag = true;
                 break;
             }
-            tmpFlag= false;
+            tmpFlag = false;
         }
     }
 
     tmpFlag = true;
-    while(tmpFlag){
-        for (i=0; i<=dataNodes.length-1;i++){
-            if(dataNodes[i].label.includes('POPVisualisation')) {
+    while (tmpFlag) {
+        for (i = 0; i <= dataNodes.length - 1; i++) {
+            if (dataNodes[i].label.includes('POPVisualisation')) {
                 dataNodes.splice(i, 1);
                 tmpFlag = true;
                 break;
             }
-            tmpFlag= false;
+            tmpFlag = false;
         }
     }
 
 }
 
 //Loads the Nodes and Edges from the data provided
-function loadData(dataParameter, flag){
+function loadData(dataParameter, flag) {
     dataNodes = JSON.parse(dataParameter[0]);
     dataEdges = JSON.parse(dataParameter[1]);
     //remove the POPRico operator
@@ -934,7 +959,7 @@ function loadData(dataParameter, flag){
     draw(flag);
 }
 
-function testAjax(){
+function testAjax() {
     var inputValue = App.cm['sparql'].getValue();
 
     var formData = {
@@ -942,10 +967,10 @@ function testAjax(){
         'evaluator': "XML_STREAM",
     };
     $.ajax({
-        type: 'POST',
-        url: '/sparql/query',
-        data: formData
-    })
+            type: 'POST',
+            url: '/sparql/query',
+            data: formData
+        })
         .done(function(data) {
             resultValue = data;
         });
@@ -953,10 +978,10 @@ function testAjax(){
 }
 
 //Sends SPARQL Client to luposdate Endpoint and receives Operatorgraph as string
-function evaluateSPARQL(){
+function evaluateSPARQL() {
     var inputValue = App.cm['sparql'].getValue();
     var version = $('#endpoint_selector').val();
-    if(version == 'Luposdate3000 - Browser') {
+    if (version == 'Luposdate3000 - Browser') {
         //Import RDF data if checkbox is checked
         if ($('#send_rdf').is(':checked')) {
             var rdf = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.cm['rdf'].getValue());
@@ -971,36 +996,36 @@ function evaluateSPARQL(){
         eev.initEEV();
         var tmpResult = eev.getDataSteps();
         var i;
-        for (i=0;i<=tmpResult.length-2;i++){
+        for (i = 0; i <= tmpResult.length - 2; i++) {
             var tmp;
             tmp = tmpResult[i].split("NEWDATA")[0].split("||");
-            tmp[0] = parseInt(tmp[0],10);
-            tmp[1] = parseInt(tmp[1],10);
-            tmp[3] = parseInt(tmp[3],10);
+            tmp[0] = parseInt(tmp[0], 10);
+            tmp[1] = parseInt(tmp[1], 10);
+            tmp[3] = parseInt(tmp[3], 10);
             globalAnimationList.push(tmp);
         }
         formatResultData();
 
-    }else if(version == 'Luposdate3000 - Endpoint'){
+    } else if (version == 'Luposdate3000 - Endpoint') {
         App.setSelectedEndpoint();
         var url = App.config.endpoints[App.config.selectedEndpoint].url;
         connectToEndpoint(inputValue, url);
     }
 }
 
-function addCustomContextMenu(networkObject, contextFlag){
+function addCustomContextMenu(networkObject, contextFlag) {
     var string;
-    if(contextFlag){
+    if (contextFlag) {
         string = "luposdate3000OPSon";
-    }else{
+    } else {
         string = "luposdate3000OP";
     }
     //Apply Event Listener for the right click menus
-    networkObject.on("oncontext", function (params) {
-        var x,y;
+    networkObject.on("oncontext", function(params) {
+        var x, y;
         //If right click is made within the canvas, open custom context menu
-        if(typeof params.nodes[0] != 'undefined') {
-            document.getElementById(string).addEventListener('contextmenu', function (e) {
+        if (typeof params.nodes[0] != 'undefined') {
+            document.getElementById(string).addEventListener('contextmenu', function(e) {
                 // Alternative
                 e.preventDefault();
                 x = e.clientX;
@@ -1011,14 +1036,14 @@ function addCustomContextMenu(networkObject, contextFlag){
             }, false);
 
             //Event Listener, if mouse is pressed outside the custom context menu
-            document.getElementById(string).addEventListener('mousedown', function (e) {
+            document.getElementById(string).addEventListener('mousedown', function(e) {
                 if (!(e.clientX >= x && e.clientX <= (x + $("#rkm").width()) && e.clientY >= y && e.clientY <= (y + $("#rkm").height()))) {
                     $('#rkm').hide();
                 }
             }, false);
 
             //Event Listener that closes the custom context menu if page is scrolled
-            $(window).scroll(function () {
+            $(window).scroll(function() {
                 $('#rkm').hide();
             });
 
@@ -1028,13 +1053,13 @@ function addCustomContextMenu(networkObject, contextFlag){
             elem = document.getElementById('luposdate3000_nextOp');
             elem.replaceWith(elem.cloneNode(true));
 
-            document.getElementById("luposdate3000_nextOp").addEventListener('click', function (e){
+            document.getElementById("luposdate3000_nextOp").addEventListener('click', function(e) {
                 var i;
-                for(i=1;i<=queue.length-1;i++){
-                    if(queue[i][0] == params.nodes[0]){
+                for (i = 1; i <= queue.length - 1; i++) {
+                    if (queue[i][0] == params.nodes[0]) {
                         dataSet.remove(999);
                         queue = queue.slice(i);
-                        currentIndex+=i;
+                        currentIndex += i;
                         var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
                         $('.meter').css("width", tmp + "%");
                         addNewNode();
@@ -1044,16 +1069,16 @@ function addCustomContextMenu(networkObject, contextFlag){
 
             }, false);
 
-            document.getElementById("luposdate3000_lastOp").addEventListener('click', function (e){
+            document.getElementById("luposdate3000_lastOp").addEventListener('click', function(e) {
                 var i;
-                queue = globalAnimationList.map(function (arr) {
+                queue = globalAnimationList.map(function(arr) {
                     return arr.slice();
                 });
-                for(i=currentIndex-1;i>=0;i--){
-                    if(queue[i][0] == params.nodes[0]){
+                for (i = currentIndex - 1; i >= 0; i--) {
+                    if (queue[i][0] == params.nodes[0]) {
                         dataSet.remove(999);
                         queue = queue.slice(i);
-                        currentIndex=i;
+                        currentIndex = i;
                         var tmp = ((globalAnimationList.length - queue.length) / globalAnimationList.length) * 100;
                         $('.meter').css("width", tmp + "%");
                         addNewNode();
@@ -1080,7 +1105,7 @@ function addCustomContextMenu(networkObject, contextFlag){
                     ["#900", "#b45f06", "#bf9000", "#38761d", "#134f5c", "#0b5394", "#351c75", "#741b47"],
                     ["#600", "#783f04", "#7f6000", "#274e13", "#0c343d", "#073763", "#20124d", "#4c1130"]
                 ],
-                change: function (color) {
+                change: function(color) {
                     if (dataSet.getIds().includes(params.nodes[0])) {
                         dataSet.update({
                             id: params.nodes[0],
@@ -1094,10 +1119,10 @@ function addCustomContextMenu(networkObject, contextFlag){
 }
 
 //Draws the graph using the vis.js framework
-function draw(flag){
-    if(flag){
+function draw(flag) {
+    if (flag) {
         container = document.getElementById("luposdate3000OPSon");
-    }else{
+    } else {
         container = document.getElementById("luposdate3000OP");
     }
 
@@ -1112,7 +1137,7 @@ function draw(flag){
     //Options that apply for the network
     options = {
         autoResize: false,
-        nodes:{
+        nodes: {
             physics: false,
             shape: "box",
             font: {
@@ -1136,10 +1161,12 @@ function draw(flag){
             },
 
         },
-        edges: {smooth: false},
+        edges: {
+            smooth: false
+        },
         physics: {
-            enabled:true,
-            hierarchicalRepulsion:{
+            enabled: true,
+            hierarchicalRepulsion: {
                 nodeDistance: 200,
                 avoidOverlap: 1
             },
@@ -1152,28 +1179,30 @@ function draw(flag){
                 treeSpacing: 200,
             }
         },
-        interaction: {hover: true}
+        interaction: {
+            hover: true
+        }
     };
 
     //Draw network
-    if(flag){
+    if (flag) {
         networkSon = new vis.Network(container, data, options);
         addCustomContextMenu(networkSon, flag);
 
         //By default, the network is dynamic and is changing via a constant animation
         //For the hierarchical layout it is essential that is is turned off after the build-up
         //process.
-        setTimeout(()=>{
+        setTimeout(() => {
             networkSon.setOptions({
-                layout:{
+                layout: {
                     hierarchical: false
                 },
             });
 
-            container.style.display ="inline-block";
+            container.style.display = "inline-block";
             networkSon.fit();
-        },10);
-    }else{
+        }, 10);
+    } else {
         network = new vis.Network(container, data, options);
         //Apply Event Listener for the right click menus
         addCustomContextMenu(network, flag);
@@ -1181,15 +1210,15 @@ function draw(flag){
         //By default, the network is dynamic and is changing via a constant animation
         //For the hierarchical layout it is essential that is is turned off after the build-up
         //process.
-        setTimeout(()=>{
+        setTimeout(() => {
             network.setOptions({
-                layout:{
+                layout: {
                     hierarchical: false
                 },
             });
 
-            container.style.display ="inline-block";
+            container.style.display = "inline-block";
             network.fit();
-        },10);
+        }, 10);
     }
 }
