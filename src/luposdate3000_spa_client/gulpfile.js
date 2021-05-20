@@ -43,11 +43,6 @@ gulp.task('scripts', function () {
         .pipe(gulp.dest('dist/scripts/'));
 });
 
-gulp.task('copyJS', function(){
-    return gulp.src('app/scripts/**/*.js')
-        .pipe(gulp.dest('dist/scripts/'));
-});
-
 gulp.task('concatJS', function(){
   return gulp.src(["bower_components/modernizr/modernizr.js",
  "bower_components/jquery/dist/jquery.js",
@@ -132,6 +127,11 @@ gulp.task('concatJS', function(){
 "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
 "app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
 //LUPOSDATE3000 GENERATED CODE END
+"app/scripts/algos/createGraph.js",
+"app/scripts/algos/createOPGraph.js",
+"app/scripts/codemirror-modes/rif/rif.js",
+"app/scripts/codemirror-modes/N3/N3.js",
+"app/scripts/algos/visualization.js",
 ])
     .pipe(concat('vendor.js'))
     .pipe(gulp.dest('dist/scripts/'));
@@ -164,7 +164,7 @@ gulp.task('JST', function () {
         .pipe(gulp.dest('dist/scripts'))
 })
 
-gulp.task('html', gulp.series('styles', 'concatCSS', 'scripts', 'JST', 'copyJS', 'concatJS', 'hjson', function () {
+gulp.task('html', gulp.series('styles', 'concatCSS', 'scripts', 'JST', 'concatJS', 'hjson', function () {
     var jsFilter = $.filter('**/*.js');
     var cssFilter = $.filter('**/*.css');
 
