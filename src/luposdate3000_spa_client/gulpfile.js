@@ -56,97 +56,69 @@ gulp.task('concatCSS', function() {
 gulp.task('concatJS', function() {
     return merge(
             gulp.src([
-                "bower_components/modernizr/modernizr.js", // not in bower.json ??
-                "bower_components/jquery/dist/jquery.js",
-                "bower_components/fastclick/lib/fastclick.js", // not in bower.json ??
-                "bower_components/jquery.cookie/jquery.cookie.js",
-                "bower_components/jquery-placeholder/jquery.placeholder.js",
+// dependencies of dependencies ...
+                "bower_components/modernizr/modernizr.js", // dependency of "foundation.js"
+//
+                "bower_components/fastclick/lib/fastclick.js",  // optimization for touchscreen devices
+                "bower_components/randomcolor/randomColor.js", // syntax highlighing in result
+                "bower_components/codemirror/mode/sparql/sparql.js", // syntax highlighting in sparql + rdf
+                "bower_components/uri.js/src/URI.js", // for executing the queries
+                "bower_components/jquery/dist/jquery.js", // accessing buttons
                 "bower_components/foundation/js/foundation.js",
-                "bower_components/underscore/underscore.js", // not in bower.json ??
-                "bower_components/backbone/backbone.js",
+                "bower_components/underscore/underscore.js",
                 "bower_components/codemirror/lib/codemirror.js",
                 "bower_components/x2js/xml2json.min.js",
-                "bower_components/randomcolor/randomColor.js",
-                "bower_components/uri.js/src/URI.js",
-                "bower_components/uri.js/src/IPv6.js",
-                "bower_components/uri.js/src/SecondLevelDomains.js",
-                "bower_components/uri.js/src/punycode.js",
-                "bower_components/uri.js/src/URITemplate.js",
-                "bower_components/uri.js/src/jquery.URI.js",
-                "bower_components/uri.js/src/URI.min.js",
-                "bower_components/uri.js/src/URI.fragmentQuery.js",
-                "bower_components/uri.js/src/URI.fragmentURI.js",
-                "bower_components/codemirror/addon/edit/matchbrackets.js",
-                "bower_components/codemirror/addon/edit/closebrackets.js",
-                "bower_components/codemirror/mode/sparql/sparql.js",
-                "bower_components/foundation/js/foundation/foundation.abide.js",
-                "bower_components/foundation/js/foundation/foundation.accordion.js",
-                "bower_components/foundation/js/foundation/foundation.alert.js",
-                "bower_components/foundation/js/foundation/foundation.clearing.js",
-                "bower_components/foundation/js/foundation/foundation.dropdown.js",
-                "bower_components/foundation/js/foundation/foundation.equalizer.js",
-                "bower_components/foundation/js/foundation/foundation.interchange.js",
-                "bower_components/foundation/js/foundation/foundation.joyride.js",
-                "bower_components/foundation/js/foundation/foundation.js",
-                "bower_components/foundation/js/foundation/foundation.magellan.js",
-                "bower_components/foundation/js/foundation/foundation.offcanvas.js",
-                "bower_components/foundation/js/foundation/foundation.orbit.js",
-                "bower_components/foundation/js/foundation/foundation.reveal.js",
-                "bower_components/foundation/js/foundation/foundation.slider.js",
-                "bower_components/foundation/js/foundation/foundation.tab.js",
-                "bower_components/foundation/js/foundation/foundation.tooltip.js",
-                "bower_components/foundation/js/foundation/foundation.topbar.js",
-                "bower_components/please-wait/build/please-wait.js",
-                "node_modules/tone/build/Tone.js",
-                "node_modules/tonejs-instruments#8ec9f43d6f07fdeb15e684df5a6c7efa2c3eedf6/Tonejs-Instruments.js",
-                "app/scripts/algos/visualisationUtil/vis-network.min.js",
-                "app/scripts/algos/visualisationUtil/NexusUI.js",
-                "app/scripts/algos/visualisationUtil/visualizationUtil.js",
-                "app/scripts/algos/visualisationUtil/pitchMapping.js",
-                "app/scripts/algos/visualisationUtil/spatializationMapping.js",
-                "app/scripts/algos/visualisationUtil/melodyMapping.js",
-                "app/scripts/algos/visualisationUtil/loudnessMapping.js",
-                "app/scripts/algos/visualisationUtil/instrumentMapping.js",
-                "app/scripts/algos/visualisationUtil/durationMapping.js",
-                "app/scripts/algos/visualisationUtil/chordMapping.js",
-                "app/scripts/algos/visualisationUtil/octaveMapping.js",
-                "app/scripts/algos/visualisationUtil/spectrum.js",
+                "bower_components/please-wait/build/please-wait.js", // load screen
+                "node_modules/tone/build/Tone.js", // used by sonification
+                "node_modules/tonejs-instruments#8ec9f43d6f07fdeb15e684df5a6c7efa2c3eedf6/Tonejs-Instruments.js", // used by sonification
+                "app/scripts/algos/visualisationUtil/vis-network.min.js", // used by sonification
+                "app/scripts/algos/visualisationUtil/NexusUI.js", // used by sonification
+                "app/scripts/algos/visualisationUtil/visualizationUtil.js", // used by sonification
+                "app/scripts/algos/visualisationUtil/pitchMapping.js", // used by sonification
+                "app/scripts/algos/visualisationUtil/spatializationMapping.js", // used by sonification
+                "app/scripts/algos/visualisationUtil/melodyMapping.js", // used by sonification
+                "app/scripts/algos/visualisationUtil/loudnessMapping.js", // used by sonification
+                "app/scripts/algos/visualisationUtil/instrumentMapping.js", // used by sonification
+                "app/scripts/algos/visualisationUtil/durationMapping.js", // used by sonification
+                "app/scripts/algos/visualisationUtil/chordMapping.js", // used by sonification
+                "app/scripts/algos/visualisationUtil/octaveMapping.js", // used by sonification
+                "app/scripts/algos/visualisationUtil/spectrum.js", // used by sonification
                 //LUPOSDATE3000 GENERATED CODE START
-"app/scripts/algos/luposdate3000/kotlin.js",
-"app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Shared.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Parser.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Jena_Wrapper.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Endpoint_Launcher.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Buffer_Manager.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_KV.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Id_Triple.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_VK.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Dictionary.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Base.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Arithmetik.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Logical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Physical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Ast.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Logical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Manager.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Result_Format.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Physical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Factory.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
+                "app/scripts/algos/luposdate3000/kotlin.js",
+                "app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Shared.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Parser.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Jena_Wrapper.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint_Launcher.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Buffer_Manager.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_KV.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Id_Triple.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_VK.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Dictionary.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Base.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Arithmetik.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Logical.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Physical.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Ast.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Logical.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Manager.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Result_Format.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Physical.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Factory.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
                 //LUPOSDATE3000 GENERATED CODE END
-                "app/scripts/algos/createGraph.js",
-                "app/scripts/algos/createOPGraph.js",
-                "app/scripts/codemirror-modes/rif/rif.js",
-                "app/scripts/codemirror-modes/N3/N3.js",
-                "app/scripts/algos/visualization.js",
+                "app/scripts/algos/createGraph.js", 
+                "app/scripts/algos/createOPGraph.js", 
+                "app/scripts/codemirror-modes/rif/rif.js", 
+                "app/scripts/codemirror-modes/N3/N3.js", 
+                "app/scripts/algos/visualization.js", // used by sonification
             ]),
             gulp.src([
-                "app/scripts/main.coffee",
-                "app/scripts/loading.coffee",
+                "app/scripts/main.coffee", 
+                "app/scripts/loading.coffee", 
             ])
             .pipe(coffee({
                 bare: true
@@ -225,31 +197,31 @@ gulp.task('concatJS', function() {
             "app/scripts/algos/visualisationUtil/octaveMapping.js",
             "app/scripts/algos/visualisationUtil/spectrum.js",
             //LUPOSDATE3000 GENERATED CODE START
-"app/scripts/algos/luposdate3000/kotlin.js",
-"app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Shared.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Parser.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Jena_Wrapper.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Endpoint_Launcher.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Buffer_Manager.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_KV.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Id_Triple.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_VK.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Dictionary.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Base.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Arithmetik.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Logical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Physical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Ast.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Logical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Manager.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Result_Format.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Physical.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Operator_Factory.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
-"app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
+            "app/scripts/algos/luposdate3000/kotlin.js",
+            "app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Shared.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Parser.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Jena_Wrapper.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint_Launcher.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Buffer_Manager.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_KV.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Id_Triple.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_VK.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Dictionary.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Base.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Arithmetik.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Logical.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Physical.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Ast.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Logical.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Manager.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Result_Format.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Physical.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Factory.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
             //LUPOSDATE3000 GENERATED CODE END
             "app/scripts/algos/createGraph.js",
             "app/scripts/algos/createOPGraph.js",
@@ -343,6 +315,7 @@ gulp.task('fonts', function() {
             "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-BoldIt.otf.woff",
             "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-Bold.otf.woff",
             "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-Regular.otf.woff",
+            "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-Semibold.otf.woff",
         ])
         .pipe(gulp.dest('dist/styles/WOFF/OTF'));
 });

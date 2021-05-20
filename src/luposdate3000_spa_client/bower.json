@@ -2,6 +2,9 @@
   "name": "ld-spa",
   "private": true,
   "dependencies": {
+    "modernizr": "~2.8.3",
+    "fastclick": "~1.0.6",
+    "underscore": "~1.13.1",
     "backbone": "~1.1.2",
     "codemirror": "~4.10.0",
     "font-source-sans-pro": "~0.1.0",
