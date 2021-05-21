@@ -1,16 +1,15 @@
 {
-	"endpoints": [
-	    {
-	        "name": "Luposdate3000 - Browser"
-	    },
-	    {
-	        "name": "Luposdate3000 - Endpoint"
-	        "url": "/",
-	    },
-		{
+    "endpoints": [{
+            "name": "Luposdate3000 - Browser"
+        },
+        {
+            "name": "Luposdate3000 - Endpoint"
+            "url": "/",
+        },
+        {
             // URL with ending slash
-			"url": "https://www.ifis.uni-luebeck.de/sparql-endpoint/",
-			"name": "IFIS",
+            "url": "https://www.ifis.uni-luebeck.de/sparql-endpoint/",
+            "name": "IFIS",
             "nonstandard": true,
             // Define standard endpoint (ignored if nonstandard is true)
             "without": "sparql",
@@ -18,10 +17,10 @@
             "sparql": ["nonstandard/sparql", "POST"]
             "rif": ["nonstandard/rif", "POST"]
         },
-		{
+        {
             // URL with ending slash
-			"url": "http://localhost:8080/",
-			"name": "localhost",
+            "url": "http://localhost:8080/",
+            "name": "localhost",
             "nonstandard": true,
             // Define standard endpoint (ignored if nonstandard is true)
             "without": "sparql",
@@ -29,64 +28,65 @@
             "sparql": ["nonstandard/sparql", "POST"]
             "rif": ["nonstandard/rif", "POST"]
         }
-	]
+    ]
 
-    # Selected endpoint's index
+    # Selected endpoint 's index
     "selectedEndpoint": 0
 
-    # declare evaluators to be chosen
-    "evaluators": [
-            MemoryIndex
-            RDF3X
-            Stream
-            Jena
-            Sesame
+    # declare evaluators to be chosen "evaluators": [
+        MemoryIndex
+        RDF3X
+        Stream
+        Jena
+        Sesame
     ]
 
     // Set URLs to text data that can be loaded.
     // First array element is picked as default and loaded into the editor.
     "defaultData": {
         "sparql": [
-            resources/Sparql/OneTriplePattern.sparql
-            resources/Sparql/Filter.sparql
-            resources/Sparql/Merge.sparql
-            resources/Sparql/Optional-Clause.sparql
-            resources/Sparql/Hash-Map.sparql
-            ]
+            resources / Sparql / OneTriplePattern.sparql
+            resources / Sparql / Filter.sparql
+            resources / Sparql / Merge.sparql
+            resources / Sparql / Optional - Clause.sparql
+            resources / Sparql / Hash - Map.sparql
+        ]
         "rdf": [
             "resources/N3/lubm.n3"
             "resources/N3/sp2b.n3"
             "resources/N3/yagodata.n3"
-            ]
+        ]
         "rif": [
-            resources/RIF/rule_And.rif
-            resources/RIF/rule_comparison.rif
-            resources/RIF/rule_exists.rif
-            resources/RIF/rule_functional.rif
-            resources/RIF/rule_assignment.rif
-            resources/RIF/rule_equality.rif
-            resources/RIF/rule_fibonacci.rif
+            resources / RIF / rule_And.rif
+            resources / RIF / rule_comparison.rif
+            resources / RIF / rule_exists.rif
+            resources / RIF / rule_functional.rif
+            resources / RIF / rule_assignment.rif
+            resources / RIF / rule_equality.rif
+            resources / RIF / rule_fibonacci.rif
         ]
     }
-    # Default behaviour for RDF tab
-    "sendRDF": true
+    # Default behaviour
+    for RDF tab "sendRDF": true
 
-	"hide": {
-        # for hiding the check box at the RDF tab:
-        # "sendRDF": true
-        # for hiding the inference radio buttons (except the checked one in case it is not "NONE"):
-		# "inference": true
-		# for hiding the withGraph checkbox
-		# "withGraph": true
+    "hide": {
+        #
+        for hiding the check box at the RDF tab: # "sendRDF": true
+        #
+        for hiding the inference radio buttons(except the checked one in
+            case it is not "NONE"): # "inference": true
+        #
+        for hiding the withGraph checkbox
+        # "withGraph": true
         // Hidden tabs are still functional but not visible to the user
         // Tabs are: ["sparql", "rdf", "rif", "results", "graph"]
         "tabs": [""]
-	}
+    }
     "readOnlyTabs": []
 
     # Query Parameters are placed directly in the nonstandard request body
-    # see github.com/Be-ngt-oH/luposdate-nonstandard-endpoint for reference
-    "queryParameters": {
+    # see github.com / Be - ngt - oH / luposdate - nonstandard - endpoint
+    for reference "queryParameters": {
         "inference": "NONE"
         "inferenceGeneration": "GENERATEDOPT"
     }
