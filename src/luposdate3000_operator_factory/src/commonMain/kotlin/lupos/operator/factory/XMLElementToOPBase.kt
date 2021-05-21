@@ -126,6 +126,7 @@ import lupos.operator.physical.singleinput.POPMakeBooleanResult
 import lupos.operator.physical.singleinput.POPModify
 import lupos.operator.physical.singleinput.POPProjection
 import lupos.operator.physical.singleinput.POPSort
+import lupos.operator.physical.singleinput.POPVisualisation
 import lupos.operator.physical.singleinput.modifiers.POPLimit
 import lupos.operator.physical.singleinput.modifiers.POPOffset
 import lupos.operator.physical.singleinput.modifiers.POPReduced
@@ -724,6 +725,9 @@ public object XMLElementToOPBase {
             }
             "POPLimit" -> {
                 res = POPLimit(query, createProjectedVariables(query, node, mapping), node.attributes["limit"]!!.toInt(), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
+            }
+            "POPVisualisation" -> {
+                res = POPVisualisation(query, createProjectedVariables(query, node, mapping), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
             }
             "POPDebug" -> {
                 res = POPDebug(query, createProjectedVariables(query, node, mapping), XMLElementToOPBase(query, node["children"]!!.childs[0], mapping))
