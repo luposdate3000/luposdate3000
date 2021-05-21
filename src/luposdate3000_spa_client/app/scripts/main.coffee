@@ -241,6 +241,17 @@ App.bindEvents = ->
             withGraph = $('#eval-graph-sparql').prop('checked')
        else
             withGraph = $('#eval-graph-rif').prop('checked')
+       endpoint = App.config.endpoints[App.config.selectedEndpoint]
+       data =
+           query: $(this).parents('.query').find('.editor').val()
+       if endpoint.nonstandard
+            folder = endpoint[target]
+            method = folder[1]
+            locator = folder[0]
+       else
+            method = 'GET'
+            locator = endpoint.without
+            
        if($('#endpoint_selector').val() == 'Luposdate3000 - Browser' || $('#endpoint_selector').val() == 'Luposdate3000 - Endpoint')
             $('#result-tab').show()
             $('#getgraphdata').hide()
@@ -248,27 +259,38 @@ App.bindEvents = ->
             $('#getLuposdate3000Graph').show()
             $('#getLuposdate3000GraphSon').show()
             visualisationSetup()
-            evaluateSPARQL()
+            inputValue = App.cm['sparql'].getValue();
+            version = $('#endpoint_selector').val();
+            if (version == 'Luposdate3000 - Browser') 
+                   if App.config.sendRDF
+                           luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.cm['rdf'].getValue());
+                   eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(inputValue)
+                   #Receive optimized steps for logical and physical operator graph
+                   App.logGraph = eev.getOptimizedStepsLogical();
+                   App.physGraph = eev.getOptimizedStepsPhysical();
+                   #Result from the query
+                   App.result = eev.getResult();
+                   eev.closeEEV();
+                   eev.initEEV();
+                   tmpResult = eev.getDataSteps();
+                   addAnimationData(tmpResult)
+                   formatResultData();
+            else if (version == 'Luposdate3000 - Endpoint') 
+                   App.setSelectedEndpoint();
+                   url = App.config.endpoints[App.config.selectedEndpoint].url;
+                   connectToEndpoint(inputValue, url);
             visualisationStart()
         else
             $('#getgraphdata').show()
             $('#getopgraphdata').show()
             $('#getLuposdate3000Graph').hide()
             $('#getLuposdate3000GraphSon').hide()
-            endpoint = App.config.endpoints[App.config.selectedEndpoint]
-            data =
-                query: $(this).parents('.query').find('.editor').val()
-
 
             if endpoint.nonstandard
-                folder = endpoint[target]
                 if App.config.sendRDF
                     data['rdf'] = App.cm['rdf'].getValue()
                 else
                     data['rdf'] = ''
-
-                method = folder[1]
-                locator = folder[0]
                 data['formats'] = ['xml', 'plain']
                 # Set query parameters from config
                 for key of App.config['queryParameters']
@@ -280,9 +302,6 @@ App.bindEvents = ->
                 data['evaluator'] = $('#evaluator_selector').val()
                 # Nonstandard endpoints expect JSON-string as request body
                 # data = JSON.stringify(data)
-            else
-                method = 'GET'
-                locator = endpoint.without
 
             url = "#{App.config.endpoints[App.config.selectedEndpoint].url}#{locator}"
 

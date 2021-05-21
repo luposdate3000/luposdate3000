@@ -6,8 +6,6 @@
 var sessionId;
 // Variables for the vis network
 var network, networkSon, options, container, containerSon, data, dataSon, dataNodes, dataEdges, dataSetSon, dataSetEdges;
-var logGraph = new Array();
-var physGraph = new Array();
 // Variables for the animation
 var stopFlag, pauseFlag; // Flag top stop the current animation process
 var timer;
@@ -16,7 +14,6 @@ var current; //Stores the current instrument
 var globalAnimationList = []; //Array that stores all data that is needed to be animated
 var queue = [];
 var prefixes = []; //Stores all prefixes from the SPARQL and RDF editor
-var result;
 var currentIndex;
 //NexusUI Variables (graphical elements i.e. slider, etc)
 var slider, toggle, instrumentSimpleSelect, instrumentSimpleSelectTone;
@@ -24,7 +21,6 @@ var selectArray = [];
 var selectToneArray = [];
 var selectAudio = [];
 var audioMapping = [];
-var resultValue;
 
 const panner = new Tone.Panner(0).toDestination();
 if (typeof luposdate3000_endpoint === "undefined") {
@@ -306,15 +302,15 @@ $("#luposdate3000_graph-select").change(function() {
     var value = $(this).val();
     var index = parseInt($('input[type=radio][name=L3Graph]:checked').val(), 10);
     if (index == 0) {
-        loadData(logGraph[value - 1].split("SPLITHERE"), false);
+        loadData(App.logGraph[value - 1].split("SPLITHERE"), false);
     } else if (index == 1) {
-        loadData(physGraph[value - 1].split("SPLITHERE"), false);
+        loadData(App.physGraph[value - 1].split("SPLITHERE"), false);
     }
 
     if (index == 0) {
-        var max = logGraph.length;
+        var max = App.logGraph.length;
     } else if (index == 1) {
-        var max = physGraph.length;
+        var max = App.physGraph.length;
     }
 
     if (value == max) {
@@ -336,11 +332,11 @@ $('input[type=radio][name=L3Graph]').change(function() {
     var index = parseInt($(this).val(), 10);
     $("#luposdate3000_graph-select").val(1);
     if (index == 0) {
-        var graph = logGraph;
-        loadData(logGraph[1].split("SPLITHERE"), false);
+        var graph = App.logGraph;
+        loadData(App.logGraph[1].split("SPLITHERE"), false);
     } else {
-        var graph = physGraph;
-        loadData(physGraph[1].split("SPLITHERE"), false);
+        var graph = App.physGraph;
+        loadData(App.physGraph[1].split("SPLITHERE"), false);
     }
     $('#luposdate3000_graph-select').empty();
     var c = 0;
@@ -364,7 +360,7 @@ $('#getLuposdate3000Graphlink').click(function() {
 
 $('#getLuposdate3000GraphSonlink').click(function() {
     sleep(50).then(() => {
-        loadData(physGraph[physGraph.length - 1].split("SPLITHERE"), true);
+        loadData(App.physGraph[App.physGraph.length - 1].split("SPLITHERE"), true);
     })
 });
 
@@ -384,9 +380,9 @@ $('#luposdate3000-op-graph-up').click(function() {
     var value = parseInt($('#luposdate3000_graph-select').val(), 10);
     var index = parseInt($('input[type=radio][name=L3Graph]:checked').val(), 10);
     if (index == 0) {
-        var max = logGraph.length;
+        var max = App.logGraph.length;
     } else if (index == 1) {
-        var max = physGraph.length;
+        var max = App.physGraph.length;
     }
     if (value != max)
         value++;
@@ -574,8 +570,8 @@ $('#luposdate3000_backward').click(function() {
 //Creates a table on the result Tab and show the results from the query
 function calculateResult() {
     var parser = new DOMParser();
-    var xml = parser.parseFromString(result.split("</head>")[1].replace("</sparql>", ""), "text/xml");
-    var variables = result.split("<head>\n")[1].split("</head>")[0].replaceAll("variable name=", "").replaceAll(/[<> \"]/g, "").split("\n");
+    var xml = parser.parseFromString(App.result.split("</head>")[1].replace("</sparql>", ""), "text/xml");
+    var variables = App.result.split("<head>\n")[1].split("</head>")[0].replaceAll("variable name=", "").replaceAll(/[<> \"]/g, "").split("\n");
     var i, j, k;
 
     var resultshtml = '<h4>Prefixes</h4>';
@@ -963,38 +959,11 @@ function testAjax() {
             data: formData
         })
         .done(function(data) {
-            resultValue = data;
+            App.resultValue = data;
         });
-    return resultValue;
+    return App.resultValue;
 }
 
-//Sends SPARQL Client to luposdate Endpoint and receives Operatorgraph as string
-function evaluateSPARQL() {
-    var inputValue = App.cm['sparql'].getValue();
-    var version = $('#endpoint_selector').val();
-    if (version == 'Luposdate3000 - Browser') {
-        //Import RDF data if checkbox is checked
-        if ($('#send_rdf').is(':checked')) {
-            var rdf = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.cm['rdf'].getValue());
-        }
-        var eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(inputValue)
-        //Receive optimized steps for logical and physical operator graph
-        logGraph = eev.getOptimizedStepsLogical();
-        physGraph = eev.getOptimizedStepsPhysical();
-        //Result from the query
-        result = eev.getResult();
-        eev.closeEEV();
-        eev.initEEV();
-        var tmpResult = eev.getDataSteps();
-        addAnimationData(tmpResult)
-        formatResultData();
-
-    } else if (version == 'Luposdate3000 - Endpoint') {
-        App.setSelectedEndpoint();
-        var url = App.config.endpoints[App.config.selectedEndpoint].url;
-        connectToEndpoint(inputValue, url);
-    }
-}
 
 function addCustomContextMenu(networkObject, contextFlag) {
     var string;

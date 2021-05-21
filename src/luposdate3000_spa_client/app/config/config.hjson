@@ -1,10 +1,12 @@
 {
 	"endpoints": [
 	    {
-	        "name": "Luposdate3000 - Browser"
+	        "name": "Luposdate3000 - Browser",
+                "nonstandard": false,
 	    },
 	    {
-	        "name": "Luposdate3000 - Endpoint"
+	        "name": "Luposdate3000 - Endpoint",
+                "nonstandard": false,
 	        "url": "/",
 	    },
 		{

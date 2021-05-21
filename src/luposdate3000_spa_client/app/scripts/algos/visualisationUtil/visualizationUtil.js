@@ -109,7 +109,7 @@ function getLogicalStepsFromEndpoint(sessionID, url) {
             var i;
             console.log(tmp);
             for (i = 0; i <= tmp.split("NEWTREE").length - 2; i++) {
-                logGraph.push(tmp.split("NEWTREE")[i]);
+                App.logGraph.push(tmp.split("NEWTREE")[i]);
             }
             getPhysicalStepsFromEndpoint(sessionID, url);
         });
@@ -130,7 +130,7 @@ function getPhysicalStepsFromEndpoint(sessionID, url) {
             var i;
             console.log(tmp);
             for (i = 0; i <= tmp.split("NEWTREE").length - 2; i++) {
-                physGraph.push(tmp.split("NEWTREE")[i]);
+                App.physGraph.push(tmp.split("NEWTREE")[i]);
             }
             getResultFromEndpoint(sessionID, url);
         });
@@ -147,7 +147,7 @@ function getResultFromEndpoint(sessionID, url) {
             data: formData
         })
         .done(function(data) {
-            result = data;
+            App.result = data;
             getAnimationDataFromEndpoint(sessionID, url);
         });
 }
@@ -196,7 +196,7 @@ function closeSessionWithEndpoint(sessionID, url) {
 
 function formatResultData() {
     var c = 0;
-    for (var i in physGraph) {
+    for (var i in App.physGraph) {
         c++;
         $('#luposdate3000_graph-select').append($('<option>', {
             value: c,
@@ -204,13 +204,13 @@ function formatResultData() {
         }));
     }
     //Change the step select box to the last (final optimized) step
-    $("#luposdate3000_graph-select").val(physGraph.length);
+    $("#luposdate3000_graph-select").val(App.physGraph.length);
     $("#luposdate3000_graph-select").trigger('change');
 
 
 
     //Load final optimized step of the physical operator graph by default
-    loadData(physGraph[physGraph.length - 1].split("SPLITHERE"), false);
-    loadData(physGraph[physGraph.length - 1].split("SPLITHERE"), true);
+    loadData(App.physGraph[App.physGraph.length - 1].split("SPLITHERE"), false);
+    loadData(App.physGraph[App.physGraph.length - 1].split("SPLITHERE"), true);
     replacePrefix();
 }
