@@ -986,15 +986,7 @@ function evaluateSPARQL() {
         eev.closeEEV();
         eev.initEEV();
         var tmpResult = eev.getDataSteps();
-        var i;
-        for (i = 0; i <= tmpResult.length - 2; i++) {
-            var tmp;
-            tmp = tmpResult[i].split("NEWDATA")[0].split("||");
-            tmp[0] = parseInt(tmp[0], 10);
-            tmp[1] = parseInt(tmp[1], 10);
-            tmp[3] = parseInt(tmp[3], 10);
-            globalAnimationList.push(tmp);
-        }
+        addAnimationData(tmpResult)
         formatResultData();
 
     } else if (version == 'Luposdate3000 - Endpoint') {

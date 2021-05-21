@@ -231,8 +231,16 @@ App.bindEvents = ->
     # Send query to endpoint
     $('.query .evaluate').click ->
 
-        #Rico: if Luposdate3000 is activated
-        #hide/show matching tabs and data
+       # Copy changes to textarea
+       for key of App.cm
+           App.cm[key].save()
+
+       target = $(this).data 'target'
+       App.setSelectedEndpoint()
+       if target == 'sparql'
+            withGraph = $('#eval-graph-sparql').prop('checked')
+       else
+            withGraph = $('#eval-graph-rif').prop('checked')
        if($('#endpoint_selector').val() == 'Luposdate3000 - Browser' || $('#endpoint_selector').val() == 'Luposdate3000 - Endpoint')
             $('#result-tab').show()
             $('#getgraphdata').hide()
@@ -247,20 +255,10 @@ App.bindEvents = ->
             $('#getopgraphdata').show()
             $('#getLuposdate3000Graph').hide()
             $('#getLuposdate3000GraphSon').hide()
-            # Copy changes to textarea
-            for key of App.cm
-                App.cm[key].save()
-
-            target = $(this).data 'target'
-            App.setSelectedEndpoint()
             endpoint = App.config.endpoints[App.config.selectedEndpoint]
             data =
                 query: $(this).parents('.query').find('.editor').val()
 
-            if target == 'sparql'
-                withGraph = $('#eval-graph-sparql').prop('checked')
-            else
-                withGraph = $('#eval-graph-rif').prop('checked')
 
             if endpoint.nonstandard
                 folder = endpoint[target]
@@ -287,9 +285,6 @@ App.bindEvents = ->
                 locator = endpoint.without
 
             url = "#{App.config.endpoints[App.config.selectedEndpoint].url}#{locator}"
-
-
-
 
             if withGraph
     #            $('.query .get-graph').trigger("click");

@@ -151,6 +151,16 @@ function getResultFromEndpoint(sessionID, url) {
             getAnimationDataFromEndpoint(sessionID, url);
         });
 }
+function addAnimationData(tmpResult){
+for (i = 0; i <= tmpResult.length - 2; i++) {
+                var tmp;
+                tmp = tmpResult[i].split("NEWDATA")[0].split("||");
+                tmp[0] = parseInt(tmp[0], 10);
+                tmp[1] = parseInt(tmp[1], 10);
+                tmp[3] = parseInt(tmp[2], 10);
+                globalAnimationList.push(tmp);
+            }
+}
 
 function getAnimationDataFromEndpoint(sessionID, url) {
     var formData = {
@@ -163,15 +173,7 @@ function getAnimationDataFromEndpoint(sessionID, url) {
         })
         .done(function(data) {
             var tmpResult = data.split("NEWDATA");
-            var i;
-            for (i = 0; i <= tmpResult.length - 2; i++) {
-                var tmp;
-                tmp = tmpResult[i].split("NEWDATA")[0].split("||");
-                tmp[0] = parseInt(tmp[0], 10);
-                tmp[1] = parseInt(tmp[1], 10);
-                tmp[3] = parseInt(tmp[2], 10);
-                globalAnimationList.push(tmp);
-            }
+            addAnimationData(tmpResult)
             closeSessionWithEndpoint(sessionID, url);
         });
 }
