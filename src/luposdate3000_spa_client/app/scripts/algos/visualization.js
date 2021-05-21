@@ -102,13 +102,6 @@ function visualisationSetup(){
         $('#luposdate3000_backward').hide();
 }
 
-$('.query .evaluate').click(function() {
-    if ($('#eval-graph-sparql').prop('checked')) {
-visualisationSetup()
-        evaluateSPARQL();
-visualisationStart()
-    }
-});
 function visualisationStart(){
         //Default: Simple Instrument Mode
         $('#instrumentAdvanced-select').show();

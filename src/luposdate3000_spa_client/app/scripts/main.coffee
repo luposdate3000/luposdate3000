@@ -239,6 +239,9 @@ App.bindEvents = ->
             $('#getopgraphdata').hide()
             $('#getLuposdate3000Graph').show()
             $('#getLuposdate3000GraphSon').show()
+            visualisationSetup()
+            evaluateSPARQL()
+            visualisationStart()
         else
             $('#getgraphdata').show()
             $('#getopgraphdata').show()
