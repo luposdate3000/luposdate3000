@@ -59,6 +59,7 @@ gulp.task('concatJS', function() {
                 //the order of files doe NOT matter here
                 // dependencies of dependencies ...
                 "bower_components/modernizr/modernizr.js", // dependency of "foundation.js"
+                "bower_components/underscore/underscore.js", // dependency of "backbone.js"
                 //
                 "bower_components/fastclick/lib/fastclick.js", // optimization for touchscreen devices
                 "bower_components/randomcolor/randomColor.js", // syntax highlighing in result
@@ -66,8 +67,9 @@ gulp.task('concatJS', function() {
                 "bower_components/uri.js/src/URI.js", // for executing the queries
                 "bower_components/jquery/dist/jquery.js", // accessing buttons
                 "bower_components/foundation/js/foundation.js",
-                "bower_components/underscore/underscore.js",
-                "bower_components/codemirror/lib/codemirror.js",
+                "bower_components/codemirror/lib/codemirror.js", //sparql + rdf editor
+                "bower_components/codemirror/addon/edit/matchbrackets.js", // highlighting of brackets in sparql
+                "bower_components/codemirror/addon/edit/closebrackets.js", // automatically add a closing bracket if you type an opening bracket
                 "bower_components/x2js/xml2json.min.js",
                 "bower_components/please-wait/build/please-wait.js", // load screen
                 "node_modules/tone/build/Tone.js", // used by sonification
@@ -149,6 +151,8 @@ gulp.task('concatJS', function() {
             "bower_components/foundation/js/foundation.js",
             "bower_components/underscore/underscore.js",
             "bower_components/codemirror/lib/codemirror.js",
+            "bower_components/codemirror/addon/edit/matchbrackets.js",
+            "bower_components/codemirror/addon/edit/closebrackets.js",
             "bower_components/x2js/xml2json.min.js",
             "bower_components/randomcolor/randomColor.js",
             "bower_components/uri.js/src/URI.js",
@@ -246,7 +250,63 @@ gulp.task('resources', function() {
             "app/resources/RIF/rule_functional.rif",
             "app/resources/RIF/rule_assignment.rif",
         ])
-        .pipe(gulp.dest('dist/resources/RIF')))
+        .pipe(gulp.dest('dist/resources/RIF')),
+        gulp.src([
+            "app/resources/uebungen/CloudAndWebTechnologiesSparql1/Luebeck.n3",
+            "app/resources/uebungen/CloudAndWebTechnologiesSparql1/s1a.sparql",
+            "app/resources/uebungen/CloudAndWebTechnologiesSparql1/config.json",
+        ])
+        .pipe(gulp.dest('dist/resources/uebungen/CloudAndWebTechnologiesSparql1')),
+        gulp.src([
+            "app/resources/uebungen/CloudAndWebTechnologiesOWL1/s1aa.sparql",
+            "app/resources/uebungen/CloudAndWebTechnologiesOWL1/s1a.n3",
+            "app/resources/uebungen/CloudAndWebTechnologiesOWL1/s1ac.sparql",
+            "app/resources/uebungen/CloudAndWebTechnologiesOWL1/config.json",
+            "app/resources/uebungen/CloudAndWebTechnologiesOWL1/s1ab.sparql",
+        ])
+        .pipe(gulp.dest('dist/resources/uebungen/CloudAndWebTechnologiesOWL1')),
+        gulp.src([
+            "app/resources/uebungen/SemanticWebSparql11_1/query1.rq",
+            "app/resources/uebungen/SemanticWebSparql11_1/config.json",
+            "app/resources/uebungen/SemanticWebSparql11_1/sp2b.n3",
+        ])
+        .pipe(gulp.dest('dist/resources/uebungen/SemanticWebSparql11_1')),
+        gulp.src([
+            "app/resources/uebungen/SemanticWebOWL1/DriversWithoutRequiredLicence.sparql",
+            "app/resources/uebungen/SemanticWebOWL1/RequiredLicencesOfCE.sparql",
+            "app/resources/uebungen/SemanticWebOWL1/TomBelongsToPersonWithLicence.sparql",
+            "app/resources/uebungen/SemanticWebOWL1/EuropeanDrivingLicences.n3",
+            "app/resources/uebungen/SemanticWebOWL1/config.json",
+            "app/resources/uebungen/SemanticWebOWL1/TomBelongsToDriver.sparql",
+            "app/resources/uebungen/SemanticWebOWL1/DriversWithIncorrectLicence.sparql",
+            "app/resources/uebungen/SemanticWebOWL1/DriversWithCorrectLicence.sparql",
+        ])
+        .pipe(gulp.dest('dist/resources/uebungen/SemanticWebOWL1')),
+        gulp.src([
+            "app/resources/uebungen/SemanticWebOwl2Rdf/EuropeanDrivingLicences.n3",
+            "app/resources/uebungen/SemanticWebOwl2Rdf/transitivitySubClassOf.rif",
+            "app/resources/uebungen/SemanticWebOwl2Rdf/config.json",
+        ])
+        .pipe(gulp.dest('dist/resources/uebungen/SemanticWebOwl2Rdf')),
+        gulp.src([
+            "app/resources/uebungen/SemanticWebRIF1/empty.txt",
+            "app/resources/uebungen/SemanticWebRIF1/ruleset1.rif",
+            "app/resources/uebungen/SemanticWebRIF1/config.json",
+        ])
+        .pipe(gulp.dest('dist/resources/uebungen/SemanticWebRIF1')),
+        gulp.src([
+            "app/resources/uebungen/SemanticWebSparql10_1/lubm_demo.n3",
+            "app/resources/uebungen/SemanticWebSparql10_1/query1.rq",
+            "app/resources/uebungen/SemanticWebSparql10_1/config.json",
+        ])
+        .pipe(gulp.dest('dist/resources/uebungen/SemanticWebSparql10_1')),
+        gulp.src([
+            "app/resources/uebungen/CloudAndWebTechnologiesRIF1/traversalWithPath.rif",
+            "app/resources/uebungen/CloudAndWebTechnologiesRIF1/empty.txt",
+            "app/resources/uebungen/CloudAndWebTechnologiesRIF1/config.json",
+        ])
+        .pipe(gulp.dest('dist/resources/uebungen/CloudAndWebTechnologiesRIF1')),
+    )
 });
 gulp.task('instruments', function() {
     return gulp.src('node_modules/tonejs-instruments#8ec9f43d6f07fdeb15e684df5a6c7efa2c3eedf6/samples/**/*')
