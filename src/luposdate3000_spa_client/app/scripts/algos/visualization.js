@@ -32,8 +32,7 @@ if (typeof luposdate3000_endpoint === "undefined") {
 }
 //Initialize all interactive elements and Luposdate3000
 // -> If evaluate Button is clicked
-$('.query .evaluate').click(function() {
-    if ($('#eval-graph-sparql').prop('checked')) {
+function visualisationSetup(){
         //Loading all isntruments and the "none" Option
         var instrumentList = Object.keys(App.samples);
         instrumentList.push("None");
@@ -101,17 +100,23 @@ $('.query .evaluate').click(function() {
         $('#luposdate3000_stop').hide();
         $('#luposdate3000_forward').hide();
         $('#luposdate3000_backward').hide();
+}
 
+$('.query .evaluate').click(function() {
+    if ($('#eval-graph-sparql').prop('checked')) {
+visualisationSetup()
         evaluateSPARQL();
-
+visualisationStart()
+    }
+});
+function visualisationStart(){
         //Default: Simple Instrument Mode
         $('#instrumentAdvanced-select').show();
         //$('#instrumentSimple').prop("checked", true);
         $('#pitchDynamic').prop("checked", true);
         $('#dataSorting').prop('checked', false);
-    }
-});
 
+}
 function createMapping() {
     var html = '';
     var i;
