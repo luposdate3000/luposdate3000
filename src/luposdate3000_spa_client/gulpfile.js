@@ -56,11 +56,11 @@ gulp.task('concatCSS', function() {
 gulp.task('concatJS', function() {
     return merge(
             gulp.src([
-//the order of files doe NOT matter here
-// dependencies of dependencies ...
+                //the order of files doe NOT matter here
+                // dependencies of dependencies ...
                 "bower_components/modernizr/modernizr.js", // dependency of "foundation.js"
-//
-                "bower_components/fastclick/lib/fastclick.js",  // optimization for touchscreen devices
+                //
+                "bower_components/fastclick/lib/fastclick.js", // optimization for touchscreen devices
                 "bower_components/randomcolor/randomColor.js", // syntax highlighing in result
                 "bower_components/codemirror/mode/sparql/sparql.js", // syntax highlighting in sparql + rdf
                 "bower_components/uri.js/src/URI.js", // for executing the queries
@@ -84,10 +84,10 @@ gulp.task('concatJS', function() {
                 "app/scripts/algos/visualisationUtil/chordMapping.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/octaveMapping.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/spectrum.js", // used by sonification
-                "app/scripts/algos/createGraph.js", 
-                "app/scripts/algos/createOPGraph.js", 
-                "app/scripts/codemirror-modes/rif/rif.js", 
-                "app/scripts/codemirror-modes/N3/N3.js", 
+                "app/scripts/algos/createGraph.js",
+                "app/scripts/algos/createOPGraph.js",
+                "app/scripts/codemirror-modes/rif/rif.js",
+                "app/scripts/codemirror-modes/N3/N3.js",
                 "app/scripts/algos/visualization.js", // used by sonification
                 //LUPOSDATE3000 GENERATED CODE START
                 "app/scripts/algos/luposdate3000/kotlin.js",
@@ -118,8 +118,8 @@ gulp.task('concatJS', function() {
                 //LUPOSDATE3000 GENERATED CODE END
             ]),
             gulp.src([
-                "app/scripts/main.coffee", 
-                "app/scripts/loading.coffee", 
+                "app/scripts/main.coffee",
+                "app/scripts/loading.coffee",
             ])
             .pipe(coffee({
                 bare: true
@@ -142,7 +142,7 @@ gulp.task('concatJS', function() {
             largeFile: true
         }))
         .pipe(order([
-//the order of files IS important here
+            //the order of files IS important here
             "bower_components/modernizr/modernizr.js",
             "bower_components/jquery/dist/jquery.js",
             "bower_components/fastclick/lib/fastclick.js",

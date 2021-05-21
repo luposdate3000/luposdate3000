@@ -670,13 +670,6 @@ function receiveAnimation(childUUID, parentUUID, string, index) {
     //globalAnimationList.push([childUUID, parentUUID, string, index]);
 }
 
-function getInstrument(string) {
-    switch (string) {
-        case 'Operator-ID':
-
-    }
-}
-
 function playNoteMapping(id, label, index) {
     evaluateMapping();
 
