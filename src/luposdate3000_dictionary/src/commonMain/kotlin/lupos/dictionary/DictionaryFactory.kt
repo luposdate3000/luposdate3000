@@ -44,7 +44,7 @@ public object DictionaryFactory {
                     var pageId: Int = -1
                     val fileName = "global_dictionary.page"
                     val file = File(BUFFER_HOME + fileName)
-                    var initFromDisk = BufferManagerExt.allowInitFromDisk && file.exists()
+                    val initFromDisk = BufferManagerExt.allowInitFromDisk && file.exists()
                     if (initFromDisk) {
                         file.withInputStream {
                             pageId = it.readInt()

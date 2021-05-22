@@ -24,7 +24,6 @@ import lupos.operator.physical.partition.POPDistributedSendMulti
 import lupos.operator.physical.partition.POPDistributedSendSingle
 import lupos.operator.physical.partition.POPDistributedSendSingleCount
 import lupos.shared.EnpointRecievedInvalidPath
-import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.Parallel
 import lupos.shared.communicationHandler
@@ -35,9 +34,9 @@ import lupos.shared_inline.MyOutputStream
 import lupos.shared_inline.MyStringStream
 import java.net.InetSocketAddress
 import java.net.ServerSocket
-import java.net.Socket
 import java.net.URLDecoder
 import kotlin.jvm.JvmField
+import kotlin.system.exitProcess
 
 @OptIn(ExperimentalStdlibApi::class)
 public actual object HttpEndpointLauncher {
@@ -51,7 +50,7 @@ public actual object HttpEndpointLauncher {
         stream.println()
     }
 
-    internal fun extractParamsFromString(str: String, params: MutableMap<String, String>) {
+    private fun extractParamsFromString(str: String, params: MutableMap<String, String>) {
         for (p in str.split('&')) {
             val t = p.split('=')
             if (t.size > 1) {
@@ -76,12 +75,12 @@ public actual object HttpEndpointLauncher {
             println("launched server socket on '0.0.0.0':'$port' - waiting for connections now")
             while (true) {
                 val connection = server.accept()
-                println("received connection from ${connection.getRemoteSocketAddress()}")
+                println("received connection from ${connection.remoteSocketAddress}")
                 Thread {
                     var dontCloseSockets: Boolean = false
                     Parallel.runBlocking {
-                        var connectionInMy = MyInputStream(connection.getInputStream())
-                        var connectionOutMy = MyOutputStream(connection.getOutputStream())
+                        val connectionInMy = MyInputStream(connection.getInputStream())
+                        val connectionOutMy = MyOutputStream(connection.getOutputStream())
                         try {
                             var line = connectionInMy.readLine()
                             var contentLength: Int? = null
@@ -114,7 +113,7 @@ public actual object HttpEndpointLauncher {
 
                             paths["/shutdown"] = PathMappingHelper(false, mapOf()) {
                                 LuposdateEndpoint.close()
-                                System.exit(0)
+                                exitProcess(0)
                             }
                             paths["/distributed/query/register"] = PathMappingHelper(true, mapOf()) {
                                 val xml = XMLParser(MyStringStream(params["query"]!!))
@@ -125,7 +124,7 @@ public actual object HttpEndpointLauncher {
                                     }
                                 }
                                 println("register ... :: $hostname:$port -> $keys")
-                                val container = QueryMappingContainer(xml, Array<IMyInputStream?>(keys.size) { null }, Array<IMyOutputStream?>(keys.size) { null }, Array<Socket?>(keys.size) { null })
+                                val container = QueryMappingContainer(xml, Array(keys.size) { null }, Array(keys.size) { null }, Array(keys.size) { null })
                                 for (key in keys) {
                                     queryMappings[key] = container
                                 }
@@ -135,8 +134,8 @@ public actual object HttpEndpointLauncher {
                                 println("execute ... :: $hostname:$port -> ${params["key"]}")
                                 val key = params["key"]!!
                                 val queryContainer = queryMappings[key]!!
-                                var queryXML = queryContainer.xml
-                                var dictionaryURL = params["dictionaryURL"]!!
+                                val queryXML = queryContainer.xml
+                                val dictionaryURL = params["dictionaryURL"]!!
                                 val comm = communicationHandler
 // calculate current partition
                                 var partitionNumber: Int = 0
@@ -163,7 +162,7 @@ public actual object HttpEndpointLauncher {
                                     if (flag) {
 // only launch if all receivers are started
 // init dictionary
-                                        var idx2 = dictionaryURL.indexOf("/")
+                                        val idx2 = dictionaryURL.indexOf("/")
                                         val conn = comm.openConnection(dictionaryURL.substring(0, idx2), "POST " + dictionaryURL.substring(idx2) + "\n\n")
                                         val remoteDictionary = RemoteDictionaryClient(conn.first, conn.second)
                                         val query = Query(remoteDictionary)
@@ -255,7 +254,7 @@ public actual object HttpEndpointLauncher {
                                         val formId = k.replace("/", "_")
                                         connectionOutMy.println("<form id=\"$formId\" >")
                                         for ((p, q) in v.params) {
-                                            connectionOutMy.println("${q(p.first, p.second)}")
+                                            connectionOutMy.println(q(p.first, p.second))
                                         }
                                         connectionOutMy.println("<input type=\"submit\" value=\"$k\" />")
                                         connectionOutMy.println("</form>")
@@ -283,7 +282,7 @@ public actual object HttpEndpointLauncher {
                                     val buf = ByteArray(contentLength!!)
                                     connectionInMy.read(buf, contentLength)
                                     val content = buf.decodeToString()
-                                    extractParamsFromString(content.toString(), params)
+                                    extractParamsFromString(content, params)
                                 }
                                 actionHelper.action()
                             }

@@ -4,7 +4,7 @@
 
 App.init = ->
 
-    # Rico: Luposdate3000 Graph is disabled at the beginning
+# Rico: Luposdate3000 Graph is disabled at the beginning
     $('#luposdate3000graph-tab').hide()
 
     # Load xml converter
@@ -38,7 +38,9 @@ App.play = ->
 
     #Rico: Load instruments
     App.samples = SampleLibrary.load(
-        instruments: ['piano', 'bass-electric', 'bassoon', 'cello', 'clarinet', 'contrabass', 'flute', 'french-horn', 'guitar-acoustic', 'guitar-electric','guitar-nylon', 'harmonium', 'harp', 'organ', 'saxophone', 'trombone', 'trumpet', 'tuba', 'violin', 'xylophone'],
+        instruments: ['piano', 'bass-electric', 'bassoon', 'cello', 'clarinet', 'contrabass', 'flute', 'french-horn',
+            'guitar-acoustic', 'guitar-electric', 'guitar-nylon', 'harmonium', 'harp', 'organ', 'saxophone', 'trombone',
+            'trumpet', 'tuba', 'violin', 'xylophone'],
         baseUrl: "./resources/samples/"
     )
 
@@ -51,7 +53,7 @@ App.play = ->
         App.cm['rdf'].refresh()
 
 App.loadEditors = ->
-    # Initialize editors
+# Initialize editors
     App.cm = {}
 
     App.cm['sparql'] = CodeMirror.fromTextArea document.getElementById('codemirror'),
@@ -96,31 +98,31 @@ App.setSelectedEndpoint = ->
             App.config.selectedEndpoint = i
         i++
 
-getGraphData = (data, urlPrefix, method,target)->
+getGraphData = (data, urlPrefix, method, target)->
 
-  # AST Request
-  request = {
-    query: data.query
-    evaluator: $('#evaluator_selector').val()
-  }
-  $.ajax
-    url: urlPrefix + "/info"
-    method: method
-    data: JSON.stringify(request)
-    success: (data) ->
-      createGraph(data,target)
-    error: (xhr, status, error) ->
-      App.logError error
+# AST Request
+    request = {
+        query: data.query
+        evaluator: $('#evaluator_selector').val()
+    }
+    $.ajax
+        url: urlPrefix + "/info"
+        method: method
+        data: JSON.stringify(request)
+        success: (data) ->
+            createGraph(data, target)
+        error: (xhr, status, error) ->
+            App.logError error
 
-  # Operator-Graph Request
-  $.ajax
-    url: urlPrefix + "/graphs"
-    method: method
-    data: JSON.stringify(data)
-    success: (data) ->
-      createOPGraph(data,target)
-    error: (xhr, status, error) ->
-      App.logError error
+    # Operator-Graph Request
+    $.ajax
+        url: urlPrefix + "/graphs"
+        method: method
+        data: JSON.stringify(data)
+        success: (data) ->
+            createOPGraph(data, target)
+        error: (xhr, status, error) ->
+            App.logError error
 
 App.showWithGraph = ->
     if App.config.hide.withGraph
@@ -129,7 +131,6 @@ App.showWithGraph = ->
         $('.label-with-graph').show()
 
 App.bindEvents = ->
-
     $('#getLuposdate3000Graphlink').click ->
         $('#luposdate3000-graph-tab').show()
         $('#luposdate3000-sonification-tab').hide()
@@ -151,9 +152,9 @@ App.bindEvents = ->
         $('#graphsettings-operator').show()
 
     $('#getgraphdata').click ->
-      $('#graphsettings').show()
-      $('#graphsettings-ast').show()
-      $('#graphsettings-operator').hide()
+        $('#graphsettings').show()
+        $('#graphsettings-ast').show()
+        $('#graphsettings-operator').hide()
 
     # Rico: if Luposdate3000 is clicked, disable Endpoint and Evaluator selector
     $('#endpoint_selector').change ->
@@ -171,7 +172,7 @@ App.bindEvents = ->
             $('#eval-graph-sparql').prop('checked', false)
             $('#eval-graph-rif').prop('checked', false)
             $('.label-with-graph').hide()
-            if( $('a[href$="#rif-tab"]').attr("aria-selected") == "true")
+            if($('a[href$="#rif-tab"]').attr("aria-selected") == "true")
                 $('a[href$="#sparql-tab"]').click()
 
             $('a[href$="#rif-tab"]').hide()
@@ -180,9 +181,9 @@ App.bindEvents = ->
             $('a[href$="#rif-tab"]').show()
 
     $('#getopgraphdata').click ->
-      $('#graphsettings').show()
-      $('#graphsettings-operator').show()
-      $('#graphsettings-ast').hide()
+        $('#graphsettings').show()
+        $('#graphsettings-operator').show()
+        $('#graphsettings-ast').hide()
 
     #Rico: disable operator graph settings when sonification graph tab is pressed
     $('#getLuposdate3000Graph').click ->
@@ -191,68 +192,67 @@ App.bindEvents = ->
         $('#graphsettings-ast').hide()
 
     $('#result-tab').click ->
-      $('#graphsettings').hide()
+        $('#graphsettings').hide()
 
     $('#op-graph-down').click ->
+        value = $('#graph-select').val()
+        value = parseInt(value, 10)
+        $('#op-graph-up').prop('disabled', false)
+        $('#op-graph-up').removeClass('disabled')
+        if (value != 0)
+            value = value - 1
+            graphSelect = $('#graph-select')
 
-       value = $('#graph-select').val()
-       value =  parseInt(value, 10)
-       $('#op-graph-up').prop('disabled', false)
-       $('#op-graph-up').removeClass('disabled')
-       if (value != 0)
-         value = value - 1
-         graphSelect = $('#graph-select')
-
-         graphValue = graphSelect.val(value)
-         graphSelect.trigger('change')
-         if (value == 0)
-           $(this).addClass('disabled')
-#           $(this).prop('disabled', true);
+            graphValue = graphSelect.val(value)
+            graphSelect.trigger('change')
+            if (value == 0)
+                $(this).addClass('disabled')
+    #           $(this).prop('disabled', true);
 
 
     $('#op-graph-up').click ->
-       value = $('#graph-select').val()
-       value =  parseInt(value, 10)
-       $('#op-graph-down').prop('disabled', false)
-       $('#op-graph-down').removeClass('disabled')
-       graphSelect = $('#graph-select')
-       max = graphSelect.children('option').length - 1
+        value = $('#graph-select').val()
+        value = parseInt(value, 10)
+        $('#op-graph-down').prop('disabled', false)
+        $('#op-graph-down').removeClass('disabled')
+        graphSelect = $('#graph-select')
+        max = graphSelect.children('option').length - 1
 
-       if (value != max)
-         value = value + 1
+        if (value != max)
+            value = value + 1
 
-         graphValue = graphSelect.val(value)
-         graphSelect.trigger('change')
-         if (value == max)
-           $(this).addClass('disabled')
-#           $(this).prop('disabled', true);
+            graphValue = graphSelect.val(value)
+            graphSelect.trigger('change')
+            if (value == max)
+                $(this).addClass('disabled')
+    #           $(this).prop('disabled', true);
 
 
     # Send query to endpoint
     $('.query .evaluate').click ->
 
-       # Copy changes to textarea
-       for key of App.cm
-           App.cm[key].save()
+# Copy changes to textarea
+        for key of App.cm
+            App.cm[key].save()
 
-       target = $(this).data 'target'
-       App.setSelectedEndpoint()
-       if target == 'sparql'
+        target = $(this).data 'target'
+        App.setSelectedEndpoint()
+        if target == 'sparql'
             withGraph = $('#eval-graph-sparql').prop('checked')
-       else
+        else
             withGraph = $('#eval-graph-rif').prop('checked')
-       endpoint = App.config.endpoints[App.config.selectedEndpoint]
-       data =
-           query: $(this).parents('.query').find('.editor').val()
-       if endpoint.nonstandard
+        endpoint = App.config.endpoints[App.config.selectedEndpoint]
+        data =
+            query: $(this).parents('.query').find('.editor').val()
+        if endpoint.nonstandard
             folder = endpoint[target]
             method = folder[1]
             locator = folder[0]
-       else
+        else
             method = 'GET'
             locator = endpoint.without
-            
-       if($('#endpoint_selector').val() == 'Luposdate3000 - Browser' || $('#endpoint_selector').val() == 'Luposdate3000 - Endpoint')
+
+        if($('#endpoint_selector').val() == 'Luposdate3000 - Browser' || $('#endpoint_selector').val() == 'Luposdate3000 - Endpoint')
             $('#result-tab').show()
             $('#getgraphdata').hide()
             $('#getopgraphdata').hide()
@@ -261,24 +261,24 @@ App.bindEvents = ->
             visualisationSetup()
             inputValue = App.cm['sparql'].getValue();
             version = $('#endpoint_selector').val();
-            if (version == 'Luposdate3000 - Browser') 
-                   if App.config.sendRDF
-                           luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.cm['rdf'].getValue());
-                   eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(inputValue)
-                   #Receive optimized steps for logical and physical operator graph
-                   App.logGraph = eev.getOptimizedStepsLogical();
-                   App.physGraph = eev.getOptimizedStepsPhysical();
-                   #Result from the query
-                   App.result = eev.getResult();
-                   eev.closeEEV();
-                   eev.initEEV();
-                   tmpResult = eev.getDataSteps();
-                   addAnimationData(tmpResult)
-                   formatResultData();
-            else if (version == 'Luposdate3000 - Endpoint') 
-                   App.setSelectedEndpoint();
-                   url = App.config.endpoints[App.config.selectedEndpoint].url;
-                   connectToEndpoint(inputValue, url);
+            if (version == 'Luposdate3000 - Browser')
+                if App.config.sendRDF
+                    luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.cm['rdf'].getValue());
+                eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(inputValue)
+                #Receive optimized steps for logical and physical operator graph
+                App.logGraph = eev.getOptimizedStepsLogical();
+                App.physGraph = eev.getOptimizedStepsPhysical();
+                #Result from the query
+                App.result = eev.getResult();
+                eev.closeEEV();
+                eev.initEEV();
+                tmpResult = eev.getDataSteps();
+                addAnimationData(tmpResult)
+                formatResultData();
+            else if (version == 'Luposdate3000 - Endpoint')
+                App.setSelectedEndpoint();
+                url = App.config.endpoints[App.config.selectedEndpoint].url;
+                connectToEndpoint(inputValue, url);
             visualisationStart()
         else
             $('#getgraphdata').show()
@@ -297,16 +297,16 @@ App.bindEvents = ->
                     data[key] = App.config['queryParameters'][key]
                 inference = $('input[name="rule"]:checked').val()
                 data['inference'] = inference
-                if(inference=='RIF')
+                if(inference == 'RIF')
                     data['rif'] = $('#codemirror_rif').val()
                 data['evaluator'] = $('#evaluator_selector').val()
-                # Nonstandard endpoints expect JSON-string as request body
-                # data = JSON.stringify(data)
+            # Nonstandard endpoints expect JSON-string as request body
+            # data = JSON.stringify(data)
 
             url = "#{App.config.endpoints[App.config.selectedEndpoint].url}#{locator}"
 
             if withGraph
-    #            $('.query .get-graph').trigger("click");
+#            $('.query .get-graph').trigger("click");
                 getGraphData(data, url, method, target)
                 $('#getgraphdata').parent("dd").show()
                 $('#getopgraphdata').parent("dd").show()
@@ -384,21 +384,21 @@ App.preprocessResults = (data, namespaces, colors) ->
     xml = data
 
     if App.config.endpoints[App.config.selectedEndpoint].nonstandard
-        # Process specific response types for nonstandard
+# Process specific response types for nonstandard
         if 'triples' of data
             resultSets.push App.processTriples(data.triples, namespaces, colors)
         if 'predicates' of data
             resultSets.push App.processPredicates(data.predicates, namespaces, colors)
         if 'XML' of data
-            # Sometimes the server will return an empty string
+# Sometimes the server will return an empty string
             if data.XML[0] == ''
                 resultSets.push App.emptyResultSet()
             else
-                # In nonstandard we get XML as string
+# In nonstandard we get XML as string
                 try
                     xml = $.parseXML(data.XML[0])
                 catch error
-                    # Like we care
+# Like we care
 
     if $.isXMLDoc(xml)
         sparql = App.x2js.xml2json(xml)
@@ -412,16 +412,16 @@ App.preprocessResults = (data, namespaces, colors) ->
 
 App.processResults = (data, lang) ->
 
-    # Find and save defined prefixes
-    # Generate random colors while we're at it
+# Find and save defined prefixes
+# Generate random colors while we're at it
     namespaces = {}
     colors = {}
-	# define some standard prefixes:
+    # define some standard prefixes:
     namespaces['rdf'] = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'
     namespaces['rdfs'] = 'http://www.w3.org/2000/01/rdf-schema#'
     namespaces['owl'] = 'http://www.w3.org/2002/07/owl#'
     namespaces['xsd'] = 'http://www.w3.org/2001/XMLSchema#'
-	# get prefixes from user's query, data and rules
+    # get prefixes from user's query, data and rules
     if App.config.sendRDF
         $.extend(namespaces, App.parseRDFPrefixes(App.cm['rdf'].getValue()))
     if lang == 'rif'
@@ -494,17 +494,17 @@ App.processSparql = (doc, namespaces, colors) ->
             for bind in bindings
                 value = ''
                 if(bind?)
-                     if 'uri' of bind
-                         value = App.replacePrefixes(bind.uri, namespaces, colors)
-                     else if 'literal' of bind
-                         value = "\"" + _.escape(bind.literal) + "\""
-                         if bind.literal._attributes and 'datatype' of bind.literal._attributes
-                             value += "^^" + App.replacePrefixes(bind.literal._attributes.datatype, namespaces, colors)
-                         if bind.literal._attributes and 'xml:lang' of bind.literal._attributes
-                             value += "@" + bind.literal._attributes['xml:lang']
-                     else if 'bnode' of bind
-                         value = "_:" + bind.bnode
-                     varbinding[bind._attributes.name] = value
+                    if 'uri' of bind
+                        value = App.replacePrefixes(bind.uri, namespaces, colors)
+                    else if 'literal' of bind
+                        value = "\"" + _.escape(bind.literal) + "\""
+                        if bind.literal._attributes and 'datatype' of bind.literal._attributes
+                            value += "^^" + App.replacePrefixes(bind.literal._attributes.datatype, namespaces, colors)
+                        if bind.literal._attributes and 'xml:lang' of bind.literal._attributes
+                            value += "@" + bind.literal._attributes['xml:lang']
+                    else if 'bnode' of bind
+                        value = "_:" + bind.bnode
+                    varbinding[bind._attributes.name] = value
             for varname,index of varorder
                 if varbinding[varname]
                     presult[index] = varbinding[varname]
@@ -538,7 +538,7 @@ App.processPredicates = (preds, namespaces, colors) ->
 
     if preds[0].parameters
         for v,k in preds[0].parameters
-            resultSet.head.push "Arg. #{k+1}"
+            resultSet.head.push "Arg. #{k + 1}"
 
     for pred in preds
         result = []
@@ -555,9 +555,9 @@ App.processLiteral = (para, namespaces, colors, result) ->
     if para.datatype
         prefixeddatatype = App.replacePrefixes(para.datatype, namespaces, colors)
         result.push "\"#{para.value}\"^^#{prefixeddatatype}"
-    else if para.type and para.type=='uri'
+    else if para.type and para.type == 'uri'
         result.push App.replacePrefixes(para.value, namespaces, colors)
-    else if para.type and para.type=='bnode'
+    else if para.type and para.type == 'bnode'
         result.push "_:#{para.value}"
     else
         r = "\"#{para.value}\""
@@ -572,7 +572,7 @@ App.replacePrefixes = (str, namespaces, colors) ->
             return str.replace prefix, JST['results/prefix']({prefix: key, color: colors[key]})
 
     base = App.baseName(str)
-    return "&lt;"+str.replace(base, "<em>#{base}</em>")+"&gt;"
+    return "&lt;" + str.replace(base, "<em>#{base}</em>") + "&gt;"
 
 App.parseRDFPrefixes = (data) ->
     prefixes = {}
@@ -613,7 +613,7 @@ App.parseRIFPrefixes = (data) ->
 App.logError = (msg, editor, line) ->
     if editor and line
         line--
-        App.cm[editor].setSelection {line: (line), ch: 0}, {line: (line), ch: 80 }
+        App.cm[editor].setSelection {line: (line), ch: 0}, {line: (line), ch: 80}
         $(".#{editor}-tab a").click()
     $('#results-tab').html JST['results/error'](msg: msg)
 
@@ -665,18 +665,18 @@ App.initConfigComponents = ->
         $('#send_rdf').hide()
 
     if App.config.hide.inference
-       for radio in ["rdfs", "owl", "rif", "without"]
-           actual = App.config['queryParameters']['inference']
-           if actual.toLowerCase() isnt radio and not(actual == "OWL2RL" and radio=="owl")
-               s = '#rule_'+radio
-               $(s).hide()
-               $(s + '_label').hide()
+        for radio in ["rdfs", "owl", "rif", "without"]
+            actual = App.config['queryParameters']['inference']
+            if actual.toLowerCase() isnt radio and not (actual == "OWL2RL" and radio == "owl")
+                s = '#rule_' + radio
+                $(s).hide()
+                $(s + '_label').hide()
 
     App.showWithGraph()
 
     for tab in App.config.readOnlyTabs
-        # $("##{tab}-tab, a[href=##{tab}-tab]").addClass 'read-only'
-        # $("##{tab}-tab").find('input, textarea, select').attr('readonly', true)
+# $("##{tab}-tab, a[href=##{tab}-tab]").addClass 'read-only'
+# $("##{tab}-tab").find('input, textarea, select').attr('readonly', true)
         App.cm[tab].setOption("readOnly", true)
 
     App.configComponents.Radio '#rule_radios input', App.config['queryParameters']['inference'], (val) ->

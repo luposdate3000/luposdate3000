@@ -31,17 +31,16 @@ public class MemoryTableFromXML : MemoryTableParser {
             return null
         }
         try {
-            val xmlSparql = xml
-            val xmlHead = xmlSparql["head"]!!
+            val xmlHead = xml["head"]!!
             val variables = xmlHead.childs.map { it.attributes["name"]!! }
-            var res = MemoryTable(variables.toTypedArray())
+            val res = MemoryTable(variables.toTypedArray())
             res.query = query
-            var dictionary = res.query!!.getDictionary()
-            val xmlBoolean = xmlSparql["boolean"]
+            val dictionary = res.query!!.getDictionary()
+            val xmlBoolean = xml["boolean"]
             if (xmlBoolean != null) {
                 res.booleanResult = xmlBoolean.content.toBoolean()
             } else {
-                val xmlResults = xmlSparql["results"]!!
+                val xmlResults = xml["results"]!!
                 val buffer = ByteArrayWrapper()
                 for (xmlResult in xmlResults.childs) {
                     if (xmlResult.tag == "result") {

@@ -26,22 +26,22 @@ import lupos.shared_inline.DictionaryHelper
 import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
-public class DictionaryInMemory : ADictionary {
+public class DictionaryInMemory internal constructor(isLocal: Boolean) : ADictionary() {
+    init {
+        this.isLocal = isLocal
+    }
+
     @JvmField
     internal val uuid = UUID_Counter.getNextUUID()
 
     @JvmField
-    internal var dataI2V = Array<ByteArrayWrapper>(1) { ByteArrayWrapper() }
+    internal var dataI2V = Array(1) { ByteArrayWrapper() }
 
     @JvmField
     internal var dataV2I = mutableMapOf<ByteArrayWrapper, Int>()
 
     @JvmField
     internal var bNodeCounter = 5
-
-    internal constructor(isLocal: Boolean) : super() {
-        this.isLocal = isLocal
-    }
 
     public override fun isInmemoryOnly(): Boolean = true
     public override fun close() {
@@ -54,7 +54,7 @@ public class DictionaryInMemory : ADictionary {
     public override fun createNewBNode(): Int {
         var res: Int = bNodeCounter++
         if (isLocal) {
-            res = res or ADictionary.flagLocal
+            res = res or flagLocal
         }
         return res
     }
@@ -67,14 +67,14 @@ public class DictionaryInMemory : ADictionary {
             DictionaryExt.undefValue -> DictionaryHelper.undefToByteArray(buffer)
             DictionaryExt.nullValue -> throw Exception("invalid call")
             else -> {
-                if (isLocal == ((value and ADictionary.flagLocal) == ADictionary.flagLocal)) {
-                    if ((value and ADictionary.flagNoBNode) == ADictionary.flagNoBNode) {
-                        val buf = dataI2V[value and ADictionary.maskValue]
+                if (isLocal == ((value and flagLocal) == flagLocal)) {
+                    if ((value and flagNoBNode) == flagNoBNode) {
+                        val buf = dataI2V[value and maskValue]
                         ByteArrayWrapperExt.copyInto(buf, buffer)
                     } else {
                         SanityCheck.check({ (value and maskValue) < bNodeCounter }, { "$value < $bNodeCounter" })
                         SanityCheck.check({ (value and maskValue) >= 0 }, { " $value >= 0" })
-                        DictionaryHelper.bnodeToByteArray(buffer, value and ADictionary.maskValue)
+                        DictionaryHelper.bnodeToByteArray(buffer, value and maskValue)
                     }
                 } else {
                     nodeGlobalDictionary.getValue(buffer, value)
@@ -84,20 +84,19 @@ public class DictionaryInMemory : ADictionary {
     }
 
     public override fun createValue(buffer: ByteArrayWrapper): Int {
-        val type = DictionaryHelper.byteArrayToType(buffer)
-        when (type) {
+        when (DictionaryHelper.byteArrayToType(buffer)) {
             ETripleComponentTypeExt.BLANK_NODE -> {
-                if (buffer.size == 8) {
-                    return DictionaryHelper.byteArrayToBnode_I(buffer)
+                return if (buffer.size == 8) {
+                    DictionaryHelper.byteArrayToBnode_I(buffer)
                 } else {
-                    return createNewBNode(DictionaryHelper.byteArrayToBnode_S(buffer))
+                    createNewBNode(DictionaryHelper.byteArrayToBnode_S(buffer))
                 }
             }
             ETripleComponentTypeExt.BOOLEAN -> {
-                if (DictionaryHelper.byteArrayToBoolean(buffer)) {
-                    return DictionaryExt.booleanTrueValue
+                return if (DictionaryHelper.byteArrayToBoolean(buffer)) {
+                    DictionaryExt.booleanTrueValue
                 } else {
-                    return DictionaryExt.booleanFalseValue
+                    DictionaryExt.booleanFalseValue
                 }
             }
             ETripleComponentTypeExt.ERROR -> return DictionaryExt.errorValue
@@ -117,15 +116,15 @@ public class DictionaryInMemory : ADictionary {
                     dataV2I[bufferCopy] = res
                     if (dataI2V.size <= res) {
                         val tmp = dataI2V
-                        dataI2V = Array<ByteArrayWrapper>(dataI2V.size * 2) { bufferCopy }
+                        dataI2V = Array(dataI2V.size * 2) { bufferCopy }
                         tmp.copyInto(dataI2V)
                     }
                     dataI2V[res] = bufferCopy
                 }
                 if (isLocal) {
-                    res = res or ADictionary.flagLocal
+                    res = res or flagLocal
                 }
-                return res or ADictionary.flagNoBNode
+                return res or flagNoBNode
             }
         }
     }
@@ -137,10 +136,7 @@ public class DictionaryInMemory : ADictionary {
         SanityCheck.check { type != ETripleComponentTypeExt.BOOLEAN }
         SanityCheck.check { type != ETripleComponentTypeExt.ERROR }
         SanityCheck.check { type != ETripleComponentTypeExt.UNDEF }
-        var res = dataV2I[buffer]
-        if (res == null) {
-            return null
-        }
-        return res or ADictionary.flagNoBNode
+        val res = dataV2I[buffer] ?: return null
+        return res or flagNoBNode
     }
 }

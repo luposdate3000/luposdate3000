@@ -73,7 +73,7 @@ public object CodeGeneration {
             // Buffer to store the separated operators
             val operatorsBuffer = MyPrintWriter(true)
             // Imports that will be used in the generated file
-            val imports = mutableSetOf<String>(
+            val imports = mutableSetOf(
                 "lupos.operator.base.Query",
                 "lupos.shared.IQuery",
                 "lupos.endpoint.LuposdateEndpoint",
@@ -297,13 +297,13 @@ private fun writeOperatorGraph(
         }
         // Creating a new operator with the OPBaseCompound constructor
         is OPBaseCompound -> {
-            val proVars = "arrayOf(${operator.children.map { "operator" + it.getUUID() }.joinToString()})"
+            val proVars = "arrayOf(${operator.children.joinToString { "operator" + it.getUUID() }})"
             val proVarsOrder = "listOf(${
-            operator.columnProjectionOrder.map {
+            operator.columnProjectionOrder.joinToString {
                 "listOf(${
-                it.map { it2 -> "\"$it2\"" }.joinToString()
+                it.joinToString { it2 -> "\"$it2\"" }
                 })"
-            }.joinToString()
+            }
             })"
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = OPBaseCompound(query," +

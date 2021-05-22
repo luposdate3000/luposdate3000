@@ -72,10 +72,10 @@ public class CommunicationHandler : ICommunicationHandler {
         var p = "POST $path"
         var first = true
         for ((k, v) in params) {
-            if (first) {
-                p += "?"
+            p += if (first) {
+                "?"
             } else {
-                p += "&"
+                "&"
             }
             first = false
             p += "$k=${URLEncoder.encode(v)}"

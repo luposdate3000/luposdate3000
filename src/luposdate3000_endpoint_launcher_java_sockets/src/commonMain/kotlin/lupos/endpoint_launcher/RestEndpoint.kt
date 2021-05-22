@@ -38,7 +38,7 @@ import kotlin.jvm.JvmField
 internal object RestEndpoint {
     @JvmField
     internal var dictionaryMapping = mutableMapOf<String, RemoteDictionaryServer>()
-    internal var sessionMap = mutableMapOf<Int, EndpointExtendedVisualize>()
+    private var sessionMap = mutableMapOf<Int, EndpointExtendedVisualize>()
 
     @Suppress("NOTHING_TO_INLNE")
     private inline fun registerDictionary(key: String): RemoteDictionaryServer {
@@ -65,17 +65,17 @@ internal object RestEndpoint {
         stream.println()
     }
 
-    internal fun inputElement(name: String, value: String): String = "<input type=\"text\" name=\"$name\" value=\"$value\"/>"
-    internal fun selectElementEQueryResultToStreamExt(name: String, value: String): String {
+    private fun inputElement(name: String, value: String): String = "<input type=\"text\" name=\"$name\" value=\"$value\"/>"
+    private fun selectElementEQueryResultToStreamExt(name: String, value: String): String {
         var res = "<select name=\"$name\">"
         for (evaluator in EQueryResultToStreamExt.names) {
-            if (value == evaluator) {
-                res += "<option selected=\"selected\">$evaluator</option>"
+            res += if (value == evaluator) {
+                "<option selected=\"selected\">$evaluator</option>"
             } else {
-                res += "<option>$evaluator</option>"
+                "<option>$evaluator</option>"
             }
         }
-        res + "</select>"
+        res += "</select>"
         return res
     }
 
@@ -103,7 +103,7 @@ internal object RestEndpoint {
                 }
             }
             println("choosen ${EQueryResultToStreamExt.names[evaluator]} ${EQueryResultToStreamExt.names.map { it }}")
-            var eev = EndpointExtendedVisualize(params["query"].toString())
+            val eev = EndpointExtendedVisualize(params["query"].toString())
             val key = sessionMap.size + 1
             sessionMap[key] = eev
             printHeaderSuccess(connectionOutMy)
@@ -112,7 +112,7 @@ internal object RestEndpoint {
             /*Coverage Unreachable*/
         }
         paths["/sparql/getLogicalVisual"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) {
-            val eev = params["sessionID"]?.let { sessionMap.get(it.toInt()) }
+            val eev = params["sessionID"]?.let { sessionMap[it.toInt()] }
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
                 for (step in eev.getOptimizedStepsLogical()) {
@@ -124,7 +124,7 @@ internal object RestEndpoint {
             }
         }
         paths["/sparql/getPhysicalVisual"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) {
-            val eev = params["sessionID"]?.let { sessionMap.get(it.toInt()) }
+            val eev = params["sessionID"]?.let { sessionMap[it.toInt()] }
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
                 for (step in eev.getOptimizedStepsPhysical()) {
@@ -136,7 +136,7 @@ internal object RestEndpoint {
             }
         }
         paths["/sparql/getResult"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) {
-            val eev = params["sessionID"]?.let { sessionMap.get(it.toInt()) }
+            val eev = params["sessionID"]?.let { sessionMap[it.toInt()] }
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
                 connectionOutMy.print(eev.getResult())
@@ -147,7 +147,7 @@ internal object RestEndpoint {
             /*Coverage Unreachable*/
         }
         paths["/sparql/getVisualisationData"] = PathMappingHelper(true, mapOf(Pair("sessionID", "") to ::inputElement)) {
-            val eev = params["sessionID"]?.let { sessionMap.get(it.toInt()) }
+            val eev = params["sessionID"]?.let { sessionMap[it.toInt()] }
             printHeaderSuccess(connectionOutMy)
             if (eev != null) {
                 val tmp = eev.getDataSteps()

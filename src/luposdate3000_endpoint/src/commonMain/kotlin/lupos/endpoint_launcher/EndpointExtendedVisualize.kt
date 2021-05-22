@@ -49,22 +49,22 @@ public class EndpointExtendedVisualize(input: String) : IVisualisation {
         val parser: SPARQLParser = SPARQLParser(ltit)
         val astNode: ASTNode = parser.expr()
         val lopNode: IOPBase = astNode.visit(OperatorGraphVisitor(q)) // Log Operatorgraph
-        val logSteps: MutableList<IOPBase> = mutableListOf<IOPBase>()
+        val logSteps: MutableList<IOPBase> = mutableListOf()
         val optLog: IOPBase = LogicalOptimizer(q).optimizeCall(lopNode, {}, { logSteps.add(it.cloneOP()) })
         val resultLogTmp = mutableListOf<String>()
         for (i in logSteps) {
-            traverseNetwork(i, mutableMapOf<IOPBase, Int>())
+            traverseNetwork(i, mutableMapOf())
             resultLogTmp.add(getJsonData(i))
         }
         resultLog = resultLogTmp.toTypedArray()
         val popOptimizer: PhysicalOptimizer = PhysicalOptimizer(q)
-        val physSteps: MutableList<IOPBase> = mutableListOf<IOPBase>()
+        val physSteps: MutableList<IOPBase> = mutableListOf()
         val tmp: IOPBase =
             popOptimizer.optimizeCall(optLog, {}, { physSteps.add(it.cloneOP()) }) // Physical Operatorgraph
         val optPhys: IOPBase = PhysicalOptimizerVisualisation(q).optimizeCall(tmp)
         val resultPhysTmp = mutableListOf<String>()
         for (i in physSteps) {
-            traverseNetwork(i, mutableMapOf<IOPBase, Int>())
+            traverseNetwork(i, mutableMapOf())
             resultPhysTmp.add(getJsonData(i))
         }
         traverseNetwork(optPhys, mutableMapOf())
@@ -122,7 +122,7 @@ public class EndpointExtendedVisualize(input: String) : IVisualisation {
 // Receives a node as IOPBase and calls sub methods to determine the Node and
 // Edge data as strings which are needed for the visualization framework.
     private fun getJsonData(baum: IOPBase): String {
-        var x = baum
+        val x = baum
         // Calling traverseNetwork method to change the UUIDs via DFS.
         var map = mutableMapOf<IOPBase, Int>() // define empty map
         map = traverseNetwork(x, map)
@@ -130,7 +130,7 @@ public class EndpointExtendedVisualize(input: String) : IVisualisation {
         // Sub-String creation for all Node Data
         var node = "["
         node += createNodeJson(x, map)
-        node = node.substring(0, node.length - 1).toString()
+        node = node.substring(0, node.length - 1)
         node += "]"
 
         // Sub-String creation for all Edge Data
@@ -139,7 +139,7 @@ public class EndpointExtendedVisualize(input: String) : IVisualisation {
             edge += createEdgeJson(i, map[x], map)
         }
 
-        edge = edge.substring(0, edge.length - 1).toString()
+        edge = edge.substring(0, edge.length - 1)
         edge += "]"
 
         // "SPLITHERE" will be the marker to split the node data from the edge data
@@ -154,12 +154,12 @@ public class EndpointExtendedVisualize(input: String) : IVisualisation {
 // -> yes: cloning operator to avoid ID duplicate in the visualization and
 // -> no: adding node to the hashmap and reassigning the UUID based on the size of the
 //          hashmap, which results in an DFS like reassignment of the UUIDs.
-    public fun traverseNetwork(teilbaum: IOPBase, mutableMap: MutableMap<IOPBase, Int>): MutableMap<IOPBase, Int> {
+    private fun traverseNetwork(teilbaum: IOPBase, mutableMap: MutableMap<IOPBase, Int>): MutableMap<IOPBase, Int> {
         var hashMap = mutableMap
-        var x = teilbaum
+        val x = teilbaum
         // Node already included (node is multiple times within the tree)
         if (mutableMap.contains(x)) {
-            var tmp = x.cloneOP()
+            val tmp = x.cloneOP()
             mutableMap[tmp] = mutableMap.size + 1
             mutableMap[tmp]?.let { tmp.setVisualUUID(it.toLong()) }
             if (tmp.getChildren().isNotEmpty()) {
@@ -185,9 +185,9 @@ public class EndpointExtendedVisualize(input: String) : IVisualisation {
 //
 // Outputs a string that creates an Edge in the visualization framework
     private fun createEdgeJson(teilbaum: IOPBase, uuid: Int?, mutableMap: MutableMap<IOPBase, Int>): String {
-        var x = teilbaum
-        var map = mutableMap
-        var toId = uuid // UUID of the node that is connected to this node (x)
+        val x = teilbaum
+        val map = mutableMap
+        val toId = uuid // UUID of the node that is connected to this node (x)
         var result = String()
         result += "{\"from\": ${map[x]}, \"to\": $toId,\"width\":1},"
         if (x.getChildren().isNotEmpty()) {
@@ -203,26 +203,30 @@ public class EndpointExtendedVisualize(input: String) : IVisualisation {
 //
 // Outputs a string that creates a Node in the visualization framework
     private fun createNodeJson(teilbaum: IOPBase, mutableMap: MutableMap<IOPBase, Int>): String {
-        var x = teilbaum
-        var map = mutableMap
+        val x = teilbaum
+        val map = mutableMap
         var result = String()
         var label = String()
         try {
             // AOPVariable and AOPConstant have a different structure as IOPBase
             // -> Different variables are containing the needed information for visualization
-            if (x is AOPVariable) {
-                label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
-                "?" + x.getName().replace("\n", "").replace("\"", "\\\"")
-                }\""
-            } else if (x is AOPConstant) {
-                label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
-                x.toSparql().replace("\n", "").replace("\"", "\\\"")
-                }\""
-                // In general: All IOPBase nodes
-            } else {
-                label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
-                x.getProvidedVariableNames().toString().replace("\n", "").replace("\"", "\\\"")
-                }\""
+            when (x) {
+                is AOPVariable -> {
+                    label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
+                    "?" + x.getName().replace("\n", "").replace("\"", "\\\"")
+                    }\""
+                }
+                is AOPConstant -> {
+                    label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
+                    x.toSparql().replace("\n", "").replace("\"", "\\\"")
+                    }\""
+                    // In general: All IOPBase nodes
+                }
+                else -> {
+                    label = "\"label\": \"${x.getClassname()} ${x.getUUID()}\\n${
+                    x.getProvidedVariableNames().toString().replace("\n", "").replace("\"", "\\\"")
+                    }\""
+                }
             }
             // In case getProvidedVariableNames is not defined for a given operator.
         } catch (e: Exception) {

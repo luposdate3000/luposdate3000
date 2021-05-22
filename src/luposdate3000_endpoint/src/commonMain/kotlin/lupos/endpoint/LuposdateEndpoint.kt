@@ -103,12 +103,12 @@ public object LuposdateEndpoint {
     }
 
     public fun setEstimatedPartitionsFromFile(filename: String) {
-        val filePartitions = File("$filename")
+        val filePartitions = File(filename)
         if (filePartitions.exists()) {
             tripleStoreManager.updateDefaultTripleStoreLayout { layout ->
                 try {
-                    filePartitions.forEachLine {
-                        val t = it.split(",")
+                    filePartitions.forEachLine { it2 ->
+                        val t = it2.split(",")
                         val idx = EIndexPatternExt.names.indexOf(t[0])
                         if (t[1] == "-1") {
                             layout.addIndex { it.simple(idx) }
@@ -131,7 +131,7 @@ public object LuposdateEndpoint {
         val key = "${query.getTransactionID()}"
         try {
             if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to key))
                 query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
             }
             tripleStoreManager.resetDefaultTripleStoreLayout()
@@ -162,7 +162,7 @@ public object LuposdateEndpoint {
                 val cache = store.modify_create_cache(EModifyTypeExt.INSERT)
                 val fileTriples = TriplesIntermediateReader("$fileName.spo")
                 bufPos = 0
-                fileTriples.readAll { it ->
+                fileTriples.readAll {
                     if (bufPos == bufS.size) {
                         for (i in 0 until 3) {
                             arr[i].reset(bufPos)
@@ -218,7 +218,7 @@ public object LuposdateEndpoint {
                     val fileTriples = TriplesIntermediateReader("$fileName.$orderName")
 //                        val debugFile = File("debug-input-$orderName").openOutputStream(false)
                     bufPos = 0
-                    fileTriples.readAll { it ->
+                    fileTriples.readAll {
                         if (bufPos == bufS.size) {
                             for (i in 0 until 3) {
                                 arr[i].reset(bufPos)
@@ -248,13 +248,13 @@ public object LuposdateEndpoint {
             println("imported file $fileName,$counter,$totalTime,$dictTime,$storeTime")
             tripleStoreManager.commit(query)
             if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
             }
             return "successfully imported $counter Triples"
         } catch (e: Throwable) {
             e.printStackTrace()
             if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+                communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
             }
             throw e
         }
@@ -267,7 +267,7 @@ public object LuposdateEndpoint {
         val import2 = POPValuesImportXML(query, listOf("s", "p", "o"), XMLElementFromXML()(data)!!)
         val key = "${query.getTransactionID()}"
         if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to "$key"))
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/register", mapOf("key" to key))
             query.setDictionaryUrl("${tripleStoreManager.getLocalhost()}/distributed/query/dictionary?key=$key")
         }
         val import = import2.evaluateRoot()
@@ -278,7 +278,7 @@ public object LuposdateEndpoint {
         tripleStoreManager.commit(query)
         query.commited = true
         if (tripleStoreManager.getPartitionMode() == EPartitionModeExt.Process) {
-            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to "$key"))
+            communicationHandler.sendData(tripleStoreManager.getLocalhost(), "/distributed/query/dictionary/remove", mapOf("key" to key))
         }
         return XMLElement("success").toString()
     }
@@ -327,8 +327,8 @@ public object LuposdateEndpoint {
     }
 
     @JsName("evaluate_operatorgraph_to_result_a")
-    /*suspend*/ public fun evaluateOperatorgraphToResultA(node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream): Any? {
-        var res = when (evaluator) {
+    /*suspend*/ public fun evaluateOperatorgraphToResultA(node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream): Any {
+        val res = when (evaluator) {
             EQueryResultToStreamExt.DEFAULT_STREAM -> QueryResultToStream(node, output)
             EQueryResultToStreamExt.XML_STREAM -> QueryResultToXMLStream(node, output)
             EQueryResultToStreamExt.TURTLE_STREAM -> QueryResultToTurtleStream(node, output)

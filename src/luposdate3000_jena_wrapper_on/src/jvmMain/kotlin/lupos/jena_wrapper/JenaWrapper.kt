@@ -57,7 +57,7 @@ public object JenaWrapper {
         return execQuery(queryString, true)
     }
 
-    public fun execQuery(queryString: String, logging: Boolean): String {
+    private fun execQuery(queryString: String, logging: Boolean): String {
         if (logging) {
             checkExceptions(queryString)
         }

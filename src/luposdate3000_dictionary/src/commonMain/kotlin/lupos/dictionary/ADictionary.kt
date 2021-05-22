@@ -31,6 +31,8 @@ public abstract class ADictionary : IDictionary {
 
     @JvmField
     internal val bnodeMapLocal = mutableMapOf<String, Int>()
+
+    @JvmField
     internal var isLocal: Boolean = false
     public override fun createNewBNode(s: String): Int {
         var res = bnodeMapLocal[s]
@@ -91,7 +93,7 @@ public abstract class ADictionary : IDictionary {
             } else {
                 var res = createValue(buffer)
                 if (isLocal) {
-                    res = res or ADictionary.flagLocal
+                    res = res or flagLocal
                 }
                 res
             }
@@ -100,7 +102,7 @@ public abstract class ADictionary : IDictionary {
             if (mymapping.size <= id) {
                 var newSize = 1
                 while (newSize <= id) {
-                    newSize = newSize * 2
+                    newSize *= 2
                 }
                 val tmp = mymapping
                 mymapping = IntArray(newSize)

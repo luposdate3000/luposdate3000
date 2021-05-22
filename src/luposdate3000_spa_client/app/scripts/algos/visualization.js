@@ -5,7 +5,8 @@
 // Set of global variables needed for the visualization and sonification
 var sessionId;
 // Variables for the vis network
-var network, networkSon, options, container, containerSon, data, dataSon, dataNodes, dataEdges, dataSetSon, dataSetEdges;
+var network, networkSon, options, container, containerSon, data, dataSon, dataNodes, dataEdges, dataSetSon,
+    dataSetEdges;
 // Variables for the animation
 var stopFlag, pauseFlag; // Flag top stop the current animation process
 var timer;
@@ -28,84 +29,85 @@ if (typeof luposdate3000_endpoint === "undefined") {
 }
 //Initialize all interactive elements and Luposdate3000
 // -> If evaluate Button is clicked
-function visualisationSetup(){
-        //Loading all isntruments and the "none" Option
-        var instrumentList = Object.keys(App.samples);
-        instrumentList.push("None");
-        // loop through instruments and set release, connect to master output
-        for (var property in App.samples) {
-            if (App.samples.hasOwnProperty(property)) {
-                App.samples[property].release = .5;
-                App.samples[property].toDestination();
+function visualisationSetup() {
+    //Loading all isntruments and the "none" Option
+    var instrumentList = Object.keys(App.samples);
+    instrumentList.push("None");
+    // loop through instruments and set release, connect to master output
+    for (var property in App.samples) {
+        if (App.samples.hasOwnProperty(property)) {
+            App.samples[property].release = .5;
+            App.samples[property].toDestination();
+        }
+    }
+    current = App.samples['piano'];
+    current.connect(panner)
+
+    //If network was already build up:
+    //Delete current Animation List and Netowrk
+    if (network != null) {
+        network.destroy();
+        if (networkSon != null) {
+            networkSon.destroy();
+        }
+        globalAnimationList = [];
+        var i;
+        for (i = 0; i <= selectAudio.length - 1; i++) {
+            if (i == 5) {
+                selectAudio[i].value = 'No';
+            } else {
+                selectAudio[i].value = 'None';
             }
         }
-        current = App.samples['piano'];
-        current.connect(panner)
+        $('.results-tab a').click()
+        //First time initialization
+    } else {
+        luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
 
-        //If network was already build up:
-        //Delete current Animation List and Netowrk
-        if (network != null) {
-            network.destroy();
-            if (networkSon != null) {
-                networkSon.destroy();
-            }
-            globalAnimationList = [];
-            var i;
-            for (i = 0; i <= selectAudio.length - 1; i++) {
-                if (i == 5) {
-                    selectAudio[i].value = 'No';
-                } else {
-                    selectAudio[i].value = 'None';
-                }
-            }
-            $('.results-tab a').click()
-            //First time initialization
-        } else {
-            luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
+        //Slider for the Animation Speed
+        slider = new Nexus.Slider('#sonification-animation-speed', {
+            'size': [130, 30],
+            'mode': 'relative', // 'relative' or 'absolute'
+            'min': 40,
+            'max': 1000,
+            'step': 10,
+            'value': 80
+        });
 
-            //Slider for the Animation Speed
-            slider = new Nexus.Slider('#sonification-animation-speed', {
-                'size': [130, 30],
-                'mode': 'relative', // 'relative' or 'absolute'
-                'min': 40,
-                'max': 1000,
-                'step': 10,
-                'value': 80
-            });
+        // Textfield for Animation Speed Slider
+        // And Event Listener
+        $('#sonification-animation-speed-number').val(80);
+        slider.on('change', function (v) {
+            $('#sonification-animation-speed-number').val(v);
+        });
 
-            // Textfield for Animation Speed Slider
-            // And Event Listener
-            $('#sonification-animation-speed-number').val(80);
-            slider.on('change', function(v) {
-                $('#sonification-animation-speed-number').val(v);
-            });
+        //Toogle-Button for the Follow Mode
+        toggle = new Nexus.Toggle('#sonification-follow', {
+            'size': [40, 30],
+            'state': false
+        });
 
-            //Toogle-Button for the Follow Mode
-            toggle = new Nexus.Toggle('#sonification-follow', {
-                'size': [40, 30],
-                'state': false
-            });
+        createMapping();
+    }
 
-            createMapping();
-        }
-
-        //Show necessary elements, hide pause animation Button
-        $('#luposdate3000-graph-tab').show();
-        $('#luposdate3000_play').show();
-        $('#luposdate3000_pause').hide();
-        $('#luposdate3000_stop').hide();
-        $('#luposdate3000_forward').hide();
-        $('#luposdate3000_backward').hide();
+    //Show necessary elements, hide pause animation Button
+    $('#luposdate3000-graph-tab').show();
+    $('#luposdate3000_play').show();
+    $('#luposdate3000_pause').hide();
+    $('#luposdate3000_stop').hide();
+    $('#luposdate3000_forward').hide();
+    $('#luposdate3000_backward').hide();
 }
 
-function visualisationStart(){
-        //Default: Simple Instrument Mode
-        $('#instrumentAdvanced-select').show();
-        //$('#instrumentSimple').prop("checked", true);
-        $('#pitchDynamic').prop("checked", true);
-        $('#dataSorting').prop('checked', false);
+function visualisationStart() {
+    //Default: Simple Instrument Mode
+    $('#instrumentAdvanced-select').show();
+    //$('#instrumentSimple').prop("checked", true);
+    $('#pitchDynamic').prop("checked", true);
+    $('#dataSorting').prop('checked', false);
 
 }
+
 function createMapping() {
     var html = '';
     var i;
@@ -132,7 +134,7 @@ function createMapping() {
         switch (i) {
             case 0:
                 //Pitch
-                selectAudio[i].on('change', function(v) {
+                selectAudio[i].on('change', function (v) {
                     //Pitch
                     if (v.value == 'None') {
                         $('#pitchSettings').hide();
@@ -145,7 +147,7 @@ function createMapping() {
                 break;
             case 1:
                 //Instrument
-                selectAudio[i].on('change', function(v) {
+                selectAudio[i].on('change', function (v) {
                     //Instrument
                     if (v.value == 'None') {
                         $('#instrumentSettings').hide();
@@ -158,7 +160,7 @@ function createMapping() {
                 break;
             case 2:
                 //Loudness
-                selectAudio[i].on('change', function(v) {
+                selectAudio[i].on('change', function (v) {
                     //Loudness
                     if (v.value == 'None') {
                         $('#loudnessSettings').hide();
@@ -171,7 +173,7 @@ function createMapping() {
                 break;
             case 3:
                 //Spatialization
-                selectAudio[i].on('change', function(v) {
+                selectAudio[i].on('change', function (v) {
                     //spatialization
                     if (v.value == 'None') {
                         $('#spatializationSettings').hide();
@@ -184,7 +186,7 @@ function createMapping() {
                 break;
             case 4:
                 //Duration
-                selectAudio[i].on('change', function(v) {
+                selectAudio[i].on('change', function (v) {
                     //Duration
                     if (v.value == 'None') {
                         $('#durationSettings').hide();
@@ -197,7 +199,7 @@ function createMapping() {
                 break;
             case 5:
                 //Melody
-                selectAudio[i].on('change', function(v) {
+                selectAudio[i].on('change', function (v) {
                     //Melody
                     if (v.value == 'No') {
                         $('#melodySettings').hide();
@@ -210,7 +212,7 @@ function createMapping() {
                 break;
             case 6:
                 //Chord
-                selectAudio[i].on('change', function(v) {
+                selectAudio[i].on('change', function (v) {
                     //Chord
                     if (v.value == 'None') {
                         $('#chordSettings').hide();
@@ -223,7 +225,7 @@ function createMapping() {
                 break;
             case 7:
                 //Octave
-                selectAudio[i].on('change', function(v) {
+                selectAudio[i].on('change', function (v) {
                     //Chord
                     if (v.value == 'None') {
                         $('#octaveSettings').hide();
@@ -256,7 +258,7 @@ function evaluateMapping() {
 
 // Event Listener
 // Re-fit the canvas if the "Sonification" tab is clicked
-$('#getLuposdate3000Graphlink').click(function() {
+$('#getLuposdate3000Graphlink').click(function () {
     if ($('#eval-graph-sparql').prop('checked')) {
         sleep(50).then(() => {
             network.redraw();
@@ -268,7 +270,7 @@ $('#getLuposdate3000Graphlink').click(function() {
 //Event Listener
 //Change the Slider value of the Animation Speed if the matching
 //Textfield has changed
-$('#sonification-animation-speed-number').change(function() {
+$('#sonification-animation-speed-number').change(function () {
     var tmp = $('#sonification-animation-speed-number');
     if (tmp.val() >= 40 && tmp.val() <= 1000) {
         slider.value = tmp.val();
@@ -283,13 +285,13 @@ $('#sonification-animation-speed-number').change(function() {
     }
 });
 
-$('#pitchDynamic').click(function() {
+$('#pitchDynamic').click(function () {
     $('#pitchDynamic').prop('checked', true);
     $('#pitchExplicit').prop('checked', false);
     $('#pitchSettingsExplicit').hide();
 });
 
-$('#pitchExplicit').click(function() {
+$('#pitchExplicit').click(function () {
     $('#pitchDynamic').prop('checked', false);
     $('#pitchExplicit').prop('checked', true);
     $('#pitchSettingsExplicit').show();
@@ -298,7 +300,7 @@ $('#pitchExplicit').click(function() {
 //Event Listener
 //Check when the Graph Step Selector is changed if its at the minimum or maximum
 //and is disabling/enabling the up/down Buttons accordingly
-$("#luposdate3000_graph-select").change(function() {
+$("#luposdate3000_graph-select").change(function () {
     var value = $(this).val();
     var index = parseInt($('input[type=radio][name=L3Graph]:checked').val(), 10);
     if (index == 0) {
@@ -328,7 +330,7 @@ $("#luposdate3000_graph-select").change(function() {
 // Event Listener
 // Radio Buttons for Logical/Physical Operator Graph
 // Load matching graph and change the select box
-$('input[type=radio][name=L3Graph]').change(function() {
+$('input[type=radio][name=L3Graph]').change(function () {
     var index = parseInt($(this).val(), 10);
     $("#luposdate3000_graph-select").val(1);
     if (index == 0) {
@@ -350,7 +352,7 @@ $('input[type=radio][name=L3Graph]').change(function() {
 
 });
 
-$('#getLuposdate3000Graphlink').click(function() {
+$('#getLuposdate3000Graphlink').click(function () {
     sleep(50).then(() => {
         network.redraw();
         network.fit();
@@ -358,7 +360,7 @@ $('#getLuposdate3000Graphlink').click(function() {
 });
 
 
-$('#getLuposdate3000GraphSonlink').click(function() {
+$('#getLuposdate3000GraphSonlink').click(function () {
     sleep(50).then(() => {
         loadData(App.physGraph[App.physGraph.length - 1].split("SPLITHERE"), true);
     })
@@ -366,7 +368,7 @@ $('#getLuposdate3000GraphSonlink').click(function() {
 
 //Event Listener
 //Change select menu when down button is clicked
-$('#luposdate3000-op-graph-down').click(function() {
+$('#luposdate3000-op-graph-down').click(function () {
     var value = parseInt($('#luposdate3000_graph-select').val(), 10);
     if (value != 1)
         value--;
@@ -376,7 +378,7 @@ $('#luposdate3000-op-graph-down').click(function() {
 
 //Event Listener
 //Change select menu when up button is clicked
-$('#luposdate3000-op-graph-up').click(function() {
+$('#luposdate3000-op-graph-up').click(function () {
     var value = parseInt($('#luposdate3000_graph-select').val(), 10);
     var index = parseInt($('input[type=radio][name=L3Graph]:checked').val(), 10);
     if (index == 0) {
@@ -392,9 +394,9 @@ $('#luposdate3000-op-graph-up').click(function() {
 
 //Event Listener
 // Trigger animation method when play button is pressed.
-$('#luposdate3000_play').click(function() {
+$('#luposdate3000_play').click(function () {
     if (!pauseFlag) {
-        queue = globalAnimationList.map(function(arr) {
+        queue = globalAnimationList.map(function (arr) {
             return arr.slice();
         });
         currentIndex = 0;
@@ -423,7 +425,7 @@ $('#luposdate3000_play').click(function() {
     pauseFlag = false;
 });
 
-$('#dataSorting').click(function() {
+$('#dataSorting').click(function () {
     //Pitch
     selectAudio[0].value = 'Data-Index';
     selectAudio[1].value = 'None';
@@ -436,7 +438,7 @@ $('#dataSorting').click(function() {
     selectAudio[7].value = 'None';
 });
 
-$('#joinHighlight').click(function() {
+$('#joinHighlight').click(function () {
     selectAudio[0].value = 'None';
     selectAudio[1].value = 'Operator-Type';
     var i;
@@ -457,7 +459,7 @@ $('#joinHighlight').click(function() {
     selectAudio[7].value = 'None';
 })
 
-$('#reset').click(function() {
+$('#reset').click(function () {
     $('#dataSorting').prop('checked', false);
     $('#joinHighlight').prop('checked', false);
     $('#dataVariableDepth').prop('checked', false);
@@ -471,7 +473,7 @@ $('#reset').click(function() {
     selectAudio[7].value = 'None';
 });
 
-$('#dataVariableDepth').click(function() {
+$('#dataVariableDepth').click(function () {
     selectAudio[0].value = 'Data-Variable';
     var i;
     for (i = 0; i <= differentDataVariables.length - 1; i++) {
@@ -508,7 +510,7 @@ $('#dataVariableDepth').click(function() {
 
 //Event Listener
 // Set stopFlag to stop Animation when stop button is pressed
-$('#luposdate3000_stop').click(function() {
+$('#luposdate3000_stop').click(function () {
     $('#getLuposdate3000Graphlink').css("pointer-events", "");
     $('#luposdate3000_stop').hide();
     $('#luposdate3000_play').show();
@@ -534,7 +536,7 @@ $('#luposdate3000_stop').click(function() {
     $('#luposdate3000_backward').prop('disabled', true);
 });
 
-$('#luposdate3000_pause').click(function() {
+$('#luposdate3000_pause').click(function () {
     $('#luposdate3000_stop').show();
     $('#luposdate3000_play').show();
     $('#luposdate3000_pause').hide();
@@ -546,7 +548,7 @@ $('#luposdate3000_pause').click(function() {
 
 });
 
-$('#luposdate3000_forward').click(function() {
+$('#luposdate3000_forward').click(function () {
     dataSet.remove(999);
     queue.shift();
     currentIndex++;
@@ -555,9 +557,9 @@ $('#luposdate3000_forward').click(function() {
     addNewNode();
 });
 
-$('#luposdate3000_backward').click(function() {
+$('#luposdate3000_backward').click(function () {
     dataSet.remove(999);
-    queue = globalAnimationList.map(function(arr) {
+    queue = globalAnimationList.map(function (arr) {
         return arr.slice();
     });
     currentIndex--;
@@ -797,7 +799,7 @@ async function animation(queue) {
 
     //Wait a few miliseconds and then move the node a bit
     sleep(val / 10).then(() => {
-        timer = setInterval(function() {
+        timer = setInterval(function () {
 
             this.pause
 
@@ -954,11 +956,11 @@ function testAjax() {
         'evaluator': "XML_STREAM",
     };
     $.ajax({
-            type: 'POST',
-            url: '/sparql/query',
-            data: formData
-        })
-        .done(function(data) {
+        type: 'POST',
+        url: '/sparql/query',
+        data: formData
+    })
+        .done(function (data) {
             App.resultValue = data;
         });
     return App.resultValue;
@@ -973,11 +975,11 @@ function addCustomContextMenu(networkObject, contextFlag) {
         string = "luposdate3000OP";
     }
     //Apply Event Listener for the right click menus
-    networkObject.on("oncontext", function(params) {
+    networkObject.on("oncontext", function (params) {
         var x, y;
         //If right click is made within the canvas, open custom context menu
         if (typeof params.nodes[0] != 'undefined') {
-            document.getElementById(string).addEventListener('contextmenu', function(e) {
+            document.getElementById(string).addEventListener('contextmenu', function (e) {
                 // Alternative
                 e.preventDefault();
                 x = e.clientX;
@@ -988,14 +990,14 @@ function addCustomContextMenu(networkObject, contextFlag) {
             }, false);
 
             //Event Listener, if mouse is pressed outside the custom context menu
-            document.getElementById(string).addEventListener('mousedown', function(e) {
+            document.getElementById(string).addEventListener('mousedown', function (e) {
                 if (!(e.clientX >= x && e.clientX <= (x + $("#rkm").width()) && e.clientY >= y && e.clientY <= (y + $("#rkm").height()))) {
                     $('#rkm').hide();
                 }
             }, false);
 
             //Event Listener that closes the custom context menu if page is scrolled
-            $(window).scroll(function() {
+            $(window).scroll(function () {
                 $('#rkm').hide();
             });
 
@@ -1005,7 +1007,7 @@ function addCustomContextMenu(networkObject, contextFlag) {
             elem = document.getElementById('luposdate3000_nextOp');
             elem.replaceWith(elem.cloneNode(true));
 
-            document.getElementById("luposdate3000_nextOp").addEventListener('click', function(e) {
+            document.getElementById("luposdate3000_nextOp").addEventListener('click', function (e) {
                 var i;
                 for (i = 1; i <= queue.length - 1; i++) {
                     if (queue[i][0] == params.nodes[0]) {
@@ -1021,9 +1023,9 @@ function addCustomContextMenu(networkObject, contextFlag) {
 
             }, false);
 
-            document.getElementById("luposdate3000_lastOp").addEventListener('click', function(e) {
+            document.getElementById("luposdate3000_lastOp").addEventListener('click', function (e) {
                 var i;
-                queue = globalAnimationList.map(function(arr) {
+                queue = globalAnimationList.map(function (arr) {
                     return arr.slice();
                 });
                 for (i = currentIndex - 1; i >= 0; i--) {
@@ -1057,7 +1059,7 @@ function addCustomContextMenu(networkObject, contextFlag) {
                     ["#900", "#b45f06", "#bf9000", "#38761d", "#134f5c", "#0b5394", "#351c75", "#741b47"],
                     ["#600", "#783f04", "#7f6000", "#274e13", "#0c343d", "#073763", "#20124d", "#4c1130"]
                 ],
-                change: function(color) {
+                change: function (color) {
                     if (dataSet.getIds().includes(params.nodes[0])) {
                         dataSet.update({
                             id: params.nodes[0],

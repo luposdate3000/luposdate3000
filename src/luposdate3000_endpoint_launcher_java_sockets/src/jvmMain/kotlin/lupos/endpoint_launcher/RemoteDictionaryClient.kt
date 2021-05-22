@@ -25,11 +25,11 @@ import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmField val output: IMyOutputStream) : ADictionary() {
-    public override fun isInmemoryOnly(): Boolean = true
-    public override fun delete() {
+    override fun isInmemoryOnly(): Boolean = true
+    override fun delete() {
     }
 
-    public override fun valueToGlobal(value: Int): Int {
+    override fun valueToGlobal(value: Int): Int {
         output.writeInt(3)
         output.writeInt(value)
         output.flush()
@@ -47,7 +47,7 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         output.writeInt(buffer.size)
         output.write(buffer.buf, buffer.size)
         output.flush()
-        var res = input.readInt()
+        val res = input.readInt()
         if (res == DictionaryExt.nullValue) {
             return null
         }
@@ -71,7 +71,7 @@ internal class RemoteDictionaryClient(@JvmField val input: IMyInputStream, @JvmF
         input.read(buffer.buf, len)
     }
 
-    public override fun close() {
+    override fun close() {
         output.writeInt(0)
         output.flush()
         output.close()

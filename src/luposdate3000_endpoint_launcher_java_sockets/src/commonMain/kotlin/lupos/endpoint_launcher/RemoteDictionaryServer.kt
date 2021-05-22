@@ -27,16 +27,16 @@ import lupos.shared_inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary) : ADictionary() {
-    public override fun isInmemoryOnly(): Boolean = true
-    public override fun delete() {
+    override fun isInmemoryOnly(): Boolean = true
+    override fun delete() {
     }
 
-    public override fun close() {
+    override fun close() {
     }
 
     @JvmField
     internal val lock = MyReadWriteLock()
-    public override fun valueToGlobal(value: Int): Int {
+    override fun valueToGlobal(value: Int): Int {
         var res: Int? = 0
         lock.withWriteLock {
             res = dictionary.valueToGlobal(value)
@@ -60,11 +60,10 @@ internal class RemoteDictionaryServer(@JvmField val dictionary: IDictionary) : A
         return dictionary.hasValue(buffer)
     }
 
-    public fun connect(input: IMyInputStream, output: IMyOutputStream) {
-        var buffer = ByteArrayWrapper()
+    fun connect(input: IMyInputStream, output: IMyOutputStream) {
+        val buffer = ByteArrayWrapper()
         loop@ while (true) {
-            val mode = input.readInt()
-            when (mode) {
+            when (input.readInt()) {
                 0 -> {
                     break@loop
                 }
