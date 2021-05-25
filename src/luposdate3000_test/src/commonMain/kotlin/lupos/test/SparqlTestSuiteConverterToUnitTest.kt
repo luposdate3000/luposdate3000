@@ -188,12 +188,12 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
             out.println("            val targetString = File(targetFileName).readAsString()")
             out.println("            val target = MemoryTable.parseFromAny(targetString, targetFileName, op.getQuery())!!")
             if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
-                out.println("            val result = LuposdateEndpoint.evaluateOperatorgraphToResultA(op, buf, EQueryResultToStreamExt.MEMORY_TABLE)")
+                out.println("            val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(op, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
             } else {
                 out.println("            LuposdateEndpoint.evaluateOperatorgraphToResultA(op, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
                 out.println("            val graph = tripleStoreManager.getGraph(\"\")")
                 out.println("            val op2 = graph.getIterator(op.getQuery(), arrayOf(AOPVariable(op.getQuery(), \"s\"), AOPVariable(op.getQuery(), \"p\"), AOPVariable(op.getQuery(), \"o\")), EIndexPatternExt.SPO)")
-                out.println("            val result = LuposdateEndpoint.evaluateOperatorgraphToResultA(op2, buf, EQueryResultToStreamExt.MEMORY_TABLE)")
+                out.println("            val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(op2, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
             }
             val ordered = queryFileContentClean.toLowerCase().contains("order", true)
             out.println("            if (!target.equalsVerbose(result, ${!ordered}, true)) {")
@@ -220,12 +220,12 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
                 out.println("                val targetString = File(targetFileName).readAsString()")
                 out.println("                val target = MemoryTable.parseFromAny(targetString, targetFileName, op.getQuery())!!")
                 if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
-                    out.println("                val result = LuposdateEndpoint.evaluateOperatorgraphToResultA(op, buf, EQueryResultToStreamExt.MEMORY_TABLE)")
+                    out.println("                val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(op, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
                 } else {
                     out.println("                LuposdateEndpoint.evaluateOperatorgraphToResultA(op, buf, EQueryResultToStreamExt.EMPTY_STREAM)")
                     out.println("                val graph = tripleStoreManager.getGraph(\"\")")
                     out.println("                val op2 = graph.getIterator(op.getQuery(), arrayOf(AOPVariable(op.getQuery(), \"s\"), AOPVariable(op.getQuery(), \"p\"), AOPVariable(op.getQuery(), \"o\")), EIndexPatternExt.SPO)")
-                    out.println("                val result = LuposdateEndpoint.evaluateOperatorgraphToResultA(op2, buf, EQueryResultToStreamExt.MEMORY_TABLE)")
+                    out.println("                val result = (LuposdateEndpoint.evaluateOperatorgraphToResultA(op2, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()")
                 }
                 val ordered = queryFileContentClean.toLowerCase().contains("order", true)
                 out.println("                if (!target.equalsVerbose(result, ${!ordered}, true)) {")

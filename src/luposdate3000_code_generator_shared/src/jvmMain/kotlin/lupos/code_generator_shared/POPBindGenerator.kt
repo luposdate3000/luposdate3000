@@ -85,7 +85,9 @@ internal fun generatePOPBind(
     for (variable in variablename) {
         clazz.iteratorClassVariables.add("        var column$variable : LocalIterator? = null")
     }
-    writeFilter(operatorGraph.children[1], null, operatorGraph, clazz.iteratorClassVariables)
+    writeMethod(operatorGraph.children[1],  clazz.iteratorNextBody, clazz.iteratorClassVariables);
+
+    writeFilter(operatorGraph.children[1],  null, operatorGraph, clazz.iteratorClassVariables)
     if (inlineChild) {
         clazz.iteratorClassVariables.addAll(childContainer!!.iteratorClassVariables)
     }

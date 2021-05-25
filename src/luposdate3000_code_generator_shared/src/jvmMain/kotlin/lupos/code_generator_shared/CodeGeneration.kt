@@ -17,6 +17,7 @@
 package lupos.code_generator_shared
 
 import lupos.endpoint.LuposdateEndpoint
+import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.AOPAddition
 import lupos.operator.arithmetik.generated.AOPAnd
 import lupos.operator.arithmetik.generated.AOPBuildInCallSTR
@@ -428,8 +429,50 @@ private fun writeOperatorGraph(
     }
 }
 
+internal fun writeMethod(child: IOPBase, classes: MyPrintWriter?, variables: MutableSet<String>?)
+{
+    /**
+    val mop = MyOperatorPartFactory();
+    val operators = mutableListOf<MyOperator>()
+    OperatorBuilder.build(operators)
+    println("List size" + operators.size)
+    for(op in operators)
+    {
+        if(op.name.equals("Addition"))
+        {
+            val timp = mutableSetOf<String>()
+            val tempVar = mutableSetOf<String>()
+            val target = StringBuilder()
+            println(op.name)
+            op.generate("",EParamRepresentation.ID,timp,target,tempVar);
+            println(target.toString())
+        }
+    }
+    val tmpBuf = ByteArrayWrapper()
+    for(c in child.getChildren())
+    {
+        if(c is AOPVariable)
+        {
+            println(c.getUUID())
+
+        }else if(c is AOPBase)
+        {
+            println(c.getClassname())
+        }
+    }
+    **/
+
+    val target = StringBuilder();
+    generateMethod(child,"", arrayOf(""), "", "", mutableSetOf(""), target, mutableSetOf(""), mutableListOf())
+    //println(target.toString());
+
+
+}
+
+
 // Creates variables and the comparisons to filter, the root variable contains the filters result
 internal fun writeFilter(child: IOPBase, classes: MyPrintWriter?, operatorGraph: OPBase, variables: MutableSet<String>?) {
+
     val tmpBuf = ByteArrayWrapper()
 
     // Call recursively for all children
