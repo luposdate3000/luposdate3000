@@ -20,7 +20,8 @@ var currentIndex;
 var slider, toggle, instrumentSimpleSelect, instrumentSimpleSelectTone;
 var selectArray = [];
 var selectToneArray = [];
-var selectAudio = [];
+var selectAudio={ 
+}
 var audioMapping = [];
 
 const panner = new Tone.Panner(0).toDestination();
@@ -52,8 +53,8 @@ function visualisationSetup() {
         }
         globalAnimationList = [];
         var i;
-        for (i = 0; i <= selectAudio.length - 1; i++) {
-            if (i == 5) {
+        for (i in selectAudio) {
+            if (i == "Melody") {
                 selectAudio[i].value = 'No';
             } else {
                 selectAudio[i].value = 'None';
@@ -111,28 +112,28 @@ function visualisationStart() {
 function createMapping() {
     var html = '';
     var i;
-    for (i = 0; i <= App.operators.audioDimension.length - 1; i++) {
-        html += '<h7>' + App.operators.audioDimension[i] + ' Settings</h7><br><br>';
-        html += '<div nexus-ui=select id=selectAudio-' + i + '></div><br>';
+    for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
+        html += '<div nexus-ui=select id=selectAudio-' + j + '></div><br>';
     }
     $('#instrumentAdvanced-select').html(html);
-    for (i = 0; i <= App.operators.audioDimension.length - 1; i++) {
-        var string = '#selectAudio-' + i;
-        if (i == 5) { //If Melody
-            selectAudio.push(new Nexus.Select(string, {
+    for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
+        var i=App.operators.audioDimension[j]
+        var string = '#selectAudio-' + j;
+        if (i == "Melody") { //If Melody
+            selectAudio[i]=new Nexus.Select(string, {
                 'size': [100, 40],
                 'options': ["No", "Yes"]
 
-            }));
+            });
         } else {
-            selectAudio.push(new Nexus.Select(string, {
+            selectAudio[i]=new Nexus.Select(string, {
                 'size': [100, 40],
                 'options': App.operators.information
 
-            }));
+            });
         }
         switch (i) {
-            case 0:
+            case "Pitch":
                 //Pitch
                 selectAudio[i].on('change', function (v) {
                     //Pitch
@@ -143,9 +144,9 @@ function createMapping() {
                         mappingPitch(v.value);
                     }
                 });
-                $('#selectAudio-0').after($('#pitchSettings'));
+                $(string).after($('#pitchSettings'));
                 break;
-            case 1:
+            case "Instrument":
                 //Instrument
                 selectAudio[i].on('change', function (v) {
                     //Instrument
@@ -156,9 +157,9 @@ function createMapping() {
                         mappingInstrument(v.value);
                     }
                 });
-                $('#selectAudio-1').after($('#instrumentSettings'));
+                $(string).after($('#instrumentSettings'));
                 break;
-            case 2:
+            case "Loudness":
                 //Loudness
                 selectAudio[i].on('change', function (v) {
                     //Loudness
@@ -169,9 +170,9 @@ function createMapping() {
                         mappingLoudness(v.value);
                     }
                 });
-                $('#selectAudio-2').after($('#loudnessSettings'));
+                $(string).after($('#loudnessSettings'));
                 break;
-            case 3:
+            case "Spatialization":
                 //Spatialization
                 selectAudio[i].on('change', function (v) {
                     //spatialization
@@ -182,9 +183,9 @@ function createMapping() {
                         mappingSpatialization(v.value);
                     }
                 });
-                $('#selectAudio-3').after($('#spatializationSettings'));
+                $(string).after($('#spatializationSettings'));
                 break;
-            case 4:
+            case "Duration":
                 //Duration
                 selectAudio[i].on('change', function (v) {
                     //Duration
@@ -195,9 +196,9 @@ function createMapping() {
                         mappingDuration(v.value);
                     }
                 });
-                $('#selectAudio-4').after($('#durationSettings'));
+                $(string).after($('#durationSettings'));
                 break;
-            case 5:
+            case "Melody":
                 //Melody
                 selectAudio[i].on('change', function (v) {
                     //Melody
@@ -208,9 +209,9 @@ function createMapping() {
                         mappingMelody(v.value);
                     }
                 });
-                $('#selectAudio-5').after($('#melodySettings'));
+                $(string).after($('#melodySettings'));
                 break;
-            case 6:
+            case "Chord":
                 //Chord
                 selectAudio[i].on('change', function (v) {
                     //Chord
@@ -221,9 +222,9 @@ function createMapping() {
                         mappingChord(v.value);
                     }
                 });
-                $('#selectAudio-6').after($('#chordSettings'));
+                $(string).after($('#chordSettings'));
                 break;
-            case 7:
+            case "Octave":
                 //Octave
                 selectAudio[i].on('change', function (v) {
                     //Chord
@@ -234,11 +235,10 @@ function createMapping() {
                         mappingOctave(v.value);
                     }
                 });
-                $('#selectAudio-7').after($('#octaveSettings'));
+                $(string).after($('#octaveSettings'));
                 break;
         }
     }
-
     $('#pitchSettings').hide();
     $('#pitchSettingsExplicit').hide();
     $('#instrumentSettings').hide();
@@ -251,7 +251,8 @@ function createMapping() {
 
 function evaluateMapping() {
     var i;
-    for (i = 0; i <= App.operators.audioDimension.length - 1; i++) {
+    for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
+        i = App.operators.audioDimension[j]
         audioMapping[i] = selectAudio[i].value;
     }
 }
@@ -427,20 +428,20 @@ $('#luposdate3000_play').click(function () {
 
 $('#dataSorting').click(function () {
     //Pitch
-    selectAudio[0].value = 'Data-Index';
-    selectAudio[1].value = 'None';
-    selectAudio[2].value = 'None';
+    selectAudio.Pitch.value = 'Data-Index';
+    selectAudio.Instrument.value = 'None';
+    selectAudio.Loudness.value = 'None';
     //Spatalization
-    selectAudio[3].value = 'Query-Progress';
-    selectAudio[4].value = 'None';
-    selectAudio[5].value = 'No';
-    selectAudio[6].value = 'None';
-    selectAudio[7].value = 'None';
+    selectAudio.Spatialization.value = 'Query-Progress';
+    selectAudio.Duration.value = 'None';
+    selectAudio.Melody.value = 'No';
+    selectAudio.Chord.value = 'None';
+    selectAudio.Octave.value = 'None';
 });
 
 $('#joinHighlight').click(function () {
-    selectAudio[0].value = 'None';
-    selectAudio[1].value = 'Operator-Type';
+    selectAudio.Pitch.value = 'None';
+    selectAudio.Instrument.value = 'Operator-Type';
     var i;
     for (i = 0; i <= instrumentOperatorType.length - 1; i++) {
         if (differentTypes[i].includes("TripleStore")) {
@@ -451,39 +452,39 @@ $('#joinHighlight').click(function () {
             instrumentOperatorType[i].value = 'piano';
         }
     }
-    selectAudio[2].value = 'None';
-    selectAudio[3].value = 'None';
-    selectAudio[4].value = 'None';
-    selectAudio[5].value = 'No';
-    selectAudio[6].value = 'None';
-    selectAudio[7].value = 'None';
+    selectAudio.Loudness.value = 'None';
+    selectAudio.Spatialization.value = 'None';
+    selectAudio.Duration.value = 'None';
+    selectAudio.Melody.value = 'No';
+    selectAudio.Chord.value = 'None';
+    selectAudio.Octave.value = 'None';
 })
 
 $('#reset').click(function () {
     $('#dataSorting').prop('checked', false);
     $('#joinHighlight').prop('checked', false);
     $('#dataVariableDepth').prop('checked', false);
-    selectAudio[0].value = 'None';
-    selectAudio[1].value = 'None';
-    selectAudio[2].value = 'None';
-    selectAudio[3].value = 'None';
-    selectAudio[4].value = 'None';
-    selectAudio[5].value = 'No';
-    selectAudio[6].value = 'None';
-    selectAudio[7].value = 'None';
+    selectAudio.Pitch.value = 'None';
+    selectAudio.Instrument.value = 'None';
+    selectAudio.Loudness.value = 'None';
+    selectAudio.Spatialization.value = 'None';
+    selectAudio.Duration.value = 'None';
+    selectAudio.Melody.value = 'No';
+    selectAudio.Chord.value = 'None';
+    selectAudio.Octave.value = 'None';
 });
 
 $('#dataVariableDepth').click(function () {
-    selectAudio[0].value = 'Data-Variable';
+    selectAudio.Pitch.value = 'Data-Variable';
     var i;
     for (i = 0; i <= differentDataVariables.length - 1; i++) {
         pitchDataVariable[i].value = App.operators.frequence[i * 2];
     }
-    selectAudio[1].value = 'None';
-    selectAudio[2].value = 'None';
-    selectAudio[3].value = 'None';
+    selectAudio.Instrument.value = 'None';
+    selectAudio.Loudness.value = 'None';
+    selectAudio.Spatialization.value = 'None';
     $('#pitchExplicit').prop('checked', true);
-    selectAudio[4].value = 'Operator-Depth';
+    selectAudio.Duration.value = 'Operator-Depth';
     for (i = 0; i <= differentPositions.length - 1; i++) {
         switch (i) {
             case 0:
@@ -503,9 +504,9 @@ $('#dataVariableDepth').click(function () {
                 break;
         }
     }
-    selectAudio[5].value = 'No';
-    selectAudio[6].value = 'None';
-    selectAudio[7].value = 'None';
+    selectAudio.Melody.value = 'No';
+    selectAudio.Chord.value = 'None';
+    selectAudio.Octave.value = 'None';
 });
 
 //Event Listener

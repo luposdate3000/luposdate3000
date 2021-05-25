@@ -3,6 +3,9 @@
 	    {
 	        "name": "Luposdate3000 - Browser",
                 "nonstandard": false,
+                "sonification":{
+                    
+                }
 	    },
 	    {
 	        "name": "Luposdate3000 - Endpoint",
