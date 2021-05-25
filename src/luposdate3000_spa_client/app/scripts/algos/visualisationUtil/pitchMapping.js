@@ -132,18 +132,16 @@ function getPitch(string, id, label, index) {
     }
 }
 
-function mappingPitch(string) {
-
-    var o;
-    unusableOperators = [];
-    for (o = 0; o <= dataNodes.length - 1; o++) {
-        if (dataNodes[o].label.includes('AOP') || dataNodes[o].label.includes('OPBaseCompound')) {
-            unusableOperators.push(dataNodes[o].id);
-        }
-    }
+function pitchSetup(){
+App.mappingFunctions.Pitch=function(string){
 
     switch (string) {
-        case 'Simple':
+case "None":
+$('#pitchSettings').hide();
+$('#pitchSettingsExplicit').hide();
+$('#radioPitch').hide();
+                  break;
+  case 'Simple':
             $('#radioPitch').hide();
             $('#pitchSettings').show();
             $('#pitchSettingsExplicit').show();
@@ -328,4 +326,5 @@ function mappingPitch(string) {
             $('#pitchSettingsExplicit').html(html);
             break;
     }
+}
 }

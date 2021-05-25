@@ -94,7 +94,8 @@ function getSpatialization(string, id, label, index) {
     }
 }
 
-function mappingSpatialization(string) {
+function spatializationSetup(){
+App.mappingFunctions.Spatialization=function(string){
     switch (string) {
         case 'None':
             $('#spatializationSettings').hide();
@@ -297,4 +298,5 @@ function mappingSpatialization(string) {
             $('#spatializationSettings').html(html);
             break;
     }
+}
 }

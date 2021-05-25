@@ -94,10 +94,14 @@ function getLoudness(string, id, label, index) {
     }
 }
 
-function mappingLoudness(string) {
+function loudnessSetup(){
+App.mappingFunctions.Loudness=function(string){
     //Show Slider with min&max Loudness
     switch (string) {
-        case 'Simple':
+case "None":
+$('#loudnessSettings').hide();
+                  break;
+  case 'Simple':
             $('#loudnessSettings').show();
             $('#loudnessSettings').empty();
 
@@ -323,4 +327,5 @@ function mappingLoudness(string) {
             });
             break;
     }
+}
 }

@@ -3,7 +3,25 @@
     isMergeView: false
 
 App.init = ->
-
+    App.mappingIdentifiers = {
+        Pitch: '#pitchSettings'
+        Instrument: '#instrumentSettings'
+        Loudness: '#loudnessSettings'
+        Spatialization: '#spatializationSettings'
+        Duration: '#durationSettings'
+        Melody: '#melodySettings'
+        Chord: '#chordSettings'
+        Octave: '#octaveSettings'
+    }
+    App.mappingFunctions = {}
+    chordSetup()
+    durationSetup()
+    instrumentSetup()
+    loudnessSetup()
+    melodySetup()
+    octaveSetup()
+    pitchSetup()
+    spatializationSetup()
 # Rico: Luposdate3000 Graph is disabled at the beginning
     $('#luposdate3000graph-tab').hide()
 

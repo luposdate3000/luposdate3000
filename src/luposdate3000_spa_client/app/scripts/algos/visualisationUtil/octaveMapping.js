@@ -100,7 +100,8 @@ function getOctave(string, id, label, index) {
     }
 }
 
-function mappingOctave(string) {
+function octaveSetup(){
+App.mappingFunctions.Octave=function(string){
     switch (string) {
         case 'None':
             $('#octaveSettings').hide();
@@ -279,4 +280,5 @@ function mappingOctave(string) {
             $('#octaveSettings').html(html);
             break;
     }
+}
 }

@@ -20,8 +20,7 @@ var currentIndex;
 var slider, toggle, instrumentSimpleSelect, instrumentSimpleSelectTone;
 var selectArray = [];
 var selectToneArray = [];
-var selectAudio={ 
-}
+var selectAudio = {}
 var audioMapping = [];
 
 const panner = new Tone.Panner(0).toDestination();
@@ -78,7 +77,7 @@ function visualisationSetup() {
         // Textfield for Animation Speed Slider
         // And Event Listener
         $('#sonification-animation-speed-number').val(80);
-        slider.on('change', function (v) {
+        slider.on('change', function(v) {
             $('#sonification-animation-speed-number').val(v);
         });
 
@@ -113,140 +112,44 @@ function createMapping() {
     var html = '';
     var i;
     for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
+        html += '<h7>' + App.operators.audioDimension[j] + ' Settings</h7><br><br>';
         html += '<div nexus-ui=select id=selectAudio-' + j + '></div><br>';
     }
     $('#instrumentAdvanced-select').html(html);
     for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
-        var i=App.operators.audioDimension[j]
-        var string = '#selectAudio-' + j;
+        var i = App.operators.audioDimension[j]
+        var selectAudioIdentifier = '#selectAudio-' + j;
+        var options=App.operators.information
+        var noValue="None"
         if (i == "Melody") { //If Melody
-            selectAudio[i]=new Nexus.Select(string, {
-                'size': [100, 40],
-                'options': ["No", "Yes"]
-
-            });
-        } else {
-            selectAudio[i]=new Nexus.Select(string, {
-                'size': [100, 40],
-                'options': App.operators.information
-
-            });
+            options=["No", "Yes"]
+            noValue="No"
         }
-        switch (i) {
-            case "Pitch":
-                //Pitch
-                selectAudio[i].on('change', function (v) {
-                    //Pitch
-                    if (v.value == 'None') {
-                        $('#pitchSettings').hide();
-                    } else {
-                        $('#pitchSettings').show();
-                        mappingPitch(v.value);
-                    }
-                });
-                $(string).after($('#pitchSettings'));
-                break;
-            case "Instrument":
-                //Instrument
-                selectAudio[i].on('change', function (v) {
-                    //Instrument
-                    if (v.value == 'None') {
-                        $('#instrumentSettings').hide();
-                    } else {
-                        $('#instrumentSettings').show();
-                        mappingInstrument(v.value);
-                    }
-                });
-                $(string).after($('#instrumentSettings'));
-                break;
-            case "Loudness":
-                //Loudness
-                selectAudio[i].on('change', function (v) {
-                    //Loudness
-                    if (v.value == 'None') {
-                        $('#loudnessSettings').hide();
-                    } else {
-                        $('#loudnessSettings').show();
-                        mappingLoudness(v.value);
-                    }
-                });
-                $(string).after($('#loudnessSettings'));
-                break;
-            case "Spatialization":
-                //Spatialization
-                selectAudio[i].on('change', function (v) {
-                    //spatialization
-                    if (v.value == 'None') {
-                        $('#spatializationSettings').hide();
-                    } else {
-                        $('#spatializationSettings').show();
-                        mappingSpatialization(v.value);
-                    }
-                });
-                $(string).after($('#spatializationSettings'));
-                break;
-            case "Duration":
-                //Duration
-                selectAudio[i].on('change', function (v) {
-                    //Duration
-                    if (v.value == 'None') {
-                        $('#durationSettings').hide();
-                    } else {
-                        $('#durationSettings').show();
-                        mappingDuration(v.value);
-                    }
-                });
-                $(string).after($('#durationSettings'));
-                break;
-            case "Melody":
-                //Melody
-                selectAudio[i].on('change', function (v) {
-                    //Melody
-                    if (v.value == 'No') {
-                        $('#melodySettings').hide();
-                    } else {
-                        $('#melodySettings').show();
-                        mappingMelody(v.value);
-                    }
-                });
-                $(string).after($('#melodySettings'));
-                break;
-            case "Chord":
-                //Chord
-                selectAudio[i].on('change', function (v) {
-                    //Chord
-                    if (v.value == 'None') {
-                        $('#chordSettings').hide();
-                    } else {
-                        $('#chordSettings').show();
-                        mappingChord(v.value);
-                    }
-                });
-                $(string).after($('#chordSettings'));
-                break;
-            case "Octave":
-                //Octave
-                selectAudio[i].on('change', function (v) {
-                    //Chord
-                    if (v.value == 'None') {
-                        $('#octaveSettings').hide();
-                    } else {
-                        $('#octaveSettings').show();
-                        mappingOctave(v.value);
-                    }
-                });
-                $(string).after($('#octaveSettings'));
-                break;
-        }
+            selectAudio[i] = new Nexus.Select(selectAudioIdentifier, {
+                'size': [100, 40],
+                'options': options
+            });
+            selectAudio[i].myIdentifier=App.mappingIdentifiers[i]
+            selectAudio[i].myFunction=App.mappingFunctions[i]
+            selectAudio[i].myNoValue=noValue
+            selectAudio[i].on('change', function(v) {
+                if (v.value == this.myNoValue) {
+                    $(this.myIdentifier).hide();
+                } else {
+                    $(this.myIdentifier).show();
+                }
+                this.myFunction(v.value);
+            });
+            $(selectAudioIdentifier).after($(App.mappingIdentifiers[i]));
     }
-    $('#pitchSettings').hide();
-    $('#pitchSettingsExplicit').hide();
-    $('#instrumentSettings').hide();
-    $('#loudnessSettings').hide();
-    $('#spatializationSettings').hide();
-    $('#durationSettings').hide();
-    $('#melodySettings').hide();
-    $('#chordSettings').hide();
+    selectAudio.Pitch.value = 'None';
+    selectAudio.Instrument.value = 'None';
+    selectAudio.Loudness.value = 'None';
+    selectAudio.Spatialization.value = 'None';
+    selectAudio.Duration.value = 'None';
+    selectAudio.Melody.value = 'No';
+    selectAudio.Chord.value = 'None';
+    selectAudio.Octave.value = 'None';
 }
 
 function evaluateMapping() {
@@ -259,7 +162,7 @@ function evaluateMapping() {
 
 // Event Listener
 // Re-fit the canvas if the "Sonification" tab is clicked
-$('#getLuposdate3000Graphlink').click(function () {
+$('#getLuposdate3000Graphlink').click(function() {
     if ($('#eval-graph-sparql').prop('checked')) {
         sleep(50).then(() => {
             network.redraw();
@@ -271,7 +174,7 @@ $('#getLuposdate3000Graphlink').click(function () {
 //Event Listener
 //Change the Slider value of the Animation Speed if the matching
 //Textfield has changed
-$('#sonification-animation-speed-number').change(function () {
+$('#sonification-animation-speed-number').change(function() {
     var tmp = $('#sonification-animation-speed-number');
     if (tmp.val() >= 40 && tmp.val() <= 1000) {
         slider.value = tmp.val();
@@ -286,13 +189,13 @@ $('#sonification-animation-speed-number').change(function () {
     }
 });
 
-$('#pitchDynamic').click(function () {
+$('#pitchDynamic').click(function() {
     $('#pitchDynamic').prop('checked', true);
     $('#pitchExplicit').prop('checked', false);
     $('#pitchSettingsExplicit').hide();
 });
 
-$('#pitchExplicit').click(function () {
+$('#pitchExplicit').click(function() {
     $('#pitchDynamic').prop('checked', false);
     $('#pitchExplicit').prop('checked', true);
     $('#pitchSettingsExplicit').show();
@@ -301,7 +204,7 @@ $('#pitchExplicit').click(function () {
 //Event Listener
 //Check when the Graph Step Selector is changed if its at the minimum or maximum
 //and is disabling/enabling the up/down Buttons accordingly
-$("#luposdate3000_graph-select").change(function () {
+$("#luposdate3000_graph-select").change(function() {
     var value = $(this).val();
     var index = parseInt($('input[type=radio][name=L3Graph]:checked').val(), 10);
     if (index == 0) {
@@ -331,7 +234,7 @@ $("#luposdate3000_graph-select").change(function () {
 // Event Listener
 // Radio Buttons for Logical/Physical Operator Graph
 // Load matching graph and change the select box
-$('input[type=radio][name=L3Graph]').change(function () {
+$('input[type=radio][name=L3Graph]').change(function() {
     var index = parseInt($(this).val(), 10);
     $("#luposdate3000_graph-select").val(1);
     if (index == 0) {
@@ -353,7 +256,7 @@ $('input[type=radio][name=L3Graph]').change(function () {
 
 });
 
-$('#getLuposdate3000Graphlink').click(function () {
+$('#getLuposdate3000Graphlink').click(function() {
     sleep(50).then(() => {
         network.redraw();
         network.fit();
@@ -361,7 +264,7 @@ $('#getLuposdate3000Graphlink').click(function () {
 });
 
 
-$('#getLuposdate3000GraphSonlink').click(function () {
+$('#getLuposdate3000GraphSonlink').click(function() {
     sleep(50).then(() => {
         loadData(App.physGraph[App.physGraph.length - 1].split("SPLITHERE"), true);
     })
@@ -369,7 +272,7 @@ $('#getLuposdate3000GraphSonlink').click(function () {
 
 //Event Listener
 //Change select menu when down button is clicked
-$('#luposdate3000-op-graph-down').click(function () {
+$('#luposdate3000-op-graph-down').click(function() {
     var value = parseInt($('#luposdate3000_graph-select').val(), 10);
     if (value != 1)
         value--;
@@ -379,7 +282,7 @@ $('#luposdate3000-op-graph-down').click(function () {
 
 //Event Listener
 //Change select menu when up button is clicked
-$('#luposdate3000-op-graph-up').click(function () {
+$('#luposdate3000-op-graph-up').click(function() {
     var value = parseInt($('#luposdate3000_graph-select').val(), 10);
     var index = parseInt($('input[type=radio][name=L3Graph]:checked').val(), 10);
     if (index == 0) {
@@ -395,9 +298,9 @@ $('#luposdate3000-op-graph-up').click(function () {
 
 //Event Listener
 // Trigger animation method when play button is pressed.
-$('#luposdate3000_play').click(function () {
+$('#luposdate3000_play').click(function() {
     if (!pauseFlag) {
-        queue = globalAnimationList.map(function (arr) {
+        queue = globalAnimationList.map(function(arr) {
             return arr.slice();
         });
         currentIndex = 0;
@@ -426,7 +329,7 @@ $('#luposdate3000_play').click(function () {
     pauseFlag = false;
 });
 
-$('#dataSorting').click(function () {
+$('#dataSorting').click(function() {
     //Pitch
     selectAudio.Pitch.value = 'Data-Index';
     selectAudio.Instrument.value = 'None';
@@ -439,7 +342,7 @@ $('#dataSorting').click(function () {
     selectAudio.Octave.value = 'None';
 });
 
-$('#joinHighlight').click(function () {
+$('#joinHighlight').click(function() {
     selectAudio.Pitch.value = 'None';
     selectAudio.Instrument.value = 'Operator-Type';
     var i;
@@ -460,7 +363,7 @@ $('#joinHighlight').click(function () {
     selectAudio.Octave.value = 'None';
 })
 
-$('#reset').click(function () {
+$('#reset').click(function() {
     $('#dataSorting').prop('checked', false);
     $('#joinHighlight').prop('checked', false);
     $('#dataVariableDepth').prop('checked', false);
@@ -474,7 +377,7 @@ $('#reset').click(function () {
     selectAudio.Octave.value = 'None';
 });
 
-$('#dataVariableDepth').click(function () {
+$('#dataVariableDepth').click(function() {
     selectAudio.Pitch.value = 'Data-Variable';
     var i;
     for (i = 0; i <= differentDataVariables.length - 1; i++) {
@@ -511,7 +414,7 @@ $('#dataVariableDepth').click(function () {
 
 //Event Listener
 // Set stopFlag to stop Animation when stop button is pressed
-$('#luposdate3000_stop').click(function () {
+$('#luposdate3000_stop').click(function() {
     $('#getLuposdate3000Graphlink').css("pointer-events", "");
     $('#luposdate3000_stop').hide();
     $('#luposdate3000_play').show();
@@ -537,7 +440,7 @@ $('#luposdate3000_stop').click(function () {
     $('#luposdate3000_backward').prop('disabled', true);
 });
 
-$('#luposdate3000_pause').click(function () {
+$('#luposdate3000_pause').click(function() {
     $('#luposdate3000_stop').show();
     $('#luposdate3000_play').show();
     $('#luposdate3000_pause').hide();
@@ -549,7 +452,7 @@ $('#luposdate3000_pause').click(function () {
 
 });
 
-$('#luposdate3000_forward').click(function () {
+$('#luposdate3000_forward').click(function() {
     dataSet.remove(999);
     queue.shift();
     currentIndex++;
@@ -558,9 +461,9 @@ $('#luposdate3000_forward').click(function () {
     addNewNode();
 });
 
-$('#luposdate3000_backward').click(function () {
+$('#luposdate3000_backward').click(function() {
     dataSet.remove(999);
-    queue = globalAnimationList.map(function (arr) {
+    queue = globalAnimationList.map(function(arr) {
         return arr.slice();
     });
     currentIndex--;
@@ -572,7 +475,7 @@ $('#luposdate3000_backward').click(function () {
 
 //Creates a table on the result Tab and show the results from the query
 function calculateResult() {
-	App.processResults(App.result,"sparql")
+    App.processResults(App.result, "sparql")
 }
 
 //Function to pause the thread.
@@ -760,7 +663,7 @@ async function animation(queue) {
 
     //Wait a few miliseconds and then move the node a bit
     sleep(val / 10).then(() => {
-        timer = setInterval(function () {
+        timer = setInterval(function() {
 
             this.pause
 
@@ -917,11 +820,11 @@ function testAjax() {
         'evaluator': "XML_STREAM",
     };
     $.ajax({
-        type: 'POST',
-        url: '/sparql/query',
-        data: formData
-    })
-        .done(function (data) {
+            type: 'POST',
+            url: '/sparql/query',
+            data: formData
+        })
+        .done(function(data) {
             App.resultValue = data;
         });
     return App.resultValue;
@@ -936,11 +839,11 @@ function addCustomContextMenu(networkObject, contextFlag) {
         string = "luposdate3000OP";
     }
     //Apply Event Listener for the right click menus
-    networkObject.on("oncontext", function (params) {
+    networkObject.on("oncontext", function(params) {
         var x, y;
         //If right click is made within the canvas, open custom context menu
         if (typeof params.nodes[0] != 'undefined') {
-            document.getElementById(string).addEventListener('contextmenu', function (e) {
+            document.getElementById(string).addEventListener('contextmenu', function(e) {
                 // Alternative
                 e.preventDefault();
                 x = e.clientX;
@@ -951,14 +854,14 @@ function addCustomContextMenu(networkObject, contextFlag) {
             }, false);
 
             //Event Listener, if mouse is pressed outside the custom context menu
-            document.getElementById(string).addEventListener('mousedown', function (e) {
+            document.getElementById(string).addEventListener('mousedown', function(e) {
                 if (!(e.clientX >= x && e.clientX <= (x + $("#rkm").width()) && e.clientY >= y && e.clientY <= (y + $("#rkm").height()))) {
                     $('#rkm').hide();
                 }
             }, false);
 
             //Event Listener that closes the custom context menu if page is scrolled
-            $(window).scroll(function () {
+            $(window).scroll(function() {
                 $('#rkm').hide();
             });
 
@@ -968,7 +871,7 @@ function addCustomContextMenu(networkObject, contextFlag) {
             elem = document.getElementById('luposdate3000_nextOp');
             elem.replaceWith(elem.cloneNode(true));
 
-            document.getElementById("luposdate3000_nextOp").addEventListener('click', function (e) {
+            document.getElementById("luposdate3000_nextOp").addEventListener('click', function(e) {
                 var i;
                 for (i = 1; i <= queue.length - 1; i++) {
                     if (queue[i][0] == params.nodes[0]) {
@@ -984,9 +887,9 @@ function addCustomContextMenu(networkObject, contextFlag) {
 
             }, false);
 
-            document.getElementById("luposdate3000_lastOp").addEventListener('click', function (e) {
+            document.getElementById("luposdate3000_lastOp").addEventListener('click', function(e) {
                 var i;
-                queue = globalAnimationList.map(function (arr) {
+                queue = globalAnimationList.map(function(arr) {
                     return arr.slice();
                 });
                 for (i = currentIndex - 1; i >= 0; i--) {
@@ -1020,7 +923,7 @@ function addCustomContextMenu(networkObject, contextFlag) {
                     ["#900", "#b45f06", "#bf9000", "#38761d", "#134f5c", "#0b5394", "#351c75", "#741b47"],
                     ["#600", "#783f04", "#7f6000", "#274e13", "#0c343d", "#073763", "#20124d", "#4c1130"]
                 ],
-                change: function (color) {
+                change: function(color) {
                     if (dataSet.getIds().includes(params.nodes[0])) {
                         dataSet.update({
                             id: params.nodes[0],

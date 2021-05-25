@@ -137,10 +137,13 @@ function getChord(string, id, label, index) {
             break;
     }
 }
-
-function mappingChord(string) {
+function chordSetup(){
+App.mappingFunctions.Chord=function(string) {
     //If for one Operator is no chord set, use the default pitch settings
     switch (string) {
+    case 'None':
+      $('#chordSettings').hide();
+            break;
         case 'Simple':
             $('#chordSettings').show();
             $('#chordSettings').empty();
@@ -369,4 +372,5 @@ function mappingChord(string) {
             });
             break;
     }
+}
 }

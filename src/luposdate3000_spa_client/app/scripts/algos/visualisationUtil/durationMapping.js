@@ -97,10 +97,13 @@ function getDuration(string, id, label, index) {
             break;
     }
 }
-
-function mappingDuration(string) {
+function durationSetup(){
+App.mappingFunctions.Duration=function(string){
     switch (string) {
-        case 'Simple':
+case "None":
+$('#durationSettings').hide();
+                  break;
+  case 'Simple':
             $('#durationSettings').show();
             $('#durationSettings').empty();
 
@@ -277,4 +280,5 @@ function mappingDuration(string) {
             $('#durationSettings').html(html);
             break;
     }
+}
 }

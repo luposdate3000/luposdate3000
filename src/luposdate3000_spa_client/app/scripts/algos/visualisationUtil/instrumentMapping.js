@@ -80,7 +80,8 @@ function getInstrument(string, id, label, index) {
     }
 }
 
-function mappingInstrument(string) {
+function instrumentSetup(){
+App.mappingFunctions.Instrument=function(string){
     switch (string) {
         case 'None':
             $('#instrumentSettings').hide();
@@ -285,3 +286,5 @@ function mappingInstrument(string) {
             break;
     }
 }
+}
+
