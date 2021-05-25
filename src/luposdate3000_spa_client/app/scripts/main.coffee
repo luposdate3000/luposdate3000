@@ -130,6 +130,61 @@ App.showWithGraph = ->
     else
         $('.label-with-graph').show()
 
+
+App.loadluposdate3000 = (data, url) ->
+    queryData = 
+        query: data.query
+        evaluator : "XML_STREAM"
+    $.ajax
+        url: url + 'sparql/startSession'
+        method:"POST"
+        data:queryData
+        success: (sessionID) ->
+            sessionData =
+                sessionID:sessionID
+            $.ajax
+                url: url + 'sparql/getLogicalVisual'
+                method:"POST"
+                data:sessionData
+                success: (logSteps) ->
+                    addLocicalSteps(logSteps)
+                    $.ajax
+                        url: url + 'sparql/getPhysicalVisual'
+                        method:"POST"
+                        data:sessionData
+                        success: (phySteps) ->
+                            addPhysicalSteps(phySteps)
+                            $.ajax
+                                url: url + 'sparql/getVisualisationData'
+                                method:"POST"
+                                data:sessionData
+                                success: (visData) ->
+                                    addAnimationDataSplit(visData)
+                                    $.ajax
+                                        url: url + 'sparql/getResult'
+                                        method:"POST"
+                                        data:sessionData
+                                        success: (resultData) ->
+                                            App.result = resultData
+                                            $.ajax
+                                                url: url + 'sparql/closeSession'
+                                                method:"POST"
+                                                data:sessionData
+                                                success: (closeResponse) ->
+                                                    formatResultData();
+                                                error: (xhr, status, error) ->
+                                                    App.logError error
+                                        error: (xhr, status, error) ->
+                                            App.logError error
+                                error: (xhr, status, error) ->
+                                    App.logError error
+                        error: (xhr, status, error) ->
+                            App.logError error
+                error: (xhr, status, error) ->
+                    App.logError error
+        error: (xhr, status, error) ->
+            App.logError error
+
 App.bindEvents = ->
     $('#getLuposdate3000Graphlink').click ->
         $('#luposdate3000-graph-tab').show()
@@ -266,7 +321,7 @@ App.bindEvents = ->
             version = $('#endpoint_selector').val();
             if (version == 'Luposdate3000 - Browser')
                 if App.config.sendRDF
-                    luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.cm['rdf'].getValue());
+                    luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(data.rdf);
                 eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query)
                 #Receive optimized steps for logical and physical operator graph
                 App.logGraph = eev.getOptimizedStepsLogical();
@@ -281,7 +336,19 @@ App.bindEvents = ->
             else if (version == 'Luposdate3000 - Endpoint')
                 App.setSelectedEndpoint();
                 url = App.config.endpoints[App.config.selectedEndpoint].url;
-                connectToEndpoint(data.query, url);
+                if App.config.sendRDF
+                    rdfData =
+                        data: data.rdf
+                    $.ajax
+                        url: url + 'import/turtledata'
+                        method: "POST"
+                        data: rdfData
+                        success: (loadResponse) ->
+                            App.loadluposdate3000 data, url
+                        error: (xhr, status, error) ->
+                            App.logError error
+                else
+                    App.loadluposdate3000 data, url
             visualisationStart()
         else
             $('#getgraphdata').show()
@@ -393,11 +460,18 @@ App.preprocessResults = (data, namespaces, colors) ->
             if data.XML[0] == ''
                 resultSets.push App.emptyResultSet()
             else
-# In nonstandard we get XML as string
                 try
                     xml = $.parseXML(data.XML[0])
                 catch error
+                    console.log(error)
+# In nonstandard we get XML as string
+    else
+        try
+            xml = $.parseXML(data)
+        catch error
+            console.log(error)
 # Like we care
+
 
     if $.isXMLDoc(xml)
         sparql = App.x2js.xml2json(xml)

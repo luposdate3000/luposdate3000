@@ -27,7 +27,7 @@ import kotlin.jvm.JvmField
 
 public class KeyValueStore public constructor(
     bufferManager: BufferManager,
-    @JvmField    
+    @JvmField
     internal val rootPageID: Int,
     initFromRootPage: Boolean
 ) {

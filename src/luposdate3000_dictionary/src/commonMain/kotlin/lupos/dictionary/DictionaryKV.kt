@@ -34,7 +34,7 @@ import kotlin.jvm.JvmField
 
 public class DictionaryKV internal constructor(
     bufferManager: BufferManager,
-    @JvmField    
+    @JvmField
     internal val rootPageID: Int,
     initFromRootPage: Boolean
 ) : ADictionary() {

@@ -571,47 +571,7 @@ $('#luposdate3000_backward').click(function () {
 
 //Creates a table on the result Tab and show the results from the query
 function calculateResult() {
-    var parser = new DOMParser();
-    var xml = parser.parseFromString(App.result.split("</head>")[1].replace("</sparql>", ""), "text/xml");
-    var variables = App.result.split("<head>\n")[1].split("</head>")[0].replaceAll("variable name=", "").replaceAll(/[<> \"]/g, "").split("\n");
-    var i, j, k;
-
-    var resultshtml = '<h4>Prefixes</h4>';
-    resultshtml += '<table>';
-    for (i = 0; i <= prefixes.length - 1; i++) {
-        resultshtml += '<tr><td>' + prefixes[i][0] + '</td><td>' + prefixes[i][1] + '</td></tr>';
-    }
-    resultshtml += '</table>';
-
-    resultshtml += '<h4>Results (' + xml.getElementsByTagName("result").length + ')</h4>';
-    resultshtml += '<table><tr><td></td>';
-    for (i = 0; i <= variables.length - 2; i++) {
-        resultshtml += '<td>?' + variables[i] + '</td>';
-    }
-    resultshtml += '</tr>';
-    for (i = 0; i <= xml.getElementsByTagName("result").length - 1; i++) {
-        resultshtml += '<tr><td>' + (i + 1) + '</td>';
-        var tmp = [];
-        for (j = 0; j <= xml.getElementsByTagName("result")[i].children.length - 1; j++) {
-            if (!tmp.includes(xml.getElementsByTagName("result")[i].children[j].getAttribute("name"))) {
-                tmp.push(xml.getElementsByTagName("result")[i].children[j].getAttribute("name"));
-                var s = xml.getElementsByTagName("result")[i].children[j].children[0].innerHTML;
-
-                for (k = 0; k <= prefixes.length - 1; k++) {
-                    if (s.includes(prefixes[k][1])) {
-                        var string = s.replaceAll(prefixes[k][1], "" + prefixes[k][0] + ":");
-                        string = string.replaceAll("<", "");
-                        string = string.replaceAll(">", "");
-                        s = string;
-                    }
-                }
-                resultshtml += '<td>' + s + '</td>';
-            }
-        }
-        resultshtml += '</tr>';
-    }
-    resultshtml += '</table>';
-    $('#results-tab').html(resultshtml);
+	App.processResults(App.result,"sparql")
 }
 
 //Function to pause the thread.

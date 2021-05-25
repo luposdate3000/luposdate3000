@@ -56,6 +56,7 @@ git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
     #patch the buildfile to make it executable as JS in Browsers
     sed 's/.*it.compileKotlinTask.kotlinOptions.moduleKind = "commonjs"//g' -i build.gradle.kts
     sed 's/if.*primaryDevelopment.*{/if (true) {/g' -i build.gradle.kts
+    sed 's/^version .*/version = "0.3.1-SNAPSHOT"/g' -i build.gradle.kts
     cd ..
     gradle publishToMavenLocal
 }

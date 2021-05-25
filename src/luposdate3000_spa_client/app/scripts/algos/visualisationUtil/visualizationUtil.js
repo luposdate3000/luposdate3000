@@ -60,101 +60,29 @@ function calcDifferentDataVariables() {
     }
 }
 
-function connectToEndpoint(query, url) {
-    //Import RDF Triple
-    if ($('#send_rdf').is(':checked')) {
-        var formData = {
-            'data': App.cm['rdf'].getValue(),
-        };
-        $.ajax({
-                type: 'POST',
-                url: url + 'import/turtledata',
-                data: formData
-            })
-            .done(function(data) {
-                console.log(data);
-                openEndpointSession(query, url)
-            });
-    }
-}
-
-function openEndpointSession(query, url) {
-    var formData = {
-        'query': query,
-        'evaluator': "XML_STREAM",
-    };
-
-    $.ajax({
-            type: 'POST',
-            url: url + 'sparql/startSession',
-            data: formData
-        })
-        .done(function(data) {
-            getLogicalStepsFromEndpoint(data, url);
-        });
-}
-
-function getLogicalStepsFromEndpoint(sessionID, url) {
-    var formData = {
-        'sessionID': sessionID,
-    };
-
-    $.ajax({
-            type: 'POST',
-            url: url + 'sparql/getLogicalVisual',
-            data: formData
-        })
-        .done(function(data) {
-            var tmp = data;
+function addLocicalSteps(data){
+var tmp=data.split("NEWTREE")
             var i;
-            console.log(tmp);
-            for (i = 0; i <= tmp.split("NEWTREE").length - 2; i++) {
-                App.logGraph.push(tmp.split("NEWTREE")[i]);
+            for (i = 0; i < tmp.length -1; i++) {
+                App.logGraph.push(tmp[i]);
             }
-            getPhysicalStepsFromEndpoint(sessionID, url);
-        });
 }
-
-function getPhysicalStepsFromEndpoint(sessionID, url) {
-    var formData = {
-        'sessionID': sessionID,
-    };
-
-    $.ajax({
-            type: 'POST',
-            url: url + 'sparql/getPhysicalVisual',
-            data: formData
-        })
-        .done(function(data) {
-            var tmp = data;
+function addPhysicalSteps(data){
+var tmp=data.split("NEWTREE")
             var i;
-            console.log(tmp);
-            for (i = 0; i <= tmp.split("NEWTREE").length - 2; i++) {
-                App.physGraph.push(tmp.split("NEWTREE")[i]);
+            for (i = 0; i < tmp.length -1; i++) {
+                App.physGraph.push(tmp[i]);
             }
-            getResultFromEndpoint(sessionID, url);
-        });
 }
 
-function getResultFromEndpoint(sessionID, url) {
-    var formData = {
-        'sessionID': sessionID,
-    };
 
-    $.ajax({
-            type: 'POST',
-            url: url + 'sparql/getResult',
-            data: formData
-        })
-        .done(function(data) {
-            App.result = data;
-            getAnimationDataFromEndpoint(sessionID, url);
-        });
+function addAnimationDataSplit(visData){
+ addAnimationData(visData.split("NEWDATA"));
 }
 function addAnimationData(tmpResult){
 for (i = 0; i <= tmpResult.length - 2; i++) {
                 var tmp;
-                tmp = tmpResult[i].split("NEWDATA")[0].split("||");
+                tmp = tmpResult[i].split("||");
                 tmp[0] = parseInt(tmp[0], 10);
                 tmp[1] = parseInt(tmp[1], 10);
                 tmp[3] = parseInt(tmp[2], 10);
@@ -162,37 +90,6 @@ for (i = 0; i <= tmpResult.length - 2; i++) {
             }
 }
 
-function getAnimationDataFromEndpoint(sessionID, url) {
-    var formData = {
-        'sessionID': sessionID,
-    };
-    $.ajax({
-            type: 'POST',
-            url: url + 'sparql/getVisualisationData',
-            data: formData
-        })
-        .done(function(data) {
-            var tmpResult = data.split("NEWDATA");
-            addAnimationData(tmpResult)
-            closeSessionWithEndpoint(sessionID, url);
-        });
-}
-
-function closeSessionWithEndpoint(sessionID, url) {
-    var formData = {
-        'sessionID': sessionID,
-    };
-
-    $.ajax({
-            type: 'POST',
-            url: url + 'sparql/closeSession',
-            data: formData
-        })
-        .done(function(data) {
-            console.log(data);
-            formatResultData();
-        });
-}
 
 function formatResultData() {
     var c = 0;
