@@ -243,7 +243,11 @@ App.bindEvents = ->
             withGraph = $('#eval-graph-rif').prop('checked')
         endpoint = App.config.endpoints[App.config.selectedEndpoint]
         data =
-            query: $(this).parents('.query').find('.editor').val()
+            query: App.cm['sparql'].getValue();
+        if App.config.sendRDF
+            data['rdf'] = App.cm['rdf'].getValue()
+        else
+            data['rdf'] = ''
         if endpoint.nonstandard
             folder = endpoint[target]
             method = folder[1]
@@ -259,12 +263,11 @@ App.bindEvents = ->
             $('#getLuposdate3000Graph').show()
             $('#getLuposdate3000GraphSon').show()
             visualisationSetup()
-            inputValue = App.cm['sparql'].getValue();
             version = $('#endpoint_selector').val();
             if (version == 'Luposdate3000 - Browser')
                 if App.config.sendRDF
                     luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.cm['rdf'].getValue());
-                eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(inputValue)
+                eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query)
                 #Receive optimized steps for logical and physical operator graph
                 App.logGraph = eev.getOptimizedStepsLogical();
                 App.physGraph = eev.getOptimizedStepsPhysical();
@@ -278,7 +281,7 @@ App.bindEvents = ->
             else if (version == 'Luposdate3000 - Endpoint')
                 App.setSelectedEndpoint();
                 url = App.config.endpoints[App.config.selectedEndpoint].url;
-                connectToEndpoint(inputValue, url);
+                connectToEndpoint(data.query, url);
             visualisationStart()
         else
             $('#getgraphdata').show()
@@ -287,10 +290,6 @@ App.bindEvents = ->
             $('#getLuposdate3000GraphSon').hide()
 
             if endpoint.nonstandard
-                if App.config.sendRDF
-                    data['rdf'] = App.cm['rdf'].getValue()
-                else
-                    data['rdf'] = ''
                 data['formats'] = ['xml', 'plain']
                 # Set query parameters from config
                 for key of App.config['queryParameters']
