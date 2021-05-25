@@ -131,10 +131,11 @@ App.showWithGraph = ->
         $('.label-with-graph').show()
 
 
-App.loadluposdate3000 = (data, url) ->
-    queryData = 
+App.loadluposdate3000 = (data, url,withGraph) ->
+  queryData = 
         query: data.query
         evaluator : "XML_STREAM"
+  if withGraph
     $.ajax
         url: url + 'sparql/startSession'
         method:"POST"
@@ -184,6 +185,15 @@ App.loadluposdate3000 = (data, url) ->
                     App.logError error
         error: (xhr, status, error) ->
             App.logError error
+  else
+                                            $.ajax
+                                                url: url + 'sparql/query'
+                                                method:"POST"
+                                                data:queryData
+                                                success: (xml) ->
+                                                  App.processResults(xml,"sparql")
+                                                error: (xhr, status, error) ->
+                                                    App.logError error
 
 App.bindEvents = ->
     $('#getLuposdate3000Graphlink').click ->
@@ -310,32 +320,35 @@ App.bindEvents = ->
         else
             method = 'GET'
             locator = endpoint.without
-
+        url = endpoint.url+locator 
         if($('#endpoint_selector').val() == 'Luposdate3000 - Browser' || $('#endpoint_selector').val() == 'Luposdate3000 - Endpoint')
             $('#result-tab').show()
             $('#getgraphdata').hide()
             $('#getopgraphdata').hide()
-            $('#getLuposdate3000Graph').show()
-            $('#getLuposdate3000GraphSon').show()
-            visualisationSetup()
+            if withGraph
+              $('#getLuposdate3000Graph').show()
+              $('#getLuposdate3000GraphSon').show()
+              visualisationSetup()
             version = $('#endpoint_selector').val();
             if (version == 'Luposdate3000 - Browser')
                 if App.config.sendRDF
                     luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(data.rdf);
-                eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query)
                 #Receive optimized steps for logical and physical operator graph
-                App.logGraph = eev.getOptimizedStepsLogical();
-                App.physGraph = eev.getOptimizedStepsPhysical();
-                #Result from the query
-                App.result = eev.getResult();
-                eev.closeEEV();
-                eev.initEEV();
-                tmpResult = eev.getDataSteps();
-                addAnimationData(tmpResult)
-                formatResultData();
+                if withGraph
+                  eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query)
+                  App.logGraph = eev.getOptimizedStepsLogical();
+                  App.physGraph = eev.getOptimizedStepsPhysical();
+                  #Result from the query
+                  App.result = eev.getResult();
+                  eev.closeEEV();
+                  eev.initEEV();
+                  tmpResult = eev.getDataSteps();
+                  addAnimationData(tmpResult)
+                  formatResultData();
+                else
+                  res = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(data.query)
+                  App.processResults(res,"sparql")
             else if (version == 'Luposdate3000 - Endpoint')
-                App.setSelectedEndpoint();
-                url = App.config.endpoints[App.config.selectedEndpoint].url;
                 if App.config.sendRDF
                     rdfData =
                         data: data.rdf
@@ -344,11 +357,11 @@ App.bindEvents = ->
                         method: "POST"
                         data: rdfData
                         success: (loadResponse) ->
-                            App.loadluposdate3000 data, url
+                            App.loadluposdate3000 data, url,withGraph
                         error: (xhr, status, error) ->
                             App.logError error
                 else
-                    App.loadluposdate3000 data, url
+                    App.loadluposdate3000 data, url,withGraph
             visualisationStart()
         else
             $('#getgraphdata').show()
@@ -369,7 +382,6 @@ App.bindEvents = ->
             # Nonstandard endpoints expect JSON-string as request body
             # data = JSON.stringify(data)
 
-            url = "#{App.config.endpoints[App.config.selectedEndpoint].url}#{locator}"
 
             if withGraph
 #            $('.query .get-graph').trigger("click");
