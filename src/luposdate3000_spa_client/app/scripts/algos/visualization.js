@@ -21,7 +21,7 @@ var slider, toggle, instrumentSimpleSelect, instrumentSimpleSelectTone;
 var selectArray = [];
 var selectToneArray = [];
 var selectAudio = {}
-var audioMapping = [];
+var audioMapping = {};
 
 const panner = new Tone.Panner(0).toDestination();
 if (typeof luposdate3000_endpoint === "undefined") {
@@ -153,7 +153,6 @@ function createMapping() {
 }
 
 function evaluateMapping() {
-    var i;
     for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
         i = App.operators.audioDimension[j]
         audioMapping[i] = selectAudio[i].value;
@@ -533,14 +532,14 @@ function receiveAnimation(childUUID, parentUUID, string, index) {
 function playNoteMapping(id, label, index) {
     evaluateMapping();
 
-    var pitchType = audioMapping[0];
-    var instrumentType = audioMapping[1];
-    var loudnessType = audioMapping[2];
-    var spatializationType = audioMapping[3];
-    var durationType = audioMapping[4];
-    var melodyType = audioMapping[5];
-    var chordType = audioMapping[6];
-    var octaveType = audioMapping[7];
+    var pitchType = audioMapping.Pitch;
+    var instrumentType = audioMapping.Instrument;
+    var loudnessType = audioMapping.Loudness;
+    var spatializationType = audioMapping.Spatialization;
+    var durationType = audioMapping.Duration;
+    var melodyType = audioMapping.Melody;
+    var chordType = audioMapping.Chord;
+    var octaveType = audioMapping.Octave;
 
     var tone, velocity, duration, octave;
 
