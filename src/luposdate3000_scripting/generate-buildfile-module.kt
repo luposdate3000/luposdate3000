@@ -336,6 +336,9 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             if (moduleArgs.compilerVersion.contains("SNAPSHOT")) {
                 return
             }
+            if (!moduleArgs.compilerVersion.startsWith("1.4")) {
+                return // currently there is no 1.5 plugin from jetbrains
+            }
         }
         var shortFolder = "./${moduleArgs.moduleName}"
         shortFolder = shortFolder.substring(shortFolder.lastIndexOf("/") + 1)
