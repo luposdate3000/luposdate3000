@@ -73,10 +73,10 @@ gulp.task('concatJS', function() {
                 "bower_components/codemirror/addon/edit/closebrackets.js", // automatically add a closing bracket if you type an opening bracket
                 "bower_components/x2js/xml2json.min.js",
                 "bower_components/please-wait/build/please-wait.js", // load screen
-                "node_modules/tone/build/Tone.js", // used by sonification
-                "node_modules/tonejs-instruments#8ec9f43d6f07fdeb15e684df5a6c7efa2c3eedf6/Tonejs-Instruments.js", // used by sonification
+                "node_modules/tone/build/Tone.js", // used by sonification - sound library
+                "node_modules/tonejs-instruments#8ec9f43d6f07fdeb15e684df5a6c7efa2c3eedf6/Tonejs-Instruments.js", // used by sonification - instrument-sound files lib
                 "app/scripts/algos/visualisationUtil/vis-network.min.js", // used by sonification
-                "node_modules/nexusui/dist/NexusUI.js", // used by sonification
+                "node_modules/nexusui/dist/NexusUI.js", // used by sonification - config-sliders and checkboxes
                 "app/scripts/algos/visualisationUtil/visualizationUtil.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/pitchMapping.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/spatializationMapping.js", // used by sonification
