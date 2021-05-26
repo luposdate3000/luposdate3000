@@ -383,13 +383,19 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("        classpath(\"com.guardsquare:proguard-gradle:7.1.0-beta3\")")
                 out.println("    }")
                 out.println("}")
-                for (d in commonDependencies) {
+                val allDep = mutableSetOf<String>()
+                allDep.addAll(commonDependencies)
+                allDep.addAll(jsDependencies)
+                allDep.addAll(jvmDependencies)
+                allDep.addAll(nativeDependencies)
+                allDep.addAll(moduleArgs.dependenciesJvmRecoursive)
+                for (d in allDep) {
                     if (d.startsWith("luposdate3000")) {
                         var t = d.substring("luposdate3000:".length, d.lastIndexOf(":")).toLowerCase()
                         if (t.contains("#")) {
                             t = t.substring(0, t.indexOf("#"))
                         }
-                        out.println("    evaluationDependsOn(\":src:${t}\")")
+                        out.println("evaluationDependsOn(\":src:${t}\")")
                     }
                 }
                 out.println("plugins {")
