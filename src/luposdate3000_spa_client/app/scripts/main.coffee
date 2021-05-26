@@ -599,7 +599,7 @@ App.processResults = (data, lang) ->
                     for bind,bindIndex in result
                         resultTab += "            <td>"
                         resultTab += bind
-                        resultTab += "</td>"s
+                        resultTab += "</td>"
                     resultTab += "        </tr>"
                 resultTab += "    </tbody>"
                 resultTab += "</table>"
