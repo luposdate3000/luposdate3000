@@ -1,27 +1,27 @@
 <%= JST['results/prefixes']({prefixes: prefixes, colors: colors}) %>
 
 <% _.each(resultSets, function(resultSet) { %>
-    <h4><%= resultSet.name %> (<%= resultSet.results.length %>)</h4>
-    <% if(resultSet.results.length) { %>
-    <table class="results">
-        <thead>
-            <tr>
+<h4><%= resultSet.name %> (<%= resultSet.results.length %>)</h4>
+<% if(resultSet.results.length) { %>
+<table class="results">
+    <thead>
+        <tr>
             <% _.each(resultSet.head, function(variable) { %>
-                <th>
+            <th>
                 <%= _.escape(variable) %>
-                </th>
+            </th>
             <% }); %>
-            </tr>
-        </thead>
-        <tbody>
-            <% _.each(resultSet.results, function(result) { %>
-                <tr>
-                    <% _.each(result, function(bind) { %>
-                        <td><%= bind %></td>
-                    <% }); %>
-                </tr>
+        </tr>
+    </thead>
+    <tbody>
+        <% _.each(resultSet.results, function(result) { %>
+        <tr>
+            <% _.each(result, function(bind) { %>
+            <td><%= bind %></td>
             <% }); %>
-        </tbody>
-    </table>
-    <% }; %>
+        </tr>
+        <% }); %>
+    </tbody>
+</table>
+<% }; %>
 <% }); %>

@@ -60,34 +60,36 @@ function calcDifferentDataVariables() {
     }
 }
 
-function addLocicalSteps(data){
-var tmp=data.split("NEWTREE")
-            var i;
-            for (i = 0; i < tmp.length -1; i++) {
-                App.logGraph.push(tmp[i]);
-            }
+function addLocicalSteps(data) {
+    var tmp = data.split("NEWTREE")
+    var i;
+    for (i = 0; i < tmp.length - 1; i++) {
+        App.logGraph.push(tmp[i]);
+    }
 }
-function addPhysicalSteps(data){
-var tmp=data.split("NEWTREE")
-            var i;
-            for (i = 0; i < tmp.length -1; i++) {
-                App.physGraph.push(tmp[i]);
-            }
+
+function addPhysicalSteps(data) {
+    var tmp = data.split("NEWTREE")
+    var i;
+    for (i = 0; i < tmp.length - 1; i++) {
+        App.physGraph.push(tmp[i]);
+    }
 }
 
 
-function addAnimationDataSplit(visData){
- addAnimationData(visData.split("NEWDATA"));
+function addAnimationDataSplit(visData) {
+    addAnimationData(visData.split("NEWDATA"));
 }
-function addAnimationData(tmpResult){
-for (i = 0; i <= tmpResult.length - 2; i++) {
-                var tmp;
-                tmp = tmpResult[i].split("||");
-                tmp[0] = parseInt(tmp[0], 10);
-                tmp[1] = parseInt(tmp[1], 10);
-                tmp[3] = parseInt(tmp[2], 10);
-                globalAnimationList.push(tmp);
-            }
+
+function addAnimationData(tmpResult) {
+    for (i = 0; i <= tmpResult.length - 2; i++) {
+        var tmp;
+        tmp = tmpResult[i].split("||");
+        tmp[0] = parseInt(tmp[0], 10);
+        tmp[1] = parseInt(tmp[1], 10);
+        tmp[3] = parseInt(tmp[2], 10);
+        globalAnimationList.push(tmp);
+    }
 }
 
 

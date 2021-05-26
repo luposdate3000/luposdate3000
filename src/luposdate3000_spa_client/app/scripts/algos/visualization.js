@@ -110,35 +110,36 @@ function createMapping() {
     for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
         var i = App.operators.audioDimension[j]
         var selectAudioIdentifier = '#selectAudio-' + j;
-        var options=App.operators.information
-        var noValue="None"
+        var options = App.operators.information
+        var noValue = "None"
         if (i == "Melody") { //If Melody
-            options=["No", "Yes"]
-            noValue="No"
+            options = ["No", "Yes"]
+            noValue = "No"
         }
-            selectAudio[i] = new Nexus.Select(selectAudioIdentifier, {
-                'size': [100, 40],
-                'options': options
-            });
-            selectAudio[i].myIdentifier=App.mappingIdentifiers[i]
-            selectAudio[i].myFunction=App.mappingFunctions[i]
-            selectAudio[i].myNoValue=noValue
-            selectAudio[i].on('change', function(v) { //initialise listener
-                if (v.value == this.myNoValue) {
-                    $(this.myIdentifier).hide();
-                } else {
-                    $(this.myIdentifier).show();
-                }
-                this.myFunction(v.value);
-            });
-            $(selectAudioIdentifier).after($(App.mappingIdentifiers[i])); //positioning of the html
+        selectAudio[i] = new Nexus.Select(selectAudioIdentifier, {
+            'size': [100, 40],
+            'options': options
+        });
+        selectAudio[i].myIdentifier = App.mappingIdentifiers[i]
+        selectAudio[i].myFunction = App.mappingFunctions[i]
+        selectAudio[i].myNoValue = noValue
+        selectAudio[i].on('change', function(v) { //initialise listener
+            if (v.value == this.myNoValue) {
+                $(this.myIdentifier).hide();
+            } else {
+                $(this.myIdentifier).show();
+            }
+            this.myFunction(v.value);
+        });
+        $(selectAudioIdentifier).after($(App.mappingIdentifiers[i])); //positioning of the html
     }
-selectMapping()
+    selectMapping()
 }
-function selectMapping(){
+
+function selectMapping() {
     for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
         var i = App.operators.audioDimension[j]
-         selectAudio[i].value=App.config.sonification[i].mode
+        selectAudio[i].value = App.config.sonification[i].mode
     }
 }
 
@@ -313,7 +314,7 @@ $('#luposdate3000_play').click(function() {
 });
 
 $('#dataSorting').click(function() {
- App.config.sonification={
+    App.config.sonification = {
         "Pitch": {
             "mode": "Data-Index",
         },
@@ -343,7 +344,7 @@ $('#dataSorting').click(function() {
 });
 
 $('#joinHighlight').click(function() {
- App.config.sonification={
+    App.config.sonification = {
         "Pitch": {
             "mode": "None",
         },
@@ -368,7 +369,7 @@ $('#joinHighlight').click(function() {
         "Octave": {
             "mode": "None",
         },
-    } 
+    }
     selectMapping()
     var i;
     for (i = 0; i <= instrumentOperatorType.length - 1; i++) {
@@ -383,10 +384,11 @@ $('#joinHighlight').click(function() {
 })
 
 $('#reset').click(function() {
-resetAllSonificationSettings()
+    resetAllSonificationSettings()
 })
-function resetAllSonificationSettings(){
-App.config.sonification={
+
+function resetAllSonificationSettings() {
+    App.config.sonification = {
         "Pitch": {
             "mode": "None",
         },
@@ -411,7 +413,7 @@ App.config.sonification={
         "Octave": {
             "mode": "None",
         },
-    } 
+    }
     selectMapping()
     $('#dataSorting').prop('checked', false);
     $('#joinHighlight').prop('checked', false);
@@ -419,7 +421,7 @@ App.config.sonification={
 }
 
 $('#dataVariableDepth').click(function() {
-App.config.sonification={
+    App.config.sonification = {
         "Pitch": {
             "mode": "Data-Variable",
         },
@@ -444,7 +446,7 @@ App.config.sonification={
         "Octave": {
             "mode": "None",
         },
-    } 
+    }
     selectMapping()
     var i;
     for (i = 0; i <= differentDataVariables.length - 1; i++) {

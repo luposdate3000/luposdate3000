@@ -132,199 +132,199 @@ function getPitch(string, id, label, index) {
     }
 }
 
-function pitchSetup(){
-App.mappingFunctions.Pitch=function(string){
-App.config.sonification.Pitch.mode=string
-    switch (string) {
-case "None":
-$('#pitchSettings').hide();
-$('#pitchSettingsExplicit').hide();
-$('#radioPitch').hide();
-                  break;
-  case 'Simple':
-            $('#radioPitch').hide();
-            $('#pitchSettings').show();
-            $('#pitchSettingsExplicit').show();
-            $('#pitchSettingsExplicit').empty();
+function pitchSetup() {
+    App.mappingFunctions.Pitch = function(string) {
+        App.config.sonification.Pitch.mode = string
+        switch (string) {
+            case "None":
+                $('#pitchSettings').hide();
+                $('#pitchSettingsExplicit').hide();
+                $('#radioPitch').hide();
+                break;
+            case 'Simple':
+                $('#radioPitch').hide();
+                $('#pitchSettings').show();
+                $('#pitchSettingsExplicit').show();
+                $('#pitchSettingsExplicit').empty();
 
-            var html = '';
-            html += '<h7>Select a global setting.</h7><br><br>';
-            html += '<div style=overflow:hidden;>'
-            html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
-            html += '<div nexus-ui=select id=pitchSimple style=float:left;margin-right:10px;></div>';
-            html += '</div>';
+                var html = '';
+                html += '<h7>Select a global setting.</h7><br><br>';
+                html += '<div style=overflow:hidden;>'
+                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
+                html += '<div nexus-ui=select id=pitchSimple style=float:left;margin-right:10px;></div>';
+                html += '</div>';
 
-            $('#pitchSettingsExplicit').html(html);
+                $('#pitchSettingsExplicit').html(html);
 
-            pitchSimple = new Nexus.Select('#pitchSimple', {
-                'size': [100, 40],
-                'options': App.operators.frequence
-            });
-            break;
-        case 'Operator-ID':
-            $('#radioPitch').show();
-            $('#pitchSettings').show();
-            $('#pitchSettingsExplicit').empty();
-            var html = '<hr>';
-            var i;
-            for (i = 0; i <= dataNodes.length - 1; i++) {
-                if (!(dataNodes[i].label.includes('AOP') || dataNodes[i].label.includes('OPBaseCompound'))) {
-                    html += '<h7>' + dataNodes[i].label.split("\n")[0] + '</h7><br>';
-                    html += '<div style=overflow:hidden;>';
+                pitchSimple = new Nexus.Select('#pitchSimple', {
+                    'size': [100, 40],
+                    'options': App.operators.frequence
+                });
+                break;
+            case 'Operator-ID':
+                $('#radioPitch').show();
+                $('#pitchSettings').show();
+                $('#pitchSettingsExplicit').empty();
+                var html = '<hr>';
+                var i;
+                for (i = 0; i <= dataNodes.length - 1; i++) {
+                    if (!(dataNodes[i].label.includes('AOP') || dataNodes[i].label.includes('OPBaseCompound'))) {
+                        html += '<h7>' + dataNodes[i].label.split("\n")[0] + '</h7><br>';
+                        html += '<div style=overflow:hidden;>';
+                        html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
+                        html += '<div nexus-ui=select id=pitchOperator-' + i + ' style=float:left;margin-right:10px;></div>';
+                        html += '</div>';
+                    }
+                }
+                pitchOperator = [];
+                $('#pitchSettingsExplicit').html(html);
+                for (i = 0; i <= dataNodes.length - 1; i++) {
+                    if (!(dataNodes[i].label.includes('AOP') || dataNodes[i].label.includes('OPBaseCompound'))) {
+                        var string = '#pitchOperator-' + i;
+                        pitchOperator.push(new Nexus.Select(string, {
+                            'size': [100, 40],
+                            'options': App.operators.frequence
+
+                        }));
+                    }
+                }
+                break;
+            case 'Operator-Depth':
+                $('#radioPitch').show();
+                $('#pitchSettings').show();
+                $('#pitchSettingsExplicit').empty();
+                var html = '<hr>';
+
+                calcDifferentPositions();
+
+                for (i = 0; i <= differentPositions.length - 1; i++) {
+                    html += '<h7>Layer ' + i + '</h7><br>';
+                    html += '<div style=overflow:hidden;>'
                     html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
-                    html += '<div nexus-ui=select id=pitchOperator-' + i + ' style=float:left;margin-right:10px;></div>';
+                    html += '<div nexus-ui=select id=pitchOperatorDepth-' + i + ' style=float:left;margin-right:10px;></div>';
                     html += '</div>';
                 }
-            }
-            pitchOperator = [];
-            $('#pitchSettingsExplicit').html(html);
-            for (i = 0; i <= dataNodes.length - 1; i++) {
-                if (!(dataNodes[i].label.includes('AOP') || dataNodes[i].label.includes('OPBaseCompound'))) {
-                    var string = '#pitchOperator-' + i;
-                    pitchOperator.push(new Nexus.Select(string, {
+                pitchOperatorDepth = [];
+                $('#pitchSettingsExplicit').html(html);
+                for (i = 0; i <= differentPositions.length - 1; i++) {
+                    var string = '#pitchOperatorDepth-' + i;
+                    pitchOperatorDepth.push(new Nexus.Select(string, {
                         'size': [100, 40],
                         'options': App.operators.frequence
-
                     }));
                 }
-            }
-            break;
-        case 'Operator-Depth':
-            $('#radioPitch').show();
-            $('#pitchSettings').show();
-            $('#pitchSettingsExplicit').empty();
-            var html = '<hr>';
+                break;
+            case 'Operator-Type':
+                $('#radioPitch').hide();
+                $('#pitchSettings').show();
+                $('#pitchExplicit').prop('checked', true);
+                $('#pitchDynamic').prop('checked', false);
+                $('#pitchSettingsExplicit').show();
+                $('#pitchSettingsExplicit').empty();
+                var html = '';
 
-            calcDifferentPositions();
+                calcDifferentTypes();
+                var i;
 
-            for (i = 0; i <= differentPositions.length - 1; i++) {
-                html += '<h7>Layer ' + i + '</h7><br>';
-                html += '<div style=overflow:hidden;>'
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
-                html += '<div nexus-ui=select id=pitchOperatorDepth-' + i + ' style=float:left;margin-right:10px;></div>';
-                html += '</div>';
-            }
-            pitchOperatorDepth = [];
-            $('#pitchSettingsExplicit').html(html);
-            for (i = 0; i <= differentPositions.length - 1; i++) {
-                var string = '#pitchOperatorDepth-' + i;
-                pitchOperatorDepth.push(new Nexus.Select(string, {
-                    'size': [100, 40],
-                    'options': App.operators.frequence
-                }));
-            }
-            break;
-        case 'Operator-Type':
-            $('#radioPitch').hide();
-            $('#pitchSettings').show();
-            $('#pitchExplicit').prop('checked', true);
-            $('#pitchDynamic').prop('checked', false);
-            $('#pitchSettingsExplicit').show();
-            $('#pitchSettingsExplicit').empty();
-            var html = '';
-
-            calcDifferentTypes();
-            var i;
-
-            for (i = 0; i <= differentTypes.length - 1; i++) {
-                html += '<h7>Type: ' + differentTypes[i] + '</h7><br>';
-                html += '<div style=overflow:hidden;>'
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
-                html += '<div nexus-ui=select id=pitchOperatorType-' + i + ' style=float:left;margin-right:10px;></div>';
-                html += '</div>';
-            }
-
-            pitchOperatorType = [];
-            $('#pitchSettingsExplicit').html(html);
-            for (i = 0; i <= differentTypes.length - 1; i++) {
-                var string = '#pitchOperatorType-' + i;
-                pitchOperatorType.push(new Nexus.Select(string, {
-                    'size': [100, 40],
-                    'options': App.operators.frequence
-                }));
-            }
-            break;
-        case 'Operator-Variable':
-            $('#radioPitch').hide();
-            $('#pitchSettings').show();
-            $('#pitchExplicit').prop('checked', true);
-            $('#pitchDynamic').prop('checked', false);
-            $('#pitchSettingsExplicit').show();
-            $('#pitchSettingsExplicit').empty();
-            var html = '';
-            var i;
-            calcDifferentOperatorVariables();
-
-            for (i = 0; i <= differentOperatorVariables.length - 1; i++) {
-                html += '<h7>Variable: ' + differentOperatorVariables[i] + '</h7><br>';
-                html += '<div style=overflow:hidden;>'
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
-                html += '<div nexus-ui=select id=pitchOperatorVariable-' + i + ' style=float:left;margin-right:10px;></div>';
-                html += '</div>';
-            }
-
-            pitchOperatorVariable = [];
-            $('#pitchSettingsExplicit').html(html);
-            for (i = 0; i <= differentOperatorVariables.length - 1; i++) {
-                var string = '#pitchOperatorVariable-' + i;
-                pitchOperatorVariable.push(new Nexus.Select(string, {
-                    'size': [100, 40],
-                    'options': App.operators.frequence
-                }));
-            }
-            break;
-        case 'Data-Index':
-            $('#radioPitch').hide();
-            $('#pitchSettings').show();
-            $('#pitchExplicit').prop('checked', true);
-            $('#pitchDynamic').prop('checked', false);
-            $('#pitchSettingsExplicit').show();
-            $('#pitchSettingsExplicit').empty();
-            var html = '<h7>Data index will be mapped to the note.</h7>';
-            $('#pitchSettingsExplicit').html(html);
-            break;
-        case 'Data-Variable':
-            $('#radioPitch').hide();
-            $('#pitchSettings').show();
-            $('#pitchSettingsExplicit').empty();
-            $('#pitchSettingsExplicit').show();
-            var html = '';
-            var i;
-            differentDataVariables = [];
-            for (i = 0; i <= globalAnimationList.length - 1; i++) {
-                if (!differentDataVariables.includes(globalAnimationList[i][2].split(" ")[0])) {
-                    differentDataVariables.push(globalAnimationList[i][2].split(" ")[0]);
+                for (i = 0; i <= differentTypes.length - 1; i++) {
+                    html += '<h7>Type: ' + differentTypes[i] + '</h7><br>';
+                    html += '<div style=overflow:hidden;>'
+                    html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
+                    html += '<div nexus-ui=select id=pitchOperatorType-' + i + ' style=float:left;margin-right:10px;></div>';
+                    html += '</div>';
                 }
-            }
 
-            for (i = 0; i <= differentDataVariables.length - 1; i++) {
-                html += '<h7>Variable: ' + differentDataVariables[i] + '</h7><br>';
-                html += '<div style=overflow:hidden;>'
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
-                html += '<div nexus-ui=select id=pitchDataVariable-' + i + ' style=float:left;margin-right:10px;></div>';
-                html += '</div>';
-            }
+                pitchOperatorType = [];
+                $('#pitchSettingsExplicit').html(html);
+                for (i = 0; i <= differentTypes.length - 1; i++) {
+                    var string = '#pitchOperatorType-' + i;
+                    pitchOperatorType.push(new Nexus.Select(string, {
+                        'size': [100, 40],
+                        'options': App.operators.frequence
+                    }));
+                }
+                break;
+            case 'Operator-Variable':
+                $('#radioPitch').hide();
+                $('#pitchSettings').show();
+                $('#pitchExplicit').prop('checked', true);
+                $('#pitchDynamic').prop('checked', false);
+                $('#pitchSettingsExplicit').show();
+                $('#pitchSettingsExplicit').empty();
+                var html = '';
+                var i;
+                calcDifferentOperatorVariables();
 
-            pitchDataVariable = [];
-            $('#pitchSettingsExplicit').html(html);
-            for (i = 0; i <= differentDataVariables.length - 1; i++) {
-                var string = '#pitchDataVariable-' + i;
-                pitchDataVariable.push(new Nexus.Select(string, {
-                    'size': [100, 40],
-                    'options': App.operators.frequence
-                }));
-            }
-            break;
-        case 'Query-Progress':
-            $('#radioPitch').hide();
-            $('#pitchSettings').show();
-            $('#pitchExplicit').prop('checked', true);
-            $('#pitchDynamic').prop('checked', false);
-            $('#pitchSettingsExplicit').show();
-            $('#pitchSettingsExplicit').empty();
-            var html = '<h7>Query progress will be mapped to the note.</h7>';
-            $('#pitchSettingsExplicit').html(html);
-            break;
+                for (i = 0; i <= differentOperatorVariables.length - 1; i++) {
+                    html += '<h7>Variable: ' + differentOperatorVariables[i] + '</h7><br>';
+                    html += '<div style=overflow:hidden;>'
+                    html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
+                    html += '<div nexus-ui=select id=pitchOperatorVariable-' + i + ' style=float:left;margin-right:10px;></div>';
+                    html += '</div>';
+                }
+
+                pitchOperatorVariable = [];
+                $('#pitchSettingsExplicit').html(html);
+                for (i = 0; i <= differentOperatorVariables.length - 1; i++) {
+                    var string = '#pitchOperatorVariable-' + i;
+                    pitchOperatorVariable.push(new Nexus.Select(string, {
+                        'size': [100, 40],
+                        'options': App.operators.frequence
+                    }));
+                }
+                break;
+            case 'Data-Index':
+                $('#radioPitch').hide();
+                $('#pitchSettings').show();
+                $('#pitchExplicit').prop('checked', true);
+                $('#pitchDynamic').prop('checked', false);
+                $('#pitchSettingsExplicit').show();
+                $('#pitchSettingsExplicit').empty();
+                var html = '<h7>Data index will be mapped to the note.</h7>';
+                $('#pitchSettingsExplicit').html(html);
+                break;
+            case 'Data-Variable':
+                $('#radioPitch').hide();
+                $('#pitchSettings').show();
+                $('#pitchSettingsExplicit').empty();
+                $('#pitchSettingsExplicit').show();
+                var html = '';
+                var i;
+                differentDataVariables = [];
+                for (i = 0; i <= globalAnimationList.length - 1; i++) {
+                    if (!differentDataVariables.includes(globalAnimationList[i][2].split(" ")[0])) {
+                        differentDataVariables.push(globalAnimationList[i][2].split(" ")[0]);
+                    }
+                }
+
+                for (i = 0; i <= differentDataVariables.length - 1; i++) {
+                    html += '<h7>Variable: ' + differentDataVariables[i] + '</h7><br>';
+                    html += '<div style=overflow:hidden;>'
+                    html += '<p style=float:left;margin-right:10px;margin-top:9px;>Note: </p>';
+                    html += '<div nexus-ui=select id=pitchDataVariable-' + i + ' style=float:left;margin-right:10px;></div>';
+                    html += '</div>';
+                }
+
+                pitchDataVariable = [];
+                $('#pitchSettingsExplicit').html(html);
+                for (i = 0; i <= differentDataVariables.length - 1; i++) {
+                    var string = '#pitchDataVariable-' + i;
+                    pitchDataVariable.push(new Nexus.Select(string, {
+                        'size': [100, 40],
+                        'options': App.operators.frequence
+                    }));
+                }
+                break;
+            case 'Query-Progress':
+                $('#radioPitch').hide();
+                $('#pitchSettings').show();
+                $('#pitchExplicit').prop('checked', true);
+                $('#pitchDynamic').prop('checked', false);
+                $('#pitchSettingsExplicit').show();
+                $('#pitchSettingsExplicit').empty();
+                var html = '<h7>Query progress will be mapped to the note.</h7>';
+                $('#pitchSettingsExplicit').html(html);
+                break;
+        }
     }
-}
 }

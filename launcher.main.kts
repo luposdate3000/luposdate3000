@@ -1,5 +1,5 @@
 #!/usr/bin/env kotlin
-/* 
+/*
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
  *
@@ -1344,29 +1344,31 @@ fun onSetupJS() {
         out.println("</html>")
     }
 }
-fun myProcessBuilder(cmd:List<String>):ProcessBuilder{
-if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
-if (cmd[0].contains("/")){
-val lastIdx=cmd[0].lastIndexOf("/")
-val path=cmd[0].substring(0,lastIdx)
-val proc=cmd[0].substring(lastIdx+1)
-val realCmd=mutableListOf<String>("cmd.exe","/C",proc)
-for(i in 1 until cmd.size){
-realCmd.add(cmd[i])
+
+fun myProcessBuilder(cmd: List<String>): ProcessBuilder {
+    if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
+        if (cmd[0].contains("/")) {
+            val lastIdx = cmd[0].lastIndexOf("/")
+            val path = cmd[0].substring(0, lastIdx)
+            val proc = cmd[0].substring(lastIdx + 1)
+            val realCmd = mutableListOf<String>("cmd.exe", "/C", proc)
+            for (i in 1 until cmd.size) {
+                realCmd.add(cmd[i])
+            }
+            println("realCmd:: " + realCmd)
+            val pb = ProcessBuilder(realCmd)
+            val env = pb.environment()
+            println("oldpath:: " + env["PATH"])
+            env["PATH"] = path + ";" + env["PATH"]
+            return pb
+        } else {
+            return ProcessBuilder(cmd)
+        }
+    } else {
+        return ProcessBuilder(cmd)
+    }
 }
-println("realCmd:: "+realCmd)
-val pb=ProcessBuilder(realCmd)
-val env = pb.environment()
-println("oldpath:: "+env["PATH"])
-env["PATH"]=path+";"+env["PATH"]
-return pb
-}else{
-return ProcessBuilder(cmd)
-}
-}else{
-return ProcessBuilder(cmd)
-}
-}
+
 fun find(path: String, fName: String): File? {
     val f = File(path)
     if (fName == f.getName()) {

@@ -137,241 +137,242 @@ function getChord(string, id, label, index) {
             break;
     }
 }
-function chordSetup(){
-App.mappingFunctions.Chord=function(string) {
-App.config.sonification.Chord.mode=string
-    //If for one Operator is no chord set, use the default pitch settings
-    switch (string) {
-    case 'None':
-      $('#chordSettings').hide();
-            break;
-        case 'Simple':
-            $('#chordSettings').show();
-            $('#chordSettings').empty();
 
-            var html = "<fieldset>";
-            html += '<h7>Select a global setting.</h7><br><br>';
-            html += '<div style=overflow:hidden;>';
-            html += '<p style=float:left;margin-right:10px;margin-top:9px;>Chord: </p>';
-            html += '<div nexus-ui=select id=chordDataIndex style=float:left;margin-right:8px;></div>';
-            html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
-            html += '<input type=checkbox id=arpeggioIndex style=overflow:hidden;margin-top:12px;><br>';
-            html += '</div>';
+function chordSetup() {
+    App.mappingFunctions.Chord = function(string) {
+        App.config.sonification.Chord.mode = string
+        //If for one Operator is no chord set, use the default pitch settings
+        switch (string) {
+            case 'None':
+                $('#chordSettings').hide();
+                break;
+            case 'Simple':
+                $('#chordSettings').show();
+                $('#chordSettings').empty();
 
-            html += '</fieldset>'
-            $('#chordSettings').html(html);
+                var html = "<fieldset>";
+                html += '<h7>Select a global setting.</h7><br><br>';
+                html += '<div style=overflow:hidden;>';
+                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Chord: </p>';
+                html += '<div nexus-ui=select id=chordDataIndex style=float:left;margin-right:8px;></div>';
+                html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
+                html += '<input type=checkbox id=arpeggioIndex style=overflow:hidden;margin-top:12px;><br>';
+                html += '</div>';
 
-            chordDataIndex = new Nexus.Select('#chordDataIndex', {
-                'size': [100, 40],
-                'options': Object.keys(App.operators.chords)
-            });
-            break;
-        case 'Operator-ID':
-            $('#chordSettings').show();
-            $('#chordSettings').empty();
-            var html = '<fieldset>';
-            var j;
-            arpeggio = [];
-            for (j = 0; j <= dataNodes.length - 1; j++) {
-                if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
-                    html += '<h7>' + dataNodes[j].label.split("\n")[0] + '</h7><br>';
+                html += '</fieldset>'
+                $('#chordSettings').html(html);
+
+                chordDataIndex = new Nexus.Select('#chordDataIndex', {
+                    'size': [100, 40],
+                    'options': Object.keys(App.operators.chords)
+                });
+                break;
+            case 'Operator-ID':
+                $('#chordSettings').show();
+                $('#chordSettings').empty();
+                var html = '<fieldset>';
+                var j;
+                arpeggio = [];
+                for (j = 0; j <= dataNodes.length - 1; j++) {
+                    if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
+                        html += '<h7>' + dataNodes[j].label.split("\n")[0] + '</h7><br>';
+                        html += '<div style=overflow:hidden;>';
+                        html += '<p style=float:left;margin-right:10px;margin-top:9px;>Chord: </p>';
+                        html += '<div nexus-ui=select id=chordOperator-' + j + ' style=float:left;margin-right:8px;></div>';
+                        html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
+                        html += '<input type=checkbox id=arpeggio-' + j + ' style=overflow:hidden;margin-top:12px;><br>';
+                        html += '</div>';
+                        var tmp = '#arpeggio-' + j;
+                        arpeggio.push($(tmp));
+                    }
+                }
+
+                html += '</fieldset>';
+
+                chordOperator = [];
+                $('#chordSettings').html(html);
+                for (j = 0; j <= dataNodes.length - 1; j++) {
+                    if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
+                        var string = '#chordOperator-' + j;
+                        chordOperator.push(new Nexus.Select(string, {
+                            'size': [100, 40],
+                            'options': Object.keys(App.operators.chords)
+
+                        }));
+                    }
+                }
+                break;
+            case 'Operator-Depth':
+                $('#chordSettings').show();
+                $('#chordSettings').empty();
+                arpeggio = [];
+                calcDifferentPositions();
+                var html = "<fieldset>"
+
+                for (i = 0; i <= differentPositions.length - 1; i++) {
+                    html += '<h7>Depth: ' + differentPositions[i] + '</h7><br>';
                     html += '<div style=overflow:hidden;>';
                     html += '<p style=float:left;margin-right:10px;margin-top:9px;>Chord: </p>';
-                    html += '<div nexus-ui=select id=chordOperator-' + j + ' style=float:left;margin-right:8px;></div>';
+                    html += '<div nexus-ui=select id=chordOperatorDepth-' + i + ' style=float:left;margin-right:8px;></div>';
                     html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
-                    html += '<input type=checkbox id=arpeggio-' + j + ' style=overflow:hidden;margin-top:12px;><br>';
+                    html += '<input type=checkbox id=arpeggio-' + i + ' style=overflow:hidden;margin-top:12px;><br>';
                     html += '</div>';
-                    var tmp = '#arpeggio-' + j;
+                    var tmp = '#arpeggio-' + i;
                     arpeggio.push($(tmp));
                 }
-            }
 
-            html += '</fieldset>';
+                html += '</fieldset>';
 
-            chordOperator = [];
-            $('#chordSettings').html(html);
-            for (j = 0; j <= dataNodes.length - 1; j++) {
-                if (!(dataNodes[j].label.includes('AOP') || dataNodes[j].label.includes('OPBaseCompound'))) {
-                    var string = '#chordOperator-' + j;
-                    chordOperator.push(new Nexus.Select(string, {
+                chordOperatorDepth = [];
+                $('#chordSettings').html(html);
+                for (i = 0; i <= differentPositions.length - 1; i++) {
+                    var string = '#chordOperatorDepth-' + i;
+                    chordOperatorDepth.push(new Nexus.Select(string, {
                         'size': [100, 40],
                         'options': Object.keys(App.operators.chords)
-
                     }));
                 }
-            }
-            break;
-        case 'Operator-Depth':
-            $('#chordSettings').show();
-            $('#chordSettings').empty();
-            arpeggio = [];
-            calcDifferentPositions();
-            var html = "<fieldset>"
+                break;
+            case 'Operator-Type':
+                $('#chordSettings').show();
+                $('#chordSettings').empty();
+                var html = '<fieldset>';
 
-            for (i = 0; i <= differentPositions.length - 1; i++) {
-                html += '<h7>Depth: ' + differentPositions[i] + '</h7><br>';
+                calcDifferentTypes();
+                arpeggio = [];
+                for (i = 0; i <= differentTypes.length - 1; i++) {
+                    html += '<h7>Type: ' + differentTypes[i] + '</h7><br>';
+                    html += '<div style=overflow:hidden;>';
+                    html += '<p style=float:left;margin-right:10px;margin-top:9px;>Chord: </p>';
+                    html += '<div nexus-ui=select id=chordOperatorType-' + i + ' style=float:left;margin-right:8px;></div>';
+                    html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
+                    html += '<input type=checkbox id=arpeggio-' + i + ' style=overflow:hidden;margin-top:12px;><br>';
+                    html += '</div>';
+                    var tmp = '#arpeggio-' + i;
+                    arpeggio.push($(tmp));
+                }
+
+
+                chordOperatorType = [];
+                $('#chordSettings').html(html);
+                for (i = 0; i <= differentTypes.length - 1; i++) {
+                    var string = '#chordOperatorType-' + i;
+                    chordOperatorType.push(new Nexus.Select(string, {
+                        'size': [100, 40],
+                        'options': Object.keys(App.operators.chords)
+                    }));
+                }
+                break;
+            case 'Operator-Variable':
+                $('#chordSettings').show();
+                $('#chordSettings').empty();
+
+                var html = '<fieldset>';
+
+                var i;
+                calcDifferentOperatorVariables();
+                arpeggio = [];
+                for (i = 0; i <= differentOperatorVariables.length - 1; i++) {
+                    html += '<h7>Variable: ' + differentOperatorVariables[i] + '</h7><br>';
+                    html += '<div style=overflow:hidden;>';
+                    html += '<p style=float:left;margin-right:8px;margin-top:9px;>Chord: </p>';
+                    html += '<div nexus-ui=select id=chordOperatorVariable-' + i + ' style=float:left;margin-right:8px;></div>';
+                    html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
+                    html += '<input type=checkbox id=arpeggio-' + i + ' style=overflow:hidden;margin-top:12px;><br>';
+                    html += '</div>';
+                    var tmp = '#arpeggio-' + i;
+                    arpeggio.push($(tmp));
+                }
+
+                html += '</fieldset>';
+
+                chordOperatorVariable = [];
+                $('#chordSettings').html(html);
+                for (i = 0; i <= differentOperatorVariables.length - 1; i++) {
+                    var string = '#chordOperatorVariable-' + i;
+                    chordOperatorVariable.push(new Nexus.Select(string, {
+                        'size': [100, 40],
+                        'options': Object.keys(App.operators.chords)
+                    }));
+                }
+                break;
+            case 'Data-Index':
+                //This setting does not make much sense.
+                //Instead, simple selection will be used.
+                $('#chordSettings').show();
+                $('#chordSettings').empty();
+                var html = '<fieldset>';
+                html += '<h7>Mapping the data index to a chord is not available. Instead choose a global chord.</h7><br><br>';
                 html += '<div style=overflow:hidden;>';
                 html += '<p style=float:left;margin-right:10px;margin-top:9px;>Chord: </p>';
-                html += '<div nexus-ui=select id=chordOperatorDepth-' + i + ' style=float:left;margin-right:8px;></div>';
+                html += '<div nexus-ui=select id=chordDataIndex style=float:left;margin-right:8px;></div>';
                 html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
-                html += '<input type=checkbox id=arpeggio-' + i + ' style=overflow:hidden;margin-top:12px;><br>';
+                html += '<input type=checkbox id=arpeggioIndex style=overflow:hidden;margin-top:12px;><br>';
                 html += '</div>';
-                var tmp = '#arpeggio-' + i;
-                arpeggio.push($(tmp));
-            }
 
-            html += '</fieldset>';
+                html += '</fieldset>';
+                $('#chordSettings').html(html);
 
-            chordOperatorDepth = [];
-            $('#chordSettings').html(html);
-            for (i = 0; i <= differentPositions.length - 1; i++) {
-                var string = '#chordOperatorDepth-' + i;
-                chordOperatorDepth.push(new Nexus.Select(string, {
+                chordDataIndex = new Nexus.Select('#chordDataIndex', {
                     'size': [100, 40],
                     'options': Object.keys(App.operators.chords)
-                }));
-            }
-            break;
-        case 'Operator-Type':
-            $('#chordSettings').show();
-            $('#chordSettings').empty();
-            var html = '<fieldset>';
+                });
+                break;
+            case 'Data-Variable':
+                $('#chordSettings').show();
+                $('#chordSettings').empty();
+                arpeggio = [];
+                var html = '<fieldset>';
 
-            calcDifferentTypes();
-            arpeggio = [];
-            for (i = 0; i <= differentTypes.length - 1; i++) {
-                html += '<h7>Type: ' + differentTypes[i] + '</h7><br>';
+                var i;
+                calcDifferentDataVariables();
+
+                for (i = 0; i <= differentDataVariables.length - 1; i++) {
+                    html += '<h7>Variable: ' + differentDataVariables[i] + '</h7><br>';
+                    html += '<div style=overflow:hidden;>';
+                    html += '<p style=float:left;margin-right:10px;margin-top:9px;>Chord: </p>';
+                    html += '<div nexus-ui=select id=chordDataVariable-' + i + ' style=float:left;margin-right:8px;></div>';
+                    html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
+                    html += '<input type=checkbox id=arpeggio-' + i + ' style=overflow:hidden;margin-top:12px;><br>';
+                    html += '</div>';
+                    var tmp = '#arpeggio-' + i;
+                    arpeggio.push($(tmp));
+                }
+
+                html += '</fieldset>';
+
+                chordDataVariable = [];
+                $('#chordSettings').html(html);
+                for (i = 0; i <= differentDataVariables.length - 1; i++) {
+                    var string = '#chordDataVariable-' + i;
+                    chordDataVariable.push(new Nexus.Select(string, {
+                        'size': [100, 40],
+                        'options': Object.keys(App.operators.chords)
+                    }));
+                }
+                break;
+            case 'Query-Progress':
+                //This setting does not make much sense.
+                //Instead, simple selection will be used.
+                $('#chordSettings').show();
+                $('#chordSettings').empty();
+                var html = "<fieldset>";
+                html += '<h7>Mapping the query progress to a chord is not available. Instead choose a global chord.</h7><br><br>';
                 html += '<div style=overflow:hidden;>';
                 html += '<p style=float:left;margin-right:10px;margin-top:9px;>Chord: </p>';
-                html += '<div nexus-ui=select id=chordOperatorType-' + i + ' style=float:left;margin-right:8px;></div>';
+                html += '<div nexus-ui=select id=chordDataIndex style=float:left;margin-right:8px;></div>';
                 html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
-                html += '<input type=checkbox id=arpeggio-' + i + ' style=overflow:hidden;margin-top:12px;><br>';
+                html += '<input type=checkbox id=arpeggioIndex style=overflow:hidden;margin-top:12px;><br>';
                 html += '</div>';
-                var tmp = '#arpeggio-' + i;
-                arpeggio.push($(tmp));
-            }
 
+                html += '</fieldset>'
+                $('#chordSettings').html(html);
 
-            chordOperatorType = [];
-            $('#chordSettings').html(html);
-            for (i = 0; i <= differentTypes.length - 1; i++) {
-                var string = '#chordOperatorType-' + i;
-                chordOperatorType.push(new Nexus.Select(string, {
+                chordDataIndex = new Nexus.Select('#chordDataIndex', {
                     'size': [100, 40],
                     'options': Object.keys(App.operators.chords)
-                }));
-            }
-            break;
-        case 'Operator-Variable':
-            $('#chordSettings').show();
-            $('#chordSettings').empty();
-
-            var html = '<fieldset>';
-
-            var i;
-            calcDifferentOperatorVariables();
-            arpeggio = [];
-            for (i = 0; i <= differentOperatorVariables.length - 1; i++) {
-                html += '<h7>Variable: ' + differentOperatorVariables[i] + '</h7><br>';
-                html += '<div style=overflow:hidden;>';
-                html += '<p style=float:left;margin-right:8px;margin-top:9px;>Chord: </p>';
-                html += '<div nexus-ui=select id=chordOperatorVariable-' + i + ' style=float:left;margin-right:8px;></div>';
-                html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
-                html += '<input type=checkbox id=arpeggio-' + i + ' style=overflow:hidden;margin-top:12px;><br>';
-                html += '</div>';
-                var tmp = '#arpeggio-' + i;
-                arpeggio.push($(tmp));
-            }
-
-            html += '</fieldset>';
-
-            chordOperatorVariable = [];
-            $('#chordSettings').html(html);
-            for (i = 0; i <= differentOperatorVariables.length - 1; i++) {
-                var string = '#chordOperatorVariable-' + i;
-                chordOperatorVariable.push(new Nexus.Select(string, {
-                    'size': [100, 40],
-                    'options': Object.keys(App.operators.chords)
-                }));
-            }
-            break;
-        case 'Data-Index':
-            //This setting does not make much sense.
-            //Instead, simple selection will be used.
-            $('#chordSettings').show();
-            $('#chordSettings').empty();
-            var html = '<fieldset>';
-            html += '<h7>Mapping the data index to a chord is not available. Instead choose a global chord.</h7><br><br>';
-            html += '<div style=overflow:hidden;>';
-            html += '<p style=float:left;margin-right:10px;margin-top:9px;>Chord: </p>';
-            html += '<div nexus-ui=select id=chordDataIndex style=float:left;margin-right:8px;></div>';
-            html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
-            html += '<input type=checkbox id=arpeggioIndex style=overflow:hidden;margin-top:12px;><br>';
-            html += '</div>';
-
-            html += '</fieldset>';
-            $('#chordSettings').html(html);
-
-            chordDataIndex = new Nexus.Select('#chordDataIndex', {
-                'size': [100, 40],
-                'options': Object.keys(App.operators.chords)
-            });
-            break;
-        case 'Data-Variable':
-            $('#chordSettings').show();
-            $('#chordSettings').empty();
-            arpeggio = [];
-            var html = '<fieldset>';
-
-            var i;
-            calcDifferentDataVariables();
-
-            for (i = 0; i <= differentDataVariables.length - 1; i++) {
-                html += '<h7>Variable: ' + differentDataVariables[i] + '</h7><br>';
-                html += '<div style=overflow:hidden;>';
-                html += '<p style=float:left;margin-right:10px;margin-top:9px;>Chord: </p>';
-                html += '<div nexus-ui=select id=chordDataVariable-' + i + ' style=float:left;margin-right:8px;></div>';
-                html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
-                html += '<input type=checkbox id=arpeggio-' + i + ' style=overflow:hidden;margin-top:12px;><br>';
-                html += '</div>';
-                var tmp = '#arpeggio-' + i;
-                arpeggio.push($(tmp));
-            }
-
-            html += '</fieldset>';
-
-            chordDataVariable = [];
-            $('#chordSettings').html(html);
-            for (i = 0; i <= differentDataVariables.length - 1; i++) {
-                var string = '#chordDataVariable-' + i;
-                chordDataVariable.push(new Nexus.Select(string, {
-                    'size': [100, 40],
-                    'options': Object.keys(App.operators.chords)
-                }));
-            }
-            break;
-        case 'Query-Progress':
-            //This setting does not make much sense.
-            //Instead, simple selection will be used.
-            $('#chordSettings').show();
-            $('#chordSettings').empty();
-            var html = "<fieldset>";
-            html += '<h7>Mapping the query progress to a chord is not available. Instead choose a global chord.</h7><br><br>';
-            html += '<div style=overflow:hidden;>';
-            html += '<p style=float:left;margin-right:10px;margin-top:9px;>Chord: </p>';
-            html += '<div nexus-ui=select id=chordDataIndex style=float:left;margin-right:8px;></div>';
-            html += '<p style=float:left;margin-top:9px;margin-right:8px;>Arpeggio: </p>';
-            html += '<input type=checkbox id=arpeggioIndex style=overflow:hidden;margin-top:12px;><br>';
-            html += '</div>';
-
-            html += '</fieldset>'
-            $('#chordSettings').html(html);
-
-            chordDataIndex = new Nexus.Select('#chordDataIndex', {
-                'size': [100, 40],
-                'options': Object.keys(App.operators.chords)
-            });
-            break;
+                });
+                break;
+        }
     }
-}
 }
