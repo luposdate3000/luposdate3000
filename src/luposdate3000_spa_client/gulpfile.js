@@ -39,7 +39,8 @@ gulp.task('concatCSS', function() {
                 "bower_components/font-source-sans-pro/source-sans-pro.css",
                 "bower_components/please-wait/build/please-wait.css",
                 "bower_components/codemirror/addon/fold/foldgutter.css",
-                "app/styles/spectrum.css",
+                "bower_components/spectrum/spectrum.css",
+//                "node_modules/vis-network/styles/vis-network.css",
             ]),
             gulp.src([
                 "app/styles/main.scss",
@@ -75,7 +76,7 @@ gulp.task('concatJS', function() {
                 "node_modules/tone/build/Tone.js", // used by sonification
                 "node_modules/tonejs-instruments#8ec9f43d6f07fdeb15e684df5a6c7efa2c3eedf6/Tonejs-Instruments.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/vis-network.min.js", // used by sonification
-                "app/scripts/algos/visualisationUtil/NexusUI.js", // used by sonification
+                "node_modules/nexusui/dist/NexusUI.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/visualizationUtil.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/pitchMapping.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/spatializationMapping.js", // used by sonification
@@ -85,7 +86,7 @@ gulp.task('concatJS', function() {
                 "app/scripts/algos/visualisationUtil/durationMapping.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/chordMapping.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/octaveMapping.js", // used by sonification
-                "app/scripts/algos/visualisationUtil/spectrum.js", // used by sonification
+                "bower_components/spectrum/spectrum.js", // used by sonification
                 "app/scripts/algos/createGraph.js",
                 "app/scripts/algos/createOPGraph.js",
                 "app/scripts/codemirror-modes/rif/rif.js",
@@ -161,7 +162,7 @@ gulp.task('concatJS', function() {
             "node_modules/tone/build/Tone.js",
             "node_modules/tonejs-instruments#8ec9f43d6f07fdeb15e684df5a6c7efa2c3eedf6/Tonejs-Instruments.js",
             "app/scripts/algos/visualisationUtil/vis-network.min.js",
-            "app/scripts/algos/visualisationUtil/NexusUI.js",
+            "node_modules/nexusui/dist/NexusUI.js",
             "app/scripts/algos/visualisationUtil/visualizationUtil.js",
             "app/scripts/algos/visualisationUtil/pitchMapping.js",
             "app/scripts/algos/visualisationUtil/spatializationMapping.js",
@@ -171,7 +172,7 @@ gulp.task('concatJS', function() {
             "app/scripts/algos/visualisationUtil/durationMapping.js",
             "app/scripts/algos/visualisationUtil/chordMapping.js",
             "app/scripts/algos/visualisationUtil/octaveMapping.js",
-            "app/scripts/algos/visualisationUtil/spectrum.js",
+            "bower_components/spectrum/spectrum.js",
             //LUPOSDATE3000 GENERATED CODE START
 "app/scripts/algos/luposdate3000/kotlin.js",
 "app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",

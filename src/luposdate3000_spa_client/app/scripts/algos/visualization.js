@@ -51,14 +51,6 @@ function visualisationSetup() {
             networkSon.destroy();
         }
         globalAnimationList = [];
-        var i;
-        for (i in selectAudio) {
-            if (i == "Melody") {
-                selectAudio[i].value = 'No';
-            } else {
-                selectAudio[i].value = 'None';
-            }
-        }
         $('.results-tab a').click()
         //First time initialization
     } else {
