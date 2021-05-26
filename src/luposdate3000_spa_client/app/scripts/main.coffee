@@ -22,7 +22,7 @@ App.init = ->
     octaveSetup()
     pitchSetup()
     spatializationSetup()
-# Rico: Luposdate3000 Graph is disabled at the beginning
+    # Rico: Luposdate3000 Graph is disabled at the beginning
     $('#luposdate3000graph-tab').hide()
 
     # Load xml converter
@@ -151,69 +151,69 @@ App.showWithGraph = ->
         $('.label-with-graph').show()
 
 
-App.loadluposdate3000 = (data, url,withGraph) ->
-  queryData = 
+App.loadluposdate3000 = (data, url, withGraph) ->
+    queryData =
         query: data.query
-        evaluator : "XML_STREAM"
-  if withGraph
-    $.ajax
-        url: url + 'sparql/startSession'
-        method:"POST"
-        data:queryData
-        success: (sessionID) ->
-            sessionData =
-                sessionID:sessionID
-            $.ajax
-                url: url + 'sparql/getLogicalVisual'
-                method:"POST"
-                data:sessionData
-                success: (logSteps) ->
-                    addLocicalSteps(logSteps)
-                    $.ajax
-                        url: url + 'sparql/getPhysicalVisual'
-                        method:"POST"
-                        data:sessionData
-                        success: (phySteps) ->
-                            addPhysicalSteps(phySteps)
-                            $.ajax
-                                url: url + 'sparql/getVisualisationData'
-                                method:"POST"
-                                data:sessionData
-                                success: (visData) ->
-                                    addAnimationDataSplit(visData)
-                                    $.ajax
-                                        url: url + 'sparql/getResult'
-                                        method:"POST"
-                                        data:sessionData
-                                        success: (resultData) ->
-                                            App.result = resultData
-                                            $.ajax
-                                                url: url + 'sparql/closeSession'
-                                                method:"POST"
-                                                data:sessionData
-                                                success: (closeResponse) ->
-                                                    formatResultData();
-                                                error: (xhr, status, error) ->
-                                                    App.logError error
-                                        error: (xhr, status, error) ->
-                                            App.logError error
-                                error: (xhr, status, error) ->
-                                    App.logError error
-                        error: (xhr, status, error) ->
-                            App.logError error
-                error: (xhr, status, error) ->
-                    App.logError error
-        error: (xhr, status, error) ->
-            App.logError error
-  else
-                                            $.ajax
-                                                url: url + 'sparql/query'
-                                                method:"POST"
-                                                data:queryData
-                                                success: (xml) ->
-                                                  App.processResults(xml,"sparql")
-                                                error: (xhr, status, error) ->
-                                                    App.logError error
+        evaluator: "XML_STREAM"
+    if withGraph
+        $.ajax
+            url: url + 'sparql/startSession'
+            method: "POST"
+            data: queryData
+            success: (sessionID) ->
+                sessionData =
+                    sessionID: sessionID
+                $.ajax
+                    url: url + 'sparql/getLogicalVisual'
+                    method: "POST"
+                    data: sessionData
+                    success: (logSteps) ->
+                        addLocicalSteps(logSteps)
+                        $.ajax
+                            url: url + 'sparql/getPhysicalVisual'
+                            method: "POST"
+                            data: sessionData
+                            success: (phySteps) ->
+                                addPhysicalSteps(phySteps)
+                                $.ajax
+                                    url: url + 'sparql/getVisualisationData'
+                                    method: "POST"
+                                    data: sessionData
+                                    success: (visData) ->
+                                        addAnimationDataSplit(visData)
+                                        $.ajax
+                                            url: url + 'sparql/getResult'
+                                            method: "POST"
+                                            data: sessionData
+                                            success: (resultData) ->
+                                                App.result = resultData
+                                                $.ajax
+                                                    url: url + 'sparql/closeSession'
+                                                    method: "POST"
+                                                    data: sessionData
+                                                    success: (closeResponse) ->
+                                                        formatResultData();
+                                                    error: (xhr, status, error) ->
+                                                        App.logError error
+                                            error: (xhr, status, error) ->
+                                                App.logError error
+                                    error: (xhr, status, error) ->
+                                        App.logError error
+                            error: (xhr, status, error) ->
+                                App.logError error
+                    error: (xhr, status, error) ->
+                        App.logError error
+            error: (xhr, status, error) ->
+                App.logError error
+    else
+        $.ajax
+            url: url + 'sparql/query'
+            method: "POST"
+            data: queryData
+            success: (xml) ->
+                App.processResults(xml, "sparql")
+            error: (xhr, status, error) ->
+                App.logError error
 
 App.bindEvents = ->
     $('#getLuposdate3000Graphlink').click ->
@@ -340,34 +340,34 @@ App.bindEvents = ->
         else
             method = 'GET'
             locator = endpoint.without
-        url = endpoint.url+locator 
+        url = endpoint.url + locator
         if($('#endpoint_selector').val() == 'Luposdate3000 - Browser' || $('#endpoint_selector').val() == 'Luposdate3000 - Endpoint')
             $('#result-tab').show()
             $('#getgraphdata').hide()
             $('#getopgraphdata').hide()
             if withGraph
-              $('#getLuposdate3000Graph').show()
-              $('#getLuposdate3000GraphSon').show()
-              visualisationSetup()
+                $('#getLuposdate3000Graph').show()
+                $('#getLuposdate3000GraphSon').show()
+                visualisationSetup()
             version = $('#endpoint_selector').val();
             if (version == 'Luposdate3000 - Browser')
                 if App.config.sendRDF
                     luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(data.rdf);
                 #Receive optimized steps for logical and physical operator graph
                 if withGraph
-                  eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query)
-                  App.logGraph = eev.getOptimizedStepsLogical();
-                  App.physGraph = eev.getOptimizedStepsPhysical();
-                  #Result from the query
-                  App.result = eev.getResult();
-                  eev.closeEEV();
-                  eev.initEEV();
-                  tmpResult = eev.getDataSteps();
-                  addAnimationData(tmpResult)
-                  formatResultData();
+                    eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query)
+                    App.logGraph = eev.getOptimizedStepsLogical();
+                    App.physGraph = eev.getOptimizedStepsPhysical();
+                    #Result from the query
+                    App.result = eev.getResult();
+                    eev.closeEEV();
+                    eev.initEEV();
+                    tmpResult = eev.getDataSteps();
+                    addAnimationData(tmpResult)
+                    formatResultData();
                 else
-                  res = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(data.query)
-                  App.processResults(res,"sparql")
+                    res = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(data.query)
+                    App.processResults(res, "sparql")
             else if (version == 'Luposdate3000 - Endpoint')
                 if App.config.sendRDF
                     rdfData =
@@ -377,11 +377,11 @@ App.bindEvents = ->
                         method: "POST"
                         data: rdfData
                         success: (loadResponse) ->
-                            App.loadluposdate3000 data, url,withGraph
+                            App.loadluposdate3000 data, url, withGraph
                         error: (xhr, status, error) ->
                             App.logError error
                 else
-                    App.loadluposdate3000 data, url,withGraph
+                    App.loadluposdate3000 data, url, withGraph
             visualisationStart()
         else
             $('#getgraphdata').show()
@@ -420,8 +420,20 @@ App.bindEvents = ->
             # Switch to results tab if needed
             if App.isMergeView
                 $('.results-tab a').click()
-
-            $('#results-tab').html JST['spinner']()
+            localhtml = ""
+            localhtml += "<h4>Waiting for Server..</h4>"
+            localhtml += "<div class='sk-spinner sk-spinner-cube-grid dark'>"
+            localhtml += "    <div class='sk-cube'></div>"
+            localhtml += "    <div class='sk-cube'></div>"
+            localhtml += "    <div class='sk-cube'></div>"
+            localhtml += "    <div class='sk-cube'></div>"
+            localhtml += "    <div class='sk-cube'></div>"
+            localhtml += "    <div class='sk-cube'></div>"
+            localhtml += "    <div class='sk-cube'></div>"
+            localhtml += "    <div class='sk-cube'></div>"
+            localhtml += "    <div class='sk-cube'></div>"
+            localhtml += "</div>"
+            $('#results-tab').html localhtml
 
             # /sparql/query
             # data query= select * ..
@@ -474,7 +486,14 @@ App.bindEvents = ->
 
 App.insertQueryPicker = ->
     for lang of {'sparql', 'rdf', 'rif'}
-        $("#query-select-#{lang}").html JST['query_picker']({options: App.config['defaultData'][lang]})
+        localhtml = ""
+        for option in App.config['defaultData'][lang]
+            localhtml += "<option value="
+            localhtml += _.escape(option)
+            localhtml += ">"
+            localhtml += App.baseName(option)
+            localhtml += "</option>"
+        $("#query-select-#{lang}").html localhtml
 
 App.preprocessResults = (data, namespaces, colors) ->
     resultSets = []
@@ -502,7 +521,7 @@ App.preprocessResults = (data, namespaces, colors) ->
             xml = $.parseXML(data)
         catch error
             console.log(error)
-# Like we care
+    # Like we care
 
 
     if $.isXMLDoc(xml)
@@ -540,18 +559,101 @@ App.processResults = (data, lang) ->
     resultSets = App.preprocessResults(data, namespaces, colors)
 
     if resultSets.length
-        resultTab =
-            JST['results']({
-                resultSets: resultSets
-                prefixes: namespaces
-                colors: colors
-            })
+        resultTab = ""
+        if Object.keys(prefixes).length > 0
+            resultTab += "<h4>Prefixes</h4>"
+            resultTab += "<table>"
+            for value, prefix of namespaces
+                resultTab += "    <tr>"
+                resultTab += "        <td class='sparql-prefix' style='color: "
+                resultTab += colors[value]
+                resultTab += "'>"
+                resultTab += prefix
+                resultTab += "</td>"
+                resultTab += "        <td>"
+                resultTab += value
+                resultTab += "</td>"
+                resultTab += "    </tr>"
+            resultTab += "</table>"
+        resultTab += ""
+        for resultSet, resultSetIndex in resultSets
+            resultTab += "<h4>"
+            resultTab += _.escape(resultSet.name)
+            resultTab += " ("
+            resultTab += _.escape(resultSet.results.length)
+            resultTab += ")</h4>"
+            if resultSet.results.length > 0
+                resultTab += "<table class='results'>"
+                resultTab += "    <thead>"
+                resultTab += "        <tr>"
+                for variable,variableIndex in resultSet.head
+                    resultTab += "            <th>"
+                    resultTab += "                "
+                    resultTab += _.escape(variable)
+                    resultTab += "            </th>"
+                resultTab += "        </tr>"
+                resultTab += "    </thead>"
+                resultTab += "    <tbody>"
+                for result, resultIndex in resultSet.results
+                    resultTab += "        <tr>"
+                    for bind,bindIndex in result
+                        resultTab += "            <td>"
+                        resultTab += bind
+                        resultTab += "</td>"s
+                    resultTab += "        </tr>"
+                resultTab += "    </tbody>"
+                resultTab += "</table>"
+
         $('#results-tab').html(resultTab)
         if $('#checkbox_downloadResult').is(':checked')
             $('#results-tab').append('<div class="buttonarea"><a id="downloadHTMLResult" download="Result.html" class="button evaluate">Download Result HTML</a></div>')
-            $("#downloadHTMLResult").attr('href', makeTextFile(JST['results/standalone'](
-                content: resultTab
-            )))
+            localhtml += "<html class=' js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths'>"
+            localhtml += ""
+            localhtml += "<head>"
+            localhtml += "    <link rel='shortcut icon' href='images/favicon.png' type='image/png'>"
+            localhtml += "    <meta charset='utf-8'>"
+            localhtml += "    <title>Result of Query</title>"
+            localhtml += "    <meta name='description' content=''>"
+            localhtml += "    <meta name='viewport' content='width=device-width, initial-scale=1'>"
+            localhtml += ""
+            localhtml += "    <link rel='stylesheet' href='https://www.ifis.uni-luebeck.de/~groppe/luposdate-js-client/styles/vendor.css'>"
+            localhtml += ""
+            localhtml += "    <!-- TODO: Keep fonts in this repo? -->"
+            localhtml += "    <link href='//fonts.googleapis.com/css?family=Source+Code+Pro:400,700' rel='stylesheet' type='text/css'>"
+            localhtml += "    <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>"
+            localhtml += "    <link href='//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' rel='stylesheet'>"
+            localhtml += ""
+            localhtml += "    <link rel='stylesheet' href='https://www.ifis.uni-luebeck.de/~groppe/luposdate-js-client/styles/main.css'>"
+            localhtml += ""
+            localhtml += "    <meta class='foundation-data-attribute-namespace'>"
+            localhtml += "    <meta class='foundation-mq-xxlarge'>"
+            localhtml += "    <meta class='foundation-mq-xlarge-only'>"
+            localhtml += "    <meta class='foundation-mq-xlarge'>"
+            localhtml += "    <meta class='foundation-mq-large-only'>"
+            localhtml += "    <meta class='foundation-mq-large'>"
+            localhtml += "    <meta class='foundation-mq-medium-only'>"
+            localhtml += "    <meta class='foundation-mq-medium'>"
+            localhtml += "    <meta class='foundation-mq-small-only'>"
+            localhtml += "    <meta class='foundation-mq-small'>"
+            localhtml += "    <style></style>"
+            localhtml += "    <style></style>"
+            localhtml += "    <meta class='foundation-mq-topbar'>"
+            localhtml += "</head>"
+            localhtml += ""
+            localhtml += "<body style='margin: 20pt'>"
+            localhtml += "    <!--[if lt IE 10]>"
+            localhtml += "<p class='browsehappy'>You are using an <strong>outdated</strong> browser. Please <a href='https://browsehappy.com/'>upgrade"
+            localhtml += "    your browser</a> to improve your experience.</p>"
+            localhtml += "<![endif]-->"
+            localhtml += "    <h1>Result of Query</h1>"
+            localhtml += ""
+            localhtml += "    "
+            localhtml += resultTab
+            localhtml += ""
+            localhtml += "</body>"
+            localhtml += ""
+            localhtml += "</html>"
+            $("#downloadHTMLResult").attr('href', makeTextFile(localhtml))
     else
         if 'queryError' of data
             App.logError 'Sparql: ' + data.queryError.errorMessage, lang, data.queryError.line
@@ -674,7 +776,12 @@ App.replacePrefixes = (str, namespaces, colors) ->
     str = _.escape(str)
     for key, prefix of namespaces
         if str.indexOf(prefix) isnt -1
-            return str.replace prefix, JST['results/prefix']({prefix: key, color: colors[key]})
+            localhtml = "<span class='sparql-prefix' style='color: "
+            localhtml += colors[key]
+            localhtml += "'>"
+            localhtml += _.escape(key)
+            localhtml += ":</span>"
+            return str.replace prefix, localhtml
 
     base = App.baseName(str)
     return "&lt;" + str.replace(base, "<em>#{base}</em>") + "&gt;"
@@ -720,7 +827,10 @@ App.logError = (msg, editor, line) ->
         line--
         App.cm[editor].setSelection {line: (line), ch: 0}, {line: (line), ch: 80}
         $(".#{editor}-tab a").click()
-    $('#results-tab').html JST['results/error'](msg: msg)
+    localhtml = "<h4><i class='fa fa-exclamation-triangle'></i> Error</h4><p>The Server responded with:</p><pre>"
+    localhtml += _.escape(msg)
+    localhtml += "</pre>"
+    $('#results-tab').html localhtml
 
 App.baseName = (str) ->
     base = new String(str).substring(str.lastIndexOf('/') + 1)

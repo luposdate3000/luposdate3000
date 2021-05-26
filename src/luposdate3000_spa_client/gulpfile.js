@@ -1,7 +1,6 @@
 'use strict';
 
 const gulp = require('gulp');
-const jstConcat = require("gulp-jst-concat")
 const concat = require('gulp-concat');
 const clean = require('gulp-clean');
 const coffee = require('gulp-coffee');
@@ -97,11 +96,11 @@ gulp.task('concatJS', function() {
                 "app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Shared.js",
-                "app/scripts/algos/luposdate3000/Luposdate3000_Buffer_Manager.js",
-                "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint_Launcher.js",
-                "app/scripts/algos/luposdate3000/Luposdate3000_Jena_Wrapper.js",
-                "app/scripts/algos/luposdate3000/Luposdate3000_KV.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Parser.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Jena_Wrapper.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint_Launcher.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Buffer_Manager.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_KV.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Id_Triple.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_VK.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Dictionary.js",
@@ -111,11 +110,11 @@ gulp.task('concatJS', function() {
                 "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Physical.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Ast.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Logical.js",
-                "app/scripts/algos/luposdate3000/Luposdate3000_Result_Format.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Manager.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Result_Format.js",
+                "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Physical.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Factory.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
-                "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Physical.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
                 "app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
                 //LUPOSDATE3000 GENERATED CODE END
@@ -126,18 +125,6 @@ gulp.task('concatJS', function() {
             ])
             .pipe(coffee({
                 bare: true
-            })).on('error', handleError),
-            gulp.src([
-                "app/templates/spinner.html",
-                "app/templates/results/standalone.html",
-                "app/templates/results/error.html",
-                "app/templates/results/prefixes.html",
-                "app/templates/results/prefix.html",
-                "app/templates/results.html",
-                "app/templates/query_picker.html",
-            ])
-            .pipe(jstConcat('jst.js', {
-                renameKeys: ['^.*templates/(.*).html$', '$1']
             })).on('error', handleError)
         )
         .pipe(sourcemaps.init({
@@ -178,11 +165,11 @@ gulp.task('concatJS', function() {
             "app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-jsLegacy.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_Shared.js",
-            "app/scripts/algos/luposdate3000/Luposdate3000_Buffer_Manager.js",
-            "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint_Launcher.js",
-            "app/scripts/algos/luposdate3000/Luposdate3000_Jena_Wrapper.js",
-            "app/scripts/algos/luposdate3000/Luposdate3000_KV.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_Parser.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Jena_Wrapper.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint_Launcher.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Buffer_Manager.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_KV.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Id_Triple.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_VK.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_Dictionary.js",
@@ -192,11 +179,11 @@ gulp.task('concatJS', function() {
             "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Physical.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Ast.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Logical.js",
-            "app/scripts/algos/luposdate3000/Luposdate3000_Result_Format.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_Triple_Store_Manager.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Result_Format.js",
+            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Physical.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Factory.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Distributed_Query.js",
-            "app/scripts/algos/luposdate3000/Luposdate3000_Optimizer_Physical.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
             "app/scripts/algos/luposdate3000/Luposdate3000_Test.js",
             //LUPOSDATE3000 GENERATED CODE END
