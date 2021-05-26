@@ -61,6 +61,8 @@ App.play = ->
             'trumpet', 'tuba', 'violin', 'xylophone'],
         baseUrl: "./resources/samples/"
     )
+    if !App.config.hasOwnProperty("sonification")
+        resetAllSonificationSettings()
 
     # CodeMirror is display:none during loading screen so we need
     # a delayed refresh to have it display properly

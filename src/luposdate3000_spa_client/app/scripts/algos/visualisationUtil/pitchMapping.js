@@ -134,7 +134,7 @@ function getPitch(string, id, label, index) {
 
 function pitchSetup(){
 App.mappingFunctions.Pitch=function(string){
-
+App.config.sonification.Pitch.mode=string
     switch (string) {
 case "None":
 $('#pitchSettings').hide();

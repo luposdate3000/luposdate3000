@@ -102,6 +102,7 @@ function getOctave(string, id, label, index) {
 
 function octaveSetup(){
 App.mappingFunctions.Octave=function(string){
+App.config.sonification.Octave.mode=string
     switch (string) {
         case 'None':
             $('#octaveSettings').hide();

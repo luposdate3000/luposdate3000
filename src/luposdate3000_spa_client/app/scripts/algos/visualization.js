@@ -21,7 +21,6 @@ var slider, toggle, instrumentSimpleSelect, instrumentSimpleSelectTone;
 var selectArray = [];
 var selectToneArray = [];
 var selectAudio = {}
-var audioMapping = {};
 
 const panner = new Tone.Panner(0).toDestination();
 if (typeof luposdate3000_endpoint === "undefined") {
@@ -124,7 +123,7 @@ function createMapping() {
             selectAudio[i].myIdentifier=App.mappingIdentifiers[i]
             selectAudio[i].myFunction=App.mappingFunctions[i]
             selectAudio[i].myNoValue=noValue
-            selectAudio[i].on('change', function(v) {
+            selectAudio[i].on('change', function(v) { //initialise listener
                 if (v.value == this.myNoValue) {
                     $(this.myIdentifier).hide();
                 } else {
@@ -132,24 +131,17 @@ function createMapping() {
                 }
                 this.myFunction(v.value);
             });
-            $(selectAudioIdentifier).after($(App.mappingIdentifiers[i]));
+            $(selectAudioIdentifier).after($(App.mappingIdentifiers[i])); //positioning of the html
     }
-    selectAudio.Pitch.value = 'None';
-    selectAudio.Instrument.value = 'None';
-    selectAudio.Loudness.value = 'None';
-    selectAudio.Spatialization.value = 'None';
-    selectAudio.Duration.value = 'None';
-    selectAudio.Melody.value = 'No';
-    selectAudio.Chord.value = 'None';
-    selectAudio.Octave.value = 'None';
+selectMapping()
+}
+function selectMapping(){
+    for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
+        var i = App.operators.audioDimension[j]
+         selectAudio[i].value=App.config.sonification[i].mode
+    }
 }
 
-function evaluateMapping() {
-    for (j = 0; j <= App.operators.audioDimension.length - 1; j++) {
-        i = App.operators.audioDimension[j]
-        audioMapping[i] = selectAudio[i].value;
-    }
-}
 
 // Event Listener
 // Re-fit the canvas if the "Sonification" tab is clicked
@@ -321,21 +313,63 @@ $('#luposdate3000_play').click(function() {
 });
 
 $('#dataSorting').click(function() {
-    //Pitch
-    selectAudio.Pitch.value = 'Data-Index';
-    selectAudio.Instrument.value = 'None';
-    selectAudio.Loudness.value = 'None';
-    //Spatalization
-    selectAudio.Spatialization.value = 'Query-Progress';
-    selectAudio.Duration.value = 'None';
-    selectAudio.Melody.value = 'No';
-    selectAudio.Chord.value = 'None';
-    selectAudio.Octave.value = 'None';
+ App.config.sonification={
+        "Pitch": {
+            "mode": "Data-Index",
+        },
+        "Instrument": {
+            "mode": "None",
+        },
+        "Loudness": {
+            "mode": "None",
+        },
+        "Spatialization": {
+            "mode": "Query-Progress",
+        },
+        "Duration": {
+            "mode": "None",
+        },
+        "Melody": {
+            "mode": "No",
+        },
+        "Chord": {
+            "mode": "None",
+        },
+        "Octave": {
+            "mode": "None",
+        },
+    }
+    selectMapping()
 });
 
 $('#joinHighlight').click(function() {
-    selectAudio.Pitch.value = 'None';
-    selectAudio.Instrument.value = 'Operator-Type';
+ App.config.sonification={
+        "Pitch": {
+            "mode": "None",
+        },
+        "Instrument": {
+            "mode": "Operator-Type",
+        },
+        "Loudness": {
+            "mode": "None",
+        },
+        "Spatialization": {
+            "mode": "None",
+        },
+        "Duration": {
+            "mode": "None",
+        },
+        "Melody": {
+            "mode": "No",
+        },
+        "Chord": {
+            "mode": "None",
+        },
+        "Octave": {
+            "mode": "None",
+        },
+    } 
+    selectMapping()
     var i;
     for (i = 0; i <= instrumentOperatorType.length - 1; i++) {
         if (differentTypes[i].includes("TripleStore")) {
@@ -346,39 +380,77 @@ $('#joinHighlight').click(function() {
             instrumentOperatorType[i].value = 'piano';
         }
     }
-    selectAudio.Loudness.value = 'None';
-    selectAudio.Spatialization.value = 'None';
-    selectAudio.Duration.value = 'None';
-    selectAudio.Melody.value = 'No';
-    selectAudio.Chord.value = 'None';
-    selectAudio.Octave.value = 'None';
 })
 
 $('#reset').click(function() {
+resetAllSonificationSettings()
+})
+function resetAllSonificationSettings(){
+App.config.sonification={
+        "Pitch": {
+            "mode": "None",
+        },
+        "Instrument": {
+            "mode": "None",
+        },
+        "Loudness": {
+            "mode": "None",
+        },
+        "Spatialization": {
+            "mode": "None",
+        },
+        "Duration": {
+            "mode": "None",
+        },
+        "Melody": {
+            "mode": "No",
+        },
+        "Chord": {
+            "mode": "None",
+        },
+        "Octave": {
+            "mode": "None",
+        },
+    } 
+    selectMapping()
     $('#dataSorting').prop('checked', false);
     $('#joinHighlight').prop('checked', false);
     $('#dataVariableDepth').prop('checked', false);
-    selectAudio.Pitch.value = 'None';
-    selectAudio.Instrument.value = 'None';
-    selectAudio.Loudness.value = 'None';
-    selectAudio.Spatialization.value = 'None';
-    selectAudio.Duration.value = 'None';
-    selectAudio.Melody.value = 'No';
-    selectAudio.Chord.value = 'None';
-    selectAudio.Octave.value = 'None';
-});
+}
 
 $('#dataVariableDepth').click(function() {
-    selectAudio.Pitch.value = 'Data-Variable';
+App.config.sonification={
+        "Pitch": {
+            "mode": "Data-Variable",
+        },
+        "Instrument": {
+            "mode": "None",
+        },
+        "Loudness": {
+            "mode": "None",
+        },
+        "Spatialization": {
+            "mode": "None",
+        },
+        "Duration": {
+            "mode": "Operator-Depth",
+        },
+        "Melody": {
+            "mode": "No",
+        },
+        "Chord": {
+            "mode": "None",
+        },
+        "Octave": {
+            "mode": "None",
+        },
+    } 
+    selectMapping()
     var i;
     for (i = 0; i <= differentDataVariables.length - 1; i++) {
         pitchDataVariable[i].value = App.operators.frequence[i * 2];
     }
-    selectAudio.Instrument.value = 'None';
-    selectAudio.Loudness.value = 'None';
-    selectAudio.Spatialization.value = 'None';
     $('#pitchExplicit').prop('checked', true);
-    selectAudio.Duration.value = 'Operator-Depth';
     for (i = 0; i <= differentPositions.length - 1; i++) {
         switch (i) {
             case 0:
@@ -398,9 +470,6 @@ $('#dataVariableDepth').click(function() {
                 break;
         }
     }
-    selectAudio.Melody.value = 'No';
-    selectAudio.Chord.value = 'None';
-    selectAudio.Octave.value = 'None';
 });
 
 //Event Listener
@@ -522,25 +591,18 @@ function receiveAnimation(childUUID, parentUUID, string, index) {
 }
 
 function playNoteMapping(id, label, index) {
-    evaluateMapping();
-
-    var pitchType = audioMapping.Pitch;
-    var instrumentType = audioMapping.Instrument;
-    var loudnessType = audioMapping.Loudness;
-    var spatializationType = audioMapping.Spatialization;
-    var durationType = audioMapping.Duration;
-    var melodyType = audioMapping.Melody;
-    var chordType = audioMapping.Chord;
-    var octaveType = audioMapping.Octave;
+    var pitchType = App.config.sonification.Pitch.mode;
+    var instrumentType = App.config.sonification.Instrument.mode;
+    var loudnessType = App.config.sonification.Loudness.mode;
+    var spatializationType = App.config.sonification.Spatialization.mode;
+    var durationType = App.config.sonification.Duration.mode;
+    var melodyType = App.config.sonification.Melody.mode;
+    var chordType = App.config.sonification.Chord.mode;
+    var octaveType = App.config.sonification.Octave.mode;
 
     var tone, velocity, duration, octave;
 
-    //Which Instrument?
-    if (instrumentType == 'None') {
-        current = App.samples['piano']; //Default = piano
-    } else {
-        current = App.samples[getInstrument(instrumentType, id, label, index)];
-    }
+    current = App.samples[getInstrument(instrumentType, id, label, index)];
 
     //Loudness of the Tone
     if (loudnessType != 'None') {

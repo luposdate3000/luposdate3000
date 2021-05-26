@@ -96,6 +96,7 @@ function getLoudness(string, id, label, index) {
 
 function loudnessSetup(){
 App.mappingFunctions.Loudness=function(string){
+App.config.sonification.Loudness.mode=string
     //Show Slider with min&max Loudness
     switch (string) {
 case "None":

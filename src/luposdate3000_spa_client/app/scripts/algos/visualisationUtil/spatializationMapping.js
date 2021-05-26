@@ -96,6 +96,7 @@ function getSpatialization(string, id, label, index) {
 
 function spatializationSetup(){
 App.mappingFunctions.Spatialization=function(string){
+App.config.sonification.Spatialization.mode=string
     switch (string) {
         case 'None':
             $('#spatializationSettings').hide();

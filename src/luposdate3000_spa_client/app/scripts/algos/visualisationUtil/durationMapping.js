@@ -99,6 +99,7 @@ function getDuration(string, id, label, index) {
 }
 function durationSetup(){
 App.mappingFunctions.Duration=function(string){
+App.config.sonification.Duration.mode=string
     switch (string) {
 case "None":
 $('#durationSettings').hide();

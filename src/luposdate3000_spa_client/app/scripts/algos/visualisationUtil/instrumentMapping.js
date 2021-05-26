@@ -8,7 +8,7 @@ var instrumentDataVariable = [];
 function getInstrument(string, id, label, index) {
     switch (string) {
         case 'Simple':
-            return instrumentDataIndex.value;
+            return App.config.sonification.Instrument.Simple.value
             break;
         case 'Operator-ID':
             var i;
@@ -78,15 +78,19 @@ function getInstrument(string, id, label, index) {
             return instrumentDataIndex.value;
             break;
     }
+return 'piano'
 }
 
 function instrumentSetup(){
 App.mappingFunctions.Instrument=function(string){
+App.config.sonification.Instrument.mode=string
     switch (string) {
-        case 'None':
-            $('#instrumentSettings').hide();
-            break;
         case 'Simple':
+if (!App.config.sonification.Instrument.hasOwnProperty("Simple")){
+App.config.sonification.Instrument.Simple={
+value:App.samples[0]
+}
+}
             $('#instrumentSettings').show();
             $('#instrumentSettings').empty();
             var html = "<fieldset>";
@@ -103,6 +107,10 @@ App.mappingFunctions.Instrument=function(string){
             instrumentDataIndex = new Nexus.Select('#instrumentDataIndex', {
                 'size': [100, 40],
                 'options': Object.keys(App.samples)
+            });
+                instrumentDataIndex.value=App.config.sonification.Instrument.Simple.value
+            instrumentDataIndex.on('change', function(v) {
+                 App.config.sonification.Instrument.Simple.value=v.value
             });
             break;
         case 'Operator-ID':
@@ -283,6 +291,9 @@ App.mappingFunctions.Instrument=function(string){
                 'size': [100, 40],
                 'options': Object.keys(App.samples)
             });
+            break;
+        default:
+            $('#instrumentSettings').hide();
             break;
     }
 }

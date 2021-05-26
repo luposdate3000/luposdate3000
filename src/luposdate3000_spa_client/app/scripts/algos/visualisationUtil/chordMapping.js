@@ -139,6 +139,7 @@ function getChord(string, id, label, index) {
 }
 function chordSetup(){
 App.mappingFunctions.Chord=function(string) {
+App.config.sonification.Chord.mode=string
     //If for one Operator is no chord set, use the default pitch settings
     switch (string) {
     case 'None':
