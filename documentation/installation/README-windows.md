@@ -72,3 +72,8 @@ git clone https://sun01.pool.ifis.uni-luebeck.de/groppe/luposdate3000.git
   point this to the base folder, where you have downloaded your real-world datasets. This is only required, if you are actually using those datasets.
 * "LUPOS_RAM"
   specify the available memory in GB. Keep in mind, that the operating system (or other programs) may need some space too. This is only used in the commanline startup of the database.
+
+
+#dependencies for the spa-client
+https://nodejs.org/dist/v14.17.0/node-v14.17.0-x64.msi
+https://www.python.org/ftp/python/2.7.18/python-2.7.18.amd64.msi
