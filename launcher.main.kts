@@ -835,7 +835,7 @@ fun onRun() {
                 println("exec :: " + cmd.joinToString(" "))
             } else {
                 Array(processUrls.count { it == ',' } + 1) {
-                    val p = ProcessBuilder(cmd)
+                    val p = myProcessBuilder(cmd)
                         .redirectOutput(Redirect.INHERIT)
                         .redirectError(Redirect.INHERIT)
                     val env = p.environment()
@@ -1228,10 +1228,10 @@ fun onSetupSPAClient() {
             out.println(c)
         }
     }
-    val bin_npm = fixPathNames(commandToString(ProcessBuilder("which", "npm")).trim())
+    val bin_npm = fixPathNames(commandToString(myProcessBuilder(listOf("which", "npm"))).trim())
     println("bin_npm: " + bin_npm)
     val pwd = commandToString(
-        ProcessBuilder(bin_npm, "bin")
+        myProcessBuilder(listOf(bin_npm, "bin"))
             .directory(dir)
     ).trim()
     val bin_bower = fixPathNames("$pwd/bower")
@@ -1252,7 +1252,7 @@ fun onSetupSPAClient() {
     }
     for (cmd in commands) {
         println("cmd :: $cmd")
-        val p = ProcessBuilder(cmd)
+        val p = myProcessBuilder(cmd)
             .redirectOutput(Redirect.INHERIT)
             .redirectError(Redirect.INHERIT)
             .directory(dir)
@@ -1344,7 +1344,29 @@ fun onSetupJS() {
         out.println("</html>")
     }
 }
-
+fun myProcessBuilder(cmd:List<String>):ProcessBuilder{
+if (Platform.getOperatingSystem() == EOperatingSystemExt.Windows) {
+if (cmd[0].contains("/")){
+val lastIdx=cmd[0].lastIndexOf("/")
+val path=cmd[0].substring(0,lastIdx)
+val proc=cmd[0].substring(lastIdx+1)
+val realCmd=mutableListOf<String>("cmd.exe","/C",proc)
+for(i in 1 until cmd.size){
+realCmd.add(cmd[i])
+}
+println("realCmd:: "+realCmd)
+val pb=ProcessBuilder(realCmd)
+val env = pb.environment()
+println("oldpath:: "+env["PATH"])
+env["PATH"]=path+";"+env["PATH"]
+return pb
+}else{
+return ProcessBuilder(cmd)
+}
+}else{
+return ProcessBuilder(cmd)
+}
+}
 fun find(path: String, fName: String): File? {
     val f = File(path)
     if (fName == f.getName()) {
