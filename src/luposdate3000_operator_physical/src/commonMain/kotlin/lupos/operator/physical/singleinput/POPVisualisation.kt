@@ -63,7 +63,6 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
         iterator.columns = child.rows.columns
         val buffer = ByteArrayWrapper()
         iterator.next = {
-            var visual = Visualisation()
             var res = child.rows.next()
             iterator.buf = child.rows.buf
             if (res < 0) {
@@ -75,7 +74,6 @@ public class POPVisualisation public constructor(query: IQuery, projectedVariabl
                 for (j in 0..iterator.columns.size - 1) {
                     query.getDictionary().getValue(buffer, iterator.buf[res + j])
                     var string = "?" + this.projectedVariables[j] + " = " + DictionaryHelper.byteArrayToSparql(buffer)
-                    // visual.sendData(getParent().getVisualUUUID(), getChildren()[0].getVisualUUUID(), iterator.buf[res + j], string)
                     outputString = getChildren()[0].getVisualUUUID().toString() + "||"
                     outputString += getParent().getVisualUUUID().toString() + "||"
                     outputString += string + "||"
