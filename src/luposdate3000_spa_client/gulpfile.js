@@ -1,22 +1,15 @@
 'use strict';
 
-const gulp = require('gulp');
-const concat = require('gulp-concat');
-const clean = require('gulp-clean');
-const coffee = require('gulp-coffee');
-const sourcemaps = require('gulp-sourcemaps');
-const merge = require('merge-stream');
+const gulp = require('gulp'); //base module
+const concat = require('gulp-concat'); //concat multiple files into one
+const clean = require('gulp-clean'); //the clean target
+const coffee = require('gulp-coffee'); //for coffe script
+const sourcemaps = require('gulp-sourcemaps'); //adding the modified sourcemaps to the concatenated files
+const merge = require('merge-stream'); //merging multiple inputstreams into one
 const debug = require('gulp-debug');
-const order = require("gulp-order");
-const sass = require("gulp-sass");
-const hjson = require("gulp-hjson");
-const util = require("gulp-util");
-const svgSprite = require("gulp-svg-sprite")
-
-const handleError = function(err) {
-    new util.log(err);
-    this.emit('end');
-}
+const order = require("gulp-order"); //sorting the files, such that the initialisation ordering is ok
+const hjson = require("gulp-hjson"); //json files which can include comments
+const svgSprite = require("gulp-svg-sprite") //merging images into one
 
 gulp.task('hjson', function() {
     return gulp.src([
@@ -31,24 +24,21 @@ gulp.task('hjson', function() {
 
 
 gulp.task('concatCSS', function() {
-    return merge(
-            gulp.src([
-                "bower_components/foundation/css/foundation.css",
-                "bower_components/codemirror/lib/codemirror.css",
-                "bower_components/font-source-sans-pro/source-sans-pro.css",
-                "bower_components/please-wait/build/please-wait.css",
-                "bower_components/codemirror/addon/fold/foldgutter.css",
-                "bower_components/spectrum/spectrum.css",
-                //                "node_modules/vis-network/styles/vis-network.css",
-            ]),
-            gulp.src([
-                "app/styles/main.scss",
-            ])
-            .pipe(sass({
-                errLogToConsole: true
-            }))
-        )
+    return gulp.src([
+            "bower_components/foundation/css/foundation.css",
+            "bower_components/codemirror/lib/codemirror.css",
+            "bower_components/font-source-sans-pro/source-sans-pro.css",
+            "bower_components/please-wait/build/please-wait.css",
+            "bower_components/codemirror/addon/fold/foldgutter.css",
+            "bower_components/spectrum/spectrum.css",
+            "app/styles/main.css",
+        ])
+        .pipe(sourcemaps.init({
+            loadMaps: true,
+            largeFile: true
+        }))
         .pipe(concat('vendor.css'))
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest('dist/styles/'));
 });
 
@@ -125,7 +115,9 @@ gulp.task('concatJS', function() {
             ])
             .pipe(coffee({
                 bare: true
-            })).on('error', handleError)
+            })).on('error', function(err) {
+                console.log(err)
+            })
         )
         .pipe(sourcemaps.init({
             loadMaps: true,
