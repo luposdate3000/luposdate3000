@@ -21,6 +21,7 @@ var slider, toggle, instrumentSimpleSelect, instrumentSimpleSelectTone;
 var selectArray = [];
 var selectToneArray = [];
 var selectAudio = {}
+var usedInstruments = [];
 
 const panner = new Tone.Panner(0).toDestination();
 if (typeof luposdate3000_endpoint === "undefined") {
@@ -29,18 +30,21 @@ if (typeof luposdate3000_endpoint === "undefined") {
 //Initialize all interactive elements and Luposdate3000
 // -> If evaluate Button is clicked
 function visualisationSetup() {
-    //Loading all isntruments and the "none" Option
-    var instrumentList = Object.keys(App.samples);
+    //Loading all instruments and the "none" Option
+    var instrumentList = Object.keys(App.operators.instruments);
     instrumentList.push("None");
+    //Load piano as default instrument
+    App.samples = SampleLibrary.load({
+        instruments: ['piano'],
+        baseUrl: "./resources/samples/"
+    });
+    usedInstruments.push('piano');
     // loop through instruments and set release, connect to master output
-    for (var property in App.samples) {
-        if (App.samples.hasOwnProperty(property)) {
-            App.samples[property].release = .5;
-            App.samples[property].toDestination();
-        }
-    }
+    App.samples['piano'].release = .5;
+    App.samples['piano'].toDestination();
+
     current = App.samples['piano'];
-    current.connect(panner)
+    current.connect(panner);
 
     //If network was already build up:
     //Delete current Animation List and Netowrk

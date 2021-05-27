@@ -3,6 +3,7 @@
     isMergeView: false
 
 App.init = ->
+
     App.mappingIdentifiers = {
         Pitch: '#pitchSettings'
         Instrument: '#instrumentSettings'
@@ -22,6 +23,7 @@ App.init = ->
     octaveSetup()
     pitchSetup()
     spatializationSetup()
+
     # Rico: Luposdate3000 Graph is disabled at the beginning
     $('#luposdate3000graph-tab').hide()
 
@@ -32,35 +34,37 @@ App.init = ->
     # Load configuration
     App.URIQuery = URI(document.location.href).query(true)
 
-    $.getJSON('config/operators.json').done (data) ->
-        App.operators = data
-        if App.URIQuery.config
-            $.getJSON(App.URIQuery.config).done (addData) ->
-                App.operators = $.extend(data, addData, {})
-
     $.getJSON('config/config.json').done (data) ->
         App.config = data
         if App.URIQuery.config
             $.getJSON(App.URIQuery.config).done (addData) ->
                 App.config = $.extend(data, addData, {})
-                App.play()
+                App.loadSonificationConfig()
         else
-            App.play()
+            App.loadSonificationConfig()
 
+App.loadSonificationConfig = ->
+    $.getJSON('config/operators.json').done (data) ->
+        App.operators = data
+        if App.URIQuery.config
+            $.getJSON(App.URIQuery.config).done (addData) ->
+                App.operators = $.extend(data, addData, {})
+        App.play()
 
 App.play = ->
     App.loadEditors()
     App.bindEvents()
     App.initConfigComponents()
     App.insertQueryPicker()
-
+    App.samples = []
     #Rico: Load instruments
-    App.samples = SampleLibrary.load(
-        instruments: ['piano', 'bass-electric', 'bassoon', 'cello', 'clarinet', 'contrabass', 'flute', 'french-horn',
-            'guitar-acoustic', 'guitar-electric', 'guitar-nylon', 'harmonium', 'harp', 'organ', 'saxophone', 'trombone',
-            'trumpet', 'tuba', 'violin', 'xylophone'],
-        baseUrl: "./resources/samples/"
-    )
+    #App.samples = SampleLibrary.load(
+    #    instruments: ['piano', 'bass-electric', 'bassoon', 'cello', 'clarinet', 'contrabass', 'flute', 'french-horn',
+    #        'guitar-acoustic', 'guitar-electric', 'guitar-nylon', 'harmonium', 'harp', 'organ', 'saxophone', 'trombone',
+    #        'trumpet', 'tuba', 'violin', 'xylophone'],
+    #    baseUrl: "./resources/samples/"
+    #)
+
     if !App.config.hasOwnProperty("sonification")
         resetAllSonificationSettings()
 
@@ -599,7 +603,7 @@ App.processResults = (data, lang) ->
                     for bind,bindIndex in result
                         resultTab += "            <td>"
                         resultTab += bind
-                        resultTab += "</td>"s
+                        resultTab += "</td>"
                     resultTab += "        </tr>"
                 resultTab += "    </tbody>"
                 resultTab += "</table>"
