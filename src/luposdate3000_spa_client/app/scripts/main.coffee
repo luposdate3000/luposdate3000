@@ -34,39 +34,24 @@ App.init = ->
     # Load configuration
     App.URIQuery = URI(document.location.href).query(true)
 
-    $.getJSON('config/config.json').done (data) ->
-        App.config = data
-        if App.URIQuery.config
-            $.getJSON(App.URIQuery.config).done (addData) ->
-                App.config = $.extend(data, addData, {})
-                App.loadSonificationConfig()
-        else
-            App.loadSonificationConfig()
+    $.getJSON('config/operators.json').done (dataOp) ->
+        App.operators = dataOp
+        $.getJSON('config/config.json').done (dataConf) ->
+            App.config = dataConf
+            if App.URIQuery.config
+                $.getJSON(App.URIQuery.config).done (addData) ->
+                    #merge the default config with the provided url-config 
+                    App.config = $.extend(data, addData, {}) 
+                    App.play()
+            else
+                App.play()
 
-App.loadSonificationConfig = ->
-    $.getJSON('config/operators.json').done (data) ->
-        App.operators = data
-        if App.URIQuery.config
-            $.getJSON(App.URIQuery.config).done (addData) ->
-                App.operators = $.extend(data, addData, {})
-        App.play()
 
 App.play = ->
     App.loadEditors()
     App.bindEvents()
     App.initConfigComponents()
     App.insertQueryPicker()
-    App.samples = []
-    #Rico: Load instruments
-    #App.samples = SampleLibrary.load(
-    #    instruments: ['piano', 'bass-electric', 'bassoon', 'cello', 'clarinet', 'contrabass', 'flute', 'french-horn',
-    #        'guitar-acoustic', 'guitar-electric', 'guitar-nylon', 'harmonium', 'harp', 'organ', 'saxophone', 'trombone',
-    #        'trumpet', 'tuba', 'violin', 'xylophone'],
-    #    baseUrl: "./resources/samples/"
-    #)
-
-    if !App.config.hasOwnProperty("sonification")
-        resetAllSonificationSettings()
 
     # CodeMirror is display:none during loading screen so we need
     # a delayed refresh to have it display properly
@@ -858,7 +843,7 @@ App.configComponents =
 App.initConfigComponents = ->
     for endpoint in App.config.endpoints
         $("#endpoint_selector").append('<option value="' + endpoint.name + '">' + endpoint.name + '</option>');
-    $('#endpoint_selector').trigger('change')
+    #$('#endpoint_selector').trigger('change')
     for evaluator in App.config.evaluators
         $("#evaluator_selector").append('<option value="' + evaluator + '">' + evaluator + '</option>');
     for tones in App.operators.tones
@@ -874,7 +859,7 @@ App.initConfigComponents = ->
         $('#rule_rif').hide()
         $('#rule_rif_label').hide()
     # Find first visible tab and focus it
-    # delay is due to foundation initialization
+    # delayy is due to foundation initialization
     # TODO: use promise instead
     delay 1000, ->
         $('.tabs').each ->
@@ -894,10 +879,7 @@ App.initConfigComponents = ->
     App.showWithGraph()
 
     for tab in App.config.readOnlyTabs
-# $("##{tab}-tab, a[href=##{tab}-tab]").addClass 'read-only'
-# $("##{tab}-tab").find('input, textarea, select').attr('readonly', true)
         App.cm[tab].setOption("readOnly", true)
-
     App.configComponents.Radio '#rule_radios input', App.config['queryParameters']['inference'], (val) ->
         App.config['queryParameters']['inference'] = val
     App.configComponents.Check '#send_rdf', App.config.sendRDF, (send) ->
