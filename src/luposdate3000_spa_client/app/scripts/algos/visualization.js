@@ -304,7 +304,6 @@ $('#luposdate3000_play').click(function() {
             }]);
         }
     }
-    $("a[href=#luposdate3000-graph-tab]").css("pointer-events", "none");
     $('#luposdate3000_stop').show();
     $('#luposdate3000_play').hide();
     $('#luposdate3000_pause').show();
@@ -481,7 +480,6 @@ $('#dataVariableDepth').click(function() {
 //Event Listener
 // Set stopFlag to stop Animation when stop button is pressed
 $('#luposdate3000_stop').click(function() {
-    $("a[href=#luposdate3000-graph-tab]").css("pointer-events", "");
     $('#luposdate3000_stop').hide();
     $('#luposdate3000_play').show();
     $('#luposdate3000_pause').hide();

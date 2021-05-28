@@ -195,8 +195,8 @@ App.loadluposdate3000 = (data, url, withGraph) ->
 
 App.bindEvents = ->
     $('#sonificationsettings').click ->
-        $('#graphsettings-ast').hide()
         $('#sonificationsettings-menu').show()
+        $('#graphsettings-ast').hide()
         $('#graphsettings-operator').hide()
 
     $('#graphsettings').click ->
@@ -204,9 +204,6 @@ App.bindEvents = ->
         $('#graphsettings-ast').show()
         $('#graphsettings-operator').show()
 
-
-    $('#result-tab').click ->
-        $('#graphsettings').hide()
 
     $('#op-graph-down').click ->
         value = $('#graph-select').val()
@@ -843,12 +840,6 @@ App.initConfigComponentsHideTabs = ->
                 leftAvailableTab = tab
             if leftAvailableTab == ""
                 leftAvailableTab = tab
-    if "rif" in tabsToHide
-        $("#rule_rif").hide()
-        $("#rule_rif_label").hide()
-    else
-        $("#rule_rif").show()
-        $("#rule_rif_label").show()
     if leftAvailableTab != ""
         selector = "a[href=#"
         selector += leftAvailableTab
@@ -882,7 +873,21 @@ App.initConfigComponentsHideTabs = ->
         selector += rightAvailableTab
         selector += "-tab]"
         $(selector).click()
-    $(document).foundation()
+    if "rif" in tabsToHide
+        $("#rule_rif").hide()
+        $("#rule_rif_label").hide()
+    else
+        $("#rule_rif").show()
+        $("#rule_rif_label").show()
+    if ("graph" in tabsToHide) && ("op-graph" in tabsToHide)
+        $('#graphsettings').hide()
+    else
+        $('#graphsettings').show()
+    if "luposdate3000-sonification" in tabsToHide
+        $("#sonificationsettings").hide()
+    else
+        $("#sonificationsettings").show()
+
 #end hide
 
 App.initConfigComponents = ->
