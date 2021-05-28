@@ -5,9 +5,9 @@
         },
         Instrument: {
             mode: "Simple",
- Simple:{
-value:"organ"
-}
+            Simple: {
+                value: "organ"
+            }
         },
         Loudness: {
             mode: "None",
@@ -29,39 +29,56 @@ value:"organ"
         },
     },
     endpoints: [{
-            name: "Luposdate3000 - Browser",
+            name: "Browser Luposdate3000",
             nonstandard: false,
+            evaluators: [
+                Luposdate3000
+            ],
+            selectedEvaluator: 0,
         },
         {
-            name: "Luposdate3000 - Endpoint",
+            name: "localhost Luposdate3000",
             nonstandard: false,
             url: "http://benjamin0:80/",
             without: "", // Define standard endpoint (ignored if nonstandard is true)
+            evaluators: [
+                Luposdate3000
+            ],
+            selectedEvaluator: 0,
         },
         {
             url: "https://www.ifis.uni-luebeck.de/sparql-endpoint/",
-            name: "IFIS",
+            name: "IFIS Luposdate",
             nonstandard: true,
             sparql: ["nonstandard/sparql", "POST"], // Nonstandard endpoints with location and HTTP method respectively
             rif: ["nonstandard/rif", "POST"],
+            evaluators: [
+                MemoryIndex,
+                RDF3X,
+                Stream,
+                Jena,
+                Sesame,
+            ],
+            selectedEvaluator: 0,
         },
         {
             url: "http://localhost:8080/",
-            name: "localhost",
+            name: "localhost Luposdate",
             nonstandard: true,
             without: "sparql",
             sparql: ["nonstandard/sparql", "POST"],
             rif: ["nonstandard/rif", "POST"],
+            evaluators: [
+                MemoryIndex,
+                RDF3X,
+                Stream,
+                Jena,
+                Sesame,
+            ],
+            selectedEvaluator: 0,
         },
     ],
     selectedEndpoint: 0,
-    evaluators: [
-        MemoryIndex,
-        RDF3X,
-        Stream,
-        Jena,
-        Sesame,
-    ],
     defaultData: {
         sparql: [
             "resources/Sparql/OneTriplePattern.sparql",

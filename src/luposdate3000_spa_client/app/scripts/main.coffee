@@ -50,13 +50,12 @@ App.init = ->
 App.play = ->
     App.loadEditors()
     App.bindEvents()
-    App.initConfigComponents()
+    # App.initConfigComponents after App.bindEvents
+    # App.initConfigComponents after loading App.config
+    App.initConfigComponents() 
     App.insertQueryPicker()
 
-    # CodeMirror is display:none during loading screen so we need
-    # a delayed refresh to have it display properly
-    pleaseWait.finish()
-    delay 1500, ->
+    pleaseWait.finish false, () ->
         App.cm['sparql'].refresh()
         App.cm['rif'].refresh()
         App.cm['rdf'].refresh()
@@ -99,20 +98,12 @@ App.loadQuery = (lang, index) ->
         $statusElement.html('<i class="fa fa-check-circle"></i>').fadeOut(500)
         App.cm[lang].getDoc().setValue(data)
 
-App.setSelectedEndpoint = ->
-    endpointname = $("#endpoint_selector").val()
-    i = 0
-    for endpoint in App.config.endpoints
-        if endpoint.name == endpointname
-            App.config.selectedEndpoint = i
-        i++
-
-getGraphData = (data, urlPrefix, method, target)->
+App.getGraphData = (data, urlPrefix, method, target)->
 
 # AST Request
     request = {
         query: data.query
-        evaluator: $('#evaluator_selector').val()
+        evaluator: App.selectedEvaluatorName
     }
     $.ajax
         url: urlPrefix + "/info"
@@ -231,28 +222,6 @@ App.bindEvents = ->
         $('#graphsettings-operator').hide()
 
     # Rico: if Luposdate3000 is clicked, disable Endpoint and Evaluator selector
-    $('#endpoint_selector').change ->
-        version = $(this).val()
-        if(version == 'Luposdate3000 - Browser' || version == 'Luposdate3000 - Endpoint')
-            $('#evaluator_selector_label').hide()
-            $('#checkbox_downloadResult_label').hide()
-        else
-            $('#evaluator_selector_label').show()
-            $('#checkbox_downloadResult_label').show()
-
-    $('#evaluator_selector').change ->
-        evaluator = $(this).val()
-        if(evaluator == "Jena" || evaluator == "Sesame")
-            $('#eval-graph-sparql').prop('checked', false)
-            $('#eval-graph-rif').prop('checked', false)
-            $('.label-with-graph').hide()
-            if($('a[href$="#rif-tab"]').attr("aria-selected") == "true")
-                $('a[href$="#sparql-tab"]').click()
-
-            $('a[href$="#rif-tab"]').hide()
-        else
-            App.showWithGraph();
-            $('a[href$="#rif-tab"]').show()
 
     $('#getopgraphdata').click ->
         $('#graphsettings').show()
@@ -310,7 +279,6 @@ App.bindEvents = ->
             App.cm[key].save()
 
         target = $(this).data 'target'
-        App.setSelectedEndpoint()
         if target == 'sparql'
             withGraph = $('#eval-graph-sparql').prop('checked')
         else
@@ -330,7 +298,7 @@ App.bindEvents = ->
             method = 'GET'
             locator = endpoint.without
         url = endpoint.url + locator
-        if($('#endpoint_selector').val() == 'Luposdate3000 - Browser' || $('#endpoint_selector').val() == 'Luposdate3000 - Endpoint')
+        if endpoint.name == "Browser Luposdate3000" || endpoint.name == "localhost Luposdate3000"
             $('#result-tab').show()
             $('#getgraphdata').hide()
             $('#getopgraphdata').hide()
@@ -338,8 +306,8 @@ App.bindEvents = ->
                 $('#getLuposdate3000Graph').show()
                 $('#getLuposdate3000GraphSon').show()
                 visualisationSetup()
-            version = $('#endpoint_selector').val();
-            if (version == 'Luposdate3000 - Browser')
+            version = App.selectedEndpointName;
+            if endpoint.name == "Browser Luposdate3000"
                 if App.config.sendRDF
                     luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(data.rdf);
                 #Receive optimized steps for logical and physical operator graph
@@ -357,7 +325,7 @@ App.bindEvents = ->
                 else
                     res = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(data.query)
                     App.processResults(res, "sparql")
-            else if (version == 'Luposdate3000 - Endpoint')
+            else
                 if App.config.sendRDF
                     rdfData =
                         data: data.rdf
@@ -387,14 +355,14 @@ App.bindEvents = ->
                 data['inference'] = inference
                 if(inference == 'RIF')
                     data['rif'] = $('#codemirror_rif').val()
-                data['evaluator'] = $('#evaluator_selector').val()
+                data['evaluator'] = App.selectedEvaluatorName
             # Nonstandard endpoints expect JSON-string as request body
             # data = JSON.stringify(data)
 
 
             if withGraph
 #            $('.query .get-graph').trigger("click");
-                getGraphData(data, url, method, target)
+                App.getGraphData(data, url, method, target)
                 $('#getgraphdata').parent("dd").show()
                 $('#getopgraphdata').parent("dd").show()
             else
@@ -596,24 +564,20 @@ App.processResults = (data, lang) ->
         $('#results-tab').html(resultTab)
         if $('#checkbox_downloadResult').is(':checked')
             $('#results-tab').append('<div class="buttonarea"><a id="downloadHTMLResult" download="Result.html" class="button evaluate">Download Result HTML</a></div>')
+            localhtml = ""
             localhtml += "<html class=' js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths'>"
-            localhtml += ""
             localhtml += "<head>"
             localhtml += "    <link rel='shortcut icon' href='images/favicon.png' type='image/png'>"
             localhtml += "    <meta charset='utf-8'>"
             localhtml += "    <title>Result of Query</title>"
             localhtml += "    <meta name='description' content=''>"
             localhtml += "    <meta name='viewport' content='width=device-width, initial-scale=1'>"
-            localhtml += ""
             localhtml += "    <link rel='stylesheet' href='https://www.ifis.uni-luebeck.de/~groppe/luposdate-js-client/styles/vendor.css'>"
-            localhtml += ""
             localhtml += "    <!-- TODO: Keep fonts in this repo? -->"
             localhtml += "    <link href='//fonts.googleapis.com/css?family=Source+Code+Pro:400,700' rel='stylesheet' type='text/css'>"
             localhtml += "    <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>"
             localhtml += "    <link href='//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' rel='stylesheet'>"
-            localhtml += ""
             localhtml += "    <link rel='stylesheet' href='https://www.ifis.uni-luebeck.de/~groppe/luposdate-js-client/styles/main.css'>"
-            localhtml += ""
             localhtml += "    <meta class='foundation-data-attribute-namespace'>"
             localhtml += "    <meta class='foundation-mq-xxlarge'>"
             localhtml += "    <meta class='foundation-mq-xlarge-only'>"
@@ -624,23 +588,16 @@ App.processResults = (data, lang) ->
             localhtml += "    <meta class='foundation-mq-medium'>"
             localhtml += "    <meta class='foundation-mq-small-only'>"
             localhtml += "    <meta class='foundation-mq-small'>"
-            localhtml += "    <style></style>"
-            localhtml += "    <style></style>"
             localhtml += "    <meta class='foundation-mq-topbar'>"
             localhtml += "</head>"
-            localhtml += ""
             localhtml += "<body style='margin: 20pt'>"
             localhtml += "    <!--[if lt IE 10]>"
             localhtml += "<p class='browsehappy'>You are using an <strong>outdated</strong> browser. Please <a href='https://browsehappy.com/'>upgrade"
             localhtml += "    your browser</a> to improve your experience.</p>"
             localhtml += "<![endif]-->"
             localhtml += "    <h1>Result of Query</h1>"
-            localhtml += ""
-            localhtml += "    "
             localhtml += resultTab
-            localhtml += ""
             localhtml += "</body>"
-            localhtml += ""
             localhtml += "</html>"
             $("#downloadHTMLResult").attr('href', makeTextFile(localhtml))
     else
@@ -840,12 +797,64 @@ App.configComponents =
         if defaultVal
             $(watchedElementSelector).click()
 
-App.initConfigComponents = ->
+App.initConfigComponentsEndpointSelector = ->
+    localhtml = ""
     for endpoint in App.config.endpoints
-        $("#endpoint_selector").append('<option value="' + endpoint.name + '">' + endpoint.name + '</option>');
-    #$('#endpoint_selector').trigger('change')
-    for evaluator in App.config.evaluators
-        $("#evaluator_selector").append('<option value="' + evaluator + '">' + evaluator + '</option>');
+        localhtml += "<option value='" 
+        localhtml += _.escape(endpoint.name )
+        localhtml += "'>" 
+        localhtml += _.escape(endpoint.name )
+        localhtml += "</option>"
+    $("#endpoint_selector").html localhtml
+    if !App.initConfigComponentsEndpointSelectorHasInit
+      App.initConfigComponentsEndpointSelectorHasInit=true
+      $('#endpoint_selector').change ->
+        endpointName = $(this).val()
+        App.selectedEndpointName = endpointName
+        i = 0
+        for endpoint in App.config.endpoints
+            if endpoint.name == endpointName
+                App.config.selectedEndpoint = i
+            i++
+        App.initConfigComponentsEvaluatorSelector()
+    $('#endpoint_selector').val App.config.endpoints[App.config.selectedEndpoint].name
+
+App.initConfigComponentsEvaluatorSelector = ->
+    endpoint = App.config.endpoints[App.config.selectedEndpoint]
+    localhtml = ""
+    for evaluator in endpoint.evaluators
+        localhtml+="<option value='"
+        localhtml+= _.escape(evaluator )
+        localhtml+= "'>"
+        localhtml+= _.escape(evaluator)
+        localhtml+= "</option>"
+    $("#evaluator_selector").html localhtml
+    if !App.initConfigComponentsEvaluatorSelectorHasInit
+      App.initConfigComponentsEvaluatorSelectorHasInit=true
+      $('#evaluator_selector').change ->
+        evaluator = $(this).val()
+        endpoint = App.config.endpoints[App.config.selectedEndpoint]
+        App.selectedEvaluatorName=evaluator
+        i=0
+        for evaluator2 in endpoint.evaluators
+            if evaluator2 == evaluator
+                endpoint.selectedEvaluator=i
+            i++
+        if(evaluator == "Jena" || evaluator == "Sesame")
+            $('#eval-graph-sparql').prop('checked', false)
+            $('#eval-graph-rif').prop('checked', false)
+            $('.label-with-graph').hide()
+            if($('a[href$="#rif-tab"]').attr("aria-selected") == "true")
+                $('a[href$="#sparql-tab"]').click()
+            $('a[href$="#rif-tab"]').hide()
+        else
+            App.showWithGraph();
+            $('a[href$="#rif-tab"]').show()
+    $('#evaluator_selector').val endpoint.evaluators[endpoint.selectedEvaluator]
+
+App.initConfigComponents = ->
+    App.initConfigComponentsEndpointSelector()
+    App.initConfigComponentsEvaluatorSelector()
     for tones in App.operators.tones
         $("#tone_select").append('<option value)"' + tones + '">' + tones + '</option>');
     for tab in App.config.hide.tabs
