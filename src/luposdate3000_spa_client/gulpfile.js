@@ -323,13 +323,22 @@ gulp.task('images', function() {
 });
 
 gulp.task('fonts', function() {
-    return gulp.src([
+    return merge(
+        gulp.src([
+            "bower_components/font-source-sans-pro/OTF/SourceSansPro-BoldIt.otf",
+            "bower_components/font-source-sans-pro/OTF/SourceSansPro-Bold.otf",
+            "bower_components/font-source-sans-pro/OTF/SourceSansPro-Regular.otf",
+            "bower_components/font-source-sans-pro/OTF/SourceSansPro-Semibold.otf",
+        ])
+        .pipe(gulp.dest('dist/styles/OTF')),
+        gulp.src([
             "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-BoldIt.otf.woff",
             "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-Bold.otf.woff",
             "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-Regular.otf.woff",
             "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-Semibold.otf.woff",
         ])
-        .pipe(gulp.dest('dist/styles/OTF'));
+        .pipe(gulp.dest('dist/styles/WOFF/OTF'))
+    );
 });
 
 gulp.task('clean', function() {
