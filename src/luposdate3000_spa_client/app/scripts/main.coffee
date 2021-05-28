@@ -3,7 +3,6 @@
     isMergeView: false
 
 App.init = ->
-
     App.mappingIdentifiers = {
         Pitch: '#pitchSettings'
         Instrument: '#instrumentSettings'
@@ -40,8 +39,8 @@ App.init = ->
             App.config = dataConf
             if App.URIQuery.config
                 $.getJSON(App.URIQuery.config).done (addData) ->
-                    #merge the default config with the provided url-config 
-                    App.config = $.extend(data, addData, {}) 
+#merge the default config with the provided url-config
+                    App.config = $.extend(data, addData, {})
                     App.play()
             else
                 App.play()
@@ -52,7 +51,7 @@ App.play = ->
     App.bindEvents()
     # App.initConfigComponents after App.bindEvents
     # App.initConfigComponents after loading App.config
-    App.initConfigComponents() 
+    App.initConfigComponents()
     App.insertQueryPicker()
 
     pleaseWait.finish false, () ->
@@ -306,7 +305,6 @@ App.bindEvents = ->
                 $('#getLuposdate3000Graph').show()
                 $('#getLuposdate3000GraphSon').show()
                 visualisationSetup()
-            version = App.selectedEndpointName;
             if endpoint.name == "Browser Luposdate3000"
                 if App.config.sendRDF
                     luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(data.rdf);
@@ -799,58 +797,54 @@ App.configComponents =
 
 App.initConfigComponentsEndpointSelector = ->
     localhtml = ""
+    i = 0
     for endpoint in App.config.endpoints
-        localhtml += "<option value='" 
-        localhtml += _.escape(endpoint.name )
-        localhtml += "'>" 
-        localhtml += _.escape(endpoint.name )
+        localhtml += "<option value='"
+        localhtml += i
+        localhtml += "'>"
+        localhtml += _.escape(endpoint.name)
         localhtml += "</option>"
+        i++
     $("#endpoint_selector").html localhtml
     if !App.initConfigComponentsEndpointSelectorHasInit
-      App.initConfigComponentsEndpointSelectorHasInit=true
-      $('#endpoint_selector').change ->
-        endpointName = $(this).val()
-        App.selectedEndpointName = endpointName
-        i = 0
-        for endpoint in App.config.endpoints
-            if endpoint.name == endpointName
-                App.config.selectedEndpoint = i
-            i++
-        App.initConfigComponentsEvaluatorSelector()
-    $('#endpoint_selector').val App.config.endpoints[App.config.selectedEndpoint].name
+        App.initConfigComponentsEndpointSelectorHasInit = true
+        $('#endpoint_selector').change ->
+            App.config.selectedEndpoint = $(this).val()
+            App.initConfigComponentsEvaluatorSelector()
+    $('#endpoint_selector').val App.config.selectedEndpoint
 
 App.initConfigComponentsEvaluatorSelector = ->
     endpoint = App.config.endpoints[App.config.selectedEndpoint]
     localhtml = ""
+    i = 0
     for evaluator in endpoint.evaluators
-        localhtml+="<option value='"
-        localhtml+= _.escape(evaluator )
-        localhtml+= "'>"
-        localhtml+= _.escape(evaluator)
-        localhtml+= "</option>"
+        localhtml += "<option value='"
+        localhtml += i
+        localhtml += "'>"
+        localhtml += _.escape(evaluator)
+        localhtml += "</option>"
+        i++
     $("#evaluator_selector").html localhtml
     if !App.initConfigComponentsEvaluatorSelectorHasInit
-      App.initConfigComponentsEvaluatorSelectorHasInit=true
-      $('#evaluator_selector').change ->
-        evaluator = $(this).val()
-        endpoint = App.config.endpoints[App.config.selectedEndpoint]
-        App.selectedEvaluatorName=evaluator
-        i=0
-        for evaluator2 in endpoint.evaluators
-            if evaluator2 == evaluator
-                endpoint.selectedEvaluator=i
-            i++
-        if(evaluator == "Jena" || evaluator == "Sesame")
-            $('#eval-graph-sparql').prop('checked', false)
-            $('#eval-graph-rif').prop('checked', false)
-            $('.label-with-graph').hide()
-            if($('a[href$="#rif-tab"]').attr("aria-selected") == "true")
-                $('a[href$="#sparql-tab"]').click()
-            $('a[href$="#rif-tab"]').hide()
-        else
-            App.showWithGraph();
-            $('a[href$="#rif-tab"]').show()
-    $('#evaluator_selector').val endpoint.evaluators[endpoint.selectedEvaluator]
+        App.initConfigComponentsEvaluatorSelectorHasInit = true
+        $('#evaluator_selector').change ->
+            endpoint = App.config.endpoints[App.config.selectedEndpoint]
+            endpoint.selectedEvaluator = $(this).val()
+            App.selectedEvaluatorName = endpoint.evaluators[endpoint.selectedEvaluator]
+            if(App.selectedEvaluatorName == "Jena" || App.selectedEvaluatorName == "Sesame")
+                $('#eval-graph-sparql').prop('checked', false)
+                $('#eval-graph-rif').prop('checked', false)
+                $('.label-with-graph').hide()
+                if($('a[href$="#rif-tab"]').attr("aria-selected") == "true")
+                    $('a[href$="#sparql-tab"]').click()
+                $('a[href$="#rif-tab"]').hide()
+            else
+                if App.config.hide.withGraph
+                    $('.label-with-graph').hide()
+                else
+                    $('.label-with-graph').show()
+                $('a[href$="#rif-tab"]').show()
+    $('#evaluator_selector').val endpoint.selectedEvaluator
 
 App.initConfigComponents = ->
     App.initConfigComponentsEndpointSelector()

@@ -32,7 +32,7 @@
             name: "Browser Luposdate3000",
             nonstandard: false,
             evaluators: [
-                Luposdate3000
+                "Luposdate3000"
             ],
             selectedEvaluator: 0,
         },
@@ -42,7 +42,7 @@
             url: "http://benjamin0:80/",
             without: "", // Define standard endpoint (ignored if nonstandard is true)
             evaluators: [
-                Luposdate3000
+                "Luposdate3000"
             ],
             selectedEvaluator: 0,
         },
@@ -53,11 +53,11 @@
             sparql: ["nonstandard/sparql", "POST"], // Nonstandard endpoints with location and HTTP method respectively
             rif: ["nonstandard/rif", "POST"],
             evaluators: [
-                MemoryIndex,
-                RDF3X,
-                Stream,
-                Jena,
-                Sesame,
+                "MemoryIndex",
+                "RDF3X",
+                "Stream",
+                "Jena",
+                "Sesame",
             ],
             selectedEvaluator: 0,
         },
@@ -69,11 +69,11 @@
             sparql: ["nonstandard/sparql", "POST"],
             rif: ["nonstandard/rif", "POST"],
             evaluators: [
-                MemoryIndex,
-                RDF3X,
-                Stream,
-                Jena,
-                Sesame,
+                "MemoryIndex",
+                "RDF3X",
+                "Stream",
+                "Jena",
+                "Sesame",
             ],
             selectedEvaluator: 0,
         },
