@@ -329,7 +329,7 @@ gulp.task('fonts', function() {
             "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-Regular.otf.woff",
             "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-Semibold.otf.woff",
         ])
-        .pipe(gulp.dest('dist/styles/WOFF/OTF'));
+        .pipe(gulp.dest('dist/styles/OTF'));
 });
 
 gulp.task('clean', function() {

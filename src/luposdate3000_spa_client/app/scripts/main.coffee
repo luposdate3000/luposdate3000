@@ -13,6 +13,9 @@ App.init = ->
         Chord: '#chordSettings'
         Octave: '#octaveSettings'
     }
+    App.leftTabs = ["sparql", "rdf", "rif"]
+    App.rightTabs = ["result", "graph", "op-graph", "luposdate3000-graph", "luposdate3000-sonification"]
+    App.additionalHiddenTabs = App.rightTabs
     App.mappingFunctions = {}
     chordSetup()
     durationSetup()
@@ -23,8 +26,6 @@ App.init = ->
     pitchSetup()
     spatializationSetup()
 
-    # Rico: Luposdate3000 Graph is disabled at the beginning
-    $('#luposdate3000graph-tab').hide()
 
     # Load xml converter
     App.x2js = new X2JS
@@ -123,12 +124,6 @@ App.getGraphData = (data, urlPrefix, method, target)->
         error: (xhr, status, error) ->
             App.logError error
 
-App.showWithGraph = ->
-    if App.config.hide.withGraph
-        $('.label-with-graph').hide()
-    else
-        $('.label-with-graph').show()
-
 
 App.loadluposdate3000 = (data, url, withGraph) ->
     queryData =
@@ -172,6 +167,8 @@ App.loadluposdate3000 = (data, url, withGraph) ->
                                                     data: sessionData
                                                     success: (closeResponse) ->
                                                         formatResultData();
+                                                        App.additionalHiddenTabs = ["graph", "op-graph"]
+                                                        App.initConfigComponentsHideTabs()
                                                     error: (xhr, status, error) ->
                                                         App.logError error
                                             error: (xhr, status, error) ->
@@ -191,47 +188,22 @@ App.loadluposdate3000 = (data, url, withGraph) ->
             data: queryData
             success: (xml) ->
                 App.processResults(xml, "sparql")
+                App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph", "luposdate3000-sonification"]
+                App.initConfigComponentsHideTabs()
             error: (xhr, status, error) ->
                 App.logError error
 
 App.bindEvents = ->
-    $('#getLuposdate3000Graphlink').click ->
-        $('#luposdate3000-graph-tab').show()
-        $('#luposdate3000-sonification-tab').hide()
-
-    $('#getLuposdate3000GraphSonlink').click ->
-        $('#luposdate3000-graph-tab').hide()
-        $('#luposdate3000-sonification-tab').show()
-
-    #Rico: Hide graph settings when sonification button is pressed and show sonification settings
     $('#sonificationsettings').click ->
         $('#graphsettings-ast').hide()
         $('#sonificationsettings-menu').show()
         $('#graphsettings-operator').hide()
 
-    #Rico: Show again graph settings when the matching button is clicked
     $('#graphsettings').click ->
         $('#sonificationsettings-menu').hide()
         $('#graphsettings-ast').show()
         $('#graphsettings-operator').show()
 
-    $('#getgraphdata').click ->
-        $('#graphsettings').show()
-        $('#graphsettings-ast').show()
-        $('#graphsettings-operator').hide()
-
-    # Rico: if Luposdate3000 is clicked, disable Endpoint and Evaluator selector
-
-    $('#getopgraphdata').click ->
-        $('#graphsettings').show()
-        $('#graphsettings-operator').show()
-        $('#graphsettings-ast').hide()
-
-    #Rico: disable operator graph settings when sonification graph tab is pressed
-    $('#getLuposdate3000Graph').click ->
-        $('#graphsettings').hide()
-        $('#graphsettings-operator').show()
-        $('#graphsettings-ast').hide()
 
     $('#result-tab').click ->
         $('#graphsettings').hide()
@@ -272,7 +244,6 @@ App.bindEvents = ->
 
     # Send query to endpoint
     $('.query .evaluate').click ->
-
 # Copy changes to textarea
         for key of App.cm
             App.cm[key].save()
@@ -298,12 +269,7 @@ App.bindEvents = ->
             locator = endpoint.without
         url = endpoint.url + locator
         if endpoint.name == "Browser Luposdate3000" || endpoint.name == "localhost Luposdate3000"
-            $('#result-tab').show()
-            $('#getgraphdata').hide()
-            $('#getopgraphdata').hide()
             if withGraph
-                $('#getLuposdate3000Graph').show()
-                $('#getLuposdate3000GraphSon').show()
                 visualisationSetup()
             if endpoint.name == "Browser Luposdate3000"
                 if App.config.sendRDF
@@ -320,9 +286,14 @@ App.bindEvents = ->
                     tmpResult = eev.getDataSteps();
                     addAnimationData(tmpResult)
                     formatResultData();
+                    App.additionalHiddenTabs = ["graph", "op-graph"]
+                    App.initConfigComponentsHideTabs()
                 else
                     res = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(data.query)
                     App.processResults(res, "sparql")
+                    App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph",
+                        "luposdate3000-sonification"]
+                    App.initConfigComponentsHideTabs()
             else
                 if App.config.sendRDF
                     rdfData =
@@ -339,11 +310,6 @@ App.bindEvents = ->
                     App.loadluposdate3000 data, url, withGraph
             visualisationStart()
         else
-            $('#getgraphdata').show()
-            $('#getopgraphdata').show()
-            $('#getLuposdate3000Graph').hide()
-            $('#getLuposdate3000GraphSon').hide()
-
             if endpoint.nonstandard
                 data['formats'] = ['xml', 'plain']
                 # Set query parameters from config
@@ -361,12 +327,8 @@ App.bindEvents = ->
             if withGraph
 #            $('.query .get-graph').trigger("click");
                 App.getGraphData(data, url, method, target)
-                $('#getgraphdata').parent("dd").show()
-                $('#getopgraphdata').parent("dd").show()
             else
-                $('.results-tab a').click()
-                $('#getgraphdata').parent("dd").hide()
-                $('#getopgraphdata').parent("dd").hide()
+                $('.result-tab a').click()
 
             # Nonstandard endpoints expect JSON-string as request body
             data = JSON.stringify(data)
@@ -374,7 +336,7 @@ App.bindEvents = ->
 
             # Switch to results tab if needed
             if App.isMergeView
-                $('.results-tab a').click()
+                $('.result-tab a').click()
             localhtml = ""
             localhtml += "<h4>Waiting for Server..</h4>"
             localhtml += "<div class='sk-spinner sk-spinner-cube-grid dark'>"
@@ -388,7 +350,7 @@ App.bindEvents = ->
             localhtml += "    <div class='sk-cube'></div>"
             localhtml += "    <div class='sk-cube'></div>"
             localhtml += "</div>"
-            $('#results-tab').html localhtml
+            $('#result-tab').html localhtml
 
             # /sparql/query
             # data query= select * ..
@@ -399,6 +361,13 @@ App.bindEvents = ->
                 data: data
                 success: (data) ->
                     App.processResults data, target
+                    if withGraph
+                        App.additionalHiddenTabs = ["luposdate3000-graph", "luposdate3000-sonification"]
+                        App.initConfigComponentsHideTabs()
+                    else
+                        App.additionalHiddenTabs = ["luposdate3000-graph", "luposdate3000-sonification", "graph",
+                            "op-graph"]
+                        App.initConfigComponentsHideTabs()
                 error: (xhr, status, error) ->
                     App.logError error
 
@@ -422,20 +391,13 @@ App.bindEvents = ->
 
     # Merge/split tabs
     $('.right-side-toggle').click ->
-        if $('.left-side .right-side-tab').length
-            $('.right-side-tab-content').appendTo($('.right-side .tabs-content'))
-            $('.right-side-tab').appendTo($('.right-side .tabs'))
-            $('.right-side').show()
-            # Auto-click first tab to refresh view
-            $('.right-side .tabs a').get(0).click()
+        if App.isMergeView
+            $("#result").show()
+            $("#query").css "width", "50%"
         else
-            $('.right-side-tab-content').appendTo($('.left-side .tabs-content'))
-            $('.right-side-tab').appendTo($('.left-side .tabs'))
-            $('.right-side').hide()
-
+            $("#result").hide()
+            $("#query").css "width", "100%"
         $(this).toggleClass 'active'
-        $('.left-side').toggleClass 'medium-6 medium-12'
-        $('.left-side .tabs a').get(0).click()
         App.isMergeView = not App.isMergeView
 
 
@@ -559,9 +521,9 @@ App.processResults = (data, lang) ->
                 resultTab += "    </tbody>"
                 resultTab += "</table>"
 
-        $('#results-tab').html(resultTab)
+        $('#result-tab').html(resultTab)
         if $('#checkbox_downloadResult').is(':checked')
-            $('#results-tab').append('<div class="buttonarea"><a id="downloadHTMLResult" download="Result.html" class="button evaluate">Download Result HTML</a></div>')
+            $('#result-tab').append('<div class="buttonarea"><a id="downloadHTMLResult" download="Result.html" class="button evaluate">Download Result HTML</a></div>')
             localhtml = ""
             localhtml += "<html class=' js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths'>"
             localhtml += "<head>"
@@ -774,7 +736,7 @@ App.logError = (msg, editor, line) ->
     localhtml = "<h4><i class='fa fa-exclamation-triangle'></i> Error</h4><p>The Server responded with:</p><pre>"
     localhtml += _.escape(msg)
     localhtml += "</pre>"
-    $('#results-tab').html localhtml
+    $('#result-tab').html localhtml
 
 App.baseName = (str) ->
     base = new String(str).substring(str.lastIndexOf('/') + 1)
@@ -811,6 +773,8 @@ App.initConfigComponentsEndpointSelector = ->
         $('#endpoint_selector').change ->
             App.config.selectedEndpoint = $(this).val()
             App.initConfigComponentsEvaluatorSelector()
+            App.additionalHiddenTabs = App.rightTabs
+            App.initConfigComponentsHideTabs()
     $('#endpoint_selector').val App.config.selectedEndpoint
 
 App.initConfigComponentsEvaluatorSelector = ->
@@ -834,34 +798,106 @@ App.initConfigComponentsEvaluatorSelector = ->
             if(App.selectedEvaluatorName == "Jena" || App.selectedEvaluatorName == "Sesame")
                 $('#eval-graph-sparql').prop('checked', false)
                 $('#eval-graph-rif').prop('checked', false)
-                $('.label-with-graph').hide()
-                if($('a[href$="#rif-tab"]').attr("aria-selected") == "true")
-                    $('a[href$="#sparql-tab"]').click()
-                $('a[href$="#rif-tab"]').hide()
-            else
-                if App.config.hide.withGraph
-                    $('.label-with-graph').hide()
-                else
-                    $('.label-with-graph').show()
-                $('a[href$="#rif-tab"]').show()
+            App.initConfigComponentsHideTabs()
+            App.initConfigComponentsHideWithGraph()
+            App.additionalHiddenTabs = App.rightTabs
+            App.initConfigComponentsHideTabs()
     $('#evaluator_selector').val endpoint.selectedEvaluator
 
+App.initConfigComponentsHideWithGraph = ->
+    if App.config.hide.withGraph || App.selectedEvaluatorName == "Jena" || App.selectedEvaluatorName == "Sesame"
+        $('.label-with-graph').hide()
+    else
+        $('.label-with-graph').show()
+App.initConfigComponentsHideTabs = ->
+#xxxx
+    tabsToHide = []
+    for tab in App.config.hide.tabs
+        tabsToHide.push(tab)
+    for tab in App.additionalHiddenTabs
+        tabsToHide.push(tab)
+    if(App.selectedEvaluatorName == "Jena" || App.selectedEvaluatorName == "Sesame")
+        tabsToHide.push("rif")
+    allTabs = []
+
+    # tabs on the left
+    leftAvailableTab = ""
+    for tab in App.leftTabs
+        selector1 = "#"
+        selector1 += tab
+        selector1 += "-tab"
+        selector2 = "a[href=#"
+        selector2 += tab
+        selector2 += "-tab]"
+        if tab in tabsToHide
+            $(selector1).hide()
+            $(selector1).removeClass "active"
+            $(selector2).hide()
+            $(selector2).removeClass "active"
+            $(selector2).parent("dd").hide()
+        else
+            $(selector1).show()
+            $(selector2).show()
+            $(selector2).parent("dd").show()
+            if $(selector1).hasClass "active"
+                leftAvailableTab = tab
+            if leftAvailableTab == ""
+                leftAvailableTab = tab
+    if "rif" in tabsToHide
+        $("#rule_rif").hide()
+        $("#rule_rif_label").hide()
+    else
+        $("#rule_rif").show()
+        $("#rule_rif_label").show()
+    if leftAvailableTab != ""
+        selector = "a[href=#"
+        selector += leftAvailableTab
+        selector += "-tab]"
+        $(selector).click()
+    # tabs on the right
+    rightAvailableTab = ""
+    for tab in App.rightTabs
+        selector1 = "#"
+        selector1 += tab
+        selector1 += "-tab"
+        selector2 = "a[href=#"
+        selector2 += tab
+        selector2 += "-tab]"
+        if tab in tabsToHide
+            $(selector1).hide()
+            $(selector1).removeClass "active"
+            $(selector2).hide()
+            $(selector2).removeClass "active"
+            $(selector2).parent("dd").hide()
+        else
+            $(selector1).show()
+            $(selector2).show()
+            $(selector2).parent("dd").show()
+            if $(selector1).hasClass "active"
+                rightAvailableTab = tab
+            if rightAvailableTab == ""
+                rightAvailableTab = tab
+    if rightAvailableTab != ""
+        selector = "a[href=#"
+        selector += rightAvailableTab
+        selector += "-tab]"
+        $(selector).click()
+    $(document).foundation()
+#end hide
+
 App.initConfigComponents = ->
+    $('.my-tabs .my-tab-links a').click (e)->
+        currentAttrValue = $(this).attr('href')
+        $('.my-tabs ' + currentAttrValue).show().siblings().hide();
+        $(this).parent('li').addClass('active').siblings().removeClass('active');
+        e.preventDefault();
+
     App.initConfigComponentsEndpointSelector()
     App.initConfigComponentsEvaluatorSelector()
+    App.initConfigComponentsHideWithGraph()
     for tones in App.operators.tones
         $("#tone_select").append('<option value)"' + tones + '">' + tones + '</option>');
-    for tab in App.config.hide.tabs
-        $("##{tab}-tab").hide().removeClass 'active'
-        $("a[href=##{tab}-tab]").parent("dd").hide().removeClass 'active'
-    # do not show getGraph button if graph tab is disabled...
-    if 'graph' in App.config.hide.tabs
-        $('#getGraph').hide()
-    # no RIF inference radio button if rif tab is disabled
-    if 'rif' in App.config.hide.tabs
-        $('#rule_rif').hide()
-        $('#rule_rif_label').hide()
-    # Find first visible tab and focus it
+    App.initConfigComponentsHideTabs()
     # delayy is due to foundation initialization
     # TODO: use promise instead
     delay 1000, ->
@@ -878,8 +914,6 @@ App.initConfigComponents = ->
                 s = '#rule_' + radio
                 $(s).hide()
                 $(s + '_label').hide()
-
-    App.showWithGraph()
 
     for tab in App.config.readOnlyTabs
         App.cm[tab].setOption("readOnly", true)
