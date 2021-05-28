@@ -106,9 +106,10 @@ function instrumentSetup() {
 
                 instrumentDataIndex = new Nexus.Select('#instrumentDataIndex', {
                     'size': [100, 40],
-                    'options': Object.keys(App.samples)
+                    'options': App.operators.instruments
                 });
                 instrumentDataIndex.value = App.config.sonification.Instrument.Simple.value
+                loadInstrument(instrumentDataIndex, false);
                 instrumentDataIndex.on('change', function(v) {
                     App.config.sonification.Instrument.Simple.value = v.value
                 });
@@ -136,9 +137,9 @@ function instrumentSetup() {
                         var string = '#instrumentOperator-' + j;
                         instrumentOperator.push(new Nexus.Select(string, {
                             'size': [100, 40],
-                            'options': Object.keys(App.samples)
-
+                            'options': App.operators.instruments
                         }));
+                        loadInstrument(instrumentOperator, true);
                     }
                 }
                 break;
@@ -163,8 +164,9 @@ function instrumentSetup() {
                     var string = '#instrumentOperatorDepth-' + i;
                     instrumentOperatorDepth.push(new Nexus.Select(string, {
                         'size': [100, 40],
-                        'options': Object.keys(App.samples)
+                        'options': App.operators.instruments
                     }));
+                    loadInstrument(instrumentOperatorDepth, true);
                 }
                 break;
             case 'Operator-Type':
@@ -189,8 +191,9 @@ function instrumentSetup() {
                     var string = '#instrumentOperatorType-' + i;
                     instrumentOperatorType.push(new Nexus.Select(string, {
                         'size': [100, 40],
-                        'options': Object.keys(App.samples)
+                        'options': App.operators.instruments
                     }));
+                    loadInstrument(instrumentOperatorType, true);
                 }
                 break;
             case 'Operator-Variable':
@@ -218,8 +221,9 @@ function instrumentSetup() {
                     var string = '#instrumentOperatorVariable-' + i;
                     instrumentOperatorVariable.push(new Nexus.Select(string, {
                         'size': [100, 40],
-                        'options': Object.keys(App.samples)
+                        'options': App.operators.instruments
                     }));
+                    loadInstrument(instrumentOperatorVariable, true);
                 }
                 break;
             case 'Data-Index':
@@ -239,8 +243,9 @@ function instrumentSetup() {
                 $('#instrumentSettings').html(html);
                 instrumentDataIndex = new Nexus.Select('#instrumentDataIndex', {
                     'size': [100, 40],
-                    'options': Object.keys(App.samples)
+                    'options': App.operators.instruments
                 });
+                loadInstrument(instrumentDataIndex, false);
                 break;
             case 'Data-Variable':
                 $('#instrumentSettings').show();
@@ -267,8 +272,9 @@ function instrumentSetup() {
                     var string = '#instrumentDataVariable-' + i;
                     instrumentDataVariable.push(new Nexus.Select(string, {
                         'size': [100, 40],
-                        'options': Object.keys(App.samples)
+                        'options': App.operators.instruments
                     }));
+                    loadInstrument(instrumentDataVariable, true);
                 }
                 break;
             case 'Query-Progress':
@@ -289,12 +295,34 @@ function instrumentSetup() {
 
                 instrumentDataIndex = new Nexus.Select('#instrumentDataIndex', {
                     'size': [100, 40],
-                    'options': Object.keys(App.samples)
+                    'options': App.operators.instruments
                 });
+                loadInstrument(instrumentDataIndex, false);
                 break;
             default:
                 $('#instrumentSettings').hide();
                 break;
         }
     }
+}
+
+function loadInstrument(array, isArray){
+    var object;
+    if(isArray){
+        object = array[array.length-1];
+    }else{
+        object = array;
+    }
+    object.on('change', function(v){
+    if (!usedInstruments.includes(v.value)){
+        usedInstruments.push(v.value);
+        App.samples = SampleLibrary.load({
+            instruments: usedInstruments,
+            baseUrl: "./resources/samples/"
+        });
+        // loop through instruments and set release, connect to master output
+        App.samples[v.value].release = .5;
+        App.samples[v.value].toDestination();
+    }
+    });
 }
