@@ -21,7 +21,7 @@ class Device(
     }
 
     override fun onStartUp() {
-        sensor?.sample()
+        sensor?.startTakingSample()
         database?.startUp()
         router.startRouting()
     }
@@ -79,7 +79,7 @@ class Device(
 
     interface Sensor {
         var dataSinkAddress: Int
-        fun sample()
+        fun startTakingSample()
         fun onSampleTaken()
     }
 

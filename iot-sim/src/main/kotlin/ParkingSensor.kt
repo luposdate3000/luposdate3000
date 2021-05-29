@@ -24,7 +24,7 @@ class ParkingSensor(
         }
     }
 
-    override fun sample() {
+    override fun startTakingSample() {
         device.waitForObservationEnd(dataRateInSeconds.toLong())
     }
 
@@ -32,7 +32,7 @@ class ParkingSensor(
         val data = getSample()
         device.sendSensorSample(dataSinkAddress, data)
         sampleCounter++
-        sample()
+        startTakingSample()
     }
 
 

@@ -11,7 +11,7 @@ interface IDatabase {
 interface IRouter {
     fun send(to: Int, pck: IDatabasePackage)
     fun sendQueryResult(to: Int, result: ByteArray)
-    fun getNextHopsFor(destinationAddresses: IntArray): IntArray
+    fun getNextDBHopsFor(destinationAddresses: IntArray): IntArray
 }
 
 interface IDatabasePackage

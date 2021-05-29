@@ -71,7 +71,7 @@ class DatabaseAdapter(val device: Device): IRouter {
         device.sendRoutedPackage(device.address, to, result) //TODO
     }
 
-    override fun getNextHopsFor(destinationAddresses: IntArray): IntArray {
+    override fun getNextDBHopsFor(destinationAddresses: IntArray): IntArray {
         val hops = IntArray(destinationAddresses.size)
         for ((index, dest) in destinationAddresses.withIndex())
             hops[index] = device.router.getNextHop(dest)

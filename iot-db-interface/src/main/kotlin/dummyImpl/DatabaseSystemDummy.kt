@@ -133,7 +133,7 @@ class DatabaseSystemDummy : IDatabase {
 
     private fun getNextHops(destinationAddresses: IntArray): HashMap<Int, MutableSet<Int>> {
         val map = HashMap<Int, MutableSet<Int>>(destinationAddresses.size)
-        val nextHops = state.sender.getNextHopsFor(destinationAddresses)
+        val nextHops = state.sender.getNextDBHopsFor(destinationAddresses)
         for (i in nextHops.indices) {
             if (!map.containsKey(nextHops[i]))
                 map[nextHops[i]] = mutableSetOf()
