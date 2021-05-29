@@ -181,5 +181,22 @@ class SimulationIntegrationTest {
         Simulation.start(Configuration.devices, Logger(), 100)
     }
 
+//    @ParameterizedTest
+//    @ValueSource(strings = ["sim/join.json"])
+//    fun join(fileName: String) {
+//        //Send data from the leaf F to the leaf D
+//        Configuration.parse(fileName)
+//        val a = Configuration.getNamedDevice("A")
+//        val c = Configuration.getNamedDevice("C")
+//        val d = Configuration.getNamedDevice("D")
+//        val f = Configuration.getNamedDevice("F")
+//        val aRouter = a.router as RPLRouter
+//        aRouter.root = true
+//        f.sensor!!.dataSinkAddress = d.address
+//        c.database!!.receiveDatabaseQuery("JOIN 3 5")
+//
+//        Simulation.start(Configuration.devices, Logger(), 100)
+//    }
+
 
 }

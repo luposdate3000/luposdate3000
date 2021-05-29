@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Test
 
-class DatabaseAdapterTest {
+class IDatabaseAdapterTest {
     @Test
     fun createAndDeleteFiles() {
         val device = Stubs.createEmptyDevice(1)

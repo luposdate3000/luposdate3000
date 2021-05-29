@@ -1,10 +1,3 @@
-
-import java.io.ByteArrayInputStream
-import java.io.DataInputStream
-import java.io.InputStream
-import java.nio.charset.StandardCharsets
-
-
 class Device(
     val powerSupply: PowerSupply,
     var location: GeoLocation,
@@ -28,14 +21,14 @@ class Device(
     }
 
     override fun onStartUp() {
-        sensor?.observe()
+        sensor?.sample()
         database?.startUp()
         router.startRouting()
     }
 
     override fun onEvent(event: Event) {
         when {
-            event.data is SensorObservationEndMarker -> sensor!!.onObservationEnd()
+            event.data is SensorObservationEndMarker -> sensor!!.onSampleTaken()
             event.data != null && router.isSelfEvent(event.data!!) -> router.processSelfEvent(event.data!!)
             event.data is NetworkPackage -> processNetworkPackage(event.data as NetworkPackage)
         }
@@ -44,7 +37,7 @@ class Device(
     private fun processNetworkPackage(pck: NetworkPackage) {
         packageCounter++
         when {
-            pck.payload is DatabaseAdapter.DatabasePackage -> processDBPackage(pck)
+            //hasDatabase() && database!!.isDatabasePackage(pck.payload) -> processDBPackage(pck)
             router.isControlPackage(pck) -> router.processControlPackage(pck)
         }
     }
@@ -76,6 +69,9 @@ class Device(
     }
 
 
+    fun sendSensorSample(destinationAddress: Int, data: Any) {
+        sendRoutedPackage(address, destinationAddress, data)
+    }
 
 
     fun hasDatabase() = database != null
@@ -83,8 +79,8 @@ class Device(
 
     interface Sensor {
         var dataSinkAddress: Int
-        fun observe()
-        fun onObservationEnd()
+        fun sample()
+        fun onSampleTaken()
     }
 
     interface Router {
@@ -123,23 +119,6 @@ class Device(
         }
     }
 
-
-
-
-    private fun processDBPackage(pck: NetworkPackage) {
-        val dbPackage = pck.payload as DatabaseAdapter.DatabasePackage
-        val header = dbPackage.header
-        if (pck.destinationAddress == address) {
-            database?.receive(dbPackage)
-        }
-        else {
-            if(header.participation && hasDatabase())
-                database!!.receive(dbPackage)
-            else
-                sendRoutedPackage(pck.sourceAddress, pck.destinationAddress, pck.payload)
-        }
-
-    }
 
 
 
