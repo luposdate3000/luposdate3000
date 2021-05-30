@@ -3,16 +3,21 @@ import java.lang.StringBuilder
 class RPLRouter(val device: Device): Device.Router {
 
     lateinit var routingTable: RoutingTable
-    private val notInitialized = Int.MAX_VALUE
+
+    private val notInitializedRank = Int.MAX_VALUE
+
+    private val notInitializedAddress = -1
+
     var root = false
 
-    var rank = notInitialized
+    var rank = notInitializedRank
         private set
 
     var preferredParent = Parent()
         private set
 
     class DelayDAOTimerExpiredMarker
+
     private var isDelayDAOTimerRunning = false
 
     var dioSentCounter = 0
@@ -27,7 +32,7 @@ class RPLRouter(val device: Device): Device.Router {
     var daoReceivedCounter = 0
         private set
 
-    inner class Parent(var address: Int = notInitialized, var rank: Int = notInitialized)
+    inner class Parent(var address: Int = notInitializedAddress, var rank: Int = notInitializedRank)
 
 
     private fun broadcastDIO() {
@@ -42,9 +47,17 @@ class RPLRouter(val device: Device): Device.Router {
         dioSentCounter++
     }
 
-    private fun sendDAO(destinationAddress: Int, isPath: Boolean) {
-        val destinations = if(isPath) routingTable.getDestinations() else IntArray(0)
-        val dao = DAO(isPath, destinations)
+    private fun sendDAO(destinationAddress: Int) {
+        val destinations = routingTable.getDestinations()
+        val nextDatabaseHops = routingTable.getNextDatabaseHops(destinations)
+
+        val dao = DAO(true, destinations, device.hasDatabase(), nextDatabaseHops)
+        device.sendUnRoutedPackage(destinationAddress, dao)
+        daoSentCounter++
+    }
+
+    private fun sendDAONoPath(destinationAddress: Int) {
+        val dao = DAO(false, IntArray(0), false, IntArray(0))
         device.sendUnRoutedPackage(destinationAddress, dao)
         daoSentCounter++
     }
@@ -69,10 +82,10 @@ class RPLRouter(val device: Device): Device.Router {
                 return
 
         if (hasParent())
-            sendDAO(preferredParent.address, false)
+            sendDAONoPath(preferredParent.address)
 
         preferredParent = newParent
-        sendDAO(preferredParent.address, true)
+        sendDAO(preferredParent.address)
         routingTable.defaultAddress = preferredParent.address
     }
 
@@ -81,14 +94,22 @@ class RPLRouter(val device: Device): Device.Router {
         val dao = pck.payload as DAO
         daoReceivedCounter++
         daoCounter++
-        val hasRoutingTableChanged: Boolean = if (dao.isPath)
-            routingTable.setDestinationsByHop(pck.sourceAddress, dao.destinations)
-        else
-            routingTable.removeDestinationsByHop(pck.sourceAddress)
+
+        val hasRoutingTableChanged = updateRoutingTable(pck.sourceAddress, dao)
 
         if(hasParent() && hasRoutingTableChanged)
             if (!isDelayDAOTimerRunning)
                 startDelayDAOTimer()
+    }
+
+    private fun updateRoutingTable(hopAddress: Int, dao: DAO): Boolean {
+        return if (dao.isPath) {
+            if(dao.hopHasDatabase)
+                routingTable.setDestinationsByDatabaseHop(hopAddress, dao.destinations)
+            else
+                routingTable.setDestinationsByHop(hopAddress, dao.destinations, dao.existingDatabaseHops)
+        } else
+            routingTable.removeDestinationsByHop(hopAddress)
     }
 
     private fun objectiveFunction(pck: NetworkPackage): Int {
@@ -100,7 +121,7 @@ class RPLRouter(val device: Device): Device.Router {
 
 
     fun hasParent()
-            = preferredParent.address != notInitialized
+            = preferredParent.address != notInitializedAddress
 
 
     override fun startRouting() {
@@ -112,7 +133,12 @@ class RPLRouter(val device: Device): Device.Router {
     }
 
     class DIO(val rank: Int)
-    class DAO(val isPath: Boolean, val destinations: IntArray)
+
+    class DAO(
+        val isPath: Boolean,
+        val destinations: IntArray,
+        val hopHasDatabase: Boolean,
+        val existingDatabaseHops: IntArray)
 
     override fun isControlPackage(pck: NetworkPackage)
         = pck.payload is DAO || pck.payload is DIO
@@ -128,7 +154,7 @@ class RPLRouter(val device: Device): Device.Router {
     }
 
     private fun forwardDAO() {
-        sendDAO(preferredParent.address, true)
+        sendDAO(preferredParent.address)
         forwardedDaoCounter++
     }
 

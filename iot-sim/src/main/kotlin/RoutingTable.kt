@@ -2,52 +2,71 @@
 
 class RoutingTable(var defaultAddress: Int, private val addressSpace: Int) {
 
-    private var entries = IntArray(0)
-    private val notInitialized = -1
+    private var nextHops = IntArray(0)
+    private var nextDatabaseHops = IntArray(0)
     private var hops: MutableSet<Int> = mutableSetOf()
 
     var destinationCounter = 0
         private set
 
+    companion object {
+        const val notInitialized = -1
+    }
 
-    private fun updateHop(destinationAddress: Int, nextHopAddress: Int) : Boolean {
+
+    private fun updateHop(destinationAddress: Int, nextHopAddress: Int, nextDatabaseHopAddress: Int) : Boolean {
         var updated = false
-        if(entries.isEmpty())
-            entries = IntArray(addressSpace) { notInitialized }
+        initializeEntries()
 
-        if(entries[destinationAddress] == notInitialized)
+        if(nextHops[destinationAddress] == notInitialized)
             destinationCounter++
 
-        if(entries[destinationAddress] != nextHopAddress)
+        if(nextHops[destinationAddress] != nextHopAddress)
             updated = true
 
-        entries[destinationAddress] = nextHopAddress
+        nextHops[destinationAddress] = nextHopAddress
         hops.add(nextHopAddress)
+
+        nextDatabaseHops[destinationAddress] = nextDatabaseHopAddress
+
         return updated
     }
 
-    private fun updateDBHop(destinationAddress: Int, nextDBHopAddress: Int) : Boolean {
-        var updated = false
-        //TODO nehme zweites Array für db hops
-        //Dafür reicht ein boolean array.
-        //schicke bei DAO ein Flag für DB mit
-        return updated
+    private fun initializeEntries() {
+        if(nextHops.isEmpty())
+            nextHops = IntArray(addressSpace) { notInitialized }
+
+        if(nextDatabaseHops.isEmpty())
+            nextDatabaseHops = IntArray(addressSpace) { notInitialized }
     }
+
 
     fun getNextHop(destinationAddress: Int)
         =   if(!hasDestination(destinationAddress))
                 defaultAddress
             else
-                entries[destinationAddress]
+                nextHops[destinationAddress]
+
+    fun getNextDatabaseHop(destinationAddress: Int)
+        = nextDatabaseHops[destinationAddress]
+
+    fun getNextDatabaseHops(destinations: IntArray): IntArray {
+        val dbHops = IntArray(destinations.size) {notInitialized}
+        for ((index, value) in destinations.withIndex())
+            dbHops[index] = getNextDatabaseHop(value)
+
+        return dbHops
+    }
 
     private fun hasDestination(destinationAddress: Int)
-        = destinationAddress <= entries.size-1 && entries[destinationAddress] != notInitialized
+        = destinationAddress <= nextHops.size-1 && nextHops[destinationAddress] != notInitialized
 
     fun removeDestinationsByHop(hop: Int): Boolean {
         var updated = false
-        for ((index, value) in entries.withIndex())
+        for ((index, value) in nextHops.withIndex())
             if(value == hop) {
-                entries[index] = notInitialized
+                nextHops[index] = notInitialized
+                nextDatabaseHops[index] = notInitialized
                 destinationCounter--
                 updated = true
             }
@@ -55,21 +74,31 @@ class RoutingTable(var defaultAddress: Int, private val addressSpace: Int) {
         return updated
     }
 
-    fun setDestinationsByHop(hop: Int, destinations: IntArray) : Boolean {
+    fun setDestinationsByHop(hop: Int, destinations: IntArray, existingDatabaseHops: IntArray) : Boolean {
         var updated: Boolean
-        updated = updateHop(hop, hop)
-        for (dest in destinations) {
-            val tmp = updateHop(dest, hop)
-            if (!updated)
-                updated = tmp
+        updated = updateHop(hop, hop, notInitialized)
+        for ((index, dest) in destinations.withIndex()) {
+            val flag = updateHop(dest, hop, existingDatabaseHops[index])
+            updated = updated || flag
         }
         return updated
     }
 
+    fun setDestinationsByDatabaseHop(hop: Int, destinations: IntArray) : Boolean {
+        var updated: Boolean
+        updated = updateHop(hop, hop, hop)
+        for (dest in destinations) {
+            val flag = updateHop(dest, hop, hop)
+            updated = updated || flag
+        }
+        return updated
+    }
+
+
     fun getDestinations(): IntArray {
         val destinations = IntArray(destinationCounter)
         var destIndex = 0
-        for ((index, value) in entries.withIndex())
+        for ((index, value) in nextHops.withIndex())
             if(value != notInitialized) {
                 destinations[destIndex] = index
                 destIndex++
