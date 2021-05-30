@@ -174,6 +174,10 @@ class RPLRouter(val device: Device): Device.Router {
     override fun getNextHop(destinationAddress: Int)
         = routingTable.getNextHop(destinationAddress)
 
+    override fun getNextDatabaseHop(destinationAddress: Int)
+        = routingTable.getNextDatabaseHop(destinationAddress)
+
+
     override fun toString(): String {
         val strBuilder = StringBuilder()
         strBuilder

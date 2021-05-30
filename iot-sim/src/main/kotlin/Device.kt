@@ -90,6 +90,7 @@ class Device(
         fun processSelfEvent(marker: Any)
         fun processControlPackage(pck: NetworkPackage)
         fun getNextHop(destinationAddress: Int): Int
+        fun getNextDatabaseHop(destinationAddress: Int): Int
     }
 
     override fun equals(other: Any?): Boolean {
