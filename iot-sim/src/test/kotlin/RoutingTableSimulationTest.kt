@@ -5,7 +5,7 @@ import org.junit.jupiter.params.provider.ValueSource
 class RoutingTableSimulationTest {
 
     @ParameterizedTest
-    @ValueSource(strings = ["sim/multiHopDODAGRoutingTableTest.json"])
+    @ValueSource(strings = ["routingtable/multiHopDODAGRoutingTableTest.json"])
     fun multiHopDODAGRoutingTableTest(fileName: String) {
         Configuration.parse(fileName)
         val a = Configuration.getNamedDevice("A")
@@ -52,7 +52,7 @@ class RoutingTableSimulationTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = ["sim/starNetworkRoutingTables.json"])
+    @ValueSource(strings = ["routingtable/starNetworkRoutingTables.json"])
     fun starNetworkRoutingTables(fileName: String) {
         Configuration.parse(fileName)
         val starNet = Configuration.randStarNetworks["garageA"]!!
@@ -76,7 +76,7 @@ class RoutingTableSimulationTest {
      * DB(A) -> B -> DB(C)
      */
     @ParameterizedTest
-    @ValueSource(strings = ["sim/getNextDBHops1.json"])
+    @ValueSource(strings = ["routingtable/getNextDBHops1.json"])
     fun getNextDBHops1(fileName: String) {
         Configuration.parse(fileName)
         val a = Configuration.getNamedDevice("A")
@@ -101,7 +101,7 @@ class RoutingTableSimulationTest {
      *            -> DB(D)
      */
     @ParameterizedTest
-    @ValueSource(strings = ["sim/getNextDBHops2.json"])
+    @ValueSource(strings = ["routingtable/getNextDBHops2.json"])
     fun getNextDBHops2(fileName: String) {
         Configuration.parse(fileName)
         val a = Configuration.getNamedDevice("A")
@@ -128,7 +128,7 @@ class RoutingTableSimulationTest {
      *                              -> DB(G)
      */
     @ParameterizedTest
-    @ValueSource(strings = ["sim/getNextDBHops3.json"])
+    @ValueSource(strings = ["routingtable/getNextDBHops3.json"])
     fun getNextDBHops3(fileName: String) {
         Configuration.parse(fileName)
         val a = Configuration.getNamedDevice("A")
