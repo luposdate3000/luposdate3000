@@ -61,13 +61,8 @@ class SimulationIntegrationTest {
         rootRouter.root = true
         val child1 = starNet.children[0]
         val child1Router = child1.router as RPLRouter
-        Assertions.assertEquals(0, rootRouter.routingTable.destinationCounter)
-        Assertions.assertEquals(0, child1Router.routingTable.destinationCounter)
-        Assertions.assertEquals(root.address, rootRouter.routingTable.defaultAddress)
-        Assertions.assertEquals(child1.address, child1Router.routingTable.defaultAddress)
 
         Simulation.start(Configuration.devices, Logger())
-
         Assertions.assertEquals(20, rootRouter.routingTable.destinationCounter)
         Assertions.assertEquals(0, child1Router.routingTable.destinationCounter)
         Assertions.assertEquals(root.address, rootRouter.routingTable.defaultAddress)

@@ -2,7 +2,7 @@ import java.lang.StringBuilder
 
 class RPLRouter(val device: Device): Device.Router {
 
-    val routingTable = RoutingTable(device.address)
+    lateinit var routingTable: RoutingTable
     private val notInitialized = Int.MAX_VALUE
     var root = false
 
@@ -104,6 +104,7 @@ class RPLRouter(val device: Device): Device.Router {
 
 
     override fun startRouting() {
+        routingTable = RoutingTable(device.address, Configuration.devices.size)
         if(root) {
             rank = ROOT_RANK
             broadcastDIO()

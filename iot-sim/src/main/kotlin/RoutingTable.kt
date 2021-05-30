@@ -1,19 +1,19 @@
-import java.util.*
 
-class RoutingTable(var defaultAddress: Int) {
+
+class RoutingTable(var defaultAddress: Int, private val addressSpace: Int) {
 
     private var entries = IntArray(0)
     private val notInitialized = -1
-    private var hops = TreeSet<Int>()
+    private var hops: MutableSet<Int> = mutableSetOf()
 
     var destinationCounter = 0
         private set
 
 
-    private fun update(destinationAddress: Int, nextHopAddress: Int) : Boolean {
+    private fun updateHop(destinationAddress: Int, nextHopAddress: Int) : Boolean {
         var updated = false
         if(entries.isEmpty())
-            entries = IntArray(Configuration.devices.size) { notInitialized }
+            entries = IntArray(addressSpace) { notInitialized }
 
         if(entries[destinationAddress] == notInitialized)
             destinationCounter++
@@ -23,6 +23,14 @@ class RoutingTable(var defaultAddress: Int) {
 
         entries[destinationAddress] = nextHopAddress
         hops.add(nextHopAddress)
+        return updated
+    }
+
+    private fun updateDBHop(destinationAddress: Int, nextDBHopAddress: Int) : Boolean {
+        var updated = false
+        //TODO nehme zweites Array für db hops
+        //Dafür reicht ein boolean array.
+        //schicke bei DAO ein Flag für DB mit
         return updated
     }
 
@@ -49,9 +57,9 @@ class RoutingTable(var defaultAddress: Int) {
 
     fun setDestinationsByHop(hop: Int, destinations: IntArray) : Boolean {
         var updated: Boolean
-        updated = update(hop, hop)
+        updated = updateHop(hop, hop)
         for (dest in destinations) {
-            val tmp = update(dest, hop)
+            val tmp = updateHop(dest, hop)
             if (!updated)
                 updated = tmp
         }
