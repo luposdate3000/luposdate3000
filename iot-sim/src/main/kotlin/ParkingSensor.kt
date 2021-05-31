@@ -3,6 +3,8 @@ class ParkingSensor(
     override var dataSinkAddress: Int
 ): IDeviceSensor {
 
+    private var isStopped = false
+
     class ParkingSample(val isOccupied: Boolean)
 
     init {
@@ -24,20 +26,32 @@ class ParkingSensor(
         }
     }
 
-    override fun startTakingSample() {
-        device.waitForObservationEnd(dataRateInSeconds.toLong())
+    inner class SamplingProcessFinished: Entity.ITimerExpired {
+        override fun onExpire() {
+            onSampleTaken()
+        }
     }
 
-    override fun onSampleTaken() {
+    override fun startSampling() {
+        isStopped = false
+        device.setTimer(dataRateInSeconds.toLong(), SamplingProcessFinished())
+    }
+
+    private fun onSampleTaken() {
+        if (isStopped)
+            return
+
         val data = getSample()
         device.sendSensorSample(dataSinkAddress, data)
         sampleCounter++
-        startTakingSample()
+        startSampling()
     }
-
 
     private fun getSample()
         = ParkingSample(RandomGenerator.random.nextBoolean())
 
 
+    override fun stopSampling() {
+        isStopped = true
+    }
 }

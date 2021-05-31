@@ -21,14 +21,14 @@ class Device(
     }
 
     override fun onStartUp() {
-        sensor?.startTakingSample()
+        sensor?.startSampling()
         database?.startUp()
         router.startRouting()
     }
 
     override fun onEvent(event: Event) {
         when {
-            event.data is SensorObservationEndMarker -> sensor!!.onSampleTaken()
+
             event.data is NetworkPackage -> processNetworkPackage(event.data as NetworkPackage)
         }
     }
