@@ -64,9 +64,8 @@ object Simulation {
     }
 
     private fun runAllEntities() {
-        for (entity in entities) {
+        for (entity in entities)
             entity.processDeferredEvents()
-        }
     }
 
     private fun dealWithFirstFutureEvents() {

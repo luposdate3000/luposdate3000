@@ -397,4 +397,47 @@ class SimulationTest {
         Assertions.assertEquals(maxEventNumber.toLong()-1, endClock)
     }
 
+    @Test
+    fun `set multiple timer`() {
+        val timerDelay1: Long = 14
+        val timerDelay2: Long = 22
+        val timerDelay3: Long = 37
+
+        var timer1Result: Long = 0
+        var timer2Result: Long = 0
+        var timer3Result: Long = 0
+
+        val entity = object : Entity() {
+            val timer1 = object : ITimerExpired {
+                override fun onExpire() {
+                    timer1Result = Simulation.clock
+                }
+            }
+            val timer2 = object : ITimerExpired {
+                override fun onExpire() {
+                    timer2Result = Simulation.clock
+                }
+            }
+            val timer3 = object : ITimerExpired {
+                override fun onExpire() {
+                    timer3Result = Simulation.clock
+                }
+            }
+            override fun onStartUp() {
+                this.setTimer(timerDelay1, timer1)
+                this.setTimer(timerDelay2, timer2)
+                this.setTimer(timerDelay3, timer3)
+            }
+            override fun onEvent(event: Event) {}
+            override fun onShutDown() {}
+        }
+
+        Simulation.start(arrayListOf(entity), CallbackStub())
+        Assertions.assertEquals(timerDelay1, timer1Result)
+        Assertions.assertEquals(timerDelay2, timer2Result)
+        Assertions.assertEquals(timerDelay3, timer3Result)
+    }
+
+
+
 }

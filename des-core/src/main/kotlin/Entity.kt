@@ -25,15 +25,21 @@ abstract class Entity {
     private fun isBusyEndEvent(event: Event)
         = event.data != null && event.data is BusyEndIdentifier
 
+    private fun isTimerExpiredEvent(event: Event)
+        = event.data != null && event.data is ITimerExpired
 
     fun processDeferredEvents() {
         var ev: Event
         while (deferredEvents.hasNext() && currentState == State.RUNNABLE) {
             ev = deferredEvents.dequeue()
-            onEvent(ev)
+            if(isTimerExpiredEvent(ev))
+                (ev.data as ITimerExpired).onExpire()
+            else
+                onEvent(ev)
         }
     }
 
+    //TODO to schedule
     protected fun sendEvent(destination: Entity, delay: Long, data: Any) {
         require(currentState == State.RUNNABLE)
         Simulation.addEvent(delay, this, destination, data)
@@ -43,6 +49,14 @@ abstract class Entity {
         require(currentState == State.RUNNABLE)
         currentState = State.BUSY
         Simulation.addEvent(busyDuration, this, this, BusyEndIdentifier())
+    }
+
+    protected fun setTimer(time: Long, callback: ITimerExpired) {
+        sendEvent(this, time, callback)
+    }
+
+    interface ITimerExpired {
+        fun onExpire()
     }
 
     protected fun terminate() {
