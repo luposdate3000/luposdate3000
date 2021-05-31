@@ -77,7 +77,7 @@ class SimulationIntegrationTest {
         val f = Configuration.getNamedDevice("F")
 
         aRouter.root = true
-        f.sensor!!.dataSinkAddress = a.address
+        f.sensor!!.setDataSink(a.address)
 
         Simulation.start(Configuration.devices, Logger(), 100)
     }
@@ -92,7 +92,7 @@ class SimulationIntegrationTest {
         val aRouter = a.router as RPLRouter
 
         aRouter.root = true
-        a.sensor!!.dataSinkAddress = f.address
+        a.sensor!!.setDataSink(f.address)
 
         Simulation.start(Configuration.devices, Logger(), 100)
     }
@@ -108,7 +108,7 @@ class SimulationIntegrationTest {
         val aRouter = a.router as RPLRouter
 
         aRouter.root = true
-        f.sensor!!.dataSinkAddress = d.address
+        f.sensor!!.setDataSink(d.address)
 
         Simulation.start(Configuration.devices, Logger(), 100)
     }

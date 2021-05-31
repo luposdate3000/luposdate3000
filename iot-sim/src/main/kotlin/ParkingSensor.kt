@@ -1,11 +1,12 @@
-class ParkingSensor(
-    var device: Device,
-    override var dataSinkAddress: Int
-): IDeviceSensor {
+class ParkingSensor(var device: Device): IDeviceSensor {
+
+    var dataSinkAddress = device.address
+        private set
 
     private var isStopped = false
 
     class ParkingSample(val isOccupied: Boolean)
+
 
     init {
         sensorCounter++
@@ -30,6 +31,10 @@ class ParkingSensor(
         override fun onExpire() {
             onSampleTaken()
         }
+    }
+
+    override fun setDataSink(sinkAddress: Int) {
+        dataSinkAddress = sinkAddress
     }
 
     override fun startSampling() {

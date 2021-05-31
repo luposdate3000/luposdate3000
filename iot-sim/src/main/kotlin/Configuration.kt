@@ -135,7 +135,7 @@ object Configuration {
         for (i in 1..network.number) {
             val location = GeoLocation.getRandomLocationInRadius(parent.location, linkType.rangeInMeters)
             val child = createDevice(deviceType, location)
-            child.sensor?.dataSinkAddress = parent.address
+            child.sensor?.setDataSink(parent.address)
             parent.linkManager.setLinkIfPossible(child)
             child.isStarNetworkChild = true
             starNetwork.children.add(child)
@@ -212,7 +212,7 @@ object Configuration {
 
     private fun getParkingSensor(deviceType: DeviceType, device: Device): ParkingSensor? {
         if(deviceType.parkingSensor)
-            return ParkingSensor(device, device.address)
+            return ParkingSensor(device)
         return null
     }
 

@@ -1,5 +1,5 @@
 interface IDeviceSensor {
-    var dataSinkAddress: Int
+    fun setDataSink(sinkAddress: Int)
     fun startSampling()
     fun stopSampling()
 }
