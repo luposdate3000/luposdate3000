@@ -1,6 +1,9 @@
+import config.Configuration
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import routing.RPLRouter
+import sensor.ParkingSensor
 
 class SimulationIntegrationTest {
 
@@ -121,17 +124,17 @@ class SimulationIntegrationTest {
 //    @ValueSource(strings = ["sim/join.json"])
 //    fun join(fileName: String) {
 //        //Send data from the leaf F to the leaf D
-//        Configuration.parse(fileName)
-//        val a = Configuration.getNamedDevice("A")
-//        val c = Configuration.getNamedDevice("C")
-//        val d = Configuration.getNamedDevice("D")
-//        val f = Configuration.getNamedDevice("F")
-//        val aRouter = a.router as RPLRouter
+//        config.Configuration.parse(fileName)
+//        val a = config.Configuration.getNamedDevice("A")
+//        val c = config.Configuration.getNamedDevice("C")
+//        val d = config.Configuration.getNamedDevice("D")
+//        val f = config.Configuration.getNamedDevice("F")
+//        val aRouter = a.router as routing.RPLRouter
 //        aRouter.root = true
 //        f.sensor!!.dataSinkAddress = d.address
 //        c.database!!.receiveDatabaseQuery("JOIN 3 5")
 //
-//        Simulation.start(Configuration.devices, Logger(), 100)
+//        Simulation.start(config.Configuration.devices, Logger(), 100)
 //    }
 
 

@@ -1,6 +1,13 @@
-
+package config
+import DatabaseAdapter
+import Device
+import GeoLocation
+import LinkManager
+import PowerSupply
+import RandomGenerator
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
+import sensor.ParkingSensor
 import kotlin.math.round
 
 object Configuration {

@@ -1,3 +1,5 @@
+package sensor
+
 class ParkingSample(
     val timeInHHMM: String,
     val isOccupied: Boolean,

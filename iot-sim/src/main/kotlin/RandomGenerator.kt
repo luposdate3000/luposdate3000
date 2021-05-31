@@ -1,7 +1,4 @@
-import com.javadocmd.simplelatlng.LatLng
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
+
 import kotlin.random.Random
 
 object RandomGenerator {

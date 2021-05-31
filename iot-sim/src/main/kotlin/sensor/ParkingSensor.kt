@@ -1,4 +1,11 @@
-class ParkingSensor(var device: Device): IDeviceSensor {
+package sensor
+
+import Device
+import Entity
+import RandomGenerator
+import Simulation
+
+class ParkingSensor(var device: Device): ISensor {
 
     var dataSinkAddress = device.address
         private set

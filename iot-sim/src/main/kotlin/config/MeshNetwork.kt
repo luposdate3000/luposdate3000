@@ -1,3 +1,7 @@
+package config
+
+import Device
+
 class MeshNetwork {
     var networkPrefix = ""
     var mesh: MutableList<MutableList<Device>> = arrayListOf(arrayListOf())

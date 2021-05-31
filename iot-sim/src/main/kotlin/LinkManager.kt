@@ -1,3 +1,5 @@
+import config.LinkType
+
 class LinkManager(val device: Device) {
 
     private var links: MutableMap<Int, Link> = HashMap(5)

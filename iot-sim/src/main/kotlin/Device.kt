@@ -1,9 +1,15 @@
+import config.Configuration
+import routing.IRoutingAlgorithm
+import routing.RPLRouter
+import sensor.ISensor
+import sensor.ParkingSample
+
 class Device(
     val powerSupply: PowerSupply,
     var location: GeoLocation,
     val address: Int,
     var database: DatabaseAdapter?,
-    var sensor: IDeviceSensor?,
+    var sensor: ISensor?,
     val supportedLinkTypes: IntArray
     ) : Entity()
 {

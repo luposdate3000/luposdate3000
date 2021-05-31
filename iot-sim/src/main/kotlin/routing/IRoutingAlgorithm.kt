@@ -1,3 +1,7 @@
+package routing
+
+import NetworkPackage
+
 interface IRoutingAlgorithm {
     fun startRouting()
     fun isControlPackage(pck: NetworkPackage): Boolean
