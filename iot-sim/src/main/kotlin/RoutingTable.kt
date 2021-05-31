@@ -47,16 +47,22 @@ class RoutingTable(var defaultAddress: Int, private val addressSpace: Int) {
             else
                 nextHops[destinationAddress]
 
-    fun getNextDatabaseHop(destinationAddress: Int)
-        = nextDatabaseHops[destinationAddress]
 
-    fun getNextDatabaseHops(destinations: IntArray): IntArray {
-        val dbHops = IntArray(destinations.size) {notInitialized}
-        for ((index, value) in destinations.withIndex())
-            dbHops[index] = getNextDatabaseHop(value)
+    fun getNextDatabaseHop(destinationAddress: Int)
+        =   if(!hasDestination(destinationAddress))
+                notInitialized
+            else
+                nextDatabaseHops[destinationAddress]
+
+
+    fun getNextDatabaseHops(destinationAddresses: IntArray): IntArray {
+        val dbHops = IntArray(destinationAddresses.size) {-1}
+        for ((index, dest) in destinationAddresses.withIndex())
+            dbHops[index] = getNextDatabaseHop(dest)
 
         return dbHops
     }
+
 
     private fun hasDestination(destinationAddress: Int)
         = destinationAddress <= nextHops.size-1 && nextHops[destinationAddress] != notInitialized

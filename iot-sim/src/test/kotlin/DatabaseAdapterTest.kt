@@ -1,6 +1,7 @@
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
-class IDatabaseAdapterTest {
+class DatabaseAdapterTest {
     @Test
     fun createAndDeleteFiles() {
         val device = Stubs.createEmptyDevice(1)
@@ -8,4 +9,7 @@ class IDatabaseAdapterTest {
         db.startUp()
         db.shutDown()
     }
+
+
+
 }

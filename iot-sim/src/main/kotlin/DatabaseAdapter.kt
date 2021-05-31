@@ -71,44 +71,10 @@ class DatabaseAdapter(val device: Device): IRouter {
         device.sendRoutedPackage(device.address, to, result) //TODO
     }
 
-    override fun getNextDBHopsFor(destinationAddresses: IntArray): IntArray {
-        val hops = IntArray(destinationAddresses.size)
-        for ((index, dest) in destinationAddresses.withIndex())
-            hops[index] = device.router.getNextHop(dest)
-
-        return hops
-    }
 
 
-
-
-    /*    override fun send(pck: DatabasePackage) {
-        val map = HashMap<Int, MutableSet<Int>>(pck.destinationAddresses.size)
-        for(address in pck.destinationAddresses) {
-            val hop = device.router.getNextHop(address)
-            if(!map.containsKey(hop))
-                map[hop] = mutableSetOf()
-            map.getValue(hop).add(address)
-        }
-        val isParticipant = map.size > 1
-        var actualParticipants = pck.participants
-        if(isParticipant) {
-            actualParticipants = addToArray(pck.participants, device.address)
-        }
-
-
-        val pck = DatabasePackage(pck, payload)
-        device.sendRoutedPackage(device.address, pck.destinationAddress, pck)
-    }
-
-    private fun addToArray(arr: IntArray, newValue: Int): IntArray {
-        val newArray = IntArray(arr.size + 1)
-        for ((index, value) in newArray.withIndex()) {
-            newArray[index] = value
-        }
-        newArray[arr.size] = newValue
-        return newArray
-    }*/
+    override fun getNextDBHopsFor(destinationAddresses: IntArray)
+        = device.router.getNextDatabaseHops(destinationAddresses)
 
 
 }

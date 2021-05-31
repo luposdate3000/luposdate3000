@@ -176,6 +176,17 @@ class RoutingTableTest {
     }
 
     @Test
+    fun testMultipleUpdates() {
+        val table = RoutingTable(0, 20)
+        table.setDestinationsByDatabaseHop(0, intArrayOf(1,2))
+        table.setDestinationsByHop(5, intArrayOf(6,7), intArrayOf(6,7))
+        table.setDestinationsByHop(5, intArrayOf(11,12), intArrayOf(9, 10))
+        Assertions.assertEquals(0, table.getNextDatabaseHop(0))
+        Assertions.assertEquals(6, table.getNextDatabaseHop(6))
+        Assertions.assertEquals(9, table.getNextDatabaseHop(11))
+    }
+
+    @Test
     fun getAllDBHopsByDestinations() {
         val table = RoutingTable(0, 20)
         table.setDestinationsByDatabaseHop(0, intArrayOf(1,2))
