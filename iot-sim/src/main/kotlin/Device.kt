@@ -9,7 +9,7 @@ class Device(
 {
     val router: IRoutingAlgorithm = RPLRouter(this)
     val linkManager = LinkManager(this)
-    class SensorObservationEndMarker
+
     var isStarNetworkChild = false
 
     private fun getNetworkDelay(destinationAddress: Int): Long {
