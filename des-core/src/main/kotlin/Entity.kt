@@ -40,6 +40,7 @@ abstract class Entity {
     }
 
     protected fun terminate() {
+        onShutDown()
         isTerminated = true
         deferredEvents.clear()
     }
