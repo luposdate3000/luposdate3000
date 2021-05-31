@@ -43,8 +43,9 @@ class Device(
             return
         }
 
-        if(pck.payload is ParkingSensor.ParkingSample) {
+        if(pck.payload is ParkingSample) {
             processedSensorDataPackages++
+            database?.saveParkingSample(pck.payload)
             return
         }
     }

@@ -5,8 +5,6 @@ class ParkingSensor(var device: Device): IDeviceSensor {
 
     private var isStopped = false
 
-    class ParkingSample(val isOccupied: Boolean)
-
 
     init {
         sensorCounter++
@@ -52,8 +50,12 @@ class ParkingSensor(var device: Device): IDeviceSensor {
         startSampling()
     }
 
-    private fun getSample()
-        = ParkingSample(RandomGenerator.random.nextBoolean())
+    //TODO
+    private fun getSample(): ParkingSample {
+        val isOccupied = RandomGenerator.random.nextBoolean()
+        val time = Simulation.clock.toString()
+        return ParkingSample(time, isOccupied, "1", "dasdada")
+    }
 
 
     override fun stopSampling() {

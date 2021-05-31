@@ -49,6 +49,18 @@ class DatabaseAdapter(val device: Device): IRouter {
         currentState = db.deactivate()
     }
 
+    fun saveParkingSample(sample: ParkingSample) {
+        val rdfString = sample.toRDFString()
+        val bytes = toBytes(rdfString)
+        saveData(bytes)
+    }
+
+    private fun saveData(data: ByteArray) {
+        db.activate(currentState)
+        db.saveData(data)
+        currentState = db.deactivate()
+    }
+
     private fun deleteDirectory(directoryToBeDeleted: File): Boolean {
         val allContents = directoryToBeDeleted.listFiles()
         if (allContents != null)
@@ -58,7 +70,7 @@ class DatabaseAdapter(val device: Device): IRouter {
         return directoryToBeDeleted.delete()
     }
 
-    fun stringToBytes(s: String) = s.toByteArray(StandardCharsets.UTF_8)
+    fun toBytes(s: String) = s.toByteArray(StandardCharsets.UTF_8)
 
     fun isDatabasePackage(pck: Any) = pck is IDatabasePackage
 
